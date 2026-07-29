@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LogIn, Mail, Lock, Eye, EyeOff, ArrowLeft, Github, UserCheck, ShieldCheck } from 'lucide-react';
+import { LogIn, Mail, Lock, Eye, EyeOff, Github, UserCheck, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -30,11 +30,8 @@ const Login = () => {
     return (
         <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col transition-colors duration-300">
             <Navbar />
-            <div className="flex-1 flex items-center justify-center p-4 sm:p-6 pt-24 pb-12">
+            <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 pt-28 sm:pt-32 pb-16">
                 <div className="w-full max-w-md animate-fade-up">
-                    <Link to="/" className="inline-flex items-center gap-2 text-sm text-[var(--foreground-secondary)] hover:text-[#289B7D] transition-colors mb-8">
-                        <ArrowLeft size={16} /> Back to Home
-                    </Link>
                     <div className="text-center mb-8">
                         <BrandLogo variant="mark" size="xl" className="mx-auto mb-4" />
                         <h1 className="text-3xl font-display font-bold text-[var(--foreground)] mb-2">Welcome back</h1>

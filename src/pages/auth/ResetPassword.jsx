@@ -37,7 +37,7 @@ export default function ResetPassword() {
     return (
         <div className="min-h-screen bg-[var(--page-bg)] flex flex-col">
             <Navbar />
-            <div className="flex-1 flex items-center justify-center p-4 sm:p-6 pt-24">
+            <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 pt-28 sm:pt-32 pb-16">
                 <div className="w-full max-w-md animate-fade-up">
                     <div className="card p-8 rounded-2xl">
                         <div className="text-center mb-8">
