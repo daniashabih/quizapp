@@ -59,7 +59,7 @@ export default function Result() {
         : { label: "Keep Practicing", color: "#EF4444", gradient: "from-[#EF4444] to-[#DC2626]" };
 
     return (
-        <div className="min-h-screen bg-[var(--page-bg)] flex flex-col">
+        <div className="h-screen max-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col overflow-hidden">
             {showConfetti && passed && (
                 <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden">
                     {confettiParticles.map(p => (
@@ -75,77 +75,77 @@ export default function Result() {
                 </div>
             )}
             <Navbar />
-            <div className="flex-1 flex items-center justify-center p-4 sm:p-6 pt-24 lg:pt-28">
-                <div className="w-full max-w-2xl animate-fade-up">
+            <div className="flex-1 flex items-center justify-center p-4 pt-16 sm:pt-20 min-h-0 overflow-y-auto lg:overflow-hidden">
+                <div className="w-full max-w-xl animate-fade-up my-auto">
                     <div className="card overflow-hidden shadow-2xl">
                         {/* Header */}
-                        <div className="p-8 lg:p-10 text-center bg-gradient-to-b from-[var(--muted-bg)] to-[var(--card-bg)]">
-                            <div className="relative inline-flex mb-5">
-                                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-[#163B34] to-[#289B7D] flex items-center justify-center text-5xl shadow-2xl">
+                        <div className="p-6 lg:p-8 text-center bg-gradient-to-b from-[var(--muted-bg)] to-[var(--card-bg)]">
+                            <div className="relative inline-flex mb-3">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#163B34] to-[#289B7D] flex items-center justify-center text-3xl sm:text-4xl shadow-2xl">
                                     {passed ? '🏆' : '📚'}
                                 </div>
-                                {passed && <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[#163B34] flex items-center justify-center shadow-lg"><Sparkles size={14} className="text-white" /></div>}
+                                {passed && <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#163B34] flex items-center justify-center shadow-lg"><Sparkles size={12} className="text-white" /></div>}
                             </div>
-                            <h1 className="text-3xl lg:text-4xl font-display font-extrabold text-[var(--foreground)] mb-2">{passed ? 'Congratulations!' : 'Keep Going!'}</h1>
-                            <p className="text-[var(--foreground-muted)] text-sm mb-6">{passed ? 'You passed!' : 'Review and try again.'}</p>
+                            <h1 className="text-2xl lg:text-3xl font-display font-extrabold text-[var(--foreground)] mb-1">{passed ? 'Congratulations!' : 'Keep Going!'}</h1>
+                            <p className="text-[var(--foreground-muted)] text-xs mb-4">{passed ? 'You passed!' : 'Review and try again.'}</p>
 
                             {/* Circular Score */}
-                            <div className="circular-progress w-36 h-36 mx-auto mb-4">
-                                <svg width="144" height="144" viewBox="0 0 144 144">
+                            <div className="circular-progress w-28 h-28 mx-auto mb-3">
+                                <svg width="112" height="112" viewBox="0 0 144 144">
                                     <circle cx="72" cy="72" r="60" fill="none" stroke="var(--card-border)" strokeWidth="8" />
                                     <circle cx="72" cy="72" r="60" fill="none" stroke={passed ? '#22C55E' : '#EF4444'} strokeWidth="8" strokeLinecap="round"
                                         strokeDasharray={circumference} strokeDashoffset={offset} transform="rotate(-90, 72, 72)"
                                         style={{ transition: 'stroke-dashoffset 2s ease-out' }} />
                                 </svg>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <span className={`text-4xl font-display font-extrabold ${passed ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>{animateScore}%</span>
-                                    <span className="text-[10px] text-[var(--foreground-muted)] font-semibold uppercase">Score</span>
+                                    <span className={`text-2xl sm:text-3xl font-display font-extrabold ${passed ? 'text-[#22C55E]' : 'text-[#EF4444]'}`}>{animateScore}%</span>
+                                    <span className="text-[9px] text-[var(--foreground-muted)] font-semibold uppercase">Score</span>
                                 </div>
                             </div>
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#EAF5F2] text-[#163B34] border border-[#D4EBE5]">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#EAF5F2] text-[#163B34] border border-[#D4EBE5]">
                                 Grade: {grade.label}
                             </div>
                         </div>
 
                         {/* Stats */}
-                        <div className="p-6 lg:p-8 space-y-5">
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div className="p-4 sm:p-6 space-y-4">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                                 {[
                                     { label: 'Correct', value: score, icon: CheckCircle2, color: 'text-[#22C55E]', bg: 'bg-[#22C55E]/10' },
                                     { label: 'Wrong', value: total - score, icon: XCircle, color: 'text-[#EF4444]', bg: 'bg-[#EF4444]/10' },
                                     { label: 'Total', value: total, icon: BarChart3, color: 'text-[#289B7D]', bg: 'bg-[#289B7D]/10' },
                                     { label: 'Time', value: `${minutes}:${secs < 10 ? `0${secs}` : secs}`, icon: Clock, color: 'text-[#163B34]', bg: 'bg-[#163B34]/10' },
                                 ].map(s => (
-                                    <div key={s.label} className={`p-4 rounded-xl ${s.bg} border border-transparent text-center group hover:shadow-sm transition-all`}>
-                                        <s.icon size={16} className={`${s.color} mx-auto mb-2 group-hover:scale-110 transition-transform`} />
-                                        <p className={`text-xl font-display font-bold ${s.color}`}>{s.value}</p>
-                                        <p className="text-[10px] text-[var(--foreground-muted)] font-semibold uppercase tracking-wider mt-0.5">{s.label}</p>
+                                    <div key={s.label} className={`p-2.5 sm:p-3 rounded-xl ${s.bg} border border-transparent text-center group hover:shadow-sm transition-all`}>
+                                        <s.icon size={15} className={`${s.color} mx-auto mb-1 group-hover:scale-110 transition-transform`} />
+                                        <p className={`text-lg font-display font-bold ${s.color}`}>{s.value}</p>
+                                        <p className="text-[9px] text-[var(--foreground-muted)] font-semibold uppercase tracking-wider mt-0.5">{s.label}</p>
                                     </div>
                                 ))}
                             </div>
 
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="p-4 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                    <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase mb-1">Technology</p>
-                                    <p className="text-sm font-bold text-[var(--foreground)]">{category}</p>
+                            <div className="grid grid-cols-2 gap-2.5">
+                                <div className="p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
+                                    <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase mb-0.5">Technology</p>
+                                    <p className="text-xs font-bold text-[var(--foreground)]">{category}</p>
                                 </div>
-                                <div className="p-4 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                    <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase mb-1">Difficulty</p>
-                                    <p className="text-sm font-bold text-[var(--foreground)] capitalize">{difficulty}</p>
+                                <div className="p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
+                                    <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase mb-0.5">Difficulty</p>
+                                    <p className="text-xs font-bold text-[var(--foreground)] capitalize">{difficulty}</p>
                                 </div>
                             </div>
 
-                            <div className="space-y-3">
-                                <div className="grid grid-cols-2 gap-3">
-                                    <button onClick={() => window.history.back()} className="btn-primary justify-center py-3.5 text-sm">
-                                        <RotateCcw size={15} /> Retry
+                            <div className="space-y-2">
+                                <div className="grid grid-cols-2 gap-2.5">
+                                    <button onClick={() => window.history.back()} className="btn-primary justify-center py-2.5 text-xs sm:text-sm">
+                                        <RotateCcw size={14} /> Retry
                                     </button>
-                                    <Link to="/technologies" className="btn-secondary justify-center py-3.5 text-sm">
-                                        <Home size={15} /> New Track
+                                    <Link to="/technologies" className="btn-secondary justify-center py-2.5 text-xs sm:text-sm">
+                                        <Home size={14} /> New Track
                                     </Link>
                                 </div>
                                 {passed && (
-                                    <div className="flex items-center justify-center gap-3 pt-2">
+                                    <div className="flex items-center justify-center gap-3 pt-1">
                                         <Link to="/certificate/view" state={{ category, percentage, score, total, difficulty }}
                                             className="flex items-center gap-1.5 text-xs font-semibold text-[#289B7D] hover:text-[#163B34] transition-colors">
                                             <Download size={13} /> View Certificate

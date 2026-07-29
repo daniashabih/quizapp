@@ -26,34 +26,35 @@ export default function ForgotPassword() {
     };
 
     return (
-        <div className="min-h-screen bg-[var(--page-bg)] flex flex-col">
+        <div className="h-screen max-h-screen bg-[var(--page-bg)] flex flex-col overflow-hidden">
             <Navbar />
-            <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 pt-28 sm:pt-32 pb-16">
-                <div className="w-full max-w-md animate-fade-up">                        <Link to="/login" className="inline-flex items-center gap-2 text-sm text-[var(--foreground-muted)] hover:text-[#163B34] transition-colors mb-8">
-                        <ArrowLeft size={16} /> Back to Login
+            <div className="flex-1 flex flex-col items-center justify-center p-4 pt-16 sm:pt-20 min-h-0 overflow-y-auto lg:overflow-hidden">
+                <div className="w-full max-w-md animate-fade-up my-auto">
+                    <Link to="/login" className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-[#163B34] transition-colors mb-4">
+                        <ArrowLeft size={15} /> Back to Login
                     </Link>
 
-                    <div className="card p-8 rounded-2xl">
+                    <div className="card p-6 sm:p-8 rounded-2xl">
                         {!submitted ? (
                             <>
-                                <div className="text-center mb-8">
-                                    <div className="w-16 h-16 rounded-2xl bg-[#EAF5F2] border border-[#D4EBE5] flex items-center justify-center mx-auto mb-4">
-                                        <Mail size={28} className="text-[#163B34]" />
+                                <div className="text-center mb-6">
+                                    <div className="w-12 h-12 rounded-2xl bg-[#EAF5F2] border border-[#D4EBE5] flex items-center justify-center mx-auto mb-3">
+                                        <Mail size={22} className="text-[#163B34]" />
                                     </div>
-                                    <h1 className="text-2xl font-display font-bold text-[var(--foreground)] mb-2">Forgot Password?</h1>
-                                    <p className="text-sm text-[var(--foreground-muted)]">No worries, we'll send you reset instructions.</p>
+                                    <h1 className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)] mb-1">Forgot Password?</h1>
+                                    <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">No worries, we'll send you reset instructions.</p>
                                 </div>
 
-                                <form onSubmit={handleSubmit} className="space-y-5">
-                                    <div className="space-y-1.5">
-                                        <label className="input-label">Email Address</label>
+                                <form onSubmit={handleSubmit} className="space-y-4">
+                                    <div className="space-y-1">
+                                        <label className="input-label text-xs">Email Address</label>
                                         <div className="relative">
-                                            <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                            <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
                                             <input
                                                 type="email"
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
-                                                className="input-field pl-10"
+                                                className="input-field pl-10 py-2 text-xs sm:text-sm"
                                                 placeholder="name@example.com"
                                                 required
                                             />
@@ -63,13 +64,13 @@ export default function ForgotPassword() {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="btn-primary w-full justify-center py-3.5 text-sm"
+                                        className="btn-primary w-full justify-center py-2.5 text-xs sm:text-sm"
                                     >
                                         {loading ? (
-                                            <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                            <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                                         ) : (
                                             <>
-                                                Send Reset Link <Send size={16} />
+                                                Send Reset Link <Send size={15} />
                                             </>
                                         )}
                                     </button>
@@ -77,14 +78,14 @@ export default function ForgotPassword() {
                             </>
                         ) : (
                             <div className="text-center py-4">
-                                <div className="w-16 h-16 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
-                                    <CheckCircle size={28} className="text-emerald-500" />
+                                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center mx-auto mb-3">
+                                    <CheckCircle size={22} className="text-emerald-500" />
                                 </div>
-                                <h2 className="text-2xl font-display font-bold text-[var(--foreground)] mb-3">Check your email</h2>
-                                <p className="text-sm text-[var(--foreground-muted)] mb-6">
+                                <h2 className="text-xl font-display font-bold text-[var(--foreground)] mb-2">Check your email</h2>
+                                <p className="text-xs text-[var(--foreground-muted)] mb-4">
                                     We've sent a password reset link to <strong className="text-[var(--foreground)]">{email}</strong>.
                                 </p>
-                                <button onClick={handleSubmit} className="text-sm font-semibold text-[#163B34] hover:text-[#289B7D] transition-colors">
+                                <button onClick={handleSubmit} className="text-xs font-semibold text-[#163B34] hover:text-[#289B7D] transition-colors">
                                     Didn't receive it? Click to resend
                                 </button>
                             </div>

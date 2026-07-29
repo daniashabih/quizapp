@@ -56,28 +56,29 @@ export default function SelectLevel() {
     }
 
     return (
-        <div className="min-h-screen bg-[var(--page-bg)] flex flex-col">
+        <div className="h-screen max-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col overflow-hidden">
             <Navbar />
-            <div className="flex-1 pt-24 lg:pt-28 pb-16">
+            <div className="flex-1 pt-20 pb-6 min-h-0 overflow-y-auto">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-up">
                     {/* Back */}
                     <button
                         onClick={() => navigate(-1)}
-                        className="inline-flex items-center gap-2 text-sm text-[var(--foreground-muted)] hover:text-[#163B34] transition-colors mb-8"
+                        className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-[#289B7D] transition-colors mb-4"
                     >
-                        <ArrowLeft size={16} /> Back to Technologies
+                        <ArrowLeft size={15} /> Back to Technologies
                     </button>
 
                     {/* Header */}
-                    <div className="text-center mb-12">                            <div className="badge-emerald mx-auto mb-4">
+                    <div className="text-center mb-6 sm:mb-8">
+                        <div className="badge-emerald mx-auto mb-3">
                             <Sparkles size={12} />
                             {category} Track
                         </div>
-                        <h1 className="text-4xl lg:text-5xl font-display font-extrabold text-[var(--foreground)] mb-4">
+                        <h1 className="text-3xl lg:text-4xl font-display font-extrabold text-[var(--foreground)] mb-2">
                             Choose Your{' '}
                             <span className="text-gradient">Difficulty</span>
                         </h1>
-                        <p className="text-[var(--foreground-muted)] max-w-xl mx-auto">
+                        <p className="text-xs sm:text-sm text-[var(--foreground-muted)] max-w-xl mx-auto">
                             Select the challenge level that matches your current expertise. You can always retry at a higher difficulty later.
                         </p>
                     </div>

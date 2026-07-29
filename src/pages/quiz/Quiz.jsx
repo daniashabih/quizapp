@@ -210,9 +210,9 @@ const Quiz = () => {
     const diffStyle = difficultyColors[difficulty] || difficultyColors.beginner;
 
     return (
-        <div className="min-h-screen bg-[var(--page-bg)] flex flex-col">
+        <div className="h-screen max-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col overflow-hidden">
             {/* ─── TOP BAR ─── */}
-            <header className="sticky top-0 z-40 bg-[var(--nav-bg)] backdrop-blur-xl border-b border-[var(--card-border)]">
+            <header className="shrink-0 bg-[var(--nav-bg)] backdrop-blur-xl border-b border-[var(--card-border)]">
                 <div className="flex items-center justify-between h-16 px-4 lg:px-6">
                     <div className="flex items-center gap-3">
                         <button

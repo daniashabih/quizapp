@@ -29,58 +29,60 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col transition-colors duration-300">
+        <div className="h-screen max-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col overflow-hidden transition-colors duration-300">
             <Navbar />
-            <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 pt-28 sm:pt-32 pb-16">
-                <div className="w-full max-w-md animate-fade-up">
-                    <div className="text-center mb-8">
-                        <BrandLogo variant="mark" size="xl" className="mx-auto mb-4" />
-                        <h1 className="text-3xl font-display font-bold text-[var(--foreground)] mb-2">Create Account</h1>
-                        <p className="text-[var(--foreground-secondary)] text-sm">Start your HangBug journey.</p>
+            <div className="flex-1 flex flex-col items-center justify-center p-4 pt-16 sm:pt-20 min-h-0 overflow-y-auto lg:overflow-hidden">
+                <div className="w-full max-w-md animate-fade-up my-auto">
+                    <div className="text-center mb-4 sm:mb-5">
+                        <BrandLogo variant="mark" size="lg" className="mx-auto mb-2" />
+                        <h1 className="text-2xl sm:text-3xl font-display font-bold text-[var(--foreground)] mb-1">Create Account</h1>
+                        <p className="text-[var(--foreground-secondary)] text-xs sm:text-sm">Start your HangBug journey.</p>
                     </div>
-                    <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-8 shadow-lg">
-                        <button className="btn-social text-sm mb-6"><Github size={18} /> Sign up with GitHub</button>
-                        <div className="relative mb-6">
+                    <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 sm:p-6 shadow-lg">
+                        <button className="btn-social text-xs sm:text-sm mb-4"><Github size={16} /> Sign up with GitHub</button>
+                        <div className="relative mb-4">
                             <div className="divider" />
-                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 text-xs font-semibold text-[var(--foreground-secondary)] bg-[var(--card-bg)]">or with email</span>
+                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 text-[10px] sm:text-xs font-semibold text-[var(--foreground-secondary)] bg-[var(--card-bg)]">or with email</span>
                         </div>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div className="space-y-1.5">
-                                <label className="input-label">Full Name</label>
+                        <form onSubmit={handleSubmit} className="space-y-3">
+                            <div className="space-y-1">
+                                <label className="input-label text-xs">Full Name</label>
                                 <div className="relative">
-                                    <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                    <input type="text" required value={name} onChange={(e) => setName(e.target.value)} className="input-field pl-10" placeholder="John Doe" />
+                                    <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                    <input type="text" required value={name} onChange={(e) => setName(e.target.value)} className="input-field pl-10 py-2 text-xs sm:text-sm" placeholder="John Doe" />
                                 </div>
                             </div>
-                            <div className="space-y-1.5">
-                                <label className="input-label">Email</label>
+                            <div className="space-y-1">
+                                <label className="input-label text-xs">Email</label>
                                 <div className="relative">
-                                    <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                    <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="input-field pl-10" placeholder="name@example.com" />
+                                    <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                    <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="input-field pl-10 py-2 text-xs sm:text-sm" placeholder="name@example.com" />
                                 </div>
                             </div>
-                            <div className="space-y-1.5">
-                                <label className="input-label">Password</label>
-                                <div className="relative">
-                                    <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                    <input type={showPass ? 'text' : 'password'} required value={password} onChange={(e) => setPassword(e.target.value)} className="input-field pl-10 pr-10" placeholder="Min 8 characters" />
-                                    <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]">{showPass ? <EyeOff size={16} /> : <Eye size={16} />}</button>
+                            <div className="grid grid-cols-2 gap-2">
+                                <div className="space-y-1">
+                                    <label className="input-label text-xs">Password</label>
+                                    <div className="relative">
+                                        <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                        <input type={showPass ? 'text' : 'password'} required value={password} onChange={(e) => setPassword(e.target.value)} className="input-field pl-10 pr-8 py-2 text-xs sm:text-sm" placeholder="Min 8 chars" />
+                                        <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]">{showPass ? <EyeOff size={14} /> : <Eye size={14} />}</button>
+                                    </div>
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="input-label text-xs">Confirm</label>
+                                    <div className="relative">
+                                        <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                        <input type={showConfirm ? 'text' : 'password'} required value={confirm} onChange={(e) => setConfirm(e.target.value)} className="input-field pl-10 pr-8 py-2 text-xs sm:text-sm" placeholder="Re-enter" />
+                                        <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]">{showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="space-y-1.5">
-                                <label className="input-label">Confirm Password</label>
-                                <div className="relative">
-                                    <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                    <input type={showConfirm ? 'text' : 'password'} required value={confirm} onChange={(e) => setConfirm(e.target.value)} className="input-field pl-10 pr-10" placeholder="Re-enter" />
-                                    <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]">{showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}</button>
-                                </div>
-                            </div>
-                            <button type="submit" disabled={loading} className="btn-primary w-full py-3.5 rounded-xl text-sm mt-2">
-                                {loading ? <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <><UserPlus size={16} /> Create Free Account</>}
+                            <button type="submit" disabled={loading} className="btn-primary w-full py-2.5 rounded-xl text-xs sm:text-sm mt-1">
+                                {loading ? <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <><UserPlus size={15} /> Create Free Account</>}
                             </button>
                         </form>
-                        <div className="divider my-6" />
-                        <p className="text-center text-sm text-[var(--foreground-secondary)]">Already have an account? <Link to="/login" className="font-semibold text-[#289B7D] hover:underline">Sign in</Link></p>
+                        <div className="divider my-4" />
+                        <p className="text-center text-xs text-[var(--foreground-secondary)]">Already have an account? <Link to="/login" className="font-semibold text-[#289B7D] hover:underline">Sign in</Link></p>
                     </div>
                 </div>
             </div>

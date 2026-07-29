@@ -35,29 +35,29 @@ export default function ResetPassword() {
     };
 
     return (
-        <div className="min-h-screen bg-[var(--page-bg)] flex flex-col">
+        <div className="h-screen max-h-screen bg-[var(--page-bg)] flex flex-col overflow-hidden">
             <Navbar />
-            <div className="flex-1 flex flex-col items-center justify-start p-4 sm:p-6 pt-28 sm:pt-32 pb-16">
-                <div className="w-full max-w-md animate-fade-up">
-                    <div className="card p-8 rounded-2xl">
-                        <div className="text-center mb-8">
-                            <div className="w-16 h-16 rounded-2xl bg-[#EAF5F2] border border-[#D4EBE5] flex items-center justify-center mx-auto mb-4">
-                                <Lock size={28} className="text-[#163B34]" />
+            <div className="flex-1 flex flex-col items-center justify-center p-4 pt-16 sm:pt-20 min-h-0 overflow-y-auto lg:overflow-hidden">
+                <div className="w-full max-w-md animate-fade-up my-auto">
+                    <div className="card p-6 sm:p-8 rounded-2xl">
+                        <div className="text-center mb-6">
+                            <div className="w-12 h-12 rounded-2xl bg-[#EAF5F2] border border-[#D4EBE5] flex items-center justify-center mx-auto mb-3">
+                                <Lock size={22} className="text-[#163B34]" />
                             </div>
-                            <h1 className="text-2xl font-display font-bold text-[var(--foreground)] mb-2">Set New Password</h1>
-                            <p className="text-sm text-[var(--foreground-muted)]">Your new password must be different from previous used passwords.</p>
+                            <h1 className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)] mb-1">Set New Password</h1>
+                            <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">Your new password must be different from previous used passwords.</p>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="space-y-5">
-                            <div className="space-y-1.5">
-                                <label className="input-label">New Password</label>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div className="space-y-1">
+                                <label className="input-label text-xs">New Password</label>
                                 <div className="relative">
-                                    <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                    <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
                                     <input
                                         type={showPassword ? "text" : "password"}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="input-field pl-10 pr-10"
+                                        className="input-field pl-10 pr-10 py-2 text-xs sm:text-sm"
                                         placeholder="Minimum 8 characters"
                                         required
                                     />
@@ -66,20 +66,20 @@ export default function ResetPassword() {
                                         onClick={() => setShowPassword(!showPassword)}
                                         className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors"
                                     >
-                                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                        {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                                     </button>
                                 </div>
                             </div>
 
-                            <div className="space-y-1.5">
-                                <label className="input-label">Confirm New Password</label>
+                            <div className="space-y-1">
+                                <label className="input-label text-xs">Confirm New Password</label>
                                 <div className="relative">
-                                    <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                    <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
                                     <input
                                         type={showPassword ? "text" : "password"}
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
-                                        className="input-field pl-10"
+                                        className="input-field pl-10 py-2 text-xs sm:text-sm"
                                         placeholder="Re-enter password"
                                         required
                                     />
@@ -89,21 +89,21 @@ export default function ResetPassword() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="btn-primary w-full justify-center py-3.5 text-sm"
+                                className="btn-primary w-full justify-center py-2.5 text-xs sm:text-sm"
                             >
                                 {loading ? (
-                                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                    <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                                 ) : (
                                     <>
-                                        Reset Password <ArrowRight size={16} />
+                                        Reset Password <ArrowRight size={15} />
                                     </>
                                 )}
                             </button>
                         </form>
 
-                        <div className="mt-6 text-center">
-                            <Link to="/login" className="text-sm font-semibold text-[#163B34] hover:text-[#289B7D] transition-colors inline-flex items-center gap-1">
-                                <ArrowLeft size={14} /> Back to Login
+                        <div className="mt-4 text-center">
+                            <Link to="/login" className="text-xs font-semibold text-[#163B34] hover:text-[#289B7D] transition-colors inline-flex items-center gap-1">
+                                <ArrowLeft size={13} /> Back to Login
                             </Link>
                         </div>
                     </div>
