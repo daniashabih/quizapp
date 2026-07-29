@@ -1,16 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 // eslint-disable-next-line no-unused-vars
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import {
     ArrowRight, Code2, Target, Trophy, Zap, Users, BookOpen,
-    Sparkles, Star, Award, BarChart3, Search,
-    ChevronDown, ChevronUp, Quote, Play, GraduationCap, BrainCircuit,
-    Linkedin, CheckCircle2, Download, QrCode
+    Star, Award, BarChart3, Search, Play, GraduationCap, BrainCircuit,
+    Linkedin, CheckCircle2, QrCode, Sparkles, ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import BrandLogo from '../components/BrandLogo';
 import FloatingTechBackground from '../components/FloatingTechBackground';
 
@@ -27,488 +25,370 @@ const technologies = [
 
 export default function Landing() {
     const { user } = useAuth();
-    const [activeFaq, setActiveFaq] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [testimonialIdx, setTestimonialIdx] = useState(0);
+    const [activeTab, setActiveTab] = useState('assessment'); // assessment, features, certificate, path
 
     const filteredTechs = technologies.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="h-screen max-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-hidden relative transition-colors duration-300">
+            {/* Background Floating Tech Icons */}
+            <FloatingTechBackground opacity={0.3} speed={1} count={14} interactive={true} />
+
+            {/* Background ambient glowing gradients */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#163B34]/5 rounded-full blur-[140px]" />
+                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-[#289B7D]/5 rounded-full blur-[140px]" />
+            </div>
+
+            {/* Fixed Navbar at Top */}
             <Navbar />
 
-            {/* Hero */}
-            <section className="relative pt-28 lg:pt-36 pb-20 lg:pb-28 overflow-hidden">
-                <FloatingTechBackground opacity={0.35} speed={1} count={12} interactive={true} />
-                <div className="absolute inset-0 pointer-events-none">
-                    <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-[#163B34]/3 rounded-full blur-[150px]" />
-                    <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-[#289B7D]/3 rounded-full blur-[150px]" style={{ animationDelay: "2s" }} />
-                </div>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-                    <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }}
-                            className="flex-1 text-center lg:text-left"
-                        >
+            {/* Main Center Hero Section (Constrained strictly to 100vh frame) */}
+            <main className="flex-1 min-h-0 pt-16 lg:pt-20 pb-2 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex flex-col justify-center relative z-10 overflow-y-auto lg:overflow-hidden">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center my-auto w-full">
+
+                    {/* Left Column: Headline, Search, CTA, Quick Stats */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1.0] }}
+                        className="lg:col-span-6 flex flex-col justify-center space-y-3 lg:space-y-4"
+                    >
+                        {/* Live Pill Badge */}
+                        <div>
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.4, delay: 0.1 }}
-                                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF5F2] text-[#163B34] text-xs font-semibold tracking-wide mb-6 shadow-xs"
+                                transition={{ duration: 0.3, delay: 0.1 }}
+                                className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EAF5F2] text-[#163B34] text-xs font-semibold tracking-wide border border-[#289B7D]/20 shadow-2xs"
                             >
-                                <span className="w-2 h-2 rounded-full bg-[#163B34] animate-pulse" />
-                                AI-Powered Quizzes — Now Live
+                                <span className="w-2 h-2 rounded-full bg-[#289B7D] animate-pulse" />
+                                AI-Powered Web Quizzes — Now Live
                             </motion.div>
+                        </div>
 
-                            <motion.h1
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.1, 0.25, 1.0] }}
-                                className="text-5xl sm:text-6xl lg:text-7xl font-display font-extrabold text-[#163B34] leading-[1.05] tracking-tighter mb-6"
-                            >
-                                Master Web
-                                <br />Development{' '}
-                                <span className="text-gradient">One Quiz</span>
-                                <br />at a Time
-                            </motion.h1>
-
-                            <motion.p
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.25, ease: [0.25, 0.1, 0.25, 1.0] }}
-                                className="text-lg sm:text-xl text-[#6B7280] max-w-xl mx-auto lg:mx-0 leading-relaxed mb-8"
-                            >
-                                The ultimate platform to test, certify, and showcase your web development skills.
-                                AI-powered quizzes, verified certificates, and global leaderboards.
-                            </motion.p>
-
-                            {/* Search */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.35, ease: [0.25, 0.1, 0.25, 1.0] }}
-                                className="max-w-md mx-auto lg:mx-0 mb-8"
-                            >
-                                <div className="relative">
-                                    <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9CA3AF]" />
-                                    <input type="text" placeholder="Search technologies (e.g., React, Python)..."
-                                        value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-                                        className="w-full bg-white border border-gray-200 rounded-2xl py-4 pl-12 pr-4 text-sm text-[#163B34] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#163B34]/10 focus:border-[#163B34] transition-all shadow-sm" />
-                                    {searchQuery && (
-                                        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden z-10 animate-scale-in">
-                                            {filteredTechs.length > 0 ? filteredTechs.map(t => (
-                                                <Link key={t.name} to="/technologies"
-                                                    className="flex items-center justify-between px-5 py-3.5 hover:bg-[#F7FAF9] transition-colors border-b border-gray-100 last:border-0">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-2 h-2 rounded-full" style={{ background: t.color }} />
-                                                        <span className="text-sm font-medium text-[#163B34]">{t.name}</span>
-                                                    </div>
-                                                    <span className="text-xs text-[#6B7280]">{t.questions} questions</span>
-                                                </Link>
-                                            )) : (
-                                                <div className="px-5 py-8 text-center text-sm text-[#6B7280]">No technologies found.</div>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            </motion.div>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, delay: 0.45, ease: [0.25, 0.1, 0.25, 1.0] }}
-                                className="flex flex-col sm:flex-row items-center gap-4"
-                            >
-                                {user ? (
-                                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                                        <Link to="/dashboard" className="btn-primary px-8 py-4 text-base">
-                                            Go to Dashboard <ArrowRight size={20} />
-                                        </Link>
-                                    </motion.div>
-                                ) : (
-                                    <>
-                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                                            <Link to="/register" className="btn-primary px-8 py-4 text-base">
-                                                Start Learning Free <ArrowRight size={20} />
-                                            </Link>
-                                        </motion.div>
-                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                                            <Link to="/technologies" className="btn-secondary px-8 py-4 text-base">
-                                                Browse Technologies
-                                            </Link>
-                                        </motion.div>
-                                    </>
-                                )}
-                            </motion.div>
-                        </motion.div>
-
-                        {/* Hero Illustration */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.7, delay: 0.25, ease: [0.25, 0.1, 0.25, 1.0] }}
-                            className="flex-1 w-full max-w-lg lg:max-w-none"
+                        {/* Title */}
+                        <motion.h1
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.15 }}
+                            className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-extrabold text-[var(--foreground)] leading-[1.08] tracking-tight"
                         >
-                            <motion.div
-                                whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                                className="bg-[#F7FAF9] border border-gray-200 rounded-3xl p-8 shadow-lg relative overflow-hidden group"
-                            >
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-[#289B7D]/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
-                                <div className="flex items-center gap-3 mb-6 relative">
-                                    <BrandLogo variant="mark" size="md" />
-                                    <div>
-                                        <p className="text-sm font-bold text-[#163B34]">HangBug Assessment</p>
-                                        <p className="text-xs text-[#6B7280]">Web Development</p>
+                            Master Web <br />
+                            Development <span className="text-gradient">One Quiz</span> <br />
+                            at a Time
+                        </motion.h1>
+
+                        {/* Description */}
+                        <motion.p
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                            className="text-xs sm:text-sm lg:text-base text-[var(--foreground-muted)] max-w-lg leading-relaxed font-normal"
+                        >
+                            The ultimate platform to test, certify, and showcase your web development skills.
+                            AI-powered quizzes, verified certificates, and global leaderboards.
+                        </motion.p>
+
+                        {/* Search Input with Instant Results Dropdown */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.25 }}
+                            className="relative max-w-md"
+                        >
+                            <div className="relative">
+                                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                <input
+                                    type="text"
+                                    placeholder="Search technologies (e.g., React, Python)..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl py-2.5 pl-10 pr-4 text-xs sm:text-sm text-[var(--foreground)] placeholder:[var(--foreground-muted)] focus:outline-none focus:ring-2 focus:ring-[#289B7D]/20 focus:border-[#289B7D] transition-all shadow-2xs"
+                                />
+                                {searchQuery && (
+                                    <div className="absolute top-full left-0 right-0 mt-2 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl shadow-xl overflow-hidden z-30 animate-scale-in">
+                                        {filteredTechs.length > 0 ? (
+                                            filteredTechs.map((t) => (
+                                                <Link
+                                                    key={t.name}
+                                                    to="/technologies"
+                                                    className="flex items-center justify-between px-4 py-2.5 hover:bg-[var(--muted-bg)] transition-colors border-b border-[var(--card-border)] last:border-0"
+                                                >
+                                                    <div className="flex items-center gap-2.5">
+                                                        <div className="w-2 h-2 rounded-full" style={{ background: t.color }} />
+                                                        <span className="text-xs font-semibold text-[var(--foreground)]">{t.name}</span>
+                                                    </div>
+                                                    <span className="text-[11px] text-[var(--foreground-muted)]">{t.questions} Qs</span>
+                                                </Link>
+                                            ))
+                                        ) : (
+                                            <div className="px-4 py-4 text-center text-xs text-[var(--foreground-muted)]">No technologies found.</div>
+                                        )}
                                     </div>
-                                </div>
-                                <div className="space-y-4 relative">
-                                    <div className="p-4 rounded-xl bg-white border border-gray-200 shadow-xs">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="text-xs font-semibold text-[#163B34]">React Expert Quiz</span>
-                                            <span className="badge-emerald text-[10px]">In Progress</span>
-                                        </div>
-                                        <div className="progress-bar overflow-hidden">
-                                            <motion.div
-                                                className="progress-bar-fill"
-                                                initial={{ width: '0%' }}
-                                                animate={{ width: '75%' }}
-                                                transition={{ duration: 1.2, delay: 0.6, ease: 'easeOut' }}
-                                            />
-                                        </div>
-                                        <p className="text-xs text-[#6B7280] mt-1.5 font-medium">12/15 answered</p>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-3">
-                                        {[
-                                            { label: 'Score', value: '92%', color: 'text-[#22C55E]', delay: 0.4 },
-                                            { label: 'Time', value: '8m 42s', color: 'text-[#163B34]', delay: 0.5 },
-                                            { label: 'Streak', value: '7 days', color: 'text-[#F59E0B]', delay: 0.6 },
-                                            { label: 'Rank', value: '#42', color: 'text-[#289B7D]', delay: 0.7 },
-                                        ].map(stat => (
-                                            <motion.div
-                                                key={stat.label}
-                                                initial={{ opacity: 0, y: 12 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ duration: 0.4, delay: stat.delay }}
-                                                whileHover={{ scale: 1.03 }}
-                                                className="p-3 rounded-xl bg-white border border-gray-200 shadow-2xs transition-shadow hover:shadow-md"
-                                            >
-                                                <p className="text-[10px] font-semibold text-[#6B7280] uppercase tracking-wider">{stat.label}</p>
-                                                <p className={`text-lg font-display font-bold ${stat.color}`}>{stat.value}</p>
-                                            </motion.div>
-                                        ))}
-                                    </div>
-
-                                    <motion.div
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ duration: 0.4, delay: 0.8 }}
-                                        className="flex items-center gap-2 p-3 rounded-xl bg-[#FEF3C7]/50 border border-[#FDE68A]"
-                                    >
-                                        <Zap size={16} className="text-[#F59E0B] animate-bounce" />
-                                        <p className="text-xs font-medium text-[#B45309]">75 XP away from next level!</p>
-                                    </motion.div>
-                                </div>
-                            </motion.div>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Stats */}
-            <section className="py-16 border-y border-gray-200 bg-[#F7FAF9]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
-                        {[
-                            { value: "10,000+", label: "Active Learners", icon: Users },
-                            { value: "1,500+", label: "Quiz Questions", icon: BookOpen },
-                            { value: "18", label: "Technologies", icon: Code2 },
-                            { value: "95%", label: "Satisfaction Rate", icon: Star },
-                        ].map(({ value, label, icon: Icon }, i) => (
-                            <div key={i} className="text-center">
-                                <div className="w-12 h-12 rounded-xl bg-[#EAF5F2] flex items-center justify-center mx-auto mb-3">
-                                    <Icon size={22} className="text-[#163B34]" />
-                                </div>
-                                <p className="text-3xl font-display font-extrabold text-[#163B34]">{value}</p>
-                                <p className="text-sm text-[#6B7280] font-medium">{label}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Features */}
-            <section className="py-20 lg:py-28">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center max-w-2xl mx-auto mb-16">
-                        <div className="badge-emerald mb-4">Why Choose HangBug</div>
-                        <h2 className="text-4xl lg:text-5xl font-display font-extrabold text-[#163B34] mb-4">
-                            Everything You Need to <span className="text-gradient">Excel</span>
-                        </h2>
-                        <p className="text-lg text-[#6B7280]">A comprehensive platform designed to take your skills to the next level.</p>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[
-                            { icon: BrainCircuit, title: "AI-Powered Questions", desc: "Adaptive difficulty that evolves with your skill level.", grad: "from-[#163B34] to-[#289B7D]" },
-                            { icon: GraduationCap, title: "Verified Certificates", desc: "Earn verifiable certificates to showcase on LinkedIn.", grad: "from-[#289B7D] to-[#53AF97]" },
-                            { icon: BarChart3, title: "Deep Analytics", desc: "Track progress with detailed performance metrics.", grad: "from-[#163B34] to-[#289B7D]" },
-                            { icon: Trophy, title: "Global Leaderboard", desc: "Compete with developers worldwide and climb ranks.", grad: "from-[#289B7D] to-[#7EC3B1]" },
-                            { icon: Code2, title: "18+ Technologies", desc: "From HTML to Python. Full web dev stack coverage.", grad: "from-[#163B34] to-[#289B7D]" },
-                            { icon: Star, title: "Gamified Learning", desc: "Earn XP, maintain streaks, unlock achievements.", grad: "from-[#289B7D] to-[#53AF97]" },
-                        ].map(({ icon: Icon, title, desc, grad }, i) => (
-                            <div key={i} className="group card-hover p-8 rounded-2xl animate-fade-up" style={{ animationDelay: `${i * 0.1}s` }}>
-                                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${grad} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500 shadow-sm`}>
-                                    <Icon size={26} className="text-white" />
-                                </div>
-                                <h3 className="text-xl font-display font-bold text-[#163B34] mb-3">{title}</h3>
-                                <p className="text-[#6B7280] leading-relaxed">{desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Roadmap */}
-            <section className="py-20 bg-[#F7FAF9]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center max-w-2xl mx-auto mb-16">
-                        <div className="badge-emerald mb-4">Learning Path</div>
-                        <h2 className="text-4xl lg:text-5xl font-display font-extrabold text-[#163B34] mb-4">Your Road to <span className="text-gradient">Mastery</span></h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {[
-                            { step: 1, title: "Pick a Technology", desc: "Choose from 18+ technologies", icon: Code2 },
-                            { step: 2, title: "Select Difficulty", desc: "Start at any skill level", icon: Target },
-                            { step: 3, title: "Take the Quiz", desc: "Timed questions with feedback", icon: Play },
-                            { step: 4, title: "Earn Certificate", desc: "Score 80%+ to unlock", icon: Award },
-                        ].map(({ step, title, desc, icon: Icon }, i) => (
-                            <div key={i} className="relative">
-                                {i < 3 && <div className="hidden lg:block absolute top-12 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-[#163B34]/30 to-[#289B7D]/30" />}
-                                <div className="group card p-8 rounded-2xl text-center animate-fade-up" style={{ animationDelay: `${i * 0.15}s` }}>
-                                    <div className="relative mb-6 inline-flex">
-                                        <div className="w-16 h-16 rounded-2xl bg-[#163B34] flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-500">
-                                            <Icon size={28} className="text-white" />
-                                        </div>
-                                        <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-white border-2 border-[#163B34] flex items-center justify-center">
-                                            <span className="text-xs font-bold text-[#163B34]">{step}</span>
-                                        </div>
-                                    </div>
-                                    <h3 className="text-lg font-display font-bold text-[#163B34] mb-2">{title}</h3>
-                                    <p className="text-sm text-[#6B7280]">{desc}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Technologies */}
-            <section className="py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
-                        <div className="max-w-xl">
-                            <div className="badge-emerald mb-4">Technologies</div>
-                            <h2 className="text-4xl lg:text-5xl font-display font-extrabold text-[#163B34] mb-4">Master <span className="text-gradient">18+</span> Technologies</h2>
-                            <p className="text-lg text-[#6B7280]">From HTML to advanced frameworks.</p>
-                        </div>
-                        <Link to="/technologies" className="btn-secondary shrink-0">View All <ArrowRight size={16} /></Link>
-                    </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {technologies.map((tech, i) => (
-                            <Link key={tech.name} to="/technologies"
-                                className="group card-hover p-5 rounded-2xl text-center animate-fade-up"
-                                style={{ animationDelay: `${i * 0.05}s` }}>
-                                <div className="w-12 h-12 rounded-xl bg-[#F7FAF9] border border-gray-200 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300"
-                                    style={{ borderColor: tech.color + '40' }}>
-                                    <span className="font-bold text-lg" style={{ color: tech.color }}>{tech.name.charAt(0)}</span>
-                                </div>
-                                <h4 className="text-sm font-bold text-[#163B34] mb-1">{tech.name}</h4>
-                                <p className="text-[10px] font-medium text-[#6B7280] uppercase tracking-wider">{tech.level}</p>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Certificate Preview */}
-            <section className="py-20 lg:py-28 bg-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                        <div className="flex-1 max-w-xl">
-                            <div className="badge-emerald mb-4">Certification</div>
-                            <h2 className="text-4xl lg:text-5xl font-display font-extrabold text-[#163B34] mb-4">
-                                Earn Certificates That <span className="text-gradient">Get You Hired</span>
-                            </h2>
-                            <p className="text-lg text-[#6B7280] leading-relaxed mb-8">
-                                Score 80%+ on any assessment to unlock a verified certificate — complete with a
-                                unique ID and QR code employers can validate in seconds.
-                            </p>
-                            <ul className="space-y-4 mb-8">
-                                {[
-                                    { icon: CheckCircle2, text: 'Unique verification ID & QR code on every certificate' },
-                                    { icon: Linkedin, text: 'One-click sharing to your LinkedIn profile' },
-                                    { icon: Download, text: 'Download as PDF for portfolios and applications' },
-                                ].map(({ icon: Icon, text }, i) => (
-                                    <li key={i} className="flex items-center gap-3">
-                                        <span className="w-8 h-8 rounded-lg bg-[#EAF5F2] border border-[#D4EBE5] flex items-center justify-center shrink-0">
-                                            <Icon size={15} className="text-[#163B34]" />
-                                        </span>
-                                        <span className="text-sm font-medium text-[#6B7280]">{text}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                            <Link to={user ? "/dashboard" : "/register"} className="btn-primary px-8 py-4 text-base">
-                                Start Earning <ArrowRight size={20} />
-                            </Link>
-                        </div>
-
-                        {/* Certificate mock */}
-                        <div className="flex-1 w-full max-w-lg animate-fade-up">
-                            <div className="card overflow-hidden rounded-3xl shadow-xl -rotate-1 hover:rotate-0 transition-transform duration-500">
-                                <div className="h-2 bg-gradient-to-r from-[#163B34] via-[#289B7D] to-[#53AF97]" />
-                                <div className="p-8 lg:p-10">
-                                    <div className="text-center mb-6">
-                                        <BrandLogo variant="mark" size="md" className="mx-auto mb-3" />
-                                        <p className="text-[10px] font-semibold text-[#6B7280] uppercase tracking-[0.2em] mb-1">
-                                            Certificate of Achievement
-                                        </p>
-                                        <h3 className="text-2xl font-display font-extrabold text-[#163B34]">JavaScript</h3>
-                                        <div className="badge-emerald mt-2 mx-auto text-[10px]">Advanced Level</div>
-                                    </div>
-                                    <div className="text-center mb-6">
-                                        <p className="text-xs text-[#6B7280] mb-1">This is to certify that</p>
-                                        <p className="text-xl font-display font-bold text-[#163B34] border-b-2 border-dashed border-gray-200 pb-1.5 inline-block">
-                                            Sarah Chen
-                                        </p>
-                                    </div>
-                                    <div className="flex items-center justify-center gap-8 py-4 border-y border-gray-200 mb-6">
-                                        <div className="text-center">
-                                            <p className="text-xl font-display font-extrabold text-[#22C55E]">92%</p>
-                                            <p className="text-[9px] text-[#6B7280] font-semibold uppercase tracking-wider">Score</p>
-                                        </div>
-                                        <div className="w-px h-8 bg-gray-200" />
-                                        <div className="text-center">
-                                            <p className="text-xl font-display font-extrabold text-[#163B34]">Advanced</p>
-                                            <p className="text-[9px] text-[#6B7280] font-semibold uppercase tracking-wider">Level</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-[9px] font-bold text-[#6B7280] uppercase tracking-wider">Certificate ID</p>
-                                            <p className="text-xs font-mono font-bold text-[#163B34]">HB-8X2K4M9A</p>
-                                        </div>
-                                        <div className="w-12 h-12 rounded-lg bg-[#F7FAF9] border border-gray-200 flex items-center justify-center">
-                                            <QrCode size={24} className="text-[#163B34]" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Testimonials */}
-            <section className="py-20 bg-[#F7FAF9] border-y border-gray-200">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center max-w-2xl mx-auto mb-16">
-                        <div className="badge-emerald mb-4">Testimonials</div>
-                        <h2 className="text-4xl lg:text-5xl font-display font-extrabold text-[#163B34] mb-4">What Our <span className="text-gradient">Learners</span> Say</h2>
-                    </div>
-                    <div className="relative max-w-3xl mx-auto">
-                        <div className="overflow-hidden">
-                            <div className="flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${testimonialIdx * 100}%)` }}>
-                                {[
-                                    { name: "Sarah Chen", role: "Frontend Developer", avatar: "SC", text: "HangBug completely transformed my interview prep. The AI-generated questions are incredibly relevant.", rating: 5 },
-                                    { name: "James Wilson", role: "CS Student", avatar: "JW", text: "The gamification keeps me coming back every day. I've earned 5 certificates!", rating: 5 },
-                                    { name: "Priya Patel", role: "Full Stack Developer", avatar: "PP", text: "Finally, a quiz platform that adapts to my skill level. The analytics are fantastic.", rating: 5 },
-                                ].map((t, i) => (
-                                    <div key={i} className="min-w-full px-4">
-                                        <div className="card p-8 lg:p-10 rounded-2xl text-center">
-                                            <div className="w-16 h-16 rounded-2xl bg-[#163B34] flex items-center justify-center text-white font-bold text-xl mx-auto mb-6 shadow-sm">{t.avatar}</div>
-                                            <Quote size={24} className="text-[#D4EBE5] mx-auto mb-4" />
-                                            <p className="text-lg text-[#6B7280] leading-relaxed mb-6 italic">"{t.text}"</p>
-                                            <div className="flex items-center justify-center gap-1 mb-4">
-                                                {Array.from({ length: t.rating }).map((_, j) => (
-                                                    <Star key={j} size={16} className="fill-[#F59E0B] text-[#F59E0B]" />
-                                                ))}
-                                            </div>
-                                            <p className="font-bold text-[#163B34]">{t.name}</p>
-                                            <p className="text-sm text-[#6B7280]">{t.role}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="flex items-center justify-center gap-3 mt-8">
-                            {[0, 1, 2].map((_, i) => (
-                                <button key={i} onClick={() => setTestimonialIdx(i)}
-                                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === testimonialIdx ? 'bg-[#163B34] w-8' : 'bg-[#D4EBE5] hover:bg-[#A9D7CB]'}`} />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* FAQ */}
-            <section className="py-20">
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <div className="badge-emerald mb-4">FAQ</div>
-                        <h2 className="text-4xl lg:text-5xl font-display font-extrabold text-[#163B34] mb-4">Frequently Asked <span className="text-gradient">Questions</span></h2>
-                    </div>
-                    <div className="space-y-3">
-                        {[
-                            { q: "Is HangBug free to use?", a: "Yes! HangBug offers free access to all basic quizzes. Premium features available with subscription." },
-                            { q: "How are certificates verified?", a: "Each certificate includes a unique verification ID and QR code for authenticity." },
-                            { q: "Can I retake quizzes?", a: "Absolutely! Retake any quiz as many times as you want. Best score is saved." },
-                            { q: "How long does a quiz take?", a: "Most take 10-15 minutes. Each question has a 60-second timer." },
-                        ].map((faq, i) => (
-                            <div key={i} className="card rounded-2xl overflow-hidden animate-fade-up" style={{ animationDelay: `${i * 0.1}s` }}>
-                                <button onClick={() => setActiveFaq(activeFaq === i ? null : i)}
-                                    className="w-full flex items-center justify-between p-5 lg:p-6 text-left">
-                                    <span className="text-sm font-semibold text-[#163B34] pr-4">{faq.q}</span>
-                                    {activeFaq === i ? <ChevronUp size={18} className="text-[#163B34] shrink-0" /> : <ChevronDown size={18} className="text-[#6B7280] shrink-0" />}
-                                </button>
-                                <div className={`overflow-hidden transition-all duration-300 ${activeFaq === i ? 'max-h-40' : 'max-h-0'}`}>
-                                    <p className="px-5 lg:px-6 pb-5 lg:pb-6 text-sm text-[#6B7280] leading-relaxed">{faq.a}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA */}
-            <section className="py-20 lg:py-28">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="bg-[#F7FAF9] border border-gray-200 rounded-3xl p-10 lg:p-16 text-center relative overflow-hidden shadow-lg">
-                        <div className="absolute inset-0 pointer-events-none">
-                            <div className="absolute top-[-50%] left-[-20%] w-[400px] h-[400px] bg-[#163B34]/5 rounded-full blur-[100px]" />
-                            <div className="absolute bottom-[-50%] right-[-20%] w-[400px] h-[400px] bg-[#289B7D]/5 rounded-full blur-[100px]" />
-                        </div>
-                        <div className="relative">
-                            <div className="badge-emerald mb-6 mx-auto">Get Started Today</div>
-                            <h2 className="text-4xl lg:text-5xl font-display font-extrabold text-[#163B34] mb-4">Ready to Level Up <span className="text-gradient">Your Skills?</span></h2>
-                            <p className="text-lg text-[#6B7280] max-w-xl mx-auto mb-8">Join thousands of developers using HangBug to sharpen their skills.</p>
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                {user ? (
-                                    <Link to="/dashboard" className="btn-primary px-8 py-4 text-base">Go to Dashboard <ArrowRight size={20} /></Link>
-                                ) : (
-                                    <>
-                                        <Link to="/register" className="btn-primary px-8 py-4 text-base">Start Learning Free <ArrowRight size={20} /></Link>
-                                        <Link to="/technologies" className="btn-secondary px-8 py-4 text-base">Browse Technologies</Link>
-                                    </>
                                 )}
                             </div>
-                            <p className="text-sm text-[#6B7280] mt-6">No credit card required • Free forever</p>
+                        </motion.div>
+
+                        {/* CTA Buttons */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
+                            className="flex flex-wrap items-center gap-3 pt-1"
+                        >
+                            {user ? (
+                                <Link to="/dashboard" className="btn-primary px-6 py-3 text-xs sm:text-sm">
+                                    Go to Dashboard <ArrowRight size={16} />
+                                </Link>
+                            ) : (
+                                <>
+                                    <Link to="/register" className="btn-primary px-6 py-3 text-xs sm:text-sm">
+                                        Start Learning Free <ArrowRight size={16} />
+                                    </Link>
+                                    <Link to="/technologies" className="btn-secondary px-5 py-3 text-xs sm:text-sm">
+                                        Browse Tech
+                                    </Link>
+                                </>
+                            )}
+                        </motion.div>
+
+                        {/* Metrics Bar */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 0.35 }}
+                            className="grid grid-cols-4 gap-2 pt-3 border-t border-[var(--card-border)] max-w-lg"
+                        >
+                            {[
+                                { value: "10,000+", label: "Learners", icon: Users },
+                                { value: "1,500+", label: "Questions", icon: BookOpen },
+                                { value: "18+", label: "Techs", icon: Code2 },
+                                { value: "95%", label: "Pass Rate", icon: Star },
+                            ].map(({ value, label, icon: Icon }, i) => (
+                                <div key={i} className="text-left">
+                                    <div className="flex items-center gap-1 mb-0.5">
+                                        <Icon size={12} className="text-[#289B7D]" />
+                                        <span className="text-xs font-bold text-[var(--foreground)] font-display">{value}</span>
+                                    </div>
+                                    <p className="text-[10px] text-[var(--foreground-muted)] font-medium leading-tight">{label}</p>
+                                </div>
+                            ))}
+                        </motion.div>
+                    </motion.div>
+
+                    {/* Right Column: Tabbed Interactive Feature Showcase Card */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="lg:col-span-6 flex flex-col justify-center min-h-0"
+                    >
+                        {/* Interactive View Selector Tabs */}
+                        <div className="flex items-center justify-between gap-1 p-1 bg-[var(--muted-bg)] border border-[var(--card-border)] rounded-2xl mb-3 shadow-2xs overflow-x-auto no-scrollbar">
+                            {[
+                                { id: 'assessment', label: 'Assessment', icon: Play },
+                                { id: 'features', label: 'Features', icon: Sparkles },
+                                { id: 'certificate', label: 'Certificates', icon: GraduationCap },
+                                { id: 'path', label: 'Learning Path', icon: Target },
+                            ].map((tab) => {
+                                const Icon = tab.icon;
+                                const isActive = activeTab === tab.id;
+                                return (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                                            isActive
+                                                ? 'bg-[#163B34] text-white shadow-xs'
+                                                : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--card-bg)]'
+                                        }`}
+                                    >
+                                        <Icon size={13} />
+                                        <span>{tab.label}</span>
+                                    </button>
+                                );
+                            })}
                         </div>
-                    </div>
+
+                        {/* Interactive Tab Card Display */}
+                        <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-5 sm:p-6 shadow-xl relative overflow-hidden transition-all duration-300 min-h-[330px] flex flex-col justify-between">
+                            <AnimatePresence mode="wait">
+                                {activeTab === 'assessment' && (
+                                    <motion.div
+                                        key="assessment"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.25 }}
+                                        className="space-y-4 my-auto"
+                                    >
+                                        <div className="flex items-center justify-between border-b border-[var(--card-border)] pb-3">
+                                            <div className="flex items-center gap-2.5">
+                                                <BrandLogo variant="mark" size="md" />
+                                                <div>
+                                                    <p className="text-xs font-bold text-[var(--foreground)]">HangBug Assessment</p>
+                                                    <p className="text-[10px] text-[var(--foreground-muted)]">Interactive Web Developer Quiz</p>
+                                                </div>
+                                            </div>
+                                            <span className="badge-emerald text-[10px] font-bold">Live Simulation</span>
+                                        </div>
+
+                                        <div className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
+                                            <div className="flex items-center justify-between mb-2">
+                                                <span className="text-xs font-semibold text-[var(--foreground)]">React Component Lifecycle & Hooks</span>
+                                                <span className="text-[10px] font-bold text-[#289B7D]">Question 12/15</span>
+                                            </div>
+                                            <div className="progress-bar overflow-hidden h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+                                                <motion.div
+                                                    className="h-full bg-[#289B7D] rounded-full"
+                                                    initial={{ width: '0%' }}
+                                                    animate={{ width: '80%' }}
+                                                    transition={{ duration: 1 }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-2.5">
+                                            {[
+                                                { label: 'Score Rate', value: '94%', color: 'text-[#22C55E]' },
+                                                { label: 'Avg Speed', value: '18s / Q', color: 'text-[#163B34] dark:text-[#289B7D]' },
+                                                { label: 'Current Streak', value: '7 Days', color: 'text-[#F59E0B]' },
+                                                { label: 'Global Rank', value: '#42 Top 1%', color: 'text-[#289B7D]' },
+                                            ].map((stat) => (
+                                                <div key={stat.label} className="p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
+                                                    <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">{stat.label}</p>
+                                                    <p className={`text-sm font-display font-bold ${stat.color}`}>{stat.value}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FEF3C7]/40 dark:bg-[#FEF3C7]/10 border border-[#FDE68A]/50">
+                                            <Zap size={14} className="text-[#F59E0B] animate-bounce shrink-0" />
+                                            <p className="text-[11px] font-semibold text-[#B45309] dark:text-[#FBBF24]">75 XP away from reaching Master Rank!</p>
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                                {activeTab === 'features' && (
+                                    <motion.div
+                                        key="features"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.25 }}
+                                        className="grid grid-cols-2 gap-3 my-auto"
+                                    >
+                                        {[
+                                            { icon: BrainCircuit, title: "AI Questions", desc: "Adaptive questions tailored to your skill level.", color: "text-[#289B7D]" },
+                                            { icon: ShieldCheck, title: "Verified Certs", desc: "Sharable certificates with unique ID & QR code.", color: "text-[#163B34] dark:text-[#53AF97]" },
+                                            { icon: BarChart3, title: "Deep Analytics", desc: "Detailed insights on strengths & weak spots.", color: "text-[#3B82F6]" },
+                                            { icon: Trophy, title: "Leaderboards", desc: "Compete globally with top web developers.", color: "text-[#F59E0B]" },
+                                        ].map((feat, i) => {
+                                            const Icon = feat.icon;
+                                            return (
+                                                <div key={i} className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] flex flex-col justify-between">
+                                                    <div className="flex items-center gap-2 mb-1.5">
+                                                        <div className={`p-1.5 rounded-lg bg-white dark:bg-slate-800 shadow-2xs ${feat.color}`}>
+                                                            <Icon size={16} />
+                                                        </div>
+                                                        <h4 className="text-xs font-bold text-[var(--foreground)]">{feat.title}</h4>
+                                                    </div>
+                                                    <p className="text-[11px] text-[var(--foreground-muted)] leading-snug">{feat.desc}</p>
+                                                </div>
+                                            );
+                                        })}
+                                    </motion.div>
+                                )}
+
+                                {activeTab === 'certificate' && (
+                                    <motion.div
+                                        key="certificate"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.25 }}
+                                        className="my-auto space-y-3"
+                                    >
+                                        <div className="p-4 rounded-2xl bg-gradient-to-br from-[#163B34] to-[#289B7D] text-white shadow-md relative overflow-hidden">
+                                            <div className="flex items-center justify-between mb-3">
+                                                <BrandLogo variant="mark" size="sm" />
+                                                <span className="text-[10px] font-semibold tracking-wider uppercase bg-white/20 px-2 py-0.5 rounded-full">Official Certificate</span>
+                                            </div>
+                                            <p className="text-[10px] text-emerald-100 uppercase tracking-widest font-semibold">Verified Developer</p>
+                                            <h3 className="text-lg font-display font-bold mb-1">React & Modern Web Stack</h3>
+                                            <div className="flex items-center justify-between pt-2 border-t border-white/20 text-xs">
+                                                <div>
+                                                    <p className="text-[9px] text-emerald-100">Issued To</p>
+                                                    <p className="font-bold text-white">Verified Learner</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-[9px] text-emerald-100">Score</p>
+                                                    <p className="font-bold text-emerald-300">96% (Pass)</p>
+                                                </div>
+                                                <div className="p-1.5 bg-white/10 rounded-lg backdrop-blur-xs">
+                                                    <QrCode size={20} className="text-white" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] px-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <CheckCircle2 size={14} className="text-[#22C55E]" />
+                                                <span className="font-medium">LinkedIn Shareable</span>
+                                            </div>
+                                            <div className="flex items-center gap-1.5">
+                                                <Linkedin size={14} className="text-[#0A66C2]" />
+                                                <span className="font-medium">Instant Verification</span>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                                {activeTab === 'path' && (
+                                    <motion.div
+                                        key="path"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.25 }}
+                                        className="my-auto space-y-2.5"
+                                    >
+                                        {[
+                                            { step: "01", title: "Select Technology", desc: "Choose from 18+ frameworks & languages." },
+                                            { step: "02", title: "Adaptive Quiz", desc: "Timed AI questions calibrated to your skill." },
+                                            { step: "03", title: "Review Analytics", desc: "Get detailed feedback on missed questions." },
+                                            { step: "04", title: "Earn Certificate", desc: "Unlock shareable badge on 80%+ score." },
+                                        ].map((item, i) => (
+                                            <div key={i} className="flex items-center gap-3 p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
+                                                <div className="w-7 h-7 rounded-lg bg-[#163B34] text-white flex items-center justify-center font-bold text-xs shrink-0 font-mono">
+                                                    {item.step}
+                                                </div>
+                                                <div>
+                                                    <h4 className="text-xs font-bold text-[var(--foreground)]">{item.title}</h4>
+                                                    <p className="text-[11px] text-[var(--foreground-muted)]">{item.desc}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </motion.div>
                 </div>
-            </section>
-            <Footer />
+            </main>
+
+            {/* Compact Desktop Single-Line Footer */}
+            <footer className="w-full border-t border-[var(--card-border)] py-2.5 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[var(--foreground-muted)] relative z-10 shrink-0">
+                <p className="font-medium">© {new Date().getFullYear()} HangBug. All rights reserved.</p>
+                <div className="flex items-center gap-4">
+                    <Link to="/technologies" className="hover:text-[var(--foreground)] transition-colors">Technologies</Link>
+                    <Link to="/leaderboard" className="hover:text-[var(--foreground)] transition-colors">Leaderboard</Link>
+                    <span className="text-[var(--card-border)]">•</span>
+                    <span className="text-[11px]">AI-Powered Learning Platform</span>
+                </div>
+            </footer>
         </div>
     );
 }
