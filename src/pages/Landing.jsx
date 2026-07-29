@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'motion/react';
 import {
     ArrowRight, Code2, Target, Trophy, Zap, Users, BookOpen,
     Sparkles, Star, Award, BarChart3, Search,
@@ -44,24 +46,51 @@ export default function Landing() {
                 </div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
                     <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-                        <div className="flex-1 text-center lg:text-left">
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF5F2] text-[#163B34] text-xs font-semibold tracking-wide mb-6 animate-fade-up">
-                                <span className="w-2 h-2 rounded-full bg-[#163B34]" />
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }}
+                            className="flex-1 text-center lg:text-left"
+                        >
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.4, delay: 0.1 }}
+                                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF5F2] text-[#163B34] text-xs font-semibold tracking-wide mb-6 shadow-xs"
+                            >
+                                <span className="w-2 h-2 rounded-full bg-[#163B34] animate-pulse" />
                                 AI-Powered Quizzes — Now Live
-                            </div>
-                            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display font-extrabold text-[#163B34] leading-[1.05] tracking-tighter mb-6 animate-fade-up">
+                            </motion.div>
+
+                            <motion.h1
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.1, 0.25, 1.0] }}
+                                className="text-5xl sm:text-6xl lg:text-7xl font-display font-extrabold text-[#163B34] leading-[1.05] tracking-tighter mb-6"
+                            >
                                 Master Web
                                 <br />Development{' '}
                                 <span className="text-gradient">One Quiz</span>
                                 <br />at a Time
-                            </h1>
-                            <p className="text-lg sm:text-xl text-[#6B7280] max-w-xl mx-auto lg:mx-0 leading-relaxed mb-8 animate-fade-up">
+                            </motion.h1>
+
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.25, ease: [0.25, 0.1, 0.25, 1.0] }}
+                                className="text-lg sm:text-xl text-[#6B7280] max-w-xl mx-auto lg:mx-0 leading-relaxed mb-8"
+                            >
                                 The ultimate platform to test, certify, and showcase your web development skills.
                                 AI-powered quizzes, verified certificates, and global leaderboards.
-                            </p>
+                            </motion.p>
 
                             {/* Search */}
-                            <div className="max-w-md mx-auto lg:mx-0 mb-8 animate-fade-up">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.35, ease: [0.25, 0.1, 0.25, 1.0] }}
+                                className="max-w-md mx-auto lg:mx-0 mb-8"
+                            >
                                 <div className="relative">
                                     <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9CA3AF]" />
                                     <input type="text" placeholder="Search technologies (e.g., React, Python)..."
@@ -84,65 +113,106 @@ export default function Landing() {
                                         </div>
                                     )}
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            <div className="flex flex-col sm:flex-row items-center gap-4 animate-fade-up">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.45, ease: [0.25, 0.1, 0.25, 1.0] }}
+                                className="flex flex-col sm:flex-row items-center gap-4"
+                            >
                                 {user ? (
-                                    <Link to="/dashboard" className="btn-primary px-8 py-4 text-base">
-                                        Go to Dashboard <ArrowRight size={20} />
-                                    </Link>
+                                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                                        <Link to="/dashboard" className="btn-primary px-8 py-4 text-base">
+                                            Go to Dashboard <ArrowRight size={20} />
+                                        </Link>
+                                    </motion.div>
                                 ) : (
                                     <>
-                                        <Link to="/register" className="btn-primary px-8 py-4 text-base">
-                                            Start Learning Free <ArrowRight size={20} />
-                                        </Link>
-                                        <Link to="/technologies" className="btn-secondary px-8 py-4 text-base">
-                                            Browse Technologies
-                                        </Link>
+                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                                            <Link to="/register" className="btn-primary px-8 py-4 text-base">
+                                                Start Learning Free <ArrowRight size={20} />
+                                            </Link>
+                                        </motion.div>
+                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                                            <Link to="/technologies" className="btn-secondary px-8 py-4 text-base">
+                                                Browse Technologies
+                                            </Link>
+                                        </motion.div>
                                     </>
                                 )}
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
 
                         {/* Hero Illustration */}
-                        <div className="flex-1 w-full max-w-lg lg:max-w-none animate-fade-up">
-                            <div className="bg-[#F7FAF9] border border-gray-200 rounded-3xl p-8 shadow-lg">
-                                <div className="flex items-center gap-3 mb-6">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.7, delay: 0.25, ease: [0.25, 0.1, 0.25, 1.0] }}
+                            className="flex-1 w-full max-w-lg lg:max-w-none"
+                        >
+                            <motion.div
+                                whileHover={{ y: -6, transition: { duration: 0.3 } }}
+                                className="bg-[#F7FAF9] border border-gray-200 rounded-3xl p-8 shadow-lg relative overflow-hidden group"
+                            >
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-[#289B7D]/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+                                <div className="flex items-center gap-3 mb-6 relative">
                                     <BrandLogo variant="mark" size="md" />
                                     <div>
                                         <p className="text-sm font-bold text-[#163B34]">HangBug Assessment</p>
                                         <p className="text-xs text-[#6B7280]">Web Development</p>
                                     </div>
                                 </div>
-                                <div className="space-y-4">
-                                    <div className="p-4 rounded-xl bg-white border border-gray-200">
+                                <div className="space-y-4 relative">
+                                    <div className="p-4 rounded-xl bg-white border border-gray-200 shadow-xs">
                                         <div className="flex items-center justify-between mb-2">
                                             <span className="text-xs font-semibold text-[#163B34]">React Expert Quiz</span>
                                             <span className="badge-emerald text-[10px]">In Progress</span>
                                         </div>
-                                        <div className="progress-bar"><div className="progress-bar-fill" style={{ width: '75%' }} /></div>
+                                        <div className="progress-bar overflow-hidden">
+                                            <motion.div
+                                                className="progress-bar-fill"
+                                                initial={{ width: '0%' }}
+                                                animate={{ width: '75%' }}
+                                                transition={{ duration: 1.2, delay: 0.6, ease: 'easeOut' }}
+                                            />
+                                        </div>
                                         <p className="text-xs text-[#6B7280] mt-1.5 font-medium">12/15 answered</p>
                                     </div>
+
                                     <div className="grid grid-cols-2 gap-3">
                                         {[
-                                            { label: 'Score', value: '92%', color: 'text-[#22C55E]' },
-                                            { label: 'Time', value: '8m 42s', color: 'text-[#163B34]' },
-                                            { label: 'Streak', value: '7 days', color: 'text-[#F59E0B]' },
-                                            { label: 'Rank', value: '#42', color: 'text-[#289B7D]' },
+                                            { label: 'Score', value: '92%', color: 'text-[#22C55E]', delay: 0.4 },
+                                            { label: 'Time', value: '8m 42s', color: 'text-[#163B34]', delay: 0.5 },
+                                            { label: 'Streak', value: '7 days', color: 'text-[#F59E0B]', delay: 0.6 },
+                                            { label: 'Rank', value: '#42', color: 'text-[#289B7D]', delay: 0.7 },
                                         ].map(stat => (
-                                            <div key={stat.label} className="p-3 rounded-xl bg-white border border-gray-200">
+                                            <motion.div
+                                                key={stat.label}
+                                                initial={{ opacity: 0, y: 12 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.4, delay: stat.delay }}
+                                                whileHover={{ scale: 1.03 }}
+                                                className="p-3 rounded-xl bg-white border border-gray-200 shadow-2xs transition-shadow hover:shadow-md"
+                                            >
                                                 <p className="text-[10px] font-semibold text-[#6B7280] uppercase tracking-wider">{stat.label}</p>
                                                 <p className={`text-lg font-display font-bold ${stat.color}`}>{stat.value}</p>
-                                            </div>
+                                            </motion.div>
                                         ))}
                                     </div>
-                                    <div className="flex items-center gap-2 p-3 rounded-xl bg-[#FEF3C7]/50 border border-[#FDE68A]">
-                                        <Zap size={16} className="text-[#F59E0B]" />
+
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ duration: 0.4, delay: 0.8 }}
+                                        className="flex items-center gap-2 p-3 rounded-xl bg-[#FEF3C7]/50 border border-[#FDE68A]"
+                                    >
+                                        <Zap size={16} className="text-[#F59E0B] animate-bounce" />
                                         <p className="text-xs font-medium text-[#B45309]">75 XP away from next level!</p>
-                                    </div>
+                                    </motion.div>
                                 </div>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
