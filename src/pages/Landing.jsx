@@ -61,9 +61,9 @@ export default function Landing() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.3, delay: 0.1 }}
-                                className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EAF5F2] text-[#163B34] text-xs font-semibold tracking-wide border border-[#289B7D]/20 shadow-2xs"
+                                className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#153C33] text-[#D4EBE5] text-xs font-semibold tracking-wide border border-[#289B7D]/30 shadow-2xs"
                             >
-                                <span className="w-2 h-2 rounded-full bg-[#289B7D] animate-pulse" />
+                                <span className="w-2 h-2 rounded-full bg-[#32B895] animate-pulse" />
                                 AI-Powered Web Quizzes — Now Live
                             </motion.div>
                         </div>
@@ -201,7 +201,7 @@ export default function Landing() {
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
                                             isActive
-                                                ? 'bg-[#163B34] text-white shadow-xs'
+                                                ? 'bg-[#289B7D] text-white shadow-xs'
                                                 : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--card-bg)]'
                                         }`}
                                     >
@@ -253,7 +253,7 @@ export default function Landing() {
                                         <div className="grid grid-cols-2 gap-2.5">
                                             {[
                                                 { label: 'Score Rate', value: '94%', color: 'text-[#22C55E]' },
-                                                { label: 'Avg Speed', value: '18s / Q', color: 'text-[#163B34] dark:text-[#289B7D]' },
+                                                { label: 'Avg Speed', value: '18s / Q', color: 'text-[#32B895]' },
                                                 { label: 'Current Streak', value: '7 Days', color: 'text-[#F59E0B]' },
                                                 { label: 'Global Rank', value: '#42 Top 1%', color: 'text-[#289B7D]' },
                                             ].map((stat) => (
@@ -264,9 +264,9 @@ export default function Landing() {
                                             ))}
                                         </div>
 
-                                        <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FEF3C7]/40 dark:bg-[#FEF3C7]/10 border border-[#FDE68A]/50">
+                                        <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FEF3C7]/10 border border-[#FDE68A]/30">
                                             <Zap size={14} className="text-[#F59E0B] animate-bounce shrink-0" />
-                                            <p className="text-[11px] font-semibold text-[#B45309] dark:text-[#FBBF24]">75 XP away from reaching Master Rank!</p>
+                                            <p className="text-[11px] font-semibold text-[#FBBF24]">75 XP away from reaching Master Rank!</p>
                                         </div>
                                     </motion.div>
                                 )}
@@ -281,8 +281,8 @@ export default function Landing() {
                                         className="grid grid-cols-2 gap-3 my-auto"
                                     >
                                         {[
-                                            { icon: BrainCircuit, title: "AI Questions", desc: "Adaptive questions tailored to your skill level.", color: "text-[#289B7D]" },
-                                            { icon: ShieldCheck, title: "Verified Certs", desc: "Sharable certificates with unique ID & QR code.", color: "text-[#163B34] dark:text-[#53AF97]" },
+                                            { icon: BrainCircuit, title: "AI Questions", desc: "Adaptive questions tailored to your skill level.", color: "text-[#32B895]" },
+                                            { icon: ShieldCheck, title: "Verified Certs", desc: "Sharable certificates with unique ID & QR code.", color: "text-[#53AF97]" },
                                             { icon: BarChart3, title: "Deep Analytics", desc: "Detailed insights on strengths & weak spots.", color: "text-[#3B82F6]" },
                                             { icon: Trophy, title: "Leaderboards", desc: "Compete globally with top web developers.", color: "text-[#F59E0B]" },
                                         ].map((feat, i) => {
@@ -290,7 +290,7 @@ export default function Landing() {
                                             return (
                                                 <div key={i} className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] flex flex-col justify-between">
                                                     <div className="flex items-center gap-2 mb-1.5">
-                                                        <div className={`p-1.5 rounded-lg bg-white dark:bg-slate-800 shadow-2xs ${feat.color}`}>
+                                                        <div className={`p-1.5 rounded-lg bg-[#102C26] shadow-2xs ${feat.color}`}>
                                                             <Icon size={16} />
                                                         </div>
                                                         <h4 className="text-xs font-bold text-[var(--foreground)]">{feat.title}</h4>

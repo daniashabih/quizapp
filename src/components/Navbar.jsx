@@ -1,8 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Menu, X, User, LogOut, ChevronDown, LayoutDashboard, Settings as SettingsIcon, BookOpen, Trophy, Code2, ShieldCheck, Sun, Moon } from 'lucide-react';
+import { Menu, X, User, LogOut, ChevronDown, LayoutDashboard, Settings as SettingsIcon, BookOpen, Trophy, Code2, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { useTheme } from '../context/ThemeContext';
 import BrandLogo from './BrandLogo';
 
 const navItems = [
@@ -17,7 +16,6 @@ export default function Navbar() {
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const location = useLocation();
     const { user, logout } = useAuth();
-    const { isDark, toggleTheme } = useTheme();
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 20);
@@ -60,14 +58,6 @@ export default function Navbar() {
                     </nav>
 
                     <div className="hidden lg:flex items-center gap-3">
-                        <button
-                            onClick={toggleTheme}
-                            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-                            className="p-2.5 rounded-xl text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] border border-[var(--card-border)] transition-all flex items-center justify-center cursor-pointer"
-                        >
-                            {isDark ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-emerald-800" />}
-                        </button>
-
                         {user ? (
                             <div className="relative">
                                 <button onClick={() => setUserMenuOpen(!userMenuOpen)}
@@ -114,13 +104,6 @@ export default function Navbar() {
                     </div>
 
                     <div className="flex lg:hidden items-center gap-2">
-                        <button
-                            onClick={toggleTheme}
-                            title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-                            className="p-2 rounded-xl text-[var(--foreground-secondary)] hover:bg-[var(--muted-bg)] border border-[var(--card-border)] transition-all cursor-pointer"
-                        >
-                            {isDark ? <Sun size={20} className="text-amber-400" /> : <Moon size={20} className="text-emerald-800" />}
-                        </button>
                         <button onClick={() => setIsOpen(!isOpen)}
                             className="p-2 rounded-xl text-[var(--foreground-secondary)] hover:bg-[var(--muted-bg)] transition-all">
                             {isOpen ? <X size={24} /> : <Menu size={24} />}

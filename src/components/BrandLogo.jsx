@@ -59,8 +59,8 @@ export default function BrandLogo({
             <span className={`${styles.mark} inline-flex shrink-0 items-center justify-center rounded-xl bg-white border border-[#D4EBE5] shadow-sm`}>
                 <Bug className="h-full w-full text-[#289B7D] p-0.5" />
             </span>
-            <span className={`${styles.text} font-display font-bold tracking-tight text-[#163B34] ${textClassName}`}>
-                Hang<span className="text-[#289B7D]">Bug</span>
+            <span className={`${styles.text} font-display font-bold tracking-tight text-white ${textClassName}`}>
+                Hang<span className="text-[#32B895]">Bug</span>
             </span>
         </span>
     );
