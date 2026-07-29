@@ -10,6 +10,7 @@ import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BrandLogo from '../components/BrandLogo';
+import FloatingTechBackground from '../components/FloatingTechBackground';
 
 const technologies = [
     { name: 'HTML', level: 'Beginner', questions: 120, color: '#E44D26' },
@@ -36,6 +37,7 @@ export default function Landing() {
 
             {/* Hero */}
             <section className="relative pt-28 lg:pt-36 pb-20 lg:pb-28 overflow-hidden">
+                <FloatingTechBackground opacity={0.35} speed={1} count={12} interactive={true} />
                 <div className="absolute inset-0 pointer-events-none">
                     <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-[#163B34]/3 rounded-full blur-[150px]" />
                     <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-[#289B7D]/3 rounded-full blur-[150px]" style={{ animationDelay: "2s" }} />
