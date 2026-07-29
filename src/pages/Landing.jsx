@@ -10,7 +10,6 @@ import {
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import BrandLogo from '../components/BrandLogo';
-import FloatingTechBackground from '../components/FloatingTechBackground';
 
 const technologies = [
     { name: 'HTML', level: 'Beginner', questions: 120, color: '#E44D26' },
@@ -32,9 +31,6 @@ export default function Landing() {
 
     return (
         <div className="h-screen max-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-hidden relative transition-colors duration-300">
-            {/* Background Floating Tech Icons */}
-            <FloatingTechBackground opacity={0.3} speed={1} count={14} interactive={true} />
-
             {/* Background ambient glowing gradients */}
             <div className="absolute inset-0 pointer-events-none z-0">
                 <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#163B34]/5 rounded-full blur-[140px]" />
