@@ -2,7 +2,7 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { supabase } from '../utils/supabase';
+import { supabase } from '../lib/supabase';
 
 // Configure axios defaults at module scope
 axios.defaults.baseURL = import.meta.env.VITE_API_URL || '/api';

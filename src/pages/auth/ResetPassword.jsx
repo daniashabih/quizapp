@@ -5,7 +5,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Lock, ArrowRight, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import { supabase } from '../../utils/supabase';
+import { supabase } from '../../lib/supabase';
 
 export default function ResetPassword() {
     const { token } = useParams();
