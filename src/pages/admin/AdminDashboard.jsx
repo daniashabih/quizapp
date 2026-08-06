@@ -66,8 +66,6 @@ const AdminDashboard = () => {
     const [aiTopic, setAiTopic] = useState('');
     const [aiDifficulty, setAiDifficulty] = useState('beginner');
     const [aiCount, setAiCount] = useState(5);
-    const [modalTokenId, setModalTokenId] = useState(() => localStorage.getItem('modal_token_id') || 'wk-2at5KeicyEbZKxRBF83xPn');
-    const [modalSecret, setModalSecret] = useState(() => localStorage.getItem('modal_proxy_secret') || 'sk-PAkM8pWxJPlIJEjcG31uFGxIhepIY7dTYcszJeCcuyCFRENz');
     const [isGeneratingAi, setIsGeneratingAi] = useState(false);
 
     const fetchData = async () => {
@@ -228,24 +226,18 @@ const AdminDashboard = () => {
     const handleGenerateAiQuestions = async (e) => {
         e.preventDefault();
         if (!aiTopic) return toast.error("Please enter or select a topic.");
-
-        if (modalTokenId) localStorage.setItem('modal_token_id', modalTokenId);
-        if (modalSecret) localStorage.setItem('modal_proxy_secret', modalSecret);
-
         setIsGeneratingAi(true);
         try {
             const res = await axios.post('/questions/generate', {
                 topic: aiTopic,
                 difficulty: aiDifficulty,
-                count: Number(aiCount),
-                modalToken: modalTokenId.includes('.ws-') ? modalTokenId : undefined,
-                modalSecret: modalSecret.trim()
+                count: Number(aiCount)
             });
             toast.success(res.data.message || `Generated ${aiCount} questions for ${aiTopic}!`);
             fetchData();
             setActiveTab('questions');
         } catch (err) {
-            toast.error(err.response?.data?.message || "AI generation failed. Please check your Modal proxy secret.");
+            toast.error(err.response?.data?.message || "AI generation failed. Please try again.");
         } finally {
             setIsGeneratingAi(false);
         }
@@ -719,42 +711,6 @@ const AdminDashboard = () => {
                                     <option value={5}>5 Questions (Recommended)</option>
                                     <option value={10}>10 Questions</option>
                                 </select>
-                            </div>
-                        </div>
-
-                        <div className="p-4 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)] space-y-3">
-                            <div className="flex items-center justify-between">
-                                <p className="text-xs font-bold text-[var(--foreground)] flex items-center gap-1.5">
-                                    <Sliders size={14} className="text-[#289B7D]" /> Modal Proxy Authentication Config
-                                </p>
-                                <span className="text-[10px] bg-[#289B7D]/10 text-[#289B7D] font-bold px-2 py-0.5 rounded-full">
-                                    Required for Kimi-K3
-                                </span>
-                            </div>
-                            <p className="text-[11px] text-[var(--foreground-muted)]">
-                                Modal endpoints require authentication in the format <code className="bg-[var(--muted-bg)] px-1.5 py-0.5 rounded text-[var(--foreground)] font-mono">wk-&lt;key&gt;.ws-&lt;secret&gt;</code>.
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                                <div className="space-y-1">
-                                    <label className="text-[11px] font-semibold text-[var(--foreground-muted)]">Token ID</label>
-                                    <input
-                                        type="text"
-                                        value={modalTokenId}
-                                        onChange={(e) => setModalTokenId(e.target.value)}
-                                        placeholder="wk-2at5KeicyEbZKxRBF83xPn"
-                                        className="input-field text-xs py-2 font-mono"
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <label className="text-[11px] font-semibold text-[var(--foreground-muted)]">Proxy Secret (ws-&lt;secret&gt;)</label>
-                                    <input
-                                        type="password"
-                                        value={modalSecret}
-                                        onChange={(e) => setModalSecret(e.target.value)}
-                                        placeholder="Enter matching .ws-<secret>"
-                                        className="input-field text-xs py-2 font-mono"
-                                    />
-                                </div>
                             </div>
                         </div>
 
