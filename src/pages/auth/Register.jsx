@@ -15,7 +15,7 @@ export default function Register() {
     const [showPass, setShowPass] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { register } = useAuth();
+    const { register, loginWithGithub } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -39,7 +39,9 @@ export default function Register() {
                         <p className="text-[var(--foreground-secondary)] text-xs sm:text-sm">Start your HangBug journey.</p>
                     </div>
                     <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 sm:p-6 shadow-lg">
-                        <button className="btn-social text-xs sm:text-sm mb-4"><Github size={16} /> Sign up with GitHub</button>
+                        <button type="button" onClick={loginWithGithub} className="btn-social text-xs sm:text-sm mb-4 w-full flex items-center justify-center gap-2">
+                            <Github size={16} /> Sign up with GitHub
+                        </button>
                         <div className="relative mb-4">
                             <div className="divider" />
                             <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 text-[10px] sm:text-xs font-semibold text-[var(--foreground-secondary)] bg-[var(--card-bg)]">or with email</span>

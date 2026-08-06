@@ -13,7 +13,8 @@
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "@supabase/server": "^1.4.1",
-    "@supabase/supabase-js": "^2.110.8",
+    "@supabase/ssr": "^0.12.4",
+    "@supabase/supabase-js": "^2.112.1",
     "@tailwindcss/postcss": "^4.1.18",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
