@@ -146,19 +146,19 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const loginWithGithub = async () => {
+    const loginWithGoogle = async () => {
         if (!supabase) {
-            toast.error('Supabase client not configured for GitHub login');
+            toast.error('Supabase client not configured for Google login');
             return;
         }
         try {
             const { error } = await supabase.auth.signInWithOAuth({
-                provider: 'github',
+                provider: 'google',
                 options: { redirectTo: window.location.origin }
             });
             if (error) throw error;
         } catch (error) {
-            toast.error(error.message || 'GitHub login failed');
+            toast.error(error.message || 'Google login failed');
         }
     };
 
@@ -177,7 +177,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, register, loginWithGithub, logout, updateUser, loading }}>
+        <AuthContext.Provider value={{ user, login, register, loginWithGoogle, loginWithGithub: loginWithGoogle, logout, updateUser, loading }}>
             {children}
         </AuthContext.Provider>
     );
