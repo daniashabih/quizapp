@@ -55,35 +55,13 @@ export default function Auth({ initialMode = 'login' }) {
                     return;
                 }
 
-                // First attempt via Supabase client directly
-                let supaSuccess = false;
-                if (supabase) {
-                    const { data, error } = await supabase.auth.signUp({
-                        email,
-                        password,
-                        options: { data: { full_name: name, name } }
-                    });
-                    if (!error && data?.user) {
-                        supaSuccess = true;
-                    }
-                }
-
                 const success = await register(name, email, password);
-                if (success || supaSuccess) {
+                if (success) {
                     navigate('/dashboard');
                 }
             } else {
-                // First attempt via Supabase client directly
-                let supaSuccess = false;
-                if (supabase) {
-                    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-                    if (!error && data?.user) {
-                        supaSuccess = true;
-                    }
-                }
-
                 const success = await login(email, password);
-                if (success || supaSuccess) {
+                if (success) {
                     navigate('/dashboard');
                 }
             }
