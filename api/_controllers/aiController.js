@@ -5,26 +5,51 @@ require('dotenv').config();
 const DEFAULT_SECRET = 'sk-PAkM8pWxJPlIJEjcG31uFGxIhepIY7dTYcszJeCcuyCFRENz';
 const DEFAULT_TOKEN_ID = 'wk-2at5KeicyEbZKxRBF83xPn';
 
-const getAIClientConfig = (modalToken, modalSecret) => {
-    let secret = (modalSecret || process.env.MODAL_PROXY_TOKEN_SECRET || process.env.OPENAI_API_KEY || DEFAULT_SECRET).trim();
-    let tokenId = (modalToken || process.env.MODAL_PROXY_TOKEN_ID || DEFAULT_TOKEN_ID).trim();
+const buildModalCandidates = (modalToken, modalSecret) => {
+    const candidates = [];
 
-    let fullApiKey = '';
-    if (modalToken && modalToken.includes('.')) {
-        fullApiKey = modalToken.trim();
-    } else if (secret.includes('.')) {
-        fullApiKey = secret;
-    } else {
-        fullApiKey = `${tokenId}.${secret}`;
+    const rawSecret = (modalSecret || process.env.MODAL_PROXY_TOKEN_SECRET || process.env.OPENAI_API_KEY || DEFAULT_SECRET).trim();
+    const rawTokenId = (modalToken || process.env.MODAL_PROXY_TOKEN_ID || DEFAULT_TOKEN_ID).trim();
+
+    let cleanTokenId = rawTokenId;
+    if (!cleanTokenId.startsWith('wk-') && !cleanTokenId.includes('.')) {
+        cleanTokenId = `wk-${cleanTokenId}`;
     }
 
-    const modalBaseURL = process.env.MODAL_BASE_URL || "https://daniyashabih--ep-kimi-k3-server.us-west.modal.direct/v1";
+    if (rawSecret.includes('.')) {
+        candidates.push(rawSecret);
+        const parts = rawSecret.split('.');
+        const id = parts[0];
+        const sec = parts.slice(1).join('.');
+        if (sec && !sec.startsWith('ws-')) {
+            if (sec.startsWith('sk-')) {
+                candidates.push(`${id}.ws-${sec.slice(3)}`);
+            }
+            candidates.push(`${id}.ws-${sec}`);
+        }
+    }
+
+    if (rawSecret.startsWith('ws-')) {
+        candidates.push(`${cleanTokenId}.${rawSecret}`);
+    } else if (rawSecret.startsWith('sk-')) {
+        // Modal Proxy expects ws-<secret>
+        candidates.push(`${cleanTokenId}.ws-${rawSecret.slice(3)}`);
+        candidates.push(`${cleanTokenId}.ws-${rawSecret}`);
+        candidates.push(`${cleanTokenId}.${rawSecret}`);
+    } else {
+        candidates.push(`${cleanTokenId}.ws-${rawSecret}`);
+        candidates.push(`${cleanTokenId}.${rawSecret}`);
+    }
+
+    // Default env fallback
+    if (process.env.MODAL_PROXY_TOKEN) {
+        candidates.push(process.env.MODAL_PROXY_TOKEN.trim());
+    }
 
     return {
-        fullApiKey,
-        rawSecret: secret,
-        tokenId,
-        modalBaseURL
+        candidates: Array.from(new Set(candidates.filter(Boolean))),
+        rawSecret,
+        rawTokenId
     };
 };
 
@@ -38,7 +63,9 @@ const generateQuestions = async (req, res) => {
         return res.status(400).json({ message: 'Topic is required for generating quiz questions.' });
     }
 
-    const { fullApiKey, rawSecret, tokenId, modalBaseURL } = getAIClientConfig(modalToken, modalSecret);
+    const { candidates, rawSecret } = buildModalCandidates(modalToken, modalSecret);
+    const modalBaseURL = process.env.MODAL_BASE_URL || "https://daniyashabih--ep-kimi-k3-server.us-west.modal.direct/v1";
+    const modelName = process.env.MODAL_MODEL_NAME || "moonshotai/Kimi-K3";
 
     const systemPrompt = "You are a concise technical assistant that generates technical quiz questions. Output ONLY valid JSON arrays with no surrounding conversational text or markdown code blocks.";
     const userPrompt = `
@@ -57,25 +84,16 @@ const generateQuestions = async (req, res) => {
         Do not include markdown tags like \`\`\`json. Output ONLY the JSON array.
     `;
 
-    let completion = null;
-    let attemptedEndpoints = [];
+    let content = null;
+    let successfulSource = '';
 
-    // Keys to try on Modal endpoint
-    const modalKeyCandidates = Array.from(new Set([
-        fullApiKey,
-        `${tokenId}.${rawSecret}`,
-        rawSecret,
-        `${DEFAULT_TOKEN_ID}.${DEFAULT_SECRET}`,
-        DEFAULT_SECRET
-    ]));
-
-    for (const key of modalKeyCandidates) {
-        if (!key) continue;
+    // Attempt 1: Modal Proxy Candidates (with auto ws- conversion)
+    for (const key of candidates) {
         try {
-            console.log(`Attempting Modal Endpoint (${modalBaseURL}) with candidate key prefix: ${key.substring(0, 15)}...`);
+            console.log(`Trying Modal Proxy key: ${key.substring(0, 18)}...`);
             const client = new OpenAI({ baseURL: modalBaseURL, apiKey: key });
-            completion = await client.chat.completions.create({
-                model: process.env.MODAL_MODEL_NAME || "moonshotai/Kimi-K3",
+            const completion = await client.chat.completions.create({
+                model: modelName,
                 messages: [
                     { role: "system", content: systemPrompt },
                     { role: "user", content: userPrompt }
@@ -87,46 +105,75 @@ const generateQuestions = async (req, res) => {
             });
 
             if (completion?.choices?.[0]?.message?.content) {
-                console.log('✅ Success with Modal endpoint!');
+                content = completion.choices[0].message.content;
+                successfulSource = 'Modal Kimi-K3';
+                console.log('✅ Success with Modal Proxy!');
                 break;
             }
         } catch (err) {
-            console.warn(`Modal attempt failed:`, err.message);
-            attemptedEndpoints.push(`Modal (${err.message})`);
+            console.warn(`Modal attempt failed for key ${key.substring(0, 18)}...:`, err.message);
         }
     }
 
-    // Attempt 2: Fallback to standard OpenAI API endpoint if rawSecret or process.env has sk- key and Modal failed
-    if (!completion && (rawSecret.startsWith('sk-') || DEFAULT_SECRET.startsWith('sk-'))) {
-        const openAIKey = rawSecret.startsWith('sk-') ? rawSecret : DEFAULT_SECRET;
+    // Attempt 2: Standard OpenAI API if rawSecret is valid OpenAI key
+    if (!content && (rawSecret.startsWith('sk-') || DEFAULT_SECRET.startsWith('sk-'))) {
+        const keysToTry = Array.from(new Set([rawSecret, DEFAULT_SECRET].filter(k => k.startsWith('sk-'))));
+        for (const openAIKey of keysToTry) {
+            try {
+                console.log('Trying OpenAI standard API...');
+                const client = new OpenAI({ apiKey: openAIKey });
+                const completion = await client.chat.completions.create({
+                    model: "gpt-4o-mini",
+                    messages: [
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: userPrompt }
+                    ],
+                    temperature: 0.3,
+                    max_tokens: 2048,
+                });
+                if (completion?.choices?.[0]?.message?.content) {
+                    content = completion.choices[0].message.content;
+                    successfulSource = 'OpenAI gpt-4o-mini';
+                    console.log('✅ Success with OpenAI!');
+                    break;
+                }
+            } catch (err) {
+                console.warn('OpenAI API attempt failed:', err.message);
+            }
+        }
+    }
+
+    // Attempt 3: Gemini REST API fallback
+    if (!content && process.env.GEMINI_API_KEY) {
         try {
-            console.log('Attempting OpenAI standard endpoint (api.openai.com) with model "gpt-4o-mini"...');
-            const client = new OpenAI({ apiKey: openAIKey });
-            completion = await client.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: [
-                    { role: "system", content: systemPrompt },
-                    { role: "user", content: userPrompt }
-                ],
-                temperature: 0.3,
-                max_tokens: 2048,
+            console.log('Trying Gemini REST API fallback...');
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }]
+                    }]
+                })
             });
-            if (completion?.choices?.[0]?.message?.content) {
-                console.log('✅ Success with OpenAI standard endpoint!');
+            const data = await response.json();
+            const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text) {
+                content = text;
+                successfulSource = 'Gemini 2.5 Flash';
+                console.log('✅ Success with Gemini API!');
             }
         } catch (err) {
-            console.warn('OpenAI standard endpoint failed:', err.message);
-            attemptedEndpoints.push(`OpenAI (${err.message})`);
+            console.warn('Gemini API attempt failed:', err.message);
         }
     }
 
-    if (!completion || !completion.choices?.[0]?.message?.content) {
+    if (!content) {
         return res.status(500).json({
-            message: `Failed to generate questions. ${attemptedEndpoints.join('; ')}`
+            message: `Could not connect to Modal Proxy endpoint. Please verify your Modal proxy token/secret (format: wk-<id>.ws-<secret>).`
         });
     }
-
-    let content = completion.choices[0].message.content || '';
 
     // Sanitize output
     content = content.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
@@ -163,7 +210,7 @@ const generateQuestions = async (req, res) => {
     }
 
     res.json({
-        message: `Successfully generated ${savedIds.length} AI questions!`,
+        message: `Successfully generated ${savedIds.length} AI questions using ${successfulSource}!`,
         count: savedIds.length
     });
 };
