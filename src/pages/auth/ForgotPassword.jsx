@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Mail, ArrowLeft, Send, CheckCircle } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { supabase } from '../../utils/supabase';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -14,12 +15,34 @@ export default function ForgotPassword() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        let supaSuccess = false;
+
+        if (supabase) {
+            try {
+                const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                    redirectTo: `${window.location.origin}/reset-password`
+                });
+                if (!error) {
+                    supaSuccess = true;
+                } else {
+                    console.log('Supabase resetPasswordForEmail error:', error);
+                }
+            } catch (err) {
+                console.log('Supabase resetPasswordForEmail exception:', err);
+            }
+        }
+
         try {
             const res = await axios.post('/auth/forgot-password', { email });
-            toast.success(res.data.message);
+            toast.success(res.data.message || 'Password reset email sent');
             setSubmitted(true);
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Something went wrong');
+            if (supaSuccess) {
+                toast.success('Password reset email sent successfully via Supabase!');
+                setSubmitted(true);
+            } else {
+                toast.error(error.response?.data?.message || 'Failed to send password reset email');
+            }
         } finally {
             setLoading(false);
         }
