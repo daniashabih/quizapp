@@ -109,9 +109,9 @@ export default function UserDashboard() {
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-50 border border-amber-200">
-                                    <Flame size={18} className="text-amber-500" />
-                                    <span className="text-sm font-bold text-amber-600">{streakDays} day streak</span>
+                                <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400">
+                                    <Flame size={16} className="text-amber-400" />
+                                    <span className="text-xs sm:text-sm font-bold">{streakDays} day streak</span>
                                 </div>
                                 <Link to="/dashboard/technologies" className="btn-primary text-sm">
                                     Take a Quiz
@@ -194,13 +194,13 @@ export default function UserDashboard() {
                         <h3 className="text-sm font-bold text-[var(--foreground)] mb-4">Achievements</h3>
                         <div className="grid grid-cols-2 gap-3">
                             {badges.map((b, i) => (
-                                <div key={i} className={`p-3 rounded-xl text-center border transition-all ${b.earned ? 'border-[#D4EBE5] bg-[#EAF5F2]' : 'border-[var(--card-border)] opacity-40'}`}>
-                                    <b.icon size={20} className={`${b.color} mx-auto mb-1`} />
+                                <div key={i} className={`p-3 rounded-xl text-center border transition-all ${b.earned ? 'border-[#289B7D]/40 bg-[#289B7D]/10 text-white' : 'border-[var(--card-border)] opacity-40'}`}>
+                                    <b.icon size={20} className={`${b.earned ? 'text-[#32B895]' : b.color} mx-auto mb-1`} />
                                     <p className="text-[10px] font-bold text-[var(--foreground)]">{b.label}</p>
                                 </div>
                             ))}
                         </div>
-                        <Link to="/dashboard/profile" className="text-xs font-medium text-[#163B34] hover:text-[#289B7D] mt-3 inline-flex items-center gap-1">
+                        <Link to="/dashboard/profile" className="text-xs font-medium text-[#289B7D] hover:text-[#32B895] mt-3 inline-flex items-center gap-1">
                             View all achievements <ChevronRight size={12} />
                         </Link>
                     </div>

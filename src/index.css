@@ -78,18 +78,18 @@
         min-height: 100vh;
     }
 
-    ::selection { background: rgba(22, 59, 52, 0.12); color: #163B34; }
+    ::selection { background: rgba(40, 155, 125, 0.35); color: #FFFFFF; }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 999px; }
-    ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+    ::-webkit-scrollbar-thumb { background: #1E4D42; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #289B7D; }
 }
 
 /* ── Custom Utilities ── */
 
 @utility glass {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(18, 51, 44, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--card-border);
@@ -127,7 +127,7 @@
 }
 
 .card-hover:hover {
-    border-color: #163B34;
+    border-color: #289B7D;
     box-shadow: var(--shadow-xl);
     transform: translateY(-2px);
 }
@@ -144,12 +144,12 @@
     font-size: 0.875rem;
     font-family: var(--font-sans);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    background: #163B34;
-    color: white;
+    background: #289B7D;
+    color: #FFFFFF;
     cursor: pointer;
 }
 
-.btn-primary:hover { background: #1F4D44; transform: translateY(-1px); }
+.btn-primary:hover { background: #32B895; transform: translateY(-1px); }
 .btn-primary:active { transform: scale(0.97); }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
@@ -164,13 +164,13 @@
     font-size: 0.875rem;
     font-family: var(--font-sans);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    background: transparent;
-    color: #163B34;
-    border: 1px solid #163B34;
+    background: var(--muted-bg);
+    color: var(--foreground);
+    border: 1px solid var(--card-border);
     cursor: pointer;
 }
 
-.btn-secondary:hover { background: #163B34; color: white; border-color: #163B34; }
+.btn-secondary:hover { background: var(--hover-bg); color: #FFFFFF; border-color: #289B7D; }
 .btn-secondary:active { transform: scale(0.97); }
 
 @utility btn-ghost {
@@ -203,7 +203,7 @@
     transition: all 0.2s;
 }
 
-.input-field:focus { border-color: #163B34; box-shadow: 0 0 0 3px rgba(22, 59, 52, 0.1); }
+.input-field:focus { border-color: #289B7D; box-shadow: 0 0 0 3px rgba(40, 155, 125, 0.2); }
 .input-field::placeholder { color: var(--foreground-muted); }
 
 @utility input-label {
@@ -222,26 +222,26 @@
     display: inline-flex; align-items: center; gap: 0.375rem;
     padding: 0.25rem 0.75rem; border-radius: 999px;
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.025em;
-    background: #EAF5F2; color: #163B34; border: 1px solid #D4EBE5;
+    background: rgba(40, 155, 125, 0.15); color: #32B895; border: 1px solid rgba(40, 155, 125, 0.3);
 }
 
 @utility badge-success {
     display: inline-flex; align-items: center; gap: 0.375rem;
     padding: 0.25rem 0.75rem; border-radius: 999px;
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.025em;
-    background: rgba(34, 197, 94, 0.1); color: #22C55E; border: 1px solid rgba(34, 197, 94, 0.2);
+    background: rgba(34, 197, 94, 0.15); color: #4ADE80; border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
 @utility badge-error {
     display: inline-flex; align-items: center; gap: 0.375rem;
     padding: 0.25rem 0.75rem; border-radius: 999px;
     font-size: 0.75rem; font-weight: 600; letter-spacing: 0.025em;
-    background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2);
+    background: rgba(239, 68, 68, 0.15); color: #FCA5A5; border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 /* Progress */
-@utility progress-bar { height: 0.5rem; border-radius: 999px; overflow: hidden; background: #EAF5F2; }
-@utility progress-bar-fill { height: 100%; border-radius: 999px; transition: all 0.5s ease-out; background: #163B34; }
+@utility progress-bar { height: 0.5rem; border-radius: 999px; overflow: hidden; background: var(--muted-bg); }
+@utility progress-bar-fill { height: 100%; border-radius: 999px; transition: all 0.5s ease-out; background: #289B7D; }
 
 /* Quiz */
 @utility quiz-option {
@@ -251,15 +251,15 @@
     text-align: left; cursor: pointer; transition: all 0.2s;
 }
 
-.quiz-option:hover { border-color: #163B34; background: #F7FAF9; }
+.quiz-option:hover { border-color: #289B7D; background: var(--muted-bg); }
 
 @utility quiz-option-selected {
-    border-color: #163B34 !important; background: rgba(22, 59, 52, 0.08) !important;
-    box-shadow: 0 0 0 3px rgba(22, 59, 52, 0.15);
+    border-color: #32B895 !important; background: rgba(40, 155, 125, 0.15) !important;
+    box-shadow: 0 0 0 3px rgba(40, 155, 125, 0.25);
 }
 
-@utility quiz-option-correct { border-color: #22C55E !important; background: rgba(34, 197, 94, 0.08) !important; }
-@utility quiz-option-wrong { border-color: #EF4444 !important; background: rgba(239, 68, 68, 0.08) !important; }
+@utility quiz-option-correct { border-color: #22C55E !important; background: rgba(34, 197, 94, 0.15) !important; }
+@utility quiz-option-wrong { border-color: #EF4444 !important; background: rgba(239, 68, 68, 0.15) !important; }
 @utility quiz-option-disabled { opacity: 0.5; pointer-events: none; }
 
 /* Social */
@@ -271,14 +271,14 @@
     color: var(--foreground); cursor: pointer;
 }
 
-.btn-social:hover { background: var(--muted-bg); border-color: #163B34; }
+.btn-social:hover { background: var(--muted-bg); border-color: #289B7D; }
 
 @utility divider { border-top: 1px solid var(--card-border); }
 
 /* Skeleton */
 @utility skeleton {
     border-radius: 0.5rem;
-    background: linear-gradient(90deg, #F7FAF9 25%, #EAF5F2 50%, #F7FAF9 75%);
+    background: linear-gradient(90deg, #12332C 25%, #18443B 50%, #12332C 75%);
     background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite;
 }
 
@@ -288,7 +288,7 @@
 .circular-progress svg { transform: rotate(-90deg); }
 
 @utility text-gradient {
-    background: linear-gradient(135deg, #163B34, #289B7D);
+    background: linear-gradient(135deg, #32B895, #6EE7B7);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 

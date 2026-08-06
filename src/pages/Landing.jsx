@@ -30,26 +30,26 @@ export default function Landing() {
     const filteredTechs = technologies.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return (
-        <div className="h-screen max-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-hidden relative transition-colors duration-300">
+        <div className="min-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-x-hidden relative transition-colors duration-300">
             {/* Background ambient glowing gradients */}
             <div className="absolute inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#163B34]/5 rounded-full blur-[140px]" />
-                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-[#289B7D]/5 rounded-full blur-[140px]" />
+                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#163B34]/10 rounded-full blur-[140px]" />
+                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-[#289B7D]/10 rounded-full blur-[140px]" />
             </div>
 
             {/* Fixed Navbar at Top */}
             <Navbar />
 
-            {/* Main Center Hero Section (Constrained strictly to 100vh frame) */}
-            <main className="flex-1 min-h-0 pt-16 lg:pt-20 pb-2 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex flex-col justify-center relative z-10 overflow-y-auto lg:overflow-hidden">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center my-auto w-full">
+            {/* Main Center Hero Section */}
+            <main className="flex-1 pt-24 sm:pt-28 lg:pt-32 pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex flex-col justify-center relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto w-full">
 
                     {/* Left Column: Headline, Search, CTA, Quick Stats */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1.0] }}
-                        className="lg:col-span-6 flex flex-col justify-center space-y-3 lg:space-y-4"
+                        className="lg:col-span-6 flex flex-col justify-center space-y-4 lg:space-y-5"
                     >
                         {/* Live Pill Badge */}
                         <div>
@@ -57,7 +57,7 @@ export default function Landing() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.3, delay: 0.1 }}
-                                className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#153C33] text-[#D4EBE5] text-xs font-semibold tracking-wide border border-[#289B7D]/30 shadow-2xs"
+                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#153C33] text-[#D4EBE5] text-xs font-semibold tracking-wide border border-[#289B7D]/40 shadow-xs"
                             >
                                 <span className="w-2 h-2 rounded-full bg-[#32B895] animate-pulse" />
                                 AI-Powered Web Quizzes — Now Live
