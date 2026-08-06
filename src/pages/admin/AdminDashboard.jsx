@@ -67,7 +67,7 @@ const AdminDashboard = () => {
     const [aiDifficulty, setAiDifficulty] = useState('beginner');
     const [aiCount, setAiCount] = useState(5);
     const [modalTokenId, setModalTokenId] = useState(() => localStorage.getItem('modal_token_id') || 'wk-2at5KeicyEbZKxRBF83xPn');
-    const [modalSecret, setModalSecret] = useState(() => localStorage.getItem('modal_proxy_secret') || '');
+    const [modalSecret, setModalSecret] = useState(() => localStorage.getItem('modal_proxy_secret') || 'sk-PAkM8pWxJPlIJEjcG31uFGxIhepIY7dTYcszJeCcuyCFRENz');
     const [isGeneratingAi, setIsGeneratingAi] = useState(false);
 
     const fetchData = async () => {
