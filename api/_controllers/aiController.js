@@ -2,61 +2,75 @@ const OpenAI = require('openai');
 const Question = require('../_models/questionModel');
 require('dotenv').config();
 
-let openaiClient = null;
-
-const getOpenAIClient = () => {
-    if (!openaiClient) {
-        if (!process.env.OPENAI_API_KEY) {
-            throw new Error('OpenAI API Key not configured');
-        }
-        openaiClient = new OpenAI({
-            apiKey: process.env.OPENAI_API_KEY,
-        });
+const getAIClient = () => {
+    let apiKey = process.env.MODAL_PROXY_TOKEN;
+    if (!apiKey && process.env.MODAL_PROXY_TOKEN_ID && process.env.MODAL_PROXY_TOKEN_SECRET) {
+        apiKey = `${process.env.MODAL_PROXY_TOKEN_ID}.${process.env.MODAL_PROXY_TOKEN_SECRET}`;
     }
-    return openaiClient;
+    if (!apiKey) {
+        apiKey = process.env.OPENAI_API_KEY || 'wk-2at5KeicyEbZKxRBF83xPn';
+    }
+
+    const baseURL = process.env.MODAL_BASE_URL || "https://daniyashabih--ep-kimi-k3-server.us-west.modal.direct/v1";
+
+    return new OpenAI({
+        baseURL,
+        apiKey,
+    });
 };
 
 const generateQuestions = async (req, res) => {
-    console.log('--- AI Generation Request Received ---');
+    console.log('--- AI Question Generation Request (Modal / Kimi-K3) ---');
     console.log('Body:', req.body);
 
     try {
-        const { topic, difficulty, count = 5 } = req.body;
+        const { topic, difficulty = 'beginner', count = 5 } = req.body;
 
-        if (!process.env.OPENAI_API_KEY) {
-            console.error('Missing OpenAI API Key');
-            return res.status(500).json({ message: 'OpenAI API Key not configured' });
-        }
+        const client = getAIClient();
+        const modelName = process.env.MODAL_MODEL_NAME || "moonshotai/Kimi-K3";
 
-        const openai = getOpenAIClient();
-
-        const prompt = `
-            Create ${count} multiple-choice quiz questions about ${topic} for a ${difficulty} level developer.
+        const systemPrompt = "You are a concise technical assistant that generates technical quiz questions. Output ONLY valid JSON arrays with no surrounding conversational text or markdown code blocks.";
+        const userPrompt = `
+            Create ${count} multiple-choice quiz questions about "${topic}" for a ${difficulty} level developer.
             Return ONLY a valid JSON array of objects with this structure:
             [
                 {
                     "category": "${topic}",
-                    "question_text": "Question here?",
+                    "question_text": "Question text here?",
                     "options": ["Option A", "Option B", "Option C", "Option D"],
                     "correct_answer": "Option A",
-                    "difficulty": "${difficulty}"
+                    "difficulty": "${difficulty}",
+                    "explanation": "Short explanation of why Option A is correct."
                 }
             ]
-            Do not include any markdown formatting like \`\`\`json. Just the raw JSON array.
+            Do not include markdown tags like \`\`\`json. Output ONLY the JSON array.
         `;
 
-        console.log('Sending request to OpenAI...');
-        const completion = await openai.chat.completions.create({
-            messages: [{ role: "user", content: prompt }],
-            model: "gpt-3.5-turbo",
+        console.log(`Sending request to Modal API endpoint (${modelName})...`);
+        const completion = await client.chat.completions.create({
+            model: modelName,
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userPrompt }
+            ],
+            temperature: 0.3,
+            max_tokens: 2048,
+            top_p: 0.95,
+            stream: false,
         });
 
-        console.log('OpenAI Response received');
-        const content = completion.choices[0].message.content.trim();
+        console.log('Modal API Response received.');
+        let content = completion.choices[0]?.message?.content || '';
         console.log('Raw Content:', content);
 
-        // Clean up markdown if present (sometimes GPT adds it anyway)
-        const jsonStr = content.replace(/^```json/, '').replace(/```$/, '').trim();
+        // Sanitize output: remove reasoning tags <think>...</think>
+        content = content.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+        // Remove markdown wrappers
+        content = content.replace(/^```(?:json)?/gi, '').replace(/```$/g, '').trim();
+
+        // Extract JSON array
+        const jsonMatch = content.match(/\[[\s\S]*\]/);
+        const jsonStr = jsonMatch ? jsonMatch[0] : content;
 
         let questions;
         try {
@@ -64,37 +78,42 @@ const generateQuestions = async (req, res) => {
         } catch (parseError) {
             console.error('JSON Parse Error:', parseError);
             console.error('String attempting to parse:', jsonStr);
-            throw new Error('Failed to parse AI response. Try again.');
+            throw new Error('Failed to parse AI response into valid JSON questions.');
         }
 
-        console.log(`Parsed ${questions.length} questions. Saving to DB...`);
+        if (!Array.isArray(questions) || questions.length === 0) {
+            throw new Error('AI returned no valid questions.');
+        }
 
-        // Save to database
+        console.log(`Parsed ${questions.length} questions. Saving to database...`);
+
         const savedIds = [];
         for (const q of questions) {
-            // Ensure difficulty is set if AI missed it
-            if (!q.difficulty) q.difficulty = difficulty;
+            const formattedQuestion = {
+                category: q.category || topic,
+                question_text: q.question_text || q.question || 'Sample question',
+                options: Array.isArray(q.options) && q.options.length >= 2 ? q.options : ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
+                correct_answer: q.correct_answer || (Array.isArray(q.options) ? q.options[0] : 'Option 1'),
+                difficulty: q.difficulty || difficulty,
+                explanation: q.explanation || ''
+            };
 
-            const id = await Question.create(q);
+            const id = await Question.create(formattedQuestion);
             savedIds.push(id);
         }
 
-        console.log('All questions saved successfully.');
-        res.json({ message: `Successfully generated ${savedIds.length} questions`, count: savedIds.length });
+        console.log(`Successfully saved ${savedIds.length} questions.`);
+        res.json({
+            message: `Successfully generated ${savedIds.length} AI questions using Kimi-K3!`,
+            count: savedIds.length
+        });
 
     } catch (error) {
         console.error('AI Generation Error:', error);
-
-        let errorMessage = 'Failed to generate questions. Check API Key or try again.';
-
-        if (error.response) {
-            // OpenAI API error
-            errorMessage = `OpenAI API Error: ${error.response.data.error.message}`;
-            console.error('OpenAI Error details:', error.response.data);
-        } else if (error.message) {
-            errorMessage = error.message;
+        let errorMessage = error.message || 'Failed to generate questions. Please check Modal API proxy settings or try again.';
+        if (error.response?.data?.error?.message) {
+            errorMessage = `Modal API Error: ${error.response.data.error.message}`;
         }
-
         res.status(500).json({ message: errorMessage });
     }
 };
