@@ -2,33 +2,58 @@ const OpenAI = require('openai');
 const Question = require('../_models/questionModel');
 require('dotenv').config();
 
-const getAIClient = () => {
-    let apiKey = process.env.MODAL_PROXY_TOKEN;
-    if (!apiKey && process.env.MODAL_PROXY_TOKEN_ID && process.env.MODAL_PROXY_TOKEN_SECRET) {
-        apiKey = `${process.env.MODAL_PROXY_TOKEN_ID}.${process.env.MODAL_PROXY_TOKEN_SECRET}`;
-    }
-    if (!apiKey) {
-        apiKey = process.env.OPENAI_API_KEY || 'wk-2at5KeicyEbZKxRBF83xPn';
+const getAIClient = (modalToken, modalSecret) => {
+    let apiKey = '';
+
+    if (modalToken && modalToken.trim()) {
+        apiKey = modalToken.trim();
+    } else if (modalSecret && modalSecret.trim()) {
+        const tokenId = (process.env.MODAL_PROXY_TOKEN_ID || 'wk-2at5KeicyEbZKxRBF83xPn').trim();
+        let cleanSecret = modalSecret.trim();
+        if (!cleanSecret.startsWith('ws-')) {
+            cleanSecret = `ws-${cleanSecret}`;
+        }
+        apiKey = `${tokenId}.${cleanSecret}`;
+    } else {
+        if (process.env.MODAL_PROXY_TOKEN && process.env.MODAL_PROXY_TOKEN.includes('.ws-')) {
+            apiKey = process.env.MODAL_PROXY_TOKEN.trim();
+        } else if (process.env.MODAL_PROXY_TOKEN_ID && process.env.MODAL_PROXY_TOKEN_SECRET) {
+            apiKey = `${process.env.MODAL_PROXY_TOKEN_ID.trim()}.${process.env.MODAL_PROXY_TOKEN_SECRET.trim()}`;
+        } else {
+            apiKey = (process.env.MODAL_PROXY_TOKEN || 'wk-2at5KeicyEbZKxRBF83xPn').trim();
+        }
     }
 
     const baseURL = process.env.MODAL_BASE_URL || "https://daniyashabih--ep-kimi-k3-server.us-west.modal.direct/v1";
 
-    return new OpenAI({
-        baseURL,
+    return {
+        client: new OpenAI({ baseURL, apiKey }),
         apiKey,
-    });
+        baseURL
+    };
 };
 
 const generateQuestions = async (req, res) => {
     console.log('--- AI Question Generation Request (Modal / Kimi-K3) ---');
     console.log('Body:', req.body);
 
+    const { topic, difficulty = 'beginner', count = 5, modalToken, modalSecret } = req.body;
+
+    if (!topic || !topic.trim()) {
+        return res.status(400).json({ message: 'Topic is required for generating quiz questions.' });
+    }
+
+    const { client, apiKey, baseURL } = getAIClient(modalToken, modalSecret);
+    const modelName = process.env.MODAL_MODEL_NAME || "moonshotai/Kimi-K3";
+
+    // Check if proxy secret is provided
+    if (!apiKey.includes('.ws-')) {
+        return res.status(400).json({
+            message: 'Proxy Auth Required: Please enter your Modal Proxy Secret (ws-<secret>) or full token (wk-<id>.ws-<secret>) in the AI Generator options below.'
+        });
+    }
+
     try {
-        const { topic, difficulty = 'beginner', count = 5 } = req.body;
-
-        const client = getAIClient();
-        const modelName = process.env.MODAL_MODEL_NAME || "moonshotai/Kimi-K3";
-
         const systemPrompt = "You are a concise technical assistant that generates technical quiz questions. Output ONLY valid JSON arrays with no surrounding conversational text or markdown code blocks.";
         const userPrompt = `
             Create ${count} multiple-choice quiz questions about "${topic}" for a ${difficulty} level developer.
@@ -46,7 +71,7 @@ const generateQuestions = async (req, res) => {
             Do not include markdown tags like \`\`\`json. Output ONLY the JSON array.
         `;
 
-        console.log(`Sending request to Modal API endpoint (${modelName})...`);
+        console.log(`Sending request to Modal API endpoint (${baseURL}, model: ${modelName})...`);
         const completion = await client.chat.completions.create({
             model: modelName,
             messages: [
@@ -61,14 +86,11 @@ const generateQuestions = async (req, res) => {
 
         console.log('Modal API Response received.');
         let content = completion.choices[0]?.message?.content || '';
-        console.log('Raw Content:', content);
 
-        // Sanitize output: remove reasoning tags <think>...</think>
+        // Sanitize output
         content = content.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
-        // Remove markdown wrappers
         content = content.replace(/^```(?:json)?/gi, '').replace(/```$/g, '').trim();
 
-        // Extract JSON array
         const jsonMatch = content.match(/\[[\s\S]*\]/);
         const jsonStr = jsonMatch ? jsonMatch[0] : content;
 
@@ -76,8 +98,7 @@ const generateQuestions = async (req, res) => {
         try {
             questions = JSON.parse(jsonStr);
         } catch (parseError) {
-            console.error('JSON Parse Error:', parseError);
-            console.error('String attempting to parse:', jsonStr);
+            console.error('JSON Parse Error:', parseError, 'Content:', jsonStr);
             throw new Error('Failed to parse AI response into valid JSON questions.');
         }
 
@@ -85,15 +106,13 @@ const generateQuestions = async (req, res) => {
             throw new Error('AI returned no valid questions.');
         }
 
-        console.log(`Parsed ${questions.length} questions. Saving to database...`);
-
         const savedIds = [];
         for (const q of questions) {
             const formattedQuestion = {
                 category: q.category || topic,
                 question_text: q.question_text || q.question || 'Sample question',
-                options: Array.isArray(q.options) && q.options.length >= 2 ? q.options : ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
-                correct_answer: q.correct_answer || (Array.isArray(q.options) ? q.options[0] : 'Option 1'),
+                options: Array.isArray(q.options) && q.options.length >= 2 ? q.options : ['Option A', 'Option B', 'Option C', 'Option D'],
+                correct_answer: q.correct_answer || (Array.isArray(q.options) ? q.options[0] : 'Option A'),
                 difficulty: q.difficulty || difficulty,
                 explanation: q.explanation || ''
             };
@@ -102,7 +121,6 @@ const generateQuestions = async (req, res) => {
             savedIds.push(id);
         }
 
-        console.log(`Successfully saved ${savedIds.length} questions.`);
         res.json({
             message: `Successfully generated ${savedIds.length} AI questions using Kimi-K3!`,
             count: savedIds.length
@@ -110,10 +128,15 @@ const generateQuestions = async (req, res) => {
 
     } catch (error) {
         console.error('AI Generation Error:', error);
-        let errorMessage = error.message || 'Failed to generate questions. Please check Modal API proxy settings or try again.';
-        if (error.response?.data?.error?.message) {
+
+        let errorMessage = error.message || 'Failed to generate questions. Please check Modal API proxy settings.';
+
+        if (error.status === 401 || error.response?.status === 401 || errorMessage.toLowerCase().includes('proxy auth required') || errorMessage.toLowerCase().includes('401')) {
+            errorMessage = 'Proxy Auth Required: Please enter your Modal secret (ws-<secret>) or full token (wk-<id>.ws-<secret>) in the AI Generator form.';
+        } else if (error.response?.data?.error?.message) {
             errorMessage = `Modal API Error: ${error.response.data.error.message}`;
         }
+
         res.status(500).json({ message: errorMessage });
     }
 };
