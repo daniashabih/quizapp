@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import {
     LayoutDashboard, Code2, Trophy, Award, User, Settings as SettingsIcon,
-    LogOut, Menu, X, Bell, Search, ChevronLeft, ChevronRight
+    LogOut, Menu, X, Bell, Search, ChevronLeft, ChevronRight, ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from '../components/BrandLogo';
 
-const sidebarItems = [
+const baseSidebarItems = [
     { icon: LayoutDashboard, label: "Dashboard", to: "/dashboard" },
     { icon: Code2, label: "Technologies", to: "/dashboard/technologies" },
     { icon: Trophy, label: "My Quizzes", to: "/dashboard/quizzes" },
@@ -33,6 +33,11 @@ export default function DashboardLayout() {
         const h = () => { if (window.innerWidth < 1024) setSidebarOpen(false); else setSidebarOpen(true); };
         h(); window.addEventListener('resize', h); return () => window.removeEventListener('resize', h);
     }, []);
+
+    const sidebarItems = [
+        ...baseSidebarItems,
+        ...(user?.role === 'admin' ? [{ icon: ShieldCheck, label: "Admin Panel", to: "/dashboard/admin" }] : [])
+    ];
 
     const isActive = (path) => path === '/dashboard' ? location.pathname === '/dashboard' : location.pathname.startsWith(path);
 

@@ -28,13 +28,23 @@ export default function Auth({ initialMode = 'login' }) {
     const [showConfirm, setShowConfirm] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const { login, register, loginWithGoogle } = useAuth();
+    const { login, register, loginWithGoogle, loginAsGuest } = useAuth();
     const navigate = useNavigate();
 
-    const fillDemoUser = (demoEmail) => {
-        setEmail(demoEmail);
-        setPassword('password');
-        setIsSignUp(false);
+    const handleGuestLogin = async (role) => {
+        setLoading(true);
+        try {
+            await loginAsGuest(role);
+            if (role === 'admin') {
+                navigate('/dashboard/admin');
+            } else {
+                navigate('/dashboard');
+            }
+        } catch (err) {
+            toast.error('Guest mode failed: ' + err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -113,30 +123,30 @@ export default function Auth({ initialMode = 'login' }) {
                         </button>
                     </div>
 
-                    {/* Quick Demo Login (In Sign In mode) */}
-                    {!isSignUp && (
-                        <div className="mb-4 p-3 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5">
-                            <p className="text-[10px] font-semibold text-[var(--foreground-secondary)] text-center uppercase tracking-wider flex items-center justify-center gap-1">
-                                <Sparkles size={11} className="text-[#289B7D]" /> Quick Demo Login
-                            </p>
-                            <div className="grid grid-cols-2 gap-2">
-                                <button
-                                    type="button"
-                                    onClick={() => fillDemoUser('user@example.com')}
-                                    className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#289B7D] transition-all cursor-pointer shadow-xs"
-                                >
-                                    <UserCheck size={13} className="text-[#289B7D]" /> Candidate
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => fillDemoUser('admin@example.com')}
-                                    className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#289B7D] transition-all cursor-pointer shadow-xs"
-                                >
-                                    <ShieldCheck size={13} className="text-[#289B7D]" /> Admin
-                                </button>
-                            </div>
+                    {/* Guest Mode Direct Login */}
+                    <div className="mb-4 p-3 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-2">
+                        <p className="text-[10px] font-semibold text-[var(--foreground-secondary)] text-center uppercase tracking-wider flex items-center justify-center gap-1">
+                            <Sparkles size={11} className="text-[#289B7D]" /> Instant Guest Mode Access
+                        </p>
+                        <div className="grid grid-cols-2 gap-2">
+                            <button
+                                type="button"
+                                onClick={() => handleGuestLogin('candidate')}
+                                disabled={loading}
+                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#289B7D] hover:bg-[#289B7D]/10 transition-all cursor-pointer shadow-xs"
+                            >
+                                <UserCheck size={14} className="text-[#289B7D]" /> Guest Candidate
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleGuestLogin('admin')}
+                                disabled={loading}
+                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#289B7D] hover:bg-[#289B7D]/10 transition-all cursor-pointer shadow-xs"
+                            >
+                                <ShieldCheck size={14} className="text-[#289B7D]" /> Guest Admin
+                            </button>
                         </div>
-                    )}
+                    </div>
 
                     {/* Auth Card */}
                     <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 sm:p-6 shadow-lg">

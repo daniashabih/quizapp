@@ -51,6 +51,9 @@ function AppContent() {
                 <Route path="/leaderboard" element={<Leaderboard />} />
 
                 {/* Dashboard Routes */}
+                <Route path="/admin" element={<DashboardLayout />}>
+                    <Route index element={<AdminDashboard />} />
+                </Route>
                 <Route path="/dashboard" element={<DashboardLayout />}>
                     <Route index element={<UserDashboard />} />
                     <Route path="technologies" element={<Technologies />} />

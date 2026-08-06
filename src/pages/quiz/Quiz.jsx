@@ -36,14 +36,23 @@ const Quiz = () => {
 
     const normalizeValue = (val) => String(val || '').trim().replace(/\s+/g, ' ').toLowerCase();
 
+    // Load admin configured quiz options
+    const quizOpts = (() => {
+        try {
+            const saved = localStorage.getItem('quiz_options');
+            return saved ? JSON.parse(saved) : {};
+        } catch { return {}; }
+    })();
+    const timeLimitPerQuestion = quizOpts.timePerQuestion || 60;
+
     useEffect(() => {
         const t = setTimeout(() => {
-            setTimeLeft(60);
+            setTimeLeft(timeLimitPerQuestion);
             setShowFeedback(false);
             setFeedbackType(null);
         }, 0);
         return () => clearTimeout(t);
-    }, [currentIndex]);
+    }, [currentIndex, timeLimitPerQuestion]);
 
     const handleSubmitQuiz = async () => {
         let score = 0;
@@ -119,11 +128,20 @@ const Quiz = () => {
                 let url = `/questions?category=${encodeURIComponent(selectedCategory)}`;
                 if (difficulty) url += `&difficulty=${encodeURIComponent(difficulty)}`;
                 const res = await axios.get(url);
-                const filtered = res.data.filter(q => {
+                let filtered = res.data.filter(q => {
                     const catMatch = normalizeValue(q.category) === normalizeValue(selectedCategory);
                     const diffMatch = !difficulty || normalizeValue(q.difficulty) === normalizeValue(difficulty);
                     return catMatch && diffMatch;
                 });
+
+                // Apply Admin Quiz Options (Randomization & Max Count)
+                if (quizOpts.randomizeQuestions) {
+                    filtered = [...filtered].sort(() => Math.random() - 0.5);
+                }
+                if (quizOpts.maxQuestions && quizOpts.maxQuestions > 0 && quizOpts.maxQuestions < 900) {
+                    filtered = filtered.slice(0, quizOpts.maxQuestions);
+                }
+
                 setQuestions(filtered);
                 if (filtered.length === 0) {
                     toast.info(`No questions found for ${selectedCategory} at ${difficulty} level.`);
@@ -136,6 +154,7 @@ const Quiz = () => {
             }
         };
         fetchQuestions();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCategory, difficulty, navigate]);
 
     const handleAnswerSelect = (questionId, optionIndex) => {

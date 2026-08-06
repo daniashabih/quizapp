@@ -162,6 +162,38 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const loginAsGuest = async (role = 'candidate') => {
+        const demoEmail = role === 'admin' ? 'admin@example.com' : 'user@example.com';
+        try {
+            const success = await login(demoEmail, 'password');
+            if (success) {
+                return true;
+            }
+        } catch {
+            // Fallback to offline guest user
+        }
+
+        const guestUser = role === 'admin' ? {
+            id: 1,
+            name: 'Guest Admin',
+            email: 'admin@example.com',
+            role: 'admin',
+            token: 'guest-admin-token'
+        } : {
+            id: 2,
+            name: 'Guest Candidate',
+            email: 'user@example.com',
+            role: 'candidate',
+            token: 'guest-candidate-token'
+        };
+
+        localStorage.setItem('token', guestUser.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${guestUser.token}`;
+        setUser(guestUser);
+        toast.success(`Continuing as Guest (${role === 'admin' ? 'Admin' : 'Candidate'})`);
+        return true;
+    };
+
     const logout = async () => {
         localStorage.removeItem('token');
         delete axios.defaults.headers.common['Authorization'];
@@ -177,7 +209,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, register, loginWithGoogle, loginWithGithub: loginWithGoogle, logout, updateUser, loading }}>
+        <AuthContext.Provider value={{ user, login, register, loginWithGoogle, loginWithGithub: loginWithGoogle, loginAsGuest, logout, updateUser, loading }}>
             {children}
         </AuthContext.Provider>
     );

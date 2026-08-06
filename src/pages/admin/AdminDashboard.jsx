@@ -2,39 +2,71 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import {
-    Plus, Trash2, Save, X, Edit2, Users, Terminal,
+    Plus, Trash2, Save, X, Edit2, Users,
     ShieldCheck, Search, BookOpen, FolderOpen, Upload, Download, FileText, Layers,
-    ChevronDown, Sparkles, Database
+    ChevronDown, Sparkles, Sliders, Clock, Percent, Shuffle, HelpCircle, AlertCircle,
+    CheckCircle2, RefreshCw, Bot
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+
+const defaultQuizOptions = {
+    timePerQuestion: 60, // seconds
+    passingScore: 70, // percentage
+    maxQuestions: 10,
+    randomizeQuestions: true,
+    shuffleOptions: false,
+    instantFeedback: true,
+    allowRetries: true,
+    negativeMarking: false,
+    showExplanations: true
+};
 
 const AdminDashboard = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    const activeTab = 'questions';
+    const [activeTab, setActiveTab] = useState('questions');
     const [questions, setQuestions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const [isFormOpen, setIsFormOpen] = useState(false);
-    const [isImportModalOpen, setIsImportModalOpen] = useState(false);
-    const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
-    const [importFile, setImportFile] = useState(null);
-    const [isImporting, setIsImporting] = useState(false);
+    // Quiz Options State
+    const [quizOptions, setQuizOptions] = useState(() => {
+        try {
+            const saved = localStorage.getItem('quiz_options');
+            return saved ? { ...defaultQuizOptions, ...JSON.parse(saved) } : defaultQuizOptions;
+        } catch {
+            return defaultQuizOptions;
+        }
+    });
 
+    // Question Modal State
+    const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingQuestionId, setEditingQuestionId] = useState(null);
     const [category, setCategory] = useState('');
     const [questionText, setQuestionText] = useState('');
     const [options, setOptions] = useState(['', '', '', '']);
     const [correctAnswer, setCorrectAnswer] = useState('');
     const [difficulty, setDifficulty] = useState('beginner');
+    const [explanation, setExplanation] = useState('');
 
-    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+    // Modals
+    const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+    const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
+    const [importFile, setImportFile] = useState(null);
+    const [isImporting, setIsImporting] = useState(false);
+
+    // Categories Tab State
     const [newCategory, setNewCategory] = useState('');
     const [editingCategoryId, setEditingCategoryId] = useState(null);
+
+    // AI Generation State
+    const [aiTopic, setAiTopic] = useState('');
+    const [aiDifficulty, setAiDifficulty] = useState('beginner');
+    const [aiCount, setAiCount] = useState(5);
+    const [isGeneratingAi, setIsGeneratingAi] = useState(false);
 
     const fetchData = async () => {
         try {
@@ -42,6 +74,7 @@ const AdminDashboard = () => {
             setQuestions(qRes.data);
             setCategories(cRes.data);
             if (!category && cRes.data.length > 0) setCategory(cRes.data[0].name);
+            if (!aiTopic && cRes.data.length > 0) setAiTopic(cRes.data[0].name);
         } catch { /* silent */ }
     };
 
@@ -62,6 +95,16 @@ const AdminDashboard = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, navigate, activeTab]);
 
+    const handleSaveQuizOptions = (e) => {
+        e.preventDefault();
+        try {
+            localStorage.setItem('quiz_options', JSON.stringify(quizOptions));
+            toast.success("Quiz options and rules saved successfully!");
+        } catch {
+            toast.error("Failed to save quiz options.");
+        }
+    };
+
     const openQuestionModal = (question = null) => {
         if (question) {
             setEditingQuestionId(question.id);
@@ -71,37 +114,81 @@ const AdminDashboard = () => {
             if (typeof parsedOptions === 'string') {
                 try { parsedOptions = JSON.parse(parsedOptions); } catch { parsedOptions = ['', '', '', '']; }
             }
-            setOptions(parsedOptions);
-            setCorrectAnswer(question.correct_answer);
+            setOptions(Array.isArray(parsedOptions) && parsedOptions.length >= 2 ? parsedOptions : ['', '', '', '']);
+            setCorrectAnswer(question.correct_answer || '');
             setDifficulty(question.difficulty || 'beginner');
+            setExplanation(question.explanation || '');
         } else {
             setEditingQuestionId(null);
             setQuestionText('');
             setOptions(['', '', '', '']);
             setCorrectAnswer('');
             setDifficulty('beginner');
+            setExplanation('');
             if (categories.length > 0) setCategory(categories[0].name);
         }
         setIsFormOpen(true);
     };
 
-    const handleSubmit = async (e) => {
+    const handleOptionChange = (index, value) => {
+        const newOpts = [...options];
+        const oldValue = newOpts[index];
+        newOpts[index] = value;
+        setOptions(newOpts);
+
+        // If the edited option was selected as correct answer, update correctAnswer value
+        if (correctAnswer === oldValue) {
+            setCorrectAnswer(value);
+        }
+    };
+
+    const handleAddOption = () => {
+        if (options.length >= 6) return toast.info("Maximum 6 options allowed per question.");
+        setOptions([...options, '']);
+    };
+
+    const handleRemoveOption = (index) => {
+        if (options.length <= 2) return toast.info("At least 2 options are required.");
+        const removedValue = options[index];
+        const newOpts = options.filter((_, idx) => idx !== index);
+        setOptions(newOpts);
+        if (correctAnswer === removedValue) {
+            setCorrectAnswer('');
+        }
+    };
+
+    const handleSubmitQuestion = async (e) => {
         e.preventDefault();
+        const validOptions = options.map(o => o.trim()).filter(Boolean);
+        if (validOptions.length < 2) {
+            return toast.error("Please provide at least 2 valid options.");
+        }
+        if (!correctAnswer || !validOptions.includes(correctAnswer)) {
+            return toast.error("Please select a valid correct answer from the options.");
+        }
+
         try {
-            const payload = { category, question_text: questionText, options, correct_answer: correctAnswer, difficulty };
+            const payload = {
+                category,
+                question_text: questionText,
+                options: validOptions,
+                correct_answer: correctAnswer,
+                difficulty,
+                explanation
+            };
             if (editingQuestionId) {
                 await axios.put(`/questions/${editingQuestionId}`, payload);
-                toast.success("Question updated.");
+                toast.success("Question updated successfully.");
             } else {
                 await axios.post('/questions', payload);
-                toast.success("Question added.");
+                toast.success("Question created successfully.");
             }
             setIsFormOpen(false);
             fetchData();
         } catch { toast.error("Failed to save question."); }
     };
 
-    const handleDelete = async (id) => {
+    const handleDeleteQuestion = async (id) => {
         if (!window.confirm("Delete this question permanently?")) return;
         try {
             await axios.delete(`/questions/${id}`);
@@ -112,12 +199,13 @@ const AdminDashboard = () => {
 
     const handleAddOrUpdateCategory = async (e) => {
         e.preventDefault();
+        if (!newCategory.trim()) return;
         try {
             if (editingCategoryId) {
-                await axios.put(`/categories/${editingCategoryId}`, { name: newCategory });
+                await axios.put(`/categories/${editingCategoryId}`, { name: newCategory.trim() });
                 toast.success("Category updated.");
             } else {
-                await axios.post('/categories', { name: newCategory });
+                await axios.post('/categories', { name: newCategory.trim() });
                 toast.success("Category created.");
             }
             setNewCategory('');
@@ -133,6 +221,26 @@ const AdminDashboard = () => {
             toast.success("Category deleted.");
             fetchData();
         } catch { toast.error("Failed to delete."); }
+    };
+
+    const handleGenerateAiQuestions = async (e) => {
+        e.preventDefault();
+        if (!aiTopic) return toast.error("Please enter or select a topic.");
+        setIsGeneratingAi(true);
+        try {
+            const res = await axios.post('/questions/generate', {
+                topic: aiTopic,
+                difficulty: aiDifficulty,
+                count: Number(aiCount)
+            });
+            toast.success(res.data.message || `Generated ${aiCount} questions for ${aiTopic}!`);
+            fetchData();
+            setActiveTab('questions');
+        } catch (err) {
+            toast.error(err.response?.data?.message || "AI generation failed. Please try again.");
+        } finally {
+            setIsGeneratingAi(false);
+        }
     };
 
     const handleImportQuestions = async (e) => {
@@ -160,18 +268,13 @@ const AdminDashboard = () => {
         const headers = ['category', 'question', 'option1', 'option2', 'option3', 'option4', 'correct_answer', 'difficulty'];
         const sampleRows = [
             ['JavaScript', 'What is the type of NaN?', 'number', 'string', 'undefined', 'object', 'number', 'beginner'],
-            ['Python', 'Which keyword is used to define a function?', 'func', 'define', 'def', 'function', 'def', 'beginner']
+            ['Python', 'Which keyword defines a function?', 'func', 'define', 'def', 'function', 'def', 'beginner']
         ];
-        const csvContent = [
-            headers.join(','),
-            ...sampleRows.map(row => row.map(cell => `"${cell}"`).join(','))
-        ].join('\n');
+        const csvContent = [headers.join(','), ...sampleRows.map(r => r.map(c => `"${c}"`).join(','))].join('\n');
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
+        link.href = URL.createObjectURL(blob);
         link.setAttribute('download', 'questions_template.csv');
-        link.style.visibility = 'hidden';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -187,7 +290,7 @@ const AdminDashboard = () => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            toast.success(`Questions exported as ${format.toUpperCase()}`);
+            toast.success(`Exported as ${format.toUpperCase()}`);
         } catch { toast.error("Export failed."); }
     };
 
@@ -213,21 +316,23 @@ const AdminDashboard = () => {
 
     return (
         <div className="animate-fade-up">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-6">
+            {/* Top Header */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
                 <div>
-                    <div className="badge-error mb-3">
-                        <ShieldCheck size={12} />
-                        Admin Access
+                    <div className="badge-error mb-2 inline-flex items-center gap-1.5">
+                        <ShieldCheck size={12} /> Admin Control Center
                     </div>
                     <h1 className="text-2xl lg:text-3xl font-display font-bold text-[var(--foreground)]">
-                        System <span className="text-gradient">Control Center</span>
+                        Admin <span className="text-gradient">Quiz Suite</span>
                     </h1>
-                    <p className="text-sm text-[var(--foreground-muted)] mt-1">Manage questions, categories, and users.</p>
+                    <p className="text-sm text-[var(--foreground-muted)] mt-1">
+                        Manage quiz rules, options, questions, AI generation, and categories.
+                    </p>
                 </div>
+
                 <div className="flex flex-wrap items-center gap-2">
                     <div className="relative">
-                        <button onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)} className="btn-secondary text-sm">
+                        <button onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)} className="btn-secondary text-xs py-2">
                             <Download size={14} /> Export <ChevronDown size={12} />
                         </button>
                         {isExportDropdownOpen && (
@@ -243,121 +348,506 @@ const AdminDashboard = () => {
                             </div>
                         )}
                     </div>
-                    <button onClick={() => setIsImportModalOpen(true)} className="btn-secondary text-sm">
-                        <Upload size={14} /> Import
+                    <button onClick={() => setIsImportModalOpen(true)} className="btn-secondary text-xs py-2">
+                        <Upload size={14} /> Import CSV
                     </button>
-                    <button onClick={() => setIsCategoryModalOpen(true)} className="btn-secondary text-sm">
-                        <FolderOpen size={14} /> Categories
-                    </button>
-                    <button onClick={() => openQuestionModal(null)} className="btn-primary text-sm">
+                    <button onClick={() => openQuestionModal(null)} className="btn-primary text-xs py-2">
                         <Plus size={14} /> New Question
                     </button>
                 </div>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-                {stats.map(({ label, value, icon: Icon, gradient }) => (
-                    <div key={label} className="card p-5 rounded-2xl flex items-center gap-4">
-                        <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg`}>
-                            <Icon size={18} className="text-white" />
+            {/* Navigation Tabs */}
+            <div className="flex items-center gap-2 border-b border-[var(--card-border)] mb-6 overflow-x-auto pb-1">
+                {[
+                    { id: 'questions', label: 'Questions Bank', icon: BookOpen, count: questions.length },
+                    { id: 'settings', label: 'Quiz Rules & Options', icon: Sliders },
+                    { id: 'ai', label: 'AI Generator', icon: Bot, highlight: true },
+                    { id: 'categories', label: 'Categories', icon: FolderOpen, count: categories.length },
+                    { id: 'users', label: 'User Directory', icon: Users, count: allUsers.length || null }
+                ].map((tab) => {
+                    const Icon = tab.icon;
+                    const isSelected = activeTab === tab.id;
+                    return (
+                        <button
+                            key={tab.id}
+                            onClick={() => {
+                                setActiveTab(tab.id);
+                                if (tab.id === 'users') fetchUsers();
+                            }}
+                            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                                isSelected
+                                    ? 'bg-[#163B34] text-white shadow-md'
+                                    : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
+                            }`}
+                        >
+                            <Icon size={15} className={tab.highlight ? 'text-emerald-400' : ''} />
+                            {tab.label}
+                            {tab.count !== undefined && tab.count !== null && (
+                                <span className={`px-2 py-0.5 rounded-full text-[10px] ${
+                                    isSelected ? 'bg-white/20 text-white' : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)]'
+                                }`}>
+                                    {tab.count}
+                                </span>
+                            )}
+                        </button>
+                    );
+                })}
+            </div>
+
+            {/* TAB 1: QUESTIONS BANK */}
+            {activeTab === 'questions' && (
+                <div className="space-y-5">
+                    {/* Stats summary */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {stats.map(({ label, value, icon: Icon, gradient }) => (
+                            <div key={label} className="card p-5 rounded-2xl flex items-center gap-4">
+                                <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg shrink-0`}>
+                                    <Icon size={18} className="text-white" />
+                                </div>
+                                <div>
+                                    <p className="text-xl font-display font-bold text-[var(--foreground)]">{value}</p>
+                                    <p className="text-[10px] text-[var(--foreground-muted)] font-semibold uppercase tracking-wider">{label}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Search Bar */}
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <div className="relative w-full sm:max-w-xs">
+                            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="Filter questions or topic…"
+                                className="input-field pl-10 text-xs py-2.5"
+                            />
                         </div>
-                        <div>
-                            <p className="text-xl font-display font-bold text-[var(--foreground)]">{value}</p>
-                            <p className="text-[10px] text-[var(--foreground-muted)] font-semibold uppercase tracking-wider">{label}</p>
+                        <span className="text-xs text-[var(--foreground-muted)] font-medium">
+                            Showing {filteredQuestions.length} of {questions.length} questions
+                        </span>
+                    </div>
+
+                    {/* Questions Table */}
+                    <div className="card overflow-hidden rounded-2xl shadow-sm">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead>
+                                    <tr className="border-b border-[var(--card-border)] bg-[var(--muted-bg)]/60">
+                                        {['Category', 'Difficulty', 'Question Text', 'Correct Option', 'Actions'].map(h => (
+                                            <th key={h} className="px-6 py-3.5 text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-widest">{h}</th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-[var(--card-border)]">
+                                    {filteredQuestions.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={5} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
+                                                No questions matching filter. <button onClick={() => openQuestionModal(null)} className="text-[#163B34] font-bold hover:underline">Add one now</button>
+                                            </td>
+                                        </tr>
+                                    ) : filteredQuestions.map((q) => (
+                                        <tr key={q.id} className="hover:bg-[var(--muted-bg)]/40 transition-colors group">
+                                            <td className="px-6 py-4">
+                                                <span className="badge-emerald text-[10px] font-semibold">{q.category}</span>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className={`badge border text-[10px] ${difficultyBadge(q.difficulty)}`}>
+                                                    {q.difficulty || 'beginner'}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 max-w-md">
+                                                <p className="text-xs text-[var(--foreground)] font-medium line-clamp-2">{q.question_text}</p>
+                                                {q.explanation && (
+                                                    <p className="text-[11px] text-[var(--foreground-muted)] italic mt-0.5 truncate">
+                                                        💡 {q.explanation}
+                                                    </p>
+                                                )}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <code className="px-2.5 py-1 rounded-lg bg-[var(--muted-bg)] text-[#163B34] font-bold text-xs font-mono border border-[var(--card-border)]">
+                                                    {q.correct_answer}
+                                                </code>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-1.5">
+                                                    <button onClick={() => openQuestionModal(q)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[#163B34] hover:bg-[var(--muted-bg)] transition-all">
+                                                        <Edit2 size={14} />
+                                                    </button>
+                                                    <button onClick={() => handleDeleteQuestion(q.id)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
+                                                        <Trash2 size={14} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                ))}
-            </div>
-
-            {/* Search */}
-            <div className="relative max-w-sm mb-5">
-                <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search questions or categories…" className="input-field pl-10 text-sm py-3" />
-            </div>
-
-            {/* Table */}
-            <div className="card overflow-hidden rounded-2xl">
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                        <thead>
-                            <tr className="border-b border-[var(--card-border)] bg-[var(--muted-bg)]/50">
-                                {['Category', 'Difficulty', 'Question', 'Correct Answer', ''].map(h => (
-                                    <th key={h} className="px-6 py-4 text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-widest">{h}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-[var(--card-border)]">
-                            {filteredQuestions.length === 0 ? (
-                                <tr>
-                                    <td colSpan={5} className="px-6 py-16 text-center text-sm text-[var(--foreground-muted)]">
-                                        No questions found. <button onClick={() => openQuestionModal(null)} className="text-[#163B34] font-semibold hover:text-[#289B7D]">Add one</button>
-                                    </td>
-                                </tr>
-                            ) : filteredQuestions.map((q) => (
-                                <tr key={q.id} className="hover:bg-[var(--muted-bg)] transition-colors group">
-                                    <td className="px-6 py-4">
-                                        <span className="badge-emerald text-[10px]">{q.category}</span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className={`badge border text-[10px] ${difficultyBadge(q.difficulty)}`}>
-                                            {q.difficulty || 'beginner'}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 max-w-xs">
-                                        <p className="text-sm text-[var(--foreground)] truncate font-medium">{q.question_text}</p>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <code className="px-2.5 py-1 rounded-lg bg-[var(--muted-bg)] text-[var(--foreground)] font-bold text-xs font-mono border border-[var(--card-border)]">
-                                            {q.correct_answer}
-                                        </code>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button onClick={() => openQuestionModal(q)}                                                    className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[#163B34] hover:bg-[var(--muted-bg)] transition-all">
-                                                <Edit2 size={14} />
-                                            </button>
-                                            <button onClick={() => handleDelete(q.id)}
-                                                className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
-                                                <Trash2 size={14} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
                 </div>
-            </div>
+            )}
 
-            {/* Question Form Modal */}
+            {/* TAB 2: QUIZ RULES & OPTIONS */}
+            {activeTab === 'settings' && (
+                <form onSubmit={handleSaveQuizOptions} className="card p-6 rounded-2xl space-y-6 max-w-4xl">
+                    <div className="flex items-center justify-between border-b border-[var(--card-border)] pb-4">
+                        <div>
+                            <h2 className="text-lg font-display font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <Sliders size={18} className="text-[#289B7D]" /> Global Quiz Options & Rules
+                            </h2>
+                            <p className="text-xs text-[var(--foreground-muted)] mt-0.5">
+                                Configure time limits, passing score thresholds, shuffling, and candidate feedback settings.
+                            </p>
+                        </div>
+                        <button type="submit" className="btn-primary text-xs px-5 py-2">
+                            <Save size={14} /> Save Quiz Options
+                        </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Option 1: Time limit per question */}
+                        <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
+                            <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <Clock size={15} className="text-[#289B7D]" /> Timer Limit Per Question
+                            </label>
+                            <p className="text-[11px] text-[var(--foreground-muted)]">Seconds allocated to candidates for each question.</p>
+                            <select
+                                value={quizOptions.timePerQuestion}
+                                onChange={(e) => setQuizOptions({ ...quizOptions, timePerQuestion: Number(e.target.value) })}
+                                className="input-field text-xs"
+                            >
+                                <option value={30}>30 Seconds (Fast Speed)</option>
+                                <option value={45}>45 Seconds</option>
+                                <option value={60}>60 Seconds (Standard)</option>
+                                <option value={90}>90 Seconds (Relaxed)</option>
+                                <option value={120}>120 Seconds (Extended)</option>
+                            </select>
+                        </div>
+
+                        {/* Option 2: Passing Score */}
+                        <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
+                            <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <Percent size={15} className="text-[#289B7D]" /> Minimum Passing Percentage
+                            </label>
+                            <p className="text-[11px] text-[var(--foreground-muted)]">Score required to pass and earn certificates.</p>
+                            <select
+                                value={quizOptions.passingScore}
+                                onChange={(e) => setQuizOptions({ ...quizOptions, passingScore: Number(e.target.value) })}
+                                className="input-field text-xs"
+                            >
+                                <option value={50}>50% - Basic Pass</option>
+                                <option value={60}>60% - Moderate</option>
+                                <option value={70}>70% - Standard (Recommended)</option>
+                                <option value={80}>80% - High Standard</option>
+                                <option value={90}>90% - Expert Level</option>
+                            </select>
+                        </div>
+
+                        {/* Option 3: Questions per session */}
+                        <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
+                            <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <BookOpen size={15} className="text-[#289B7D]" /> Questions Per Quiz Session
+                            </label>
+                            <p className="text-[11px] text-[var(--foreground-muted)]">Number of questions drawn into each test run.</p>
+                            <select
+                                value={quizOptions.maxQuestions}
+                                onChange={(e) => setQuizOptions({ ...quizOptions, maxQuestions: Number(e.target.value) })}
+                                className="input-field text-xs"
+                            >
+                                <option value={5}>5 Questions (Short Quiz)</option>
+                                <option value={10}>10 Questions (Standard)</option>
+                                <option value={15}>15 Questions (Detailed)</option>
+                                <option value={20}>20 Questions (Full Test)</option>
+                                <option value={999}>Unlimited (All Category Questions)</option>
+                            </select>
+                        </div>
+
+                        {/* Option 4: Shuffling & Order */}
+                        <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-3">
+                            <span className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
+                                <Shuffle size={15} className="text-[#289B7D]" /> Question Shuffling & Randomization
+                            </span>
+                            <div className="space-y-2">
+                                <label className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)] cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={quizOptions.randomizeQuestions}
+                                        onChange={(e) => setQuizOptions({ ...quizOptions, randomizeQuestions: e.target.checked })}
+                                        className="rounded border-[var(--card-border)] text-[#163B34] focus:ring-[#289B7D]"
+                                    />
+                                    Randomize Question Order
+                                </label>
+                                <label className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)] cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={quizOptions.shuffleOptions}
+                                        onChange={(e) => setQuizOptions({ ...quizOptions, shuffleOptions: e.target.checked })}
+                                        className="rounded border-[var(--card-border)] text-[#163B34] focus:ring-[#289B7D]"
+                                    />
+                                    Shuffle Answer Choice Positions
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Additional Toggles */}
+                    <div className="border-t border-[var(--card-border)] pt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#289B7D] transition-all">
+                            <div>
+                                <span className="text-xs font-bold text-[var(--foreground)] block">Instant Answer Feedback</span>
+                                <span className="text-[11px] text-[var(--foreground-muted)]">Show correct/incorrect popup immediately upon answer selection.</span>
+                            </div>
+                            <input
+                                type="checkbox"
+                                checked={quizOptions.instantFeedback}
+                                onChange={(e) => setQuizOptions({ ...quizOptions, instantFeedback: e.target.checked })}
+                                className="w-4 h-4 rounded border-[var(--card-border)] text-[#163B34]"
+                            />
+                        </label>
+
+                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#289B7D] transition-all">
+                            <div>
+                                <span className="text-xs font-bold text-[var(--foreground)] block">Show Explanations</span>
+                                <span className="text-[11px] text-[var(--foreground-muted)]">Provide explanations for questions on the result summary page.</span>
+                            </div>
+                            <input
+                                type="checkbox"
+                                checked={quizOptions.showExplanations}
+                                onChange={(e) => setQuizOptions({ ...quizOptions, showExplanations: e.target.checked })}
+                                className="w-4 h-4 rounded border-[var(--card-border)] text-[#163B34]"
+                            />
+                        </label>
+
+                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#289B7D] transition-all">
+                            <div>
+                                <span className="text-xs font-bold text-[var(--foreground)] block">Allow Quiz Retries</span>
+                                <span className="text-[11px] text-[var(--foreground-muted)]">Permit candidates to re-attempt tests after completion.</span>
+                            </div>
+                            <input
+                                type="checkbox"
+                                checked={quizOptions.allowRetries}
+                                onChange={(e) => setQuizOptions({ ...quizOptions, allowRetries: e.target.checked })}
+                                className="w-4 h-4 rounded border-[var(--card-border)] text-[#163B34]"
+                            />
+                        </label>
+
+                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#289B7D] transition-all">
+                            <div>
+                                <span className="text-xs font-bold text-[var(--foreground)] block">Negative Marking</span>
+                                <span className="text-[11px] text-[var(--foreground-muted)]">Deduct points for incorrect attempts to discourage guessing.</span>
+                            </div>
+                            <input
+                                type="checkbox"
+                                checked={quizOptions.negativeMarking}
+                                onChange={(e) => setQuizOptions({ ...quizOptions, negativeMarking: e.target.checked })}
+                                className="w-4 h-4 rounded border-[var(--card-border)] text-[#163B34]"
+                            />
+                        </label>
+                    </div>
+
+                    <div className="flex justify-end pt-2">
+                        <button type="submit" className="btn-primary text-xs px-6 py-2.5">
+                            <Save size={15} /> Save All Quiz Settings
+                        </button>
+                    </div>
+                </form>
+            )}
+
+            {/* TAB 3: AI GENERATOR */}
+            {activeTab === 'ai' && (
+                <div className="card p-6 rounded-2xl space-y-6 max-w-3xl">
+                    <div className="flex items-center gap-3 pb-4 border-b border-[var(--card-border)]">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#163B34] to-[#289B7D] flex items-center justify-center text-white">
+                            <Sparkles size={20} />
+                        </div>
+                        <div>
+                            <h2 className="text-lg font-display font-bold text-[var(--foreground)]">
+                                AI Quiz Generator
+                            </h2>
+                            <p className="text-xs text-[var(--foreground-muted)]">
+                                Automatically construct high-quality multiple choice questions using AI.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form onSubmit={handleGenerateAiQuestions} className="space-y-4">
+                        <div className="space-y-1.5">
+                            <label className="input-label">Target Category / Topic</label>
+                            <input
+                                type="text"
+                                value={aiTopic}
+                                onChange={(e) => setAiTopic(e.target.value)}
+                                placeholder="e.g. JavaScript Async/Await, Python Data Structures, SQL Joins..."
+                                className="input-field text-xs py-2.5"
+                                required
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                                <label className="input-label">Difficulty Level</label>
+                                <select
+                                    value={aiDifficulty}
+                                    onChange={(e) => setAiDifficulty(e.target.value)}
+                                    className="input-field text-xs py-2.5"
+                                >
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="expert">Expert</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <label className="input-label">Number of Questions to Generate</label>
+                                <select
+                                    value={aiCount}
+                                    onChange={(e) => setAiCount(Number(e.target.value))}
+                                    className="input-field text-xs py-2.5"
+                                >
+                                    <option value={3}>3 Questions</option>
+                                    <option value={5}>5 Questions (Recommended)</option>
+                                    <option value={10}>10 Questions</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="p-4 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)] text-xs space-y-1 text-[var(--foreground-muted)]">
+                            <p className="font-semibold text-[var(--foreground)] flex items-center gap-1">
+                                <Bot size={14} className="text-[#289B7D]" /> How it works:
+                            </p>
+                            <p>The AI creates relevant multiple choice questions with 4 distinct options and auto-saves them into your question bank under <strong className="text-[var(--foreground)]">{aiTopic || 'selected topic'}</strong>.</p>
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={isGeneratingAi}
+                            className="btn-primary w-full justify-center text-xs py-3"
+                        >
+                            {isGeneratingAi ? (
+                                <span className="flex items-center gap-2">
+                                    <RefreshCw size={15} className="animate-spin" /> Generating Questions with AI...
+                                </span>
+                            ) : (
+                                <span className="flex items-center gap-2">
+                                    <Sparkles size={15} /> Generate & Save Questions
+                                </span>
+                            )}
+                        </button>
+                    </form>
+                </div>
+            )}
+
+            {/* TAB 4: CATEGORIES */}
+            {activeTab === 'categories' && (
+                <div className="card p-6 rounded-2xl space-y-6 max-w-2xl">
+                    <div className="flex items-center justify-between pb-4 border-b border-[var(--card-border)]">
+                        <div>
+                            <h2 className="text-lg font-display font-bold text-[var(--foreground)]">Category Management</h2>
+                            <p className="text-xs text-[var(--foreground-muted)]">Add or rename quiz topics.</p>
+                        </div>
+                    </div>
+
+                    <form onSubmit={handleAddOrUpdateCategory} className="flex gap-3">
+                        <input
+                            type="text"
+                            value={newCategory}
+                            onChange={(e) => setNewCategory(e.target.value)}
+                            placeholder="New category name (e.g. React.js, Go, Rust)..."
+                            className="input-field flex-1 text-xs py-2.5"
+                            required
+                        />
+                        <button type="submit" className="btn-primary shrink-0 text-xs px-5 py-2.5">
+                            {editingCategoryId ? <><Save size={14} /> Update</> : <><Plus size={14} /> Add Category</>}
+                        </button>
+                    </form>
+
+                    <div className="space-y-2 max-h-96 overflow-y-auto">
+                        {categories.map(cat => (
+                            <div key={cat.id} className="flex items-center justify-between p-3.5 card rounded-xl hover:bg-[var(--muted-bg)] transition-colors">
+                                <span className="text-xs font-bold text-[var(--foreground)]">{cat.name}</span>
+                                <div className="flex gap-1.5">
+                                    <button onClick={() => { setEditingCategoryId(cat.id); setNewCategory(cat.name); }} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[#163B34] hover:bg-[var(--muted-bg)] transition-all">
+                                        <Edit2 size={14} />
+                                    </button>
+                                    <button onClick={() => handleDeleteCategory(cat.id)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
+                                        <Trash2 size={14} />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* TAB 5: USERS DIRECTORY */}
+            {activeTab === 'users' && (
+                <div className="card overflow-hidden rounded-2xl shadow-sm">
+                    <div className="p-4 border-b border-[var(--card-border)] bg-[var(--muted-bg)]/40 flex items-center justify-between">
+                        <h2 className="text-sm font-bold text-[var(--foreground)]">Registered Users ({allUsers.length})</h2>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead>
+                                <tr className="border-b border-[var(--card-border)] bg-[var(--muted-bg)]/60">
+                                    {['User Name', 'Email', 'Role', 'Joined Date'].map(h => (
+                                        <th key={h} className="px-6 py-3.5 text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-widest">{h}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[var(--card-border)]">
+                                {allUsers.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={4} className="px-6 py-8 text-center text-xs text-[var(--foreground-muted)]">No users loaded.</td>
+                                    </tr>
+                                ) : allUsers.map((u) => (
+                                    <tr key={u.id} className="hover:bg-[var(--muted-bg)]/30 transition-colors">
+                                        <td className="px-6 py-3.5 text-xs font-bold text-[var(--foreground)]">{u.name || 'User'}</td>
+                                        <td className="px-6 py-3.5 text-xs text-[var(--foreground-muted)] font-mono">{u.email}</td>
+                                        <td className="px-6 py-3.5">
+                                            <span className={`badge text-[10px] uppercase ${u.role === 'admin' ? 'badge-error' : 'badge-emerald'}`}>
+                                                {u.role || 'candidate'}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-3.5 text-xs text-[var(--foreground-muted)]">
+                                            {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'N/A'}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
+
+            {/* MODAL: ADD / EDIT QUESTION */}
             {isFormOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
                     <div className="card rounded-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] flex flex-col shadow-2xl animate-scale-in">
-                        <div className="flex items-center justify-between p-6 border-b border-[var(--card-border)] shrink-0">
-                            <h2 className="text-lg font-display font-bold text-[var(--foreground)]">
-                                {editingQuestionId ? 'Edit Question' : 'New Question'}
+                        <div className="flex items-center justify-between p-5 border-b border-[var(--card-border)] shrink-0">
+                            <h2 className="text-base font-display font-bold text-[var(--foreground)]">
+                                {editingQuestionId ? 'Edit Question' : 'Add New Question'}
                             </h2>
-                            <button onClick={() => setIsFormOpen(false)}
-                                className="p-2 rounded-lg text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all">
+                            <button onClick={() => setIsFormOpen(false)} className="p-2 rounded-lg text-[var(--foreground-muted)] hover:bg-[var(--muted-bg)]">
                                 <X size={18} />
                             </button>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-5">
+                        <form onSubmit={handleSubmitQuestion} className="p-6 overflow-y-auto space-y-4">
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-1.5">
+                                <div className="space-y-1">
                                     <label className="input-label">Category</label>
-                                    <select value={category} onChange={(e) => setCategory(e.target.value)} className="input-field">
+                                    <select value={category} onChange={(e) => setCategory(e.target.value)} className="input-field text-xs py-2">
                                         {categories.map(cat => (
                                             <option key={cat.id} value={cat.name}>{cat.name}</option>
                                         ))}
                                     </select>
                                 </div>
-                                <div className="space-y-1.5">
+                                <div className="space-y-1">
                                     <label className="input-label">Difficulty</label>
-                                    <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="input-field">
+                                    <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="input-field text-xs py-2">
                                         <option value="beginner">Beginner</option>
                                         <option value="intermediate">Intermediate</option>
                                         <option value="expert">Expert</option>
@@ -365,41 +855,80 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
 
-                            <div className="space-y-1.5">
-                                <label className="input-label">Question</label>
-                                <textarea value={questionText} onChange={(e) => setQuestionText(e.target.value)}
-                                    className="input-field min-h-[80px] resize-none" required />
+                            <div className="space-y-1">
+                                <label className="input-label">Question Text</label>
+                                <textarea
+                                    value={questionText}
+                                    onChange={(e) => setQuestionText(e.target.value)}
+                                    className="input-field text-xs min-h-[70px] resize-none"
+                                    placeholder="Enter question prompt..."
+                                    required
+                                />
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                {[0, 1, 2, 3].map(idx => (
-                                    <div key={idx} className="space-y-1.5">
-                                        <label className="input-label">Option {String.fromCharCode(65 + idx)}</label>
-                                        <input type="text" value={options[idx]}
-                                            onChange={(e) => {
-                                                const newOpts = [...options];
-                                                newOpts[idx] = e.target.value;
-                                                setOptions(newOpts);
-                                            }}
-                                            className="input-field" required />
-                                    </div>
-                                ))}
-                            </div>
+                            {/* Dynamic Options List */}
+                            <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <label className="input-label">Answer Options (Select radio for Correct Answer)</label>
+                                    <button
+                                        type="button"
+                                        onClick={handleAddOption}
+                                        className="text-[11px] font-bold text-[#163B34] hover:text-[#289B7D] flex items-center gap-1"
+                                    >
+                                        <Plus size={13} /> Add Option
+                                    </button>
+                                </div>
 
-                            <div className="space-y-1.5">
-                                <label className="input-label">Correct Answer</label>
-                                <select value={correctAnswer} onChange={(e) => setCorrectAnswer(e.target.value)} className="input-field" required>
-                                    <option value="">Select correct answer</option>
-                                    {options.filter(o => o.trim()).map((opt, idx) => (
-                                        <option key={idx} value={opt}>{String.fromCharCode(65 + idx)}. {opt}</option>
+                                <div className="space-y-2">
+                                    {options.map((opt, idx) => (
+                                        <div key={idx} className="flex items-center gap-2">
+                                            <input
+                                                type="radio"
+                                                name="correctAnswerSelect"
+                                                checked={correctAnswer === opt && opt.trim() !== ''}
+                                                onChange={() => setCorrectAnswer(opt)}
+                                                className="w-4 h-4 text-[#163B34] focus:ring-[#289B7D] cursor-pointer"
+                                                title="Mark as correct answer"
+                                            />
+                                            <input
+                                                type="text"
+                                                value={opt}
+                                                onChange={(e) => handleOptionChange(idx, e.target.value)}
+                                                placeholder={`Option ${String.fromCharCode(65 + idx)}...`}
+                                                className="input-field text-xs py-2 flex-1"
+                                                required
+                                            />
+                                            {options.length > 2 && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveOption(idx)}
+                                                    className="p-2 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10"
+                                                >
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            )}
+                                        </div>
                                     ))}
-                                </select>
+                                </div>
                             </div>
 
-                            <div className="flex justify-end gap-3 pt-2">
-                                <button type="button" onClick={() => setIsFormOpen(false)} className="btn-secondary text-sm px-5">Cancel</button>
-                                <button type="submit" className="btn-primary text-sm px-5">
-                                    <Save size={15} /> {editingQuestionId ? 'Update' : 'Create'}
+                            <div className="space-y-1">
+                                <label className="input-label">Answer Explanation / Hint (Optional)</label>
+                                <input
+                                    type="text"
+                                    value={explanation}
+                                    onChange={(e) => setExplanation(e.target.value)}
+                                    placeholder="Provide educational context for candidates..."
+                                    className="input-field text-xs py-2"
+                                />
+                            </div>
+
+                            <div className="flex justify-end gap-3 pt-3">
+                                <button type="button" onClick={() => setIsFormOpen(false)} className="btn-secondary text-xs px-4">
+                                    Cancel
+                                </button>
+                                <button type="submit" className="btn-primary text-xs px-5">
+                                    <Save size={14} /> {editingQuestionId ? 'Update' : 'Create'} Question
                                 </button>
                             </div>
                         </form>
@@ -407,81 +936,35 @@ const AdminDashboard = () => {
                 </div>
             )}
 
-            {/* Category Modal */}
-            {isCategoryModalOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-                    <div className="card rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl animate-scale-in">
-                        <div className="flex items-center justify-between p-6 border-b border-[var(--card-border)]">
-                            <h2 className="text-lg font-display font-bold text-[var(--foreground)]">Manage Categories</h2>
-                            <button onClick={() => setIsCategoryModalOpen(false)}
-                                className="p-2 rounded-lg text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all">
-                                <X size={18} />
-                            </button>
-                        </div>
-                        <div className="p-6 space-y-5">
-                            <form onSubmit={handleAddOrUpdateCategory} className="flex gap-3">
-                                <input type="text" value={newCategory} onChange={(e) => setNewCategory(e.target.value)}
-                                    placeholder="Category name (e.g. Python)" className="input-field flex-1" required />
-                                <button type="submit" className="btn-primary shrink-0 text-sm px-5">
-                                    {editingCategoryId ? <><Save size={15} /> Update</> : <><Plus size={15} /> Add</>}
-                                </button>
-                            </form>
-
-                            <div className="space-y-2 max-h-60 overflow-y-auto">
-                                {categories.map(cat => (
-                                    <div key={cat.id} className="flex items-center justify-between p-3.5 card rounded-xl hover:bg-[var(--muted-bg)] transition-colors">
-                                        <span className="text-sm font-semibold text-[var(--foreground)]">{cat.name}</span>
-                                        <div className="flex gap-1.5">
-                                            <button onClick={() => { setEditingCategoryId(cat.id); setNewCategory(cat.name); }}                                                    className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[#163B34] hover:bg-[var(--muted-bg)] transition-all">
-                                                <Edit2 size={14} />
-                                            </button>
-                                            <button onClick={() => handleDeleteCategory(cat.id)}
-                                                className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
-                                                <Trash2 size={14} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
-                                {categories.length === 0 && (
-                                    <p className="text-center text-sm text-[var(--foreground-muted)] py-8">No categories yet.</p>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Import Modal */}
+            {/* MODAL: IMPORT CSV */}
             {isImportModalOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
                     <div className="card rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-scale-in">
-                        <div className="flex items-center justify-between p-6 border-b border-[var(--card-border)]">
-                            <h2 className="text-lg font-display font-bold text-[var(--foreground)]">Import Questions</h2>
-                            <button onClick={() => { setIsImportModalOpen(false); setImportFile(null); }}
-                                className="p-2 rounded-lg text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all">
+                        <div className="flex items-center justify-between p-5 border-b border-[var(--card-border)]">
+                            <h2 className="text-base font-display font-bold text-[var(--foreground)]">Import Questions</h2>
+                            <button onClick={() => { setIsImportModalOpen(false); setImportFile(null); }} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:bg-[var(--muted-bg)]">
                                 <X size={18} />
                             </button>
                         </div>
-                        <form onSubmit={handleImportQuestions} className="p-6 space-y-5">
-                            <div className="p-4 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                <p className="text-sm text-[var(--foreground-muted)] mb-4">
-                                    Upload a CSV or XLSX file. Download our template to see the required format.
-                                </p>
-                                <button type="button" onClick={downloadTemplate}
-                                    className="text-xs font-semibold text-[#163B34] hover:text-[#289B7D] flex items-center gap-1">
-                                    <Download size={12} /> Download Template
+                        <form onSubmit={handleImportQuestions} className="p-6 space-y-4">
+                            <div className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground-muted)] space-y-2">
+                                <p>Upload a CSV or XLSX spreadsheet containing question columns.</p>
+                                <button type="button" onClick={downloadTemplate} className="text-xs font-bold text-[#163B34] hover:underline flex items-center gap-1">
+                                    <Download size={12} /> Download Sample Template
                                 </button>
                             </div>
-                            <input type="file" accept=".csv,.xlsx,.xls"
+                            <input
+                                type="file"
+                                accept=".csv,.xlsx,.xls"
                                 onChange={(e) => setImportFile(e.target.files[0])}
-                                className="input-field file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#EAF5F2] file:text-[#163B34]" />
+                                className="input-field text-xs file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#EAF5F2] file:text-[#163B34]"
+                            />
                             <div className="flex gap-3">
-                                <button type="button" onClick={() => { setIsImportModalOpen(false); setImportFile(null); }}
-                                    className="btn-secondary flex-1 justify-center text-sm">Cancel</button>
-                                <button type="submit" disabled={isImporting || !importFile}
-                                    className="btn-primary flex-1 justify-center text-sm">
-                                    {isImporting ? <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <Upload size={15} />}
-                                    Import
+                                <button type="button" onClick={() => { setIsImportModalOpen(false); setImportFile(null); }} className="btn-secondary flex-1 justify-center text-xs">
+                                    Cancel
+                                </button>
+                                <button type="submit" disabled={isImporting || !importFile} className="btn-primary flex-1 justify-center text-xs">
+                                    {isImporting ? <RefreshCw size={14} className="animate-spin" /> : <Upload size={14} />} Import
                                 </button>
                             </div>
                         </form>
