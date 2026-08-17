@@ -5,7 +5,6 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Lock, ArrowRight, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import { supabase } from '../../lib/supabase';
 
 export default function ResetPassword() {
     const { token } = useParams();
@@ -25,35 +24,12 @@ export default function ResetPassword() {
         }
         setLoading(true);
 
-        let supaSuccess = false;
-        if (supabase) {
-            try {
-                const { error } = await supabase.auth.updateUser({ password });
-                if (!error) {
-                    supaSuccess = true;
-                }
-            } catch (err) {
-                console.log('Supabase updateUser password error:', err);
-            }
-        }
-
         try {
-            if (token) {
-                const res = await axios.post('/auth/reset-password', { token, password });
-                toast.success(res.data.message);
-            } else if (supaSuccess) {
-                toast.success('Password updated successfully!');
-            } else {
-                toast.success('Password updated!');
-            }
+            const res = await axios.post('/auth/reset-password', { token, password });
+            toast.success(res.data.message || 'Password updated successfully!');
             navigate('/login');
         } catch (error) {
-            if (supaSuccess) {
-                toast.success('Password updated successfully!');
-                navigate('/login');
-            } else {
-                toast.error(error.response?.data?.message || 'Something went wrong');
-            }
+            toast.error(error.response?.data?.message || 'Something went wrong');
         } finally {
             setLoading(false);
         }
