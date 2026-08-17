@@ -3,11 +3,14 @@ const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 dotenv.config();
 
-let prismaInstance = null;
+const globalForPrisma = global;
 
-if (process.env.DATABASE_URL) {
+let prismaInstance = globalForPrisma.prisma || null;
+
+if (!prismaInstance && process.env.DATABASE_URL) {
     try {
         prismaInstance = new PrismaClient();
+        globalForPrisma.prisma = prismaInstance;
         console.log('[Database] Real PrismaClient initialized with DATABASE_URL.');
     } catch (err) {
         console.warn('[Database] Failed to initialize PrismaClient:', err.message);

@@ -38,6 +38,14 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });
 });
 
+// API 404 Handler - Catch-all for unmatched API routes
+app.use('/api', (req, res) => {
+    res.status(404).json({
+        success: false,
+        message: 'Route not found'
+    });
+});
+
 // Global Error Handler
 app.use((err, req, res, _next) => {
     console.error('=== ERROR ===');
@@ -65,7 +73,7 @@ async function startServer() {
     } else {
         const distPath = path.join(process.cwd(), 'dist');
         app.use(express.static(distPath));
-        app.get('/{*path}', (req, res) => {
+        app.get('/{*splat}', (req, res) => {
             res.sendFile(path.join(distPath, 'index.html'));
         });
     }
@@ -75,7 +83,9 @@ async function startServer() {
     });
 }
 
-startServer();
+if (require.main === module) {
+    startServer();
+}
 
 module.exports = app;
 
