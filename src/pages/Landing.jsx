@@ -33,8 +33,8 @@ export default function Landing() {
         <div className="min-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-x-hidden relative transition-colors duration-300">
             {/* Background ambient glowing gradients */}
             <div className="absolute inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-black/5 rounded-full blur-[140px]" />
-                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-black/5 rounded-full blur-[140px]" />
+                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#174A43]/5 rounded-full blur-[140px]" />
+                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-[#174A43]/5 rounded-full blur-[140px]" />
             </div>
 
             {/* Fixed Navbar at Top */}
@@ -57,9 +57,9 @@ export default function Landing() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.3, delay: 0.1 }}
-                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-100 text-black text-xs font-semibold tracking-wide border border-zinc-300 shadow-xs"
+                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E8EFEA] text-[#174A43] text-xs font-semibold tracking-wide border border-[#357268]/30 shadow-xs"
                             >
-                                <span className="w-2 h-2 rounded-full bg-black animate-pulse" />
+                                <span className="w-2 h-2 rounded-full bg-[#174A43] animate-pulse" />
                                 AI-Powered Web Quizzes — Now Live
                             </motion.div>
                         </div>
@@ -197,7 +197,7 @@ export default function Landing() {
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
                                             isActive
-                                                ? 'bg-black text-white shadow-xs'
+                                                ? 'bg-[#174A43] text-white shadow-xs'
                                                 : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--card-bg)]'
                                         }`}
                                     >
@@ -234,11 +234,11 @@ export default function Landing() {
                                         <div className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                             <div className="flex items-center justify-between mb-2">
                                                 <span className="text-xs font-semibold text-[var(--foreground)]">React Component Lifecycle & Hooks</span>
-                                                <span className="text-[10px] font-bold text-black">Question 12/15</span>
+                                                <span className="text-[10px] font-bold text-[#174A43]">Question 12/15</span>
                                             </div>
-                                            <div className="progress-bar overflow-hidden h-2 bg-zinc-200 rounded-full">
+                                            <div className="progress-bar overflow-hidden h-2 bg-[#E8EFEA] rounded-full">
                                                 <motion.div
-                                                    className="h-full bg-black rounded-full"
+                                                    className="h-full bg-[#174A43] rounded-full"
                                                     initial={{ width: '0%' }}
                                                     animate={{ width: '80%' }}
                                                     transition={{ duration: 1 }}
@@ -307,21 +307,21 @@ export default function Landing() {
                                         transition={{ duration: 0.25 }}
                                         className="my-auto space-y-3"
                                     >
-                                        <div className="p-4 rounded-2xl bg-black text-white shadow-md relative overflow-hidden border border-black">
+                                        <div className="p-4 rounded-2xl bg-[#174A43] text-white shadow-md relative overflow-hidden border border-[#174A43]">
                                             <div className="flex items-center justify-between mb-3">
                                                 <BrandLogo variant="mark" size="sm" />
                                                 <span className="text-[10px] font-semibold tracking-wider uppercase bg-white/20 px-2 py-0.5 rounded-full text-white">Official Certificate</span>
                                             </div>
-                                            <p className="text-[10px] text-zinc-300 uppercase tracking-widest font-semibold">Verified Developer</p>
+                                            <p className="text-[10px] text-[#E8EFEA] uppercase tracking-widest font-semibold">Verified Developer</p>
                                             <h3 className="text-lg font-display font-bold mb-1">React & Modern Web Stack</h3>
                                             <div className="flex items-center justify-between pt-2 border-t border-white/20 text-xs">
                                                 <div>
-                                                    <p className="text-[9px] text-zinc-300">Issued To</p>
+                                                    <p className="text-[9px] text-[#E8EFEA]">Issued To</p>
                                                     <p className="font-bold text-white">Verified Learner</p>
                                                 </div>
                                                 <div className="text-right">
-                                                    <p className="text-[9px] text-zinc-300">Score</p>
-                                                    <p className="font-bold text-white font-extrabold">96% (Pass)</p>
+                                                    <p className="text-[9px] text-[#E8EFEA]">Score</p>
+                                                    <p className="font-bold text-[#D6A85F] font-extrabold">96% (Pass)</p>
                                                 </div>
                                                 <div className="p-1.5 bg-white/10 rounded-lg backdrop-blur-xs">
                                                     <QrCode size={20} className="text-white" />
@@ -331,11 +331,11 @@ export default function Landing() {
 
                                         <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] px-1">
                                             <div className="flex items-center gap-1.5">
-                                                <CheckCircle2 size={14} className="text-black" />
+                                                <CheckCircle2 size={14} className="text-[#174A43]" />
                                                 <span className="font-medium">LinkedIn Shareable</span>
                                             </div>
                                             <div className="flex items-center gap-1.5">
-                                                <Linkedin size={14} className="text-black" />
+                                                <Linkedin size={14} className="text-[#174A43]" />
                                                 <span className="font-medium">Instant Verification</span>
                                             </div>
                                         </div>
@@ -358,7 +358,7 @@ export default function Landing() {
                                             { step: "04", title: "Earn Certificate", desc: "Unlock shareable badge on 80%+ score." },
                                         ].map((item, i) => (
                                             <div key={i} className="flex items-center gap-3 p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                                <div className="w-7 h-7 rounded-lg bg-black text-white flex items-center justify-center font-bold text-xs shrink-0 font-mono">
+                                                <div className="w-7 h-7 rounded-lg bg-[#174A43] text-white flex items-center justify-center font-bold text-xs shrink-0 font-mono">
                                                     {item.step}
                                                 </div>
                                                 <div>

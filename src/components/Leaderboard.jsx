@@ -235,7 +235,7 @@ export default function Leaderboard({ currentUserId = null }) {
                             onClick={() => setTimeframe(tab.id)}
                             className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                                 timeframe === tab.id
-                                    ? 'bg-black text-white shadow-xs'
+                                    ? 'bg-[#174A43] text-white shadow-xs'
                                     : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)]'
                             }`}
                         >
@@ -338,13 +338,13 @@ export default function Leaderboard({ currentUserId = null }) {
                         </div>
                     </motion.div>
 
-                    {/* 1st Place (Champion - Black Card) */}
+                    {/* 1st Place (Champion - Primary Teal Card) */}
                     <motion.div
                         variants={itemVariants}
-                        className="order-1 md:order-2 bg-black text-white border-2 border-black rounded-3xl p-7 text-center shadow-xl relative flex flex-col items-center group hover:-translate-y-2 transition-all duration-300 md:-translate-y-4"
+                        className="order-1 md:order-2 bg-[#174A43] text-white border-2 border-[#174A43] rounded-3xl p-7 text-center shadow-xl relative flex flex-col items-center group hover:-translate-y-2 transition-all duration-300 md:-translate-y-4"
                     >
-                        <div className="absolute -top-5 px-4 py-1.5 bg-white text-black border border-black text-xs font-black uppercase rounded-full shadow-lg flex items-center gap-1.5 animate-pulse">
-                            <Trophy size={14} className="fill-black text-black" /> 1st Place Champion
+                        <div className="absolute -top-5 px-4 py-1.5 bg-[#D6A85F] text-white border border-[#D6A85F] text-xs font-black uppercase rounded-full shadow-lg flex items-center gap-1.5 animate-pulse">
+                            <Trophy size={14} className="fill-white text-white" /> 1st Place Champion
                         </div>
 
                         <div className="relative mt-3 mb-4">
@@ -489,19 +489,19 @@ export default function Leaderboard({ currentUserId = null }) {
 
                                 if (user.rank === 1) {
                                     rankBadge = (
-                                        <span className="w-8 h-8 rounded-xl bg-black text-white font-black text-xs flex items-center justify-center mx-auto shadow-xs">
+                                        <span className="w-8 h-8 rounded-xl bg-[#174A43] text-white font-black text-xs flex items-center justify-center mx-auto shadow-xs">
                                             🥇
                                         </span>
                                     );
                                 } else if (user.rank === 2) {
                                     rankBadge = (
-                                        <span className="w-8 h-8 rounded-xl bg-zinc-200 text-black border border-black font-black text-xs flex items-center justify-center mx-auto shadow-xs">
+                                        <span className="w-8 h-8 rounded-xl bg-zinc-200 text-black border border-zinc-300 font-black text-xs flex items-center justify-center mx-auto shadow-xs">
                                             🥈
                                         </span>
                                     );
                                 } else if (user.rank === 3) {
                                     rankBadge = (
-                                        <span className="w-8 h-8 rounded-xl bg-zinc-100 text-black border border-zinc-400 font-black text-xs flex items-center justify-center mx-auto shadow-xs">
+                                        <span className="w-8 h-8 rounded-xl bg-zinc-100 text-black border border-zinc-300 font-black text-xs flex items-center justify-center mx-auto shadow-xs">
                                             🥉
                                         </span>
                                     );
@@ -512,7 +512,7 @@ export default function Leaderboard({ currentUserId = null }) {
                                         key={user.id}
                                         variants={itemVariants}
                                         className={`group hover:bg-[var(--muted-bg)]/80 transition-colors ${
-                                            isCurrentUser ? 'bg-black/5 border-l-4 border-l-black' : ''
+                                            isCurrentUser ? 'bg-[#E8EFEA] border-l-4 border-l-[#174A43]' : ''
                                         }`}
                                     >
                                         {/* Rank Column */}
@@ -536,11 +536,11 @@ export default function Leaderboard({ currentUserId = null }) {
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center gap-2">
-                                                        <span className="font-bold text-sm text-[var(--foreground)] group-hover:text-black transition-colors">
+                                                        <span className="font-bold text-sm text-[var(--foreground)] group-hover:text-[#174A43] transition-colors">
                                                             {user.name}
                                                         </span>
                                                         {isCurrentUser && (
-                                                            <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-black text-white">
+                                                            <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#174A43] text-white">
                                                                 YOU
                                                             </span>
                                                         )}
@@ -559,7 +559,7 @@ export default function Leaderboard({ currentUserId = null }) {
 
                                         {/* XP Points */}
                                         <td className="px-5 py-4 text-right">
-                                            <span className="font-extrabold text-sm text-black">
+                                            <span className="font-extrabold text-sm text-[#174A43]">
                                                 {user.xp.toLocaleString()} <span className="text-[10px] font-semibold text-[var(--foreground-muted)]">XP</span>
                                             </span>
                                         </td>
@@ -567,12 +567,12 @@ export default function Leaderboard({ currentUserId = null }) {
                                         {/* Accuracy */}
                                         <td className="px-5 py-4 text-center">
                                             <div className="flex flex-col items-center">
-                                                <span className="font-extrabold text-xs text-black">
+                                                <span className="font-extrabold text-xs text-[#174A43]">
                                                     {user.score}%
                                                 </span>
                                                 <div className="w-16 h-1 bg-[var(--muted-bg)] rounded-full mt-1 overflow-hidden">
                                                     <div
-                                                        className="h-full bg-black rounded-full"
+                                                        className="h-full bg-[#174A43] rounded-full"
                                                         style={{ width: `${user.score}%` }}
                                                     />
                                                 </div>
@@ -633,7 +633,7 @@ export default function Leaderboard({ currentUserId = null }) {
                             </p>
                             <button
                                 onClick={() => { setSearchQuery(''); setCategory('All'); }}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-black text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#174A43] text-white hover:bg-[#103732] transition-colors cursor-pointer"
                             >
                                 <X size={12} /> Clear Filters
                             </button>
