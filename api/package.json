@@ -1,5 +1,8 @@
 {
   "type": "commonjs",
+  "scripts": {
+    "postinstall": "prisma generate --schema=../prisma/schema.prisma"
+  },
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "bcryptjs": "^3.0.3",
@@ -14,5 +17,8 @@
     "multer": "^2.0.2",
     "openai": "^6.15.0",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0"
   }
 }

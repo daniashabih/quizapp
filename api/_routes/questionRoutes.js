@@ -4,7 +4,7 @@ const { createQuestion, importQuestions, exportQuestions, getQuestions, checkNew
 const { generateQuestions } = require('../_controllers/aiController');
 const authMiddleware = require('../_middlewares/authMiddleware');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Check for admin role
 const adminMiddleware = (req, res, next) => {

@@ -1,6 +1,7 @@
 const Question = require('../_models/questionModel');
 
 const fs = require('fs');
+const { Readable } = require('stream');
 const csv = require('csv-parser');
 const xlsx = require('xlsx');
 
@@ -28,13 +29,17 @@ const importQuestions = async (req, res) => {
         }
 
         const filePath = req.file.path;
-        const fileExt = req.file.originalname.split('.').pop().toLowerCase();
+        const fileExt = (req.file.originalname || '').split('.').pop().toLowerCase();
         let questions = [];
 
         if (fileExt === 'csv') {
             const results = [];
+            const inputStream = req.file.buffer 
+                ? Readable.from(req.file.buffer)
+                : fs.createReadStream(filePath);
+
             await new Promise((resolve, reject) => {
-                fs.createReadStream(filePath)
+                inputStream
                     .pipe(csv())
                     .on('data', (data) => results.push(data))
                     .on('end', () => resolve(results))
@@ -42,12 +47,14 @@ const importQuestions = async (req, res) => {
             });
             questions = results;
         } else if (fileExt === 'xlsx' || fileExt === 'xls') {
-            const workbook = xlsx.readFile(filePath);
+            const workbook = req.file.buffer 
+                ? xlsx.read(req.file.buffer, { type: 'buffer' })
+                : xlsx.readFile(filePath);
             const sheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[sheetName];
             questions = xlsx.utils.sheet_to_json(worksheet);
         } else {
-            fs.unlinkSync(filePath);
+            if (filePath && fs.existsSync(filePath)) fs.unlinkSync(filePath);
             return res.status(400).json({ message: 'Unsupported file format' });
         }
 
@@ -89,8 +96,10 @@ const importQuestions = async (req, res) => {
             }
         }
 
-        // Delete temp file
-        fs.unlinkSync(filePath);
+        // Delete temp file if disk storage was used
+        if (filePath && fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
 
         res.json({
             message: `Import completed. Success: ${results.success}, Failed: ${results.failed}`,
@@ -98,7 +107,9 @@ const importQuestions = async (req, res) => {
         });
     } catch (error) {
         console.error('Import error:', error);
-        if (req.file) fs.unlinkSync(req.file.path);
+        if (req.file && req.file.path && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
         res.status(500).json({ message: 'Failed to import questions' });
     }
 };
