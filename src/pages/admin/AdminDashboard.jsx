@@ -202,25 +202,29 @@ const AdminDashboard = () => {
         if (!newCategory.trim()) return;
         try {
             if (editingCategoryId) {
-                await axios.put(`/categories/${editingCategoryId}`, { name: newCategory.trim() });
-                toast.success("Category updated.");
+                const res = await axios.put(`/categories/${editingCategoryId}`, { name: newCategory.trim() });
+                toast.success(res.data?.message || "Category updated.");
             } else {
-                await axios.post('/categories', { name: newCategory.trim() });
-                toast.success("Category created.");
+                const res = await axios.post('/categories', { name: newCategory.trim() });
+                toast.success(res.data?.message || "Category created.");
             }
             setNewCategory('');
             setEditingCategoryId(null);
             fetchData();
-        } catch { toast.error("Failed to save category."); }
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to save category.");
+        }
     };
 
     const handleDeleteCategory = async (id) => {
         if (!window.confirm("Delete this category?")) return;
         try {
-            await axios.delete(`/categories/${id}`);
-            toast.success("Category deleted.");
+            const res = await axios.delete(`/categories/${id}`);
+            toast.success(res.data?.message || "Category deleted.");
             fetchData();
-        } catch { toast.error("Failed to delete."); }
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to delete category.");
+        }
     };
 
     const handleGenerateAiQuestions = async (e) => {

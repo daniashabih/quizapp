@@ -3,22 +3,22 @@ const Category = require('../_models/categoryModel');
 const createCategory = async (req, res) => {
     try {
         const { name } = req.body;
-        if (!name) {
+        if (!name || !String(name).trim()) {
             return res.status(400).json({ message: 'Category name is required' });
         }
 
-        try {
-            const id = await Category.create(name);
-            res.status(201).json({ message: 'Category created', id, name });
-        } catch (err) {
-            if (err.code === 'P2002') {
-                return res.status(400).json({ message: 'Category already exists' });
-            }
-            throw err;
+        const cleanName = String(name).trim();
+
+        const existing = await Category.findByName(cleanName);
+        if (existing) {
+            return res.status(400).json({ message: 'Category already exists' });
         }
+
+        const id = await Category.create(cleanName);
+        res.status(201).json({ message: 'Category created successfully', id, name: cleanName });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Create Category Error:', error);
+        res.status(500).json({ message: error.message || 'Server error creating category' });
     }
 };
 
@@ -27,8 +27,8 @@ const getCategories = async (req, res) => {
         const categories = await Category.getAll();
         res.json(categories);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Get Categories Error:', error);
+        res.status(500).json({ message: 'Server error fetching categories' });
     }
 };
 
@@ -36,13 +36,14 @@ const updateCategory = async (req, res) => {
     try {
         const { id } = req.params;
         const { name } = req.body;
-        if (!name) return res.status(400).json({ message: 'Name is required' });
+        if (!name || !String(name).trim()) return res.status(400).json({ message: 'Category name is required' });
 
-        await Category.update(id, name);
-        res.json({ message: 'Category updated' });
+        const cleanName = String(name).trim();
+        await Category.update(id, cleanName);
+        res.json({ message: 'Category updated successfully' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Update Category Error:', error);
+        res.status(500).json({ message: 'Server error updating category' });
     }
 };
 
@@ -50,10 +51,10 @@ const deleteCategory = async (req, res) => {
     try {
         const { id } = req.params;
         await Category.delete(id);
-        res.json({ message: 'Category deleted' });
+        res.json({ message: 'Category deleted successfully' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Delete Category Error:', error);
+        res.status(500).json({ message: 'Server error deleting category' });
     }
 };
 
