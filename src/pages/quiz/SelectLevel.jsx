@@ -10,11 +10,11 @@ const levels = [
         label: 'Beginner',
         desc: 'Perfect for beginners. Covers core syntax, basic concepts, and fundamental logic building.',
         icon: Target,
-        gradient: 'from-emerald-500 to-teal-500',
-        color: 'text-emerald-600 dark:text-emerald-400',
-        bg: 'bg-emerald-50 dark:bg-emerald-500/10',
-        border: 'border-emerald-200 dark:border-emerald-500/20',
-        hoverBorder: 'hover:border-emerald-400 dark:hover:border-emerald-500/40',
+        gradient: 'from-black to-zinc-800',
+        color: 'text-black',
+        bg: 'bg-zinc-100',
+        border: 'border-zinc-300',
+        hoverBorder: 'hover:border-black',
         details: { questions: '10-15', timer: '60s per Q', passing: '60%' },
     },
     {
@@ -23,11 +23,11 @@ const levels = [
         label: 'Intermediate',
         desc: 'For experienced developers. Tests architectural patterns, best practices, and complex problem solving.',
         icon: Shield,
-        gradient: 'from-[#059669] to-[#047857]',
-        color: 'text-[#059669]',
-        bg: 'bg-emerald-50',
-        border: 'border-[#A7F3D0]',
-        hoverBorder: 'hover:border-[#059669]',
+        gradient: 'from-zinc-900 to-black',
+        color: 'text-black',
+        bg: 'bg-zinc-100',
+        border: 'border-zinc-300',
+        hoverBorder: 'hover:border-black',
         details: { questions: '15-20', timer: '45s per Q', passing: '70%' },
     },
     {
@@ -36,11 +36,11 @@ const levels = [
         label: 'Expert',
         desc: 'The ultimate challenge. Deep dives into performance optimization, edge cases, and advanced patterns.',
         icon: Trophy,
-        gradient: 'from-amber-500 to-orange-500',
-        color: 'text-amber-600',
-        bg: 'bg-amber-50',
-        border: 'border-amber-200',
-        hoverBorder: 'hover:border-amber-400',
+        gradient: 'from-black to-zinc-900',
+        color: 'text-black',
+        bg: 'bg-zinc-100',
+        border: 'border-zinc-300',
+        hoverBorder: 'hover:border-black',
         details: { questions: '20-25', timer: '30s per Q', passing: '80%' },
     },
 ];
@@ -63,7 +63,7 @@ export default function SelectLevel() {
                     {/* Back */}
                     <button
                         onClick={() => navigate(-1)}
-                        className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-[#059669] transition-colors mb-4"
+                        className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-black transition-colors mb-4"
                     >
                         <ArrowLeft size={15} /> Back to Technologies
                     </button>
@@ -76,7 +76,7 @@ export default function SelectLevel() {
                         </div>
                         <h1 className="text-3xl lg:text-4xl font-display font-extrabold text-[var(--foreground)] mb-2">
                             Choose Your{' '}
-                            <span className="text-gradient">Difficulty</span>
+                            <span className="text-black underline decoration-black/20 underline-offset-4">Difficulty</span>
                         </h1>
                         <p className="text-xs sm:text-sm text-[var(--foreground-muted)] max-w-xl mx-auto">
                             Select the challenge level that matches your current expertise. You can always retry at a higher difficulty later.
@@ -103,7 +103,7 @@ export default function SelectLevel() {
                                     </div>
 
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-display font-bold text-[var(--foreground)] mb-2 group-hover:text-[#059669] transition-colors">
+                                        <h3 className="text-xl font-display font-bold text-[var(--foreground)] mb-2 group-hover:text-black transition-colors">
                                             {level.name}
                                         </h3>
                                         <p className="text-sm text-[var(--foreground-muted)] leading-relaxed">{level.desc}</p>
@@ -135,7 +135,7 @@ export default function SelectLevel() {
 
                     {/* Pro Tip */}
                     <div className="card p-6 rounded-2xl flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 flex items-center justify-center text-amber-500 shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-300 flex items-center justify-center text-black shrink-0">
                             <Star size={18} />
                         </div>
                         <div>

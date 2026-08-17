@@ -31,7 +31,7 @@ export default function ForgotPassword() {
             <Navbar />
             <div className="flex-1 flex flex-col items-center justify-center p-4 pt-16 sm:pt-20 min-h-0 overflow-y-auto lg:overflow-hidden">
                 <div className="w-full max-w-md animate-fade-up my-auto">
-                    <Link to="/login" className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-[#059669] transition-colors mb-4">
+                    <Link to="/login" className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-black transition-colors mb-4">
                         <ArrowLeft size={15} /> Back to Login
                     </Link>
 
@@ -39,8 +39,8 @@ export default function ForgotPassword() {
                         {!submitted ? (
                             <>
                                 <div className="text-center mb-6">
-                                    <div className="w-12 h-12 rounded-2xl bg-[#EAF5F2] border border-[#D4EBE5] flex items-center justify-center mx-auto mb-3">
-                                        <Mail size={22} className="text-[#059669]" />
+                                    <div className="w-12 h-12 rounded-2xl bg-zinc-100 border border-zinc-300 flex items-center justify-center mx-auto mb-3">
+                                        <Mail size={22} className="text-black" />
                                     </div>
                                     <h1 className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)] mb-1">Forgot Password?</h1>
                                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">No worries, we'll send you reset instructions.</p>
@@ -79,14 +79,14 @@ export default function ForgotPassword() {
                             </>
                         ) : (
                             <div className="text-center py-4">
-                                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center mx-auto mb-3">
-                                    <CheckCircle size={22} className="text-emerald-500" />
+                                <div className="w-12 h-12 rounded-2xl bg-zinc-100 border border-zinc-300 flex items-center justify-center mx-auto mb-3">
+                                    <CheckCircle size={22} className="text-black" />
                                 </div>
                                 <h2 className="text-xl font-display font-bold text-[var(--foreground)] mb-2">Check your email</h2>
                                 <p className="text-xs text-[var(--foreground-muted)] mb-4">
                                     We've sent a password reset link to <strong className="text-[var(--foreground)]">{email}</strong>.
                                 </p>
-                                <button onClick={handleSubmit} className="text-xs font-semibold text-[#059669] hover:text-[#289B7D] transition-colors">
+                                <button onClick={handleSubmit} className="text-xs font-semibold text-black hover:underline transition-colors">
                                     Didn't receive it? Click to resend
                                 </button>
                             </div>

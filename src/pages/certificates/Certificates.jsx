@@ -32,22 +32,22 @@ export default function Certificates() {
 
             <div className="grid grid-cols-3 gap-4">
                 <div className="card p-5 rounded-2xl text-center">
-                    <div className="w-10 h-10 rounded-xl bg-[#EAF5F2] border border-[#D4EBE5] flex items-center justify-center mx-auto mb-2">
-                        <Award size={18} className="text-[#163B34]" />
+                    <div className="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-300 flex items-center justify-center mx-auto mb-2">
+                        <Award size={18} className="text-black" />
                     </div>
                     <p className="text-2xl font-display font-bold text-[var(--foreground)]">{earnedCount}</p>
                     <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Earned</p>
                 </div>
                 <div className="card p-5 rounded-2xl text-center">
-                    <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center mx-auto mb-2">
-                        <Lock size={18} className="text-amber-500" />
+                    <div className="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-300 flex items-center justify-center mx-auto mb-2">
+                        <Lock size={18} className="text-black" />
                     </div>
                     <p className="text-2xl font-display font-bold text-[var(--foreground)]">{certList.filter(c => !c.issued).length}</p>
                     <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Available</p>
                 </div>
                 <div className="card p-5 rounded-2xl text-center">
-                    <div className="w-10 h-10 rounded-xl bg-[#F7FAF9] border border-[#E5E7EB] flex items-center justify-center mx-auto mb-2">
-                        <FileText size={18} className="text-[#289B7D]" />
+                    <div className="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-300 flex items-center justify-center mx-auto mb-2">
+                        <FileText size={18} className="text-black" />
                     </div>
                     <p className="text-2xl font-display font-bold text-[var(--foreground)]">{certList.length}</p>
                     <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Total</p>
@@ -71,8 +71,8 @@ export default function Certificates() {
                         <div className="flex items-center gap-4">
                             <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg ${
                                 cert.issued
-                                    ? 'bg-gradient-to-br from-[#163B34] to-[#289B7D]'
-                                    : 'bg-[var(--muted-bg)] border border-[var(--card-border)]'
+                                    ? 'bg-black text-white border border-black'
+                                    : 'bg-[var(--muted-bg)] border border-[var(--card-border)] text-black'
                             }`}>
                                 {cert.issued ? '🏆' : '🔒'}
                             </div>
@@ -80,7 +80,7 @@ export default function Certificates() {
                                 <div className="flex items-center gap-2">
                                     <h3 className="text-lg font-bold text-[var(--foreground)]">{cert.tech}</h3>
                                     {cert.issued && (
-                                        <CheckCircle2 size={14} className="text-emerald-500" />
+                                        <CheckCircle2 size={14} className="text-black" />
                                     )}
                                 </div>
                                 <div className="flex items-center gap-3 mt-1">
@@ -103,10 +103,10 @@ export default function Certificates() {
                                     >
                                         <ExternalLink size={13} /> View
                                     </Link>
-                                    <button className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-[#059669] hover:bg-[var(--muted-bg)] transition-all">
+                                    <button className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
                                         <Download size={15} />
                                     </button>
-                                    <button className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-[#0A66C2] hover:bg-[var(--muted-bg)] transition-all">
+                                    <button className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
                                         <Linkedin size={15} />
                                     </button>
                                 </>

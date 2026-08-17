@@ -302,14 +302,14 @@ const AdminDashboard = () => {
     const difficultyBadge = (d) => {
         const map = {
             expert: 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400 border-amber-200 dark:border-amber-500/20',
-            intermediate: 'bg-[#EAF5F2] text-[#059669] border-[#D4EBE5]',
+            intermediate: 'bg-[#EAF5F2] text-black border-[#D4EBE5]',
             beginner: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20',
         };
         return map[d] || map.beginner;
     };
 
     const stats = [
-        { label: 'Total Questions', value: questions.length, icon: BookOpen, gradient: 'from-[#059669] to-[#059669]' },
+        { label: 'Total Questions', value: questions.length, icon: BookOpen, gradient: 'from-[black] to-[black]' },
         { label: 'Categories', value: categories.length, icon: FolderOpen, gradient: 'from-amber-500 to-orange-500' },
         { label: 'Registered Users', value: allUsers.length || '—', icon: Users, gradient: 'from-emerald-500 to-teal-500' },
     ];
@@ -377,7 +377,7 @@ const AdminDashboard = () => {
                             }}
                             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                                 isSelected
-                                    ? 'bg-[#059669] text-white shadow-md'
+                                    ? 'bg-[black] text-white shadow-md'
                                     : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
                             }`}
                         >
@@ -445,7 +445,7 @@ const AdminDashboard = () => {
                                     {filteredQuestions.length === 0 ? (
                                         <tr>
                                             <td colSpan={5} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
-                                                No questions matching filter. <button onClick={() => openQuestionModal(null)} className="text-[#059669] font-bold hover:underline">Add one now</button>
+                                                No questions matching filter. <button onClick={() => openQuestionModal(null)} className="text-black font-bold hover:underline">Add one now</button>
                                             </td>
                                         </tr>
                                     ) : filteredQuestions.map((q) => (
@@ -467,13 +467,13 @@ const AdminDashboard = () => {
                                                 )}
                                             </td>
                                             <td className="px-6 py-4">
-                                                <code className="px-2.5 py-1 rounded-lg bg-[var(--muted-bg)] text-[#059669] font-bold text-xs font-mono border border-[var(--card-border)]">
+                                                <code className="px-2.5 py-1 rounded-lg bg-[var(--muted-bg)] text-black font-bold text-xs font-mono border border-[var(--card-border)]">
                                                     {q.correct_answer}
                                                 </code>
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex items-center gap-1.5">
-                                                    <button onClick={() => openQuestionModal(q)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[#059669] hover:bg-[var(--muted-bg)] transition-all">
+                                                    <button onClick={() => openQuestionModal(q)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
                                                         <Edit2 size={14} />
                                                     </button>
                                                     <button onClick={() => handleDeleteQuestion(q.id)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
@@ -496,7 +496,7 @@ const AdminDashboard = () => {
                     <div className="flex items-center justify-between border-b border-[var(--card-border)] pb-4">
                         <div>
                             <h2 className="text-lg font-display font-bold text-[var(--foreground)] flex items-center gap-2">
-                                <Sliders size={18} className="text-[#059669]" /> Global Quiz Options & Rules
+                                <Sliders size={18} className="text-black" /> Global Quiz Options & Rules
                             </h2>
                             <p className="text-xs text-[var(--foreground-muted)] mt-0.5">
                                 Configure time limits, passing score thresholds, shuffling, and candidate feedback settings.
@@ -511,7 +511,7 @@ const AdminDashboard = () => {
                         {/* Option 1: Time limit per question */}
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
                             <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
-                                <Clock size={15} className="text-[#059669]" /> Timer Limit Per Question
+                                <Clock size={15} className="text-black" /> Timer Limit Per Question
                             </label>
                             <p className="text-[11px] text-[var(--foreground-muted)]">Seconds allocated to candidates for each question.</p>
                             <select
@@ -530,7 +530,7 @@ const AdminDashboard = () => {
                         {/* Option 2: Passing Score */}
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
                             <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
-                                <Percent size={15} className="text-[#059669]" /> Minimum Passing Percentage
+                                <Percent size={15} className="text-black" /> Minimum Passing Percentage
                             </label>
                             <p className="text-[11px] text-[var(--foreground-muted)]">Score required to pass and earn certificates.</p>
                             <select
@@ -549,7 +549,7 @@ const AdminDashboard = () => {
                         {/* Option 3: Questions per session */}
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
                             <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
-                                <BookOpen size={15} className="text-[#059669]" /> Questions Per Quiz Session
+                                <BookOpen size={15} className="text-black" /> Questions Per Quiz Session
                             </label>
                             <p className="text-[11px] text-[var(--foreground-muted)]">Number of questions drawn into each test run.</p>
                             <select
@@ -568,7 +568,7 @@ const AdminDashboard = () => {
                         {/* Option 4: Shuffling & Order */}
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-3">
                             <span className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
-                                <Shuffle size={15} className="text-[#059669]" /> Question Shuffling & Randomization
+                                <Shuffle size={15} className="text-black" /> Question Shuffling & Randomization
                             </span>
                             <div className="space-y-2">
                                 <label className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)] cursor-pointer">
@@ -576,7 +576,7 @@ const AdminDashboard = () => {
                                         type="checkbox"
                                         checked={quizOptions.randomizeQuestions}
                                         onChange={(e) => setQuizOptions({ ...quizOptions, randomizeQuestions: e.target.checked })}
-                                        className="rounded border-[var(--card-border)] text-[#059669] focus:ring-[#059669]"
+                                        className="rounded border-[var(--card-border)] text-black focus:ring-[black]"
                                     />
                                     Randomize Question Order
                                 </label>
@@ -585,7 +585,7 @@ const AdminDashboard = () => {
                                         type="checkbox"
                                         checked={quizOptions.shuffleOptions}
                                         onChange={(e) => setQuizOptions({ ...quizOptions, shuffleOptions: e.target.checked })}
-                                        className="rounded border-[var(--card-border)] text-[#059669] focus:ring-[#059669]"
+                                        className="rounded border-[var(--card-border)] text-black focus:ring-[black]"
                                     />
                                     Shuffle Answer Choice Positions
                                 </label>
@@ -595,7 +595,7 @@ const AdminDashboard = () => {
 
                     {/* Additional Toggles */}
                     <div className="border-t border-[var(--card-border)] pt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#059669] transition-all">
+                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[black] transition-all">
                             <div>
                                 <span className="text-xs font-bold text-[var(--foreground)] block">Instant Answer Feedback</span>
                                 <span className="text-[11px] text-[var(--foreground-muted)]">Show correct/incorrect popup immediately upon answer selection.</span>
@@ -604,11 +604,11 @@ const AdminDashboard = () => {
                                 type="checkbox"
                                 checked={quizOptions.instantFeedback}
                                 onChange={(e) => setQuizOptions({ ...quizOptions, instantFeedback: e.target.checked })}
-                                className="w-4 h-4 rounded border-[var(--card-border)] text-[#059669]"
+                                className="w-4 h-4 rounded border-[var(--card-border)] text-black"
                             />
                         </label>
 
-                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#059669] transition-all">
+                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[black] transition-all">
                             <div>
                                 <span className="text-xs font-bold text-[var(--foreground)] block">Show Explanations</span>
                                 <span className="text-[11px] text-[var(--foreground-muted)]">Provide explanations for questions on the result summary page.</span>
@@ -617,11 +617,11 @@ const AdminDashboard = () => {
                                 type="checkbox"
                                 checked={quizOptions.showExplanations}
                                 onChange={(e) => setQuizOptions({ ...quizOptions, showExplanations: e.target.checked })}
-                                className="w-4 h-4 rounded border-[var(--card-border)] text-[#059669]"
+                                className="w-4 h-4 rounded border-[var(--card-border)] text-black"
                             />
                         </label>
 
-                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#059669] transition-all">
+                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[black] transition-all">
                             <div>
                                 <span className="text-xs font-bold text-[var(--foreground)] block">Allow Quiz Retries</span>
                                 <span className="text-[11px] text-[var(--foreground-muted)]">Permit candidates to re-attempt tests after completion.</span>
@@ -630,11 +630,11 @@ const AdminDashboard = () => {
                                 type="checkbox"
                                 checked={quizOptions.allowRetries}
                                 onChange={(e) => setQuizOptions({ ...quizOptions, allowRetries: e.target.checked })}
-                                className="w-4 h-4 rounded border-[var(--card-border)] text-[#059669]"
+                                className="w-4 h-4 rounded border-[var(--card-border)] text-black"
                             />
                         </label>
 
-                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#059669] transition-all">
+                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[black] transition-all">
                             <div>
                                 <span className="text-xs font-bold text-[var(--foreground)] block">Negative Marking</span>
                                 <span className="text-[11px] text-[var(--foreground-muted)]">Deduct points for incorrect attempts to discourage guessing.</span>
@@ -643,7 +643,7 @@ const AdminDashboard = () => {
                                 type="checkbox"
                                 checked={quizOptions.negativeMarking}
                                 onChange={(e) => setQuizOptions({ ...quizOptions, negativeMarking: e.target.checked })}
-                                className="w-4 h-4 rounded border-[var(--card-border)] text-[#059669]"
+                                className="w-4 h-4 rounded border-[var(--card-border)] text-black"
                             />
                         </label>
                     </div>
@@ -660,7 +660,7 @@ const AdminDashboard = () => {
             {activeTab === 'ai' && (
                 <div className="card p-6 rounded-2xl space-y-6 max-w-3xl">
                     <div className="flex items-center gap-3 pb-4 border-b border-[var(--card-border)]">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#059669] to-[#059669] flex items-center justify-center text-white">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[black] to-[black] flex items-center justify-center text-white">
                             <Sparkles size={20} />
                         </div>
                         <div>
@@ -716,7 +716,7 @@ const AdminDashboard = () => {
 
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)] text-xs space-y-1 text-[var(--foreground-muted)]">
                             <p className="font-semibold text-[var(--foreground)] flex items-center gap-1">
-                                <Bot size={14} className="text-[#059669]" /> How it works:
+                                <Bot size={14} className="text-black" /> How it works:
                             </p>
                             <p>The AI creates relevant multiple choice questions with 4 distinct options and auto-saves them into your question bank under <strong className="text-[var(--foreground)]">{aiTopic || 'selected topic'}</strong>.</p>
                         </div>
@@ -769,7 +769,7 @@ const AdminDashboard = () => {
                             <div key={cat.id} className="flex items-center justify-between p-3.5 card rounded-xl hover:bg-[var(--muted-bg)] transition-colors">
                                 <span className="text-xs font-bold text-[var(--foreground)]">{cat.name}</span>
                                 <div className="flex gap-1.5">
-                                    <button onClick={() => { setEditingCategoryId(cat.id); setNewCategory(cat.name); }} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[#059669] hover:bg-[var(--muted-bg)] transition-all">
+                                    <button onClick={() => { setEditingCategoryId(cat.id); setNewCategory(cat.name); }} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
                                         <Edit2 size={14} />
                                     </button>
                                     <button onClick={() => handleDeleteCategory(cat.id)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
@@ -873,7 +873,7 @@ const AdminDashboard = () => {
                                     <button
                                         type="button"
                                         onClick={handleAddOption}
-                                        className="text-[11px] font-bold text-[#059669] hover:text-[#059669] flex items-center gap-1"
+                                        className="text-[11px] font-bold text-black hover:text-black flex items-center gap-1"
                                     >
                                         <Plus size={13} /> Add Option
                                     </button>
@@ -887,7 +887,7 @@ const AdminDashboard = () => {
                                                 name="correctAnswerSelect"
                                                 checked={correctAnswer === opt && opt.trim() !== ''}
                                                 onChange={() => setCorrectAnswer(opt)}
-                                                className="w-4 h-4 text-[#059669] focus:ring-[#059669] cursor-pointer"
+                                                className="w-4 h-4 text-black focus:ring-[black] cursor-pointer"
                                                 title="Mark as correct answer"
                                             />
                                             <input
@@ -949,7 +949,7 @@ const AdminDashboard = () => {
                         <form onSubmit={handleImportQuestions} className="p-6 space-y-4">
                             <div className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground-muted)] space-y-2">
                                 <p>Upload a CSV or XLSX spreadsheet containing question columns.</p>
-                                <button type="button" onClick={downloadTemplate} className="text-xs font-bold text-[#059669] hover:underline flex items-center gap-1">
+                                <button type="button" onClick={downloadTemplate} className="text-xs font-bold text-black hover:underline flex items-center gap-1">
                                     <Download size={12} /> Download Sample Template
                                 </button>
                             </div>
@@ -957,7 +957,7 @@ const AdminDashboard = () => {
                                 type="file"
                                 accept=".csv,.xlsx,.xls"
                                 onChange={(e) => setImportFile(e.target.files[0])}
-                                className="input-field text-xs file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#EAF5F2] file:text-[#059669]"
+                                className="input-field text-xs file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#EAF5F2] file:text-black"
                             />
                             <div className="flex gap-3">
                                 <button type="button" onClick={() => { setIsImportModalOpen(false); setImportFile(null); }} className="btn-secondary flex-1 justify-center text-xs">

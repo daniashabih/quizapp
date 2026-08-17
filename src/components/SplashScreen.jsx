@@ -36,7 +36,7 @@ export default function SplashScreen({ onFinish }) {
             });
         }, 150);
 
-        return () => clearTimeout(interval);
+        return () => clearInterval(interval);
     }, [phase, onFinish]);
 
     if (!visible) return null;
@@ -49,13 +49,13 @@ export default function SplashScreen({ onFinish }) {
         >
             {/* Ambient Background Blur */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#059669]/5 rounded-full blur-[120px] animate-pulse" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-black/5 rounded-full blur-[120px] animate-pulse" />
             </div>
 
             <div className="flex flex-col items-center text-center max-w-sm px-6 relative z-10">
                 {/* Logo Container */}
                 <div className="relative mb-6">
-                    <div className="absolute -inset-3 bg-[#059669]/10 rounded-3xl blur-md animate-pulse" />
+                    <div className="absolute -inset-3 bg-black/5 rounded-3xl blur-md animate-pulse" />
                     <div className="relative w-20 h-20 rounded-3xl bg-white border border-[#E2E8F0] shadow-xl flex items-center justify-center p-3">
                         <BrandLogo variant="mark" size="lg" />
                     </div>
@@ -63,7 +63,7 @@ export default function SplashScreen({ onFinish }) {
 
                 {/* App Brand Name */}
                 <h1 className="text-3xl font-display font-extrabold text-[var(--foreground)] tracking-tight mb-1">
-                    Hang<span className="text-[#059669]">Bug</span>
+                    Hang<span className="text-black font-extrabold">Bug</span>
                 </h1>
 
                 {/* Subtitle */}
@@ -73,24 +73,24 @@ export default function SplashScreen({ onFinish }) {
 
                 {/* Progress Bar Container */}
                 <div className="w-full space-y-2">
-                    <div className="w-full h-1.5 bg-[#ECFDF5] rounded-full overflow-hidden border border-[#A7F3D0] p-0.5">
+                    <div className="w-full h-1.5 bg-[#F4F4F5] rounded-full overflow-hidden border border-[#D4D4D8] p-0.5">
                         <div
-                            className="h-full rounded-full bg-gradient-to-r from-[#059669] to-[#047857] transition-all duration-300 ease-out"
+                            className="h-full rounded-full bg-black transition-all duration-300 ease-out"
                             style={{ width: `${progress}%` }}
                         />
                     </div>
 
                     <div className="flex items-center justify-between text-[11px] font-medium text-[var(--foreground-muted)]">
                         <span>Initializing core modules...</span>
-                        <span className="font-mono font-bold text-[#059669]">{Math.round(progress)}%</span>
+                        <span className="font-mono font-bold text-black">{Math.round(progress)}%</span>
                     </div>
                 </div>
 
                 {/* Minimal Loading Dots */}
                 <div className="flex items-center gap-1.5 mt-8">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#059669] animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#059669] animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#059669] animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <div className="w-1.5 h-1.5 rounded-full bg-black animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <div className="w-1.5 h-1.5 rounded-full bg-black animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <div className="w-1.5 h-1.5 rounded-full bg-black animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
             </div>
 

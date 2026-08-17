@@ -17,11 +17,11 @@ const mockTimeline = [
 ];
 
 const skills = [
-    { name: 'JavaScript', level: 90, color: 'from-yellow-500 to-yellow-600' },
-    { name: 'React', level: 85, color: 'from-sky-500 to-blue-600' },
-    { name: 'Python', level: 75, color: 'from-blue-500 to-blue-700' },
-    { name: 'Node.js', level: 70, color: 'from-green-500 to-emerald-600' },
-    { name: 'HTML/CSS', level: 95, color: 'from-orange-500 to-red-500' },
+    { name: 'JavaScript', level: 90, color: 'bg-black' },
+    { name: 'React', level: 85, color: 'bg-black' },
+    { name: 'Python', level: 75, color: 'bg-black' },
+    { name: 'Node.js', level: 70, color: 'bg-black' },
+    { name: 'HTML/CSS', level: 95, color: 'bg-black' },
 ];
 
 export default function Profile() {
@@ -59,10 +59,10 @@ export default function Profile() {
                     {/* Profile Card */}
                     <div className="card p-6 rounded-2xl text-center">
                         <div className="relative inline-block mb-4">
-                            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center text-white font-display font-extrabold text-4xl shadow-xl">
+                            <div className="w-24 h-24 rounded-2xl bg-black flex items-center justify-center text-white font-display font-extrabold text-4xl shadow-xl">
                                 {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                             </div>
-                            <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-[var(--card-bg)]" />
+                            <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-black border-2 border-[var(--card-bg)]" />
                         </div>
                         {!isEditing ? (
                             <>
@@ -131,7 +131,7 @@ export default function Profile() {
                                         <span className="text-xs font-bold text-[var(--foreground-muted)]">{skill.level}%</span>
                                     </div>
                                     <div className="progress-bar">
-                                        <div className={`h-full rounded-full bg-gradient-to-r ${skill.color} transition-all duration-1000`}
+                                        <div className={`h-full rounded-full ${skill.color} transition-all duration-1000`}
                                             style={{ width: `${skill.level}%` }} />
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@ export default function Profile() {
                                             {item.score && (
                                                 <>
                                                     <span className="w-1 h-1 rounded-full bg-[var(--card-border)]" />
-                                                    <span className={`text-xs font-medium ${item.score.includes('%') ? 'text-emerald-500' : 'text-[var(--foreground-muted)]'}`}>{item.score}</span>
+                                                    <span className={`text-xs font-medium ${item.score.includes('%') ? 'text-black font-bold' : 'text-[var(--foreground-muted)]'}`}>{item.score}</span>
                                                 </>
                                             )}
                                         </div>
@@ -180,7 +180,7 @@ function InfoRow({ icon: Icon, label, value, isLink }) {
             <div>
                 <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">{label}</p>
                 {isLink ? (
-                    <a href={value} className="text-sm font-medium text-[#163B34] hover:text-[#289B7D]">{value}</a>
+                    <a href={value} className="text-sm font-medium text-black hover:underline">{value}</a>
                 ) : (
                     <p className="text-sm font-medium text-[var(--foreground)]">{value}</p>
                 )}
@@ -192,7 +192,7 @@ function InfoRow({ icon: Icon, label, value, isLink }) {
 function SocialLink({ icon: Icon, label, href }) {
     return (
         <a href={href} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] hover:border-[#163B34] hover:text-[#163B34] transition-all text-sm font-medium text-[var(--foreground)] group">
+            className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] hover:border-black hover:text-black transition-all text-sm font-medium text-[var(--foreground)] group">
             <Icon size={16} className="group-hover:scale-110 transition-transform" />
             {label}
             <ChevronRight size={14} className="ml-auto text-[var(--foreground-muted)]" />

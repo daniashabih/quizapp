@@ -63,7 +63,7 @@ export default function SelectLanguage() {
     }, []);
 
     const getIcon = () => {
-        return { icon: Code2, color: 'text-[#289B7D]', bg: 'bg-[#EAF5F2]', border: 'border-[#D4EBE5]' };
+        return { icon: Code2, color: 'text-black', bg: 'bg-zinc-100', border: 'border-zinc-300' };
     };
 
     const formattedActiveNow = activeNow === null ? '...' : new Intl.NumberFormat().format(activeNow);
@@ -71,8 +71,8 @@ export default function SelectLanguage() {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center py-40 gap-4">
-                <Loader2 size={40} className="text-[#163B34] animate-spin" />
-                <p className="text-[#163B34] text-sm font-bold tracking-widest uppercase animate-pulse">Initializing Tracks...</p>
+                <Loader2 size={40} className="text-black animate-spin" />
+                <p className="text-black text-sm font-bold tracking-widest uppercase animate-pulse">Initializing Tracks...</p>
             </div>
         );
     }
@@ -81,12 +81,12 @@ export default function SelectLanguage() {
         <div className="max-w-5xl mx-auto animate-fade-in relative z-10 pt-8">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
                 <div>
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF5F2] border border-[#D4EBE5] text-[#163B34] text-xs font-bold tracking-widest uppercase mb-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-100 border border-zinc-300 text-black text-xs font-bold tracking-widest uppercase mb-6">
                         <Sparkles size={14} />
                         Assessment Platform
                     </div>
                     <h1 className="text-5xl md:text-6xl font-display font-extrabold text-[var(--foreground)] mb-4 tracking-tighter">
-                        Choose your <span className="text-gradient">track</span>
+                        Choose your <span className="text-black underline underline-offset-4 decoration-black/20">track</span>
                     </h1>
                     <p className="text-[var(--foreground-muted)] max-w-xl text-base leading-relaxed font-medium">
                         Select a programming language track to begin your assessment. Each challenge is crafted to test real-world proficiency.
@@ -100,7 +100,7 @@ export default function SelectLanguage() {
                     </div>
                     <div className="h-10 w-px bg-[#E5E7EB]" />
                     <div className="flex -space-x-3">
-                        {['from-[#163B34] to-[#289B7D]', 'from-[#289B7D] to-[#53AF97]', 'from-[#1F4D44] to-[#163B34]'].map((grad, i) => (
+                        {['from-black to-zinc-800', 'from-zinc-800 to-black', 'from-black to-zinc-900'].map((grad, i) => (
                             <div key={i} className={`w-10 h-10 rounded-full border-2 border-white bg-gradient-to-br ${grad}`} />
                         ))}
                     </div>
@@ -123,14 +123,14 @@ export default function SelectLanguage() {
                             <button
                                 key={cat.id}
                                 onClick={() => navigate('level', { state: { category: cat.name } })}
-                                className={`group bg-white border border-[#E5E7EB] p-6 rounded-3xl text-left flex flex-col gap-6 transition-all duration-500 active:scale-[0.98] hover:border-[#163B34] hover:shadow-xl hover:-translate-y-1`}
+                                className={`group bg-white border border-[#E5E7EB] p-6 rounded-3xl text-left flex flex-col gap-6 transition-all duration-500 active:scale-[0.98] hover:border-black hover:shadow-xl hover:-translate-y-1`}
                             >
                                 <div className={`w-14 h-14 rounded-2xl ${bg} border ${border} flex items-center justify-center group-hover:scale-110 transition-transform duration-500`}>
                                     <Icon size={26} className={color} />
                                 </div>
 
                                 <div className="flex-1">
-                                    <h3 className="text-xl font-display font-bold text-[var(--foreground)] mb-2 tracking-tight group-hover:text-[#163B34] transition-colors duration-300">
+                                    <h3 className="text-xl font-display font-bold text-[var(--foreground)] mb-2 tracking-tight group-hover:text-black transition-colors duration-300">
                                         {cat.name}
                                     </h3>
                                     <p className="text-[var(--foreground-muted)] text-sm leading-relaxed font-medium">
@@ -140,7 +140,7 @@ export default function SelectLanguage() {
 
                                 <div className="flex items-center justify-between pt-2 border-t border-[#E5E7EB]">
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--foreground-muted)]">Multi-level</span>
-                                    <div className="flex items-center gap-2 text-[#163B34] font-bold text-sm group-hover:gap-3 transition-all duration-300">
+                                    <div className="flex items-center gap-2 text-black font-bold text-sm group-hover:gap-3 transition-all duration-300">
                                         Start Session <ArrowRight size={16} />
                                     </div>
                                 </div>

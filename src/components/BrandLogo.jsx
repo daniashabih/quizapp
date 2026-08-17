@@ -46,8 +46,8 @@ export default function BrandLogo({
         const markSize = inlineSizes[size]?.mark || inlineSizes.md.mark;
 
         return (
-            <span className={`${markSize} inline-flex shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-[#A7F3D0] shadow-xs ${className}`}>
-                <Bug className="h-full w-full text-[#059669] p-0.5" />
+            <span className={`${markSize} inline-flex shrink-0 items-center justify-center rounded-xl bg-black text-white border border-black shadow-xs ${className}`}>
+                <Bug className="h-full w-full text-white p-0.5" />
             </span>
         );
     }
@@ -56,11 +56,11 @@ export default function BrandLogo({
 
     return (
         <span className={`inline-flex items-center gap-3 ${className}`}>
-            <span className={`${styles.mark} inline-flex shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-[#A7F3D0] shadow-xs`}>
-                <Bug className="h-full w-full text-[#059669] p-0.5" />
+            <span className={`${styles.mark} inline-flex shrink-0 items-center justify-center rounded-xl bg-black text-white border border-black shadow-xs`}>
+                <Bug className="h-full w-full text-white p-0.5" />
             </span>
             <span className={`${styles.text} font-display font-bold tracking-tight text-[var(--foreground)] ${textClassName}`}>
-                Hang<span className="text-[#10B981]">Bug</span>
+                Hang<span className="text-black font-extrabold">Bug</span>
             </span>
         </span>
     );

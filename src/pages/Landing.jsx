@@ -12,14 +12,14 @@ import Navbar from '../components/Navbar';
 import BrandLogo from '../components/BrandLogo';
 
 const technologies = [
-    { name: 'HTML', level: 'Beginner', questions: 120, color: '#E44D26' },
-    { name: 'CSS', level: 'Beginner', questions: 150, color: '#1572B6' },
-    { name: 'JavaScript', level: 'Intermediate', questions: 200, color: '#F7DF1E' },
-    { name: 'React', level: 'Advanced', questions: 180, color: '#61DAFB' },
-    { name: 'Node.js', level: 'Intermediate', questions: 160, color: '#339933' },
-    { name: 'Python', level: 'Intermediate', questions: 190, color: '#3776AB' },
-    { name: 'Tailwind CSS', level: 'Intermediate', questions: 100, color: '#289B7D' },
-    { name: 'MongoDB', level: 'Intermediate', questions: 90, color: '#47A248' },
+    { name: 'HTML', level: 'Beginner', questions: 120, color: '#000000' },
+    { name: 'CSS', level: 'Beginner', questions: 150, color: '#000000' },
+    { name: 'JavaScript', level: 'Intermediate', questions: 200, color: '#000000' },
+    { name: 'React', level: 'Advanced', questions: 180, color: '#000000' },
+    { name: 'Node.js', level: 'Intermediate', questions: 160, color: '#000000' },
+    { name: 'Python', level: 'Intermediate', questions: 190, color: '#000000' },
+    { name: 'Tailwind CSS', level: 'Intermediate', questions: 100, color: '#000000' },
+    { name: 'MongoDB', level: 'Intermediate', questions: 90, color: '#000000' },
 ];
 
 export default function Landing() {
@@ -33,8 +33,8 @@ export default function Landing() {
         <div className="min-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-x-hidden relative transition-colors duration-300">
             {/* Background ambient glowing gradients */}
             <div className="absolute inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#059669]/5 rounded-full blur-[140px]" />
-                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-[#10B981]/5 rounded-full blur-[140px]" />
+                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-black/5 rounded-full blur-[140px]" />
+                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-black/5 rounded-full blur-[140px]" />
             </div>
 
             {/* Fixed Navbar at Top */}
@@ -57,9 +57,9 @@ export default function Landing() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.3, delay: 0.1 }}
-                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ECFDF5] text-[#047857] text-xs font-semibold tracking-wide border border-[#A7F3D0] shadow-xs"
+                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-100 text-black text-xs font-semibold tracking-wide border border-zinc-300 shadow-xs"
                             >
-                                <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+                                <span className="w-2 h-2 rounded-full bg-black animate-pulse" />
                                 AI-Powered Web Quizzes — Now Live
                             </motion.div>
                         </div>
@@ -72,7 +72,7 @@ export default function Landing() {
                             className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-extrabold text-[var(--foreground)] leading-[1.08] tracking-tight"
                         >
                             Master Web <br />
-                            Development <span className="text-gradient">One Quiz</span> <br />
+                            Development <span className="text-black font-extrabold underline decoration-black/20 underline-offset-4">One Quiz</span> <br />
                             at a Time
                         </motion.h1>
 
@@ -101,7 +101,7 @@ export default function Landing() {
                                     placeholder="Search technologies (e.g., React, Python)..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl py-2.5 pl-10 pr-4 text-xs sm:text-sm text-[var(--foreground)] placeholder:[var(--foreground-muted)] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669] transition-all shadow-xs"
+                                    className="w-full bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl py-2.5 pl-10 pr-4 text-xs sm:text-sm text-[var(--foreground)] placeholder:[var(--foreground-muted)] focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all shadow-xs"
                                 />
                                 {searchQuery && (
                                     <div className="absolute top-full left-0 right-0 mt-2 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl shadow-xl overflow-hidden z-30 animate-scale-in">
@@ -113,7 +113,7 @@ export default function Landing() {
                                                     className="flex items-center justify-between px-4 py-2.5 hover:bg-[var(--muted-bg)] transition-colors border-b border-[var(--card-border)] last:border-0"
                                                 >
                                                     <div className="flex items-center gap-2.5">
-                                                        <div className="w-2 h-2 rounded-full" style={{ background: t.color }} />
+                                                        <div className="w-2 h-2 rounded-full bg-black" />
                                                         <span className="text-xs font-semibold text-[var(--foreground)]">{t.name}</span>
                                                     </div>
                                                     <span className="text-[11px] text-[var(--foreground-muted)]">{t.questions} Qs</span>
@@ -165,7 +165,7 @@ export default function Landing() {
                             ].map(({ value, label, icon: Icon }, i) => (
                                 <div key={i} className="text-left">
                                     <div className="flex items-center gap-1 mb-0.5">
-                                        <Icon size={12} className="text-[#059669]" />
+                                        <Icon size={12} className="text-black" />
                                         <span className="text-xs font-bold text-[var(--foreground)] font-display">{value}</span>
                                     </div>
                                     <p className="text-[10px] text-[var(--foreground-muted)] font-medium leading-tight">{label}</p>
@@ -197,7 +197,7 @@ export default function Landing() {
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
                                             isActive
-                                                ? 'bg-[#059669] text-white shadow-xs'
+                                                ? 'bg-black text-white shadow-xs'
                                                 : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--card-bg)]'
                                         }`}
                                     >
@@ -234,11 +234,11 @@ export default function Landing() {
                                         <div className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                             <div className="flex items-center justify-between mb-2">
                                                 <span className="text-xs font-semibold text-[var(--foreground)]">React Component Lifecycle & Hooks</span>
-                                                <span className="text-[10px] font-bold text-[#059669]">Question 12/15</span>
+                                                <span className="text-[10px] font-bold text-black">Question 12/15</span>
                                             </div>
-                                            <div className="progress-bar overflow-hidden h-2 bg-emerald-100 rounded-full">
+                                            <div className="progress-bar overflow-hidden h-2 bg-zinc-200 rounded-full">
                                                 <motion.div
-                                                    className="h-full bg-[#059669] rounded-full"
+                                                    className="h-full bg-black rounded-full"
                                                     initial={{ width: '0%' }}
                                                     animate={{ width: '80%' }}
                                                     transition={{ duration: 1 }}
@@ -248,10 +248,10 @@ export default function Landing() {
 
                                         <div className="grid grid-cols-2 gap-2.5">
                                             {[
-                                                { label: 'Score Rate', value: '94%', color: 'text-[#10B981]' },
-                                                { label: 'Avg Speed', value: '18s / Q', color: 'text-[#059669]' },
-                                                { label: 'Current Streak', value: '7 Days', color: 'text-[#F59E0B]' },
-                                                { label: 'Global Rank', value: '#42 Top 1%', color: 'text-[#047857]' },
+                                                { label: 'Score Rate', value: '94%', color: 'text-black' },
+                                                { label: 'Avg Speed', value: '18s / Q', color: 'text-black' },
+                                                { label: 'Current Streak', value: '7 Days', color: 'text-black' },
+                                                { label: 'Global Rank', value: '#42 Top 1%', color: 'text-black' },
                                             ].map((stat) => (
                                                 <div key={stat.label} className="p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                                     <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">{stat.label}</p>
@@ -260,9 +260,9 @@ export default function Landing() {
                                             ))}
                                         </div>
 
-                                        <div className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-50 border border-amber-200">
-                                            <Zap size={14} className="text-[#F59E0B] animate-bounce shrink-0" />
-                                            <p className="text-[11px] font-semibold text-amber-800">75 XP away from reaching Master Rank!</p>
+                                        <div className="flex items-center gap-2 p-2.5 rounded-xl bg-zinc-100 border border-zinc-300">
+                                            <Zap size={14} className="text-black animate-bounce shrink-0" />
+                                            <p className="text-[11px] font-semibold text-black">75 XP away from reaching Master Rank!</p>
                                         </div>
                                     </motion.div>
                                 )}
@@ -277,16 +277,16 @@ export default function Landing() {
                                         className="grid grid-cols-2 gap-3 my-auto"
                                     >
                                         {[
-                                            { icon: BrainCircuit, title: "AI Questions", desc: "Adaptive questions tailored to your skill level.", color: "text-[#059669]" },
-                                            { icon: ShieldCheck, title: "Verified Certs", desc: "Sharable certificates with unique ID & QR code.", color: "text-[#047857]" },
-                                            { icon: BarChart3, title: "Deep Analytics", desc: "Detailed insights on strengths & weak spots.", color: "text-[#3B82F6]" },
-                                            { icon: Trophy, title: "Leaderboards", desc: "Compete globally with top web developers.", color: "text-[#F59E0B]" },
+                                            { icon: BrainCircuit, title: "AI Questions", desc: "Adaptive questions tailored to your skill level.", color: "text-black" },
+                                            { icon: ShieldCheck, title: "Verified Certs", desc: "Sharable certificates with unique ID & QR code.", color: "text-black" },
+                                            { icon: BarChart3, title: "Deep Analytics", desc: "Detailed insights on strengths & weak spots.", color: "text-black" },
+                                            { icon: Trophy, title: "Leaderboards", desc: "Compete globally with top web developers.", color: "text-black" },
                                         ].map((feat, i) => {
                                             const Icon = feat.icon;
                                             return (
                                                 <div key={i} className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] flex flex-col justify-between">
                                                     <div className="flex items-center gap-2 mb-1.5">
-                                                        <div className={`p-1.5 rounded-lg bg-emerald-100 shadow-2xs ${feat.color}`}>
+                                                        <div className={`p-1.5 rounded-lg bg-zinc-100 border border-zinc-200 shadow-2xs ${feat.color}`}>
                                                             <Icon size={16} />
                                                         </div>
                                                         <h4 className="text-xs font-bold text-[var(--foreground)]">{feat.title}</h4>
@@ -307,21 +307,21 @@ export default function Landing() {
                                         transition={{ duration: 0.25 }}
                                         className="my-auto space-y-3"
                                     >
-                                        <div className="p-4 rounded-2xl bg-gradient-to-br from-[#059669] to-[#047857] text-white shadow-md relative overflow-hidden">
+                                        <div className="p-4 rounded-2xl bg-black text-white shadow-md relative overflow-hidden border border-black">
                                             <div className="flex items-center justify-between mb-3">
                                                 <BrandLogo variant="mark" size="sm" />
-                                                <span className="text-[10px] font-semibold tracking-wider uppercase bg-white/20 px-2 py-0.5 rounded-full">Official Certificate</span>
+                                                <span className="text-[10px] font-semibold tracking-wider uppercase bg-white/20 px-2 py-0.5 rounded-full text-white">Official Certificate</span>
                                             </div>
-                                            <p className="text-[10px] text-emerald-100 uppercase tracking-widest font-semibold">Verified Developer</p>
+                                            <p className="text-[10px] text-zinc-300 uppercase tracking-widest font-semibold">Verified Developer</p>
                                             <h3 className="text-lg font-display font-bold mb-1">React & Modern Web Stack</h3>
                                             <div className="flex items-center justify-between pt-2 border-t border-white/20 text-xs">
                                                 <div>
-                                                    <p className="text-[9px] text-emerald-100">Issued To</p>
+                                                    <p className="text-[9px] text-zinc-300">Issued To</p>
                                                     <p className="font-bold text-white">Verified Learner</p>
                                                 </div>
                                                 <div className="text-right">
-                                                    <p className="text-[9px] text-emerald-100">Score</p>
-                                                    <p className="font-bold text-amber-200">96% (Pass)</p>
+                                                    <p className="text-[9px] text-zinc-300">Score</p>
+                                                    <p className="font-bold text-white font-extrabold">96% (Pass)</p>
                                                 </div>
                                                 <div className="p-1.5 bg-white/10 rounded-lg backdrop-blur-xs">
                                                     <QrCode size={20} className="text-white" />
@@ -331,11 +331,11 @@ export default function Landing() {
 
                                         <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] px-1">
                                             <div className="flex items-center gap-1.5">
-                                                <CheckCircle2 size={14} className="text-[#10B981]" />
+                                                <CheckCircle2 size={14} className="text-black" />
                                                 <span className="font-medium">LinkedIn Shareable</span>
                                             </div>
                                             <div className="flex items-center gap-1.5">
-                                                <Linkedin size={14} className="text-[#0A66C2]" />
+                                                <Linkedin size={14} className="text-black" />
                                                 <span className="font-medium">Instant Verification</span>
                                             </div>
                                         </div>
@@ -358,7 +358,7 @@ export default function Landing() {
                                             { step: "04", title: "Earn Certificate", desc: "Unlock shareable badge on 80%+ score." },
                                         ].map((item, i) => (
                                             <div key={i} className="flex items-center gap-3 p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                                <div className="w-7 h-7 rounded-lg bg-[#059669] text-white flex items-center justify-center font-bold text-xs shrink-0 font-mono">
+                                                <div className="w-7 h-7 rounded-lg bg-black text-white flex items-center justify-center font-bold text-xs shrink-0 font-mono">
                                                     {item.step}
                                                 </div>
                                                 <div>

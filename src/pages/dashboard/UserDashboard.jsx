@@ -70,16 +70,16 @@ export default function UserDashboard() {
     const xpProgress = results.length % 3;
 
     const badges = [
-        { label: 'Quick Learner', icon: Zap, earned: results.length >= 1, color: 'text-amber-500' },
-        { label: 'Dedicated', icon: Flame, earned: streakDays >= 7, color: 'text-orange-500' },
-        { label: 'Knowledge Seeker', icon: BookOpen, earned: results.length >= 5, color: 'text-[#059669]' },
-        { label: 'Top Scorer', icon: Trophy, earned: results.filter(r => r.percentage >= 90).length >= 1, color: 'text-emerald-500' },
+        { label: 'Quick Learner', icon: Zap, earned: results.length >= 1, color: 'text-black' },
+        { label: 'Dedicated', icon: Flame, earned: streakDays >= 7, color: 'text-black' },
+        { label: 'Knowledge Seeker', icon: BookOpen, earned: results.length >= 5, color: 'text-black' },
+        { label: 'Top Scorer', icon: Trophy, earned: results.filter(r => r.percentage >= 90).length >= 1, color: 'text-black' },
     ];
 
     if (loading) {
         return (
             <div className="flex-1 flex items-center justify-center p-8">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#059669]/20 border-t-[#059669]" />
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-black/20 border-t-black" />
             </div>
         );
     }
@@ -90,11 +90,11 @@ export default function UserDashboard() {
     return (
         <div className="max-w-7xl mx-auto space-y-6 animate-fade-up">
             {/* Welcome Banner */}
-            <div className="card p-6 lg:p-8 rounded-3xl relative overflow-hidden bg-gradient-to-r from-[var(--muted-bg)] to-[var(--card-bg)]">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#059669]/5 to-[#10B981]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            <div className="card p-6 lg:p-8 rounded-3xl relative overflow-hidden bg-gradient-to-r from-[var(--muted-bg)] to-[var(--card-bg)] border border-[var(--card-border)]">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-black/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                 <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#059669] to-[#047857] flex items-center justify-center text-white font-display font-extrabold text-2xl shadow-xl">
+                        <div className="w-16 h-16 rounded-2xl bg-black flex items-center justify-center text-white font-display font-extrabold text-2xl shadow-xl">
                             {user?.name?.charAt(0).toUpperCase() || 'U'}
                         </div>
                         <div>
@@ -102,7 +102,7 @@ export default function UserDashboard() {
                                 <h1 className="text-2xl lg:text-3xl font-display font-extrabold text-[var(--foreground)]">
                                     Welcome back, {user?.name || 'Developer'}!
                                 </h1>
-                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#ECFDF5] text-[#047857] border border-[#A7F3D0]">
+                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-zinc-100 text-black border border-zinc-300">
                                     <Sparkles size={12} /> Level {xpLevel}
                                 </span>
                             </div>
@@ -119,10 +119,10 @@ export default function UserDashboard() {
 
             {/* Quick Stats Row */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <DashboardStat icon={Trophy} label="Total Quizzes" value={results.length} gradient="from-[#059669] to-[#047857]" />
-                <DashboardStat icon={BarChart3} label="Average Score" value={`${avgScore}%`} gradient="from-emerald-500 to-teal-500" />
-                <DashboardStat icon={Award} label="Certificates" value={stats.filter(s => s.best_score >= 80).length} gradient="from-amber-500 to-orange-500" />
-                <DashboardStat icon={Zap} label="XP Level" value={xpLevel} gradient="from-[#10B981] to-[#059669]" />
+                <DashboardStat icon={Trophy} label="Total Quizzes" value={results.length} gradient="from-black to-zinc-800" />
+                <DashboardStat icon={BarChart3} label="Average Score" value={`${avgScore}%`} gradient="from-zinc-900 to-zinc-700" />
+                <DashboardStat icon={Award} label="Certificates" value={stats.filter(s => s.best_score >= 80).length} gradient="from-zinc-800 to-black" />
+                <DashboardStat icon={Zap} label="XP Level" value={xpLevel} gradient="from-black to-zinc-900" />
             </div>
 
             <div className="grid lg:grid-cols-3 gap-6">
@@ -132,14 +132,14 @@ export default function UserDashboard() {
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-sm font-bold text-[var(--foreground)]">Profile</h3>
                             <button onClick={() => setIsEditing(!isEditing)}
-                                className="p-2 rounded-lg text-[var(--foreground-muted)] hover:text-[#059669] hover:bg-[var(--muted-bg)] transition-all">
+                                className="p-2 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
                                 {isEditing ? <X size={16} /> : <Edit3 size={16} />}
                             </button>
                         </div>
 
                         {!isEditing ? (
                             <div className="text-center">
-                                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#059669] to-[#047857] flex items-center justify-center text-white font-display font-extrabold text-3xl mx-auto mb-4 shadow-xl">
+                                <div className="w-20 h-20 rounded-2xl bg-black flex items-center justify-center text-white font-display font-extrabold text-3xl mx-auto mb-4 shadow-xl">
                                     {user?.name?.charAt(0)?.toUpperCase()}
                                 </div>
                                 <h2 className="text-lg font-bold text-[var(--foreground)]">{user?.name}</h2>
@@ -172,7 +172,7 @@ export default function UserDashboard() {
 
                     <div className="card p-6 rounded-2xl">
                         <div className="flex items-center gap-3 mb-4">
-                            <Zap size={18} className="text-amber-500" />
+                            <Zap size={18} className="text-black" />
                             <h3 className="text-sm font-bold text-[var(--foreground)]">XP Progress</h3>
                         </div>
                         <div className="flex items-center justify-between mb-2">
@@ -189,13 +189,13 @@ export default function UserDashboard() {
                         <h3 className="text-sm font-bold text-[var(--foreground)] mb-4">Achievements</h3>
                         <div className="grid grid-cols-2 gap-3">
                             {badges.map((b, i) => (
-                                <div key={i} className={`p-3 rounded-xl text-center border transition-all ${b.earned ? 'border-[#059669]/40 bg-emerald-50 text-[var(--foreground)]' : 'border-[var(--card-border)] opacity-40'}`}>
-                                    <b.icon size={20} className={`${b.earned ? 'text-[#059669]' : b.color} mx-auto mb-1`} />
+                                <div key={i} className={`p-3 rounded-xl text-center border transition-all ${b.earned ? 'border-black bg-zinc-100 text-[var(--foreground)]' : 'border-[var(--card-border)] opacity-40'}`}>
+                                    <b.icon size={20} className={`${b.earned ? 'text-black' : b.color} mx-auto mb-1`} />
                                     <p className="text-[10px] font-bold text-[var(--foreground)]">{b.label}</p>
                                 </div>
                             ))}
                         </div>
-                        <Link to="/dashboard/profile" className="text-xs font-medium text-[#059669] hover:text-[#047857] mt-3 inline-flex items-center gap-1">
+                        <Link to="/dashboard/profile" className="text-xs font-medium text-black hover:underline mt-3 inline-flex items-center gap-1">
                             View all achievements <ChevronRight size={12} />
                         </Link>
                     </div>
@@ -206,7 +206,7 @@ export default function UserDashboard() {
                     <div className="card p-6 rounded-2xl">
                         <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center gap-3">
-                                <Activity size={16} className="text-[#059669]" />
+                                <Activity size={16} className="text-black" />
                                 <h3 className="text-sm font-bold text-[var(--foreground)]">Weekly Activity</h3>
                             </div>
                             <span className="text-[10px] font-medium text-[var(--foreground-muted)]">This week</span>
@@ -219,7 +219,7 @@ export default function UserDashboard() {
                                         <span className="text-[10px] text-[var(--foreground-muted)] font-medium">{activityData[i]}</span>
                                         <div className="w-full rounded-lg relative" style={{ height: '100px' }}>
                                             <div
-                                                className="absolute bottom-0 w-full rounded-lg bg-gradient-to-t from-[#059669] to-[#047857] transition-all duration-500 hover:opacity-80"
+                                                className="absolute bottom-0 w-full rounded-lg bg-black transition-all duration-500 hover:opacity-80"
                                                 style={{ height: `${height}%`, minHeight: activityData[i] > 0 ? '8px' : '0' }}
                                             />
                                         </div>
@@ -233,10 +233,10 @@ export default function UserDashboard() {
                     <div className="card overflow-hidden rounded-2xl">
                         <div className="p-6 border-b border-[var(--card-border)] flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <Clock size={16} className="text-[#059669]" />
+                                <Clock size={16} className="text-black" />
                                 <h3 className="text-sm font-bold text-[var(--foreground)]">Recent Quizzes</h3>
                             </div>
-                            <Link to="/dashboard/quizzes" className="text-xs font-medium text-[#059669] hover:text-[#047857] flex items-center gap-1">
+                            <Link to="/dashboard/quizzes" className="text-xs font-medium text-black hover:underline flex items-center gap-1">
                                 View All <ChevronRight size={12} />
                             </Link>
                         </div>
@@ -247,9 +247,9 @@ export default function UserDashboard() {
                                     <div key={i} className="p-5 flex items-center justify-between hover:bg-[var(--muted-bg)] transition-colors group">
                                         <div className="flex items-center gap-4">
                                             <div className={`w-10 h-10 rounded-xl border flex items-center justify-center text-lg ${
-                                                res.percentage >= 80 ? 'bg-emerald-50 border-emerald-200' :
-                                                res.percentage >= 60 ? 'bg-emerald-50 border-emerald-200' :
-                                                'bg-red-50 border-red-200'
+                                                res.percentage >= 80 ? 'bg-zinc-100 border-zinc-300' :
+                                                res.percentage >= 60 ? 'bg-zinc-100 border-zinc-300' :
+                                                'bg-zinc-100 border-zinc-300'
                                             }`}>
                                                 {res.percentage >= 80 ? '🏆' : res.percentage >= 60 ? '✅' : '📚'}
                                             </div>
@@ -264,11 +264,7 @@ export default function UserDashboard() {
                                         </div>
                                         <div className="flex items-center gap-4">
                                             <div className="text-right">
-                                                <p className={`text-lg font-display font-bold ${
-                                                    res.percentage >= 80 ? 'text-[#059669]' :
-                                                    res.percentage >= 60 ? 'text-[#059669]' :
-                                                    'text-red-500'
-                                                }`}>{res.percentage}%</p>
+                                                <p className="text-lg font-display font-bold text-black">{res.percentage}%</p>
                                                 <p className="text-[10px] text-[var(--foreground-muted)] font-medium">{res.score}/{res.total}</p>
                                             </div>
                                             <ChevronRight size={16} className="text-[var(--foreground-muted)] opacity-0 group-hover:opacity-100 transition-opacity" />
