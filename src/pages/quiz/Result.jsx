@@ -81,10 +81,10 @@ export default function Result() {
                         {/* Header */}
                         <div className="p-6 lg:p-8 text-center bg-gradient-to-b from-[var(--muted-bg)] to-[var(--card-bg)]">
                             <div className="relative inline-flex mb-3">
-                                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#174A43] flex items-center justify-center text-3xl sm:text-4xl shadow-xl text-white">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-black flex items-center justify-center text-3xl sm:text-4xl shadow-xl text-white">
                                     {passed ? '🏆' : '📚'}
                                 </div>
-                                {passed && <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#D6A85F] flex items-center justify-center shadow-md"><Sparkles size={12} className="text-white" /></div>}
+                                {passed && <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-black flex items-center justify-center shadow-md"><Sparkles size={12} className="text-white" /></div>}
                             </div>
                             <h1 className="text-2xl lg:text-3xl font-display font-extrabold text-[var(--foreground)] mb-1">{passed ? 'Congratulations!' : 'Keep Going!'}</h1>
                             <p className="text-[var(--foreground-muted)] text-xs mb-4">{passed ? 'You passed!' : 'Review and try again.'}</p>
@@ -93,16 +93,16 @@ export default function Result() {
                             <div className="circular-progress w-28 h-28 mx-auto mb-3">
                                 <svg width="112" height="112" viewBox="0 0 144 144">
                                     <circle cx="72" cy="72" r="60" fill="none" stroke="var(--card-border)" strokeWidth="8" />
-                                    <circle cx="72" cy="72" r="60" fill="none" stroke="#174A43" strokeWidth="8" strokeLinecap="round"
+                                    <circle cx="72" cy="72" r="60" fill="none" stroke="#000000" strokeWidth="8" strokeLinecap="round"
                                         strokeDasharray={circumference} strokeDashoffset={offset} transform="rotate(-90, 72, 72)"
                                         style={{ transition: 'stroke-dashoffset 2s ease-out' }} />
                                 </svg>
                                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                    <span className="text-2xl sm:text-3xl font-display font-extrabold text-[#174A43]">{animateScore}%</span>
+                                    <span className="text-2xl sm:text-3xl font-display font-extrabold text-black">{animateScore}%</span>
                                     <span className="text-[9px] text-[var(--foreground-muted)] font-semibold uppercase">Score</span>
                                 </div>
                             </div>
-                            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#E8EFEA] text-[#174A43] border border-[#357268]/30">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-zinc-100 text-black border border-zinc-300">
                                 Grade: {grade.label}
                             </div>
                         </div>

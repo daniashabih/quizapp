@@ -71,8 +71,8 @@ export default function Certificates() {
                         <div className="flex items-center gap-4">
                             <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg ${
                                 cert.issued
-                                    ? 'bg-[#174A43] text-white border border-[#174A43]'
-                                    : 'bg-[var(--muted-bg)] border border-[var(--card-border)] text-[#174A43]'
+                                    ? 'bg-black text-white border border-black'
+                                    : 'bg-[var(--muted-bg)] border border-[var(--card-border)] text-black'
                             }`}>
                                 {cert.issued ? '🏆' : '🔒'}
                             </div>
@@ -80,7 +80,7 @@ export default function Certificates() {
                                 <div className="flex items-center gap-2">
                                     <h3 className="text-lg font-bold text-[var(--foreground)]">{cert.tech}</h3>
                                     {cert.issued && (
-                                        <CheckCircle2 size={14} className="text-[#174A43]" />
+                                        <CheckCircle2 size={14} className="text-black" />
                                     )}
                                 </div>
                                 <div className="flex items-center gap-3 mt-1">

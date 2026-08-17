@@ -54,20 +54,20 @@ export default function CertificateView() {
                     </div>
 
                     {/* Certificate Card */}
-                    <div ref={certRef} className="bg-white border-8 border-[#174A43] rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden text-[#20302D]">
+                    <div ref={certRef} className="bg-white border-8 border-black rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden text-black">
                         {/* Decorative Top Bar */}
-                        <div className="h-2 bg-[#174A43]" />
+                        <div className="h-2 bg-black" />
 
                         {/* Watermark / Background Icon */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none">
-                            <Award size={400} className="text-[#174A43]" />
+                            <Award size={400} className="text-black" />
                         </div>
 
                         {/* Content Header */}
                         <div className="text-center pt-6 pb-4">
                             <BrandLogo variant="mark" size="lg" className="mx-auto mb-4" />
-                            <div className="w-24 h-1 bg-[#174A43] mx-auto mb-6 rounded-full" />
-                            <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#E8EFEA] text-[#174A43] border border-[#357268]/30 uppercase tracking-widest">
+                            <div className="w-24 h-1 bg-black mx-auto mb-6 rounded-full" />
+                            <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-zinc-100 text-black border border-zinc-300 uppercase tracking-widest">
                                 Certificate of Completion
                             </span>
                         </div>

@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-// eslint-disable-next-line no-unused-vars
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-    ArrowRight, Code2, Target, Trophy, Zap, Users, BookOpen,
-    Star, Award, BarChart3, Search, Play, GraduationCap, BrainCircuit,
-    Linkedin, CheckCircle2, QrCode, Sparkles, ShieldCheck
+    Search, ArrowRight, ShieldCheck, Trophy, Sparkles, BrainCircuit,
+    Award, BarChart3, Users, QrCode, Linkedin, CheckCircle2, Zap
 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import BrandLogo from '../components/BrandLogo';
 
 const technologies = [
@@ -23,9 +21,9 @@ const technologies = [
 ];
 
 export default function Landing() {
-    const { user } = useAuth();
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeTab, setActiveTab] = useState('assessment'); // assessment, features, certificate, path
+    const [activeTab, setActiveTab] = useState('assessment');
+    const navigate = useNavigate();
 
     const filteredTechs = technologies.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
@@ -33,8 +31,8 @@ export default function Landing() {
         <div className="min-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-x-hidden relative transition-colors duration-300">
             {/* Background ambient glowing gradients */}
             <div className="absolute inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#174A43]/5 rounded-full blur-[140px]" />
-                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-[#174A43]/5 rounded-full blur-[140px]" />
+                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-black/5 rounded-full blur-[140px]" />
+                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-black/5 rounded-full blur-[140px]" />
             </div>
 
             {/* Fixed Navbar at Top */}
@@ -57,9 +55,9 @@ export default function Landing() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.3, delay: 0.1 }}
-                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E8EFEA] text-[#174A43] text-xs font-semibold tracking-wide border border-[#357268]/30 shadow-xs"
+                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-100 text-black text-xs font-semibold tracking-wide border border-zinc-300 shadow-xs"
                             >
-                                <span className="w-2 h-2 rounded-full bg-[#174A43] animate-pulse" />
+                                <span className="w-2 h-2 rounded-full bg-black animate-pulse" />
                                 AI-Powered Web Quizzes — Now Live
                             </motion.div>
                         </div>
@@ -69,135 +67,137 @@ export default function Landing() {
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.15 }}
-                            className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-extrabold text-[var(--foreground)] leading-[1.08] tracking-tight"
+                            className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[var(--foreground)] tracking-tight leading-[1.12]"
                         >
-                            Master Web <br />
-                            Development <span className="text-black font-extrabold underline decoration-black/20 underline-offset-4">One Quiz</span> <br />
-                            at a Time
+                            Test & Master Your <br className="hidden sm:inline" />
+                            <span className="text-gradient">Web Development</span> Skills
                         </motion.h1>
 
-                        {/* Description */}
+                        {/* Subtitle */}
                         <motion.p
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
-                            className="text-xs sm:text-sm lg:text-base text-[var(--foreground-muted)] max-w-lg leading-relaxed font-normal"
+                            className="text-sm sm:text-base text-[var(--foreground-muted)] max-w-xl font-normal leading-relaxed"
                         >
-                            The ultimate platform to test, certify, and showcase your web development skills.
-                            AI-powered quizzes, verified certificates, and global leaderboards.
+                            Evaluate your full-stack expertise with interactive, AI-calibrated quizzes. Earn verified certificates, track performance analytics, and compete on global leaderboards.
                         </motion.p>
 
-                        {/* Search Input with Instant Results Dropdown */}
+                        {/* Technology Search Bar */}
                         <motion.div
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.25 }}
-                            className="relative max-w-md"
+                            className="w-full max-w-lg space-y-2 pt-1"
                         >
-                            <div className="relative">
-                                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                            <div className="relative flex items-center">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" size={18} />
                                 <input
                                     type="text"
-                                    placeholder="Search technologies (e.g., React, Python)..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl py-2.5 pl-10 pr-4 text-xs sm:text-sm text-[var(--foreground)] placeholder:[var(--foreground-muted)] focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all shadow-xs"
+                                    placeholder="Search technology (e.g. React, JavaScript, Python)…"
+                                    className="input-field pl-11 pr-32 py-3 text-sm rounded-2xl border-[var(--input-border)] focus:border-black shadow-sm"
                                 />
-                                {searchQuery && (
-                                    <div className="absolute top-full left-0 right-0 mt-2 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl shadow-xl overflow-hidden z-30 animate-scale-in">
-                                        {filteredTechs.length > 0 ? (
-                                            filteredTechs.map((t) => (
+                                <button
+                                    onClick={() => navigate('/technologies')}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 btn-primary text-xs py-2 px-4 rounded-xl shadow-xs"
+                                >
+                                    Explore <ArrowRight size={13} />
+                                </button>
+                            </div>
+
+                            {/* Live Search Quick Results */}
+                            {searchQuery.trim() && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 5 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="p-3 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-xl space-y-1.5"
+                                >
+                                    <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider px-2">Matching Techs</p>
+                                    {filteredTechs.length > 0 ? (
+                                        <div className="grid grid-cols-2 gap-1.5">
+                                            {filteredTechs.map(t => (
                                                 <Link
                                                     key={t.name}
-                                                    to="/technologies"
-                                                    className="flex items-center justify-between px-4 py-2.5 hover:bg-[var(--muted-bg)] transition-colors border-b border-[var(--card-border)] last:border-0"
+                                                    to="/register"
+                                                    className="flex items-center justify-between p-2 rounded-xl hover:bg-[var(--muted-bg)] transition-colors text-xs font-semibold text-[var(--foreground)]"
                                                 >
-                                                    <div className="flex items-center gap-2.5">
-                                                        <div className="w-2 h-2 rounded-full bg-black" />
-                                                        <span className="text-xs font-semibold text-[var(--foreground)]">{t.name}</span>
-                                                    </div>
-                                                    <span className="text-[11px] text-[var(--foreground-muted)]">{t.questions} Qs</span>
+                                                    <span>{t.name}</span>
+                                                    <span className="text-[10px] text-[var(--foreground-muted)] font-normal">{t.questions} Qs</span>
                                                 </Link>
-                                            ))
-                                        ) : (
-                                            <div className="px-4 py-4 text-center text-xs text-[var(--foreground-muted)]">No technologies found.</div>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-xs text-[var(--foreground-muted)] p-2 font-medium">No technologies match "{searchQuery}"</p>
+                                    )}
+                                </motion.div>
+                            )}
                         </motion.div>
 
-                        {/* CTA Buttons */}
+                        {/* CTA Action Buttons */}
                         <motion.div
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.3 }}
-                            className="flex flex-wrap items-center gap-3 pt-1"
+                            className="flex flex-wrap items-center gap-3 pt-2"
                         >
-                            {user ? (
-                                <Link to="/dashboard" className="btn-primary px-6 py-3 text-xs sm:text-sm">
-                                    Go to Dashboard <ArrowRight size={16} />
-                                </Link>
-                            ) : (
-                                <>
-                                    <Link to="/register" className="btn-primary px-6 py-3 text-xs sm:text-sm">
-                                        Start Learning Free <ArrowRight size={16} />
-                                    </Link>
-                                    <Link to="/technologies" className="btn-secondary px-5 py-3 text-xs sm:text-sm">
-                                        Browse Tech
-                                    </Link>
-                                </>
-                            )}
+                            <Link to="/register" className="btn-primary text-sm py-3 px-6 rounded-2xl shadow-md group">
+                                Start Free Assessment
+                                <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                            </Link>
+
+                            <Link to="/technologies" className="btn-secondary text-sm py-3 px-5 rounded-2xl">
+                                Browse 18+ Techs
+                            </Link>
                         </motion.div>
 
-                        {/* Metrics Bar */}
+                        {/* Quick Metrics Bar */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5, delay: 0.35 }}
-                            className="grid grid-cols-4 gap-2 pt-3 border-t border-[var(--card-border)] max-w-lg"
+                            transition={{ duration: 0.6, delay: 0.4 }}
+                            className="pt-4 border-t border-[var(--card-border)] grid grid-cols-3 gap-4 max-w-lg"
                         >
-                            {[
-                                { value: "10,000+", label: "Learners", icon: Users },
-                                { value: "1,500+", label: "Questions", icon: BookOpen },
-                                { value: "18+", label: "Techs", icon: Code2 },
-                                { value: "95%", label: "Pass Rate", icon: Star },
-                            ].map(({ value, label, icon: Icon }, i) => (
-                                <div key={i} className="text-left">
-                                    <div className="flex items-center gap-1 mb-0.5">
-                                        <Icon size={12} className="text-black" />
-                                        <span className="text-xs font-bold text-[var(--foreground)] font-display">{value}</span>
-                                    </div>
-                                    <p className="text-[10px] text-[var(--foreground-muted)] font-medium leading-tight">{label}</p>
-                                </div>
-                            ))}
+                            <div>
+                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">25,000+</p>
+                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Active Developers</p>
+                            </div>
+                            <div>
+                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">1,800+</p>
+                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Curated Questions</p>
+                            </div>
+                            <div>
+                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">99.4%</p>
+                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Satisfaction Rate</p>
+                            </div>
                         </motion.div>
                     </motion.div>
 
-                    {/* Right Column: Tabbed Interactive Feature Showcase Card */}
+                    {/* Right Column: Interactive Showcase Box */}
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="lg:col-span-6 flex flex-col justify-center min-h-0"
+                        transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.1, 0.25, 1.0] }}
+                        className="lg:col-span-6 flex flex-col justify-center"
                     >
-                        {/* Interactive View Selector Tabs */}
-                        <div className="flex items-center justify-between gap-1 p-1 bg-[var(--muted-bg)] border border-[var(--card-border)] rounded-2xl mb-3 shadow-2xs overflow-x-auto no-scrollbar">
+                        {/* Interactive Mode Pills */}
+                        <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] mb-3 self-center sm:self-start overflow-x-auto max-w-full">
                             {[
-                                { id: 'assessment', label: 'Assessment', icon: Play },
-                                { id: 'features', label: 'Features', icon: Sparkles },
-                                { id: 'certificate', label: 'Certificates', icon: GraduationCap },
-                                { id: 'path', label: 'Learning Path', icon: Target },
-                            ].map((tab) => {
+                                { id: 'assessment', label: 'Live Quiz Demo', icon: Sparkles },
+                                { id: 'features', label: 'Key Features', icon: BrainCircuit },
+                                { id: 'certificate', label: 'Verified Certificate', icon: Award },
+                                { id: 'path', label: 'How It Works', icon: Trophy }
+                            ].map(tab => {
                                 const Icon = tab.icon;
-                                const isActive = activeTab === tab.id;
+                                const isSelected = activeTab === tab.id;
                                 return (
                                     <button
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
-                                        className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
-                                            isActive
-                                                ? 'bg-[#174A43] text-white shadow-xs'
+                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                                            isSelected
+                                                ? 'bg-black text-white shadow-xs'
                                                 : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--card-bg)]'
                                         }`}
                                     >
@@ -234,11 +234,11 @@ export default function Landing() {
                                         <div className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                             <div className="flex items-center justify-between mb-2">
                                                 <span className="text-xs font-semibold text-[var(--foreground)]">React Component Lifecycle & Hooks</span>
-                                                <span className="text-[10px] font-bold text-[#174A43]">Question 12/15</span>
+                                                <span className="text-[10px] font-bold text-black">Question 12/15</span>
                                             </div>
-                                            <div className="progress-bar overflow-hidden h-2 bg-[#E8EFEA] rounded-full">
+                                            <div className="progress-bar overflow-hidden h-2 bg-zinc-100 rounded-full">
                                                 <motion.div
-                                                    className="h-full bg-[#174A43] rounded-full"
+                                                    className="h-full bg-black rounded-full"
                                                     initial={{ width: '0%' }}
                                                     animate={{ width: '80%' }}
                                                     transition={{ duration: 1 }}
@@ -307,21 +307,21 @@ export default function Landing() {
                                         transition={{ duration: 0.25 }}
                                         className="my-auto space-y-3"
                                     >
-                                        <div className="p-4 rounded-2xl bg-[#174A43] text-white shadow-md relative overflow-hidden border border-[#174A43]">
+                                        <div className="p-4 rounded-2xl bg-black text-white shadow-md relative overflow-hidden border border-black">
                                             <div className="flex items-center justify-between mb-3">
                                                 <BrandLogo variant="mark" size="sm" />
                                                 <span className="text-[10px] font-semibold tracking-wider uppercase bg-white/20 px-2 py-0.5 rounded-full text-white">Official Certificate</span>
                                             </div>
-                                            <p className="text-[10px] text-[#E8EFEA] uppercase tracking-widest font-semibold">Verified Developer</p>
+                                            <p className="text-[10px] text-zinc-300 uppercase tracking-widest font-semibold">Verified Developer</p>
                                             <h3 className="text-lg font-display font-bold mb-1">React & Modern Web Stack</h3>
                                             <div className="flex items-center justify-between pt-2 border-t border-white/20 text-xs">
                                                 <div>
-                                                    <p className="text-[9px] text-[#E8EFEA]">Issued To</p>
+                                                    <p className="text-[9px] text-zinc-300">Issued To</p>
                                                     <p className="font-bold text-white">Verified Learner</p>
                                                 </div>
                                                 <div className="text-right">
-                                                    <p className="text-[9px] text-[#E8EFEA]">Score</p>
-                                                    <p className="font-bold text-[#D6A85F] font-extrabold">96% (Pass)</p>
+                                                    <p className="text-[9px] text-zinc-300">Score</p>
+                                                    <p className="font-bold text-white font-extrabold">96% (Pass)</p>
                                                 </div>
                                                 <div className="p-1.5 bg-white/10 rounded-lg backdrop-blur-xs">
                                                     <QrCode size={20} className="text-white" />
@@ -331,11 +331,11 @@ export default function Landing() {
 
                                         <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] px-1">
                                             <div className="flex items-center gap-1.5">
-                                                <CheckCircle2 size={14} className="text-[#174A43]" />
+                                                <CheckCircle2 size={14} className="text-black" />
                                                 <span className="font-medium">LinkedIn Shareable</span>
                                             </div>
                                             <div className="flex items-center gap-1.5">
-                                                <Linkedin size={14} className="text-[#174A43]" />
+                                                <Linkedin size={14} className="text-black" />
                                                 <span className="font-medium">Instant Verification</span>
                                             </div>
                                         </div>
@@ -358,7 +358,7 @@ export default function Landing() {
                                             { step: "04", title: "Earn Certificate", desc: "Unlock shareable badge on 80%+ score." },
                                         ].map((item, i) => (
                                             <div key={i} className="flex items-center gap-3 p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                                <div className="w-7 h-7 rounded-lg bg-[#174A43] text-white flex items-center justify-center font-bold text-xs shrink-0 font-mono">
+                                                <div className="w-7 h-7 rounded-lg bg-black text-white flex items-center justify-center font-bold text-xs shrink-0 font-mono">
                                                     {item.step}
                                                 </div>
                                                 <div>
@@ -372,19 +372,12 @@ export default function Landing() {
                             </AnimatePresence>
                         </div>
                     </motion.div>
+
                 </div>
             </main>
 
-            {/* Compact Desktop Single-Line Footer */}
-            <footer className="w-full border-t border-[var(--card-border)] py-2.5 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[var(--foreground-muted)] relative z-10 shrink-0">
-                <p className="font-medium">© {new Date().getFullYear()} HangBug. All rights reserved.</p>
-                <div className="flex items-center gap-4">
-                    <Link to="/technologies" className="hover:text-[var(--foreground)] transition-colors">Technologies</Link>
-                    <Link to="/leaderboard" className="hover:text-[var(--foreground)] transition-colors">Leaderboard</Link>
-                    <span className="text-[var(--card-border)]">•</span>
-                    <span className="text-[11px]">AI-Powered Learning Platform</span>
-                </div>
-            </footer>
+            {/* Footer at Bottom */}
+            <Footer />
         </div>
     );
 }

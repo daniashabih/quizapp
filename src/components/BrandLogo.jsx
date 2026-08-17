@@ -60,7 +60,7 @@ export default function BrandLogo({
                 <Bug className="h-full w-full text-white p-0.5" />
             </span>
             <span className={`${styles.text} font-display font-bold tracking-tight text-[var(--foreground)] ${textClassName}`}>
-                Hang<span className="text-[#D6A85F] font-extrabold">Bug</span>
+                Hang<span className="text-black font-extrabold">Bug</span>
             </span>
         </span>
     );

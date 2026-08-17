@@ -126,7 +126,7 @@ export default function Auth({ initialMode = 'login' }) {
                     {/* Guest Mode Direct Login */}
                     <div className="mb-4 p-3 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-2">
                         <p className="text-[10px] font-semibold text-[var(--foreground-secondary)] text-center uppercase tracking-wider flex items-center justify-center gap-1">
-                            <Sparkles size={11} className="text-[#D6A85F]" /> Instant Guest Mode Access
+                            <Sparkles size={11} className="text-black" /> Instant Guest Mode Access
                         </p>
                         <div className="grid grid-cols-2 gap-2">
                             <button

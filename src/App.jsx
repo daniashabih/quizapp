@@ -57,6 +57,7 @@ function AppContent() {
                 <Route path="/dashboard" element={<DashboardLayout />}>
                     <Route index element={<UserDashboard />} />
                     <Route path="technologies" element={<Technologies />} />
+                    <Route path="technologies/level" element={<SelectLevel />} />
                     <Route path="quizzes" element={<Technologies />} />
                     <Route path="certificates" element={<Certificates />} />
                     <Route path="leaderboard" element={<Leaderboard />} />
