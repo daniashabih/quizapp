@@ -23,11 +23,11 @@ const levels = [
         label: 'Intermediate',
         desc: 'For experienced developers. Tests architectural patterns, best practices, and complex problem solving.',
         icon: Shield,
-        gradient: 'from-[#289B7D] to-[#163B34]',
-        color: 'text-[#289B7D]',
-        bg: 'bg-[#EAF5F2]',
-        border: 'border-[#D4EBE5]',
-        hoverBorder: 'hover:border-[#289B7D]',
+        gradient: 'from-[#059669] to-[#047857]',
+        color: 'text-[#059669]',
+        bg: 'bg-emerald-50',
+        border: 'border-[#A7F3D0]',
+        hoverBorder: 'hover:border-[#059669]',
         details: { questions: '15-20', timer: '45s per Q', passing: '70%' },
     },
     {
@@ -37,10 +37,10 @@ const levels = [
         desc: 'The ultimate challenge. Deep dives into performance optimization, edge cases, and advanced patterns.',
         icon: Trophy,
         gradient: 'from-amber-500 to-orange-500',
-        color: 'text-amber-600 dark:text-amber-400',
-        bg: 'bg-amber-50 dark:bg-amber-500/10',
-        border: 'border-amber-200 dark:border-amber-500/20',
-        hoverBorder: 'hover:border-amber-400 dark:hover:border-amber-500/40',
+        color: 'text-amber-600',
+        bg: 'bg-amber-50',
+        border: 'border-amber-200',
+        hoverBorder: 'hover:border-amber-400',
         details: { questions: '20-25', timer: '30s per Q', passing: '80%' },
     },
 ];
@@ -56,14 +56,14 @@ export default function SelectLevel() {
     }
 
     return (
-        <div className="h-screen max-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col overflow-hidden">
+        <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col">
             <Navbar />
-            <div className="flex-1 pt-20 pb-6 min-h-0 overflow-y-auto">
+            <div className="flex-1 pt-24 pb-12 min-h-0">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-up">
                     {/* Back */}
                     <button
                         onClick={() => navigate(-1)}
-                        className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-[#289B7D] transition-colors mb-4"
+                        className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-[#059669] transition-colors mb-4"
                     >
                         <ArrowLeft size={15} /> Back to Technologies
                     </button>
@@ -103,7 +103,7 @@ export default function SelectLevel() {
                                     </div>
 
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-display font-bold text-[var(--foreground)] mb-2 group-hover:text-[#163B34] transition-colors">
+                                        <h3 className="text-xl font-display font-bold text-[var(--foreground)] mb-2 group-hover:text-[#059669] transition-colors">
                                             {level.name}
                                         </h3>
                                         <p className="text-sm text-[var(--foreground-muted)] leading-relaxed">{level.desc}</p>

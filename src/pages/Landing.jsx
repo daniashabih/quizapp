@@ -33,8 +33,8 @@ export default function Landing() {
         <div className="min-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-x-hidden relative transition-colors duration-300">
             {/* Background ambient glowing gradients */}
             <div className="absolute inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#163B34]/10 rounded-full blur-[140px]" />
-                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-[#289B7D]/10 rounded-full blur-[140px]" />
+                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#059669]/5 rounded-full blur-[140px]" />
+                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-[#10B981]/5 rounded-full blur-[140px]" />
             </div>
 
             {/* Fixed Navbar at Top */}
@@ -57,9 +57,9 @@ export default function Landing() {
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.3, delay: 0.1 }}
-                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#153C33] text-[#D4EBE5] text-xs font-semibold tracking-wide border border-[#289B7D]/40 shadow-xs"
+                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ECFDF5] text-[#047857] text-xs font-semibold tracking-wide border border-[#A7F3D0] shadow-xs"
                             >
-                                <span className="w-2 h-2 rounded-full bg-[#32B895] animate-pulse" />
+                                <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
                                 AI-Powered Web Quizzes — Now Live
                             </motion.div>
                         </div>
@@ -101,7 +101,7 @@ export default function Landing() {
                                     placeholder="Search technologies (e.g., React, Python)..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl py-2.5 pl-10 pr-4 text-xs sm:text-sm text-[var(--foreground)] placeholder:[var(--foreground-muted)] focus:outline-none focus:ring-2 focus:ring-[#289B7D]/20 focus:border-[#289B7D] transition-all shadow-2xs"
+                                    className="w-full bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl py-2.5 pl-10 pr-4 text-xs sm:text-sm text-[var(--foreground)] placeholder:[var(--foreground-muted)] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669] transition-all shadow-xs"
                                 />
                                 {searchQuery && (
                                     <div className="absolute top-full left-0 right-0 mt-2 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl shadow-xl overflow-hidden z-30 animate-scale-in">
@@ -165,7 +165,7 @@ export default function Landing() {
                             ].map(({ value, label, icon: Icon }, i) => (
                                 <div key={i} className="text-left">
                                     <div className="flex items-center gap-1 mb-0.5">
-                                        <Icon size={12} className="text-[#289B7D]" />
+                                        <Icon size={12} className="text-[#059669]" />
                                         <span className="text-xs font-bold text-[var(--foreground)] font-display">{value}</span>
                                     </div>
                                     <p className="text-[10px] text-[var(--foreground-muted)] font-medium leading-tight">{label}</p>
@@ -197,7 +197,7 @@ export default function Landing() {
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
                                             isActive
-                                                ? 'bg-[#289B7D] text-white shadow-xs'
+                                                ? 'bg-[#059669] text-white shadow-xs'
                                                 : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--card-bg)]'
                                         }`}
                                     >
@@ -234,11 +234,11 @@ export default function Landing() {
                                         <div className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                             <div className="flex items-center justify-between mb-2">
                                                 <span className="text-xs font-semibold text-[var(--foreground)]">React Component Lifecycle & Hooks</span>
-                                                <span className="text-[10px] font-bold text-[#289B7D]">Question 12/15</span>
+                                                <span className="text-[10px] font-bold text-[#059669]">Question 12/15</span>
                                             </div>
-                                            <div className="progress-bar overflow-hidden h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+                                            <div className="progress-bar overflow-hidden h-2 bg-emerald-100 rounded-full">
                                                 <motion.div
-                                                    className="h-full bg-[#289B7D] rounded-full"
+                                                    className="h-full bg-[#059669] rounded-full"
                                                     initial={{ width: '0%' }}
                                                     animate={{ width: '80%' }}
                                                     transition={{ duration: 1 }}
@@ -248,10 +248,10 @@ export default function Landing() {
 
                                         <div className="grid grid-cols-2 gap-2.5">
                                             {[
-                                                { label: 'Score Rate', value: '94%', color: 'text-[#22C55E]' },
-                                                { label: 'Avg Speed', value: '18s / Q', color: 'text-[#32B895]' },
+                                                { label: 'Score Rate', value: '94%', color: 'text-[#10B981]' },
+                                                { label: 'Avg Speed', value: '18s / Q', color: 'text-[#059669]' },
                                                 { label: 'Current Streak', value: '7 Days', color: 'text-[#F59E0B]' },
-                                                { label: 'Global Rank', value: '#42 Top 1%', color: 'text-[#289B7D]' },
+                                                { label: 'Global Rank', value: '#42 Top 1%', color: 'text-[#047857]' },
                                             ].map((stat) => (
                                                 <div key={stat.label} className="p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                                     <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">{stat.label}</p>
@@ -260,9 +260,9 @@ export default function Landing() {
                                             ))}
                                         </div>
 
-                                        <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FEF3C7]/10 border border-[#FDE68A]/30">
+                                        <div className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-50 border border-amber-200">
                                             <Zap size={14} className="text-[#F59E0B] animate-bounce shrink-0" />
-                                            <p className="text-[11px] font-semibold text-[#FBBF24]">75 XP away from reaching Master Rank!</p>
+                                            <p className="text-[11px] font-semibold text-amber-800">75 XP away from reaching Master Rank!</p>
                                         </div>
                                     </motion.div>
                                 )}
@@ -277,8 +277,8 @@ export default function Landing() {
                                         className="grid grid-cols-2 gap-3 my-auto"
                                     >
                                         {[
-                                            { icon: BrainCircuit, title: "AI Questions", desc: "Adaptive questions tailored to your skill level.", color: "text-[#32B895]" },
-                                            { icon: ShieldCheck, title: "Verified Certs", desc: "Sharable certificates with unique ID & QR code.", color: "text-[#53AF97]" },
+                                            { icon: BrainCircuit, title: "AI Questions", desc: "Adaptive questions tailored to your skill level.", color: "text-[#059669]" },
+                                            { icon: ShieldCheck, title: "Verified Certs", desc: "Sharable certificates with unique ID & QR code.", color: "text-[#047857]" },
                                             { icon: BarChart3, title: "Deep Analytics", desc: "Detailed insights on strengths & weak spots.", color: "text-[#3B82F6]" },
                                             { icon: Trophy, title: "Leaderboards", desc: "Compete globally with top web developers.", color: "text-[#F59E0B]" },
                                         ].map((feat, i) => {
@@ -286,7 +286,7 @@ export default function Landing() {
                                             return (
                                                 <div key={i} className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] flex flex-col justify-between">
                                                     <div className="flex items-center gap-2 mb-1.5">
-                                                        <div className={`p-1.5 rounded-lg bg-[#102C26] shadow-2xs ${feat.color}`}>
+                                                        <div className={`p-1.5 rounded-lg bg-emerald-100 shadow-2xs ${feat.color}`}>
                                                             <Icon size={16} />
                                                         </div>
                                                         <h4 className="text-xs font-bold text-[var(--foreground)]">{feat.title}</h4>
@@ -307,7 +307,7 @@ export default function Landing() {
                                         transition={{ duration: 0.25 }}
                                         className="my-auto space-y-3"
                                     >
-                                        <div className="p-4 rounded-2xl bg-gradient-to-br from-[#163B34] to-[#289B7D] text-white shadow-md relative overflow-hidden">
+                                        <div className="p-4 rounded-2xl bg-gradient-to-br from-[#059669] to-[#047857] text-white shadow-md relative overflow-hidden">
                                             <div className="flex items-center justify-between mb-3">
                                                 <BrandLogo variant="mark" size="sm" />
                                                 <span className="text-[10px] font-semibold tracking-wider uppercase bg-white/20 px-2 py-0.5 rounded-full">Official Certificate</span>
@@ -321,7 +321,7 @@ export default function Landing() {
                                                 </div>
                                                 <div className="text-right">
                                                     <p className="text-[9px] text-emerald-100">Score</p>
-                                                    <p className="font-bold text-emerald-300">96% (Pass)</p>
+                                                    <p className="font-bold text-amber-200">96% (Pass)</p>
                                                 </div>
                                                 <div className="p-1.5 bg-white/10 rounded-lg backdrop-blur-xs">
                                                     <QrCode size={20} className="text-white" />
@@ -331,7 +331,7 @@ export default function Landing() {
 
                                         <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] px-1">
                                             <div className="flex items-center gap-1.5">
-                                                <CheckCircle2 size={14} className="text-[#22C55E]" />
+                                                <CheckCircle2 size={14} className="text-[#10B981]" />
                                                 <span className="font-medium">LinkedIn Shareable</span>
                                             </div>
                                             <div className="flex items-center gap-1.5">
@@ -358,7 +358,7 @@ export default function Landing() {
                                             { step: "04", title: "Earn Certificate", desc: "Unlock shareable badge on 80%+ score." },
                                         ].map((item, i) => (
                                             <div key={i} className="flex items-center gap-3 p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                                <div className="w-7 h-7 rounded-lg bg-[#163B34] text-white flex items-center justify-center font-bold text-xs shrink-0 font-mono">
+                                                <div className="w-7 h-7 rounded-lg bg-[#059669] text-white flex items-center justify-center font-bold text-xs shrink-0 font-mono">
                                                     {item.step}
                                                 </div>
                                                 <div>

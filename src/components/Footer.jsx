@@ -30,7 +30,7 @@ export default function Footer() {
                         { icon: Mail, href: '#' },
                     ].map((s, i) => (
                         <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
-                            className="w-7 h-7 rounded-lg bg-[var(--muted-bg)] border border-[var(--card-border)] flex items-center justify-center text-[var(--foreground-muted)] hover:text-[#32B895] hover:border-[#32B895] transition-all">
+                            className="w-7 h-7 rounded-lg bg-[var(--muted-bg)] border border-[var(--card-border)] flex items-center justify-center text-[var(--foreground-muted)] hover:text-[#059669] hover:border-[#059669] transition-all">
                             <s.icon size={13} />
                         </a>
                     ))}

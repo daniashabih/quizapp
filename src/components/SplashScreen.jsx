@@ -49,67 +49,68 @@ export default function SplashScreen({ onFinish }) {
                 phase === 'exit' ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
             }`}
         >
-            {/* Ambient background glow */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#163B34]/5 rounded-full blur-[120px] animate-pulse-glow" />
+            {/* Ambient Background Blur */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#059669]/5 rounded-full blur-[120px] animate-pulse-glow" />
             </div>
 
-            <div className="relative flex flex-col items-center">
-                {/* Logo with staggered animation */}
-                <div className={`relative mb-3 transition-all duration-1000 ${
-                    phase === 'enter' ? 'scale-90 opacity-0' : 'scale-100 opacity-100'
-                }`}>
-                    <BrandLogo variant="script" size="lg" className="drop-shadow-sm" />
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1.0] }}
+                className="flex flex-col items-center text-center max-w-sm px-6"
+            >
+                {/* Bug Icon Container with Pulsing Ring */}
+                <div className="relative mb-6">
+                    <motion.div
+                        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.7, 0.3] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                        className="absolute -inset-3 bg-[#059669]/20 rounded-3xl blur-md"
+                    />
+
+                    <div className="relative w-20 h-20 rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-2xl flex items-center justify-center p-3">
+                        <BrandLogo variant="mark" size="lg" />
+                    </div>
                 </div>
 
-                {/* Brand tagline */}
-                <div className={`text-center transition-all duration-700 delay-200 ${
-                    phase === 'enter' ? 'translate-y-4 opacity-0' : 'translate-y-0 opacity-100'
-                }`}>
-                    <p className={`text-sm font-medium text-[#6B7280] mt-2 transition-all duration-500 delay-500 ${
-                        phase === 'enter' ? 'opacity-0' : 'opacity-100'
-                    }`}>
-                        Master Development • One Quiz at a Time
-                    </p>
-                </div>
+                {/* App Brand Name */}
+                <motion.h1
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.2 }}
+                    className="text-3xl font-display font-extrabold text-[var(--foreground)] tracking-tight mb-1"
+                >
+                    Hang<span className="text-[#059669]">Bug</span>
+                </motion.h1>
 
-                {/* Tagline / version */}
-                <p className={`text-[10px] font-semibold text-[#9CA3AF] uppercase tracking-[0.2em] mt-6 transition-all duration-500 delay-700 ${
-                    phase === 'enter' ? 'opacity-0' : 'opacity-100'
-                }`}>
-                    v1.0.0
-                </p>
+                {/* Subtitle */}
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.3 }}
+                    className="text-xs font-semibold text-[var(--foreground-secondary)] tracking-widest uppercase mb-8"
+                >
+                    AI Web Development Assessment
+                </motion.p>
 
-                {/* Progress bar */}
-                <div className={`w-48 mt-10 transition-all duration-500 delay-700 ${
-                    phase === 'enter' ? 'opacity-0' : 'opacity-100'
-                }`}>
-                    <div className="h-1 rounded-full bg-[#EAF5F2] overflow-hidden">
-                        <div
-                            className="h-full rounded-full bg-gradient-to-r from-[#163B34] to-[#289B7D] transition-all duration-300 ease-out"
-                            style={{ width: `${progress}%` }}
+                {/* Progress Bar Container */}
+                <div className="w-full space-y-2">
+                    <div className="w-full h-1.5 bg-[var(--muted-bg)] rounded-full overflow-hidden border border-[var(--card-border)] p-0.5">
+                        <motion.div
+                            initial={{ width: '0%' }}
+                            animate={{ width: `${progress}%` }}
+                            className="h-full rounded-full bg-gradient-to-r from-[#059669] to-[#047857] transition-all duration-300 ease-out"
                         />
                     </div>
-                    <p className="text-[10px] font-mono text-[#9CA3AF] mt-2 text-center tabular-nums">
-                        {Math.round(progress)}%
-                    </p>
+
+                    <div className="flex items-center justify-between text-[11px] font-medium text-[var(--foreground-muted)]">
+                        <span>Initializing core modules...</span>
+                        <span className="font-mono font-bold text-[var(--foreground-secondary)]">{Math.round(progress)}%</span>
+                    </div>
                 </div>
 
-                {/* Bottom loading dots */}
+                {/* Minimal Loading Dots */}
                 <div className="flex items-center gap-1.5 mt-8">
-                    {[0, 1, 2].map(i => (
-                        <div
-                            key={i}
-                            className="w-1.5 h-1.5 rounded-full bg-[#163B34]/40 animate-bounce"
-                            style={{
-                                animationDelay: `${i * 0.15}s`,
-                                animationDuration: '0.8s',
-                                opacity: phase === 'enter' ? 0 : 1,
-                                transition: `opacity 0.5s ${0.8 + i * 0.1}s`,
-                            }}
-                        />
-                    ))}
-                </div>
             </div>
 
             {/* Bottom branding */}

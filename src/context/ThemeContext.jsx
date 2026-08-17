@@ -6,17 +6,17 @@ const ThemeContext = createContext();
 export const ThemeProvider = ({ children }) => {
     useEffect(() => {
         const root = window.document.documentElement;
-        root.classList.add('dark');
-        root.style.colorScheme = 'dark';
+        root.classList.remove('dark');
+        root.style.colorScheme = 'light';
     }, []);
 
     return (
         <ThemeContext.Provider value={{
-            theme: 'dark',
-            resolvedTheme: 'dark',
+            theme: 'light',
+            resolvedTheme: 'light',
             toggleTheme: () => {},
             setThemeMode: () => {},
-            isDark: true
+            isDark: false
         }}>
             {children}
         </ThemeContext.Provider>

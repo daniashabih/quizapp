@@ -42,7 +42,7 @@ export default function Navbar() {
                         {navItems.map(item => (
                             <Link key={item.to} to={item.to}
                                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                                    isActive(item.to) ? 'bg-[#163B34] text-white' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
+                                    isActive(item.to) ? 'bg-[#059669] text-white' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
                                 }`}>
                                 {item.label}
                             </Link>
@@ -50,7 +50,7 @@ export default function Navbar() {
                         {user && (
                             <Link to="/dashboard"
                                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                                    isActive('/dashboard') ? 'bg-[#163B34] text-white' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
+                                    isActive('/dashboard') ? 'bg-[#059669] text-white' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
                                 }`}>
                                 Dashboard
                             </Link>
@@ -62,7 +62,7 @@ export default function Navbar() {
                             <div className="relative">
                                 <button onClick={() => setUserMenuOpen(!userMenuOpen)}
                                     className="flex items-center gap-3 pl-3 pr-2 py-1.5 rounded-xl hover:bg-[var(--muted-bg)] transition-all border border-transparent hover:border-[var(--card-border)]">
-                                    <div className="w-8 h-8 rounded-lg bg-[#163B34] flex items-center justify-center text-white text-xs font-bold">
+                                    <div className="w-8 h-8 rounded-lg bg-[#059669] flex items-center justify-center text-white text-xs font-bold">
                                         {user.name?.charAt(0).toUpperCase() || 'U'}
                                     </div>
                                     <div className="hidden xl:block text-left leading-tight">
@@ -136,7 +136,7 @@ export default function Navbar() {
                             {user ? (
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-3 p-4 rounded-xl bg-[var(--muted-bg)]">
-                                        <div className="w-10 h-10 rounded-lg bg-[#163B34] flex items-center justify-center text-white font-bold">
+                                        <div className="w-10 h-10 rounded-lg bg-[#059669] flex items-center justify-center text-white font-bold">
                                             {user.name?.charAt(0).toUpperCase()}
                                         </div>
                                         <div>
@@ -174,7 +174,7 @@ function DropdownItem({ icon: Icon, label, to }) {
 function MobileNavItem({ to, label, icon: Icon, active }) {
     return (
         <Link to={to} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-            active ? 'bg-[#163B34] text-white' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
+            active ? 'bg-[#059669] text-white' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
         }`}>
             <Icon size={18} /> {label}
         </Link>

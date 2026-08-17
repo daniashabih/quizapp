@@ -67,7 +67,7 @@ export default function ResetPassword() {
                     <div className="card p-6 sm:p-8 rounded-2xl">
                         <div className="text-center mb-6">
                             <div className="w-12 h-12 rounded-2xl bg-[#EAF5F2] border border-[#D4EBE5] flex items-center justify-center mx-auto mb-3">
-                                <Lock size={22} className="text-[#163B34]" />
+                                <Lock size={22} className="text-[#059669]" />
                             </div>
                             <h1 className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)] mb-1">Set New Password</h1>
                             <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">Your new password must be different from previous used passwords.</p>
@@ -127,7 +127,7 @@ export default function ResetPassword() {
                         </form>
 
                         <div className="mt-4 text-center">
-                            <Link to="/login" className="text-xs font-semibold text-[#163B34] hover:text-[#289B7D] transition-colors inline-flex items-center gap-1">
+                            <Link to="/login" className="text-xs font-semibold text-[#059669] hover:text-[#289B7D] transition-colors inline-flex items-center gap-1">
                                 <ArrowLeft size={13} /> Back to Login
                             </Link>
                         </div>

@@ -46,8 +46,8 @@ export default function BrandLogo({
         const markSize = inlineSizes[size]?.mark || inlineSizes.md.mark;
 
         return (
-            <span className={`${markSize} inline-flex shrink-0 items-center justify-center rounded-xl bg-white border border-[#D4EBE5] shadow-sm ${className}`}>
-                <Bug className="h-full w-full text-[#289B7D] p-0.5" />
+            <span className={`${markSize} inline-flex shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-[#A7F3D0] shadow-xs ${className}`}>
+                <Bug className="h-full w-full text-[#059669] p-0.5" />
             </span>
         );
     }
@@ -56,11 +56,11 @@ export default function BrandLogo({
 
     return (
         <span className={`inline-flex items-center gap-3 ${className}`}>
-            <span className={`${styles.mark} inline-flex shrink-0 items-center justify-center rounded-xl bg-white border border-[#D4EBE5] shadow-sm`}>
-                <Bug className="h-full w-full text-[#289B7D] p-0.5" />
+            <span className={`${styles.mark} inline-flex shrink-0 items-center justify-center rounded-xl bg-emerald-50 border border-[#A7F3D0] shadow-xs`}>
+                <Bug className="h-full w-full text-[#059669] p-0.5" />
             </span>
-            <span className={`${styles.text} font-display font-bold tracking-tight text-white ${textClassName}`}>
-                Hang<span className="text-[#32B895]">Bug</span>
+            <span className={`${styles.text} font-display font-bold tracking-tight text-[var(--foreground)] ${textClassName}`}>
+                Hang<span className="text-[#10B981]">Bug</span>
             </span>
         </span>
     );

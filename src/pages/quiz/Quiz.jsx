@@ -9,9 +9,9 @@ import {
 } from 'lucide-react';
 
 const difficultyColors = {
-    beginner: { badge: 'bg-emerald-50 text-emerald-600 border border-emerald-200', label: 'Beginner' },
-    intermediate: { badge: 'bg-[#EAF5F2] text-[#289B7D] border border-[#D4EBE5]', label: 'Intermediate' },
-    expert: { badge: 'bg-[#EAF5F2] text-[#163B34] border border-[#D4EBE5]', label: 'Expert' },
+    beginner: { badge: 'bg-emerald-50 text-emerald-700 border border-emerald-200', label: 'Beginner' },
+    intermediate: { badge: 'bg-emerald-100 text-[#059669] border border-[#A7F3D0]', label: 'Intermediate' },
+    expert: { badge: 'bg-emerald-200 text-[#047857] border border-[#A7F3D0]', label: 'Expert' },
 };
 
 const Quiz = () => {
@@ -264,8 +264,8 @@ const Quiz = () => {
                             </div>
                             <div className="w-24 h-1.5 rounded-full bg-[var(--muted-bg)] overflow-hidden mt-1">
                                 <div
-                                    className={`h-full rounded-full transition-all duration-1000 ${timerIsLow ? 'bg-red-500' : 'bg-[#163B34]'}`}
-                                    style={{ width: `${timerPct}%` }}
+                                     className={`h-full rounded-full transition-all duration-1000 ${timerIsLow ? 'bg-red-500' : 'bg-[#059669]'}`}
+                                     style={{ width: `${timerPct}%` }}
                                 />
                             </div>
                         </div>
@@ -327,7 +327,7 @@ const Quiz = () => {
                             <h2 className="text-xl lg:text-2xl font-display font-bold text-[var(--foreground)] leading-snug mt-3 mb-6">
                                 {currentQ?.question_text}
                             </h2>
-                            <div className="h-px bg-gradient-to-r from-[#163B34]/30 via-[#289B7D]/20 to-transparent" />
+                            <div className="h-px bg-gradient-to-r from-[#059669]/30 via-[#10B981]/20 to-transparent" />
                         </div>
 
                         <div className="space-y-3">
@@ -345,8 +345,8 @@ const Quiz = () => {
                                     >
                                         <div className={`w-10 h-10 rounded-xl border-2 flex items-center justify-center shrink-0 font-mono font-bold text-sm transition-all ${
                                             isSelected
-                                                ? 'bg-[#163B34] border-[#163B34] text-white'
-                                                : 'border-[var(--card-border)] text-[var(--foreground-muted)] group-hover:border-[#163B34]'
+                                                ? 'bg-[#059669] border-[#059669] text-white'
+                                                : 'border-[var(--card-border)] text-[var(--foreground-muted)] group-hover:border-[#059669]'
                                         }`}>
                                             {String.fromCharCode(65 + idx)}
                                         </div>
@@ -354,7 +354,7 @@ const Quiz = () => {
                                             {opt}
                                         </span>
                                         {isSelected && (
-                                            <CheckCircle2 size={20} className="text-[#163B34] shrink-0" />
+                                            <CheckCircle2 size={20} className="text-[#059669] shrink-0" />
                                         )}
                                     </button>
                                 );
@@ -409,12 +409,12 @@ const Quiz = () => {
                                             onClick={() => setCurrentIndex(idx)}
                                             className={`relative h-10 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
                                                 active
-                                                    ? 'bg-[#163B34] text-white scale-110 shadow-lg shadow-[#163B34]/30 ring-2 ring-[#289B7D]/50'
+                                                    ? 'bg-[#059669] text-white scale-110 shadow-md ring-2 ring-[#059669]/50'
                                                     : wrong
                                                         ? 'bg-red-50 text-red-500 border border-red-200'
                                                         : answered
-                                                            ? 'bg-emerald-50 text-emerald-600 border border-emerald-200'
-                                                            : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] hover:border-[#163B34]'
+                                                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                                            : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] hover:border-[#059669]'
                                             }`}
                                         >
                                             {idx + 1}
@@ -428,8 +428,8 @@ const Quiz = () => {
                         </div>
 
                         <div className="p-5 space-y-3 border-b border-[var(--card-border)]">
-                            <StatRow label="Answered" value={answeredCount} total={questions.length} color="text-emerald-500" />
-                            <StatRow label="Remaining" value={questions.length - answeredCount} total={questions.length} color="text-[#163B34]" />
+                            <StatRow label="Answered" value={answeredCount} total={questions.length} color="text-emerald-600" />
+                            <StatRow label="Remaining" value={questions.length - answeredCount} total={questions.length} color="text-[#059669]" />
                             <StatRow label="Flagged" value={flaggedCount} total={questions.length} color="text-amber-500" />
                         </div>
 
@@ -437,7 +437,7 @@ const Quiz = () => {
                             <p className="text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-widest mb-3">Legend</p>
                             <LegendItem color="bg-emerald-500" label="Answered" />
                             <LegendItem color="bg-red-500" label="Incorrect" />
-                            <LegendItem color="bg-[#163B34]" label="Current" />
+                            <LegendItem color="bg-[#059669]" label="Current" />
                             <LegendItem color="bg-amber-500" label="Flagged" />
                             <LegendItem color="bg-[var(--muted-bg)] border border-[var(--card-border)]" label="Unanswered" />
                         </div>
@@ -479,8 +479,8 @@ const Quiz = () => {
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
                     <div className="card p-8 rounded-2xl max-w-md w-full animate-scale-in shadow-2xl">
                         <div className="text-center mb-6">
-                            <div className="w-16 h-16 rounded-2xl bg-[#EAF5F2] border border-[#D4EBE5] flex items-center justify-center mx-auto mb-4">
-                                <Send size={28} className="text-[#163B34]" />
+                            <div className="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto mb-4">
+                                <Send size={28} className="text-[#059669]" />
                             </div>
                             <h3 className="text-xl font-display font-bold text-[var(--foreground)] mb-2">Submit Quiz?</h3>
                             <p className="text-sm text-[var(--foreground-muted)]">
@@ -534,7 +534,7 @@ function QuizProgressStepper({ questions, currentIndex, setCurrentIndex, selecte
                         <span className="font-bold uppercase tracking-wider text-[10px] text-[var(--foreground-muted)]">
                             Quiz Progress
                         </span>
-                        <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#EAF5F2] text-[#163B34] border border-[#D4EBE5]">
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-[#059669] border border-emerald-200">
                             {progressPercent}% Completed
                         </span>
                     </div>
@@ -554,7 +554,7 @@ function QuizProgressStepper({ questions, currentIndex, setCurrentIndex, selecte
                 {/* Overall track progress bar */}
                 <div className="w-full h-1.5 bg-[var(--muted-bg)] rounded-full overflow-hidden mb-3">
                     <div
-                        className="h-full bg-gradient-to-r from-[#163B34] to-[#289B7D] transition-all duration-500 rounded-full"
+                        className="h-full bg-gradient-to-r from-[#059669] to-[#10B981] transition-all duration-500 rounded-full"
                         style={{ width: `${progressPercent}%` }}
                     />
                 </div>
@@ -571,11 +571,11 @@ function QuizProgressStepper({ questions, currentIndex, setCurrentIndex, selecte
                             const isFlagged = flaggedQuestions.has(q.id);
                             const isWrong = wrongAnswers[q.id];
 
-                            let stateClasses = "bg-[var(--muted-bg)] text-[var(--foreground-muted)] border-[var(--card-border)] hover:border-[#289B7D]";
+                            let stateClasses = "bg-[var(--muted-bg)] text-[var(--foreground-muted)] border-[var(--card-border)] hover:border-[#059669]";
                             let badgeIcon = null;
 
                             if (isCurrent) {
-                                stateClasses = "bg-[#163B34] text-white border-[#289B7D] ring-2 ring-[#289B7D]/40 shadow-md scale-105";
+                                stateClasses = "bg-[#059669] text-white border-[#059669] ring-2 ring-[#059669]/40 shadow-xs scale-105";
                             } else if (isWrong) {
                                 stateClasses = "bg-red-500/10 text-red-500 border-red-300 hover:bg-red-500/20";
                                 badgeIcon = <X size={10} strokeWidth={3} />;
