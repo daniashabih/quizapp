@@ -32,6 +32,16 @@ export const AuthProvider = ({ children }) => {
         checkLoggedIn();
     }, []);
 
+    const extractErrorMessage = (error, fallbackMessage) => {
+        if (typeof error.response?.data?.message === 'string') {
+            return error.response.data.message;
+        }
+        if (error.response?.status === 500 || error.code === 'ERR_BAD_RESPONSE') {
+            return 'Server error (500). Please ensure the backend server is running on port 3000.';
+        }
+        return error.response?.data?.message || error.message || fallbackMessage;
+    };
+
     const login = async (email, password) => {
         try {
             const res = await axios.post('/auth/login', { email, password });
@@ -41,7 +51,7 @@ export const AuthProvider = ({ children }) => {
             toast.success('Signed in successfully!');
             return true;
         } catch (error) {
-            toast.error(error.response?.data?.message || error.message || 'Login Failed');
+            toast.error(extractErrorMessage(error, 'Login Failed'));
             return false;
         }
     };
@@ -55,7 +65,7 @@ export const AuthProvider = ({ children }) => {
             toast.success('Account created successfully!');
             return true;
         } catch (error) {
-            toast.error(error.response?.data?.message || error.message || 'Registration Failed');
+            toast.error(extractErrorMessage(error, 'Registration Failed'));
             return false;
         }
     };

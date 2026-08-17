@@ -104,7 +104,7 @@ export default function Auth({ initialMode = 'login' }) {
                             onClick={() => setIsSignUp(false)}
                             className={`flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
                                 !isSignUp
-                                    ? 'bg-[#174A43] text-white shadow-sm'
+                                    ? 'bg-black text-white shadow-sm'
                                     : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)]'
                             }`}
                         >
@@ -115,7 +115,7 @@ export default function Auth({ initialMode = 'login' }) {
                             onClick={() => setIsSignUp(true)}
                             className={`flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
                                 isSignUp
-                                    ? 'bg-[#174A43] text-white shadow-sm'
+                                    ? 'bg-black text-white shadow-sm'
                                     : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)]'
                             }`}
                         >
@@ -133,17 +133,17 @@ export default function Auth({ initialMode = 'login' }) {
                                 type="button"
                                 onClick={() => handleGuestLogin('candidate')}
                                 disabled={loading}
-                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#174A43] hover:bg-[#174A43]/5 transition-all cursor-pointer shadow-xs"
+                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-black hover:bg-black/5 transition-all cursor-pointer shadow-xs"
                             >
-                                <UserCheck size={14} className="text-[#174A43]" /> Guest Candidate
+                                <UserCheck size={14} className="text-black" /> Guest Candidate
                             </button>
                             <button
                                 type="button"
                                 onClick={() => handleGuestLogin('admin')}
                                 disabled={loading}
-                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#174A43] hover:bg-[#174A43]/5 transition-all cursor-pointer shadow-xs"
+                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-black hover:bg-black/5 transition-all cursor-pointer shadow-xs"
                             >
-                                <ShieldCheck size={14} className="text-[#174A43]" /> Guest Admin
+                                <ShieldCheck size={14} className="text-black" /> Guest Admin
                             </button>
                         </div>
                     </div>

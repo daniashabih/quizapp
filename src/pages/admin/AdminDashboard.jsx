@@ -319,7 +319,7 @@ const AdminDashboard = () => {
             {/* Top Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
                 <div>
-                    <div className="badge-error mb-2 inline-flex items-center gap-1.5">
+                    <div className="badge-emerald mb-2 inline-flex items-center gap-1.5">
                         <ShieldCheck size={12} /> Admin Control Center
                     </div>
                     <h1 className="text-2xl lg:text-3xl font-display font-bold text-[var(--foreground)]">
@@ -377,11 +377,11 @@ const AdminDashboard = () => {
                             }}
                             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                                 isSelected
-                                    ? 'bg-[black] text-white shadow-md'
+                                    ? 'bg-black text-white shadow-md'
                                     : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
                             }`}
                         >
-                            <Icon size={15} className={tab.highlight ? 'text-emerald-400' : ''} />
+                            <Icon size={15} className={tab.highlight ? 'text-black' : ''} />
                             {tab.label}
                             {tab.count !== undefined && tab.count !== null && (
                                 <span className={`px-2 py-0.5 rounded-full text-[10px] ${
@@ -957,7 +957,7 @@ const AdminDashboard = () => {
                                 type="file"
                                 accept=".csv,.xlsx,.xls"
                                 onChange={(e) => setImportFile(e.target.files[0])}
-                                className="input-field text-xs file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#EAF5F2] file:text-black"
+                                className="input-field text-xs file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-zinc-100 file:text-black"
                             />
                             <div className="flex gap-3">
                                 <button type="button" onClick={() => { setIsImportModalOpen(false); setImportFile(null); }} className="btn-secondary flex-1 justify-center text-xs">
