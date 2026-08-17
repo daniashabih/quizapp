@@ -40,7 +40,7 @@ function createMemoryHandler(modelName) {
             return list.find(item => where.resetToken && item.resetToken === where.resetToken) || null;
         },
 
-        findMany: async ({ where, orderBy } = {}) => {
+        findMany: async ({ where, _orderBy } = {}) => {
             let list = memoryStore[modelName] || [];
             if (where) {
                 if (where.userId !== undefined) {
@@ -67,11 +67,11 @@ function createMemoryHandler(modelName) {
             return { count: 1 };
         },
 
-        count: async ({ where } = {}) => {
+        count: async ({ _where } = {}) => {
             return (memoryStore[modelName] || []).length;
         },
 
-        groupBy: async ({ where }) => {
+        groupBy: async ({ _where } = {}) => {
             const list = memoryStore[modelName] || [];
             const grouped = {};
             list.forEach(row => {
