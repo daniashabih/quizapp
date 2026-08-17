@@ -193,9 +193,9 @@ export default function Settings() {
                                     disabled={!opt.available}
                                     className={`relative p-5 rounded-2xl border-2 text-center transition-all ${
                                         theme === opt.id
-                                            ? 'border-[#163B34] bg-[#EAF5F2]'
+                                            ? 'border-[#059669] bg-emerald-50'
                                             : opt.available
-                                                ? 'border-[var(--card-border)] hover:border-[#289B7D]'
+                                                ? 'border-[var(--card-border)] hover:border-[#059669]'
                                                 : 'border-[var(--card-border)] opacity-50 cursor-not-allowed'
                                     }`}
                                 >
@@ -204,7 +204,7 @@ export default function Settings() {
                                             Soon
                                         </span>
                                     )}
-                                    <opt.icon size={24} className={`mx-auto mb-2 ${theme === opt.id ? 'text-[#163B34]' : 'text-[var(--foreground-muted)]'}`} />
+                                    <opt.icon size={24} className={`mx-auto mb-2 ${theme === opt.id ? 'text-[#059669]' : 'text-[var(--foreground-muted)]'}`} />
                                     <p className="text-sm font-bold text-[var(--foreground)]">{opt.label}</p>
                                     <p className="text-[10px] text-[var(--foreground-muted)]">{opt.desc}</p>
                                 </button>

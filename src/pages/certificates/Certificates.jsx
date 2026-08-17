@@ -103,7 +103,7 @@ export default function Certificates() {
                                     >
                                         <ExternalLink size={13} /> View
                                     </Link>
-                                    <button className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-[#163B34] hover:bg-[var(--muted-bg)] transition-all">
+                                    <button className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-[#059669] hover:bg-[var(--muted-bg)] transition-all">
                                         <Download size={15} />
                                     </button>
                                     <button className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-[#0A66C2] hover:bg-[var(--muted-bg)] transition-all">

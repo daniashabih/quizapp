@@ -59,7 +59,7 @@ export default function Profile() {
                     {/* Profile Card */}
                     <div className="card p-6 rounded-2xl text-center">
                         <div className="relative inline-block mb-4">
-                            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-[#163B34] to-[#289B7D] flex items-center justify-center text-white font-display font-extrabold text-4xl shadow-xl">
+                            <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-700 flex items-center justify-center text-white font-display font-extrabold text-4xl shadow-xl">
                                 {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                             </div>
                             <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-[var(--card-bg)]" />

@@ -26,21 +26,21 @@ export default function Home() {
             title: "Multi-Language Support",
             desc: "Native environments for C, C++, Java, Python, and JavaScript.",
             colSpan: "sm:col-span-2",
-            iconColor: "text-[#32B895]"
+            iconColor: "text-[#059669]"
         },
         {
             icon: Target,
             title: "Advanced Analytics",
             desc: "Precision tracking to identify and fix your weak spots.",
             colSpan: "sm:col-span-1",
-            iconColor: "text-[#289B7D]"
+            iconColor: "text-[#059669]"
         },
         {
             icon: Trophy,
             title: "Global Leaderboards",
             desc: "Compete against thousands of developers worldwide.",
             colSpan: "sm:col-span-1",
-            iconColor: "text-[#289B7D]"
+            iconColor: "text-[#059669]"
         },
         {
             icon: Cpu,
