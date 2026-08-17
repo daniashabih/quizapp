@@ -91,10 +91,10 @@ export default function UserDashboard() {
         <div className="max-w-7xl mx-auto space-y-6 animate-fade-up">
             {/* Welcome Banner */}
             <div className="card p-6 lg:p-8 rounded-3xl relative overflow-hidden bg-gradient-to-r from-[var(--muted-bg)] to-[var(--card-bg)] border border-[var(--card-border)]">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-black/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#174A43]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                 <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-2xl bg-black flex items-center justify-center text-white font-display font-extrabold text-2xl shadow-xl">
+                        <div className="w-16 h-16 rounded-2xl bg-[#174A43] flex items-center justify-center text-white font-display font-extrabold text-2xl shadow-xl">
                             {user?.name?.charAt(0).toUpperCase() || 'U'}
                         </div>
                         <div>
@@ -102,8 +102,8 @@ export default function UserDashboard() {
                                 <h1 className="text-2xl lg:text-3xl font-display font-extrabold text-[var(--foreground)]">
                                     Welcome back, {user?.name || 'Developer'}!
                                 </h1>
-                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-zinc-100 text-black border border-zinc-300">
-                                    <Sparkles size={12} /> Level {xpLevel}
+                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#E8EFEA] text-[#174A43] border border-[#357268]/30">
+                                    <Sparkles size={12} className="text-[#D6A85F]" /> Level {xpLevel}
                                 </span>
                             </div>
                             <p className="text-xs sm:text-sm text-[var(--foreground-secondary)] mt-1">
@@ -119,10 +119,10 @@ export default function UserDashboard() {
 
             {/* Quick Stats Row */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <DashboardStat icon={Trophy} label="Total Quizzes" value={results.length} gradient="from-black to-zinc-800" />
-                <DashboardStat icon={BarChart3} label="Average Score" value={`${avgScore}%`} gradient="from-zinc-900 to-zinc-700" />
-                <DashboardStat icon={Award} label="Certificates" value={stats.filter(s => s.best_score >= 80).length} gradient="from-zinc-800 to-black" />
-                <DashboardStat icon={Zap} label="XP Level" value={xpLevel} gradient="from-black to-zinc-900" />
+                <DashboardStat icon={Trophy} label="Total Quizzes" value={results.length} gradient="from-[#174A43] to-[#357268]" />
+                <DashboardStat icon={BarChart3} label="Average Score" value={`${avgScore}%`} gradient="from-[#357268] to-[#174A43]" />
+                <DashboardStat icon={Award} label="Certificates" value={stats.filter(s => s.best_score >= 80).length} gradient="from-[#174A43] to-[#D6A85F]" />
+                <DashboardStat icon={Zap} label="XP Level" value={xpLevel} gradient="from-[#357268] to-[#D6A85F]" />
             </div>
 
             <div className="grid lg:grid-cols-3 gap-6">
@@ -132,14 +132,14 @@ export default function UserDashboard() {
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-sm font-bold text-[var(--foreground)]">Profile</h3>
                             <button onClick={() => setIsEditing(!isEditing)}
-                                className="p-2 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
+                                className="p-2 rounded-lg text-[var(--foreground-muted)] hover:text-[#174A43] hover:bg-[var(--muted-bg)] transition-all">
                                 {isEditing ? <X size={16} /> : <Edit3 size={16} />}
                             </button>
                         </div>
 
                         {!isEditing ? (
                             <div className="text-center">
-                                <div className="w-20 h-20 rounded-2xl bg-black flex items-center justify-center text-white font-display font-extrabold text-3xl mx-auto mb-4 shadow-xl">
+                                <div className="w-20 h-20 rounded-2xl bg-[#174A43] flex items-center justify-center text-white font-display font-extrabold text-3xl mx-auto mb-4 shadow-xl">
                                     {user?.name?.charAt(0)?.toUpperCase()}
                                 </div>
                                 <h2 className="text-lg font-bold text-[var(--foreground)]">{user?.name}</h2>
@@ -219,7 +219,7 @@ export default function UserDashboard() {
                                         <span className="text-[10px] text-[var(--foreground-muted)] font-medium">{activityData[i]}</span>
                                         <div className="w-full rounded-lg relative" style={{ height: '100px' }}>
                                             <div
-                                                className="absolute bottom-0 w-full rounded-lg bg-black transition-all duration-500 hover:opacity-80"
+                                                className="absolute bottom-0 w-full rounded-lg bg-[#174A43] transition-all duration-500 hover:opacity-80"
                                                 style={{ height: `${height}%`, minHeight: activityData[i] > 0 ? '8px' : '0' }}
                                             />
                                         </div>

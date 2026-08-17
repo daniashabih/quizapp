@@ -13,7 +13,7 @@ const resultRoutes = require('./_routes/resultRoutes');
 const activityRoutes = require('./_routes/activityRoutes');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors({
     origin: true,

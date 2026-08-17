@@ -12,7 +12,7 @@
       "name": "backend (api)",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["nodemon", "api/index.js"],
-      "port": 5000
+      "port": 3000
     }
   ]
 }

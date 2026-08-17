@@ -57,16 +57,16 @@ export default function DashboardLayout() {
                             </Link>
                         )}
                         <button onClick={() => setSidebarOpen(!sidebarOpen)}
-                            className="hidden lg:flex p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
+                            className="hidden lg:flex p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all">
                             {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
                         </button>
-                        <button onClick={() => setMobileOpen(false)} className="lg:hidden p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black"><X size={18} /></button>
+                        <button onClick={() => setMobileOpen(false)} className="lg:hidden p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[var(--foreground)]"><X size={18} /></button>
                     </div>
                     <nav className="flex-1 overflow-y-auto p-3 space-y-1">
                         {sidebarItems.map(item => (
                             <Link key={item.to} to={item.to}
                                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative ${
-                                    isActive(item.to) ? 'bg-black text-white shadow-sm' : 'text-[var(--foreground-secondary)] hover:text-black hover:bg-[var(--muted-bg)]'
+                                    isActive(item.to) ? 'bg-[#174A43] text-white shadow-sm' : 'text-[var(--foreground-secondary)] hover:text-[#174A43] hover:bg-[var(--muted-bg)]'
                                 }`}
                                 title={!sidebarOpen ? item.label : undefined}>
                                 <item.icon size={18} className="shrink-0" />
@@ -82,11 +82,11 @@ export default function DashboardLayout() {
                     <div className={`p-3 border-t border-[var(--card-border)] ${!sidebarOpen && !mobileOpen ? 'flex justify-center' : ''}`}>
                         {(sidebarOpen || mobileOpen) ? (
                             <div className="space-y-1">
-                                <Link to="/" className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-[var(--foreground-secondary)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">Home</Link>
-                                <button onClick={logout} className="flex items-center gap-3 w-full px-3 py-2 rounded-xl text-xs font-medium text-black hover:bg-black/10 transition-all"><LogOut size={16} /> Sign Out</button>
+                                <Link to="/" className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-[var(--foreground-secondary)] hover:text-[#174A43] hover:bg-[var(--muted-bg)] transition-all">Home</Link>
+                                <button onClick={logout} className="flex items-center gap-3 w-full px-3 py-2 rounded-xl text-xs font-medium text-red-500 hover:bg-red-500/10 transition-all"><LogOut size={16} /> Sign Out</button>
                             </div>
                         ) : (
-                            <button onClick={logout} className="p-2 rounded-xl text-black hover:bg-black/10" title="Sign Out"><LogOut size={18} /></button>
+                            <button onClick={logout} className="p-2 rounded-xl text-red-500 hover:bg-red-500/10" title="Sign Out"><LogOut size={18} /></button>
                         )}
                     </div>
                 </div>
@@ -97,8 +97,8 @@ export default function DashboardLayout() {
                 <header className="h-16 bg-[var(--card-bg)]/90 backdrop-blur-xl border-b border-[var(--card-border)] shrink-0 z-30">
                     <div className="flex items-center justify-between h-full px-4 lg:px-6">
                         <div className="flex items-center gap-3">
-                            <button onClick={() => setMobileOpen(true)} className="lg:hidden p-2 rounded-xl text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)]"><Menu size={20} /></button>
-                            <div className={`hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-xl border transition-all duration-200 bg-[var(--muted-bg)] ${searchFocus ? 'border-black' : 'border-[var(--card-border)]'}`}>
+                            <button onClick={() => setMobileOpen(true)} className="lg:hidden p-2 rounded-xl text-[var(--foreground-muted)] hover:text-[#174A43] hover:bg-[var(--muted-bg)]"><Menu size={20} /></button>
+                            <div className={`hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-xl border transition-all duration-200 bg-[var(--muted-bg)] ${searchFocus ? 'border-[#174A43]' : 'border-[var(--card-border)]'}`}>
                                 <Search size={15} className="text-[var(--foreground-muted)]" />
                                 <input type="text" placeholder="Search..." className="bg-transparent border-none outline-none text-xs text-[var(--foreground)] placeholder:[var(--foreground-muted)] w-40 lg:w-56"
                                     onFocus={() => setSearchFocus(true)} onBlur={() => setSearchFocus(false)} />
@@ -107,9 +107,9 @@ export default function DashboardLayout() {
                         <div className="flex items-center gap-2">
                             <div className="relative">
                                 <button onClick={() => setNotifOpen(!notifOpen)}
-                                    className="relative p-2 rounded-xl text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
+                                    className="relative p-2 rounded-xl text-[var(--foreground-muted)] hover:text-[#174A43] hover:bg-[var(--muted-bg)] transition-all">
                                     <Bell size={18} />
-                                    <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-black ring-2 ring-[var(--card-bg)]" />
+                                    <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#D6A85F] ring-2 ring-[var(--card-bg)]" />
                                 </button>
                                 {notifOpen && (
                                     <>
@@ -117,7 +117,7 @@ export default function DashboardLayout() {
                                         <div className="absolute right-0 mt-2 w-80 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl shadow-xl overflow-hidden animate-scale-in z-50">
                                             <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--card-border)]">
                                                 <h3 className="text-xs font-semibold text-[var(--foreground)]">Notifications</h3>
-                                                <button className="text-[11px] font-medium text-[var(--foreground-muted)] hover:text-black">Mark all read</button>
+                                                <button className="text-[11px] font-medium text-[var(--foreground-muted)] hover:text-[#174A43]">Mark all read</button>
                                             </div>
                                             <div className="max-h-80 overflow-y-auto">
                                                 {[
@@ -131,7 +131,7 @@ export default function DashboardLayout() {
                                                                 <p className="text-xs font-semibold text-[var(--foreground)]">{n.title}</p>
                                                                 <p className="text-[11px] text-[var(--foreground-secondary)] mt-0.5">{n.desc}</p>
                                                             </div>
-                                                            {n.unread && <div className="w-2 h-2 rounded-full bg-black mt-1 shrink-0" />}
+                                                            {n.unread && <div className="w-2 h-2 rounded-full bg-[#D6A85F] mt-1 shrink-0" />}
                                                         </div>
                                                         <p className="text-[10px] text-[var(--foreground-muted)] mt-1 font-medium">{n.time}</p>
                                                     </div>
@@ -143,7 +143,7 @@ export default function DashboardLayout() {
                             </div>
                             <button onClick={() => navigate('/dashboard/profile')}
                                 className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-xl hover:bg-[var(--muted-bg)] transition-all group">
-                                <div className="w-7 h-7 rounded-lg bg-black flex items-center justify-center text-white text-xs font-bold shadow-xs">
+                                <div className="w-7 h-7 rounded-lg bg-[#174A43] flex items-center justify-center text-white text-xs font-bold shadow-xs">
                                     {user?.name?.charAt(0).toUpperCase() || 'U'}
                                 </div>
                                 <div className="hidden lg:block text-left leading-tight">
