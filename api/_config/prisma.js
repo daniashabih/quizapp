@@ -93,7 +93,29 @@ function createMemoryHandler(modelName) {
 const prismaProxy = new Proxy({}, {
     get(_, modelProp) {
         if (prismaInstance && prismaInstance[modelProp]) {
-            return prismaInstance[modelProp];
+            const targetModel = prismaInstance[modelProp];
+            return new Proxy(targetModel, {
+                get(target, methodProp) {
+                    if (typeof target[methodProp] === 'function') {
+                        return async (...args) => {
+                            try {
+                                return await target[methodProp](...args);
+                            } catch (err) {
+                                // If database is unreachable (e.g. connection lost), fallback to memory store
+                                if (err.code && err.code.startsWith('P1')) {
+                                    console.warn(`[Database Warning] Prisma query '${modelProp}.${methodProp}' database connection issue (${err.code}). Using fallback store.`);
+                                    const fallback = createMemoryHandler(modelProp);
+                                    if (fallback && typeof fallback[methodProp] === 'function') {
+                                        return await fallback[methodProp](...args);
+                                    }
+                                }
+                                throw err;
+                            }
+                        };
+                    }
+                    return target[methodProp];
+                }
+            });
         }
         return createMemoryHandler(modelProp);
     }

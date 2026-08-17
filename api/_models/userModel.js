@@ -1,21 +1,24 @@
 const prisma = require('../_config/prisma');
 
 const User = {
-    create: async (name, email, password) => {
+    create: async (name, email, password, role = 'candidate') => {
+        const cleanEmail = String(email || '').trim().toLowerCase();
+        const cleanName = String(name || '').trim();
         const result = await prisma.user.create({
             data: {
-                name,
-                email,
+                name: cleanName,
+                email: cleanEmail,
                 password,
-                role: 'candidate'
+                role: role || 'candidate'
             }
         });
         return result.id;
     },
 
     findByEmail: async (email) => {
+        const cleanEmail = String(email || '').trim().toLowerCase();
         const user = await prisma.user.findUnique({
-            where: { email }
+            where: { email: cleanEmail }
         });
         if (!user) return null;
         return {
@@ -50,16 +53,19 @@ const User = {
     },
 
     update: async (id, name, email) => {
+        const cleanEmail = String(email || '').trim().toLowerCase();
+        const cleanName = String(name || '').trim();
         await prisma.user.update({
             where: { id: parseInt(id, 10) },
-            data: { name, email }
+            data: { name: cleanName, email: cleanEmail }
         });
         return 1;
     },
 
     setResetToken: async (email, token, expiry) => {
+        const cleanEmail = String(email || '').trim().toLowerCase();
         await prisma.user.update({
-            where: { email },
+            where: { email: cleanEmail },
             data: {
                 resetToken: token,
                 resetTokenExpiry: new Date(expiry)

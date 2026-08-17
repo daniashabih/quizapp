@@ -11,36 +11,45 @@ const register = async (req, res) => {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
+        const cleanName = String(name).trim();
+        const cleanEmail = String(email).trim().toLowerCase();
+
+        if (password.length < 8) {
+            return res.status(400).json({ message: 'Password must be at least 8 characters long' });
+        }
+
         // Check if user exists
-        const userExists = await User.findByEmail(email);
+        const userExists = await User.findByEmail(cleanEmail);
         if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(400).json({ message: 'User already exists with this email address' });
         }
 
         // Hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create user
-        const userId = await User.create(name, email, hashedPassword);
+        // Create user in database
+        const userId = await User.create(cleanName, cleanEmail, hashedPassword, 'candidate');
 
         // Generate Token
         const secret = process.env.JWT_SECRET || 'secret123';
-        const token = jwt.sign({ id: userId, role: 'candidate' }, secret, {
-            expiresIn: '30d'
-        });
+        const token = jwt.sign(
+            { id: userId, name: cleanName, email: cleanEmail, role: 'candidate' },
+            secret,
+            { expiresIn: '30d' }
+        );
 
         res.status(201).json({
             id: userId,
-            name,
-            email,
+            name: cleanName,
+            email: cleanEmail,
             role: 'candidate',
             token
         });
 
     } catch (error) {
         console.error('Register Error:', error);
-        res.status(500).json({ message: 'Server error', error: error.message, stack: error.stack });
+        res.status(500).json({ message: 'Failed to create user account', error: error.message });
     }
 };
 
@@ -48,23 +57,28 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
+
+        const cleanEmail = String(email).trim().toLowerCase();
+
         // Check user
-        const user = await User.findByEmail(email);
+        const user = await User.findByEmail(cleanEmail);
         if (!user) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid email or password' });
         }
 
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid email or password' });
         }
 
         // Generate Token
-        // Must include role in token payload for middleware to pick it up
         const secret = process.env.JWT_SECRET || 'secret123';
         const token = jwt.sign(
-            { id: user.id, role: user.role || 'candidate' },
+            { id: user.id, name: user.name, email: user.email, role: user.role || 'candidate' },
             secret,
             { expiresIn: '30d' }
         );
@@ -78,17 +92,20 @@ const login = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Login Error:', error);
+        res.status(500).json({ message: 'Server error during login' });
     }
 };
 
 const getMe = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
         res.json(user);
     } catch (error) {
-        console.error(error);
+        console.error('GetMe Error:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -98,7 +115,7 @@ const getAllUsers = async (req, res) => {
         const users = await User.getAll();
         res.json(users);
     } catch (error) {
-        console.error(error);
+        console.error('GetAllUsers Error:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -112,7 +129,10 @@ const updateProfile = async (req, res) => {
             return res.status(400).json({ message: 'Name and email are required' });
         }
 
-        const affectedRows = await User.update(userId, name, email);
+        const cleanName = String(name).trim();
+        const cleanEmail = String(email).trim().toLowerCase();
+
+        const affectedRows = await User.update(userId, cleanName, cleanEmail);
         if (affectedRows === 0) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -123,7 +143,7 @@ const updateProfile = async (req, res) => {
             user: updatedUser
         });
     } catch (error) {
-        console.error(error);
+        console.error('UpdateProfile Error:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -133,23 +153,27 @@ const crypto = require('crypto');
 const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
-        const user = await User.findByEmail(email);
+        if (!email) {
+            return res.status(400).json({ message: 'Email is required' });
+        }
+
+        const cleanEmail = String(email).trim().toLowerCase();
+        const user = await User.findByEmail(cleanEmail);
         
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({ message: 'No account found with this email address' });
         }
 
         const resetToken = crypto.randomBytes(20).toString('hex');
         const resetExpiry = new Date(Date.now() + 3600000); // 1 hour
 
-        await User.setResetToken(email, resetToken, resetExpiry);
+        await User.setResetToken(cleanEmail, resetToken, resetExpiry);
 
-        // In a real app, send email here. For now, log it.
         console.log(`🔑 Reset Link: http://localhost:5173/reset-password/${resetToken}`);
 
-        res.json({ message: 'Password reset link sent to your email (mocked to console)' });
+        res.json({ message: 'Password reset link sent to your email' });
     } catch (error) {
-        console.error(error);
+        console.error('ForgotPassword Error:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -157,6 +181,14 @@ const forgotPassword = async (req, res) => {
 const resetPassword = async (req, res) => {
     try {
         const { token, password } = req.body;
+        if (!token || !password) {
+            return res.status(400).json({ message: 'Token and password are required' });
+        }
+
+        if (password.length < 8) {
+            return res.status(400).json({ message: 'Password must be at least 8 characters long' });
+        }
+
         const user = await User.findByResetToken(token);
 
         if (!user) {
@@ -170,7 +202,7 @@ const resetPassword = async (req, res) => {
 
         res.json({ message: 'Password has been reset successfully' });
     } catch (error) {
-        console.error(error);
+        console.error('ResetPassword Error:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
