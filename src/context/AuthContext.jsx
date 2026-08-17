@@ -36,8 +36,11 @@ export const AuthProvider = ({ children }) => {
         if (typeof error.response?.data?.message === 'string') {
             return error.response.data.message;
         }
-        if (error.response?.status === 500 || error.code === 'ERR_BAD_RESPONSE') {
-            return 'Server error (500). Please ensure the backend server is running on port 3000.';
+        if (error.response?.status === 503 || error.code === 'ERR_NETWORK' || error.code === 'ECONNREFUSED') {
+            return 'Backend server is connecting or offline on port 3000. Please start the backend server.';
+        }
+        if (error.response?.status === 500) {
+            return 'Server error (500). Please check backend logs or try again.';
         }
         return error.response?.data?.message || error.message || fallbackMessage;
     };
@@ -76,13 +79,19 @@ export const AuthProvider = ({ children }) => {
 
     const loginAsGuest = async (role = 'candidate') => {
         const demoEmail = role === 'admin' ? 'admin@example.com' : 'user@example.com';
+        const demoPass = role === 'admin' ? 'AdminPassword123!' : 'password';
+
         try {
-            const success = await login(demoEmail, 'password');
-            if (success) {
+            const res = await axios.post('/auth/login', { email: demoEmail, password: demoPass });
+            if (res.data && res.data.token) {
+                localStorage.setItem('token', res.data.token);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+                setUser(res.data);
+                toast.success(`Signed in as Guest (${role === 'admin' ? 'Admin' : 'Candidate'})`);
                 return true;
             }
-        } catch {
-            // Fallback to offline guest user
+        } catch (err) {
+            console.warn('Backend login unavailable, using guest session:', err.message);
         }
 
         const guestUser = role === 'admin' ? {

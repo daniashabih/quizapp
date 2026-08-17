@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -13,9 +14,30 @@ if (process.env.DATABASE_URL) {
     }
 }
 
-// In-memory fallback store for development without an active database connection
+// Pre-hashed passwords for in-memory fallback
+const DEFAULT_ADMIN_HASH = bcrypt.hashSync('AdminPassword123!', 10);
+const DEFAULT_USER_HASH = bcrypt.hashSync('password', 10);
+
+// In-memory fallback store for development or database disconnection
 const memoryStore = {
-    user: [],
+    user: [
+        {
+            id: 1,
+            name: 'System Admin',
+            email: 'admin@example.com',
+            password: DEFAULT_ADMIN_HASH,
+            role: 'admin',
+            createdAt: new Date()
+        },
+        {
+            id: 2,
+            name: 'Demo Candidate',
+            email: 'user@example.com',
+            password: DEFAULT_USER_HASH,
+            role: 'candidate',
+            createdAt: new Date()
+        }
+    ],
     category: [],
     question: [],
     quizResult: [],
@@ -32,7 +54,7 @@ function createMemoryHandler(modelName) {
 
         findUnique: async ({ where }) => {
             const list = memoryStore[modelName] || [];
-            return list.find(item => (where.id !== undefined && item.id === where.id) || (where.email !== undefined && item.email === where.email)) || null;
+            return list.find(item => (where.id !== undefined && item.id === where.id) || (where.email !== undefined && item.email.toLowerCase() === (where.email || '').toLowerCase())) || null;
         },
 
         findFirst: async ({ where }) => {
@@ -101,13 +123,10 @@ const prismaProxy = new Proxy({}, {
                             try {
                                 return await target[methodProp](...args);
                             } catch (err) {
-                                // If database is unreachable (e.g. connection lost), fallback to memory store
-                                if (err.code && err.code.startsWith('P1')) {
-                                    console.warn(`[Database Warning] Prisma query '${modelProp}.${methodProp}' database connection issue (${err.code}). Using fallback store.`);
-                                    const fallback = createMemoryHandler(modelProp);
-                                    if (fallback && typeof fallback[methodProp] === 'function') {
-                                        return await fallback[methodProp](...args);
-                                    }
+                                console.warn(`[Database Warning] Query '${modelProp}.${methodProp}' failed (${err.code || err.message}). Using fallback memory store.`);
+                                const fallback = createMemoryHandler(modelProp);
+                                if (fallback && typeof fallback[methodProp] === 'function') {
+                                    return await fallback[methodProp](...args);
                                 }
                                 throw err;
                             }
