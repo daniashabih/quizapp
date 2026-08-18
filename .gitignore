@@ -26,4 +26,9 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+# Database
+*.db
+*.db-journal
+dev.db
+prisma/*.db
+prisma/*.db-journal

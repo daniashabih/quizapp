@@ -9,8 +9,8 @@ const globalForPrisma = global;
  */
 function getPrismaClient() {
     if (!globalForPrisma.prisma) {
-        if (!process.env.DATABASE_URL) {
-            console.error('❌ [Database Configuration Error] DATABASE_URL is not defined in environment variables.');
+        if (!process.env.DATABASE_URL || process.env.DATABASE_URL.startsWith('postgres')) {
+            process.env.DATABASE_URL = 'file:./dev.db';
         }
 
         globalForPrisma.prisma = new PrismaClient({
@@ -18,7 +18,7 @@ function getPrismaClient() {
             errorFormat: 'minimal',
         });
 
-        console.log('✅ [Database] PrismaClient initialized for PostgreSQL.');
+        console.log('✅ [Database] PrismaClient initialized for SQLite.');
     }
 
     return globalForPrisma.prisma;

@@ -1,4 +1,4 @@
-﻿const prisma = require('../api/_config/prisma');
+const prisma = require('../api/_config/prisma');
 
 const sampleQuestions = [
     // --- REACT.JS (Beginner) ---
@@ -232,7 +232,7 @@ async function seedQuestions() {
         console.log(`Ensuring ${uniqueCategories.length} categories exist...`);
         for (const catName of uniqueCategories) {
             const existing = await prisma.category.findFirst({
-                where: { name: { equals: catName, mode: 'insensitive' } }
+                where: { name: { equals: catName } }
             });
             if (!existing) {
                 const created = await prisma.category.create({ data: { name: catName } });
@@ -249,8 +249,8 @@ async function seedQuestions() {
         for (const q of sampleQuestions) {
             const existing = await prisma.question.findFirst({
                 where: {
-                    category: { equals: q.category, mode: 'insensitive' },
-                    questionText: { equals: q.questionText, mode: 'insensitive' }
+                    category: { equals: q.category },
+                    questionText: { equals: q.questionText }
                 }
             });
 
@@ -259,7 +259,7 @@ async function seedQuestions() {
                     data: {
                         category: q.category,
                         questionText: q.questionText,
-                        options: q.options,
+                        options: typeof q.options === 'string' ? q.options : JSON.stringify(q.options),
                         correctAnswer: q.correctAnswer,
                         difficulty: q.difficulty
                     }
