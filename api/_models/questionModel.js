@@ -49,10 +49,10 @@ const Question = {
     getFiltered: async ({ category, difficulty } = {}) => {
         const where = {};
         if (category) {
-            where.category = { equals: category };
+            where.category = { equals: category, mode: 'insensitive' };
         }
-        if (difficulty) {
-            where.difficulty = normalizeDifficulty(difficulty);
+        if (difficulty && difficulty !== 'all') {
+            where.difficulty = { equals: normalizeDifficulty(difficulty), mode: 'insensitive' };
         }
 
         const rows = await prisma.question.findMany({

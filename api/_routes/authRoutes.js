@@ -5,6 +5,7 @@ const {
     register,
     login,
     logout,
+    googleLogin,
     getMe,
     getAllUsers,
     updateProfile,
@@ -17,6 +18,7 @@ router.post('/signup', signup);
 router.post('/register', register);
 router.post('/login', login);
 router.post('/logout', logout);
+router.post('/google', googleLogin);
 router.get('/me', authMiddleware, getMe);
 router.put('/update-profile', authMiddleware, updateProfile);
 router.get('/users', authMiddleware, adminMiddleware, getAllUsers);

@@ -1,7 +1,7 @@
 const prisma = require('../_config/prisma');
 
 const User = {
-    create: async (name, email, password, role = 'user', avatar = '') => {
+    create: async (name, email, password, role = 'user', avatar = '', isVerified = false) => {
         const cleanEmail = String(email || '').trim().toLowerCase();
         const cleanName = String(name || '').trim();
         const result = await prisma.user.create({
@@ -11,7 +11,7 @@ const User = {
                 password,
                 role: role || 'user',
                 avatar: avatar || '',
-                isVerified: false
+                isVerified: Boolean(isVerified)
             }
         });
         return result;

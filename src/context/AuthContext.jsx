@@ -1,4 +1,4 @@
-﻿/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -144,8 +144,21 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const loginWithGoogle = async () => {
-        toast.info('Google OAuth provider integration is available via backend OAuth configuration.');
+    /**
+     * Google Sign-In / Sign-Up
+     */
+    const loginWithGoogle = async (googleData = {}) => {
+        try {
+            const res = await axios.post('/auth/google', googleData);
+            const userData = res.data?.user || res.data;
+            setUser(userData);
+            toast.success(`Welcome ${userData.name || ''}! Signed in with Google.`);
+            return userData;
+        } catch (error) {
+            const msg = extractErrorMessage(error, 'Google Sign-In failed');
+            toast.error(msg);
+            throw new Error(msg);
+        }
     };
 
     const updateUser = (data) => {

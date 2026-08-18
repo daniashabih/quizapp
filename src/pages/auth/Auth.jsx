@@ -1,6 +1,6 @@
-﻿import { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, UserCheck, ShieldCheck, Sparkles, Check, X, ShieldAlert } from 'lucide-react';
+import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, UserCheck, ShieldCheck, Sparkles, Check, X, ShieldAlert, Info, ExternalLink } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import Navbar from '../../components/Navbar';
@@ -28,6 +28,8 @@ export default function Auth({ initialMode = 'login' }) {
     const [showPass, setShowPass] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
+    const [showGoogleModal, setShowGoogleModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const { login, signup, loginWithGoogle, loginAsGuest } = useAuth();
@@ -58,6 +60,70 @@ export default function Auth({ initialMode = 'login' }) {
             }
         } catch (err) {
             setErrorMessage(err.message || 'Guest login failed');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleGoogleAuth = async () => {
+        setErrorMessage('');
+        const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+        // If real Google Client ID is configured and GIS SDK is available
+        if (googleClientId && window.google?.accounts?.oauth2) {
+            setGoogleLoading(true);
+            try {
+                const tokenClient = window.google.accounts.oauth2.initTokenClient({
+                    client_id: googleClientId,
+                    scope: 'email profile openid',
+                    callback: async (tokenResponse) => {
+                        if (tokenResponse?.error) {
+                            setGoogleLoading(false);
+                            setErrorMessage(tokenResponse.error_description || 'Google authentication was cancelled or failed.');
+                            return;
+                        }
+                        if (tokenResponse?.access_token) {
+                            try {
+                                const user = await loginWithGoogle({ token: tokenResponse.access_token });
+                                if (user) {
+                                    navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                                }
+                            } catch (err) {
+                                setErrorMessage(err.message || 'Google Sign-In failed');
+                            } finally {
+                                setGoogleLoading(false);
+                            }
+                        }
+                    },
+                });
+                tokenClient.requestAccessToken();
+                return;
+            } catch (err) {
+                console.error('[Google OAuth Client Error]:', err);
+                setGoogleLoading(false);
+            }
+        }
+
+        // Show instant demo Google login / setup modal
+        setShowGoogleModal(true);
+    };
+
+    const handleInstantDemoGoogleLogin = async () => {
+        setShowGoogleModal(false);
+        setLoading(true);
+        setErrorMessage('');
+        try {
+            const user = await loginWithGoogle({
+                isDemo: true,
+                name: 'Jane Google',
+                email: 'google.user@example.com',
+                avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
+            });
+            if (user) {
+                navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+            }
+        } catch (err) {
+            setErrorMessage(err.message || 'Google Sign-In failed');
         } finally {
             setLoading(false);
         }
@@ -177,10 +243,16 @@ export default function Auth({ initialMode = 'login' }) {
                         {/* Google OAuth Button */}
                         <button
                             type="button"
-                            onClick={loginWithGoogle}
-                            className="btn-social text-xs sm:text-sm mb-4 w-full flex items-center justify-center gap-2"
+                            onClick={handleGoogleAuth}
+                            disabled={loading || googleLoading}
+                            className="btn-social text-xs sm:text-sm mb-4 w-full flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
-                            <GoogleIcon /> {isSignUp ? 'Sign up with Google' : 'Continue with Google'}
+                            {googleLoading ? (
+                                <div className="w-4 h-4 border-2 border-[#163B34] border-t-transparent rounded-full animate-spin" />
+                            ) : (
+                                <GoogleIcon />
+                            )}
+                            <span>{googleLoading ? 'Connecting to Google...' : (isSignUp ? 'Sign up with Google' : 'Continue with Google')}</span>
                         </button>
 
                         <div className="relative mb-4">
@@ -395,6 +467,83 @@ export default function Auth({ initialMode = 'login' }) {
                         </p>
                     </div>
                 </div>
+
+                {/* Google OAuth Configuration & Instant Test Modal */}
+                {showGoogleModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
+                        <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4 animate-scale-in text-left">
+                            <div className="flex items-start justify-between">
+                                <div className="flex items-center gap-2.5">
+                                    <div className="p-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 text-blue-600">
+                                        <GoogleIcon />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-base font-bold font-display text-[var(--foreground)]">Google Sign-In</h3>
+                                        <p className="text-xs text-[var(--foreground-secondary)]">Authentication & Configuration</p>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowGoogleModal(false)}
+                                    className="text-[var(--foreground-muted)] hover:text-[var(--foreground)] p-1 rounded-lg hover:bg-[var(--muted-bg)] cursor-pointer"
+                                >
+                                    <X size={18} />
+                                </button>
+                            </div>
+
+                            <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 text-amber-800 dark:text-amber-300 text-xs flex items-start gap-2.5">
+                                <Info size={16} className="shrink-0 mt-0.5" />
+                                <div>
+                                    <span className="font-semibold">Backend Integration Active</span>
+                                    <p className="mt-0.5 opacity-90">
+                                        To enable real Google Account chooser popups, set <code className="px-1 py-0.5 rounded bg-amber-100 dark:bg-amber-900/50 font-mono text-[10px]">VITE_GOOGLE_CLIENT_ID</code> in your <code className="px-1 py-0.5 rounded bg-amber-100 dark:bg-amber-900/50 font-mono text-[10px]">.env</code>.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Instant Demo Google Account */}
+                            <div className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-2">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs font-semibold text-[var(--foreground)] flex items-center gap-1.5">
+                                        <Sparkles size={13} className="text-[#D19A45]" /> Instant Google Test Mode
+                                    </span>
+                                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold">1-Click Test</span>
+                                </div>
+                                <p className="text-[11px] text-[var(--foreground-secondary)]">
+                                    Test the complete Google OAuth pipeline (database creation, JWT cookie session, and dashboard redirect) right now:
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={handleInstantDemoGoogleLogin}
+                                    disabled={loading}
+                                    className="btn-primary w-full py-2.5 rounded-xl text-xs font-semibold cursor-pointer flex items-center justify-center gap-2 bg-[#163B34] hover:bg-[#1F4D44] text-white shadow-xs"
+                                >
+                                    <GoogleIcon /> Continue with Demo Google Account
+                                </button>
+                            </div>
+
+                            {/* Quick Setup Instructions */}
+                            <div className="space-y-1.5 text-xs text-[var(--foreground-secondary)] pt-1">
+                                <p className="font-semibold text-[var(--foreground)] text-[11px] uppercase tracking-wider">How to connect your real Google Client ID:</p>
+                                <ol className="list-decimal list-inside space-y-1 text-[11px] opacity-90 pl-1">
+                                    <li>Create OAuth 2.0 Client ID in <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline inline-flex items-center gap-0.5 font-medium">Google Cloud Console <ExternalLink size={10} /></a></li>
+                                    <li>Add your domain/localhost to Authorized JavaScript Origins</li>
+                                    <li>Add <code className="px-1 py-0.5 rounded bg-[var(--muted-bg)] font-mono text-[10px]">VITE_GOOGLE_CLIENT_ID="..."</code> to <code className="px-1 py-0.5 rounded bg-[var(--muted-bg)] font-mono text-[10px]">.env</code></li>
+                                </ol>
+                            </div>
+
+                            <div className="pt-1">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowGoogleModal(false)}
+                                    className="w-full py-2 text-xs text-[var(--foreground-secondary)] hover:text-[var(--foreground)] font-medium text-center cursor-pointer"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </main>
             <Footer />
         </div>

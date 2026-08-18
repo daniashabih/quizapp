@@ -1,5 +1,6 @@
-﻿const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const axios = require('axios');
 const User = require('../_models/userModel');
 const { generateTokenAndSetCookie, clearTokenCookie } = require('../_utils/generateToken');
 
@@ -366,11 +367,159 @@ const resetPassword = async (req, res) => {
     }
 };
 
+/**
+ * Google OAuth Login / Signup
+ * POST /api/auth/google
+ */
+const googleLogin = async (req, res) => {
+    try {
+        const { credential, token, isDemo, email: demoEmail, name: demoName, avatar: demoAvatar } = req.body;
+
+        let email = '';
+        let name = '';
+        let avatar = '';
+
+        if (credential) {
+            // Verify Google ID Token (JWT) with Google OAuth tokeninfo endpoint
+            try {
+                const googleRes = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(credential)}`);
+                const payload = googleRes.data;
+
+                if (!payload || !payload.email) {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Invalid Google authentication token'
+                    });
+                }
+
+                email = payload.email;
+                name = payload.name || payload.given_name || email.split('@')[0];
+                avatar = payload.picture || '';
+            } catch (verifyErr) {
+                console.error('[Google Token Verification Error]:', verifyErr.response?.data || verifyErr.message);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Google token verification failed. Please try signing in again.'
+                });
+            }
+        } else if (token) {
+            // Verify Google Access Token via Google userinfo endpoint
+            try {
+                const googleRes = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const payload = googleRes.data;
+
+                if (!payload || !payload.email) {
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Invalid Google access token'
+                    });
+                }
+
+                email = payload.email;
+                name = payload.name || payload.given_name || email.split('@')[0];
+                avatar = payload.picture || '';
+            } catch (tokenErr) {
+                console.error('[Google UserInfo Error]:', tokenErr.response?.data || tokenErr.message);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Failed to retrieve Google profile. Please try again.'
+                });
+            }
+        } else if (isDemo) {
+            // Instant Demo Mode Google Account
+            email = demoEmail || 'google.demo@hangbug.dev';
+            name = demoName || 'Jane Google (Demo)';
+            avatar = demoAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80';
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: 'Google authentication credential or token is required'
+            });
+        }
+
+        const cleanEmail = String(email).trim().toLowerCase();
+        const cleanName = String(name || cleanEmail.split('@')[0]).trim();
+
+        // 1. Check if user already exists
+        let user = await User.findByEmail(cleanEmail);
+
+        if (user) {
+            // Update avatar if not already set, and ensure verified status
+            const updateFields = {};
+            if (!user.avatar && avatar) {
+                updateFields.avatar = avatar;
+            }
+            if (!user.is_verified && !user.isVerified) {
+                updateFields.isVerified = true;
+            }
+
+            if (Object.keys(updateFields).length > 0) {
+                try {
+                    const updated = await User.update(user.id, updateFields);
+                    user = { ...user, ...updated };
+                } catch (updateErr) {
+                    console.warn('[Google Login Warning] Could not update user avatar:', updateErr.message);
+                }
+            }
+        } else {
+            // 2. Create new user account with secure random password
+            const randomPassword = crypto.randomBytes(32).toString('hex');
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(randomPassword, salt);
+
+            // Determine role: standard admin email fallback or user
+            const role = cleanEmail === 'admin@example.com' ? 'admin' : 'user';
+
+            const createdUser = await User.create(cleanName, cleanEmail, hashedPassword, role, avatar, true);
+            user = {
+                id: createdUser.id,
+                name: createdUser.name,
+                email: createdUser.email,
+                role: createdUser.role || 'user',
+                avatar: createdUser.avatar || avatar || '',
+                isVerified: true,
+                is_verified: true,
+                createdAt: createdUser.createdAt,
+                created_at: createdUser.createdAt
+            };
+        }
+
+        // 3. Generate JWT and set HttpOnly Cookie
+        const jwtToken = generateTokenAndSetCookie(res, user);
+
+        // 4. Return user data (without password)
+        return res.status(200).json({
+            success: true,
+            message: 'Signed in with Google successfully',
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role || 'user',
+                avatar: user.avatar || '',
+                isVerified: user.is_verified || user.isVerified || false,
+                createdAt: user.created_at || user.createdAt
+            },
+            token: jwtToken
+        });
+
+    } catch (error) {
+        console.error('[Google Login Error]:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error during Google authentication. Please try again.'
+        });
+    }
+};
+
 module.exports = {
     signup,
     register: signup, // alias for signup
     login,
     logout,
+    googleLogin,
     getMe,
     getAllUsers,
     updateProfile,

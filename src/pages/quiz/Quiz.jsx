@@ -14,11 +14,33 @@ const difficultyColors = {
     expert: { badge: 'bg-[#D19A45]/20 text-[#D19A45] border border-[#D19A45]/40', label: 'Expert' },
 };
 
+const defaultQuizOptions = {
+    timePerQuestion: 60,
+    passingScore: 70,
+    maxQuestions: 10,
+    randomizeQuestions: true,
+    shuffleOptions: false,
+    instantFeedback: true,
+    allowRetries: true,
+    negativeMarking: false,
+    showExplanations: true
+};
+
+const getQuizOptions = () => {
+    try {
+        const saved = localStorage.getItem('quiz_options');
+        return saved ? { ...defaultQuizOptions, ...JSON.parse(saved) } : defaultQuizOptions;
+    } catch {
+        return defaultQuizOptions;
+    }
+};
+
 const Quiz = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const selectedCategory = location.state?.category || location.state?.language;
     const difficulty = location.state?.difficulty || 'beginner';
+    const quizOpts = getQuizOptions();
 
     const [questions, setQuestions] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,7 +48,7 @@ const Quiz = () => {
     const [flaggedQuestions, setFlaggedQuestions] = useState(new Set());
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [loading, setLoading] = useState(true);
-    const [timeLeft, setTimeLeft] = useState(60);
+    const [timeLeft, setTimeLeft] = useState(() => getQuizOptions().timePerQuestion || 60);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [wrongAnswers, setWrongAnswers] = useState({});
     const [showFeedback, setShowFeedback] = useState(false);
@@ -115,6 +137,10 @@ const Quiz = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, questions, isSubmitted, currentIndex]);
+
+    useEffect(() => {
+        setTimeLeft(quizOpts.timePerQuestion || 60);
+    }, [currentIndex, quizOpts.timePerQuestion]);
 
     useEffect(() => {
         if (!selectedCategory) {
@@ -223,7 +249,8 @@ const Quiz = () => {
     const answeredCount = Object.keys(selectedAnswers).length;
     const flaggedCount = flaggedQuestions.size;
     const isLastQuestion = currentIndex === questions.length - 1;
-    const timerPct = (timeLeft / 60) * 100;
+    const totalTime = quizOpts.timePerQuestion || 60;
+    const timerPct = Math.min(100, Math.max(0, (timeLeft / totalTime) * 100));
     const timerIsLow = timeLeft < 10;
     const diffStyle = difficultyColors[difficulty] || difficultyColors.beginner;
 
