@@ -115,6 +115,15 @@ function createMemoryHandler(modelName) {
     };
 }
 
+const CONNECTION_ERROR_CODES = ['P1000', 'P1001', 'P1002', 'P1003', 'P1008', 'P1017', 'ECONNREFUSED', 'ENOTFOUND', 'ETIMEDOUT'];
+
+const isConnectionError = (err) => {
+    if (!err) return false;
+    if (err.code && CONNECTION_ERROR_CODES.includes(err.code)) return true;
+    if (err.message && (err.message.includes("Can't reach database server") || err.message.includes('ECONNREFUSED') || err.message.includes('ETIMEDOUT'))) return true;
+    return false;
+};
+
 const prismaProxy = new Proxy({}, {
     get(_, modelProp) {
         if (prismaInstance && prismaInstance[modelProp]) {
@@ -126,11 +135,14 @@ const prismaProxy = new Proxy({}, {
                             try {
                                 return await target[methodProp](...args);
                             } catch (err) {
-                                console.warn(`[Database Warning] Query '${modelProp}.${methodProp}' failed (${err.code || err.message}). Using fallback memory store.`);
-                                const fallback = createMemoryHandler(modelProp);
-                                if (fallback && typeof fallback[methodProp] === 'function') {
-                                    return await fallback[methodProp](...args);
+                                if (isConnectionError(err)) {
+                                    console.warn(`[Database Connection Failure] Query '${modelProp}.${methodProp}' failed due to network (${err.code || err.message}). Using fallback memory store.`);
+                                    const fallback = createMemoryHandler(modelProp);
+                                    if (fallback && typeof fallback[methodProp] === 'function') {
+                                        return await fallback[methodProp](...args);
+                                    }
                                 }
+                                console.error(`[Database Query Error] '${modelProp}.${methodProp}' failed:`, err);
                                 throw err;
                             }
                         };

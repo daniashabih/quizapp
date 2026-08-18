@@ -68,14 +68,34 @@ const AdminDashboard = () => {
     const [aiCount, setAiCount] = useState(5);
     const [isGeneratingAi, setIsGeneratingAi] = useState(false);
 
-    const fetchData = async () => {
+    const fetchQuestions = async () => {
         try {
-            const [qRes, cRes] = await Promise.all([axios.get('/questions'), axios.get('/categories')]);
-            setQuestions(qRes.data);
-            setCategories(cRes.data);
-            if (!category && cRes.data.length > 0) setCategory(cRes.data[0].name);
-            if (!aiTopic && cRes.data.length > 0) setAiTopic(cRes.data[0].name);
-        } catch { /* silent */ }
+            const qRes = await axios.get('/questions');
+            if (Array.isArray(qRes.data)) {
+                setQuestions(qRes.data);
+            }
+        } catch (err) {
+            console.error('Failed to fetch questions:', err);
+        }
+    };
+
+    const fetchCategories = async () => {
+        try {
+            const cRes = await axios.get('/categories');
+            if (Array.isArray(cRes.data)) {
+                setCategories(cRes.data);
+                if (cRes.data.length > 0) {
+                    setCategory(prev => prev || cRes.data[0].name);
+                    setAiTopic(prev => prev || cRes.data[0].name);
+                }
+            }
+        } catch (err) {
+            console.error('Failed to fetch categories:', err);
+        }
+    };
+
+    const fetchData = async () => {
+        await Promise.allSettled([fetchQuestions(), fetchCategories()]);
     };
 
     const fetchUsers = async () => {
@@ -210,7 +230,7 @@ const AdminDashboard = () => {
             }
             setNewCategory('');
             setEditingCategoryId(null);
-            fetchData();
+            await fetchCategories();
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to save category.");
         }
@@ -221,7 +241,7 @@ const AdminDashboard = () => {
         try {
             const res = await axios.delete(`/categories/${id}`);
             toast.success(res.data?.message || "Category deleted.");
-            fetchData();
+            await fetchCategories();
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to delete category.");
         }
@@ -295,7 +315,21 @@ const AdminDashboard = () => {
             link.click();
             document.body.removeChild(link);
             toast.success(`Exported as ${format.toUpperCase()}`);
-        } catch { toast.error("Export failed."); }
+        } catch (error) {
+            let errorMsg = "Export failed.";
+            if (error.response?.data instanceof Blob) {
+                try {
+                    const text = await error.response.data.text();
+                    const json = JSON.parse(text);
+                    if (json.message) errorMsg = json.message;
+                } catch {
+                    // Ignore parsing error
+                }
+            } else if (error.response?.data?.message) {
+                errorMsg = error.response.data.message;
+            }
+            toast.error(errorMsg);
+        }
     };
 
     const filteredQuestions = questions.filter(q =>
@@ -349,11 +383,15 @@ const AdminDashboard = () => {
                                     className="w-full text-left px-4 py-2.5 text-xs font-semibold text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all flex items-center gap-2 border-t border-[var(--card-border)]">
                                     <Layers size={14} /> Export as XLSX
                                 </button>
+                                <button onClick={() => { handleExportQuestions('docx'); setIsExportDropdownOpen(false); }}
+                                    className="w-full text-left px-4 py-2.5 text-xs font-semibold text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all flex items-center gap-2 border-t border-[var(--card-border)]">
+                                    <FileText size={14} /> Export as DOCX
+                                </button>
                             </div>
                         )}
                     </div>
                     <button onClick={() => setIsImportModalOpen(true)} className="btn-secondary text-xs py-2">
-                        <Upload size={14} /> Import CSV
+                        <Upload size={14} /> Import File
                     </button>
                     <button onClick={() => openQuestionModal(null)} className="btn-primary text-xs py-2">
                         <Plus size={14} /> New Question
@@ -752,6 +790,14 @@ const AdminDashboard = () => {
                             <h2 className="text-lg font-display font-bold text-[var(--foreground)]">Category Management</h2>
                             <p className="text-xs text-[var(--foreground-muted)]">Add or rename quiz topics.</p>
                         </div>
+                        <button
+                            type="button"
+                            onClick={fetchCategories}
+                            title="Refresh Categories from DB"
+                            className="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5 cursor-pointer"
+                        >
+                            <RefreshCw size={13} /> Sync DB
+                        </button>
                     </div>
 
                     <form onSubmit={handleAddOrUpdateCategory} className="flex gap-3">
@@ -769,19 +815,27 @@ const AdminDashboard = () => {
                     </form>
 
                     <div className="space-y-2 max-h-96 overflow-y-auto">
-                        {categories.map(cat => (
-                            <div key={cat.id} className="flex items-center justify-between p-3.5 card rounded-xl hover:bg-[var(--muted-bg)] transition-colors">
-                                <span className="text-xs font-bold text-[var(--foreground)]">{cat.name}</span>
-                                <div className="flex gap-1.5">
-                                    <button onClick={() => { setEditingCategoryId(cat.id); setNewCategory(cat.name); }} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
-                                        <Edit2 size={14} />
-                                    </button>
-                                    <button onClick={() => handleDeleteCategory(cat.id)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
-                                        <Trash2 size={14} />
-                                    </button>
-                                </div>
+                        {categories.length === 0 ? (
+                            <div className="text-center py-10 text-xs text-[var(--foreground-muted)] space-y-2 border border-dashed border-[var(--card-border)] rounded-xl">
+                                <FolderOpen size={32} className="mx-auto text-[var(--foreground-muted)]/40" />
+                                <p className="font-bold text-[var(--foreground)] text-sm">No categories found</p>
+                                <p className="text-[11px]">Add a category using the field above or click 'Sync DB'.</p>
                             </div>
-                        ))}
+                        ) : (
+                            categories.map(cat => (
+                                <div key={cat.id} className="flex items-center justify-between p-3.5 card rounded-xl hover:bg-[var(--muted-bg)] transition-colors">
+                                    <span className="text-xs font-bold text-[var(--foreground)]">{cat.name}</span>
+                                    <div className="flex gap-1.5">
+                                        <button onClick={() => { setEditingCategoryId(cat.id); setNewCategory(cat.name); }} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
+                                            <Edit2 size={14} />
+                                        </button>
+                                        <button onClick={() => handleDeleteCategory(cat.id)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
+                                            <Trash2 size={14} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </div>
             )}
@@ -952,14 +1006,14 @@ const AdminDashboard = () => {
                         </div>
                         <form onSubmit={handleImportQuestions} className="p-6 space-y-4">
                             <div className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground-muted)] space-y-2">
-                                <p>Upload a CSV or XLSX spreadsheet containing question columns.</p>
+                                <p>Upload a CSV, XLSX, or DOCX document containing question columns.</p>
                                 <button type="button" onClick={downloadTemplate} className="text-xs font-bold text-black hover:underline flex items-center gap-1">
                                     <Download size={12} /> Download Sample Template
                                 </button>
                             </div>
                             <input
                                 type="file"
-                                accept=".csv,.xlsx,.xls"
+                                accept=".csv,.xlsx,.xls,.docx,.doc"
                                 onChange={(e) => setImportFile(e.target.files[0])}
                                 className="input-field text-xs file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-zinc-100 file:text-black"
                             />

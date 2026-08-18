@@ -5,11 +5,11 @@ const Result = {
         const result = await prisma.quizResult.create({
             data: {
                 userId: parseInt(userId, 10),
-                category,
-                score: parseInt(score, 10),
-                total: parseInt(total, 10),
-                percentage: parseFloat(percentage),
-                difficulty
+                category: String(category || 'General').trim(),
+                score: parseInt(score, 10) || 0,
+                total: parseInt(total, 10) || 0,
+                percentage: parseFloat(percentage) || 0,
+                difficulty: String(difficulty || 'beginner').toLowerCase()
             }
         });
         return result.id;

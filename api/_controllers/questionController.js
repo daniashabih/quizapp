@@ -4,6 +4,112 @@ const fs = require('fs');
 const { Readable } = require('stream');
 const csv = require('csv-parser');
 const xlsx = require('xlsx');
+const { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun, WidthType, HeadingLevel, AlignmentType, ShadingType } = require('docx');
+const mammoth = require('mammoth');
+
+function parseQuestionsFromHtml(html) {
+    const trRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+    const cellRegex = /<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi;
+
+    const rows = [];
+    let trMatch;
+    while ((trMatch = trRegex.exec(html)) !== null) {
+        const rowHtml = trMatch[1];
+        const cells = [];
+        let cellMatch;
+        while ((cellMatch = cellRegex.exec(rowHtml)) !== null) {
+            let text = cellMatch[1].replace(/<[^>]+>/g, '').trim();
+            text = text.replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+            cells.push(text);
+        }
+        if (cells.length > 0) {
+            rows.push(cells);
+        }
+    }
+
+    if (rows.length >= 2) {
+        const headers = rows[0].map(h => h.toLowerCase().trim());
+        const getIndex = (possibleNames) => {
+            for (const name of possibleNames) {
+                const idx = headers.findIndex(h => h.includes(name.toLowerCase()));
+                if (idx !== -1) return idx;
+            }
+            return -1;
+        };
+
+        const catIdx = getIndex(['category']);
+        const qIdx = getIndex(['question']);
+        const opt1Idx = getIndex(['option1', 'option 1', 'opt1']);
+        const opt2Idx = getIndex(['option2', 'option 2', 'opt2']);
+        const opt3Idx = getIndex(['option3', 'option 3', 'opt3']);
+        const opt4Idx = getIndex(['option4', 'option 4', 'opt4']);
+        const ansIdx = getIndex(['correct_answer', 'correctanswer', 'answer', 'correct answer']);
+        const diffIdx = getIndex(['difficulty']);
+
+        const questions = [];
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            if (row.length === 0) continue;
+
+            const category = catIdx !== -1 ? row[catIdx] : (row[0] || '');
+            const question_text = qIdx !== -1 ? row[qIdx] : (row[1] || '');
+            const option1 = opt1Idx !== -1 ? row[opt1Idx] : (row[2] || '');
+            const option2 = opt2Idx !== -1 ? row[opt2Idx] : (row[3] || '');
+            const option3 = opt3Idx !== -1 ? row[opt3Idx] : (row[4] || '');
+            const option4 = opt4Idx !== -1 ? row[opt4Idx] : (row[5] || '');
+            const correct_answer = ansIdx !== -1 ? row[ansIdx] : (row[6] || '');
+            const difficulty = diffIdx !== -1 ? row[diffIdx] : (row[7] || 'beginner');
+
+            questions.push({
+                category,
+                question_text,
+                option1,
+                option2,
+                option3,
+                option4,
+                correct_answer,
+                difficulty
+            });
+        }
+        return questions;
+    }
+
+    // Fallback parsing for line-by-line structured text
+    const textLines = html.replace(/<[^>]+>/g, '\n').split('\n').map(l => l.trim()).filter(Boolean);
+    const questions = [];
+    let currentQ = {};
+
+    for (const line of textLines) {
+        const lower = line.toLowerCase();
+        if (lower.startsWith('category:')) {
+            if (currentQ.question_text && currentQ.category) {
+                questions.push(currentQ);
+                currentQ = {};
+            }
+            currentQ.category = line.split(':').slice(1).join(':').trim();
+        } else if (lower.startsWith('question:')) {
+            currentQ.question_text = line.split(':').slice(1).join(':').trim();
+        } else if (lower.startsWith('option 1:') || lower.startsWith('option1:')) {
+            currentQ.option1 = line.split(':').slice(1).join(':').trim();
+        } else if (lower.startsWith('option 2:') || lower.startsWith('option2:')) {
+            currentQ.option2 = line.split(':').slice(1).join(':').trim();
+        } else if (lower.startsWith('option 3:') || lower.startsWith('option3:')) {
+            currentQ.option3 = line.split(':').slice(1).join(':').trim();
+        } else if (lower.startsWith('option 4:') || lower.startsWith('option4:')) {
+            currentQ.option4 = line.split(':').slice(1).join(':').trim();
+        } else if (lower.startsWith('correct answer:') || lower.startsWith('answer:')) {
+            currentQ.correct_answer = line.split(':').slice(1).join(':').trim();
+        } else if (lower.startsWith('difficulty:')) {
+            currentQ.difficulty = line.split(':').slice(1).join(':').trim();
+        }
+    }
+
+    if (currentQ.question_text && currentQ.category) {
+        questions.push(currentQ);
+    }
+
+    return questions;
+}
 
 const createQuestion = async (req, res) => {
     try {
@@ -53,6 +159,19 @@ const importQuestions = async (req, res) => {
             const sheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[sheetName];
             questions = xlsx.utils.sheet_to_json(worksheet);
+        } else if (fileExt === 'docx' || fileExt === 'doc') {
+            const fileBuffer = req.file.buffer
+                ? req.file.buffer
+                : (filePath && fs.existsSync(filePath) ? fs.readFileSync(filePath) : null);
+
+            if (!fileBuffer) {
+                if (filePath && fs.existsSync(filePath)) fs.unlinkSync(filePath);
+                return res.status(400).json({ message: 'Could not read DOCX file buffer' });
+            }
+
+            const result = await mammoth.convertToHtml({ buffer: fileBuffer });
+            const html = result.value || '';
+            questions = parseQuestionsFromHtml(html);
         } else {
             if (filePath && fs.existsSync(filePath)) fs.unlinkSync(filePath);
             return res.status(400).json({ message: 'Unsupported file format' });
@@ -141,7 +260,6 @@ const deleteQuestion = async (req, res) => {
 const updateQuestion = async (req, res) => {
     try {
         const { id } = req.params;
-        // Basic validation could go here similar to create
         await Question.update(id, req.body);
         res.json({ message: 'Question updated' });
     } catch (error) {
@@ -152,7 +270,7 @@ const updateQuestion = async (req, res) => {
 
 const checkNewQuestions = async (req, res) => {
     try {
-        const count = await Question.getRecentCount(3); // Check last 3 days
+        const count = await Question.getRecentCount(3);
         res.json({ hasNew: count > 0, count });
     } catch (error) {
         console.error(error);
@@ -162,7 +280,7 @@ const checkNewQuestions = async (req, res) => {
 
 const exportQuestions = async (req, res) => {
     try {
-        const { format } = req.query; // 'csv' or 'xlsx'
+        const { format } = req.query; // 'csv', 'xlsx', or 'docx'
         console.log(`📤 Exporting questions in ${format} format...`);
         const questions = await Question.getAll();
 
@@ -198,6 +316,65 @@ const exportQuestions = async (req, res) => {
             res.setHeader('Content-Type', 'text/csv');
             res.setHeader('Content-Disposition', 'attachment; filename=questions_export.csv');
             return res.send(csvRows);
+        } else if (format === 'docx' || format === 'doc') {
+            const tableHeaderTitles = ['Category', 'Question', 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Correct Answer', 'Difficulty'];
+
+            const headerRow = new TableRow({
+                tableHeader: true,
+                children: tableHeaderTitles.map(title => new TableCell({
+                    children: [new Paragraph({
+                        children: [new TextRun({ text: title, bold: true, color: "FFFFFF" })],
+                        alignment: AlignmentType.CENTER
+                    })],
+                    shading: { fill: "1E293B", type: ShadingType.CLEAR, color: "auto" },
+                    width: { size: 100 / tableHeaderTitles.length, type: WidthType.PERCENTAGE }
+                }))
+            });
+
+            const dataRows = data.map(row => {
+                const cellValues = [
+                    row.Category || '',
+                    row.Question || '',
+                    row.Option1 || '',
+                    row.Option2 || '',
+                    row.Option3 || '',
+                    row.Option4 || '',
+                    row.CorrectAnswer || '',
+                    row.Difficulty || 'beginner'
+                ];
+                return new TableRow({
+                    children: cellValues.map(val => new TableCell({
+                        children: [new Paragraph({
+                            children: [new TextRun({ text: String(val) })]
+                        })],
+                        width: { size: 100 / tableHeaderTitles.length, type: WidthType.PERCENTAGE }
+                    }))
+                });
+            });
+
+            const table = new Table({
+                rows: [headerRow, ...dataRows],
+                width: { size: 100, type: WidthType.PERCENTAGE }
+            });
+
+            const doc = new Document({
+                sections: [{
+                    children: [
+                        new Paragraph({
+                            text: "Quiz Questions Export",
+                            heading: HeadingLevel.HEADING_1,
+                            spacing: { after: 300 }
+                        }),
+                        table
+                    ]
+                }]
+            });
+
+            const docxBuffer = await Packer.toBuffer(doc);
+
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+            res.setHeader('Content-Disposition', 'attachment; filename=questions_export.docx');
+            return res.send(docxBuffer);
         } else {
             // Default to XLSX
             const worksheet = xlsx.utils.json_to_sheet(data);
