@@ -11,7 +11,9 @@
     "preview": "vite preview",
     "start": "node api/index.js",
     "db:diagnose": "node scripts/diagnostic.js",
-    "seed:admin": "node scripts/seedAdmin.js"
+    "seed:admin": "node scripts/seedAdmin.js",
+    "seed:questions": "node scripts/seedQuestions.js",
+    "seed": "node scripts/seedAdmin.js && node scripts/seedQuestions.js"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

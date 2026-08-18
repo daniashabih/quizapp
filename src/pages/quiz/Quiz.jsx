@@ -68,15 +68,23 @@ const Quiz = () => {
         const timeTaken = Math.round((Date.now() - startTime) / 1000);
 
         try {
-            await axios.post('/results/save', {
+            const res = await axios.post('/results/save', {
                 category: selectedCategory,
                 score,
                 total: questions.length,
                 percentage,
                 difficulty
             });
+            if (res.data?.resultId) {
+                toast.success("Quiz result saved successfully!");
+            }
         } catch (error) {
             console.error("Error saving result:", error);
+            if (error.response?.status === 401) {
+                toast.info("Sign in to save and track your score in your dashboard.");
+            } else {
+                toast.warn("Could not save result to database.");
+            }
         }
 
         setIsSubmitted(true);

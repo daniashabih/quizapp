@@ -4,12 +4,10 @@ const { createCategory, getCategories, updateCategory, deleteCategory } = requir
 const authMiddleware = require('../_middlewares/authMiddleware');
 
 const adminMiddleware = (req, res, next) => {
-    // For now, disabling check for development, but ideally:
-    // if (req.user && req.user.role === 'admin') next(); else res.status(403)...
-    if (req.user) {
+    if (req.user && req.user.role === 'admin') {
         next();
     } else {
-        res.status(401).json({ message: 'Unauthorized' });
+        res.status(403).json({ message: 'Access denied. Admin only.' });
     }
 };
 

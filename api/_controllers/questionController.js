@@ -1,4 +1,5 @@
 const Question = require('../_models/questionModel');
+const Category = require('../_models/categoryModel');
 
 const fs = require('fs');
 const { Readable } = require('stream');
@@ -6,6 +7,20 @@ const csv = require('csv-parser');
 const xlsx = require('xlsx');
 const { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun, WidthType, HeadingLevel, AlignmentType, ShadingType } = require('docx');
 const mammoth = require('mammoth');
+
+async function ensureCategoryExists(categoryName) {
+    if (!categoryName || !String(categoryName).trim()) return;
+    const clean = String(categoryName).trim();
+    try {
+        const existing = await Category.findByName(clean);
+        if (!existing) {
+            await Category.create(clean);
+            console.log(`[Category Auto-Sync] Added new category '${clean}' to categories table.`);
+        }
+    } catch (err) {
+        console.warn(`[Category Auto-Sync Warning] Could not ensure category '${clean}':`, err.message);
+    }
+}
 
 function parseQuestionsFromHtml(html) {
     const trRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
@@ -120,11 +135,13 @@ const createQuestion = async (req, res) => {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
+        await ensureCategoryExists(category);
+
         const id = await Question.create({ category, question_text, options, correct_answer, difficulty });
         res.status(201).json({ message: 'Question created', id });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Create Question Error:', error);
+        res.status(500).json({ message: error.message || 'Server error creating question' });
     }
 };
 
@@ -197,6 +214,8 @@ const importQuestions = async (req, res) => {
                 ].filter(opt => opt !== undefined && opt !== null && opt !== '');
 
                 if (category && question_text && options.length >= 2 && correct_answer) {
+                    await ensureCategoryExists(category);
+
                     await Question.create({ 
                         category, 
                         question_text, 

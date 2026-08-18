@@ -16,7 +16,7 @@ const adminMiddleware = (req, res, next) => {
 };
 
 // Public / User Routes
-router.get('/', authMiddleware, getQuestions);
+router.get('/', getQuestions);
 router.get('/status', checkNewQuestions); // New status check
 router.get('/export', authMiddleware, adminMiddleware, exportQuestions);
 

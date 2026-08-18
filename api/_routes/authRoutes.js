@@ -3,9 +3,12 @@ const router = express.Router();
 const { register, login, getMe, getAllUsers, updateProfile, forgotPassword, resetPassword } = require('../_controllers/authController');
 const authMiddleware = require('../_middlewares/authMiddleware');
 
-// Relaxed admin middleware for now, consistent with other routes
 const adminMiddleware = (req, res, next) => {
-    if (req.user) next(); else res.status(401).json({ message: 'Unauthorized' });
+    if (req.user && req.user.role === 'admin') {
+        next();
+    } else {
+        res.status(403).json({ message: 'Access denied. Admin only.' });
+    }
 };
 
 router.post('/register', register);
