@@ -3,12 +3,12 @@ const Result = require('../_models/resultModel');
 const resultController = {
     saveResult: async (req, res) => {
         try {
-            const { category, score, total, percentage, difficulty } = req.body;
-            console.log('📥 Saving result for user:', req.user.id, { category, score, total, percentage, difficulty });
+            const { category, score, total, percentage } = req.body;
+            console.log('📥 Saving result for user:', req.user.id, { category, score, total, percentage });
             
             const userId = req.user.id; 
 
-            const insertId = await Result.create(userId, category, score, total, percentage, difficulty);
+            const insertId = await Result.create(userId, category, score, total, percentage);
             
             res.status(201).json({
                 message: 'Result saved successfully.',

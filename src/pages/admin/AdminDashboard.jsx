@@ -5,7 +5,7 @@ import {
     Plus, Trash2, Save, X, Edit2, Users,
     ShieldCheck, Search, BookOpen, FolderOpen, Upload, Download, FileText, Layers,
     ChevronDown, Sparkles, Sliders, Clock, Percent, Shuffle, HelpCircle, AlertCircle,
-    CheckCircle2, RefreshCw, Bot, BarChart3, TrendingUp, Award, Activity, Calendar
+    CheckCircle2, RefreshCw, Bot, BarChart3, TrendingUp, Award, Activity
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -27,19 +27,20 @@ const AdminDashboard = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'questions' | 'settings' | 'ai' | 'categories' | 'users'
-    const [period, setPeriod] = useState('30d'); // '7d' | '30d' | 'year'
+    const [activeTab, setActiveTab] = useState('overview');
+    const [period, setPeriod] = useState('30d');
 
-    // Analytics / Overview State
+    // Analytics State
     const [adminData, setAdminData] = useState(null);
     const [loadingAnalytics, setLoadingAnalytics] = useState(true);
     const [analyticsError, setAnalyticsError] = useState(null);
 
-    // Question Bank State
+    // Questions State
     const [questions, setQuestions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('all');
 
     // Quiz Options State
     const [quizOptions, setQuizOptions] = useState(() => {
@@ -58,20 +59,22 @@ const AdminDashboard = () => {
     const [questionText, setQuestionText] = useState('');
     const [options, setOptions] = useState(['', '', '', '']);
     const [correctAnswer, setCorrectAnswer] = useState('');
+    const [difficulty, setDifficulty] = useState('beginner');
     const [explanation, setExplanation] = useState('');
 
-    // Import / Export Modals
+    // Import / Export State
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
     const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
     const [importFile, setImportFile] = useState(null);
     const [isImporting, setIsImporting] = useState(false);
 
-    // Categories Tab State
+    // Category Management State
     const [newCategory, setNewCategory] = useState('');
     const [editingCategoryId, setEditingCategoryId] = useState(null);
 
     // AI Generation State
     const [aiTopic, setAiTopic] = useState('');
+    const [aiDifficulty, setAiDifficulty] = useState('beginner');
     const [aiCount, setAiCount] = useState(5);
     const [isGeneratingAi, setIsGeneratingAi] = useState(false);
 
@@ -162,12 +165,14 @@ const AdminDashboard = () => {
             }
             setOptions(Array.isArray(parsedOptions) && parsedOptions.length >= 2 ? parsedOptions : ['', '', '', '']);
             setCorrectAnswer(question.correct_answer || '');
+            setDifficulty(question.difficulty || 'beginner');
             setExplanation(question.explanation || '');
         } else {
             setEditingQuestionId(null);
             setQuestionText('');
             setOptions(['', '', '', '']);
             setCorrectAnswer('');
+            setDifficulty('beginner');
             setExplanation('');
             if (categories.length > 0) setCategory(categories[0].name);
         }
@@ -179,7 +184,6 @@ const AdminDashboard = () => {
         const oldValue = newOpts[index];
         newOpts[index] = value;
         setOptions(newOpts);
-
         if (correctAnswer === oldValue) {
             setCorrectAnswer(value);
         }
@@ -216,6 +220,7 @@ const AdminDashboard = () => {
                 question_text: questionText,
                 options: validOptions,
                 correct_answer: correctAnswer,
+                difficulty,
                 explanation
             };
             if (editingQuestionId) {
@@ -238,7 +243,7 @@ const AdminDashboard = () => {
             toast.success("Question deleted.");
             fetchQuestions();
             fetchAnalytics();
-        } catch { toast.error("Failed to delete question."); }
+        } catch { toast.error("Failed to delete."); }
     };
 
     const handleAddOrUpdateCategory = async (e) => {
@@ -280,6 +285,7 @@ const AdminDashboard = () => {
         try {
             const res = await axios.post('/questions/generate', {
                 topic: aiTopic,
+                difficulty: aiDifficulty,
                 count: Number(aiCount)
             });
             toast.success(res.data.message || `Generated ${aiCount} questions for ${aiTopic}!`);
@@ -316,10 +322,10 @@ const AdminDashboard = () => {
     };
 
     const downloadTemplate = () => {
-        const headers = ['category', 'question', 'option1', 'option2', 'option3', 'option4', 'correct_answer'];
+        const headers = ['category', 'question', 'option1', 'option2', 'option3', 'option4', 'correct_answer', 'difficulty'];
         const sampleRows = [
-            ['JavaScript', 'What is the type of NaN?', 'number', 'string', 'undefined', 'object', 'number'],
-            ['Python', 'Which keyword defines a function?', 'func', 'define', 'def', 'function', 'def']
+            ['JavaScript', 'What is the type of NaN?', 'number', 'string', 'undefined', 'object', 'number', 'beginner'],
+            ['Python', 'Which keyword defines a function?', 'func', 'define', 'def', 'function', 'def', 'beginner']
         ];
         const csvContent = [headers.join(','), ...sampleRows.map(r => r.map(c => `"${c}"`).join(','))].join('\n');
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -343,24 +349,16 @@ const AdminDashboard = () => {
             document.body.removeChild(link);
             toast.success(`Exported as ${format.toUpperCase()}`);
         } catch (error) {
-            let errorMsg = "Export failed.";
-            if (error.response?.data instanceof Blob) {
-                try {
-                    const text = await error.response.data.text();
-                    const json = JSON.parse(text);
-                    if (json.message) errorMsg = json.message;
-                } catch { /* ignore */ }
-            } else if (error.response?.data?.message) {
-                errorMsg = error.response.data.message;
-            }
-            toast.error(errorMsg);
+            toast.error(error.response?.data?.message || "Export failed.");
         }
     };
 
-    const filteredQuestions = questions.filter(q =>
-        q.question_text?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        q.category?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredQuestions = questions.filter(q => {
+        const matchesCategory = selectedCategoryFilter === 'all' || q.category === selectedCategoryFilter;
+        const matchesSearch = q.question_text?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            q.category?.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+    });
 
     const difficultyBadge = (d) => {
         const map = {
@@ -477,7 +475,7 @@ const AdminDashboard = () => {
                 })}
             </div>
 
-            {/* TAB 0: ANALYTICS & OVERVIEW (100% Real MongoDB Data) */}
+            {/* TAB 0: ANALYTICS & OVERVIEW */}
             {activeTab === 'overview' && (
                 <div className="space-y-6">
                     {/* Period Filter & Refresh Header */}
@@ -517,14 +515,87 @@ const AdminDashboard = () => {
 
                     {/* Stats Grid */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        <AdminStatCard icon={Users} label="Total Users" value={stats.totalUsers} gradient="from-[#193D35] to-[#42665B]" />
-                        <AdminStatCard icon={FolderOpen} label="Technologies" value={stats.totalTechnologies} gradient="from-[#42665B] to-[#193D35]" />
-                        <AdminStatCard icon={BookOpen} label="Total Questions" value={stats.totalQuestions} gradient="from-[#193D35] to-[#D19A45]" />
-                        <AdminStatCard icon={Activity} label="Quiz Attempts" value={stats.totalAttempts} gradient="from-[#D19A45] to-[#42665B]" />
-                        <AdminStatCard icon={Award} label="Certificates Issued" value={stats.totalCertificates} gradient="from-[#193D35] to-[#42665B]" />
-                        <AdminStatCard icon={CheckCircle2} label="Passed Quizzes" value={stats.passedAttempts} gradient="from-[#42665B] to-[#193D35]" />
-                        <AdminStatCard icon={BarChart3} label="Average Score" value={`${stats.averageScore}%`} gradient="from-[#193D35] to-[#D19A45]" />
-                        <AdminStatCard icon={TrendingUp} label="Pass Rate" value={`${stats.totalAttempts > 0 ? Math.round((stats.passedAttempts / stats.totalAttempts) * 100) : 0}%`} gradient="from-[#D19A45] to-[#42665B]" />
+                        <div className="card p-4 rounded-2xl flex items-center gap-3.5 group hover:-translate-y-0.5 transition-all duration-300">
+                            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#193D35] to-[#42665B] flex items-center justify-center shadow-lg shrink-0">
+                                <Users size={18} className="text-white" />
+                            </div>
+                            <div>
+                                <p className="text-xl font-display font-extrabold text-[var(--foreground)]">{stats.totalUsers}</p>
+                                <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Total Users</p>
+                            </div>
+                        </div>
+
+                        <div className="card p-4 rounded-2xl flex items-center gap-3.5 group hover:-translate-y-0.5 transition-all duration-300">
+                            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#42665B] to-[#193D35] flex items-center justify-center shadow-lg shrink-0">
+                                <FolderOpen size={18} className="text-white" />
+                            </div>
+                            <div>
+                                <p className="text-xl font-display font-extrabold text-[var(--foreground)]">{stats.totalTechnologies}</p>
+                                <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Technologies</p>
+                            </div>
+                        </div>
+
+                        <div className="card p-4 rounded-2xl flex items-center gap-3.5 group hover:-translate-y-0.5 transition-all duration-300">
+                            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#193D35] to-[#D19A45] flex items-center justify-center shadow-lg shrink-0">
+                                <BookOpen size={18} className="text-white" />
+                            </div>
+                            <div>
+                                <p className="text-xl font-display font-extrabold text-[var(--foreground)]">{stats.totalQuestions}</p>
+                                <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Total Questions</p>
+                            </div>
+                        </div>
+
+                        <div className="card p-4 rounded-2xl flex items-center gap-3.5 group hover:-translate-y-0.5 transition-all duration-300">
+                            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#D19A45] to-[#42665B] flex items-center justify-center shadow-lg shrink-0">
+                                <Activity size={18} className="text-white" />
+                            </div>
+                            <div>
+                                <p className="text-xl font-display font-extrabold text-[var(--foreground)]">{stats.totalAttempts}</p>
+                                <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Quiz Attempts</p>
+                            </div>
+                        </div>
+
+                        <div className="card p-4 rounded-2xl flex items-center gap-3.5 group hover:-translate-y-0.5 transition-all duration-300">
+                            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#193D35] to-[#42665B] flex items-center justify-center shadow-lg shrink-0">
+                                <Award size={18} className="text-white" />
+                            </div>
+                            <div>
+                                <p className="text-xl font-display font-extrabold text-[var(--foreground)]">{stats.totalCertificates}</p>
+                                <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Certificates</p>
+                            </div>
+                        </div>
+
+                        <div className="card p-4 rounded-2xl flex items-center gap-3.5 group hover:-translate-y-0.5 transition-all duration-300">
+                            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#42665B] to-[#193D35] flex items-center justify-center shadow-lg shrink-0">
+                                <CheckCircle2 size={18} className="text-white" />
+                            </div>
+                            <div>
+                                <p className="text-xl font-display font-extrabold text-[var(--foreground)]">{stats.passedAttempts}</p>
+                                <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Passed Quizzes</p>
+                            </div>
+                        </div>
+
+                        <div className="card p-4 rounded-2xl flex items-center gap-3.5 group hover:-translate-y-0.5 transition-all duration-300">
+                            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#193D35] to-[#D19A45] flex items-center justify-center shadow-lg shrink-0">
+                                <BarChart3 size={18} className="text-white" />
+                            </div>
+                            <div>
+                                <p className="text-xl font-display font-extrabold text-[var(--foreground)]">{stats.averageScore}%</p>
+                                <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Average Score</p>
+                            </div>
+                        </div>
+
+                        <div className="card p-4 rounded-2xl flex items-center gap-3.5 group hover:-translate-y-0.5 transition-all duration-300">
+                            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#D19A45] to-[#42665B] flex items-center justify-center shadow-lg shrink-0">
+                                <TrendingUp size={18} className="text-white" />
+                            </div>
+                            <div>
+                                <p className="text-xl font-display font-extrabold text-[var(--foreground)]">
+                                    {stats.totalAttempts > 0 ? Math.round((stats.passedAttempts / stats.totalAttempts) * 100) : 0}%
+                                </p>
+                                <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Pass Rate</p>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Charts Grid */}
@@ -630,7 +701,7 @@ const AdminDashboard = () => {
                         )}
                     </div>
 
-                    {/* Recent Activity: 2 Columns (Recent Attempts & Recent Users) */}
+                    {/* Recent Activity: 2 Columns */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Recent Attempts */}
                         <div className="card overflow-hidden rounded-2xl shadow-sm">
@@ -661,100 +732,59 @@ const AdminDashboard = () => {
                             <div className="p-4 border-b border-[var(--card-border)] bg-[var(--muted-bg)]/40 flex items-center justify-between">
                                 <h3 className="text-xs font-bold text-[var(--foreground)]">Recent User Signups</h3>
                                 <span className="text-[10px] text-[var(--foreground-muted)]">Live from MongoDB</span>
-                            <div className="divide-y divide-[var(--card-border)]">
-                                {recentActivities.map((act) => (
-                                    <div key={act.id} className="py-3 flex items-center justify-between gap-4 first:pt-0 last:pb-0">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 flex items-center justify-center text-black font-bold text-xs">
-                                                {act.user?.name?.charAt(0) || 'U'}
+                            </div>
+                            <div className="divide-y divide-[var(--card-border)] max-h-80 overflow-y-auto">
+                                {recentUsers.length === 0 ? (
+                                    <div className="p-8 text-center text-xs text-[var(--foreground-muted)]">No users found.</div>
+                                ) : recentUsers.map(ru => (
+                                    <div key={ru.id} className="p-3.5 flex items-center justify-between hover:bg-[var(--muted-bg)]/30 transition-colors text-xs">
+                                        <div className="flex items-center gap-2.5">
+                                            <div className="w-8 h-8 rounded-lg bg-[#193D35] flex items-center justify-center text-white font-bold text-xs">
+                                                {ru.name?.charAt(0)?.toUpperCase() || 'U'}
                                             </div>
                                             <div>
-                                                <p className="text-xs font-bold text-[var(--foreground)]">
-                                                    {act.user?.name || act.user?.email || 'Anonymous Learner'}
-                                                </p>
-                                                <p className="text-[11px] text-[var(--foreground-muted)]">
-                                                    Completed <span className="font-semibold text-black">{act.category}</span> quiz
-                                                </p>
+                                                <p className="font-bold text-[var(--foreground)]">{ru.name}</p>
+                                                <p className="text-[10px] text-[var(--foreground-muted)]">{ru.email}</p>
                                             </div>
                                         </div>
-
-                                        <div className="text-right">
-                                            <span className={`text-xs font-extrabold ${act.percentage >= 70 ? 'text-[#193D35]' : 'text-red-500'}`}>
-                                                {act.percentage}% {act.percentage >= 70 ? '🎉' : '❌'}
-                                            </span>
-                                            <p className="text-[10px] text-[var(--foreground-muted)] flex items-center gap-1 justify-end mt-0.5">
-                                                <Clock size={10} /> {formatShortDate(act.createdAt)}
-                                            </p>
-                                        </div>
+                                        <span className={`badge text-[9px] uppercase ${ru.role === 'admin' ? 'badge-error' : 'badge-emerald'}`}>
+                                            {ru.role}
+                                        </span>
                                     </div>
                                 ))}
                             </div>
-                        )}
+                        </div>
                     </div>
                 </div>
             )}
 
-            {/* TAB CONTENT: Questions Management */}
+            {/* TAB 1: QUESTIONS BANK */}
             {activeTab === 'questions' && (
-                <div className="space-y-4">
-                    {/* Actions Bar */}
+                <div className="space-y-5">
+                    {/* Search & Category Filter Bar */}
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-                        <div className="relative w-full sm:w-80">
-                            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                            <input
-                                type="text"
-                                placeholder="Search questions or categories..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="input-field text-xs pl-10 py-2.5"
-                            />
-                        </div>
-
-                        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-                            <button onClick={() => setIsImportModalOpen(true)} className="btn-secondary text-xs py-2 px-3">
-                                <Upload size={13} /> Import
-                            </button>
-
-                            <div className="relative">
-                                <button
-                                    onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
-                                    className="btn-secondary text-xs py-2 px-3"
-                                >
-                                    <Download size={13} /> Export <ChevronDown size={13} />
-                                </button>
-                                {isExportDropdownOpen && (
-                                    <div className="absolute right-0 mt-1.5 w-36 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-xl py-1 z-30 animate-fade-down">
-                                        <button onClick={() => { handleExportQuestions('csv'); setIsExportDropdownOpen(false); }} className="w-full px-3 py-2 text-left text-xs hover:bg-[var(--muted-bg)] flex items-center gap-2">
-                                            <FileSpreadsheet size={13} /> CSV
-                                        </button>
-                                        <button onClick={() => { handleExportQuestions('xlsx'); setIsExportDropdownOpen(false); }} className="w-full px-3 py-2 text-left text-xs hover:bg-[var(--muted-bg)] flex items-center gap-2">
-                                            <FileSpreadsheet size={13} /> XLSX
-                                        </button>
-                                        <button onClick={() => { handleExportQuestions('docx'); setIsExportDropdownOpen(false); }} className="w-full px-3 py-2 text-left text-xs hover:bg-[var(--muted-bg)] flex items-center gap-2">
-                                            <FileText size={13} /> DOCX
-                                        </button>
-                                    </div>
-                                )}
+                        <div className="flex items-center gap-2 w-full sm:w-auto">
+                            <div className="relative w-full sm:w-64">
+                                <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="Filter questions..."
+                                    className="input-field pl-10 text-xs py-2.5"
+                                />
                             </div>
 
-                            <button onClick={() => openQuestionModal(null)} className="btn-primary text-xs py-2 px-4">
-                                <Plus size={13} /> Add Question
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] px-1">
-                        <div className="flex items-center gap-2">
-                            <span>Filter category:</span>
                             <select
                                 value={selectedCategoryFilter}
                                 onChange={(e) => setSelectedCategoryFilter(e.target.value)}
-                                className="bg-[var(--card-bg)] border border-[var(--card-border)] text-xs rounded-lg px-2 py-1"
+                                className="input-field text-xs py-2.5 min-w-[140px]"
                             >
                                 <option value="all">All Categories</option>
                                 {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
                             </select>
                         </div>
+
                         <span className="text-xs text-[var(--foreground-muted)] font-medium">
                             Showing {filteredQuestions.length} of {questions.length} questions
                         </span>
@@ -766,7 +796,7 @@ const AdminDashboard = () => {
                             <table className="w-full text-left">
                                 <thead>
                                     <tr className="border-b border-[var(--card-border)] bg-[var(--muted-bg)]/60">
-                                        {['Category', 'Question Text', 'Correct Option', 'Actions'].map(h => (
+                                        {['Category', 'Difficulty', 'Question Text', 'Correct Option', 'Actions'].map(h => (
                                             <th key={h} className="px-6 py-3.5 text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-widest">{h}</th>
                                         ))}
                                     </tr>
@@ -774,7 +804,7 @@ const AdminDashboard = () => {
                                 <tbody className="divide-y divide-[var(--card-border)]">
                                     {filteredQuestions.length === 0 ? (
                                         <tr>
-                                            <td colSpan={4} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
+                                            <td colSpan={5} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
                                                 No questions matching filter. <button onClick={() => openQuestionModal(null)} className="text-black font-bold hover:underline">Add one now</button>
                                             </td>
                                         </tr>
@@ -782,6 +812,11 @@ const AdminDashboard = () => {
                                         <tr key={q.id} className="hover:bg-[var(--muted-bg)]/40 transition-colors group">
                                             <td className="px-6 py-4">
                                                 <span className="badge-emerald text-[10px] font-semibold">{q.category}</span>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className={`badge border text-[10px] ${difficultyBadge(q.difficulty)}`}>
+                                                    {q.difficulty || 'beginner'}
+                                                </span>
                                             </td>
                                             <td className="px-6 py-4 max-w-md">
                                                 <p className="text-xs text-[var(--foreground)] font-medium line-clamp-2">{q.question_text}</p>
@@ -811,7 +846,7 @@ const AdminDashboard = () => {
                                 </tbody>
                             </table>
                         </div>
-                    </div></div>
+                    </div>
                 </div>
             )}
 
@@ -980,7 +1015,7 @@ const AdminDashboard = () => {
             {activeTab === 'ai' && (
                 <div className="card p-6 rounded-2xl space-y-6 max-w-3xl">
                     <div className="flex items-center gap-3 pb-4 border-b border-[var(--card-border)]">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[black] to-[black] flex items-center justify-center text-white">
+                        <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center text-white">
                             <Sparkles size={20} />
                         </div>
                         <div>
@@ -1006,17 +1041,32 @@ const AdminDashboard = () => {
                             />
                         </div>
 
-                        <div className="space-y-1.5">
-                            <label className="input-label">Number of Questions to Generate</label>
-                            <select
-                                value={aiCount}
-                                onChange={(e) => setAiCount(Number(e.target.value))}
-                                className="input-field text-xs py-2.5"
-                            >
-                                <option value={3}>3 Questions</option>
-                                <option value={5}>5 Questions (Recommended)</option>
-                                <option value={10}>10 Questions</option>
-                            </select>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                                <label className="input-label">Difficulty Level</label>
+                                <select
+                                    value={aiDifficulty}
+                                    onChange={(e) => setAiDifficulty(e.target.value)}
+                                    className="input-field text-xs py-2.5"
+                                >
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="expert">Expert</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <label className="input-label">Number of Questions to Generate</label>
+                                <select
+                                    value={aiCount}
+                                    onChange={(e) => setAiCount(Number(e.target.value))}
+                                    className="input-field text-xs py-2.5"
+                                >
+                                    <option value={3}>3 Questions</option>
+                                    <option value={5}>5 Questions (Recommended)</option>
+                                    <option value={10}>10 Questions</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)] text-xs space-y-1 text-[var(--foreground-muted)]">
@@ -1157,13 +1207,23 @@ const AdminDashboard = () => {
                         </div>
 
                         <form onSubmit={handleSubmitQuestion} className="p-6 overflow-y-auto space-y-4">
-                            <div className="space-y-1">
-                                <label className="input-label">Category</label>
-                                <select value={category} onChange={(e) => setCategory(e.target.value)} className="input-field text-xs py-2">
-                                    {categories.map(cat => (
-                                        <option key={cat.id} value={cat.name}>{cat.name}</option>
-                                    ))}
-                                </select>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                    <label className="input-label">Category</label>
+                                    <select value={category} onChange={(e) => setCategory(e.target.value)} className="input-field text-xs py-2">
+                                        {categories.map(cat => (
+                                            <option key={cat.id} value={cat.name}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="input-label">Difficulty</label>
+                                    <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="input-field text-xs py-2">
+                                        <option value="beginner">Beginner</option>
+                                        <option value="intermediate">Intermediate</option>
+                                        <option value="expert">Expert</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div className="space-y-1">
@@ -1285,19 +1345,5 @@ const AdminDashboard = () => {
         </div>
     );
 };
-
-function AdminStatCard({ icon: Icon, label, value, gradient }) {
-    return (
-        <div className="card p-4 rounded-2xl flex items-center gap-3.5 group hover:-translate-y-0.5 transition-all duration-300">
-            <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg shrink-0 group-hover:scale-110 transition-transform duration-500`}>
-                <Icon size={18} className="text-white" />
-            </div>
-            <div>
-                <p className="text-xl font-display font-extrabold text-[var(--foreground)]">{value}</p>
-                <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">{label}</p>
-            </div>
-        </div>
-    );
-}
 
 export default AdminDashboard;

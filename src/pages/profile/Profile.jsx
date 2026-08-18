@@ -76,7 +76,7 @@ export default function Profile() {
             });
         }
         timeline.push({
-            action: `Completed ${r.category} Quiz (${r.difficulty || 'beginner'})`,
+            action: `Completed ${r.category} Quiz`,
             score: `${r.percentage}%`,
             date: new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
             icon: r.percentage >= 70 ? '✅' : '📚'

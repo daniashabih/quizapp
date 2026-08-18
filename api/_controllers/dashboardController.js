@@ -257,8 +257,6 @@ const getUserDashboard = async (req, res) => {
                 tech: r.category,
                 score: Math.round(r.percentage),
                 percentage: Math.round(r.percentage),
-                difficulty: r.difficulty || 'beginner',
-                level: (r.difficulty || 'beginner').charAt(0).toUpperCase() + (r.difficulty || 'beginner').slice(1),
                 issueDate: new Date(r.createdAt || r.created_at).toISOString().split('T')[0],
                 createdAt: r.createdAt || r.created_at,
                 issued: true
@@ -290,7 +288,6 @@ const getUserDashboard = async (req, res) => {
             score: r.score,
             total: r.total,
             percentage: Math.round(r.percentage),
-            difficulty: r.difficulty || 'beginner',
             passed: r.percentage >= 70,
             createdAt: r.createdAt || r.created_at,
             created_at: r.createdAt || r.created_at
@@ -459,7 +456,6 @@ const getAdminDashboard = async (req, res) => {
             score: r.score,
             total: r.total,
             percentage: Math.round(r.percentage),
-            difficulty: r.difficulty || 'beginner',
             passed: r.percentage >= 70,
             createdAt: r.createdAt
         }));
@@ -518,7 +514,6 @@ const getLeaderboard = async (req, res) => {
                         score: true,
                         total: true,
                         percentage: true,
-                        difficulty: true,
                         createdAt: true
                     },
                     orderBy: { createdAt: 'desc' }
@@ -644,8 +639,6 @@ const getMyCertificates = async (req, res) => {
                 category: r.category,
                 score: Math.round(r.percentage),
                 percentage: Math.round(r.percentage),
-                level: (r.difficulty || 'beginner').charAt(0).toUpperCase() + (r.difficulty || 'beginner').slice(1),
-                difficulty: r.difficulty || 'beginner',
                 date: new Date(r.createdAt || r.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
                 createdAt: r.createdAt || r.created_at,
                 issued: true

@@ -1,15 +1,14 @@
 const prisma = require('../_config/prisma');
 
 const Result = {
-    create: async (userId, category, score, total, percentage, difficulty = 'beginner') => {
+    create: async (userId, category, score, total, percentage) => {
         const result = await prisma.quizResult.create({
             data: {
                 userId: String(userId),
                 category: String(category || 'General').trim(),
                 score: parseInt(score, 10) || 0,
                 total: parseInt(total, 10) || 0,
-                percentage: parseFloat(percentage) || 0,
-                difficulty: String(difficulty || 'beginner').toLowerCase()
+                percentage: parseFloat(percentage) || 0
             }
         });
         return result.id;
