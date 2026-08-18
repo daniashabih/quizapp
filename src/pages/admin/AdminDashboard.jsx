@@ -278,6 +278,18 @@ const AdminDashboard = () => {
         }
     };
 
+    const handleDeleteUser = async (userId) => {
+        if (!window.confirm("Are you sure you want to delete this user from the database?")) return;
+        try {
+            await axios.delete(`/admin/users/${userId}`);
+            toast.success("User deleted successfully.");
+            await fetchUsers();
+            fetchAnalytics();
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to delete user.");
+        }
+    };
+
     const handleGenerateAiQuestions = async (e) => {
         e.preventDefault();
         if (!aiTopic) return toast.error("Please enter or select a topic.");
@@ -1163,7 +1175,7 @@ const AdminDashboard = () => {
                         <table className="w-full text-left">
                             <thead>
                                 <tr className="border-b border-[var(--card-border)] bg-[var(--muted-bg)]/60">
-                                    {['User Name', 'Email', 'Role', 'Joined Date'].map(h => (
+                                    {['User Name', 'Email', 'Role', 'Joined Date', 'Actions'].map(h => (
                                         <th key={h} className="px-6 py-3.5 text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-widest">{h}</th>
                                     ))}
                                 </tr>
@@ -1171,7 +1183,7 @@ const AdminDashboard = () => {
                             <tbody className="divide-y divide-[var(--card-border)]">
                                 {allUsers.length === 0 ? (
                                     <tr>
-                                        <td colSpan={4} className="px-6 py-8 text-center text-xs text-[var(--foreground-muted)]">No users loaded.</td>
+                                        <td colSpan={5} className="px-6 py-8 text-center text-xs text-[var(--foreground-muted)]">No users loaded.</td>
                                     </tr>
                                 ) : allUsers.map((u) => (
                                     <tr key={u.id} className="hover:bg-[var(--muted-bg)]/30 transition-colors">
@@ -1184,6 +1196,17 @@ const AdminDashboard = () => {
                                         </td>
                                         <td className="px-6 py-3.5 text-xs text-[var(--foreground-muted)]">
                                             {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'N/A'}
+                                        </td>
+                                        <td className="px-6 py-3.5">
+                                            {u.role !== 'admin' && (
+                                                <button
+                                                    onClick={() => handleDeleteUser(u.id)}
+                                                    className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all cursor-pointer"
+                                                    title="Delete user from database"
+                                                >
+                                                    <Trash2 size={14} />
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}

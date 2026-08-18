@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { motion, AnimatePresence } from 'motion/react';
 import {
     Search, ArrowRight, ShieldCheck, Trophy, Sparkles, BrainCircuit,
@@ -9,23 +10,28 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BrandLogo from '../components/BrandLogo';
 
-const technologies = [
-    { name: 'HTML', questions: 120, color: '#000000' },
-    { name: 'CSS', questions: 150, color: '#000000' },
-    { name: 'JavaScript', questions: 200, color: '#000000' },
-    { name: 'React', questions: 180, color: '#000000' },
-    { name: 'Node.js', questions: 160, color: '#000000' },
-    { name: 'Python', questions: 190, color: '#000000' },
-    { name: 'Tailwind CSS', questions: 100, color: '#000000' },
-    { name: 'MongoDB', questions: 90, color: '#000000' },
-];
-
 export default function Landing() {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeTab, setActiveTab] = useState('assessment');
+    const [technologies, setTechnologies] = useState([]);
     const navigate = useNavigate();
 
-    const filteredTechs = technologies.filter(t => t.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await axios.get('/categories');
+                if (Array.isArray(res.data)) {
+                    setTechnologies(res.data);
+                }
+            } catch {
+                // silent
+            }
+        };
+        fetchCategories();
+    }, []);
+
+    const filteredTechs = technologies.filter(t => (t.name || '').toLowerCase().includes(searchQuery.toLowerCase()));
+    const totalQuestions = technologies.reduce((sum, t) => sum + (t.questionCount || 0), 0);
 
     return (
         <div className="min-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-x-hidden relative transition-colors duration-300">
@@ -119,12 +125,12 @@ export default function Landing() {
                                         <div className="grid grid-cols-2 gap-1.5">
                                             {filteredTechs.map(t => (
                                                 <Link
-                                                    key={t.name}
-                                                    to="/register"
+                                                    key={t.id || t.name}
+                                                    to="/technologies"
                                                     className="flex items-center justify-between p-2 rounded-xl hover:bg-[var(--muted-bg)] transition-colors text-xs font-semibold text-[var(--foreground)]"
                                                 >
                                                     <span>{t.name}</span>
-                                                    <span className="text-[10px] text-[var(--foreground-muted)] font-normal">{t.questions} Qs</span>
+                                                    <span className="text-[10px] text-[var(--foreground-muted)] font-normal">{t.questionCount || 0} Qs</span>
                                                 </Link>
                                             ))}
                                         </div>
@@ -148,7 +154,7 @@ export default function Landing() {
                             </Link>
 
                             <Link to="/technologies" className="btn-secondary text-sm py-3 px-5 rounded-2xl">
-                                Browse 18+ Techs
+                                Browse {technologies.length > 0 ? `${technologies.length}+ Tech Tracks` : 'Technologies'}
                             </Link>
                         </motion.div>
 
@@ -160,16 +166,16 @@ export default function Landing() {
                             className="pt-4 border-t border-[var(--card-border)] grid grid-cols-3 gap-4 max-w-lg"
                         >
                             <div>
-                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">25,000+</p>
-                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Active Developers</p>
+                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">{technologies.length || 0}+</p>
+                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Active Tech Tracks</p>
                             </div>
                             <div>
-                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">1,800+</p>
-                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Curated Questions</p>
+                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">{totalQuestions > 0 ? `${totalQuestions}+` : '60+'}</p>
+                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Live Questions</p>
                             </div>
                             <div>
-                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">99.4%</p>
-                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Satisfaction Rate</p>
+                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">100%</p>
+                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Verified Evaluation</p>
                             </div>
                         </motion.div>
                     </motion.div>

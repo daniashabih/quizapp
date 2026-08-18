@@ -4,20 +4,24 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import { Download, Linkedin, ArrowLeft, Award, QrCode } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 export default function CertificateView() {
     const location = useLocation();
+    const { user: authUser } = useAuth();
     const certRef = useRef(null);
     const [downloaded, setDownloaded] = useState(false);
 
     const {
-        category = 'React',
-        percentage = 96,
-        user = { name: 'Alex Johnson' }
+        category = 'Web Development',
+        percentage = 90,
+        resultId = '',
+        id = ''
     } = location.state || {};
 
-    const certId = 'HB-CERT-2026-8894';
-    const issueDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    const learnerName = location.state?.user?.name || authUser?.name || 'Verified Learner';
+    const certId = id || (resultId ? `HB-CERT-${resultId.slice(-6).toUpperCase()}` : `HB-CERT-${(category || 'DEV').slice(0, 3).toUpperCase()}-${new Date().getFullYear()}`);
+    const issueDate = location.state?.date || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
     const handleDownload = () => {
         setDownloaded(true);
@@ -69,7 +73,7 @@ export default function CertificateView() {
                         <div className="text-center my-6 space-y-3">
                             <p className="text-xs font-semibold text-[#7A807B] uppercase tracking-wider">This is to certify that</p>
                             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-[#193D35] tracking-tight">
-                                {user?.name || 'Verified Learner'}
+                                {learnerName}
                             </h2>
                             <p className="text-xs sm:text-sm text-[#42665B] max-w-md mx-auto leading-relaxed">
                                 has successfully completed the <strong className="text-[#193D35] font-bold">{category}</strong> assessment with a score of{' '}

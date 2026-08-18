@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from '../components/BrandLogo';
+import dashboardService from '../services/dashboardService';
 
 const baseSidebarItems = [
     { icon: LayoutDashboard, label: "Dashboard", to: "/dashboard" },
@@ -22,6 +23,7 @@ export default function DashboardLayout() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [searchFocus, setSearchFocus] = useState(false);
     const [notifOpen, setNotifOpen] = useState(false);
+    const [notifications, setNotifications] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
     const { user, logout } = useAuth();
@@ -29,6 +31,22 @@ export default function DashboardLayout() {
     useEffect(() => { if (!user) navigate('/login'); }, [user, navigate]);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     useEffect(() => { setMobileOpen(false); setNotifOpen(false); }, [location.pathname]);
+
+    useEffect(() => {
+        const fetchNotifs = async () => {
+            if (!user) return;
+            try {
+                const res = await dashboardService.getUserDashboard();
+                if (res?.data?.notifications) {
+                    setNotifications(res.data.notifications);
+                }
+            } catch {
+                // silent
+            }
+        };
+        fetchNotifs();
+    }, [user, location.pathname]);
+
     useEffect(() => {
         const h = () => { if (window.innerWidth < 1024) setSidebarOpen(false); else setSidebarOpen(true); };
         h(); window.addEventListener('resize', h); return () => window.removeEventListener('resize', h);
@@ -119,23 +137,25 @@ export default function DashboardLayout() {
                                                 <h3 className="text-xs font-semibold text-[var(--foreground)]">Notifications</h3>
                                                 <button className="text-[11px] font-medium text-[var(--foreground-muted)] hover:text-[#193D35]">Mark all read</button>
                                             </div>
-                                            <div className="max-h-80 overflow-y-auto">
-                                                {[
-                                                    { title: "New Quiz Available", desc: "React quiz is live!", time: "5m ago", unread: true },
-                                                    { title: "Certificate Earned", desc: "JavaScript ✓", time: "2h ago", unread: true },
-                                                    { title: "7-Day Streak!", desc: "Keep going! 🔥", time: "1d ago", unread: false },
-                                                ].map((n, i) => (
-                                                    <div key={i} className={`px-4 py-3 border-b border-[var(--card-border)] hover:bg-[var(--muted-bg)] transition-colors cursor-pointer ${n.unread ? 'bg-[var(--muted-bg)]/50' : ''}`}>
-                                                        <div className="flex items-start justify-between gap-3">
-                                                            <div>
-                                                                <p className="text-xs font-semibold text-[var(--foreground)]">{n.title}</p>
-                                                                <p className="text-[11px] text-[var(--foreground-secondary)] mt-0.5">{n.desc}</p>
-                                                            </div>
-                                                            {n.unread && <div className="w-2 h-2 rounded-full bg-[#D19A45] mt-1 shrink-0" />}
-                                                        </div>
-                                                        <p className="text-[10px] text-[var(--foreground-muted)] mt-1 font-medium">{n.time}</p>
+                                            <div className="max-h-80 overflow-y-auto divide-y divide-[var(--card-border)]">
+                                                {notifications.length === 0 ? (
+                                                    <div className="p-6 text-center text-xs text-[var(--foreground-muted)]">
+                                                        No new notifications.
                                                     </div>
-                                                ))}
+                                                ) : (
+                                                    notifications.map((n, i) => (
+                                                        <div key={n.id || i} className={`px-4 py-3 hover:bg-[var(--muted-bg)] transition-colors cursor-pointer ${n.unread ? 'bg-[var(--muted-bg)]/50' : ''}`}>
+                                                            <div className="flex items-start justify-between gap-3">
+                                                                <div>
+                                                                    <p className="text-xs font-semibold text-[var(--foreground)]">{n.title}</p>
+                                                                    <p className="text-[11px] text-[var(--foreground-secondary)] mt-0.5">{n.desc}</p>
+                                                                </div>
+                                                                {n.unread && <div className="w-2 h-2 rounded-full bg-[#D19A45] mt-1 shrink-0" />}
+                                                            </div>
+                                                            <p className="text-[10px] text-[var(--foreground-muted)] mt-1 font-medium">{n.time}</p>
+                                                        </div>
+                                                    ))
+                                                )}
                                             </div>
                                         </div>
                                     </>

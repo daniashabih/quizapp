@@ -16,9 +16,34 @@ const Category = {
     },
 
     getAll: async () => {
-        return await prisma.category.findMany({
-            orderBy: { name: 'asc' }
-        });
+        try {
+            const [categories, questionCounts] = await Promise.all([
+                prisma.category.findMany({
+                    orderBy: { name: 'asc' }
+                }),
+                prisma.question.groupBy({
+                    by: ['category'],
+                    _count: { _all: true }
+                }).catch(() => [])
+            ]);
+
+            const countMap = {};
+            questionCounts.forEach(qc => {
+                if (qc.category) {
+                    countMap[qc.category.toLowerCase().trim()] = qc._count._all || 0;
+                }
+            });
+
+            return categories.map(cat => ({
+                ...cat,
+                questionCount: countMap[(cat.name || '').toLowerCase().trim()] || 0
+            }));
+        } catch (err) {
+            console.error('[Category Model Error]:', err);
+            return await prisma.category.findMany({
+                orderBy: { name: 'asc' }
+            });
+        }
     },
 
     update: async (id, name) => {

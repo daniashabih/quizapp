@@ -132,6 +132,83 @@ function calculateAchievements(stats, results) {
 }
 
 /**
+ * Helper: Format relative timestamp
+ */
+function formatTimeAgo(date) {
+    if (!date) return 'Recently';
+    const now = new Date();
+    const past = new Date(date);
+    const diffMs = now - past;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return past.toLocaleDateString();
+}
+
+/**
+ * Helper: Build dynamic notifications from real database records
+ */
+function calculateNotifications(user, results, certificates, streak) {
+    const notifs = [];
+
+    // 1. Earned Certificates notifications
+    if (certificates && certificates.length > 0) {
+        certificates.slice(0, 2).forEach(c => {
+            notifs.push({
+                id: `cert-${c.id}`,
+                title: 'Certificate Earned',
+                desc: `${c.category || c.tech} — Score: ${c.score}% ✓`,
+                time: formatTimeAgo(c.createdAt),
+                unread: true,
+                type: 'certificate'
+            });
+        });
+    }
+
+    // 2. Recent Quiz Attempts
+    if (results && results.length > 0) {
+        const latest = results[0];
+        notifs.push({
+            id: `quiz-${latest.id}`,
+            title: `Quiz Completed: ${latest.category}`,
+            desc: `You scored ${Math.round(latest.percentage)}% (${latest.score}/${latest.total})`,
+            time: formatTimeAgo(latest.createdAt || latest.created_at),
+            unread: false,
+            type: 'quiz'
+        });
+    }
+
+    // 3. Streak Milestones
+    if (streak > 0) {
+        notifs.push({
+            id: `streak-${streak}`,
+            title: `${streak}-Day Quiz Streak! 🔥`,
+            desc: 'Great consistency! Keep practicing daily.',
+            time: 'Today',
+            unread: false,
+            type: 'streak'
+        });
+    }
+
+    // 4. Welcome Platform Notification
+    notifs.push({
+        id: `welcome-${user?.id || 'new'}`,
+        title: 'Welcome to HangBug!',
+        desc: 'Explore technologies, test your skills, and earn verified certificates.',
+        time: formatTimeAgo(user?.createdAt),
+        unread: false,
+        type: 'system'
+    });
+
+    return notifs;
+}
+
+/**
  * GET /api/dashboard/user
  * Authenticated User Dashboard
  * Strictly scoped to req.user.id
@@ -293,6 +370,9 @@ const getUserDashboard = async (req, res) => {
             created_at: r.createdAt || r.created_at
         }));
 
+        // 10. Real-time User Notifications
+        const notifications = calculateNotifications(user, results, certificates, streak);
+
         return res.status(200).json({
             success: true,
             data: {
@@ -302,7 +382,8 @@ const getUserDashboard = async (req, res) => {
                 technologyProgress,
                 certificates,
                 achievements,
-                weeklyActivity
+                weeklyActivity,
+                notifications
             }
         });
 

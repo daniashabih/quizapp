@@ -72,8 +72,12 @@ export default function Technologies() {
                                 <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1 group-hover:text-black transition-colors">{cat.name}</h3>
                                 <p className="text-xs text-[var(--foreground-muted)] mb-3">Comprehensive assessment covering core concepts.</p>
                                 <div className="flex items-center gap-4 pt-2.5 border-t border-[var(--card-border)]">
-                                    <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]"><BookOpen size={13} /> 100 Questions</div>
-                                    <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]"><Clock size={13} /> 50 min</div>
+                                    <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
+                                        <BookOpen size={13} /> {cat.questionCount !== undefined ? `${cat.questionCount} Questions` : 'Questions Bank'}
+                                    </div>
+                                    <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
+                                        <Clock size={13} /> {cat.questionCount ? `${Math.max(1, Math.round(cat.questionCount * 1))} min` : 'Adaptive'}
+                                    </div>
                                 </div>
                                 <div className="flex items-center gap-1 pt-2.5 text-xs font-semibold text-black group-hover:gap-2 transition-all">
                                     Start Quiz <ArrowRight size={13} />
