@@ -363,9 +363,6 @@ export default function Leaderboard({ onStatsLoaded = null }) {
                             </span>
                         )}
                     </div>
-                    <span className="text-xs font-semibold text-[var(--foreground-muted)]">
-                        Live from MongoDB
-                    </span>
                 </div>
 
                 <div className="overflow-x-auto">

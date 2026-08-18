@@ -719,7 +719,6 @@ const AdminDashboard = () => {
                         <div className="card overflow-hidden rounded-2xl shadow-sm">
                             <div className="p-4 border-b border-[var(--card-border)] bg-[var(--muted-bg)]/40 flex items-center justify-between">
                                 <h3 className="text-xs font-bold text-[var(--foreground)]">Recent Quiz Attempts</h3>
-                                <span className="text-[10px] text-[var(--foreground-muted)]">Live from MongoDB</span>
                             </div>
                             <div className="divide-y divide-[var(--card-border)] max-h-80 overflow-y-auto">
                                 {recentAttempts.length === 0 ? (
@@ -743,7 +742,6 @@ const AdminDashboard = () => {
                         <div className="card overflow-hidden rounded-2xl shadow-sm">
                             <div className="p-4 border-b border-[var(--card-border)] bg-[var(--muted-bg)]/40 flex items-center justify-between">
                                 <h3 className="text-xs font-bold text-[var(--foreground)]">Recent User Signups</h3>
-                                <span className="text-[10px] text-[var(--foreground-muted)]">Live from MongoDB</span>
                             </div>
                             <div className="divide-y divide-[var(--card-border)] max-h-80 overflow-y-auto">
                                 {recentUsers.length === 0 ? (

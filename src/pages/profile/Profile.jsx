@@ -218,7 +218,6 @@ export default function Profile() {
                     <div className="card overflow-hidden rounded-2xl">
                         <div className="p-6 border-b border-[var(--card-border)] flex items-center justify-between">
                             <h3 className="text-sm font-bold text-[var(--foreground)]">Activity Timeline</h3>
-                            <span className="text-xs text-[var(--foreground-muted)] font-medium">Live from MongoDB</span>
                         </div>
                         <div className="divide-y divide-[var(--card-border)]">
                             {timeline.length > 0 ? (
