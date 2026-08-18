@@ -56,11 +56,13 @@ const AdminDashboard = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingQuestionId, setEditingQuestionId] = useState(null);
     const [category, setCategory] = useState('');
+    const [session, setSession] = useState(1);
     const [questionText, setQuestionText] = useState('');
     const [options, setOptions] = useState(['', '', '', '']);
     const [correctAnswer, setCorrectAnswer] = useState('');
     const [difficulty, setDifficulty] = useState('beginner');
     const [explanation, setExplanation] = useState('');
+    const [selectedSessionFilter, setSelectedSessionFilter] = useState('all');
 
     // Import / Export State
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
@@ -74,6 +76,7 @@ const AdminDashboard = () => {
 
     // AI Generation State
     const [aiTopic, setAiTopic] = useState('');
+    const [aiSession, setAiSession] = useState(1);
     const [aiDifficulty, setAiDifficulty] = useState('beginner');
     const [aiCount, setAiCount] = useState(5);
     const [isGeneratingAi, setIsGeneratingAi] = useState(false);
@@ -158,6 +161,7 @@ const AdminDashboard = () => {
         if (question) {
             setEditingQuestionId(question.id);
             setCategory(question.category);
+            setSession(question.session || 1);
             setQuestionText(question.question_text);
             let parsedOptions = question.options;
             if (typeof parsedOptions === 'string') {
@@ -169,6 +173,7 @@ const AdminDashboard = () => {
             setExplanation(question.explanation || '');
         } else {
             setEditingQuestionId(null);
+            setSession(1);
             setQuestionText('');
             setOptions(['', '', '', '']);
             setCorrectAnswer('');
@@ -217,6 +222,7 @@ const AdminDashboard = () => {
         try {
             const payload = {
                 category,
+                session: parseInt(session, 10) || 1,
                 question_text: questionText,
                 options: validOptions,
                 correct_answer: correctAnswer,
@@ -297,6 +303,7 @@ const AdminDashboard = () => {
         try {
             const res = await axios.post('/questions/generate', {
                 topic: aiTopic,
+                session: parseInt(aiSession, 10) || 1,
                 difficulty: aiDifficulty,
                 count: Number(aiCount)
             });
@@ -334,10 +341,10 @@ const AdminDashboard = () => {
     };
 
     const downloadTemplate = () => {
-        const headers = ['category', 'question', 'option1', 'option2', 'option3', 'option4', 'correct_answer', 'difficulty'];
+        const headers = ['category', 'session', 'question', 'option1', 'option2', 'option3', 'option4', 'correct_answer', 'difficulty'];
         const sampleRows = [
-            ['JavaScript', 'What is the type of NaN?', 'number', 'string', 'undefined', 'object', 'number', 'beginner'],
-            ['Python', 'Which keyword defines a function?', 'func', 'define', 'def', 'function', 'def', 'beginner']
+            ['JavaScript', '1', 'What is the type of NaN?', 'number', 'string', 'undefined', 'object', 'number', 'beginner'],
+            ['Python', '1', 'Which keyword defines a function?', 'func', 'define', 'def', 'function', 'def', 'beginner']
         ];
         const csvContent = [headers.join(','), ...sampleRows.map(r => r.map(c => `"${c}"`).join(','))].join('\n');
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -367,10 +374,13 @@ const AdminDashboard = () => {
 
     const filteredQuestions = questions.filter(q => {
         const matchesCategory = selectedCategoryFilter === 'all' || q.category === selectedCategoryFilter;
+        const matchesSession = selectedSessionFilter === 'all' || String(q.session || 1) === String(selectedSessionFilter);
         const matchesSearch = q.question_text?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             q.category?.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
+        return matchesCategory && matchesSession && matchesSearch;
     });
+
+    const uniqueSessions = [...new Set(questions.map(q => q.session || 1))].sort((a, b) => a - b);
 
     const difficultyBadge = (d) => {
         const map = {
@@ -727,7 +737,7 @@ const AdminDashboard = () => {
                                     <div key={ra.id} className="p-3.5 flex items-center justify-between hover:bg-[var(--muted-bg)]/30 transition-colors text-xs">
                                         <div>
                                             <p className="font-bold text-[var(--foreground)]">{ra.userName}</p>
-                                            <p className="text-[10px] text-[var(--foreground-muted)]">{ra.category} · {new Date(ra.createdAt).toLocaleDateString()}</p>
+                                            <p className="text-[10px] text-[var(--foreground-muted)]">{ra.category} · Session {ra.session || 1} · {new Date(ra.createdAt).toLocaleDateString()}</p>
                                         </div>
                                         <div className="text-right">
                                             <span className={`font-bold ${ra.passed ? 'text-[#193D35]' : 'text-red-500'}`}>{ra.percentage}%</span>
@@ -771,10 +781,10 @@ const AdminDashboard = () => {
             {/* TAB 1: QUESTIONS BANK */}
             {activeTab === 'questions' && (
                 <div className="space-y-5">
-                    {/* Search & Category Filter Bar */}
+                    {/* Search, Category & Session Filter Bar */}
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-                        <div className="flex items-center gap-2 w-full sm:w-auto">
-                            <div className="relative w-full sm:w-64">
+                        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                            <div className="relative w-full sm:w-60">
                                 <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
                                 <input
                                     type="text"
@@ -788,10 +798,21 @@ const AdminDashboard = () => {
                             <select
                                 value={selectedCategoryFilter}
                                 onChange={(e) => setSelectedCategoryFilter(e.target.value)}
-                                className="input-field text-xs py-2.5 min-w-[140px]"
+                                className="input-field text-xs py-2.5 min-w-[130px]"
                             >
                                 <option value="all">All Categories</option>
                                 {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+                            </select>
+
+                            <select
+                                value={selectedSessionFilter}
+                                onChange={(e) => setSelectedSessionFilter(e.target.value)}
+                                className="input-field text-xs py-2.5 min-w-[120px]"
+                            >
+                                <option value="all">All Sessions</option>
+                                {uniqueSessions.map(s => (
+                                    <option key={s} value={String(s)}>Session {s}</option>
+                                ))}
                             </select>
                         </div>
 
@@ -806,7 +827,7 @@ const AdminDashboard = () => {
                             <table className="w-full text-left">
                                 <thead>
                                     <tr className="border-b border-[var(--card-border)] bg-[var(--muted-bg)]/60">
-                                        {['Category', 'Difficulty', 'Question Text', 'Correct Option', 'Actions'].map(h => (
+                                        {['Category', 'Session', 'Difficulty', 'Question Text', 'Correct Option', 'Actions'].map(h => (
                                             <th key={h} className="px-6 py-3.5 text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-widest">{h}</th>
                                         ))}
                                     </tr>
@@ -814,7 +835,7 @@ const AdminDashboard = () => {
                                 <tbody className="divide-y divide-[var(--card-border)]">
                                     {filteredQuestions.length === 0 ? (
                                         <tr>
-                                            <td colSpan={5} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
+                                            <td colSpan={6} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
                                                 No questions matching filter. <button onClick={() => openQuestionModal(null)} className="text-black font-bold hover:underline">Add one now</button>
                                             </td>
                                         </tr>
@@ -822,6 +843,11 @@ const AdminDashboard = () => {
                                         <tr key={q.id} className="hover:bg-[var(--muted-bg)]/40 transition-colors group">
                                             <td className="px-6 py-4">
                                                 <span className="badge-emerald text-[10px] font-semibold">{q.category}</span>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]">
+                                                    Session {q.session || 1}
+                                                </span>
                                             </td>
                                             <td className="px-6 py-4">
                                                 <span className={`badge border text-[10px] ${difficultyBadge(q.difficulty)}`}>
@@ -1051,7 +1077,7 @@ const AdminDashboard = () => {
                             />
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div className="space-y-1.5">
                                 <label className="input-label">Difficulty Level</label>
                                 <select
@@ -1066,7 +1092,20 @@ const AdminDashboard = () => {
                             </div>
 
                             <div className="space-y-1.5">
-                                <label className="input-label">Number of Questions to Generate</label>
+                                <label className="input-label">Session Number</label>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={aiSession}
+                                    onChange={(e) => setAiSession(e.target.value)}
+                                    className="input-field text-xs py-2.5"
+                                    placeholder="1"
+                                    required
+                                />
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <label className="input-label">Number of Questions</label>
                                 <select
                                     value={aiCount}
                                     onChange={(e) => setAiCount(Number(e.target.value))}
@@ -1228,7 +1267,7 @@ const AdminDashboard = () => {
                         </div>
 
                         <form onSubmit={handleSubmitQuestion} className="p-6 overflow-y-auto space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div className="space-y-1">
                                     <label className="input-label">Category</label>
                                     <select value={category} onChange={(e) => setCategory(e.target.value)} className="input-field text-xs py-2">
@@ -1236,6 +1275,18 @@ const AdminDashboard = () => {
                                             <option key={cat.id} value={cat.name}>{cat.name}</option>
                                         ))}
                                     </select>
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="input-label">Session No</label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        value={session}
+                                        onChange={(e) => setSession(e.target.value)}
+                                        className="input-field text-xs py-2 font-mono font-bold"
+                                        placeholder="1"
+                                        required
+                                    />
                                 </div>
                                 <div className="space-y-1">
                                     <label className="input-label">Difficulty</label>

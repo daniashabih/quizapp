@@ -383,7 +383,12 @@ export default function UserDashboard() {
                                                 {res.percentage >= 80 ? '🏆' : res.percentage >= 70 ? '✅' : '📚'}
                                             </div>
                                             <div>
-                                                <p className="text-sm font-bold text-[var(--foreground)]">{res.category}</p>
+                                                <div className="flex items-center gap-2">
+                                                    <p className="text-sm font-bold text-[var(--foreground)]">{res.category}</p>
+                                                    <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]">
+                                                        Session {res.session || 1}
+                                                    </span>
+                                                </div>
                                                 <div className="flex items-center gap-2 mt-0.5">
                                                     <span className="text-[10px] text-[var(--foreground-muted)]">
                                                         {new Date(res.createdAt).toLocaleDateString()}

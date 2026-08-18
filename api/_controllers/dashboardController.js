@@ -362,6 +362,7 @@ const getUserDashboard = async (req, res) => {
         const recentAttempts = results.slice(0, 10).map(r => ({
             id: r.id,
             category: r.category,
+            session: r.session || 1,
             score: r.score,
             total: r.total,
             percentage: Math.round(r.percentage),
@@ -534,6 +535,7 @@ const getAdminDashboard = async (req, res) => {
             userName: r.user?.name || 'Anonymous Learner',
             userEmail: r.user?.email || '',
             category: r.category,
+            session: r.session || 1,
             score: r.score,
             total: r.total,
             percentage: Math.round(r.percentage),
