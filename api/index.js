@@ -6,7 +6,11 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
+
 const authRoutes = require('./_routes/authRoutes');
+const adminRoutes = require('./_routes/adminRoutes');
 const questionRoutes = require('./_routes/questionRoutes');
 const categoryRoutes = require('./_routes/categoryRoutes');
 const resultRoutes = require('./_routes/resultRoutes');
@@ -14,6 +18,9 @@ const activityRoutes = require('./_routes/activityRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Trust reverse proxies (e.g. Vercel, Render)
+app.set('trust proxy', 1);
 
 app.use(cors({
     origin: true,
@@ -23,12 +30,26 @@ app.use(cors({
 app.use(helmet({
     contentSecurityPolicy: false,
 }));
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Auth rate limiter to prevent brute force
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // 100 requests per 15 min per IP
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        success: false,
+        message: 'Too many authentication attempts. Please try again after 15 minutes.'
+    }
+});
+
 // Routes
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/technologies', categoryRoutes);

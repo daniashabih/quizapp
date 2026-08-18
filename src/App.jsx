@@ -9,8 +9,10 @@ import SplashScreen from "./components/SplashScreen";
 // Auth Pages
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import Signup from "./pages/auth/Signup";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Public Pages
 import Landing from "./pages/Landing";
@@ -41,20 +43,27 @@ function AppContent() {
                 <Route path="/" element={<Landing />} />
                 <Route path="/technologies" element={<Technologies />} />
                 <Route path="/technologies/level" element={<SelectLevel />} />
-                <Route path="/quiz/start" element={<Quiz />} />
-                <Route path="/quiz/result" element={<Result />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/signup" element={<Signup />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
                 <Route path="/certificate/view" element={<CertificateView />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
 
-                {/* Dashboard Routes */}
-                <Route path="/admin" element={<DashboardLayout />}>
+                {/* Protected Quiz Routes */}
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/quiz/start" element={<Quiz />} />
+                    <Route path="/quiz/result" element={<Result />} />
+                </Route>
+
+                {/* Protected Admin Routes */}
+                <Route path="/admin" element={<ProtectedRoute adminOnly><DashboardLayout /></ProtectedRoute>}>
                     <Route index element={<AdminDashboard />} />
                 </Route>
-                <Route path="/dashboard" element={<DashboardLayout />}>
+
+                {/* Protected Dashboard Routes */}
+                <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
                     <Route index element={<UserDashboard />} />
                     <Route path="technologies" element={<Technologies />} />
                     <Route path="technologies/level" element={<SelectLevel />} />
@@ -63,7 +72,7 @@ function AppContent() {
                     <Route path="leaderboard" element={<Leaderboard />} />
                     <Route path="profile" element={<Profile />} />
                     <Route path="settings" element={<Settings />} />
-                    <Route path="admin" element={<AdminDashboard />} />
+                    <Route path="admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
                 </Route>
             </Routes>
             <ToastContainer

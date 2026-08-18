@@ -1,7 +1,7 @@
 const prisma = require('../_config/prisma');
 
 const User = {
-    create: async (name, email, password, role = 'candidate') => {
+    create: async (name, email, password, role = 'user', avatar = '') => {
         const cleanEmail = String(email || '').trim().toLowerCase();
         const cleanName = String(name || '').trim();
         const result = await prisma.user.create({
@@ -9,10 +9,12 @@ const User = {
                 name: cleanName,
                 email: cleanEmail,
                 password,
-                role: role || 'candidate'
+                role: role || 'user',
+                avatar: avatar || '',
+                isVerified: false
             }
         });
-        return result.id;
+        return result;
     },
 
     findByEmail: async (email) => {
@@ -24,6 +26,8 @@ const User = {
         return {
             ...user,
             created_at: user.createdAt,
+            updated_at: user.updatedAt,
+            is_verified: user.isVerified,
             reset_token: user.resetToken,
             reset_token_expiry: user.resetTokenExpiry
         };
@@ -32,32 +36,76 @@ const User = {
     findById: async (id) => {
         const user = await prisma.user.findUnique({
             where: { id: String(id) },
-            select: { id: true, name: true, email: true, role: true, createdAt: true }
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                avatar: true,
+                isVerified: true,
+                createdAt: true,
+                updatedAt: true
+            }
         });
         if (!user) return null;
         return {
             ...user,
-            created_at: user.createdAt
+            created_at: user.createdAt,
+            updated_at: user.updatedAt,
+            is_verified: user.isVerified
         };
     },
 
     getAll: async () => {
         const users = await prisma.user.findMany({
-            select: { id: true, name: true, email: true, role: true, createdAt: true },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                avatar: true,
+                isVerified: true,
+                createdAt: true,
+                updatedAt: true
+            },
             orderBy: { createdAt: 'desc' }
         });
         return users.map(u => ({
             ...u,
-            created_at: u.createdAt
+            created_at: u.createdAt,
+            updated_at: u.updatedAt,
+            is_verified: u.isVerified
         }));
     },
 
-    update: async (id, name, email) => {
-        const cleanEmail = String(email || '').trim().toLowerCase();
-        const cleanName = String(name || '').trim();
-        await prisma.user.update({
+    update: async (id, data) => {
+        const updateData = {};
+        if (data.name !== undefined) updateData.name = String(data.name).trim();
+        if (data.email !== undefined) updateData.email = String(data.email).trim().toLowerCase();
+        if (data.avatar !== undefined) updateData.avatar = String(data.avatar).trim();
+        if (data.role !== undefined) updateData.role = String(data.role).trim();
+        if (data.isVerified !== undefined) updateData.isVerified = Boolean(data.isVerified);
+
+        const updated = await prisma.user.update({
             where: { id: String(id) },
-            data: { name: cleanName, email: cleanEmail }
+            data: updateData,
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                avatar: true,
+                isVerified: true,
+                createdAt: true,
+                updatedAt: true
+            }
+        });
+        return updated;
+    },
+
+    delete: async (id) => {
+        await prisma.user.delete({
+            where: { id: String(id) }
         });
         return 1;
     },
@@ -87,6 +135,8 @@ const User = {
         return {
             ...user,
             created_at: user.createdAt,
+            updated_at: user.updatedAt,
+            is_verified: user.isVerified,
             reset_token: user.resetToken,
             reset_token_expiry: user.resetTokenExpiry
         };

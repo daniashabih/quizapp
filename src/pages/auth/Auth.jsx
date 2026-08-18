@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, UserCheck, ShieldCheck, Sparkles } from 'lucide-react';
+﻿import { useState, useMemo } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, UserCheck, ShieldCheck, Sparkles, Check, X, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import Navbar from '../../components/Navbar';
@@ -24,24 +24,40 @@ export default function Auth({ initialMode = 'login' }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
+    const [rememberMe, setRememberMe] = useState(true);
     const [showPass, setShowPass] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const { login, register, loginWithGoogle, loginAsGuest } = useAuth();
+    const { login, signup, loginWithGoogle, loginAsGuest } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/dashboard';
+
+    // Real-time password requirement validations
+    const passwordChecks = useMemo(() => {
+        return {
+            hasLength: password.length >= 8,
+            hasUpper: /[A-Z]/.test(password),
+            hasNumber: /[0-9]/.test(password)
+        };
+    }, [password]);
+
+    const isPasswordValid = passwordChecks.hasLength && passwordChecks.hasUpper && passwordChecks.hasNumber;
 
     const handleGuestLogin = async (role) => {
         setLoading(true);
+        setErrorMessage('');
         try {
-            await loginAsGuest(role);
-            if (role === 'admin') {
+            const user = await loginAsGuest(role);
+            if (user?.role === 'admin') {
                 navigate('/dashboard/admin');
             } else {
-                navigate('/dashboard');
+                navigate(from || '/dashboard');
             }
         } catch (err) {
-            toast.error('Guest mode failed: ' + err.message);
+            setErrorMessage(err.message || 'Guest login failed');
         } finally {
             setLoading(false);
         }
@@ -49,33 +65,39 @@ export default function Auth({ initialMode = 'login' }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrorMessage('');
+
+        if (isSignUp) {
+            if (!name.trim()) {
+                setErrorMessage('Please enter your full name');
+                return;
+            }
+            if (!isPasswordValid) {
+                setErrorMessage('Password must satisfy all security requirements (8+ chars, uppercase, number)');
+                return;
+            }
+            if (password !== confirm) {
+                setErrorMessage('Passwords do not match');
+                return;
+            }
+        }
+
         setLoading(true);
 
         try {
             if (isSignUp) {
-                if (password !== confirm) {
-                    toast.error("Passwords do not match");
-                    setLoading(false);
-                    return;
-                }
-                if (password.length < 8) {
-                    toast.error("Password must be at least 8 characters");
-                    setLoading(false);
-                    return;
-                }
-
-                const userData = await register(name, email, password);
-                if (userData) {
-                    navigate(userData.role === 'admin' ? '/dashboard/admin' : '/dashboard');
+                const user = await signup(name, email, password);
+                if (user) {
+                    navigate(user.role === 'admin' ? '/dashboard/admin' : from);
                 }
             } else {
-                const userData = await login(email, password);
-                if (userData) {
-                    navigate(userData.role === 'admin' ? '/dashboard/admin' : '/dashboard');
+                const user = await login(email, password);
+                if (user) {
+                    navigate(user.role === 'admin' ? '/dashboard/admin' : from);
                 }
             }
         } catch (err) {
-            toast.error(err.message || 'Authentication failed');
+            setErrorMessage(err.message || 'Authentication failed');
         } finally {
             setLoading(false);
         }
@@ -87,13 +109,15 @@ export default function Auth({ initialMode = 'login' }) {
             <main className="flex-1 flex flex-col items-center justify-start sm:justify-center px-4 pt-24 sm:pt-28 pb-12 w-full">
                 <div className="w-full max-w-md animate-fade-up">
                     {/* Brand Header */}
-                    <div className="text-center mb-3 sm:mb-5">
+                    <div className="text-center mb-4 sm:mb-6">
                         <BrandLogo variant="mark" size="lg" className="mx-auto mb-2" />
                         <h1 className="text-2xl sm:text-3xl font-display font-bold text-[var(--foreground)] mb-1">
-                            {isSignUp ? 'Create an Account' : 'Welcome Back'}
+                            {isSignUp ? 'Create your Account' : 'Welcome back to HangBug'}
                         </h1>
                         <p className="text-[var(--foreground-secondary)] text-xs sm:text-sm">
-                            {isSignUp ? 'Start your HangBug journey today.' : 'Sign in to continue your assessment.'}
+                            {isSignUp
+                                ? 'Join thousands of developers testing and certifying their skills.'
+                                : 'Sign in to access your quizzes, track scores, and manage certificates.'}
                         </p>
                     </div>
 
@@ -101,10 +125,10 @@ export default function Auth({ initialMode = 'login' }) {
                     <div className="bg-[var(--muted-bg)] p-1 rounded-2xl border border-[var(--card-border)] mb-4 flex items-center justify-between shadow-inner">
                         <button
                             type="button"
-                            onClick={() => setIsSignUp(false)}
+                            onClick={() => { setIsSignUp(false); setErrorMessage(''); }}
                             className={`flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
                                 !isSignUp
-                                    ? 'bg-[#193D35] text-[#FCFAF4] shadow-sm'
+                                    ? 'bg-[#163B34] text-[#FCFAF4] shadow-sm'
                                     : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)]'
                             }`}
                         >
@@ -112,10 +136,10 @@ export default function Auth({ initialMode = 'login' }) {
                         </button>
                         <button
                             type="button"
-                            onClick={() => setIsSignUp(true)}
+                            onClick={() => { setIsSignUp(true); setErrorMessage(''); }}
                             className={`flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
                                 isSignUp
-                                    ? 'bg-[#193D35] text-[#FCFAF4] shadow-sm'
+                                    ? 'bg-[#163B34] text-[#FCFAF4] shadow-sm'
                                     : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)]'
                             }`}
                         >
@@ -123,32 +147,32 @@ export default function Auth({ initialMode = 'login' }) {
                         </button>
                     </div>
 
-                    {/* Guest Mode Direct Login */}
+                    {/* Instant Guest Demo Mode */}
                     <div className="mb-4 p-3 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-2">
                         <p className="text-[10px] font-semibold text-[var(--foreground-secondary)] text-center uppercase tracking-wider flex items-center justify-center gap-1">
-                            <Sparkles size={11} className="text-[#D19A45]" /> Instant Guest Mode Access
+                            <Sparkles size={11} className="text-[#D19A45]" /> Instant Demo Mode
                         </p>
                         <div className="grid grid-cols-2 gap-2">
                             <button
                                 type="button"
-                                onClick={() => handleGuestLogin('candidate')}
+                                onClick={() => handleGuestLogin('user')}
                                 disabled={loading}
-                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#193D35] hover:bg-[#F3E5C5]/30 transition-all cursor-pointer shadow-xs"
+                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#163B34] hover:bg-[#EAF5F2] transition-all cursor-pointer shadow-xs"
                             >
-                                <UserCheck size={14} className="text-[#193D35]" /> Guest Candidate
+                                <UserCheck size={14} className="text-[#163B34]" /> Guest Candidate
                             </button>
                             <button
                                 type="button"
                                 onClick={() => handleGuestLogin('admin')}
                                 disabled={loading}
-                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#193D35] hover:bg-[#F3E5C5]/30 transition-all cursor-pointer shadow-xs"
+                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#163B34] hover:bg-[#EAF5F2] transition-all cursor-pointer shadow-xs"
                             >
-                                <ShieldCheck size={14} className="text-[#193D35]" /> Guest Admin
+                                <ShieldCheck size={14} className="text-[#163B34]" /> Guest Admin
                             </button>
                         </div>
                     </div>
 
-                    {/* Auth Card */}
+                    {/* Main Auth Card */}
                     <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 sm:p-6 shadow-lg">
                         {/* Google OAuth Button */}
                         <button
@@ -166,8 +190,15 @@ export default function Auth({ initialMode = 'login' }) {
                             </span>
                         </div>
 
-                        {/* Unified Form */}
-                        <form onSubmit={handleSubmit} className="space-y-3">
+                        {/* Error Alert Box if any */}
+                        {errorMessage && (
+                            <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2 animate-fade-in">
+                                <ShieldAlert size={16} className="shrink-0 mt-0.5" />
+                                <span>{errorMessage}</span>
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit} className="space-y-3.5">
                             {/* Full Name field in Sign Up mode */}
                             {isSignUp && (
                                 <div className="space-y-1 animate-fade-in">
@@ -179,7 +210,7 @@ export default function Auth({ initialMode = 'login' }) {
                                             required
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
-                                            className="input-field pl-10 py-2 text-xs sm:text-sm"
+                                            className="input-field pl-10 py-2.5 text-xs sm:text-sm"
                                             placeholder="John Doe"
                                         />
                                     </div>
@@ -188,7 +219,7 @@ export default function Auth({ initialMode = 'login' }) {
 
                             {/* Email field */}
                             <div className="space-y-1">
-                                <label className="input-label text-xs">Email</label>
+                                <label className="input-label text-xs">Email Address</label>
                                 <div className="relative">
                                     <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
                                     <input
@@ -196,7 +227,7 @@ export default function Auth({ initialMode = 'login' }) {
                                         required
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="input-field pl-10 py-2 text-xs sm:text-sm"
+                                        className="input-field pl-10 py-2.5 text-xs sm:text-sm"
                                         placeholder="name@example.com"
                                     />
                                 </div>
@@ -204,57 +235,80 @@ export default function Auth({ initialMode = 'login' }) {
 
                             {/* Password fields */}
                             {isSignUp ? (
-                                <div className="grid grid-cols-2 gap-2 animate-fade-in">
-                                    <div className="space-y-1">
-                                        <label className="input-label text-xs">Password</label>
-                                        <div className="relative">
-                                            <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                            <input
-                                                type={showPass ? 'text' : 'password'}
-                                                required
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                                className="input-field pl-10 pr-8 py-2 text-xs sm:text-sm"
-                                                placeholder="Min 8 chars"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() => setShowPass(!showPass)}
-                                                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
-                                            >
-                                                {showPass ? <EyeOff size={14} /> : <Eye size={14} />}
-                                            </button>
+                                <>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 animate-fade-in">
+                                        <div className="space-y-1">
+                                            <label className="input-label text-xs">Password</label>
+                                            <div className="relative">
+                                                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                                <input
+                                                    type={showPass ? 'text' : 'password'}
+                                                    required
+                                                    value={password}
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    className="input-field pl-10 pr-8 py-2.5 text-xs sm:text-sm"
+                                                    placeholder="Password123"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowPass(!showPass)}
+                                                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
+                                                >
+                                                    {showPass ? <EyeOff size={14} /> : <Eye size={14} />}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-1">
+                                            <label className="input-label text-xs">Confirm Password</label>
+                                            <div className="relative">
+                                                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                                <input
+                                                    type={showConfirm ? 'text' : 'password'}
+                                                    required
+                                                    value={confirm}
+                                                    onChange={(e) => setConfirm(e.target.value)}
+                                                    className="input-field pl-10 pr-8 py-2.5 text-xs sm:text-sm"
+                                                    placeholder="Confirm password"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowConfirm(!showConfirm)}
+                                                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
+                                                >
+                                                    {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="space-y-1">
-                                        <label className="input-label text-xs">Confirm</label>
-                                        <div className="relative">
-                                            <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                            <input
-                                                type={showConfirm ? 'text' : 'password'}
-                                                required
-                                                value={confirm}
-                                                onChange={(e) => setConfirm(e.target.value)}
-                                                className="input-field pl-10 pr-8 py-2 text-xs sm:text-sm"
-                                                placeholder="Re-enter"
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={() => setShowConfirm(!showConfirm)}
-                                                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
-                                            >
-                                                {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
-                                            </button>
+                                    {/* Visual Password Requirements Checklist */}
+                                    <div className="p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5 text-xs">
+                                        <p className="text-[11px] font-semibold text-[var(--foreground-secondary)] mb-1">
+                                            Password requirements:
+                                        </p>
+                                        <div className="grid grid-cols-1 gap-1">
+                                            <div className={`flex items-center gap-1.5 text-[11px] ${passwordChecks.hasLength ? 'text-emerald-600 font-medium' : 'text-[var(--foreground-muted)]'}`}>
+                                                {passwordChecks.hasLength ? <Check size={13} className="text-emerald-600 shrink-0" /> : <X size={13} className="text-gray-400 shrink-0" />}
+                                                <span>At least 8 characters</span>
+                                            </div>
+                                            <div className={`flex items-center gap-1.5 text-[11px] ${passwordChecks.hasUpper ? 'text-emerald-600 font-medium' : 'text-[var(--foreground-muted)]'}`}>
+                                                {passwordChecks.hasUpper ? <Check size={13} className="text-emerald-600 shrink-0" /> : <X size={13} className="text-gray-400 shrink-0" />}
+                                                <span>At least one uppercase letter (A-Z)</span>
+                                            </div>
+                                            <div className={`flex items-center gap-1.5 text-[11px] ${passwordChecks.hasNumber ? 'text-emerald-600 font-medium' : 'text-[var(--foreground-muted)]'}`}>
+                                                {passwordChecks.hasNumber ? <Check size={13} className="text-emerald-600 shrink-0" /> : <X size={13} className="text-gray-400 shrink-0" />}
+                                                <span>At least one number (0-9)</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </>
                             ) : (
                                 <div className="space-y-1">
                                     <div className="flex items-center justify-between">
                                         <label className="input-label text-xs">Password</label>
-                                        <Link to="/forgot-password" className="text-xs font-semibold text-[#193D35] hover:underline">
-                                            Forgot?
+                                        <Link to="/forgot-password" className="text-xs font-semibold text-[#163B34] hover:underline">
+                                            Forgot password?
                                         </Link>
                                     </div>
                                     <div className="relative">
@@ -264,7 +318,7 @@ export default function Auth({ initialMode = 'login' }) {
                                             required
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
-                                            className="input-field pl-10 pr-10 py-2 text-xs sm:text-sm"
+                                            className="input-field pl-10 pr-10 py-2.5 text-xs sm:text-sm"
                                             placeholder="••••••••"
                                         />
                                         <button
@@ -275,14 +329,27 @@ export default function Auth({ initialMode = 'login' }) {
                                             {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
                                         </button>
                                     </div>
+
+                                    {/* Remember Me Checkbox */}
+                                    <div className="pt-2 flex items-center">
+                                        <label className="flex items-center gap-2 text-xs text-[var(--foreground-secondary)] cursor-pointer select-none">
+                                            <input
+                                                type="checkbox"
+                                                checked={rememberMe}
+                                                onChange={(e) => setRememberMe(e.target.checked)}
+                                                className="w-4 h-4 rounded border-gray-300 text-[#163B34] focus:ring-[#163B34]"
+                                            />
+                                            <span>Remember me on this device</span>
+                                        </label>
+                                    </div>
                                 </div>
                             )}
 
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                disabled={loading}
-                                className="btn-primary w-full py-2.5 rounded-xl text-xs sm:text-sm mt-1 cursor-pointer flex items-center justify-center gap-2"
+                                disabled={loading || (isSignUp && !isPasswordValid)}
+                                className="btn-primary w-full py-2.5 rounded-xl text-xs sm:text-sm mt-2 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[#163B34] hover:bg-[#1F4D44] text-white"
                             >
                                 {loading ? (
                                     <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
@@ -307,10 +374,10 @@ export default function Auth({ initialMode = 'login' }) {
                                     Already have an account?{' '}
                                     <button
                                         type="button"
-                                        onClick={() => setIsSignUp(false)}
-                                        className="font-semibold text-[#193D35] hover:underline cursor-pointer"
+                                        onClick={() => { setIsSignUp(false); setErrorMessage(''); }}
+                                        className="font-semibold text-[#163B34] hover:underline cursor-pointer"
                                     >
-                                        Sign in
+                                        Login
                                     </button>
                                 </>
                             ) : (
@@ -318,10 +385,10 @@ export default function Auth({ initialMode = 'login' }) {
                                     Don't have an account?{' '}
                                     <button
                                         type="button"
-                                        onClick={() => setIsSignUp(true)}
-                                        className="font-semibold text-[#193D35] hover:underline cursor-pointer"
+                                        onClick={() => { setIsSignUp(true); setErrorMessage(''); }}
+                                        className="font-semibold text-[#163B34] hover:underline cursor-pointer"
                                     >
-                                        Create one free
+                                        Create one
                                     </button>
                                 </>
                             )}
