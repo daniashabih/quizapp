@@ -1,4 +1,4 @@
-﻿const prisma = require('../api/_config/prisma');
+const prisma = require('../api/_config/prisma');
 
 const INITIAL_TECHNOLOGIES = [
     'HTML',
@@ -24,7 +24,8 @@ const INITIAL_TECHNOLOGIES = [
     'Tailwind CSS',
     'Bootstrap',
     'WordPress',
-    'Docker'
+    'Docker',
+    'Agile and DevOps'
 ];
 
 async function seedTechnologies() {
