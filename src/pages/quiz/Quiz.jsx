@@ -301,12 +301,26 @@ const Quiz = () => {
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#193D35]/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#D19A45]/5 rounded-full blur-3xl pointer-events-none translate-y-1/2" />
 
+            {/* Live Top Time-Depletion Progress Line */}
+            <div className="w-full h-1 bg-[var(--muted-bg)] relative z-30 overflow-hidden">
+                <div
+                    className={`h-full transition-all duration-1000 ease-linear ${
+                        timerIsUrgent
+                            ? 'bg-red-500 shadow-sm shadow-red-500/50'
+                            : timeLeft <= 20
+                                ? 'bg-amber-500'
+                                : 'bg-[#193D35]'
+                    }`}
+                    style={{ width: `${timerPct}%` }}
+                />
+            </div>
+
             {/* ═══════════════════════════════════════════════════════════
-                 1. TOP HEADER (COMPACT, SLEEK, FIT-TO-SCREEN)
+                 1. TOP HEADER (PROMINENT TIMER, TRACK INFO & PROGRESS)
                ═══════════════════════════════════════════════════════════ */}
-            <header className="h-16 shrink-0 border-b border-[var(--card-border)] bg-[var(--nav-bg)] backdrop-blur-xl px-4 sm:px-6 lg:px-8 flex items-center justify-between z-20">
+            <header className="h-16 shrink-0 border-b border-[var(--card-border)] bg-[var(--nav-bg)] backdrop-blur-xl px-3 sm:px-6 lg:px-8 flex items-center justify-between z-20">
                 {/* Left: Exit + Track Info */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3">
                     <button
                         onClick={() => setShowExitConfirm(true)}
                         className="p-2 rounded-xl text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-500/10 transition-all cursor-pointer"
@@ -315,26 +329,26 @@ const Quiz = () => {
                         <ArrowLeft size={18} />
                     </button>
 
-                    <div className="h-5 w-px bg-[var(--card-border)]" />
+                    <div className="h-5 w-px bg-[var(--card-border)] hidden sm:block" />
 
                     <div className="flex items-center gap-2">
-                        <span className="font-display font-extrabold text-sm text-[var(--foreground)] flex items-center gap-1.5">
+                        <span className="font-display font-extrabold text-xs sm:text-sm text-[var(--foreground)] flex items-center gap-1.5">
                             <BookOpen size={16} className="text-[#193D35]" />
                             {selectedCategory}
                         </span>
-                        <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-wider">
+                        <span className="hidden md:inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-wider">
                             {currentQ?.difficulty || 'Standard'}
                         </span>
                     </div>
                 </div>
 
                 {/* Center: Integrated Dynamic Progress Track */}
-                <div className="hidden md:flex flex-col items-center gap-1 min-w-[240px]">
+                <div className="hidden md:flex flex-col items-center gap-1 min-w-[220px] lg:min-w-[280px]">
                     <div className="flex items-center justify-between w-full text-[11px] font-bold text-[var(--foreground-muted)]">
                         <span>Question <strong className="text-[var(--foreground)]">{currentIndex + 1}</strong> of {questions.length}</span>
                         <span className="text-[#193D35]">{progressPercent}%</span>
                     </div>
-                    <div className="w-full h-1.5 bg-[var(--muted-bg)] rounded-full overflow-hidden">
+                    <div className="w-full h-2 bg-[var(--muted-bg)] rounded-full overflow-hidden p-0.5 border border-[var(--card-border)]/50">
                         <div
                             className="h-full bg-gradient-to-r from-[#193D35] to-[#42665B] transition-all duration-300 rounded-full"
                             style={{ width: `${progressPercent}%` }}
@@ -342,30 +356,39 @@ const Quiz = () => {
                     </div>
                 </div>
 
-                {/* Right: Timer, Flag, and Question Navigator HUD */}
-                <div className="flex items-center gap-2.5 sm:gap-3">
-                    {/* Glowing Countdown Pill */}
+                {/* Right: Prominent Countdown Timer, Flag, and Question Navigator HUD */}
+                <div className="flex items-center gap-2 sm:gap-3">
+                    {/* PROMINENT COUNTDOWN TIMER BADGE */}
                     <div
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border font-mono font-bold text-xs transition-all duration-300 ${
+                        className={`flex items-center gap-2 px-3.5 py-1.5 rounded-2xl border-2 transition-all duration-300 shadow-sm ${
                             timerIsUrgent
-                                ? 'bg-red-500/10 border-red-500/40 text-red-600 animate-pulse shadow-sm'
-                                : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)]'
+                                ? 'bg-red-500/15 border-red-500 text-red-600 ring-2 ring-red-500/30 animate-pulse'
+                                : timeLeft <= 20
+                                    ? 'bg-amber-500/10 border-amber-500/60 text-amber-700'
+                                    : 'bg-[#193D35]/10 border-[#193D35]/30 text-[#193D35]'
                         }`}
-                        title="Remaining time for this question"
+                        title="Time remaining for current question"
                     >
-                        <Clock size={14} className={timerIsUrgent ? 'text-red-500' : 'text-[#193D35]'} />
-                        <span className="tabular-nums text-sm font-black">
-                            {timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
-                        </span>
+                        {timerIsUrgent ? (
+                            <Flame size={18} className="text-red-600 animate-bounce shrink-0" />
+                        ) : (
+                            <Clock size={16} className={`shrink-0 ${timeLeft <= 20 ? 'text-amber-600' : 'text-[#193D35]'}`} />
+                        )}
+                        <div className="flex items-baseline gap-1 font-mono">
+                            <span className="text-sm sm:text-base font-black tabular-nums tracking-tight">
+                                {timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
+                            </span>
+                            <span className="hidden lg:inline text-[10px] font-sans font-bold uppercase tracking-wider opacity-75">left</span>
+                        </div>
                     </div>
 
                     {/* Flag / Bookmark Button */}
                     <button
                         onClick={() => toggleFlag(currentQ.id)}
-                        className={`p-2 rounded-xl transition-all cursor-pointer ${
+                        className={`p-2 rounded-xl border transition-all cursor-pointer ${
                             isCurrentFlagged
-                                ? 'bg-[#F3E5C5] text-[#D19A45] border border-[#E2D0A6] shadow-xs'
-                                : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] border border-transparent'
+                                ? 'bg-[#F3E5C5] text-[#D19A45] border-[#D19A45] shadow-xs'
+                                : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] border-[var(--card-border)]'
                         }`}
                         title={isCurrentFlagged ? 'Flagged for review (Press F)' : 'Flag for review (Press F)'}
                     >
@@ -374,16 +397,16 @@ const Quiz = () => {
 
                     {/* Matrix / Navigator Drawer Toggle */}
                     <button
-                        onClick={() => setNavigatorOpen(prev => !prev)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                        onClick={() => setNavigatorOpen(true)}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
                             navigatorOpen
                                 ? 'bg-[#193D35] text-white border-[#193D35] shadow-xs'
                                 : 'bg-[var(--muted-bg)] text-[var(--foreground)] border-[var(--card-border)] hover:border-[#193D35]'
                         }`}
-                        title="Toggle Question Navigator (Press M)"
+                        title="Open Question Navigator (Press M)"
                     >
-                        <LayoutGrid size={14} />
-                        <span className="hidden sm:inline font-mono">{answeredCount}/{questions.length}</span>
+                        <LayoutGrid size={15} />
+                        <span className="font-mono">{answeredCount}/{questions.length}</span>
                     </button>
                 </div>
             </header>
@@ -396,19 +419,19 @@ const Quiz = () => {
                     {/* Top: Mobile Progress & Question Tag */}
                     <div className="shrink-0 space-y-2">
                         <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-extrabold uppercase tracking-widest text-[var(--foreground-muted)] flex items-center gap-1.5">
-                                <span className="w-2 h-2 rounded-full bg-[#193D35]" />
+                            <span className="text-[11px] font-extrabold uppercase tracking-wider text-[var(--foreground-muted)] flex items-center gap-1.5">
+                                <span className="w-2.5 h-2.5 rounded-full bg-[#193D35]" />
                                 Question {currentIndex + 1} of {questions.length}
                             </span>
-                            <span className="text-[10px] font-bold text-[var(--foreground-muted)]">
-                                Single Choice (1 Point)
+                            <span className="text-[10px] font-bold text-[var(--foreground-muted)] bg-[var(--muted-bg)] px-2.5 py-1 rounded-full border border-[var(--card-border)]">
+                                1 Point · Single Choice
                             </span>
                         </div>
 
                         {/* Question Prompt Title Card */}
                         <div className="p-5 sm:p-6 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-xs relative overflow-hidden">
                             <div className="absolute top-0 left-0 h-full w-1.5 bg-[#193D35]" />
-                            <h2 className="text-base sm:text-xl lg:text-2xl font-display font-extrabold text-[var(--foreground)] leading-snug">
+                            <h2 className="text-base sm:text-lg lg:text-xl font-display font-extrabold text-[var(--foreground)] leading-snug">
                                 {currentQ?.question_text}
                             </h2>
                         </div>
@@ -501,31 +524,69 @@ const Quiz = () => {
                         )}
                     </div>
                 </main>
+            </div>
 
-                {/* ═══════════════════════════════════════════════════════════
-                     3. QUESTION NAVIGATOR DRAWER (COLLAPSIBLE HUD)
-                   ═══════════════════════════════════════════════════════════ */}
-                <aside
-                    className={`absolute top-0 right-0 h-full w-80 bg-[var(--card-bg)] border-l border-[var(--card-border)] shadow-2xl z-30 flex flex-col justify-between transition-transform duration-300 ease-in-out ${
-                        navigatorOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
-                    }`}
-                >
-                    {/* Drawer Header */}
-                    <div className="p-5 border-b border-[var(--card-border)] flex items-center justify-between shrink-0">
-                        <div className="flex items-center gap-2">
-                            <LayoutGrid size={16} className="text-[#193D35]" />
-                            <h3 className="font-display font-extrabold text-sm text-[var(--foreground)]">Question Navigator</h3>
+            {/* ═══════════════════════════════════════════════════════════
+                 3. QUESTION NAVIGATOR DRAWER (SLIDE-OVER HUD WITH BACKDROP)
+               ═══════════════════════════════════════════════════════════ */}
+            {/* Backdrop Overlay */}
+            {navigatorOpen && (
+                <div
+                    className="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs transition-opacity duration-300 animate-fade-in"
+                    onClick={() => setNavigatorOpen(false)}
+                />
+            )}
+
+            {/* Fixed Slide-Over Aside Drawer */}
+            <aside
+                className={`fixed top-0 right-0 h-full w-full max-w-sm sm:w-96 bg-[var(--card-bg)] border-l border-[var(--card-border)] shadow-2xl z-50 flex flex-col justify-between transition-transform duration-300 ease-out ${
+                    navigatorOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
+                }`}
+            >
+                {/* Drawer Header */}
+                <div className="p-4 sm:p-5 border-b border-[var(--card-border)] flex items-center justify-between shrink-0 bg-[var(--muted-bg)]/30">
+                    <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-[#193D35] text-white flex items-center justify-center shadow-xs">
+                            <LayoutGrid size={16} />
                         </div>
-                        <button
-                            onClick={() => setNavigatorOpen(false)}
-                            className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:bg-[var(--muted-bg)] cursor-pointer"
-                        >
-                            <X size={16} />
-                        </button>
+                        <div>
+                            <h3 className="font-display font-extrabold text-sm text-[var(--foreground)]">Question Navigator</h3>
+                            <p className="text-[10px] text-[var(--foreground-muted)] font-medium">Quick jump across questions</p>
+                        </div>
                     </div>
 
-                    {/* Question Grid */}
-                    <div className="p-5 flex-1 overflow-y-auto space-y-5">
+                    <div className="flex items-center gap-2">
+                        {/* Live Synchronized Timer in Drawer Header */}
+                        <div
+                            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg border font-mono font-bold text-xs ${
+                                timerIsUrgent
+                                    ? 'bg-red-500/15 border-red-500 text-red-600 animate-pulse'
+                                    : 'bg-[var(--card-bg)] border-[var(--card-border)] text-[#193D35]'
+                            }`}
+                            title="Active Timer"
+                        >
+                            <Clock size={12} className={timerIsUrgent ? 'text-red-600' : 'text-[#193D35]'} />
+                            <span>{timeLeft}s</span>
+                        </div>
+
+                        <button
+                            onClick={() => setNavigatorOpen(false)}
+                            className="p-1.5 rounded-xl text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all cursor-pointer"
+                            title="Close Navigator"
+                        >
+                            <X size={18} />
+                        </button>
+                    </div>
+                </div>
+
+                {/* Question Grid & Details */}
+                <div className="p-4 sm:p-5 flex-1 overflow-y-auto space-y-5">
+                    {/* 5-Column Question Number Matrix */}
+                    <div>
+                        <div className="flex items-center justify-between text-xs font-bold text-[var(--foreground-muted)] mb-2.5 uppercase tracking-wider">
+                            <span>Questions Map</span>
+                            <span className="text-[#193D35]">{answeredCount} of {questions.length} Answered</span>
+                        </div>
                         <div className="grid grid-cols-5 gap-2.5">
                             {questions.map((q, idx) => {
                                 const active = currentIndex === idx;
@@ -541,72 +602,81 @@ const Quiz = () => {
                                         }}
                                         className={`relative h-11 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer ${
                                             active
-                                                ? 'bg-[#193D35] text-white shadow-md ring-2 ring-[#193D35]/50 scale-105'
+                                                ? 'bg-[#193D35] text-white shadow-md ring-2 ring-[#193D35]/50 scale-105 font-black'
                                                 : answered
-                                                    ? 'bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]'
-                                                    : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] hover:border-[#193D35]'
+                                                    ? 'bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] hover:bg-[#ebd8b0]'
+                                                    : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] hover:border-[#193D35] hover:text-[var(--foreground)]'
                                         }`}
                                     >
                                         {idx + 1}
                                         {flagged && (
                                             <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#D19A45] ring-2 ring-white" />
                                         )}
+                                        {answered && !active && (
+                                            <span className="absolute bottom-1 w-1 h-1 rounded-full bg-[#193D35]" />
+                                        )}
                                     </button>
                                 );
                             })}
                         </div>
+                    </div>
 
-                        {/* Progress Stats */}
-                        <div className="space-y-2.5 pt-2 border-t border-[var(--card-border)] text-xs">
-                            <div className="flex items-center justify-between font-semibold">
-                                <span className="text-[var(--foreground-muted)]">Answered:</span>
-                                <span className="font-bold text-[#193D35]">{answeredCount}/{questions.length}</span>
-                            </div>
-                            <div className="flex items-center justify-between font-semibold">
-                                <span className="text-[var(--foreground-muted)]">Flagged:</span>
-                                <span className="font-bold text-[#D19A45]">{flaggedCount}</span>
-                            </div>
-                            <div className="flex items-center justify-between font-semibold">
-                                <span className="text-[var(--foreground-muted)]">Remaining:</span>
-                                <span className="font-bold text-[var(--foreground)]">{questions.length - answeredCount}</span>
-                            </div>
+                    {/* Progress Stats Mini Cards */}
+                    <div className="grid grid-cols-3 gap-2">
+                        <div className="p-2.5 rounded-xl bg-[#193D35]/5 border border-[#193D35]/15 text-center">
+                            <p className="text-[10px] font-bold text-[var(--foreground-muted)]">Answered</p>
+                            <p className="text-sm font-black text-[#193D35] mt-0.5">{answeredCount}/{questions.length}</p>
                         </div>
-
-                        {/* Legend */}
-                        <div className="space-y-2 pt-2 border-t border-[var(--card-border)] text-[11px] text-[var(--foreground-muted)] font-medium">
-                            <div className="flex items-center gap-2">
-                                <div className="w-3.5 h-3.5 rounded bg-[#193D35]" />
-                                <span>Current Question</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-3.5 h-3.5 rounded bg-[#F3E5C5] border border-[#E2D0A6]" />
-                                <span>Answered</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-3.5 h-3.5 rounded bg-[#D19A45]" />
-                                <span>Flagged for Review</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-3.5 h-3.5 rounded bg-[var(--muted-bg)] border border-[var(--card-border)]" />
-                                <span>Unanswered</span>
-                            </div>
+                        <div className="p-2.5 rounded-xl bg-[#D19A45]/10 border border-[#D19A45]/20 text-center">
+                            <p className="text-[10px] font-bold text-[var(--foreground-muted)]">Flagged</p>
+                            <p className="text-sm font-black text-[#D19A45] mt-0.5">{flaggedCount}</p>
+                        </div>
+                        <div className="p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-center">
+                            <p className="text-[10px] font-bold text-[var(--foreground-muted)]">Remaining</p>
+                            <p className="text-sm font-black text-[var(--foreground)] mt-0.5">{questions.length - answeredCount}</p>
                         </div>
                     </div>
 
-                    {/* Drawer Footer Action */}
-                    <div className="p-5 border-t border-[var(--card-border)] shrink-0">
-                        <button
-                            onClick={() => {
-                                setNavigatorOpen(false);
-                                setShowConfirmSubmit(true);
-                            }}
-                            className="btn-primary w-full justify-center py-2.5 text-xs font-bold"
-                        >
-                            <Send size={14} /> Submit Quiz
-                        </button>
+                    {/* Legend */}
+                    <div className="space-y-2 pt-3 border-t border-[var(--card-border)] text-[11px] text-[var(--foreground-secondary)] font-medium">
+                        <div className="flex items-center gap-2.5">
+                            <div className="w-3.5 h-3.5 rounded-md bg-[#193D35] ring-1 ring-[#193D35]" />
+                            <span>Current Question</span>
+                        </div>
+                        <div className="flex items-center gap-2.5">
+                            <div className="w-3.5 h-3.5 rounded-md bg-[#F3E5C5] border border-[#E2D0A6]" />
+                            <span>Answered Question</span>
+                        </div>
+                        <div className="flex items-center gap-2.5">
+                            <div className="w-3.5 h-3.5 rounded-md bg-[#D19A45]" />
+                            <span>Flagged for Review</span>
+                        </div>
+                        <div className="flex items-center gap-2.5">
+                            <div className="w-3.5 h-3.5 rounded-md bg-[var(--muted-bg)] border border-[var(--card-border)]" />
+                            <span>Unanswered Question</span>
+                        </div>
                     </div>
-                </aside>
-            </div>
+                </div>
+
+                {/* Drawer Footer Actions */}
+                <div className="p-4 sm:p-5 border-t border-[var(--card-border)] bg-[var(--muted-bg)]/30 space-y-2 shrink-0">
+                    <button
+                        onClick={() => {
+                            setNavigatorOpen(false);
+                            setShowConfirmSubmit(true);
+                        }}
+                        className="btn-primary w-full justify-center py-3 text-xs font-bold shadow-md shadow-[#193D35]/15 cursor-pointer"
+                    >
+                        <Send size={14} /> Submit Assessment
+                    </button>
+                    <button
+                        onClick={() => setNavigatorOpen(false)}
+                        className="btn-secondary w-full justify-center py-2 text-xs font-semibold cursor-pointer"
+                    >
+                        Continue Answering
+                    </button>
+                </div>
+            </aside>
 
             {/* ═══════════════════════════════════════════════════════════
                  4. CONFIRM EXIT MODAL
