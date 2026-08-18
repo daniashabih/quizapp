@@ -41,7 +41,7 @@ export default function CertificateView() {
             <div className="flex-1 pt-24 pb-12">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center gap-3 mb-6">
-                        <Link to="/dashboard" className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-black transition-colors">
+                        <Link to="/dashboard" className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-[#193D35] transition-colors">
                             <ArrowLeft size={16} /> Back to Dashboard
                         </Link>
                         <div className="flex-1" />
@@ -54,65 +54,65 @@ export default function CertificateView() {
                     </div>
 
                     {/* Certificate Card */}
-                    <div ref={certRef} className="bg-white border-8 border-black rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden text-black">
+                    <div ref={certRef} className="bg-white border-8 border-[#193D35] rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden text-[#252C28]">
                         {/* Decorative Top Bar */}
-                        <div className="h-2 bg-black" />
+                        <div className="h-2 bg-[#193D35]" />
 
                         {/* Watermark / Background Icon */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none">
-                            <Award size={400} className="text-black" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.04] pointer-events-none">
+                            <Award size={400} className="text-[#193D35]" />
                         </div>
 
                         {/* Content Header */}
                         <div className="text-center pt-6 pb-4">
                             <BrandLogo variant="mark" size="lg" className="mx-auto mb-4" />
-                            <div className="w-24 h-1 bg-black mx-auto mb-6 rounded-full" />
-                            <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-zinc-100 text-black border border-zinc-300 uppercase tracking-widest">
+                            <div className="w-24 h-1 bg-[#D19A45] mx-auto mb-6 rounded-full" />
+                            <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-widest">
                                 Certificate of Completion
                             </span>
                         </div>
 
                         {/* Body */}
                         <div className="text-center my-6 space-y-3">
-                            <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">This is to certify that</p>
-                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-black tracking-tight">
+                            <p className="text-xs font-semibold text-[#7A807B] uppercase tracking-wider">This is to certify that</p>
+                            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-[#193D35] tracking-tight">
                                 {user?.name || 'Verified Learner'}
                             </h2>
-                            <p className="text-xs sm:text-sm text-zinc-600 max-w-md mx-auto leading-relaxed">
-                                has successfully completed the <strong className="text-black">{category}</strong> assessment track with a score of{' '}
-                                <strong className="text-black">{percentage}%</strong>, demonstrating exceptional proficiency and mastery of core concepts.
+                            <p className="text-xs sm:text-sm text-[#42665B] max-w-md mx-auto leading-relaxed">
+                                has successfully completed the <strong className="text-[#193D35] font-bold">{category}</strong> assessment track with a score of{' '}
+                                <strong className="text-[#193D35] font-bold">{percentage}%</strong>, demonstrating exceptional proficiency and mastery of core concepts.
                             </p>
                         </div>
 
                         {/* Footer Info Grid */}
-                        <div className="grid grid-cols-3 gap-4 pt-6 border-t border-zinc-200 text-center max-w-lg mx-auto">
+                        <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#E8E5DD] text-center max-w-lg mx-auto">
                             <div>
-                                <p className="text-[9px] font-semibold text-zinc-400 uppercase tracking-wider">Track Level</p>
-                                <p className="text-sm sm:text-base font-display font-extrabold text-black">{difficultyLabel[difficulty] || difficulty}</p>
+                                <p className="text-[9px] font-semibold text-[#7A807B] uppercase tracking-wider">Track Level</p>
+                                <p className="text-sm sm:text-base font-display font-extrabold text-[#193D35]">{difficultyLabel[difficulty] || difficulty}</p>
                             </div>
                             <div>
-                                <p className="text-[9px] font-semibold text-zinc-400 uppercase tracking-wider">Issued Date</p>
-                                <p className="text-sm sm:text-base font-display font-extrabold text-black">{issueDate}</p>
+                                <p className="text-[9px] font-semibold text-[#7A807B] uppercase tracking-wider">Issued Date</p>
+                                <p className="text-sm sm:text-base font-display font-extrabold text-[#193D35]">{issueDate}</p>
                             </div>
                             <div>
-                                <p className="text-[9px] font-semibold text-zinc-400 uppercase tracking-wider">Verification ID</p>
-                                <p className="text-xs font-mono font-bold text-zinc-700">{certId}</p>
+                                <p className="text-[9px] font-semibold text-[#7A807B] uppercase tracking-wider">Verification ID</p>
+                                <p className="text-xs font-mono font-bold text-[#42665B]">{certId}</p>
                             </div>
                         </div>
 
                         {/* QR Code and Seal */}
-                        <div className="flex items-center justify-between pt-6 mt-6 border-t border-zinc-200 px-4">
+                        <div className="flex items-center justify-between pt-6 mt-6 border-t border-[#E8E5DD] px-4">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-zinc-50 border border-zinc-300 rounded-xl">
-                                    <QrCode size={36} className="text-black" />
+                                <div className="p-2 bg-[#F4EFE6] border border-[#E8E5DD] rounded-xl">
+                                    <QrCode size={36} className="text-[#193D35]" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-[9px] font-bold text-zinc-500 uppercase">Verify Online</p>
-                                    <p className="text-[10px] text-zinc-500 font-mono">hangbug.com/verify</p>
+                                    <p className="text-[9px] font-bold text-[#7A807B] uppercase">Verify Online</p>
+                                    <p className="text-[10px] text-[#7A807B] font-mono">hangbug.com/verify</p>
                                 </div>
                             </div>
-                            <div className="w-12 h-12 rounded-full bg-zinc-100 border border-zinc-300 flex items-center justify-center">
-                                <Award size={24} className="text-black" />
+                            <div className="w-12 h-12 rounded-full bg-[#F3E5C5] border border-[#E2D0A6] flex items-center justify-center shadow-xs">
+                                <Award size={24} className="text-[#D19A45]" />
                             </div>
                         </div>
                     </div>

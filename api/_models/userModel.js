@@ -31,7 +31,7 @@ const User = {
 
     findById: async (id) => {
         const user = await prisma.user.findUnique({
-            where: { id: parseInt(id, 10) },
+            where: { id: String(id) },
             select: { id: true, name: true, email: true, role: true, createdAt: true }
         });
         if (!user) return null;
@@ -56,7 +56,7 @@ const User = {
         const cleanEmail = String(email || '').trim().toLowerCase();
         const cleanName = String(name || '').trim();
         await prisma.user.update({
-            where: { id: parseInt(id, 10) },
+            where: { id: String(id) },
             data: { name: cleanName, email: cleanEmail }
         });
         return 1;
@@ -94,7 +94,7 @@ const User = {
 
     updatePassword: async (userId, hashedPassword) => {
         await prisma.user.update({
-            where: { id: parseInt(userId, 10) },
+            where: { id: String(userId) },
             data: {
                 password: hashedPassword,
                 resetToken: null,

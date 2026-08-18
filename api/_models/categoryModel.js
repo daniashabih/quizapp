@@ -17,14 +17,14 @@ const Category = {
 
     getAll: async () => {
         return await prisma.category.findMany({
-            orderBy: { id: 'asc' }
+            orderBy: { name: 'asc' }
         });
     },
 
     update: async (id, name) => {
         const cleanName = String(name || '').trim();
         await prisma.category.update({
-            where: { id: parseInt(id, 10) },
+            where: { id: String(id) },
             data: { name: cleanName }
         });
         return 1;
@@ -32,10 +32,11 @@ const Category = {
 
     delete: async (id) => {
         await prisma.category.delete({
-            where: { id: parseInt(id, 10) }
+            where: { id: String(id) }
         });
         return 1;
     }
 };
 
 module.exports = Category;
+

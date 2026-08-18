@@ -4,7 +4,7 @@ const Result = {
     create: async (userId, category, score, total, percentage, difficulty) => {
         const result = await prisma.quizResult.create({
             data: {
-                userId: parseInt(userId, 10),
+                userId: String(userId),
                 category: String(category || 'General').trim(),
                 score: parseInt(score, 10) || 0,
                 total: parseInt(total, 10) || 0,
@@ -17,7 +17,7 @@ const Result = {
 
     findByUserId: async (userId) => {
         return await prisma.quizResult.findMany({
-            where: { userId: parseInt(userId, 10) },
+            where: { userId: String(userId) },
             orderBy: { createdAt: 'desc' }
         });
     },
@@ -25,7 +25,7 @@ const Result = {
     getStatisticsByUserId: async (userId) => {
         const results = await prisma.quizResult.groupBy({
             by: ['category'],
-            where: { userId: parseInt(userId, 10) },
+            where: { userId: String(userId) },
             _max: { percentage: true },
             _count: { _all: true }
         });
@@ -39,3 +39,4 @@ const Result = {
 };
 
 module.exports = Result;
+

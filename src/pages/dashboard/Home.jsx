@@ -26,28 +26,28 @@ export default function Home() {
             title: "Multi-Language Support",
             desc: "Native environments for C, C++, Java, Python, and JavaScript.",
             colSpan: "sm:col-span-2",
-            iconColor: "text-[#059669]"
+            iconColor: "text-[#193D35]"
         },
         {
             icon: Target,
             title: "Advanced Analytics",
             desc: "Precision tracking to identify and fix your weak spots.",
             colSpan: "sm:col-span-1",
-            iconColor: "text-[#059669]"
+            iconColor: "text-[#42665B]"
         },
         {
             icon: Trophy,
             title: "Global Leaderboards",
             desc: "Compete against thousands of developers worldwide.",
             colSpan: "sm:col-span-1",
-            iconColor: "text-[#059669]"
+            iconColor: "text-[#D19A45]"
         },
         {
             icon: Cpu,
             title: "AI-Powered Generation",
             desc: "Never run out of challenges. Our AI generates fresh, real-world scenarios on demand.",
             colSpan: "sm:col-span-2",
-            iconColor: "text-[#32B895]"
+            iconColor: "text-[#193D35]"
         },
     ];
 
@@ -60,10 +60,10 @@ export default function Home() {
     return (
         <div className="max-w-6xl mx-auto">
             <section className="relative flex flex-col items-center text-center pt-12 pb-20 space-y-10 animate-fade-in z-10">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#153C33] border border-[#1E4D42] text-[#D4EBE5] text-sm font-semibold tracking-wide shadow-xs">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F3E5C5] border border-[#E2D0A6] text-[#193D35] text-sm font-semibold tracking-wide shadow-xs">
                     <span className="relative flex h-2.5 w-2.5">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#32B895] opacity-75" />
-                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#32B895]" />
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D19A45] opacity-75" />
+                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#D19A45]" />
                     </span>
                     {hasNewQuizzes ? "New Daily Challenges Available" : "System Online. Ready for Code."}
                 </div>
@@ -98,8 +98,8 @@ export default function Home() {
                 <div className="flex items-center justify-center flex-wrap gap-8 sm:gap-16 pt-8">
                     {stats.map(({ value, label, icon: Icon }, i) => (
                         <div key={i} className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-xl bg-[#153C33] border border-[#1E4D42] flex items-center justify-center shadow-xs">
-                                <Icon size={20} className="text-[#32B895]" />
+                            <div className="w-12 h-12 rounded-xl bg-[#F3E5C5] border border-[#E2D0A6] flex items-center justify-center shadow-xs">
+                                <Icon size={20} className="text-[#193D35]" />
                             </div>
                             <div className="text-left">
                                 <div className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)]">{value}</div>
@@ -120,8 +120,8 @@ export default function Home() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 auto-rows-min">
                     {features.map(({ icon: Icon, title, desc, colSpan, iconColor }, i) => (
-                        <div key={i} className={`card p-6 sm:p-8 rounded-3xl transition-all duration-500 group hover:-translate-y-1 hover:shadow-xl hover:border-[#289B7D] ${colSpan}`}>
-                            <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#153C33] border border-[#1E4D42] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500 shadow-xs`}>
+                        <div key={i} className={`card p-6 sm:p-8 rounded-3xl transition-all duration-500 group hover:-translate-y-1 hover:shadow-xl hover:border-[#193D35] ${colSpan}`}>
+                            <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#F3E5C5] border border-[#E2D0A6] flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500 shadow-xs`}>
                                 <Icon size={24} className={iconColor} />
                             </div>
                             <h3 className="text-lg sm:text-xl font-display font-bold text-[var(--foreground)] mb-2 tracking-tight">{title}</h3>

@@ -71,7 +71,7 @@ const Question = {
 
     delete: async (id) => {
         await prisma.question.delete({
-            where: { id: parseInt(id, 10) }
+            where: { id: String(id) }
         });
         return 1;
     },
@@ -80,7 +80,7 @@ const Question = {
         const { category, question_text, options, correct_answer, difficulty } = data;
         const serializedOptions = typeof options === 'string' ? options : JSON.stringify(Array.isArray(options) ? options : []);
         await prisma.question.update({
-            where: { id: parseInt(id, 10) },
+            where: { id: String(id) },
             data: {
                 category,
                 questionText: question_text,

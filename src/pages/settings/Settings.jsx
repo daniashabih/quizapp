@@ -164,7 +164,7 @@ export default function Settings() {
                                     </span>
                                     <button
                                         onClick={() => setNotifications(prev => ({ ...prev, [key]: !value }))}
-                                        className={`relative w-11 h-6 rounded-full transition-all duration-200 ${value ? 'bg-[#163B34]' : 'bg-[var(--card-border)]'}`}
+                                        className={`relative w-11 h-6 rounded-full transition-all duration-200 ${value ? 'bg-[#193D35]' : 'bg-[var(--card-border)]'}`}
                                     >
                                         <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${value ? 'translate-x-5' : ''}`} />
                                     </button>
@@ -193,9 +193,9 @@ export default function Settings() {
                                     disabled={!opt.available}
                                     className={`relative p-5 rounded-2xl border-2 text-center transition-all ${
                                         theme === opt.id
-                                            ? 'border-[#059669] bg-emerald-50'
+                                            ? 'border-[#193D35] bg-[#F3E5C5]'
                                             : opt.available
-                                                ? 'border-[var(--card-border)] hover:border-[#059669]'
+                                                ? 'border-[var(--card-border)] hover:border-[#193D35]'
                                                 : 'border-[var(--card-border)] opacity-50 cursor-not-allowed'
                                     }`}
                                 >
@@ -204,7 +204,7 @@ export default function Settings() {
                                             Soon
                                         </span>
                                     )}
-                                    <opt.icon size={24} className={`mx-auto mb-2 ${theme === opt.id ? 'text-[#059669]' : 'text-[var(--foreground-muted)]'}`} />
+                                    <opt.icon size={24} className={`mx-auto mb-2 ${theme === opt.id ? 'text-[#193D35]' : 'text-[var(--foreground-muted)]'}`} />
                                     <p className="text-sm font-bold text-[var(--foreground)]">{opt.label}</p>
                                     <p className="text-[10px] text-[var(--foreground-muted)]">{opt.desc}</p>
                                 </button>
@@ -212,7 +212,7 @@ export default function Settings() {
                         </div>
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                             <p className="text-xs text-[var(--foreground-muted)]">
-                                Current: <strong className="text-[var(--foreground)] capitalize">{resolvedTheme}</strong> mode — HangBug uses a clean white interface by design. Dark mode is on the roadmap.
+                                Current: <strong className="text-[var(--foreground)] capitalize">{resolvedTheme}</strong> mode — HangBug uses an elegant warm palette by design. Dark mode is on the roadmap.
                             </p>
                         </div>
                     </div>
@@ -235,7 +235,7 @@ export default function Settings() {
                                 <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                     <span className="text-sm font-medium text-[var(--foreground)]">{item.label}</span>
                                     <button
-                                        className={`relative w-11 h-6 rounded-full transition-all duration-200 ${item.enabled ? 'bg-[#163B34]' : 'bg-[var(--card-border)]'}`}
+                                        className={`relative w-11 h-6 rounded-full transition-all duration-200 ${item.enabled ? 'bg-[#193D35]' : 'bg-[var(--card-border)]'}`}
                                     >
                                         <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${item.enabled ? 'translate-x-5' : ''}`} />
                                     </button>
@@ -301,7 +301,7 @@ export default function Settings() {
                                 onClick={() => setActiveSection(s.id)}
                                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                                     activeSection === s.id
-                                        ? 'bg-[#EAF5F2] text-[#163B34]'
+                                        ? 'bg-[#F3E5C5] text-[#193D35] font-semibold'
                                         : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
                                 } ${s.id === 'danger' ? 'hover:text-red-500' : ''}`}
                             >

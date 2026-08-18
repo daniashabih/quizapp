@@ -31,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/technologies', categoryRoutes);
 app.use('/api/results', resultRoutes);
 app.use('/api/activity', activityRoutes);
 
@@ -73,7 +74,7 @@ async function startServer() {
     } else {
         const distPath = path.join(process.cwd(), 'dist');
         app.use(express.static(distPath));
-        app.get('/{*splat}', (req, res) => {
+        app.use((req, res) => {
             res.sendFile(path.join(distPath, 'index.html'));
         });
     }

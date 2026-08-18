@@ -42,7 +42,7 @@ export default function Navbar() {
                         {navItems.map(item => (
                             <Link key={item.to} to={item.to}
                                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                                    isActive(item.to) ? 'bg-black text-white shadow-xs' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
+                                    isActive(item.to) ? 'bg-[#193D35] text-[#FCFAF4] shadow-xs font-semibold' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
                                 }`}>
                                 {item.label}
                             </Link>
@@ -50,7 +50,7 @@ export default function Navbar() {
                         {user && (
                             <Link to="/dashboard"
                                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                                    isActive('/dashboard') ? 'bg-black text-white shadow-xs' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
+                                    isActive('/dashboard') ? 'bg-[#193D35] text-[#FCFAF4] shadow-xs font-semibold' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
                                 }`}>
                                 Dashboard
                             </Link>
@@ -62,7 +62,7 @@ export default function Navbar() {
                             <div className="relative">
                                 <button onClick={() => setUserMenuOpen(!userMenuOpen)}
                                     className="flex items-center gap-3 pl-3 pr-2 py-1.5 rounded-xl hover:bg-[var(--muted-bg)] transition-all border border-transparent hover:border-[var(--card-border)]">
-                                    <div className="w-8 h-8 rounded-lg bg-black flex items-center justify-center text-white text-xs font-bold">
+                                    <div className="w-8 h-8 rounded-lg bg-[#193D35] flex items-center justify-center text-[#FCFAF4] text-xs font-bold shadow-xs">
                                         {user.name?.charAt(0).toUpperCase() || 'U'}
                                     </div>
                                     <div className="hidden xl:block text-left leading-tight">
@@ -87,7 +87,7 @@ export default function Navbar() {
                                             </div>
                                             <div className="p-2 border-t border-[var(--card-border)]">
                                                 <button onClick={logout}
-                                                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-red-500 hover:bg-red-500/10 transition-all">
+                                                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-[#C96155] hover:bg-[#C96155]/10 transition-all">
                                                     <LogOut size={16} /> Sign Out
                                                 </button>
                                             </div>
@@ -136,7 +136,7 @@ export default function Navbar() {
                             {user ? (
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-3 p-4 rounded-xl bg-[var(--muted-bg)]">
-                                        <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center text-white font-bold">
+                                        <div className="w-10 h-10 rounded-lg bg-[#193D35] flex items-center justify-center text-[#FCFAF4] font-bold">
                                             {user.name?.charAt(0).toUpperCase()}
                                         </div>
                                         <div>
@@ -145,7 +145,7 @@ export default function Navbar() {
                                         </div>
                                     </div>
                                     <button onClick={logout}
-                                        className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold text-red-500 hover:bg-red-500/10 border border-[var(--card-border)] transition-all">
+                                        className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-semibold text-[#C96155] hover:bg-[#C96155]/10 border border-[var(--card-border)] transition-all">
                                         <LogOut size={16} /> Sign Out
                                     </button>
                                 </div>
@@ -174,7 +174,7 @@ function DropdownItem({ icon: Icon, label, to }) {
 function MobileNavItem({ to, label, icon: Icon, active }) {
     return (
         <Link to={to} className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-            active ? 'bg-black text-white' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
+            active ? 'bg-[#193D35] text-[#FCFAF4] font-semibold' : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
         }`}>
             <Icon size={18} /> {label}
         </Link>

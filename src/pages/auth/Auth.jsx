@@ -104,7 +104,7 @@ export default function Auth({ initialMode = 'login' }) {
                             onClick={() => setIsSignUp(false)}
                             className={`flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
                                 !isSignUp
-                                    ? 'bg-black text-white shadow-sm'
+                                    ? 'bg-[#193D35] text-[#FCFAF4] shadow-sm'
                                     : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)]'
                             }`}
                         >
@@ -115,7 +115,7 @@ export default function Auth({ initialMode = 'login' }) {
                             onClick={() => setIsSignUp(true)}
                             className={`flex-1 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
                                 isSignUp
-                                    ? 'bg-black text-white shadow-sm'
+                                    ? 'bg-[#193D35] text-[#FCFAF4] shadow-sm'
                                     : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)]'
                             }`}
                         >
@@ -126,24 +126,24 @@ export default function Auth({ initialMode = 'login' }) {
                     {/* Guest Mode Direct Login */}
                     <div className="mb-4 p-3 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-2">
                         <p className="text-[10px] font-semibold text-[var(--foreground-secondary)] text-center uppercase tracking-wider flex items-center justify-center gap-1">
-                            <Sparkles size={11} className="text-black" /> Instant Guest Mode Access
+                            <Sparkles size={11} className="text-[#D19A45]" /> Instant Guest Mode Access
                         </p>
                         <div className="grid grid-cols-2 gap-2">
                             <button
                                 type="button"
                                 onClick={() => handleGuestLogin('candidate')}
                                 disabled={loading}
-                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-black hover:bg-black/5 transition-all cursor-pointer shadow-xs"
+                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#193D35] hover:bg-[#F3E5C5]/30 transition-all cursor-pointer shadow-xs"
                             >
-                                <UserCheck size={14} className="text-black" /> Guest Candidate
+                                <UserCheck size={14} className="text-[#193D35]" /> Guest Candidate
                             </button>
                             <button
                                 type="button"
                                 onClick={() => handleGuestLogin('admin')}
                                 disabled={loading}
-                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-black hover:bg-black/5 transition-all cursor-pointer shadow-xs"
+                                className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold bg-[var(--card-bg)] text-[var(--foreground)] border border-[var(--card-border)] hover:border-[#193D35] hover:bg-[#F3E5C5]/30 transition-all cursor-pointer shadow-xs"
                             >
-                                <ShieldCheck size={14} className="text-black" /> Guest Admin
+                                <ShieldCheck size={14} className="text-[#193D35]" /> Guest Admin
                             </button>
                         </div>
                     </div>
@@ -253,7 +253,7 @@ export default function Auth({ initialMode = 'login' }) {
                                 <div className="space-y-1">
                                     <div className="flex items-center justify-between">
                                         <label className="input-label text-xs">Password</label>
-                                        <Link to="/forgot-password" className="text-xs font-semibold text-black hover:underline">
+                                        <Link to="/forgot-password" className="text-xs font-semibold text-[#193D35] hover:underline">
                                             Forgot?
                                         </Link>
                                     </div>
@@ -308,7 +308,7 @@ export default function Auth({ initialMode = 'login' }) {
                                     <button
                                         type="button"
                                         onClick={() => setIsSignUp(false)}
-                                        className="font-semibold text-black hover:underline cursor-pointer"
+                                        className="font-semibold text-[#193D35] hover:underline cursor-pointer"
                                     >
                                         Sign in
                                     </button>
@@ -319,7 +319,7 @@ export default function Auth({ initialMode = 'login' }) {
                                     <button
                                         type="button"
                                         onClick={() => setIsSignUp(true)}
-                                        className="font-semibold text-black hover:underline cursor-pointer"
+                                        className="font-semibold text-[#193D35] hover:underline cursor-pointer"
                                     >
                                         Create one free
                                     </button>

@@ -235,7 +235,7 @@ export default function Leaderboard({ currentUserId = null }) {
                             onClick={() => setTimeframe(tab.id)}
                             className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                                 timeframe === tab.id
-                                    ? 'bg-black text-white shadow-xs'
+                                    ? 'bg-[#193D35] text-[#FCFAF4] shadow-xs'
                                     : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)]'
                             }`}
                         >
@@ -252,7 +252,7 @@ export default function Leaderboard({ currentUserId = null }) {
                         <select
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className="pl-8 pr-8 py-2 text-xs font-semibold bg-[var(--muted-bg)] text-[var(--foreground)] border border-[var(--card-border)] rounded-xl focus:outline-none focus:border-black cursor-pointer appearance-none"
+                            className="pl-8 pr-8 py-2 text-xs font-semibold bg-[var(--muted-bg)] text-[var(--foreground)] border border-[var(--card-border)] rounded-xl focus:outline-none focus:border-[#193D35] cursor-pointer appearance-none"
                         >
                             {categories.map(cat => (
                                 <option key={cat} value={cat}>{cat}</option>
@@ -268,7 +268,7 @@ export default function Leaderboard({ currentUserId = null }) {
                             placeholder="Search by username or role..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-9 pr-9 py-2 text-xs font-medium bg-[var(--muted-bg)] text-[var(--foreground)] border border-[var(--card-border)] rounded-xl focus:outline-none focus:border-black focus:ring-2 focus:ring-black/20 transition-all placeholder:text-[var(--foreground-muted)]"
+                            className="w-full pl-9 pr-9 py-2 text-xs font-medium bg-[var(--muted-bg)] text-[var(--foreground)] border border-[var(--card-border)] rounded-xl focus:outline-none focus:border-[#193D35] focus:ring-2 focus:ring-[#193D35]/20 transition-all placeholder:text-[var(--foreground-muted)]"
                         />
                         {searchQuery && (
                             <button
@@ -294,25 +294,25 @@ export default function Leaderboard({ currentUserId = null }) {
                     {/* 2nd Place */}
                     <motion.div
                         variants={itemVariants}
-                        className="order-2 md:order-1 bg-[var(--card-bg)] border border-zinc-300 rounded-3xl p-6 text-center shadow-md relative flex flex-col items-center group hover:-translate-y-1 transition-all duration-300"
+                        className="order-2 md:order-1 bg-[var(--card-bg)] border border-[#42665B]/30 rounded-3xl p-6 text-center shadow-md relative flex flex-col items-center group hover:-translate-y-1 transition-all duration-300"
                     >
-                        <div className="absolute -top-4 px-3 py-1 bg-zinc-200 text-black border border-black text-[10px] font-extrabold uppercase rounded-full shadow-sm flex items-center gap-1">
-                            <Medal size={12} /> 2nd Place
+                        <div className="absolute -top-4 px-3 py-1 bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] text-[10px] font-extrabold uppercase rounded-full shadow-xs flex items-center gap-1">
+                            <Medal size={12} className="text-[#42665B]" /> 2nd Place
                         </div>
 
                         <div className="relative mt-2 mb-4">
-                            <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-zinc-300 shadow-md bg-zinc-100 flex items-center justify-center border border-black">
+                            <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-[#42665B]/20 shadow-md bg-[#F4EFE6] flex items-center justify-center border border-[#42665B]">
                                 <img
                                     src={top3[1].avatar}
                                     alt={top3[1].name}
                                     className="w-full h-full object-cover"
                                     onError={(e) => { e.target.style.display = 'none'; if (e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('hidden'); }}
                                 />
-                                <div className="w-full h-full flex items-center justify-center font-bold text-black text-xl bg-zinc-200 hidden">
+                                <div className="w-full h-full flex items-center justify-center font-bold text-[#193D35] text-xl bg-[#F4EFE6] hidden">
                                     {top3[1].initials}
                                 </div>
                             </div>
-                            <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-zinc-800 text-white font-black text-xs flex items-center justify-center shadow-md border-2 border-white">
+                            <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-[#42665B] text-[#FCFAF4] font-black text-xs flex items-center justify-center shadow-md border-2 border-white">
                                 2
                             </span>
                         </div>
@@ -323,67 +323,67 @@ export default function Leaderboard({ currentUserId = null }) {
                         <div className="w-full bg-[var(--muted-bg)] rounded-2xl p-3 border border-[var(--card-border)] grid grid-cols-2 gap-2 text-center">
                             <div>
                                 <p className="text-[10px] uppercase tracking-wider text-[var(--foreground-muted)] font-semibold">XP Score</p>
-                                <p className="text-sm font-extrabold text-black">{top3[1].xp.toLocaleString()}</p>
+                                <p className="text-sm font-extrabold text-[#193D35]">{top3[1].xp.toLocaleString()}</p>
                             </div>
                             <div>
                                 <p className="text-[10px] uppercase tracking-wider text-[var(--foreground-muted)] font-semibold">Accuracy</p>
-                                <p className="text-sm font-extrabold text-black">{top3[1].score}%</p>
+                                <p className="text-sm font-extrabold text-[#193D35]">{top3[1].score}%</p>
                             </div>
                         </div>
 
                         <div className="mt-3 flex items-center gap-2 text-xs font-semibold text-[var(--foreground-secondary)]">
-                            <span className="flex items-center gap-1 text-black"><Flame size={13} /> {top3[1].streak}d Streak</span>
+                            <span className="flex items-center gap-1 text-[#193D35]"><Flame size={13} className="text-[#D19A45] fill-[#D19A45]" /> {top3[1].streak}d Streak</span>
                             <span>•</span>
-                            <span className="flex items-center gap-1"><Award size={13} className="text-black" /> {top3[1].certs} Certs</span>
+                            <span className="flex items-center gap-1"><Award size={13} className="text-[#193D35]" /> {top3[1].certs} Certs</span>
                         </div>
                     </motion.div>
 
-                    {/* 1st Place (Champion - Primary Teal Card) */}
+                    {/* 1st Place (Champion - Primary Evergreen Card) */}
                     <motion.div
                         variants={itemVariants}
-                        className="order-1 md:order-2 bg-black text-white border-2 border-black rounded-3xl p-7 text-center shadow-xl relative flex flex-col items-center group hover:-translate-y-2 transition-all duration-300 md:-translate-y-4"
+                        className="order-1 md:order-2 bg-[#193D35] text-[#FCFAF4] border-2 border-[#193D35] rounded-3xl p-7 text-center shadow-xl relative flex flex-col items-center group hover:-translate-y-2 transition-all duration-300 md:-translate-y-4"
                     >
-                        <div className="absolute -top-5 px-4 py-1.5 bg-black text-white border border-black text-xs font-black uppercase rounded-full shadow-lg flex items-center gap-1.5 animate-pulse">
+                        <div className="absolute -top-5 px-4 py-1.5 bg-[#D19A45] text-white border border-[#D19A45] text-xs font-black uppercase rounded-full shadow-lg flex items-center gap-1.5 animate-pulse">
                             <Trophy size={14} className="fill-white text-white" /> 1st Place Champion
                         </div>
 
                         <div className="relative mt-3 mb-4">
-                            <div className="w-24 h-24 rounded-2xl overflow-hidden ring-4 ring-white shadow-xl bg-zinc-800 flex items-center justify-center">
+                            <div className="w-24 h-24 rounded-2xl overflow-hidden ring-4 ring-[#D19A45] shadow-xl bg-[#122C26] flex items-center justify-center">
                                 <img
                                     src={top3[0].avatar}
                                     alt={top3[0].name}
                                     className="w-full h-full object-cover"
                                     onError={(e) => { e.target.style.display = 'none'; if (e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('hidden'); }}
                                 />
-                                <div className="w-full h-full flex items-center justify-center font-bold text-white text-2xl bg-zinc-800 hidden">
+                                <div className="w-full h-full flex items-center justify-center font-bold text-white text-2xl bg-[#122C26] hidden">
                                     {top3[0].initials}
                                 </div>
                             </div>
-                            <span className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-white text-black font-black text-sm flex items-center justify-center shadow-lg border-2 border-black">
+                            <span className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-[#D19A45] text-white font-black text-sm flex items-center justify-center shadow-lg border-2 border-[#193D35]">
                                 👑
                             </span>
                         </div>
 
                         <h3 className="font-display font-extrabold text-lg text-white line-clamp-1">{top3[0].name}</h3>
-                        <p className="text-xs text-zinc-300 font-medium mb-4">{top3[0].role}</p>
+                        <p className="text-xs text-[#F3E5C5] font-medium mb-4">{top3[0].role}</p>
 
                         <div className="w-full bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/20 grid grid-cols-2 gap-2 text-center">
                             <div>
-                                <p className="text-[10px] uppercase tracking-wider text-zinc-300 font-bold">Total XP</p>
+                                <p className="text-[10px] uppercase tracking-wider text-[#F3E5C5] font-bold">Total XP</p>
                                 <p className="text-base font-black text-white">{top3[0].xp.toLocaleString()}</p>
                             </div>
                             <div>
-                                <p className="text-[10px] uppercase tracking-wider text-zinc-300 font-bold">Accuracy</p>
+                                <p className="text-[10px] uppercase tracking-wider text-[#F3E5C5] font-bold">Accuracy</p>
                                 <p className="text-base font-black text-white">{top3[0].score}%</p>
                             </div>
                         </div>
 
                         <div className="mt-4 flex items-center justify-center gap-3 text-xs font-bold text-white">
                             <span className="flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
-                                <Flame size={14} className="text-white fill-white" /> {top3[0].streak} Day Streak
+                                <Flame size={14} className="text-[#D19A45] fill-[#D19A45]" /> {top3[0].streak} Day Streak
                             </span>
                             <span className="flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-full border border-white/20 text-white">
-                                <Award size={14} /> {top3[0].certs} Verified Certs
+                                <Award size={14} className="text-[#D19A45]" /> {top3[0].certs} Verified Certs
                             </span>
                         </div>
                     </motion.div>
@@ -391,25 +391,25 @@ export default function Leaderboard({ currentUserId = null }) {
                     {/* 3rd Place */}
                     <motion.div
                         variants={itemVariants}
-                        className="order-3 bg-[var(--card-bg)] border border-zinc-300 rounded-3xl p-6 text-center shadow-md relative flex flex-col items-center group hover:-translate-y-1 transition-all duration-300"
+                        className="order-3 bg-[var(--card-bg)] border border-[#D19A45]/30 rounded-3xl p-6 text-center shadow-md relative flex flex-col items-center group hover:-translate-y-1 transition-all duration-300"
                     >
-                        <div className="absolute -top-4 px-3 py-1 bg-zinc-100 text-black border border-zinc-400 text-[10px] font-extrabold uppercase rounded-full shadow-sm flex items-center gap-1">
-                            <Medal size={12} /> 3rd Place
+                        <div className="absolute -top-4 px-3 py-1 bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] text-[10px] font-extrabold uppercase rounded-full shadow-xs flex items-center gap-1">
+                            <Medal size={12} className="text-[#D19A45]" /> 3rd Place
                         </div>
 
                         <div className="relative mt-2 mb-4">
-                            <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-zinc-300 shadow-md bg-zinc-100 flex items-center justify-center border border-zinc-400">
+                            <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-[#D19A45]/20 shadow-md bg-[#F4EFE6] flex items-center justify-center border border-[#D19A45]">
                                 <img
                                     src={top3[2].avatar}
                                     alt={top3[2].name}
                                     className="w-full h-full object-cover"
                                     onError={(e) => { e.target.style.display = 'none'; if (e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('hidden'); }}
                                 />
-                                <div className="w-full h-full flex items-center justify-center font-bold text-black text-xl bg-zinc-100 hidden">
+                                <div className="w-full h-full flex items-center justify-center font-bold text-[#193D35] text-xl bg-[#F4EFE6] hidden">
                                     {top3[2].initials}
                                 </div>
                             </div>
-                            <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-zinc-700 text-white font-black text-xs flex items-center justify-center shadow-md border-2 border-white">
+                            <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-[#7A807B] text-[#FCFAF4] font-black text-xs flex items-center justify-center shadow-md border-2 border-white">
                                 3
                             </span>
                         </div>
@@ -420,18 +420,18 @@ export default function Leaderboard({ currentUserId = null }) {
                         <div className="w-full bg-[var(--muted-bg)] rounded-2xl p-3 border border-[var(--card-border)] grid grid-cols-2 gap-2 text-center">
                             <div>
                                 <p className="text-[10px] uppercase tracking-wider text-[var(--foreground-muted)] font-semibold">XP Score</p>
-                                <p className="text-sm font-extrabold text-black">{top3[2].xp.toLocaleString()}</p>
+                                <p className="text-sm font-extrabold text-[#193D35]">{top3[2].xp.toLocaleString()}</p>
                             </div>
                             <div>
                                 <p className="text-[10px] uppercase tracking-wider text-[var(--foreground-muted)] font-semibold">Accuracy</p>
-                                <p className="text-sm font-extrabold text-black">{top3[2].score}%</p>
+                                <p className="text-sm font-extrabold text-[#193D35]">{top3[2].score}%</p>
                             </div>
                         </div>
 
                         <div className="mt-3 flex items-center gap-2 text-xs font-semibold text-[var(--foreground-secondary)]">
-                            <span className="flex items-center gap-1 text-black"><Flame size={13} /> {top3[2].streak}d Streak</span>
+                            <span className="flex items-center gap-1 text-[#193D35]"><Flame size={13} className="text-[#D19A45] fill-[#D19A45]" /> {top3[2].streak}d Streak</span>
                             <span>•</span>
-                            <span className="flex items-center gap-1"><Award size={13} className="text-black" /> {top3[2].certs} Certs</span>
+                            <span className="flex items-center gap-1"><Award size={13} className="text-[#193D35]" /> {top3[2].certs} Certs</span>
                         </div>
                     </motion.div>
                 </motion.div>
@@ -441,12 +441,12 @@ export default function Leaderboard({ currentUserId = null }) {
             <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl shadow-xs overflow-hidden">
                 <div className="px-6 py-4 border-b border-[var(--card-border)] flex items-center justify-between">
                     <div className="flex items-center gap-2 flex-wrap">
-                        <Users size={18} className="text-black" />
+                        <Users size={18} className="text-[#193D35]" />
                         <h2 className="font-display font-bold text-base text-[var(--foreground)]">
                             Overall Leaderboard ({filteredPerformers.length})
                         </h2>
                         {searchQuery && (
-                            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-black/10 text-black border border-black/20">
+                            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]">
                                 Matching "{searchQuery}"
                             </span>
                         )}
@@ -489,19 +489,19 @@ export default function Leaderboard({ currentUserId = null }) {
 
                                 if (user.rank === 1) {
                                     rankBadge = (
-                                        <span className="w-8 h-8 rounded-xl bg-black text-white font-black text-xs flex items-center justify-center mx-auto shadow-xs">
+                                        <span className="w-8 h-8 rounded-xl bg-[#D19A45] text-white font-black text-xs flex items-center justify-center mx-auto shadow-xs">
                                             🥇
                                         </span>
                                     );
                                 } else if (user.rank === 2) {
                                     rankBadge = (
-                                        <span className="w-8 h-8 rounded-xl bg-zinc-200 text-black border border-zinc-300 font-black text-xs flex items-center justify-center mx-auto shadow-xs">
+                                        <span className="w-8 h-8 rounded-xl bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] font-black text-xs flex items-center justify-center mx-auto shadow-xs">
                                             🥈
                                         </span>
                                     );
                                 } else if (user.rank === 3) {
                                     rankBadge = (
-                                        <span className="w-8 h-8 rounded-xl bg-zinc-100 text-black border border-zinc-300 font-black text-xs flex items-center justify-center mx-auto shadow-xs">
+                                        <span className="w-8 h-8 rounded-xl bg-[#F4EFE6] text-[#42665B] border border-[#E8E5DD] font-black text-xs flex items-center justify-center mx-auto shadow-xs">
                                             🥉
                                         </span>
                                     );
@@ -512,7 +512,7 @@ export default function Leaderboard({ currentUserId = null }) {
                                         key={user.id}
                                         variants={itemVariants}
                                         className={`group hover:bg-[var(--muted-bg)]/80 transition-colors ${
-                                            isCurrentUser ? 'bg-zinc-100 border-l-4 border-l-black' : ''
+                                            isCurrentUser ? 'bg-[#F3E5C5]/40 border-l-4 border-l-[#193D35]' : ''
                                         }`}
                                     >
                                         {/* Rank Column */}
@@ -536,11 +536,11 @@ export default function Leaderboard({ currentUserId = null }) {
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center gap-2">
-                                                        <span className="font-bold text-sm text-[var(--foreground)] group-hover:text-black transition-colors">
+                                                        <span className="font-bold text-sm text-[var(--foreground)] group-hover:text-[#193D35] transition-colors">
                                                             {user.name}
                                                         </span>
                                                         {isCurrentUser && (
-                                                            <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-black text-white">
+                                                            <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#193D35] text-[#FCFAF4]">
                                                                 YOU
                                                             </span>
                                                         )}
@@ -559,7 +559,7 @@ export default function Leaderboard({ currentUserId = null }) {
 
                                         {/* XP Points */}
                                         <td className="px-5 py-4 text-right">
-                                            <span className="font-extrabold text-sm text-black">
+                                            <span className="font-extrabold text-sm text-[#193D35]">
                                                 {user.xp.toLocaleString()} <span className="text-[10px] font-semibold text-[var(--foreground-muted)]">XP</span>
                                             </span>
                                         </td>
@@ -567,12 +567,12 @@ export default function Leaderboard({ currentUserId = null }) {
                                         {/* Accuracy */}
                                         <td className="px-5 py-4 text-center">
                                             <div className="flex flex-col items-center">
-                                                <span className="font-extrabold text-xs text-black">
+                                                <span className="font-extrabold text-xs text-[#193D35]">
                                                     {user.score}%
                                                 </span>
-                                                <div className="w-16 h-1 bg-[var(--muted-bg)] rounded-full mt-1 overflow-hidden">
+                                                <div className="w-16 h-1.5 bg-[#F4EFE6] rounded-full mt-1 overflow-hidden">
                                                     <div
-                                                        className="h-full bg-black rounded-full"
+                                                        className="h-full bg-[#193D35] rounded-full"
                                                         style={{ width: `${user.score}%` }}
                                                     />
                                                 </div>
@@ -586,27 +586,27 @@ export default function Leaderboard({ currentUserId = null }) {
 
                                         {/* Certificates */}
                                         <td className="px-5 py-4 text-center">
-                                            <span className="inline-flex items-center gap-1 text-xs font-bold text-black">
-                                                <Award size={13} /> {user.certs}
+                                            <span className="inline-flex items-center gap-1 text-xs font-bold text-[#193D35]">
+                                                <Award size={13} className="text-[#D19A45]" /> {user.certs}
                                             </span>
                                         </td>
 
                                         {/* Streak */}
                                         <td className="px-5 py-4 text-center">
-                                            <span className="inline-flex items-center gap-1 text-xs font-bold text-black">
-                                                <Flame size={13} className="fill-black" /> {user.streak}d
+                                            <span className="inline-flex items-center gap-1 text-xs font-bold text-[#193D35]">
+                                                <Flame size={13} className="text-[#D19A45] fill-[#D19A45]" /> {user.streak}d
                                             </span>
                                         </td>
 
                                         {/* Trend */}
                                         <td className="px-5 py-4 text-center">
                                             {user.trend === 'up' && (
-                                                <span className="inline-flex items-center text-xs font-bold text-black">
+                                                <span className="inline-flex items-center text-xs font-bold text-[#67966D]">
                                                     <ArrowUpRight size={14} /> {user.change}
                                                 </span>
                                             )}
                                             {user.trend === 'down' && (
-                                                <span className="inline-flex items-center text-xs font-bold text-zinc-500">
+                                                <span className="inline-flex items-center text-xs font-bold text-[#C96155]">
                                                     <ArrowDownRight size={14} /> {user.change}
                                                 </span>
                                             )}
@@ -633,7 +633,7 @@ export default function Leaderboard({ currentUserId = null }) {
                             </p>
                             <button
                                 onClick={() => { setSearchQuery(''); setCategory('All'); }}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-black text-white hover:bg-[#103732] transition-colors cursor-pointer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#193D35] text-[#FCFAF4] hover:bg-[#122C26] transition-colors cursor-pointer"
                             >
                                 <X size={12} /> Clear Filters
                             </button>

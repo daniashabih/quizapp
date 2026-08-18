@@ -91,10 +91,10 @@ export default function UserDashboard() {
         <div className="max-w-7xl mx-auto space-y-6 animate-fade-up">
             {/* Welcome Banner */}
             <div className="card p-6 lg:p-8 rounded-3xl relative overflow-hidden bg-gradient-to-r from-[var(--muted-bg)] to-[var(--card-bg)] border border-[var(--card-border)]">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-black/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-[#193D35]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                 <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-2xl bg-black flex items-center justify-center text-white font-display font-extrabold text-2xl shadow-xl">
+                        <div className="w-16 h-16 rounded-2xl bg-[#193D35] flex items-center justify-center text-[#FCFAF4] font-display font-extrabold text-2xl shadow-xl">
                             {user?.name?.charAt(0).toUpperCase() || 'U'}
                         </div>
                         <div>
@@ -102,8 +102,8 @@ export default function UserDashboard() {
                                 <h1 className="text-2xl lg:text-3xl font-display font-extrabold text-[var(--foreground)]">
                                     Welcome back, {user?.name || 'Developer'}!
                                 </h1>
-                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-zinc-100 text-black border border-zinc-300">
-                                    <Sparkles size={12} className="text-black" /> Level {xpLevel}
+                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]">
+                                    <Sparkles size={12} className="text-[#D19A45]" /> Level {xpLevel}
                                 </span>
                             </div>
                             <p className="text-xs sm:text-sm text-[var(--foreground-secondary)] mt-1">
@@ -119,10 +119,10 @@ export default function UserDashboard() {
 
             {/* Quick Stats Row */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <DashboardStat icon={Trophy} label="Total Quizzes" value={results.length} gradient="from-black to-zinc-800" />
-                <DashboardStat icon={BarChart3} label="Average Score" value={`${avgScore}%`} gradient="from-zinc-800 to-black" />
-                <DashboardStat icon={Award} label="Certificates" value={stats.filter(s => s.best_score >= 80).length} gradient="from-black to-zinc-700" />
-                <DashboardStat icon={Zap} label="XP Level" value={xpLevel} gradient="from-zinc-800 to-zinc-700" />
+                <DashboardStat icon={Trophy} label="Total Quizzes" value={results.length} gradient="from-[#193D35] to-[#42665B]" />
+                <DashboardStat icon={BarChart3} label="Average Score" value={`${avgScore}%`} gradient="from-[#42665B] to-[#193D35]" />
+                <DashboardStat icon={Award} label="Certificates" value={stats.filter(s => s.best_score >= 80).length} gradient="from-[#193D35] to-[#D19A45]" />
+                <DashboardStat icon={Zap} label="XP Level" value={xpLevel} gradient="from-[#D19A45] to-[#42665B]" />
             </div>
 
             <div className="grid lg:grid-cols-3 gap-6">
@@ -132,14 +132,14 @@ export default function UserDashboard() {
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-sm font-bold text-[var(--foreground)]">Profile</h3>
                             <button onClick={() => setIsEditing(!isEditing)}
-                                className="p-2 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
+                                className="p-2 rounded-lg text-[var(--foreground-muted)] hover:text-[#193D35] hover:bg-[var(--muted-bg)] transition-all">
                                 {isEditing ? <X size={16} /> : <Edit3 size={16} />}
                             </button>
                         </div>
 
                         {!isEditing ? (
                             <div className="text-center">
-                                <div className="w-20 h-20 rounded-2xl bg-black flex items-center justify-center text-white font-display font-extrabold text-3xl mx-auto mb-4 shadow-xl">
+                                <div className="w-20 h-20 rounded-2xl bg-[#193D35] flex items-center justify-center text-[#FCFAF4] font-display font-extrabold text-3xl mx-auto mb-4 shadow-xl">
                                     {user?.name?.charAt(0)?.toUpperCase()}
                                 </div>
                                 <h2 className="text-lg font-bold text-[var(--foreground)]">{user?.name}</h2>
@@ -172,7 +172,7 @@ export default function UserDashboard() {
 
                     <div className="card p-6 rounded-2xl">
                         <div className="flex items-center gap-3 mb-4">
-                            <Zap size={18} className="text-black" />
+                            <Zap size={18} className="text-[#193D35]" />
                             <h3 className="text-sm font-bold text-[var(--foreground)]">XP Progress</h3>
                         </div>
                         <div className="flex items-center justify-between mb-2">
@@ -189,13 +189,13 @@ export default function UserDashboard() {
                         <h3 className="text-sm font-bold text-[var(--foreground)] mb-4">Achievements</h3>
                         <div className="grid grid-cols-2 gap-3">
                             {badges.map((b, i) => (
-                                <div key={i} className={`p-3 rounded-xl text-center border transition-all ${b.earned ? 'border-black bg-zinc-100 text-[var(--foreground)]' : 'border-[var(--card-border)] opacity-40'}`}>
-                                    <b.icon size={20} className={`${b.earned ? 'text-black' : b.color} mx-auto mb-1`} />
+                                <div key={i} className={`p-3 rounded-xl text-center border transition-all ${b.earned ? 'border-[#193D35] bg-[#F3E5C5] text-[#193D35]' : 'border-[var(--card-border)] opacity-40'}`}>
+                                    <b.icon size={20} className={`${b.earned ? 'text-[#193D35]' : b.color} mx-auto mb-1`} />
                                     <p className="text-[10px] font-bold text-[var(--foreground)]">{b.label}</p>
                                 </div>
                             ))}
                         </div>
-                        <Link to="/dashboard/profile" className="text-xs font-medium text-black hover:underline mt-3 inline-flex items-center gap-1">
+                        <Link to="/dashboard/profile" className="text-xs font-medium text-[#193D35] hover:underline mt-3 inline-flex items-center gap-1">
                             View all achievements <ChevronRight size={12} />
                         </Link>
                     </div>
@@ -206,7 +206,7 @@ export default function UserDashboard() {
                     <div className="card p-6 rounded-2xl">
                         <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center gap-3">
-                                <Activity size={16} className="text-black" />
+                                <Activity size={16} className="text-[#193D35]" />
                                 <h3 className="text-sm font-bold text-[var(--foreground)]">Weekly Activity</h3>
                             </div>
                             <span className="text-[10px] font-medium text-[var(--foreground-muted)]">This week</span>
@@ -219,7 +219,7 @@ export default function UserDashboard() {
                                         <span className="text-[10px] text-[var(--foreground-muted)] font-medium">{activityData[i]}</span>
                                         <div className="w-full rounded-lg relative" style={{ height: '100px' }}>
                                             <div
-                                                className="absolute bottom-0 w-full rounded-lg bg-black transition-all duration-500 hover:opacity-80"
+                                                className="absolute bottom-0 w-full rounded-lg bg-[#193D35] transition-all duration-500 hover:bg-[#42665B]"
                                                 style={{ height: `${height}%`, minHeight: activityData[i] > 0 ? '8px' : '0' }}
                                             />
                                         </div>
@@ -233,10 +233,10 @@ export default function UserDashboard() {
                     <div className="card overflow-hidden rounded-2xl">
                         <div className="p-6 border-b border-[var(--card-border)] flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <Clock size={16} className="text-black" />
+                                <Clock size={16} className="text-[#193D35]" />
                                 <h3 className="text-sm font-bold text-[var(--foreground)]">Recent Quizzes</h3>
                             </div>
-                            <Link to="/dashboard/quizzes" className="text-xs font-medium text-black hover:underline flex items-center gap-1">
+                            <Link to="/dashboard/quizzes" className="text-xs font-medium text-[#193D35] hover:underline flex items-center gap-1">
                                 View All <ChevronRight size={12} />
                             </Link>
                         </div>
@@ -246,11 +246,7 @@ export default function UserDashboard() {
                                 results.slice(0, 5).map((res, i) => (
                                     <div key={i} className="p-5 flex items-center justify-between hover:bg-[var(--muted-bg)] transition-colors group">
                                         <div className="flex items-center gap-4">
-                                            <div className={`w-10 h-10 rounded-xl border flex items-center justify-center text-lg ${
-                                                res.percentage >= 80 ? 'bg-zinc-100 border-zinc-300' :
-                                                res.percentage >= 60 ? 'bg-zinc-100 border-zinc-300' :
-                                                'bg-zinc-100 border-zinc-300'
-                                            }`}>
+                                            <div className="w-10 h-10 rounded-xl border border-[#E8E5DD] bg-[#F4EFE6] flex items-center justify-center text-lg">
                                                 {res.percentage >= 80 ? '🏆' : res.percentage >= 60 ? '✅' : '📚'}
                                             </div>
                                             <div>
@@ -264,7 +260,7 @@ export default function UserDashboard() {
                                         </div>
                                         <div className="flex items-center gap-4">
                                             <div className="text-right">
-                                                <p className="text-lg font-display font-bold text-black">{res.percentage}%</p>
+                                                <p className="text-lg font-display font-bold text-[#193D35]">{res.percentage}%</p>
                                                 <p className="text-[10px] text-[var(--foreground-muted)] font-medium">{res.score}/{res.total}</p>
                                             </div>
                                             <ChevronRight size={16} className="text-[var(--foreground-muted)] opacity-0 group-hover:opacity-100 transition-opacity" />

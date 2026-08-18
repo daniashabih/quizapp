@@ -9,9 +9,9 @@ import {
 } from 'lucide-react';
 
 const difficultyColors = {
-    beginner: { badge: 'bg-zinc-100 text-black border border-zinc-300', label: 'Beginner' },
-    intermediate: { badge: 'bg-zinc-100 text-black border border-zinc-300', label: 'Intermediate' },
-    expert: { badge: 'bg-zinc-100 text-black border border-zinc-300', label: 'Expert' },
+    beginner: { badge: 'bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]', label: 'Beginner' },
+    intermediate: { badge: 'bg-[#42665B]/15 text-[#42665B] border border-[#42665B]/30', label: 'Intermediate' },
+    expert: { badge: 'bg-[#D19A45]/20 text-[#D19A45] border border-[#D19A45]/40', label: 'Expert' },
 };
 
 const Quiz = () => {
@@ -36,24 +36,6 @@ const Quiz = () => {
 
     const normalizeValue = (val) => String(val || '').trim().replace(/\s+/g, ' ').toLowerCase();
 
-    // Load admin configured quiz options
-    const quizOpts = (() => {
-        try {
-            const saved = localStorage.getItem('quiz_options');
-            return saved ? JSON.parse(saved) : {};
-        } catch { return {}; }
-    })();
-    const timeLimitPerQuestion = quizOpts.timePerQuestion || 60;
-
-    useEffect(() => {
-        const t = setTimeout(() => {
-            setTimeLeft(timeLimitPerQuestion);
-            setShowFeedback(false);
-            setFeedbackType(null);
-        }, 0);
-        return () => clearTimeout(t);
-    }, [currentIndex, timeLimitPerQuestion]);
-
     const handleSubmitQuiz = async () => {
         let score = 0;
         questions.forEach(q => {
@@ -61,7 +43,7 @@ const Quiz = () => {
             if (idx !== undefined) {
                 let opts = q.options;
                 if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
-                if (opts[idx] === q.correct_answer) score++;
+                if (normalizeValue(opts[idx]) === normalizeValue(q.correct_answer)) score++;
             }
         });
         const percentage = questions.length > 0 ? Math.round((score / questions.length) * 100) : 0;
@@ -88,7 +70,16 @@ const Quiz = () => {
         }
 
         setIsSubmitted(true);
-        navigate('/quiz/result', { state: { score, total: questions.length, percentage, category: selectedCategory, difficulty, timeTaken } });
+        navigate('/quiz/result', {
+            state: {
+                score,
+                total: questions.length,
+                percentage,
+                category: selectedCategory,
+                difficulty,
+                timeTaken,
+            }
+        });
     };
 
     const handleAutoAdvance = () => {
@@ -265,22 +256,22 @@ const Quiz = () => {
                     <div className="flex items-center gap-4">
                         <div className="hidden md:flex flex-col items-center">
                             <div className="flex items-center gap-2">
-                                <Clock size={14} className={timerIsLow ? 'text-red-500' : 'text-[var(--foreground-muted)]'} />
-                                <span className={`font-mono text-lg font-bold tabular-nums ${timerIsLow ? 'text-red-500 animate-pulse' : 'text-[var(--foreground)]'}`}>
+                                <Clock size={14} className={timerIsLow ? 'text-[#C96155]' : 'text-[var(--foreground-muted)]'} />
+                                <span className={`font-mono text-lg font-bold tabular-nums ${timerIsLow ? 'text-[#C96155] animate-pulse' : 'text-[var(--foreground)]'}`}>
                                     {timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
                                 </span>
                             </div>
                             <div className="w-24 h-1.5 rounded-full bg-[var(--muted-bg)] overflow-hidden mt-1">
                                 <div
-                                     className={`h-full rounded-full transition-all duration-1000 ${timerIsLow ? 'bg-[#C85F55]' : 'bg-black'}`}
+                                     className={`h-full rounded-full transition-all duration-1000 ${timerIsLow ? 'bg-[#C96155]' : 'bg-[#193D35]'}`}
                                      style={{ width: `${timerPct}%` }}
                                 />
                             </div>
                         </div>
 
                         <div className="md:hidden flex items-center gap-1.5">
-                            <Clock size={14} className={timerIsLow ? 'text-red-500' : 'text-[var(--foreground-muted)]'} />
-                            <span className={`font-mono font-bold text-sm ${timerIsLow ? 'text-red-500' : ''}`}>
+                            <Clock size={14} className={timerIsLow ? 'text-[#C96155]' : 'text-[var(--foreground-muted)]'} />
+                            <span className={`font-mono font-bold text-sm ${timerIsLow ? 'text-[#C96155]' : ''}`}>
                                 {timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
                             </span>
                         </div>
@@ -289,7 +280,7 @@ const Quiz = () => {
                     <div className="flex items-center gap-2">
                         <button
                             onClick={() => toggleFlag(currentQ.id)}
-                            className={`p-2 rounded-xl transition-all ${flaggedQuestions.has(currentQ.id) ? 'text-amber-500 bg-amber-50' : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'}`}
+                            className={`p-2 rounded-xl transition-all ${flaggedQuestions.has(currentQ.id) ? 'text-[#D19A45] bg-[#F3E5C5]' : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'}`}
                             title={flaggedQuestions.has(currentQ.id) ? 'Unflag' : 'Flag for review'}
                         >
                             <Flag size={16} />
@@ -324,7 +315,7 @@ const Quiz = () => {
                                 Q {currentIndex + 1}/{questions.length}
                             </span>
                             {flaggedQuestions.has(currentQ.id) && (
-                                <Flag size={12} className="text-amber-500" />
+                                <Flag size={12} className="text-[#D19A45]" />
                             )}
                         </div>
 
@@ -335,7 +326,7 @@ const Quiz = () => {
                             <h2 className="text-xl lg:text-2xl font-display font-bold text-[var(--foreground)] leading-snug mt-3 mb-6">
                                 {currentQ?.question_text}
                             </h2>
-                            <div className="h-px bg-gradient-to-r from-[#059669]/30 via-[#10B981]/20 to-transparent" />
+                            <div className="h-px bg-gradient-to-r from-[#193D35]/30 via-[#42665B]/20 to-transparent" />
                         </div>
 
                         <div className="space-y-3">
@@ -353,16 +344,16 @@ const Quiz = () => {
                                     >
                                         <div className={`w-10 h-10 rounded-xl border-2 flex items-center justify-center shrink-0 font-mono font-bold text-sm transition-all ${
                                             isSelected
-                                                ? 'bg-black border-black text-white'
-                                                : 'border-[var(--card-border)] text-[var(--foreground-muted)] group-hover:border-black'
+                                                ? 'bg-[#193D35] border-[#193D35] text-[#FCFAF4]'
+                                                : 'border-[var(--card-border)] text-[var(--foreground-muted)] group-hover:border-[#193D35]'
                                         }`}>
                                             {String.fromCharCode(65 + idx)}
                                         </div>
-                                        <span className={`text-sm font-medium leading-snug flex-1 ${isSelected ? 'text-[var(--foreground)]' : 'text-[var(--foreground-muted)] group-hover:text-[var(--foreground)]'}`}>
+                                        <span className={`text-sm font-medium leading-snug flex-1 ${isSelected ? 'text-[var(--foreground)] font-semibold' : 'text-[var(--foreground-muted)] group-hover:text-[var(--foreground)]'}`}>
                                             {opt}
                                         </span>
                                         {isSelected && (
-                                            <CheckCircle2 size={20} className="text-black shrink-0" />
+                                            <CheckCircle2 size={20} className="text-[#193D35] shrink-0" />
                                         )}
                                     </button>
                                 );
@@ -417,17 +408,17 @@ const Quiz = () => {
                                             onClick={() => setCurrentIndex(idx)}
                                             className={`relative h-10 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
                                                 active
-                                                    ? 'bg-black text-white scale-110 shadow-md ring-2 ring-black/50'
+                                                    ? 'bg-[#193D35] text-[#FCFAF4] scale-110 shadow-md ring-2 ring-[#193D35]/50'
                                                     : wrong
-                                                        ? 'bg-[#C85F55]/10 text-[#C85F55] border border-[#C85F55]/30'
+                                                        ? 'bg-[#C96155]/15 text-[#C96155] border border-[#C96155]/30'
                                                         : answered
-                                                            ? 'bg-zinc-100 text-black border border-zinc-300'
-                                                            : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] hover:border-black'
+                                                            ? 'bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]'
+                                                            : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] hover:border-[#193D35]'
                                             }`}
                                         >
                                             {idx + 1}
                                             {flagged && (
-                                                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-500" />
+                                                <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#D19A45]" />
                                             )}
                                         </button>
                                     );
@@ -436,17 +427,17 @@ const Quiz = () => {
                         </div>
 
                         <div className="p-5 space-y-3 border-b border-[var(--card-border)]">
-                            <StatRow label="Answered" value={answeredCount} total={questions.length} color="text-black" />
-                            <StatRow label="Remaining" value={questions.length - answeredCount} total={questions.length} color="text-black" />
-                            <StatRow label="Flagged" value={flaggedCount} total={questions.length} color="text-amber-500" />
+                            <StatRow label="Answered" value={answeredCount} total={questions.length} color="text-[#193D35]" />
+                            <StatRow label="Remaining" value={questions.length - answeredCount} total={questions.length} color="text-[#7A807B]" />
+                            <StatRow label="Flagged" value={flaggedCount} total={questions.length} color="text-[#D19A45]" />
                         </div>
 
                         <div className="p-5 space-y-2.5">
                             <p className="text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-widest mb-3">Legend</p>
-                            <LegendItem color="bg-black" label="Answered" />
-                            <LegendItem color="bg-[#C85F55]" label="Incorrect" />
-                            <LegendItem color="bg-black" label="Current" />
-                            <LegendItem color="bg-amber-500" label="Flagged" />
+                            <LegendItem color="bg-[#193D35]" label="Answered" />
+                            <LegendItem color="bg-[#C96155]" label="Incorrect" />
+                            <LegendItem color="bg-[#193D35]" label="Current" />
+                            <LegendItem color="bg-[#D19A45]" label="Flagged" />
                             <LegendItem color="bg-[var(--muted-bg)] border border-[var(--card-border)]" label="Unanswered" />
                         </div>
 
@@ -465,17 +456,17 @@ const Quiz = () => {
             {/* ─── Feedback Overlay ─── */}
             <div className={`fixed inset-0 z-50 pointer-events-none transition-all duration-300 ${showFeedback ? 'opacity-100' : 'opacity-0'}`}>
                 {feedbackType === 'correct' && (
-                    <div className="absolute inset-0 bg-emerald-500/5 backdrop-blur-[1px]" />
+                    <div className="absolute inset-0 bg-[#67966D]/10 backdrop-blur-[1px]" />
                 )}
                 {feedbackType === 'wrong' && (
-                    <div className="absolute inset-0 bg-red-500/5 backdrop-blur-[1px]" />
+                    <div className="absolute inset-0 bg-[#C96155]/10 backdrop-blur-[1px]" />
                 )}
                 {feedbackType === 'timeout' && (
-                    <div className="absolute inset-0 bg-red-500/10 backdrop-blur-[2px]">
+                    <div className="absolute inset-0 bg-[#C96155]/15 backdrop-blur-[2px]">
                         <div className="absolute inset-0 flex items-center justify-center">
                             <div className="text-center">
-                                <Clock size={48} className="text-red-500 mx-auto mb-2 animate-bounce" />
-                                <p className="text-red-500 font-bold text-lg">Time's Up!</p>
+                                <Clock size={48} className="text-[#C96155] mx-auto mb-2 animate-bounce" />
+                                <p className="text-[#C96155] font-bold text-lg">Time's Up!</p>
                             </div>
                         </div>
                     </div>
@@ -487,14 +478,14 @@ const Quiz = () => {
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
                     <div className="card p-8 rounded-2xl max-w-md w-full animate-scale-in shadow-2xl">
                         <div className="text-center mb-6">
-                            <div className="w-16 h-16 rounded-2xl bg-zinc-100 border border-zinc-300 flex items-center justify-center mx-auto mb-4">
-                                <Send size={28} className="text-black" />
+                            <div className="w-16 h-16 rounded-2xl bg-[#F3E5C5] border border-[#E2D0A6] flex items-center justify-center mx-auto mb-4">
+                                <Send size={28} className="text-[#193D35]" />
                             </div>
                             <h3 className="text-xl font-display font-bold text-[var(--foreground)] mb-2">Submit Quiz?</h3>
                             <p className="text-sm text-[var(--foreground-muted)]">
                                 You have answered <strong className="text-[var(--foreground)]">{answeredCount}/{questions.length}</strong> questions.
                                 {questions.length - answeredCount > 0 && (
-                                    <span className="text-amber-500"> {questions.length - answeredCount} unanswered.</span>
+                                    <span className="text-[#D19A45]"> {questions.length - answeredCount} unanswered.</span>
                                 )}
                             </p>
                         </div>
@@ -542,17 +533,17 @@ function QuizProgressStepper({ questions, currentIndex, setCurrentIndex, selecte
                         <span className="font-bold uppercase tracking-wider text-[10px] text-[var(--foreground-muted)]">
                             Quiz Progress
                         </span>
-                        <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-zinc-100 text-black border border-zinc-300">
+                        <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]">
                             {progressPercent}% Completed
                         </span>
                     </div>
                     <div className="flex items-center gap-3 text-[11px] font-medium text-[var(--foreground-muted)]">
                         <span className="flex items-center gap-1">
-                            <span className="w-2 h-2 rounded-full bg-black inline-block" />
+                            <span className="w-2 h-2 rounded-full bg-[#193D35] inline-block" />
                             <strong className="text-[var(--foreground)]">{answeredCount}</strong> / {total} Answered
                         </span>
                         {flaggedQuestions.size > 0 && (
-                            <span className="flex items-center gap-1 text-amber-500 font-semibold">
+                            <span className="flex items-center gap-1 text-[#D19A45] font-semibold">
                                 <Flag size={11} /> {flaggedQuestions.size} Flagged
                             </span>
                         )}
@@ -562,7 +553,7 @@ function QuizProgressStepper({ questions, currentIndex, setCurrentIndex, selecte
                 {/* Overall track progress bar */}
                 <div className="w-full h-1.5 bg-[var(--muted-bg)] rounded-full overflow-hidden mb-3">
                     <div
-                        className="h-full bg-black transition-all duration-500 rounded-full"
+                        className="h-full bg-[#193D35] transition-all duration-500 rounded-full"
                         style={{ width: `${progressPercent}%` }}
                     />
                 </div>
@@ -579,16 +570,16 @@ function QuizProgressStepper({ questions, currentIndex, setCurrentIndex, selecte
                             const isFlagged = flaggedQuestions.has(q.id);
                             const isWrong = wrongAnswers[q.id];
 
-                            let stateClasses = "bg-[var(--muted-bg)] text-[var(--foreground-muted)] border-[var(--card-border)] hover:border-black";
+                            let stateClasses = "bg-[var(--muted-bg)] text-[var(--foreground-muted)] border-[var(--card-border)] hover:border-[#193D35]";
                             let badgeIcon = null;
 
                             if (isCurrent) {
-                                stateClasses = "bg-black text-white border-black ring-2 ring-black/40 shadow-xs scale-105";
+                                stateClasses = "bg-[#193D35] text-[#FCFAF4] border-[#193D35] ring-2 ring-[#193D35]/40 shadow-xs scale-105";
                             } else if (isWrong) {
-                                stateClasses = "bg-[#C85F55]/10 text-[#C85F55] border-[#C85F55]/30 hover:bg-[#C85F55]/20";
+                                stateClasses = "bg-[#C96155]/15 text-[#C96155] border-[#C96155]/30 hover:bg-[#C96155]/25";
                                 badgeIcon = <X size={10} strokeWidth={3} />;
                             } else if (isAnswered) {
-                                stateClasses = "bg-black text-white border-black shadow-xs";
+                                stateClasses = "bg-[#193D35] text-[#FCFAF4] border-[#193D35] shadow-xs";
                                 badgeIcon = <Check size={10} strokeWidth={3} />;
                             }
 
@@ -605,7 +596,7 @@ function QuizProgressStepper({ questions, currentIndex, setCurrentIndex, selecte
                                         </span>
 
                                         {isFlagged && (
-                                            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-amber-500 border border-white rounded-full flex items-center justify-center shadow-xs" />
+                                            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#D19A45] border border-white rounded-full flex items-center justify-center shadow-xs" />
                                         )}
                                     </button>
 
@@ -614,7 +605,7 @@ function QuizProgressStepper({ questions, currentIndex, setCurrentIndex, selecte
                                         <div
                                             className={`w-2.5 sm:w-4 lg:w-5 h-0.5 mx-0.5 rounded-full transition-colors ${
                                                 isAnswered || idx < currentIndex
-                                                    ? 'bg-black'
+                                                    ? 'bg-[#193D35]'
                                                     : 'bg-[var(--card-border)]'
                                             }`}
                                         />

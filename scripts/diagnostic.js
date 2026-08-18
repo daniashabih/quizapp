@@ -27,7 +27,7 @@ async function runDiagnostics() {
     console.log('----------------------------------------------------');
 
     const envVars = {
-        DATABASE_URL: process.env.DATABASE_URL,
+        MONGODB_URI: process.env.MONGODB_URI,
         JWT_SECRET: process.env.JWT_SECRET
     };
 
@@ -35,8 +35,13 @@ async function runDiagnostics() {
         if (!val) {
             console.log(`ℹ️ Optional / missing environment variable: ${key}`);
         } else {
-            const displayVal = val.length > 25 ? val.substring(0, 20) + '...' : val;
-            console.log(`✅ ${key}: ${displayVal}`);
+            if (key === 'MONGODB_URI') {
+                const masked = val.replace(/\/\/([^:]+):([^@]+)@/, '//***:***@');
+                console.log(`✅ ${key}: configured (${masked})`);
+            } else {
+                const displayVal = val.length > 25 ? val.substring(0, 20) + '...' : val;
+                console.log(`✅ ${key}: ${displayVal}`);
+            }
         }
     }
     console.log('✅ Environment variables check completed.\n');
