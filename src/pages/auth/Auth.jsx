@@ -84,8 +84,8 @@ export default function Auth({ initialMode = 'login' }) {
     return (
         <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col transition-colors duration-300">
             <Navbar />
-            <div className="flex-1 flex flex-col items-center justify-center p-4 pt-16 sm:pt-20 pb-8 min-h-0">
-                <div className="w-full max-w-md animate-fade-up my-auto">
+            <main className="flex-1 flex flex-col items-center justify-start sm:justify-center px-4 pt-24 sm:pt-28 pb-12 w-full">
+                <div className="w-full max-w-md animate-fade-up">
                     {/* Brand Header */}
                     <div className="text-center mb-3 sm:mb-5">
                         <BrandLogo variant="mark" size="lg" className="mx-auto mb-2" />
@@ -328,7 +328,7 @@ export default function Auth({ initialMode = 'login' }) {
                         </p>
                     </div>
                 </div>
-            </div>
+            </main>
             <Footer />
         </div>
     );

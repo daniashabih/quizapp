@@ -30,7 +30,7 @@ export default function Navbar() {
 
     return (
         <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-            scrolled ? 'bg-[var(--card-bg)]/90 backdrop-blur-xl shadow-sm border-b border-[var(--card-border)]' : 'bg-transparent'
+            scrolled ? 'bg-[var(--card-bg)]/95 backdrop-blur-xl shadow-sm border-b border-[var(--card-border)]' : 'bg-[var(--card-bg)]/85 backdrop-blur-xl border-b border-[var(--card-border)]/60'
         }`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 lg:h-20">

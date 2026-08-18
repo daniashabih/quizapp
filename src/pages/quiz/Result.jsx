@@ -75,8 +75,8 @@ export default function Result() {
                 </div>
             )}
             <Navbar />
-            <div className="flex-1 flex items-center justify-center p-4 pt-20 pb-12 min-h-0">
-                <div className="w-full max-w-xl animate-fade-up my-auto">
+            <main className="flex-1 flex flex-col items-center justify-start sm:justify-center px-4 pt-24 sm:pt-28 pb-12 w-full max-w-xl mx-auto">
+                <div className="w-full animate-fade-up">
                     <div className="card overflow-hidden shadow-xl">
                         {/* Header */}
                         <div className="p-6 lg:p-8 text-center bg-gradient-to-b from-[var(--muted-bg)] to-[var(--card-bg)]">
@@ -159,7 +159,7 @@ export default function Result() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
             <Footer />
         </div>
     );

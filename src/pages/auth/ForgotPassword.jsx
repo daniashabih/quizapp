@@ -27,10 +27,10 @@ export default function ForgotPassword() {
     };
 
     return (
-        <div className="h-screen max-h-screen bg-[var(--page-bg)] flex flex-col overflow-hidden">
+        <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col transition-colors duration-300">
             <Navbar />
-            <div className="flex-1 flex flex-col items-center justify-center p-4 pt-16 sm:pt-20 min-h-0 overflow-y-auto lg:overflow-hidden">
-                <div className="w-full max-w-md animate-fade-up my-auto">
+            <main className="flex-1 flex flex-col items-center justify-start sm:justify-center px-4 pt-24 sm:pt-28 pb-12 w-full">
+                <div className="w-full max-w-md animate-fade-up">
                     <Link to="/login" className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-black transition-colors mb-4">
                         <ArrowLeft size={15} /> Back to Login
                     </Link>
@@ -93,7 +93,7 @@ export default function ForgotPassword() {
                         )}
                     </div>
                 </div>
-            </div>
+            </main>
             <Footer />
         </div>
     );

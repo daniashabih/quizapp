@@ -26,11 +26,9 @@ export default function MainLayout() {
 
     return (
         <div className="min-h-screen bg-[var(--page-bg)] flex flex-col font-sans transition-colors duration-300 relative overflow-hidden">
-            <div className="relative z-50 pt-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-                <Navbar />
-            </div>
+            <Navbar />
 
-            <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 relative z-10">
+            <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-16 relative z-10">
                 <Outlet />
             </main>
 

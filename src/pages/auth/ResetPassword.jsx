@@ -36,10 +36,10 @@ export default function ResetPassword() {
     };
 
     return (
-        <div className="h-screen max-h-screen bg-[var(--page-bg)] flex flex-col overflow-hidden">
+        <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col transition-colors duration-300">
             <Navbar />
-            <div className="flex-1 flex flex-col items-center justify-center p-4 pt-16 sm:pt-20 min-h-0 overflow-y-auto lg:overflow-hidden">
-                <div className="w-full max-w-md animate-fade-up my-auto">
+            <main className="flex-1 flex flex-col items-center justify-start sm:justify-center px-4 pt-24 sm:pt-28 pb-12 w-full">
+                <div className="w-full max-w-md animate-fade-up">
                     <div className="card p-6 sm:p-8 rounded-2xl">
                         <div className="text-center mb-6">
                             <div className="w-12 h-12 rounded-2xl bg-[#EAF5F2] border border-[#D4EBE5] flex items-center justify-center mx-auto mb-3">
@@ -109,7 +109,7 @@ export default function ResetPassword() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
             <Footer />
         </div>
     );
