@@ -64,14 +64,14 @@ export default function Auth({ initialMode = 'login' }) {
                     return;
                 }
 
-                const success = await register(name, email, password);
-                if (success) {
-                    navigate('/dashboard');
+                const userData = await register(name, email, password);
+                if (userData) {
+                    navigate(userData.role === 'admin' ? '/dashboard/admin' : '/dashboard');
                 }
             } else {
-                const success = await login(email, password);
-                if (success) {
-                    navigate('/dashboard');
+                const userData = await login(email, password);
+                if (userData) {
+                    navigate(userData.role === 'admin' ? '/dashboard/admin' : '/dashboard');
                 }
             }
         } catch (err) {

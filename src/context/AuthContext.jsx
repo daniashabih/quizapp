@@ -36,11 +36,14 @@ export const AuthProvider = ({ children }) => {
         if (typeof error.response?.data?.message === 'string') {
             return error.response.data.message;
         }
+        if (typeof error.response?.data?.error === 'string') {
+            return error.response.data.error;
+        }
         if (error.response?.status === 503 || error.code === 'ERR_NETWORK' || error.code === 'ECONNREFUSED') {
             return 'Backend server is connecting or offline on port 3000. Please start the backend server.';
         }
         if (error.response?.status === 500) {
-            return 'Server error (500). Please check backend logs or try again.';
+            return error.response?.data?.message || 'Server error (500). Please check backend logs or try again.';
         }
         return error.response?.data?.message || error.message || fallbackMessage;
     };
@@ -52,10 +55,10 @@ export const AuthProvider = ({ children }) => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
             setUser(res.data);
             toast.success('Signed in successfully!');
-            return true;
+            return res.data;
         } catch (error) {
             toast.error(extractErrorMessage(error, 'Login Failed'));
-            return false;
+            return null;
         }
     };
 
@@ -66,10 +69,10 @@ export const AuthProvider = ({ children }) => {
             axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
             setUser(res.data);
             toast.success('Account created successfully!');
-            return true;
+            return res.data;
         } catch (error) {
             toast.error(extractErrorMessage(error, 'Registration Failed'));
-            return false;
+            return null;
         }
     };
 
