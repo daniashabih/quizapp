@@ -34,6 +34,7 @@ const Quiz = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const selectedCategory = location.state?.category || location.state?.language;
+    const selectedSession = location.state?.session ? parseInt(location.state.session, 10) : 1;
     const quizOpts = getQuizOptions();
 
     const [questions, setQuestions] = useState([]);
@@ -63,7 +64,7 @@ const Quiz = () => {
 
         const fetchQuestions = async () => {
             try {
-                const url = `/questions?category=${encodeURIComponent(selectedCategory)}`;
+                const url = `/questions?category=${encodeURIComponent(selectedCategory)}&session=${selectedSession}`;
                 const res = await axios.get(url);
                 let filtered = res.data.filter(q => {
                     return normalizeValue(q.category) === normalizeValue(selectedCategory);
@@ -78,7 +79,7 @@ const Quiz = () => {
 
                 setQuestions(filtered);
                 if (filtered.length === 0) {
-                    toast.info(`No questions found for ${selectedCategory}.`);
+                    toast.info(`No questions found for ${selectedCategory} (Session ${selectedSession}).`);
                 }
                 setStartTime(Date.now());
             } catch {
@@ -88,7 +89,7 @@ const Quiz = () => {
             }
         };
         fetchQuestions();
-    }, [selectedCategory, navigate, quizOpts.randomizeQuestions, quizOpts.maxQuestions]);
+    }, [selectedCategory, selectedSession, navigate, quizOpts.randomizeQuestions, quizOpts.maxQuestions]);
 
     const handleSubmitQuiz = useCallback(async () => {
         let score = 0;
@@ -106,6 +107,7 @@ const Quiz = () => {
         try {
             const res = await axios.post('/results/save', {
                 category: selectedCategory,
+                session: selectedSession,
                 score,
                 total: questions.length,
                 percentage,
@@ -128,10 +130,11 @@ const Quiz = () => {
                 total: questions.length,
                 percentage,
                 category: selectedCategory,
+                session: selectedSession,
                 timeTaken,
             }
         });
-    }, [questions, selectedAnswers, startTime, selectedCategory, navigate]);
+    }, [questions, selectedAnswers, startTime, selectedCategory, selectedSession, navigate]);
 
     const handleAutoAdvance = useCallback(() => {
         const currentQ = questions[currentIndex];
@@ -272,10 +275,10 @@ const Quiz = () => {
                     </div>
                     <h2 className="text-xl font-display font-bold text-[var(--foreground)]">No Questions Found</h2>
                     <p className="text-xs text-[var(--foreground-muted)]">
-                        No questions available for {selectedCategory}. Try another category or create questions in Admin dashboard.
+                        No questions available for {selectedCategory} in <strong className="text-[var(--foreground)]">Session {selectedSession}</strong>. Try choosing another session or create questions in Admin dashboard.
                     </p>
-                    <button onClick={() => navigate('/technologies')} className="btn-primary text-xs py-2.5 px-6 mx-auto">
-                        Browse Technologies
+                    <button onClick={() => navigate('/technologies')} className="btn-primary text-xs py-2.5 px-6 mx-auto cursor-pointer">
+                        Browse Sessions & Tracks
                     </button>
                 </div>
             </div>
@@ -336,7 +339,10 @@ const Quiz = () => {
                             <BookOpen size={16} className="text-[#193D35]" />
                             {selectedCategory}
                         </span>
-                        <span className="hidden md:inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-wider">
+                        <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-wider">
+                            Session {selectedSession}
+                        </span>
+                        <span className="hidden md:inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] uppercase tracking-wider">
                             {currentQ?.difficulty || 'Standard'}
                         </span>
                     </div>
