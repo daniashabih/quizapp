@@ -40,7 +40,7 @@ const Quiz = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [flaggedQuestions, setFlaggedQuestions] = useState(new Set());
-    const [navigatorOpen, setNavigatorOpen] = useState(false);
+    const [navigatorOpen, setNavigatorOpen] = useState(true);
     const [loading, setLoading] = useState(true);
     const [timeLeft, setTimeLeft] = useState(() => getQuizOptions().timePerQuestion || 60);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -397,13 +397,13 @@ const Quiz = () => {
 
                     {/* Matrix / Navigator Drawer Toggle */}
                     <button
-                        onClick={() => setNavigatorOpen(true)}
+                        onClick={() => setNavigatorOpen(prev => !prev)}
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
                             navigatorOpen
                                 ? 'bg-[#193D35] text-white border-[#193D35] shadow-xs'
                                 : 'bg-[var(--muted-bg)] text-[var(--foreground)] border-[var(--card-border)] hover:border-[#193D35]'
                         }`}
-                        title="Open Question Navigator (Press M)"
+                        title={navigatorOpen ? "Hide Question Navigator (Press M)" : "Open Question Navigator (Press M)"}
                     >
                         <LayoutGrid size={15} />
                         <span className="font-mono">{answeredCount}/{questions.length}</span>
@@ -524,159 +524,153 @@ const Quiz = () => {
                         )}
                     </div>
                 </main>
-            </div>
 
-            {/* ═══════════════════════════════════════════════════════════
-                 3. QUESTION NAVIGATOR DRAWER (SLIDE-OVER HUD WITH BACKDROP)
-               ═══════════════════════════════════════════════════════════ */}
-            {/* Backdrop Overlay */}
-            {navigatorOpen && (
-                <div
-                    className="fixed inset-0 z-40 bg-black/40 backdrop-blur-xs transition-opacity duration-300 animate-fade-in"
-                    onClick={() => setNavigatorOpen(false)}
-                />
-            )}
+                {/* Mobile Backdrop Overlay (only on < lg when open) */}
+                {navigatorOpen && (
+                    <div
+                        className="lg:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-xs transition-opacity duration-300 animate-fade-in"
+                        onClick={() => setNavigatorOpen(false)}
+                    />
+                )}
 
-            {/* Fixed Slide-Over Aside Drawer */}
-            <aside
-                className={`fixed top-0 right-0 h-full w-full max-w-sm sm:w-96 bg-[var(--card-bg)] border-l border-[var(--card-border)] shadow-2xl z-50 flex flex-col justify-between transition-transform duration-300 ease-out ${
-                    navigatorOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
-                }`}
-            >
-                {/* Drawer Header */}
-                <div className="p-4 sm:p-5 border-b border-[var(--card-border)] flex items-center justify-between shrink-0 bg-[var(--muted-bg)]/30">
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-[#193D35] text-white flex items-center justify-center shadow-xs">
-                            <LayoutGrid size={16} />
+                {/* Question Navigator Panel (Fixed / Docked by default on desktop, toggleable) */}
+                <aside
+                    className={`fixed lg:static top-0 right-0 h-full z-50 lg:z-10 w-full max-w-sm sm:w-96 lg:w-80 xl:w-96 bg-[var(--card-bg)] border-l border-[var(--card-border)] flex flex-col justify-between shrink-0 transition-all duration-300 ease-in-out ${
+                        navigatorOpen
+                            ? 'translate-x-0 lg:flex shadow-2xl lg:shadow-none'
+                            : 'translate-x-full lg:hidden pointer-events-none'
+                    }`}
+                >
+                    {/* Drawer / Sidebar Header */}
+                    <div className="p-4 sm:p-5 border-b border-[var(--card-border)] flex items-center justify-between shrink-0 bg-[var(--muted-bg)]/30">
+                        <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-xl bg-[#193D35] text-white flex items-center justify-center shadow-xs">
+                                <LayoutGrid size={16} />
+                            </div>
+                            <div>
+                                <h3 className="font-display font-extrabold text-sm text-[var(--foreground)]">Question Navigator</h3>
+                                <p className="text-[10px] text-[var(--foreground-muted)] font-medium">Quick jump across questions</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 className="font-display font-extrabold text-sm text-[var(--foreground)]">Question Navigator</h3>
-                            <p className="text-[10px] text-[var(--foreground-muted)] font-medium">Quick jump across questions</p>
+
+                        <div className="flex items-center gap-2">
+                            {/* Live Synchronized Timer in Header */}
+                            <div
+                                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg border font-mono font-bold text-xs ${
+                                    timerIsUrgent
+                                        ? 'bg-red-500/15 border-red-500 text-red-600 animate-pulse'
+                                        : 'bg-[var(--card-bg)] border-[var(--card-border)] text-[#193D35]'
+                                }`}
+                                title="Active Timer"
+                            >
+                                <Clock size={12} className={timerIsUrgent ? 'text-red-600' : 'text-[#193D35]'} />
+                                <span>{timeLeft}s</span>
+                            </div>
+
+                            <button
+                                onClick={() => setNavigatorOpen(false)}
+                                className="p-1.5 rounded-xl text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all cursor-pointer"
+                                title="Hide Navigator (Press M)"
+                            >
+                                <X size={18} />
+                            </button>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                        {/* Live Synchronized Timer in Drawer Header */}
-                        <div
-                            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg border font-mono font-bold text-xs ${
-                                timerIsUrgent
-                                    ? 'bg-red-500/15 border-red-500 text-red-600 animate-pulse'
-                                    : 'bg-[var(--card-bg)] border-[var(--card-border)] text-[#193D35]'
-                            }`}
-                            title="Active Timer"
-                        >
-                            <Clock size={12} className={timerIsUrgent ? 'text-red-600' : 'text-[#193D35]'} />
-                            <span>{timeLeft}s</span>
+                    {/* Question Grid & Details */}
+                    <div className="p-4 sm:p-5 flex-1 overflow-y-auto space-y-5">
+                        {/* 5-Column Question Number Matrix */}
+                        <div>
+                            <div className="flex items-center justify-between text-xs font-bold text-[var(--foreground-muted)] mb-2.5 uppercase tracking-wider">
+                                <span>Questions Map</span>
+                                <span className="text-[#193D35] font-mono">{answeredCount} of {questions.length} Answered</span>
+                            </div>
+                            <div className="grid grid-cols-5 gap-2.5">
+                                {questions.map((q, idx) => {
+                                    const active = currentIndex === idx;
+                                    const answered = selectedAnswers[q.id] !== undefined;
+                                    const flagged = flaggedQuestions.has(q.id);
+
+                                    return (
+                                        <button
+                                            key={idx}
+                                            onClick={() => {
+                                                setCurrentIndex(idx);
+                                                if (window.innerWidth < 1024) {
+                                                    setNavigatorOpen(false);
+                                                }
+                                            }}
+                                            className={`relative h-11 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer ${
+                                                active
+                                                    ? 'bg-[#193D35] text-white shadow-md ring-2 ring-[#193D35]/50 scale-105 font-black'
+                                                    : answered
+                                                        ? 'bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] hover:bg-[#ebd8b0]'
+                                                        : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] hover:border-[#193D35] hover:text-[var(--foreground)]'
+                                            }`}
+                                        >
+                                            {idx + 1}
+                                            {flagged && (
+                                                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#D19A45] ring-2 ring-white" />
+                                            )}
+                                            {answered && !active && (
+                                                <span className="absolute bottom-1 w-1 h-1 rounded-full bg-[#193D35]" />
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
                         </div>
 
+                        {/* Progress Stats Mini Cards */}
+                        <div className="grid grid-cols-3 gap-2">
+                            <div className="p-2.5 rounded-xl bg-[#193D35]/5 border border-[#193D35]/15 text-center">
+                                <p className="text-[10px] font-bold text-[var(--foreground-muted)]">Answered</p>
+                                <p className="text-sm font-black text-[#193D35] mt-0.5">{answeredCount}/{questions.length}</p>
+                            </div>
+                            <div className="p-2.5 rounded-xl bg-[#D19A45]/10 border border-[#D19A45]/20 text-center">
+                                <p className="text-[10px] font-bold text-[var(--foreground-muted)]">Flagged</p>
+                                <p className="text-sm font-black text-[#D19A45] mt-0.5">{flaggedCount}</p>
+                            </div>
+                            <div className="p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-center">
+                                <p className="text-[10px] font-bold text-[var(--foreground-muted)]">Remaining</p>
+                                <p className="text-sm font-black text-[var(--foreground)] mt-0.5">{questions.length - answeredCount}</p>
+                            </div>
+                        </div>
+
+                        {/* Legend */}
+                        <div className="space-y-2 pt-3 border-t border-[var(--card-border)] text-[11px] text-[var(--foreground-secondary)] font-medium">
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-3.5 h-3.5 rounded-md bg-[#193D35] ring-1 ring-[#193D35]" />
+                                <span>Current Question</span>
+                            </div>
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-3.5 h-3.5 rounded-md bg-[#F3E5C5] border border-[#E2D0A6]" />
+                                <span>Answered Question</span>
+                            </div>
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-3.5 h-3.5 rounded-md bg-[#D19A45]" />
+                                <span>Flagged for Review</span>
+                            </div>
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-3.5 h-3.5 rounded-md bg-[var(--muted-bg)] border border-[var(--card-border)]" />
+                                <span>Unanswered Question</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Drawer Footer Actions */}
+                    <div className="p-4 sm:p-5 border-t border-[var(--card-border)] bg-[var(--muted-bg)]/30 space-y-2 shrink-0">
                         <button
-                            onClick={() => setNavigatorOpen(false)}
-                            className="p-1.5 rounded-xl text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all cursor-pointer"
-                            title="Close Navigator"
+                            onClick={() => {
+                                setShowConfirmSubmit(true);
+                            }}
+                            className="btn-primary w-full justify-center py-3 text-xs font-bold shadow-md shadow-[#193D35]/15 cursor-pointer"
                         >
-                            <X size={18} />
+                            <Send size={14} /> Submit Assessment
                         </button>
                     </div>
-                </div>
-
-                {/* Question Grid & Details */}
-                <div className="p-4 sm:p-5 flex-1 overflow-y-auto space-y-5">
-                    {/* 5-Column Question Number Matrix */}
-                    <div>
-                        <div className="flex items-center justify-between text-xs font-bold text-[var(--foreground-muted)] mb-2.5 uppercase tracking-wider">
-                            <span>Questions Map</span>
-                            <span className="text-[#193D35]">{answeredCount} of {questions.length} Answered</span>
-                        </div>
-                        <div className="grid grid-cols-5 gap-2.5">
-                            {questions.map((q, idx) => {
-                                const active = currentIndex === idx;
-                                const answered = selectedAnswers[q.id] !== undefined;
-                                const flagged = flaggedQuestions.has(q.id);
-
-                                return (
-                                    <button
-                                        key={idx}
-                                        onClick={() => {
-                                            setCurrentIndex(idx);
-                                            setNavigatorOpen(false);
-                                        }}
-                                        className={`relative h-11 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer ${
-                                            active
-                                                ? 'bg-[#193D35] text-white shadow-md ring-2 ring-[#193D35]/50 scale-105 font-black'
-                                                : answered
-                                                    ? 'bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] hover:bg-[#ebd8b0]'
-                                                    : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] hover:border-[#193D35] hover:text-[var(--foreground)]'
-                                        }`}
-                                    >
-                                        {idx + 1}
-                                        {flagged && (
-                                            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#D19A45] ring-2 ring-white" />
-                                        )}
-                                        {answered && !active && (
-                                            <span className="absolute bottom-1 w-1 h-1 rounded-full bg-[#193D35]" />
-                                        )}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    {/* Progress Stats Mini Cards */}
-                    <div className="grid grid-cols-3 gap-2">
-                        <div className="p-2.5 rounded-xl bg-[#193D35]/5 border border-[#193D35]/15 text-center">
-                            <p className="text-[10px] font-bold text-[var(--foreground-muted)]">Answered</p>
-                            <p className="text-sm font-black text-[#193D35] mt-0.5">{answeredCount}/{questions.length}</p>
-                        </div>
-                        <div className="p-2.5 rounded-xl bg-[#D19A45]/10 border border-[#D19A45]/20 text-center">
-                            <p className="text-[10px] font-bold text-[var(--foreground-muted)]">Flagged</p>
-                            <p className="text-sm font-black text-[#D19A45] mt-0.5">{flaggedCount}</p>
-                        </div>
-                        <div className="p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-center">
-                            <p className="text-[10px] font-bold text-[var(--foreground-muted)]">Remaining</p>
-                            <p className="text-sm font-black text-[var(--foreground)] mt-0.5">{questions.length - answeredCount}</p>
-                        </div>
-                    </div>
-
-                    {/* Legend */}
-                    <div className="space-y-2 pt-3 border-t border-[var(--card-border)] text-[11px] text-[var(--foreground-secondary)] font-medium">
-                        <div className="flex items-center gap-2.5">
-                            <div className="w-3.5 h-3.5 rounded-md bg-[#193D35] ring-1 ring-[#193D35]" />
-                            <span>Current Question</span>
-                        </div>
-                        <div className="flex items-center gap-2.5">
-                            <div className="w-3.5 h-3.5 rounded-md bg-[#F3E5C5] border border-[#E2D0A6]" />
-                            <span>Answered Question</span>
-                        </div>
-                        <div className="flex items-center gap-2.5">
-                            <div className="w-3.5 h-3.5 rounded-md bg-[#D19A45]" />
-                            <span>Flagged for Review</span>
-                        </div>
-                        <div className="flex items-center gap-2.5">
-                            <div className="w-3.5 h-3.5 rounded-md bg-[var(--muted-bg)] border border-[var(--card-border)]" />
-                            <span>Unanswered Question</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Drawer Footer Actions */}
-                <div className="p-4 sm:p-5 border-t border-[var(--card-border)] bg-[var(--muted-bg)]/30 space-y-2 shrink-0">
-                    <button
-                        onClick={() => {
-                            setNavigatorOpen(false);
-                            setShowConfirmSubmit(true);
-                        }}
-                        className="btn-primary w-full justify-center py-3 text-xs font-bold shadow-md shadow-[#193D35]/15 cursor-pointer"
-                    >
-                        <Send size={14} /> Submit Assessment
-                    </button>
-                    <button
-                        onClick={() => setNavigatorOpen(false)}
-                        className="btn-secondary w-full justify-center py-2 text-xs font-semibold cursor-pointer"
-                    >
-                        Continue Answering
-                    </button>
-                </div>
-            </aside>
+                </aside>
+            </div>
 
             {/* ═══════════════════════════════════════════════════════════
                  4. CONFIRM EXIT MODAL
