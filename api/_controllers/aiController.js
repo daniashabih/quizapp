@@ -21,7 +21,8 @@ const generateQuestions = async (req, res) => {
     console.log('Body:', req.body);
 
     try {
-        const { topic, count = 5 } = req.body;
+        const { topic, count = 5, session = 1 } = req.body;
+        const sessionNum = parseInt(session, 10) || 1;
 
         if (!process.env.OPENAI_API_KEY) {
             console.error('Missing OpenAI API Key');
@@ -36,6 +37,7 @@ const generateQuestions = async (req, res) => {
             [
                 {
                     "category": "${topic}",
+                    "session": ${sessionNum},
                     "question_text": "Question here?",
                     "options": ["Option A", "Option B", "Option C", "Option D"],
                     "correct_answer": "Option A"
@@ -71,7 +73,10 @@ const generateQuestions = async (req, res) => {
         // Save to database
         const savedIds = [];
         for (const q of questions) {
-            const id = await Question.create(q);
+            const id = await Question.create({
+                ...q,
+                session: sessionNum
+            });
             savedIds.push(id);
         }
 

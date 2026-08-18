@@ -1,9 +1,10 @@
 const prisma = require('../api/_config/prisma');
 
 const sampleQuestions = [
-    // --- REACT.JS (Beginner) ---
+    // --- REACT.JS (Session 1: Core Fundamentals) ---
     {
         category: 'React.js',
+        session: 1,
         questionText: 'What hook is used to manage local component state in functional React components?',
         options: ['useMemo', 'useState', 'useEffect', 'useReducer'],
         correctAnswer: 'useState',
@@ -11,6 +12,7 @@ const sampleQuestions = [
     },
     {
         category: 'React.js',
+        session: 1,
         questionText: 'What is JSX in React?',
         options: ['A database query language', 'A JavaScript syntax extension allowing HTML-like code', 'A server-side routing engine', 'A CSS styling framework'],
         correctAnswer: 'A JavaScript syntax extension allowing HTML-like code',
@@ -18,14 +20,25 @@ const sampleQuestions = [
     },
     {
         category: 'React.js',
+        session: 1,
         questionText: 'How are read-only properties passed from a parent to a child component in React?',
         options: ['State', 'Props', 'Redux Store', 'Context'],
         correctAnswer: 'Props',
         difficulty: 'beginner'
     },
-    // --- REACT.JS (Intermediate) ---
     {
         category: 'React.js',
+        session: 1,
+        questionText: 'What is the virtual DOM in React?',
+        options: ['A lightweight copy of the real DOM kept in memory', 'A browser extension', 'A database indexing structure', 'A CSS preprocessor'],
+        correctAnswer: 'A lightweight copy of the real DOM kept in memory',
+        difficulty: 'beginner'
+    },
+
+    // --- REACT.JS (Session 2: Hooks & Performance) ---
+    {
+        category: 'React.js',
+        session: 2,
         questionText: 'What is the primary purpose of the useEffect dependency array?',
         options: ['To configure CSS classes', 'To specify values that trigger effect re-execution when changed', 'To define component prop types', 'To bind component event listeners globally'],
         correctAnswer: 'To specify values that trigger effect re-execution when changed',
@@ -33,14 +46,25 @@ const sampleQuestions = [
     },
     {
         category: 'React.js',
+        session: 2,
         questionText: 'Which React API is used to memoize expensive function calculations across renders?',
         options: ['useCallback', 'useMemo', 'useRef', 'useImperativeHandle'],
         correctAnswer: 'useMemo',
         difficulty: 'intermediate'
     },
-    // --- REACT.JS (Expert) ---
     {
         category: 'React.js',
+        session: 2,
+        questionText: 'Which hook should you use to cache a function definition between renders?',
+        options: ['useMemo', 'useCallback', 'useRef', 'useState'],
+        correctAnswer: 'useCallback',
+        difficulty: 'intermediate'
+    },
+
+    // --- REACT.JS (Session 3: Advanced Patterns & Concurrent Mode) ---
+    {
+        category: 'React.js',
+        session: 3,
         questionText: 'In React 18 Concurrent Mode, how does useTransition differ from useDeferredValue?',
         options: [
             'useTransition wraps state updates to mark them as non-urgent, while useDeferredValue defers a specific value',
@@ -51,10 +75,19 @@ const sampleQuestions = [
         correctAnswer: 'useTransition wraps state updates to mark them as non-urgent, while useDeferredValue defers a specific value',
         difficulty: 'expert'
     },
+    {
+        category: 'React.js',
+        session: 3,
+        questionText: 'What does React Server Components (RSC) execute on?',
+        options: ['Server only with zero client bundle impact', 'Client only', 'Web Workers only', 'Browser service workers'],
+        correctAnswer: 'Server only with zero client bundle impact',
+        difficulty: 'expert'
+    },
 
-    // --- JAVASCRIPT (Beginner) ---
+    // --- JAVASCRIPT (Session 1: Syntax & Basics) ---
     {
         category: 'JavaScript',
+        session: 1,
         questionText: 'What will typeof NaN evaluate to in JavaScript?',
         options: ['undefined', 'number', 'nan', 'object'],
         correctAnswer: 'number',
@@ -62,6 +95,7 @@ const sampleQuestions = [
     },
     {
         category: 'JavaScript',
+        session: 1,
         questionText: 'Which keyword declares a block-scoped variable that can be reassigned?',
         options: ['const', 'var', 'let', 'static'],
         correctAnswer: 'let',
@@ -69,14 +103,17 @@ const sampleQuestions = [
     },
     {
         category: 'JavaScript',
+        session: 1,
         questionText: 'What method converts a JavaScript object into a JSON string?',
         options: ['JSON.parse()', 'JSON.stringify()', 'Object.toString()', 'JSON.encode()'],
         correctAnswer: 'JSON.stringify()',
         difficulty: 'beginner'
     },
-    // --- JAVASCRIPT (Intermediate) ---
+
+    // --- JAVASCRIPT (Session 2: Async & Closures) ---
     {
         category: 'JavaScript',
+        session: 2,
         questionText: 'What is a Closure in JavaScript?',
         options: [
             'A method to close browser windows',
@@ -89,6 +126,7 @@ const sampleQuestions = [
     },
     {
         category: 'JavaScript',
+        session: 2,
         questionText: 'What does the Promise.allSettled() method return when all promises finish?',
         options: [
             'Only the first resolved promise',
@@ -99,9 +137,11 @@ const sampleQuestions = [
         correctAnswer: 'An array of objects describing the outcome (fulfilled or rejected) of each promise',
         difficulty: 'intermediate'
     },
-    // --- JAVASCRIPT (Expert) ---
+
+    // --- JAVASCRIPT (Session 3: Internals & Event Loop) ---
     {
         category: 'JavaScript',
+        session: 3,
         questionText: 'How does the JavaScript Event Loop handle microtasks compared to macrotasks (task queue)?',
         options: [
             'Microtasks and macrotasks are processed in random order',
@@ -113,9 +153,10 @@ const sampleQuestions = [
         difficulty: 'expert'
     },
 
-    // --- PYTHON (Beginner) ---
+    // --- PYTHON (Session 1: Core Syntax) ---
     {
         category: 'Python',
+        session: 1,
         questionText: 'Which keyword is used to define a function in Python?',
         options: ['function', 'func', 'def', 'define'],
         correctAnswer: 'def',
@@ -123,14 +164,17 @@ const sampleQuestions = [
     },
     {
         category: 'Python',
+        session: 1,
         questionText: 'Which data structure in Python is immutable?',
         options: ['List', 'Dictionary', 'Set', 'Tuple'],
         correctAnswer: 'Tuple',
         difficulty: 'beginner'
     },
-    // --- PYTHON (Intermediate) ---
+
+    // --- PYTHON (Session 2: Generators & OOP) ---
     {
         category: 'Python',
+        session: 2,
         questionText: 'What is the purpose of the yield keyword in Python?',
         options: [
             'To immediately stop execution of the program',
@@ -141,9 +185,11 @@ const sampleQuestions = [
         correctAnswer: 'To turn a function into a generator that produces a sequence of values lazily',
         difficulty: 'intermediate'
     },
-    // --- PYTHON (Expert) ---
+
+    // --- PYTHON (Session 3: Concurrency & GIL) ---
     {
         category: 'Python',
+        session: 3,
         questionText: 'How does Python Global Interpreter Lock (GIL) affect multithreaded CPU-bound programs?',
         options: [
             'It accelerates CPU execution across all cores automatically',
@@ -155,17 +201,20 @@ const sampleQuestions = [
         difficulty: 'expert'
     },
 
-    // --- NODE.JS (Beginner) ---
+    // --- NODE.JS (Session 1: Modules & Global Scope) ---
     {
         category: 'Node.js',
+        session: 1,
         questionText: 'Which global object provides information about the current Node.js execution environment and variables?',
         options: ['window', 'document', 'process', 'globalThis.env'],
         correctAnswer: 'process',
         difficulty: 'beginner'
     },
-    // --- NODE.JS (Intermediate) ---
+
+    // --- NODE.JS (Session 2: Streams & Buffer) ---
     {
         category: 'Node.js',
+        session: 2,
         questionText: 'What is the primary benefit of Streams in Node.js?',
         options: [
             'Handling reading/writing data chunk by chunk without loading the entire payload into memory',
@@ -176,9 +225,11 @@ const sampleQuestions = [
         correctAnswer: 'Handling reading/writing data chunk by chunk without loading the entire payload into memory',
         difficulty: 'intermediate'
     },
-    // --- NODE.JS (Expert) ---
+
+    // --- NODE.JS (Session 3: Libuv & Event Loop) ---
     {
         category: 'Node.js',
+        session: 3,
         questionText: 'In libuv event loop architecture, in which phase are process.nextTick() callbacks processed?',
         options: [
             'Only inside the Poll phase',
@@ -190,25 +241,30 @@ const sampleQuestions = [
         difficulty: 'expert'
     },
 
-    // --- HTML & CSS (Beginner) ---
+    // --- HTML & CSS (Session 1: Semantic Elements) ---
     {
         category: 'HTML & CSS',
+        session: 1,
         questionText: 'Which HTML element is the correct semantic tag for the highest-priority page heading?',
         options: ['<head>', '<h1>', '<header>', '<title>'],
         correctAnswer: '<h1>',
         difficulty: 'beginner'
     },
-    // --- HTML & CSS (Intermediate) ---
+
+    // --- HTML & CSS (Session 2: Flexbox & Grid) ---
     {
         category: 'HTML & CSS',
+        session: 2,
         questionText: 'In CSS Flexbox, which property aligns flex items along the cross-axis?',
         options: ['justify-content', 'align-items', 'flex-direction', 'align-content'],
         correctAnswer: 'align-items',
         difficulty: 'intermediate'
     },
-    // --- HTML & CSS (Expert) ---
+
+    // --- HTML & CSS (Session 3: Specificity & Layout Engines) ---
     {
         category: 'HTML & CSS',
+        session: 3,
         questionText: 'What is CSS Specificity hierarchy from highest to lowest?',
         options: [
             'Inline styles > IDs > Classes/Attributes/Pseudo-classes > Elements/Pseudo-elements',
@@ -242,9 +298,9 @@ async function seedQuestions() {
             }
         }
 
-        console.log(`\nChecking and inserting ${sampleQuestions.length} questions...`);
+        console.log(`\nChecking and inserting/updating ${sampleQuestions.length} session-wise questions...`);
         let insertedCount = 0;
-        let existingCount = 0;
+        let updatedCount = 0;
 
         for (const q of sampleQuestions) {
             const existing = await prisma.question.findFirst({
@@ -258,6 +314,7 @@ async function seedQuestions() {
                 await prisma.question.create({
                     data: {
                         category: q.category,
+                        session: q.session || 1,
                         questionText: q.questionText,
                         options: typeof q.options === 'string' ? q.options : JSON.stringify(q.options),
                         correctAnswer: q.correctAnswer
@@ -265,15 +322,21 @@ async function seedQuestions() {
                 });
                 insertedCount++;
             } else {
-                existingCount++;
+                await prisma.question.update({
+                    where: { id: existing.id },
+                    data: {
+                        session: q.session || 1
+                    }
+                });
+                updatedCount++;
             }
         }
 
         console.log(`\n====================================================`);
         console.log(`🎉 SEED COMPLETE:`);
         console.log(`   - New questions inserted: ${insertedCount}`);
-        console.log(`   - Existing questions kept: ${existingCount}`);
-        console.log(`   - Total in questions bank: ${insertedCount + existingCount}`);
+        console.log(`   - Questions updated with sessions: ${updatedCount}`);
+        console.log(`   - Total questions: ${insertedCount + updatedCount}`);
         console.log(`====================================================\n`);
 
     } catch (error) {

@@ -10,11 +10,13 @@ const parseOptions = (opts) => {
 
 const Question = {
     create: async (data) => {
-        const { category, question_text, options, correct_answer } = data;
+        const { category, session, question_text, options, correct_answer } = data;
         const serializedOptions = typeof options === 'string' ? options : JSON.stringify(Array.isArray(options) ? options : []);
+        const sessionNum = parseInt(session, 10) || 1;
         const result = await prisma.question.create({
             data: {
                 category,
+                session: sessionNum,
                 questionText: question_text,
                 options: serializedOptions,
                 correctAnswer: correct_answer
@@ -29,6 +31,7 @@ const Question = {
         });
         return rows.map(r => ({
             ...r,
+            session: r.session || 1,
             options: parseOptions(r.options),
             question_text: r.questionText,
             correct_answer: r.correctAnswer,
@@ -36,10 +39,13 @@ const Question = {
         }));
     },
 
-    getFiltered: async ({ category } = {}) => {
+    getFiltered: async ({ category, session } = {}) => {
         const where = {};
         if (category) {
             where.category = { equals: category, mode: 'insensitive' };
+        }
+        if (session !== undefined && session !== null && session !== '' && !isNaN(parseInt(session, 10))) {
+            where.session = parseInt(session, 10);
         }
 
         const rows = await prisma.question.findMany({
@@ -49,11 +55,44 @@ const Question = {
         
         return rows.map(r => ({
             ...r,
+            session: r.session || 1,
             options: parseOptions(r.options),
             question_text: r.questionText,
             correct_answer: r.correctAnswer,
             created_at: r.createdAt
         }));
+    },
+
+    getSessionsByCategory: async (category) => {
+        const where = {};
+        if (category) {
+            where.category = { equals: category, mode: 'insensitive' };
+        }
+
+        const rows = await prisma.question.findMany({
+            where,
+            select: { session: true }
+        });
+
+        const sessionCountMap = {};
+        rows.forEach(r => {
+            const s = r.session || 1;
+            sessionCountMap[s] = (sessionCountMap[s] || 0) + 1;
+        });
+
+        const sessions = Object.keys(sessionCountMap)
+            .map(s => ({
+                session: parseInt(s, 10),
+                count: sessionCountMap[s]
+            }))
+            .sort((a, b) => a.session - b.session);
+
+        // If no sessions found yet, return default Session 1 with 0 questions
+        if (sessions.length === 0) {
+            return [{ session: 1, count: 0 }];
+        }
+
+        return sessions;
     },
 
     delete: async (id) => {
@@ -64,16 +103,21 @@ const Question = {
     },
 
     update: async (id, data) => {
-        const { category, question_text, options, correct_answer } = data;
+        const { category, session, question_text, options, correct_answer } = data;
         const serializedOptions = typeof options === 'string' ? options : JSON.stringify(Array.isArray(options) ? options : []);
+        const updateData = {
+            category,
+            questionText: question_text,
+            options: serializedOptions,
+            correctAnswer: correct_answer
+        };
+        if (session !== undefined && session !== null && !isNaN(parseInt(session, 10))) {
+            updateData.session = parseInt(session, 10);
+        }
+
         await prisma.question.update({
             where: { id: String(id) },
-            data: {
-                category,
-                questionText: question_text,
-                options: serializedOptions,
-                correctAnswer: correct_answer
-            }
+            data: updateData
         });
         return 1;
     },

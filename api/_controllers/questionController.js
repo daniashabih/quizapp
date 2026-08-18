@@ -53,6 +53,7 @@ function parseQuestionsFromHtml(html) {
         };
 
         const catIdx = getIndex(['category']);
+        const sessIdx = getIndex(['session', 'session no', 'session_no', 'sessionno']);
         const qIdx = getIndex(['question']);
         const opt1Idx = getIndex(['option1', 'option 1', 'opt1']);
         const opt2Idx = getIndex(['option2', 'option 2', 'opt2']);
@@ -66,6 +67,7 @@ function parseQuestionsFromHtml(html) {
             if (row.length === 0) continue;
 
             const category = catIdx !== -1 ? row[catIdx] : (row[0] || '');
+            const session = sessIdx !== -1 ? (parseInt(row[sessIdx], 10) || 1) : 1;
             const question_text = qIdx !== -1 ? row[qIdx] : (row[1] || '');
             const option1 = opt1Idx !== -1 ? row[opt1Idx] : (row[2] || '');
             const option2 = opt2Idx !== -1 ? row[opt2Idx] : (row[3] || '');
@@ -75,6 +77,7 @@ function parseQuestionsFromHtml(html) {
 
             questions.push({
                 category,
+                session,
                 question_text,
                 option1,
                 option2,
@@ -99,6 +102,8 @@ function parseQuestionsFromHtml(html) {
                 currentQ = {};
             }
             currentQ.category = line.split(':').slice(1).join(':').trim();
+        } else if (lower.startsWith('session:') || lower.startsWith('session no:')) {
+            currentQ.session = parseInt(line.split(':').slice(1).join(':').trim(), 10) || 1;
         } else if (lower.startsWith('question:')) {
             currentQ.question_text = line.split(':').slice(1).join(':').trim();
         } else if (lower.startsWith('option 1:') || lower.startsWith('option1:')) {
@@ -123,7 +128,7 @@ function parseQuestionsFromHtml(html) {
 
 const createQuestion = async (req, res) => {
     try {
-        const { category, question_text, options, correct_answer } = req.body;
+        const { category, session, question_text, options, correct_answer } = req.body;
 
         // Basic validation
         if (!category || !question_text || !options || !correct_answer) {
@@ -132,7 +137,8 @@ const createQuestion = async (req, res) => {
 
         await ensureCategoryExists(category);
 
-        const id = await Question.create({ category, question_text, options, correct_answer });
+        const sessionNum = parseInt(session, 10) || 1;
+        const id = await Question.create({ category, session: sessionNum, question_text, options, correct_answer });
         res.status(201).json({ message: 'Question created', id });
     } catch (error) {
         console.error('Create Question Error:', error);
@@ -196,6 +202,8 @@ const importQuestions = async (req, res) => {
             try {
                 // Map fields (handle variations in column names)
                 const category = q.category || q.Category;
+                const rawSession = q.session || q.Session || q.session_no || q.sessionNo || q.session_number;
+                const session = rawSession ? (parseInt(rawSession, 10) || 1) : 1;
                 const question_text = q.question || q.question_text || q.Question;
                 const correct_answer = q.correct_answer || q.CorrectAnswer || q.Answer;
                 
@@ -212,6 +220,7 @@ const importQuestions = async (req, res) => {
 
                     await Question.create({ 
                         category, 
+                        session,
                         question_text, 
                         options, 
                         correct_answer
@@ -248,12 +257,26 @@ const importQuestions = async (req, res) => {
 const getQuestions = async (req, res) => {
     try {
         const category = req.query.category?.trim();
+        const session = req.query.session !== undefined && req.query.session !== '' 
+            ? parseInt(req.query.session, 10) 
+            : undefined;
 
-        const questions = await Question.getFiltered({ category });
+        const questions = await Question.getFiltered({ category, session });
         res.json(questions);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
+    }
+};
+
+const getCategorySessions = async (req, res) => {
+    try {
+        const category = req.query.category?.trim();
+        const sessions = await Question.getSessionsByCategory(category);
+        res.json(sessions);
+    } catch (error) {
+        console.error('Get Sessions Error:', error);
+        res.status(500).json({ message: 'Server error fetching sessions' });
     }
 };
 
@@ -307,6 +330,7 @@ const exportQuestions = async (req, res) => {
             }
             return {
                 Category: q.category,
+                Session: q.session || 1,
                 Question: q.question_text,
                 Option1: options[0] || '',
                 Option2: options[1] || '',
@@ -327,7 +351,7 @@ const exportQuestions = async (req, res) => {
             res.setHeader('Content-Disposition', 'attachment; filename=questions_export.csv');
             return res.send(csvRows);
         } else if (format === 'docx' || format === 'doc') {
-            const tableHeaderTitles = ['Category', 'Question', 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Correct Answer'];
+            const tableHeaderTitles = ['Category', 'Session', 'Question', 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Correct Answer'];
 
             const headerRow = new TableRow({
                 tableHeader: true,
@@ -344,6 +368,7 @@ const exportQuestions = async (req, res) => {
             const dataRows = data.map(row => {
                 const cellValues = [
                     row.Category || '',
+                    row.Session || 1,
                     row.Question || '',
                     row.Option1 || '',
                     row.Option2 || '',
@@ -402,4 +427,4 @@ const exportQuestions = async (req, res) => {
     }
 };
 
-module.exports = { createQuestion, importQuestions, exportQuestions, getQuestions, deleteQuestion, updateQuestion, checkNewQuestions };
+module.exports = { createQuestion, importQuestions, exportQuestions, getQuestions, getCategorySessions, deleteQuestion, updateQuestion, checkNewQuestions };

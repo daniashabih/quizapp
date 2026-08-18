@@ -27,6 +27,7 @@ model User {
 model Question {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   category      String
+  session       Int?     @default(1)
   questionText  String   @map("question_text")
   options       String
   correctAnswer String   @map("correct_answer")
@@ -39,6 +40,7 @@ model QuizResult {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   userId     String   @map("user_id") @db.ObjectId
   category   String
+  session    Int?     @default(1)
   score      Int
   total      Int
   percentage Float
