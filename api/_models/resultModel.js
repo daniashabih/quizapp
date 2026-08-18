@@ -1,7 +1,7 @@
 const prisma = require('../_config/prisma');
 
 const Result = {
-    create: async (userId, category, score, total, percentage, difficulty) => {
+    create: async (userId, category, score, total, percentage, difficulty = 'beginner') => {
         const result = await prisma.quizResult.create({
             data: {
                 userId: String(userId),

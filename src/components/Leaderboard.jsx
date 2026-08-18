@@ -1,223 +1,126 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { motion } from 'motion/react';
 import {
     Trophy, Medal, Star, Award, Search, Users,
     TrendingUp, Flame, Zap, CheckCircle2, ChevronRight,
-    ArrowUpRight, ArrowDownRight, Minus, Filter, X
+    ArrowUpRight, ArrowDownRight, Minus, Filter, X, RefreshCw, AlertCircle
 } from 'lucide-react';
+import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
+import dashboardService from '../services/dashboardService';
 
 const containerVariants = {
     hidden: { opacity: 0 },
     show: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.07,
+            staggerChildren: 0.05,
             delayChildren: 0.05
         }
     }
 };
 
 const itemVariants = {
-    hidden: { opacity: 0, y: 18 },
+    hidden: { opacity: 0, y: 15 },
     show: {
         opacity: 1,
         y: 0,
         transition: {
-            duration: 0.35,
+            duration: 0.3,
             ease: [0.25, 0.1, 0.25, 1.0]
         }
     }
 };
 
-const mockTopPerformers = [
-    {
-        rank: 1,
-        id: 'usr-1',
-        name: 'Sarah Chen',
-        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
-        initials: 'SC',
-        role: 'Full Stack Architect',
-        xp: 14850,
-        score: 98.4,
-        quizzes: 52,
-        certs: 14,
-        badges: 12,
-        streak: 24,
-        change: '+2',
-        trend: 'up',
-        category: 'Full Stack'
-    },
-    {
-        rank: 2,
-        id: 'usr-2',
-        name: 'James Wilson',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-        initials: 'JW',
-        role: 'React Lead',
-        xp: 13200,
-        score: 96.1,
-        quizzes: 46,
-        certs: 11,
-        badges: 9,
-        streak: 18,
-        change: '+1',
-        trend: 'up',
-        category: 'JavaScript & React'
-    },
-    {
-        rank: 3,
-        id: 'usr-3',
-        name: 'Priya Patel',
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-        initials: 'PP',
-        role: 'Python & AI Engineer',
-        xp: 11950,
-        score: 94.8,
-        quizzes: 41,
-        certs: 9,
-        badges: 10,
-        streak: 15,
-        change: '-1',
-        trend: 'down',
-        category: 'Python'
-    },
-    {
-        rank: 4,
-        id: 'usr-4',
-        name: 'Marcus Johnson',
-        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
-        initials: 'MJ',
-        role: 'Backend Specialist',
-        xp: 10400,
-        score: 92.0,
-        quizzes: 36,
-        certs: 8,
-        badges: 7,
-        streak: 12,
-        change: '0',
-        trend: 'same',
-        category: 'Full Stack'
-    },
-    {
-        rank: 5,
-        id: 'usr-5',
-        name: 'Emily Davis',
-        avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&auto=format&fit=crop&q=80',
-        initials: 'ED',
-        role: 'DevOps Specialist',
-        xp: 9300,
-        score: 89.5,
-        quizzes: 31,
-        certs: 6,
-        badges: 8,
-        streak: 9,
-        change: '+3',
-        trend: 'up',
-        category: 'DevOps & Cloud'
-    },
-    {
-        rank: 6,
-        id: 'usr-6',
-        name: 'Alex Kim',
-        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
-        initials: 'AK',
-        role: 'Frontend Engineer',
-        xp: 8550,
-        score: 88.2,
-        quizzes: 29,
-        certs: 5,
-        badges: 6,
-        streak: 8,
-        change: '-2',
-        trend: 'down',
-        category: 'JavaScript & React'
-    },
-    {
-        rank: 7,
-        id: 'usr-7',
-        name: 'Lisa Anderson',
-        avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
-        initials: 'LA',
-        role: 'Cybersecurity Analyst',
-        xp: 7800,
-        score: 86.0,
-        quizzes: 25,
-        certs: 4,
-        badges: 5,
-        streak: 6,
-        change: '+1',
-        trend: 'up',
-        category: 'DevOps & Cloud'
-    },
-    {
-        rank: 8,
-        id: 'usr-8',
-        name: 'David Martinez',
-        avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80',
-        initials: 'DM',
-        role: 'Mobile Developer',
-        xp: 7100,
-        score: 84.6,
-        quizzes: 22,
-        certs: 3,
-        badges: 5,
-        streak: 5,
-        change: '0',
-        trend: 'same',
-        category: 'JavaScript & React'
-    },
-    {
-        rank: 9,
-        id: 'usr-9',
-        name: 'Rachel Lee',
-        avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&auto=format&fit=crop&q=80',
-        initials: 'RL',
-        role: 'Data Engineer',
-        xp: 6450,
-        score: 82.3,
-        quizzes: 19,
-        certs: 3,
-        badges: 4,
-        streak: 4,
-        change: '-1',
-        trend: 'down',
-        category: 'Python'
-    },
-    {
-        rank: 10,
-        id: 'usr-10',
-        name: 'Tom Brown',
-        avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80',
-        initials: 'TB',
-        role: 'Cloud Architect',
-        xp: 5900,
-        score: 80.5,
-        quizzes: 17,
-        certs: 2,
-        badges: 3,
-        streak: 3,
-        change: '+2',
-        trend: 'up',
-        category: 'DevOps & Cloud'
-    }
-];
-
-export default function Leaderboard({ currentUserId = null }) {
+export default function Leaderboard({ onStatsLoaded = null }) {
+    const { user: currentUser } = useAuth();
     const [timeframe, setTimeframe] = useState('all-time'); // 'all-time' | 'monthly' | 'weekly'
     const [category, setCategory] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
+    const [categories, setCategories] = useState(['All']);
+    const [performers, setPerformers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const categories = ['All', 'JavaScript & React', 'Python', 'Full Stack', 'DevOps & Cloud'];
+    // Fetch categories for filter dropdown
+    useEffect(() => {
+        const fetchCats = async () => {
+            try {
+                const res = await axios.get('/categories');
+                if (Array.isArray(res.data)) {
+                    setCategories(['All', ...res.data.map(c => c.name)]);
+                }
+            } catch { /* silent */ }
+        };
+        fetchCats();
+    }, []);
 
-    const filteredPerformers = mockTopPerformers.filter(user => {
+    // Fetch live leaderboard
+    const fetchLeaderboard = useCallback(async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await dashboardService.getLeaderboard({ timeframe, category });
+            if (res.success && Array.isArray(res.leaderboard)) {
+                setPerformers(res.leaderboard);
+                if (onStatsLoaded) {
+                    const totalRanked = res.leaderboard.length;
+                    const totalCerts = res.leaderboard.reduce((acc, u) => acc + (u.certs || 0), 0);
+                    const maxStreak = res.leaderboard.length > 0 ? Math.max(...res.leaderboard.map(u => u.streak || 0)) : 0;
+                    const totalQuizzes = res.leaderboard.reduce((acc, u) => acc + (u.quizzes || 0), 0);
+                    onStatsLoaded({ totalRanked, totalCerts, maxStreak, totalQuizzes });
+                }
+            } else {
+                throw new Error(res.message || 'Failed to load leaderboard');
+            }
+        } catch (err) {
+            console.error('[Leaderboard Fetch Error]:', err);
+            setError('Unable to load leaderboard data.');
+        } finally {
+            setLoading(false);
+        }
+    }, [timeframe, category, onStatsLoaded]);
+
+    useEffect(() => {
+        fetchLeaderboard();
+    }, [fetchLeaderboard]);
+
+    const filteredPerformers = performers.filter(user => {
         const matchesCategory = category === 'All' || user.category === category;
-        const matchesSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.role.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            user.role?.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
     });
 
-    const top3 = filteredPerformers.slice(0, 3);
+    const top3 = filteredPerformers.filter(u => u.quizzes > 0).slice(0, 3);
+
+    if (loading) {
+        return (
+            <div className="w-full space-y-6 animate-pulse p-2">
+                <div className="h-16 bg-[var(--muted-bg)] rounded-2xl" />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-64">
+                    {[1, 2, 3].map(n => (
+                        <div key={n} className="bg-[var(--muted-bg)] rounded-3xl" />
+                    ))}
+                </div>
+                <div className="h-96 bg-[var(--muted-bg)] rounded-2xl" />
+            </div>
+        );
+    }
+
+    if (error && performers.length === 0) {
+        return (
+            <div className="text-center py-16 card p-8 rounded-3xl space-y-4 max-w-md mx-auto">
+                <AlertCircle size={32} className="text-red-500 mx-auto" />
+                <h3 className="text-lg font-bold text-[var(--foreground)]">Unable to load leaderboard</h3>
+                <p className="text-xs text-[var(--foreground-muted)]">Could not retrieve live player scores from MongoDB.</p>
+                <button onClick={fetchLeaderboard} className="btn-primary text-xs py-2 px-5 inline-flex items-center gap-1.5 mx-auto">
+                    <RefreshCw size={13} /> Retry
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className="w-full space-y-8">
@@ -283,7 +186,7 @@ export default function Leaderboard({ currentUserId = null }) {
                 </div>
             </div>
 
-            {/* TOP 3 PODIUM */}
+            {/* TOP 3 PODIUM (Rendered only when active quiz performers exist) */}
             {top3.length >= 3 && !searchQuery && category === 'All' && (
                 <motion.div
                     variants={containerVariants}
@@ -302,15 +205,18 @@ export default function Leaderboard({ currentUserId = null }) {
 
                         <div className="relative mt-2 mb-4">
                             <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-[#42665B]/20 shadow-md bg-[#F4EFE6] flex items-center justify-center border border-[#42665B]">
-                                <img
-                                    src={top3[1].avatar}
-                                    alt={top3[1].name}
-                                    className="w-full h-full object-cover"
-                                    onError={(e) => { e.target.style.display = 'none'; if (e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('hidden'); }}
-                                />
-                                <div className="w-full h-full flex items-center justify-center font-bold text-[#193D35] text-xl bg-[#F4EFE6] hidden">
-                                    {top3[1].initials}
-                                </div>
+                                {top3[1].avatar ? (
+                                    <img
+                                        src={top3[1].avatar}
+                                        alt={top3[1].name}
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => { e.target.style.display = 'none'; }}
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center font-bold text-[#193D35] text-xl bg-[#F4EFE6]">
+                                        {top3[1].initials}
+                                    </div>
+                                )}
                             </div>
                             <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-[#42665B] text-[#FCFAF4] font-black text-xs flex items-center justify-center shadow-md border-2 border-white">
                                 2
@@ -338,7 +244,7 @@ export default function Leaderboard({ currentUserId = null }) {
                         </div>
                     </motion.div>
 
-                    {/* 1st Place (Champion - Primary Evergreen Card) */}
+                    {/* 1st Place (Champion) */}
                     <motion.div
                         variants={itemVariants}
                         className="order-1 md:order-2 bg-[#193D35] text-[#FCFAF4] border-2 border-[#193D35] rounded-3xl p-7 text-center shadow-xl relative flex flex-col items-center group hover:-translate-y-2 transition-all duration-300 md:-translate-y-4"
@@ -349,15 +255,18 @@ export default function Leaderboard({ currentUserId = null }) {
 
                         <div className="relative mt-3 mb-4">
                             <div className="w-24 h-24 rounded-2xl overflow-hidden ring-4 ring-[#D19A45] shadow-xl bg-[#122C26] flex items-center justify-center">
-                                <img
-                                    src={top3[0].avatar}
-                                    alt={top3[0].name}
-                                    className="w-full h-full object-cover"
-                                    onError={(e) => { e.target.style.display = 'none'; if (e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('hidden'); }}
-                                />
-                                <div className="w-full h-full flex items-center justify-center font-bold text-white text-2xl bg-[#122C26] hidden">
-                                    {top3[0].initials}
-                                </div>
+                                {top3[0].avatar ? (
+                                    <img
+                                        src={top3[0].avatar}
+                                        alt={top3[0].name}
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => { e.target.style.display = 'none'; }}
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center font-bold text-white text-2xl bg-[#122C26]">
+                                        {top3[0].initials}
+                                    </div>
+                                )}
                             </div>
                             <span className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-[#D19A45] text-white font-black text-sm flex items-center justify-center shadow-lg border-2 border-[#193D35]">
                                 👑
@@ -399,15 +308,18 @@ export default function Leaderboard({ currentUserId = null }) {
 
                         <div className="relative mt-2 mb-4">
                             <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-[#D19A45]/20 shadow-md bg-[#F4EFE6] flex items-center justify-center border border-[#D19A45]">
-                                <img
-                                    src={top3[2].avatar}
-                                    alt={top3[2].name}
-                                    className="w-full h-full object-cover"
-                                    onError={(e) => { e.target.style.display = 'none'; if (e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('hidden'); }}
-                                />
-                                <div className="w-full h-full flex items-center justify-center font-bold text-[#193D35] text-xl bg-[#F4EFE6] hidden">
-                                    {top3[2].initials}
-                                </div>
+                                {top3[2].avatar ? (
+                                    <img
+                                        src={top3[2].avatar}
+                                        alt={top3[2].name}
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => { e.target.style.display = 'none'; }}
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center font-bold text-[#193D35] text-xl bg-[#F4EFE6]">
+                                        {top3[2].initials}
+                                    </div>
+                                )}
                             </div>
                             <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-[#7A807B] text-[#FCFAF4] font-black text-xs flex items-center justify-center shadow-md border-2 border-white">
                                 3
@@ -452,7 +364,7 @@ export default function Leaderboard({ currentUserId = null }) {
                         )}
                     </div>
                     <span className="text-xs font-semibold text-[var(--foreground-muted)]">
-                        Updated Live
+                        Live from MongoDB
                     </span>
                 </div>
 
@@ -479,7 +391,7 @@ export default function Leaderboard({ currentUserId = null }) {
                             className="divide-y divide-[var(--card-border)]"
                         >
                             {filteredPerformers.map((user) => {
-                                const isCurrentUser = currentUserId && user.id === currentUserId;
+                                const isCurrentUser = currentUser && String(user.id) === String(currentUser.id);
 
                                 let rankBadge = (
                                     <span className="w-7 h-7 rounded-lg bg-[var(--muted-bg)] text-[var(--foreground-secondary)] font-bold text-xs flex items-center justify-center mx-auto border border-[var(--card-border)]">
@@ -487,19 +399,19 @@ export default function Leaderboard({ currentUserId = null }) {
                                     </span>
                                 );
 
-                                if (user.rank === 1) {
+                                if (user.rank === 1 && user.quizzes > 0) {
                                     rankBadge = (
                                         <span className="w-8 h-8 rounded-xl bg-[#D19A45] text-white font-black text-xs flex items-center justify-center mx-auto shadow-xs">
                                             🥇
                                         </span>
                                     );
-                                } else if (user.rank === 2) {
+                                } else if (user.rank === 2 && user.quizzes > 0) {
                                     rankBadge = (
                                         <span className="w-8 h-8 rounded-xl bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] font-black text-xs flex items-center justify-center mx-auto shadow-xs">
                                             🥈
                                         </span>
                                     );
-                                } else if (user.rank === 3) {
+                                } else if (user.rank === 3 && user.quizzes > 0) {
                                     rankBadge = (
                                         <span className="w-8 h-8 rounded-xl bg-[#F4EFE6] text-[#42665B] border border-[#E8E5DD] font-black text-xs flex items-center justify-center mx-auto shadow-xs">
                                             🥉
@@ -523,16 +435,17 @@ export default function Leaderboard({ currentUserId = null }) {
                                         {/* User Column */}
                                         <td className="px-5 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-[var(--muted-bg)] border border-[var(--card-border)] shrink-0 flex items-center justify-center">
-                                                    <img
-                                                        src={user.avatar}
-                                                        alt={user.name}
-                                                        className="w-full h-full object-cover"
-                                                        onError={(e) => { e.target.style.display = 'none'; if (e.target.nextElementSibling) e.target.nextElementSibling.classList.remove('hidden'); }}
-                                                    />
-                                                    <div className="w-full h-full flex items-center justify-center font-bold text-xs text-[var(--foreground)] hidden">
-                                                        {user.initials}
-                                                    </div>
+                                                <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-[var(--muted-bg)] border border-[var(--card-border)] shrink-0 flex items-center justify-center font-bold text-xs text-[var(--foreground)]">
+                                                    {user.avatar ? (
+                                                        <img
+                                                            src={user.avatar}
+                                                            alt={user.name}
+                                                            className="w-full h-full object-cover"
+                                                            onError={(e) => { e.target.style.display = 'none'; }}
+                                                        />
+                                                    ) : (
+                                                        user.initials
+                                                    )}
                                                 </div>
                                                 <div>
                                                     <div className="flex items-center gap-2">
@@ -626,17 +539,19 @@ export default function Leaderboard({ currentUserId = null }) {
                         <div className="p-12 text-center">
                             <Users size={32} className="mx-auto text-[var(--foreground-muted)] opacity-40 mb-3" />
                             <p className="text-sm font-semibold text-[var(--foreground-muted)] mb-1">
-                                No performers found matching "{searchQuery}".
+                                {searchQuery ? `No performers found matching "${searchQuery}".` : 'No ranked candidates yet.'}
                             </p>
                             <p className="text-xs text-[var(--foreground-muted)] mb-4">
-                                Try adjusting your search query or category filter.
+                                Take a quiz to claim the #1 spot on the leaderboard!
                             </p>
-                            <button
-                                onClick={() => { setSearchQuery(''); setCategory('All'); }}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#193D35] text-[#FCFAF4] hover:bg-[#122C26] transition-colors cursor-pointer"
-                            >
-                                <X size={12} /> Clear Filters
-                            </button>
+                            {searchQuery && (
+                                <button
+                                    onClick={() => { setSearchQuery(''); setCategory('All'); }}
+                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#193D35] text-[#FCFAF4] hover:bg-[#122C26] transition-colors cursor-pointer"
+                                >
+                                    <X size={12} /> Clear Filters
+                                </button>
+                            )}
                         </div>
                     )}
                 </div>

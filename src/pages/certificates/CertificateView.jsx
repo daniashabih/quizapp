@@ -5,12 +5,6 @@ import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import { Download, Linkedin, ArrowLeft, Award, QrCode } from 'lucide-react';
 
-const difficultyLabel = {
-    beginner: 'Beginner',
-    intermediate: 'Intermediate',
-    expert: 'Expert'
-};
-
 export default function CertificateView() {
     const location = useLocation();
     const certRef = useRef(null);
@@ -19,7 +13,6 @@ export default function CertificateView() {
     const {
         category = 'React',
         percentage = 96,
-        difficulty = 'intermediate',
         user = { name: 'Alex Johnson' }
     } = location.state || {};
 
@@ -79,7 +72,7 @@ export default function CertificateView() {
                                 {user?.name || 'Verified Learner'}
                             </h2>
                             <p className="text-xs sm:text-sm text-[#42665B] max-w-md mx-auto leading-relaxed">
-                                has successfully completed the <strong className="text-[#193D35] font-bold">{category}</strong> assessment track with a score of{' '}
+                                has successfully completed the <strong className="text-[#193D35] font-bold">{category}</strong> assessment with a score of{' '}
                                 <strong className="text-[#193D35] font-bold">{percentage}%</strong>, demonstrating exceptional proficiency and mastery of core concepts.
                             </p>
                         </div>
@@ -87,8 +80,8 @@ export default function CertificateView() {
                         {/* Footer Info Grid */}
                         <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#E8E5DD] text-center max-w-lg mx-auto">
                             <div>
-                                <p className="text-[9px] font-semibold text-[#7A807B] uppercase tracking-wider">Track Level</p>
-                                <p className="text-sm sm:text-base font-display font-extrabold text-[#193D35]">{difficultyLabel[difficulty] || difficulty}</p>
+                                <p className="text-[9px] font-semibold text-[#7A807B] uppercase tracking-wider">Score</p>
+                                <p className="text-sm sm:text-base font-display font-extrabold text-[#193D35]">{percentage}%</p>
                             </div>
                             <div>
                                 <p className="text-[9px] font-semibold text-[#7A807B] uppercase tracking-wider">Issued Date</p>

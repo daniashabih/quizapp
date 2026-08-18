@@ -1,28 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-    User, Mail, Calendar, Award, Trophy, Star, Zap, Edit3, Check, X,
-    Github, Linkedin, Globe, MapPin, ChevronRight, Clock, BookOpen, Target
+    Mail, Calendar, Award, Trophy, Edit3, Check, X,
+    Github, Linkedin, Globe, MapPin, ChevronRight, Layers, Sparkles
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
-const mockTimeline = [
-    { action: 'Completed React Expert Quiz', score: '92%', date: 'Today', icon: '🏆' },
-    { action: 'Earned JavaScript Certificate', score: '88%', date: '2 days ago', icon: '📜' },
-    { action: 'Started Python Intermediate', score: 'In progress', date: '5 days ago', icon: '▶️' },
-    { action: 'Completed HTML Basics', score: '100%', date: '1 week ago', icon: '✅' },
-    { action: 'Joined HangBug', score: '', date: '2 weeks ago', icon: '🚀' },
-];
-
-const skills = [
-    { name: 'JavaScript', level: 90, color: 'bg-black' },
-    { name: 'React', level: 85, color: 'bg-black' },
-    { name: 'Python', level: 75, color: 'bg-black' },
-    { name: 'Node.js', level: 70, color: 'bg-black' },
-    { name: 'HTML/CSS', level: 95, color: 'bg-black' },
-];
+import dashboardService from '../../services/dashboardService';
 
 export default function Profile() {
     const { user, updateUser } = useAuth();
@@ -30,12 +15,39 @@ export default function Profile() {
     const [editData, setEditData] = useState({ name: user?.name || '', email: user?.email || '' });
     const [isSaving, setIsSaving] = useState(false);
 
+    const [dashboardData, setDashboardData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (user) {
+            setEditData({ name: user.name || '', email: user.email || '' });
+        }
+    }, [user]);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const res = await dashboardService.getUserDashboard();
+                if (res.success && res.data) {
+                    setDashboardData(res.data);
+                }
+            } catch (err) {
+                console.error('[Profile Fetch Error]:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchUserData();
+    }, []);
+
     const handleSave = async (e) => {
         e.preventDefault();
         setIsSaving(true);
         try {
             const res = await axios.put('/auth/update-profile', editData);
-            updateUser(res.data.user);
+            if (res.data?.user) {
+                updateUser(res.data.user);
+            }
             toast.success("Profile updated");
             setIsEditing(false);
         } catch (error) {
@@ -44,6 +56,41 @@ export default function Profile() {
             setIsSaving(false);
         }
     };
+
+    const joinedDate = user?.createdAt
+        ? new Date(user.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })
+        : 'Active Member';
+
+    const recentAttempts = dashboardData?.recentAttempts || [];
+    const technologyProgress = dashboardData?.technologyProgress || [];
+
+    // Construct real dynamic activity timeline from MongoDB
+    const timeline = [];
+    recentAttempts.forEach(r => {
+        if (r.percentage >= 80) {
+            timeline.push({
+                action: `Earned ${r.category} Certificate`,
+                score: `${r.percentage}%`,
+                date: new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                icon: '🏆'
+            });
+        }
+        timeline.push({
+            action: `Completed ${r.category} Quiz (${r.difficulty || 'beginner'})`,
+            score: `${r.percentage}%`,
+            date: new Date(r.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+            icon: r.percentage >= 70 ? '✅' : '📚'
+        });
+    });
+
+    if (user?.createdAt) {
+        timeline.push({
+            action: 'Joined HangBug Platform',
+            score: '',
+            date: new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            icon: '🚀'
+        });
+    }
 
     return (
         <div className="max-w-5xl mx-auto space-y-6 animate-fade-up">
@@ -69,7 +116,12 @@ export default function Profile() {
                                 <h2 className="text-xl font-bold text-[var(--foreground)]">{user?.name}</h2>
                                 <p className="text-sm text-[var(--foreground-muted)]">{user?.email}</p>
                                 <div className="flex items-center justify-center gap-2 mt-3">
-                                    <span className="badge-emerald text-[10px]">{user?.role}</span>
+                                    <span className="badge-emerald text-[10px] capitalize">{user?.role || 'user'}</span>
+                                    {dashboardData?.stats?.rank && (
+                                        <span className="badge text-[10px] bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] font-bold">
+                                            Rank #{dashboardData.stats.rank}
+                                        </span>
+                                    )}
                                 </div>
                                 <button onClick={() => setIsEditing(true)}
                                     className="btn-secondary w-full justify-center text-sm mt-5">
@@ -103,7 +155,7 @@ export default function Profile() {
                     {/* Quick Info */}
                     <div className="card p-6 rounded-2xl space-y-4">
                         <InfoRow icon={Mail} label="Email" value={user?.email} />
-                        <InfoRow icon={Calendar} label="Joined" value="June 2026" />
+                        <InfoRow icon={Calendar} label="Joined" value={joinedDate} />
                         <InfoRow icon={MapPin} label="Location" value="Earth" />
                         <InfoRow icon={Globe} label="Website" value="https://hangbug.dev" isLink />
                     </div>
@@ -112,59 +164,88 @@ export default function Profile() {
                     <div className="card p-6 rounded-2xl">
                         <h3 className="text-sm font-bold text-[var(--foreground)] mb-4">Social Links</h3>
                         <div className="space-y-3">
-                            <SocialLink icon={Github} label="GitHub" href="#" />
-                            <SocialLink icon={Linkedin} label="LinkedIn" href="#" />
+                            <SocialLink icon={Github} label="GitHub" href="https://github.com" />
+                            <SocialLink icon={Linkedin} label="LinkedIn" href="https://linkedin.com" />
                         </div>
                     </div>
                 </div>
 
                 {/* Right Column */}
                 <div className="lg:col-span-2 space-y-6">
-                    {/* Skills */}
+                    {/* Skills & Expertise (Calculated from Real MongoDB Quiz Performance) */}
                     <div className="card p-6 rounded-2xl">
-                        <h3 className="text-sm font-bold text-[var(--foreground)] mb-6">Skills & Expertise</h3>
-                        <div className="space-y-5">
-                            {skills.map((skill, i) => (
-                                <div key={i}>
-                                    <div className="flex items-center justify-between mb-1.5">
-                                        <span className="text-sm font-semibold text-[var(--foreground)]">{skill.name}</span>
-                                        <span className="text-xs font-bold text-[var(--foreground-muted)]">{skill.level}%</span>
-                                    </div>
-                                    <div className="progress-bar">
-                                        <div className={`h-full rounded-full ${skill.color} transition-all duration-1000`}
-                                            style={{ width: `${skill.level}%` }} />
-                                    </div>
-                                </div>
-                            ))}
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-2">
+                                <Layers size={18} className="text-[#193D35]" />
+                                <h3 className="text-sm font-bold text-[var(--foreground)]">Skills & Expertise</h3>
+                            </div>
+                            <span className="text-xs text-[var(--foreground-muted)] font-medium">
+                                Derived from test results
+                            </span>
                         </div>
-                    </div>
 
-                    {/* Activity Timeline */}
-                    <div className="card overflow-hidden rounded-2xl">
-                        <div className="p-6 border-b border-[var(--card-border)]">
-                            <h3 className="text-sm font-bold text-[var(--foreground)]">Activity Timeline</h3>
-                        </div>
-                        <div className="divide-y divide-[var(--card-border)]">
-                            {mockTimeline.map((item, i) => (
-                                <div key={i} className="p-5 flex items-center gap-4 hover:bg-[var(--muted-bg)] transition-colors">
-                                    <div className="w-10 h-10 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] flex items-center justify-center text-lg">
-                                        {item.icon}
-                                    </div>
-                                    <div className="flex-1">
-                                        <p className="text-sm font-medium text-[var(--foreground)]">{item.action}</p>
-                                        <div className="flex items-center gap-2 mt-0.5">
-                                            <span className="text-xs text-[var(--foreground-muted)]">{item.date}</span>
-                                            {item.score && (
-                                                <>
-                                                    <span className="w-1 h-1 rounded-full bg-[var(--card-border)]" />
-                                                    <span className={`text-xs font-medium ${item.score.includes('%') ? 'text-black font-bold' : 'text-[var(--foreground-muted)]'}`}>{item.score}</span>
-                                                </>
-                                            )}
+                        {technologyProgress.length > 0 ? (
+                            <div className="space-y-5">
+                                {technologyProgress.map((skill) => (
+                                    <div key={skill.category}>
+                                        <div className="flex items-center justify-between mb-1.5">
+                                            <span className="text-sm font-semibold text-[var(--foreground)]">{skill.category}</span>
+                                            <span className="text-xs font-bold text-[var(--foreground-muted)]">{skill.bestScore}% Mastery</span>
+                                        </div>
+                                        <div className="progress-bar">
+                                            <div className="h-full rounded-full bg-black transition-all duration-1000"
+                                                style={{ width: `${skill.bestScore}%` }} />
+                                        </div>
+                                        <div className="flex items-center justify-between text-[10px] text-[var(--foreground-muted)] mt-1">
+                                            <span>{skill.attempts} attempts</span>
+                                            <span>{skill.passRate}% pass rate</span>
                                         </div>
                                     </div>
-                                    <ChevronRight size={16} className="text-[var(--foreground-muted)]" />
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-8">
+                                <Sparkles size={24} className="text-[var(--foreground-muted)] mx-auto mb-2 opacity-40" />
+                                <p className="text-xs text-[var(--foreground-muted)] mb-3">No skills evaluated yet.</p>
+                                <Link to="/technologies" className="btn-primary text-xs py-2 px-4">
+                                    Take a Quiz Assessment
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Activity Timeline (Calculated from Real MongoDB Attempt History) */}
+                    <div className="card overflow-hidden rounded-2xl">
+                        <div className="p-6 border-b border-[var(--card-border)] flex items-center justify-between">
+                            <h3 className="text-sm font-bold text-[var(--foreground)]">Activity Timeline</h3>
+                            <span className="text-xs text-[var(--foreground-muted)] font-medium">Live from MongoDB</span>
+                        </div>
+                        <div className="divide-y divide-[var(--card-border)]">
+                            {timeline.length > 0 ? (
+                                timeline.map((item, i) => (
+                                    <div key={i} className="p-5 flex items-center gap-4 hover:bg-[var(--muted-bg)] transition-colors">
+                                        <div className="w-10 h-10 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] flex items-center justify-center text-lg">
+                                            {item.icon}
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-sm font-medium text-[var(--foreground)]">{item.action}</p>
+                                            <div className="flex items-center gap-2 mt-0.5">
+                                                <span className="text-xs text-[var(--foreground-muted)]">{item.date}</span>
+                                                {item.score && (
+                                                    <>
+                                                        <span className="w-1 h-1 rounded-full bg-[var(--card-border)]" />
+                                                        <span className={`text-xs font-medium ${item.score.includes('%') ? 'text-black font-bold' : 'text-[var(--foreground-muted)]'}`}>{item.score}</span>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="p-8 text-center text-xs text-[var(--foreground-muted)]">
+                                    No activity recorded yet.
                                 </div>
-                            ))}
+                            )}
                         </div>
                     </div>
                 </div>
@@ -180,7 +261,7 @@ function InfoRow({ icon: Icon, label, value, isLink }) {
             <div>
                 <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">{label}</p>
                 {isLink ? (
-                    <a href={value} className="text-sm font-medium text-black hover:underline">{value}</a>
+                    <a href={value} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-black hover:underline">{value}</a>
                 ) : (
                     <p className="text-sm font-medium text-[var(--foreground)]">{value}</p>
                 )}

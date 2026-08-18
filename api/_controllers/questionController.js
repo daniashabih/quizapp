@@ -59,7 +59,6 @@ function parseQuestionsFromHtml(html) {
         const opt3Idx = getIndex(['option3', 'option 3', 'opt3']);
         const opt4Idx = getIndex(['option4', 'option 4', 'opt4']);
         const ansIdx = getIndex(['correct_answer', 'correctanswer', 'answer', 'correct answer']);
-        const diffIdx = getIndex(['difficulty']);
 
         const questions = [];
         for (let i = 1; i < rows.length; i++) {
@@ -73,7 +72,6 @@ function parseQuestionsFromHtml(html) {
             const option3 = opt3Idx !== -1 ? row[opt3Idx] : (row[4] || '');
             const option4 = opt4Idx !== -1 ? row[opt4Idx] : (row[5] || '');
             const correct_answer = ansIdx !== -1 ? row[ansIdx] : (row[6] || '');
-            const difficulty = diffIdx !== -1 ? row[diffIdx] : (row[7] || 'beginner');
 
             questions.push({
                 category,
@@ -82,8 +80,7 @@ function parseQuestionsFromHtml(html) {
                 option2,
                 option3,
                 option4,
-                correct_answer,
-                difficulty
+                correct_answer
             });
         }
         return questions;
@@ -114,8 +111,6 @@ function parseQuestionsFromHtml(html) {
             currentQ.option4 = line.split(':').slice(1).join(':').trim();
         } else if (lower.startsWith('correct answer:') || lower.startsWith('answer:')) {
             currentQ.correct_answer = line.split(':').slice(1).join(':').trim();
-        } else if (lower.startsWith('difficulty:')) {
-            currentQ.difficulty = line.split(':').slice(1).join(':').trim();
         }
     }
 
@@ -128,7 +123,7 @@ function parseQuestionsFromHtml(html) {
 
 const createQuestion = async (req, res) => {
     try {
-        const { category, question_text, options, correct_answer, difficulty } = req.body;
+        const { category, question_text, options, correct_answer } = req.body;
 
         // Basic validation
         if (!category || !question_text || !options || !correct_answer) {
@@ -137,7 +132,7 @@ const createQuestion = async (req, res) => {
 
         await ensureCategoryExists(category);
 
-        const id = await Question.create({ category, question_text, options, correct_answer, difficulty });
+        const id = await Question.create({ category, question_text, options, correct_answer });
         res.status(201).json({ message: 'Question created', id });
     } catch (error) {
         console.error('Create Question Error:', error);
@@ -203,7 +198,6 @@ const importQuestions = async (req, res) => {
                 const category = q.category || q.Category;
                 const question_text = q.question || q.question_text || q.Question;
                 const correct_answer = q.correct_answer || q.CorrectAnswer || q.Answer;
-                const difficulty = q.difficulty || q.Difficulty || 'beginner';
                 
                 // Collect options
                 const options = [
@@ -220,8 +214,7 @@ const importQuestions = async (req, res) => {
                         category, 
                         question_text, 
                         options, 
-                        correct_answer, 
-                        difficulty 
+                        correct_answer
                     });
                     results.success++;
                 } else {
@@ -255,9 +248,8 @@ const importQuestions = async (req, res) => {
 const getQuestions = async (req, res) => {
     try {
         const category = req.query.category?.trim();
-        const difficulty = req.query.difficulty?.trim();
 
-        const questions = await Question.getFiltered({ category, difficulty });
+        const questions = await Question.getFiltered({ category });
         res.json(questions);
     } catch (error) {
         console.error(error);
@@ -320,8 +312,7 @@ const exportQuestions = async (req, res) => {
                 Option2: options[1] || '',
                 Option3: options[2] || '',
                 Option4: options[3] || '',
-                CorrectAnswer: q.correct_answer,
-                Difficulty: q.difficulty || 'beginner'
+                CorrectAnswer: q.correct_answer
             };
         });
 
@@ -336,7 +327,7 @@ const exportQuestions = async (req, res) => {
             res.setHeader('Content-Disposition', 'attachment; filename=questions_export.csv');
             return res.send(csvRows);
         } else if (format === 'docx' || format === 'doc') {
-            const tableHeaderTitles = ['Category', 'Question', 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Correct Answer', 'Difficulty'];
+            const tableHeaderTitles = ['Category', 'Question', 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Correct Answer'];
 
             const headerRow = new TableRow({
                 tableHeader: true,
@@ -358,8 +349,7 @@ const exportQuestions = async (req, res) => {
                     row.Option2 || '',
                     row.Option3 || '',
                     row.Option4 || '',
-                    row.CorrectAnswer || '',
-                    row.Difficulty || 'beginner'
+                    row.CorrectAnswer || ''
                 ];
                 return new TableRow({
                     children: cellValues.map(val => new TableCell({

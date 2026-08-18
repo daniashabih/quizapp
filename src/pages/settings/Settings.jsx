@@ -171,6 +171,40 @@ export default function Settings() {
                                 </div>
                             ))}
                         </div>
+                        <div className="pt-4 border-t border-[var(--card-border)] space-y-3">
+                            <h4 className="text-xs font-bold text-[var(--foreground-muted)] uppercase tracking-wider">Preview Notifications</h4>
+                            <p className="text-xs text-[var(--foreground-muted)]">Test how the new notifications look across the platform:</p>
+                            <div className="flex flex-wrap gap-2 pt-1">
+                                <button
+                                    type="button"
+                                    onClick={() => toast.success("Profile updated")}
+                                    className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-500/15 text-emerald-800 hover:bg-emerald-500/25 border border-emerald-500/30 transition-all cursor-pointer"
+                                >
+                                    ✨ Test Success
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => toast.error("Unable to save changes. Please try again.")}
+                                    className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-red-500/15 text-red-800 hover:bg-red-500/25 border border-red-500/30 transition-all cursor-pointer"
+                                >
+                                    ⚠️ Test Error
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => toast.warning("Session expires in 5 minutes.")}
+                                    className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500/15 text-amber-800 hover:bg-amber-500/25 border border-amber-500/30 transition-all cursor-pointer"
+                                >
+                                    ⚡ Test Warning
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => toast.info("New quiz challenge is now available!")}
+                                    className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#F3E5C5] text-[#193D35] hover:bg-[#ebd8b0] border border-[#D19A45]/40 transition-all cursor-pointer"
+                                >
+                                    🔔 Test Info
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 );
 

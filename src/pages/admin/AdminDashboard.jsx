@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import {
     Plus, Trash2, Save, X, Edit2, Users,
     ShieldCheck, Search, BookOpen, FolderOpen, Upload, Download, FileText, Layers,
     ChevronDown, Sparkles, Sliders, Clock, Percent, Shuffle, HelpCircle, AlertCircle,
-    CheckCircle2, RefreshCw, Bot
+    CheckCircle2, RefreshCw, Bot, BarChart3, TrendingUp, Award, Activity, Calendar
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import dashboardService from '../../services/dashboardService';
 
 const defaultQuizOptions = {
     timePerQuestion: 60, // seconds
@@ -26,7 +27,15 @@ const AdminDashboard = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    const [activeTab, setActiveTab] = useState('questions');
+    const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'questions' | 'settings' | 'ai' | 'categories' | 'users'
+    const [period, setPeriod] = useState('30d'); // '7d' | '30d' | 'year'
+
+    // Analytics / Overview State
+    const [adminData, setAdminData] = useState(null);
+    const [loadingAnalytics, setLoadingAnalytics] = useState(true);
+    const [analyticsError, setAnalyticsError] = useState(null);
+
+    // Question Bank State
     const [questions, setQuestions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
@@ -49,10 +58,9 @@ const AdminDashboard = () => {
     const [questionText, setQuestionText] = useState('');
     const [options, setOptions] = useState(['', '', '', '']);
     const [correctAnswer, setCorrectAnswer] = useState('');
-    const [difficulty, setDifficulty] = useState('beginner');
     const [explanation, setExplanation] = useState('');
 
-    // Modals
+    // Import / Export Modals
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
     const [isExportDropdownOpen, setIsExportDropdownOpen] = useState(false);
     const [importFile, setImportFile] = useState(null);
@@ -64,9 +72,26 @@ const AdminDashboard = () => {
 
     // AI Generation State
     const [aiTopic, setAiTopic] = useState('');
-    const [aiDifficulty, setAiDifficulty] = useState('beginner');
     const [aiCount, setAiCount] = useState(5);
     const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+
+    const fetchAnalytics = useCallback(async () => {
+        setLoadingAnalytics(true);
+        setAnalyticsError(null);
+        try {
+            const res = await dashboardService.getAdminDashboard(period);
+            if (res.success && res.data) {
+                setAdminData(res.data);
+            } else {
+                throw new Error(res.message || 'Failed to load admin metrics');
+            }
+        } catch (err) {
+            console.error('[Admin Analytics Error]:', err);
+            setAnalyticsError('Unable to load admin dashboard data.');
+        } finally {
+            setLoadingAnalytics(false);
+        }
+    }, [period]);
 
     const fetchQuestions = async () => {
         try {
@@ -94,26 +119,27 @@ const AdminDashboard = () => {
         }
     };
 
-    const fetchData = async () => {
-        await Promise.allSettled([fetchQuestions(), fetchCategories()]);
-    };
-
     const fetchUsers = async () => {
         try {
             const res = await axios.get('/auth/users');
-            setAllUsers(res.data);
+            if (res.data?.users && Array.isArray(res.data.users)) {
+                setAllUsers(res.data.users);
+            } else if (Array.isArray(res.data)) {
+                setAllUsers(res.data);
+            }
         } catch { /* silent */ }
     };
 
     useEffect(() => {
-        if (!user || user.role !== 'admin') { navigate('/'); return; }
-        const t = setTimeout(() => {
-            fetchData();
-            if (activeTab === 'users') fetchUsers();
-        }, 0);
-        return () => clearTimeout(t);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user, navigate, activeTab]);
+        if (!user || user.role !== 'admin') {
+            navigate('/');
+            return;
+        }
+        fetchAnalytics();
+        fetchQuestions();
+        fetchCategories();
+        if (activeTab === 'users') fetchUsers();
+    }, [user, navigate, activeTab, fetchAnalytics]);
 
     const handleSaveQuizOptions = (e) => {
         e.preventDefault();
@@ -136,14 +162,12 @@ const AdminDashboard = () => {
             }
             setOptions(Array.isArray(parsedOptions) && parsedOptions.length >= 2 ? parsedOptions : ['', '', '', '']);
             setCorrectAnswer(question.correct_answer || '');
-            setDifficulty(question.difficulty || 'beginner');
             setExplanation(question.explanation || '');
         } else {
             setEditingQuestionId(null);
             setQuestionText('');
             setOptions(['', '', '', '']);
             setCorrectAnswer('');
-            setDifficulty('beginner');
             setExplanation('');
             if (categories.length > 0) setCategory(categories[0].name);
         }
@@ -156,7 +180,6 @@ const AdminDashboard = () => {
         newOpts[index] = value;
         setOptions(newOpts);
 
-        // If the edited option was selected as correct answer, update correctAnswer value
         if (correctAnswer === oldValue) {
             setCorrectAnswer(value);
         }
@@ -193,7 +216,6 @@ const AdminDashboard = () => {
                 question_text: questionText,
                 options: validOptions,
                 correct_answer: correctAnswer,
-                difficulty,
                 explanation
             };
             if (editingQuestionId) {
@@ -204,7 +226,8 @@ const AdminDashboard = () => {
                 toast.success("Question created successfully.");
             }
             setIsFormOpen(false);
-            fetchData();
+            fetchQuestions();
+            fetchAnalytics();
         } catch { toast.error("Failed to save question."); }
     };
 
@@ -213,8 +236,9 @@ const AdminDashboard = () => {
         try {
             await axios.delete(`/questions/${id}`);
             toast.success("Question deleted.");
-            fetchData();
-        } catch { toast.error("Failed to delete."); }
+            fetchQuestions();
+            fetchAnalytics();
+        } catch { toast.error("Failed to delete question."); }
     };
 
     const handleAddOrUpdateCategory = async (e) => {
@@ -231,6 +255,7 @@ const AdminDashboard = () => {
             setNewCategory('');
             setEditingCategoryId(null);
             await fetchCategories();
+            fetchAnalytics();
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to save category.");
         }
@@ -242,6 +267,7 @@ const AdminDashboard = () => {
             const res = await axios.delete(`/categories/${id}`);
             toast.success(res.data?.message || "Category deleted.");
             await fetchCategories();
+            fetchAnalytics();
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to delete category.");
         }
@@ -254,11 +280,11 @@ const AdminDashboard = () => {
         try {
             const res = await axios.post('/questions/generate', {
                 topic: aiTopic,
-                difficulty: aiDifficulty,
                 count: Number(aiCount)
             });
             toast.success(res.data.message || `Generated ${aiCount} questions for ${aiTopic}!`);
-            fetchData();
+            fetchQuestions();
+            fetchAnalytics();
             setActiveTab('questions');
         } catch (err) {
             toast.error(err.response?.data?.message || "AI generation failed. Please try again.");
@@ -280,7 +306,8 @@ const AdminDashboard = () => {
             toast.success(res.data.message);
             setIsImportModalOpen(false);
             setImportFile(null);
-            fetchData();
+            fetchQuestions();
+            fetchAnalytics();
         } catch (error) {
             toast.error(error.response?.data?.message || "Import failed.");
         } finally {
@@ -289,10 +316,10 @@ const AdminDashboard = () => {
     };
 
     const downloadTemplate = () => {
-        const headers = ['category', 'question', 'option1', 'option2', 'option3', 'option4', 'correct_answer', 'difficulty'];
+        const headers = ['category', 'question', 'option1', 'option2', 'option3', 'option4', 'correct_answer'];
         const sampleRows = [
-            ['JavaScript', 'What is the type of NaN?', 'number', 'string', 'undefined', 'object', 'number', 'beginner'],
-            ['Python', 'Which keyword defines a function?', 'func', 'define', 'def', 'function', 'def', 'beginner']
+            ['JavaScript', 'What is the type of NaN?', 'number', 'string', 'undefined', 'object', 'number'],
+            ['Python', 'Which keyword defines a function?', 'func', 'define', 'def', 'function', 'def']
         ];
         const csvContent = [headers.join(','), ...sampleRows.map(r => r.map(c => `"${c}"`).join(','))].join('\n');
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -322,9 +349,7 @@ const AdminDashboard = () => {
                     const text = await error.response.data.text();
                     const json = JSON.parse(text);
                     if (json.message) errorMsg = json.message;
-                } catch {
-                    // Ignore parsing error
-                }
+                } catch { /* ignore */ }
             } else if (error.response?.data?.message) {
                 errorMsg = error.response.data.message;
             }
@@ -346,25 +371,39 @@ const AdminDashboard = () => {
         return map[d] || map.beginner;
     };
 
-    const stats = [
-        { label: 'Total Questions', value: questions.length, icon: BookOpen, gradient: 'from-[black] to-[black]' },
-        { label: 'Categories', value: categories.length, icon: FolderOpen, gradient: 'from-amber-500 to-orange-500' },
-        { label: 'Registered Users', value: allUsers.length || '—', icon: Users, gradient: 'from-emerald-500 to-teal-500' },
-    ];
+    const stats = adminData?.stats || {
+        totalUsers: 0,
+        totalTechnologies: 0,
+        totalQuestions: 0,
+        totalAttempts: 0,
+        totalCertificates: 0,
+        passedAttempts: 0,
+        failedAttempts: 0,
+        averageScore: 0
+    };
+
+    const userGrowth = adminData?.userGrowth || [];
+    const quizActivity = adminData?.quizActivity || [];
+    const popularTechnologies = adminData?.popularTechnologies || [];
+    const recentUsers = adminData?.recentUsers || [];
+    const recentAttempts = adminData?.recentAttempts || [];
+
+    const maxGrowthUsers = Math.max(...userGrowth.map(g => g.users), 1);
+    const maxActivityAttempts = Math.max(...quizActivity.map(a => a.attempts), 1);
 
     return (
-        <div className="animate-fade-up">
+        <div className="animate-fade-up max-w-7xl mx-auto space-y-6">
             {/* Top Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <div className="badge-emerald mb-2 inline-flex items-center gap-1.5">
                         <ShieldCheck size={12} /> Admin Control Center
                     </div>
                     <h1 className="text-2xl lg:text-3xl font-display font-bold text-[var(--foreground)]">
-                        Admin <span className="text-gradient">Quiz Suite</span>
+                        Admin <span className="text-gradient">Quiz Suite & Analytics</span>
                     </h1>
                     <p className="text-sm text-[var(--foreground-muted)] mt-1">
-                        Manage quiz rules, options, questions, AI generation, and categories.
+                        Real-time database metrics, questions bank, AI generation, and candidate activity.
                     </p>
                 </div>
 
@@ -400,13 +439,14 @@ const AdminDashboard = () => {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="flex items-center gap-2 border-b border-[var(--card-border)] mb-6 overflow-x-auto pb-1">
+            <div className="flex items-center gap-2 border-b border-[var(--card-border)] overflow-x-auto pb-1">
                 {[
-                    { id: 'questions', label: 'Questions Bank', icon: BookOpen, count: questions.length },
+                    { id: 'overview', label: 'Analytics & Overview', icon: BarChart3 },
+                    { id: 'questions', label: 'Questions Bank', icon: BookOpen, count: stats.totalQuestions || questions.length },
                     { id: 'settings', label: 'Quiz Rules & Options', icon: Sliders },
                     { id: 'ai', label: 'AI Generator', icon: Bot, highlight: true },
-                    { id: 'categories', label: 'Categories', icon: FolderOpen, count: categories.length },
-                    { id: 'users', label: 'User Directory', icon: Users, count: allUsers.length || null }
+                    { id: 'categories', label: 'Categories', icon: FolderOpen, count: stats.totalTechnologies || categories.length },
+                    { id: 'users', label: 'User Directory', icon: Users, count: stats.totalUsers || allUsers.length }
                 ].map((tab) => {
                     const Icon = tab.icon;
                     const isSelected = activeTab === tab.id;
@@ -423,7 +463,7 @@ const AdminDashboard = () => {
                                     : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
                             }`}
                         >
-                            <Icon size={15} className={tab.highlight ? 'text-black' : ''} />
+                            <Icon size={15} className={tab.highlight ? 'text-[#D19A45]' : ''} />
                             {tab.label}
                             {tab.count !== undefined && tab.count !== null && (
                                 <span className={`px-2 py-0.5 rounded-full text-[10px] ${
@@ -437,35 +477,283 @@ const AdminDashboard = () => {
                 })}
             </div>
 
-            {/* TAB 1: QUESTIONS BANK */}
-            {activeTab === 'questions' && (
-                <div className="space-y-5">
-                    {/* Stats summary */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {stats.map(({ label, value, icon: Icon, gradient }) => (
-                            <div key={label} className="card p-5 rounded-2xl flex items-center gap-4">
-                                <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg shrink-0`}>
-                                    <Icon size={18} className="text-white" />
-                                </div>
-                                <div>
-                                    <p className="text-xl font-display font-bold text-[var(--foreground)]">{value}</p>
-                                    <p className="text-[10px] text-[var(--foreground-muted)] font-semibold uppercase tracking-wider">{label}</p>
-                                </div>
+            {/* TAB 0: ANALYTICS & OVERVIEW (100% Real MongoDB Data) */}
+            {activeTab === 'overview' && (
+                <div className="space-y-6">
+                    {/* Period Filter & Refresh Header */}
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-[var(--foreground)] uppercase tracking-wider">Metrics Period:</span>
+                            <div className="flex items-center bg-[var(--muted-bg)] p-1 rounded-xl border border-[var(--card-border)]">
+                                {[
+                                    { id: '7d', label: 'Last 7 Days' },
+                                    { id: '30d', label: 'Last 30 Days' },
+                                    { id: 'year', label: 'Last Year' }
+                                ].map(p => (
+                                    <button
+                                        key={p.id}
+                                        onClick={() => setPeriod(p.id)}
+                                        className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                                            period === p.id
+                                                ? 'bg-[#193D35] text-white shadow-xs'
+                                                : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
+                                        }`}
+                                    >
+                                        {p.label}
+                                    </button>
+                                ))}
                             </div>
-                        ))}
+                        </div>
+
+                        <button
+                            onClick={fetchAnalytics}
+                            disabled={loadingAnalytics}
+                            className="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5"
+                        >
+                            <RefreshCw size={13} className={loadingAnalytics ? 'animate-spin' : ''} />
+                            Refresh Live DB
+                        </button>
                     </div>
 
-                    {/* Search Bar */}
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <AdminStatCard icon={Users} label="Total Users" value={stats.totalUsers} gradient="from-[#193D35] to-[#42665B]" />
+                        <AdminStatCard icon={FolderOpen} label="Technologies" value={stats.totalTechnologies} gradient="from-[#42665B] to-[#193D35]" />
+                        <AdminStatCard icon={BookOpen} label="Total Questions" value={stats.totalQuestions} gradient="from-[#193D35] to-[#D19A45]" />
+                        <AdminStatCard icon={Activity} label="Quiz Attempts" value={stats.totalAttempts} gradient="from-[#D19A45] to-[#42665B]" />
+                        <AdminStatCard icon={Award} label="Certificates Issued" value={stats.totalCertificates} gradient="from-[#193D35] to-[#42665B]" />
+                        <AdminStatCard icon={CheckCircle2} label="Passed Quizzes" value={stats.passedAttempts} gradient="from-[#42665B] to-[#193D35]" />
+                        <AdminStatCard icon={BarChart3} label="Average Score" value={`${stats.averageScore}%`} gradient="from-[#193D35] to-[#D19A45]" />
+                        <AdminStatCard icon={TrendingUp} label="Pass Rate" value={`${stats.totalAttempts > 0 ? Math.round((stats.passedAttempts / stats.totalAttempts) * 100) : 0}%`} gradient="from-[#D19A45] to-[#42665B]" />
+                    </div>
+
+                    {/* Charts Grid */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* User Growth Chart */}
+                        <div className="card p-6 rounded-2xl space-y-4">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <TrendingUp size={16} className="text-[#193D35]" />
+                                    <h3 className="text-sm font-bold text-[var(--foreground)]">User Registration Growth</h3>
+                                </div>
+                                <span className="text-[10px] font-medium text-[var(--foreground-muted)]">{userGrowth.length} data points</span>
+                            </div>
+
+                            {userGrowth.length > 0 ? (
+                                <div className="flex items-end gap-1 h-36 pt-4 overflow-x-auto no-scrollbar">
+                                    {userGrowth.map((g) => {
+                                        const pct = (g.users / maxGrowthUsers) * 100;
+                                        return (
+                                            <div key={g.date} className="flex-1 flex flex-col items-center gap-1.5 min-w-[12px] group relative">
+                                                <div className="w-full rounded-md bg-[var(--muted-bg)] relative h-28 flex items-end">
+                                                    <div
+                                                        className="w-full bg-[#193D35] rounded-md transition-all group-hover:bg-[#42665B]"
+                                                        style={{ height: `${pct}%`, minHeight: g.users > 0 ? '6px' : '0' }}
+                                                    />
+                                                </div>
+                                                <div className="absolute -top-7 px-2 py-0.5 bg-black text-white text-[9px] rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10 shadow-lg">
+                                                    {g.date}: {g.users} users
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ) : (
+                                <p className="text-xs text-[var(--foreground-muted)] py-10 text-center">No user registration data in this period.</p>
+                            )}
+                        </div>
+
+                        {/* Quiz Activity Chart */}
+                        <div className="card p-6 rounded-2xl space-y-4">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <Activity size={16} className="text-[#193D35]" />
+                                    <h3 className="text-sm font-bold text-[var(--foreground)]">Quiz Activity Timeline</h3>
+                                </div>
+                                <span className="text-[10px] font-medium text-[var(--foreground-muted)]">{quizActivity.length} data points</span>
+                            </div>
+
+                            {quizActivity.length > 0 ? (
+                                <div className="flex items-end gap-1 h-36 pt-4 overflow-x-auto no-scrollbar">
+                                    {quizActivity.map((a) => {
+                                        const pct = (a.attempts / maxActivityAttempts) * 100;
+                                        return (
+                                            <div key={a.date} className="flex-1 flex flex-col items-center gap-1.5 min-w-[12px] group relative">
+                                                <div className="w-full rounded-md bg-[var(--muted-bg)] relative h-28 flex items-end">
+                                                    <div
+                                                        className="w-full bg-[#D19A45] rounded-md transition-all group-hover:bg-[#E2D0A6]"
+                                                        style={{ height: `${pct}%`, minHeight: a.attempts > 0 ? '6px' : '0' }}
+                                                    />
+                                                </div>
+                                                <div className="absolute -top-7 px-2 py-0.5 bg-black text-white text-[9px] rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10 shadow-lg">
+                                                    {a.date}: {a.attempts} attempts
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ) : (
+                                <p className="text-xs text-[var(--foreground-muted)] py-10 text-center">No quiz activity in this period.</p>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Popular Technologies Breakdown */}
+                    <div className="card p-6 rounded-2xl space-y-4">
+                        <div className="flex items-center justify-between border-b border-[var(--card-border)] pb-3">
+                            <div className="flex items-center gap-2">
+                                <Layers size={16} className="text-[#193D35]" />
+                                <h3 className="text-sm font-bold text-[var(--foreground)]">Popular Technologies by Attempts</h3>
+                            </div>
+                            <span className="text-xs text-[var(--foreground-muted)] font-medium">Ranked by real candidate test volume</span>
+                        </div>
+
+                        {popularTechnologies.length === 0 ? (
+                            <div className="text-center py-10 text-xs text-[var(--foreground-muted)]">
+                                No quiz attempts recorded yet. Candidates will populate this list as tests are taken.
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                {popularTechnologies.map((tech) => (
+                                    <div key={tech.category} className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-xs font-bold text-[var(--foreground)]">{tech.category}</span>
+                                            <span className="badge-emerald text-[10px] font-extrabold">{tech.attempts} attempts</span>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[11px] text-[var(--foreground-muted)]">
+                                            <span>Average: <strong>{tech.averageScore}%</strong></span>
+                                            <span>Pass Rate: <strong>{tech.passRate}%</strong></span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Recent Activity: 2 Columns (Recent Attempts & Recent Users) */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Recent Attempts */}
+                        <div className="card overflow-hidden rounded-2xl shadow-sm">
+                            <div className="p-4 border-b border-[var(--card-border)] bg-[var(--muted-bg)]/40 flex items-center justify-between">
+                                <h3 className="text-xs font-bold text-[var(--foreground)]">Recent Quiz Attempts</h3>
+                                <span className="text-[10px] text-[var(--foreground-muted)]">Live from MongoDB</span>
+                            </div>
+                            <div className="divide-y divide-[var(--card-border)] max-h-80 overflow-y-auto">
+                                {recentAttempts.length === 0 ? (
+                                    <div className="p-8 text-center text-xs text-[var(--foreground-muted)]">No quiz attempts yet.</div>
+                                ) : recentAttempts.map(ra => (
+                                    <div key={ra.id} className="p-3.5 flex items-center justify-between hover:bg-[var(--muted-bg)]/30 transition-colors text-xs">
+                                        <div>
+                                            <p className="font-bold text-[var(--foreground)]">{ra.userName}</p>
+                                            <p className="text-[10px] text-[var(--foreground-muted)]">{ra.category} · {new Date(ra.createdAt).toLocaleDateString()}</p>
+                                        </div>
+                                        <div className="text-right">
+                                            <span className={`font-bold ${ra.passed ? 'text-[#193D35]' : 'text-red-500'}`}>{ra.percentage}%</span>
+                                            <p className="text-[10px] text-[var(--foreground-muted)]">{ra.score}/{ra.total}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Recent Users */}
+                        <div className="card overflow-hidden rounded-2xl shadow-sm">
+                            <div className="p-4 border-b border-[var(--card-border)] bg-[var(--muted-bg)]/40 flex items-center justify-between">
+                                <h3 className="text-xs font-bold text-[var(--foreground)]">Recent User Signups</h3>
+                                <span className="text-[10px] text-[var(--foreground-muted)]">Live from MongoDB</span>
+                            <div className="divide-y divide-[var(--card-border)]">
+                                {recentActivities.map((act) => (
+                                    <div key={act.id} className="py-3 flex items-center justify-between gap-4 first:pt-0 last:pb-0">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 flex items-center justify-center text-black font-bold text-xs">
+                                                {act.user?.name?.charAt(0) || 'U'}
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-bold text-[var(--foreground)]">
+                                                    {act.user?.name || act.user?.email || 'Anonymous Learner'}
+                                                </p>
+                                                <p className="text-[11px] text-[var(--foreground-muted)]">
+                                                    Completed <span className="font-semibold text-black">{act.category}</span> quiz
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="text-right">
+                                            <span className={`text-xs font-extrabold ${act.percentage >= 70 ? 'text-[#193D35]' : 'text-red-500'}`}>
+                                                {act.percentage}% {act.percentage >= 70 ? '🎉' : '❌'}
+                                            </span>
+                                            <p className="text-[10px] text-[var(--foreground-muted)] flex items-center gap-1 justify-end mt-0.5">
+                                                <Clock size={10} /> {formatShortDate(act.createdAt)}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            {/* TAB CONTENT: Questions Management */}
+            {activeTab === 'questions' && (
+                <div className="space-y-4">
+                    {/* Actions Bar */}
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-                        <div className="relative w-full sm:max-w-xs">
+                        <div className="relative w-full sm:w-80">
                             <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
                             <input
                                 type="text"
+                                placeholder="Search questions or categories..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Filter questions or topic…"
-                                className="input-field pl-10 text-xs py-2.5"
+                                className="input-field text-xs pl-10 py-2.5"
                             />
+                        </div>
+
+                        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                            <button onClick={() => setIsImportModalOpen(true)} className="btn-secondary text-xs py-2 px-3">
+                                <Upload size={13} /> Import
+                            </button>
+
+                            <div className="relative">
+                                <button
+                                    onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)}
+                                    className="btn-secondary text-xs py-2 px-3"
+                                >
+                                    <Download size={13} /> Export <ChevronDown size={13} />
+                                </button>
+                                {isExportDropdownOpen && (
+                                    <div className="absolute right-0 mt-1.5 w-36 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-xl py-1 z-30 animate-fade-down">
+                                        <button onClick={() => { handleExportQuestions('csv'); setIsExportDropdownOpen(false); }} className="w-full px-3 py-2 text-left text-xs hover:bg-[var(--muted-bg)] flex items-center gap-2">
+                                            <FileSpreadsheet size={13} /> CSV
+                                        </button>
+                                        <button onClick={() => { handleExportQuestions('xlsx'); setIsExportDropdownOpen(false); }} className="w-full px-3 py-2 text-left text-xs hover:bg-[var(--muted-bg)] flex items-center gap-2">
+                                            <FileSpreadsheet size={13} /> XLSX
+                                        </button>
+                                        <button onClick={() => { handleExportQuestions('docx'); setIsExportDropdownOpen(false); }} className="w-full px-3 py-2 text-left text-xs hover:bg-[var(--muted-bg)] flex items-center gap-2">
+                                            <FileText size={13} /> DOCX
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
+                            <button onClick={() => openQuestionModal(null)} className="btn-primary text-xs py-2 px-4">
+                                <Plus size={13} /> Add Question
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs text-[var(--foreground-muted)] px-1">
+                        <div className="flex items-center gap-2">
+                            <span>Filter category:</span>
+                            <select
+                                value={selectedCategoryFilter}
+                                onChange={(e) => setSelectedCategoryFilter(e.target.value)}
+                                className="bg-[var(--card-bg)] border border-[var(--card-border)] text-xs rounded-lg px-2 py-1"
+                            >
+                                <option value="all">All Categories</option>
+                                {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+                            </select>
                         </div>
                         <span className="text-xs text-[var(--foreground-muted)] font-medium">
                             Showing {filteredQuestions.length} of {questions.length} questions
@@ -478,7 +766,7 @@ const AdminDashboard = () => {
                             <table className="w-full text-left">
                                 <thead>
                                     <tr className="border-b border-[var(--card-border)] bg-[var(--muted-bg)]/60">
-                                        {['Category', 'Difficulty', 'Question Text', 'Correct Option', 'Actions'].map(h => (
+                                        {['Category', 'Question Text', 'Correct Option', 'Actions'].map(h => (
                                             <th key={h} className="px-6 py-3.5 text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-widest">{h}</th>
                                         ))}
                                     </tr>
@@ -486,7 +774,7 @@ const AdminDashboard = () => {
                                 <tbody className="divide-y divide-[var(--card-border)]">
                                     {filteredQuestions.length === 0 ? (
                                         <tr>
-                                            <td colSpan={5} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
+                                            <td colSpan={4} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
                                                 No questions matching filter. <button onClick={() => openQuestionModal(null)} className="text-black font-bold hover:underline">Add one now</button>
                                             </td>
                                         </tr>
@@ -494,11 +782,6 @@ const AdminDashboard = () => {
                                         <tr key={q.id} className="hover:bg-[var(--muted-bg)]/40 transition-colors group">
                                             <td className="px-6 py-4">
                                                 <span className="badge-emerald text-[10px] font-semibold">{q.category}</span>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <span className={`badge border text-[10px] ${difficultyBadge(q.difficulty)}`}>
-                                                    {q.difficulty || 'beginner'}
-                                                </span>
                                             </td>
                                             <td className="px-6 py-4 max-w-md">
                                                 <p className="text-xs text-[var(--foreground)] font-medium line-clamp-2">{q.question_text}</p>
@@ -528,7 +811,7 @@ const AdminDashboard = () => {
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div></div>
                 </div>
             )}
 
@@ -550,7 +833,6 @@ const AdminDashboard = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Option 1: Time limit per question */}
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
                             <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
                                 <Clock size={15} className="text-black" /> Timer Limit Per Question
@@ -569,7 +851,6 @@ const AdminDashboard = () => {
                             </select>
                         </div>
 
-                        {/* Option 2: Passing Score */}
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
                             <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
                                 <Percent size={15} className="text-black" /> Minimum Passing Percentage
@@ -588,7 +869,6 @@ const AdminDashboard = () => {
                             </select>
                         </div>
 
-                        {/* Option 3: Questions per session */}
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
                             <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
                                 <BookOpen size={15} className="text-black" /> Questions Per Quiz Session
@@ -607,7 +887,6 @@ const AdminDashboard = () => {
                             </select>
                         </div>
 
-                        {/* Option 4: Shuffling & Order */}
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-3">
                             <span className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
                                 <Shuffle size={15} className="text-black" /> Question Shuffling & Randomization
@@ -635,7 +914,6 @@ const AdminDashboard = () => {
                         </div>
                     </div>
 
-                    {/* Additional Toggles */}
                     <div className="border-t border-[var(--card-border)] pt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[black] transition-all">
                             <div>
@@ -728,32 +1006,17 @@ const AdminDashboard = () => {
                             />
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div className="space-y-1.5">
-                                <label className="input-label">Difficulty Level</label>
-                                <select
-                                    value={aiDifficulty}
-                                    onChange={(e) => setAiDifficulty(e.target.value)}
-                                    className="input-field text-xs py-2.5"
-                                >
-                                    <option value="beginner">Beginner</option>
-                                    <option value="intermediate">Intermediate</option>
-                                    <option value="expert">Expert</option>
-                                </select>
-                            </div>
-
-                            <div className="space-y-1.5">
-                                <label className="input-label">Number of Questions to Generate</label>
-                                <select
-                                    value={aiCount}
-                                    onChange={(e) => setAiCount(Number(e.target.value))}
-                                    className="input-field text-xs py-2.5"
-                                >
-                                    <option value={3}>3 Questions</option>
-                                    <option value={5}>5 Questions (Recommended)</option>
-                                    <option value={10}>10 Questions</option>
-                                </select>
-                            </div>
+                        <div className="space-y-1.5">
+                            <label className="input-label">Number of Questions to Generate</label>
+                            <select
+                                value={aiCount}
+                                onChange={(e) => setAiCount(Number(e.target.value))}
+                                className="input-field text-xs py-2.5"
+                            >
+                                <option value={3}>3 Questions</option>
+                                <option value={5}>5 Questions (Recommended)</option>
+                                <option value={10}>10 Questions</option>
+                            </select>
                         </div>
 
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)] text-xs space-y-1 text-[var(--foreground-muted)]">
@@ -894,23 +1157,13 @@ const AdminDashboard = () => {
                         </div>
 
                         <form onSubmit={handleSubmitQuestion} className="p-6 overflow-y-auto space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-1">
-                                    <label className="input-label">Category</label>
-                                    <select value={category} onChange={(e) => setCategory(e.target.value)} className="input-field text-xs py-2">
-                                        {categories.map(cat => (
-                                            <option key={cat.id} value={cat.name}>{cat.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="space-y-1">
-                                    <label className="input-label">Difficulty</label>
-                                    <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="input-field text-xs py-2">
-                                        <option value="beginner">Beginner</option>
-                                        <option value="intermediate">Intermediate</option>
-                                        <option value="expert">Expert</option>
-                                    </select>
-                                </div>
+                            <div className="space-y-1">
+                                <label className="input-label">Category</label>
+                                <select value={category} onChange={(e) => setCategory(e.target.value)} className="input-field text-xs py-2">
+                                    {categories.map(cat => (
+                                        <option key={cat.id} value={cat.name}>{cat.name}</option>
+                                    ))}
+                                </select>
                             </div>
 
                             <div className="space-y-1">
@@ -1032,5 +1285,19 @@ const AdminDashboard = () => {
         </div>
     );
 };
+
+function AdminStatCard({ icon: Icon, label, value, gradient }) {
+    return (
+        <div className="card p-4 rounded-2xl flex items-center gap-3.5 group hover:-translate-y-0.5 transition-all duration-300">
+            <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg shrink-0 group-hover:scale-110 transition-transform duration-500`}>
+                <Icon size={18} className="text-white" />
+            </div>
+            <div>
+                <p className="text-xl font-display font-extrabold text-[var(--foreground)]">{value}</p>
+                <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">{label}</p>
+            </div>
+        </div>
+    );
+}
 
 export default AdminDashboard;

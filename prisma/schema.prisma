@@ -30,7 +30,6 @@ model Question {
   questionText  String   @map("question_text")
   options       String
   correctAnswer String   @map("correct_answer")
-  difficulty    String   @default("beginner")
   createdAt     DateTime @default(now()) @map("created_at")
 
   @@map("questions")
@@ -43,7 +42,6 @@ model QuizResult {
   score      Int
   total      Int
   percentage Float
-  difficulty String?
   createdAt  DateTime @default(now()) @map("created_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)

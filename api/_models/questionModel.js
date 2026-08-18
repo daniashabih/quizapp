@@ -1,14 +1,5 @@
 const prisma = require('../_config/prisma');
 
-const normalizeDifficulty = (diff) => {
-    if (!diff) return 'beginner';
-    const d = String(diff).toLowerCase().trim();
-    if (d === 'easy' || d === 'beginner') return 'beginner';
-    if (d === 'medium' || d === 'intermediate') return 'intermediate';
-    if (d === 'hard' || d === 'expert' || d === 'advanced') return 'expert';
-    return 'beginner';
-};
-
 const parseOptions = (opts) => {
     if (Array.isArray(opts)) return opts;
     if (typeof opts === 'string') {
@@ -19,15 +10,14 @@ const parseOptions = (opts) => {
 
 const Question = {
     create: async (data) => {
-        const { category, question_text, options, correct_answer, difficulty = 'beginner' } = data;
+        const { category, question_text, options, correct_answer } = data;
         const serializedOptions = typeof options === 'string' ? options : JSON.stringify(Array.isArray(options) ? options : []);
         const result = await prisma.question.create({
             data: {
                 category,
                 questionText: question_text,
                 options: serializedOptions,
-                correctAnswer: correct_answer,
-                difficulty: normalizeDifficulty(difficulty)
+                correctAnswer: correct_answer
             }
         });
         return result.id;
@@ -46,13 +36,10 @@ const Question = {
         }));
     },
 
-    getFiltered: async ({ category, difficulty } = {}) => {
+    getFiltered: async ({ category } = {}) => {
         const where = {};
         if (category) {
             where.category = { equals: category, mode: 'insensitive' };
-        }
-        if (difficulty && difficulty !== 'all') {
-            where.difficulty = { equals: normalizeDifficulty(difficulty), mode: 'insensitive' };
         }
 
         const rows = await prisma.question.findMany({
@@ -77,7 +64,7 @@ const Question = {
     },
 
     update: async (id, data) => {
-        const { category, question_text, options, correct_answer, difficulty } = data;
+        const { category, question_text, options, correct_answer } = data;
         const serializedOptions = typeof options === 'string' ? options : JSON.stringify(Array.isArray(options) ? options : []);
         await prisma.question.update({
             where: { id: String(id) },
@@ -85,8 +72,7 @@ const Question = {
                 category,
                 questionText: question_text,
                 options: serializedOptions,
-                correctAnswer: correct_answer,
-                difficulty: normalizeDifficulty(difficulty)
+                correctAnswer: correct_answer
             }
         });
         return 1;

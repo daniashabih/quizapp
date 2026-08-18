@@ -10,14 +10,14 @@ import Footer from '../components/Footer';
 import BrandLogo from '../components/BrandLogo';
 
 const technologies = [
-    { name: 'HTML', level: 'Beginner', questions: 120, color: '#000000' },
-    { name: 'CSS', level: 'Beginner', questions: 150, color: '#000000' },
-    { name: 'JavaScript', level: 'Intermediate', questions: 200, color: '#000000' },
-    { name: 'React', level: 'Advanced', questions: 180, color: '#000000' },
-    { name: 'Node.js', level: 'Intermediate', questions: 160, color: '#000000' },
-    { name: 'Python', level: 'Intermediate', questions: 190, color: '#000000' },
-    { name: 'Tailwind CSS', level: 'Intermediate', questions: 100, color: '#000000' },
-    { name: 'MongoDB', level: 'Intermediate', questions: 90, color: '#000000' },
+    { name: 'HTML', questions: 120, color: '#000000' },
+    { name: 'CSS', questions: 150, color: '#000000' },
+    { name: 'JavaScript', questions: 200, color: '#000000' },
+    { name: 'React', questions: 180, color: '#000000' },
+    { name: 'Node.js', questions: 160, color: '#000000' },
+    { name: 'Python', questions: 190, color: '#000000' },
+    { name: 'Tailwind CSS', questions: 100, color: '#000000' },
+    { name: 'MongoDB', questions: 90, color: '#000000' },
 ];
 
 export default function Landing() {

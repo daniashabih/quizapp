@@ -6,7 +6,7 @@ import Footer from '../../components/Footer';
 
 export default function Result() {
     const location = useLocation();
-    const { score = 0, total = 0, percentage = 0, category = 'Web Development', difficulty = 'beginner', timeTaken = 0 } = location.state || {};
+    const { score = 0, total = 0, percentage = 0, category = 'Web Development', timeTaken = 0 } = location.state || {};
     const [animateScore, setAnimateScore] = useState(0);
     const [showConfetti, setShowConfetti] = useState(percentage >= 70);
 
@@ -130,8 +130,8 @@ export default function Result() {
                                     <p className="text-xs font-bold text-[var(--foreground)]">{category}</p>
                                 </div>
                                 <div className="p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                    <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase mb-0.5">Difficulty</p>
-                                    <p className="text-xs font-bold text-[var(--foreground)] capitalize">{difficulty}</p>
+                                    <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase mb-0.5">Status</p>
+                                    <p className={`text-xs font-bold ${passed ? 'text-[#67966D]' : 'text-[#C96155]'}`}>{passed ? 'Passed' : 'Failed'}</p>
                                 </div>
                             </div>
 
@@ -146,7 +146,7 @@ export default function Result() {
                                 </div>
                                 {passed && (
                                     <div className="flex items-center justify-center gap-3 pt-1">
-                                        <Link to="/certificate/view" state={{ category, percentage, score, total, difficulty }}
+                                        <Link to="/certificate/view" state={{ category, percentage, score, total }}
                                             className="flex items-center gap-1.5 text-xs font-semibold text-[#193D35] hover:underline transition-colors">
                                             <Download size={13} /> View Certificate
                                         </Link>

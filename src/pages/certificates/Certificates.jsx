@@ -1,33 +1,123 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Award, Download, ExternalLink, Linkedin, Search, FileText, Lock, CheckCircle2 } from 'lucide-react';
-
-const mockCertificates = [
-    { id: 'CERT-001', tech: 'JavaScript', level: 'Advanced', score: 92, date: '2026-06-15', issued: true },
-    { id: 'CERT-002', tech: 'React', level: 'Intermediate', score: 88, date: '2026-06-10', issued: true },
-    { id: 'CERT-003', tech: 'Python', level: 'Advanced', score: 85, date: '2026-06-05', issued: true },
-    { id: 'CERT-004', tech: 'Node.js', level: 'Intermediate', score: 78, date: '2026-05-28', issued: false },
-    { id: 'CERT-005', tech: 'HTML', level: 'Beginner', score: 95, date: '2026-05-20', issued: true },
-];
+import { Award, Download, ExternalLink, Linkedin, Search, FileText, Lock, CheckCircle2, RefreshCw, AlertCircle } from 'lucide-react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import dashboardService from '../../services/dashboardService';
 
 export default function Certificates() {
     const [searchQuery, setSearchQuery] = useState('');
-    const [certList] = useState(mockCertificates);
+    const [earnedCerts, setEarnedCerts] = useState([]);
+    const [allCategories, setAllCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const filtered = certList.filter(c =>
-        c.tech.toLowerCase().includes(searchQuery.toLowerCase())
+    const fetchData = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const [certsRes, catsRes] = await Promise.allSettled([
+                dashboardService.getMyCertificates(),
+                axios.get('/categories')
+            ]);
+
+            if (certsRes.status === 'fulfilled' && certsRes.value?.certificates) {
+                setEarnedCerts(certsRes.value.certificates);
+            } else {
+                setEarnedCerts([]);
+            }
+
+            if (catsRes.status === 'fulfilled' && Array.isArray(catsRes.value?.data)) {
+                setAllCategories(catsRes.value.data);
+            } else {
+                setAllCategories([]);
+            }
+        } catch (err) {
+            console.error('[Certificates Fetch Error]:', err);
+            setError('Unable to load certificates.');
+            toast.error('Failed to load your certificates.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    // Combine earned certificates and available tracks
+    const earnedTechs = new Set(earnedCerts.map(c => (c.tech || c.category || '').toLowerCase()));
+    
+    const availableTracks = allCategories
+        .filter(cat => !earnedTechs.has(cat.name.toLowerCase()))
+        .map(cat => ({
+            id: `TRACK-${cat.id.slice(-4).toUpperCase()}`,
+            tech: cat.name,
+            category: cat.name,
+            score: 0,
+            date: 'Locked',
+            issued: false
+        }));
+
+    const fullList = [...earnedCerts, ...availableTracks];
+
+    const filtered = fullList.filter(c =>
+        (c.tech || c.category || '').toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const earnedCount = certList.filter(c => c.issued).length;
-    const bestScore = Math.max(...certList.map(c => c.score), 0);
+    const earnedCount = earnedCerts.length;
+    const bestScore = earnedCerts.length > 0
+        ? Math.max(...earnedCerts.map(c => c.score || c.percentage || 0))
+        : 0;
+
+    if (loading) {
+        return (
+            <div className="max-w-6xl mx-auto space-y-6 animate-pulse p-2">
+                <div className="h-20 bg-[var(--muted-bg)] rounded-2xl" />
+                <div className="grid grid-cols-3 gap-4">
+                    {[1, 2, 3].map(n => (
+                        <div key={n} className="h-28 bg-[var(--muted-bg)] rounded-2xl" />
+                    ))}
+                </div>
+                <div className="h-12 bg-[var(--muted-bg)] rounded-2xl max-w-sm" />
+                <div className="space-y-4">
+                    {[1, 2, 3].map(n => (
+                        <div key={n} className="h-24 bg-[var(--muted-bg)] rounded-2xl" />
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    if (error && earnedCerts.length === 0 && allCategories.length === 0) {
+        return (
+            <div className="max-w-xl mx-auto text-center py-16 card p-8 rounded-3xl space-y-4">
+                <div className="w-16 h-16 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
+                    <AlertCircle size={32} />
+                </div>
+                <h2 className="text-xl font-bold text-[var(--foreground)]">Unable to load certificates</h2>
+                <p className="text-sm text-[var(--foreground-muted)]">
+                    We could not retrieve your certificate records from MongoDB.
+                </p>
+                <button onClick={fetchData} className="btn-primary inline-flex items-center gap-2 text-xs py-2.5 px-6 mx-auto">
+                    <RefreshCw size={14} /> Retry
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-6xl mx-auto space-y-6 animate-fade-up">
-            <div>
-                <h1 className="text-2xl lg:text-3xl font-display font-bold text-[var(--foreground)]">My Certificates</h1>
-                <p className="text-sm text-[var(--foreground-muted)] mt-1">
-                    {earnedCount} certificates earned · Best score: {bestScore}%
-                </p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-2xl lg:text-3xl font-display font-bold text-[var(--foreground)]">My Certificates</h1>
+                    <p className="text-sm text-[var(--foreground-muted)] mt-1">
+                        {earnedCount} {earnedCount === 1 ? 'certificate' : 'certificates'} earned · Best score: {bestScore}%
+                    </p>
+                </div>
+                <Link to="/technologies" className="btn-primary text-xs py-2.5 px-4 self-start sm:self-auto">
+                    Earn New Certificate
+                </Link>
             </div>
 
             <div className="grid grid-cols-3 gap-4">
@@ -42,15 +132,15 @@ export default function Certificates() {
                     <div className="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-300 flex items-center justify-center mx-auto mb-2">
                         <Lock size={18} className="text-black" />
                     </div>
-                    <p className="text-2xl font-display font-bold text-[var(--foreground)]">{certList.filter(c => !c.issued).length}</p>
-                    <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Available</p>
+                    <p className="text-2xl font-display font-bold text-[var(--foreground)]">{availableTracks.length}</p>
+                    <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Available Tracks</p>
                 </div>
                 <div className="card p-5 rounded-2xl text-center">
                     <div className="w-10 h-10 rounded-xl bg-zinc-100 border border-zinc-300 flex items-center justify-center mx-auto mb-2">
                         <FileText size={18} className="text-black" />
                     </div>
-                    <p className="text-2xl font-display font-bold text-[var(--foreground)]">{certList.length}</p>
-                    <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Total</p>
+                    <p className="text-2xl font-display font-bold text-[var(--foreground)]">{fullList.length}</p>
+                    <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Total Tracks</p>
                 </div>
             </div>
 
@@ -66,8 +156,8 @@ export default function Certificates() {
             </div>
 
             <div className="grid gap-4">
-                {filtered.map((cert, i) => (
-                    <div key={i} className={`card p-5 lg:p-6 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:shadow-md transition-all group ${cert.issued ? '' : 'opacity-60'}`}>
+                {filtered.map((cert) => (
+                    <div key={cert.id} className={`card p-5 lg:p-6 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:shadow-md transition-all group ${cert.issued ? '' : 'opacity-60'}`}>
                         <div className="flex items-center gap-4">
                             <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg ${
                                 cert.issued
@@ -78,17 +168,21 @@ export default function Certificates() {
                             </div>
                             <div>
                                 <div className="flex items-center gap-2">
-                                    <h3 className="text-lg font-bold text-[var(--foreground)]">{cert.tech}</h3>
+                                    <h3 className="text-lg font-bold text-[var(--foreground)]">{cert.tech || cert.category}</h3>
                                     {cert.issued && (
                                         <CheckCircle2 size={14} className="text-black" />
                                     )}
                                 </div>
                                 <div className="flex items-center gap-3 mt-1">
-                                    <span className="text-xs text-[var(--foreground-muted)]">{cert.level}</span>
-                                    <span className="w-1 h-1 rounded-full bg-[var(--card-border)]" />
-                                    <span className="text-xs text-[var(--foreground-muted)]">{cert.score}%</span>
-                                    <span className="w-1 h-1 rounded-full bg-[var(--card-border)]" />
-                                    <span className="text-xs text-[var(--foreground-muted)]">{cert.date}</span>
+                                    <span className="text-xs text-[var(--foreground-muted)]">{cert.issued ? 'Certified' : 'Available Track'}</span>
+                                    {cert.issued && (
+                                        <>
+                                            <span className="w-1 h-1 rounded-full bg-[var(--card-border)]" />
+                                            <span className="text-xs font-bold text-[#193D35]">{cert.score}%</span>
+                                            <span className="w-1 h-1 rounded-full bg-[var(--card-border)]" />
+                                            <span className="text-xs text-[var(--foreground-muted)]">{cert.date}</span>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -98,20 +192,36 @@ export default function Certificates() {
                                 <>
                                     <Link
                                         to="/certificate/view"
-                                        state={{ category: cert.tech, percentage: cert.score, difficulty: cert.level.toLowerCase() }}
+                                        state={{ category: cert.tech || cert.category, percentage: cert.score }}
                                         className="btn-primary text-xs px-4 py-2.5"
                                     >
                                         <ExternalLink size={13} /> View
                                     </Link>
-                                    <button className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
+                                    <Link
+                                        to="/certificate/view"
+                                        state={{ category: cert.tech || cert.category, percentage: cert.score }}
+                                        className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all"
+                                        title="Download Certificate"
+                                    >
                                         <Download size={15} />
-                                    </button>
-                                    <button className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
+                                    </Link>
+                                    <a
+                                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.origin + '/certificate/view')}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="p-2.5 rounded-xl text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all"
+                                        title="Share on LinkedIn"
+                                    >
                                         <Linkedin size={15} />
-                                    </button>
+                                    </a>
                                 </>
                             ) : (
-                                <span className="text-xs text-[var(--foreground-muted)] font-medium">Score 80%+ to unlock</span>
+                                <Link
+                                    to="/technologies"
+                                    className="text-xs font-semibold text-[#193D35] hover:underline"
+                                >
+                                    Score 80%+ to unlock →
+                                </Link>
                             )}
                         </div>
                     </div>
@@ -119,11 +229,17 @@ export default function Certificates() {
             </div>
 
             {filtered.length === 0 && (
-                <div className="text-center py-16">
+                <div className="text-center py-16 card p-8 rounded-3xl">
                     <div className="w-16 h-16 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] flex items-center justify-center mx-auto mb-3">
                         <Award size={28} className="text-[var(--foreground-muted)] opacity-40" />
                     </div>
-                    <p className="text-sm text-[var(--foreground-muted)]">No certificates found.</p>
+                    <p className="text-sm font-bold text-[var(--foreground)] mb-1">No certificates found</p>
+                    <p className="text-xs text-[var(--foreground-muted)] mb-4">
+                        {searchQuery ? `No results matching "${searchQuery}".` : 'Complete a quiz with 80%+ score to earn your first verified certificate.'}
+                    </p>
+                    <Link to="/technologies" className="btn-primary text-xs py-2 px-5 inline-flex items-center gap-1.5 mx-auto">
+                        Take a Quiz
+                    </Link>
                 </div>
             )}
         </div>

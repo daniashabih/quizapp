@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
+import { Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './styles/custom-toast.css';
+import { CustomToastIcon, CustomCloseButton } from "./components/CustomToast";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
 import SplashScreen from "./components/SplashScreen";
@@ -17,7 +19,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // Public Pages
 import Landing from "./pages/Landing";
 import Technologies from "./pages/quiz/Technologies";
-import SelectLevel from "./pages/quiz/SelectLevel";
 import Quiz from "./pages/quiz/Quiz";
 import Result from "./pages/quiz/Result";
 
@@ -42,7 +43,7 @@ function AppContent() {
                 {/* Public Routes */}
                 <Route path="/" element={<Landing />} />
                 <Route path="/technologies" element={<Technologies />} />
-                <Route path="/technologies/level" element={<SelectLevel />} />
+                <Route path="/technologies/level" element={<Navigate to="/technologies" replace />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/signup" element={<Signup />} />
@@ -66,7 +67,7 @@ function AppContent() {
                 <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
                     <Route index element={<UserDashboard />} />
                     <Route path="technologies" element={<Technologies />} />
-                    <Route path="technologies/level" element={<SelectLevel />} />
+                    <Route path="technologies/level" element={<Navigate to="/dashboard/technologies" replace />} />
                     <Route path="quizzes" element={<Technologies />} />
                     <Route path="certificates" element={<Certificates />} />
                     <Route path="leaderboard" element={<Leaderboard />} />
@@ -77,15 +78,16 @@ function AppContent() {
             </Routes>
             <ToastContainer
                 position="top-right"
-                autoClose={3000}
+                autoClose={3500}
                 hideProgressBar={false}
                 newestOnTop
                 closeOnClick
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
-                toastClassName="!rounded-xl !shadow-lg"
+                transition={Slide}
+                icon={CustomToastIcon}
+                closeButton={CustomCloseButton}
             />
         </AuthProvider>
     );

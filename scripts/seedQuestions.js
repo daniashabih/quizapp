@@ -260,8 +260,7 @@ async function seedQuestions() {
                         category: q.category,
                         questionText: q.questionText,
                         options: typeof q.options === 'string' ? q.options : JSON.stringify(q.options),
-                        correctAnswer: q.correctAnswer,
-                        difficulty: q.difficulty
+                        correctAnswer: q.correctAnswer
                     }
                 });
                 insertedCount++;

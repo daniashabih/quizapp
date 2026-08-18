@@ -15,6 +15,7 @@ const questionRoutes = require('./_routes/questionRoutes');
 const categoryRoutes = require('./_routes/categoryRoutes');
 const resultRoutes = require('./_routes/resultRoutes');
 const activityRoutes = require('./_routes/activityRoutes');
+const dashboardRoutes = require('./_routes/dashboardRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -49,11 +50,13 @@ const authLimiter = rateLimit({
 
 // Routes
 app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/technologies', categoryRoutes);
 app.use('/api/results', resultRoutes);
+app.use('/api/certificates', dashboardRoutes);
 app.use('/api/activity', activityRoutes);
 
 app.get('/api/health', (req, res) => {

@@ -21,7 +21,7 @@ const generateQuestions = async (req, res) => {
     console.log('Body:', req.body);
 
     try {
-        const { topic, difficulty, count = 5 } = req.body;
+        const { topic, count = 5 } = req.body;
 
         if (!process.env.OPENAI_API_KEY) {
             console.error('Missing OpenAI API Key');
@@ -31,15 +31,14 @@ const generateQuestions = async (req, res) => {
         const openai = getOpenAIClient();
 
         const prompt = `
-            Create ${count} multiple-choice quiz questions about ${topic} for a ${difficulty} level developer.
+            Create ${count} multiple-choice quiz questions about ${topic}.
             Return ONLY a valid JSON array of objects with this structure:
             [
                 {
                     "category": "${topic}",
                     "question_text": "Question here?",
                     "options": ["Option A", "Option B", "Option C", "Option D"],
-                    "correct_answer": "Option A",
-                    "difficulty": "${difficulty}"
+                    "correct_answer": "Option A"
                 }
             ]
             Do not include any markdown formatting like \`\`\`json. Just the raw JSON array.
@@ -72,9 +71,6 @@ const generateQuestions = async (req, res) => {
         // Save to database
         const savedIds = [];
         for (const q of questions) {
-            // Ensure difficulty is set if AI missed it
-            if (!q.difficulty) q.difficulty = difficulty;
-
             const id = await Question.create(q);
             savedIds.push(id);
         }

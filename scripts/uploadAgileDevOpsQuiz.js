@@ -503,20 +503,18 @@ async function uploadQuiz() {
                         category: effectiveCategoryName,
                         questionText: q.questionText,
                         options: JSON.stringify(q.options),
-                        correctAnswer: q.correctAnswer,
-                        difficulty: q.difficulty || 'beginner'
+                        correctAnswer: q.correctAnswer
                     }
                 });
                 console.log(`  [${i + 1}/${questions.length}] ➕ Inserted: "${q.questionText.substring(0, 50)}..."`);
                 inserted++;
             } else {
-                // Update options/correctAnswer/difficulty in case it exists
+                // Update options/correctAnswer in case it exists
                 await prisma.question.update({
                     where: { id: existing.id },
                     data: {
                         options: JSON.stringify(q.options),
-                        correctAnswer: q.correctAnswer,
-                        difficulty: q.difficulty || 'beginner'
+                        correctAnswer: q.correctAnswer
                     }
                 });
                 console.log(`  [${i + 1}/${questions.length}] 🔄 Updated existing: "${q.questionText.substring(0, 50)}..."`);

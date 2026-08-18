@@ -121,8 +121,8 @@ export default function DashboardLayout() {
                                             </div>
                                             <div className="max-h-80 overflow-y-auto">
                                                 {[
-                                                    { title: "New Quiz Available", desc: "React Advanced quiz is live!", time: "5m ago", unread: true },
-                                                    { title: "Certificate Earned", desc: "JavaScript Basics ✓", time: "2h ago", unread: true },
+                                                    { title: "New Quiz Available", desc: "React quiz is live!", time: "5m ago", unread: true },
+                                                    { title: "Certificate Earned", desc: "JavaScript ✓", time: "2h ago", unread: true },
                                                     { title: "7-Day Streak!", desc: "Keep going! 🔥", time: "1d ago", unread: false },
                                                 ].map((n, i) => (
                                                     <div key={i} className={`px-4 py-3 border-b border-[var(--card-border)] hover:bg-[var(--muted-bg)] transition-colors cursor-pointer ${n.unread ? 'bg-[var(--muted-bg)]/50' : ''}`}>

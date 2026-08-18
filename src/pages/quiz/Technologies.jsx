@@ -44,7 +44,7 @@ export default function Technologies() {
             <div className="text-center mb-8">
                 <div className="badge-emerald mx-auto mb-3"><Sparkles size={12} /> Technologies</div>
                 <h1 className="text-3xl lg:text-4xl font-display font-extrabold text-[var(--foreground)] mb-2">Choose Your <span className="text-black underline decoration-black/20 underline-offset-4">Stack</span></h1>
-                <p className="text-sm text-[var(--foreground-muted)] max-w-xl mx-auto">Select a technology to test your knowledge across multiple difficulty levels.</p>
+                <p className="text-sm text-[var(--foreground-muted)] max-w-xl mx-auto">Select a technology to test your knowledge and earn your certification.</p>
             </div>
 
             <div className="relative max-w-md mx-auto mb-6">
@@ -64,7 +64,7 @@ export default function Technologies() {
                         const gradient = getGradient();
                         return (
                             <button key={cat.id}
-                                onClick={() => navigate(isDashboard ? '/dashboard/technologies/level' : '/technologies/level', { state: { category: cat.name } })}
+                                onClick={() => navigate('/quiz/start', { state: { category: cat.name, language: cat.name } })}
                                 className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 text-left hover:border-black hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                                 <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
                                     <span className="text-white font-bold text-base">{cat.name.charAt(0)}</span>

@@ -8,12 +8,6 @@ import {
     ListOrdered, Send, Loader2, Check
 } from 'lucide-react';
 
-const difficultyColors = {
-    beginner: { badge: 'bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]', label: 'Beginner' },
-    intermediate: { badge: 'bg-[#42665B]/15 text-[#42665B] border border-[#42665B]/30', label: 'Intermediate' },
-    expert: { badge: 'bg-[#D19A45]/20 text-[#D19A45] border border-[#D19A45]/40', label: 'Expert' },
-};
-
 const defaultQuizOptions = {
     timePerQuestion: 60,
     passingScore: 70,
@@ -39,7 +33,6 @@ const Quiz = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const selectedCategory = location.state?.category || location.state?.language;
-    const difficulty = location.state?.difficulty || 'beginner';
     const quizOpts = getQuizOptions();
 
     const [questions, setQuestions] = useState([]);
@@ -76,8 +69,7 @@ const Quiz = () => {
                 category: selectedCategory,
                 score,
                 total: questions.length,
-                percentage,
-                difficulty
+                percentage
             });
             if (res.data?.resultId) {
                 toast.success("Quiz result saved successfully!");
@@ -98,7 +90,6 @@ const Quiz = () => {
                 total: questions.length,
                 percentage,
                 category: selectedCategory,
-                difficulty,
                 timeTaken,
             }
         });
@@ -150,13 +141,10 @@ const Quiz = () => {
         }
         const fetchQuestions = async () => {
             try {
-                let url = `/questions?category=${encodeURIComponent(selectedCategory)}`;
-                if (difficulty) url += `&difficulty=${encodeURIComponent(difficulty)}`;
+                const url = `/questions?category=${encodeURIComponent(selectedCategory)}`;
                 const res = await axios.get(url);
                 let filtered = res.data.filter(q => {
-                    const catMatch = normalizeValue(q.category) === normalizeValue(selectedCategory);
-                    const diffMatch = !difficulty || normalizeValue(q.difficulty) === normalizeValue(difficulty);
-                    return catMatch && diffMatch;
+                    return normalizeValue(q.category) === normalizeValue(selectedCategory);
                 });
 
                 // Apply Admin Quiz Options (Randomization & Max Count)
@@ -169,7 +157,7 @@ const Quiz = () => {
 
                 setQuestions(filtered);
                 if (filtered.length === 0) {
-                    toast.info(`No questions found for ${selectedCategory} at ${difficulty} level.`);
+                    toast.info(`No questions found for ${selectedCategory}.`);
                 }
                 setStartTime(Date.now());
             } catch {
@@ -180,7 +168,7 @@ const Quiz = () => {
         };
         fetchQuestions();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedCategory, difficulty, navigate]);
+    }, [selectedCategory, navigate]);
 
     const handleAnswerSelect = (questionId, optionIndex) => {
         setSelectedAnswers(prev => ({ ...prev, [questionId]: optionIndex }));
@@ -232,7 +220,7 @@ const Quiz = () => {
                     </div>
                     <h2 className="text-xl font-display font-bold text-[var(--foreground)] mb-2">No Questions Available</h2>
                     <p className="text-sm text-[var(--foreground-muted)] mb-6">
-                        No {difficulty} questions for {selectedCategory}. Try a different difficulty or track.
+                        No questions found for {selectedCategory}. Try another category or check back later.
                     </p>
                     <button onClick={() => navigate('/technologies')} className="btn-primary text-sm">
                         Browse Technologies
@@ -252,7 +240,6 @@ const Quiz = () => {
     const totalTime = quizOpts.timePerQuestion || 60;
     const timerPct = Math.min(100, Math.max(0, (timeLeft / totalTime) * 100));
     const timerIsLow = timeLeft < 10;
-    const diffStyle = difficultyColors[difficulty] || difficultyColors.beginner;
 
     return (
         <div className="h-screen max-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col overflow-hidden">
@@ -270,9 +257,6 @@ const Quiz = () => {
                         <div className="hidden sm:block">
                             <p className="text-sm font-bold text-[var(--foreground)]">{selectedCategory}</p>
                             <div className="flex items-center gap-2">
-                                <span className={`badge ${diffStyle.badge} text-[10px] px-2 py-0.5`}>
-                                    {diffStyle.label}
-                                </span>
                                 <span className="text-[10px] text-[var(--foreground-muted)] font-medium">
                                     Q {currentIndex + 1}/{questions.length}
                                 </span>
@@ -337,7 +321,6 @@ const Quiz = () => {
                 <main className="flex-1 overflow-y-auto">
                     <div className="max-w-3xl mx-auto p-4 lg:p-8 pb-24">
                         <div className="sm:hidden flex items-center gap-2 mb-4">
-                            <span className={`badge ${diffStyle.badge} text-[10px]`}>{diffStyle.label}</span>
                             <span className="text-xs text-[var(--foreground-muted)] font-medium">
                                 Q {currentIndex + 1}/{questions.length}
                             </span>

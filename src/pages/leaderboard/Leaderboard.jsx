@@ -1,4 +1,5 @@
-import { Trophy, Medal, Star, Flame, Zap, Award } from 'lucide-react';
+import { useState } from 'react';
+import { Trophy, Award, Flame, Zap } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -7,6 +8,12 @@ import LeaderboardComponent from '../../components/Leaderboard';
 export default function LeaderboardPage() {
     const location = useLocation();
     const isDashboard = location.pathname.startsWith('/dashboard');
+    const [stats, setStats] = useState({
+        totalRanked: 0,
+        totalCerts: 0,
+        maxStreak: 0,
+        totalQuizzes: 0
+    });
 
     const mainContent = (
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-up">
@@ -24,7 +31,7 @@ export default function LeaderboardPage() {
                 </p>
             </div>
 
-            {/* Quick Stats Grid */}
+            {/* Quick Stats Grid - 100% Calculated from MongoDB */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                 <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-4 flex items-center gap-3 shadow-xs">
                     <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
@@ -32,7 +39,7 @@ export default function LeaderboardPage() {
                     </div>
                     <div>
                         <p className="text-[10px] uppercase font-bold text-[var(--foreground-muted)]">Total Ranked</p>
-                        <p className="text-lg font-extrabold text-[var(--foreground)]">2,840+</p>
+                        <p className="text-lg font-extrabold text-[var(--foreground)]">{stats.totalRanked}</p>
                     </div>
                 </div>
 
@@ -42,7 +49,7 @@ export default function LeaderboardPage() {
                     </div>
                     <div>
                         <p className="text-[10px] uppercase font-bold text-[var(--foreground-muted)]">Verified Certs</p>
-                        <p className="text-lg font-extrabold text-[var(--foreground)]">1,120</p>
+                        <p className="text-lg font-extrabold text-[var(--foreground)]">{stats.totalCerts}</p>
                     </div>
                 </div>
 
@@ -52,7 +59,7 @@ export default function LeaderboardPage() {
                     </div>
                     <div>
                         <p className="text-[10px] uppercase font-bold text-[var(--foreground-muted)]">Max Streak</p>
-                        <p className="text-lg font-extrabold text-[var(--foreground)]">45 Days</p>
+                        <p className="text-lg font-extrabold text-[var(--foreground)]">{stats.maxStreak} Days</p>
                     </div>
                 </div>
 
@@ -62,13 +69,13 @@ export default function LeaderboardPage() {
                     </div>
                     <div>
                         <p className="text-[10px] uppercase font-bold text-[var(--foreground-muted)]">Total Quizzes</p>
-                        <p className="text-lg font-extrabold text-[var(--foreground)]">18,500+</p>
+                        <p className="text-lg font-extrabold text-[var(--foreground)]">{stats.totalQuizzes}</p>
                     </div>
                 </div>
             </div>
 
             {/* Main Leaderboard Component */}
-            <LeaderboardComponent />
+            <LeaderboardComponent onStatsLoaded={setStats} />
         </div>
     );
 
@@ -86,4 +93,3 @@ export default function LeaderboardPage() {
         </div>
     );
 }
-
