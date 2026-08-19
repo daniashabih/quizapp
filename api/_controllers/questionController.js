@@ -257,8 +257,9 @@ const importQuestions = async (req, res) => {
 const getQuestions = async (req, res) => {
     try {
         const category = req.query.category?.trim();
-        const session = req.query.session !== undefined && req.query.session !== '' 
-            ? parseInt(req.query.session, 10) 
+        const rawSession = req.query.session;
+        const session = (rawSession !== undefined && rawSession !== '' && rawSession !== 'all')
+            ? (parseInt(rawSession, 10) || undefined)
             : undefined;
 
         const questions = await Question.getFiltered({ category, session });

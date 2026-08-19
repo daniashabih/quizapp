@@ -8,6 +8,14 @@ const parseOptions = (opts) => {
     return [];
 };
 
+const getCategoryVariations = (category) => {
+    if (!category) return [];
+    const clean = String(category).trim();
+    const withAnd = clean.replace(/&/g, 'and');
+    const withAmp = clean.replace(/\band\b/gi, '&');
+    return Array.from(new Set([clean, withAnd, withAmp]));
+};
+
 const Question = {
     create: async (data) => {
         const { category, session, question_text, options, correct_answer } = data;
@@ -42,9 +50,14 @@ const Question = {
     getFiltered: async ({ category, session } = {}) => {
         const where = {};
         if (category) {
-            where.category = { equals: category, mode: 'insensitive' };
+            const variations = getCategoryVariations(category);
+            if (variations.length > 1) {
+                where.OR = variations.map(v => ({ category: { equals: v, mode: 'insensitive' } }));
+            } else {
+                where.category = { equals: category, mode: 'insensitive' };
+            }
         }
-        if (session !== undefined && session !== null && session !== '' && !isNaN(parseInt(session, 10))) {
+        if (session !== undefined && session !== null && session !== '' && session !== 'all' && !isNaN(parseInt(session, 10)) && parseInt(session, 10) > 0) {
             where.session = parseInt(session, 10);
         }
 
@@ -66,7 +79,12 @@ const Question = {
     getSessionsByCategory: async (category) => {
         const where = {};
         if (category) {
-            where.category = { equals: category, mode: 'insensitive' };
+            const variations = getCategoryVariations(category);
+            if (variations.length > 1) {
+                where.OR = variations.map(v => ({ category: { equals: v, mode: 'insensitive' } }));
+            } else {
+                where.category = { equals: category, mode: 'insensitive' };
+            }
         }
 
         const rows = await prisma.question.findMany({
