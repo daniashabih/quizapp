@@ -21,6 +21,10 @@ import Landing from "./pages/Landing";
 import Technologies from "./pages/quiz/Technologies";
 import Quiz from "./pages/quiz/Quiz";
 import Result from "./pages/quiz/Result";
+import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
+import TermsOfService from "./pages/legal/TermsOfService";
+import AboutUs from "./pages/legal/AboutUs";
+import ContactUs from "./pages/legal/ContactUs";
 
 // Dashboard
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -51,6 +55,10 @@ function AppContent() {
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
                 <Route path="/certificate/view" element={<CertificateView />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/terms" element={<TermsOfService />} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/contact" element={<ContactUs />} />
 
                 {/* Protected Quiz Routes */}
                 <Route element={<ProtectedRoute />}>
