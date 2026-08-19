@@ -13,7 +13,7 @@ import {
 const defaultQuizOptions = {
     timePerQuestion: 60,
     passingScore: 70,
-    maxQuestions: 10,
+    maxQuestions: 999,
     randomizeQuestions: true,
     shuffleOptions: false,
     instantFeedback: true,
@@ -25,7 +25,12 @@ const defaultQuizOptions = {
 const getQuizOptions = () => {
     try {
         const saved = localStorage.getItem('quiz_options');
-        return saved ? { ...defaultQuizOptions, ...JSON.parse(saved) } : defaultQuizOptions;
+        if (!saved) return defaultQuizOptions;
+        const parsed = JSON.parse(saved);
+        if (parsed.maxQuestions === 10) {
+            parsed.maxQuestions = 999;
+        }
+        return { ...defaultQuizOptions, ...parsed };
     } catch {
         return defaultQuizOptions;
     }

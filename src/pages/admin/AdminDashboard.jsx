@@ -15,7 +15,7 @@ import dashboardService from '../../services/dashboardService';
 const defaultQuizOptions = {
     timePerQuestion: 60, // seconds
     passingScore: 70, // percentage
-    maxQuestions: 10,
+    maxQuestions: 999, // default all session questions
     randomizeQuestions: true,
     shuffleOptions: false,
     instantFeedback: true,
