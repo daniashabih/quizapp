@@ -15,7 +15,8 @@
     "seed:admin": "node scripts/seedAdmin.js",
     "seed:questions": "node scripts/seedQuestions.js",
     "seed:agile": "node scripts/uploadAgileDevOpsQuiz.js",
-    "seed": "node scripts/seedTechnologies.js && node scripts/seedAdmin.js && node scripts/seedQuestions.js && node scripts/uploadAgileDevOpsQuiz.js"
+    "seed:agile-characteristics": "node scripts/uploadAgileCharacteristicsQuiz.js",
+    "seed": "node scripts/seedTechnologies.js && node scripts/seedAdmin.js && node scripts/seedQuestions.js && node scripts/uploadAgileDevOpsQuiz.js && node scripts/uploadAgileCharacteristicsQuiz.js"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

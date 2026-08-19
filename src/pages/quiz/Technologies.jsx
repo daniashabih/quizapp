@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Code2, ArrowRight, Search, Sparkles, Clock, BookOpen, Loader2, X, Play, Hash, CheckCircle2, Layers } from 'lucide-react';
@@ -145,8 +146,14 @@ export default function Technologies() {
             {/* ═══════════════════════════════════════════════════════════
                  SESSION SELECTION & ADD SESSION NO MODAL
                ═══════════════════════════════════════════════════════════ */}
-            {selectedCatForSession && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+            {/* ═══════════════════════════════════════════════════════════
+                 SESSION SELECTION & ADD SESSION NO MODAL
+               ═══════════════════════════════════════════════════════════ */}
+            {selectedCatForSession && typeof document !== 'undefined' && createPortal(
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in"
+                    onClick={(e) => { if (e.target === e.currentTarget) setSelectedCatForSession(null); }}
+                >
                     <div className="card p-6 sm:p-7 rounded-3xl max-w-md w-full shadow-2xl space-y-5 animate-scale-in relative border border-[var(--card-border)] bg-[var(--card-bg)]">
                         {/* Modal Header */}
                         <div className="flex items-start justify-between">
@@ -228,7 +235,7 @@ export default function Technologies() {
                                         </button>
 
                                         {isCustomMode && (
-                                            <div className="pt-2 animate-fade-in space-y-1.5">
+                                             <div className="pt-2 animate-fade-in space-y-1.5">
                                                 <div className="flex items-center gap-2">
                                                     <input
                                                         type="number"
@@ -289,7 +296,8 @@ export default function Technologies() {
                             </div>
                         )}
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

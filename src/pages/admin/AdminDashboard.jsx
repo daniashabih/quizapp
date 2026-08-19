@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import {
@@ -1254,8 +1255,11 @@ const AdminDashboard = () => {
             )}
 
             {/* MODAL: ADD / EDIT QUESTION */}
-            {isFormOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            {isFormOpen && typeof document !== 'undefined' && createPortal(
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+                    onClick={(e) => { if (e.target === e.currentTarget) setIsFormOpen(false); }}
+                >
                     <div className="card rounded-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] flex flex-col shadow-2xl animate-scale-in">
                         <div className="flex items-center justify-between p-5 border-b border-[var(--card-border)] shrink-0">
                             <h2 className="text-base font-display font-bold text-[var(--foreground)]">
@@ -1376,12 +1380,16 @@ const AdminDashboard = () => {
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* MODAL: IMPORT CSV */}
-            {isImportModalOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            {isImportModalOpen && typeof document !== 'undefined' && createPortal(
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+                    onClick={(e) => { if (e.target === e.currentTarget) { setIsImportModalOpen(false); setImportFile(null); } }}
+                >
                     <div className="card rounded-2xl w-full max-w-md overflow-hidden shadow-2xl animate-scale-in">
                         <div className="flex items-center justify-between p-5 border-b border-[var(--card-border)]">
                             <h2 className="text-base font-display font-bold text-[var(--foreground)]">Import Questions</h2>
@@ -1412,7 +1420,8 @@ const AdminDashboard = () => {
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

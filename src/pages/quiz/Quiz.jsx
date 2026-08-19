@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -681,8 +682,11 @@ const Quiz = () => {
             {/* ═══════════════════════════════════════════════════════════
                  4. CONFIRM EXIT MODAL
                ═══════════════════════════════════════════════════════════ */}
-            {showExitConfirm && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+            {showExitConfirm && typeof document !== 'undefined' && createPortal(
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in"
+                    onClick={(e) => { if (e.target === e.currentTarget) setShowExitConfirm(false); }}
+                >
                     <div className="card p-6 sm:p-8 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl animate-scale-in">
                         <div className="w-14 h-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
                             <AlertCircle size={28} />
@@ -706,14 +710,18 @@ const Quiz = () => {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* ═══════════════════════════════════════════════════════════
                  5. CONFIRM SUBMIT MODAL
                ═══════════════════════════════════════════════════════════ */}
-            {showConfirmSubmit && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+            {showConfirmSubmit && typeof document !== 'undefined' && createPortal(
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in"
+                    onClick={(e) => { if (e.target === e.currentTarget) setShowConfirmSubmit(false); }}
+                >
                     <div className="card p-6 sm:p-8 rounded-3xl max-w-md w-full text-center space-y-4 shadow-2xl animate-scale-in">
                         <div className="w-16 h-16 rounded-2xl bg-[#F3E5C5] border border-[#E2D0A6] flex items-center justify-center mx-auto">
                             <Send size={28} className="text-[#193D35]" />
@@ -742,7 +750,8 @@ const Quiz = () => {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

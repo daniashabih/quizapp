@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, UserCheck, ShieldCheck, Sparkles, Check, X, ShieldAlert, Info, ExternalLink } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -469,8 +470,11 @@ export default function Auth({ initialMode = 'login' }) {
                 </div>
 
                 {/* Google OAuth Configuration & Instant Test Modal */}
-                {showGoogleModal && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
+                {showGoogleModal && typeof document !== 'undefined' && createPortal(
+                    <div 
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in"
+                        onClick={(e) => { if (e.target === e.currentTarget) setShowGoogleModal(false); }}
+                    >
                         <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4 animate-scale-in text-left">
                             <div className="flex items-start justify-between">
                                 <div className="flex items-center gap-2.5">
@@ -542,7 +546,8 @@ export default function Auth({ initialMode = 'login' }) {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div>,
+                    document.body
                 )}
             </main>
             <Footer />
