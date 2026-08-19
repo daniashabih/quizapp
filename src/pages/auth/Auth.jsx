@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, Check, X, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -70,62 +70,99 @@ export default function Auth({ initialMode = 'login' }) {
 
     const isPasswordValid = passwordChecks.hasLength && passwordChecks.hasUpper && passwordChecks.hasNumber;
 
+    // Initialize Google One Tap if client ID is configured
+    useEffect(() => {
+        const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+        if (!googleClientId) return;
+
+        loadGoogleGsiScript().then((google) => {
+            if (google?.accounts?.id) {
+                try {
+                    google.accounts.id.initialize({
+                        client_id: googleClientId,
+                        callback: async (response) => {
+                            if (response?.credential) {
+                                setGoogleLoading(true);
+                                try {
+                                    const user = await loginWithGoogle({ credential: response.credential });
+                                    if (user) {
+                                        navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                                    }
+                                } catch (err) {
+                                    setErrorMessage(err.message || 'Google Sign-In failed');
+                                } finally {
+                                    setGoogleLoading(false);
+                                }
+                            }
+                        },
+                        auto_select: false,
+                        cancel_on_tap_outside: true,
+                    });
+                    google.accounts.id.prompt();
+                } catch (err) {
+                    console.warn('[Google One Tap Init Warning]:', err);
+                }
+            }
+        });
+    }, [from, loginWithGoogle, navigate]);
+
     const handleGoogleAuth = async () => {
         setErrorMessage('');
-        setGoogleLoading(true);
         const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
+        if (!googleClientId) {
+            setErrorMessage('Google Client ID is missing. Please add VITE_GOOGLE_CLIENT_ID in your .env file to enable Google Sign-In.');
+            toast.error('Google Client ID not configured. Please add VITE_GOOGLE_CLIENT_ID in .env.');
+            return;
+        }
+
+        setGoogleLoading(true);
+
         try {
-            // Attempt to load / ensure GIS SDK is available
+            // Ensure GIS SDK is available
             const google = window.google?.accounts?.oauth2 ? window.google : await loadGoogleGsiScript();
 
-            // 1. If real Google Client ID is configured and GIS SDK is available
-            if (googleClientId && google?.accounts?.oauth2) {
-                const tokenClient = google.accounts.oauth2.initTokenClient({
-                    client_id: googleClientId,
-                    scope: 'email profile openid',
-                    prompt: 'select_account',
-                    callback: async (tokenResponse) => {
-                        if (tokenResponse?.error) {
-                            setGoogleLoading(false);
-                            if (tokenResponse.error !== 'popup_closed_by_user') {
-                                setErrorMessage(tokenResponse.error_description || 'Google authentication was cancelled or failed.');
-                            }
-                            return;
-                        }
-                        if (tokenResponse?.access_token) {
-                            try {
-                                const user = await loginWithGoogle({ token: tokenResponse.access_token });
-                                if (user) {
-                                    navigate(user.role === 'admin' ? '/dashboard/admin' : from);
-                                }
-                            } catch (err) {
-                                setErrorMessage(err.message || 'Google Sign-In failed');
-                            } finally {
-                                setGoogleLoading(false);
-                            }
-                        }
-                    },
-                });
-                tokenClient.requestAccessToken();
-                return;
+            if (!google?.accounts?.oauth2) {
+                throw new Error('Google Identity Services SDK could not be loaded. Please disable ad-blockers or check your connection.');
             }
 
-            // 2. If no Google Client ID is configured in .env, automatically sign in via Google Demo Account
-            toast.info('Signed in with Google Demo Account. Set VITE_GOOGLE_CLIENT_ID in .env for real Google account selection.');
-            const user = await loginWithGoogle({
-                isDemo: true,
-                name: 'Google User',
-                email: 'google.user@hangbug.dev',
-                avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
+            const tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: googleClientId,
+                scope: 'email profile openid',
+                prompt: 'select_account',
+                callback: async (tokenResponse) => {
+                    if (tokenResponse?.error) {
+                        setGoogleLoading(false);
+                        if (tokenResponse.error !== 'popup_closed_by_user') {
+                            setErrorMessage(tokenResponse.error_description || 'Google authentication was cancelled or failed.');
+                            toast.error(tokenResponse.error_description || 'Google authentication failed');
+                        }
+                        return;
+                    }
+                    if (tokenResponse?.access_token) {
+                        try {
+                            const user = await loginWithGoogle({ token: tokenResponse.access_token });
+                            if (user) {
+                                navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                            }
+                        } catch (err) {
+                            setErrorMessage(err.message || 'Google Sign-In failed');
+                        } finally {
+                            setGoogleLoading(false);
+                        }
+                    }
+                },
+                error_callback: (nonOAuthError) => {
+                    setGoogleLoading(false);
+                    console.error('[Google OAuth Error Callback]:', nonOAuthError);
+                    setErrorMessage(nonOAuthError?.message || 'Google popup could not be opened.');
+                }
             });
-            if (user) {
-                navigate(user.role === 'admin' ? '/dashboard/admin' : from);
-            }
+
+            tokenClient.requestAccessToken();
         } catch (err) {
             console.error('[Google Sign-In Error]:', err);
             setErrorMessage(err.message || 'Google Sign-In failed');
-        } finally {
             setGoogleLoading(false);
         }
     };
