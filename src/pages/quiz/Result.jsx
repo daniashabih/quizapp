@@ -6,7 +6,6 @@ import Footer from '../../components/Footer';
 
 export default function Result() {
     const location = useLocation();
-    const navigate = useNavigate ? useLocation() : null; // safe check
     const { score = 0, total = 0, percentage = 0, category = 'Web Development', session = 1, timeTaken = 0 } = location.state || {};
     const [animateScore, setAnimateScore] = useState(0);
     const [showConfetti, setShowConfetti] = useState(percentage >= 70);
