@@ -18,14 +18,17 @@ interface Ripple {
   born: number;
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+export interface KineticGridProps {
+  children?: ReactNode;
+  className?: string;
+  globalColor?: "default" | "monochrome";
+  /** Enable subtle ambient movement when idle (especially beneficial for touch screens) */
+  ambientMovement?: boolean;
+}
 
-const CELL_SIZE = 55; // Desktop-ish size. Will dictate cols/rows
-const INFLUENCE_RADIUS = 260;
-const MAX_WARP = 24;
-const DOT_SPACING = 28;
+// ─── Constants & Configurations ───────────────────────────────────────────────
+
 const LERP_SPEED = 0.08;
-
 const LINE_BASE = { r: 255, g: 255, b: 255, a: 0.13 };
 const NODE_BASE_RADIUS = 1.8;
 const NODE_ACTIVE_RADIUS = 3.2;
@@ -54,18 +57,36 @@ export default function KineticGrid({
   children,
   className,
   globalColor = "default",
-}: {
-  children?: ReactNode;
-  className?: string;
-  globalColor?: "default" | "monochrome";
-}) {
+  ambientMovement = true,
+}: KineticGridProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const mouseRef = useRef<Point>({ x: -9999, y: -9999 });
   const targetMouseRef = useRef<Point>({ x: -9999, y: -9999 });
+  const isInteractingRef = useRef<boolean>(false);
   const ripplesRef = useRef<Ripple[]>([]);
   const rafRef = useRef<number>(0);
-  const sizeRef = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
+  const sizeRef = useRef<{ w: number; h: number; dpr: number; isMobile: boolean }>({
+    w: 0,
+    h: 0,
+    dpr: 1,
+    isMobile: false,
+  });
+
+  // ── Dynamic Responsive Metrics ───────────────────────────────────────────────
+
+  const getMetrics = useCallback((w: number) => {
+    const isMobile = w < 640;
+    const isTablet = w >= 640 && w < 1024;
+
+    return {
+      cellSize: isMobile ? 42 : isTablet ? 48 : 55,
+      influenceRadius: isMobile ? 160 : isTablet ? 210 : 260,
+      maxWarp: isMobile ? 15 : isTablet ? 20 : 24,
+      dotSpacing: isMobile ? 22 : 28,
+      isMobile,
+    };
+  }, []);
 
   // ── Warp ────────────────────────────────────────────────────────────────────
 
@@ -79,6 +100,8 @@ export default function KineticGrid({
       ripples: Ripple[],
       cols: number,
       rows: number,
+      influenceRadius: number,
+      maxWarp: number,
     ): { pt: Point; proximity: number } => {
       // Edge pin — smoothly locks boundary rows/cols in place
       const edgeMargin = 1.5;
@@ -98,20 +121,21 @@ export default function KineticGrid({
       const dy = gy - mouse.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      const proximity = Math.max(0, 1 - dist / INFLUENCE_RADIUS) * pinFactor;
+      const proximity = Math.max(0, 1 - dist / influenceRadius) * pinFactor;
 
       // Ripple displacement
-      let rx = 0,
-        ry = 0;
+      let rx = 0;
+      let ry = 0;
       for (const r of ripples) {
         const rdx = gx - r.x;
         const rdy = gy - r.y;
         const rdist = Math.sqrt(rdx * rdx + rdy * rdy);
-        const waveWidth = 55;
+        const waveWidth = sizeRef.current.isMobile ? 40 : 55;
         const diff = rdist - r.radius;
         if (Math.abs(diff) < waveWidth) {
+          const force = sizeRef.current.isMobile ? 12 : 18;
           const strength =
-            (1 - Math.abs(diff) / waveWidth) * r.opacity * 18 * pinFactor;
+            (1 - Math.abs(diff) / waveWidth) * r.opacity * force * pinFactor;
           const angle = Math.atan2(rdy, rdx);
           const sign = diff < 0 ? -1 : 1;
           rx += Math.cos(angle) * strength * sign * -1;
@@ -119,11 +143,14 @@ export default function KineticGrid({
         }
       }
 
-      // Cursor warp with bell falloff
-      if (dist < INFLUENCE_RADIUS && dist > 0 && pinFactor > 0) {
-        const t = dist / INFLUENCE_RADIUS;
-        const eased = t < 0.01 ? 0 : (1 - t) * (1 - t) * Math.min(1, dist / 60);
-        const warpAmt = eased * MAX_WARP * pinFactor;
+      // Pointer warp with bell falloff
+      if (dist < influenceRadius && dist > 0 && pinFactor > 0) {
+        const t = dist / influenceRadius;
+        const eased =
+          t < 0.01
+            ? 0
+            : (1 - t) * (1 - t) * Math.min(1, dist / (sizeRef.current.isMobile ? 45 : 60));
+        const warpAmt = eased * maxWarp * pinFactor;
         const angle = Math.atan2(dy, dx);
         return {
           pt: {
@@ -148,7 +175,10 @@ export default function KineticGrid({
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
-      const { w: W, h: H } = sizeRef.current;
+      const { w: W, h: H, dpr } = sizeRef.current;
+      if (W === 0 || H === 0) return;
+
+      const metrics = getMetrics(W);
       const mouse = mouseRef.current;
       const ripples = ripplesRef.current;
 
@@ -169,6 +199,9 @@ export default function KineticGrid({
         },
       }[globalColor ?? "default"];
 
+      ctx.save();
+      ctx.scale(dpr, dpr);
+
       ctx.clearRect(0, 0, W, H);
 
       // Background
@@ -177,8 +210,9 @@ export default function KineticGrid({
 
       // Static background dot texture
       ctx.fillStyle = "rgba(255,255,255,0.05)";
-      for (let x = DOT_SPACING / 2; x < W; x += DOT_SPACING) {
-        for (let y = DOT_SPACING / 2; y < H; y += DOT_SPACING) {
+      const dotSpacing = metrics.dotSpacing;
+      for (let x = dotSpacing / 2; x < W; x += dotSpacing) {
+        for (let y = dotSpacing / 2; y < H; y += dotSpacing) {
           ctx.beginPath();
           ctx.arc(x, y, 0.7, 0, Math.PI * 2);
           ctx.fill();
@@ -189,15 +223,15 @@ export default function KineticGrid({
       for (let i = ripples.length - 1; i >= 0; i--) {
         const r = ripples[i];
         const age = (now - r.born) / 1000;
-        // FIX: Ensure radius is never negative
-        r.radius = Math.max(0, age * 400);
-        r.opacity = Math.max(0, 1 - age * 1.2);
+        const rippleSpeed = metrics.isMobile ? 320 : 400;
+        r.radius = Math.max(0, age * rippleSpeed);
+        r.opacity = Math.max(0, 1 - age * 1.25);
         if (r.opacity <= 0) ripples.splice(i, 1);
       }
 
       // ── Build warped grid ─────────────────────────────────────────────────
-      const cols = Math.max(2, Math.ceil(W / CELL_SIZE)) + 1;
-      const rows = Math.max(2, Math.ceil(H / CELL_SIZE)) + 1;
+      const cols = Math.max(2, Math.ceil(W / metrics.cellSize)) + 1;
+      const rows = Math.max(2, Math.ceil(H / metrics.cellSize)) + 1;
       const cellW = W / (cols - 1);
       const cellH = H / (rows - 1);
 
@@ -217,6 +251,8 @@ export default function KineticGrid({
             ripples,
             cols,
             rows,
+            metrics.influenceRadius,
+            metrics.maxWarp,
           );
           pts[row][col] = pt;
           prox[row][col] = proximity;
@@ -296,7 +332,6 @@ export default function KineticGrid({
 
       // ── Ripple rings ──────────────────────────────────────────────────────
       for (const r of ripples) {
-        // FIX: Ensure radius is positive before drawing arc
         const safeRadius = Math.max(0, r.radius);
         ctx.beginPath();
         ctx.arc(r.x, r.y, safeRadius, 0, Math.PI * 2);
@@ -304,8 +339,10 @@ export default function KineticGrid({
         ctx.lineWidth = 1.5;
         ctx.stroke();
       }
+
+      ctx.restore();
     },
-    [getWarpedPoint, globalColor],
+    [getMetrics, getWarpedPoint, globalColor],
   );
 
   // ── Animation loop ──────────────────────────────────────────────────────────
@@ -314,6 +351,22 @@ export default function KineticGrid({
     (now: number) => {
       const m = mouseRef.current;
       const t = targetMouseRef.current;
+      const { w, h, isMobile } = sizeRef.current;
+
+      // When idle on mobile / touchscreen, apply gentle ambient floating motion
+      if (ambientMovement && !isInteractingRef.current && w > 0 && h > 0) {
+        const time = now * 0.001;
+        const radiusX = Math.min(w * 0.3, 140);
+        const radiusY = Math.min(h * 0.2, 90);
+        const ambientX = w * 0.5 + Math.sin(time * 0.8) * radiusX;
+        const ambientY = h * 0.45 + Math.cos(time * 0.6) * radiusY;
+
+        // If target mouse has never been placed or is offscreen, guide it with ambient motion
+        if (t.x === -9999 || isMobile) {
+          t.x = ambientX;
+          t.y = ambientY;
+        }
+      }
 
       m.x = lerpN(m.x, t.x, LERP_SPEED);
       m.y = lerpN(m.y, t.y, LERP_SPEED);
@@ -321,10 +374,10 @@ export default function KineticGrid({
       draw(now);
       rafRef.current = requestAnimationFrame(animate);
     },
-    [draw],
+    [ambientMovement, draw],
   );
 
-  // ── Setup ───────────────────────────────────────────────────────────────────
+  // ── Setup & Listeners ───────────────────────────────────────────────────────
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -333,20 +386,34 @@ export default function KineticGrid({
     const setSize = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
-      canvas.width = w;
-      canvas.height = h;
-      sizeRef.current = { w, h };
+      const dpr = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2 for mobile GPU efficiency
+      const isMobile = w < 640;
+
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+
+      sizeRef.current = { w, h, dpr, isMobile };
+
       if (mouseRef.current.x === -9999) {
-        mouseRef.current = { x: -9999, y: -9999 };
-        targetMouseRef.current = { x: -9999, y: -9999 };
+        mouseRef.current = { x: w / 2, y: h / 2 };
+        targetMouseRef.current = { x: w / 2, y: h / 2 };
       }
     };
 
     setSize();
-    window.addEventListener("resize", setSize);
+    window.addEventListener("resize", setSize, { passive: true });
+    window.addEventListener("orientationchange", setSize, { passive: true });
 
+    // ── Mouse Listeners (Desktop) ──
     const onMouseMove = (e: MouseEvent) => {
+      isInteractingRef.current = true;
       targetMouseRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    const onMouseLeave = () => {
+      isInteractingRef.current = false;
     };
 
     const onClick = (e: MouseEvent) => {
@@ -359,14 +426,60 @@ export default function KineticGrid({
       });
     };
 
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("click", onClick);
+    // ── Touch Listeners (Mobile & Tablets) ──
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        isInteractingRef.current = true;
+        const touch = e.touches[0];
+        targetMouseRef.current = { x: touch.clientX, y: touch.clientY };
+        ripplesRef.current.push({
+          x: touch.clientX,
+          y: touch.clientY,
+          radius: 0,
+          opacity: 1,
+          born: performance.now(),
+        });
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        isInteractingRef.current = true;
+        const touch = e.touches[0];
+        targetMouseRef.current = { x: touch.clientX, y: touch.clientY };
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length === 0) {
+        // Smoothly release interactive state after a small delay
+        setTimeout(() => {
+          isInteractingRef.current = false;
+        }, 1200);
+      }
+    };
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("mouseleave", onMouseLeave, { passive: true });
+    window.addEventListener("click", onClick, { passive: true });
+
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", onTouchEnd, { passive: true });
+
     rafRef.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("resize", setSize);
+      window.removeEventListener("orientationchange", setSize);
       window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseleave", onMouseLeave);
       window.removeEventListener("click", onClick);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchEnd);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }
@@ -378,7 +491,7 @@ export default function KineticGrid({
   return (
     <div
       className={cn(
-        "relative w-full min-h-screen overflow-hidden",
+        "relative w-full min-h-[100dvh] overflow-hidden select-none touch-manipulation",
         globalColor === "monochrome" ? "bg-[#000000]" : "bg-[#161618]",
         className,
       )}
@@ -388,7 +501,7 @@ export default function KineticGrid({
         className="fixed inset-0 w-full h-full z-0 pointer-events-none"
       />
 
-      <div className="relative z-10 w-full h-full">{children}</div>
+      <div className="relative z-10 w-full min-h-[100dvh] flex flex-col">{children}</div>
     </div>
   );
 }
