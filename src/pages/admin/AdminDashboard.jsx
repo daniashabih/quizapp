@@ -501,6 +501,15 @@ const AdminDashboard = () => {
             {/* TAB 0: ANALYTICS & OVERVIEW */}
             {activeTab === 'overview' && (
                 <div className="space-y-6">
+                    {analyticsError && !adminData && (
+                        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-700 text-xs flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <AlertCircle size={16} />
+                                <span>{analyticsError}</span>
+                            </div>
+                            <button onClick={fetchAnalytics} className="btn-secondary text-xs py-1 px-3">Retry</button>
+                        </div>
+                    )}
                     {/* Period Filter & Refresh Header */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div className="flex items-center gap-2">

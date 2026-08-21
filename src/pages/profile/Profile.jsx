@@ -92,6 +92,18 @@ export default function Profile() {
         });
     }
 
+    if (loading) {
+        return (
+            <div className="max-w-5xl mx-auto space-y-6 animate-pulse p-2">
+                <div className="h-20 bg-[var(--muted-bg)] rounded-2xl" />
+                <div className="grid lg:grid-cols-3 gap-6">
+                    <div className="h-80 bg-[var(--muted-bg)] rounded-2xl" />
+                    <div className="lg:col-span-2 h-80 bg-[var(--muted-bg)] rounded-2xl" />
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="max-w-5xl mx-auto space-y-6 animate-fade-up">
             {/* Header */}

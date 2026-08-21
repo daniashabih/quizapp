@@ -1,13 +1,12 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import {
-    Clock, CheckCircle2, XCircle, Menu, X, ArrowRight, ArrowLeft,
+    Clock, X, ArrowRight, ArrowLeft,
     Flag, AlertCircle, HelpCircle, ChevronLeft, ChevronRight,
-    Send, Loader2, Check, Sparkles, LayoutGrid, CheckCircle,
-    RotateCcw, ShieldCheck, Flame, BookOpen, Layers
+    Send, Sparkles, LayoutGrid, Check, Flame, BookOpen
 } from 'lucide-react';
 
 const defaultQuizOptions = {
@@ -53,9 +52,6 @@ const Quiz = () => {
     const [loading, setLoading] = useState(true);
     const [timeLeft, setTimeLeft] = useState(() => getQuizOptions().timePerQuestion || 60);
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [wrongAnswers, setWrongAnswers] = useState({});
-    const [showFeedback, setShowFeedback] = useState(false);
-    const [feedbackType, setFeedbackType] = useState(null);
     const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
     const [showExitConfirm, setShowExitConfirm] = useState(false);
     const [startTime, setStartTime] = useState(() => Date.now());
@@ -147,21 +143,12 @@ const Quiz = () => {
     }, [questions, selectedAnswers, startTime, selectedCategory, selectedSession, isAllSessions, navigate]);
 
     const handleAutoAdvance = useCallback(() => {
-        const currentQ = questions[currentIndex];
-        if (currentQ) {
-            setWrongAnswers(prev => ({ ...prev, [currentQ.id]: true }));
-            setFeedbackType('timeout');
-            setShowFeedback(true);
-            setTimeout(() => {
-                setShowFeedback(false);
-                if (currentIndex < questions.length - 1) {
-                    setCurrentIndex(prev => prev + 1);
-                } else {
-                    handleSubmitQuiz();
-                }
-            }, 900);
+        if (currentIndex < questions.length - 1) {
+            setCurrentIndex(prev => prev + 1);
+        } else {
+            handleSubmitQuiz();
         }
-    }, [questions, currentIndex, handleSubmitQuiz]);
+    }, [questions.length, currentIndex, handleSubmitQuiz]);
 
     // Question Timer
     useEffect(() => {
@@ -178,32 +165,18 @@ const Quiz = () => {
             }, 1000);
             return () => clearInterval(timer);
         }
-    }, [loading, questions, isSubmitted, currentIndex, handleAutoAdvance]);
+    }, [loading, questions.length, isSubmitted, handleAutoAdvance]);
 
     useEffect(() => {
-        setTimeLeft(quizOpts.timePerQuestion || 60);
+        const timeout = setTimeout(() => {
+            setTimeLeft(quizOpts.timePerQuestion || 60);
+        }, 0);
+        return () => clearTimeout(timeout);
     }, [currentIndex, quizOpts.timePerQuestion]);
 
-    const handleAnswerSelect = (questionId, optionIndex) => {
+    const handleAnswerSelect = useCallback((questionId, optionIndex) => {
         setSelectedAnswers(prev => ({ ...prev, [questionId]: optionIndex }));
-        const q = questions.find(q => q.id === questionId);
-        if (!q) return;
-        let opts = q.options;
-        if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
-        const isCorrect = opts[optionIndex] === q.correct_answer;
-        setFeedbackType(isCorrect ? 'correct' : 'wrong');
-        setShowFeedback(true);
-        if (!isCorrect) {
-            setWrongAnswers(prev => ({ ...prev, [questionId]: true }));
-        } else {
-            setWrongAnswers(prev => {
-                const n = { ...prev };
-                delete n[questionId];
-                return n;
-            });
-        }
-        setTimeout(() => setShowFeedback(false), 600);
-    };
+    }, []);
 
     const toggleFlag = (questionId) => {
         setFlaggedQuestions(prev => {
@@ -257,7 +230,7 @@ const Quiz = () => {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [currentIndex, questions, showConfirmSubmit, showExitConfirm]);
+    }, [currentIndex, questions, showConfirmSubmit, showExitConfirm, handleAnswerSelect]);
 
     if (loading) {
         return (

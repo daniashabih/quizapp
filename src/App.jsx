@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './styles/custom-toast.css';
 import { CustomToastIcon, CustomCloseButton } from "./components/CustomToast";
 import { AuthProvider } from "./context/AuthContext";
-import { ThemeProvider, useTheme } from "./context/ThemeContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import SplashScreen from "./components/SplashScreen";
 
 // Auth Pages
@@ -39,7 +39,6 @@ import Settings from "./pages/settings/Settings";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function AppContent() {
-    const { resolvedTheme } = useTheme();
 
     return (
         <AuthProvider>

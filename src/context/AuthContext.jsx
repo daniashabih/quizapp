@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
             }
             setUser(null);
             return null;
-        } catch (err) {
+        } catch {
             setUser(null);
             return null;
         } finally {
@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }) => {
             setUser(userData);
             toast.success(`Signed in as Guest (${role === 'admin' ? 'Admin' : 'Candidate'})`);
             return userData;
-        } catch (err) {
+        } catch {
             // Fallback client session for demo
             const guestUser = {
                 id: role === 'admin' ? 'guest_admin' : 'guest_candidate',

@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-// eslint-disable-next-line no-unused-vars
 import { motion } from 'motion/react';
 import {
     Trophy, Medal, Star, Award, Search, Users,

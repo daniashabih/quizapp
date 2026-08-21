@@ -29,7 +29,6 @@ export default function DashboardLayout() {
     const { user, logout } = useAuth();
 
     useEffect(() => { if (!user) navigate('/login'); }, [user, navigate]);
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     useEffect(() => { setMobileOpen(false); setNotifOpen(false); }, [location.pathname]);
 
     useEffect(() => {
