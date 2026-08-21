@@ -298,13 +298,13 @@ const Quiz = () => {
     const progressPercent = Math.round(((currentIndex + 1) / questions.length) * 100);
 
     return (
-        <div className="h-screen max-h-screen w-screen overflow-hidden flex flex-col bg-[var(--page-bg)] text-[var(--foreground)] select-none relative">
+        <div className="h-dvh max-h-dvh min-h-dvh w-full overflow-hidden flex flex-col bg-[var(--page-bg)] text-[var(--foreground)] select-none relative">
             {/* Ambient Background Glow */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#193D35]/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#D19A45]/5 rounded-full blur-3xl pointer-events-none translate-y-1/2" />
 
             {/* Live Top Time-Depletion Progress Line */}
-            <div className="w-full h-1 bg-[var(--muted-bg)] relative z-30 overflow-hidden">
+            <div className="w-full h-1 bg-[var(--muted-bg)] relative z-30 overflow-hidden shrink-0">
                 <div
                     className={`h-full transition-all duration-1000 ease-linear ${
                         timerIsUrgent
@@ -320,35 +320,35 @@ const Quiz = () => {
             {/* ═══════════════════════════════════════════════════════════
                  1. TOP HEADER (PROMINENT TIMER, TRACK INFO & PROGRESS)
                ═══════════════════════════════════════════════════════════ */}
-            <header className="h-16 shrink-0 border-b border-[var(--card-border)] bg-[var(--nav-bg)] backdrop-blur-xl px-3 sm:px-6 lg:px-8 flex items-center justify-between z-20">
+            <header className="h-14 sm:h-16 shrink-0 border-b border-[var(--card-border)] bg-[var(--nav-bg)] backdrop-blur-xl px-3 sm:px-6 lg:px-8 flex items-center justify-between z-20 gap-2">
                 {/* Left: Exit + Track Info */}
-                <div className="flex items-center gap-2 sm:gap-3">
+                <div className="min-w-0 flex items-center gap-1.5 sm:gap-3 shrink">
                     <button
                         onClick={() => setShowExitConfirm(true)}
-                        className="p-2 rounded-xl text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-500/10 transition-all cursor-pointer"
+                        className="p-1.5 sm:p-2 rounded-xl text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-500/10 transition-all cursor-pointer shrink-0"
                         title="Exit Quiz"
                     >
                         <ArrowLeft size={18} />
                     </button>
 
-                    <div className="h-5 w-px bg-[var(--card-border)] hidden sm:block" />
+                    <div className="h-4 sm:h-5 w-px bg-[var(--card-border)] hidden sm:block shrink-0" />
 
-                    <div className="flex items-center gap-2">
-                        <span className="font-display font-extrabold text-xs sm:text-sm text-[var(--foreground)] flex items-center gap-1.5">
-                            <BookOpen size={16} className="text-[#193D35]" />
-                            {selectedCategory}
+                    <div className="min-w-0 flex items-center gap-1.5 sm:gap-2">
+                        <span className="font-display font-extrabold text-xs sm:text-sm text-[var(--foreground)] flex items-center gap-1.5 truncate">
+                            <BookOpen size={15} className="text-[#193D35] shrink-0" />
+                            <span className="truncate max-w-[90px] xs:max-w-[140px] sm:max-w-none">{selectedCategory}</span>
                         </span>
-                        <span className="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-wider">
-                            {isAllSessions ? 'All Sessions' : `Session ${selectedSession}`}
+                        <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-wider shrink-0">
+                            {isAllSessions ? 'All' : `S${selectedSession}`}
                         </span>
-                        <span className="hidden md:inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] uppercase tracking-wider">
+                        <span className="hidden md:inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] uppercase tracking-wider shrink-0">
                             {currentQ?.difficulty || 'Standard'}
                         </span>
                     </div>
                 </div>
 
-                {/* Center: Integrated Dynamic Progress Track */}
-                <div className="hidden md:flex flex-col items-center gap-1 min-w-[220px] lg:min-w-[280px]">
+                {/* Center: Integrated Dynamic Progress Track (Desktop) */}
+                <div className="hidden md:flex flex-col items-center gap-1 min-w-[200px] lg:min-w-[260px] shrink-0">
                     <div className="flex items-center justify-between w-full text-[11px] font-bold text-[var(--foreground-muted)]">
                         <span>Question <strong className="text-[var(--foreground)]">{currentIndex + 1}</strong> of {questions.length}</span>
                         <span className="text-[#193D35]">{progressPercent}%</span>
@@ -362,10 +362,10 @@ const Quiz = () => {
                 </div>
 
                 {/* Right: Prominent Countdown Timer, Flag, and Question Navigator HUD */}
-                <div className="flex items-center gap-2 sm:gap-3">
+                <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
                     {/* PROMINENT COUNTDOWN TIMER BADGE */}
                     <div
-                        className={`flex items-center gap-2 px-3.5 py-1.5 rounded-2xl border-2 transition-all duration-300 shadow-sm ${
+                        className={`flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 shadow-2xs ${
                             timerIsUrgent
                                 ? 'bg-red-500/15 border-red-500 text-red-600 ring-2 ring-red-500/30 animate-pulse'
                                 : timeLeft <= 20
@@ -375,12 +375,12 @@ const Quiz = () => {
                         title="Time remaining for current question"
                     >
                         {timerIsUrgent ? (
-                            <Flame size={18} className="text-red-600 animate-bounce shrink-0" />
+                            <Flame size={16} className="text-red-600 animate-bounce shrink-0" />
                         ) : (
-                            <Clock size={16} className={`shrink-0 ${timeLeft <= 20 ? 'text-amber-600' : 'text-[#193D35]'}`} />
+                            <Clock size={14} className={`shrink-0 ${timeLeft <= 20 ? 'text-amber-600' : 'text-[#193D35]'}`} />
                         )}
-                        <div className="flex items-baseline gap-1 font-mono">
-                            <span className="text-sm sm:text-base font-black tabular-nums tracking-tight">
+                        <div className="flex items-baseline gap-0.5 font-mono">
+                            <span className="text-xs sm:text-sm font-black tabular-nums tracking-tight">
                                 {timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
                             </span>
                             <span className="hidden lg:inline text-[10px] font-sans font-bold uppercase tracking-wider opacity-75">left</span>
@@ -390,28 +390,28 @@ const Quiz = () => {
                     {/* Flag / Bookmark Button */}
                     <button
                         onClick={() => toggleFlag(currentQ.id)}
-                        className={`p-2 rounded-xl border transition-all cursor-pointer ${
+                        className={`p-1.5 sm:p-2 rounded-xl border transition-all cursor-pointer shrink-0 ${
                             isCurrentFlagged
                                 ? 'bg-[#F3E5C5] text-[#D19A45] border-[#D19A45] shadow-xs'
                                 : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] border-[var(--card-border)]'
                         }`}
                         title={isCurrentFlagged ? 'Flagged for review (Press F)' : 'Flag for review (Press F)'}
                     >
-                        <Flag size={16} className={isCurrentFlagged ? 'fill-[#D19A45]' : ''} />
+                        <Flag size={15} className={isCurrentFlagged ? 'fill-[#D19A45]' : ''} />
                     </button>
 
                     {/* Matrix / Navigator Drawer Toggle */}
                     <button
                         onClick={() => setNavigatorOpen(prev => !prev)}
-                        className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                        className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl border text-xs font-bold transition-all cursor-pointer shrink-0 ${
                             navigatorOpen
                                 ? 'bg-[#193D35] text-white border-[#193D35] shadow-xs'
                                 : 'bg-[var(--muted-bg)] text-[var(--foreground)] border-[var(--card-border)] hover:border-[#193D35]'
                         }`}
                         title={navigatorOpen ? "Hide Question Navigator (Press M)" : "Open Question Navigator (Press M)"}
                     >
-                        <LayoutGrid size={15} />
-                        <span className="font-mono">{answeredCount}/{questions.length}</span>
+                        <LayoutGrid size={14} />
+                        <span className="font-mono text-xs">{answeredCount}/{questions.length}</span>
                     </button>
                 </div>
             </header>
@@ -420,30 +420,29 @@ const Quiz = () => {
                  2. MAIN ASSESSMENT CANVAS (CENTERED, FIT-TO-SCREEN)
                ═══════════════════════════════════════════════════════════ */}
             <div className="flex flex-1 min-h-0 relative overflow-hidden">
-                <main className="flex-1 h-full flex flex-col justify-between py-4 lg:py-6 px-4 sm:px-8 max-w-4xl mx-auto w-full overflow-hidden">
+                <main className="flex-1 h-full flex flex-col justify-between py-3 sm:py-4 lg:py-6 px-3 sm:px-8 max-w-4xl mx-auto w-full overflow-hidden">
                     {/* Top: Mobile Progress & Question Tag */}
-                    <div className="shrink-0 space-y-2">
+                    <div className="shrink-0 space-y-1.5 sm:space-y-2">
                         <div className="flex items-center justify-between">
                             <span className="text-[11px] font-extrabold uppercase tracking-wider text-[var(--foreground-muted)] flex items-center gap-1.5">
                                 <span className="w-2.5 h-2.5 rounded-full bg-[#193D35]" />
                                 Question {currentIndex + 1} of {questions.length}
                             </span>
-                            <span className="text-[10px] font-bold text-[var(--foreground-muted)] bg-[var(--muted-bg)] px-2.5 py-1 rounded-full border border-[var(--card-border)]">
+                            <span className="text-[10px] font-bold text-[var(--foreground-muted)] bg-[var(--muted-bg)] px-2.5 py-0.5 rounded-full border border-[var(--card-border)]">
                                 1 Point · Single Choice
                             </span>
                         </div>
 
-                        {/* Question Prompt Title Card */}
-                        <div className="p-5 sm:p-6 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-xs relative overflow-hidden">
-                            <div className="absolute top-0 left-0 h-full w-1.5 bg-[#193D35]" />
-                            <h2 className="text-base sm:text-lg lg:text-xl font-display font-extrabold text-[var(--foreground)] leading-snug">
+                        {/* Question Prompt Title Card - cleanly styled with border-l-4 to avoid WebKit overflow-radius artifacts */}
+                        <div className="p-4 sm:p-6 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] border-l-4 border-l-[#193D35] shadow-xs">
+                            <h2 className="text-sm sm:text-base lg:text-lg font-display font-bold text-[var(--foreground)] leading-snug sm:leading-relaxed">
                                 {currentQ?.question_text}
                             </h2>
                         </div>
                     </div>
 
                     {/* Middle: Interactive Options Deck (Keyboard A-D / 1-4) */}
-                    <div className="flex-1 min-h-0 flex flex-col justify-center gap-2.5 my-3 overflow-y-auto pr-1 no-scrollbar">
+                    <div className="flex-1 min-h-0 flex flex-col justify-center gap-2 sm:gap-2.5 my-2 sm:my-3 overflow-y-auto pr-1 no-scrollbar">
                         {currentOptions?.map((opt, idx) => {
                             const isSelected = selectedAnswers[currentQ.id] === idx;
                             const optionLetter = String.fromCharCode(65 + idx);
@@ -452,17 +451,17 @@ const Quiz = () => {
                                 <button
                                     key={idx}
                                     onClick={() => handleAnswerSelect(currentQ.id, idx)}
-                                    className={`w-full group text-left p-3.5 sm:p-4 rounded-2xl border-2 transition-all duration-200 flex items-center gap-3.5 cursor-pointer relative ${
+                                    className={`w-full group text-left p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all duration-200 flex items-center gap-3 sm:gap-3.5 cursor-pointer relative ${
                                         isSelected
-                                            ? 'bg-[#F3E5C5]/70 border-[#193D35] shadow-md -translate-y-0.5'
-                                            : 'bg-[var(--card-bg)] border-[var(--card-border)] hover:border-[#193D35] hover:bg-[var(--muted-bg)]/40 hover:-translate-y-0.5'
+                                            ? 'bg-[#F3E5C5]/70 border-[#193D35] shadow-sm'
+                                            : 'bg-[var(--card-bg)] border-[var(--card-border)] hover:border-[#193D35] hover:bg-[var(--muted-bg)]/40'
                                     }`}
                                 >
                                     {/* Option Letter Chip */}
                                     <div
-                                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl border-2 flex items-center justify-center shrink-0 font-mono font-extrabold text-xs sm:text-sm transition-all duration-200 ${
+                                        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl border-2 flex items-center justify-center shrink-0 font-mono font-extrabold text-xs sm:text-sm transition-all duration-200 ${
                                             isSelected
-                                                ? 'bg-[#193D35] border-[#193D35] text-[#FCFAF4] shadow-xs scale-105'
+                                                ? 'bg-[#193D35] border-[#193D35] text-[#FCFAF4] shadow-2xs scale-105'
                                                 : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground-muted)] group-hover:border-[#193D35] group-hover:text-[var(--foreground)]'
                                         }`}
                                     >
@@ -480,8 +479,8 @@ const Quiz = () => {
 
                                     {/* Selected Checkmark Icon */}
                                     {isSelected && (
-                                        <div className="w-6 h-6 rounded-full bg-[#193D35] text-white flex items-center justify-center shrink-0 shadow-xs animate-scale-in">
-                                            <Check size={14} strokeWidth={3} />
+                                        <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#193D35] text-white flex items-center justify-center shrink-0 shadow-2xs animate-scale-in">
+                                            <Check size={13} strokeWidth={3} />
                                         </div>
                                     )}
                                 </button>
@@ -490,16 +489,21 @@ const Quiz = () => {
                     </div>
 
                     {/* Bottom: Persistent Action Dock */}
-                    <div className="shrink-0 pt-3 border-t border-[var(--card-border)] flex items-center justify-between gap-3">
+                    <div className="shrink-0 pt-2.5 sm:pt-3 border-t border-[var(--card-border)] flex items-center justify-between gap-2 sm:gap-3">
                         <button
                             onClick={() => setCurrentIndex(p => Math.max(0, p - 1))}
                             disabled={currentIndex === 0}
-                            className="btn-secondary text-xs sm:text-sm py-2.5 px-4 sm:px-5 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                            className="btn-secondary text-xs sm:text-sm py-2 sm:py-2.5 px-3 sm:px-5 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1.5"
                         >
-                            <ChevronLeft size={16} /> <span className="hidden sm:inline">Previous</span>
+                            <ChevronLeft size={16} /> <span>Prev</span>
                         </button>
 
-                        {/* Keyboard navigation hints */}
+                        {/* Mobile Question Indicator */}
+                        <div className="sm:hidden text-xs font-bold font-mono text-[var(--foreground-muted)]">
+                            {currentIndex + 1} / {questions.length}
+                        </div>
+
+                        {/* Desktop Keyboard navigation hints */}
                         <div className="hidden lg:flex items-center gap-2 text-[10px] font-semibold text-[var(--foreground-muted)] bg-[var(--muted-bg)] px-3 py-1.5 rounded-full border border-[var(--card-border)]">
                             <span>Keys:</span>
                             <kbd className="px-1.5 py-0.5 bg-[var(--card-bg)] rounded border text-[9px] font-mono">1-4</kbd>
@@ -515,16 +519,16 @@ const Quiz = () => {
                         {isLastQuestion ? (
                             <button
                                 onClick={() => setShowConfirmSubmit(true)}
-                                className="btn-primary text-xs sm:text-sm py-2.5 px-5 sm:px-6 shadow-lg shadow-[#193D35]/20 cursor-pointer"
+                                className="btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-6 shadow-md shadow-[#193D35]/20 cursor-pointer flex items-center gap-1.5"
                             >
-                                <Send size={15} /> Finish & Submit
+                                <Send size={14} /> <span>Submit</span>
                             </button>
                         ) : (
                             <button
                                 onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))}
-                                className="btn-primary text-xs sm:text-sm py-2.5 px-5 sm:px-6 shadow-md shadow-[#193D35]/15 cursor-pointer"
+                                className="btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-6 shadow-sm shadow-[#193D35]/15 cursor-pointer flex items-center gap-1.5"
                             >
-                                Next <ChevronRight size={16} />
+                                <span>Next</span> <ChevronRight size={16} />
                             </button>
                         )}
                     </div>
