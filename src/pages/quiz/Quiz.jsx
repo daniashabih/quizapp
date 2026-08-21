@@ -48,13 +48,29 @@ const Quiz = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [flaggedQuestions, setFlaggedQuestions] = useState(new Set());
-    const [navigatorOpen, setNavigatorOpen] = useState(true);
+    const [navigatorOpen, setNavigatorOpen] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return window.innerWidth >= 1024;
+        }
+        return false;
+    });
     const [loading, setLoading] = useState(true);
     const [timeLeft, setTimeLeft] = useState(() => getQuizOptions().timePerQuestion || 60);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
     const [showExitConfirm, setShowExitConfirm] = useState(false);
     const [startTime, setStartTime] = useState(() => Date.now());
+
+    // Auto-close navigator on mobile resize
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 1024) {
+                setNavigatorOpen(false);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const normalizeValue = (val) => String(val || '').trim().replace(/\band\b/gi, '&').replace(/\s+/g, ' ').toLowerCase();
 
