@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import {
     LayoutDashboard, Code2, Trophy, Award, User, Settings as SettingsIcon,
-    LogOut, Menu, X, Bell, Search, ChevronLeft, ChevronRight, ShieldCheck
+    LogOut, Menu, X, Bell, Search, ChevronLeft, ChevronRight, ShieldCheck, Globe
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from '../components/BrandLogo';
@@ -10,6 +10,7 @@ import dashboardService from '../services/dashboardService';
 
 const baseSidebarItems = [
     { icon: LayoutDashboard, label: "Dashboard", to: "/dashboard" },
+    { icon: Globe, label: "SEO Dashboard", to: "/dashboard/seo" },
     { icon: Code2, label: "Technologies", to: "/dashboard/technologies" },
     { icon: Trophy, label: "My Quizzes", to: "/dashboard/quizzes" },
     { icon: Award, label: "Certificates", to: "/dashboard/certificates" },

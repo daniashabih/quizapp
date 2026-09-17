@@ -38,6 +38,9 @@ import Settings from "./pages/settings/Settings";
 // Admin
 import AdminDashboard from "./pages/admin/AdminDashboard";
 
+// SEO Dashboard
+import SeoDashboard from "./pages/seo/SeoDashboard";
+
 function AppContent() {
 
     return (
@@ -58,6 +61,7 @@ function AppContent() {
                 <Route path="/terms" element={<TermsOfService />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />
+                <Route path="/seo" element={<SeoDashboard />} />
 
                 {/* Protected Quiz Routes */}
                 <Route element={<ProtectedRoute />}>
@@ -80,6 +84,7 @@ function AppContent() {
                     <Route path="leaderboard" element={<Leaderboard />} />
                     <Route path="profile" element={<Profile />} />
                     <Route path="settings" element={<Settings />} />
+                    <Route path="seo" element={<SeoDashboard />} />
                     <Route path="admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
                 </Route>
             </Routes>
