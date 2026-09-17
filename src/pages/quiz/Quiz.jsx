@@ -435,7 +435,7 @@ const Quiz = () => {
 
                         {/* Question Prompt Title Card - cleanly styled with border-l-4 to avoid WebKit overflow-radius artifacts */}
                         <div className="p-4 sm:p-6 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] border-l-4 border-l-[#193D35] shadow-xs">
-                            <h2 className="text-sm sm:text-base lg:text-lg font-display font-bold text-[var(--foreground)] leading-snug sm:leading-relaxed">
+                            <h2 className="text-sm sm:text-base lg:text-lg font-display font-bold text-[var(--foreground)] leading-snug sm:leading-relaxed whitespace-pre-line">
                                 {currentQ?.question_text}
                             </h2>
                         </div>
