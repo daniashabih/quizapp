@@ -26,7 +26,8 @@ const INITIAL_TECHNOLOGIES = [
     'WordPress',
     'Docker',
     'Agile and DevOps',
-    'Azure'
+    'Azure',
+    'SEO'
 ];
 
 async function seedTechnologies() {
