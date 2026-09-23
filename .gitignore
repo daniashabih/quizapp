@@ -32,3 +32,10 @@ dist-ssr
 dev.db
 prisma/*.db
 prisma/*.db-journal
+
+# Mobile Signing Secrets
+*.jks
+*.keystore
+key.properties
+**/mobile/android/key.properties
+**/mobile/android/app/*.jks

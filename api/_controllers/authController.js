@@ -514,6 +514,36 @@ const googleLogin = async (req, res) => {
     }
 };
 
+/**
+ * Delete Account (Google Play Compliance)
+ * DELETE /api/auth/delete-account
+ */
+const deleteAccount = async (req, res) => {
+    try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({
+                success: false,
+                message: 'Authentication required'
+            });
+        }
+
+        const userId = req.user.id;
+        await User.delete(userId);
+        clearTokenCookie(res);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Account and associated records have been permanently deleted.'
+        });
+    } catch (error) {
+        console.error('[DeleteAccount Error]:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error while deleting account. Please try again.'
+        });
+    }
+};
+
 module.exports = {
     signup,
     register: signup, // alias for signup
@@ -523,6 +553,8 @@ module.exports = {
     getMe,
     getAllUsers,
     updateProfile,
+    deleteAccount,
     forgotPassword,
     resetPassword
 };
+

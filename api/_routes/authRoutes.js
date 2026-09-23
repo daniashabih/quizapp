@@ -9,6 +9,7 @@ const {
     getMe,
     getAllUsers,
     updateProfile,
+    deleteAccount,
     forgotPassword,
     resetPassword
 } = require('../_controllers/authController');
@@ -21,6 +22,7 @@ router.post('/logout', logout);
 router.post('/google', googleLogin);
 router.get('/me', authMiddleware, getMe);
 router.put('/update-profile', authMiddleware, updateProfile);
+router.delete('/delete-account', authMiddleware, deleteAccount);
 router.get('/users', authMiddleware, adminMiddleware, getAllUsers);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
