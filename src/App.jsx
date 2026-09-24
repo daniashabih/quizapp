@@ -58,6 +58,7 @@ function AppContent() {
                 <Route path="/certificate/view" element={<CertificateView />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms" element={<TermsOfService />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />
