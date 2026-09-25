@@ -250,6 +250,41 @@ const getUserDashboard = async (req, res) => {
             orderBy: { createdAt: 'desc' }
         });
 
+        // 2.1 Fetch in-progress quiz attempts for this user
+        let inProgressQuizzes = [];
+        try {
+            const rawAttempts = await prisma.quizAttempt.findMany({
+                where: {
+                    userId: String(userId),
+                    status: 'in_progress'
+                },
+                orderBy: { lastSavedAt: 'desc' }
+            });
+
+            inProgressQuizzes = rawAttempts.map(att => {
+                let ansCount = att.answeredCount || 0;
+                if (!ansCount && att.answers) {
+                    try {
+                        const parsed = JSON.parse(att.answers);
+                        ansCount = Object.keys(parsed).length;
+                    } catch {}
+                }
+                return {
+                    id: att.id,
+                    category: att.category,
+                    session: att.session || 1,
+                    currentQuestionIndex: att.currentQuestionIndex || 0,
+                    answeredCount: ansCount,
+                    totalQuestions: att.totalQuestions || 0,
+                    progressPercentage: att.progressPercentage || (att.totalQuestions > 0 ? Math.round((ansCount / att.totalQuestions) * 100) : 0),
+                    startedAt: att.startedAt,
+                    lastSavedAt: att.lastSavedAt
+                };
+            });
+        } catch (attErr) {
+            console.warn('[Dashboard Warning] Could not fetch in-progress attempts:', attErr.message);
+        }
+
         // 3. Compute User Statistics
         const totalQuizzes = results.length;
         const passedQuizzes = results.filter(r => r.percentage >= 70).length;
@@ -379,6 +414,7 @@ const getUserDashboard = async (req, res) => {
             data: {
                 user,
                 stats,
+                inProgressQuizzes,
                 recentAttempts,
                 technologyProgress,
                 certificates,

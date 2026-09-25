@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import {
     Plus, Trash2, Save, X, Edit2, Users,
     ShieldCheck, Search, BookOpen, FolderOpen, Upload, Download, FileText, Layers,
-    ChevronDown, Sparkles, Sliders, Clock, Percent, Shuffle, HelpCircle, AlertCircle,
+    ChevronDown, Sparkles, Sliders, Percent, Shuffle, HelpCircle, AlertCircle,
     CheckCircle2, RefreshCw, Bot, BarChart3, TrendingUp, Award, Activity
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import dashboardService from '../../services/dashboardService';
 
 const defaultQuizOptions = {
-    timePerQuestion: 60, // seconds
     passingScore: 70, // percentage
     maxQuestions: 999, // default all session questions
     randomizeQuestions: true,
@@ -905,7 +904,7 @@ const AdminDashboard = () => {
                                 <Sliders size={18} className="text-black" /> Global Quiz Options & Rules
                             </h2>
                             <p className="text-xs text-[var(--foreground-muted)] mt-0.5">
-                                Configure time limits, passing score thresholds, shuffling, and candidate feedback settings.
+                                Configure passing score thresholds, shuffling, and candidate feedback settings.
                             </p>
                         </div>
                         <button type="submit" className="btn-primary text-xs px-5 py-2">
@@ -914,23 +913,6 @@ const AdminDashboard = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
-                            <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
-                                <Clock size={15} className="text-black" /> Timer Limit Per Question
-                            </label>
-                            <p className="text-[11px] text-[var(--foreground-muted)]">Seconds allocated to candidates for each question.</p>
-                            <select
-                                value={quizOptions.timePerQuestion}
-                                onChange={(e) => setQuizOptions({ ...quizOptions, timePerQuestion: Number(e.target.value) })}
-                                className="input-field text-xs"
-                            >
-                                <option value={30}>30 Seconds (Fast Speed)</option>
-                                <option value={45}>45 Seconds</option>
-                                <option value={60}>60 Seconds (Standard)</option>
-                                <option value={90}>90 Seconds (Relaxed)</option>
-                                <option value={120}>120 Seconds (Extended)</option>
-                            </select>
-                        </div>
 
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
                             <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">

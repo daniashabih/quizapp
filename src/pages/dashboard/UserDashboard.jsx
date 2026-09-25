@@ -1,14 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     Trophy, Award, ChevronRight, BarChart3, Clock,
     Edit3, Check, X, Zap, Flame, BookOpen,
-    Activity, Sparkles, ArrowRight, AlertCircle, RefreshCw, Layers
+    Activity, Sparkles, ArrowRight, AlertCircle, RefreshCw, Layers,
+    PlayCircle, Play, Trash2, BookmarkCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import dashboardService from '../../services/dashboardService';
+import attemptService from '../../services/attemptService';
 
 const achievementIconMap = {
     Zap: Zap,
@@ -19,8 +21,26 @@ const achievementIconMap = {
     Sparkles: Sparkles
 };
 
+function formatTimeAgo(date) {
+    if (!date) return 'Recently';
+    const now = new Date();
+    const past = new Date(date);
+    const diffMs = now - past;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return past.toLocaleDateString();
+}
+
 export default function UserDashboard() {
     const { user, updateUser } = useAuth();
+    const navigate = useNavigate();
     const [dashboardData, setDashboardData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -134,6 +154,7 @@ export default function UserDashboard() {
         rank: 1
     };
 
+    const inProgressQuizzes = dashboardData?.inProgressQuizzes || [];
     const recentAttempts = dashboardData?.recentAttempts || [];
     const technologyProgress = dashboardData?.technologyProgress || [];
     const achievements = dashboardData?.achievements || [];
@@ -149,6 +170,34 @@ export default function UserDashboard() {
 
     const maxWeeklyAttempts = Math.max(...weeklyActivity.map(a => a.attempts), 1);
     const xpProgressPercent = (stats.levelProgress / 3) * 100;
+
+    const handleResumeQuiz = (quiz) => {
+        navigate('/quiz/start', {
+            state: {
+                attemptId: quiz.id,
+                category: quiz.category,
+                session: quiz.session
+            }
+        });
+    };
+
+    const handleDiscardQuiz = async (id, category, session) => {
+        const sessText = session === 0 ? 'All Sessions' : `Session ${session}`;
+        if (!window.confirm(`Discard saved progress for ${category} (${sessText})? This attempt will be removed.`)) {
+            return;
+        }
+        try {
+            await attemptService.discardAttempt(id);
+            toast.success('Unfinished quiz attempt discarded.');
+            setDashboardData(prev => ({
+                ...prev,
+                inProgressQuizzes: (prev?.inProgressQuizzes || []).filter(q => q.id !== id)
+            }));
+        } catch (err) {
+            console.error('Error discarding attempt:', err);
+            toast.error('Failed to discard quiz attempt.');
+        }
+    };
 
     return (
         <div className="max-w-7xl mx-auto space-y-6 animate-fade-up">
@@ -187,6 +236,94 @@ export default function UserDashboard() {
                 <DashboardStat icon={Award} label="Certificates" value={stats.certificates} gradient="from-[#193D35] to-[#D19A45]" />
                 <DashboardStat icon={Flame} label="Current Streak" value={`${stats.streak}d`} gradient="from-[#D19A45] to-[#42665B]" />
             </div>
+
+            {/* ═══════════════════════════════════════════════════════════
+                 CONTINUE YOUR QUIZ / IN PROGRESS SECTION
+               ═══════════════════════════════════════════════════════════ */}
+            {inProgressQuizzes.length > 0 && (
+                <div className="card p-6 sm:p-7 rounded-3xl border-2 border-[#193D35]/25 bg-gradient-to-br from-[#193D35]/5 via-[var(--card-bg)] to-[#F3E5C5]/10 shadow-sm space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--card-border)] pb-3">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-[#193D35] text-white flex items-center justify-center shadow-md">
+                                <PlayCircle size={20} />
+                            </div>
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <h2 className="text-lg font-display font-extrabold text-[var(--foreground)]">
+                                        Continue Your Quiz
+                                    </h2>
+                                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#193D35] text-white shadow-2xs">
+                                        {inProgressQuizzes.length} In Progress
+                                    </span>
+                                </div>
+                                <p className="text-xs text-[var(--foreground-muted)]">
+                                    Pick up right where you left off. All questions, answers, and progress are saved.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-1">
+                        {inProgressQuizzes.map(quiz => (
+                            <div
+                                key={quiz.id}
+                                className="p-5 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35]/60 hover:shadow-md transition-all flex flex-col justify-between space-y-4 group"
+                            >
+                                <div className="space-y-3">
+                                    <div className="flex items-start justify-between gap-2">
+                                        <div>
+                                            <h3 className="text-base font-display font-bold text-[var(--foreground)] group-hover:text-[#193D35] transition-colors line-clamp-1">
+                                                {quiz.category}
+                                            </h3>
+                                            <div className="flex items-center gap-2 mt-1">
+                                                <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]">
+                                                    {quiz.session === 0 ? 'All Sessions' : `Session ${quiz.session}`}
+                                                </span>
+                                                <span className="text-[11px] text-[var(--foreground-muted)] flex items-center gap-1 font-medium">
+                                                    <Clock size={11} /> {formatTimeAgo(quiz.lastSavedAt)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Progress Bar & Counter */}
+                                    <div className="space-y-1.5 pt-1">
+                                        <div className="flex items-center justify-between text-xs font-semibold">
+                                            <span className="text-[var(--foreground-muted)]">
+                                                <strong className="text-[var(--foreground)]">{quiz.answeredCount}</strong> / {quiz.totalQuestions} questions answered
+                                            </span>
+                                            <span className="text-[#193D35] font-black">{quiz.progressPercentage}%</span>
+                                        </div>
+                                        <div className="w-full h-2 rounded-full bg-[var(--muted-bg)] overflow-hidden border border-[var(--card-border)]/50">
+                                            <div
+                                                className="h-full bg-gradient-to-r from-[#193D35] to-[#42665B] rounded-full transition-all duration-500"
+                                                style={{ width: `${Math.min(100, Math.max(0, quiz.progressPercentage))}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Actions */}
+                                <div className="flex items-center gap-2 pt-2 border-t border-[var(--card-border)]">
+                                    <button
+                                        onClick={() => handleResumeQuiz(quiz)}
+                                        className="btn-primary flex-1 justify-center py-2 text-xs font-bold shadow-xs cursor-pointer flex items-center gap-1.5"
+                                    >
+                                        <Play size={13} className="fill-white" /> Resume Quiz
+                                    </button>
+                                    <button
+                                        onClick={() => handleDiscardQuiz(quiz.id, quiz.category, quiz.session)}
+                                        className="p-2 rounded-xl text-[var(--foreground-muted)] hover:text-red-600 hover:bg-red-500/10 border border-transparent hover:border-red-200 transition-all cursor-pointer shrink-0"
+                                        title="Discard unfinished attempt"
+                                    >
+                                        <Trash2 size={15} />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             <div className="grid lg:grid-cols-3 gap-6">
                 {/* Left Column */}

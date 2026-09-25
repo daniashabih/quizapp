@@ -1,16 +1,17 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import {
-    Clock, X, ArrowRight, ArrowLeft,
+    X, ArrowRight, ArrowLeft,
     Flag, AlertCircle, HelpCircle, ChevronLeft, ChevronRight,
-    Send, Sparkles, LayoutGrid, Check, Flame, BookOpen
+    Send, Sparkles, LayoutGrid, Check, BookOpen,
+    BookmarkCheck, RefreshCw, Loader2, PlayCircle, RotateCcw, Clock, Trash2
 } from 'lucide-react';
+import attemptService from '../../services/attemptService';
 
 const defaultQuizOptions = {
-    timePerQuestion: 60,
     passingScore: 70,
     maxQuestions: 999,
     randomizeQuestions: true,
@@ -44,6 +45,23 @@ const Quiz = () => {
     const selectedSession = isAllSessions ? 'all' : (parseInt(rawSession, 10) || 1);
     const quizOpts = getQuizOptions();
 
+    const explicitAttemptId = location.state?.attemptId || null;
+    const [attemptId, setAttemptId] = useState(explicitAttemptId);
+    const [saveStatus, setSaveStatus] = useState('saved'); // 'saved', 'saving', 'error'
+    const [isSavingAndExiting, setIsSavingAndExiting] = useState(false);
+    const [isResumed, setIsResumed] = useState(false);
+    const [pendingResumeAttempt, setPendingResumeAttempt] = useState(null);
+    const [showSaveConfirmModal, setShowSaveConfirmModal] = useState(false);
+
+    const attemptIdRef = useRef(explicitAttemptId);
+    const saveTimeoutRef = useRef(null);
+    const latestStateRef = useRef({
+        currentIndex: 0,
+        selectedAnswers: {},
+        flaggedQuestions: new Set(),
+        questions: []
+    });
+
     const [questions, setQuestions] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -55,11 +73,20 @@ const Quiz = () => {
         return false;
     });
     const [loading, setLoading] = useState(true);
-    const [timeLeft, setTimeLeft] = useState(() => getQuizOptions().timePerQuestion || 60);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
     const [showExitConfirm, setShowExitConfirm] = useState(false);
     const [startTime, setStartTime] = useState(() => Date.now());
+
+    // Keep latestStateRef updated on every state transition
+    useEffect(() => {
+        latestStateRef.current = {
+            currentIndex,
+            selectedAnswers,
+            flaggedQuestions,
+            questions
+        };
+    }, [currentIndex, selectedAnswers, flaggedQuestions, questions]);
 
     // Auto-close navigator on mobile resize
     useEffect(() => {
@@ -72,9 +99,251 @@ const Quiz = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const normalizeValue = (val) => String(val || '').trim().replace(/\band\b/gi, '&').replace(/\s+/g, ' ').toLowerCase();
+    const normalizeValue = useCallback((val) => String(val || '').trim().replace(/\band\b/gi, '&').replace(/\s+/g, ' ').toLowerCase(), []);
 
-    // Fetch questions from API
+    // Format relative time helper for resume dialog
+    const formatTimeAgo = (dateStr) => {
+        if (!dateStr) return 'recently';
+        const date = new Date(dateStr);
+        const diffSeconds = Math.floor((Date.now() - date.getTime()) / 1000);
+        if (diffSeconds < 60) return 'just now';
+        const diffMinutes = Math.floor(diffSeconds / 60);
+        if (diffMinutes < 60) return `${diffMinutes}m ago`;
+        const diffHours = Math.floor(diffMinutes / 60);
+        if (diffHours < 24) return `${diffHours}h ago`;
+        const diffDays = Math.floor(diffHours / 24);
+        return `${diffDays}d ago`;
+    };
+
+    // Save current progress to MongoDB Atlas via attemptService
+    const saveCurrentProgress = useCallback(async (overrides = {}) => {
+        const currentAttId = overrides.attemptId || attemptIdRef.current;
+        if (!currentAttId) return;
+
+        const curIndex = overrides.currentIndex !== undefined ? overrides.currentIndex : latestStateRef.current.currentIndex;
+        const curAnswers = overrides.selectedAnswers !== undefined ? overrides.selectedAnswers : latestStateRef.current.selectedAnswers;
+        const curFlagged = overrides.flaggedQuestions !== undefined ? overrides.flaggedQuestions : latestStateRef.current.flaggedQuestions;
+        const curQuestions = overrides.questions || latestStateRef.current.questions;
+
+        let curScore = 0;
+        curQuestions.forEach(q => {
+            const idx = curAnswers[q.id];
+            if (idx !== undefined) {
+                let opts = q.options;
+                if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
+                if (normalizeValue(opts[idx]) === normalizeValue(q.correct_answer)) curScore++;
+            }
+        });
+
+        const answeredCount = Object.keys(curAnswers).length;
+        const progressPercentage = curQuestions.length > 0 ? Math.round((answeredCount / curQuestions.length) * 100) : 0;
+
+        setSaveStatus('saving');
+        try {
+            await attemptService.updateProgress(currentAttId, {
+                currentQuestionIndex: curIndex,
+                answers: curAnswers,
+                flaggedQuestions: Array.from(curFlagged),
+                score: curScore,
+                answeredCount,
+                progressPercentage,
+                status: overrides.status || 'in_progress'
+            });
+            setSaveStatus('saved');
+        } catch (err) {
+            console.error('Error auto-saving quiz attempt:', err);
+            setSaveStatus('error');
+        }
+    }, [normalizeValue]);
+
+    // Handle selecting an answer with debounced auto-save
+    const handleAnswerSelect = useCallback((questionId, optionIndex) => {
+        setSelectedAnswers(prev => {
+            const updated = { ...prev, [questionId]: optionIndex };
+            if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+            setSaveStatus('saving');
+            saveTimeoutRef.current = setTimeout(() => {
+                saveCurrentProgress({ selectedAnswers: updated });
+            }, 600);
+            return updated;
+        });
+    }, [saveCurrentProgress]);
+
+    // Manual Save & Exit handler
+    const handleSaveAndExit = async () => {
+        setIsSavingAndExiting(true);
+        if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+
+        try {
+            await saveCurrentProgress();
+            toast.success("Quiz progress saved! You can resume anytime from your dashboard.");
+            navigate('/dashboard');
+        } catch (err) {
+            console.error("Save & Exit error:", err);
+            toast.info("Navigating to dashboard.");
+            navigate('/dashboard');
+        } finally {
+            setIsSavingAndExiting(false);
+        }
+    };
+
+    // Discard active attempt and exit
+    const handleDiscardAndExit = async () => {
+        if (attemptIdRef.current) {
+            try {
+                await attemptService.discardAttempt(attemptIdRef.current);
+                toast.info("Quiz attempt discarded.");
+            } catch (err) {
+                console.warn("Failed to discard attempt:", err);
+            }
+        }
+        navigate('/dashboard');
+    };
+
+    // Navigation Handlers with immediate auto-save
+    const handleNextQuestion = () => {
+        if (currentIndex < questions.length - 1) {
+            const nextIdx = currentIndex + 1;
+            setCurrentIndex(nextIdx);
+            saveCurrentProgress({ currentIndex: nextIdx });
+        } else if (currentIndex === questions.length - 1) {
+            setShowConfirmSubmit(true);
+        }
+    };
+
+    const handlePrevQuestion = () => {
+        if (currentIndex > 0) {
+            const prevIdx = currentIndex - 1;
+            setCurrentIndex(prevIdx);
+            saveCurrentProgress({ currentIndex: prevIdx });
+        }
+    };
+
+    const handleJumpToQuestion = (targetIdx) => {
+        setCurrentIndex(targetIdx);
+        saveCurrentProgress({ currentIndex: targetIdx });
+        if (window.innerWidth < 1024) {
+            setNavigatorOpen(false);
+        }
+    };
+
+    const toggleFlag = (questionId) => {
+        setFlaggedQuestions(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(questionId)) newSet.delete(questionId);
+            else newSet.add(questionId);
+            saveCurrentProgress({ flaggedQuestions: newSet });
+            return newSet;
+        });
+    };
+
+    // Auto-save on page exit / tab switch
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            const currentAttId = attemptIdRef.current;
+            if (!currentAttId || isSubmitted) return;
+
+            const curAnswers = latestStateRef.current.selectedAnswers;
+            const curIndex = latestStateRef.current.currentIndex;
+            const curFlagged = Array.from(latestStateRef.current.flaggedQuestions);
+            const answeredCount = Object.keys(curAnswers).length;
+
+            const payload = JSON.stringify({
+                currentQuestionIndex: curIndex,
+                answers: curAnswers,
+                flaggedQuestions: curFlagged,
+                answeredCount,
+                status: 'in_progress'
+            });
+
+            if (navigator.sendBeacon) {
+                const blob = new Blob([payload], { type: 'application/json' });
+                navigator.sendBeacon(`/api/attempts/${currentAttId}`, blob);
+            }
+        };
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'hidden' && !isSubmitted && attemptIdRef.current) {
+                saveCurrentProgress();
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, [saveCurrentProgress, isSubmitted]);
+
+    // Restore attempt state from snapshot
+    const restoreAttempt = useCallback((activeAttempt) => {
+        setQuestions(activeAttempt.questionsSnapshot);
+        const safeIndex = Math.min(
+            activeAttempt.currentQuestionIndex || 0,
+            activeAttempt.questionsSnapshot.length - 1
+        );
+        setCurrentIndex(Math.max(0, safeIndex));
+        setSelectedAnswers(activeAttempt.answers || {});
+        setFlaggedQuestions(new Set(activeAttempt.flaggedQuestions || []));
+        setAttemptId(activeAttempt.id);
+        attemptIdRef.current = activeAttempt.id;
+        setIsResumed(true);
+        setSaveStatus('saved');
+        toast.info(`Resumed ${selectedCategory} exactly where you left off (Question ${safeIndex + 1}).`);
+    }, [selectedCategory]);
+
+    // Start fresh quiz from question bank and register new in_progress attempt
+    const startFreshQuiz = useCallback(async () => {
+        setLoading(true);
+        try {
+            const url = isAllSessions 
+                ? `/questions?category=${encodeURIComponent(selectedCategory)}`
+                : `/questions?category=${encodeURIComponent(selectedCategory)}&session=${selectedSession}`;
+            const res = await axios.get(url);
+            let filtered = res.data.filter(q => {
+                return normalizeValue(q.category) === normalizeValue(selectedCategory);
+            });
+
+            if (quizOpts.randomizeQuestions) {
+                filtered = [...filtered].sort(() => Math.random() - 0.5);
+            }
+            if (quizOpts.maxQuestions && quizOpts.maxQuestions > 0 && quizOpts.maxQuestions < 900) {
+                filtered = filtered.slice(0, quizOpts.maxQuestions);
+            }
+
+            setQuestions(filtered);
+
+            if (filtered.length === 0) {
+                toast.info(`No questions found for ${selectedCategory} (${isAllSessions ? 'All Sessions' : `Session ${selectedSession}`}).`);
+            } else {
+                try {
+                    const startRes = await attemptService.startOrResumeAttempt({
+                        category: selectedCategory,
+                        session: isAllSessions ? 0 : selectedSession,
+                        questionsSnapshot: filtered,
+                        totalQuestions: filtered.length,
+                        forceNew: true
+                    });
+                    if (startRes.success && startRes.attempt) {
+                        setAttemptId(startRes.attempt.id);
+                        attemptIdRef.current = startRes.attempt.id;
+                    }
+                } catch (startErr) {
+                    console.warn("Could not register initial quiz attempt in DB:", startErr);
+                }
+            }
+
+            setStartTime(Date.now());
+        } catch (err) {
+            console.error("Failed to load questions:", err);
+            toast.error("Failed to load questions.");
+        } finally {
+            setLoading(false);
+        }
+    }, [isAllSessions, selectedCategory, selectedSession, normalizeValue, quizOpts.randomizeQuestions, quizOpts.maxQuestions]);
+
+    // Initialize Quiz or Resume Active Attempt
     useEffect(() => {
         if (!selectedCategory) {
             toast.error("No category selected.");
@@ -82,36 +351,53 @@ const Quiz = () => {
             return;
         }
 
-        const fetchQuestions = async () => {
+        const initializeQuiz = async () => {
+            setLoading(true);
             try {
-                const url = isAllSessions 
-                    ? `/questions?category=${encodeURIComponent(selectedCategory)}`
-                    : `/questions?category=${encodeURIComponent(selectedCategory)}&session=${selectedSession}`;
-                const res = await axios.get(url);
-                let filtered = res.data.filter(q => {
-                    return normalizeValue(q.category) === normalizeValue(selectedCategory);
-                });
+                // Case 1: Explicit attempt ID passed from User Dashboard "Resume Quiz" button
+                if (explicitAttemptId) {
+                    try {
+                        const res = await attemptService.getAttemptById(explicitAttemptId);
+                        if (res.success && res.attempt && Array.isArray(res.attempt.questionsSnapshot) && res.attempt.questionsSnapshot.length > 0) {
+                            restoreAttempt(res.attempt);
+                            setLoading(false);
+                            return;
+                        }
+                    } catch (e) {
+                        console.warn("Could not fetch attempt by explicit ID:", e);
+                    }
+                }
 
-                if (quizOpts.randomizeQuestions) {
-                    filtered = [...filtered].sort(() => Math.random() - 0.5);
-                }
-                if (quizOpts.maxQuestions && quizOpts.maxQuestions > 0 && quizOpts.maxQuestions < 900) {
-                    filtered = filtered.slice(0, quizOpts.maxQuestions);
+                // Case 2: Fresh route entry without explicit ID — check if active attempt already exists
+                try {
+                    const checkRes = await attemptService.checkActiveAttempt(
+                        selectedCategory,
+                        isAllSessions ? 0 : selectedSession
+                    );
+                    if (checkRes.success && checkRes.hasActiveAttempt && checkRes.attempt) {
+                        const att = checkRes.attempt;
+                        if (Array.isArray(att.questionsSnapshot) && att.questionsSnapshot.length > 0) {
+                            // Prompt user whether to Resume or Start Over
+                            setPendingResumeAttempt(att);
+                            setLoading(false);
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    console.warn("Could not check active attempt:", e);
                 }
 
-                setQuestions(filtered);
-                if (filtered.length === 0) {
-                    toast.info(`No questions found for ${selectedCategory} (${isAllSessions ? 'All Sessions' : `Session ${selectedSession}`}).`);
-                }
-                setStartTime(Date.now());
-            } catch {
-                toast.error("Failed to load questions.");
-            } finally {
+                // Case 3: No active attempt found, start fresh
+                await startFreshQuiz();
+            } catch (err) {
+                console.error("Failed to load quiz:", err);
+                toast.error("Failed to load quiz.");
                 setLoading(false);
             }
         };
-        fetchQuestions();
-    }, [selectedCategory, selectedSession, isAllSessions, navigate, quizOpts.randomizeQuestions, quizOpts.maxQuestions]);
+
+        initializeQuiz();
+    }, [selectedCategory, selectedSession, isAllSessions, explicitAttemptId, navigate, restoreAttempt, startFreshQuiz]);
 
     const handleSubmitQuiz = useCallback(async () => {
         let score = 0;
@@ -125,7 +411,24 @@ const Quiz = () => {
         });
         const percentage = questions.length > 0 ? Math.round((score / questions.length) * 100) : 0;
         const timeTaken = Math.round((Date.now() - startTime) / 1000);
+        const answeredCount = Object.keys(selectedAnswers).length;
 
+        // 1. Mark attempt as completed in database
+        if (attemptIdRef.current) {
+            try {
+                await attemptService.completeAttempt(attemptIdRef.current, {
+                    score,
+                    totalQuestions: questions.length,
+                    answeredCount,
+                    progressPercentage: percentage,
+                    answers: selectedAnswers
+                });
+            } catch (attErr) {
+                console.warn("Could not mark attempt completed:", attErr);
+            }
+        }
+
+        // 2. Save result in quiz_results for certificates & rankings
         try {
             const res = await axios.post('/results/save', {
                 category: selectedCategory,
@@ -136,7 +439,7 @@ const Quiz = () => {
                 difficulty: questions[0]?.difficulty || 'beginner'
             });
             if (res.data?.resultId) {
-                toast.success("Quiz result saved successfully!");
+                toast.success("Quiz completed and saved successfully!");
             }
         } catch (error) {
             console.error("Error saving result:", error);
@@ -156,60 +459,23 @@ const Quiz = () => {
                 timeTaken,
             }
         });
-    }, [questions, selectedAnswers, startTime, selectedCategory, selectedSession, isAllSessions, navigate]);
-
-    const handleAutoAdvance = useCallback(() => {
-        if (currentIndex < questions.length - 1) {
-            setCurrentIndex(prev => prev + 1);
-        } else {
-            handleSubmitQuiz();
-        }
-    }, [questions.length, currentIndex, handleSubmitQuiz]);
-
-    // Question Timer
-    useEffect(() => {
-        if (!loading && questions.length > 0 && !isSubmitted) {
-            const timer = setInterval(() => {
-                setTimeLeft((prev) => {
-                    if (prev <= 1) {
-                        clearInterval(timer);
-                        handleAutoAdvance();
-                        return 0;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
-            return () => clearInterval(timer);
-        }
-    }, [loading, questions.length, isSubmitted, handleAutoAdvance]);
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setTimeLeft(quizOpts.timePerQuestion || 60);
-        }, 0);
-        return () => clearTimeout(timeout);
-    }, [currentIndex, quizOpts.timePerQuestion]);
-
-    const handleAnswerSelect = useCallback((questionId, optionIndex) => {
-        setSelectedAnswers(prev => ({ ...prev, [questionId]: optionIndex }));
-    }, []);
-
-    const toggleFlag = (questionId) => {
-        setFlaggedQuestions(prev => {
-            const newSet = new Set(prev);
-            if (newSet.has(questionId)) newSet.delete(questionId);
-            else newSet.add(questionId);
-            return newSet;
-        });
-    };
+    }, [questions, selectedAnswers, startTime, selectedCategory, selectedSession, isAllSessions, navigate, normalizeValue]);
 
     // Keyboard Shortcuts Support
     useEffect(() => {
         const handleKeyDown = (e) => {
             // Disable when modals are open
-            if (showConfirmSubmit || showExitConfirm) return;
+            if (showConfirmSubmit || showExitConfirm || showSaveConfirmModal || pendingResumeAttempt) return;
 
             const key = e.key.toLowerCase();
+
+            // Save & Exit Shortcut: Ctrl+S or Cmd+S
+            if ((e.ctrlKey || e.metaKey) && key === 's') {
+                e.preventDefault();
+                setShowSaveConfirmModal(true);
+                return;
+            }
+
             const currentQ = questions[currentIndex];
             if (!currentQ) return;
 
@@ -226,15 +492,9 @@ const Quiz = () => {
             } else if (['4', 'd'].includes(key) && opts.length > 3) {
                 handleAnswerSelect(currentQ.id, 3);
             } else if (key === 'arrowright' || key === 'enter') {
-                if (currentIndex < questions.length - 1) {
-                    setCurrentIndex(prev => prev + 1);
-                } else if (currentIndex === questions.length - 1) {
-                    setShowConfirmSubmit(true);
-                }
+                handleNextQuestion();
             } else if (key === 'arrowleft') {
-                if (currentIndex > 0) {
-                    setCurrentIndex(prev => prev - 1);
-                }
+                handlePrevQuestion();
             } else if (key === 'f') {
                 toggleFlag(currentQ.id);
             } else if (key === 'm') {
@@ -246,7 +506,7 @@ const Quiz = () => {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [currentIndex, questions, showConfirmSubmit, showExitConfirm, handleAnswerSelect]);
+    });
 
     if (loading) {
         return (
@@ -291,9 +551,6 @@ const Quiz = () => {
     const answeredCount = Object.keys(selectedAnswers).length;
     const flaggedCount = flaggedQuestions.size;
     const isLastQuestion = currentIndex === questions.length - 1;
-    const totalTime = quizOpts.timePerQuestion || 60;
-    const timerPct = Math.min(100, Math.max(0, (timeLeft / totalTime) * 100));
-    const timerIsUrgent = timeLeft <= 10;
     const isCurrentFlagged = flaggedQuestions.has(currentQ?.id);
     const progressPercent = Math.round(((currentIndex + 1) / questions.length) * 100);
 
@@ -303,22 +560,8 @@ const Quiz = () => {
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#193D35]/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#D19A45]/5 rounded-full blur-3xl pointer-events-none translate-y-1/2" />
 
-            {/* Live Top Time-Depletion Progress Line */}
-            <div className="w-full h-1 bg-[var(--muted-bg)] relative z-30 overflow-hidden shrink-0">
-                <div
-                    className={`h-full transition-all duration-1000 ease-linear ${
-                        timerIsUrgent
-                            ? 'bg-red-500 shadow-sm shadow-red-500/50'
-                            : timeLeft <= 20
-                                ? 'bg-amber-500'
-                                : 'bg-[#193D35]'
-                    }`}
-                    style={{ width: `${timerPct}%` }}
-                />
-            </div>
-
             {/* ═══════════════════════════════════════════════════════════
-                 1. TOP HEADER (PROMINENT TIMER, TRACK INFO & PROGRESS)
+                 1. TOP HEADER (TRACK INFO & PROGRESS)
                ═══════════════════════════════════════════════════════════ */}
             <header className="h-14 sm:h-16 shrink-0 border-b border-[var(--card-border)] bg-[var(--nav-bg)] backdrop-blur-xl px-3 sm:px-6 lg:px-8 flex items-center justify-between z-20 gap-2">
                 {/* Left: Exit + Track Info */}
@@ -361,31 +604,47 @@ const Quiz = () => {
                     </div>
                 </div>
 
-                {/* Right: Prominent Countdown Timer, Flag, and Question Navigator HUD */}
+                {/* Right: Live Save Status, Save & Exit, Flag, and Question Navigator HUD */}
                 <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-                    {/* PROMINENT COUNTDOWN TIMER BADGE */}
-                    <div
-                        className={`flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 shadow-2xs ${
-                            timerIsUrgent
-                                ? 'bg-red-500/15 border-red-500 text-red-600 ring-2 ring-red-500/30 animate-pulse'
-                                : timeLeft <= 20
-                                    ? 'bg-amber-500/10 border-amber-500/60 text-amber-700'
-                                    : 'bg-[#193D35]/10 border-[#193D35]/30 text-[#193D35]'
-                        }`}
-                        title="Time remaining for current question"
+                    {/* Live Auto-Save Status Pill */}
+                    <div 
+                        className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--muted-bg)] border border-[var(--card-border)] text-[11px] font-medium transition-all select-none"
+                        title={saveStatus === 'saved' ? 'All progress saved to database' : saveStatus === 'saving' ? 'Saving progress...' : 'Failed to save progress'}
                     >
-                        {timerIsUrgent ? (
-                            <Flame size={16} className="text-red-600 animate-bounce shrink-0" />
-                        ) : (
-                            <Clock size={14} className={`shrink-0 ${timeLeft <= 20 ? 'text-amber-600' : 'text-[#193D35]'}`} />
+                        {saveStatus === 'saving' && (
+                            <>
+                                <Loader2 size={12} className="animate-spin text-[#D19A45]" />
+                                <span className="text-[#D19A45] font-semibold">Saving...</span>
+                            </>
                         )}
-                        <div className="flex items-baseline gap-0.5 font-mono">
-                            <span className="text-xs sm:text-sm font-black tabular-nums tracking-tight">
-                                {timeLeft < 10 ? `0${timeLeft}` : timeLeft}s
-                            </span>
-                            <span className="hidden lg:inline text-[10px] font-sans font-bold uppercase tracking-wider opacity-75">left</span>
-                        </div>
+                        {saveStatus === 'saved' && (
+                            <>
+                                <Check size={12} className="text-emerald-600 dark:text-emerald-400" strokeWidth={2.5} />
+                                <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Saved</span>
+                            </>
+                        )}
+                        {saveStatus === 'error' && (
+                            <>
+                                <AlertCircle size={12} className="text-red-500" />
+                                <span className="text-red-500 font-semibold">Save Failed</span>
+                            </>
+                        )}
                     </div>
+
+                    {/* Prominent Save & Exit Button */}
+                    <button
+                        onClick={() => setShowSaveConfirmModal(true)}
+                        disabled={isSavingAndExiting}
+                        className="flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border border-[#D19A45]/40 bg-[#F3E5C5] text-[#193D35] hover:bg-[#EAD8B0] hover:border-[#D19A45] font-bold text-xs transition-all shadow-xs cursor-pointer shrink-0"
+                        title="Save progress and return to dashboard (Ctrl+S)"
+                    >
+                        {isSavingAndExiting ? (
+                            <Loader2 size={14} className="animate-spin text-[#193D35]" />
+                        ) : (
+                            <BookmarkCheck size={14} className="text-[#193D35]" />
+                        )}
+                        <span className="hidden xs:inline">Save & Exit</span>
+                    </button>
 
                     {/* Flag / Bookmark Button */}
                     <button
@@ -491,7 +750,7 @@ const Quiz = () => {
                     {/* Bottom: Persistent Action Dock */}
                     <div className="shrink-0 pt-2.5 sm:pt-3 border-t border-[var(--card-border)] flex items-center justify-between gap-2 sm:gap-3">
                         <button
-                            onClick={() => setCurrentIndex(p => Math.max(0, p - 1))}
+                            onClick={handlePrevQuestion}
                             disabled={currentIndex === 0}
                             className="btn-secondary text-xs sm:text-sm py-2 sm:py-2.5 px-3 sm:px-5 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1.5"
                         >
@@ -525,7 +784,7 @@ const Quiz = () => {
                             </button>
                         ) : (
                             <button
-                                onClick={() => setCurrentIndex(p => Math.min(questions.length - 1, p + 1))}
+                                onClick={handleNextQuestion}
                                 className="btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-6 shadow-sm shadow-[#193D35]/15 cursor-pointer flex items-center gap-1.5"
                             >
                                 <span>Next</span> <ChevronRight size={16} />
@@ -563,19 +822,6 @@ const Quiz = () => {
                         </div>
 
                         <div className="flex items-center gap-2">
-                            {/* Live Synchronized Timer in Header */}
-                            <div
-                                className={`flex items-center gap-1 px-2.5 py-1 rounded-lg border font-mono font-bold text-xs ${
-                                    timerIsUrgent
-                                        ? 'bg-red-500/15 border-red-500 text-red-600 animate-pulse'
-                                        : 'bg-[var(--card-bg)] border-[var(--card-border)] text-[#193D35]'
-                                }`}
-                                title="Active Timer"
-                            >
-                                <Clock size={12} className={timerIsUrgent ? 'text-red-600' : 'text-[#193D35]'} />
-                                <span>{timeLeft}s</span>
-                            </div>
-
                             <button
                                 onClick={() => setNavigatorOpen(false)}
                                 className="p-1.5 rounded-xl text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all cursor-pointer"
@@ -603,12 +849,7 @@ const Quiz = () => {
                                     return (
                                         <button
                                             key={idx}
-                                            onClick={() => {
-                                                setCurrentIndex(idx);
-                                                if (window.innerWidth < 1024) {
-                                                    setNavigatorOpen(false);
-                                                }
-                                            }}
+                                            onClick={() => handleJumpToQuestion(idx)}
                                             className={`relative h-11 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer ${
                                                 active
                                                     ? 'bg-[#193D35] text-white shadow-md ring-2 ring-[#193D35]/50 scale-105 font-black'
@@ -673,16 +914,127 @@ const Quiz = () => {
                             onClick={() => {
                                 setShowConfirmSubmit(true);
                             }}
-                            className="btn-primary w-full justify-center py-3 text-xs font-bold shadow-md shadow-[#193D35]/15 cursor-pointer"
+                            className="btn-primary w-full justify-center py-3 text-xs font-bold shadow-md shadow-[#193D35]/15 cursor-pointer flex items-center gap-1.5"
                         >
                             <Send size={14} /> Submit Assessment
+                        </button>
+                        <button
+                            onClick={() => setShowSaveConfirmModal(true)}
+                            disabled={isSavingAndExiting}
+                            className="btn-secondary w-full justify-center py-2.5 text-xs font-bold cursor-pointer flex items-center gap-1.5"
+                        >
+                            <BookmarkCheck size={14} /> Save & Exit Quiz
                         </button>
                     </div>
                 </aside>
             </div>
 
             {/* ═══════════════════════════════════════════════════════════
-                 4. CONFIRM EXIT MODAL
+                 4. UNFINISHED ATTEMPT MODAL (PREVENT DUPLICATES)
+               ═══════════════════════════════════════════════════════════ */}
+            {pendingResumeAttempt && typeof document !== 'undefined' && createPortal(
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+                    <div className="card p-6 sm:p-8 rounded-3xl max-w-md w-full text-center space-y-5 shadow-2xl animate-scale-in border-2 border-[#193D35]/20">
+                        <div className="w-16 h-16 rounded-2xl bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] flex items-center justify-center mx-auto shadow-sm">
+                            <PlayCircle size={32} />
+                        </div>
+                        <div className="space-y-2">
+                            <h3 className="text-xl font-display font-extrabold text-[var(--foreground)]">Unfinished Quiz Found</h3>
+                            <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                You have an active attempt for <strong className="text-[var(--foreground)]">{pendingResumeAttempt.category}</strong> ({pendingResumeAttempt.session === 0 ? 'All Sessions' : `Session ${pendingResumeAttempt.session}`}) saved <span className="text-[#193D35] font-semibold">{formatTimeAgo(pendingResumeAttempt.lastSavedAt)}</span>.
+                            </p>
+                            <div className="p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)] font-semibold flex items-center justify-around">
+                                <span>Answered: <strong className="text-[#193D35]">{pendingResumeAttempt.answeredCount || 0} / {pendingResumeAttempt.totalQuestions || 0}</strong></span>
+                                <span>•</span>
+                                <span>Progress: <strong className="text-[#193D35]">{pendingResumeAttempt.progressPercentage || 0}%</strong></span>
+                            </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
+                            <button
+                                onClick={() => {
+                                    const att = pendingResumeAttempt;
+                                    setPendingResumeAttempt(null);
+                                    restoreAttempt(att);
+                                }}
+                                className="btn-primary flex-1 justify-center py-2.5 text-xs font-bold cursor-pointer flex items-center gap-1.5 order-1 sm:order-2"
+                            >
+                                <PlayCircle size={15} /> Resume Quiz
+                            </button>
+                            <button
+                                onClick={async () => {
+                                    const attId = pendingResumeAttempt.id;
+                                    setPendingResumeAttempt(null);
+                                    try {
+                                        await attemptService.discardAttempt(attId);
+                                    } catch (e) {
+                                        console.warn("Could not discard prior attempt:", e);
+                                    }
+                                    await startFreshQuiz();
+                                }}
+                                className="btn-secondary flex-1 justify-center py-2.5 text-xs font-bold cursor-pointer flex items-center gap-1.5 order-2 sm:order-1 text-red-600 hover:text-red-700"
+                            >
+                                <RotateCcw size={14} /> Start Over
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
+
+            {/* ═══════════════════════════════════════════════════════════
+                 5. CONFIRM SAVE & EXIT MODAL
+               ═══════════════════════════════════════════════════════════ */}
+            {showSaveConfirmModal && typeof document !== 'undefined' && createPortal(
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in"
+                    onClick={(e) => { if (e.target === e.currentTarget) setShowSaveConfirmModal(false); }}
+                >
+                    <div className="card p-6 sm:p-8 rounded-3xl max-w-md w-full text-center space-y-4 shadow-2xl animate-scale-in">
+                        <div className="w-16 h-16 rounded-2xl bg-[#F3E5C5] border border-[#E2D0A6] text-[#193D35] flex items-center justify-center mx-auto shadow-sm">
+                            <BookmarkCheck size={32} />
+                        </div>
+                        <div className="space-y-1.5">
+                            <h3 className="text-xl font-display font-extrabold text-[var(--foreground)]">Save & Exit Quiz?</h3>
+                            <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                Your answers and progress (<strong className="text-[var(--foreground)]">{answeredCount} of {questions.length} answered</strong>) will be safely saved in your database. You can resume this quiz at any time from your dashboard.
+                            </p>
+                        </div>
+                        <div className="flex gap-3 pt-2">
+                            <button
+                                onClick={() => setShowSaveConfirmModal(false)}
+                                disabled={isSavingAndExiting}
+                                className="btn-secondary flex-1 justify-center text-xs py-2.5 cursor-pointer"
+                            >
+                                Keep Answering
+                            </button>
+                            <button
+                                onClick={async () => {
+                                    setShowSaveConfirmModal(false);
+                                    await handleSaveAndExit();
+                                }}
+                                disabled={isSavingAndExiting}
+                                className="btn-primary flex-1 justify-center text-xs py-2.5 shadow-md shadow-[#193D35]/20 cursor-pointer flex items-center gap-1.5"
+                            >
+                                {isSavingAndExiting ? (
+                                    <>
+                                        <Loader2 size={14} className="animate-spin" />
+                                        <span>Saving...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <BookmarkCheck size={14} />
+                                        <span>Save & Exit</span>
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
+
+            {/* ═══════════════════════════════════════════════════════════
+                 6. CONFIRM EXIT MODAL
                ═══════════════════════════════════════════════════════════ */}
             {showExitConfirm && typeof document !== 'undefined' && createPortal(
                 <div 
@@ -690,25 +1042,36 @@ const Quiz = () => {
                     onClick={(e) => { if (e.target === e.currentTarget) setShowExitConfirm(false); }}
                 >
                     <div className="card p-6 sm:p-8 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl animate-scale-in">
-                        <div className="w-14 h-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
+                        <div className="w-14 h-14 rounded-2xl bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] flex items-center justify-center mx-auto">
                             <AlertCircle size={28} />
                         </div>
-                        <h3 className="text-lg font-display font-bold text-[var(--foreground)]">Quit Assessment?</h3>
-                        <p className="text-xs text-[var(--foreground-muted)]">
-                            Your progress for this attempt will be discarded. Are you sure you want to leave?
-                        </p>
-                        <div className="flex gap-3 pt-2">
+                        <div className="space-y-1">
+                            <h3 className="text-lg font-display font-bold text-[var(--foreground)]">Leave Quiz?</h3>
+                            <p className="text-xs text-[var(--foreground-muted)]">
+                                Save your progress to continue later, or discard your current attempt.
+                            </p>
+                        </div>
+                        <div className="space-y-2 pt-2">
                             <button
-                                onClick={() => setShowExitConfirm(false)}
-                                className="btn-secondary flex-1 justify-center text-xs py-2.5 cursor-pointer"
+                                onClick={async () => {
+                                    setShowExitConfirm(false);
+                                    await handleSaveAndExit();
+                                }}
+                                className="btn-primary w-full justify-center text-xs py-2.5 cursor-pointer flex items-center gap-1.5"
                             >
-                                Resume Quiz
+                                <BookmarkCheck size={14} /> Save & Exit to Dashboard
                             </button>
                             <button
-                                onClick={() => navigate('/technologies')}
-                                className="btn-primary flex-1 justify-center text-xs py-2.5 bg-red-600 hover:bg-red-700 text-white cursor-pointer"
+                                onClick={() => setShowExitConfirm(false)}
+                                className="btn-secondary w-full justify-center text-xs py-2 cursor-pointer"
                             >
-                                Exit
+                                Continue Answering
+                            </button>
+                            <button
+                                onClick={handleDiscardAndExit}
+                                className="text-[11px] text-red-500 hover:text-red-700 font-semibold py-1 transition-colors cursor-pointer block mx-auto"
+                            >
+                                Discard Attempt & Exit
                             </button>
                         </div>
                     </div>

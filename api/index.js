@@ -16,6 +16,7 @@ const categoryRoutes = require('./_routes/categoryRoutes');
 const resultRoutes = require('./_routes/resultRoutes');
 const activityRoutes = require('./_routes/activityRoutes');
 const dashboardRoutes = require('./_routes/dashboardRoutes');
+const attemptRoutes = require('./_routes/attemptRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -56,6 +57,7 @@ app.use('/api/questions', questionRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/technologies', categoryRoutes);
 app.use('/api/results', resultRoutes);
+app.use('/api/attempts', attemptRoutes);
 app.use('/api/certificates', dashboardRoutes);
 app.use('/api/activity', activityRoutes);
 

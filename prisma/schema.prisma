@@ -57,3 +57,26 @@ model Category {
 
   @@map("categories")
 }
+
+model QuizAttempt {
+  id                   String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId               String    @map("user_id")
+  category             String
+  session              Int?      @default(1)
+  currentQuestionIndex Int       @default(0) @map("current_question_index")
+  answers              String    @default("{}")
+  flaggedQuestions     String    @default("[]") @map("flagged_questions")
+  questionsSnapshot    String    @map("questions_snapshot")
+  score                Int       @default(0)
+  totalQuestions       Int       @default(0) @map("total_questions")
+  answeredCount        Int       @default(0) @map("answered_count")
+  progressPercentage   Float     @default(0) @map("progress_percentage")
+  status               String    @default("in_progress")
+  startedAt            DateTime  @default(now()) @map("started_at")
+  lastSavedAt          DateTime  @default(now()) @map("last_saved_at")
+  completedAt          DateTime? @map("completed_at")
+
+  @@index([userId, status])
+  @@index([userId, category, session, status])
+  @@map("quiz_attempts")
+}
