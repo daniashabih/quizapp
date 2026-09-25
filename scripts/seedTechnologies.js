@@ -13,6 +13,7 @@ const INITIAL_TECHNOLOGIES = [
     'Express.js',
     'MongoDB',
     'SQL',
+    'SQL Server',
     'PHP',
     'Laravel',
     'Python',

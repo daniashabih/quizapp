@@ -19,7 +19,8 @@
     "seed:php-session1": "node scripts/uploadPhpSession1Quiz.js",
     "seed:azure": "node scripts/uploadAzureQuiz.js",
     "seed:seo": "node scripts/uploadSeoQuiz.js",
-    "seed": "node scripts/seedTechnologies.js && node scripts/seedAdmin.js && node scripts/seedQuestions.js && node scripts/uploadAgileDevOpsQuiz.js && node scripts/uploadAgileCharacteristicsQuiz.js && node scripts/uploadPhpSession1Quiz.js && node scripts/uploadAzureQuiz.js && node scripts/uploadSeoQuiz.js"
+    "seed:sql-server-session1": "node scripts/uploadSqlServerSession1Quiz.js",
+    "seed": "node scripts/seedTechnologies.js && node scripts/seedAdmin.js && node scripts/seedQuestions.js && node scripts/uploadAgileDevOpsQuiz.js && node scripts/uploadAgileCharacteristicsQuiz.js && node scripts/uploadPhpSession1Quiz.js && node scripts/uploadAzureQuiz.js && node scripts/uploadSeoQuiz.js && node scripts/uploadSqlServerSession1Quiz.js"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

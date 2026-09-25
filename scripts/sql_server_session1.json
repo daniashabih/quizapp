@@ -1,0 +1,602 @@
+{
+  "category": "SQL Server",
+  "session": 1,
+  "title": "Session 1: RDBMS Concepts - Quiz — Intelligent Data Management with SQL Server",
+  "totalQuestions": 54,
+  "questions": [
+    {
+      "questionText": "A database is best described as:",
+      "options": [
+        "A collection of unrelated files",
+        "An organized collection of related data",
+        "A single hardware device",
+        "A type of programming language"
+      ],
+      "correctAnswer": "An organized collection of related data",
+      "explanation": "A database is an organized form of data, consisting of related data items to which different questions can be asked."
+    },
+    {
+      "questionText": "The session gives examples like 'What are the phone numbers and addresses of the five nearest post offices?' to illustrate that a database can be thought of as:",
+      "options": [
+        "A data collection to which different questions can be asked",
+        "A programming language",
+        "A single spreadsheet cell",
+        "A network cable"
+      ],
+      "correctAnswer": "A data collection to which different questions can be asked",
+      "explanation": "The session frames a database as a data collection that can answer various questions posed against it."
+    },
+    {
+      "questionText": "According to the session, data becomes information when it is:",
+      "options": [
+        "Deleted",
+        "Gathered and analyzed",
+        "Encrypted",
+        "Backed up"
+      ],
+      "correctAnswer": "Gathered and analyzed",
+      "explanation": "When data is gathered and analyzed, it yields information, which helps foresee and plan events."
+    },
+    {
+      "questionText": "Data management deals with managing large amounts of information through which two approaches described in the session?",
+      "options": [
+        "Cloud storage and local storage",
+        "File-based systems and database systems",
+        "SQL and NoSQL",
+        "Manual filing and digital scanning"
+      ],
+      "correctAnswer": "File-based systems and database systems",
+      "explanation": "The session describes file-based systems and database systems as the two approaches to data management."
+    },
+    {
+      "questionText": "In file-based systems, files of archived data were called 'tables' because they resembled:",
+      "options": [
+        "Tables used in traditional file keeping",
+        "Modern spreadsheets",
+        "Index cards",
+        "Filing cabinets"
+      ],
+      "correctAnswer": "Tables used in traditional file keeping",
+      "explanation": "Files of archived data were called tables because they looked like tables used in traditional file keeping."
+    },
+    {
+      "questionText": "In a file-based system, rows in a table were traditionally called:",
+      "options": [
+        "Fields",
+        "Records",
+        "Attributes",
+        "Tuples"
+      ],
+      "correctAnswer": "Records",
+      "explanation": "Rows in the table were called records, and columns were called fields, in traditional file-based systems."
+    },
+    {
+      "questionText": "In a file-based system, columns were traditionally called:",
+      "options": [
+        "Records",
+        "Fields",
+        "Rows",
+        "Keys"
+      ],
+      "correctAnswer": "Fields",
+      "explanation": "Columns in a file-based system's table were called fields."
+    },
+    {
+      "questionText": "Which of the following is NOT listed as a disadvantage of file-based systems?",
+      "options": [
+        "Data redundancy and inconsistency",
+        "Unanticipated queries",
+        "Centralized security control",
+        "Data isolation"
+      ],
+      "correctAnswer": "Centralized security control",
+      "explanation": "Centralized security control is actually an advantage of database systems, not a disadvantage of file-based systems."
+    },
+    {
+      "questionText": "When the same customer data is duplicated across two files and a change to one is not reflected in the other, this illustrates:",
+      "options": [
+        "Data isolation",
+        "Data redundancy and inconsistency",
+        "A concurrent access anomaly",
+        "A security problem"
+      ],
+      "correctAnswer": "Data redundancy and inconsistency",
+      "explanation": "Storing the same data in multiple private files causes redundancy, and inconsistency arises if a change in one file isn't reflected in the other."
+    },
+    {
+      "questionText": "Difficulty handling a sudden request such as listing all customers with an account balance of $20,000 or more illustrates the file-based system issue of:",
+      "options": [
+        "Data isolation",
+        "Unanticipated queries",
+        "Integrity problems",
+        "Security problems"
+      ],
+      "correctAnswer": "Unanticipated queries",
+      "explanation": "Unplanned/ad-hoc queries are difficult to handle in file-based systems since a program to generate the required list may not exist."
+    },
+    {
+      "questionText": "When related data is scattered across isolated files that may be in different formats, this is called:",
+      "options": [
+        "Data redundancy",
+        "Data isolation",
+        "A concurrency issue",
+        "An integrity problem"
+      ],
+      "correctAnswer": "Data isolation",
+      "explanation": "Data isolation refers to related data being scattered across isolated files, possibly in different formats."
+    },
+    {
+      "questionText": "Difficulty in allowing multiple users to access the same file or record simultaneously in a file-based system is known as:",
+      "options": [
+        "Integrity problems",
+        "Concurrent access anomalies",
+        "Data isolation",
+        "Security problems"
+      ],
+      "correctAnswer": "Concurrent access anomalies",
+      "explanation": "In large multi-user systems, handling simultaneous access to the same file or record is difficult in a file-based system — a concurrent access anomaly."
+    },
+    {
+      "questionText": "Restricting payroll staff so they cannot view customer account data illustrates the file-based system issue of:",
+      "options": [
+        "Security problems",
+        "Data isolation",
+        "Integrity problems",
+        "Redundancy"
+      ],
+      "correctAnswer": "Security problems",
+      "explanation": "This is a security problem — enforcing that users only access the data relevant to them is difficult in ad-hoc file-based applications."
+    },
+    {
+      "questionText": "The rule 'Customer ID, which is the unique identifier for a customer record, should not be empty' is an example of:",
+      "options": [
+        "A security constraint",
+        "A data integrity rule",
+        "A redundancy check",
+        "A concurrency control"
+      ],
+      "correctAnswer": "A data integrity rule",
+      "explanation": "This is a data integrity rule — a condition/constraint that must be maintained on data elements."
+    },
+    {
+      "questionText": "According to the session, database systems evolved in which period to address common issues in file-based applications?",
+      "options": [
+        "1950s",
+        "Late 1960s",
+        "1980s",
+        "1990s"
+      ],
+      "correctAnswer": "Late 1960s",
+      "explanation": "Database Systems evolved in the late 1960s to address common issues found in file-based systems."
+    },
+    {
+      "questionText": "Which of the following is an advantage of database systems mentioned in the session?",
+      "options": [
+        "Increased redundancy",
+        "Reduced redundancy through centralized control",
+        "No security enforcement",
+        "Isolation of related data"
+      ],
+      "correctAnswer": "Reduced redundancy through centralized control",
+      "explanation": "A centralized database system reduces redundancy by helping the same data be accessed by many departments instead of duplicated."
+    },
+    {
+      "questionText": "Updating a single centralized record when Mr. Larry Finner is promoted, instead of updating multiple files, illustrates:",
+      "options": [
+        "Reduced data inconsistency",
+        "Increased data redundancy",
+        "Data isolation",
+        "A concurrency anomaly"
+      ],
+      "correctAnswer": "Reduced data inconsistency",
+      "explanation": "Because there is just one record to change in a central database, data inconsistency is reduced."
+    },
+    {
+      "questionText": "In a centralized database system, who is typically given full control to modify the database and implement security restrictions?",
+      "options": [
+        "Any employee",
+        "The Database Administrator (DBA)",
+        "The end user",
+        "The application programmer"
+      ],
+      "correctAnswer": "The Database Administrator (DBA)",
+      "explanation": "The person with full control over the database, called the Database Administrator (DBA), implements security by placing restrictions on data."
+    },
+    {
+      "questionText": "A DBMS (Database Management System) can be defined as:",
+      "options": [
+        "A single data file",
+        "A collection of related records and a set of programs to access and manipulate them",
+        "A physical hardware server",
+        "A type of network protocol"
+      ],
+      "correctAnswer": "A collection of related records and a set of programs to access and manipulate them",
+      "explanation": "A DBMS is defined as a collection of related records and a set of programs that access and manipulate these records."
+    },
+    {
+      "questionText": "Defining the structure of data — including field types, sizes, and constraints — is part of a DBMS's:",
+      "options": [
+        "Data manipulation function",
+        "Data definition function",
+        "Data storage function",
+        "Data recovery function"
+      ],
+      "correctAnswer": "Data definition function",
+      "explanation": "Data definition provides functions to define the structure of data, including record structure, field types/sizes, and constraints."
+    },
+    {
+      "questionText": "Inserting, modifying, or deleting data — handling both planned and unplanned requirements — falls under a DBMS's:",
+      "options": [
+        "Data manipulation function",
+        "Data definition function",
+        "Data storage function",
+        "Data isolation function"
+      ],
+      "correctAnswer": "Data manipulation function",
+      "explanation": "Data manipulation covers inserting, modifying, or deleting data, handling both planned and unplanned (ad-hoc) requirements."
+    },
+    {
+      "questionText": "Queries that are performed as and when required, without being pre-planned as part of an application, are called:",
+      "options": [
+        "Planned queries",
+        "Unplanned (ad-hoc) queries",
+        "Static queries",
+        "Structured queries"
+      ],
+      "correctAnswer": "Unplanned (ad-hoc) queries",
+      "explanation": "Unplanned queries are ad-hoc queries performed as and when required."
+    },
+    {
+      "questionText": "The DBMS component that evaluates different implementations of a query and chooses the best one is the:",
+      "options": [
+        "Data Dictionary",
+        "Query Optimizer",
+        "Schema Manager",
+        "Index Manager"
+      ],
+      "correctAnswer": "Query Optimizer",
+      "explanation": "A DBMS has a Query Optimizer, a set of programs that evaluates different implementations of a query and picks the best one, for performance."
+    },
+    {
+      "questionText": "SQL (Structured Query Language) is best described in the session as a:",
+      "options": [
+        "Procedural language",
+        "Non-procedural query language",
+        "Operating system",
+        "Hardware communication protocol"
+      ],
+      "correctAnswer": "Non-procedural query language",
+      "explanation": "SQL is a non-procedural query language, where the user requests what is required without specifying how it is to be done."
+    },
+    {
+      "questionText": "Which of these are cited as examples of procedural languages that can also provide data access to programmers?",
+      "options": [
+        "HTML and CSS",
+        "C, Visual Basic, and Pascal",
+        "Only Python",
+        "None — only SQL provides data access"
+      ],
+      "correctAnswer": "C, Visual Basic, and Pascal",
+      "explanation": "The session lists C, Visual Basic, and Pascal as procedural languages that also provide data access to programmers."
+    },
+    {
+      "questionText": "Which of the following is NOT listed in the session as an example of a database application?",
+      "options": [
+        "Computerized library systems",
+        "Automated teller machines",
+        "Flight reservation systems",
+        "Word processing software"
+      ],
+      "correctAnswer": "Word processing software",
+      "explanation": "The examples listed are computerized library systems, automated teller machines, flight reservation systems, and computerized parts inventory systems — not word processing software."
+    },
+    {
+      "questionText": "Sophisticated languages used for managing database systems are referred to as:",
+      "options": [
+        "Third Generation Languages (3GLs)",
+        "Fourth Generation Languages (4GLs)",
+        "Structured Query Languages (SQLs) only",
+        "Database Access Languages (DALs)"
+      ],
+      "correctAnswer": "Fourth Generation Languages (4GLs)",
+      "explanation": "Sophisticated languages for managing database systems are called Fourth Generation Languages (4GLs)."
+    },
+    {
+      "questionText": "In the Flat File Data Model, the database consists of:",
+      "options": [
+        "Multiple interlinked tables",
+        "Only one table or file",
+        "A tree of parent-child tables",
+        "A network of linked records"
+      ],
+      "correctAnswer": "Only one table or file",
+      "explanation": "The Flat File Data Model uses only one table or file and is suited to simple databases, but can cause redundancy."
+    },
+    {
+      "questionText": "Which database model represents data using a tree-like structure in which a child record can have only one parent?",
+      "options": [
+        "Relational Model",
+        "Hierarchical Model",
+        "Network Model",
+        "Flat File Model"
+      ],
+      "correctAnswer": "Hierarchical Model",
+      "explanation": "In the Hierarchical Model, relationships are structured as children and parents, and a child can have only one parent."
+    },
+    {
+      "questionText": "Which real-world system is cited in the session as an example of the Hierarchical Data Model?",
+      "options": [
+        "MySQL",
+        "The Windows Registry",
+        "A CSV file",
+        "An Excel workbook"
+      ],
+      "correctAnswer": "The Windows Registry",
+      "explanation": "The Windows Registry is given as an example of a hierarchical database storing configuration settings and options."
+    },
+    {
+      "questionText": "In the Hierarchical Model example (Department, Project, Employee), which segments are the children of the DEPARTMENT segment?",
+      "options": [
+        "Project and Employee",
+        "Customer and Invoice",
+        "Salesrep and Product",
+        "Region and Branch"
+      ],
+      "correctAnswer": "Project and Employee",
+      "explanation": "In the figure, Department is the parent segment, and Project and Employee are its children."
+    },
+    {
+      "questionText": "Which of the following is an advantage of the Hierarchical model mentioned in the session?",
+      "options": [
+        "Data independence provided by a DBMS reduces effort and cost in maintaining the program",
+        "It requires no DBMS at all",
+        "It cannot handle large volumes of data",
+        "Only a single user can ever access the data"
+      ],
+      "correctAnswer": "Data independence provided by a DBMS reduces effort and cost in maintaining the program",
+      "explanation": "Advantages listed include easier data sharing/security via a DBMS, and data independence which reduces effort and costs in maintaining the program."
+    },
+    {
+      "questionText": "The Network Data Model differs from the Hierarchical Model mainly because:",
+      "options": [
+        "It does not use tables at all",
+        "A child record is allowed to have more than one parent",
+        "It cannot store large amounts of data",
+        "It uses only a single file"
+      ],
+      "correctAnswer": "A child record is allowed to have more than one parent",
+      "explanation": "Unlike the hierarchical model's single-parent tree, the network model uses set theory allowing a child to have more than one parent."
+    },
+    {
+      "questionText": "Which organization defined the structures and language constructs of the network model?",
+      "options": [
+        "ANSI",
+        "CODASYL (Conference on Data Systems Language)",
+        "ISO",
+        "IEEE"
+      ],
+      "correctAnswer": "CODASYL (Conference on Data Systems Language)",
+      "explanation": "The network model structures and language constructs were defined by CODASYL."
+    },
+    {
+      "questionText": "Which of these are given as examples of a Network DBMS in the session?",
+      "options": [
+        "Oracle and MySQL",
+        "IDMS and Raima Database Manager (RDM)",
+        "SQL Server and DB2",
+        "MongoDB and Cassandra"
+      ],
+      "correctAnswer": "IDMS and Raima Database Manager (RDM)",
+      "explanation": "IDMS (from Computer Associates) and Raima Database Manager (from Raima Inc.) are given as examples of Network DBMS."
+    },
+    {
+      "questionText": "In network model terminology, the definition of a database's name, record types, and the components making up records is called its:",
+      "options": [
+        "Sub-schema",
+        "Network schema",
+        "Data dictionary",
+        "Query plan"
+      ],
+      "correctAnswer": "Network schema",
+      "explanation": "This overall definition for a database is called its network schema."
+    },
+    {
+      "questionText": "The portion of a network database as seen by the application's programs is referred to as the:",
+      "options": [
+        "Schema",
+        "Sub-schema",
+        "Super-schema",
+        "Meta-schema"
+      ],
+      "correctAnswer": "Sub-schema",
+      "explanation": "The sub-schema is the portion of the database seen by application programs, allowing them to access required data."
+    },
+    {
+      "questionText": "In the Relational Model, a row is referred to as a:",
+      "options": [
+        "Field",
+        "Tuple",
+        "Domain",
+        "Attribute"
+      ],
+      "correctAnswer": "Tuple",
+      "explanation": "In relational model terminology, a row is called a tuple."
+    },
+    {
+      "questionText": "In the Relational Model, a column is referred to as an:",
+      "options": [
+        "Tuple",
+        "Attribute",
+        "Relation",
+        "Cardinality"
+      ],
+      "correctAnswer": "Attribute",
+      "explanation": "In relational model terminology, a column is called an attribute, and the table itself is called a relation."
+    },
+    {
+      "questionText": "The number of tuples in a relation determines its:",
+      "options": [
+        "Degree",
+        "Cardinality",
+        "Domain",
+        "Schema"
+      ],
+      "correctAnswer": "Cardinality",
+      "explanation": "Cardinality of a relation is determined by the number of tuples (rows) it contains."
+    },
+    {
+      "questionText": "The number of attributes in a relation determines its:",
+      "options": [
+        "Cardinality",
+        "Degree",
+        "Domain",
+        "Primary key"
+      ],
+      "correctAnswer": "Degree",
+      "explanation": "The degree of a relation is the number of attributes (columns) it has."
+    },
+    {
+      "questionText": "The set of all values that a particular attribute can take is called its:",
+      "options": [
+        "Domain",
+        "Degree",
+        "Cardinality",
+        "Tuple"
+      ],
+      "correctAnswer": "Domain",
+      "explanation": "The domain of an attribute is the list/set of values applicable to that particular field."
+    },
+    {
+      "questionText": "Which of these is NOT mentioned in the session as a popular relational DBMS?",
+      "options": [
+        "Oracle",
+        "Sybase",
+        "DB2",
+        "Windows Registry"
+      ],
+      "correctAnswer": "Windows Registry",
+      "explanation": "Oracle, Sybase, DB2, and Microsoft SQL Server are named as popular relational DBMSs; the Windows Registry is a hierarchical database example, not relational."
+    },
+    {
+      "questionText": "An attribute or combination of attributes that uniquely identifies each tuple in a relation is called the:",
+      "options": [
+        "Foreign Key",
+        "Primary Key",
+        "Candidate Attribute",
+        "Super Field"
+      ],
+      "correctAnswer": "Primary Key",
+      "explanation": "The Primary Key of a relation is an attribute or combination of attributes that uniquely defines each tuple."
+    },
+    {
+      "questionText": "An attribute in one relation whose values must match those in another relation, indicating a relationship between the two, is called a:",
+      "options": [
+        "Primary Key",
+        "Foreign Key",
+        "Composite Key",
+        "Super Key"
+      ],
+      "correctAnswer": "Foreign Key",
+      "explanation": "A Foreign Key in relation R1 indicates a relationship with relation R2, and must contain values matching those in R2."
+    },
+    {
+      "questionText": "In the Order_August / Customer example from the session, which column acts as a foreign key referencing the Customer table?",
+      "options": [
+        "Ord_No",
+        "Ord_Date",
+        "Cust_No",
+        "Item_No"
+      ],
+      "correctAnswer": "Cust_No",
+      "explanation": "Cust_No in the Order_August relation is a foreign key creating a reference to the Customer relation."
+    },
+    {
+      "questionText": "An advantage of the relational model mentioned in the session is that it:",
+      "options": [
+        "Is always faster than every other database model",
+        "Lets programmers concentrate on the logical view of the database rather than the physical view",
+        "Requires no query language at all",
+        "Cannot be used with SQL"
+      ],
+      "correctAnswer": "Lets programmers concentrate on the logical view of the database rather than the physical view",
+      "explanation": "A key advantage is that the relational model lets programmers focus on the logical view rather than being bothered with the physical view."
+    },
+    {
+      "questionText": "A disadvantage of the relational model noted in the session is that it:",
+      "options": [
+        "Cannot store large volumes of data",
+        "Tends to be slower than other database systems despite hiding system complexities",
+        "Has no concept of primary keys",
+        "Is rarely used compared to other models"
+      ],
+      "correctAnswer": "Tends to be slower than other database systems despite hiding system complexities",
+      "explanation": "Though it hides system complexities, the relational model tends to be slower than other database models."
+    },
+    {
+      "questionText": "A Relational Database Management System (RDBMS) is best defined as:",
+      "options": [
+        "A software program that helps create, maintain, and manipulate a relational database",
+        "A network communication protocol",
+        "A single flat file",
+        "A programming language for graphics"
+      ],
+      "correctAnswer": "A software program that helps create, maintain, and manipulate a relational database",
+      "explanation": "An RDBMS is a software program that helps create, maintain, and manipulate a relational database."
+    },
+    {
+      "questionText": "In a relational database, tables are related to one another mainly through:",
+      "options": [
+        "Random assignment",
+        "Common keys or fields",
+        "Physical file location only",
+        "Color coding in the DBMS"
+      ],
+      "correctAnswer": "Common keys or fields",
+      "explanation": "By having common keys, or fields, among tables, data from multiple tables can be joined to form one large resultset."
+    },
+    {
+      "questionText": "According to the session, a key difference between a DBMS and an RDBMS is that:",
+      "options": [
+        "A DBMS is always more secure than an RDBMS",
+        "An RDBMS enforces tabular relationships between data items, while a DBMS does not require this",
+        "A DBMS supports client/server architecture while an RDBMS does not",
+        "An RDBMS is a single-user system while a DBMS is multi-user"
+      ],
+      "correctAnswer": "An RDBMS enforces tabular relationships between data items, while a DBMS does not require this",
+      "explanation": "An RDBMS requires tabular structure and enforces table relationships, while a DBMS does not require data to be in tabular form."
+    },
+    {
+      "questionText": "An entity, as defined in the session, is:",
+      "options": [
+        "A person, place, thing, object, event, or concept that can be distinctly identified",
+        "Only a numeric value stored in a database",
+        "A type of SQL command",
+        "A synonym for 'attribute'"
+      ],
+      "correctAnswer": "A person, place, thing, object, event, or concept that can be distinctly identified",
+      "explanation": "An entity is a person, place, thing, object, event, or even a concept that can be distinctly identified — for example, students, faculty, and courses in a university."
+    },
+    {
+      "questionText": "A grouping of related entities, given a name reflecting its contents, is called:",
+      "options": [
+        "A relation key",
+        "An entity set",
+        "A tuple group",
+        "A sub-schema"
+      ],
+      "correctAnswer": "An entity set",
+      "explanation": "A grouping of related entities becomes an entity set, such as all students being stored in an entity set called Student."
+    },
+    {
+      "questionText": "Which of the following is NOT one of the characteristics of a table listed in the session?",
+      "options": [
+        "Each column has a distinct name",
+        "Each table must have a primary key that uniquely identifies each row",
+        "The order of the rows and columns matters in a DBMS",
+        "Each row/column intersection represents a single data value"
+      ],
+      "correctAnswer": "The order of the rows and columns matters in a DBMS",
+      "explanation": "The session states the order of the rows and columns is immaterial (does not matter) in a DBMS — the opposite of option C."
+    }
+  ]
+}
