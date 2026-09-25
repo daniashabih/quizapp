@@ -39,6 +39,7 @@ export default function Footer() {
                             <li><Link to="/contact" className="hover:text-[var(--foreground)] transition-colors">Contact Support</Link></li>
                             <li><Link to="/privacy-policy" className="hover:text-[var(--foreground)] transition-colors">Privacy Policy</Link></li>
                             <li><Link to="/terms" className="hover:text-[var(--foreground)] transition-colors">Terms of Service</Link></li>
+                            <li><Link to="/delete-account" className="hover:text-red-500 transition-colors">Delete Account</Link></li>
                         </ul>
                     </div>
                 </div>

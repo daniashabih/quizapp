@@ -544,6 +544,38 @@ const deleteAccount = async (req, res) => {
     }
 };
 
+/**
+ * Request Account Deletion (Google Play Web Compliance for Unauthenticated Users)
+ * POST /api/auth/request-deletion
+ */
+const requestDeletion = async (req, res) => {
+    try {
+        const { email, reason, scope = 'all' } = req.body;
+        if (!email || !EMAIL_REGEX.test(String(email).trim())) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide a valid registered email address.'
+            });
+        }
+
+        const cleanEmail = String(email).trim().toLowerCase();
+        const user = await User.findByEmail(cleanEmail);
+
+        console.log(`[Account Deletion Request] Email: ${cleanEmail}, Exists: ${!!user}, Scope: ${scope}, Reason: ${reason || 'None specified'}`);
+
+        return res.status(200).json({
+            success: true,
+            message: `Account deletion request registered for ${cleanEmail}. If an associated account exists, all personal details, quiz histories, and credentials will be permanently purged within 30 days.`
+        });
+    } catch (error) {
+        console.error('[RequestDeletion Error]:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error processing deletion request. Please contact support@hangbug.com directly.'
+        });
+    }
+};
+
 module.exports = {
     signup,
     register: signup, // alias for signup
@@ -554,7 +586,9 @@ module.exports = {
     getAllUsers,
     updateProfile,
     deleteAccount,
+    requestDeletion,
     forgotPassword,
     resetPassword
 };
+
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import {
@@ -9,8 +10,10 @@ import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 
 export default function Settings() {
-    const { user, updateUser } = useAuth();
+    const navigate = useNavigate();
+    const { user, updateUser, deleteAccount } = useAuth();
     const { theme, setThemeMode, resolvedTheme } = useTheme();
+    const [deletingAccount, setDeletingAccount] = useState(false);
 
     // Profile
     const [profileData, setProfileData] = useState({ name: user?.name || '', email: user?.email || '' });
@@ -294,19 +297,41 @@ export default function Settings() {
                                 <div className="flex-1">
                                     <h4 className="text-base font-bold text-[var(--foreground)] mb-1">Delete Account</h4>
                                     <p className="text-sm text-[var(--foreground-muted)] mb-4">
-                                        Permanently delete your account and all associated data. This action cannot be undone.
+                                        Permanently delete your account and all associated data (quiz history, certificates, and profile). This action is irreversible.
                                     </p>
-                                    <button
-                                        onClick={() => {
-                                            if (window.confirm('Are you absolutely sure? This will delete all your data.')) {
-                                                toast.error('Account deletion requested');
-                                            }
-                                        }}
-                                        className="px-6 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-semibold transition-all shadow-lg shadow-red-500/30"
-                                    >
-                                        <Trash2 size={14} className="inline mr-1.5" />
-                                        Delete My Account
-                                    </button>
+                                    <div className="flex flex-wrap items-center gap-3">
+                                        <button
+                                            type="button"
+                                            disabled={deletingAccount}
+                                            onClick={async () => {
+                                                const confirmed = window.confirm(
+                                                    'Are you absolutely sure you want to permanently delete your HangBug account? All quiz results, scores, and earned certificates will be immediately erased. This cannot be undone.'
+                                                );
+                                                if (!confirmed) return;
+
+                                                setDeletingAccount(true);
+                                                try {
+                                                    await deleteAccount();
+                                                    navigate('/');
+                                                } catch {
+                                                    // toast already shown by AuthContext
+                                                } finally {
+                                                    setDeletingAccount(false);
+                                                }
+                                            }}
+                                            className="px-6 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white text-sm font-semibold transition-all shadow-lg shadow-red-500/30 flex items-center gap-2 cursor-pointer"
+                                        >
+                                            <Trash2 size={15} />
+                                            {deletingAccount ? 'Deleting Account...' : 'Delete My Account'}
+                                        </button>
+
+                                        <Link
+                                            to="/delete-account"
+                                            className="text-xs text-red-600 hover:text-red-700 underline font-medium"
+                                        >
+                                            Review Account Deletion & Data Retention Policy →
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>

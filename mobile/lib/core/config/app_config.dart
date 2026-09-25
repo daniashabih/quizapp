@@ -17,6 +17,7 @@ class AppConfig {
   // Legal and Documentation URLs
   static const String privacyPolicyUrl = 'https://hangbug.vercel.app/privacy';
   static const String termsOfServiceUrl = 'https://hangbug.vercel.app/terms';
+  static const String accountDeletionUrl = 'https://hangbug.vercel.app/delete-account';
   static const String supportEmail = 'support@hangbug.com';
   static const String websiteUrl = 'https://hangbug.vercel.app';
 }

@@ -25,6 +25,7 @@ import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import TermsOfService from "./pages/legal/TermsOfService";
 import AboutUs from "./pages/legal/AboutUs";
 import ContactUs from "./pages/legal/ContactUs";
+import DeleteAccount from "./pages/legal/DeleteAccount";
 
 // Dashboard
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -62,6 +63,9 @@ function AppContent() {
                 <Route path="/terms" element={<TermsOfService />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />
+                <Route path="/delete-account" element={<DeleteAccount />} />
+                <Route path="/account-deletion" element={<DeleteAccount />} />
+                <Route path="/data-deletion" element={<DeleteAccount />} />
                 <Route path="/seo" element={<SeoDashboard />} />
 
                 {/* Protected Quiz Routes */}

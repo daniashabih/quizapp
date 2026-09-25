@@ -116,6 +116,22 @@ export const AuthProvider = ({ children }) => {
     };
 
     /**
+     * Delete Account & All Data
+     */
+    const deleteAccount = async () => {
+        try {
+            const res = await axios.delete('/auth/delete-account');
+            setUser(null);
+            toast.success(res.data?.message || 'Your account and data have been permanently deleted.');
+            return true;
+        } catch (error) {
+            const msg = extractErrorMessage(error, 'Failed to delete account');
+            toast.error(msg);
+            throw new Error(msg);
+        }
+    };
+
+    /**
      * Demo / Guest Login
      */
     const loginAsGuest = async (role = 'user') => {
@@ -173,6 +189,7 @@ export const AuthProvider = ({ children }) => {
         register: signup,
         login,
         logout,
+        deleteAccount,
         getCurrentUser,
         loginAsGuest,
         loginWithGoogle,
