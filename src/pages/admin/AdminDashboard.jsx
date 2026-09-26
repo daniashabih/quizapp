@@ -42,6 +42,12 @@ const AdminDashboard = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategoryFilter, setSelectedCategoryFilter] = useState('all');
 
+    // Category Deletion State
+    const [categoryToDelete, setCategoryToDelete] = useState(null);
+    const [deleteAssociatedQuestions, setDeleteAssociatedQuestions] = useState(true);
+    const [isDeletingCategory, setIsDeletingCategory] = useState(false);
+    const [categorySearchQuery, setCategorySearchQuery] = useState('');
+
     // Quiz Options State
     const [quizOptions, setQuizOptions] = useState(() => {
         try {
@@ -272,15 +278,40 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleDeleteCategory = async (id) => {
-        if (!window.confirm("Delete this category?")) return;
+    const openDeleteCategoryModal = (cat) => {
+        if (!cat) return;
+        setCategoryToDelete(cat);
+        setDeleteAssociatedQuestions(true);
+    };
+
+    const confirmDeleteCategory = async () => {
+        if (!categoryToDelete) return;
+        setIsDeletingCategory(true);
         try {
-            const res = await axios.delete(`/categories/${id}`);
-            toast.success(res.data?.message || "Category deleted.");
-            await fetchCategories();
-            fetchAnalytics();
+            const res = await axios.delete(`/categories/${categoryToDelete.id}?deleteQuestions=${deleteAssociatedQuestions}`);
+            toast.success(res.data?.message || `Category "${categoryToDelete.name}" deleted.`);
+
+            if (selectedCategoryFilter.toLowerCase() === categoryToDelete.name.toLowerCase()) {
+                setSelectedCategoryFilter('all');
+            }
+            if (category && category.toLowerCase() === categoryToDelete.name.toLowerCase()) {
+                setCategory('');
+            }
+            if (editingCategoryId === categoryToDelete.id) {
+                setEditingCategoryId(null);
+                setNewCategory('');
+            }
+
+            setCategoryToDelete(null);
+            await Promise.all([
+                fetchCategories(),
+                fetchQuestions(),
+                fetchAnalytics()
+            ]);
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to delete category.");
+        } finally {
+            setIsDeletingCategory(false);
         }
     };
 
@@ -813,6 +844,22 @@ const AdminDashboard = () => {
                                 {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
                             </select>
 
+                            {selectedCategoryFilter !== 'all' && (() => {
+                                const currentCat = categories.find(c => c.name.toLowerCase() === selectedCategoryFilter.toLowerCase());
+                                const countForThisCat = questions.filter(q => (q.category || '').toLowerCase() === selectedCategoryFilter.toLowerCase()).length;
+                                return (
+                                    <button
+                                        type="button"
+                                        onClick={() => openDeleteCategoryModal(currentCat || { id: selectedCategoryFilter, name: selectedCategoryFilter, questionCount: countForThisCat })}
+                                        className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-800/40 rounded-xl transition-all cursor-pointer shadow-2xs"
+                                        title={`Delete category "${selectedCategoryFilter}"`}
+                                    >
+                                        <Trash2 size={13} />
+                                        <span>Delete Category</span>
+                                    </button>
+                                );
+                            })()}
+
                             <select
                                 value={selectedSessionFilter}
                                 onChange={(e) => setSelectedSessionFilter(e.target.value)}
@@ -1142,7 +1189,7 @@ const AdminDashboard = () => {
                     <div className="flex items-center justify-between pb-4 border-b border-[var(--card-border)]">
                         <div>
                             <h2 className="text-lg font-display font-bold text-[var(--foreground)]">Category Management</h2>
-                            <p className="text-xs text-[var(--foreground-muted)]">Add or rename quiz topics.</p>
+                            <p className="text-xs text-[var(--foreground-muted)]">Add, rename, or delete quiz topics.</p>
                         </div>
                         <button
                             type="button"
@@ -1168,28 +1215,72 @@ const AdminDashboard = () => {
                         </button>
                     </form>
 
-                    <div className="space-y-2 max-h-96 overflow-y-auto">
-                        {categories.length === 0 ? (
-                            <div className="text-center py-10 text-xs text-[var(--foreground-muted)] space-y-2 border border-dashed border-[var(--card-border)] rounded-xl">
-                                <FolderOpen size={32} className="mx-auto text-[var(--foreground-muted)]/40" />
-                                <p className="font-bold text-[var(--foreground)] text-sm">No categories found</p>
-                                <p className="text-[11px]">Add a category using the field above or click 'Sync DB'.</p>
-                            </div>
-                        ) : (
-                            categories.map(cat => (
-                                <div key={cat.id} className="flex items-center justify-between p-3.5 card rounded-xl hover:bg-[var(--muted-bg)] transition-colors">
-                                    <span className="text-xs font-bold text-[var(--foreground)]">{cat.name}</span>
-                                    <div className="flex gap-1.5">
-                                        <button onClick={() => { setEditingCategoryId(cat.id); setNewCategory(cat.name); }} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
+                    {/* Category Search Filter */}
+                    <div className="relative">
+                        <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                        <input
+                            type="text"
+                            value={categorySearchQuery}
+                            onChange={(e) => setCategorySearchQuery(e.target.value)}
+                            placeholder="Search categories..."
+                            className="input-field pl-9 text-xs py-2 w-full"
+                        />
+                    </div>
+
+                    <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
+                        {(() => {
+                            const filteredCats = categories.filter(c => 
+                                (c.name || '').toLowerCase().includes(categorySearchQuery.toLowerCase())
+                            );
+                            if (filteredCats.length === 0) {
+                                return (
+                                    <div className="text-center py-10 text-xs text-[var(--foreground-muted)] space-y-2 border border-dashed border-[var(--card-border)] rounded-xl">
+                                        <FolderOpen size={32} className="mx-auto text-[var(--foreground-muted)]/40" />
+                                        <p className="font-bold text-[var(--foreground)] text-sm">
+                                            {categorySearchQuery ? "No matching categories" : "No categories found"}
+                                        </p>
+                                        <p className="text-[11px]">
+                                            {categorySearchQuery ? "Try a different search query." : "Add a category using the field above or click 'Sync DB'."}
+                                        </p>
+                                    </div>
+                                );
+                            }
+                            return filteredCats.map(cat => (
+                                <div key={cat.id} className="flex items-center justify-between p-3.5 card rounded-xl hover:bg-[var(--muted-bg)] transition-colors gap-3">
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 flex-1 min-w-0">
+                                        <span className="text-xs font-bold text-[var(--foreground)] truncate">{cat.name}</span>
+                                        <div className="flex items-center gap-1.5 flex-wrap">
+                                            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-[var(--foreground-muted)] border border-[var(--card-border)] flex items-center gap-1">
+                                                <BookOpen size={10} /> {cat.questionCount !== undefined ? `${cat.questionCount} Questions` : '0 Questions'}
+                                            </span>
+                                            {Array.isArray(cat.sessions) && cat.sessions.length > 0 && (
+                                                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900/40 flex items-center gap-1">
+                                                    <Layers size={10} /> {cat.sessions.length === 1 ? `Session ${cat.sessions[0]}` : `Sessions: ${cat.sessions.join(', ')}`}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-1 shrink-0">
+                                        <button
+                                            type="button"
+                                            onClick={() => { setEditingCategoryId(cat.id); setNewCategory(cat.name); }}
+                                            className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all cursor-pointer"
+                                            title={`Edit ${cat.name}`}
+                                        >
                                             <Edit2 size={14} />
                                         </button>
-                                        <button onClick={() => handleDeleteCategory(cat.id)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
+                                        <button
+                                            type="button"
+                                            onClick={() => openDeleteCategoryModal(cat)}
+                                            className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all cursor-pointer flex items-center gap-1"
+                                            title={`Delete category "${cat.name}"`}
+                                        >
                                             <Trash2 size={14} />
                                         </button>
                                     </div>
                                 </div>
-                            ))
-                        )}
+                            ));
+                        })()}
                     </div>
                 </div>
             )}

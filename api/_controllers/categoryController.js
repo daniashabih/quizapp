@@ -50,11 +50,15 @@ const updateCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
     try {
         const { id } = req.params;
-        await Category.delete(id);
-        res.json({ message: 'Category deleted successfully' });
+        const deleteQuestions = req.query.deleteQuestions !== 'false';
+        const result = await Category.delete(id, deleteQuestions);
+        const msg = result.deletedQuestions > 0
+            ? `Category "${result.name}" and ${result.deletedQuestions} associated question(s) deleted successfully.`
+            : `Category "${result.name}" deleted successfully.`;
+        res.json({ success: true, message: msg, ...result });
     } catch (error) {
         console.error('Delete Category Error:', error);
-        res.status(500).json({ message: 'Server error deleting category' });
+        res.status(500).json({ message: error.message || 'Server error deleting category' });
     }
 };
 

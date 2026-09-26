@@ -83,11 +83,51 @@ const Category = {
         return 1;
     },
 
-    delete: async (id) => {
-        await prisma.category.delete({
-            where: { id: String(id) }
-        });
-        return 1;
+    delete: async (idOrName, deleteQuestions = true) => {
+        let category = null;
+        const cleanIdOrName = String(idOrName || '').trim();
+
+        if (/^[0-9a-fA-F]{24}$/.test(cleanIdOrName)) {
+            category = await prisma.category.findUnique({
+                where: { id: cleanIdOrName }
+            }).catch(() => null);
+        }
+
+        if (!category) {
+            category = await Category.findByName(cleanIdOrName);
+        }
+
+        const catName = category ? category.name : cleanIdOrName;
+        const catId = category ? category.id : (/^[0-9a-fA-F]{24}$/.test(cleanIdOrName) ? cleanIdOrName : null);
+
+        if (catId) {
+            await prisma.category.delete({
+                where: { id: catId }
+            }).catch(err => {
+                console.warn('[Category Model] Could not delete category by ID:', err.message);
+            });
+        }
+
+        let deletedQuestions = 0;
+        if (deleteQuestions && catName) {
+            const variations = Array.from(new Set([
+                catName,
+                catName.replace(/&/g, 'and'),
+                catName.replace(/\band\b/gi, '&')
+            ]));
+
+            const qResult = await prisma.question.deleteMany({
+                where: {
+                    OR: variations.map(v => ({ category: { equals: v, mode: 'insensitive' } }))
+                }
+            }).catch(err => {
+                console.warn('[Category Model] Could not delete questions for category:', err.message);
+                return { count: 0 };
+            });
+            deletedQuestions = qResult?.count || 0;
+        }
+
+        return { success: true, name: catName, deletedQuestions };
     }
 };
 
