@@ -1,0 +1,668 @@
+{
+  "category": "Express JS and Node JS",
+  "session": 1,
+  "title": "Session 1: Full Stack Development & MERN Stack Fundamentals",
+  "totalQuestions": 60,
+  "questions": [
+    {
+      "questionText": "What does full stack development primarily involve?",
+      "options": [
+        "Only front-end development",
+        "Only back-end/server-side development",
+        "Creation of complete Web applications spanning all architectural layers, from front-end to back-end",
+        "Only database administration"
+      ],
+      "correctAnswer": "Creation of complete Web applications spanning all architectural layers, from front-end to back-end",
+      "explanation": "Full stack development involves the creation of complete Web applications spanning all architectural layers, from front-end to back-end."
+    },
+    {
+      "questionText": "A full stack developer is best described as someone who:",
+      "options": [
+        "Specializes exclusively in UI design",
+        "Is proficient in both client-side and server-side aspects of an application",
+        "Only manages databases",
+        "Only handles deployment and hosting"
+      ],
+      "correctAnswer": "Is proficient in both client-side and server-side aspects of an application",
+      "explanation": "A full stack developer is proficient in both client-side and server-side aspects of an application."
+    },
+    {
+      "questionText": "Which of the following is NOT listed as one of the primary components of full stack development?",
+      "options": [
+        "Front-End Development",
+        "Back-End Development",
+        "Graphic Design Software",
+        "Version Control"
+      ],
+      "correctAnswer": "Graphic Design Software",
+      "explanation": "The primary components of full stack development include front-end, back-end, database management, server administration/deployment, and version control."
+    },
+    {
+      "questionText": "Front-end development is primarily concerned with:",
+      "options": [
+        "Server-side logic",
+        "The user interface and user experience of a Web application",
+        "Database administration",
+        "Network security"
+      ],
+      "correctAnswer": "The user interface and user experience of a Web application",
+      "explanation": "Front-end development is primarily concerned with the user interface and user experience of a Web application."
+    },
+    {
+      "questionText": "Which technologies form the foundation for building visual elements and interactivity on the front end?",
+      "options": [
+        "Node.js, Express, MongoDB",
+        "HTML, CSS, and JavaScript",
+        "Python, Ruby, PHP",
+        "SQL and NoSQL"
+      ],
+      "correctAnswer": "HTML, CSS, and JavaScript",
+      "explanation": "HTML, CSS, and JavaScript form the foundational technologies for building visual elements and interactivity on the front end."
+    },
+    {
+      "questionText": "Back-end development is mainly responsible for:",
+      "options": [
+        "Visual design of a webpage",
+        "Application functionality, database administration, and server-side logic",
+        "Only writing CSS styles",
+        "Managing social media accounts"
+      ],
+      "correctAnswer": "Application functionality, database administration, and server-side logic",
+      "explanation": "Back-end development is responsible for application functionality, database administration, and server-side logic."
+    },
+    {
+      "questionText": "Which of the following are examples of server-side programming languages used in back-end development?",
+      "options": [
+        "HTML, CSS",
+        "Node.js, Python, Ruby, Java, or PHP",
+        "React, Angular, Vue",
+        "Git, SVN"
+      ],
+      "correctAnswer": "Node.js, Python, Ruby, Java, or PHP",
+      "explanation": "Node.js, Python, Ruby, Java, and PHP are examples of server-side programming languages."
+    },
+    {
+      "questionText": "Back-end developers provide APIs primarily to:",
+      "options": [
+        "Style the front-end",
+        "Enable data exchange and communication between front-end and back-end",
+        "Manage version control",
+        "Host the application on a server"
+      ],
+      "correctAnswer": "Enable data exchange and communication between front-end and back-end",
+      "explanation": "APIs enable seamless data exchange and communication between the front-end and back-end."
+    },
+    {
+      "questionText": "APIs stand for:",
+      "options": [
+        "Application Programming Interfaces",
+        "Advanced Programming Instructions",
+        "Automated Process Integration",
+        "Application Process Interfaces"
+      ],
+      "correctAnswer": "Application Programming Interfaces",
+      "explanation": "API stands for Application Programming Interface."
+    },
+    {
+      "questionText": "Which of the following is an example of a relational database?",
+      "options": [
+        "MongoDB",
+        "Firebase",
+        "MySQL",
+        "GridFS"
+      ],
+      "correctAnswer": "MySQL",
+      "explanation": "MySQL is a well-known example of a relational database management system."
+    },
+    {
+      "questionText": "Which of the following is an example of a NoSQL database?",
+      "options": [
+        "PostgreSQL",
+        "MongoDB",
+        "MySQL",
+        "Oracle"
+      ],
+      "correctAnswer": "MongoDB",
+      "explanation": "MongoDB is a leading example of a NoSQL document database."
+    },
+    {
+      "questionText": "The choice between relational and NoSQL databases in full-stack development typically depends on:",
+      "options": [
+        "The developer's favorite programming language",
+        "The application's requirements",
+        "The price of the software license",
+        "The operating system used"
+      ],
+      "correctAnswer": "The application's requirements",
+      "explanation": "The choice between relational and NoSQL databases depends primarily on the application's data structure and scalability requirements."
+    },
+    {
+      "questionText": "What is the primary role of a Web server?",
+      "options": [
+        "To design the user interface",
+        "To handle client requests, process them, and return results to users",
+        "To manage version control history",
+        "To store multimedia files only"
+      ],
+      "correctAnswer": "To handle client requests, process them, and return results to users",
+      "explanation": "A web server's primary role is to handle client requests, process them according to business logic, and return results to users."
+    },
+    {
+      "questionText": "Which of the following is NOT mentioned as a tool used to build and manage Web servers?",
+      "options": [
+        "Express.js",
+        "Django",
+        "Flask",
+        "Photoshop"
+      ],
+      "correctAnswer": "Photoshop",
+      "explanation": "Express.js, Django, and Flask are server frameworks, while Photoshop is graphic design software."
+    },
+    {
+      "questionText": "To make a Web application available to users, full-stack developers must:",
+      "options": [
+        "Only write more front-end code",
+        "Deploy it to a Web server or cloud platform",
+        "Avoid using version control",
+        "Disable the database"
+      ],
+      "correctAnswer": "Deploy it to a Web server or cloud platform",
+      "explanation": "Full-stack developers must deploy applications to a web server or cloud platform to make them publicly available to users."
+    },
+    {
+      "questionText": "Knowledge of server administration and deployment procedures is important because it:",
+      "options": [
+        "Improves the color scheme of the website",
+        "Ensures efficient application hosting",
+        "Removes the need for a database",
+        "Replaces the need for testing"
+      ],
+      "correctAnswer": "Ensures efficient application hosting",
+      "explanation": "Server administration and deployment knowledge ensures efficient, reliable, and secure application hosting."
+    },
+    {
+      "questionText": "Which tool is cited as a crucial version control system for full-stack engineers?",
+      "options": [
+        "Git",
+        "Docker",
+        "Postman",
+        "Slack"
+      ],
+      "correctAnswer": "Git",
+      "explanation": "Git is the crucial version control system used by full-stack engineers to track changes and collaborate."
+    },
+    {
+      "questionText": "What does the acronym MERN stand for?",
+      "options": [
+        "MongoDB, Express, ReactJS, Node.js",
+        "MySQL, Express, React, Node.js",
+        "MongoDB, Ember, React, Node.js",
+        "MongoDB, Express, Redux, Node.js"
+      ],
+      "correctAnswer": "MongoDB, Express, ReactJS, Node.js",
+      "explanation": "MERN stands for MongoDB, Express, ReactJS, and Node.js."
+    },
+    {
+      "questionText": "In the MERN stack, which technology serves as the NoSQL database?",
+      "options": [
+        "Express",
+        "ReactJS",
+        "Node.js",
+        "MongoDB"
+      ],
+      "correctAnswer": "MongoDB",
+      "explanation": "MongoDB serves as the NoSQL document database in the MERN stack."
+    },
+    {
+      "questionText": "In the MERN stack, which technology handles the front-end of the application?",
+      "options": [
+        "MongoDB",
+        "Express",
+        "ReactJS",
+        "Node.js"
+      ],
+      "correctAnswer": "ReactJS",
+      "explanation": "ReactJS is the client-side library responsible for the front-end user interface in the MERN stack."
+    },
+    {
+      "questionText": "In the MERN stack, which component acts as the server-side runtime environment?",
+      "options": [
+        "ReactJS",
+        "Node.js",
+        "MongoDB",
+        "Express"
+      ],
+      "correctAnswer": "Node.js",
+      "explanation": "Node.js is the JavaScript runtime environment executing code on the server side."
+    },
+    {
+      "questionText": "In the MERN stack, which technology is a minimal and flexible Web application framework used to build APIs and server-side functionality?",
+      "options": [
+        "MongoDB",
+        "Express",
+        "ReactJS",
+        "Node.js"
+      ],
+      "correctAnswer": "Express",
+      "explanation": "Express is a minimal and flexible web application framework for Node.js used to build APIs and back-end functionality."
+    },
+    {
+      "questionText": "Which company is responsible for the development and upkeep of ReactJS?",
+      "options": [
+        "Google",
+        "Facebook",
+        "Microsoft",
+        "Amazon"
+      ],
+      "correctAnswer": "Facebook",
+      "explanation": "Facebook (now Meta) developed and maintains ReactJS."
+    },
+    {
+      "questionText": "In what year was ReactJS initially released?",
+      "options": [
+        "2009",
+        "2013",
+        "2018",
+        "2020"
+      ],
+      "correctAnswer": "2013",
+      "explanation": "ReactJS was originally created by Jordan Walke and open-sourced by Facebook in 2013."
+    },
+    {
+      "questionText": "ReactJS is particularly renowned for its ability to construct:",
+      "options": [
+        "Databases and servers",
+        "UIs and Single Page Applications (SPAs)",
+        "Operating systems",
+        "Version control systems"
+      ],
+      "correctAnswer": "UIs and Single Page Applications (SPAs)",
+      "explanation": "ReactJS is famous for constructing dynamic user interfaces and Single Page Applications (SPAs)."
+    },
+    {
+      "questionText": "React allows developers to build interfaces using reusable code fragments called:",
+      "options": [
+        "Modules",
+        "Components",
+        "Templates",
+        "Middleware"
+      ],
+      "correctAnswer": "Components",
+      "explanation": "React uses reusable, encapsulated code units called components to build complex user interfaces."
+    },
+    {
+      "questionText": "What does JSX stand for in the context of ReactJS?",
+      "options": [
+        "JavaScript XML",
+        "Java Syntax Extension",
+        "JSON XML",
+        "JavaScript Extension"
+      ],
+      "correctAnswer": "JavaScript XML",
+      "explanation": "JSX stands for JavaScript XML, allowing HTML-like syntax inside JavaScript."
+    },
+    {
+      "questionText": "JSX enables developers to:",
+      "options": [
+        "Write only CSS within JavaScript",
+        "Embed HTML-like code within their JavaScript components",
+        "Connect directly to a database without an API",
+        "Replace Node.js entirely"
+      ],
+      "correctAnswer": "Embed HTML-like code within their JavaScript components",
+      "explanation": "JSX allows developers to write and embed HTML-like structures directly inside JavaScript components."
+    },
+    {
+      "questionText": "What is the Virtual DOM in ReactJS?",
+      "options": [
+        "A physical server used to host React apps",
+        "A lightweight, in-memory representation of the actual DOM used to optimize UI updates",
+        "A database used to store UI state",
+        "A CSS framework"
+      ],
+      "correctAnswer": "A lightweight, in-memory representation of the actual DOM used to optimize UI updates",
+      "explanation": "The Virtual DOM is an in-memory representation of real DOM elements, used by React to compute efficient diffs."
+    },
+    {
+      "questionText": "How does the Virtual DOM improve performance in ReactJS?",
+      "options": [
+        "By storing data permanently in the database",
+        "By comparing the Virtual DOM with the real DOM and applying only essential updates",
+        "By eliminating the need for JavaScript",
+        "By rendering all elements twice"
+      ],
+      "correctAnswer": "By comparing the Virtual DOM with the real DOM and applying only essential updates",
+      "explanation": "React compares the Virtual DOM tree with the previous one and reconciles only the changed nodes in the real DOM."
+    },
+    {
+      "questionText": "React's Unidirectional Data Flow means that:",
+      "options": [
+        "Data moves in one direction, from parent to child components",
+        "Data moves in one direction, from child to parent components",
+        "Data moves randomly between components",
+        "Data cannot move between components at all"
+      ],
+      "correctAnswer": "Data moves in one direction, from parent to child components",
+      "explanation": "Unidirectional data flow means data always flows downwards from parent components to child components via props."
+    },
+    {
+      "questionText": "Which of the following can be combined with ReactJS to handle global application state in complex applications?",
+      "options": [
+        "Redux or React's Context API",
+        "Express or Node.js",
+        "MongoDB or MySQL",
+        "Git or GitHub"
+      ],
+      "correctAnswer": "Redux or React's Context API",
+      "explanation": "Redux and the React Context API are standard solutions for managing global application state in React applications."
+    },
+    {
+      "questionText": "Node.js is best described as:",
+      "options": [
+        "A front-end JavaScript library",
+        "A server-side JavaScript runtime environment",
+        "A relational database system",
+        "A CSS preprocessor"
+      ],
+      "correctAnswer": "A server-side JavaScript runtime environment",
+      "explanation": "Node.js is an open-source, cross-platform JavaScript runtime environment that executes JavaScript code outside a web browser."
+    },
+    {
+      "questionText": "Which JavaScript engine does Node.js rely on?",
+      "options": [
+        "SpiderMonkey",
+        "Chakra",
+        "Chrome V8",
+        "JavaScriptCore"
+      ],
+      "correctAnswer": "Chrome V8",
+      "explanation": "Node.js is built on Google Chrome's V8 JavaScript engine."
+    },
+    {
+      "questionText": "One of Node.js's key strengths is its:",
+      "options": [
+        "Blocking, synchronous I/O model",
+        "Event-driven, non-blocking I/O model",
+        "Reliance on a graphical interface",
+        "Built-in relational database"
+      ],
+      "correctAnswer": "Event-driven, non-blocking I/O model",
+      "explanation": "Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient."
+    },
+    {
+      "questionText": "Node.js's ecosystem of modules and packages is managed through:",
+      "options": [
+        "The Node Package Manager (NPM)",
+        "Git",
+        "MongoDB Compass",
+        "Express Router"
+      ],
+      "correctAnswer": "The Node Package Manager (NPM)",
+      "explanation": "NPM (Node Package Manager) is the default package manager for Node.js, providing access to hundreds of thousands of reusable packages."
+    },
+    {
+      "questionText": "Node.js's cross-platform capability means it can run on:",
+      "options": [
+        "Only Windows",
+        "Only macOS",
+        "Windows, macOS, and Linux",
+        "Only Linux servers"
+      ],
+      "correctAnswer": "Windows, macOS, and Linux",
+      "explanation": "Node.js runs across Windows, macOS, and Linux operating systems."
+    },
+    {
+      "questionText": "Node.js is often the preferred choice for building which type of applications?",
+      "options": [
+        "Static brochure websites only",
+        "Collaborative tools, gaming servers, and chat applications",
+        "Only mobile games",
+        "Only desktop applications"
+      ],
+      "correctAnswer": "Collaborative tools, gaming servers, and chat applications",
+      "explanation": "Due to its asynchronous event-driven nature, Node.js excels at real-time collaborative tools, gaming servers, and chat applications."
+    },
+    {
+      "questionText": "Why can developers use the same language for both front-end and back-end development in a MERN-type stack?",
+      "options": [
+        "Because Node.js allows JavaScript to run on the server side",
+        "Because MongoDB compiles Python code",
+        "Because Express replaces JavaScript with Java",
+        "Because ReactJS runs only on the server"
+      ],
+      "correctAnswer": "Because Node.js allows JavaScript to run on the server side",
+      "explanation": "Node.js allows JavaScript to execute on the server, enabling full-stack development using a single programming language across both client and server."
+    },
+    {
+      "questionText": "Express is best described as:",
+      "options": [
+        "A NoSQL database",
+        "A fast, minimal, and flexible Node.js Web application framework",
+        "A front-end JavaScript library",
+        "A version control system"
+      ],
+      "correctAnswer": "A fast, minimal, and flexible Node.js Web application framework",
+      "explanation": "Express is a fast, unopinionated, minimalist web application framework for Node.js."
+    },
+    {
+      "questionText": "Express simplifies the task of building which of the following?",
+      "options": [
+        "APIs, Web servers, and other back-end functionalities",
+        "Only CSS stylesheets",
+        "Only static HTML pages",
+        "Only image files"
+      ],
+      "correctAnswer": "APIs, Web servers, and other back-end functionalities",
+      "explanation": "Express provides a robust set of features to develop web and mobile applications, APIs, and web servers."
+    },
+    {
+      "questionText": "In Express, functions that execute before or after processing a request are called:",
+      "options": [
+        "Components",
+        "Middleware",
+        "Reducers",
+        "Hooks"
+      ],
+      "correctAnswer": "Middleware",
+      "explanation": "Middleware functions in Express have access to the request object (req), response object (res), and the next middleware function in the application's request-response cycle."
+    },
+    {
+      "questionText": "What is the main benefit of Express middleware?",
+      "options": [
+        "It removes the need for routing",
+        "It simplifies code organization and facilitates the use of third-party functionality",
+        "It replaces the need for a database",
+        "It prevents the use of APIs"
+      ],
+      "correctAnswer": "It simplifies code organization and facilitates the use of third-party functionality",
+      "explanation": "Middleware enhances code modularity and allows easy integration of third-party capabilities like logging, body parsing, and authentication."
+    },
+    {
+      "questionText": "In Express, routing involves developers defining URL paths and associating them with specific:",
+      "options": [
+        "CSS classes",
+        "HTTP methods such as GET, POST, PUT, DELETE",
+        "Database schemas",
+        "React components only"
+      ],
+      "correctAnswer": "HTTP methods such as GET, POST, PUT, DELETE",
+      "explanation": "Routing refers to determining how an application responds to a client request to a particular endpoint with a specific HTTP method (GET, POST, etc.)."
+    },
+    {
+      "questionText": "Which of the following are examples of template engines used with Express for dynamic server-side HTML rendering?",
+      "options": [
+        "EJS, Pug, and Handlebars",
+        "React, Angular, Vue",
+        "MongoDB, MySQL, PostgreSQL",
+        "Git, SVN, Mercurial"
+      ],
+      "correctAnswer": "EJS, Pug, and Handlebars",
+      "explanation": "EJS, Pug, and Handlebars are popular template engines used with Express to generate dynamic HTML pages on the server."
+    },
+    {
+      "questionText": "Express's popularity among Node.js developers for building Web applications and RESTful APIs largely stems from its:",
+      "options": [
+        "High cost and complexity",
+        "Extensive and active community, comprehensive documentation, and wide array of plugins",
+        "Requirement to use only one database",
+        "Lack of community support"
+      ],
+      "correctAnswer": "Extensive and active community, comprehensive documentation, and wide array of plugins",
+      "explanation": "Express is widely adopted due to its vibrant community, rich ecosystem of plugins, and comprehensive documentation."
+    },
+    {
+      "questionText": "MongoDB is best described as:",
+      "options": [
+        "A relational database management system",
+        "An open-source NoSQL database purpose-built for unstructured and semi-structured data",
+        "A front-end JavaScript framework",
+        "A Web server framework"
+      ],
+      "correctAnswer": "An open-source NoSQL database purpose-built for unstructured and semi-structured data",
+      "explanation": "MongoDB is an open-source NoSQL document database designed to handle unstructured and semi-structured data with high flexibility."
+    },
+    {
+      "questionText": "In MongoDB, data is organized into documents that resemble:",
+      "options": [
+        "Spreadsheets",
+        "JSON-like structures",
+        "XML schemas only",
+        "CSV files"
+      ],
+      "correctAnswer": "JSON-like structures",
+      "explanation": "MongoDB stores data records as BSON (binary JSON) documents, which resemble standard JSON objects."
+    },
+    {
+      "questionText": "What does \"schema-free\" (schema-less) mean in the context of MongoDB?",
+      "options": [
+        "Data must follow a rigid, predefined structure",
+        "Fields can vary among documents within the same collection, offering flexible data modeling",
+        "MongoDB cannot store any data",
+        "Every document must have identical fields"
+      ],
+      "correctAnswer": "Fields can vary among documents within the same collection, offering flexible data modeling",
+      "explanation": "Schema-less means documents in the same collection do not need to possess identical sets of fields, allowing adaptable and evolving data models."
+    },
+    {
+      "questionText": "What are \"ad hoc queries\" in MongoDB?",
+      "options": [
+        "Queries that require predefined schemas or joins",
+        "Dynamic and complex searches on data that eliminate the need for predefined schemas or joins",
+        "Queries that only work with relational databases",
+        "Backup procedures for MongoDB"
+      ],
+      "correctAnswer": "Dynamic and complex searches on data that eliminate the need for predefined schemas or joins",
+      "explanation": "MongoDB supports ad hoc queries, allowing developers to query by field, range queries, and regular expression searches dynamically."
+    },
+    {
+      "questionText": "MongoDB achieves horizontal scaling across multiple servers or nodes through a process called:",
+      "options": [
+        "Sharding",
+        "Compiling",
+        "Rendering",
+        "Bundling"
+      ],
+      "correctAnswer": "Sharding",
+      "explanation": "Sharding is the method MongoDB uses to distribute data across multiple machines to support deployments with very large datasets and high throughput operations."
+    },
+    {
+      "questionText": "Which MongoDB feature enhances the speed and efficiency of query operations on large datasets?",
+      "options": [
+        "Indexing",
+        "GridFS",
+        "Templating",
+        "Routing"
+      ],
+      "correctAnswer": "Indexing",
+      "explanation": "Indexes support the efficient execution of queries in MongoDB by preventing full collection scans."
+    },
+    {
+      "questionText": "MongoDB's Aggregation Framework is primarily used for:",
+      "options": [
+        "User authentication",
+        "Data aggregation, transformation, and analysis",
+        "Front-end rendering",
+        "Version control"
+      ],
+      "correctAnswer": "Data aggregation, transformation, and analysis",
+      "explanation": "The Aggregation Framework allows developers to process data records and return computed results via multistage pipelines."
+    },
+    {
+      "questionText": "Automatic failover and replication in MongoDB primarily ensure:",
+      "options": [
+        "Faster CSS rendering",
+        "High availability and data redundancy in the event of server failures",
+        "Reduced need for indexing",
+        "Simplified JSX syntax"
+      ],
+      "correctAnswer": "High availability and data redundancy in the event of server failures",
+      "explanation": "MongoDB replica sets provide redundancy and high availability through automatic failover if the primary node becomes unavailable."
+    },
+    {
+      "questionText": "Which MongoDB feature is specifically designed for efficiently storing and retrieving large files such as images, videos, and audio?",
+      "options": [
+        "GridFS",
+        "Aggregation Framework",
+        "Ad hoc queries",
+        "Sharding"
+      ],
+      "correctAnswer": "GridFS",
+      "explanation": "GridFS is a specification for storing and retrieving files that exceed the BSON-document size limit of 16 MB by dividing files into chunks."
+    },
+    {
+      "questionText": "MongoDB's support for geospatial indexing and queries makes it particularly well-suited for:",
+      "options": [
+        "Location-based applications",
+        "Text-only applications",
+        "Applications that don't require a database",
+        "Only desktop applications"
+      ],
+      "correctAnswer": "Location-based applications",
+      "explanation": "Geospatial queries and 2dsphere indexes enable location-aware features such as finding nearby places and calculating distances."
+    },
+    {
+      "questionText": "In the three-tier MongoDB architecture, which layer houses the actual data, typically hosted in MongoDB Atlas?",
+      "options": [
+        "Presentation Layer",
+        "Application Layer",
+        "Data (Database) Layer",
+        "Client Layer"
+      ],
+      "correctAnswer": "Data (Database) Layer",
+      "explanation": "The Data Layer (Database Tier) is where data is persistently stored and managed, often on MongoDB Atlas."
+    },
+    {
+      "questionText": "Which layer in the MongoDB three-tier architecture interacts with the database and typically corresponds to the API, often built using Node.js?",
+      "options": [
+        "Data Layer",
+        "Application Layer",
+        "Presentation Layer",
+        "Storage Layer"
+      ],
+      "correctAnswer": "Application Layer",
+      "explanation": "The Application Layer contains the business logic and API endpoints (built with Node.js/Express) that communicate with the database."
+    },
+    {
+      "questionText": "The Presentation Layer in the three-tier architecture corresponds to:",
+      "options": [
+        "The database storage engine",
+        "The JavaScript front-end (e.g. React or Angular) where users interact with the application UI",
+        "The server's operating system",
+        "The version control repository"
+      ],
+      "correctAnswer": "The JavaScript front-end (e.g. React or Angular) where users interact with the application UI",
+      "explanation": "The Presentation Layer is the client-facing UI (built with React, Angular, etc.) through which users interact with the application."
+    },
+    {
+      "questionText": "In the three-tier MongoDB architecture diagram, which component connects the back-end server to the database?",
+      "options": [
+        "Presentation Layer",
+        "MongoDB Drivers within the Application Layer",
+        "Client browsers",
+        "The Express router only"
+      ],
+      "correctAnswer": "MongoDB Drivers within the Application Layer",
+      "explanation": "MongoDB Drivers (such as the Node.js MongoDB driver or Mongoose) within the Application Layer provide the connection and communication channel between the application server and the database."
+    }
+  ]
+}

@@ -28,7 +28,8 @@ const INITIAL_TECHNOLOGIES = [
     'Docker',
     'Agile and DevOps',
     'Azure',
-    'SEO'
+    'SEO',
+    'Express JS and Node JS'
 ];
 
 async function seedTechnologies() {
