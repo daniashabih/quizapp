@@ -404,14 +404,22 @@ const AdminDashboard = () => {
     };
 
     const filteredQuestions = questions.filter(q => {
-        const matchesCategory = selectedCategoryFilter === 'all' || q.category === selectedCategoryFilter;
+        const matchesCategory = selectedCategoryFilter === 'all' || (q.category || '').toLowerCase() === selectedCategoryFilter.toLowerCase();
         const matchesSession = selectedSessionFilter === 'all' || String(q.session || 1) === String(selectedSessionFilter);
-        const matchesSearch = q.question_text?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            q.category?.toLowerCase().includes(searchQuery.toLowerCase());
+        const query = (searchQuery || '').trim().toLowerCase();
+        const matchesSearch = !query ||
+            (q.question_text || '').toLowerCase().includes(query) ||
+            (q.category || '').toLowerCase().includes(query) ||
+            (q.correct_answer || '').toLowerCase().includes(query);
         return matchesCategory && matchesSession && matchesSearch;
     });
 
-    const uniqueSessions = [...new Set(questions.map(q => q.session || 1))].sort((a, b) => a - b);
+    const uniqueSessions = [...new Set(
+        (selectedCategoryFilter === 'all'
+            ? questions
+            : questions.filter(q => (q.category || '').toLowerCase() === selectedCategoryFilter.toLowerCase())
+        ).map(q => q.session || 1)
+    )].sort((a, b) => a - b);
 
     const difficultyBadge = (d) => {
         const map = {
@@ -820,30 +828,48 @@ const AdminDashboard = () => {
 
             {/* TAB 1: QUESTIONS BANK */}
             {activeTab === 'questions' && (
-                <div className="space-y-5">
+                <div className="space-y-4">
                     {/* Search, Category & Session Filter Bar */}
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-                        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-                            <div className="relative w-full sm:w-60">
-                                <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                    <div className="card p-3.5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs border border-[var(--card-border)] bg-[var(--card-bg)]">
+                        <div className="flex flex-wrap items-center gap-2.5 flex-1">
+                            {/* Search Input */}
+                            <div className="relative w-full sm:w-64 min-w-[200px]">
+                                <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] pointer-events-none" />
                                 <input
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Filter questions..."
-                                    className="input-field pl-10 text-xs py-2.5"
+                                    className="input-field pl-9 pr-7 text-xs py-2 h-9 w-full bg-[var(--page-bg)]/60 focus:bg-white transition-all"
                                 />
+                                {searchQuery && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setSearchQuery('')}
+                                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-black text-xs p-0.5 cursor-pointer"
+                                        title="Clear search"
+                                    >
+                                        ✕
+                                    </button>
+                                )}
                             </div>
 
-                            <select
-                                value={selectedCategoryFilter}
-                                onChange={(e) => setSelectedCategoryFilter(e.target.value)}
-                                className="input-field text-xs py-2.5 min-w-[130px]"
-                            >
-                                <option value="all">All Categories</option>
-                                {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
-                            </select>
+                            {/* Category Filter */}
+                            <div className="w-full sm:w-56">
+                                <select
+                                    value={selectedCategoryFilter}
+                                    onChange={(e) => {
+                                        setSelectedCategoryFilter(e.target.value);
+                                        setSelectedSessionFilter('all');
+                                    }}
+                                    className="input-field text-xs py-2 h-9 w-full bg-[var(--page-bg)]/60 focus:bg-white cursor-pointer transition-all"
+                                >
+                                    <option value="all">All Categories ({categories.length})</option>
+                                    {categories.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
+                                </select>
+                            </div>
 
+                            {/* Delete Category Button (conditional) */}
                             {selectedCategoryFilter !== 'all' && (() => {
                                 const currentCat = categories.find(c => c.name.toLowerCase() === selectedCategoryFilter.toLowerCase());
                                 const countForThisCat = questions.filter(q => (q.category || '').toLowerCase() === selectedCategoryFilter.toLowerCase()).length;
@@ -851,7 +877,7 @@ const AdminDashboard = () => {
                                     <button
                                         type="button"
                                         onClick={() => openDeleteCategoryModal(currentCat || { id: selectedCategoryFilter, name: selectedCategoryFilter, questionCount: countForThisCat })}
-                                        className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-800/40 rounded-xl transition-all cursor-pointer shadow-2xs"
+                                        className="inline-flex items-center gap-1.5 px-3 h-9 text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-800/40 rounded-xl transition-all cursor-pointer shadow-2xs whitespace-nowrap shrink-0"
                                         title={`Delete category "${selectedCategoryFilter}"`}
                                     >
                                         <Trash2 size={13} />
@@ -860,75 +886,137 @@ const AdminDashboard = () => {
                                 );
                             })()}
 
-                            <select
-                                value={selectedSessionFilter}
-                                onChange={(e) => setSelectedSessionFilter(e.target.value)}
-                                className="input-field text-xs py-2.5 min-w-[120px]"
-                            >
-                                <option value="all">All Sessions</option>
-                                {uniqueSessions.map(s => (
-                                    <option key={s} value={String(s)}>Session {s}</option>
-                                ))}
-                            </select>
+                            {/* Session Filter */}
+                            <div className="w-full sm:w-40">
+                                <select
+                                    value={selectedSessionFilter}
+                                    onChange={(e) => setSelectedSessionFilter(e.target.value)}
+                                    className="input-field text-xs py-2 h-9 w-full bg-[var(--page-bg)]/60 focus:bg-white cursor-pointer transition-all"
+                                >
+                                    <option value="all">All Sessions</option>
+                                    {uniqueSessions.map(s => (
+                                        <option key={s} value={String(s)}>Session {s}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* Reset filters */}
+                            {(searchQuery || selectedCategoryFilter !== 'all' || selectedSessionFilter !== 'all') && (
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setSearchQuery('');
+                                        setSelectedCategoryFilter('all');
+                                        setSelectedSessionFilter('all');
+                                    }}
+                                    className="text-xs font-semibold text-[var(--foreground-muted)] hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-[var(--muted-bg)] transition-colors cursor-pointer whitespace-nowrap"
+                                >
+                                    Reset
+                                </button>
+                            )}
                         </div>
 
-                        <span className="text-xs text-[var(--foreground-muted)] font-medium">
-                            Showing {filteredQuestions.length} of {questions.length} questions
-                        </span>
+                        {/* Showing count indicator */}
+                        <div className="flex items-center gap-2 pt-2 md:pt-0 border-t md:border-t-0 border-[var(--card-border)] shrink-0 justify-between md:justify-end">
+                            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--foreground-secondary)] bg-[var(--muted-bg)] px-3 py-1.5 rounded-xl border border-[var(--card-border)] whitespace-nowrap">
+                                <span className="w-2 h-2 rounded-full bg-[#193D35] shrink-0"></span>
+                                Showing <span className="font-bold text-[var(--foreground)]">{filteredQuestions.length}</span> of {questions.length} questions
+                            </span>
+                        </div>
                     </div>
 
                     {/* Questions Table */}
-                    <div className="card overflow-hidden rounded-2xl shadow-sm">
+                    <div className="card overflow-hidden rounded-2xl shadow-sm border border-[var(--card-border)]">
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left">
+                            <table className="w-full text-left border-collapse">
                                 <thead>
-                                    <tr className="border-b border-[var(--card-border)] bg-[var(--muted-bg)]/60">
-                                        {['Category', 'Session', 'Difficulty', 'Question Text', 'Correct Option', 'Actions'].map(h => (
-                                            <th key={h} className="px-6 py-3.5 text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-widest">{h}</th>
-                                        ))}
+                                    <tr className="border-b border-[var(--card-border)] bg-[var(--muted-bg)]/75">
+                                        <th className="px-5 py-3.5 text-[10px] font-bold text-[var(--foreground-secondary)] uppercase tracking-wider whitespace-nowrap min-w-[150px]">
+                                            Category
+                                        </th>
+                                        <th className="px-4 py-3.5 text-[10px] font-bold text-[var(--foreground-secondary)] uppercase tracking-wider whitespace-nowrap text-center min-w-[90px]">
+                                            Session
+                                        </th>
+                                        <th className="px-4 py-3.5 text-[10px] font-bold text-[var(--foreground-secondary)] uppercase tracking-wider whitespace-nowrap text-center min-w-[100px]">
+                                            Difficulty
+                                        </th>
+                                        <th className="px-5 py-3.5 text-[10px] font-bold text-[var(--foreground-secondary)] uppercase tracking-wider min-w-[320px]">
+                                            Question Text
+                                        </th>
+                                        <th className="px-5 py-3.5 text-[10px] font-bold text-[var(--foreground-secondary)] uppercase tracking-wider min-w-[240px]">
+                                            Correct Option
+                                        </th>
+                                        <th className="px-5 py-3.5 text-[10px] font-bold text-[var(--foreground-secondary)] uppercase tracking-wider whitespace-nowrap text-right min-w-[90px]">
+                                            Actions
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-[var(--card-border)]">
                                     {filteredQuestions.length === 0 ? (
                                         <tr>
                                             <td colSpan={6} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
-                                                No questions matching filter. <button onClick={() => openQuestionModal(null)} className="text-black font-bold hover:underline">Add one now</button>
+                                                No questions matching filter. <button onClick={() => openQuestionModal(null)} className="text-[#193D35] font-bold hover:underline cursor-pointer">Add one now</button>
                                             </td>
                                         </tr>
                                     ) : filteredQuestions.map((q) => (
-                                        <tr key={q.id} className="hover:bg-[var(--muted-bg)]/40 transition-colors group">
-                                            <td className="px-6 py-4">
-                                                <span className="badge-emerald text-[10px] font-semibold">{q.category}</span>
+                                        <tr key={q.id} className="hover:bg-[var(--muted-bg)]/35 transition-colors group">
+                                            {/* Category */}
+                                            <td className="px-5 py-3.5 align-middle whitespace-nowrap">
+                                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] shadow-2xs whitespace-nowrap">
+                                                    {q.category}
+                                                </span>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]">
+
+                                            {/* Session */}
+                                            <td className="px-4 py-3.5 align-middle text-center whitespace-nowrap">
+                                                <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#F4EFE6] text-[#42665B] border border-[#DCD8CE] shadow-2xs whitespace-nowrap">
                                                     Session {q.session || 1}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <span className={`badge border text-[10px] ${difficultyBadge(q.difficulty)}`}>
+
+                                            {/* Difficulty */}
+                                            <td className="px-4 py-3.5 align-middle text-center whitespace-nowrap">
+                                                <span className={`inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-[10px] font-bold capitalize border shadow-2xs whitespace-nowrap ${difficultyBadge(q.difficulty)}`}>
                                                     {q.difficulty || 'beginner'}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 max-w-md">
-                                                <p className="text-xs text-[var(--foreground)] font-medium line-clamp-2">{q.question_text}</p>
+
+                                            {/* Question Text */}
+                                            <td className="px-5 py-3.5 align-middle">
+                                                <p className="text-xs text-[var(--foreground)] font-medium leading-relaxed max-w-xl">
+                                                    {q.question_text}
+                                                </p>
                                                 {q.explanation && (
-                                                    <p className="text-[11px] text-[var(--foreground-muted)] italic mt-0.5 truncate">
-                                                        💡 {q.explanation}
+                                                    <p className="text-[11px] text-[var(--foreground-muted)] italic mt-1 flex items-start gap-1 leading-normal max-w-xl">
+                                                        <span className="shrink-0">💡</span>
+                                                        <span>{q.explanation}</span>
                                                     </p>
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <code className="px-2.5 py-1 rounded-lg bg-[var(--muted-bg)] text-black font-bold text-xs font-mono border border-[var(--card-border)]">
-                                                    {q.correct_answer}
-                                                </code>
+
+                                            {/* Correct Option */}
+                                            <td className="px-5 py-3.5 align-middle">
+                                                <div className="inline-flex items-start gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50/90 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40 text-emerald-900 dark:text-emerald-200 text-xs font-medium leading-snug max-w-xs shadow-2xs">
+                                                    <CheckCircle2 size={13} className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                                                    <span className="break-words font-sans">{q.correct_answer}</span>
+                                                </div>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex items-center gap-1.5">
-                                                    <button onClick={() => openQuestionModal(q)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all">
+
+                                            {/* Actions */}
+                                            <td className="px-5 py-3.5 align-middle whitespace-nowrap text-right">
+                                                <div className="flex items-center justify-end gap-1">
+                                                    <button
+                                                        onClick={() => openQuestionModal(q)}
+                                                        className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[#193D35] hover:bg-[#F3E5C5]/60 transition-all cursor-pointer"
+                                                        title="Edit Question"
+                                                    >
                                                         <Edit2 size={14} />
                                                     </button>
-                                                    <button onClick={() => handleDeleteQuestion(q.id)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all">
+                                                    <button
+                                                        onClick={() => handleDeleteQuestion(q.id)}
+                                                        className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all cursor-pointer"
+                                                        title="Delete Question"
+                                                    >
                                                         <Trash2 size={14} />
                                                     </button>
                                                 </div>
