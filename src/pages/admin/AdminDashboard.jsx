@@ -1505,6 +1505,96 @@ const AdminDashboard = () => {
                 </div>,
                 document.body
             )}
+
+            {/* MODAL: DELETE CATEGORY CONFIRMATION */}
+            {categoryToDelete && typeof document !== 'undefined' && createPortal(
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+                    onClick={(e) => { if (e.target === e.currentTarget && !isDeletingCategory) setCategoryToDelete(null); }}
+                >
+                    <div className="card p-6 sm:p-7 rounded-3xl max-w-md w-full shadow-2xl space-y-5 animate-scale-in border border-[var(--card-border)] bg-[var(--card-bg)]">
+                        <div className="flex items-start gap-4">
+                            <div className="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0">
+                                <Trash2 size={24} />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <h3 className="text-lg font-display font-bold text-[var(--foreground)]">
+                                    Delete Category
+                                </h3>
+                                <p className="text-xs text-[var(--foreground-muted)] mt-1">
+                                    Are you sure you want to delete <span className="font-bold text-[var(--foreground)]">"{categoryToDelete.name}"</span>?
+                                </p>
+                            </div>
+                            <button
+                                type="button"
+                                disabled={isDeletingCategory}
+                                onClick={() => setCategoryToDelete(null)}
+                                className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] cursor-pointer"
+                            >
+                                <X size={16} />
+                            </button>
+                        </div>
+
+                        {/* Questions count info / Warning */}
+                        <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-800 dark:text-amber-200 space-y-2">
+                            <div className="flex items-center gap-2 font-bold">
+                                <AlertCircle size={15} className="shrink-0 text-amber-600 dark:text-amber-400" />
+                                <span>{categoryToDelete.questionCount || 0} Question(s) Associated</span>
+                            </div>
+                            <p className="text-[11px] leading-relaxed opacity-90">
+                                {(categoryToDelete.questionCount || 0) > 0 
+                                    ? "This category has active questions in the database. You can choose whether to permanently delete these questions as well."
+                                    : "This category currently has no associated questions."}
+                            </p>
+                        </div>
+
+                        {(categoryToDelete.questionCount || 0) > 0 && (
+                            <label className="flex items-start gap-3 p-3 rounded-xl border border-[var(--card-border)] hover:bg-[var(--muted-bg)]/40 cursor-pointer transition-colors">
+                                <input
+                                    type="checkbox"
+                                    checked={deleteAssociatedQuestions}
+                                    onChange={(e) => setDeleteAssociatedQuestions(e.target.checked)}
+                                    className="mt-0.5 rounded text-red-600 focus:ring-red-500 cursor-pointer"
+                                />
+                                <div className="text-xs">
+                                    <span className="font-bold text-[var(--foreground)]">Delete all associated questions</span>
+                                    <p className="text-[11px] text-[var(--foreground-muted)] mt-0.5">
+                                        Permanently removes all {categoryToDelete.questionCount} question(s) in this topic from the question bank.
+                                    </p>
+                                </div>
+                            </label>
+                        )}
+
+                        <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[var(--card-border)]">
+                            <button
+                                type="button"
+                                disabled={isDeletingCategory}
+                                onClick={() => setCategoryToDelete(null)}
+                                className="btn-secondary text-xs py-2 px-4 cursor-pointer"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                disabled={isDeletingCategory}
+                                onClick={confirmDeleteCategory}
+                                className="btn-primary bg-red-600 hover:bg-red-700 text-white text-xs py-2 px-4 flex items-center gap-2 border-red-600 shadow-md shadow-red-600/20 cursor-pointer"
+                            >
+                                {isDeletingCategory ? (
+                                    <>
+                                        <RefreshCw size={13} className="animate-spin" /> Deleting...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Trash2 size={13} /> Confirm Delete
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
         </div>
     );
 };
