@@ -10,7 +10,6 @@ import dashboardService from '../services/dashboardService';
 
 const baseSidebarItems = [
     { icon: LayoutDashboard, label: "Dashboard", to: "/dashboard" },
-    { icon: Globe, label: "SEO Dashboard", to: "/dashboard/seo" },
     { icon: Code2, label: "Technologies", to: "/dashboard/technologies" },
     { icon: Trophy, label: "My Quizzes", to: "/dashboard/quizzes" },
     { icon: Award, label: "Certificates", to: "/dashboard/certificates" },
@@ -54,7 +53,10 @@ export default function DashboardLayout() {
 
     const sidebarItems = [
         ...baseSidebarItems,
-        ...(user?.role === 'admin' ? [{ icon: ShieldCheck, label: "Admin Panel", to: "/dashboard/admin" }] : [])
+        ...(user?.role === 'admin' ? [
+            { icon: Globe, label: "SEO Dashboard", to: "/dashboard/seo" },
+            { icon: ShieldCheck, label: "Admin Panel", to: "/dashboard/admin" }
+        ] : [])
     ];
 
     const isActive = (path) => path === '/dashboard' ? location.pathname === '/dashboard' : location.pathname.startsWith(path);

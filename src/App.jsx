@@ -66,7 +66,7 @@ function AppContent() {
                 <Route path="/delete-account" element={<DeleteAccount />} />
                 <Route path="/account-deletion" element={<DeleteAccount />} />
                 <Route path="/data-deletion" element={<DeleteAccount />} />
-                <Route path="/seo" element={<SeoDashboard />} />
+                <Route path="/seo" element={<Navigate to="/dashboard/seo" replace />} />
 
                 {/* Protected Quiz Routes */}
                 <Route element={<ProtectedRoute />}>
@@ -89,7 +89,7 @@ function AppContent() {
                     <Route path="leaderboard" element={<Leaderboard />} />
                     <Route path="profile" element={<Profile />} />
                     <Route path="settings" element={<Settings />} />
-                    <Route path="seo" element={<SeoDashboard />} />
+                    <Route path="seo" element={<ProtectedRoute adminOnly><SeoDashboard /></ProtectedRoute>} />
                     <Route path="admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
                 </Route>
             </Routes>
