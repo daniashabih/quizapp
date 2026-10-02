@@ -29,7 +29,9 @@ const INITIAL_TECHNOLOGIES = [
     'Agile and DevOps',
     'Azure',
     'SEO',
-    'Express JS and Node JS'
+    'Express JS and Node JS',
+    'Power BI',
+    'Excel'
 ];
 
 async function seedTechnologies() {

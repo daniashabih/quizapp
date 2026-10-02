@@ -1,0 +1,228 @@
+{
+  "category": "Power BI",
+  "session": 1,
+  "title": "Session 1: Power BI Fundamentals & Data Modeling",
+  "totalQuestions": 20,
+  "questions": [
+    {
+      "questionText": "Which language is used to create measures and calculated columns in Power BI?",
+      "options": [
+        "M",
+        "DAX",
+        "SQL",
+        "Python"
+      ],
+      "correctAnswer": "DAX",
+      "explanation": "DAX (Data Analysis Expressions) is the formula expression language used in Power BI, Analysis Services, and Power Pivot in Excel to define calculations, measures, and calculated columns."
+    },
+    {
+      "questionText": "Which tool is used to clean and transform data before loading it into the model?",
+      "options": [
+        "Power Query Editor",
+        "Model view",
+        "Report view",
+        "Q&A visual"
+      ],
+      "correctAnswer": "Power Query Editor",
+      "explanation": "Power Query Editor is the data extraction, transformation, and cleansing tool inside Power BI Desktop used prior to loading data into the data model."
+    },
+    {
+      "questionText": "What is the file extension of a Power BI Desktop report?",
+      "options": [
+        ".pbit",
+        ".xlsx",
+        ".pbix",
+        ".pbids"
+      ],
+      "correctAnswer": ".pbix",
+      "explanation": ".pbix is the standard file extension for Power BI Desktop reports containing the data model, queries, and report visualizations."
+    },
+    {
+      "questionText": "Which view in Power BI Desktop is used to create and manage relationships between tables?",
+      "options": [
+        "Report view",
+        "Data view",
+        "Table view",
+        "Model view"
+      ],
+      "correctAnswer": "Model view",
+      "explanation": "Model view displays diagrammatic representations of tables and allows creating, configuring, and managing relationships and cardinality between tables."
+    },
+    {
+      "questionText": "Which language is used by Power Query to define transformation steps?",
+      "options": [
+        "M",
+        "DAX",
+        "VBA",
+        "MDX"
+      ],
+      "correctAnswer": "M",
+      "explanation": "The Power Query Formula Language, informally known as 'M', is the functional, case-sensitive language behind Power Query transformation steps."
+    },
+    {
+      "questionText": "Which DAX function changes the filter context of a calculation?",
+      "options": [
+        "SUMX",
+        "CALCULATE",
+        "RELATED",
+        "FORMAT"
+      ],
+      "correctAnswer": "CALCULATE",
+      "explanation": "CALCULATE evaluates an expression in a modified filter context and is the most powerful and fundamental function in DAX."
+    },
+    {
+      "questionText": "What is the most common relationship cardinality in a Power BI data model?",
+      "options": [
+        "One-to-many",
+        "Many-to-many",
+        "One-to-one",
+        "Many-to-none"
+      ],
+      "correctAnswer": "One-to-many",
+      "explanation": "One-to-many (1:*) relationships, typically linking a dimension table (unique keys) to a fact table (repeating keys), are the most common relationship cardinality."
+    },
+    {
+      "questionText": "Which DAX function returns the number of unique values in a column?",
+      "options": [
+        "COUNT",
+        "COUNTROWS",
+        "DISTINCTCOUNT",
+        "COUNTA"
+      ],
+      "correctAnswer": "DISTINCTCOUNT",
+      "explanation": "DISTINCTCOUNT counts the number of distinct (unique) values in a column."
+    },
+    {
+      "questionText": "Which storage mode loads a copy of the data into the Power BI in-memory model?",
+      "options": [
+        "DirectQuery",
+        "Live Connection",
+        "Composite",
+        "Import"
+      ],
+      "correctAnswer": "Import",
+      "explanation": "Import mode caches and compresses a copy of the source data into the VertiPaq in-memory analytical engine for fast query performance."
+    },
+    {
+      "questionText": "Which visual is best for showing a trend over time?",
+      "options": [
+        "Line chart",
+        "Treemap",
+        "Card",
+        "Slicer"
+      ],
+      "correctAnswer": "Line chart",
+      "explanation": "A line chart connects continuous data points over intervals (such as time) and is optimal for identifying trends and patterns."
+    },
+    {
+      "questionText": "What is the main purpose of a slicer?",
+      "options": [
+        "Create relationships",
+        "Filter other visuals interactively",
+        "Refresh data",
+        "Publish reports"
+      ],
+      "correctAnswer": "Filter other visuals interactively",
+      "explanation": "A slicer is an on-canvas interactive visual filter that allows report consumers to filter and slice the data shown in other visuals on the report page."
+    },
+    {
+      "questionText": "Which schema design is recommended for Power BI data models?",
+      "options": [
+        "Flat single table only",
+        "Snowflake with many levels",
+        "Star schema",
+        "Network schema"
+      ],
+      "correctAnswer": "Star schema",
+      "explanation": "Microsoft strongly recommends a Star Schema (fact tables surrounded by related dimension tables) for optimal Power BI performance, usability, and DAX simplicity."
+    },
+    {
+      "questionText": "What does Row-Level Security (RLS) do?",
+      "options": [
+        "Speeds up refresh",
+        "Restricts data access for users based on roles",
+        "Encrypts the .pbix file",
+        "Limits the number of rows imported"
+      ],
+      "correctAnswer": "Restricts data access for users based on roles",
+      "explanation": "Row-Level Security (RLS) restricts data row access for specific users based on their defined role and DAX filter expressions."
+    },
+    {
+      "questionText": "Which component is needed to refresh on-premises data sources in the Power BI Service?",
+      "options": [
+        "Power BI Mobile",
+        "On-premises data gateway",
+        "Power BI Report Builder",
+        "Dataflow"
+      ],
+      "correctAnswer": "On-premises data gateway",
+      "explanation": "The On-premises data gateway acts as a bridge providing secure and quick data transfer between on-premises data sources and the cloud-based Power BI Service."
+    },
+    {
+      "questionText": "What is a Power BI dashboard?",
+      "options": [
+        "A multi-page report",
+        "A single page of pinned visuals from one or more reports",
+        "A Power Query script",
+        "A data model"
+      ],
+      "correctAnswer": "A single page of pinned visuals from one or more reports",
+      "explanation": "In the Power BI Service, a dashboard is a single-page canvas (often called a canvas) made up of pinned tiles from one or multiple reports."
+    },
+    {
+      "questionText": "Which visual lets users ask questions in natural language?",
+      "options": [
+        "Key influencers",
+        "Decomposition tree",
+        "Q&A",
+        "Smart narrative"
+      ],
+      "correctAnswer": "Q&A",
+      "explanation": "The Q&A visual enables users to explore data using conversational, natural language questions and automatically generates appropriate charts in response."
+    },
+    {
+      "questionText": "Where do teams collaborate on reports, dashboards and datasets in the Power BI Service?",
+      "options": [
+        "Workspace",
+        "Gateway",
+        "Slicer",
+        "Bookmark"
+      ],
+      "correctAnswer": "Workspace",
+      "explanation": "Workspaces are collaborative cloud environments in the Power BI Service where teams create, publish, and manage collections of dashboards, reports, and datasets."
+    },
+    {
+      "questionText": "How does a measure differ from a calculated column?",
+      "options": [
+        "A measure is stored per row; a column is not",
+        "A measure is calculated at query time; a column is computed at refresh and stored",
+        "They are identical",
+        "A measure can only use M"
+      ],
+      "correctAnswer": "A measure is calculated at query time; a column is computed at refresh and stored",
+      "explanation": "A calculated column is computed row-by-row during data refresh and stored in the model consuming RAM; a measure is evaluated dynamically at query time based on user interactions and filter context."
+    },
+    {
+      "questionText": "Which DAX function retrieves a value from a related table on the 'one' side of a relationship?",
+      "options": [
+        "RELATED",
+        "LOOKUPVALUE only",
+        "VALUES",
+        "ALL"
+      ],
+      "correctAnswer": "RELATED",
+      "explanation": "The RELATED function follows existing many-to-one relationships to fetch a value from the table on the 'one' side."
+    },
+    {
+      "questionText": "Which feature saves a specific state of a report page, including filters and visibility?",
+      "options": [
+        "Bookmarks",
+        "Themes",
+        "Tooltips",
+        "Parameters"
+      ],
+      "correctAnswer": "Bookmarks",
+      "explanation": "Bookmarks capture the current state of a report page—including filters, slicers, drill states, visual visibility, and sort order—enabling custom navigation and storytelling."
+    }
+  ]
+}
