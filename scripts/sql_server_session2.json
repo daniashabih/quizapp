@@ -1,0 +1,538 @@
+{
+  "category": "SQL Server",
+  "session": 2,
+  "title": "Session 2: Data Models, Relational Algebra, and Normalization — SQL Server",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "A group of conceptual tools that describes data, its relationships, semantics, and consistency constraints is called a:",
+      "options": [
+        "Database schema",
+        "Data model",
+        "Data dictionary",
+        "Query language"
+      ],
+      "correctAnswer": "Data model",
+      "explanation": "This is the definition of a data model."
+    },
+    {
+      "questionText": "The process of applying an appropriate data model to data in order to organize and structure it is called:",
+      "options": [
+        "Normalization",
+        "Data modeling",
+        "Data mining",
+        "Indexing"
+      ],
+      "correctAnswer": "Data modeling",
+      "explanation": "Data modeling applies a data model to the data."
+    },
+    {
+      "questionText": "Which of the following is NOT one of the three broad steps of data modeling?",
+      "options": [
+        "Conceptual data modeling",
+        "Logical data modeling",
+        "Physical data modeling",
+        "Procedural data modeling"
+      ],
+      "correctAnswer": "Procedural data modeling",
+      "explanation": "The three steps are conceptual, logical, and physical data modeling."
+    },
+    {
+      "questionText": "The E-R model belongs to which classification of data models?",
+      "options": [
+        "Physical models",
+        "Record-based logical models",
+        "Object-based logical models",
+        "Network models"
+      ],
+      "correctAnswer": "Object-based logical models",
+      "explanation": "The E-R model is an object-based logical model."
+    },
+    {
+      "questionText": "A real-world object that exists physically and is distinguishable from other objects is a(n):",
+      "options": [
+        "Attribute",
+        "Entity",
+        "Relationship",
+        "Entity set"
+      ],
+      "correctAnswer": "Entity",
+      "explanation": "Examples include employee, department, student, and vehicle."
+    },
+    {
+      "questionText": "Features that an entity has, and that help distinguish one entity from another, are called:",
+      "options": [
+        "Relationships",
+        "Entity sets",
+        "Attributes",
+        "Keys only"
+      ],
+      "correctAnswer": "Attributes",
+      "explanation": "Attributes describe an entity, e.g., roll_number, name, stream."
+    },
+    {
+      "questionText": "A collection of similar entities, such as all employees of an organization, is called a(n):",
+      "options": [
+        "Relationship set",
+        "Entity set",
+        "Attribute set",
+        "Composite entity"
+      ],
+      "correctAnswer": "Entity set",
+      "explanation": "All the employees collectively form the employee entity set."
+    },
+    {
+      "questionText": "The JOIN operation is an enhancement of which relational operator?",
+      "options": [
+        "SELECT",
+        "PROJECT",
+        "PRODUCT",
+        "UNION"
+      ],
+      "correctAnswer": "PRODUCT",
+      "explanation": "JOIN performs a selection on the product of tables."
+    },
+    {
+      "questionText": "A manager and a team member both belong to the Employee entity set, and the team member 'works for' the manager. This is a:",
+      "options": [
+        "Binary relationship",
+        "Ternary relationship",
+        "Self-relationship",
+        "Weak relationship"
+      ],
+      "correctAnswer": "Self-relationship",
+      "explanation": "Relationships between entities of the same entity set are self-relationships."
+    },
+    {
+      "questionText": "'An employee belongs to a department' is an example of a:",
+      "options": [
+        "Self-relationship",
+        "Binary relationship",
+        "Ternary relationship",
+        "Composite relationship"
+      ],
+      "correctAnswer": "Binary relationship",
+      "explanation": "It links entities from two different entity sets."
+    },
+    {
+      "questionText": "An employee works in the accounts department at the regional branch. This relationship involving Employee, Department, and Location is:",
+      "options": [
+        "Binary",
+        "Self",
+        "Ternary",
+        "One-to-one"
+      ],
+      "correctAnswer": "Ternary",
+      "explanation": "A ternary relationship exists between three entity sets."
+    },
+    {
+      "questionText": "Every vehicle has a unique registration, and no two vehicles share one. This mapping cardinality is:",
+      "options": [
+        "One-to-one",
+        "One-to-many",
+        "Many-to-one",
+        "Many-to-many"
+      ],
+      "correctAnswer": "One-to-one",
+      "explanation": "One vehicle maps to exactly one registration."
+    },
+    {
+      "questionText": "A customer can own more than one vehicle. The mapping cardinality from customer to vehicle is:",
+      "options": [
+        "One-to-one",
+        "One-to-many",
+        "Many-to-one",
+        "Many-to-many"
+      ],
+      "correctAnswer": "One-to-many",
+      "explanation": "One customer is associated with one or more vehicles."
+    },
+    {
+      "questionText": "Many vehicles are manufactured by a single company. From vehicle to manufacturer, the cardinality is:",
+      "options": [
+        "One-to-one",
+        "One-to-many",
+        "Many-to-one",
+        "Many-to-many"
+      ],
+      "correctAnswer": "Many-to-one",
+      "explanation": "Many vehicles map to one manufacturer."
+    },
+    {
+      "questionText": "Customers and bank accounts (including joint accounts) have which mapping cardinality?",
+      "options": [
+        "One-to-one",
+        "One-to-many",
+        "Many-to-one",
+        "Many-to-many"
+      ],
+      "correctAnswer": "Many-to-many",
+      "explanation": "A customer can have many accounts and an account can have many customers."
+    },
+    {
+      "questionText": "An attribute that can uniquely define an entity in an entity set is called a:",
+      "options": [
+        "Composite attribute",
+        "Derived attribute",
+        "Primary key",
+        "Weak attribute"
+      ],
+      "correctAnswer": "Primary key",
+      "explanation": "For example, enrollment_number in the Student Details table."
+    },
+    {
+      "questionText": "Entity sets that do not have enough attributes to establish a primary key are called:",
+      "options": [
+        "Strong entity sets",
+        "Weak entity sets",
+        "Derived entity sets",
+        "Composite entity sets"
+      ],
+      "correctAnswer": "Weak entity sets",
+      "explanation": "The Assignment entity set is a weak entity set in the book's example."
+    },
+    {
+      "questionText": "In E-R diagrams, a multi-valued attribute is drawn as a:",
+      "options": [
+        "Dashed ellipse",
+        "Double-line ellipse",
+        "Rectangle",
+        "Diamond"
+      ],
+      "correctAnswer": "Double-line ellipse",
+      "explanation": "Derived attributes use dashed ellipses; multi-valued use double-line ellipses."
+    },
+    {
+      "questionText": "An address made up of street, area, and similar parts is an example of a:",
+      "options": [
+        "Multi-valued attribute",
+        "Derived attribute",
+        "Composite attribute",
+        "Key attribute"
+      ],
+      "correctAnswer": "Composite attribute",
+      "explanation": "A composite attribute contains two or more attributes with independent meanings."
+    },
+    {
+      "questionText": "An attribute whose value is entirely dependent on another attribute, such as age from date of birth, is:",
+      "options": [
+        "Composite",
+        "Derived",
+        "Multi-valued",
+        "Primary"
+      ],
+      "correctAnswer": "Derived",
+      "explanation": "Derived attributes are shown with dashed ellipses."
+    },
+    {
+      "questionText": "What is the first step in constructing an E-R diagram?",
+      "options": [
+        "Draw the symbols",
+        "Identify relationships",
+        "Gather all the data that must be modeled",
+        "Sort attributes"
+      ],
+      "correctAnswer": "Gather all the data that must be modeled",
+      "explanation": "The steps begin with gathering the data to be modeled."
+    },
+    {
+      "questionText": "Adding a new employee who has not been assigned to any project, forcing blank project columns, causes a(n):",
+      "options": [
+        "Deletion anomaly",
+        "Insertion anomaly",
+        "Updating anomaly",
+        "Repetition anomaly"
+      ],
+      "correctAnswer": "Insertion anomaly",
+      "explanation": "Anomalies created by such insertions are insertion anomalies."
+    },
+    {
+      "questionText": "A salary change for John that must be reflected in every project row he appears in illustrates a(n):",
+      "options": [
+        "Updating anomaly",
+        "Insertion anomaly",
+        "Deletion anomaly",
+        "Join anomaly"
+      ],
+      "correctAnswer": "Updating anomaly",
+      "explanation": "Updating all occurrences is the updating anomaly problem."
+    },
+    {
+      "questionText": "Normalization is best defined as:",
+      "options": [
+        "Adding redundant data to improve speed",
+        "Removing unwanted redundancy and dependencies",
+        "Encrypting tables",
+        "Creating indexes on all columns"
+      ],
+      "correctAnswer": "Removing unwanted redundancy and dependencies",
+      "explanation": "It reduces redundancy and helps maintain integrity."
+    },
+    {
+      "questionText": "To achieve first normal form, table columns must have:",
+      "options": [
+        "Transitive dependencies",
+        "Atomic values",
+        "Composite keys only",
+        "Partial dependencies"
+      ],
+      "correctAnswer": "Atomic values",
+      "explanation": "1NF also requires identifying key attributes and creating separate tables for related data."
+    },
+    {
+      "questionText": "A table is in second normal form if it meets 1NF and has no:",
+      "options": [
+        "Atomic values",
+        "Foreign keys",
+        "Partial dependencies",
+        "Primary keys"
+      ],
+      "correctAnswer": "Partial dependencies",
+      "explanation": "2NF also requires tables to be related through foreign keys."
+    },
+    {
+      "questionText": "Third normal form requires that tables have no:",
+      "options": [
+        "Partial dependencies",
+        "Transitive dependencies",
+        "Primary keys",
+        "Foreign keys"
+      ],
+      "correctAnswer": "Transitive dependencies",
+      "explanation": "A non-key attribute must not be determined by another non-key attribute."
+    },
+    {
+      "questionText": "In the Employee Details table, Salary depends on Grade rather than Emp_No. To reach 3NF, the table is split into Employee Details and:",
+      "options": [
+        "Project Details",
+        "Grade Salary Details",
+        "Employee Project Details",
+        "Branch Details"
+      ],
+      "correctAnswer": "Grade Salary Details",
+      "explanation": "This removes the transitive dependency."
+    },
+    {
+      "questionText": "Deliberately introducing minor redundancy into a normalized database to improve performance is called:",
+      "options": [
+        "Denormalization",
+        "Fragmentation",
+        "Replication",
+        "Indexing"
+      ],
+      "correctAnswer": "Denormalization",
+      "explanation": "It reduces the need for complex, frequent joins."
+    },
+    {
+      "questionText": "Which relational operator extracts rows that satisfy a given condition and is denoted by sigma?",
+      "options": [
+        "PROJECT",
+        "SELECT",
+        "DIVIDE",
+        "PRODUCT"
+      ],
+      "correctAnswer": "SELECT",
+      "explanation": "PROJECT (pi) picks columns; SELECT (sigma) picks rows."
+    },
+    {
+      "questionText": "An entity set is a collection of similar entities.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "E.g., all employees form the employee entity set."
+    },
+    {
+      "questionText": "A ternary relationship exists between exactly two entity sets.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "A ternary relationship involves three entity sets."
+    },
+    {
+      "questionText": "A weak entity set has enough attributes to establish a primary key.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "That describes a strong entity set."
+    },
+    {
+      "questionText": "A derived attribute's value is entirely dependent on another attribute.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Age derived from birth date is the example."
+    },
+    {
+      "questionText": "An unnormalized table can suffer from insertion, deletion, and updating anomalies.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "These drawbacks motivate normalization."
+    },
+    {
+      "questionText": "Second normal form requires that there be no partial dependencies.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "The tables should also be related through foreign keys."
+    },
+    {
+      "questionText": "Denormalization completely eliminates redundancy from a database.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "It introduces minor redundancy to improve performance."
+    },
+    {
+      "questionText": "The PRODUCT operator combines each record of the first table with all records of the second table.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "It generates all possible combinations."
+    },
+    {
+      "questionText": "The INTERSECT operator returns data that holds true in one table but not in the other.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "That is DIFFERENCE. INTERSECT returns data true in all tables."
+    },
+    {
+      "questionText": "In the DIVIDE operation, the attributes of the divisor table should be a subset of those of the dividend table.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "The result lacks the divisor's attributes."
+    },
+    {
+      "questionText": "A ____________ attribute can be broken into smaller attributes that each have independent meaning.",
+      "options": [
+        "Composite",
+        "Derived",
+        "Multi-valued",
+        "Simple"
+      ],
+      "correctAnswer": "Composite",
+      "explanation": "Address (street, area) is an example of a composite attribute."
+    },
+    {
+      "questionText": "____________ is the process of removing unwanted redundancy and dependencies from tables.",
+      "options": [
+        "Normalization",
+        "Denormalization",
+        "Indexing",
+        "Fragmentation"
+      ],
+      "correctAnswer": "Normalization",
+      "explanation": "Normalization reduces redundancy and maintains data integrity."
+    },
+    {
+      "questionText": "The ____________ operator, denoted by the Greek letter pi, displays only the required columns.",
+      "options": [
+        "PROJECT",
+        "SELECT",
+        "UNION",
+        "PRODUCT"
+      ],
+      "correctAnswer": "PROJECT",
+      "explanation": "PROJECT selects columns; SELECT (sigma) selects rows."
+    },
+    {
+      "questionText": "A relationship between entities of the same entity set is called a ____________ relationship.",
+      "options": [
+        "Self",
+        "Binary",
+        "Ternary",
+        "Composite"
+      ],
+      "correctAnswer": "Self",
+      "explanation": "E.g., manager and team member within the Employee entity set."
+    },
+    {
+      "questionText": "In third normal form, every non-key attribute should be determined only by the ____________ attribute.",
+      "options": [
+        "Key",
+        "Foreign",
+        "Derived",
+        "Composite"
+      ],
+      "correctAnswer": "Key",
+      "explanation": "This eliminates transitive dependencies."
+    },
+    {
+      "questionText": "Emp_No and Project_Id together form a ____________ primary key in the Employee Project Details table.",
+      "options": [
+        "Composite",
+        "Candidate",
+        "Foreign",
+        "Surrogate"
+      ],
+      "correctAnswer": "Composite",
+      "explanation": "Two or more attributes combine to uniquely identify a record."
+    },
+    {
+      "questionText": "The ____________ operator, symbolized by '-', returns data true in one table and not the other.",
+      "options": [
+        "DIFFERENCE",
+        "INTERSECT",
+        "UNION",
+        "PRODUCT"
+      ],
+      "correctAnswer": "DIFFERENCE",
+      "explanation": "DIFFERENCE returns records present in the first table but absent in the second."
+    },
+    {
+      "questionText": "An individual's telephone numbers are an example of a ____________ attribute.",
+      "options": [
+        "Multi-valued",
+        "Composite",
+        "Derived",
+        "Single-valued"
+      ],
+      "correctAnswer": "Multi-valued",
+      "explanation": "A person may have one or more phone numbers."
+    },
+    {
+      "questionText": "An E-R diagram is a ____________ representation of the E-R model.",
+      "options": [
+        "Graphical",
+        "Mathematical",
+        "Procedural",
+        "Textual"
+      ],
+      "correctAnswer": "Graphical",
+      "explanation": "Symbols represent entities, attributes, and relationships."
+    },
+    {
+      "questionText": "Codd presented the first three normal forms (1NF, 2NF, 3NF) in the year ____________.",
+      "options": [
+        "1972",
+        "1968",
+        "1970",
+        "1985"
+      ],
+      "correctAnswer": "1972",
+      "explanation": "E. F. Codd introduced 1NF, 2NF, and 3NF in 1972; 4NF and 5NF came later."
+    }
+  ]
+}

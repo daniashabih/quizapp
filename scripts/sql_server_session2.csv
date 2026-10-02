@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,2,"A group of conceptual tools that describes data, its relationships, semantics, and consistency constraints is called a:",Database schema,Data model,Data dictionary,Query language,Data model
+SQL Server,2,The process of applying an appropriate data model to data in order to organize and structure it is called:,Normalization,Data modeling,Data mining,Indexing,Data modeling
+SQL Server,2,Which of the following is NOT one of the three broad steps of data modeling?,Conceptual data modeling,Logical data modeling,Physical data modeling,Procedural data modeling,Procedural data modeling
+SQL Server,2,The E-R model belongs to which classification of data models?,Physical models,Record-based logical models,Object-based logical models,Network models,Object-based logical models
+SQL Server,2,A real-world object that exists physically and is distinguishable from other objects is a(n):,Attribute,Entity,Relationship,Entity set,Entity
+SQL Server,2,"Features that an entity has, and that help distinguish one entity from another, are called:",Relationships,Entity sets,Attributes,Keys only,Attributes
+SQL Server,2,"A collection of similar entities, such as all employees of an organization, is called a(n):",Relationship set,Entity set,Attribute set,Composite entity,Entity set
+SQL Server,2,The JOIN operation is an enhancement of which relational operator?,SELECT,PROJECT,PRODUCT,UNION,PRODUCT
+SQL Server,2,"A manager and a team member both belong to the Employee entity set, and the team member 'works for' the manager. This is a:",Binary relationship,Ternary relationship,Self-relationship,Weak relationship,Self-relationship
+SQL Server,2,'An employee belongs to a department' is an example of a:,Self-relationship,Binary relationship,Ternary relationship,Composite relationship,Binary relationship
+SQL Server,2,"An employee works in the accounts department at the regional branch. This relationship involving Employee, Department, and Location is:",Binary,Self,Ternary,One-to-one,Ternary
+SQL Server,2,"Every vehicle has a unique registration, and no two vehicles share one. This mapping cardinality is:",One-to-one,One-to-many,Many-to-one,Many-to-many,One-to-one
+SQL Server,2,A customer can own more than one vehicle. The mapping cardinality from customer to vehicle is:,One-to-one,One-to-many,Many-to-one,Many-to-many,One-to-many
+SQL Server,2,"Many vehicles are manufactured by a single company. From vehicle to manufacturer, the cardinality is:",One-to-one,One-to-many,Many-to-one,Many-to-many,Many-to-one
+SQL Server,2,Customers and bank accounts (including joint accounts) have which mapping cardinality?,One-to-one,One-to-many,Many-to-one,Many-to-many,Many-to-many
+SQL Server,2,An attribute that can uniquely define an entity in an entity set is called a:,Composite attribute,Derived attribute,Primary key,Weak attribute,Primary key
+SQL Server,2,Entity sets that do not have enough attributes to establish a primary key are called:,Strong entity sets,Weak entity sets,Derived entity sets,Composite entity sets,Weak entity sets
+SQL Server,2,"In E-R diagrams, a multi-valued attribute is drawn as a:",Dashed ellipse,Double-line ellipse,Rectangle,Diamond,Double-line ellipse
+SQL Server,2,"An address made up of street, area, and similar parts is an example of a:",Multi-valued attribute,Derived attribute,Composite attribute,Key attribute,Composite attribute
+SQL Server,2,"An attribute whose value is entirely dependent on another attribute, such as age from date of birth, is:",Composite,Derived,Multi-valued,Primary,Derived
+SQL Server,2,What is the first step in constructing an E-R diagram?,Draw the symbols,Identify relationships,Gather all the data that must be modeled,Sort attributes,Gather all the data that must be modeled
+SQL Server,2,"Adding a new employee who has not been assigned to any project, forcing blank project columns, causes a(n):",Deletion anomaly,Insertion anomaly,Updating anomaly,Repetition anomaly,Insertion anomaly
+SQL Server,2,A salary change for John that must be reflected in every project row he appears in illustrates a(n):,Updating anomaly,Insertion anomaly,Deletion anomaly,Join anomaly,Updating anomaly
+SQL Server,2,Normalization is best defined as:,Adding redundant data to improve speed,Removing unwanted redundancy and dependencies,Encrypting tables,Creating indexes on all columns,Removing unwanted redundancy and dependencies
+SQL Server,2,"To achieve first normal form, table columns must have:",Transitive dependencies,Atomic values,Composite keys only,Partial dependencies,Atomic values
+SQL Server,2,A table is in second normal form if it meets 1NF and has no:,Atomic values,Foreign keys,Partial dependencies,Primary keys,Partial dependencies
+SQL Server,2,Third normal form requires that tables have no:,Partial dependencies,Transitive dependencies,Primary keys,Foreign keys,Transitive dependencies
+SQL Server,2,"In the Employee Details table, Salary depends on Grade rather than Emp_No. To reach 3NF, the table is split into Employee Details and:",Project Details,Grade Salary Details,Employee Project Details,Branch Details,Grade Salary Details
+SQL Server,2,Deliberately introducing minor redundancy into a normalized database to improve performance is called:,Denormalization,Fragmentation,Replication,Indexing,Denormalization
+SQL Server,2,Which relational operator extracts rows that satisfy a given condition and is denoted by sigma?,PROJECT,SELECT,DIVIDE,PRODUCT,SELECT
+SQL Server,2,An entity set is a collection of similar entities.,True,False,,,True
+SQL Server,2,A ternary relationship exists between exactly two entity sets.,True,False,,,False
+SQL Server,2,A weak entity set has enough attributes to establish a primary key.,True,False,,,False
+SQL Server,2,A derived attribute's value is entirely dependent on another attribute.,True,False,,,True
+SQL Server,2,"An unnormalized table can suffer from insertion, deletion, and updating anomalies.",True,False,,,True
+SQL Server,2,Second normal form requires that there be no partial dependencies.,True,False,,,True
+SQL Server,2,Denormalization completely eliminates redundancy from a database.,True,False,,,False
+SQL Server,2,The PRODUCT operator combines each record of the first table with all records of the second table.,True,False,,,True
+SQL Server,2,The INTERSECT operator returns data that holds true in one table but not in the other.,True,False,,,False
+SQL Server,2,"In the DIVIDE operation, the attributes of the divisor table should be a subset of those of the dividend table.",True,False,,,True
+SQL Server,2,A ____________ attribute can be broken into smaller attributes that each have independent meaning.,Composite,Derived,Multi-valued,Simple,Composite
+SQL Server,2,____________ is the process of removing unwanted redundancy and dependencies from tables.,Normalization,Denormalization,Indexing,Fragmentation,Normalization
+SQL Server,2,"The ____________ operator, denoted by the Greek letter pi, displays only the required columns.",PROJECT,SELECT,UNION,PRODUCT,PROJECT
+SQL Server,2,A relationship between entities of the same entity set is called a ____________ relationship.,Self,Binary,Ternary,Composite,Self
+SQL Server,2,"In third normal form, every non-key attribute should be determined only by the ____________ attribute.",Key,Foreign,Derived,Composite,Key
+SQL Server,2,Emp_No and Project_Id together form a ____________ primary key in the Employee Project Details table.,Composite,Candidate,Foreign,Surrogate,Composite
+SQL Server,2,"The ____________ operator, symbolized by '-', returns data true in one table and not the other.",DIFFERENCE,INTERSECT,UNION,PRODUCT,DIFFERENCE
+SQL Server,2,An individual's telephone numbers are an example of a ____________ attribute.,Multi-valued,Composite,Derived,Single-valued,Multi-valued
+SQL Server,2,An E-R diagram is a ____________ representation of the E-R model.,Graphical,Mathematical,Procedural,Textual,Graphical
+SQL Server,2,"Codd presented the first three normal forms (1NF, 2NF, 3NF) in the year ____________.",1972,1968,1970,1985,1972
