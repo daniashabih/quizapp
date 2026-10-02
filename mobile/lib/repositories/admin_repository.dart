@@ -54,6 +54,10 @@ class AdminRepository {
     await adminService.deleteCategory(categoryId);
   }
 
+  Future<void> updateCategory(String categoryId, {String? name, bool? isEnabled}) async {
+    await adminService.updateCategory(categoryId, name: name, isEnabled: isEnabled);
+  }
+
   Future<void> generateAiQuestions({
     required String topic,
     required int session,

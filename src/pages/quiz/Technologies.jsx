@@ -92,7 +92,9 @@ export default function Technologies() {
         setSelectedCatForSession(null);
     };
 
-    const filtered = categories.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filtered = categories
+        .filter(c => c.isEnabled !== false)
+        .filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()));
     const getGradient = () => techIcons.default;
 
     const totalQuestionsInTrack = sessionsList.reduce((sum, s) => sum + (s.count || 0), 0);

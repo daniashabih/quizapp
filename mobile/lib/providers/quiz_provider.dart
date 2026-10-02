@@ -77,11 +77,6 @@ class QuizNotifier extends StateNotifier<QuizState> {
 
   QuizNotifier(this._ref) : super(const QuizState());
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   // Start new assessment session
   Future<void> startQuiz({
     required String category,
@@ -156,23 +151,8 @@ class QuizNotifier extends StateNotifier<QuizState> {
     }
   }
 
-  // Calculate score and submit assessment to MongoDB Atlas via backend
+  // Submit assessment to MongoDB Atlas via backend for authoritative evaluation
   Future<QuizResultModel?> submitQuiz() async {
-    int score = 0;
-
-    for (final q in state.questions) {
-      final selectedIdx = state.selectedAnswers[q.id];
-      if (selectedIdx != null && selectedIdx < q.options.length) {
-        final chosenText = q.options[selectedIdx].trim().toLowerCase();
-        final correctText = q.correctAnswer.trim().toLowerCase();
-        if (chosenText == correctText) {
-          score++;
-        }
-      }
-    }
-
-    final total = state.questions.length;
-    final percentage = total > 0 ? ((score / total) * 100).roundToDouble() : 0.0;
     final durationSeconds = _quizStartTime != null
         ? DateTime.now().difference(_quizStartTime!).inSeconds
         : 0;
@@ -184,12 +164,17 @@ class QuizNotifier extends StateNotifier<QuizState> {
 
     try {
       final repository = _ref.read(quizRepositoryProvider);
-      final result = await repository.saveResult(
+      final Map<String, dynamic> answersPayload = {};
+      state.selectedAnswers.forEach((key, val) {
+        answersPayload[key] = val;
+      });
+
+      final result = await repository.submitQuiz(
         category: state.category,
         session: state.session,
-        score: score,
-        total: total,
-        percentage: percentage,
+        answers: answersPayload,
+        timeTaken: durationSeconds,
+        questionsSnapshot: state.questions.map((q) => q.toJson()).toList(),
       );
 
       state = state.copyWith(
@@ -199,14 +184,30 @@ class QuizNotifier extends StateNotifier<QuizState> {
       );
       return result;
     } catch (e) {
-      // Create local fallback result if network error occurs while submitting
+      // Fallback calculation if offline or server is unreachable
+      int fallbackScore = 0;
+      for (final q in state.questions) {
+        final selectedIdx = state.selectedAnswers[q.id];
+        if (selectedIdx != null && selectedIdx < q.options.length) {
+          final chosenText = q.options[selectedIdx].trim().toLowerCase();
+          final correctText = q.correctAnswer.trim().toLowerCase();
+          if (chosenText == correctText) {
+            fallbackScore++;
+          }
+        }
+      }
+
+      final total = state.questions.length;
+      final percentage = total > 0 ? ((fallbackScore / total) * 100).roundToDouble() : 0.0;
+
       final fallbackResult = QuizResultModel(
         id: 'HB-OFFLINE-${DateTime.now().millisecondsSinceEpoch}',
         category: state.category,
         session: state.session,
-        score: score,
+        score: fallbackScore,
         total: total,
         percentage: percentage,
+        passed: percentage >= 70,
         createdAt: DateTime.now().toIso8601String(),
       );
 

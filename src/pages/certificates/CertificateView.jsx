@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import axios from 'axios';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
-import { Download, Linkedin, ArrowLeft, Award, QrCode } from 'lucide-react';
+import { Download, Linkedin, ArrowLeft, Award, QrCode, Loader2, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 export default function CertificateView() {
@@ -12,16 +13,39 @@ export default function CertificateView() {
     const certRef = useRef(null);
     const [downloaded, setDownloaded] = useState(false);
 
-    const {
-        category = 'Web Development',
-        percentage = 90,
-        resultId = '',
-        id = ''
-    } = location.state || {};
+    const searchParams = new URLSearchParams(location.search);
+    const queryId = searchParams.get('id');
 
-    const learnerName = location.state?.user?.name || authUser?.name || 'Verified Learner';
-    const certId = id || (resultId ? `HB-CERT-${resultId.slice(-6).toUpperCase()}` : `HB-CERT-${(category || 'DEV').slice(0, 3).toUpperCase()}-${new Date().getFullYear()}`);
-    const issueDate = location.state?.date || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    const [fetchedCert, setFetchedCert] = useState(null);
+    const [loadingCert, setLoadingCert] = useState(!!queryId && !location.state);
+    const [certError, setCertError] = useState(null);
+
+    useEffect(() => {
+        if (queryId && !location.state) {
+            axios.get(`/certificates/verify/${encodeURIComponent(queryId)}`)
+                .then(res => {
+                    if (res.data?.success && res.data?.certificate) {
+                        setFetchedCert(res.data.certificate);
+                    } else {
+                        setCertError("Certificate not found or invalid.");
+                    }
+                })
+                .catch(() => setCertError("Certificate not found or invalid."))
+                .finally(() => setLoadingCert(false));
+        }
+    }, [queryId, location.state]);
+
+    const state = location.state || {};
+    const category = fetchedCert?.category || state.category || 'Web Development';
+    const percentage = fetchedCert?.percentage ?? state.percentage ?? 90;
+    const resultId = state.resultId || '';
+    const id = fetchedCert?.id || queryId || state.id || state.certificateId || '';
+
+    const learnerName = fetchedCert?.user?.name || state.user?.name || authUser?.name || 'Verified Learner';
+    const certId = fetchedCert?.id || id || (resultId ? `HB-CERT-${resultId.slice(-6).toUpperCase()}` : `HB-CERT-${(category || 'DEV').slice(0, 3).toUpperCase()}-${new Date().getFullYear()}`);
+    const issueDate = fetchedCert?.issuedDate 
+        ? new Date(fetchedCert.issuedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+        : (state.date || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }));
 
     const handleDownload = () => {
         setDownloaded(true);
@@ -31,6 +55,36 @@ export default function CertificateView() {
     const shareLinkedIn = () => {
         window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank');
     };
+
+    if (loadingCert) {
+        return (
+            <div className="min-h-screen bg-[var(--page-bg)] flex flex-col">
+                <Navbar />
+                <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                    <Loader2 size={36} className="animate-spin text-[#193D35] mb-3" />
+                    <p className="text-sm font-semibold text-[var(--foreground-muted)]">Verifying certificate authentic credentials...</p>
+                </div>
+                <Footer />
+            </div>
+        );
+    }
+
+    if (certError) {
+        return (
+            <div className="min-h-screen bg-[var(--page-bg)] flex flex-col">
+                <Navbar />
+                <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+                    <div className="p-8 rounded-3xl card border border-red-500/20 max-w-md w-full space-y-4">
+                        <AlertCircle size={40} className="text-red-500 mx-auto" />
+                        <h2 className="text-xl font-display font-bold text-[var(--foreground)]">Invalid Certificate</h2>
+                        <p className="text-xs text-[var(--foreground-muted)]">{certError}</p>
+                        <Link to="/" className="btn-primary text-xs py-2.5 justify-center">Return to Home</Link>
+                    </div>
+                </div>
+                <Footer />
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col">

@@ -23,6 +23,22 @@ class QuizRepository {
     return await quizService.getQuestions(category: category, session: session);
   }
 
+  Future<QuizResultModel> submitQuiz({
+    required String category,
+    required int session,
+    required Map<String, dynamic> answers,
+    int? timeTaken,
+    List<Map<String, dynamic>>? questionsSnapshot,
+  }) async {
+    return await quizService.submitQuiz(
+      category: category,
+      session: session,
+      answers: answers,
+      timeTaken: timeTaken,
+      questionsSnapshot: questionsSnapshot,
+    );
+  }
+
   Future<QuizResultModel> saveResult({
     required String category,
     required int session,

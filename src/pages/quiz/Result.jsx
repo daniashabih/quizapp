@@ -3,14 +3,28 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, RotateCcw, Download, CheckCircle2, XCircle, Clock, BarChart3, Sparkles, Linkedin } from "lucide-react";
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { useSettings } from '../../context/SettingsContext';
 
 export default function Result() {
     const location = useLocation();
-    const { score = 0, total = 0, percentage = 0, category = 'Web Development', session = 1, timeTaken = 0 } = location.state || {};
-    const [animateScore, setAnimateScore] = useState(0);
-    const [showConfetti, setShowConfetti] = useState(percentage >= 70);
+    const { settings } = useSettings();
+    const {
+        score = 0,
+        total = 0,
+        percentage = 0,
+        category = 'Web Development',
+        session = 1,
+        timeTaken = 0,
+        passed: passedFromState,
+        passingScore: passingScoreFromState,
+        isEligibleForCertificate,
+        certificateId
+    } = location.state || {};
 
-    const passed = percentage >= 70;
+    const effectivePassingScore = passingScoreFromState ?? settings?.passingScore ?? 70;
+    const passed = passedFromState !== undefined ? passedFromState : (percentage >= effectivePassingScore);
+    const [animateScore, setAnimateScore] = useState(0);
+    const [showConfetti, setShowConfetti] = useState(passed);
     const minutes = Math.floor(timeTaken / 60);
     const secs = timeTaken % 60;
     const circumference = 2 * Math.PI * 60;
@@ -146,7 +160,7 @@ export default function Result() {
                                 </div>
                                 {passed && (
                                     <div className="flex items-center justify-center gap-3 pt-1">
-                                        <Link to="/certificate/view" state={{ category, percentage, score, total }}
+                                        <Link to="/certificate/view" state={{ category, percentage, score, total, certificateId, id: certificateId }}
                                             className="flex items-center gap-1.5 text-xs font-semibold text-[#193D35] hover:underline transition-colors">
                                             <Download size={13} /> View Certificate
                                         </Link>

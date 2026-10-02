@@ -18,7 +18,6 @@ class _AdminAiGeneratorScreenState extends ConsumerState<AdminAiGeneratorScreen>
   final _formKey = GlobalKey<FormState>();
   final _topicController = TextEditingController(text: 'React Server Components');
   final _sessionController = TextEditingController(text: '1');
-  String _difficulty = 'intermediate';
   int _questionCount = 5;
   bool _isGenerating = false;
   String? _successMessage;
@@ -129,30 +128,6 @@ class _AdminAiGeneratorScreenState extends ConsumerState<AdminAiGeneratorScreen>
                 },
               ),
 
-              const SizedBox(height: 16),
-
-              // Difficulty Dropdown
-              Text(
-                'Difficulty Level',
-                style: AppTextStyles.labelBold,
-              ),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                initialValue: _difficulty,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                ),
-                items: const [
-                  DropdownMenuItem(value: 'beginner', child: Text('Beginner (Foundational)')),
-                  DropdownMenuItem(value: 'intermediate', child: Text('Intermediate (Standard)')),
-                  DropdownMenuItem(value: 'advanced', child: Text('Advanced (Architectural)')),
-                ],
-                onChanged: (val) {
-                  if (val != null) setState(() => _difficulty = val);
-                },
-              ),
-
               const SizedBox(height: 20),
 
               // Question Count Slider
@@ -253,7 +228,6 @@ class _AdminAiGeneratorScreenState extends ConsumerState<AdminAiGeneratorScreen>
     final success = await ref.read(adminControllerProvider.notifier).generateAiQuestions(
           topic: topic,
           session: session,
-          difficulty: _difficulty,
           count: _questionCount,
         );
 

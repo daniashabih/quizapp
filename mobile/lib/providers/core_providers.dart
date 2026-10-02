@@ -9,6 +9,7 @@ import '../services/admin_service.dart';
 import '../services/auth_service.dart';
 import '../services/dashboard_service.dart';
 import '../services/quiz_service.dart';
+import '../services/settings_service.dart';
 
 // Storage Provider
 final secureStorageProvider = Provider<SecureStorageService>((ref) {
@@ -64,4 +65,10 @@ final adminServiceProvider = Provider<AdminService>((ref) {
 final adminRepositoryProvider = Provider<AdminRepository>((ref) {
   final service = ref.watch(adminServiceProvider);
   return AdminRepository(adminService: service);
+});
+
+// Settings Provider
+final settingsServiceProvider = Provider<SettingsService>((ref) {
+  final client = ref.watch(apiClientProvider);
+  return SettingsService(apiClient: client);
 });

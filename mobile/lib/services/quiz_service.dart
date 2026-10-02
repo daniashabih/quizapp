@@ -59,7 +59,34 @@ class QuizService {
         .toList();
   }
 
-  // Save quiz result
+  // Authoritative server-side quiz evaluation
+  Future<QuizResultModel> submitQuiz({
+    required String category,
+    required int session,
+    required Map<String, dynamic> answers,
+    int? timeTaken,
+    List<Map<String, dynamic>>? questionsSnapshot,
+  }) async {
+    final payload = <String, dynamic>{
+      'category': category,
+      'session': session,
+      'answers': answers,
+    };
+    if (timeTaken != null) payload['timeTaken'] = timeTaken;
+    if (questionsSnapshot != null) payload['questions'] = questionsSnapshot;
+
+    final response = await apiClient.post(
+      ApiEndpoints.submitQuiz,
+      data: payload,
+    );
+
+    final data = response.data as Map<String, dynamic>;
+    final resultData = data['result'] as Map<String, dynamic>? ?? data;
+
+    return QuizResultModel.fromJson(resultData);
+  }
+
+  // Save quiz result (legacy / fallback)
   Future<QuizResultModel> saveResult({
     required String category,
     required int session,

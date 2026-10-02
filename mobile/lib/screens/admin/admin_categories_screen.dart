@@ -74,7 +74,9 @@ class AdminCategoriesScreen extends ConsumerWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(
+          color: cat.isEnabled ? AppColors.border : AppColors.error.withValues(alpha: 0.3),
+        ),
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -82,7 +84,9 @@ class AdminCategoriesScreen extends ConsumerWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.1),
+            color: cat.isEnabled
+                ? AppColors.primary.withValues(alpha: 0.1)
+                : Colors.grey.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
           alignment: Alignment.center,
@@ -91,19 +95,72 @@ class AdminCategoriesScreen extends ConsumerWidget {
             style: AppTextStyles.displaySmall.copyWith(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: AppColors.primary,
+              color: cat.isEnabled ? AppColors.primary : Colors.grey,
             ),
           ),
         ),
-        title: Text(cat.name, style: AppTextStyles.labelBold.copyWith(fontSize: 16)),
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(
+                cat.name,
+                style: AppTextStyles.labelBold.copyWith(
+                  fontSize: 16,
+                  color: cat.isEnabled ? AppColors.textPrimary : AppColors.textSecondary,
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: cat.isEnabled
+                    ? AppColors.success.withValues(alpha: 0.12)
+                    : Colors.red.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                cat.isEnabled ? 'ACTIVE' : 'DISABLED',
+                style: AppTextStyles.mono.copyWith(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: cat.isEnabled ? AppColors.success : Colors.red,
+                ),
+              ),
+            ),
+          ],
+        ),
         subtitle: Text(
           '${cat.totalQuestions} questions across ${cat.sessions.length} sessions',
           style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary),
         ),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error),
-          tooltip: 'Delete Category',
-          onPressed: () => _confirmDeleteCategory(context, ref, cat),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Switch(
+              value: cat.isEnabled,
+              activeThumbColor: AppColors.primary,
+              activeTrackColor: AppColors.primary.withValues(alpha: 0.38),
+              onChanged: (val) async {
+                final success = await ref.read(adminControllerProvider.notifier).toggleCategoryStatus(cat.id, val);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(success
+                          ? 'Category "${cat.name}" is now ${val ? "Enabled" : "Disabled"}.'
+                          : 'Failed to update category status.'),
+                      backgroundColor: success ? AppColors.success : AppColors.error,
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                }
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error),
+              tooltip: 'Delete Category',
+              onPressed: () => _confirmDeleteCategory(context, ref, cat),
+            ),
+          ],
         ),
       ),
     );

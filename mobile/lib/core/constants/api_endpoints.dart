@@ -27,10 +27,20 @@ class ApiEndpoints {
   // Technologies / Categories
   static const String categories = '/categories';
 
+  // Quizzes & Authoritative Evaluation
+  static const String submitQuiz = '/quizzes/submit';
+
   // Results
   static const String saveResult = '/results/save';
   static const String myResults = '/results/my-results';
   static const String resultStats = '/results/stats';
+
+  // Central Platform Settings
+  static const String settings = '/settings';
+  static const String adminSettings = '/admin/settings';
+
+  // Public Certificates Verification
+  static const String verifyCertificate = '/certificates/verify';
 
   // Admin Specific
   static const String adminUsers = '/admin/users';

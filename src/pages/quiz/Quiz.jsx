@@ -10,40 +10,27 @@ import {
     BookmarkCheck, RefreshCw, Loader2, PlayCircle, RotateCcw, Clock, Trash2
 } from 'lucide-react';
 import attemptService from '../../services/attemptService';
-
-const defaultQuizOptions = {
-    passingScore: 70,
-    maxQuestions: 999,
-    randomizeQuestions: true,
-    shuffleOptions: false,
-    instantFeedback: true,
-    allowRetries: true,
-    negativeMarking: false,
-    showExplanations: true
-};
-
-const getQuizOptions = () => {
-    try {
-        const saved = localStorage.getItem('quiz_options');
-        if (!saved) return defaultQuizOptions;
-        const parsed = JSON.parse(saved);
-        if (parsed.maxQuestions === 10) {
-            parsed.maxQuestions = 999;
-        }
-        return { ...defaultQuizOptions, ...parsed };
-    } catch {
-        return defaultQuizOptions;
-    }
-};
+import { useSettings } from '../../context/SettingsContext';
 
 const Quiz = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { settings } = useSettings();
     const selectedCategory = location.state?.category || location.state?.language;
     const rawSession = location.state?.session;
     const isAllSessions = rawSession === 'all' || rawSession === 'All' || rawSession === 0;
     const selectedSession = isAllSessions ? 'all' : (parseInt(rawSession, 10) || 1);
-    const quizOpts = getQuizOptions();
+    
+    const quizOpts = {
+        passingScore: settings?.passingScore || 70,
+        maxQuestions: settings?.maxQuestions || 999,
+        randomizeQuestions: settings?.randomizeQuestions !== false,
+        shuffleOptions: settings?.shuffleOptions || false,
+        instantFeedback: settings?.instantFeedback !== false,
+        allowRetries: settings?.allowRetries !== false,
+        negativeMarking: settings?.negativeMarking || false,
+        showExplanations: settings?.showExplanations !== false
+    };
 
     const explicitAttemptId = location.state?.attemptId || null;
     const [attemptId, setAttemptId] = useState(explicitAttemptId);
@@ -400,27 +387,51 @@ const Quiz = () => {
     }, [selectedCategory, selectedSession, isAllSessions, explicitAttemptId, navigate, restoreAttempt, startFreshQuiz]);
 
     const handleSubmitQuiz = useCallback(async () => {
-        let score = 0;
+        const timeTaken = Math.round((Date.now() - startTime) / 1000);
+        const answeredCount = Object.keys(selectedAnswers).length;
+        const effectivePassingScore = settings?.passingScore || 70;
+
+        // Authoritative Server-Side Evaluation via /api/quizzes/submit
+        let evalResult = null;
+        try {
+            const submitRes = await axios.post('/quizzes/submit', {
+                category: selectedCategory,
+                session: isAllSessions ? 1 : selectedSession,
+                answers: selectedAnswers,
+                timeTaken,
+                questions: questions
+            });
+            if (submitRes.data?.success && submitRes.data?.result) {
+                evalResult = submitRes.data.result;
+            }
+        } catch (subErr) {
+            console.warn("Primary /quizzes/submit failed, falling back to local computation:", subErr);
+        }
+
+        // Local fallback calculation if offline or network failure
+        let fallbackScore = 0;
         questions.forEach(q => {
             const idx = selectedAnswers[q.id];
             if (idx !== undefined) {
                 let opts = q.options;
                 if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
-                if (normalizeValue(opts[idx]) === normalizeValue(q.correct_answer)) score++;
+                if (normalizeValue(opts[idx]) === normalizeValue(q.correct_answer)) fallbackScore++;
             }
         });
-        const percentage = questions.length > 0 ? Math.round((score / questions.length) * 100) : 0;
-        const timeTaken = Math.round((Date.now() - startTime) / 1000);
-        const answeredCount = Object.keys(selectedAnswers).length;
+        const fallbackPercentage = questions.length > 0 ? Math.round((fallbackScore / questions.length) * 100) : 0;
+
+        const finalScore = evalResult ? evalResult.score : fallbackScore;
+        const finalPercentage = evalResult ? evalResult.percentage : fallbackPercentage;
+        const finalPassed = evalResult ? evalResult.passed : (finalPercentage >= effectivePassingScore);
 
         // 1. Mark attempt as completed in database
         if (attemptIdRef.current) {
             try {
                 await attemptService.completeAttempt(attemptIdRef.current, {
-                    score,
+                    score: finalScore,
                     totalQuestions: questions.length,
                     answeredCount,
-                    progressPercentage: percentage,
+                    progressPercentage: finalPercentage,
                     answers: selectedAnswers
                 });
             } catch (attErr) {
@@ -428,38 +439,37 @@ const Quiz = () => {
             }
         }
 
-        // 2. Save result in quiz_results for certificates & rankings
-        try {
-            const res = await axios.post('/results/save', {
-                category: selectedCategory,
-                session: isAllSessions ? 1 : selectedSession,
-                score,
-                total: questions.length,
-                percentage,
-                difficulty: questions[0]?.difficulty || 'beginner'
-            });
-            if (res.data?.resultId) {
-                toast.success("Quiz completed and saved successfully!");
-            }
-        } catch (error) {
-            console.error("Error saving result:", error);
-            if (error.response?.status === 401) {
-                toast.info("Sign in to save and track your score in your dashboard.");
+        // 2. Save result in quiz_results if not already handled by /quizzes/submit
+        if (!evalResult) {
+            try {
+                await axios.post('/results/save', {
+                    category: selectedCategory,
+                    session: isAllSessions ? 1 : selectedSession,
+                    score: finalScore,
+                    total: questions.length,
+                    percentage: finalPercentage
+                });
+            } catch (error) {
+                console.warn("Fallback save result notice:", error?.message);
             }
         }
 
         setIsSubmitted(true);
         navigate('/quiz/result', {
             state: {
-                score,
-                total: questions.length,
-                percentage,
+                score: finalScore,
+                total: evalResult ? evalResult.total : questions.length,
+                percentage: finalPercentage,
+                passed: finalPassed,
+                passingScore: evalResult?.passingScore || effectivePassingScore,
+                isEligibleForCertificate: evalResult?.isEligibleForCertificate || (finalPercentage >= (settings?.certificatePassingScore || effectivePassingScore)),
+                certificateId: evalResult?.certificateId || null,
                 category: selectedCategory,
                 session: isAllSessions ? 'All' : selectedSession,
                 timeTaken,
             }
         });
-    }, [questions, selectedAnswers, startTime, selectedCategory, selectedSession, isAllSessions, navigate, normalizeValue]);
+    }, [questions, selectedAnswers, startTime, selectedCategory, selectedSession, isAllSessions, navigate, normalizeValue, settings]);
 
     // Keyboard Shortcuts Support
     useEffect(() => {

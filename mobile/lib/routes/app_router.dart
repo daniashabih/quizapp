@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../models/certificate_model.dart';
 import '../models/quiz_result_model.dart';
+import '../models/app_settings_model.dart';
 import '../providers/auth_provider.dart';
+import '../providers/settings_provider.dart';
 import '../screens/admin/admin_ai_generator_screen.dart';
 import '../screens/admin/admin_categories_screen.dart';
 import '../screens/admin/admin_dashboard_screen.dart';
@@ -20,6 +22,7 @@ import '../screens/home/home_screen.dart';
 import '../screens/home/main_shell_screen.dart';
 import '../screens/legal/privacy_policy_screen.dart';
 import '../screens/legal/terms_screen.dart';
+import '../screens/maintenance/maintenance_screen.dart';
 import '../screens/profile/profile_screen.dart';
 import '../screens/profile/settings_screen.dart';
 import '../screens/quiz/quiz_screen.dart';
@@ -39,6 +42,10 @@ class RouterNotifier extends ChangeNotifier {
   RouterNotifier(this._ref) {
     _ref.listen<AuthState>(
       authProvider,
+      (previous, next) => notifyListeners(),
+    );
+    _ref.listen<AppSettingsModel>(
+      settingsProvider,
       (previous, next) => notifyListeners(),
     );
   }
@@ -67,10 +74,23 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isAuth = auth.isAuthenticated;
       final isAdmin = auth.isAdmin;
 
+      // Central Maintenance Mode enforcement (Admins bypass maintenance)
+      final settings = ref.read(settingsProvider);
+      final isMaintenance = settings.maintenanceMode;
+      if (isMaintenance && !isAdmin) {
+        if (currentLoc != '/maintenance') {
+          return '/maintenance';
+        }
+        return null;
+      } else if (!isMaintenance && currentLoc == '/maintenance') {
+        return isAuth ? '/home' : '/login';
+      }
+
       final isPublicRoute = currentLoc == '/splash' ||
           currentLoc == '/login' ||
           currentLoc == '/register' ||
           currentLoc == '/forgot-password' ||
+          currentLoc == '/maintenance' ||
           currentLoc.startsWith('/legal');
 
       // Unauthenticated user trying to access protected screen
@@ -91,6 +111,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      // Maintenance
+      GoRoute(
+        path: '/maintenance',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const MaintenanceScreen(),
+      ),
+
       // Splash
       GoRoute(
         path: '/splash',

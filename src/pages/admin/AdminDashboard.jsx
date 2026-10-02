@@ -1426,41 +1426,63 @@ const AdminDashboard = () => {
                                     </div>
                                 );
                             }
-                            return filteredCats.map(cat => (
-                                <div key={cat.id} className="flex items-center justify-between p-3.5 card rounded-xl hover:bg-[var(--muted-bg)] transition-colors gap-3">
-                                    <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 flex-1 min-w-0">
-                                        <span className="text-xs font-bold text-[var(--foreground)] truncate">{cat.name}</span>
-                                        <div className="flex items-center gap-1.5 flex-wrap">
-                                            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-[var(--foreground-muted)] border border-[var(--card-border)] flex items-center gap-1">
-                                                <BookOpen size={10} /> {cat.questionCount !== undefined ? `${cat.questionCount} Questions` : '0 Questions'}
-                                            </span>
-                                            {Array.isArray(cat.sessions) && cat.sessions.length > 0 && (
-                                                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900/40 flex items-center gap-1">
-                                                    <Layers size={10} /> {cat.sessions.length === 1 ? `Session ${cat.sessions[0]}` : `Sessions: ${cat.sessions.join(', ')}`}
+                            return filteredCats.map(cat => {
+                                const isEnabled = cat.isEnabled !== false;
+                                return (
+                                    <div key={cat.id} className="flex items-center justify-between p-3.5 card rounded-xl hover:bg-[var(--muted-bg)] transition-colors gap-3">
+                                        <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3 flex-1 min-w-0">
+                                            <span className="text-xs font-bold text-[var(--foreground)] truncate">{cat.name}</span>
+                                            <div className="flex items-center gap-1.5 flex-wrap">
+                                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border flex items-center gap-1 ${
+                                                    isEnabled
+                                                        ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800/40'
+                                                        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 border-zinc-300 dark:border-zinc-700'
+                                                }`}>
+                                                    {isEnabled ? '● Active' : '○ Disabled'}
                                                 </span>
-                                            )}
+                                                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-[var(--foreground-muted)] border border-[var(--card-border)] flex items-center gap-1">
+                                                    <BookOpen size={10} /> {cat.questionCount !== undefined ? `${cat.questionCount} Questions` : '0 Questions'}
+                                                </span>
+                                                {Array.isArray(cat.sessions) && cat.sessions.length > 0 && (
+                                                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900/40 flex items-center gap-1">
+                                                        <Layers size={10} /> {cat.sessions.length === 1 ? `Session ${cat.sessions[0]}` : `Sessions: ${cat.sessions.join(', ')}`}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-1 shrink-0">
+                                            <button
+                                                type="button"
+                                                onClick={() => handleToggleCategory(cat)}
+                                                className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                                                    isEnabled
+                                                        ? 'text-emerald-600 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/30'
+                                                        : 'text-zinc-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/30'
+                                                }`}
+                                                title={isEnabled ? `Disable "${cat.name}"` : `Enable "${cat.name}"`}
+                                            >
+                                                {isEnabled ? <Eye size={14} /> : <EyeOff size={14} />}
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => { setEditingCategoryId(cat.id); setNewCategory(cat.name); }}
+                                                className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all cursor-pointer"
+                                                title={`Edit ${cat.name}`}
+                                            >
+                                                <Edit2 size={14} />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => openDeleteCategoryModal(cat)}
+                                                className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all cursor-pointer flex items-center gap-1"
+                                                title={`Delete category "${cat.name}"`}
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-1 shrink-0">
-                                        <button
-                                            type="button"
-                                            onClick={() => { setEditingCategoryId(cat.id); setNewCategory(cat.name); }}
-                                            className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-black hover:bg-[var(--muted-bg)] transition-all cursor-pointer"
-                                            title={`Edit ${cat.name}`}
-                                        >
-                                            <Edit2 size={14} />
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => openDeleteCategoryModal(cat)}
-                                            className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all cursor-pointer flex items-center gap-1"
-                                            title={`Delete category "${cat.name}"`}
-                                        >
-                                            <Trash2 size={14} />
-                                        </button>
-                                    </div>
-                                </div>
-                            ));
+                                );
+                            });
                         })()}
                     </div>
                 </div>
@@ -1499,15 +1521,24 @@ const AdminDashboard = () => {
                                             {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'N/A'}
                                         </td>
                                         <td className="px-6 py-3.5">
-                                            {u.role !== 'admin' && (
+                                            <div className="flex items-center gap-1.5">
                                                 <button
-                                                    onClick={() => handleDeleteUser(u.id)}
-                                                    className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all cursor-pointer"
-                                                    title="Delete user from database"
+                                                    onClick={() => handleToggleUserRole(u)}
+                                                    className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[#193D35] hover:bg-[var(--muted-bg)] transition-all cursor-pointer text-[11px] font-semibold flex items-center gap-1"
+                                                    title={`Toggle role (current: ${u.role || 'candidate'})`}
                                                 >
-                                                    <Trash2 size={14} />
+                                                    <Shield size={13} /> {u.role === 'admin' ? 'Demote' : 'Promote'}
                                                 </button>
-                                            )}
+                                                {u.role !== 'admin' && (
+                                                    <button
+                                                        onClick={() => handleDeleteUser(u.id)}
+                                                        className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all cursor-pointer"
+                                                        title="Delete user from database"
+                                                    >
+                                                        <Trash2 size={14} />
+                                                    </button>
+                                                )}
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -1534,7 +1565,7 @@ const AdminDashboard = () => {
                         </div>
 
                         <form onSubmit={handleSubmitQuestion} className="p-6 overflow-y-auto space-y-4">
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="space-y-1">
                                     <label className="input-label">Category</label>
                                     <select value={category} onChange={(e) => setCategory(e.target.value)} className="input-field text-xs py-2">
@@ -1554,14 +1585,6 @@ const AdminDashboard = () => {
                                         placeholder="1"
                                         required
                                     />
-                                </div>
-                                <div className="space-y-1">
-                                    <label className="input-label">Difficulty</label>
-                                    <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="input-field text-xs py-2">
-                                        <option value="beginner">Beginner</option>
-                                        <option value="intermediate">Intermediate</option>
-                                        <option value="expert">Expert</option>
-                                    </select>
                                 </div>
                             </div>
 

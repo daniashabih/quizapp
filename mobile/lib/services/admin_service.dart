@@ -100,6 +100,17 @@ class AdminService {
     await apiClient.delete('${ApiEndpoints.adminTechnologies}/$categoryId');
   }
 
+  // Update Category
+  Future<void> updateCategory(String categoryId, {String? name, bool? isEnabled}) async {
+    final Map<String, dynamic> data = {};
+    if (name != null) data['name'] = name;
+    if (isEnabled != null) data['isEnabled'] = isEnabled;
+    await apiClient.put(
+      '${ApiEndpoints.adminTechnologies}/$categoryId',
+      data: data,
+    );
+  }
+
   // Generate Questions with AI
   Future<void> generateAiQuestions({
     required String topic,

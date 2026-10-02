@@ -66,6 +66,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
         ),
         data: (categories) {
           final filtered = categories
+              .where((c) => c.isEnabled != false)
               .where((c) => c.name.toLowerCase().contains(_searchQuery.toLowerCase()))
               .toList();
 

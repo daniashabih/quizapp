@@ -121,6 +121,21 @@ class AdminController extends StateNotifier<AsyncValue<void>> {
     }
   }
 
+  Future<bool> toggleCategoryStatus(String categoryId, bool isEnabled) async {
+    state = const AsyncValue.loading();
+    try {
+      final repo = ref.read(adminRepositoryProvider);
+      await repo.updateCategory(categoryId, isEnabled: isEnabled);
+      ref.invalidate(categoriesProvider);
+      ref.invalidate(adminDashboardProvider);
+      state = const AsyncValue.data(null);
+      return true;
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      return false;
+    }
+  }
+
   Future<bool> generateAiQuestions({
     required String topic,
     required int session,
