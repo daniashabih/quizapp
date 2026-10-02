@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './styles/custom-toast.css';
 import { CustomToastIcon, CustomCloseButton } from "./components/CustomToast";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import { SettingsProvider, useSettings } from "./context/SettingsContext";
+import MaintenanceScreen from "./components/MaintenanceScreen";
 import SplashScreen from "./components/SplashScreen";
 
 // Auth Pages
@@ -42,70 +44,90 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 // SEO Dashboard
 import SeoDashboard from "./pages/seo/SeoDashboard";
 
-function AppContent() {
+function AppRoutes() {
+    const { user } = useAuth();
+    const { settings, refreshSettings } = useSettings();
+    const location = useLocation();
+
+    // If maintenance mode is active, show MaintenanceScreen to non-admin users
+    // (allow /login so admins can sign in and manage settings)
+    const isAdmin = user?.role === 'admin';
+    const isLoginRoute = location.pathname === '/login';
+
+    if (settings?.maintenanceMode && !isAdmin && !isLoginRoute) {
+        return <MaintenanceScreen message={settings?.maintenanceMessage} onRefresh={refreshSettings} />;
+    }
 
     return (
+        <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Landing />} />
+            <Route path="/technologies" element={<Technologies />} />
+            <Route path="/technologies/level" element={<Navigate to="/technologies" replace />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
+            <Route path="/certificate/view" element={<CertificateView />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/delete-account" element={<DeleteAccount />} />
+            <Route path="/account-deletion" element={<DeleteAccount />} />
+            <Route path="/data-deletion" element={<DeleteAccount />} />
+            <Route path="/seo" element={<Navigate to="/dashboard/seo" replace />} />
+
+            {/* Protected Quiz Routes */}
+            <Route element={<ProtectedRoute />}>
+                <Route path="/quiz/start" element={<Quiz />} />
+                <Route path="/quiz/result" element={<Result />} />
+            </Route>
+
+            {/* Protected Admin Routes */}
+            <Route path="/admin" element={<ProtectedRoute adminOnly><DashboardLayout /></ProtectedRoute>}>
+                <Route index element={<AdminDashboard />} />
+            </Route>
+
+            {/* Protected Dashboard Routes */}
+            <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+                <Route index element={<UserDashboard />} />
+                <Route path="technologies" element={<Technologies />} />
+                <Route path="technologies/level" element={<Navigate to="/dashboard/technologies" replace />} />
+                <Route path="quizzes" element={<Technologies />} />
+                <Route path="certificates" element={<Certificates />} />
+                <Route path="leaderboard" element={<Leaderboard />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="seo" element={<ProtectedRoute adminOnly><SeoDashboard /></ProtectedRoute>} />
+                <Route path="admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
+            </Route>
+        </Routes>
+    );
+}
+
+function AppContent() {
+    return (
         <AuthProvider>
-            <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<Landing />} />
-                <Route path="/technologies" element={<Technologies />} />
-                <Route path="/technologies/level" element={<Navigate to="/technologies" replace />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/reset-password/:token" element={<ResetPassword />} />
-                <Route path="/certificate/view" element={<CertificateView />} />
-                <Route path="/leaderboard" element={<Leaderboard />} />
-                <Route path="/privacy" element={<PrivacyPolicy />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                <Route path="/terms" element={<TermsOfService />} />
-                <Route path="/about" element={<AboutUs />} />
-                <Route path="/contact" element={<ContactUs />} />
-                <Route path="/delete-account" element={<DeleteAccount />} />
-                <Route path="/account-deletion" element={<DeleteAccount />} />
-                <Route path="/data-deletion" element={<DeleteAccount />} />
-                <Route path="/seo" element={<Navigate to="/dashboard/seo" replace />} />
-
-                {/* Protected Quiz Routes */}
-                <Route element={<ProtectedRoute />}>
-                    <Route path="/quiz/start" element={<Quiz />} />
-                    <Route path="/quiz/result" element={<Result />} />
-                </Route>
-
-                {/* Protected Admin Routes */}
-                <Route path="/admin" element={<ProtectedRoute adminOnly><DashboardLayout /></ProtectedRoute>}>
-                    <Route index element={<AdminDashboard />} />
-                </Route>
-
-                {/* Protected Dashboard Routes */}
-                <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
-                    <Route index element={<UserDashboard />} />
-                    <Route path="technologies" element={<Technologies />} />
-                    <Route path="technologies/level" element={<Navigate to="/dashboard/technologies" replace />} />
-                    <Route path="quizzes" element={<Technologies />} />
-                    <Route path="certificates" element={<Certificates />} />
-                    <Route path="leaderboard" element={<Leaderboard />} />
-                    <Route path="profile" element={<Profile />} />
-                    <Route path="settings" element={<Settings />} />
-                    <Route path="seo" element={<ProtectedRoute adminOnly><SeoDashboard /></ProtectedRoute>} />
-                    <Route path="admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
-                </Route>
-            </Routes>
-            <ToastContainer
-                position="top-right"
-                autoClose={3500}
-                hideProgressBar={false}
-                newestOnTop
-                closeOnClick
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                transition={Slide}
-                icon={CustomToastIcon}
-                closeButton={CustomCloseButton}
-            />
+            <SettingsProvider>
+                <AppRoutes />
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3500}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    transition={Slide}
+                    icon={CustomToastIcon}
+                    closeButton={CustomCloseButton}
+                />
+            </SettingsProvider>
         </AuthProvider>
     );
 }

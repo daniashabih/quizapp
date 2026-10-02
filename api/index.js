@@ -17,6 +17,10 @@ const resultRoutes = require('./_routes/resultRoutes');
 const activityRoutes = require('./_routes/activityRoutes');
 const dashboardRoutes = require('./_routes/dashboardRoutes');
 const attemptRoutes = require('./_routes/attemptRoutes');
+const settingRoutes = require('./_routes/settingRoutes');
+const quizRoutes = require('./_routes/quizRoutes');
+const certificateRoutes = require('./_routes/certificateRoutes');
+const userRoutes = require('./_routes/userRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -49,16 +53,19 @@ const authLimiter = rateLimit({
     }
 });
 
-// Routes
+// Centralized Routes
 app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/technologies', categoryRoutes);
+app.use('/api/quizzes', quizRoutes);
 app.use('/api/results', resultRoutes);
 app.use('/api/attempts', attemptRoutes);
-app.use('/api/certificates', dashboardRoutes);
+app.use('/api/certificates', certificateRoutes);
+app.use('/api/settings', settingRoutes);
 app.use('/api/activity', activityRoutes);
 
 app.get('/api/health', (req, res) => {

@@ -52,8 +52,9 @@ model QuizResult {
 }
 
 model Category {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String @unique
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  isEnabled Boolean? @default(true) @map("is_enabled")
 
   @@map("categories")
 }
@@ -79,4 +80,23 @@ model QuizAttempt {
   @@index([userId, status])
   @@index([userId, category, session, status])
   @@map("quiz_attempts")
+}
+
+model Setting {
+  id                      String   @id @default(auto()) @map("_id") @db.ObjectId
+  appName                 String   @default("HangBug") @map("app_name")
+  passingScore            Int      @default(70) @map("passing_score")
+  certificatePassingScore Int      @default(80) @map("certificate_passing_score")
+  quizTimerEnabled        Boolean  @default(false) @map("quiz_timer_enabled")
+  quizTimerSeconds        Int      @default(30) @map("quiz_timer_seconds")
+  adsEnabled              Boolean  @default(true) @map("ads_enabled")
+  maintenanceMode         Boolean  @default(false) @map("maintenance_mode")
+  maintenanceMessage      String   @default("HangBug is undergoing scheduled maintenance. We'll be back shortly!") @map("maintenance_message")
+  certificateEnabled      Boolean  @default(true) @map("certificate_enabled")
+  leaderboardEnabled      Boolean  @default(true) @map("leaderboard_enabled")
+  primaryColor            String   @default("#193D35") @map("primary_color")
+  secondaryColor          String   @default("#FFFFFF") @map("secondary_color")
+  updatedAt               DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("settings")
 }

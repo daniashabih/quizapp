@@ -11,10 +11,13 @@ const normalizeCategory = (name) => {
 const Category = {
     normalize: normalizeCategory,
 
-    create: async (name) => {
+    create: async (name, isEnabled = true) => {
         const cleanName = String(name || '').trim();
         const result = await prisma.category.create({
-            data: { name: cleanName }
+            data: {
+                name: cleanName,
+                isEnabled: isEnabled !== false
+            }
         });
         return result.id;
     },
@@ -61,24 +64,44 @@ const Category = {
                 const norm = normalizeCategory(cat.name);
                 const sessions = sessionMap[norm] ? Array.from(sessionMap[norm]).sort((a, b) => a - b) : [];
                 return {
-                    ...cat,
+                    id: cat.id,
+                    name: cat.name,
+                    isEnabled: cat.isEnabled !== false,
                     questionCount: countMap[norm] || 0,
                     sessions: sessions
                 };
             });
         } catch (err) {
             console.error('[Category Model Error]:', err);
-            return await prisma.category.findMany({
+            const fallback = await prisma.category.findMany({
                 orderBy: { name: 'asc' }
             });
+            return fallback.map(cat => ({
+                id: cat.id,
+                name: cat.name,
+                isEnabled: cat.isEnabled !== false,
+                questionCount: 0,
+                sessions: [1]
+            }));
         }
     },
 
-    update: async (id, name) => {
-        const cleanName = String(name || '').trim();
+    update: async (id, dataOrName) => {
+        const updateData = {};
+        if (typeof dataOrName === 'string') {
+            updateData.name = String(dataOrName).trim();
+        } else if (typeof dataOrName === 'object' && dataOrName !== null) {
+            if (dataOrName.name !== undefined) {
+                updateData.name = String(dataOrName.name).trim();
+            }
+            if (dataOrName.isEnabled !== undefined) {
+                updateData.isEnabled = Boolean(dataOrName.isEnabled);
+            }
+        }
+
         await prisma.category.update({
             where: { id: String(id) },
-            data: { name: cleanName }
+            data: updateData
         });
         return 1;
     },
@@ -110,27 +133,19 @@ const Category = {
 
         let deletedQuestions = 0;
         if (deleteQuestions && catName) {
-            const variations = Array.from(new Set([
-                catName,
-                catName.replace(/&/g, 'and'),
-                catName.replace(/\band\b/gi, '&')
-            ]));
-
-            const qResult = await prisma.question.deleteMany({
+            const res = await prisma.question.deleteMany({
                 where: {
-                    OR: variations.map(v => ({ category: { equals: v, mode: 'insensitive' } }))
+                    category: { equals: catName, mode: 'insensitive' }
                 }
-            }).catch(err => {
-                console.warn('[Category Model] Could not delete questions for category:', err.message);
-                return { count: 0 };
-            });
-            deletedQuestions = qResult?.count || 0;
+            }).catch(() => ({ count: 0 }));
+            deletedQuestions = res.count || 0;
         }
 
-        return { success: true, name: catName, deletedQuestions };
+        return {
+            name: catName,
+            deletedQuestions
+        };
     }
 };
 
 module.exports = Category;
-
-

@@ -6,21 +6,34 @@ import {
     Plus, Trash2, Save, X, Edit2, Users,
     ShieldCheck, Search, BookOpen, FolderOpen, Upload, Download, FileText, Layers,
     ChevronDown, Sparkles, Sliders, Percent, Shuffle, HelpCircle, AlertCircle,
-    CheckCircle2, RefreshCw, Bot, BarChart3, TrendingUp, Award, Activity
+    CheckCircle2, RefreshCw, Bot, BarChart3, TrendingUp, Award, Activity,
+    Eye, EyeOff, Shield, UserCheck, Wrench, Clock, Volume2, Palette
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import dashboardService from '../../services/dashboardService';
+import settingsService from '../../services/settingsService';
 
 const defaultQuizOptions = {
+    appName: 'HangBug',
     passingScore: 70, // percentage
+    certificatePassingScore: 70,
     maxQuestions: 999, // default all session questions
     randomizeQuestions: true,
     shuffleOptions: false,
     instantFeedback: true,
     allowRetries: true,
     negativeMarking: false,
-    showExplanations: true
+    showExplanations: true,
+    quizTimerEnabled: false,
+    quizTimerSeconds: 60,
+    adsEnabled: false,
+    maintenanceMode: false,
+    maintenanceMessage: "HangBug is undergoing scheduled upgrades and maintenance. We'll be back online momentarily!",
+    certificateEnabled: true,
+    leaderboardEnabled: true,
+    primaryColor: '#193D35',
+    secondaryColor: '#FFFFFF'
 };
 
 const AdminDashboard = () => {
@@ -48,15 +61,9 @@ const AdminDashboard = () => {
     const [isDeletingCategory, setIsDeletingCategory] = useState(false);
     const [categorySearchQuery, setCategorySearchQuery] = useState('');
 
-    // Quiz Options State
-    const [quizOptions, setQuizOptions] = useState(() => {
-        try {
-            const saved = localStorage.getItem('quiz_options');
-            return saved ? { ...defaultQuizOptions, ...JSON.parse(saved) } : defaultQuizOptions;
-        } catch {
-            return defaultQuizOptions;
-        }
-    });
+    // Central Platform & Quiz Settings State
+    const [quizOptions, setQuizOptions] = useState(defaultQuizOptions);
+    const [loadingSettings, setLoadingSettings] = useState(false);
 
     // Question Modal State
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -66,7 +73,6 @@ const AdminDashboard = () => {
     const [questionText, setQuestionText] = useState('');
     const [options, setOptions] = useState(['', '', '', '']);
     const [correctAnswer, setCorrectAnswer] = useState('');
-    const [difficulty, setDifficulty] = useState('beginner');
     const [explanation, setExplanation] = useState('');
     const [selectedSessionFilter, setSelectedSessionFilter] = useState('all');
 
@@ -83,9 +89,22 @@ const AdminDashboard = () => {
     // AI Generation State
     const [aiTopic, setAiTopic] = useState('');
     const [aiSession, setAiSession] = useState(1);
-    const [aiDifficulty, setAiDifficulty] = useState('beginner');
     const [aiCount, setAiCount] = useState(5);
     const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+
+    const fetchSettings = useCallback(async () => {
+        setLoadingSettings(true);
+        try {
+            const data = await settingsService.getSettings();
+            if (data) {
+                setQuizOptions(prev => ({ ...prev, ...data }));
+            }
+        } catch (err) {
+            console.error('Failed to load central settings:', err);
+        } finally {
+            setLoadingSettings(false);
+        }
+    }, []);
 
     const fetchAnalytics = useCallback(async () => {
         setLoadingAnalytics(true);
@@ -147,19 +166,21 @@ const AdminDashboard = () => {
             navigate('/');
             return;
         }
+        fetchSettings();
         fetchAnalytics();
         fetchQuestions();
         fetchCategories();
         if (activeTab === 'users') fetchUsers();
-    }, [user, navigate, activeTab, fetchAnalytics]);
+    }, [user, navigate, activeTab, fetchAnalytics, fetchSettings]);
 
-    const handleSaveQuizOptions = (e) => {
+    const handleSaveQuizOptions = async (e) => {
         e.preventDefault();
         try {
-            localStorage.setItem('quiz_options', JSON.stringify(quizOptions));
-            toast.success("Quiz options and rules saved successfully!");
+            const saved = await settingsService.updateSettings(quizOptions);
+            setQuizOptions(prev => ({ ...prev, ...saved }));
+            toast.success("Platform settings and quiz options saved to MongoDB Atlas!");
         } catch {
-            toast.error("Failed to save quiz options.");
+            toast.error("Failed to save platform settings.");
         }
     };
 
@@ -175,7 +196,6 @@ const AdminDashboard = () => {
             }
             setOptions(Array.isArray(parsedOptions) && parsedOptions.length >= 2 ? parsedOptions : ['', '', '', '']);
             setCorrectAnswer(question.correct_answer || '');
-            setDifficulty(question.difficulty || 'beginner');
             setExplanation(question.explanation || '');
         } else {
             setEditingQuestionId(null);
@@ -183,7 +203,6 @@ const AdminDashboard = () => {
             setQuestionText('');
             setOptions(['', '', '', '']);
             setCorrectAnswer('');
-            setDifficulty('beginner');
             setExplanation('');
             if (categories.length > 0) setCategory(categories[0].name);
         }
@@ -232,7 +251,6 @@ const AdminDashboard = () => {
                 question_text: questionText,
                 options: validOptions,
                 correct_answer: correctAnswer,
-                difficulty,
                 explanation
             };
             if (editingQuestionId) {
@@ -327,6 +345,29 @@ const AdminDashboard = () => {
         }
     };
 
+    const handleToggleUserRole = async (targetUser) => {
+        const nextRole = targetUser.role === 'admin' ? 'candidate' : 'admin';
+        if (!window.confirm(`Are you sure you want to change ${targetUser.name || targetUser.email}'s role to "${nextRole}"?`)) return;
+        try {
+            await axios.put(`/admin/users/${targetUser.id}/role`, { role: nextRole });
+            toast.success(`User role updated to ${nextRole}.`);
+            await fetchUsers();
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to update user role.");
+        }
+    };
+
+    const handleToggleCategory = async (cat) => {
+        try {
+            const nextStatus = cat.isEnabled === false ? true : false;
+            await axios.put(`/categories/${cat.id}`, { isEnabled: nextStatus });
+            toast.success(`Category "${cat.name}" is now ${nextStatus ? 'active' : 'disabled'}.`);
+            await fetchCategories();
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to update category status.");
+        }
+    };
+
     const handleGenerateAiQuestions = async (e) => {
         e.preventDefault();
         if (!aiTopic) return toast.error("Please enter or select a topic.");
@@ -335,7 +376,6 @@ const AdminDashboard = () => {
             const res = await axios.post('/questions/generate', {
                 topic: aiTopic,
                 session: parseInt(aiSession, 10) || 1,
-                difficulty: aiDifficulty,
                 count: Number(aiCount)
             });
             toast.success(res.data.message || `Generated ${aiCount} questions for ${aiTopic}!`);
@@ -937,9 +977,6 @@ const AdminDashboard = () => {
                                         <th className="px-4 py-3.5 text-[10px] font-bold text-[var(--foreground-secondary)] uppercase tracking-wider whitespace-nowrap text-center min-w-[90px]">
                                             Session
                                         </th>
-                                        <th className="px-4 py-3.5 text-[10px] font-bold text-[var(--foreground-secondary)] uppercase tracking-wider whitespace-nowrap text-center min-w-[100px]">
-                                            Difficulty
-                                        </th>
                                         <th className="px-5 py-3.5 text-[10px] font-bold text-[var(--foreground-secondary)] uppercase tracking-wider min-w-[320px]">
                                             Question Text
                                         </th>
@@ -954,7 +991,7 @@ const AdminDashboard = () => {
                                 <tbody className="divide-y divide-[var(--card-border)]">
                                     {filteredQuestions.length === 0 ? (
                                         <tr>
-                                            <td colSpan={6} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
+                                            <td colSpan={5} className="px-6 py-12 text-center text-sm text-[var(--foreground-muted)]">
                                                 No questions matching filter. <button onClick={() => openQuestionModal(null)} className="text-[#193D35] font-bold hover:underline cursor-pointer">Add one now</button>
                                             </td>
                                         </tr>
@@ -971,13 +1008,6 @@ const AdminDashboard = () => {
                                             <td className="px-4 py-3.5 align-middle text-center whitespace-nowrap">
                                                 <span className="inline-flex items-center justify-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#F4EFE6] text-[#42665B] border border-[#DCD8CE] shadow-2xs whitespace-nowrap">
                                                     Session {q.session || 1}
-                                                </span>
-                                            </td>
-
-                                            {/* Difficulty */}
-                                            <td className="px-4 py-3.5 align-middle text-center whitespace-nowrap">
-                                                <span className={`inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-[10px] font-bold capitalize border shadow-2xs whitespace-nowrap ${difficultyBadge(q.difficulty)}`}>
-                                                    {q.difficulty || 'beginner'}
                                                 </span>
                                             </td>
 
@@ -1030,145 +1060,221 @@ const AdminDashboard = () => {
                 </div>
             )}
 
-            {/* TAB 2: QUIZ RULES & OPTIONS */}
+            {/* TAB 2: CENTRAL PLATFORM & QUIZ SETTINGS */}
             {activeTab === 'settings' && (
                 <form onSubmit={handleSaveQuizOptions} className="card p-6 rounded-2xl space-y-6 max-w-4xl">
                     <div className="flex items-center justify-between border-b border-[var(--card-border)] pb-4">
                         <div>
                             <h2 className="text-lg font-display font-bold text-[var(--foreground)] flex items-center gap-2">
-                                <Sliders size={18} className="text-black" /> Global Quiz Options & Rules
+                                <Sliders size={18} className="text-[#193D35]" /> Central Settings & Quiz Rules
                             </h2>
                             <p className="text-xs text-[var(--foreground-muted)] mt-0.5">
-                                Configure passing score thresholds, shuffling, and candidate feedback settings.
+                                Single Source of Truth: Changes saved here automatically synchronize across React Web and Flutter Android clients.
                             </p>
                         </div>
-                        <button type="submit" className="btn-primary text-xs px-5 py-2">
-                            <Save size={14} /> Save Quiz Options
+                        <button type="submit" className="btn-primary text-xs px-5 py-2 flex items-center gap-1.5">
+                            <Save size={14} /> Save Platform Settings
                         </button>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Section 1: Platform & Maintenance Mode */}
+                    <div className="space-y-3">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--foreground-muted)] flex items-center gap-1.5">
+                            <ShieldCheck size={14} /> Platform Configuration
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-1.5">
+                                <label className="text-xs font-bold text-[var(--foreground)]">Application Name</label>
+                                <input
+                                    type="text"
+                                    value={quizOptions.appName || 'HangBug'}
+                                    onChange={(e) => setQuizOptions({ ...quizOptions, appName: e.target.value })}
+                                    className="input-field text-xs"
+                                    placeholder="HangBug"
+                                />
+                            </div>
 
-                        <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
-                            <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
-                                <Percent size={15} className="text-black" /> Minimum Passing Percentage
+                            <label className="flex items-center justify-between p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] cursor-pointer hover:border-[#193D35] transition-all">
+                                <div>
+                                    <span className="text-xs font-bold text-[var(--foreground)] block flex items-center gap-1.5">
+                                        <Wrench size={14} className={quizOptions.maintenanceMode ? 'text-amber-600' : 'text-[var(--foreground-muted)]'} />
+                                        Maintenance Mode
+                                    </span>
+                                    <span className="text-[11px] text-[var(--foreground-muted)]">
+                                        Temporarily block non-admin users across Web and Mobile.
+                                    </span>
+                                </div>
+                                <input
+                                    type="checkbox"
+                                    checked={quizOptions.maintenanceMode || false}
+                                    onChange={(e) => setQuizOptions({ ...quizOptions, maintenanceMode: e.target.checked })}
+                                    className="w-4 h-4 rounded border-[var(--card-border)] text-[#193D35]"
+                                />
                             </label>
-                            <p className="text-[11px] text-[var(--foreground-muted)]">Score required to pass and earn certificates.</p>
-                            <select
-                                value={quizOptions.passingScore}
-                                onChange={(e) => setQuizOptions({ ...quizOptions, passingScore: Number(e.target.value) })}
-                                className="input-field text-xs"
-                            >
-                                <option value={50}>50% - Basic Pass</option>
-                                <option value={60}>60% - Moderate</option>
-                                <option value={70}>70% - Standard (Recommended)</option>
-                                <option value={80}>80% - High Standard</option>
-                                <option value={90}>90% - Expert Level</option>
-                            </select>
                         </div>
 
-                        <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
-                            <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
-                                <BookOpen size={15} className="text-black" /> Questions Per Quiz Session
-                            </label>
-                            <p className="text-[11px] text-[var(--foreground-muted)]">Number of questions drawn into each test run.</p>
-                            <select
-                                value={quizOptions.maxQuestions}
-                                onChange={(e) => setQuizOptions({ ...quizOptions, maxQuestions: Number(e.target.value) })}
-                                className="input-field text-xs"
-                            >
-                                <option value={5}>5 Questions (Short Quiz)</option>
-                                <option value={10}>10 Questions (Standard)</option>
-                                <option value={15}>15 Questions (Detailed)</option>
-                                <option value={20}>20 Questions (Full Test)</option>
-                                <option value={999}>Unlimited (All Category Questions)</option>
-                            </select>
-                        </div>
+                        {quizOptions.maintenanceMode && (
+                            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 space-y-1.5 animate-fade-in">
+                                <label className="text-xs font-bold text-amber-900 dark:text-amber-300">Maintenance Notice Message</label>
+                                <textarea
+                                    value={quizOptions.maintenanceMessage || ''}
+                                    onChange={(e) => setQuizOptions({ ...quizOptions, maintenanceMessage: e.target.value })}
+                                    className="input-field text-xs min-h-[60px]"
+                                    placeholder="Enter user-facing maintenance message..."
+                                />
+                            </div>
+                        )}
+                    </div>
 
-                        <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-3">
-                            <span className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
-                                <Shuffle size={15} className="text-black" /> Question Shuffling & Randomization
-                            </span>
-                            <div className="space-y-2">
-                                <label className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)] cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        checked={quizOptions.randomizeQuestions}
-                                        onChange={(e) => setQuizOptions({ ...quizOptions, randomizeQuestions: e.target.checked })}
-                                        className="rounded border-[var(--card-border)] text-black focus:ring-[black]"
-                                    />
-                                    Randomize Question Order
+                    {/* Section 2: Assessment Thresholds & Scoring */}
+                    <div className="space-y-3 pt-2">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--foreground-muted)] flex items-center gap-1.5">
+                            <Award size={14} /> Passing Score & Certification
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
+                                <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
+                                    <Percent size={15} className="text-[#193D35]" /> Quiz Passing Percentage
                                 </label>
-                                <label className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)] cursor-pointer">
-                                    <input
-                                        type="checkbox"
-                                        checked={quizOptions.shuffleOptions}
-                                        onChange={(e) => setQuizOptions({ ...quizOptions, shuffleOptions: e.target.checked })}
-                                        className="rounded border-[var(--card-border)] text-black focus:ring-[black]"
-                                    />
-                                    Shuffle Answer Choice Positions
+                                <p className="text-[11px] text-[var(--foreground-muted)]">Minimum score required to mark test attempt as passed.</p>
+                                <select
+                                    value={quizOptions.passingScore || 70}
+                                    onChange={(e) => setQuizOptions({ ...quizOptions, passingScore: Number(e.target.value) })}
+                                    className="input-field text-xs"
+                                >
+                                    <option value={50}>50% - Basic Pass</option>
+                                    <option value={60}>60% - Moderate</option>
+                                    <option value={70}>70% - Standard (Recommended)</option>
+                                    <option value={75}>75% - Strict</option>
+                                    <option value={80}>80% - High Standard</option>
+                                    <option value={90}>90% - Expert Level</option>
+                                </select>
+                            </div>
+
+                            <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
+                                <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
+                                    <Award size={15} className="text-[#193D35]" /> Certificate Eligibility Threshold
                                 </label>
+                                <p className="text-[11px] text-[var(--foreground-muted)]">Minimum score to issue verified completion certificate.</p>
+                                <select
+                                    value={quizOptions.certificatePassingScore || quizOptions.passingScore || 70}
+                                    onChange={(e) => setQuizOptions({ ...quizOptions, certificatePassingScore: Number(e.target.value) })}
+                                    className="input-field text-xs"
+                                >
+                                    <option value={50}>50%</option>
+                                    <option value={60}>60%</option>
+                                    <option value={70}>70% (Standard)</option>
+                                    <option value={75}>75%</option>
+                                    <option value={80}>80% (Recommended)</option>
+                                    <option value={85}>85%</option>
+                                    <option value={90}>90%</option>
+                                </select>
                             </div>
                         </div>
                     </div>
 
-                    <div className="border-t border-[var(--card-border)] pt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[black] transition-all">
-                            <div>
-                                <span className="text-xs font-bold text-[var(--foreground)] block">Instant Answer Feedback</span>
-                                <span className="text-[11px] text-[var(--foreground-muted)]">Show correct/incorrect popup immediately upon answer selection.</span>
-                            </div>
-                            <input
-                                type="checkbox"
-                                checked={quizOptions.instantFeedback}
-                                onChange={(e) => setQuizOptions({ ...quizOptions, instantFeedback: e.target.checked })}
-                                className="w-4 h-4 rounded border-[var(--card-border)] text-black"
-                            />
-                        </label>
+                    {/* Section 3: Timer & Feature Flags */}
+                    <div className="space-y-3 pt-2">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--foreground-muted)] flex items-center gap-1.5">
+                            <Sliders size={14} /> Features & Controls
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#193D35] transition-all">
+                                <div>
+                                    <span className="text-xs font-bold text-[var(--foreground)] block">Enable Certificates</span>
+                                    <span className="text-[11px] text-[var(--foreground-muted)]">Issue verified certificates.</span>
+                                </div>
+                                <input
+                                    type="checkbox"
+                                    checked={quizOptions.certificateEnabled !== false}
+                                    onChange={(e) => setQuizOptions({ ...quizOptions, certificateEnabled: e.target.checked })}
+                                    className="w-4 h-4 rounded border-[var(--card-border)] text-[#193D35]"
+                                />
+                            </label>
 
-                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[black] transition-all">
-                            <div>
-                                <span className="text-xs font-bold text-[var(--foreground)] block">Show Explanations</span>
-                                <span className="text-[11px] text-[var(--foreground-muted)]">Provide explanations for questions on the result summary page.</span>
-                            </div>
-                            <input
-                                type="checkbox"
-                                checked={quizOptions.showExplanations}
-                                onChange={(e) => setQuizOptions({ ...quizOptions, showExplanations: e.target.checked })}
-                                className="w-4 h-4 rounded border-[var(--card-border)] text-black"
-                            />
-                        </label>
+                            <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#193D35] transition-all">
+                                <div>
+                                    <span className="text-xs font-bold text-[var(--foreground)] block">Leaderboard</span>
+                                    <span className="text-[11px] text-[var(--foreground-muted)]">Show candidate rankings.</span>
+                                </div>
+                                <input
+                                    type="checkbox"
+                                    checked={quizOptions.leaderboardEnabled !== false}
+                                    onChange={(e) => setQuizOptions({ ...quizOptions, leaderboardEnabled: e.target.checked })}
+                                    className="w-4 h-4 rounded border-[var(--card-border)] text-[#193D35]"
+                                />
+                            </label>
 
-                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[black] transition-all">
-                            <div>
-                                <span className="text-xs font-bold text-[var(--foreground)] block">Allow Quiz Retries</span>
-                                <span className="text-[11px] text-[var(--foreground-muted)]">Permit candidates to re-attempt tests after completion.</span>
-                            </div>
-                            <input
-                                type="checkbox"
-                                checked={quizOptions.allowRetries}
-                                onChange={(e) => setQuizOptions({ ...quizOptions, allowRetries: e.target.checked })}
-                                className="w-4 h-4 rounded border-[var(--card-border)] text-black"
-                            />
-                        </label>
-
-                        <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[black] transition-all">
-                            <div>
-                                <span className="text-xs font-bold text-[var(--foreground)] block">Negative Marking</span>
-                                <span className="text-[11px] text-[var(--foreground-muted)]">Deduct points for incorrect attempts to discourage guessing.</span>
-                            </div>
-                            <input
-                                type="checkbox"
-                                checked={quizOptions.negativeMarking}
-                                onChange={(e) => setQuizOptions({ ...quizOptions, negativeMarking: e.target.checked })}
-                                className="w-4 h-4 rounded border-[var(--card-border)] text-black"
-                            />
-                        </label>
+                            <label className="flex items-center justify-between p-3.5 rounded-xl bg-[var(--muted-bg)]/30 border border-[var(--card-border)] cursor-pointer hover:border-[#193D35] transition-all">
+                                <div>
+                                    <span className="text-xs font-bold text-[var(--foreground)] block">Advertisements</span>
+                                    <span className="text-[11px] text-[var(--foreground-muted)]">Toggle in-app ad placement.</span>
+                                </div>
+                                <input
+                                    type="checkbox"
+                                    checked={quizOptions.adsEnabled || false}
+                                    onChange={(e) => setQuizOptions({ ...quizOptions, adsEnabled: e.target.checked })}
+                                    className="w-4 h-4 rounded border-[var(--card-border)] text-[#193D35]"
+                                />
+                            </label>
+                        </div>
                     </div>
 
-                    <div className="flex justify-end pt-2">
-                        <button type="submit" className="btn-primary text-xs px-6 py-2.5">
-                            <Save size={15} /> Save All Quiz Settings
+                    {/* Section 4: Quiz Session Rules */}
+                    <div className="space-y-3 pt-2">
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--foreground-muted)] flex items-center gap-1.5">
+                            <BookOpen size={14} /> Question & Choice Shuffling
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-2">
+                                <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
+                                    <BookOpen size={15} className="text-[#193D35]" /> Questions Per Quiz Session
+                                </label>
+                                <p className="text-[11px] text-[var(--foreground-muted)]">Number of questions drawn into each test run.</p>
+                                <select
+                                    value={quizOptions.maxQuestions}
+                                    onChange={(e) => setQuizOptions({ ...quizOptions, maxQuestions: Number(e.target.value) })}
+                                    className="input-field text-xs"
+                                >
+                                    <option value={5}>5 Questions (Short Quiz)</option>
+                                    <option value={10}>10 Questions (Standard)</option>
+                                    <option value={15}>15 Questions (Detailed)</option>
+                                    <option value={20}>20 Questions (Full Test)</option>
+                                    <option value={999}>Unlimited (All Category Questions)</option>
+                                </select>
+                            </div>
+
+                            <div className="p-4 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)] space-y-3">
+                                <span className="text-xs font-bold text-[var(--foreground)] flex items-center gap-2">
+                                    <Shuffle size={15} className="text-[#193D35]" /> Shuffling Options
+                                </span>
+                                <div className="space-y-2">
+                                    <label className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)] cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            checked={quizOptions.randomizeQuestions}
+                                            onChange={(e) => setQuizOptions({ ...quizOptions, randomizeQuestions: e.target.checked })}
+                                            className="rounded border-[var(--card-border)] text-[#193D35] focus:ring-[#193D35]"
+                                        />
+                                        Randomize Question Order
+                                    </label>
+                                    <label className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)] cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            checked={quizOptions.shuffleOptions}
+                                            onChange={(e) => setQuizOptions({ ...quizOptions, shuffleOptions: e.target.checked })}
+                                            className="rounded border-[var(--card-border)] text-[#193D35] focus:ring-[#193D35]"
+                                        />
+                                        Shuffle Answer Choice Positions
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end pt-3 border-t border-[var(--card-border)]">
+                        <button type="submit" className="btn-primary text-xs px-6 py-2.5 flex items-center gap-2">
+                            <Save size={15} /> Save Platform Settings to MongoDB
                         </button>
                     </div>
                 </form>
@@ -1178,7 +1284,7 @@ const AdminDashboard = () => {
             {activeTab === 'ai' && (
                 <div className="card p-6 rounded-2xl space-y-6 max-w-3xl">
                     <div className="flex items-center gap-3 pb-4 border-b border-[var(--card-border)]">
-                        <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center text-white">
+                        <div className="w-10 h-10 rounded-xl bg-[#193D35] flex items-center justify-center text-white">
                             <Sparkles size={20} />
                         </div>
                         <div>
@@ -1204,20 +1310,7 @@ const AdminDashboard = () => {
                             />
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            <div className="space-y-1.5">
-                                <label className="input-label">Difficulty Level</label>
-                                <select
-                                    value={aiDifficulty}
-                                    onChange={(e) => setAiDifficulty(e.target.value)}
-                                    className="input-field text-xs py-2.5"
-                                >
-                                    <option value="beginner">Beginner</option>
-                                    <option value="intermediate">Intermediate</option>
-                                    <option value="expert">Expert</option>
-                                </select>
-                            </div>
-
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-1.5">
                                 <label className="input-label">Session Number</label>
                                 <input

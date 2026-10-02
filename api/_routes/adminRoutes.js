@@ -1,10 +1,12 @@
-﻿const express = require('express');
+const express = require('express');
 const router = express.Router();
 const { authMiddleware, adminMiddleware } = require('../_middlewares/authMiddleware');
 
 const { getAllUsers } = require('../_controllers/authController');
 const { getCategories, createCategory, updateCategory, deleteCategory } = require('../_controllers/categoryController');
 const { getQuestions, createQuestion, updateQuestion, deleteQuestion } = require('../_controllers/questionController');
+const { getSettings, updateSettings } = require('../_controllers/settingController');
+const Setting = require('../_models/settingModel');
 const prisma = require('../_config/prisma');
 
 // Enforce authentication & admin role across all /api/admin routes
@@ -17,6 +19,23 @@ router.delete('/users/:id', async (req, res) => {
         const { id } = req.params;
         await prisma.user.delete({ where: { id: String(id) } });
         res.json({ success: true, message: 'User deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+router.put('/users/:id/role', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { role } = req.body;
+        if (!['user', 'admin'].includes(role)) {
+            return res.status(400).json({ success: false, message: 'Role must be user or admin' });
+        }
+        const updated = await prisma.user.update({
+            where: { id: String(id) },
+            data: { role },
+            select: { id: true, name: true, email: true, role: true }
+        });
+        res.json({ success: true, message: `User role updated to ${role}`, user: updated });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });
     }
@@ -34,12 +53,18 @@ router.post('/questions', createQuestion);
 router.put('/questions/:id', updateQuestion);
 router.delete('/questions/:id', deleteQuestion);
 
-// 4. /api/admin/certificates
+// 4. /api/admin/settings
+router.get('/settings', getSettings);
+router.put('/settings', updateSettings);
+
+// 5. /api/admin/certificates
 router.get('/certificates', async (req, res) => {
     try {
-        // Return summary of certificates / results
+        const settings = await Setting.get();
+        const certPassingScore = settings.certificatePassingScore || 80;
+
         const results = await prisma.quizResult.findMany({
-            where: { percentage: { gte: 80 } },
+            where: { percentage: { gte: certPassingScore } },
             include: { user: { select: { id: true, name: true, email: true } } },
             orderBy: { createdAt: 'desc' }
         });
@@ -49,7 +74,7 @@ router.get('/certificates', async (req, res) => {
     }
 });
 
-// 5. /api/admin/results
+// 6. /api/admin/results
 router.get('/results', async (req, res) => {
     try {
         const results = await prisma.quizResult.findMany({
