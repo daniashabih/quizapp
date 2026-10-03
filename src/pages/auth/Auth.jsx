@@ -41,6 +41,8 @@ const loadGoogleGsiScript = () => {
     });
 };
 
+const DEFAULT_GOOGLE_CLIENT_ID = '540959878402-dm79psv3n2jtungji4cvm4s8j9eoes3o.apps.googleusercontent.com';
+
 export default function Auth({ initialMode = 'login' }) {
     const [isSignUp, setIsSignUp] = useState(initialMode === 'signup');
     const [name, setName] = useState('');
@@ -72,7 +74,7 @@ export default function Auth({ initialMode = 'login' }) {
 
     // Initialize Google One Tap if client ID is configured
     useEffect(() => {
-        const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+        const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID;
         if (!googleClientId || googleClientId.includes('your_google_client_id')) return;
 
         loadGoogleGsiScript().then((google) => {
@@ -108,7 +110,7 @@ export default function Auth({ initialMode = 'login' }) {
 
     const handleGoogleAuth = async () => {
         setErrorMessage('');
-        const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+        const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID;
         const isConfigured = Boolean(
             googleClientId && 
             !googleClientId.includes('your_google_client_id') && 
