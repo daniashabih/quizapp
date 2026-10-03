@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Express JS and Node JS,2,What is the role of Mongoose in the context of MongoDB and Node.js?,A front-end JavaScript framework,A package that acts as a bridge between Node.js and MongoDB,An Integrated Development Environment (IDE),A package manager for Node.js,A package that acts as a bridge between Node.js and MongoDB
+Express JS and Node JS,2,MongoDB is best described as which type of database system?,A relational SQL database system,A front-end rendering library,A server-side routing framework,A NoSQL database system,A NoSQL database system
+Express JS and Node JS,2,What is MongoDB Compass?,An Integrated Development Environment (IDE) / graphical interface for MongoDB,A query language for MongoDB,A package manager for Node.js,A front-end development framework,An Integrated Development Environment (IDE) / graphical interface for MongoDB
+Express JS and Node JS,2,From which website is the MongoDB Community Server installer downloaded in this session?,nodejs.org/en,reactjs.org/download,mongodb.com/try/download/community,npmjs.com/mongodb,mongodb.com/try/download/community
+Express JS and Node JS,2,Which MongoDB Community Server version is selected in the guide?,4.4.0,6.0.8,5.0.2,7.1.0,6.0.8
+Express JS and Node JS,2,Which platform is chosen when downloading MongoDB in the guide?,Linux ARM,macOS,Windows x86 (32-bit),Windows x64,Windows x64
+Express JS and Node JS,2,"In the Open File - Security Warning dialog, which button starts the MongoDB installation?",Run,Cancel,Download,Install Later,Run
+Express JS and Node JS,2,"What type of file is the downloaded MongoDB installer in the guide (for example, mongodb-installer.msi)?",A JavaScript module (.js),A compressed archive (.zip) that needs no installer,A Windows Installer Package (.msi),A PDF setup guide,A Windows Installer Package (.msi)
+Express JS and Node JS,2,How do you accept the MongoDB Community Server Agreement during setup?,Click Cancel and restart the wizard,"Check the box accepting the terms in the License Agreement, then click Next",Type 'I agree' in the Service Name field,Skip the screen – it is optional,"Check the box accepting the terms in the License Agreement, then click Next"
+Express JS and Node JS,2,Which setup type is selected on the Choose Setup Type screen?,Custom,Typical,Minimal,Complete,Complete
+Express JS and Node JS,2,"On the Service Configuration screen, how is the MongoDB service run?",As Network Service user,As a local or domain user,As an administrator-only console process,It is not installed as a service,As Network Service user
+Express JS and Node JS,2,What is the default service name kept on the Service Configuration screen?,MongoService,MERN,MongoDB,Compass,MongoDB
+Express JS and Node JS,2,"After the MongoDB installation finishes, which installer screen is displayed next?",The Node.js setup wizard,The MongoDB Compass installation screen,The npm configuration screen,The React application dashboard,The MongoDB Compass installation screen
+Express JS and Node JS,2,Which button is clicked on the 'Ready to Install' screen to begin installation with the chosen settings?,Finish,Back,Run,Install,Install
+Express JS and Node JS,2,Which button closes the installer at the 'Completing the MongoDB Setup Wizard' screen?,Finish,Next,Install,Cancel,Finish
+Express JS and Node JS,2,What happens when the MongoDB installation completes?,Node.js is installed automatically,A React app is created automatically,MongoDB Compass launches automatically with a user-friendly dashboard,The MongoDB service is removed,MongoDB Compass launches automatically with a user-friendly dashboard
+Express JS and Node JS,2,Which code editor is used in the guide to set up Mongoose?,Notepad++,Visual Studio Code (VS Code),Eclipse,Sublime Text,Visual Studio Code (VS Code)
+Express JS and Node JS,2,What is the name of the root project folder created for the Mongoose set-up?,Session02,frontend,MongoApp,MERN,MERN
+Express JS and Node JS,2,What is the name of the folder created inside the MERN folder?,Session02,frontend,node_modules,Express,Session02
+Express JS and Node JS,2,How do you open a terminal window within VS Code?,File → Terminal,Edit → Terminal,View → Terminal,Help → Terminal,View → Terminal
+Express JS and Node JS,2,Which command initializes a new Node.js application in the guide?,npm start,npm init -y,node init,npm install node,npm init -y
+Express JS and Node JS,2,Running npm init -y creates which file in the Session02 folder?,index.html,app.js,mongoose.config,package.json,package.json
+Express JS and Node JS,2,Which command installs the Mongoose package?,npm install mongoose,npm install -g mongoose-app,npm start mongoose,create-react-app mongoose,npm install mongoose
+Express JS and Node JS,2,What does the package.json file do in a Node.js project?,Stores database records,Contains user interface components,Defines project dependencies and metadata,Holds server-side logic,Defines project dependencies and metadata
+Express JS and Node JS,2,Which command is used in the guide to build a ReactJS app inside a folder named 'frontend'?,npm start frontend,create-react-app frontend,npm install express frontend,node frontend,create-react-app frontend
+Express JS and Node JS,2,What is the name of the folder in which the React app is built?,backend,public,react-app,frontend,frontend
+Express JS and Node JS,2,Which command installs the Express framework?,npm install express,npm install mongoose,npm install -g react,npm init express,npm install express
+Express JS and Node JS,2,"After installing Express and Mongoose, where are both added?",The index.html file,The MongoDB Compass dashboard,The package.json file,The Windows registry,The package.json file
+Express JS and Node JS,2,Which website is used to download Node.js?,mongodb.com,nodejs.org/en,reactjs.org,expressjs.com,nodejs.org/en
+Express JS and Node JS,2,Which edition of Node.js does the guide choose for a stable version?,Current,Nightly,Beta,Long Term Support (LTS),Long Term Support (LTS)
+Express JS and Node JS,2,Node.js is best described as which of the following?,"An open-source, cross-platform JavaScript runtime environment",A NoSQL database,A front-end UI library,A graphical database IDE,"An open-source, cross-platform JavaScript runtime environment"
+Express JS and Node JS,2,Who is shown as the Publisher in the Node.js installer security warning?,"MongoDB, Inc.",Microsoft Corporation,OpenJS Foundation,Meta Platforms,OpenJS Foundation
+Express JS and Node JS,2,How do you accept the Node.js license agreement in the setup wizard?,Press Cancel,Select the option to accept the terms in the License Agreement,Enter the service name,Close the wizard and reopen it,Select the option to accept the terms in the License Agreement
+Express JS and Node JS,2,Which setup option is selected to individually choose each Node.js subcomponent?,Complete,Typical,Express,Custom,Custom
+Express JS and Node JS,2,The 'Tools for Native Modules' screen offers tools to compile native modules. Which tools are mentioned?,Python and Visual Studio Build Tools,MongoDB and Compass,React and Express,Git and Docker,Python and Visual Studio Build Tools
+Express JS and Node JS,2,Which command navigates to the frontend folder before testing the React app?,cd .\Session02\mongoose,npm start frontend,cd .\frontend\,open frontend,cd .\frontend\
+Express JS and Node JS,2,Which command starts the local development server for the React application?,npm init -y,npm start,npm run mongoose,node install,npm start
+Express JS and Node JS,2,What is displayed in the browser after the React development server starts?,The MongoDB Compass welcome screen,The Node.js license agreement,An empty Express route table,A dashboard on localhost with the message to edit src/App.js and save to reload,A dashboard on localhost with the message to edit src/App.js and save to reload
+Express JS and Node JS,2,ReactJS applications are commonly built as which type of application for seamless user experiences?,Single-Page Applications (SPAs),Multi-Page Applications (MPAs),Command-line applications,Desktop-only applications,Single-Page Applications (SPAs)
+Express JS and Node JS,2,What is the role of Express in a Node.js application?,Provides a user interface for the application,Manages state in the front-end,Handles server-side routing and middleware,Controls database interactions,Handles server-side routing and middleware
+Express JS and Node JS,2,MongoDB is a relational SQL database system.,True,False,,,False
+Express JS and Node JS,2,Mongoose acts as a bridge between Node.js and MongoDB.,True,False,,,True
+Express JS and Node JS,2,MongoDB Compass can be installed along with MongoDB Community Server through the installer.,True,False,,,True
+Express JS and Node JS,2,Running npm init -y creates a package.json file in the project folder.,True,False,,,True
+Express JS and Node JS,2,Express is installed using the command npm install mongoose.,True,False,,,False
+Express JS and Node JS,2,The 'Current' edition of Node.js is the one recommended for a stable version.,True,False,,,False
+Express JS and Node JS,2,The command npm start launches the local development server for the React app.,True,False,,,True
+Express JS and Node JS,2,Installing Mongoose also downloads its dependencies into the project.,True,False,,,True
+Express JS and Node JS,2,"In the guide, the MongoDB service is run as Network Service user with the default service name MongoDB.",True,False,,,True
+Express JS and Node JS,2,ReactJS applications are commonly built as Multi-Page Applications (MPAs).,True,False,,,False

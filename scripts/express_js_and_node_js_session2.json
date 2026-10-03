@@ -1,0 +1,538 @@
+{
+  "category": "Express JS and Node JS",
+  "session": 2,
+  "title": "Session 2: Mongoose, MongoDB, Express & React Setup",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "What is the role of Mongoose in the context of MongoDB and Node.js?",
+      "options": [
+        "A front-end JavaScript framework",
+        "A package that acts as a bridge between Node.js and MongoDB",
+        "An Integrated Development Environment (IDE)",
+        "A package manager for Node.js"
+      ],
+      "correctAnswer": "A package that acts as a bridge between Node.js and MongoDB",
+      "explanation": "A package that acts as a bridge between Node.js and MongoDB. Mongoose connects Node.js applications to MongoDB and offers a convenient API for database operations."
+    },
+    {
+      "questionText": "MongoDB is best described as which type of database system?",
+      "options": [
+        "A relational SQL database system",
+        "A front-end rendering library",
+        "A server-side routing framework",
+        "A NoSQL database system"
+      ],
+      "correctAnswer": "A NoSQL database system",
+      "explanation": "A NoSQL database system. MongoDB is a popular NoSQL database offering high performance, scalability and flexibility."
+    },
+    {
+      "questionText": "What is MongoDB Compass?",
+      "options": [
+        "An Integrated Development Environment (IDE) / graphical interface for MongoDB",
+        "A query language for MongoDB",
+        "A package manager for Node.js",
+        "A front-end development framework"
+      ],
+      "correctAnswer": "An Integrated Development Environment (IDE) / graphical interface for MongoDB",
+      "explanation": "An Integrated Development Environment (IDE) / graphical interface for MongoDB. Compass is the official graphical user interface (IDE) for MongoDB."
+    },
+    {
+      "questionText": "From which website is the MongoDB Community Server installer downloaded in this session?",
+      "options": [
+        "nodejs.org/en",
+        "reactjs.org/download",
+        "mongodb.com/try/download/community",
+        "npmjs.com/mongodb"
+      ],
+      "correctAnswer": "mongodb.com/try/download/community",
+      "explanation": "mongodb.com/try/download/community. Step 1 of the MongoDB installation uses https://www.mongodb.com/try/download/community."
+    },
+    {
+      "questionText": "Which MongoDB Community Server version is selected in the guide?",
+      "options": [
+        "4.4.0",
+        "6.0.8",
+        "5.0.2",
+        "7.1.0"
+      ],
+      "correctAnswer": "6.0.8",
+      "explanation": "6.0.8. The guide selects version 6.0.8 for Windows x64."
+    },
+    {
+      "questionText": "Which platform is chosen when downloading MongoDB in the guide?",
+      "options": [
+        "Linux ARM",
+        "macOS",
+        "Windows x86 (32-bit)",
+        "Windows x64"
+      ],
+      "correctAnswer": "Windows x64",
+      "explanation": "Windows x64. Platform Windows x64 is selected before clicking Download."
+    },
+    {
+      "questionText": "In the Open File - Security Warning dialog, which button starts the MongoDB installation?",
+      "options": [
+        "Run",
+        "Cancel",
+        "Download",
+        "Install Later"
+      ],
+      "correctAnswer": "Run",
+      "explanation": "Run. Clicking Run in the dialog box starts the installation process."
+    },
+    {
+      "questionText": "What type of file is the downloaded MongoDB installer in the guide (for example, mongodb-installer.msi)?",
+      "options": [
+        "A JavaScript module (.js)",
+        "A compressed archive (.zip) that needs no installer",
+        "A Windows Installer Package (.msi)",
+        "A PDF setup guide"
+      ],
+      "correctAnswer": "A Windows Installer Package (.msi)",
+      "explanation": "A Windows Installer Package (.msi). The installer is a Windows Installer Package with the .msi extension, run by double-clicking it."
+    },
+    {
+      "questionText": "How do you accept the MongoDB Community Server Agreement during setup?",
+      "options": [
+        "Click Cancel and restart the wizard",
+        "Check the box accepting the terms in the License Agreement, then click Next",
+        "Type 'I agree' in the Service Name field",
+        "Skip the screen – it is optional"
+      ],
+      "correctAnswer": "Check the box accepting the terms in the License Agreement, then click Next",
+      "explanation": "Check the box accepting the terms in the License Agreement, then click Next. The EULA screen requires the acceptance box to be ticked before Next."
+    },
+    {
+      "questionText": "Which setup type is selected on the Choose Setup Type screen?",
+      "options": [
+        "Custom",
+        "Typical",
+        "Minimal",
+        "Complete"
+      ],
+      "correctAnswer": "Complete",
+      "explanation": "Complete. The Complete option installs all program features, including the configuration settings."
+    },
+    {
+      "questionText": "On the Service Configuration screen, how is the MongoDB service run?",
+      "options": [
+        "As Network Service user",
+        "As a local or domain user",
+        "As an administrator-only console process",
+        "It is not installed as a service"
+      ],
+      "correctAnswer": "As Network Service user",
+      "explanation": "As Network Service user. The guide chooses 'Run service as Network Service user'."
+    },
+    {
+      "questionText": "What is the default service name kept on the Service Configuration screen?",
+      "options": [
+        "MongoService",
+        "MERN",
+        "MongoDB",
+        "Compass"
+      ],
+      "correctAnswer": "MongoDB",
+      "explanation": "MongoDB. The service name is left as the default value, MongoDB."
+    },
+    {
+      "questionText": "After the MongoDB installation finishes, which installer screen is displayed next?",
+      "options": [
+        "The Node.js setup wizard",
+        "The MongoDB Compass installation screen",
+        "The npm configuration screen",
+        "The React application dashboard"
+      ],
+      "correctAnswer": "The MongoDB Compass installation screen",
+      "explanation": "The MongoDB Compass installation screen. The installer offers 'Install MongoDB Compass', and Next proceeds with its installation."
+    },
+    {
+      "questionText": "Which button is clicked on the 'Ready to Install' screen to begin installation with the chosen settings?",
+      "options": [
+        "Finish",
+        "Back",
+        "Run",
+        "Install"
+      ],
+      "correctAnswer": "Install",
+      "explanation": "Install. Click Install to begin installation; Back reviews settings, Cancel exits."
+    },
+    {
+      "questionText": "Which button closes the installer at the 'Completing the MongoDB Setup Wizard' screen?",
+      "options": [
+        "Finish",
+        "Next",
+        "Install",
+        "Cancel"
+      ],
+      "correctAnswer": "Finish",
+      "explanation": "Finish. Click Finish to exit the Setup Wizard."
+    },
+    {
+      "questionText": "What happens when the MongoDB installation completes?",
+      "options": [
+        "Node.js is installed automatically",
+        "A React app is created automatically",
+        "MongoDB Compass launches automatically with a user-friendly dashboard",
+        "The MongoDB service is removed"
+      ],
+      "correctAnswer": "MongoDB Compass launches automatically with a user-friendly dashboard",
+      "explanation": "MongoDB Compass launches automatically with a user-friendly dashboard. Compass launches and shows the 'Welcome to Compass' dashboard."
+    },
+    {
+      "questionText": "Which code editor is used in the guide to set up Mongoose?",
+      "options": [
+        "Notepad++",
+        "Visual Studio Code (VS Code)",
+        "Eclipse",
+        "Sublime Text"
+      ],
+      "correctAnswer": "Visual Studio Code (VS Code)",
+      "explanation": "Visual Studio Code (VS Code). Step 1 of Mongoose setup is to open Visual Studio Code."
+    },
+    {
+      "questionText": "What is the name of the root project folder created for the Mongoose set-up?",
+      "options": [
+        "Session02",
+        "frontend",
+        "MongoApp",
+        "MERN"
+      ],
+      "correctAnswer": "MERN",
+      "explanation": "MERN. MERN is the root directory for the project."
+    },
+    {
+      "questionText": "What is the name of the folder created inside the MERN folder?",
+      "options": [
+        "Session02",
+        "frontend",
+        "node_modules",
+        "Express"
+      ],
+      "correctAnswer": "Session02",
+      "explanation": "Session02. Session02 organizes the project files for this session."
+    },
+    {
+      "questionText": "How do you open a terminal window within VS Code?",
+      "options": [
+        "File → Terminal",
+        "Edit → Terminal",
+        "View → Terminal",
+        "Help → Terminal"
+      ],
+      "correctAnswer": "View → Terminal",
+      "explanation": "View → Terminal. Go to View → Terminal and navigate to the Session02 folder."
+    },
+    {
+      "questionText": "Which command initializes a new Node.js application in the guide?",
+      "options": [
+        "npm start",
+        "npm init -y",
+        "node init",
+        "npm install node"
+      ],
+      "correctAnswer": "npm init -y",
+      "explanation": "npm init -y. npm init -y converts the current folder into a Node.js application."
+    },
+    {
+      "questionText": "Running npm init -y creates which file in the Session02 folder?",
+      "options": [
+        "index.html",
+        "app.js",
+        "mongoose.config",
+        "package.json"
+      ],
+      "correctAnswer": "package.json",
+      "explanation": "package.json. The package.json file stores project information and dependencies."
+    },
+    {
+      "questionText": "Which command installs the Mongoose package?",
+      "options": [
+        "npm install mongoose",
+        "npm install -g mongoose-app",
+        "npm start mongoose",
+        "create-react-app mongoose"
+      ],
+      "correctAnswer": "npm install mongoose",
+      "explanation": "npm install mongoose. The command downloads and installs Mongoose and its dependencies into the project."
+    },
+    {
+      "questionText": "What does the package.json file do in a Node.js project?",
+      "options": [
+        "Stores database records",
+        "Contains user interface components",
+        "Defines project dependencies and metadata",
+        "Holds server-side logic"
+      ],
+      "correctAnswer": "Defines project dependencies and metadata",
+      "explanation": "Defines project dependencies and metadata. package.json describes the project and lists its dependencies."
+    },
+    {
+      "questionText": "Which command is used in the guide to build a ReactJS app inside a folder named 'frontend'?",
+      "options": [
+        "npm start frontend",
+        "create-react-app frontend",
+        "npm install express frontend",
+        "node frontend"
+      ],
+      "correctAnswer": "create-react-app frontend",
+      "explanation": "create-react-app frontend. create-react-app frontend creates the React application within the frontend folder."
+    },
+    {
+      "questionText": "What is the name of the folder in which the React app is built?",
+      "options": [
+        "backend",
+        "public",
+        "react-app",
+        "frontend"
+      ],
+      "correctAnswer": "frontend",
+      "explanation": "frontend. The ReactJS app is created within a folder named 'frontend'."
+    },
+    {
+      "questionText": "Which command installs the Express framework?",
+      "options": [
+        "npm install express",
+        "npm install mongoose",
+        "npm install -g react",
+        "npm init express"
+      ],
+      "correctAnswer": "npm install express",
+      "explanation": "npm install express. Express is installed using npm install express."
+    },
+    {
+      "questionText": "After installing Express and Mongoose, where are both added?",
+      "options": [
+        "The index.html file",
+        "The MongoDB Compass dashboard",
+        "The package.json file",
+        "The Windows registry"
+      ],
+      "correctAnswer": "The package.json file",
+      "explanation": "The package.json file. Both packages appear as dependencies in package.json."
+    },
+    {
+      "questionText": "Which website is used to download Node.js?",
+      "options": [
+        "mongodb.com",
+        "nodejs.org/en",
+        "reactjs.org",
+        "expressjs.com"
+      ],
+      "correctAnswer": "nodejs.org/en",
+      "explanation": "nodejs.org/en. The guide opens https://nodejs.org/en to download the installer."
+    },
+    {
+      "questionText": "Which edition of Node.js does the guide choose for a stable version?",
+      "options": [
+        "Current",
+        "Nightly",
+        "Beta",
+        "Long Term Support (LTS)"
+      ],
+      "correctAnswer": "Long Term Support (LTS)",
+      "explanation": "Long Term Support (LTS). Choose the LTS edition for stability; 'Current' offers the latest features."
+    },
+    {
+      "questionText": "Node.js is best described as which of the following?",
+      "options": [
+        "An open-source, cross-platform JavaScript runtime environment",
+        "A NoSQL database",
+        "A front-end UI library",
+        "A graphical database IDE"
+      ],
+      "correctAnswer": "An open-source, cross-platform JavaScript runtime environment",
+      "explanation": "An open-source, cross-platform JavaScript runtime environment. The Node.js download page describes it exactly this way."
+    },
+    {
+      "questionText": "Who is shown as the Publisher in the Node.js installer security warning?",
+      "options": [
+        "MongoDB, Inc.",
+        "Microsoft Corporation",
+        "OpenJS Foundation",
+        "Meta Platforms"
+      ],
+      "correctAnswer": "OpenJS Foundation",
+      "explanation": "OpenJS Foundation. The security warning lists the publisher as OpenJS Foundation."
+    },
+    {
+      "questionText": "How do you accept the Node.js license agreement in the setup wizard?",
+      "options": [
+        "Press Cancel",
+        "Select the option to accept the terms in the License Agreement",
+        "Enter the service name",
+        "Close the wizard and reopen it"
+      ],
+      "correctAnswer": "Select the option to accept the terms in the License Agreement",
+      "explanation": "Select the option to accept the terms in the License Agreement. Acknowledging the agreement is required before proceeding."
+    },
+    {
+      "questionText": "Which setup option is selected to individually choose each Node.js subcomponent?",
+      "options": [
+        "Complete",
+        "Typical",
+        "Express",
+        "Custom"
+      ],
+      "correctAnswer": "Custom",
+      "explanation": "Custom. The Custom option lets you choose each subcomponent individually."
+    },
+    {
+      "questionText": "The 'Tools for Native Modules' screen offers tools to compile native modules. Which tools are mentioned?",
+      "options": [
+        "Python and Visual Studio Build Tools",
+        "MongoDB and Compass",
+        "React and Express",
+        "Git and Docker"
+      ],
+      "correctAnswer": "Python and Visual Studio Build Tools",
+      "explanation": "Python and Visual Studio Build Tools. Some npm modules need to be compiled from C/C++, so these tools may be needed."
+    },
+    {
+      "questionText": "Which command navigates to the frontend folder before testing the React app?",
+      "options": [
+        "cd .\\Session02\\mongoose",
+        "npm start frontend",
+        "cd .\\frontend\\",
+        "open frontend"
+      ],
+      "correctAnswer": "cd .\\frontend\\",
+      "explanation": "cd .\\frontend\\. Use cd .\\frontend\\ in the terminal."
+    },
+    {
+      "questionText": "Which command starts the local development server for the React application?",
+      "options": [
+        "npm init -y",
+        "npm start",
+        "npm run mongoose",
+        "node install"
+      ],
+      "correctAnswer": "npm start",
+      "explanation": "npm start. npm start launches the dev server and opens the browser."
+    },
+    {
+      "questionText": "What is displayed in the browser after the React development server starts?",
+      "options": [
+        "The MongoDB Compass welcome screen",
+        "The Node.js license agreement",
+        "An empty Express route table",
+        "A dashboard on localhost with the message to edit src/App.js and save to reload"
+      ],
+      "correctAnswer": "A dashboard on localhost with the message to edit src/App.js and save to reload",
+      "explanation": "A dashboard on localhost with the message to edit src/App.js and save to reload. The default React page tells you to edit src/App.js and save to reload."
+    },
+    {
+      "questionText": "ReactJS applications are commonly built as which type of application for seamless user experiences?",
+      "options": [
+        "Single-Page Applications (SPAs)",
+        "Multi-Page Applications (MPAs)",
+        "Command-line applications",
+        "Desktop-only applications"
+      ],
+      "correctAnswer": "Single-Page Applications (SPAs)",
+      "explanation": "Single-Page Applications (SPAs). The summary states that React apps are commonly built as SPAs."
+    },
+    {
+      "questionText": "What is the role of Express in a Node.js application?",
+      "options": [
+        "Provides a user interface for the application",
+        "Manages state in the front-end",
+        "Handles server-side routing and middleware",
+        "Controls database interactions"
+      ],
+      "correctAnswer": "Handles server-side routing and middleware",
+      "explanation": "Handles server-side routing and middleware. Express is the web application framework for Node.js handling routing and middleware."
+    },
+    {
+      "questionText": "MongoDB is a relational SQL database system.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "MongoDB is a NoSQL database system."
+    },
+    {
+      "questionText": "Mongoose acts as a bridge between Node.js and MongoDB.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "This is the defining role of Mongoose."
+    },
+    {
+      "questionText": "MongoDB Compass can be installed along with MongoDB Community Server through the installer.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "The installer offers an 'Install MongoDB Compass' option."
+    },
+    {
+      "questionText": "Running npm init -y creates a package.json file in the project folder.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "package.json stores project info and dependencies."
+    },
+    {
+      "questionText": "Express is installed using the command npm install mongoose.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "Express uses npm install express; Mongoose uses npm install mongoose."
+    },
+    {
+      "questionText": "The 'Current' edition of Node.js is the one recommended for a stable version.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "The LTS edition is the stable choice."
+    },
+    {
+      "questionText": "The command npm start launches the local development server for the React app.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "The browser then opens with the default React dashboard."
+    },
+    {
+      "questionText": "Installing Mongoose also downloads its dependencies into the project.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "The install command fetches Mongoose and its dependencies."
+    },
+    {
+      "questionText": "In the guide, the MongoDB service is run as Network Service user with the default service name MongoDB.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Both settings are kept at the guide's defaults."
+    },
+    {
+      "questionText": "ReactJS applications are commonly built as Multi-Page Applications (MPAs).",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "They are commonly built as Single-Page Applications (SPAs)."
+    }
+  ]
+}
