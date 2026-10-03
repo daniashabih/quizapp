@@ -206,15 +206,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
 
-      // Quiz execution screen (fullscreen)
+      // Quiz execution screen (fullscreen) - supports both /quiz and /quiz/play
       GoRoute(
         path: '/quiz',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) {
-          final category = state.uri.queryParameters['category'] ?? 'JavaScript';
-          final session = int.tryParse(state.uri.queryParameters['session'] ?? '1') ?? 1;
-          return QuizScreen(category: category, session: session);
-        },
+        builder: (context, state) => _buildQuizScreen(state),
+      ),
+      GoRoute(
+        path: '/quiz/play',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => _buildQuizScreen(state),
       ),
 
       // Quiz result screen
@@ -290,3 +291,23 @@ final routerProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
+
+Widget _buildQuizScreen(GoRouterState state) {
+  String? category;
+  int? session;
+
+  if (state.extra is Map) {
+    final map = state.extra as Map;
+    if (map['category'] != null) {
+      category = map['category'].toString();
+    }
+    if (map['session'] != null) {
+      session = int.tryParse(map['session'].toString());
+    }
+  }
+
+  category ??= state.uri.queryParameters['category'] ?? 'JavaScript';
+  session ??= int.tryParse(state.uri.queryParameters['session'] ?? '1') ?? 1;
+
+  return QuizScreen(category: category, session: session);
+}
