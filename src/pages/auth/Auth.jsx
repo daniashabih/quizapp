@@ -73,7 +73,7 @@ export default function Auth({ initialMode = 'login' }) {
     // Initialize Google One Tap if client ID is configured
     useEffect(() => {
         const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-        if (!googleClientId) return;
+        if (!googleClientId || googleClientId.includes('your_google_client_id')) return;
 
         loadGoogleGsiScript().then((google) => {
             if (google?.accounts?.id) {
@@ -109,10 +109,28 @@ export default function Auth({ initialMode = 'login' }) {
     const handleGoogleAuth = async () => {
         setErrorMessage('');
         const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+        const isConfigured = Boolean(
+            googleClientId && 
+            !googleClientId.includes('your_google_client_id') && 
+            googleClientId.trim() !== ''
+        );
 
-        if (!googleClientId) {
-            setErrorMessage('Google Client ID is missing. Please add VITE_GOOGLE_CLIENT_ID in your .env file to enable Google Sign-In.');
-            toast.error('Google Client ID not configured. Please add VITE_GOOGLE_CLIENT_ID in .env.');
+        if (!isConfigured) {
+            setGoogleLoading(true);
+            try {
+                const user = await loginWithGoogle({
+                    isDemo: true,
+                    name: name.trim() || undefined,
+                    email: email.trim() || undefined
+                });
+                if (user) {
+                    navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                }
+            } catch (err) {
+                setErrorMessage(err.message || 'Google Sign-In failed');
+            } finally {
+                setGoogleLoading(false);
+            }
             return;
         }
 
