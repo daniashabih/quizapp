@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, Check, X, ShieldAlert } from 'lucide-react';
+import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, Check, X, ShieldAlert, Sparkles } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import Navbar from '../../components/Navbar';
@@ -187,6 +187,25 @@ export default function Auth({ initialMode = 'login' }) {
         }
     };
 
+    const handleInstantDemoGoogleLogin = async () => {
+        setErrorMessage('');
+        setGoogleLoading(true);
+        try {
+            const user = await loginWithGoogle({
+                isDemo: true,
+                name: name.trim() || undefined,
+                email: email.trim() || undefined
+            });
+            if (user) {
+                navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+            }
+        } catch (err) {
+            setErrorMessage(err.message || 'Instant demo login failed');
+        } finally {
+            setGoogleLoading(false);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage('');
@@ -278,7 +297,7 @@ export default function Auth({ initialMode = 'login' }) {
                             type="button"
                             onClick={handleGoogleAuth}
                             disabled={loading || googleLoading}
-                            className="btn-social text-xs sm:text-sm mb-4 w-full flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            className="btn-social text-xs sm:text-sm mb-2.5 w-full flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                         >
                             {googleLoading ? (
                                 <div className="w-4 h-4 border-2 border-[#163B34] border-t-transparent rounded-full animate-spin" />
@@ -286,6 +305,18 @@ export default function Auth({ initialMode = 'login' }) {
                                 <GoogleIcon />
                             )}
                             <span>{googleLoading ? 'Connecting to Google...' : (isSignUp ? 'Sign up with Google' : 'Continue with Google')}</span>
+                        </button>
+
+                        {/* Instant 1-Click Google Test Account */}
+                        <button
+                            type="button"
+                            onClick={handleInstantDemoGoogleLogin}
+                            disabled={loading || googleLoading}
+                            className="w-full py-2 px-3 mb-4 rounded-xl text-[11px] font-semibold text-[#163B34] bg-[#EAF5F2] hover:bg-[#D5EBE6] border border-[#163B34]/20 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                            title="Instant 1-click Google test account without needing Google Cloud origin setup"
+                        >
+                            <Sparkles size={13} className="text-[#D19A45]" />
+                            <span>Instant 1-Click Google Account (Skip Setup)</span>
                         </button>
 
                         <div className="relative mb-4">
