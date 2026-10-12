@@ -1,0 +1,544 @@
+{
+  "category": "SQL Server",
+  "session": 3,
+  "title": "Session 3: Architecture, Tools, Services, and System Databases — SQL Server",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "SQL Server is a Relational Database Management System developed by which company?",
+      "options": [
+        "Oracle",
+        "SAP",
+        "IBM",
+        "Microsoft"
+      ],
+      "correctAnswer": "Microsoft",
+      "explanation": "SQL Server is Microsoft's enterprise-level RDBMS."
+    },
+    {
+      "questionText": "In which month and year was SQL Server 2019 launched?",
+      "options": [
+        "March 2020",
+        "January 2018",
+        "June 2017",
+        "November 2019"
+      ],
+      "correctAnswer": "November 2019",
+      "explanation": "Microsoft launched SQL Server 2019 in November 2019."
+    },
+    {
+      "questionText": "The first version of SQL Server was released in which year?",
+      "options": [
+        "1989",
+        "1979",
+        "2000",
+        "1995"
+      ],
+      "correctAnswer": "1989",
+      "explanation": "Version history begins with SQL Server 1.0 in 1989."
+    },
+    {
+      "questionText": "Which three major heads make up the basic architecture of SQL Server 2019?",
+      "options": [
+        "Tables, Views, and Indexes",
+        "Clients, Servers, and Routers",
+        "Tools, Services, and Instances",
+        "Logins, Roles, and Schemas"
+      ],
+      "correctAnswer": "Tools, Services, and Instances",
+      "explanation": "The architecture is represented under Tools, Services, and Instances."
+    },
+    {
+      "questionText": "Which GUI-based tool is used to create databases, query data, and manage SQL Server?",
+      "options": [
+        "SQL Server Management Studio (SSMS)",
+        "ODBC",
+        "SQLCMD",
+        "SQL Server Profiler"
+      ],
+      "correctAnswer": "SQL Server Management Studio (SSMS)",
+      "explanation": "SSMS is the GUI-based application for creating, querying, and managing databases."
+    },
+    {
+      "questionText": "Which of the following is a command-line tool in SQL Server?",
+      "options": [
+        "SSDT",
+        "SSMS",
+        "SQLCMD",
+        "SSRS"
+      ],
+      "correctAnswer": "SQLCMD",
+      "explanation": "SQLCMD performs functions similar to SSMS, but in command format only."
+    },
+    {
+      "questionText": "SQL Server Configuration Manager is used by database administrators to:",
+      "options": [
+        "Configure services, server protocols, client protocols, and client aliases",
+        "Design reports in Visual Studio",
+        "Monitor query plans graphically",
+        "Write Transact-SQL scripts"
+      ],
+      "correctAnswer": "Configure services, server protocols, client protocols, and client aliases",
+      "explanation": "It manages features of SQL software installed on client machines; it is not available to all users."
+    },
+    {
+      "questionText": "SQL Server Profiler is used to:",
+      "options": [
+        "Monitor an instance of the Database Engine or Analysis Services",
+        "Install SQL Server features",
+        "Create ODBC drivers",
+        "Design business intelligence solutions"
+      ],
+      "correctAnswer": "Monitor an instance of the Database Engine or Analysis Services",
+      "explanation": "Profiler monitors Database Engine or Analysis Services instances."
+    },
+    {
+      "questionText": "What does SSDT stand for?",
+      "options": [
+        "SQL Server Data Tools",
+        "SQL Server Diagnostic Tools",
+        "SQL Server Database Tracking",
+        "SQL Server Deterministic Tools"
+      ],
+      "correctAnswer": "SQL Server Data Tools",
+      "explanation": "SSDT is an IDE for Business Intelligence components that uses Microsoft Visual Studio."
+    },
+    {
+      "questionText": "Which of the following statements about the tools in SQL Server 2019 are true?\n(a) SQL Server Installation Center can be used to add, remove, and modify SQL Server programs.\n(b) SQLCMD is an IDE used for Business Intelligence components.\n(c) SQL Server Profiler is used to monitor an instance of the Database Engine or Analysis Services.\n(d) SQL Server Installation Center helps develop databases and query data.",
+      "options": [
+        "(c) and (d) only",
+        "(b), (c), and (d)",
+        "(a) and (c) only",
+        "(a), (b), and (c)"
+      ],
+      "correctAnswer": "(a) and (c) only",
+      "explanation": "SQLCMD is a command-line tool (not an IDE), and SSMS, not Installation Center, develops and queries databases."
+    },
+    {
+      "questionText": "Which of the following is NOT a connectivity tool in SQL Server?",
+      "options": [
+        "OLE DB",
+        "DB-Library",
+        "SQLCMD",
+        "ODBC"
+      ],
+      "correctAnswer": "SQLCMD",
+      "explanation": "Connectivity tools include DB-Library, ODBC, and OLE DB. SQLCMD is a command-line tool."
+    },
+    {
+      "questionText": "Which service is the core service used for storing, processing, and securing data?",
+      "options": [
+        "Database Engine",
+        "Reporting Services",
+        "Integration Services",
+        "Master Data Services"
+      ],
+      "correctAnswer": "Database Engine",
+      "explanation": "The Database Engine is the core service; it also supports replication, full-text search, and DQS."
+    },
+    {
+      "questionText": "Which SQL Server service is used to create and manage OLAP and is also used in data mining applications?",
+      "options": [
+        "Integration Services (SSIS)",
+        "Reporting Services (SSRS)",
+        "Master Data Services (MDS)",
+        "Analysis Services (SSAS)"
+      ],
+      "correctAnswer": "Analysis Services (SSAS)",
+      "explanation": "SSAS provides OLAP and data mining capabilities."
+    },
+    {
+      "questionText": "Which service helps create, manage, publish, and deploy reports in tabular, matrix, graphical, or free-form format?",
+      "options": [
+        "Database Engine",
+        "Reporting Services (SSRS)",
+        "Analysis Services (SSAS)",
+        "Integration Services (SSIS)"
+      ],
+      "correctAnswer": "Reporting Services (SSRS)",
+      "explanation": "SSRS handles report creation, management, publishing, and deployment."
+    },
+    {
+      "questionText": "Which service is used for moving, copying, and transforming data using graphical tools and programmable objects?",
+      "options": [
+        "Reporting Services (SSRS)",
+        "Master Data Services (MDS)",
+        "Integration Services (SSIS)",
+        "Analysis Services (SSAS)"
+      ],
+      "correctAnswer": "Integration Services (SSIS)",
+      "explanation": "SSIS builds high-performance data integration solutions."
+    },
+    {
+      "questionText": "Which statement about SQL Server instances is correct?",
+      "options": [
+        "Only one instance can exist per computer",
+        "Instances cannot be customized",
+        "Multiple instances can run on one computer and work in isolation from each other",
+        "Instances always share the same permissions"
+      ],
+      "correctAnswer": "Multiple instances can run on one computer and work in isolation from each other",
+      "explanation": "Instances work in isolation; each can be customized and given its own permissions and resources."
+    },
+    {
+      "questionText": "An instance can be thought of as:",
+      "options": [
+        "A type of index",
+        "A bigger container holding sub-containers such as databases, security options, and server objects",
+        "A stored procedure",
+        "A single table"
+      ],
+      "correctAnswer": "A bigger container holding sub-containers such as databases, security options, and server objects",
+      "explanation": "The book describes an instance as a bigger container for databases, security options, server objects, and so on."
+    },
+    {
+      "questionText": "Which edition offers up to 24 cores of CPU and up to 128 GB of memory for the buffer pool?",
+      "options": [
+        "Express",
+        "Developer",
+        "Enterprise",
+        "Standard"
+      ],
+      "correctAnswer": "Standard",
+      "explanation": "Standard edition: up to 24 cores and 128 GB memory (per the course material)."
+    },
+    {
+      "questionText": "Which edition supports unlimited CPU cores and unlimited memory for the buffer pool?",
+      "options": [
+        "Enterprise",
+        "Standard",
+        "Express",
+        "Web"
+      ],
+      "correctAnswer": "Enterprise",
+      "explanation": "Enterprise provides unlimited cores and memory, targeting top-tier applications."
+    },
+    {
+      "questionText": "Developer Edition of SQL Server 2019 is best described as:",
+      "options": [
+        "Free, with all Enterprise features, licensed only for non-production development and test use",
+        "An edition only for Linux",
+        "A paid edition for production use",
+        "A cut-down edition with no encryption"
+      ],
+      "correctAnswer": "Free, with all Enterprise features, licensed only for non-production development and test use",
+      "explanation": "Developer Edition is free and includes all Enterprise features for dev/test use."
+    },
+    {
+      "questionText": "Which features were added in SQL Server 2016?",
+      "options": [
+        "Dynamic data masking, Row-level security, and Always Encrypted",
+        "Native UTF-8 support",
+        "Big Data Clusters with Apache Spark",
+        "Accelerated database recovery"
+      ],
+      "correctAnswer": "Dynamic data masking, Row-level security, and Always Encrypted",
+      "explanation": "These security features arrived in SQL Server 2016."
+    },
+    {
+      "questionText": "Which feature was introduced with SQL Server 2017?",
+      "options": [
+        "Intelligent Query Processing",
+        "Support for Linux (RHEL, SLES, Ubuntu)",
+        "Persistent Memory support",
+        "Big Data Clusters"
+      ],
+      "correctAnswer": "Support for Linux (RHEL, SLES, Ubuntu)",
+      "explanation": "SQL Server 2017 added Linux support and Docker containers."
+    },
+    {
+      "questionText": "Which language support was added in SQL Server 2017?",
+      "options": [
+        "Python",
+        "Ruby",
+        "Perl",
+        "Swift"
+      ],
+      "correctAnswer": "Python",
+      "explanation": "Python language support was added in 2017 (R support came in 2016)."
+    },
+    {
+      "questionText": "Which feature was added in SQL Server 2019?",
+      "options": [
+        "R language support",
+        "Dynamic data masking",
+        "Big Data Clusters with Apache Spark and HDFS",
+        "Graph data support"
+      ],
+      "correctAnswer": "Big Data Clusters with Apache Spark and HDFS",
+      "explanation": "Big Data Clusters with Spark and HDFS is a SQL Server 2019 feature."
+    },
+    {
+      "questionText": "In the Connect to Server dialog box, what should the Server type be set to in order to connect to the SQL Server instance?",
+      "options": [
+        "Reporting Services",
+        "Integration Services",
+        "Analysis Services",
+        "Database Engine"
+      ],
+      "correctAnswer": "Database Engine",
+      "explanation": "Select Database Engine as the server type, then enter the server name and credentials."
+    },
+    {
+      "questionText": "How many kinds of databases does SQL Server 2019 support, and what are they?",
+      "options": [
+        "Two: system and user databases",
+        "One: user-defined only",
+        "Three: system, user-defined, and sample databases",
+        "Four: system, user, shared, and sample"
+      ],
+      "correctAnswer": "Three: system, user-defined, and sample databases",
+      "explanation": "SQL Server 2019 supports system, user-defined, and sample databases."
+    },
+    {
+      "questionText": "Which system database records all system-level information of an instance of SQL Server?",
+      "options": [
+        "tempdb",
+        "model",
+        "master",
+        "msdb"
+      ],
+      "correctAnswer": "master",
+      "explanation": "The master database holds system-level information for the instance."
+    },
+    {
+      "questionText": "Which system database is used by SQL Server Agent for scheduling alerts and jobs?",
+      "options": [
+        "msdb",
+        "master",
+        "model",
+        "tempdb"
+      ],
+      "correctAnswer": "msdb",
+      "explanation": "msdb is used by SQL Server Agent for scheduling alerts and jobs."
+    },
+    {
+      "questionText": "Which system database is used as a template for all databases created on an instance?",
+      "options": [
+        "master",
+        "model",
+        "msdb",
+        "tempdb"
+      ],
+      "correctAnswer": "model",
+      "explanation": "model is the template for new databases."
+    },
+    {
+      "questionText": "Which system database holds temporary objects or intermediate result sets?",
+      "options": [
+        "master",
+        "model",
+        "msdb",
+        "tempdb"
+      ],
+      "correctAnswer": "tempdb",
+      "explanation": "tempdb stores temporary objects and intermediate results."
+    },
+    {
+      "questionText": "Which system database is read-only and contains system objects included with SQL Server 2019?",
+      "options": [
+        "model",
+        "tempdb",
+        "master",
+        "Resource"
+      ],
+      "correctAnswer": "Resource",
+      "explanation": "The Resource database is read-only and contains the system objects."
+    },
+    {
+      "questionText": "The AdventureWorks sample database is based on a fictitious company that manufactures and sells:",
+      "options": [
+        "Bicycles",
+        "Clothing",
+        "Computers",
+        "Furniture"
+      ],
+      "correctAnswer": "Bicycles",
+      "explanation": "Adventure Works Cycles is a multinational bicycle manufacturer."
+    },
+    {
+      "questionText": "Which of the following is the sample data warehouse database for SQL Server 2019?",
+      "options": [
+        "AdventureWorks2019AS",
+        "AdventureWorksOLTP",
+        "AdventureWorks2019",
+        "AdventureWorks2019DW"
+      ],
+      "correctAnswer": "AdventureWorks2019DW",
+      "explanation": "DW stands for Data Warehouse; AS is the Analysis Services database; the base name is the OLTP sample."
+    },
+    {
+      "questionText": "The pane on the left side of SSMS that displays all objects on the server is called:",
+      "options": [
+        "Properties Pane",
+        "Object Explorer",
+        "Solution Explorer only",
+        "Query Window"
+      ],
+      "correctAnswer": "Object Explorer",
+      "explanation": "Object Explorer lists server objects and provides a UI to manage them."
+    },
+    {
+      "questionText": "Which Object Explorer component provides logins, roles, credentials, and audits?",
+      "options": [
+        "Server Objects",
+        "Management",
+        "Security",
+        "Replication"
+      ],
+      "correctAnswer": "Security",
+      "explanation": "Security provides flexible security configuration in SQL Server 2019."
+    },
+    {
+      "questionText": "Script files in SQL Server are saved with which extension?",
+      "options": [
+        "Extension .ssmssln",
+        "Extension .sql",
+        "Extension .mdf",
+        "Extension .ssmssqlproj"
+      ],
+      "correctAnswer": "Extension .sql",
+      "explanation": ".sql is the script file extension. .ssmssln is for solutions and .ssmssqlproj is for projects."
+    },
+    {
+      "questionText": "In the conceptual layers for organizing script files, which is the top-most node?",
+      "options": [
+        "Script file",
+        "Project",
+        "Query",
+        "Solution"
+      ],
+      "correctAnswer": "Solution",
+      "explanation": "A solution contains projects, and projects contain script files."
+    },
+    {
+      "questionText": "Which of the following is a keyboard shortcut to execute a query in the SSMS query window?",
+      "options": [
+        "F12",
+        "F1",
+        "Ctrl+Z",
+        "F5"
+      ],
+      "correctAnswer": "F5",
+      "explanation": "Execute can be triggered with F5, Alt+X, or Ctrl+E."
+    },
+    {
+      "questionText": "SQL Server 2019 can be used only on Windows operating systems.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "SQL Server on Linux is supported (introduced in 2017 and enhanced in 2019)."
+    },
+    {
+      "questionText": "Instances on a single computer work in isolation and do not affect each other.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Each instance is isolated and can be customized independently."
+    },
+    {
+      "questionText": "The SQLCMD tool is a GUI-based tool that replaces Object Explorer.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "SQLCMD is a command-line tool."
+    },
+    {
+      "questionText": "Windows Authentication uses operating system credentials to log in to SQL Server.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "As described in the Connect to Server note."
+    },
+    {
+      "questionText": "The tempdb database is read-only and contains the system objects of SQL Server.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "That describes the Resource database. tempdb holds temporary objects and intermediate result sets."
+    },
+    {
+      "questionText": "A solution file can contain one or more projects, and each project can contain script files.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Solution is top-most, then project, then script files."
+    },
+    {
+      "questionText": "Query results can be displayed only in grid format.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "Results can be shown in grid, text, or file format."
+    },
+    {
+      "questionText": "The _______ database is used as a template for all new databases created on an instance.",
+      "options": [
+        "model",
+        "master",
+        "msdb",
+        "tempdb"
+      ],
+      "correctAnswer": "model",
+      "explanation": "The model database is used as a template for all new databases created on an instance."
+    },
+    {
+      "questionText": "Database files for SQL Server commonly use the _______ extension for the primary data file and .ldf for the log file.",
+      "options": [
+        ".mdf",
+        ".ndf",
+        ".ldf",
+        ".bak"
+      ],
+      "correctAnswer": ".mdf",
+      "explanation": "Primary data files use the .mdf extension, while log files use .ldf."
+    },
+    {
+      "questionText": "A SQL Server database is made up of a collection of _______ that store sets of structured data.",
+      "options": [
+        "tables",
+        "views",
+        "schemas",
+        "indexes"
+      ],
+      "correctAnswer": "tables",
+      "explanation": "A database is made up of a collection of tables that store sets of structured data."
+    },
+    {
+      "questionText": "The solution file in SSMS is stored with the _______ extension.",
+      "options": [
+        ".ssmssln",
+        ".ssmssqlproj",
+        ".sql",
+        ".mdf"
+      ],
+      "correctAnswer": ".ssmssln",
+      "explanation": "The solution file in SSMS is stored with the .ssmssln extension."
+    },
+    {
+      "questionText": "The sample database introduced from SQL Server 2005 onwards that models a bicycle manufacturer is called _______.",
+      "options": [
+        "AdventureWorks",
+        "Northwind",
+        "pubs",
+        "WideWorldImporters"
+      ],
+      "correctAnswer": "AdventureWorks",
+      "explanation": "AdventureWorks is the bicycle manufacturer sample database introduced in SQL Server 2005."
+    }
+  ]
+}

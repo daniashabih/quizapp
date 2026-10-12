@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,3,SQL Server is a Relational Database Management System developed by which company?,Oracle,SAP,IBM,Microsoft,Microsoft
+SQL Server,3,In which month and year was SQL Server 2019 launched?,March 2020,January 2018,June 2017,November 2019,November 2019
+SQL Server,3,The first version of SQL Server was released in which year?,1989,1979,2000,1995,1989
+SQL Server,3,Which three major heads make up the basic architecture of SQL Server 2019?,Tables, Views, and Indexes,Clients, Servers, and Routers,"Tools, Services, and Instances",Logins, Roles, and Schemas,"Tools, Services, and Instances"
+SQL Server,3,Which GUI-based tool is used to create databases, query data, and manage SQL Server?,SQL Server Management Studio (SSMS),ODBC,SQLCMD,SQL Server Profiler,SQL Server Management Studio (SSMS)
+SQL Server,3,Which of the following is a command-line tool in SQL Server?,SSDT,SSMS,SQLCMD,SSRS,SQLCMD
+SQL Server,3,SQL Server Configuration Manager is used by database administrators to:,"Configure services, server protocols, client protocols, and client aliases",Design reports in Visual Studio,Monitor query plans graphically,Write Transact-SQL scripts,"Configure services, server protocols, client protocols, and client aliases"
+SQL Server,3,SQL Server Profiler is used to:,Monitor an instance of the Database Engine or Analysis Services,Install SQL Server features,Create ODBC drivers,Design business intelligence solutions,Monitor an instance of the Database Engine or Analysis Services
+SQL Server,3,What does SSDT stand for?,SQL Server Data Tools,SQL Server Diagnostic Tools,SQL Server Database Tracking,SQL Server Deterministic Tools,SQL Server Data Tools
+SQL Server,3,"Which of the following statements about the tools in SQL Server 2019 are true? (a) SQL Server Installation Center can be used to add, remove, and modify SQL Server programs. (b) SQLCMD is an IDE used for Business Intelligence components. (c) SQL Server Profiler is used to monitor an instance of the Database Engine or Analysis Services. (d) SQL Server Installation Center helps develop databases and query data.",(c) and (d) only,"(b), (c), and (d)",(a) and (c) only,"(a), (b), and (c)",(a) and (c) only
+SQL Server,3,Which of the following is NOT a connectivity tool in SQL Server?,OLE DB,DB-Library,SQLCMD,ODBC,SQLCMD
+SQL Server,3,Which service is the core service used for storing, processing, and securing data?,Database Engine,Reporting Services,Integration Services,Master Data Services,Database Engine
+SQL Server,3,Which SQL Server service is used to create and manage OLAP and is also used in data mining applications?,Integration Services (SSIS),Reporting Services (SSRS),Master Data Services (MDS),Analysis Services (SSAS),Analysis Services (SSAS)
+SQL Server,3,"Which service helps create, manage, publish, and deploy reports in tabular, matrix, graphical, or free-form format?",Database Engine,Reporting Services (SSRS),Analysis Services (SSAS),Integration Services (SSIS),Reporting Services (SSRS)
+SQL Server,3,"Which service is used for moving, copying, and transforming data using graphical tools and programmable objects?",Reporting Services (SSRS),Master Data Services (MDS),Integration Services (SSIS),Analysis Services (SSAS),Integration Services (SSIS)
+SQL Server,3,Which statement about SQL Server instances is correct?,Only one instance can exist per computer,Instances cannot be customized,Multiple instances can run on one computer and work in isolation from each other,Instances always share the same permissions,Multiple instances can run on one computer and work in isolation from each other
+SQL Server,3,An instance can be thought of as:,A type of index,"A bigger container holding sub-containers such as databases, security options, and server objects",A stored procedure,A single table,"A bigger container holding sub-containers such as databases, security options, and server objects"
+SQL Server,3,Which edition offers up to 24 cores of CPU and up to 128 GB of memory for the buffer pool?,Express,Developer,Enterprise,Standard,Standard
+SQL Server,3,Which edition supports unlimited CPU cores and unlimited memory for the buffer pool?,Enterprise,Standard,Express,Web,Enterprise
+SQL Server,3,Developer Edition of SQL Server 2019 is best described as:,"Free, with all Enterprise features, licensed only for non-production development and test use",An edition only for Linux,Paid edition for production use,A cut-down edition with no encryption,"Free, with all Enterprise features, licensed only for non-production development and test use"
+SQL Server,3,Which features were added in SQL Server 2016?,"Dynamic data masking, Row-level security, and Always Encrypted",Native UTF-8 support,Big Data Clusters with Apache Spark,Accelerated database recovery,"Dynamic data masking, Row-level security, and Always Encrypted"
+SQL Server,3,Which feature was introduced with SQL Server 2017?,Intelligent Query Processing,"Support for Linux (RHEL, SLES, Ubuntu)",Persistent Memory support,Big Data Clusters,"Support for Linux (RHEL, SLES, Ubuntu)"
+SQL Server,3,Which language support was added in SQL Server 2017?,Python,Ruby,Perl,Swift,Python
+SQL Server,3,Which feature was added in SQL Server 2019?,R language support,Dynamic data masking,Big Data Clusters with Apache Spark and HDFS,Graph data support,Big Data Clusters with Apache Spark and HDFS
+SQL Server,3,In the Connect to Server dialog box, what should the Server type be set to in order to connect to the SQL Server instance?,Reporting Services,Integration Services,Analysis Services,Database Engine,Database Engine
+SQL Server,3,"How many kinds of databases does SQL Server 2019 support, and what are they?",Two: system and user databases,One: user-defined only,"Three: system, user-defined, and sample databases","Four: system, user, shared, and sample","Three: system, user-defined, and sample databases"
+SQL Server,3,Which system database records all system-level information of an instance of SQL Server?,tempdb,model,master,msdb,master
+SQL Server,3,Which system database is used by SQL Server Agent for scheduling alerts and jobs?,msdb,master,model,tempdb,msdb
+SQL Server,3,Which system database is used as a template for all databases created on an instance?,master,model,msdb,tempdb,model
+SQL Server,3,Which system database holds temporary objects or intermediate result sets?,master,model,msdb,tempdb,tempdb
+SQL Server,3,Which system database is read-only and contains system objects included with SQL Server 2019?,model,tempdb,master,Resource,Resource
+SQL Server,3,The AdventureWorks sample database is based on a fictitious company that manufactures and sells:,Bicycles,Clothing,Computers,Furniture,Bicycles
+SQL Server,3,Which of the following is the sample data warehouse database for SQL Server 2019?,AdventureWorks2019AS,AdventureWorksOLTP,AdventureWorks2019,AdventureWorks2019DW,AdventureWorks2019DW
+SQL Server,3,The pane on the left side of SSMS that displays all objects on the server is called:,Properties Pane,Object Explorer,Solution Explorer only,Query Window,Object Explorer
+SQL Server,3,"Which Object Explorer component provides logins, roles, credentials, and audits?",Server Objects,Management,Security,Replication,Security
+SQL Server,3,Script files in SQL Server are saved with which extension?,Extension .ssmssln,Extension .sql,Extension .mdf,Extension .ssmssqlproj,Extension .sql
+SQL Server,3,"In the conceptual layers for organizing script files, which is the top-most node?",Script file,Project,Query,Solution,Solution
+SQL Server,3,Which of the following is a keyboard shortcut to execute a query in the SSMS query window?,F12,F1,Ctrl+Z,F5,F5
+SQL Server,3,SQL Server 2019 can be used only on Windows operating systems.,True,False,,,False
+SQL Server,3,Instances on a single computer work in isolation and do not affect each other.,True,False,,,True
+SQL Server,3,The SQLCMD tool is a GUI-based tool that replaces Object Explorer.,True,False,,,False
+SQL Server,3,Windows Authentication uses operating system credentials to log in to SQL Server.,True,False,,,True
+SQL Server,3,The tempdb database is read-only and contains the system objects of SQL Server.,True,False,,,False
+SQL Server,3,"A solution file can contain one or more projects, and each project can contain script files.",True,False,,,True
+SQL Server,3,Query results can be displayed only in grid format.,True,False,,,False
+SQL Server,3,The _______ database is used as a template for all new databases created on an instance.,model,master,msdb,tempdb,model
+SQL Server,3,Database files for SQL Server commonly use the _______ extension for the primary data file and .ldf for the log file.,.mdf,.ndf,.ldf,.bak,.mdf
+SQL Server,3,A SQL Server database is made up of a collection of _______ that store sets of structured data.,tables,views,schemas,indexes,tables
+SQL Server,3,The solution file in SSMS is stored with the _______ extension.,.ssmssln,.ssmssqlproj,.sql,.mdf,.ssmssln
+SQL Server,3,The sample database introduced from SQL Server 2005 onwards that models a bicycle manufacturer is called _______.,AdventureWorks,Northwind,pubs,WideWorldImporters,AdventureWorks
