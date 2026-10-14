@@ -17,26 +17,44 @@ class SecureStorageService {
 
   // JWT Token Management
   Future<void> saveToken(String token) async {
-    await _storage.write(key: _keyToken, value: token);
+    try {
+      await _storage.write(key: _keyToken, value: token);
+    } catch (_) {}
   }
 
   Future<String?> getToken() async {
-    return await _storage.read(key: _keyToken);
+    try {
+      return await _storage.read(key: _keyToken);
+    } catch (_) {
+      try {
+        await _storage.deleteAll();
+      } catch (_) {}
+      return null;
+    }
+  }
+
+  Future<bool> hasToken() async {
+    final token = await getToken();
+    return token != null && token.isNotEmpty;
   }
 
   Future<void> deleteToken() async {
-    await _storage.delete(key: _keyToken);
+    try {
+      await _storage.delete(key: _keyToken);
+    } catch (_) {}
   }
 
   // User Profile Cache Management
   Future<void> saveUserData(Map<String, dynamic> userData) async {
-    await _storage.write(key: _keyUserData, value: jsonEncode(userData));
+    try {
+      await _storage.write(key: _keyUserData, value: jsonEncode(userData));
+    } catch (_) {}
   }
 
   Future<Map<String, dynamic>?> getUserData() async {
-    final raw = await _storage.read(key: _keyUserData);
-    if (raw == null || raw.isEmpty) return null;
     try {
+      final raw = await _storage.read(key: _keyUserData);
+      if (raw == null || raw.isEmpty) return null;
       return jsonDecode(raw) as Map<String, dynamic>;
     } catch (_) {
       return null;
@@ -44,11 +62,15 @@ class SecureStorageService {
   }
 
   Future<void> deleteUserData() async {
-    await _storage.delete(key: _keyUserData);
+    try {
+      await _storage.delete(key: _keyUserData);
+    } catch (_) {}
   }
 
   // Clear all credentials upon logout / account deletion
   Future<void> clearAll() async {
-    await _storage.deleteAll();
+    try {
+      await _storage.deleteAll();
+    } catch (_) {}
   }
 }

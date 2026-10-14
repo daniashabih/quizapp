@@ -39,7 +39,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final Ref _ref;
 
   AuthNotifier(this._ref) : super(const AuthState()) {
+    _ref.read(apiClientProvider).onUnauthorized = _handleUnauthorized;
     restoreSession();
+  }
+
+  void _handleUnauthorized() {
+    if (state.user != null) {
+      state = state.copyWith(
+        clearUser: true,
+        error: 'Your session has expired. Please sign in again.',
+      );
+    }
   }
 
   // Restore session on app cold-start

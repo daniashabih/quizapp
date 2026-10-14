@@ -6,17 +6,19 @@ import 'network_exceptions.dart';
 class ApiClient {
   late final Dio dio;
   final SecureStorageService secureStorage;
+  void Function()? onUnauthorized;
 
   ApiClient({
     required this.secureStorage,
     String? customBaseUrl,
+    this.onUnauthorized,
   }) {
     dio = Dio(
       BaseOptions(
         baseUrl: customBaseUrl ?? AppConfig.baseUrl,
-        connectTimeout: const Duration(seconds: 15),
-        receiveTimeout: const Duration(seconds: 15),
-        sendTimeout: const Duration(seconds: 15),
+        connectTimeout: const Duration(seconds: 12),
+        receiveTimeout: const Duration(seconds: 12),
+        sendTimeout: const Duration(seconds: 12),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -38,10 +40,11 @@ class ApiClient {
           }
           return handler.next(options);
         },
-        onError: (DioException error, handler) {
-          // If token expired (401), secure credentials should be invalidated
+        onError: (DioException error, handler) async {
+          // If token expired or unauthorized (401), secure credentials should be invalidated
           if (error.response?.statusCode == 401) {
-            secureStorage.clearAll();
+            await secureStorage.clearAll();
+            onUnauthorized?.call();
           }
           return handler.next(error);
         },

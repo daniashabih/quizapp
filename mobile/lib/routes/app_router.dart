@@ -100,7 +100,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       // Authenticated user on auth entry screen
       if (isAuth && (currentLoc == '/login' || currentLoc == '/register')) {
-        return '/home';
+        return isAdmin ? '/admin' : '/home';
       }
 
       // Non-admin attempting to access admin routes

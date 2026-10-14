@@ -37,7 +37,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         );
 
     if (success && mounted) {
-      context.go('/home');
+      final auth = ref.read(authProvider);
+      if (auth.isAdmin) {
+        context.go('/admin');
+      } else {
+        context.go('/home');
+      }
     }
   }
 

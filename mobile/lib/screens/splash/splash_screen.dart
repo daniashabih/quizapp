@@ -20,12 +20,30 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   Future<void> _checkAuthAndNavigate() async {
-    await Future.delayed(const Duration(milliseconds: 1200));
+    final startTime = DateTime.now();
+
+    // 1. Wait until authentication initialization and session restoration completes
+    while (mounted && !ref.read(authProvider).isInitialized) {
+      await Future.delayed(const Duration(milliseconds: 50));
+    }
     if (!mounted) return;
 
+    // 2. Ensure minimum splash branding display time (1000ms) for smooth visual transition
+    final elapsed = DateTime.now().difference(startTime);
+    final remaining = const Duration(milliseconds: 1000) - elapsed;
+    if (remaining > Duration.zero) {
+      await Future.delayed(remaining);
+    }
+    if (!mounted) return;
+
+    // 3. Navigate directly to role-appropriate screen without flashing login
     final authState = ref.read(authProvider);
     if (authState.isAuthenticated) {
-      context.go('/home');
+      if (authState.isAdmin) {
+        context.go('/admin');
+      } else {
+        context.go('/home');
+      }
     } else {
       context.go('/login');
     }
