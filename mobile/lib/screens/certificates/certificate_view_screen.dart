@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../core/config/app_config.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../models/certificate_model.dart';
@@ -59,7 +60,7 @@ class CertificateViewScreen extends ConsumerWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'This credential is authenticated and permanently verified on the HangBug platform.',
+                      'This credential is authenticated and permanently verified on the ${AppConfig.appName} platform.',
                       style: AppTextStyles.bodySmall.copyWith(
                         color: AppColors.textSecondary,
                       ),
@@ -104,8 +105,8 @@ class CertificateViewScreen extends ConsumerWidget {
   void _shareCertificate() {
     Share.share(
       '🎓 View my official verified certificate in ${certificate.category} (Score: ${certificate.score}%) '
-      'issued by HangBug: ${certificate.verificationUrl}',
-      subject: 'My HangBug ${certificate.category} Certificate',
+      'issued by ${AppConfig.appName}: ${certificate.verificationUrl}',
+      subject: 'My ${AppConfig.appName} ${certificate.category} Certificate',
     );
   }
 }

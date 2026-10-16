@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../core/config/app_config.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/date_formatter.dart';
@@ -123,7 +124,7 @@ class CertificatesScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Verifiable through HangBug QR verification portal.',
+                  'Verifiable through ${AppConfig.appName} QR verification portal.',
                   style: AppTextStyles.bodySmall.copyWith(
                     color: Colors.white.withValues(alpha: 0.85),
                   ),
@@ -242,9 +243,9 @@ class CertificatesScreen extends ConsumerWidget {
                           constraints: const BoxConstraints(),
                           onPressed: () {
                             Share.share(
-                              '🎓 View my official verified certificate in ${cert.category} on HangBug: '
+                              '🎓 View my official verified certificate in ${cert.category} on ${AppConfig.appName}: '
                               '${cert.verificationUrl}',
-                              subject: 'My HangBug ${cert.category} Certificate',
+                              subject: 'My ${AppConfig.appName} ${cert.category} Certificate',
                             );
                           },
                         ),

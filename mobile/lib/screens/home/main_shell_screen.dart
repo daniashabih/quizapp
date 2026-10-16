@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/config/app_config.dart';
 import '../../core/constants/app_colors.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/network_status_banner.dart';
@@ -27,7 +28,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
       _lastBackPressTime = now;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Press back again to exit Hangbug'),
+          content: Text('Press back again to exit ${AppConfig.appName}'),
           duration: Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
         ),

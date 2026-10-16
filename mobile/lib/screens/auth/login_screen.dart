@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/config/app_config.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/validators.dart';
@@ -89,7 +90,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     const SizedBox(height: 18),
                     Text(
-                      'Welcome to Hangbug',
+                      'Welcome to ${AppConfig.appName}',
                       textAlign: TextAlign.center,
                       style: AppTextStyles.displayMedium.copyWith(fontSize: 22),
                     ),

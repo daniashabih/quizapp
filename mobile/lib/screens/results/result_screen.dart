@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../core/config/app_config.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../models/quiz_result_model.dart';
@@ -209,7 +210,7 @@ class ResultScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              'View and share your official HangBug verified certificate.',
+                              'View and share your official ${AppConfig.appName} verified certificate.',
                               style: AppTextStyles.bodySmall.copyWith(
                                 color: AppColors.textSecondary,
                               ),
@@ -281,9 +282,9 @@ class ResultScreen extends StatelessWidget {
   void _shareScore() {
     Share.share(
       '🎯 I just scored ${result.percentage.toStringAsFixed(0)}% (${result.score}/${result.total}) '
-      'on the ${result.category} quiz on HangBug!\n\n'
+      'on the ${result.category} quiz on ${AppConfig.appName}!\n\n'
       'Test your web development and programming skills at: https://hangbug.vercel.app',
-      subject: 'My HangBug Quiz Result for ${result.category}',
+      subject: 'My ${AppConfig.appName} Quiz Result for ${result.category}',
     );
   }
 }

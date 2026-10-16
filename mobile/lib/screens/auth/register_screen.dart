@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/config/app_config.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/validators.dart';
@@ -80,7 +81,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Join Hangbug to practice technology assessments and earn verified credentials.',
+                      'Join ${AppConfig.appName} to practice technology assessments and earn verified credentials.',
                       style: AppTextStyles.bodyMedium.copyWith(
                         color: AppColors.textSecondary,
                         fontSize: 13,
@@ -176,7 +177,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                     // Terms disclaimer
                     Text(
-                      'By registering, you agree to Hangbug Terms of Service and Privacy Policy.',
+                      'By registering, you agree to ${AppConfig.appName} Terms of Service and Privacy Policy.',
                       textAlign: TextAlign.center,
                       style: AppTextStyles.bodySmall.copyWith(
                         color: AppColors.textSecondary,

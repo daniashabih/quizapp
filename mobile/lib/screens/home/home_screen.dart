@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/config/app_config.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/date_formatter.dart';
@@ -36,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              'Hangbug',
+              AppConfig.appName,
               style: AppTextStyles.displaySmall.copyWith(
                 color: AppColors.primary,
                 fontWeight: FontWeight.w800,

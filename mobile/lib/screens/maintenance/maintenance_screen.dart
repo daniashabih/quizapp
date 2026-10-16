@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/config/app_config.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../providers/settings_provider.dart';
 
@@ -11,7 +12,7 @@ class MaintenanceScreen extends ConsumerWidget {
     final settings = ref.watch(settingsProvider);
     final message = settings.maintenanceMessage.isNotEmpty
         ? settings.maintenanceMessage
-        : 'HangBug is undergoing scheduled maintenance and upgrades. We will be back online shortly.';
+        : '${AppConfig.appName} is undergoing scheduled maintenance and upgrades. We will be back online shortly.';
 
     return Scaffold(
       backgroundColor: const Color(0xFF193D35),
@@ -41,7 +42,7 @@ class MaintenanceScreen extends ConsumerWidget {
 
                 // App Title
                 Text(
-                  settings.appName.isNotEmpty ? settings.appName : 'HangBug',
+                  settings.appName.isNotEmpty ? settings.appName : AppConfig.appName,
                   style: AppTextStyles.displaySmall.copyWith(
                     color: const Color(0xFFF3E5C5),
                     fontWeight: FontWeight.bold,

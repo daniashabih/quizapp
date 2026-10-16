@@ -234,7 +234,7 @@ class ProfileScreen extends ConsumerWidget {
 
             const SizedBox(height: 16),
             Text(
-              'HangBug v${AppConfig.appVersion} (Build ${AppConfig.appBuildNumber}) • Production',
+              '${AppConfig.appName} v${AppConfig.appVersion} (Build ${AppConfig.appBuildNumber}) • Production',
               style: AppTextStyles.bodySmall.copyWith(color: AppColors.textMuted),
             ),
             const SizedBox(height: 24),
@@ -333,7 +333,7 @@ class ProfileScreen extends ConsumerWidget {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         title: const Text('Sign Out'),
-        content: const Text('Are you sure you want to sign out of HangBug?'),
+        content: Text('Are you sure you want to sign out of ${AppConfig.appName}?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),

@@ -13,7 +13,7 @@ class AppSettingsModel {
   final String secondaryColor;
 
   const AppSettingsModel({
-    this.appName = 'HangBug',
+    this.appName = 'PROFIT',
     this.passingScore = 70,
     this.certificatePassingScore = 70,
     this.quizTimerEnabled = false,
@@ -21,7 +21,7 @@ class AppSettingsModel {
     this.adsEnabled = false,
     this.maintenanceMode = false,
     this.maintenanceMessage =
-        "HangBug is undergoing scheduled upgrades and maintenance. We'll be back online momentarily!",
+        "PROFIT is undergoing scheduled upgrades and maintenance. We'll be back online momentarily!",
     this.certificateEnabled = true,
     this.leaderboardEnabled = true,
     this.primaryColor = '#193D35',
@@ -30,7 +30,7 @@ class AppSettingsModel {
 
   factory AppSettingsModel.fromJson(Map<String, dynamic> json) {
     return AppSettingsModel(
-      appName: json['appName']?.toString() ?? 'HangBug',
+      appName: json['appName']?.toString() ?? 'PROFIT',
       passingScore: json['passingScore'] is int
           ? json['passingScore'] as int
           : (int.tryParse(json['passingScore']?.toString() ?? '70') ?? 70),
@@ -44,7 +44,7 @@ class AppSettingsModel {
       adsEnabled: json['adsEnabled'] == true,
       maintenanceMode: json['maintenanceMode'] == true,
       maintenanceMessage: json['maintenanceMessage']?.toString() ??
-          "HangBug is undergoing scheduled upgrades and maintenance. We'll be back online momentarily!",
+          "PROFIT is undergoing scheduled upgrades and maintenance. We'll be back online momentarily!",
       certificateEnabled: json['certificateEnabled'] != false,
       leaderboardEnabled: json['leaderboardEnabled'] != false,
       primaryColor: json['primaryColor']?.toString() ?? '#193D35',

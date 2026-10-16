@@ -145,7 +145,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Permanently delete your HangBug account, along with all your quiz attempt histories, scores, earned certificates, and credentials. This action is irreversible and cannot be undone.',
+                    'Permanently delete your ${AppConfig.appName} account, along with all your quiz attempt histories, scores, earned certificates, and credentials. This action is irreversible and cannot be undone.',
                     style: AppTextStyles.bodySmall.copyWith(
                       color: AppColors.textSecondary,
                     ),
@@ -228,7 +228,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Are you absolutely sure? All your data, quiz scores, and verified certificates will be permanently removed from HangBug servers.\n\n'
+                  'Are you absolutely sure? All your data, quiz scores, and verified certificates will be permanently removed from ${AppConfig.appName} servers.\n\n'
                   'To confirm, type DELETE below:',
                   style: AppTextStyles.bodyMedium,
                 ),
