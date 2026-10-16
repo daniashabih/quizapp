@@ -71,9 +71,13 @@ export default function DashboardLayout() {
             } ${mobileOpen ? 'translate-x-0 !w-64' : '-translate-x-full lg:translate-x-0'}`}>
                 <div className="h-full flex flex-col overflow-hidden">
                     <div className={`flex items-center h-16 px-4 border-b border-[var(--card-border)] ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
-                        {(sidebarOpen || mobileOpen) && (
+                        {sidebarOpen || mobileOpen ? (
                             <Link to="/" className="flex items-center shrink-0">
                                 <BrandLogo size="sm" />
+                            </Link>
+                        ) : (
+                            <Link to="/" className="flex items-center shrink-0">
+                                <BrandLogo variant="mark" size="sm" />
                             </Link>
                         )}
                         <button onClick={() => setSidebarOpen(!sidebarOpen)}

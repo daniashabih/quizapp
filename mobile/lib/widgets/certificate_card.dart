@@ -37,6 +37,14 @@ class CertificateCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Top Official Brand Header
+              Image.asset(
+                'assets/images/branding/hangbug-logo-compact.png',
+                height: 26,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 12),
+
               // Top Ribbon Header
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),

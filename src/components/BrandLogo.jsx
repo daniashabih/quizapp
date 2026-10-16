@@ -1,67 +1,87 @@
-import { Bug } from 'lucide-react';
-import logo from '../assets/logo.png';
+import React from 'react';
+import logoCompact from '../assets/branding/hangbug-logo-compact.png';
+import logoCompactDark from '../assets/branding/hangbug-logo-compact-dark.png';
+import logoFull from '../assets/branding/hangbug-logo-transparent.png';
+import logoFullDark from '../assets/branding/hangbug-logo-dark.png';
+import iconOnly from '../assets/branding/hangbug-icon.png';
 
-const inlineSizes = {
-    sm: {
-        mark: 'w-8 h-8 p-1',
-        text: 'text-lg',
-    },
-    md: {
-        mark: 'w-10 h-10 p-1.5',
-        text: 'text-xl',
-    },
-    lg: {
-        mark: 'w-12 h-12 p-2',
-        text: 'text-2xl',
-    },
-    xl: {
-        mark: 'w-16 h-16 p-2',
-        text: 'text-3xl',
-    },
+const markSizes = {
+    sm: 'w-8 h-8 p-1',
+    md: 'w-10 h-10 p-1.5',
+    lg: 'w-14 h-14 p-2',
+    xl: 'w-20 h-20 p-2.5',
 };
 
-const scriptSizes = {
-    sm: 'w-36 h-24',
-    md: 'w-56 h-44',
-    lg: 'w-80 h-64',
+const fullSizes = {
+    sm: 'h-16',
+    md: 'h-24',
+    lg: 'h-36',
+    xl: 'h-48',
+};
+
+const compactSizes = {
+    sm: 'h-7',
+    md: 'h-9',
+    lg: 'h-11',
+    xl: 'h-14',
 };
 
 export default function BrandLogo({
     variant = 'inline',
     size = 'md',
+    dark = false,
     className = '',
     textClassName = '',
+    alt = 'HangBug',
 }) {
-    if (variant === 'script') {
+    if (variant === 'full') {
+        const fullSrc = dark ? logoFullDark : logoFull;
+        const heightClass = fullSizes[size] || fullSizes.md;
         return (
             <img
-                src={logo}
-                alt="HangBug"
-                className={`${scriptSizes[size] || scriptSizes.md} object-contain ${className}`}
+                src={fullSrc}
+                alt={alt}
+                className={`${heightClass} w-auto object-contain ${className}`}
             />
         );
     }
 
-    if (variant === 'mark') {
-        const markSize = inlineSizes[size]?.mark || inlineSizes.md.mark;
-
+    if (variant === 'mark' || variant === 'icon') {
+        const markSize = markSizes[size] || markSizes.md;
         return (
-            <span className={`${markSize} inline-flex shrink-0 items-center justify-center rounded-xl bg-[#193D35] text-[#FCFAF4] border border-[#193D35] shadow-xs ${className}`}>
-                <Bug className="h-full w-full text-[#FCFAF4] p-0.5" />
+            <span className={`${markSize} inline-flex shrink-0 items-center justify-center rounded-xl bg-white border border-[#184D3B]/20 shadow-xs ${className}`}>
+                <img
+                    src={iconOnly}
+                    alt={alt}
+                    className="h-full w-full object-contain"
+                />
             </span>
         );
     }
 
-    const styles = inlineSizes[size] || inlineSizes.md;
+    if (variant === 'script') {
+        const fullSrc = dark ? logoFullDark : logoFull;
+        const heightClass = fullSizes[size] || fullSizes.md;
+        return (
+            <img
+                src={fullSrc}
+                alt={alt}
+                className={`${heightClass} w-auto object-contain ${className}`}
+            />
+        );
+    }
+
+    // Default: 'inline' or 'compact' horizontal brand lockup
+    const compactSrc = dark ? logoCompactDark : logoCompact;
+    const heightClass = compactSizes[size] || compactSizes.md;
 
     return (
-        <span className={`inline-flex items-center gap-3 ${className}`}>
-            <span className={`${styles.mark} inline-flex shrink-0 items-center justify-center rounded-xl bg-[#193D35] text-[#FCFAF4] border border-[#193D35] shadow-xs`}>
-                <Bug className="h-full w-full text-[#FCFAF4] p-0.5" />
-            </span>
-            <span className={`${styles.text} font-display font-bold tracking-tight text-[var(--foreground)] ${textClassName}`}>
-                Hang<span className="text-[#193D35] font-extrabold">Bug</span>
-            </span>
+        <span className={`inline-flex items-center shrink-0 ${className}`}>
+            <img
+                src={compactSrc}
+                alt={alt}
+                className={`${heightClass} w-auto object-contain`}
+            />
         </span>
     );
 }

@@ -66,9 +66,9 @@ export default function SplashScreen({ onFinish }) {
                     Hang<span className="text-[#193D35] font-extrabold">Bug</span>
                 </h1>
 
-                {/* Subtitle */}
-                <p className="text-xs font-semibold text-[var(--foreground-secondary)] tracking-widest uppercase mb-8">
-                    AI Web Development Assessment
+                {/* Tagline */}
+                <p className="text-xs font-semibold text-[#184D3B] tracking-widest uppercase mb-8">
+                    Learn - Test - Prove
                 </p>
 
                 {/* Progress Bar Container */}
