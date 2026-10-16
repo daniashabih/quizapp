@@ -2,7 +2,7 @@ name: hangbug
 description: "Hangbug - Web Development Technology Quiz & Certification Platform"
 publish_to: 'none'
 
-version: 1.2.0+8
+version: 1.2.0+9
 
 environment:
   sdk: ^3.11.5
@@ -48,17 +48,18 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/branding/
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/icon.png"
-  adaptive_icon_background: "#193D35"
-  adaptive_icon_foreground: "assets/images/icon.png"
+  image_path: "assets/images/branding/hangbug-icon-white.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/images/branding/hangbug-adaptive-foreground.png"
 
 flutter_native_splash:
-  color: "#193D35"
-  image: "assets/images/logo.png"
+  color: "#FCFAF4"
+  image: "assets/images/branding/hangbug-logo-transparent.png"
   android_12:
-    color: "#193D35"
-    image: "assets/images/icon.png"
+    color: "#FCFAF4"
+    image: "assets/images/branding/hangbug-adaptive-foreground.png"

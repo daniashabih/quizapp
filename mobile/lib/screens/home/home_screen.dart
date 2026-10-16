@@ -22,29 +22,10 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Row(
-          children: [
-            Container(
-              width: 32,
-              height: 32,
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                border: Border.all(color: AppColors.border),
-              ),
-              child: Image.asset('assets/images/icon.png'),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              AppConfig.appName,
-              style: AppTextStyles.displaySmall.copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w800,
-                fontSize: 18,
-              ),
-            ),
-          ],
+        title: Image.asset(
+          'assets/images/branding/hangbug-logo-compact.png',
+          height: 30,
+          fit: BoxFit.contain,
         ),
         actions: [
           IconButton(

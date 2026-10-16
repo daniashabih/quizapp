@@ -27,15 +27,22 @@ class MaintenanceScreen extends ConsumerWidget {
                 Container(
                   width: 100,
                   height: 100,
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.1),
+                    color: Colors.white,
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.2), width: 2),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.8), width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.15),
+                        blurRadius: 16,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
                   ),
-                  child: const Icon(
-                    Icons.construction_rounded,
-                    color: Color(0xFFF3E5C5),
-                    size: 52,
+                  child: Image.asset(
+                    'assets/images/branding/hangbug-icon.png',
+                    fit: BoxFit.contain,
                   ),
                 ),
                 const SizedBox(height: 28),

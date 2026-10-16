@@ -83,7 +83,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ],
                         ),
                         child: Image.asset(
-                          'assets/images/icon.png',
+                          'assets/images/branding/hangbug-icon.png',
                           fit: BoxFit.contain,
                         ),
                       ),

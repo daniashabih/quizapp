@@ -1,6 +1,7 @@
 class AppStrings {
-  static const String appName = 'PROFIT';
-  static const String appTagline = 'Web Development Quiz & Certification Platform';
+  static const String appName = 'Hangbug';
+  static const String appTagline = 'Learn - Test - Prove';
+  static const String appSubtitle = 'Web Development Quiz & Certification Platform';
   
   // Navigation
   static const String home = 'Home';
@@ -10,7 +11,7 @@ class AppStrings {
   static const String admin = 'Admin';
 
   // Common Errors
-  static const String noInternetError = 'Unable to connect to PROFIT. Please check your internet connection and try again.';
+  static const String noInternetError = 'Unable to connect to Hangbug. Please check your internet connection and try again.';
   static const String timeoutError = 'Connection timed out. Please try again.';
   static const String unauthorizedError = 'Session expired. Please log in again.';
   static const String serverError = 'Something went wrong on our servers. Please try again shortly.';

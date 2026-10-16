@@ -232,7 +232,13 @@ class ProfileScreen extends ConsumerWidget {
               onTap: () => _confirmSignOut(context, ref),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
+            Image.asset(
+              'assets/images/branding/hangbug-logo-compact.png',
+              height: 24,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 8),
             Text(
               '${AppConfig.appName} v${AppConfig.appVersion} (Build ${AppConfig.appBuildNumber}) • Production',
               style: AppTextStyles.bodySmall.copyWith(color: AppColors.textMuted),

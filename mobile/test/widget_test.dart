@@ -26,7 +26,7 @@ void main() {
   });
 
   test('AppStrings constants verify app branding', () {
-    expect(AppStrings.appName, equals('PROFIT'));
-    expect(AppStrings.appTagline, contains('Certification'));
+    expect(AppStrings.appName, equals('Hangbug'));
+    expect(AppStrings.appTagline, equals('Learn - Test - Prove'));
   });
 }

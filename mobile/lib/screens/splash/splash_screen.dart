@@ -74,7 +74,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 ],
               ),
               child: Image.asset(
-                'assets/images/icon.png',
+                'assets/images/branding/hangbug-icon.png',
                 fit: BoxFit.contain,
               ),
             ),
@@ -85,25 +85,26 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 Text(
                   'Hang',
                   style: AppTextStyles.displayMedium.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 Text(
-                  'bug',
+                  'Bug',
                   style: AppTextStyles.displayMedium.copyWith(
                     fontWeight: FontWeight.w900,
-                    color: AppColors.accent,
+                    color: AppColors.primary,
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 6),
             Text(
-              'Technology Quiz & Certification Platform',
-              style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.textSecondary,
-                fontWeight: FontWeight.w500,
+              'Learn - Test - Prove',
+              style: AppTextStyles.labelBold.copyWith(
+                color: AppColors.primary,
+                letterSpacing: 1.2,
+                fontSize: 12,
               ),
             ),
             const SizedBox(height: 40),
