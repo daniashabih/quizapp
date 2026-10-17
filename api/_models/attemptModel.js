@@ -1,5 +1,23 @@
 const prisma = require('../_config/prisma');
 
+function normalizeAnswer(val) {
+    return String(val || '')
+        .trim()
+        .toLowerCase()
+        .replace(/\band\b/g, '&')
+        .replace(/\s+/g, ' ');
+}
+
+function parseSafeJson(str, fallback) {
+    if (!str) return fallback;
+    if (typeof str !== 'string') return str;
+    try {
+        return JSON.parse(str);
+    } catch {
+        return fallback;
+    }
+}
+
 const Attempt = {
     /**
      * Find active in_progress attempt for user and quiz (category + session)
@@ -79,49 +97,111 @@ const Attempt = {
             currentQuestionIndex,
             answers,
             flaggedQuestions,
-            score,
-            answeredCount,
-            progressPercentage,
             status
         } = data;
 
+        const existing = await prisma.quizAttempt.findFirst({
+            where: {
+                id: String(id),
+                userId: String(userId)
+            }
+        });
+
+        if (!existing) return null;
+        if (existing.status === 'completed') {
+            return existing; // Cannot modify already completed attempt
+        }
+
+        const existingAnswers = parseSafeJson(existing.answers, {});
+        const incomingAnswers = parseSafeJson(answers, answers || {});
+
+        // Strict requirement: An already-recorded answer cannot be overwritten during the same attempt
+        const mergedAnswers = { ...existingAnswers };
+        if (incomingAnswers && typeof incomingAnswers === 'object') {
+            for (const [qId, incomingVal] of Object.entries(incomingAnswers)) {
+                if (mergedAnswers[qId] === undefined || mergedAnswers[qId] === null) {
+                    mergedAnswers[qId] = incomingVal;
+                }
+            }
+        }
+
+        // Validate scoring authoritatively on backend
+        const snapshot = parseSafeJson(existing.questionsSnapshot, []);
+        let computedScore = 0;
+        const answerKeys = Object.keys(mergedAnswers);
+
+        if (Array.isArray(snapshot) && snapshot.length > 0) {
+            snapshot.forEach(q => {
+                const userSelection = mergedAnswers[q.id || q._id];
+                if (userSelection !== undefined && userSelection !== null) {
+                    let opts = q.options;
+                    if (typeof opts === 'string') {
+                        try { opts = JSON.parse(opts); } catch { opts = []; }
+                    }
+                    let chosenText = '';
+                    if (typeof userSelection === 'number' && Array.isArray(opts) && opts[userSelection] !== undefined) {
+                        chosenText = String(opts[userSelection]);
+                    } else if (userSelection && typeof userSelection === 'object' && typeof userSelection.selectedIndex === 'number' && Array.isArray(opts)) {
+                        chosenText = String(opts[userSelection.selectedIndex]);
+                    } else {
+                        chosenText = String(userSelection || '');
+                    }
+                    const correct = q.correct_answer || q.correctAnswer || '';
+                    if (normalizeAnswer(chosenText) === normalizeAnswer(correct)) {
+                        computedScore++;
+                    }
+                }
+            });
+        } else if (answerKeys.length > 0) {
+            const dbQuestions = await prisma.question.findMany({
+                where: { id: { in: answerKeys } }
+            });
+            dbQuestions.forEach(q => {
+                const userSelection = mergedAnswers[q.id];
+                if (userSelection !== undefined && userSelection !== null) {
+                    let opts = q.options;
+                    if (typeof opts === 'string') {
+                        try { opts = JSON.parse(opts); } catch { opts = []; }
+                    }
+                    let chosenText = '';
+                    if (typeof userSelection === 'number' && Array.isArray(opts) && opts[userSelection] !== undefined) {
+                        chosenText = String(opts[userSelection]);
+                    } else {
+                        chosenText = String(userSelection || '');
+                    }
+                    if (normalizeAnswer(chosenText) === normalizeAnswer(q.correctAnswer)) {
+                        computedScore++;
+                    }
+                }
+            });
+        }
+
+        const totalQ = existing.totalQuestions || (Array.isArray(snapshot) ? snapshot.length : answerKeys.length);
+        const computedAnsweredCount = answerKeys.length;
+        const computedProgressPercent = totalQ > 0 ? Math.round((computedAnsweredCount / totalQ) * 100) : 0;
+
         const updateData = {
+            answers: JSON.stringify(mergedAnswers),
+            score: computedScore,
+            answeredCount: computedAnsweredCount,
+            progressPercentage: computedProgressPercent,
             lastSavedAt: new Date()
         };
 
         if (currentQuestionIndex !== undefined) {
             updateData.currentQuestionIndex = parseInt(currentQuestionIndex, 10) || 0;
         }
-        if (answers !== undefined) {
-            updateData.answers = typeof answers === 'string' ? answers : JSON.stringify(answers);
-        }
         if (flaggedQuestions !== undefined) {
             updateData.flaggedQuestions = typeof flaggedQuestions === 'string' ? flaggedQuestions : JSON.stringify(flaggedQuestions);
         }
-        if (score !== undefined) {
-            updateData.score = parseInt(score, 10) || 0;
-        }
-        if (answeredCount !== undefined) {
-            updateData.answeredCount = parseInt(answeredCount, 10) || 0;
-        }
-        if (progressPercentage !== undefined) {
-            updateData.progressPercentage = parseFloat(progressPercentage) || 0;
-        }
-        if (status) {
+        if (status && status !== 'completed') {
             updateData.status = status;
         }
 
-        const updated = await prisma.quizAttempt.updateMany({
-            where: {
-                id: String(id),
-                userId: String(userId)
-            },
+        await prisma.quizAttempt.update({
+            where: { id: String(id) },
             data: updateData
         });
-
-        if (updated.count === 0) {
-            return null;
-        }
 
         return await prisma.quizAttempt.findUnique({ where: { id: String(id) } });
     },
@@ -130,24 +210,72 @@ const Attempt = {
      * Mark attempt as completed
      */
     complete: async (id, userId, data = {}) => {
-        const { score, answeredCount, progressPercentage, answers } = data;
-        const updateData = {
-            status: 'completed',
-            completedAt: new Date(),
-            lastSavedAt: new Date()
-        };
-
-        if (score !== undefined) updateData.score = parseInt(score, 10) || 0;
-        if (answeredCount !== undefined) updateData.answeredCount = parseInt(answeredCount, 10) || 0;
-        if (progressPercentage !== undefined) updateData.progressPercentage = parseFloat(progressPercentage) || 0;
-        if (answers !== undefined) updateData.answers = typeof answers === 'string' ? answers : JSON.stringify(answers);
-
-        await prisma.quizAttempt.updateMany({
+        const existing = await prisma.quizAttempt.findFirst({
             where: {
                 id: String(id),
                 userId: String(userId)
-            },
-            data: updateData
+            }
+        });
+        if (!existing) return null;
+        if (existing.status === 'completed') {
+            return existing;
+        }
+
+        const existingAnswers = parseSafeJson(existing.answers, {});
+        const incomingAnswers = parseSafeJson(data.answers, data.answers || {});
+
+        const mergedAnswers = { ...existingAnswers };
+        if (incomingAnswers && typeof incomingAnswers === 'object') {
+            for (const [qId, incomingVal] of Object.entries(incomingAnswers)) {
+                if (mergedAnswers[qId] === undefined || mergedAnswers[qId] === null) {
+                    mergedAnswers[qId] = incomingVal;
+                }
+            }
+        }
+
+        const snapshot = parseSafeJson(existing.questionsSnapshot, []);
+        let computedScore = 0;
+        const answerKeys = Object.keys(mergedAnswers);
+
+        if (Array.isArray(snapshot) && snapshot.length > 0) {
+            snapshot.forEach(q => {
+                const userSelection = mergedAnswers[q.id || q._id];
+                if (userSelection !== undefined && userSelection !== null) {
+                    let opts = q.options;
+                    if (typeof opts === 'string') {
+                        try { opts = JSON.parse(opts); } catch { opts = []; }
+                    }
+                    let chosenText = '';
+                    if (typeof userSelection === 'number' && Array.isArray(opts) && opts[userSelection] !== undefined) {
+                        chosenText = String(opts[userSelection]);
+                    } else if (userSelection && typeof userSelection === 'object' && typeof userSelection.selectedIndex === 'number' && Array.isArray(opts)) {
+                        chosenText = String(opts[userSelection.selectedIndex]);
+                    } else {
+                        chosenText = String(userSelection || '');
+                    }
+                    const correct = q.correct_answer || q.correctAnswer || '';
+                    if (normalizeAnswer(chosenText) === normalizeAnswer(correct)) {
+                        computedScore++;
+                    }
+                }
+            });
+        }
+
+        const totalQ = existing.totalQuestions || (Array.isArray(snapshot) ? snapshot.length : answerKeys.length);
+        const computedAnsweredCount = answerKeys.length;
+        const computedProgressPercent = totalQ > 0 ? Math.round((computedAnsweredCount / totalQ) * 100) : 0;
+
+        await prisma.quizAttempt.update({
+            where: { id: String(id) },
+            data: {
+                status: 'completed',
+                answers: JSON.stringify(mergedAnswers),
+                score: computedScore,
+                answeredCount: computedAnsweredCount,
+                progressPercentage: computedProgressPercent,
+                completedAt: new Date(),
+                lastSavedAt: new Date()
+            }
         });
 
         return await prisma.quizAttempt.findUnique({ where: { id: String(id) } });

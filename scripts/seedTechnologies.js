@@ -31,7 +31,8 @@ const INITIAL_TECHNOLOGIES = [
     'SEO',
     'Express JS and Node JS',
     'Power BI',
-    'Excel'
+    'Excel',
+    'PHP, XML JSON, Laravel, MySQL, JavaScript'
 ];
 
 async function seedTechnologies() {

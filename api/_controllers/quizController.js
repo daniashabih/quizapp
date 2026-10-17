@@ -44,10 +44,71 @@ const quizController = {
             const certificatePassingScore = settings.certificatePassingScore || 80;
             const certificateEnabled = settings.certificateEnabled !== false;
 
+            // 2. Prevent duplicate submission if attempt already completed
+            if (attemptId) {
+                const existingAttempt = await Attempt.findById(attemptId, userId);
+                if (existingAttempt && existingAttempt.status === 'completed') {
+                    const existingResult = await prisma.quizResult.findFirst({
+                        where: {
+                            userId: String(userId),
+                            category: String(category).trim(),
+                            session: sessionNum
+                        },
+                        orderBy: { createdAt: 'desc' }
+                    });
+                    if (existingResult) {
+                        const passed = existingResult.percentage >= passingScore;
+                        const certificateEligible = certificateEnabled && (existingResult.percentage >= certificatePassingScore);
+                        const certId = certificateEligible ? `HB-CERT-${existingResult.id.slice(-6).toUpperCase()}` : null;
+                        const certData = certificateEligible ? {
+                            id: certId,
+                            resultId: existingResult.id,
+                            category: String(category).trim(),
+                            score: existingResult.percentage,
+                            percentage: existingResult.percentage,
+                            learnerName: req.user.name || 'Verified Learner',
+                            date: new Date(existingResult.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+                            verificationUrl: `https://hangbug.vercel.app/certificate/view?id=${certId}`
+                        } : null;
+
+                        return res.status(200).json({
+                            success: true,
+                            message: 'Quiz result retrieved (previously submitted).',
+                            resultId: existingResult.id,
+                            score: existingResult.score,
+                            total: existingResult.total,
+                            percentage: existingResult.percentage,
+                            passed,
+                            passingScore,
+                            certificateEligible,
+                            certificatePassingScore,
+                            certificateId: certId,
+                            certificate: certData
+                        });
+                    }
+                }
+            }
+
+            // 3. Merge locked answers from attempt if available
+            let effectiveAnswers = { ...(answers || {}) };
+            if (attemptId) {
+                const attemptRecord = await Attempt.findById(attemptId, userId);
+                if (attemptRecord) {
+                    let attAnswers = attemptRecord.answers;
+                    if (typeof attAnswers === 'string') {
+                        try { attAnswers = JSON.parse(attAnswers); } catch { attAnswers = {}; }
+                    }
+                    if (attAnswers && typeof attAnswers === 'object') {
+                        // Original recorded selections in attempt cannot be overwritten
+                        effectiveAnswers = { ...effectiveAnswers, ...attAnswers };
+                    }
+                }
+            }
+
             let computedScore = 0;
             let computedTotal = 0;
 
-            const answerKeys = Object.keys(answers || {});
+            const answerKeys = Object.keys(effectiveAnswers);
 
             if (answerKeys.length > 0) {
                 // Fetch actual questions from database to evaluate authoritatively
@@ -78,7 +139,7 @@ const quizController = {
                 answerKeys.forEach(qId => {
                     const q = questionMap.get(qId);
                     if (q) {
-                        const userSelection = answers[qId];
+                        const userSelection = effectiveAnswers[qId];
                         let chosenText = '';
 
                         let opts = q.options;
@@ -88,6 +149,8 @@ const quizController = {
 
                         if (typeof userSelection === 'number' && Array.isArray(opts) && opts[userSelection] !== undefined) {
                             chosenText = String(opts[userSelection]);
+                        } else if (userSelection && typeof userSelection === 'object' && typeof userSelection.selectedIndex === 'number' && Array.isArray(opts)) {
+                            chosenText = String(opts[userSelection.selectedIndex]);
                         } else {
                             chosenText = String(userSelection || '');
                         }

@@ -30,6 +30,14 @@ class ApiEndpoints {
   // Quizzes & Authoritative Evaluation
   static const String submitQuiz = '/quizzes/submit';
 
+  // Attempts & Resumption
+  static const String attemptsStart = '/attempts/start';
+  static const String attemptsInProgress = '/attempts/in-progress';
+  static String attemptById(String id) => '/attempts/$id';
+  static String attemptUpdate(String id) => '/attempts/$id';
+  static String attemptComplete(String id) => '/attempts/$id/complete';
+  static String attemptDiscard(String id) => '/attempts/$id';
+
   // Results
   static const String saveResult = '/results/save';
   static const String myResults = '/results/my-results';

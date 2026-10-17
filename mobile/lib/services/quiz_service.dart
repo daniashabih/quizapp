@@ -64,6 +64,7 @@ class QuizService {
     required String category,
     required int session,
     required Map<String, dynamic> answers,
+    String? attemptId,
     int? timeTaken,
     List<Map<String, dynamic>>? questionsSnapshot,
   }) async {
@@ -72,6 +73,7 @@ class QuizService {
       'session': session,
       'answers': answers,
     };
+    if (attemptId != null) payload['attemptId'] = attemptId;
     if (timeTaken != null) payload['timeTaken'] = timeTaken;
     if (questionsSnapshot != null) payload['questions'] = questionsSnapshot;
 
@@ -84,6 +86,89 @@ class QuizService {
     final resultData = data['result'] as Map<String, dynamic>? ?? data;
 
     return QuizResultModel.fromJson(resultData);
+  }
+
+  // Start or resume in-progress attempt on backend
+  Future<Map<String, dynamic>?> startOrResumeAttempt({
+    required String category,
+    required int session,
+    List<Map<String, dynamic>>? questionsSnapshot,
+    int? totalQuestions,
+    bool forceNew = false,
+    bool checkOnly = false,
+  }) async {
+    try {
+      final response = await apiClient.post(
+        ApiEndpoints.attemptsStart,
+        data: {
+          'category': category,
+          'session': session,
+          if (questionsSnapshot != null) 'questionsSnapshot': questionsSnapshot,
+          if (totalQuestions != null) 'totalQuestions': totalQuestions,
+          'forceNew': forceNew,
+          'checkOnly': checkOnly,
+        },
+      );
+      if (response.data is Map<String, dynamic>) {
+        return response.data as Map<String, dynamic>;
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // Auto-save in-progress attempt to backend
+  Future<bool> updateAttemptProgress(
+    String attemptId, {
+    required int currentQuestionIndex,
+    required Map<String, dynamic> answers,
+    List<String>? flaggedQuestions,
+    int? score,
+    int? answeredCount,
+    double? progressPercentage,
+    String? status,
+  }) async {
+    try {
+      await apiClient.put(
+        ApiEndpoints.attemptUpdate(attemptId),
+        data: {
+          'currentQuestionIndex': currentQuestionIndex,
+          'answers': answers,
+          if (flaggedQuestions != null) 'flaggedQuestions': flaggedQuestions,
+          if (score != null) 'score': score,
+          if (answeredCount != null) 'answeredCount': answeredCount,
+          if (progressPercentage != null) 'progressPercentage': progressPercentage,
+          if (status != null) 'status': status,
+        },
+      );
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  // Get full attempt by ID
+  Future<Map<String, dynamic>?> getAttemptById(String attemptId) async {
+    try {
+      final response = await apiClient.get(ApiEndpoints.attemptById(attemptId));
+      if (response.data is Map<String, dynamic>) {
+        return response.data as Map<String, dynamic>;
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // Discard attempt
+  Future<bool> discardAttempt(String attemptId) async {
+    try {
+      await apiClient.delete(ApiEndpoints.attemptDiscard(attemptId));
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   // Save quiz result (legacy / fallback)

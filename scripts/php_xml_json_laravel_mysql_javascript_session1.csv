@@ -1,0 +1,216 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_______ functions in SQL are the numeric functions that are used to perform calculations by taking input values as arguments.","Numerical","NULL","Mathematical","Date/Time","Mathematical"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The _____ FUNCTION command is used to remove a function (if it exists) from the database.","DISC","DROP","SUBDATE","REGEXP_INSTR","DROP"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_____ clause is used in SELECT statements to define filter conditions for a group of rows.","HIDDEN","HAD","HAVE_TO","HAVING","HAVING"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"In which of the following ways does the replication topology manager help?","Store topology and its status","Lets GUI, CUI, API to check status and perform required operations","Supports automatic failure of master","All of these","All of these"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"In _______ partitioning, data distribution is done on the basis of predefined number of partitions.","List","Hash","Range","Key","Hash"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Only after a _____ operation is performed in a particular transaction, changes of the respective can be read or seen by other transaction.","COMMIT","CONSTANT","DONE","FINAL","COMMIT"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which MySQL Database backup is created by copying the database files?","Logical backup by using MySQLdump","Partial backup","Physical backup","Hot backup","Physical backup"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The _____ is used to select all the rows from the table.","Dollar symbol","Hash symbol","Question mark","Asterisk symbol","Asterisk symbol"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which keyword is used to retrieve records by checking the possible values from a given column?","CHECK","CALC","IN","GAIN","IN"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"A _____ clause with a single expression fetches unique values from one column.","BETWEEN","DISTINCT","SELECT","EXP","DISTINCT"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which feature is used to combine and retrieve data from more than one table?","MySQL JOIN","MySQL LINK","MySQL RET","MySQL ADD","MySQL JOIN"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"When subqueries are used along with JOINS, the subquery is written using the _____ clause.","SET","ATTACH","WITH","FROM","FROM"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which is the default JOIN clause?","CROSS JOIN","SELF JOIN","INNER JOIN","OUTER JOIN","INNER JOIN"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"A ___ is a nested query inside another query.","Setquery","Subquery","Onequery","Nestquery","Subquery"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which single row operator checks values less than the values returned by the subquery?","Less Than (<)","Equal To (=)","More Than (>)","Less Than Equal To (<=)","Less Than (<)"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which multiple row operator returns the values less than the highest value of the list returned by the subquery?",">ALL",">ANY","<ALL","<ANY","<ANY"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_______ in MySQL can be defined as a program that performs independent operations.","Functions","Programmes","Application","Management","Functions"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"________ is an example of social media.","Printed newsletter","Television","Radio","Podcast","Podcast"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"______ was one of the first social media websites backed by advertisements.","LunarStorm","LinkedIn","Six Degrees","Facebook","Six Degrees"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Twitter is responsible for introducing __________.","Live streaming","Use of hashtag","Use of paid advertising","Use of pinboards","Use of hashtag"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_______ is used to deliver more value to customers.","Customer Relationship Management","Brand Management","Customer Engagement","Customer Responsibility Management","Customer Engagement"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"A _____ contains your basic details and picture, which can be viewed by your friends.","Live page","Account settings","Profile page","Security settings","Profile page"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following can be changed during digital transformation?","Business processes","Business model","Business strategies","All of these","All of these"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following requirement must be fulfilled before a digital strategy is formed?","Mapping customer expectations","Finalizing the capital budget","Choosing the right security program","Installing good workforce practices","Mapping customer expectations"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What is data about data called?","Organic data","Metadata","Inorganic data","Crucial data","Metadata"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"While merging two branches in Git, the branch to which the merge is happening is called ______ branch.","Receiving","Updated","Merging","New","Receiving"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"How many sub mechanisms are there in the synchronization mechanism of Git?","One","Two","Five","Four","Two"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"A user's work in Git iterates over three states. Which of the following is one of them?","Committed","Modified","Staged","All of these","All of these"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"______ refers to the process of obtaining a copy of an existing Git repository.","Committing","Editing","Deleting","Cloning","Cloning"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"________ is a process that creates a copy of the repository from the server into the user's own account.","Pulling","Forking","Committing","Versioning","Forking"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Identify types of GitHub Pages sites. (Select all that apply)","Project","User","Organization","Project, User, and Organization","Project, User, and Organization"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Identify which one of the following is not a reason for version control.","Managing several copies of files","Allowing easy collaboration","Increasing the speed of execution of project files","Maintaining history","Increasing the speed of execution of project files"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"______ partitioning splits the table into multiple tables with only few columns from the original table.","Straight","Diagonal","Vertical","Horizontal","Vertical"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_______ refers to the performance increase of any given system.","Excellence","Effectiveness","Efficiency","Optimization","Optimization"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What is the time taken for the database to respond to any query referred to as?","Employment Time","Execution Time","Time Travel","Working Mechanism","Execution Time"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"______ in DBMS is the process of improving the performance of data storage resources.","Storage management","Secret management","Storage system","Sharing data","Storage management"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_______ allows the central processing unit of the server to access the data without using other devices?","Tertiary storage","Secondary storage","Primary storage or memory","Master storage","Primary storage or memory"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following are the benefits of optimization of a query?","Improves the speed at which queries execute","Aids in management process","Reduces cost or price of hardware","All of these","All of these"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which query provides the time duration of query execution?","Appear_ALL","Showcase Data","show profiles","Share Profiles","show profiles"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Arrange the following stages involved in MySQL Replication process:
+1. Slaves should be in connection with the master and ready to retrieve the data.
+2. All operations related to databases should be copied to the master's binary log.
+3. Application of the binary log to its real log is then taken care of by the slave.
+4. The slave servers get the master's binary log.","3, 4, 2, and 1","1, 3, 4, and 2","4, 1, 2, and 3","2, 1, 4, and 3","2, 1, 4, and 3"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following are the uses of partitioning? (Select all that apply)","Improves quality of data","Queries cannot run faster","Stores huge data in a single table","Provides a mechanism for dividing data by usage pattern and stores huge data in multiple tables","Provides a mechanism for dividing data by usage pattern and stores huge data in multiple tables"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"XML inherited DTDs from _____ which is an international standard for markup languages.","troff and TEX","GML","SGML","HTML","SGML"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Match the following (minOccurs, maxOccurs) with the number of times the element can occur:
+
+Left:
+A1) 0,1
+A2) 1,1
+A3) 0,*
+A4) 1,*
+
+Matches:
+B1) 0 or 1
+B2) At least once
+B3) 1
+B4) Infinite","A1-B1, A2-B3, A3-B4, A4-B2","A1-B2, A2-B1, A3-B3, A4-B4","A1-B3, A2-B4, A3-B1, A4-B2","A1-B4, A2-B2, A3-B1, A4-B3","A1-B1, A2-B3, A3-B4, A4-B2"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Match the Column:
+
+Left:
+A1) fractionDigits
+A2) Enumeration
+A3) whiteSpace
+A4) pattern
+
+Matches:
+B1) Specifies an allowable value in an enumerated list.
+B2) Restrict string types.
+B3) Specifies the number of fractional digits in a numeric type.
+B4) Specifies how whitespace should be treated within the type.","A1-B3, A2-B1, A3-B4, A4-B2","A1-B1, A2-B3, A3-B2, A4-B4","A1-B4, A2-B2, A3-B1, A4-B3","A1-B2, A2-B4, A3-B3, A4-B1","A1-B3, A2-B1, A3-B4, A4-B2"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following does the code below represent?
+
+<xs:complexType name=""Books"">
+ <xs:simpleContent>
+ <xs:extension base=""xs:string"">
+ <xs:attribute name=""BookCode"" type=""xs:positiveInteger""/>
+ </xs:extension>
+ </xs:simpleContent>
+</xs:complexType>","Empty Elements","Mixed","Only Elements","Only Text","Only Text"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following MIME types is the unofficial one for JSON?","text/Json","document/Json","JavaScript/Json","application/Json","application/Json"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following is a drawback of a document-oriented database?","Tight coupling","Abstraction between logical and physical data","Normalization","Partial document navigation","Normalization"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following functions resolves the XSS and CSRF issues?","jsoneval()","jsonparse()","jsonstring()","jsonify()","jsonparse()"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"A series of zero or more Unicode characters within double quotes, with backslash escapes, is termed as _____.","Array","String","Object","Number","String"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following Gson methods are useful for implementing JSON? (Select all that apply)","json_encode()","json_decode()","Both toJson() and fromJson()","json_encode() and json_decode()","Both toJson() and fromJson()"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which pane displays the contents of the selected file?","Source Panel","File Navigator Pane","Code Editor Pane","JavaScript Debugging Pane","Code Editor Pane"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which tab allows verification of values of variables?","Script Tab","Debugger Tab","Multi Line Mode Tab","Style Editor Tab","Debugger Tab"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What is the purpose of using an API?","To retain functional code quality while reducing the size","To help import a complex functionality into a code","To compile and transcode JavaScript","To check form values and send alerts to the browser","To help import a complex functionality into a code"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What type of API provides an improved user experience and performance?","Simple Object Access Protocol API","Representational State Transfer API","Remote Procedure Call API","Responsive API","Representational State Transfer API"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which are the commonly used methods to fetch the content of an HTML element?","document.getElementById, getElementsByTagName","JSON.parse(), document.removeChild(element)","document.createElement(element), element.style.property = new style, element.setAttribute(attribute, value), getElementsByTagName","None of these","document.getElementById, getElementsByTagName"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"There are many APIs built on top of JavaScript that can deal with _____, _____ and _____ of DOM.","text, events, and objects","tools, routines, and protocols","events, routines, and objects","tools, objects, and protocols","events, routines, and objects"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What are the different types of messages displayed in the Web Console of Firefox's Web Developer?","Network Requests, JavaScript and CSS Error Messages, Security Errors and Warnings","Logged messages, Web page's JavaScript, Breakpoints","Network Requests, Debug Messages, Web page's JavaScript","Logged messages, Debug Messages, Breakpoints","Network Requests, JavaScript and CSS Error Messages, Security Errors and Warnings"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of these is the correct code to check if the Web Worker feature is supported by the browser?","if (typeof(Worker) !== 'undefined') { /* use Web Worker */ } else { alert(""Web workers are not supported by this Browser!""); }","if (Worker) { alert(""Web workers is supported by this Browser!"") } else { alert(""Web workers are not supported by this Browser!""); }","if (Worker === 'undefined') { alert(""Web workers are not supported by this Browser!""); return; } else { /* do something */ }","if (Worker === null) { alert(""Web workers are not supported by this Browser!""); return; } else { /* do something */ }","if (typeof(Worker) !== 'undefined') { /* use Web Worker */ } else { alert(""Web workers are not supported by this Browser!""); }"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Rearrange the steps to depict how server-side scripts process requests from a user.
+A. The Web server processes the user request.
+B. The user makes a request from the browser.
+C. The DB is queried and the result is sent back to the server.
+D. The Web server passes the request to DB.
+E. The output is displayed in the browser for the user.","B, A, D, C, E","A, E, B, C, D","C, E, D, A, B","D, A, E, B, C","B, A, D, C, E"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Match the Regular expression patterns with their uses:
+
+Left:
+A1) Brackets
+A2) Metacharacters
+A3) Quantifiers
+
+Matches:
+B1) Searches the match at the beginning of the word.
+B2) Specifies the number of occurrences for particular pattern.
+B3) Searches range of character between the brackets","A1-B3, A2-B1, A3-B2","A1-B1, A2-B2, A3-B3","A1-B2, A2-B3, A3-B1","A1-B3, A2-B2, A3-B1","A1-B3, A2-B1, A3-B2"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of these is the correct code to create a class with attributes year of language and creator of that language?","function language(year, name) { this.year = year; this.creator = name; } var Visual_Basic = new language(1991, ""Alan Cooper""); var Eiffel = new language(1983, ""Anders Hejlsberg""); console.log(Visual_Basic.creator)","function language(year, name) { year = year; creator = name; } var Visual_Basic = new language(1991, ""Alan Cooper""); var Eiffel = new language(1983, ""Anders Hejlsberg""); console.log(Visual_Basic.creator)","function Language(year, name) { this.year = year; this.creator = name; } var Visual_Basic = new language(1991, ""Alan Cooper""); var Eiffel = new language(1983, ""Anders Hejlsberg""); console.log(creator)","function (year) { this.year = year, this.creator = name; } var Visual_Basic = new language(1991, Alan Cooper); var Eiffel = new language(1983, Anders Hejlsberg); console.log(Visual_Basic.creator)","function language(year, name) { this.year = year; this.creator = name; } var Visual_Basic = new language(1991, ""Alan Cooper""); var Eiffel = new language(1983, ""Anders Hejlsberg""); console.log(Visual_Basic.creator)"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What is the Git equivalent of a locally created folder on a user's computer?","Repository","Folder","File","Sub folder","Repository"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following is at the heart of Git's version control process?","Branching","A series of snapshots","Locality","All of these","A series of snapshots"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What is essentially a connection established with an entity on a different machine?","Branch","Repository","Remote","Directory","Remote"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_________ maintains particulars of changes made to a file or set of files over a period of time.","Websites","Internet protocol","Search engine","Version Control Systems","Version Control Systems"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which branch is responsible for controlling the entire workflow?","Sub branch","Master Branch","Lower branch","Major branch","Master Branch"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What is the Git equivalent of the MS-Word 'Save' command?","Commit","Update","Delete","Save","Commit"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following is an advantage of Git?","Provides implicit backup","Brings along security","Is free and open source","All of these","All of these"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The _________ revolution brought about a huge change in entrepreneurship.","Green","White","Industrial","Golden","Industrial"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Based on ownership, entrepreneurship can be classified into ___ types.","One","Two","Three","Four","Three"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"A partnership deed contains details about ______.","The amount of stock purchased","The names of prospective business clients","The names and details of the partners","The names of the business services and products","The names and details of the partners"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"A group of people working together towards a similar goal or cause is called _____.","Team","Business enterprise","Entrepreneurship","Organization","Team"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Team norms are the ground rules by which team members operate _____.","Within their organization","Within their team","With external vendors","With all office staff","Within their team"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following is a strategy used in team collaborations?","Using right tools and techniques","Never conducting impromptu meetings","Closed communication between the team members","Avoiding fun activities","Using right tools and techniques"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following is true for digitally transforming processes?","It is optional and depends on the type of business.","Hybrid IT services will be impacted.","It results in accelerating workflows.","It results in a less scalable environment.","It results in accelerating workflows."
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"MySQL is based on _____ architecture.","Hierarchical","Network","Client/Server","Object-Oriented","Client/Server"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which key is used to maintain uniqueness in the table?","Candidate","Composite","Foreign","Primary","Primary"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"A _____ is a skeleton structure or logical configuration of a database.","Database schema","Database system","Database command","Database Language","Database schema"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which DDL command is used to restructure the database, table, and database objects?","CREATE","ALTER","DROP","TRUNCATE","ALTER"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What is the use of the SELECT command in MySQL?","To insert the records into the table","To modify data in a table","To fetch or retrieve records from tables","To delete all records","To fetch or retrieve records from tables"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following are the disadvantages of the Object-Oriented Data Model?","It creates complexity and increases the cost","It is not a universally agreed data model","Lack of security support","All of these","All of these"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_______ refers to storing data twice or duplicating data.","Drop","Foreign Key","Redundancy","Index","Redundancy"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What are the advantages of the Hierarchical Model?","Has limitations in representing the relationships","Natural method of implementing records and their relationship","Overall data model for the enterprise cannot be shown using this model","Data integrity is not observed","Natural method of implementing records and their relationship"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The database table will be in the _____ if it contains two or more independent entities with different values in each entity.","3NF","BCNF","4NF","6NF","4NF"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The following are steps to create Internal DTDs. Arrange them in order:
+1. Declare all the possible elements.
+2. Declare all the possible element attributes.
+3. Set the attribute data types and values.
+4. Declare all the possible entities.
+5. Set the order in which elements must appear.
+6. Specify the permissible element children, if any.","1, 2, 3, 4, 5, 6","2, 3, 5, 4, 1, 6","1, 6, 5, 2, 3, 4","5, 3, 6, 1, 2, 4","1, 6, 5, 2, 3, 4"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following functions converts a JavaScript value into a JSON string?","JSON.string()","JSON.stringify()","JSON.tovalue()","JSON.Jconvert()","JSON.stringify()"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following PHP functions decodes JSON structures?","php_decode","json_decode","php_json_decode","pi_decode","json_decode"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following objects is used to read a JSON file and display its contents in the browser?","XMLJSONRequest","HTTPJSONRequest","XMLHttpRequest","JSONHttpRequest","XMLHttpRequest"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following keywords is used to create an object?","object","New","new","class","new"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"__________ data type is used in a script wherever required to perform a task repeatedly.","Booleans","Functions","Strings","Objects","Functions"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What is the feature of a variable?","A variable must be declared before using it.","A variable requires an application to process requests.","A variable is used to download embedded scripts.","A variable is simple and user friendly.","A variable must be declared before using it."
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which among these predefined properties does RegExp have?","Pattern only","Matcher and Madrid","Pattern and Matcher","Pattern and Madrid","Pattern only"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What has 'name:value' pairs separated by a comma?","RegExp","Object Literal","Madrid","Metacharacters","Object Literal"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Identify the language from which JSON is derived.","JavaScript","PHP","C","ECMAScript","JavaScript"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"JSON _____ specifies the rules that define the structure of a JSON document.","Schema","Comments","Metadata","Hyper Schema","Schema"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following JSON data structures can be sorted?","Dictionary","Map","Object","Array","Array"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following string types is used to represent a page break especially while printing, and as a part of text value or a URL respectively?","Form feed, Carriage return","Reverse solidus, solidus","Form feed, Solidus","Form feed, Reverse solidus","Form feed, Solidus"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following are valid JSON statements?","{}","{""p"":"", ""p"":""q""}","{""p"": [] ""x"":1}","{1:""X"", ""X"":1}","{}"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following are characteristics of the object data type? (Select all that apply)","It is enclosed in square brackets []","It is an ordered sequential array of values","Key/value pairs are separated by semicolons (;)","Non-sequential (unordered) set of key/value pairs enclosed in curly braces {} separated by commas with colon after keys","Non-sequential (unordered) set of key/value pairs enclosed in curly braces {} separated by commas with colon after keys"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Match the following:
+
+Left:
+A1) List
+A2) Set
+A3) Map
+A4) Schema
+
+Matches:
+B1) Accepts data in the form of key and value pairs and each key is distinct.
+B2) Sets attributes to be used by the next transaction.
+B3) The elements follow a defined order and copies or duplicates are allowed.
+B4) Specifies the rules that define the structure of a JSON document.","A1-B3, A2-B2, A3-B1, A4-B4","A1-B1, A2-B3, A3-B4, A4-B2","A1-B2, A2-B1, A3-B3, A4-B4","A1-B4, A2-B2, A3-B1, A4-B3","A1-B3, A2-B2, A3-B1, A4-B4"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"An _____ in XML is a placeholder that consists of a name and a value.","DTD","ELEMENT","ENTITY","Root element","ENTITY"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Match the following (1,2,3,4) with (a,b,c,d):
+1. <xsl:template match=""Greeting"">
+2. <xsl:template match=""P//EM"">
+3. <xsl:template match=""/"">
+4. <xsl:template match=""Product""> ... <xsl:apply-templates select=""@Units""/>
+
+a) Matching by ancestry
+b) Matching by attribute
+c) Matching by name
+d) Matching by root","a-1, b-2, c-3, d-4","a-1, b-3, c-2, d-4","a-4, b-3, c-2, d-1","a-2, b-4, c-1, d-3","a-2, b-4, c-1, d-3"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_______ refers to adherence to basic XML syntax rules while _______ refers to adherence to the DTDs too.","Validity, Well-formed","Well-formed, Validity","Internal DTDs, Validity","Well-formed, Internal DTDs","Well-formed, Validity"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following does the syntax <!ELEMENT element-name (child-name*)> represent?","Only One Occurrence","Minimum One Occurrence","Zero or More Occurrences","Zero or One Occurrences","Zero or More Occurrences"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The _______ tool is an automation tool that helps to create models, views, and controllers pre-filled with a template.","command","artisan","PHP Dependency","Framework","artisan"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The ______ file in Windows is the first file that is referenced when the operating system tries to resolve a domain name.","hosts","local","public",".yaml","hosts"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_________ is an essential feature in Laravel that enables all application requests to direct towards its respective controller.","SSH","Unit Testing","Routing","Migration System","Routing"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Laravel recommends the use of ____ when writing codes.","Models","Views","Script","Keys","Models"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The _____ method uses the URI, two arguments, and the closure function that is executed in response to the URI.","put","push","get","set","get"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_______ helps in implementing CRUD operations.","Routes","Eloquent ORM","Operators","DB query builder class","Eloquent ORM"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following statements is TRUE?
+(1) The code folder inside the Homestead directory and the Homestead environment are the same.
+(2) By default, Laravel has a Route class, which has only one method to handle each type of HTTP request.","Both 1 and 2","Only 2","None of these","Only 1","None of these"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_____ refers to the concept of sending records in blocks.","Validation","Pagination","Routing","Authentication","Pagination"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The basic contents of a Web application are written in the _______.","template engine","local file","master template","public folder","template engine"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"A ______ is a case where the attributes of a model are blindly updated.","Attribute","Mass Assignment","Static Controller","Mighty Model","Mass Assignment"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Match the following:
+
+Left:
+A1) PHP
+A2) Composer
+A3) VirtualBox
+A4) Vagrant
+A5) GitBash
+A6) Homestead
+
+Matches:
+B1) Used to generate SSH Keys.
+B2) An automation tool for building and managing virtual machine environments.
+B3) A virtual environment that provides resource to efficiently code web applications in Laravel.
+B4) A dependency management tool for PHP.
+B5) Should be installed on the Windows host operating system to use Composer.
+B6) A free and open source hypervisor that allows running guest VMs.","A1-B5, A2-B4, A3-B6, A4-B2, A5-B1, A6-B3","A1-B4, A2-B5, A3-B6, A4-B2, A5-B1, A6-B3","A1-B5, A2-B4, A3-B2, A4-B6, A5-B3, A6-B1","A1-B1, A2-B2, A3-B3, A4-B4, A5-B5, A6-B6","A1-B5, A2-B4, A3-B6, A4-B2, A5-B1, A6-B3"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The acronym for Hypertext Processor is _____.","HP","PHP","HTTP","HTML","PHP"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"A ____ is a basic templating structure that is used to develop, test, and deploy applications rapidly and efficiently.","Template Engine","Web Engine","Framework","Script","Framework"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"_________ is a development model that includes rapid prototyping.","Rapid Action Program","Laravel Framework","Templating","Rapid Application Development","Rapid Application Development"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The ____ directory includes the code that collates all files spread throughout the directory and runs the application.","bootstrap","app","config","routes","bootstrap"
