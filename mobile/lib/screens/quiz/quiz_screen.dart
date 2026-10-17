@@ -395,6 +395,33 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
 
                                 const SizedBox(height: 20),
 
+                                // Controlled Question Data Integrity Notice
+                                if (state.currentQuestion != null && !state.currentQuestion!.hasValidCorrectAnswer)
+                                  Container(
+                                    margin: const EdgeInsets.only(bottom: 14),
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.errorBg,
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.error_outline_rounded, color: AppColors.error, size: 20),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Text(
+                                            'Data Notice: The correct answer for this question could not be verified against the options. Reported for correction.',
+                                            style: AppTextStyles.bodySmall.copyWith(
+                                              color: AppColors.error,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
                                 // Interactive Options Deck with Immediate Feedback & Animations
                                 if (state.currentQuestion != null) ...[
                                   ...state.currentQuestion!.options.asMap().entries.map((entry) {
@@ -403,11 +430,13 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                                     final questionId = state.currentQuestion!.id;
                                     final optionLetter = String.fromCharCode(65 + index);
 
-                                    final isEvaluated = state.selectedAnswers.containsKey(questionId);
-                                    final isUserSelection =
-                                        state.selectedAnswers[questionId] == index;
-                                    final isCorrectOption =
-                                        index == state.currentQuestion!.correctOptionIndex;
+                                    final eval = state.evaluatedAnswers[questionId];
+                                    final isEvaluated = eval != null || state.selectedAnswers.containsKey(questionId);
+                                    final userSelectedIdx = eval?.selectedOptionIndex ?? state.selectedAnswers[questionId];
+                                    final isUserSelection = isEvaluated && userSelectedIdx == index;
+                                    final hasValid = state.currentQuestion!.hasValidCorrectAnswer;
+                                    final correctOptionIndex = eval?.correctOptionIndex ?? state.currentQuestion!.correctOptionIndex;
+                                    final isCorrectOption = hasValid && correctOptionIndex != -1 && index == correctOptionIndex;
 
                                     final shouldAnimate =
                                         state.lastSelectedQuestionId == questionId &&
@@ -421,6 +450,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                                       isEvaluated: isEvaluated,
                                       isUserSelection: isUserSelection,
                                       isCorrectOption: isCorrectOption,
+                                      hasValidCorrectAnswer: hasValid,
                                       shouldAnimate: shouldAnimate,
                                       onTap: isEvaluated
                                           ? null
@@ -594,6 +624,7 @@ class QuizAnswerOptionCard extends StatefulWidget {
   final bool isEvaluated;
   final bool isUserSelection;
   final bool isCorrectOption;
+  final bool hasValidCorrectAnswer;
   final bool shouldAnimate;
   final VoidCallback? onTap;
 
@@ -605,6 +636,7 @@ class QuizAnswerOptionCard extends StatefulWidget {
     required this.isEvaluated,
     required this.isUserSelection,
     required this.isCorrectOption,
+    this.hasValidCorrectAnswer = true,
     required this.shouldAnimate,
     this.onTap,
   });
@@ -662,6 +694,7 @@ class _QuizAnswerOptionCardState extends State<QuizAnswerOptionCard>
     final isEvaluated = widget.isEvaluated;
     final isUserSelection = widget.isUserSelection;
     final isCorrectOption = widget.isCorrectOption;
+    final hasValidCorrectAnswer = widget.hasValidCorrectAnswer;
 
     Color cardBg;
     Color borderColor;
@@ -682,6 +715,34 @@ class _QuizAnswerOptionCardState extends State<QuizAnswerOptionCard>
       textColor = AppColors.textPrimary;
       trailingIcon = null;
       statusBadge = null;
+    } else if (isUserSelection && !hasValidCorrectAnswer) {
+      // 1.5. Evaluated & User selected option with missing/invalid correct answer in DB
+      cardBg = AppColors.warningBg;
+      borderColor = AppColors.warning;
+      borderWidth = 2.0;
+      chipBg = AppColors.warning;
+      chipFg = Colors.white;
+      textColor = AppColors.textPrimary;
+      trailingIcon = const Icon(
+        Icons.warning_amber_rounded,
+        color: AppColors.warning,
+        size: 22,
+      );
+      statusBadge = Container(
+        margin: const EdgeInsets.only(top: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        decoration: BoxDecoration(
+          color: AppColors.warning.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Text(
+          'Unverified Answer Data',
+          style: AppTextStyles.labelBold.copyWith(
+            color: AppColors.warning,
+            fontSize: 11,
+          ),
+        ),
+      );
     } else if (isUserSelection && !isCorrectOption) {
       // 2. Evaluated & User selected WRONG answer
       cardBg = AppColors.errorBg;
@@ -731,7 +792,7 @@ class _QuizAnswerOptionCardState extends State<QuizAnswerOptionCard>
           borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
-          isUserSelection ? 'Correct Answer!' : 'Correct Answer',
+          'Correct Answer',
           style: AppTextStyles.labelBold.copyWith(
             color: AppColors.success,
             fontSize: 11,

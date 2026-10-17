@@ -4,8 +4,103 @@ function normalizeAnswer(val) {
     return String(val || '')
         .trim()
         .toLowerCase()
+        .replace(/^[a-d\d][\)\.\:\-]\s*/i, '')
+        .replace(/\[\s*correct\s*\]|\(\s*correct\s*\)|\*+$/i, '')
         .replace(/\band\b/g, '&')
-        .replace(/\s+/g, ' ');
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+/**
+ * Authoritatively evaluates whether user's selected option is correct
+ * against the trusted question definition in MongoDB.
+ * Rejects fabricated values, ignores client-supplied isCorrect/score,
+ * and fails safely if correct answer is missing/invalid in database.
+ */
+function evaluateAnswerCorrectness(userSelection, question) {
+    if (!question) return false;
+    const rawCorrect = String(question.correct_answer || question.correctAnswer || '').trim();
+    if (!rawCorrect) return false;
+
+    let opts = question.options;
+    if (typeof opts === 'string') {
+        try { opts = JSON.parse(opts); } catch { opts = []; }
+    }
+    if (!Array.isArray(opts) || opts.length === 0) return false;
+
+    // Resolve user's chosen index and text
+    let userIdx = -1;
+    let userText = '';
+
+    if (typeof userSelection === 'number') {
+        userIdx = userSelection;
+        if (opts[userIdx] !== undefined) userText = String(opts[userIdx]);
+    } else if (typeof userSelection === 'string' && /^\d+$/.test(userSelection.trim())) {
+        const parsed = parseInt(userSelection.trim(), 10);
+        if (parsed >= 0 && parsed < opts.length) {
+            userIdx = parsed;
+            userText = String(opts[userIdx]);
+        } else {
+            userText = userSelection.trim();
+        }
+    } else if (userSelection && typeof userSelection === 'object') {
+        if (typeof userSelection.selectedIndex === 'number') {
+            userIdx = userSelection.selectedIndex;
+            if (opts[userIdx] !== undefined) userText = String(opts[userIdx]);
+        }
+        if (!userText && userSelection.text) {
+            userText = String(userSelection.text);
+        }
+    } else {
+        userText = String(userSelection || '').trim();
+    }
+
+    if (userIdx === -1 && userText) {
+        userIdx = opts.findIndex(o => normalizeAnswer(o) === normalizeAnswer(userText));
+    }
+
+    // Determine correct option index from database source of truth
+    let correctIdx = -1;
+
+    // 1. Direct normalized text match
+    for (let i = 0; i < opts.length; i++) {
+        if (normalizeAnswer(opts[i]) === normalizeAnswer(rawCorrect)) {
+            correctIdx = i;
+            break;
+        }
+    }
+
+    // 2. Letter match: 'A', 'B', 'C', 'D'
+    if (correctIdx === -1 && /^[a-d]$/i.test(rawCorrect)) {
+        const idx = rawCorrect.toUpperCase().charCodeAt(0) - 65;
+        if (idx >= 0 && idx < opts.length) {
+            correctIdx = idx;
+        }
+    }
+
+    // 3. Digit index match: '0', '1', '2', '3'
+    if (correctIdx === -1 && /^\d+$/.test(rawCorrect)) {
+        const digit = parseInt(rawCorrect, 10);
+        if (digit >= 0 && digit < opts.length) {
+            correctIdx = digit;
+        }
+    }
+
+    // If correct answer could not be verified in options, fail safely
+    if (correctIdx === -1) {
+        return false;
+    }
+
+    // Compare index and normalized text
+    if (userIdx !== -1 && userIdx === correctIdx) {
+        return true;
+    }
+
+    if (userText && normalizeAnswer(userText) === normalizeAnswer(opts[correctIdx])) {
+        return true;
+    }
+
+    return false;
 }
 
 function parseSafeJson(str, fallback) {
@@ -134,20 +229,7 @@ const Attempt = {
             snapshot.forEach(q => {
                 const userSelection = mergedAnswers[q.id || q._id];
                 if (userSelection !== undefined && userSelection !== null) {
-                    let opts = q.options;
-                    if (typeof opts === 'string') {
-                        try { opts = JSON.parse(opts); } catch { opts = []; }
-                    }
-                    let chosenText = '';
-                    if (typeof userSelection === 'number' && Array.isArray(opts) && opts[userSelection] !== undefined) {
-                        chosenText = String(opts[userSelection]);
-                    } else if (userSelection && typeof userSelection === 'object' && typeof userSelection.selectedIndex === 'number' && Array.isArray(opts)) {
-                        chosenText = String(opts[userSelection.selectedIndex]);
-                    } else {
-                        chosenText = String(userSelection || '');
-                    }
-                    const correct = q.correct_answer || q.correctAnswer || '';
-                    if (normalizeAnswer(chosenText) === normalizeAnswer(correct)) {
+                    if (evaluateAnswerCorrectness(userSelection, q)) {
                         computedScore++;
                     }
                 }
@@ -159,17 +241,7 @@ const Attempt = {
             dbQuestions.forEach(q => {
                 const userSelection = mergedAnswers[q.id];
                 if (userSelection !== undefined && userSelection !== null) {
-                    let opts = q.options;
-                    if (typeof opts === 'string') {
-                        try { opts = JSON.parse(opts); } catch { opts = []; }
-                    }
-                    let chosenText = '';
-                    if (typeof userSelection === 'number' && Array.isArray(opts) && opts[userSelection] !== undefined) {
-                        chosenText = String(opts[userSelection]);
-                    } else {
-                        chosenText = String(userSelection || '');
-                    }
-                    if (normalizeAnswer(chosenText) === normalizeAnswer(q.correctAnswer)) {
+                    if (evaluateAnswerCorrectness(userSelection, q)) {
                         computedScore++;
                     }
                 }
@@ -241,20 +313,7 @@ const Attempt = {
             snapshot.forEach(q => {
                 const userSelection = mergedAnswers[q.id || q._id];
                 if (userSelection !== undefined && userSelection !== null) {
-                    let opts = q.options;
-                    if (typeof opts === 'string') {
-                        try { opts = JSON.parse(opts); } catch { opts = []; }
-                    }
-                    let chosenText = '';
-                    if (typeof userSelection === 'number' && Array.isArray(opts) && opts[userSelection] !== undefined) {
-                        chosenText = String(opts[userSelection]);
-                    } else if (userSelection && typeof userSelection === 'object' && typeof userSelection.selectedIndex === 'number' && Array.isArray(opts)) {
-                        chosenText = String(opts[userSelection.selectedIndex]);
-                    } else {
-                        chosenText = String(userSelection || '');
-                    }
-                    const correct = q.correct_answer || q.correctAnswer || '';
-                    if (normalizeAnswer(chosenText) === normalizeAnswer(correct)) {
+                    if (evaluateAnswerCorrectness(userSelection, q)) {
                         computedScore++;
                     }
                 }
@@ -295,4 +354,5 @@ const Attempt = {
     }
 };
 
+Attempt.evaluateAnswerCorrectness = evaluateAnswerCorrectness;
 module.exports = Attempt;

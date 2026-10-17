@@ -746,10 +746,10 @@ const Quiz = () => {
                                         {opt}
                                     </span>
 
-                                    {/* Selected Checkmark Icon */}
+                                    {/* Selected Option Radio Indicator */}
                                     {isSelected && (
-                                        <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#193D35] text-white flex items-center justify-center shrink-0 shadow-2xs animate-scale-in">
-                                            <Check size={13} strokeWidth={3} />
+                                        <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-[#193D35] flex items-center justify-center shrink-0 shadow-2xs animate-scale-in">
+                                            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#193D35]" />
                                         </div>
                                     )}
                                 </button>
