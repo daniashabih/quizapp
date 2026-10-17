@@ -48,8 +48,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   _buildDetailRow('Email', user?.email ?? 'N/A'),
                   const Divider(height: 20),
                   _buildDetailRow('Account Type', user?.isAdmin == true ? 'Administrator' : 'Learner'),
-                  const Divider(height: 20),
-                  _buildDetailRow('API Server', AppConfig.apiBaseUrl),
+                  if (user?.isAdmin == true) ...[
+                    const Divider(height: 20),
+                    _buildDetailRow('API Server', AppConfig.apiBaseUrl),
+                  ],
                 ],
               ),
             ),

@@ -98,16 +98,18 @@ class QuizService {
     bool checkOnly = false,
   }) async {
     try {
+      final payload = <String, dynamic>{
+        'category': category,
+        'session': session,
+        'forceNew': forceNew,
+        'checkOnly': checkOnly,
+      };
+      if (questionsSnapshot != null) payload['questionsSnapshot'] = questionsSnapshot;
+      if (totalQuestions != null) payload['totalQuestions'] = totalQuestions;
+
       final response = await apiClient.post(
         ApiEndpoints.attemptsStart,
-        data: {
-          'category': category,
-          'session': session,
-          if (questionsSnapshot != null) 'questionsSnapshot': questionsSnapshot,
-          if (totalQuestions != null) 'totalQuestions': totalQuestions,
-          'forceNew': forceNew,
-          'checkOnly': checkOnly,
-        },
+        data: payload,
       );
       if (response.data is Map<String, dynamic>) {
         return response.data as Map<String, dynamic>;
@@ -130,17 +132,19 @@ class QuizService {
     String? status,
   }) async {
     try {
+      final payload = <String, dynamic>{
+        'currentQuestionIndex': currentQuestionIndex,
+        'answers': answers,
+      };
+      if (flaggedQuestions != null) payload['flaggedQuestions'] = flaggedQuestions;
+      if (score != null) payload['score'] = score;
+      if (answeredCount != null) payload['answeredCount'] = answeredCount;
+      if (progressPercentage != null) payload['progressPercentage'] = progressPercentage;
+      if (status != null) payload['status'] = status;
+
       await apiClient.put(
         ApiEndpoints.attemptUpdate(attemptId),
-        data: {
-          'currentQuestionIndex': currentQuestionIndex,
-          'answers': answers,
-          if (flaggedQuestions != null) 'flaggedQuestions': flaggedQuestions,
-          if (score != null) 'score': score,
-          if (answeredCount != null) 'answeredCount': answeredCount,
-          if (progressPercentage != null) 'progressPercentage': progressPercentage,
-          if (status != null) 'status': status,
-        },
+        data: payload,
       );
       return true;
     } catch (_) {

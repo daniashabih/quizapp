@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_strings.dart';
 import '../../core/constants/app_text_styles.dart';
-import '../../models/question_model.dart';
 import '../../providers/quiz_provider.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
@@ -855,7 +854,7 @@ class _QuizAnswerOptionCardState extends State<QuizAnswerOptionCard>
                               color: textColor,
                             ),
                           ),
-                          if (statusBadge != null) statusBadge,
+                          ?statusBadge,
                         ],
                       ),
                     ),
