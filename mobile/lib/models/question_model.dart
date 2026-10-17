@@ -23,49 +23,77 @@ class QuestionModel {
 
   String get question => questionText;
 
-  /// Returns the 0-based index of the correct option in [options],
-  /// matching by text, letter (A-D), or index. Returns -1 if not found.
+  /// Helper to clean option text or answer strings by stripping common prefixes/suffixes
+  static String _cleanText(String s) {
+    return s
+        .trim()
+        .toLowerCase()
+        .replaceAll(RegExp(r'^[a-d\d][\)\.\:\-]\s*'), '')
+        .replaceAll(RegExp(r'\[\s*correct\s*\]|\(\s*correct\s*\)|\*+$'), '')
+        .replaceAll(RegExp(r'\band\b'), '&')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+  }
+
+  /// Returns the 0-based index of the verified correct option in [options],
+  /// matching by text, letter (A-D), clean text, or valid index.
+  /// Returns -1 if not found or if question data is missing/invalid.
   int get correctOptionIndex {
-    final trimmedCorrect = correctAnswer.trim().toLowerCase();
-    
+    final rawCorrect = correctAnswer.trim();
+    if (rawCorrect.isEmpty || options.isEmpty) return -1;
+
+    final trimmedLowerCorrect = rawCorrect.toLowerCase();
+
     // 1. Exact or case-insensitive match on option text
     for (int i = 0; i < options.length; i++) {
-      if (options[i].trim().toLowerCase() == trimmedCorrect) {
+      if (options[i].trim().toLowerCase() == trimmedLowerCorrect) {
         return i;
       }
     }
 
     // 2. Letter match: 'A', 'B', 'C', 'D' (or lowercase)
-    if (correctAnswer.trim().length == 1) {
-      final code = correctAnswer.trim().toUpperCase().codeUnitAt(0);
+    if (rawCorrect.length == 1) {
+      final code = rawCorrect.toUpperCase().codeUnitAt(0);
       final idx = code - 65; // 'A' -> 0, 'B' -> 1, etc.
       if (idx >= 0 && idx < options.length) {
         return idx;
       }
     }
 
-    // 3. Digit match: '0', '1', '2', '3'
-    final digit = int.tryParse(correctAnswer.trim());
+    // 3. Cleaned text match (handles options or answers formatted like "A) Option" or "Option [CORRECT]")
+    final cleanCorrect = _cleanText(rawCorrect);
+    if (cleanCorrect.isNotEmpty) {
+      for (int i = 0; i < options.length; i++) {
+        if (_cleanText(options[i]) == cleanCorrect) {
+          return i;
+        }
+      }
+    }
+
+    // 4. Digit match: '0', '1', '2', '3'
+    final digit = int.tryParse(rawCorrect);
     if (digit != null && digit >= 0 && digit < options.length) {
       return digit;
     }
 
-    // 4. Normalized match (collapse whitespace and normalize & vs and)
-    final normCorrect = trimmedCorrect
-        .replaceAll(RegExp(r'\band\b'), '&')
-        .replaceAll(RegExp(r'\s+'), ' ');
-    for (int i = 0; i < options.length; i++) {
-      final normOpt = options[i]
-          .trim()
-          .toLowerCase()
-          .replaceAll(RegExp(r'\band\b'), '&')
-          .replaceAll(RegExp(r'\s+'), ' ');
-      if (normOpt == normCorrect) {
-        return i;
-      }
-    }
-
     return -1;
+  }
+
+  /// Whether this question has a verified, non-empty correct answer matching one of its options
+  bool get hasValidCorrectAnswer => correctOptionIndex != -1;
+
+  /// Returns whether a given option index is authoritatively correct
+  bool isOptionCorrect(int index) {
+    if (index < 0 || index >= options.length) return false;
+    final correctIdx = correctOptionIndex;
+    return correctIdx != -1 && index == correctIdx;
+  }
+
+  /// The text of the verified correct option from [options]
+  String? get verifiedCorrectOptionText {
+    final idx = correctOptionIndex;
+    if (idx >= 0 && idx < options.length) return options[idx];
+    return null;
   }
 
   factory QuestionModel.fromJson(Map<String, dynamic> json) {
@@ -139,6 +167,7 @@ class QuestionEvaluationState {
   final bool isLocked;
   final int correctOptionIndex;
   final String? explanation;
+  final bool hasValidCorrectAnswer;
 
   const QuestionEvaluationState({
     required this.selectedOptionIndex,
@@ -146,6 +175,7 @@ class QuestionEvaluationState {
     this.isLocked = true,
     required this.correctOptionIndex,
     this.explanation,
+    this.hasValidCorrectAnswer = true,
   });
 
   Map<String, dynamic> toJson() => {
@@ -153,6 +183,7 @@ class QuestionEvaluationState {
         'isCorrect': isCorrect,
         'isLocked': isLocked,
         'correctOptionIndex': correctOptionIndex,
+        'hasValidCorrectAnswer': hasValidCorrectAnswer,
         if (explanation != null) 'explanation': explanation,
       };
 
@@ -162,6 +193,7 @@ class QuestionEvaluationState {
       isCorrect: json['isCorrect'] as bool? ?? false,
       isLocked: json['isLocked'] as bool? ?? true,
       correctOptionIndex: json['correctOptionIndex'] as int? ?? -1,
+      hasValidCorrectAnswer: json['hasValidCorrectAnswer'] as bool? ?? ((json['correctOptionIndex'] as int? ?? -1) != -1),
       explanation: json['explanation'] as String?,
     );
   }

@@ -168,11 +168,13 @@ class QuizNotifier extends StateNotifier<QuizState> {
                 if (restoredSelected.containsKey(q.id) && !restoredEvaluated.containsKey(q.id)) {
                   final chosenIdx = restoredSelected[q.id]!;
                   final correctIdx = q.correctOptionIndex;
+                  final hasValid = q.hasValidCorrectAnswer;
                   restoredEvaluated[q.id] = QuestionEvaluationState(
                     selectedOptionIndex: chosenIdx,
-                    isCorrect: chosenIdx == correctIdx,
+                    isCorrect: hasValid && chosenIdx == correctIdx,
                     isLocked: true,
                     correctOptionIndex: correctIdx,
+                    hasValidCorrectAnswer: hasValid,
                     explanation: q.explanation,
                   );
                 }
@@ -237,11 +239,13 @@ class QuizNotifier extends StateNotifier<QuizState> {
               if (restoredSelected.containsKey(q.id)) {
                 final chosenIdx = restoredSelected[q.id]!;
                 final correctIdx = q.correctOptionIndex;
+                final hasValid = q.hasValidCorrectAnswer;
                 restoredEvaluated[q.id] = QuestionEvaluationState(
                   selectedOptionIndex: chosenIdx,
-                  isCorrect: chosenIdx == correctIdx,
+                  isCorrect: hasValid && chosenIdx == correctIdx,
                   isLocked: true,
                   correctOptionIndex: correctIdx,
+                  hasValidCorrectAnswer: hasValid,
                   explanation: q.explanation,
                 );
               }
@@ -331,8 +335,9 @@ class QuizNotifier extends StateNotifier<QuizState> {
       return;
     }
 
+    final hasValid = question.hasValidCorrectAnswer;
     final correctIdx = question.correctOptionIndex;
-    final isCorrect = (optionIndex == correctIdx);
+    final isCorrect = hasValid && (optionIndex == correctIdx);
 
     // Synchronously lock and update state
     final updatedSelected = Map<String, int>.from(state.selectedAnswers);
@@ -344,6 +349,7 @@ class QuizNotifier extends StateNotifier<QuizState> {
       isCorrect: isCorrect,
       isLocked: true,
       correctOptionIndex: correctIdx,
+      hasValidCorrectAnswer: hasValid,
       explanation: question.explanation,
     );
 
@@ -511,12 +517,8 @@ class QuizNotifier extends StateNotifier<QuizState> {
       int fallbackScore = 0;
       for (final q in state.questions) {
         final selectedIdx = state.selectedAnswers[q.id];
-        if (selectedIdx != null && selectedIdx < q.options.length) {
-          final chosenText = q.options[selectedIdx].trim().toLowerCase();
-          final correctText = q.correctAnswer.trim().toLowerCase();
-          if (chosenText == correctText) {
-            fallbackScore++;
-          }
+        if (selectedIdx != null && q.isOptionCorrect(selectedIdx)) {
+          fallbackScore++;
         }
       }
 
