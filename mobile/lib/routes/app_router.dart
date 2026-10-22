@@ -15,6 +15,7 @@ import '../screens/admin/admin_users_screen.dart';
 import '../screens/auth/forgot_password_screen.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
+import '../screens/auth/reset_password_screen.dart';
 import '../screens/certificates/certificate_view_screen.dart';
 import '../screens/certificates/certificates_screen.dart';
 import '../screens/explore/explore_screen.dart';
@@ -90,6 +91,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           currentLoc == '/login' ||
           currentLoc == '/register' ||
           currentLoc == '/forgot-password' ||
+          currentLoc.startsWith('/reset-password') ||
           currentLoc == '/maintenance' ||
           currentLoc.startsWith('/legal');
 
@@ -140,6 +142,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/forgot-password',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+      GoRoute(
+        path: '/reset-password',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final token = state.uri.queryParameters['token'] ??
+              (state.extra is Map ? (state.extra as Map)['token'] as String? : null) ??
+              '';
+          return ResetPasswordScreen(token: token);
+        },
       ),
 
       // Main Stateful Shell with Bottom Navigation
@@ -311,3 +323,4 @@ Widget _buildQuizScreen(GoRouterState state) {
 
   return QuizScreen(category: category, session: session);
 }
+

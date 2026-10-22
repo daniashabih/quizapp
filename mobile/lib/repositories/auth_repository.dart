@@ -105,4 +105,22 @@ class AuthRepository {
   Future<String> forgotPassword(String email) async {
     return await authService.forgotPassword(email);
   }
+
+  // Verify Reset Token
+  Future<bool> verifyResetToken(String token) async {
+    return await authService.verifyResetToken(token);
+  }
+
+  // Reset password
+  Future<String> resetPassword({
+    required String token,
+    required String password,
+    String? confirmPassword,
+  }) async {
+    return await authService.resetPassword(
+      token: token,
+      password: password,
+      confirmPassword: confirmPassword,
+    );
+  }
 }

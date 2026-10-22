@@ -326,6 +326,14 @@ export default function Auth({ initialMode = 'login' }) {
                             </span>
                         </div>
 
+                        {/* Success Alert Box (e.g. from password reset) */}
+                        {location.state?.message && !errorMessage && (
+                            <div className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-start gap-2 animate-fade-in">
+                                <Check size={16} className="shrink-0 mt-0.5 text-emerald-600" />
+                                <span>{location.state.message}</span>
+                            </div>
+                        )}
+
                         {/* Error Alert Box if any */}
                         {errorMessage && (
                             <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2 animate-fade-in">
@@ -536,3 +544,4 @@ export default function Auth({ initialMode = 'login' }) {
         </div>
     );
 }
+

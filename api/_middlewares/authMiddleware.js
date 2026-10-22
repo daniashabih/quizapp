@@ -1,4 +1,4 @@
-﻿const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const User = require('../_models/userModel');
 
 /**
@@ -78,6 +78,17 @@ const authMiddleware = async (req, res, next) => {
                 success: false,
                 message: 'User account no longer exists.'
             });
+        }
+
+        // Check if password was changed after token issuance (Token revocation / session security)
+        if (user.password_changed_at && decoded.iat) {
+            const passwordChangedSec = Math.floor(new Date(user.password_changed_at).getTime() / 1000);
+            if (decoded.iat < passwordChangedSec) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Your password was recently changed. Please log in again.'
+                });
+            }
         }
 
         req.user = user;

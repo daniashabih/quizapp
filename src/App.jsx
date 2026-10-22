@@ -68,6 +68,7 @@ function AppRoutes() {
             <Route path="/register" element={<Register />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/certificate/view" element={<CertificateView />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
@@ -144,3 +145,4 @@ function App() {
 }
 
 export default App;
+

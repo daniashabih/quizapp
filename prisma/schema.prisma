@@ -8,18 +8,19 @@ datasource db {
 }
 
 model User {
-  id               String       @id @default(auto()) @map("_id") @db.ObjectId
-  name             String
-  email            String       @unique
-  password         String
-  avatar           String?      @default("")
-  role             String       @default("user")
-  isVerified       Boolean      @default(false) @map("is_verified")
-  resetToken       String?      @map("reset_token")
-  resetTokenExpiry DateTime?    @map("reset_token_expiry")
-  createdAt        DateTime     @default(now()) @map("created_at")
-  updatedAt        DateTime?    @updatedAt @map("updated_at")
-  results          QuizResult[]
+  id                String       @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  email             String       @unique
+  password          String
+  avatar            String?      @default("")
+  role              String       @default("user")
+  isVerified        Boolean      @default(false) @map("is_verified")
+  resetToken        String?      @map("reset_token")
+  resetTokenExpiry  DateTime?    @map("reset_token_expiry")
+  passwordChangedAt DateTime?    @map("password_changed_at")
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime?    @updatedAt @map("updated_at")
+  results           QuizResult[]
 
   @@map("users")
 }

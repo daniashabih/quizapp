@@ -10,6 +10,7 @@ class ApiEndpoints {
   static const String updateProfile = '/auth/update-profile';
   static const String deleteAccount = '/auth/delete-account';
   static const String forgotPassword = '/auth/forgot-password';
+  static const String verifyResetToken = '/auth/verify-reset-token';
   static const String resetPassword = '/auth/reset-password';
   static const String allUsers = '/auth/users';
 

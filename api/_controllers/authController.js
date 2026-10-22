@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const axios = require('axios');
 const User = require('../_models/userModel');
+const { sendPasswordResetEmail, getAppBaseUrl } = require('../_services/emailService');
 const { generateTokenAndSetCookie, clearTokenCookie } = require('../_utils/generateToken');
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -300,31 +301,106 @@ const updateProfile = async (req, res) => {
 const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
-        if (!email) {
-            return res.status(400).json({ success: false, message: 'Email is required' });
+        if (!email || !EMAIL_REGEX.test(String(email).trim())) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide a valid registered email address.'
+            });
         }
 
         const cleanEmail = String(email).trim().toLowerCase();
         const user = await User.findByEmail(cleanEmail);
 
+        // Generic response message to prevent account enumeration
+        const genericMessage = 'If an account exists for this email address, you will receive a password reset link shortly.';
+
         if (!user) {
-            return res.status(404).json({ success: false, message: 'No account found with this email address' });
+            return res.status(200).json({
+                success: true,
+                message: genericMessage
+            });
         }
 
-        const resetToken = crypto.randomBytes(20).toString('hex');
-        const resetExpiry = new Date(Date.now() + 3600000); // 1 hour
+        // Generate cryptographically secure unguessable reset token (32 bytes = 256 bits of entropy)
+        const rawToken = crypto.randomBytes(32).toString('hex');
 
-        await User.setResetToken(cleanEmail, resetToken, resetExpiry);
+        // Hash token before storing in MongoDB Atlas (SHA-256)
+        const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+
+        // Expiration timestamp: 30 minutes
+        const resetExpiry = new Date(Date.now() + 30 * 60 * 1000);
+
+        await User.setResetToken(cleanEmail, hashedToken, resetExpiry);
+
+        // Build secure reset URL
+        const baseUrl = getAppBaseUrl();
+        const resetUrl = `${baseUrl}/reset-password?token=${rawToken}`;
+
+        try {
+            await sendPasswordResetEmail({
+                to: user.email,
+                resetUrl,
+                userName: user.name
+            });
+        } catch (emailErr) {
+            console.error('[ForgotPassword Email Delivery Error]:', emailErr.message);
+            if (process.env.NODE_ENV !== 'production') {
+                console.warn('[ForgotPassword Local Link]:', resetUrl);
+            }
+        }
 
         return res.status(200).json({
             success: true,
-            message: 'Password reset link sent to your email'
+            message: genericMessage
         });
     } catch (error) {
         console.error('[ForgotPassword Error]:', error);
         return res.status(500).json({
             success: false,
-            message: 'Server error processing password reset'
+            message: 'Server error processing password reset request'
+        });
+    }
+};
+
+/**
+ * Verify Reset Token
+ * GET /api/auth/verify-reset-token
+ * POST /api/auth/verify-reset-token
+ */
+const verifyResetToken = async (req, res) => {
+    try {
+        const token = req.query.token || req.body?.token;
+        if (!token || !String(token).trim()) {
+            return res.status(400).json({
+                success: false,
+                valid: false,
+                message: 'Reset token is required'
+            });
+        }
+
+        const rawToken = String(token).trim();
+        const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+
+        const user = await User.findByResetToken(hashedToken);
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                valid: false,
+                message: 'Password reset link is invalid, expired, or has already been used.'
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            valid: true,
+            message: 'Reset token is valid.'
+        });
+    } catch (error) {
+        console.error('[VerifyResetToken Error]:', error);
+        return res.status(500).json({
+            success: false,
+            valid: false,
+            message: 'Server error validating reset token'
         });
     }
 };
@@ -335,28 +411,80 @@ const forgotPassword = async (req, res) => {
  */
 const resetPassword = async (req, res) => {
     try {
-        const { token, password } = req.body;
-        if (!token || !password) {
-            return res.status(400).json({ success: false, message: 'Token and password are required' });
+        const { token, password, confirmPassword } = req.body;
+        if (!token || !String(token).trim()) {
+            return res.status(400).json({
+                success: false,
+                message: 'Reset token is required.'
+            });
+        }
+
+        if (!password) {
+            return res.status(400).json({
+                success: false,
+                message: 'New password is required.'
+            });
         }
 
         if (password.length < 8) {
-            return res.status(400).json({ success: false, message: 'Password must be at least 8 characters long' });
+            return res.status(400).json({
+                success: false,
+                message: 'Password must be at least 8 characters long.'
+            });
         }
 
-        const user = await User.findByResetToken(token);
+        if (!/[A-Z]/.test(password)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Password must contain at least one uppercase letter.'
+            });
+        }
+
+        if (!/[0-9]/.test(password)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Password must contain at least one number.'
+            });
+        }
+
+        if (confirmPassword && password !== confirmPassword) {
+            return res.status(400).json({
+                success: false,
+                message: 'Passwords do not match.'
+            });
+        }
+
+        const rawToken = String(token).trim();
+        const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+
+        // Find user by hashed reset token
+        const user = await User.findByResetToken(hashedToken);
         if (!user) {
-            return res.status(400).json({ success: false, message: 'Invalid or expired reset token' });
+            return res.status(400).json({
+                success: false,
+                message: 'Password reset link is invalid, expired, or has already been used.'
+            });
         }
 
+        // Hash new password using bcrypt
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        await User.updatePassword(user.id, hashedPassword);
+        // Atomically consume token and update password to prevent race conditions & reuse
+        const updated = await User.consumeResetTokenAndUpdatePassword(user.id, hashedToken, hashedPassword);
+        if (!updated) {
+            return res.status(400).json({
+                success: false,
+                message: 'Password reset link is invalid, expired, or has already been used.'
+            });
+        }
+
+        // Invalidate active session cookie
+        clearTokenCookie(res);
 
         return res.status(200).json({
             success: true,
-            message: 'Password has been reset successfully'
+            message: 'Password has been reset successfully. Please log in with your new password.'
         });
     } catch (error) {
         console.error('[ResetPassword Error]:', error);
@@ -588,6 +716,7 @@ module.exports = {
     deleteAccount,
     requestDeletion,
     forgotPassword,
+    verifyResetToken,
     resetPassword
 };
 

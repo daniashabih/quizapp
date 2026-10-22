@@ -68,12 +68,13 @@ class AuthService {
     String? name,
     String? email,
   }) async {
+    final payload = <String, dynamic>{};
+    if (name != null) payload['name'] = name.trim();
+    if (email != null) payload['email'] = email.trim().toLowerCase();
+
     final response = await apiClient.put(
       ApiEndpoints.updateProfile,
-      data: {
-        if (name != null) 'name': name.trim(),
-        if (email != null) 'email': email.trim().toLowerCase(),
-      },
+      data: payload,
     );
 
     final data = response.data as Map<String, dynamic>;
@@ -103,5 +104,37 @@ class AuthService {
     );
     final data = response.data as Map<String, dynamic>;
     return data['message']?.toString() ?? 'Password reset link sent.';
+  }
+
+  // Verify Reset Token
+  Future<bool> verifyResetToken(String token) async {
+    final response = await apiClient.get(
+      ApiEndpoints.verifyResetToken,
+      queryParameters: {'token': token.trim()},
+    );
+    final data = response.data as Map<String, dynamic>;
+    return data['valid'] == true || data['success'] == true;
+  }
+
+  // Reset Password
+  Future<String> resetPassword({
+    required String token,
+    required String password,
+    String? confirmPassword,
+  }) async {
+    final payload = <String, dynamic>{
+      'token': token.trim(),
+      'password': password,
+    };
+    if (confirmPassword != null) {
+      payload['confirmPassword'] = confirmPassword;
+    }
+
+    final response = await apiClient.post(
+      ApiEndpoints.resetPassword,
+      data: payload,
+    );
+    final data = response.data as Map<String, dynamic>;
+    return data['message']?.toString() ?? 'Password has been reset successfully.';
   }
 }

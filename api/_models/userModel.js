@@ -29,7 +29,8 @@ const User = {
             updated_at: user.updatedAt,
             is_verified: user.isVerified,
             reset_token: user.resetToken,
-            reset_token_expiry: user.resetTokenExpiry
+            reset_token_expiry: user.resetTokenExpiry,
+            password_changed_at: user.passwordChangedAt
         };
     },
 
@@ -43,6 +44,7 @@ const User = {
                 role: true,
                 avatar: true,
                 isVerified: true,
+                passwordChangedAt: true,
                 createdAt: true,
                 updatedAt: true
             }
@@ -52,7 +54,8 @@ const User = {
             ...user,
             created_at: user.createdAt,
             updated_at: user.updatedAt,
-            is_verified: user.isVerified
+            is_verified: user.isVerified,
+            password_changed_at: user.passwordChangedAt
         };
     },
 
@@ -110,22 +113,28 @@ const User = {
         return 1;
     },
 
-    setResetToken: async (email, token, expiry) => {
+    /**
+     * Store cryptographically hashed reset token and expiration timestamp
+     */
+    setResetToken: async (email, hashedToken, expiry) => {
         const cleanEmail = String(email || '').trim().toLowerCase();
         await prisma.user.update({
             where: { email: cleanEmail },
             data: {
-                resetToken: token,
+                resetToken: hashedToken,
                 resetTokenExpiry: new Date(expiry)
             }
         });
         return 1;
     },
 
-    findByResetToken: async (token) => {
+    /**
+     * Find user by hashed reset token if token has not expired
+     */
+    findByResetToken: async (hashedToken) => {
         const user = await prisma.user.findFirst({
             where: {
-                resetToken: token,
+                resetToken: hashedToken,
                 resetTokenExpiry: {
                     gt: new Date()
                 }
@@ -138,8 +147,32 @@ const User = {
             updated_at: user.updatedAt,
             is_verified: user.isVerified,
             reset_token: user.resetToken,
-            reset_token_expiry: user.resetTokenExpiry
+            reset_token_expiry: user.resetTokenExpiry,
+            password_changed_at: user.passwordChangedAt
         };
+    },
+
+    /**
+     * Atomically consume reset token, update password, and record password changed timestamp.
+     * Prevents race conditions and multiple uses of the same token.
+     */
+    consumeResetTokenAndUpdatePassword: async (userId, hashedToken, hashedPassword) => {
+        const result = await prisma.user.updateMany({
+            where: {
+                id: String(userId),
+                resetToken: hashedToken,
+                resetTokenExpiry: {
+                    gt: new Date()
+                }
+            },
+            data: {
+                password: hashedPassword,
+                resetToken: null,
+                resetTokenExpiry: null,
+                passwordChangedAt: new Date()
+            }
+        });
+        return result.count > 0;
     },
 
     updatePassword: async (userId, hashedPassword) => {
@@ -148,7 +181,8 @@ const User = {
             data: {
                 password: hashedPassword,
                 resetToken: null,
-                resetTokenExpiry: null
+                resetTokenExpiry: null,
+                passwordChangedAt: new Date()
             }
         });
         return 1;
