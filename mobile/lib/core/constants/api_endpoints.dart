@@ -35,6 +35,7 @@ class ApiEndpoints {
   static const String attemptsStart = '/attempts/start';
   static const String attemptsInProgress = '/attempts/in-progress';
   static String attemptById(String id) => '/attempts/$id';
+  static String attemptAnswer(String id) => '/attempts/$id/answer';
   static String attemptUpdate(String id) => '/attempts/$id';
   static String attemptComplete(String id) => '/attempts/$id/complete';
   static String attemptDiscard(String id) => '/attempts/$id';

@@ -9,6 +9,7 @@ router.use(authMiddleware);
 router.post('/start', attemptController.startOrResumeAttempt);
 router.get('/in-progress', attemptController.getInProgressAttempts);
 router.get('/:id', attemptController.getAttemptById);
+router.post('/:id/answer', attemptController.submitAnswer);
 router.put('/:id', attemptController.updateAttemptProgress);
 router.post('/:id', attemptController.updateAttemptProgress);
 router.post('/:id/complete', attemptController.completeAttempt);

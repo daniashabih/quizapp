@@ -53,6 +53,18 @@ export const attemptService = {
     },
 
     /**
+     * Submit single answer for authoritative immediate evaluation and locking
+     * POST /api/attempts/:id/answer
+     */
+    submitAnswer: async (attemptId, { questionId, selectedOptionIndex }) => {
+        const response = await api.post(`/attempts/${attemptId}/answer`, {
+            questionId,
+            selectedOptionIndex
+        });
+        return response.data;
+    },
+
+    /**
      * Update progress of an in-progress attempt
      * PUT /api/attempts/:id
      */

@@ -12,6 +12,47 @@ function normalizeAnswer(val) {
 }
 
 /**
+ * Robustly determines the correct option index (0, 1, 2, 3...) for a question
+ * based on MongoDB database record.
+ */
+function getQuestionCorrectIndex(question) {
+    if (!question) return -1;
+    const rawCorrect = String(question.correct_answer || question.correctAnswer || '').trim();
+    if (!rawCorrect) return -1;
+
+    let opts = question.options;
+    if (typeof opts === 'string') {
+        try { opts = JSON.parse(opts); } catch { opts = []; }
+    }
+    if (!Array.isArray(opts) || opts.length === 0) return -1;
+
+    // 1. Direct normalized text match
+    for (let i = 0; i < opts.length; i++) {
+        if (normalizeAnswer(opts[i]) === normalizeAnswer(rawCorrect)) {
+            return i;
+        }
+    }
+
+    // 2. Letter match: 'A', 'B', 'C', 'D'
+    if (/^[a-d]$/i.test(rawCorrect)) {
+        const idx = rawCorrect.toUpperCase().charCodeAt(0) - 65;
+        if (idx >= 0 && idx < opts.length) {
+            return idx;
+        }
+    }
+
+    // 3. Digit index match: '0', '1', '2', '3'
+    if (/^\d+$/.test(rawCorrect)) {
+        const digit = parseInt(rawCorrect, 10);
+        if (digit >= 0 && digit < opts.length) {
+            return digit;
+        }
+    }
+
+    return -1;
+}
+
+/**
  * Authoritatively evaluates whether user's selected option is correct
  * against the trusted question definition in MongoDB.
  * Rejects fabricated values, ignores client-supplied isCorrect/score,
@@ -59,39 +100,11 @@ function evaluateAnswerCorrectness(userSelection, question) {
         userIdx = opts.findIndex(o => normalizeAnswer(o) === normalizeAnswer(userText));
     }
 
-    // Determine correct option index from database source of truth
-    let correctIdx = -1;
-
-    // 1. Direct normalized text match
-    for (let i = 0; i < opts.length; i++) {
-        if (normalizeAnswer(opts[i]) === normalizeAnswer(rawCorrect)) {
-            correctIdx = i;
-            break;
-        }
-    }
-
-    // 2. Letter match: 'A', 'B', 'C', 'D'
-    if (correctIdx === -1 && /^[a-d]$/i.test(rawCorrect)) {
-        const idx = rawCorrect.toUpperCase().charCodeAt(0) - 65;
-        if (idx >= 0 && idx < opts.length) {
-            correctIdx = idx;
-        }
-    }
-
-    // 3. Digit index match: '0', '1', '2', '3'
-    if (correctIdx === -1 && /^\d+$/.test(rawCorrect)) {
-        const digit = parseInt(rawCorrect, 10);
-        if (digit >= 0 && digit < opts.length) {
-            correctIdx = digit;
-        }
-    }
-
-    // If correct answer could not be verified in options, fail safely
+    const correctIdx = getQuestionCorrectIndex(question);
     if (correctIdx === -1) {
         return false;
     }
 
-    // Compare index and normalized text
     if (userIdx !== -1 && userIdx === correctIdx) {
         return true;
     }
@@ -185,6 +198,143 @@ const Attempt = {
     },
 
     /**
+     * Record an individual answer authoritatively with concurrency safety and strict locking.
+     * Prevents duplicate submissions from altering the original answer or re-incrementing score.
+     */
+    recordAnswer: async (id, userId, { questionId, selectedOptionIndex }) => {
+        const attempt = await prisma.quizAttempt.findFirst({
+            where: {
+                id: String(id),
+                userId: String(userId)
+            }
+        });
+
+        if (!attempt) return null;
+        if (attempt.status === 'completed') {
+            return {
+                isLocked: true,
+                alreadyAnswered: true,
+                status: 'completed',
+                message: 'Quiz attempt already completed'
+            };
+        }
+
+        const existingAnswers = parseSafeJson(attempt.answers, {});
+
+        // Fetch question authoritatively from MongoDB
+        const question = await prisma.question.findUnique({
+            where: { id: String(questionId) }
+        });
+        if (!question) {
+            throw new Error(`Question ${questionId} not found`);
+        }
+
+        const correctIdx = getQuestionCorrectIndex(question);
+        const opts = parseSafeJson(question.options, []);
+        const correctAnswerText = (correctIdx >= 0 && opts[correctIdx]) ? opts[correctIdx] : question.correctAnswer;
+
+        // Strict Lock: If this question was already answered, ignore modification and return recorded result
+        if (existingAnswers[questionId] !== undefined && existingAnswers[questionId] !== null) {
+            const originalIndex = parseInt(existingAnswers[questionId], 10);
+            const originalIsCorrect = evaluateAnswerCorrectness(originalIndex, question);
+            return {
+                questionId,
+                selectedOptionIndex: originalIndex,
+                isCorrect: originalIsCorrect,
+                correctOptionIndex: correctIdx,
+                correctAnswer: correctAnswerText,
+                explanation: question.explanation || null,
+                isLocked: true,
+                alreadyAnswered: true,
+                score: attempt.score,
+                answeredCount: attempt.answeredCount,
+                totalQuestions: attempt.totalQuestions,
+                progressPercentage: attempt.progressPercentage
+            };
+        }
+
+        const numericIndex = parseInt(selectedOptionIndex, 10);
+        const isCorrect = evaluateAnswerCorrectness(numericIndex, question);
+
+        // Concurrency Guard: Re-fetch latest record
+        const freshAttempt = await prisma.quizAttempt.findFirst({
+            where: { id: String(id), userId: String(userId) }
+        });
+        const freshAnswers = parseSafeJson(freshAttempt.answers, {});
+        if (freshAnswers[questionId] !== undefined && freshAnswers[questionId] !== null) {
+            const originalIndex = parseInt(freshAnswers[questionId], 10);
+            const origIsCorrect = evaluateAnswerCorrectness(originalIndex, question);
+            return {
+                questionId,
+                selectedOptionIndex: originalIndex,
+                isCorrect: origIsCorrect,
+                correctOptionIndex: correctIdx,
+                correctAnswer: correctAnswerText,
+                explanation: question.explanation || null,
+                isLocked: true,
+                alreadyAnswered: true,
+                score: freshAttempt.score,
+                answeredCount: freshAttempt.answeredCount,
+                totalQuestions: freshAttempt.totalQuestions,
+                progressPercentage: freshAttempt.progressPercentage
+            };
+        }
+
+        const updatedAnswers = { ...freshAnswers, [questionId]: numericIndex };
+        const answerKeys = Object.keys(updatedAnswers);
+
+        // Authoritative score recalculation across all recorded answers
+        const snapshot = parseSafeJson(freshAttempt.questionsSnapshot, []);
+        let computedScore = 0;
+        const questionsMap = new Map();
+        if (Array.isArray(snapshot) && snapshot.length > 0) {
+            snapshot.forEach(q => questionsMap.set(q.id || q._id, q));
+        }
+        questionsMap.set(question.id, question);
+
+        for (const [k, v] of Object.entries(updatedAnswers)) {
+            let qObj = questionsMap.get(k);
+            if (!qObj) {
+                qObj = await prisma.question.findUnique({ where: { id: String(k) } });
+                if (qObj) questionsMap.set(k, qObj);
+            }
+            if (qObj && evaluateAnswerCorrectness(v, qObj)) {
+                computedScore++;
+            }
+        }
+
+        const totalQ = freshAttempt.totalQuestions || (Array.isArray(snapshot) && snapshot.length > 0 ? snapshot.length : answerKeys.length);
+        const newAnsweredCount = answerKeys.length;
+        const newProgressPct = totalQ > 0 ? Math.round((newAnsweredCount / totalQ) * 100) : 0;
+
+        const updated = await prisma.quizAttempt.update({
+            where: { id: String(id) },
+            data: {
+                answers: JSON.stringify(updatedAnswers),
+                score: computedScore,
+                answeredCount: newAnsweredCount,
+                progressPercentage: newProgressPct,
+                lastSavedAt: new Date()
+            }
+        });
+
+        return {
+            questionId,
+            selectedOptionIndex: numericIndex,
+            isCorrect,
+            correctOptionIndex: correctIdx,
+            correctAnswer: correctAnswerText,
+            explanation: question.explanation || null,
+            isLocked: true,
+            alreadyAnswered: false,
+            score: updated.score,
+            answeredCount: updated.answeredCount,
+            totalQuestions: updated.totalQuestions,
+            progressPercentage: updated.progressPercentage
+        };
+    },
+
+    /**
      * Update progress of an attempt
      */
     updateProgress: async (id, userId, data) => {
@@ -225,27 +375,20 @@ const Attempt = {
         let computedScore = 0;
         const answerKeys = Object.keys(mergedAnswers);
 
+        const questionsMap = new Map();
         if (Array.isArray(snapshot) && snapshot.length > 0) {
-            snapshot.forEach(q => {
-                const userSelection = mergedAnswers[q.id || q._id];
-                if (userSelection !== undefined && userSelection !== null) {
-                    if (evaluateAnswerCorrectness(userSelection, q)) {
-                        computedScore++;
-                    }
-                }
-            });
-        } else if (answerKeys.length > 0) {
-            const dbQuestions = await prisma.question.findMany({
-                where: { id: { in: answerKeys } }
-            });
-            dbQuestions.forEach(q => {
-                const userSelection = mergedAnswers[q.id];
-                if (userSelection !== undefined && userSelection !== null) {
-                    if (evaluateAnswerCorrectness(userSelection, q)) {
-                        computedScore++;
-                    }
-                }
-            });
+            snapshot.forEach(q => questionsMap.set(q.id || q._id, q));
+        }
+
+        for (const [k, v] of Object.entries(mergedAnswers)) {
+            let qObj = questionsMap.get(k);
+            if (!qObj) {
+                qObj = await prisma.question.findUnique({ where: { id: String(k) } });
+                if (qObj) questionsMap.set(k, qObj);
+            }
+            if (qObj && evaluateAnswerCorrectness(v, qObj)) {
+                computedScore++;
+            }
         }
 
         const totalQ = existing.totalQuestions || (Array.isArray(snapshot) ? snapshot.length : answerKeys.length);
@@ -309,15 +452,20 @@ const Attempt = {
         let computedScore = 0;
         const answerKeys = Object.keys(mergedAnswers);
 
+        const questionsMap = new Map();
         if (Array.isArray(snapshot) && snapshot.length > 0) {
-            snapshot.forEach(q => {
-                const userSelection = mergedAnswers[q.id || q._id];
-                if (userSelection !== undefined && userSelection !== null) {
-                    if (evaluateAnswerCorrectness(userSelection, q)) {
-                        computedScore++;
-                    }
-                }
-            });
+            snapshot.forEach(q => questionsMap.set(q.id || q._id, q));
+        }
+
+        for (const [k, v] of Object.entries(mergedAnswers)) {
+            let qObj = questionsMap.get(k);
+            if (!qObj) {
+                qObj = await prisma.question.findUnique({ where: { id: String(k) } });
+                if (qObj) questionsMap.set(k, qObj);
+            }
+            if (qObj && evaluateAnswerCorrectness(v, qObj)) {
+                computedScore++;
+            }
         }
 
         const totalQ = existing.totalQuestions || (Array.isArray(snapshot) ? snapshot.length : answerKeys.length);
@@ -355,4 +503,5 @@ const Attempt = {
 };
 
 Attempt.evaluateAnswerCorrectness = evaluateAnswerCorrectness;
+Attempt.getQuestionCorrectIndex = getQuestionCorrectIndex;
 module.exports = Attempt;

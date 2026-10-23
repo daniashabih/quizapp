@@ -12,15 +12,57 @@ function parseSafeJson(str, fallback) {
 
 function formatAttempt(att) {
     if (!att) return null;
+    const answers = parseSafeJson(att.answers, {});
+    const snapshot = parseSafeJson(att.questionsSnapshot, []);
+    const evaluatedAnswers = {};
+
+    // Build evaluatedAnswers for all answered questions and sanitize unanswered future questions
+    const sanitizedSnapshot = Array.isArray(snapshot) ? snapshot.map(q => {
+        const qId = q.id || q._id;
+        const isAnswered = answers[qId] !== undefined && answers[qId] !== null;
+
+        if (isAnswered) {
+            const userSelection = answers[qId];
+            const isCorrect = Attempt.evaluateAnswerCorrectness(userSelection, q);
+            const correctIdx = Attempt.getQuestionCorrectIndex ? Attempt.getQuestionCorrectIndex(q) : -1;
+            const opts = Array.isArray(q.options) ? q.options : parseSafeJson(q.options, []);
+            const correctText = (correctIdx >= 0 && opts[correctIdx]) ? opts[correctIdx] : (q.correct_answer || q.correctAnswer);
+
+            evaluatedAnswers[qId] = {
+                selectedOptionIndex: parseInt(userSelection, 10),
+                isCorrect,
+                isLocked: true,
+                correctOptionIndex: correctIdx,
+                correctAnswer: correctText,
+                explanation: q.explanation || ''
+            };
+
+            return {
+                ...q,
+                correct_answer: correctText,
+                correctAnswer: correctText,
+                explanation: q.explanation || ''
+            };
+        } else {
+            // Unanswered: Strip correct answer and explanation to prevent exposing future answers!
+            const sanitized = { ...q };
+            delete sanitized.correct_answer;
+            delete sanitized.correctAnswer;
+            delete sanitized.explanation;
+            return sanitized;
+        }
+    }) : [];
+
     return {
         id: att.id,
         userId: att.userId,
         category: att.category,
         session: att.session || 1,
         currentQuestionIndex: att.currentQuestionIndex || 0,
-        answers: parseSafeJson(att.answers, {}),
+        answers: answers,
+        evaluatedAnswers: evaluatedAnswers,
         flaggedQuestions: parseSafeJson(att.flaggedQuestions, []),
-        questionsSnapshot: parseSafeJson(att.questionsSnapshot, []),
+        questionsSnapshot: sanitizedSnapshot,
         score: att.score || 0,
         totalQuestions: att.totalQuestions || 0,
         answeredCount: att.answeredCount || 0,
@@ -159,6 +201,65 @@ const attemptController = {
             res.status(500).json({
                 success: false,
                 message: 'Failed to fetch attempt details',
+                error: error.message
+            });
+        }
+    },
+
+    /**
+     * POST /api/attempts/:id/answer
+     * Authoritative single-answer submission with immediate evaluation and locking
+     */
+    submitAnswer: async (req, res) => {
+        try {
+            const userId = req.user?.id;
+            const { id } = req.params;
+            const { questionId, selectedOptionIndex } = req.body;
+
+            if (!userId) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Authentication required'
+                });
+            }
+
+            if (!questionId || selectedOptionIndex === undefined || selectedOptionIndex === null) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'questionId and selectedOptionIndex are required.'
+                });
+            }
+
+            const numericIndex = parseInt(selectedOptionIndex, 10);
+            if (isNaN(numericIndex) || numericIndex < 0) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Invalid option index.'
+                });
+            }
+
+            const result = await Attempt.recordAnswer(id, userId, {
+                questionId: String(questionId),
+                selectedOptionIndex: numericIndex
+            });
+
+            if (!result) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Quiz attempt not found or unauthorized.'
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: result.isCorrect ? 'Correct Answer!' : 'Incorrect Answer',
+                ...result
+            });
+        } catch (error) {
+            console.error('❌ Error in submitAnswer:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to record answer',
                 error: error.message
             });
         }

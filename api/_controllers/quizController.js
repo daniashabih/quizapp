@@ -107,6 +107,47 @@ function evaluateAnswerCorrectness(userSelection, question) {
 
 const quizController = {
     /**
+     * POST /api/quizzes/validate-answer
+     * Authoritatively validates an answer against database
+     */
+    validateAnswer: async (req, res) => {
+        try {
+            const { questionId, selectedOptionIndex } = req.body;
+            if (!questionId || selectedOptionIndex === undefined) {
+                return res.status(400).json({ success: false, message: 'questionId and selectedOptionIndex are required.' });
+            }
+
+            const question = await prisma.question.findUnique({
+                where: { id: String(questionId) }
+            });
+
+            if (!question) {
+                return res.status(404).json({ success: false, message: 'Question not found.' });
+            }
+
+            const numericIndex = parseInt(selectedOptionIndex, 10);
+            const isCorrect = evaluateAnswerCorrectness(numericIndex, question);
+            const correctIdx = Attempt.getQuestionCorrectIndex ? Attempt.getQuestionCorrectIndex(question) : -1;
+            let opts = question.options;
+            if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
+            const correctAnswerText = (correctIdx >= 0 && opts[correctIdx]) ? opts[correctIdx] : question.correctAnswer;
+
+            return res.status(200).json({
+                success: true,
+                questionId,
+                selectedOptionIndex: numericIndex,
+                isCorrect,
+                correctOptionIndex: correctIdx,
+                correctAnswer: correctAnswerText,
+                explanation: question.explanation || null
+            });
+        } catch (error) {
+            console.error('❌ Error validating answer:', error);
+            res.status(500).json({ success: false, message: 'Failed to validate answer', error: error.message });
+        }
+    },
+
+    /**
      * POST /api/quizzes/submit
      * Authoritative backend assessment evaluation
      */

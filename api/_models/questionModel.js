@@ -18,7 +18,7 @@ const getCategoryVariations = (category) => {
 
 const Question = {
     create: async (data) => {
-        const { category, session, question_text, options, correct_answer } = data;
+        const { category, session, question_text, options, correct_answer, explanation } = data;
         const serializedOptions = typeof options === 'string' ? options : JSON.stringify(Array.isArray(options) ? options : []);
         const sessionNum = parseInt(session, 10) || 1;
         const result = await prisma.question.create({
@@ -27,7 +27,8 @@ const Question = {
                 session: sessionNum,
                 questionText: question_text,
                 options: serializedOptions,
-                correctAnswer: correct_answer
+                correctAnswer: correct_answer,
+                explanation: explanation || ''
             }
         });
         return result.id;
@@ -43,6 +44,7 @@ const Question = {
             options: parseOptions(r.options),
             question_text: r.questionText,
             correct_answer: r.correctAnswer,
+            explanation: r.explanation || '',
             created_at: r.createdAt
         }));
     },
