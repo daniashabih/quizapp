@@ -50,7 +50,7 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
           // Filter & Search Header
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            color: Colors.white,
+            color: context.cardBgColor,
             child: Column(
               children: [
                 // Search Input
@@ -62,7 +62,7 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: AppColors.border),
+                      borderSide: BorderSide(color: context.borderColor),
                     ),
                   ),
                   onChanged: (val) => setState(() => _searchQuery = val.trim().toLowerCase()),
@@ -152,9 +152,9 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
   Widget _buildQuestionCard(QuestionModel q) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardBgColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.borderColor),
       ),
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -166,7 +166,7 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
+                  color: context.brandAccentColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
@@ -174,12 +174,12 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
                   style: AppTextStyles.mono.copyWith(
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
+                    color: context.brandAccentColor,
                   ),
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error, size: 20),
+                icon: Icon(Icons.delete_outline_rounded, color: context.errorColor, size: 20),
                 tooltip: 'Delete Question',
                 constraints: const BoxConstraints(),
                 padding: EdgeInsets.zero,
@@ -204,14 +204,14 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
                     Icon(
                       isCorrect ? Icons.check_circle_rounded : Icons.radio_button_unchecked_rounded,
                       size: 16,
-                      color: isCorrect ? AppColors.success : AppColors.textMuted,
+                      color: isCorrect ? context.successColor : context.textMutedColor,
                     ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
                         opt,
                         style: AppTextStyles.bodySmall.copyWith(
-                          color: isCorrect ? AppColors.success : AppColors.textSecondary,
+                          color: isCorrect ? context.successColor : context.textSecondaryColor,
                           fontWeight: isCorrect ? FontWeight.bold : FontWeight.normal,
                         ),
                       ),
@@ -325,13 +325,13 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
                   const SizedBox(height: 12),
                   Text('Options (Select correct one):', style: AppTextStyles.labelBold),
                   const SizedBox(height: 8),
-                  _buildOptionInput(0, opt1Controller, correctIndex, (idx) => setSheetState(() => correctIndex = idx)),
+                  _buildOptionInput(dialogCtx, 0, opt1Controller, correctIndex, (idx) => setSheetState(() => correctIndex = idx)),
                   const SizedBox(height: 8),
-                  _buildOptionInput(1, opt2Controller, correctIndex, (idx) => setSheetState(() => correctIndex = idx)),
+                  _buildOptionInput(dialogCtx, 1, opt2Controller, correctIndex, (idx) => setSheetState(() => correctIndex = idx)),
                   const SizedBox(height: 8),
-                  _buildOptionInput(2, opt3Controller, correctIndex, (idx) => setSheetState(() => correctIndex = idx)),
+                  _buildOptionInput(dialogCtx, 2, opt3Controller, correctIndex, (idx) => setSheetState(() => correctIndex = idx)),
                   const SizedBox(height: 8),
-                  _buildOptionInput(3, opt4Controller, correctIndex, (idx) => setSheetState(() => correctIndex = idx)),
+                  _buildOptionInput(dialogCtx, 3, opt4Controller, correctIndex, (idx) => setSheetState(() => correctIndex = idx)),
                   const SizedBox(height: 20),
                   AppButton(
                     text: 'Save Question',
@@ -378,6 +378,7 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
   }
 
   Widget _buildOptionInput(
+    BuildContext context,
     int index,
     TextEditingController controller,
     int selectedIndex,
@@ -390,7 +391,7 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
             index == selectedIndex
                 ? Icons.radio_button_checked_rounded
                 : Icons.radio_button_unchecked_rounded,
-            color: index == selectedIndex ? AppColors.success : AppColors.textMuted,
+            color: index == selectedIndex ? context.successColor : context.textMutedColor,
           ),
           tooltip: 'Select as correct answer',
           onPressed: () => onSelect(index),

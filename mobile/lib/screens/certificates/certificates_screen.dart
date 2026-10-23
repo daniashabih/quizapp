@@ -35,7 +35,8 @@ class CertificatesScreen extends ConsumerWidget {
         ],
       ),
       body: certsAsync.when(
-        loading: () => const LoadingStateWidget(message: 'Loading your certificates...'),
+        loading: () =>
+            const LoadingStateWidget(message: 'Loading your certificates...'),
         error: (err, stack) => ErrorStateWidget(
           message: 'Failed to load certificates: ${err.toString()}',
           onRetry: () => ref.invalidate(certificatesProvider),
@@ -53,6 +54,7 @@ class CertificatesScreen extends ConsumerWidget {
           }
 
           return RefreshIndicator(
+            color: context.brandAccentColor,
             onRefresh: () async {
               ref.invalidate(certificatesProvider);
             },
@@ -62,7 +64,7 @@ class CertificatesScreen extends ConsumerWidget {
               separatorBuilder: (context, index) => const SizedBox(height: 16),
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return _buildHeaderBanner(certificates.length);
+                  return _buildHeaderBanner(context, certificates.length);
                 }
                 final cert = certificates[index - 1];
                 return _buildCertificateTile(context, cert, userName);
@@ -74,7 +76,7 @@ class CertificatesScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeaderBanner(int count) {
+  Widget _buildHeaderBanner(BuildContext context, int count) {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -89,7 +91,9 @@ class CertificatesScreen extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.25),
+            color: Colors.black.withValues(
+              alpha: context.isDarkMode ? 0.35 : 0.2,
+            ),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -143,14 +147,16 @@ class CertificatesScreen extends ConsumerWidget {
     String learnerName,
   ) {
     final effectiveName = cert.learnerName ?? learnerName;
+    final isDark = context.isDarkMode;
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardBgColor,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.borderColor),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -173,9 +179,12 @@ class CertificatesScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
-                        color: AppColors.accent.withValues(alpha: 0.12),
+                        color: AppColors.accent.withValues(alpha: 0.16),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
@@ -192,7 +201,9 @@ class CertificatesScreen extends ConsumerWidget {
                             style: AppTextStyles.mono.copyWith(
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
-                              color: AppColors.primary,
+                              color: isDark
+                                  ? AppColors.accentLight
+                                  : AppColors.primary,
                             ),
                           ),
                         ],
@@ -201,7 +212,7 @@ class CertificatesScreen extends ConsumerWidget {
                     Text(
                       'Score: ${cert.score}%',
                       style: AppTextStyles.labelBold.copyWith(
-                        color: AppColors.success,
+                        color: context.successColor,
                         fontSize: 14,
                       ),
                     ),
@@ -219,7 +230,7 @@ class CertificatesScreen extends ConsumerWidget {
                 Text(
                   'Awarded to $effectiveName',
                   style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.textSecondary,
+                    color: context.textSecondaryColor,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -231,13 +242,17 @@ class CertificatesScreen extends ConsumerWidget {
                     Text(
                       'Issued: ${DateFormatter.formatDate(cert.date)}',
                       style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.textSecondary,
+                        color: context.textSecondaryColor,
                       ),
                     ),
                     Row(
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.share_outlined, size: 20),
+                          icon: Icon(
+                            Icons.share_outlined,
+                            size: 20,
+                            color: context.textSecondaryColor,
+                          ),
                           tooltip: 'Share',
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
@@ -245,7 +260,8 @@ class CertificatesScreen extends ConsumerWidget {
                             Share.share(
                               '🎓 View my official verified certificate in ${cert.category} on ${AppConfig.appName}: '
                               '${cert.verificationUrl}',
-                              subject: 'My ${AppConfig.appName} ${cert.category} Certificate',
+                              subject:
+                                  'My ${AppConfig.appName} ${cert.category} Certificate',
                             );
                           },
                         ),
@@ -255,14 +271,14 @@ class CertificatesScreen extends ConsumerWidget {
                             Text(
                               'View Certificate',
                               style: AppTextStyles.labelBold.copyWith(
-                                color: AppColors.primary,
+                                color: context.brandAccentColor,
                                 fontSize: 13,
                               ),
                             ),
-                            const Icon(
+                            Icon(
                               Icons.chevron_right_rounded,
                               size: 18,
-                              color: AppColors.primary,
+                              color: context.brandAccentColor,
                             ),
                           ],
                         ),

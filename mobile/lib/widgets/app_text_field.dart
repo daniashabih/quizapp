@@ -52,6 +52,7 @@ class _AppTextFieldState extends State<AppTextField> {
             style: AppTextStyles.bodyMedium.copyWith(
               fontWeight: FontWeight.w600,
               fontSize: 13,
+              color: context.textPrimaryColor,
             ),
           ),
           const SizedBox(height: 6),
@@ -66,7 +67,9 @@ class _AppTextFieldState extends State<AppTextField> {
           enabled: widget.enabled,
           onChanged: widget.onChanged,
           onFieldSubmitted: widget.onSubmitted,
-          style: AppTextStyles.bodyMedium,
+          style: AppTextStyles.bodyMedium.copyWith(
+            color: context.textPrimaryColor,
+          ),
           decoration: InputDecoration(
             hintText: widget.hint,
             prefixIcon: widget.prefixIcon,
@@ -77,7 +80,7 @@ class _AppTextFieldState extends State<AppTextField> {
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                       size: 20,
-                      color: AppColors.textSecondary,
+                      color: context.textSecondaryColor,
                     ),
                     onPressed: () {
                       setState(() {

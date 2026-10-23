@@ -17,12 +17,13 @@ class HomeScreen extends ConsumerWidget {
     final dashboardAsync = ref.watch(userDashboardProvider);
     final authState = ref.watch(authProvider);
     final user = authState.user;
+    final isDark = context.isDarkMode;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.scaffoldBgColor,
       appBar: AppBar(
         title: Image.asset(
-          'assets/images/branding/hangbug-logo-compact.png',
+          context.brandCompactLogoAsset,
           height: 30,
           fit: BoxFit.contain,
         ),
@@ -36,7 +37,8 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
       body: dashboardAsync.when(
-        loading: () => const LoadingStateWidget(message: 'Loading live dashboard...'),
+        loading: () =>
+            const LoadingStateWidget(message: 'Loading live dashboard...'),
         error: (err, _) => ErrorStateWidget(
           message: err.toString(),
           onRetry: () => ref.refresh(userDashboardProvider),
@@ -47,13 +49,14 @@ class HomeScreen extends ConsumerWidget {
           final techProgress = dashboard.technologyProgress;
 
           return RefreshIndicator(
-            color: AppColors.primary,
+            color: context.brandAccentColor,
             onRefresh: () async {
               return ref.refresh(userDashboardProvider.future);
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -70,7 +73,9 @@ class HomeScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.2),
+                          color: Colors.black.withValues(
+                            alpha: isDark ? 0.35 : 0.18,
+                          ),
                           blurRadius: 14,
                           offset: const Offset(0, 6),
                         ),
@@ -106,7 +111,10 @@ class HomeScreen extends ConsumerWidget {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppColors.accent,
                                 borderRadius: BorderRadius.circular(16),
@@ -114,7 +122,11 @@ class HomeScreen extends ConsumerWidget {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(Icons.local_fire_department_rounded, size: 14, color: Colors.white),
+                                  const Icon(
+                                    Icons.local_fire_department_rounded,
+                                    size: 14,
+                                    color: Colors.white,
+                                  ),
                                   const SizedBox(width: 4),
                                   Text(
                                     '${stats.streak}d Streak',
@@ -169,28 +181,34 @@ class HomeScreen extends ConsumerWidget {
                     childAspectRatio: 1.7,
                     children: [
                       _buildStatCard(
+                        context: context,
                         icon: Icons.assignment_outlined,
                         label: 'Quizzes Taken',
                         value: '${stats.totalQuizzes}',
-                        color: AppColors.primary,
+                        color: context.brandAccentColor,
                       ),
                       _buildStatCard(
+                        context: context,
                         icon: Icons.percent_rounded,
                         label: 'Average Score',
                         value: '${stats.averageScore}%',
-                        color: AppColors.secondary,
+                        color: isDark
+                            ? const Color(0xFF6EE7B7)
+                            : AppColors.secondary,
                       ),
                       _buildStatCard(
+                        context: context,
                         icon: Icons.workspace_premium_outlined,
                         label: 'Certificates',
                         value: '${stats.certificates}',
                         color: AppColors.accent,
                       ),
                       _buildStatCard(
+                        context: context,
                         icon: Icons.check_circle_outline_rounded,
                         label: 'Passed Quizzes',
                         value: '${stats.passedQuizzes}',
-                        color: AppColors.success,
+                        color: context.successColor,
                       ),
                     ],
                   ),
@@ -199,15 +217,30 @@ class HomeScreen extends ConsumerWidget {
 
                   // 3. Quick Action Banner
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
                     decoration: BoxDecoration(
-                      color: AppColors.accentLight,
+                      color: isDark
+                          ? AppColors.accent.withValues(alpha: 0.15)
+                          : AppColors.accentLight,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.accentBorder),
+                      border: Border.all(
+                        color: isDark
+                            ? AppColors.accent.withValues(alpha: 0.38)
+                            : AppColors.accentBorder,
+                      ),
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.rocket_launch_rounded, color: AppColors.primary, size: 24),
+                        Icon(
+                          Icons.rocket_launch_rounded,
+                          color: isDark
+                              ? AppColors.accentLight
+                              : AppColors.primary,
+                          size: 24,
+                        ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
@@ -217,14 +250,16 @@ class HomeScreen extends ConsumerWidget {
                                 'Ready for your next challenge?',
                                 style: AppTextStyles.bodyMedium.copyWith(
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.primary,
+                                  color: isDark
+                                      ? AppColors.accentLight
+                                      : AppColors.primary,
                                   fontSize: 13,
                                 ),
                               ),
                               Text(
                                 'Choose a technology track to test your mastery.',
                                 style: AppTextStyles.bodySmall.copyWith(
-                                  color: AppColors.textPrimary.withValues(alpha: 0.8),
+                                  color: context.textSecondaryColor,
                                   fontSize: 11,
                                 ),
                               ),
@@ -234,15 +269,26 @@ class HomeScreen extends ConsumerWidget {
                         ElevatedButton(
                           onPressed: () => context.go('/explore'),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
+                            backgroundColor: isDark
+                                ? AppColors.primaryLight
+                                : AppColors.primary,
                             foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 8,
+                            ),
                             minimumSize: const Size(0, 36),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: const Text('Start', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                          child: const Text(
+                            'Start',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -261,15 +307,16 @@ class HomeScreen extends ConsumerWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: techProgress.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 8),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 8),
                       itemBuilder: (context, index) {
                         final tech = techProgress[index];
                         return Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: context.cardBgColor,
                             borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: AppColors.border),
+                            border: Border.all(color: context.borderColor),
                           ),
                           child: Row(
                             children: [
@@ -277,15 +324,19 @@ class HomeScreen extends ConsumerWidget {
                                 width: 40,
                                 height: 40,
                                 decoration: BoxDecoration(
-                                  color: AppColors.mutedBg,
+                                  color: context.mutedBgColor,
                                   borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: AppColors.border),
+                                  border: Border.all(
+                                    color: context.borderColor,
+                                  ),
                                 ),
                                 child: Center(
                                   child: Text(
-                                    tech.category.isNotEmpty ? tech.category[0] : 'T',
+                                    tech.category.isNotEmpty
+                                        ? tech.category[0]
+                                        : 'T',
                                     style: AppTextStyles.displaySmall.copyWith(
-                                      color: AppColors.primary,
+                                      color: context.brandAccentColor,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -305,21 +356,31 @@ class HomeScreen extends ConsumerWidget {
                                     ),
                                     Text(
                                       '${tech.attempts} attempt(s) · Pass rate: ${tech.passRate}%',
-                                      style: AppTextStyles.bodySmall.copyWith(fontSize: 11),
+                                      style: AppTextStyles.bodySmall.copyWith(
+                                        fontSize: 11,
+                                        color: context.textSecondaryColor,
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 4,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: tech.bestScore >= 80 ? AppColors.successBg : AppColors.mutedBg,
+                                  color: tech.bestScore >= 80
+                                      ? context.successBgColor
+                                      : context.mutedBgColor,
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
                                   'Best: ${tech.bestScore}%',
                                   style: AppTextStyles.labelBold.copyWith(
-                                    color: tech.bestScore >= 80 ? AppColors.success : AppColors.textPrimary,
+                                    color: tech.bestScore >= 80
+                                        ? context.successColor
+                                        : context.textPrimaryColor,
                                     fontSize: 11,
                                   ),
                                 ),
@@ -343,7 +404,10 @@ class HomeScreen extends ConsumerWidget {
                       if (recentAttempts.isNotEmpty)
                         Text(
                           '${recentAttempts.length} Total',
-                          style: AppTextStyles.bodySmall.copyWith(fontSize: 11),
+                          style: AppTextStyles.bodySmall.copyWith(
+                            fontSize: 11,
+                            color: context.textSecondaryColor,
+                          ),
                         ),
                     ],
                   ),
@@ -354,13 +418,17 @@ class HomeScreen extends ConsumerWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: context.cardBgColor,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.border),
+                        border: Border.all(color: context.borderColor),
                       ),
                       child: Column(
                         children: [
-                          const Icon(Icons.quiz_outlined, size: 32, color: AppColors.textSecondary),
+                          Icon(
+                            Icons.quiz_outlined,
+                            size: 32,
+                            color: context.textSecondaryColor,
+                          ),
                           const SizedBox(height: 8),
                           Text(
                             'No quiz attempts yet',
@@ -371,7 +439,10 @@ class HomeScreen extends ConsumerWidget {
                           const SizedBox(height: 4),
                           Text(
                             'Take your first assessment to start building your profile.',
-                            style: AppTextStyles.bodySmall.copyWith(fontSize: 11),
+                            style: AppTextStyles.bodySmall.copyWith(
+                              fontSize: 11,
+                              color: context.textSecondaryColor,
+                            ),
                           ),
                         ],
                       ),
@@ -380,8 +451,11 @@ class HomeScreen extends ConsumerWidget {
                     ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: recentAttempts.length > 5 ? 5 : recentAttempts.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 8),
+                      itemCount: recentAttempts.length > 5
+                          ? 5
+                          : recentAttempts.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 8),
                       itemBuilder: (context, index) {
                         final attempt = recentAttempts[index];
                         final isPassed = attempt.isPassed;
@@ -389,15 +463,19 @@ class HomeScreen extends ConsumerWidget {
                         return Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: context.cardBgColor,
                             borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: AppColors.border),
+                            border: Border.all(color: context.borderColor),
                           ),
                           child: Row(
                             children: [
                               Icon(
-                                isPassed ? Icons.check_circle_rounded : Icons.cancel_rounded,
-                                color: isPassed ? AppColors.success : AppColors.error,
+                                isPassed
+                                    ? Icons.check_circle_rounded
+                                    : Icons.cancel_rounded,
+                                color: isPassed
+                                    ? context.successColor
+                                    : context.errorColor,
                                 size: 24,
                               ),
                               const SizedBox(width: 12),
@@ -414,7 +492,10 @@ class HomeScreen extends ConsumerWidget {
                                     ),
                                     Text(
                                       'Score: ${attempt.score}/${attempt.total} · ${DateFormatter.timeAgo(attempt.createdAt)}',
-                                      style: AppTextStyles.bodySmall.copyWith(fontSize: 11),
+                                      style: AppTextStyles.bodySmall.copyWith(
+                                        fontSize: 11,
+                                        color: context.textSecondaryColor,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -422,7 +503,9 @@ class HomeScreen extends ConsumerWidget {
                               Text(
                                 '${attempt.percentage.round()}%',
                                 style: AppTextStyles.displaySmall.copyWith(
-                                  color: isPassed ? AppColors.success : AppColors.error,
+                                  color: isPassed
+                                      ? context.successColor
+                                      : context.errorColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w800,
                                 ),
@@ -444,6 +527,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
   Widget _buildStatCard({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required String value,
@@ -452,9 +536,9 @@ class HomeScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardBgColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.borderColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -470,6 +554,7 @@ class HomeScreen extends ConsumerWidget {
                   style: AppTextStyles.bodySmall.copyWith(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
+                    color: context.textSecondaryColor,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -481,7 +566,7 @@ class HomeScreen extends ConsumerWidget {
           Text(
             value,
             style: AppTextStyles.displaySmall.copyWith(
-              color: AppColors.textPrimary,
+              color: context.textPrimaryColor,
               fontWeight: FontWeight.w800,
               fontSize: 18,
             ),

@@ -138,14 +138,14 @@ class _AdminAiGeneratorScreenState extends ConsumerState<AdminAiGeneratorScreen>
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
+                      color: context.brandAccentColor.withValues(alpha: 0.14),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       '$_questionCount questions',
                       style: AppTextStyles.mono.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: AppColors.primary,
+                        color: context.brandAccentColor,
                       ),
                     ),
                   ),
@@ -157,7 +157,7 @@ class _AdminAiGeneratorScreenState extends ConsumerState<AdminAiGeneratorScreen>
                 max: 10,
                 divisions: 9,
                 label: '$_questionCount',
-                activeColor: AppColors.primary,
+                activeColor: context.brandAccentColor,
                 onChanged: (val) => setState(() => _questionCount = val.round()),
               ),
 
@@ -168,18 +168,18 @@ class _AdminAiGeneratorScreenState extends ConsumerState<AdminAiGeneratorScreen>
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: AppColors.success.withValues(alpha: 0.12),
+                    color: context.successBgColor,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.success),
+                    border: Border.all(color: context.successColor),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.check_circle_rounded, color: AppColors.success),
+                      Icon(Icons.check_circle_rounded, color: context.successColor),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           _successMessage!,
-                          style: AppTextStyles.bodyMedium.copyWith(color: AppColors.success),
+                          style: AppTextStyles.bodyMedium.copyWith(color: context.successColor),
                         ),
                       ),
                     ],

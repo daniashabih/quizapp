@@ -70,7 +70,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                         ref.read(adminDashboardPeriodProvider.notifier).state =
                             newSelection.first;
                       },
-                      style: ButtonStyle(
+                      style: const ButtonStyle(
                         visualDensity: VisualDensity.compact,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
@@ -89,28 +89,32 @@ class AdminDashboardScreen extends ConsumerWidget {
                   childAspectRatio: 1.45,
                   children: [
                     _buildKpiCard(
+                      context,
                       label: 'Total Users',
                       value: '${data.stats.totalUsers}',
                       icon: Icons.people_alt_rounded,
-                      color: AppColors.primary,
+                      color: context.brandAccentColor,
                     ),
                     _buildKpiCard(
+                      context,
                       label: 'Questions in Bank',
                       value: '${data.stats.totalQuestions}',
                       icon: Icons.quiz_rounded,
                       color: AppColors.accent,
                     ),
                     _buildKpiCard(
+                      context,
                       label: 'Quiz Attempts',
                       value: '${data.stats.totalAttempts}',
                       icon: Icons.play_lesson_rounded,
-                      color: AppColors.success,
+                      color: context.successColor,
                     ),
                     _buildKpiCard(
+                      context,
                       label: 'Certificates',
                       value: '${data.stats.totalCertificates}',
                       icon: Icons.workspace_premium_rounded,
-                      color: AppColors.warning,
+                      color: context.warningColor,
                     ),
                   ],
                 ),
@@ -121,29 +125,32 @@ class AdminDashboardScreen extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.backgroundAlt,
+                    color: context.mutedBgColor,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: context.borderColor),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       _buildMetricItem(
+                        context,
                         'Pass Rate',
                         '${data.stats.totalAttempts > 0 ? ((data.stats.passedAttempts / data.stats.totalAttempts) * 100).toStringAsFixed(1) : 0}%',
-                        AppColors.success,
+                        context.successColor,
                       ),
-                      Container(width: 1, height: 32, color: AppColors.border),
+                      Container(width: 1, height: 32, color: context.borderColor),
                       _buildMetricItem(
+                        context,
                         'Average Score',
                         '${data.stats.averageScore.toStringAsFixed(1)}%',
-                        AppColors.primary,
+                        context.brandAccentColor,
                       ),
-                      Container(width: 1, height: 32, color: AppColors.border),
+                      Container(width: 1, height: 32, color: context.borderColor),
                       _buildMetricItem(
+                        context,
                         'Categories',
                         '${data.stats.totalTechnologies}',
-                        AppColors.textPrimary,
+                        context.textPrimaryColor,
                       ),
                     ],
                   ),
@@ -158,14 +165,16 @@ class AdminDashboardScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 12),
                 _buildToolTile(
+                  context,
                   icon: Icons.format_list_bulleted_rounded,
                   title: 'Manage Questions',
                   subtitle: 'Create, inspect, filter, and delete quiz questions',
-                  color: AppColors.primary,
+                  color: context.brandAccentColor,
                   onTap: () => context.push('/admin/questions'),
                 ),
                 const SizedBox(height: 8),
                 _buildToolTile(
+                  context,
                   icon: Icons.category_rounded,
                   title: 'Manage Categories',
                   subtitle: 'Add new technology tracks or remove obsolete ones',
@@ -174,18 +183,20 @@ class AdminDashboardScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 _buildToolTile(
+                  context,
                   icon: Icons.people_outline_rounded,
                   title: 'Manage Users',
                   subtitle: 'Inspect registered accounts and manage permissions',
-                  color: AppColors.success,
+                  color: context.successColor,
                   onTap: () => context.push('/admin/users'),
                 ),
                 const SizedBox(height: 8),
                 _buildToolTile(
+                  context,
                   icon: Icons.auto_awesome_rounded,
                   title: 'AI Question Generator',
                   subtitle: 'Generate tailored questions using Gemini / AI engine',
-                  color: const Color(0xFF673AB7),
+                  color: context.isDarkMode ? const Color(0xFFB39DDB) : const Color(0xFF673AB7),
                   onTap: () => context.push('/admin/ai-generator'),
                 ),
 
@@ -202,21 +213,21 @@ class AdminDashboardScreen extends ConsumerWidget {
                     padding: const EdgeInsets.all(24),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.cardBgColor,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: context.borderColor),
                     ),
                     child: Text(
                       'No recent quiz attempts found.',
-                      style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+                      style: AppTextStyles.bodyMedium.copyWith(color: context.textSecondaryColor),
                     ),
                   )
                 else
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: context.cardBgColor,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.border),
+                      border: Border.all(color: context.borderColor),
                     ),
                     child: ListView.separated(
                       shrinkWrap: true,
@@ -232,14 +243,14 @@ class AdminDashboardScreen extends ConsumerWidget {
                           ),
                           subtitle: Text(
                             '${attempt.category} • ${attempt.percentage}% • ${DateFormatter.formatDate(attempt.createdAt)}',
-                            style: AppTextStyles.bodySmall,
+                            style: AppTextStyles.bodySmall.copyWith(color: context.textSecondaryColor),
                           ),
                           trailing: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
                               color: attempt.passed
-                                  ? AppColors.success.withValues(alpha: 0.12)
-                                  : AppColors.error.withValues(alpha: 0.12),
+                                  ? context.successColor.withValues(alpha: 0.14)
+                                  : context.errorColor.withValues(alpha: 0.14),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
@@ -247,7 +258,7 @@ class AdminDashboardScreen extends ConsumerWidget {
                               style: AppTextStyles.mono.copyWith(
                                 fontSize: 11,
                                 fontWeight: FontWeight.bold,
-                                color: attempt.passed ? AppColors.success : AppColors.error,
+                                color: attempt.passed ? context.successColor : context.errorColor,
                               ),
                             ),
                           ),
@@ -265,7 +276,8 @@ class AdminDashboardScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildKpiCard({
+  Widget _buildKpiCard(
+    BuildContext context, {
     required String label,
     required String value,
     required IconData icon,
@@ -274,12 +286,12 @@ class AdminDashboardScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardBgColor,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.borderColor),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: Colors.black.withValues(alpha: context.isDarkMode ? 0.18 : 0.03),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -295,7 +307,7 @@ class AdminDashboardScreen extends ConsumerWidget {
               Text(
                 label,
                 style: AppTextStyles.bodySmall.copyWith(
-                  color: AppColors.textSecondary,
+                  color: context.textSecondaryColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -307,7 +319,7 @@ class AdminDashboardScreen extends ConsumerWidget {
             style: AppTextStyles.displaySmall.copyWith(
               fontSize: 26,
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: context.textPrimaryColor,
             ),
           ),
         ],
@@ -315,7 +327,7 @@ class AdminDashboardScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildMetricItem(String label, String value, Color color) {
+  Widget _buildMetricItem(BuildContext context, String label, String value, Color color) {
     return Column(
       children: [
         Text(
@@ -330,7 +342,7 @@ class AdminDashboardScreen extends ConsumerWidget {
         Text(
           label,
           style: AppTextStyles.bodySmall.copyWith(
-            color: AppColors.textSecondary,
+            color: context.textSecondaryColor,
             fontSize: 11,
           ),
         ),
@@ -338,7 +350,8 @@ class AdminDashboardScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildToolTile({
+  Widget _buildToolTile(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
@@ -347,22 +360,25 @@ class AdminDashboardScreen extends ConsumerWidget {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardBgColor,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.borderColor),
       ),
       child: ListTile(
         leading: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.1),
+            color: color.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, color: color, size: 22),
         ),
         title: Text(title, style: AppTextStyles.labelBold),
-        subtitle: Text(subtitle, style: AppTextStyles.bodySmall),
-        trailing: const Icon(Icons.chevron_right_rounded, color: AppColors.textMuted),
+        subtitle: Text(
+          subtitle,
+          style: AppTextStyles.bodySmall.copyWith(color: context.textSecondaryColor),
+        ),
+        trailing: Icon(Icons.chevron_right_rounded, color: context.textMutedColor),
         onTap: onTap,
       ),
     );

@@ -46,23 +46,23 @@ class CertificateViewScreen extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: AppColors.backgroundAlt,
+                color: context.mutedBgColor,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: context.borderColor),
               ),
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.security_rounded,
                     size: 20,
-                    color: AppColors.primary,
+                    color: context.brandAccentColor,
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       'This credential is authenticated and permanently verified on the ${AppConfig.appName} platform.',
                       style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.textSecondary,
+                        color: context.textSecondaryColor,
                       ),
                     ),
                   ),
@@ -85,11 +85,15 @@ class CertificateViewScreen extends ConsumerWidget {
               type: AppButtonType.outline,
               icon: Icons.copy_rounded,
               onPressed: () {
-                Clipboard.setData(ClipboardData(text: certificate.verificationUrl));
+                Clipboard.setData(
+                  ClipboardData(text: certificate.verificationUrl),
+                );
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Verification link copied to clipboard!'),
-                    backgroundColor: AppColors.success,
+                  SnackBar(
+                    content: const Text(
+                      'Verification link copied to clipboard!',
+                    ),
+                    backgroundColor: context.successColor,
                     behavior: SnackBarBehavior.floating,
                   ),
                 );

@@ -43,7 +43,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
     final categoriesAsync = ref.watch(categoriesProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.scaffoldBgColor,
       appBar: AppBar(
         title: Text(
           'Explore Technologies',
@@ -59,7 +59,8 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
         ],
       ),
       body: categoriesAsync.when(
-        loading: () => const LoadingStateWidget(message: 'Loading technologies...'),
+        loading: () =>
+            const LoadingStateWidget(message: 'Loading technologies...'),
         error: (err, _) => ErrorStateWidget(
           message: err.toString(),
           onRetry: () => ref.refresh(categoriesProvider),
@@ -67,21 +68,31 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
         data: (categories) {
           final filtered = categories
               .where((c) => c.isEnabled != false)
-              .where((c) => c.name.toLowerCase().contains(_searchQuery.toLowerCase()))
+              .where(
+                (c) =>
+                    c.name.toLowerCase().contains(_searchQuery.toLowerCase()),
+              )
               .toList();
 
           return RefreshIndicator(
-            color: AppColors.primary,
+            color: context.brandAccentColor,
             onRefresh: () async => ref.refresh(categoriesProvider.future),
             child: Column(
               children: [
                 // Search Bar
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
                   child: AppTextField(
                     hint: 'Search technologies (e.g. React, PHP, Python)...',
                     controller: _searchController,
-                    prefixIcon: const Icon(Icons.search_rounded, size: 20, color: AppColors.textSecondary),
+                    prefixIcon: Icon(
+                      Icons.search_rounded,
+                      size: 20,
+                      color: context.textSecondaryColor,
+                    ),
                     suffixIcon: _searchQuery.isNotEmpty
                         ? IconButton(
                             icon: const Icon(Icons.clear_rounded, size: 18),
@@ -106,9 +117,13 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                           icon: Icons.search_off_rounded,
                         )
                       : ListView.separated(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 8.0,
+                          ),
                           itemCount: filtered.length,
-                          separatorBuilder: (context, index) => const SizedBox(height: 10),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 10),
                           itemBuilder: (context, index) {
                             final cat = filtered[index];
                             return _buildTechCard(cat);
@@ -126,9 +141,9 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   Widget _buildTechCard(CategoryModel cat) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardBgColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.borderColor),
       ),
       child: Material(
         color: Colors.transparent,
@@ -144,15 +159,15 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: AppColors.mutedBg,
+                    color: context.mutedBgColor,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: context.borderColor),
                   ),
                   child: Center(
                     child: Text(
                       cat.name.isNotEmpty ? cat.name[0].toUpperCase() : 'T',
                       style: AppTextStyles.displaySmall.copyWith(
-                        color: AppColors.primary,
+                        color: context.brandAccentColor,
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
                       ),
@@ -177,17 +192,17 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                             ? '${cat.questionCount} Questions in bank'
                             : 'Multi-session track',
                         style: AppTextStyles.bodySmall.copyWith(
-                          color: AppColors.textSecondary,
+                          color: context.textSecondaryColor,
                           fontSize: 12,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const Icon(
+                Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 14,
-                  color: AppColors.textSecondary,
+                  color: context.textSecondaryColor,
                 ),
               ],
             ),
@@ -204,7 +219,8 @@ class _SessionSelectorSheet extends ConsumerStatefulWidget {
   const _SessionSelectorSheet({required this.category});
 
   @override
-  ConsumerState<_SessionSelectorSheet> createState() => _SessionSelectorSheetState();
+  ConsumerState<_SessionSelectorSheet> createState() =>
+      _SessionSelectorSheetState();
 }
 
 class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
@@ -256,10 +272,15 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = context.isDarkMode;
+
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: context.cardBgColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        border: Border(
+          top: BorderSide(color: context.borderColor),
+        ),
       ),
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 28),
       child: Column(
@@ -272,7 +293,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
               width: 36,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.border,
+                color: context.borderColor,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -285,14 +306,18 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: AppColors.accentLight,
+                  color: isDark
+                      ? AppColors.accent.withValues(alpha: 0.2)
+                      : AppColors.accentLight,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
                   child: Text(
-                    widget.category.name.isNotEmpty ? widget.category.name[0] : 'T',
+                    widget.category.name.isNotEmpty
+                        ? widget.category.name[0]
+                        : 'T',
                     style: AppTextStyles.displaySmall.copyWith(
-                      color: AppColors.primary,
+                      color: isDark ? AppColors.accentLight : AppColors.primary,
                       fontSize: 18,
                     ),
                   ),
@@ -309,7 +334,10 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                     ),
                     Text(
                       'Choose a session to begin assessment',
-                      style: AppTextStyles.bodySmall.copyWith(fontSize: 12),
+                      style: AppTextStyles.bodySmall.copyWith(
+                        fontSize: 12,
+                        color: context.textSecondaryColor,
+                      ),
                     ),
                   ],
                 ),
@@ -320,11 +348,13 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
           const SizedBox(height: 20),
 
           if (_isLoading)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 24.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
               child: Center(
                 child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    context.brandAccentColor,
+                  ),
                 ),
               ),
             )
@@ -332,7 +362,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
             Text(
               'Available Sessions',
               style: AppTextStyles.labelBold.copyWith(
-                color: AppColors.textSecondary,
+                color: context.textSecondaryColor,
                 fontSize: 11,
               ),
             ),
@@ -341,7 +371,11 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
             // All Sessions option if multiple sessions exist
             if (_sessions.length > 1) ...[
               Material(
-                color: _isAllSessions ? AppColors.accentLight : AppColors.mutedBg,
+                color: _isAllSessions
+                    ? (isDark
+                        ? AppColors.darkPrimaryAccent.withValues(alpha: 0.16)
+                        : AppColors.accentLight)
+                    : context.mutedBgColor,
                 borderRadius: BorderRadius.circular(12),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(12),
@@ -351,7 +385,10 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                     });
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -359,11 +396,17 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                           'All Sessions Combined',
                           style: AppTextStyles.bodyMedium.copyWith(
                             fontWeight: FontWeight.w700,
-                            color: _isAllSessions ? AppColors.primary : AppColors.textPrimary,
+                            color: _isAllSessions
+                                ? context.brandAccentColor
+                                : context.textPrimaryColor,
                           ),
                         ),
                         if (_isAllSessions)
-                          const Icon(Icons.check_circle_rounded, color: AppColors.primary, size: 18),
+                          Icon(
+                            Icons.check_circle_rounded,
+                            color: context.brandAccentColor,
+                            size: 18,
+                          ),
                       ],
                     ),
                   ),
@@ -381,17 +424,22 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                 return ChoiceChip(
                   label: Text('Session $sess'),
                   selected: isSelected,
-                  selectedColor: AppColors.primary,
-                  backgroundColor: AppColors.mutedBg,
+                  selectedColor:
+                      isDark ? AppColors.primaryLight : AppColors.primary,
+                  backgroundColor: context.mutedBgColor,
                   labelStyle: TextStyle(
-                    color: isSelected ? Colors.white : AppColors.textPrimary,
+                    color: isSelected
+                        ? Colors.white
+                        : context.textPrimaryColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                     side: BorderSide(
-                      color: isSelected ? AppColors.primary : AppColors.border,
+                      color: isSelected
+                          ? context.brandAccentColor
+                          : context.borderColor,
                     ),
                   ),
                   onSelected: (selected) {
@@ -413,7 +461,11 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                   ? 'Start All Sessions Assessment'
                   : 'Start Session $_selectedSession Quiz',
               onPressed: _startQuiz,
-              icon: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20),
+              icon: const Icon(
+                Icons.play_arrow_rounded,
+                color: Colors.white,
+                size: 20,
+              ),
             ),
           ],
         ],

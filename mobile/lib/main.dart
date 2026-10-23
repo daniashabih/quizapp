@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/constants/app_strings.dart';
 import 'core/theme/app_theme.dart';
+import 'providers/theme_provider.dart';
 import 'routes/app_router.dart';
 
 void main() async {
@@ -15,20 +16,17 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  // Set system UI overlay style
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ),
-  );
+  // Restore saved theme preference prior to first frame
+  final initialThemeMode = await loadSavedThemeMode();
 
   runApp(
-    const ProviderScope(
-      child: HangbugApp(),
+    ProviderScope(
+      overrides: [
+        themeModeProvider.overrideWith(
+          (ref) => ThemeModeNotifier(initialThemeMode),
+        ),
+      ],
+      child: const HangbugApp(),
     ),
   );
 }
@@ -39,14 +37,28 @@ class HangbugApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+    final themeMode = ref.watch(themeModeProvider);
+    final platformBrightness = MediaQuery.platformBrightnessOf(context);
+    final bool isDarkEffective = themeMode == ThemeMode.dark ||
+        (themeMode == ThemeMode.system &&
+            platformBrightness == Brightness.dark);
 
-    return MaterialApp.router(
-      title: AppStrings.appName,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.light,
-      routerConfig: router,
+    final overlayStyle = isDarkEffective
+        ? AppTheme.darkOverlayStyle
+        : AppTheme.lightOverlayStyle;
+
+    SystemChrome.setSystemUIOverlayStyle(overlayStyle);
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: overlayStyle,
+      child: MaterialApp.router(
+        title: AppStrings.appName,
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: themeMode,
+        routerConfig: router,
+      ),
     );
   }
 }

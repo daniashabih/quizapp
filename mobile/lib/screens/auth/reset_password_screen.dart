@@ -17,7 +17,8 @@ class ResetPasswordScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+  ConsumerState<ResetPasswordScreen> createState() =>
+      _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
@@ -51,7 +52,8 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
       setState(() {
         _isVerifying = false;
         _isTokenValid = false;
-        _tokenError = 'No reset token found in link. Please request a new password reset.';
+        _tokenError =
+            'No reset token found in link. Please request a new password reset.';
       });
       return;
     }
@@ -64,7 +66,8 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           _isVerifying = false;
           _isTokenValid = isValid;
           if (!isValid) {
-            _tokenError = 'This password reset link is invalid, expired, or has already been used.';
+            _tokenError =
+                'This password reset link is invalid, expired, or has already been used.';
           }
         });
       }
@@ -73,7 +76,8 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
         setState(() {
           _isVerifying = false;
           _isTokenValid = false;
-          _tokenError = e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
+          _tokenError =
+              e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
         });
       }
     }
@@ -102,7 +106,6 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           _isSuccess = true;
         });
 
-        // Navigate back to login screen after a brief delay
         Future.delayed(const Duration(milliseconds: 2000), () {
           if (mounted) {
             context.go('/login');
@@ -113,7 +116,8 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
       if (mounted) {
         setState(() {
           _isSubmitting = false;
-          _errorMessage = e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
+          _errorMessage =
+              e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
         });
       }
     }
@@ -122,12 +126,16 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.scaffoldBgColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18, color: AppColors.textPrimary),
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            size: 18,
+            color: context.textPrimaryColor,
+          ),
           onPressed: () {
             if (context.canPop()) {
               context.pop();
@@ -140,7 +148,8 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: _buildBody(),
@@ -160,12 +169,14 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(
+              SizedBox(
                 width: 36,
                 height: 36,
                 child: CircularProgressIndicator(
                   strokeWidth: 3,
-                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    context.brandAccentColor,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -173,7 +184,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 'Validating reset link...',
                 style: AppTextStyles.bodyMedium.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  color: context.textPrimaryColor,
                 ),
               ),
               const SizedBox(height: 6),
@@ -181,7 +192,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                 'Please wait while we verify your security credentials.',
                 textAlign: TextAlign.center,
                 style: AppTextStyles.bodySmall.copyWith(
-                  color: AppColors.textSecondary,
+                  color: context.textSecondaryColor,
                 ),
               ),
             ],
@@ -200,11 +211,17 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                color: Colors.amber.shade50,
+                color: context.warningBgColor,
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.amber.shade200),
+                border: Border.all(
+                  color: context.warningColor.withValues(alpha: 0.4),
+                ),
               ),
-              child: const Icon(Icons.warning_amber_rounded, size: 36, color: Colors.amber),
+              child: Icon(
+                Icons.warning_amber_rounded,
+                size: 36,
+                color: context.warningColor,
+              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -215,10 +232,11 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           ),
           const SizedBox(height: 10),
           Text(
-            _tokenError ?? 'This password reset link is invalid, expired, or has already been used.',
+            _tokenError ??
+                'This password reset link is invalid, expired, or has already been used.',
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyMedium.copyWith(
-              color: AppColors.textSecondary,
+              color: context.textSecondaryColor,
               fontSize: 13,
               height: 1.4,
             ),
@@ -233,13 +251,15 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             onPressed: () => context.go('/login'),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 14),
-              side: const BorderSide(color: AppColors.border),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              side: BorderSide(color: context.borderColor),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
             child: Text(
               'Return to Login',
               style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.textPrimary,
+                color: context.textPrimaryColor,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -258,11 +278,17 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                color: AppColors.successBg,
+                color: context.successBgColor,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
+                border: Border.all(
+                  color: context.successColor.withValues(alpha: 0.35),
+                ),
               ),
-              child: const Icon(Icons.check_circle_rounded, size: 40, color: AppColors.success),
+              child: Icon(
+                Icons.check_circle_rounded,
+                size: 40,
+                color: context.successColor,
+              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -276,7 +302,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             'Your password has been successfully updated. Redirecting to login...',
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyMedium.copyWith(
-              color: AppColors.textSecondary,
+              color: context.textSecondaryColor,
               fontSize: 13,
               height: 1.4,
             ),
@@ -302,12 +328,14 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
               height: 72,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.cardBgColor,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: context.borderColor),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.06),
+                    color: Colors.black.withValues(
+                      alpha: context.isDarkMode ? 0.28 : 0.06,
+                    ),
                     blurRadius: 16,
                     offset: const Offset(0, 6),
                   ),
@@ -330,7 +358,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             'Choose a strong new password for your Hangbug account.',
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyMedium.copyWith(
-              color: AppColors.textSecondary,
+              color: context.textSecondaryColor,
               fontSize: 13,
               height: 1.4,
             ),
@@ -342,20 +370,26 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               decoration: BoxDecoration(
-                color: AppColors.errorBg,
+                color: context.errorBgColor,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
+                border: Border.all(
+                  color: context.errorColor.withValues(alpha: 0.35),
+                ),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.error_outline_rounded, color: AppColors.error, size: 20),
+                  Icon(
+                    Icons.error_outline_rounded,
+                    color: context.errorColor,
+                    size: 20,
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       _errorMessage!,
                       style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.error,
+                        color: context.errorColor,
                         fontWeight: FontWeight.w600,
                         height: 1.4,
                       ),
@@ -375,7 +409,11 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             isPassword: true,
             textInputAction: TextInputAction.next,
             validator: Validators.validatePassword,
-            prefixIcon: const Icon(Icons.lock_outline_rounded, size: 20, color: AppColors.textSecondary),
+            prefixIcon: Icon(
+              Icons.lock_outline_rounded,
+              size: 20,
+              color: context.textSecondaryColor,
+            ),
           ),
           const SizedBox(height: 16),
 
@@ -386,8 +424,15 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             controller: _confirmPasswordController,
             isPassword: true,
             textInputAction: TextInputAction.done,
-            validator: (v) => Validators.validateConfirmPassword(v, _passwordController.text),
-            prefixIcon: const Icon(Icons.lock_outline_rounded, size: 20, color: AppColors.textSecondary),
+            validator: (v) => Validators.validateConfirmPassword(
+              v,
+              _passwordController.text,
+            ),
+            prefixIcon: Icon(
+              Icons.lock_outline_rounded,
+              size: 20,
+              color: context.textSecondaryColor,
+            ),
             onSubmitted: (_) => _handleResetPassword(),
           ),
           const SizedBox(height: 14),
@@ -396,9 +441,9 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AppColors.card,
+              color: context.cardBgColor,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.border),
+              border: Border.all(color: context.borderColor),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -407,14 +452,16 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
                   'Password Requirements:',
                   style: AppTextStyles.bodySmall.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: context.textPrimaryColor,
                     fontSize: 11,
                   ),
                 ),
                 const SizedBox(height: 6),
-                _RequirementItem(text: 'At least 8 characters long'),
-                _RequirementItem(text: 'At least one uppercase letter (A-Z)'),
-                _RequirementItem(text: 'At least one number (0-9)'),
+                const _RequirementItem(text: 'At least 8 characters long'),
+                const _RequirementItem(
+                  text: 'At least one uppercase letter (A-Z)',
+                ),
+                const _RequirementItem(text: 'At least one number (0-9)'),
               ],
             ),
           ),
@@ -431,11 +478,15 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           Center(
             child: TextButton.icon(
               onPressed: () => context.go('/login'),
-              icon: const Icon(Icons.arrow_back_rounded, size: 16, color: AppColors.primary),
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                size: 16,
+                color: context.brandAccentColor,
+              ),
               label: Text(
                 'Cancel & Return to Login',
                 style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.primary,
+                  color: context.brandAccentColor,
                   fontWeight: FontWeight.w600,
                   fontSize: 13,
                 ),
@@ -460,13 +511,17 @@ class _RequirementItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Icon(Icons.check_circle_rounded, size: 14, color: AppColors.primary),
+          Icon(
+            Icons.check_circle_rounded,
+            size: 14,
+            color: context.brandAccentColor,
+          ),
           const SizedBox(width: 6),
           Expanded(
             child: Text(
               text,
               style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.textSecondary,
+                color: context.textSecondaryColor,
                 fontSize: 11,
               ),
             ),
@@ -476,4 +531,3 @@ class _RequirementItem extends StatelessWidget {
     );
   }
 }
-

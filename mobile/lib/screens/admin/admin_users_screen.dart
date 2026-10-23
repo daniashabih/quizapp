@@ -49,7 +49,7 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: AppColors.border),
+                  borderSide: BorderSide(color: context.borderColor),
                 ),
               ),
               onChanged: (val) => setState(() => _searchQuery = val.trim().toLowerCase()),
@@ -103,9 +103,9 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
   Widget _buildUserTile(BuildContext context, UserModel user, bool isCurrent) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardBgColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.borderColor),
       ),
       child: ListTile(
         leading: CircleAvatar(
@@ -127,12 +127,16 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                 margin: const EdgeInsets.only(left: 6),
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.1),
+                  color: context.brandAccentColor.withValues(alpha: 0.14),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
                   'YOU',
-                  style: AppTextStyles.mono.copyWith(fontSize: 9, fontWeight: FontWeight.bold),
+                  style: AppTextStyles.mono.copyWith(
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                    color: context.brandAccentColor,
+                  ),
                 ),
               ),
           ],
@@ -140,18 +144,21 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(user.email, style: AppTextStyles.bodySmall),
+            Text(
+              user.email,
+              style: AppTextStyles.bodySmall.copyWith(color: context.textSecondaryColor),
+            ),
             const SizedBox(height: 2),
             Text(
               '${user.role.toUpperCase()} • Joined ${DateFormatter.formatDate(user.createdAt)}',
-              style: AppTextStyles.mono.copyWith(fontSize: 10, color: AppColors.textMuted),
+              style: AppTextStyles.mono.copyWith(fontSize: 10, color: context.textMutedColor),
             ),
           ],
         ),
         trailing: isCurrent
             ? null
             : IconButton(
-                icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error),
+                icon: Icon(Icons.delete_outline_rounded, color: context.errorColor),
                 tooltip: 'Delete User',
                 onPressed: () => _confirmDeleteUser(user),
               ),

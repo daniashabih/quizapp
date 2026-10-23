@@ -82,7 +82,6 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
         } else {
           final shouldExit = _handleBackPress();
           if (shouldExit) {
-            // Let the system close the application
             Navigator.of(context).pop();
           }
         }
@@ -95,9 +94,9 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
           ],
         ),
         bottomNavigationBar: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             border: Border(
-              top: BorderSide(color: AppColors.border, width: 1),
+              top: BorderSide(color: context.borderColor, width: 1),
             ),
           ),
           child: BottomNavigationBar(

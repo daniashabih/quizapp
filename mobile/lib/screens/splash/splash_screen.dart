@@ -52,7 +52,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.scaffoldBgColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -62,12 +62,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               height: 110,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.cardBgColor,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.border, width: 2),
+                border: Border.all(color: context.borderColor, width: 2),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.08),
+                    color: Colors.black.withValues(
+                      alpha: context.isDarkMode ? 0.3 : 0.08,
+                    ),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -86,14 +88,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   'Hang',
                   style: AppTextStyles.displayMedium.copyWith(
                     fontWeight: FontWeight.w800,
-                    color: AppColors.textPrimary,
+                    color: context.textPrimaryColor,
                   ),
                 ),
                 Text(
                   'Bug',
                   style: AppTextStyles.displayMedium.copyWith(
                     fontWeight: FontWeight.w900,
-                    color: AppColors.primary,
+                    color: context.brandAccentColor,
                   ),
                 ),
               ],
@@ -102,18 +104,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             Text(
               'Learn - Test - Prove',
               style: AppTextStyles.labelBold.copyWith(
-                color: AppColors.primary,
+                color: context.brandAccentColor,
                 letterSpacing: 1.2,
                 fontSize: 12,
               ),
             ),
             const SizedBox(height: 40),
-            const SizedBox(
+            SizedBox(
               width: 24,
               height: 24,
               child: CircularProgressIndicator(
                 strokeWidth: 2.2,
-                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  context.brandAccentColor,
+                ),
               ),
             ),
           ],

@@ -17,6 +17,7 @@ class ResultScreen extends StatelessWidget {
     final isPassed = result.isPassed;
     final isCertified = result.isCertified;
     final incorrectCount = result.total - result.score;
+    final statusColor = isPassed ? context.successColor : context.errorColor;
 
     return PopScope(
       canPop: false,
@@ -52,18 +53,16 @@ class ResultScreen extends StatelessWidget {
                 height: 100,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isPassed
-                      ? AppColors.success.withValues(alpha: 0.15)
-                      : AppColors.error.withValues(alpha: 0.15),
+                  color: statusColor.withValues(alpha: 0.16),
                   border: Border.all(
-                    color: isPassed ? AppColors.success : AppColors.error,
+                    color: statusColor,
                     width: 3,
                   ),
                 ),
                 child: Icon(
                   isPassed ? Icons.emoji_events_rounded : Icons.replay_rounded,
                   size: 56,
-                  color: isPassed ? AppColors.success : AppColors.error,
+                  color: statusColor,
                 ),
               ),
               const SizedBox(height: 20),
@@ -89,7 +88,7 @@ class ResultScreen extends StatelessWidget {
                         ? 'You passed ${result.category} Session ${result.session} with a solid score.'
                         : 'You need at least 70% to pass this quiz. Review your materials and try again!',
                 style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.textSecondary,
+                  color: context.textSecondaryColor,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -100,15 +99,16 @@ class ResultScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
+                  color: context.cardBgColor,
                   gradient: LinearGradient(
                     colors: isPassed
                         ? [
-                            AppColors.primary.withValues(alpha: 0.08),
-                            AppColors.accent.withValues(alpha: 0.05),
+                            context.brandAccentColor.withValues(alpha: 0.12),
+                            AppColors.accent.withValues(alpha: 0.08),
                           ]
                         : [
-                            AppColors.error.withValues(alpha: 0.08),
-                            AppColors.warning.withValues(alpha: 0.05),
+                            context.errorColor.withValues(alpha: 0.12),
+                            context.warningColor.withValues(alpha: 0.08),
                           ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -116,8 +116,8 @@ class ResultScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(24),
                   border: Border.all(
                     color: isPassed
-                        ? AppColors.primary.withValues(alpha: 0.3)
-                        : AppColors.error.withValues(alpha: 0.3),
+                        ? context.brandAccentColor.withValues(alpha: 0.35)
+                        : context.errorColor.withValues(alpha: 0.35),
                   ),
                 ),
                 child: Column(
@@ -127,7 +127,7 @@ class ResultScreen extends StatelessWidget {
                       style: AppTextStyles.mono.copyWith(
                         fontSize: 12,
                         letterSpacing: 2,
-                        color: AppColors.textSecondary,
+                        color: context.textSecondaryColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -142,14 +142,18 @@ class ResultScreen extends StatelessWidget {
                           style: AppTextStyles.displayLarge.copyWith(
                             fontSize: 64,
                             fontWeight: FontWeight.w900,
-                            color: isPassed ? AppColors.primary : AppColors.error,
+                            color: isPassed
+                                ? context.brandAccentColor
+                                : context.errorColor,
                           ),
                         ),
                         Text(
                           '%',
                           style: AppTextStyles.displaySmall.copyWith(
                             fontSize: 32,
-                            color: isPassed ? AppColors.primary : AppColors.error,
+                            color: isPassed
+                                ? context.brandAccentColor
+                                : context.errorColor,
                           ),
                         ),
                       ],
@@ -160,11 +164,34 @@ class ResultScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _buildStatCol('Correct', '${result.score}', AppColors.success),
-                        Container(width: 1, height: 36, color: AppColors.border),
-                        _buildStatCol('Incorrect', '$incorrectCount', AppColors.error),
-                        Container(width: 1, height: 36, color: AppColors.border),
-                        _buildStatCol('Total', '${result.total}', AppColors.primary),
+                        _buildStatCol(
+                          context,
+                          'Correct',
+                          '${result.score}',
+                          context.successColor,
+                        ),
+                        Container(
+                          width: 1,
+                          height: 36,
+                          color: context.borderColor,
+                        ),
+                        _buildStatCol(
+                          context,
+                          'Incorrect',
+                          '$incorrectCount',
+                          context.errorColor,
+                        ),
+                        Container(
+                          width: 1,
+                          height: 36,
+                          color: context.borderColor,
+                        ),
+                        _buildStatCol(
+                          context,
+                          'Total',
+                          '${result.total}',
+                          context.brandAccentColor,
+                        ),
                       ],
                     ),
                   ],
@@ -178,16 +205,18 @@ class ResultScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withValues(alpha: 0.12),
+                    color: AppColors.accent.withValues(alpha: 0.14),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.accent.withValues(alpha: 0.4)),
+                    border: Border.all(
+                      color: AppColors.accent.withValues(alpha: 0.45),
+                    ),
                   ),
                   child: Row(
                     children: [
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: AppColors.accent.withValues(alpha: 0.2),
+                          color: AppColors.accent.withValues(alpha: 0.22),
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
@@ -212,7 +241,7 @@ class ResultScreen extends StatelessWidget {
                             Text(
                               'View and share your official ${AppConfig.appName} verified certificate.',
                               style: AppTextStyles.bodySmall.copyWith(
-                                color: AppColors.textSecondary,
+                                color: context.textSecondaryColor,
                               ),
                             ),
                           ],
@@ -236,7 +265,9 @@ class ResultScreen extends StatelessWidget {
 
               AppButton(
                 text: 'Try Another Quiz',
-                type: isCertified ? AppButtonType.secondary : AppButtonType.primary,
+                type: isCertified
+                    ? AppButtonType.secondary
+                    : AppButtonType.primary,
                 icon: Icons.explore_rounded,
                 onPressed: () => context.go('/explore'),
               ),
@@ -256,7 +287,12 @@ class ResultScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCol(String label, String value, Color color) {
+  Widget _buildStatCol(
+    BuildContext context,
+    String label,
+    String value,
+    Color color,
+  ) {
     return Column(
       children: [
         Text(
@@ -271,7 +307,7 @@ class ResultScreen extends StatelessWidget {
         Text(
           label,
           style: AppTextStyles.bodySmall.copyWith(
-            color: AppColors.textSecondary,
+            color: context.textSecondaryColor,
             fontWeight: FontWeight.w500,
           ),
         ),

@@ -72,10 +72,10 @@ class AdminCategoriesScreen extends ConsumerWidget {
   Widget _buildCategoryTile(BuildContext context, WidgetRef ref, CategoryModel cat) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.cardBgColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: cat.isEnabled ? AppColors.border : AppColors.error.withValues(alpha: 0.3),
+          color: cat.isEnabled ? context.borderColor : context.errorColor.withValues(alpha: 0.35),
         ),
       ),
       child: ListTile(
@@ -85,8 +85,8 @@ class AdminCategoriesScreen extends ConsumerWidget {
           height: 48,
           decoration: BoxDecoration(
             color: cat.isEnabled
-                ? AppColors.primary.withValues(alpha: 0.1)
-                : Colors.grey.withValues(alpha: 0.15),
+                ? context.brandAccentColor.withValues(alpha: 0.12)
+                : context.textMutedColor.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
           ),
           alignment: Alignment.center,
@@ -95,7 +95,7 @@ class AdminCategoriesScreen extends ConsumerWidget {
             style: AppTextStyles.displaySmall.copyWith(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: cat.isEnabled ? AppColors.primary : Colors.grey,
+              color: cat.isEnabled ? context.brandAccentColor : context.textMutedColor,
             ),
           ),
         ),
@@ -106,7 +106,7 @@ class AdminCategoriesScreen extends ConsumerWidget {
                 cat.name,
                 style: AppTextStyles.labelBold.copyWith(
                   fontSize: 16,
-                  color: cat.isEnabled ? AppColors.textPrimary : AppColors.textSecondary,
+                  color: cat.isEnabled ? context.textPrimaryColor : context.textSecondaryColor,
                 ),
               ),
             ),
@@ -114,8 +114,8 @@ class AdminCategoriesScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
                 color: cat.isEnabled
-                    ? AppColors.success.withValues(alpha: 0.12)
-                    : Colors.red.withValues(alpha: 0.12),
+                    ? context.successColor.withValues(alpha: 0.14)
+                    : context.errorColor.withValues(alpha: 0.14),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
@@ -123,7 +123,7 @@ class AdminCategoriesScreen extends ConsumerWidget {
                 style: AppTextStyles.mono.copyWith(
                   fontSize: 10,
                   fontWeight: FontWeight.bold,
-                  color: cat.isEnabled ? AppColors.success : Colors.red,
+                  color: cat.isEnabled ? context.successColor : context.errorColor,
                 ),
               ),
             ),
@@ -131,15 +131,15 @@ class AdminCategoriesScreen extends ConsumerWidget {
         ),
         subtitle: Text(
           '${cat.totalQuestions} questions across ${cat.sessions.length} sessions',
-          style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary),
+          style: AppTextStyles.bodySmall.copyWith(color: context.textSecondaryColor),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Switch(
               value: cat.isEnabled,
-              activeThumbColor: AppColors.primary,
-              activeTrackColor: AppColors.primary.withValues(alpha: 0.38),
+              activeThumbColor: context.brandAccentColor,
+              activeTrackColor: context.brandAccentColor.withValues(alpha: 0.38),
               onChanged: (val) async {
                 final success = await ref.read(adminControllerProvider.notifier).toggleCategoryStatus(cat.id, val);
                 if (context.mounted) {
@@ -156,7 +156,7 @@ class AdminCategoriesScreen extends ConsumerWidget {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error),
+              icon: Icon(Icons.delete_outline_rounded, color: context.errorColor),
               tooltip: 'Delete Category',
               onPressed: () => _confirmDeleteCategory(context, ref, cat),
             ),

@@ -28,27 +28,34 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = context.isDarkMode;
     Color bgColor;
     Color fgColor;
     BorderSide borderSide = BorderSide.none;
 
     switch (type) {
       case AppButtonType.primary:
-        bgColor = AppColors.primary;
+        bgColor = isDark ? AppColors.primaryLight : AppColors.primary;
         fgColor = AppColors.textLight;
+        if (isDark) {
+          borderSide = BorderSide(
+            color: AppColors.darkPrimaryAccent.withValues(alpha: 0.35),
+            width: 1,
+          );
+        }
         break;
       case AppButtonType.secondary:
-        bgColor = AppColors.mutedBg;
-        fgColor = AppColors.textPrimary;
-        borderSide = const BorderSide(color: AppColors.border, width: 1);
+        bgColor = context.mutedBgColor;
+        fgColor = context.textPrimaryColor;
+        borderSide = BorderSide(color: context.borderColor, width: 1);
         break;
       case AppButtonType.outline:
         bgColor = Colors.transparent;
-        fgColor = AppColors.primary;
-        borderSide = const BorderSide(color: AppColors.primary, width: 1.5);
+        fgColor = context.brandAccentColor;
+        borderSide = BorderSide(color: context.brandAccentColor, width: 1.5);
         break;
       case AppButtonType.danger:
-        bgColor = AppColors.error;
+        bgColor = context.errorColor;
         fgColor = Colors.white;
         break;
     }

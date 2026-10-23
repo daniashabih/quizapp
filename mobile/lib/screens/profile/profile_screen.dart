@@ -6,15 +6,28 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/dashboard_provider.dart';
+import '../../providers/theme_provider.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
+
+  String _themeModeLabel(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.light:
+        return 'Light Mode';
+      case ThemeMode.dark:
+        return 'Dark Mode';
+      case ThemeMode.system:
+        return 'System Default';
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authProvider);
     final user = authState.user;
     final dashboardAsync = ref.watch(userDashboardProvider);
+    final themeMode = ref.watch(themeModeProvider);
     final isAdmin = user?.isAdmin ?? false;
 
     return Scaffold(
@@ -36,12 +49,14 @@ class ProfileScreen extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: context.cardBgColor,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: context.borderColor),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.04),
+                    color: Colors.black.withValues(
+                      alpha: context.isDarkMode ? 0.25 : 0.04,
+                    ),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -88,6 +103,7 @@ class ProfileScreen extends ConsumerWidget {
                     style: AppTextStyles.displaySmall.copyWith(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      color: context.textPrimaryColor,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -96,21 +112,26 @@ class ProfileScreen extends ConsumerWidget {
                   Text(
                     user?.email ?? '',
                     style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textSecondary,
+                      color: context.textSecondaryColor,
                     ),
                   ),
                   const SizedBox(height: 10),
 
                   // Role Badge
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: isAdmin
-                          ? AppColors.primary.withValues(alpha: 0.12)
-                          : AppColors.accent.withValues(alpha: 0.12),
+                          ? context.brandAccentColor.withValues(alpha: 0.14)
+                          : AppColors.accent.withValues(alpha: 0.16),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: isAdmin ? AppColors.primary : AppColors.accent,
+                        color: isAdmin
+                            ? context.brandAccentColor
+                            : AppColors.accent,
                         width: 1,
                       ),
                     ),
@@ -119,7 +140,11 @@ class ProfileScreen extends ConsumerWidget {
                       style: AppTextStyles.mono.copyWith(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
-                        color: isAdmin ? AppColors.primary : AppColors.primaryDark,
+                        color: isAdmin
+                            ? context.brandAccentColor
+                            : (context.isDarkMode
+                                ? AppColors.accentLight
+                                : AppColors.primaryDark),
                       ),
                     ),
                   ),
@@ -134,18 +159,30 @@ class ProfileScreen extends ConsumerWidget {
               data: (data) => Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColors.backgroundAlt,
+                  color: context.mutedBgColor,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.border),
+                  border: Border.all(color: context.borderColor),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildMiniStat('Quizzes', '${data.totalQuizzesTaken}'),
-                    Container(width: 1, height: 32, color: AppColors.border),
-                    _buildMiniStat('Certificates', '${data.certificatesCount}'),
-                    Container(width: 1, height: 32, color: AppColors.border),
-                    _buildMiniStat('Avg Score', '${data.averageScore.toStringAsFixed(0)}%'),
+                    _buildMiniStat(
+                      context,
+                      'Quizzes',
+                      '${data.totalQuizzesTaken}',
+                    ),
+                    Container(width: 1, height: 32, color: context.borderColor),
+                    _buildMiniStat(
+                      context,
+                      'Certificates',
+                      '${data.certificatesCount}',
+                    ),
+                    Container(width: 1, height: 32, color: context.borderColor),
+                    _buildMiniStat(
+                      context,
+                      'Avg Score',
+                      '${data.averageScore.toStringAsFixed(0)}%',
+                    ),
                   ],
                 ),
               ),
@@ -157,6 +194,7 @@ class ProfileScreen extends ConsumerWidget {
 
             // Menu Items
             _buildMenuSection(
+              context: context,
               title: 'Learning & Credentials',
               items: [
                 _MenuItem(
@@ -177,13 +215,15 @@ class ProfileScreen extends ConsumerWidget {
             if (isAdmin) ...[
               const SizedBox(height: 16),
               _buildMenuSection(
+                context: context,
                 title: 'Administration',
                 items: [
                   _MenuItem(
                     icon: Icons.admin_panel_settings_rounded,
                     title: 'Admin Control Center',
-                    subtitle: 'Manage questions, categories, users, and AI generation',
-                    iconColor: AppColors.primary,
+                    subtitle:
+                        'Manage questions, categories, users, and AI generation',
+                    iconColor: context.brandAccentColor,
                     onTap: () => context.push('/admin'),
                   ),
                 ],
@@ -192,12 +232,14 @@ class ProfileScreen extends ConsumerWidget {
 
             const SizedBox(height: 16),
             _buildMenuSection(
+              context: context,
               title: 'Account & Support',
               items: [
                 _MenuItem(
                   icon: Icons.settings_rounded,
-                  title: 'Settings',
-                  subtitle: 'Account preferences, security, data deletion',
+                  title: 'Settings & Theme',
+                  subtitle:
+                      'Theme (${_themeModeLabel(themeMode)}), notifications, account security',
                   onTap: () => context.push('/settings'),
                 ),
                 _MenuItem(
@@ -221,27 +263,33 @@ class ProfileScreen extends ConsumerWidget {
             ListTile(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
-                side: BorderSide(color: AppColors.error.withValues(alpha: 0.3)),
+                side: BorderSide(
+                  color: context.errorColor.withValues(alpha: 0.35),
+                ),
               ),
-              tileColor: AppColors.error.withValues(alpha: 0.05),
-              leading: const Icon(Icons.logout_rounded, color: AppColors.error),
+              tileColor: context.errorColor.withValues(alpha: 0.08),
+              leading: Icon(Icons.logout_rounded, color: context.errorColor),
               title: Text(
                 'Sign Out',
-                style: AppTextStyles.labelBold.copyWith(color: AppColors.error),
+                style: AppTextStyles.labelBold.copyWith(
+                  color: context.errorColor,
+                ),
               ),
               onTap: () => _confirmSignOut(context, ref),
             ),
 
             const SizedBox(height: 20),
             Image.asset(
-              'assets/images/branding/hangbug-logo-compact.png',
+              context.brandCompactLogoAsset,
               height: 24,
               fit: BoxFit.contain,
             ),
             const SizedBox(height: 8),
             Text(
               '${AppConfig.appName} v${AppConfig.appVersion} (Build ${AppConfig.appBuildNumber}) • Production',
-              style: AppTextStyles.bodySmall.copyWith(color: AppColors.textMuted),
+              style: AppTextStyles.bodySmall.copyWith(
+                color: context.textMutedColor,
+              ),
             ),
             const SizedBox(height: 24),
           ],
@@ -250,7 +298,7 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildMiniStat(String label, String value) {
+  Widget _buildMiniStat(BuildContext context, String label, String value) {
     return Column(
       children: [
         Text(
@@ -258,7 +306,7 @@ class ProfileScreen extends ConsumerWidget {
           style: AppTextStyles.displaySmall.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: AppColors.primary,
+            color: context.brandAccentColor,
           ),
         ),
         const SizedBox(height: 2),
@@ -266,7 +314,7 @@ class ProfileScreen extends ConsumerWidget {
           label,
           style: AppTextStyles.bodySmall.copyWith(
             fontSize: 11,
-            color: AppColors.textSecondary,
+            color: context.textSecondaryColor,
           ),
         ),
       ],
@@ -274,9 +322,12 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   Widget _buildMenuSection({
+    required BuildContext context,
     required String title,
     required List<_MenuItem> items,
   }) {
+    final defaultIconColor = context.brandAccentColor;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -288,38 +339,52 @@ class ProfileScreen extends ConsumerWidget {
               fontSize: 11,
               letterSpacing: 1.2,
               fontWeight: FontWeight.w600,
-              color: AppColors.textSecondary,
+              color: context.textSecondaryColor,
             ),
           ),
         ),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: context.cardBgColor,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
+            border: Border.all(color: context.borderColor),
           ),
           child: Column(
             children: items.asMap().entries.map((entry) {
               final idx = entry.key;
               final item = entry.value;
+              final effectiveIconColor = item.iconColor ?? defaultIconColor;
               return Column(
                 children: [
                   ListTile(
                     leading: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: (item.iconColor ?? AppColors.primary).withValues(alpha: 0.1),
+                        color: effectiveIconColor.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
                         item.icon,
-                        color: item.iconColor ?? AppColors.primary,
+                        color: effectiveIconColor,
                         size: 20,
                       ),
                     ),
-                    title: Text(item.title, style: AppTextStyles.labelBold),
-                    subtitle: Text(item.subtitle, style: AppTextStyles.bodySmall),
-                    trailing: const Icon(Icons.chevron_right_rounded, color: AppColors.textMuted),
+                    title: Text(
+                      item.title,
+                      style: AppTextStyles.labelBold.copyWith(
+                        color: context.textPrimaryColor,
+                      ),
+                    ),
+                    subtitle: Text(
+                      item.subtitle,
+                      style: AppTextStyles.bodySmall.copyWith(
+                        color: context.textSecondaryColor,
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.chevron_right_rounded,
+                      color: context.textMutedColor,
+                    ),
                     onTap: item.onTap,
                   ),
                   if (idx < items.length - 1)
@@ -339,7 +404,9 @@ class ProfileScreen extends ConsumerWidget {
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         title: const Text('Sign Out'),
-        content: Text('Are you sure you want to sign out of ${AppConfig.appName}?'),
+        content: Text(
+          'Are you sure you want to sign out of ${AppConfig.appName}?',
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
@@ -347,7 +414,7 @@ class ProfileScreen extends ConsumerWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
+              backgroundColor: context.errorColor,
               foregroundColor: Colors.white,
             ),
             onPressed: () async {

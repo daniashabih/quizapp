@@ -6,6 +6,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/validators.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 
@@ -50,13 +51,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
+    final isDark = context.isDarkMode;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.scaffoldBgColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+            icon: Icon(
+              isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+              color: context.textSecondaryColor,
+            ),
+            onPressed: () {
+              ref
+                  .read(themeModeProvider.notifier)
+                  .toggleTheme(MediaQuery.platformBrightnessOf(context));
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Form(
@@ -71,12 +93,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         height: 76,
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: context.cardBgColor,
                           shape: BoxShape.circle,
-                          border: Border.all(color: AppColors.border),
+                          border: Border.all(color: context.borderColor),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.06),
+                              color: Colors.black.withValues(
+                                alpha: isDark ? 0.28 : 0.06,
+                              ),
                               blurRadius: 16,
                               offset: const Offset(0, 6),
                             ),
@@ -99,7 +123,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       'Sign in to test your skills and earn certificates.',
                       textAlign: TextAlign.center,
                       style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.textSecondary,
+                        color: context.textSecondaryColor,
                         fontSize: 13,
                       ),
                     ),
@@ -108,21 +132,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     // Error Banner
                     if (authState.error != null) ...[
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
-                          color: AppColors.errorBg,
+                          color: context.errorBgColor,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
+                          border: Border.all(
+                            color: context.errorColor.withValues(alpha: 0.35),
+                          ),
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.error_outline_rounded, color: AppColors.error, size: 18),
+                            Icon(
+                              Icons.error_outline_rounded,
+                              color: context.errorColor,
+                              size: 18,
+                            ),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
                                 authState.error!,
                                 style: AppTextStyles.bodySmall.copyWith(
-                                  color: AppColors.error,
+                                  color: context.errorColor,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -141,7 +174,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       validator: Validators.validateEmail,
-                      prefixIcon: const Icon(Icons.mail_outline_rounded, size: 20, color: AppColors.textSecondary),
+                      prefixIcon: Icon(
+                        Icons.mail_outline_rounded,
+                        size: 20,
+                        color: context.textSecondaryColor,
+                      ),
                     ),
                     const SizedBox(height: 16),
 
@@ -152,8 +189,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       controller: _passwordController,
                       isPassword: true,
                       textInputAction: TextInputAction.done,
-                      validator: (v) => Validators.validateRequired(v, 'Password'),
-                      prefixIcon: const Icon(Icons.lock_outline_rounded, size: 20, color: AppColors.textSecondary),
+                      validator: (v) =>
+                          Validators.validateRequired(v, 'Password'),
+                      prefixIcon: Icon(
+                        Icons.lock_outline_rounded,
+                        size: 20,
+                        color: context.textSecondaryColor,
+                      ),
                       onSubmitted: (_) => _handleLogin(),
                     ),
 
@@ -165,7 +207,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         child: Text(
                           'Forgot Password?',
                           style: AppTextStyles.bodySmall.copyWith(
-                            color: AppColors.primary,
+                            color: context.brandAccentColor,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -189,7 +231,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         Text(
                           "Don't have an account? ",
                           style: AppTextStyles.bodyMedium.copyWith(
-                            color: AppColors.textSecondary,
+                            color: context.textSecondaryColor,
                             fontSize: 13,
                           ),
                         ),
@@ -198,7 +240,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           child: Text(
                             'Sign Up',
                             style: AppTextStyles.bodyMedium.copyWith(
-                              color: AppColors.primary,
+                              color: context.brandAccentColor,
                               fontWeight: FontWeight.w700,
                               fontSize: 13,
                             ),

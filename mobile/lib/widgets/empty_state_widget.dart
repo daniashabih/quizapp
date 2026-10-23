@@ -37,14 +37,14 @@ class EmptyStateWidget extends StatelessWidget {
               width: 72,
               height: 72,
               decoration: BoxDecoration(
-                color: AppColors.mutedBg,
+                color: context.mutedBgColor,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.border),
+                border: Border.all(color: context.borderColor),
               ),
               child: Icon(
                 icon,
                 size: 32,
-                color: AppColors.primary,
+                color: context.brandAccentColor,
               ),
             ),
             const SizedBox(height: 20),
@@ -59,7 +59,7 @@ class EmptyStateWidget extends StatelessWidget {
                 subtitle,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.textSecondary,
+                  color: context.textSecondaryColor,
                   fontSize: 13,
                 ),
               ),

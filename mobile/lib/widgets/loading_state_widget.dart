@@ -19,12 +19,14 @@ class LoadingStateWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(
+            SizedBox(
               width: 38,
               height: 38,
               child: CircularProgressIndicator(
                 strokeWidth: 3,
-                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  context.brandAccentColor,
+                ),
               ),
             ),
             if (message != null && message!.isNotEmpty) ...[
@@ -33,7 +35,7 @@ class LoadingStateWidget extends StatelessWidget {
                 message!,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.textSecondary,
+                  color: context.textSecondaryColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),

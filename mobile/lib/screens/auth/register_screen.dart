@@ -6,6 +6,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/validators.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 
@@ -55,19 +56,36 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
+    final isDark = context.isDarkMode;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.scaffoldBgColor,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
           onPressed: () => context.pop(),
         ),
+        actions: [
+          IconButton(
+            tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+            icon: Icon(
+              isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+              color: context.textSecondaryColor,
+            ),
+            onPressed: () {
+              ref
+                  .read(themeModeProvider.notifier)
+                  .toggleTheme(MediaQuery.platformBrightnessOf(context));
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Form(
@@ -83,7 +101,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Text(
                       'Join ${AppConfig.appName} to practice technology assessments and earn verified credentials.',
                       style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.textSecondary,
+                        color: context.textSecondaryColor,
                         fontSize: 13,
                       ),
                     ),
@@ -92,21 +110,30 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     // Error Banner
                     if (authState.error != null) ...[
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
-                          color: AppColors.errorBg,
+                          color: context.errorBgColor,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
+                          border: Border.all(
+                            color: context.errorColor.withValues(alpha: 0.35),
+                          ),
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.error_outline_rounded, color: AppColors.error, size: 18),
+                            Icon(
+                              Icons.error_outline_rounded,
+                              color: context.errorColor,
+                              size: 18,
+                            ),
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
                                 authState.error!,
                                 style: AppTextStyles.bodySmall.copyWith(
-                                  color: AppColors.error,
+                                  color: context.errorColor,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -125,7 +152,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       keyboardType: TextInputType.name,
                       textInputAction: TextInputAction.next,
                       validator: Validators.validateName,
-                      prefixIcon: const Icon(Icons.person_outline_rounded, size: 20, color: AppColors.textSecondary),
+                      prefixIcon: Icon(
+                        Icons.person_outline_rounded,
+                        size: 20,
+                        color: context.textSecondaryColor,
+                      ),
                     ),
                     const SizedBox(height: 16),
 
@@ -137,7 +168,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       validator: Validators.validateEmail,
-                      prefixIcon: const Icon(Icons.mail_outline_rounded, size: 20, color: AppColors.textSecondary),
+                      prefixIcon: Icon(
+                        Icons.mail_outline_rounded,
+                        size: 20,
+                        color: context.textSecondaryColor,
+                      ),
                     ),
                     const SizedBox(height: 16),
 
@@ -149,7 +184,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       isPassword: true,
                       textInputAction: TextInputAction.next,
                       validator: Validators.validatePassword,
-                      prefixIcon: const Icon(Icons.lock_outline_rounded, size: 20, color: AppColors.textSecondary),
+                      prefixIcon: Icon(
+                        Icons.lock_outline_rounded,
+                        size: 20,
+                        color: context.textSecondaryColor,
+                      ),
                     ),
                     const SizedBox(height: 16),
 
@@ -160,8 +199,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       controller: _confirmPasswordController,
                       isPassword: true,
                       textInputAction: TextInputAction.done,
-                      validator: (v) => Validators.validateConfirmPassword(v, _passwordController.text),
-                      prefixIcon: const Icon(Icons.lock_reset_rounded, size: 20, color: AppColors.textSecondary),
+                      validator: (v) => Validators.validateConfirmPassword(
+                        v,
+                        _passwordController.text,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.lock_reset_rounded,
+                        size: 20,
+                        color: context.textSecondaryColor,
+                      ),
                       onSubmitted: (_) => _handleRegister(),
                     ),
                     const SizedBox(height: 24),
@@ -180,7 +226,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       'By registering, you agree to ${AppConfig.appName} Terms of Service and Privacy Policy.',
                       textAlign: TextAlign.center,
                       style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.textSecondary,
+                        color: context.textSecondaryColor,
                         fontSize: 11,
                       ),
                     ),
