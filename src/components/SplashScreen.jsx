@@ -1,103 +1,39 @@
-import { useState, useEffect } from 'react';
-import BrandLogo from './BrandLogo';
+import logoIcon from '../assets/branding/hangbug-icon.png';
 
-export default function SplashScreen({ onFinish }) {
-    const [phase, setPhase] = useState('enter'); // 'enter' | 'loading' | 'exit'
-    const [progress, setProgress] = useState(0);
-    const [visible, setVisible] = useState(true);
-
-    useEffect(() => {
-        const enterTimer = setTimeout(() => {
-            setPhase('loading');
-        }, 400);
-
-        return () => clearTimeout(enterTimer);
-    }, []);
-
-    useEffect(() => {
-        if (phase !== 'loading') return;
-
-        const interval = setInterval(() => {
-            setProgress(prev => {
-                const increment = Math.random() * 15 + 5;
-                const next = Math.min(prev + increment, 100);
-                if (next >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        setPhase('exit');
-                        setTimeout(() => {
-                            setVisible(false);
-                            if (onFinish) onFinish();
-                        }, 400);
-                    }, 200);
-                    return 100;
-                }
-                return next;
-            });
-        }, 150);
-
-        return () => clearTimeout(interval);
-    }, [phase, onFinish]);
-
-    if (!visible) return null;
-
+export default function SplashScreen({ message = 'HangBug' }) {
     return (
         <div
-            className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-all duration-500 ease-in-out bg-[var(--page-bg)] ${
-                phase === 'exit' ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
-            }`}
+            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[var(--page-bg)] select-none px-6 transition-colors duration-200"
+            role="status"
+            aria-live="polite"
+            aria-label={message}
         >
-            {/* Ambient Background Blur */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#193D35]/5 rounded-full blur-[120px] animate-pulse" />
+            {/* Brand Emblem Container */}
+            <div className="relative flex items-center justify-center mb-6">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[var(--card-bg)] border-2 border-[var(--card-border)] shadow-lg flex items-center justify-center p-4">
+                    <img
+                        src={logoIcon}
+                        alt="HangBug Emblem"
+                        className="w-full h-full object-contain"
+                        draggable={false}
+                    />
+                </div>
             </div>
 
-            <div className="flex flex-col items-center text-center max-w-sm px-6 relative z-10">
-                {/* Logo Container */}
-                <div className="relative mb-6">
-                    <div className="absolute -inset-3 bg-[#D19A45]/10 rounded-3xl blur-md animate-pulse" />
-                    <div className="relative w-20 h-20 rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-xl flex items-center justify-center p-3">
-                        <BrandLogo variant="mark" size="lg" />
-                    </div>
-                </div>
-
-                {/* App Brand Name */}
-                <h1 className="text-3xl font-display font-extrabold text-[var(--foreground)] tracking-tight mb-1">
-                    Hang<span className="text-[#193D35] font-extrabold">Bug</span>
+            {/* Brand Title */}
+            <div className="text-center space-y-1.5">
+                <h1 className="text-2xl sm:text-3xl font-display font-extrabold tracking-tight text-[var(--foreground)]">
+                    Hang<span className="text-[#193D35] dark:text-emerald-400">Bug</span>
                 </h1>
-
-                {/* Tagline */}
-                <p className="text-xs font-semibold text-[#184D3B] tracking-widest uppercase mb-8">
-                    Learn - Test - Prove
+                <p className="text-xs sm:text-sm font-semibold tracking-wide text-[#193D35] dark:text-emerald-400/90 uppercase">
+                    Learn · Test · Prove
                 </p>
-
-                {/* Progress Bar Container */}
-                <div className="w-full space-y-2">
-                    <div className="w-full h-1.5 bg-[#F4EFE6] rounded-full overflow-hidden border border-[#E8E5DD] p-0.5">
-                        <div
-                            className="h-full rounded-full bg-[#193D35] transition-all duration-300 ease-out"
-                            style={{ width: `${progress}%` }}
-                        />
-                    </div>
-
-                    <div className="flex items-center justify-between text-[11px] font-medium text-[var(--foreground-muted)]">
-                        <span>Initializing core modules...</span>
-                        <span className="font-mono font-bold text-[#193D35]">{Math.round(progress)}%</span>
-                    </div>
-                </div>
-
-                {/* Minimal Loading Dots */}
-                <div className="flex items-center gap-1.5 mt-8">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#193D35] animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#D19A45] animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#42665B] animate-bounce" style={{ animationDelay: '300ms' }} />
-                </div>
             </div>
 
-            {/* Bottom branding */}
-            <p className="absolute bottom-8 text-[10px] font-medium text-[var(--foreground-muted)] tracking-wider">
-                © {new Date().getFullYear()} HangBug Platform
-            </p>
+            {/* Subtle Loading Indicator */}
+            <div className="mt-8 flex items-center gap-2">
+                <div className="w-5 h-5 border-2 border-[#193D35]/20 dark:border-emerald-400/20 border-t-[#193D35] dark:border-t-emerald-400 rounded-full animate-spin" />
+            </div>
         </div>
     );
 }

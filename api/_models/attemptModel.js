@@ -4,7 +4,7 @@ function normalizeAnswer(val) {
     return String(val || '')
         .trim()
         .toLowerCase()
-        .replace(/^[a-d\d][\)\.\:\-]\s*/i, '')
+        .replace(/^[a-d\d][).:-]\s*/i, '')
         .replace(/\[\s*correct\s*\]|\(\s*correct\s*\)|\*+$/i, '')
         .replace(/\band\b/g, '&')
         .replace(/\s+/g, ' ')

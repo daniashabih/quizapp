@@ -1,383 +1,148 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import {
-    User, Lock, Bell, Sun, Moon, Shield, Trash2, Save,
-    ChevronRight, Eye, EyeOff, Monitor
-} from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { Sun, Moon, Monitor, Bell, Shield, Check } from 'lucide-react';
+import DashboardLayout from '../../layouts/DashboardLayout';
 import { useTheme } from '../../context/ThemeContext';
 
-export default function Settings() {
-    const navigate = useNavigate();
-    const { user, updateUser, deleteAccount } = useAuth();
-    const { theme, setThemeMode, resolvedTheme } = useTheme();
-    const [deletingAccount, setDeletingAccount] = useState(false);
+const Settings = () => {
+    const { theme, resolvedTheme, setThemeMode } = useTheme();
 
-    // Profile
-    const [profileData, setProfileData] = useState({ name: user?.name || '', email: user?.email || '' });
-    const [savingProfile, setSavingProfile] = useState(false);
-
-    // Password
-    const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
-    const [showCurrent, setShowCurrent] = useState(false);
-    const [showNew, setShowNew] = useState(false);
-    const [savingPassword, setSavingPassword] = useState(false);
-
-    // Notifications
-    const [notifications, setNotifications] = useState({
-        quizReminders: true,
-        certificateAlerts: true,
-        weeklyDigest: false,
-        marketingEmails: false,
-    });
-
-    const [activeSection, setActiveSection] = useState('profile');
-
-    const handleProfileSave = async (e) => {
-        e.preventDefault();
-        setSavingProfile(true);
-        try {
-            const res = await axios.put('/auth/update-profile', profileData);
-            updateUser(res.data.user);
-            toast.success("Profile updated");
-        } catch (error) {
-            toast.error(error.response?.data?.message || "Failed to update");
-        } finally {
-            setSavingProfile(false);
-        }
-    };
-
-    const handlePasswordChange = async (e) => {
-        e.preventDefault();
-        if (passwordData.newPassword !== passwordData.confirmPassword) {
-            return toast.error("Passwords do not match");
-        }
-        if (passwordData.newPassword.length < 8) {
-            return toast.error("Password must be at least 8 characters");
-        }
-        setSavingPassword(true);
-        try {
-            // For demo - in production this would be a real API call
-            toast.success("Password changed successfully");
-            setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
-        } catch (error) {
-            toast.error(error.response?.data?.message || "Failed to change password");
-        } finally {
-            setSavingPassword(false);
-        }
-    };
-
-    const sections = [
-        { id: 'profile', icon: User, label: 'Profile' },
-        { id: 'password', icon: Lock, label: 'Password' },
-        { id: 'notifications', icon: Bell, label: 'Notifications' },
-        { id: 'theme', icon: Sun, label: 'Appearance' },
-        { id: 'privacy', icon: Shield, label: 'Privacy' },
-        { id: 'danger', icon: Trash2, label: 'Danger Zone' },
+    const themeOptions = [
+        {
+            id: 'light',
+            label: 'Light Mode',
+            icon: Sun,
+            desc: 'Clean light backgrounds with high-contrast dark text',
+        },
+        {
+            id: 'dark',
+            label: 'Dark Mode',
+            icon: Moon,
+            desc: 'Comfortable dark surfaces with crisp, readable light text',
+        },
+        {
+            id: 'system',
+            label: 'System Default',
+            icon: Monitor,
+            desc: `Automatically follows your device or browser appearance (currently ${resolvedTheme === 'dark' ? 'Dark' : 'Light'})`,
+        },
     ];
 
-    const renderActiveSection = () => {
-        switch (activeSection) {
-            case 'profile':
-                return (
-                    <form onSubmit={handleProfileSave} className="space-y-5">
-                        <div>
-                            <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1">Profile Information</h3>
-                            <p className="text-sm text-[var(--foreground-muted)] mb-6">Update your personal details.</p>
-                        </div>
-                        <div className="grid sm:grid-cols-2 gap-4">
-                            <div className="space-y-1.5">
-                                <label className="input-label">Full Name</label>
-                                <input type="text" value={profileData.name}
-                                    onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                                    className="input-field" required />
-                            </div>
-                            <div className="space-y-1.5">
-                                <label className="input-label">Email Address</label>
-                                <input type="email" value={profileData.email}
-                                    onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
-                                    className="input-field" required />
-                            </div>
-                        </div>
-                        <button type="submit" disabled={savingProfile} className="btn-primary text-sm">
-                            {savingProfile ? <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <Save size={16} />}
-                            Save Changes
-                        </button>
-                    </form>
-                );
+    return (
+        <DashboardLayout>
+            <div className="max-w-3xl mx-auto space-y-6">
+                <div>
+                    <h1 className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">
+                        Preferences & Settings
+                    </h1>
+                    <p className="text-xs text-[var(--foreground-muted)] mt-0.5">
+                        Customize your appearance and platform experience.
+                    </p>
+                </div>
 
-            case 'password':
-                return (
-                    <form onSubmit={handlePasswordChange} className="space-y-5 max-w-md">
+                {/* Theme Selection */}
+                <div className="card p-6 rounded-2xl space-y-4">
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
                         <div>
-                            <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1">Change Password</h3>
-                            <p className="text-sm text-[var(--foreground-muted)] mb-6">Ensure your account is secure.</p>
-                        </div>
-                        <div className="space-y-1.5">
-                            <label className="input-label">Current Password</label>
-                            <div className="relative">
-                                <input type={showCurrent ? 'text' : 'password'} value={passwordData.currentPassword}
-                                    onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
-                                    className="input-field pr-10" required />
-                                <button type="button" onClick={() => setShowCurrent(!showCurrent)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]">
-                                    {showCurrent ? <EyeOff size={16} /> : <Eye size={16} />}
-                                </button>
-                            </div>
-                        </div>
-                        <div className="space-y-1.5">
-                            <label className="input-label">New Password</label>
-                            <div className="relative">
-                                <input type={showNew ? 'text' : 'password'} value={passwordData.newPassword}
-                                    onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
-                                    className="input-field pr-10" required />
-                                <button type="button" onClick={() => setShowNew(!showNew)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]">
-                                    {showNew ? <EyeOff size={16} /> : <Eye size={16} />}
-                                </button>
-                            </div>
-                        </div>
-                        <div className="space-y-1.5">
-                            <label className="input-label">Confirm New Password</label>
-                            <input type="password" value={passwordData.confirmPassword}
-                                onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
-                                className="input-field" required />
-                        </div>
-                        <button type="submit" disabled={savingPassword} className="btn-primary text-sm">
-                            {savingPassword ? <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <Lock size={16} />}
-                            Update Password
-                        </button>
-                    </form>
-                );
-
-            case 'notifications':
-                return (
-                    <div className="space-y-5">
-                        <div>
-                            <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1">Notification Preferences</h3>
-                            <p className="text-sm text-[var(--foreground-muted)] mb-6">Manage what you receive.</p>
-                        </div>
-                        <div className="space-y-4">
-                            {Object.entries(notifications).map(([key, value]) => (
-                                <div key={key} className="flex items-center justify-between p-4 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                    <span className="text-sm font-medium text-[var(--foreground)] capitalize">
-                                        {key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}
-                                    </span>
-                                    <button
-                                        onClick={() => setNotifications(prev => ({ ...prev, [key]: !value }))}
-                                        className={`relative w-11 h-6 rounded-full transition-all duration-200 ${value ? 'bg-[#193D35]' : 'bg-[var(--card-border)]'}`}
-                                    >
-                                        <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${value ? 'translate-x-5' : ''}`} />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="pt-4 border-t border-[var(--card-border)] space-y-3">
-                            <h4 className="text-xs font-bold text-[var(--foreground-muted)] uppercase tracking-wider">Preview Notifications</h4>
-                            <p className="text-xs text-[var(--foreground-muted)]">Test how the new notifications look across the platform:</p>
-                            <div className="flex flex-wrap gap-2 pt-1">
-                                <button
-                                    type="button"
-                                    onClick={() => toast.success("Profile updated")}
-                                    className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-500/15 text-emerald-800 hover:bg-emerald-500/25 border border-emerald-500/30 transition-all cursor-pointer"
-                                >
-                                    ✨ Test Success
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => toast.error("Unable to save changes. Please try again.")}
-                                    className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-red-500/15 text-red-800 hover:bg-red-500/25 border border-red-500/30 transition-all cursor-pointer"
-                                >
-                                    ⚠️ Test Error
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => toast.warning("Session expires in 5 minutes.")}
-                                    className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500/15 text-amber-800 hover:bg-amber-500/25 border border-amber-500/30 transition-all cursor-pointer"
-                                >
-                                    ⚡ Test Warning
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => toast.info("New quiz challenge is now available!")}
-                                    className="px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#F3E5C5] text-[#193D35] hover:bg-[#ebd8b0] border border-[#D19A45]/40 transition-all cursor-pointer"
-                                >
-                                    🔔 Test Info
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                );
-
-            case 'theme':
-                return (
-                    <div className="space-y-5">
-                        <div>
-                            <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1">Appearance</h3>
-                            <p className="text-sm text-[var(--foreground-muted)] mb-6">Customize your interface.</p>
-                        </div>
-                        <div className="grid grid-cols-3 gap-3">
-                            {[
-                                { id: 'light', icon: Sun, label: 'Light', desc: 'Bright & clean', available: true },
-                                { id: 'dark', icon: Moon, label: 'Dark', desc: 'Easy on eyes', available: false },
-                                { id: 'system', icon: Monitor, label: 'System', desc: 'Follows device', available: false },
-                            ].map(opt => (
-                                <button
-                                    key={opt.id}
-                                    onClick={() => opt.available && setThemeMode(opt.id)}
-                                    disabled={!opt.available}
-                                    className={`relative p-5 rounded-2xl border-2 text-center transition-all ${
-                                        theme === opt.id
-                                            ? 'border-[#193D35] bg-[#F3E5C5]'
-                                            : opt.available
-                                                ? 'border-[var(--card-border)] hover:border-[#193D35]'
-                                                : 'border-[var(--card-border)] opacity-50 cursor-not-allowed'
-                                    }`}
-                                >
-                                    {!opt.available && (
-                                        <span className="absolute top-2 right-2 px-1.5 py-0.5 rounded-full bg-[var(--muted-bg)] border border-[var(--card-border)] text-[9px] font-bold text-[var(--foreground-muted)] uppercase tracking-wider">
-                                            Soon
-                                        </span>
-                                    )}
-                                    <opt.icon size={24} className={`mx-auto mb-2 ${theme === opt.id ? 'text-[#193D35]' : 'text-[var(--foreground-muted)]'}`} />
-                                    <p className="text-sm font-bold text-[var(--foreground)]">{opt.label}</p>
-                                    <p className="text-[10px] text-[var(--foreground-muted)]">{opt.desc}</p>
-                                </button>
-                            ))}
-                        </div>
-                        <div className="p-4 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
+                            <h2 className="text-sm font-display font-bold text-[var(--foreground)]">
+                                Theme Appearance
+                            </h2>
                             <p className="text-xs text-[var(--foreground-muted)]">
-                                Current: <strong className="text-[var(--foreground)] capitalize">{resolvedTheme}</strong> mode — HangBug uses an elegant warm palette by design. Dark mode is on the roadmap.
+                                Choose how HangBug looks on this browser. Changes apply immediately and are saved automatically.
                             </p>
                         </div>
+                        <span className="badge badge-emerald text-[11px]">
+                            Active: {themeOptions.find((o) => o.id === theme)?.label || 'System Default'}
+                        </span>
                     </div>
-                );
 
-            case 'privacy':
-                return (
-                    <div className="space-y-5">
-                        <div>
-                            <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1">Privacy Settings</h3>
-                            <p className="text-sm text-[var(--foreground-muted)] mb-6">Control your data visibility.</p>
-                        </div>
-                        <div className="space-y-4">
-                            {[
-                                { label: 'Show profile on leaderboard', enabled: true },
-                                { label: 'Share quiz results publicly', enabled: true },
-                                { label: 'Allow certificate verification', enabled: true },
-                                { label: 'Enable activity tracking', enabled: false },
-                            ].map((item, i) => (
-                                <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                    <span className="text-sm font-medium text-[var(--foreground)]">{item.label}</span>
-                                    <button
-                                        className={`relative w-11 h-6 rounded-full transition-all duration-200 ${item.enabled ? 'bg-[#193D35]' : 'bg-[var(--card-border)]'}`}
-                                    >
-                                        <div className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${item.enabled ? 'translate-x-5' : ''}`} />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
-
-            case 'danger':
-                return (
-                    <div className="space-y-5">
-                        <div>
-                            <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1">Danger Zone</h3>
-                            <p className="text-sm text-red-500 mb-6">Irreversible actions. Proceed with caution.</p>
-                        </div>
-                        <div className="p-6 rounded-2xl border-2 border-red-200 dark:border-red-500/20 bg-red-50 dark:bg-red-500/5">
-                            <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 flex items-center justify-center shrink-0">
-                                    <Trash2 size={22} className="text-red-500" />
-                                </div>
-                                <div className="flex-1">
-                                    <h4 className="text-base font-bold text-[var(--foreground)] mb-1">Delete Account</h4>
-                                    <p className="text-sm text-[var(--foreground-muted)] mb-4">
-                                        Permanently delete your account and all associated data (quiz history, certificates, and profile). This action is irreversible.
-                                    </p>
-                                    <div className="flex flex-wrap items-center gap-3">
-                                        <button
-                                            type="button"
-                                            disabled={deletingAccount}
-                                            onClick={async () => {
-                                                const confirmed = window.confirm(
-                                                    'Are you absolutely sure you want to permanently delete your HangBug account? All quiz results, scores, and earned certificates will be immediately erased. This cannot be undone.'
-                                                );
-                                                if (!confirmed) return;
-
-                                                setDeletingAccount(true);
-                                                try {
-                                                    await deleteAccount();
-                                                    navigate('/');
-                                                } catch {
-                                                    // toast already shown by AuthContext
-                                                } finally {
-                                                    setDeletingAccount(false);
-                                                }
-                                            }}
-                                            className="px-6 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white text-sm font-semibold transition-all shadow-lg shadow-red-500/30 flex items-center gap-2 cursor-pointer"
+                    <div
+                        role="radiogroup"
+                        aria-label="Select theme appearance"
+                        className="grid grid-cols-1 sm:grid-cols-3 gap-3"
+                    >
+                        {themeOptions.map((opt) => {
+                            const Icon = opt.icon;
+                            const active = theme === opt.id;
+                            return (
+                                <button
+                                    key={opt.id}
+                                    type="button"
+                                    role="radio"
+                                    aria-checked={active}
+                                    onClick={() => setThemeMode(opt.id)}
+                                    className={`p-4 rounded-xl border text-left transition-all relative cursor-pointer ${
+                                        active
+                                            ? 'border-[#193D35] dark:border-emerald-400 bg-[#F3E5C5]/60 dark:bg-emerald-500/15 ring-2 ring-[#193D35]/15 dark:ring-emerald-400/20'
+                                            : 'border-[var(--card-border)] bg-[var(--card-bg)] hover:bg-[var(--muted-bg)]/60 hover:border-[#193D35]/40 dark:hover:border-emerald-400/40'
+                                    }`}
+                                >
+                                    <div className="flex items-center justify-between mb-3">
+                                        <div
+                                            className={`w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${
+                                                active
+                                                    ? 'bg-[#193D35] dark:bg-emerald-500 text-white dark:text-[#0A0E0C]'
+                                                    : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)]'
+                                            }`}
                                         >
-                                            <Trash2 size={15} />
-                                            {deletingAccount ? 'Deleting Account...' : 'Delete My Account'}
-                                        </button>
-
-                                        <Link
-                                            to="/delete-account"
-                                            className="text-xs text-red-600 hover:text-red-700 underline font-medium"
-                                        >
-                                            Review Account Deletion & Data Retention Policy →
-                                        </Link>
+                                            <Icon size={18} />
+                                        </div>
+                                        {active && (
+                                            <span className="w-5 h-5 rounded-full bg-[#193D35] dark:bg-emerald-400 text-white dark:text-[#0A0E0C] flex items-center justify-center">
+                                                <Check size={12} strokeWidth={3} />
+                                            </span>
+                                        )}
                                     </div>
-                                </div>
+                                    <p className="text-xs font-bold text-[var(--foreground)]">{opt.label}</p>
+                                    <p className="text-[11px] text-[var(--foreground-muted)] mt-0.5 leading-relaxed">
+                                        {opt.desc}
+                                    </p>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                {/* Notifications & Preferences */}
+                <div className="card p-6 rounded-2xl space-y-4">
+                    <div className="flex items-center gap-2.5">
+                        <Bell size={16} className="text-[#193D35] dark:text-emerald-400" />
+                        <h2 className="text-sm font-display font-bold text-[var(--foreground)]">
+                            Quiz Experience
+                        </h2>
+                    </div>
+
+                    <div className="divide-y divide-[var(--card-border)] text-xs">
+                        <div className="py-3 flex items-center justify-between">
+                            <div>
+                                <p className="font-semibold text-[var(--foreground)]">Instant Answer Explanations</p>
+                                <p className="text-[11px] text-[var(--foreground-muted)]">Show detailed explanations immediately after answering</p>
                             </div>
+                            <span className="badge badge-success">Enabled</span>
+                        </div>
+                        <div className="py-3 flex items-center justify-between">
+                            <div>
+                                <p className="font-semibold text-[var(--foreground)]">Auto-Generate Certificates</p>
+                                <p className="text-[11px] text-[var(--foreground-muted)]">Automatically issue verified certificate on passing score</p>
+                            </div>
+                            <span className="badge badge-success">Enabled</span>
                         </div>
                     </div>
-                );
-
-            default:
-                return null;
-        }
-    };
-
-    return (
-        <div className="max-w-5xl mx-auto animate-fade-up">
-            <div className="mb-6">
-                <h1 className="text-2xl lg:text-3xl font-display font-bold text-[var(--foreground)]">Settings</h1>
-                <p className="text-sm text-[var(--foreground-muted)]">Manage your account settings and preferences.</p>
-            </div>
-
-            <div className="grid lg:grid-cols-4 gap-6">
-                {/* Sidebar */}
-                <div className="lg:col-span-1">
-                    <div className="card p-2 rounded-2xl space-y-1">
-                        {sections.map(s => (
-                            <button
-                                key={s.id}
-                                onClick={() => setActiveSection(s.id)}
-                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                                    activeSection === s.id
-                                        ? 'bg-[#F3E5C5] text-[#193D35] font-semibold'
-                                        : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
-                                } ${s.id === 'danger' ? 'hover:text-red-500' : ''}`}
-                            >
-                                <s.icon size={16} />
-                                {s.label}
-                            </button>
-                        ))}
-                    </div>
                 </div>
 
-                {/* Content */}
-                <div className="lg:col-span-3">
-                    <div className="card p-6 lg:p-8 rounded-2xl">
-                        {renderActiveSection()}
+                {/* Security Info */}
+                <div className="card p-6 rounded-2xl flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-[#F3E5C5] dark:bg-emerald-500/15 flex items-center justify-center text-[#193D35] dark:text-emerald-400 shrink-0">
+                        <Shield size={18} />
+                    </div>
+                    <div>
+                        <h3 className="text-xs font-bold text-[var(--foreground)]">Data & Session Security</h3>
+                        <p className="text-xs text-[var(--foreground-muted)] mt-1 leading-relaxed">
+                            Your quiz progress, certificates, and profile data are securely synchronized with MongoDB Atlas.
+                        </p>
                     </div>
                 </div>
             </div>
-        </div>
+        </DashboardLayout>
     );
-}
+};
+
+export default Settings;

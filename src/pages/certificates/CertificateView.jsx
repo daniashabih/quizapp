@@ -105,13 +105,13 @@ export default function CertificateView() {
                     </div>
 
                     {/* Certificate Card */}
-                    <div ref={certRef} className="bg-white border-8 border-[#193D35] rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden text-[#252C28]">
+                    <div ref={certRef} className="bg-[var(--card-bg)] border-8 border-[#193D35] dark:border-[#D19A45]/60 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden text-[var(--foreground)]">
                         {/* Decorative Top Bar */}
-                        <div className="h-2 bg-[#193D35]" />
+                        <div className="h-2 bg-[#193D35] dark:bg-[#D19A45]" />
 
                         {/* Watermark / Background Icon */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.04] pointer-events-none">
-                            <Award size={400} className="text-[#193D35]" />
+                            <Award size={400} className="text-[#193D35] dark:text-[#D19A45]" />
                         </div>
 
                         {/* Content Header */}
@@ -125,41 +125,41 @@ export default function CertificateView() {
 
                         {/* Body */}
                         <div className="text-center my-6 space-y-3">
-                            <p className="text-xs font-semibold text-[#7A807B] uppercase tracking-wider">This is to certify that</p>
+                            <p className="text-xs font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">This is to certify that</p>
                             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-[#193D35] tracking-tight">
                                 {learnerName}
                             </h2>
-                            <p className="text-xs sm:text-sm text-[#42665B] max-w-md mx-auto leading-relaxed">
+                            <p className="text-xs sm:text-sm text-[var(--foreground-secondary)] max-w-md mx-auto leading-relaxed">
                                 has successfully completed the <strong className="text-[#193D35] font-bold">{category}</strong> assessment with a score of{' '}
                                 <strong className="text-[#193D35] font-bold">{percentage}%</strong>, demonstrating exceptional proficiency and mastery of core concepts.
                             </p>
                         </div>
 
                         {/* Footer Info Grid */}
-                        <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#E8E5DD] text-center max-w-lg mx-auto">
+                        <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[var(--card-border)] text-center max-w-lg mx-auto">
                             <div>
-                                <p className="text-[9px] font-semibold text-[#7A807B] uppercase tracking-wider">Score</p>
+                                <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Score</p>
                                 <p className="text-sm sm:text-base font-display font-extrabold text-[#193D35]">{percentage}%</p>
                             </div>
                             <div>
-                                <p className="text-[9px] font-semibold text-[#7A807B] uppercase tracking-wider">Issued Date</p>
+                                <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Issued Date</p>
                                 <p className="text-sm sm:text-base font-display font-extrabold text-[#193D35]">{issueDate}</p>
                             </div>
                             <div>
-                                <p className="text-[9px] font-semibold text-[#7A807B] uppercase tracking-wider">Verification ID</p>
-                                <p className="text-xs font-mono font-bold text-[#42665B]">{certId}</p>
+                                <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">Verification ID</p>
+                                <p className="text-xs font-mono font-bold text-[var(--foreground-secondary)]">{certId}</p>
                             </div>
                         </div>
 
                         {/* QR Code and Seal */}
-                        <div className="flex items-center justify-between pt-6 mt-6 border-t border-[#E8E5DD] px-4">
+                        <div className="flex items-center justify-between pt-6 mt-6 border-t border-[var(--card-border)] px-4">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-[#F4EFE6] border border-[#E8E5DD] rounded-xl">
+                                <div className="p-2 bg-[var(--muted-bg)] border border-[var(--card-border)] rounded-xl">
                                     <QrCode size={36} className="text-[#193D35]" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-[9px] font-bold text-[#7A807B] uppercase">Verify Online</p>
-                                    <p className="text-[10px] text-[#7A807B] font-mono">hangbug.com/verify</p>
+                                    <p className="text-[9px] font-bold text-[var(--foreground-muted)] uppercase">Verify Online</p>
+                                    <p className="text-[10px] text-[var(--foreground-muted)] font-mono">hangbug.com/verify</p>
                                 </div>
                             </div>
                             <div className="w-12 h-12 rounded-full bg-[#F3E5C5] border border-[#E2D0A6] flex items-center justify-center shadow-xs">

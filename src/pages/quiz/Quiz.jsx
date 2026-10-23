@@ -7,10 +7,26 @@ import {
     X, ArrowRight, ArrowLeft,
     Flag, AlertCircle, HelpCircle, ChevronLeft, ChevronRight,
     Send, Sparkles, LayoutGrid, Check, BookOpen,
-    BookmarkCheck, RefreshCw, Loader2, PlayCircle, RotateCcw, Clock, Trash2
+    BookmarkCheck, RefreshCw, Loader2, PlayCircle, RotateCcw, Clock, Trash2,
+    CheckCircle2, XCircle
 } from 'lucide-react';
 import attemptService from '../../services/attemptService';
 import { useSettings } from '../../context/SettingsContext';
+import ThemeToggle from '../../components/ThemeToggle';
+
+// Format relative time helper for resume dialog
+function formatTimeAgo(dateStr) {
+    if (!dateStr) return 'recently';
+    const date = new Date(dateStr);
+    const diffSeconds = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (diffSeconds < 60) return 'just now';
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    if (diffMinutes < 60) return `${diffMinutes}m ago`;
+    const diffHours = Math.floor(diffMinutes / 60);
+    if (diffHours < 24) return `${diffHours}h ago`;
+    const diffDays = Math.floor(diffHours / 24);
+    return `${diffDays}d ago`;
+}
 
 const Quiz = () => {
     const location = useLocation();
@@ -33,10 +49,10 @@ const Quiz = () => {
     };
 
     const explicitAttemptId = location.state?.attemptId || null;
-    const [attemptId, setAttemptId] = useState(explicitAttemptId);
+    const [_attemptId, setAttemptId] = useState(explicitAttemptId);
     const [saveStatus, setSaveStatus] = useState('saved'); // 'saved', 'saving', 'error'
     const [isSavingAndExiting, setIsSavingAndExiting] = useState(false);
-    const [isResumed, setIsResumed] = useState(false);
+    const [_isResumed, setIsResumed] = useState(false);
     const [pendingResumeAttempt, setPendingResumeAttempt] = useState(null);
     const [showSaveConfirmModal, setShowSaveConfirmModal] = useState(false);
 
@@ -45,6 +61,7 @@ const Quiz = () => {
     const latestStateRef = useRef({
         currentIndex: 0,
         selectedAnswers: {},
+        evaluatedAnswers: {},
         flaggedQuestions: new Set(),
         questions: []
     });
@@ -52,6 +69,7 @@ const Quiz = () => {
     const [questions, setQuestions] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
+    const [evaluatedAnswers, setEvaluatedAnswers] = useState({});
     const [flaggedQuestions, setFlaggedQuestions] = useState(new Set());
     const [navigatorOpen, setNavigatorOpen] = useState(() => {
         if (typeof window !== 'undefined') {
@@ -70,10 +88,11 @@ const Quiz = () => {
         latestStateRef.current = {
             currentIndex,
             selectedAnswers,
+            evaluatedAnswers,
             flaggedQuestions,
             questions
         };
-    }, [currentIndex, selectedAnswers, flaggedQuestions, questions]);
+    }, [currentIndex, selectedAnswers, evaluatedAnswers, flaggedQuestions, questions]);
 
     // Auto-close navigator on mobile resize
     useEffect(() => {
@@ -86,21 +105,16 @@ const Quiz = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const normalizeValue = useCallback((val) => String(val || '').trim().replace(/\band\b/gi, '&').replace(/\s+/g, ' ').toLowerCase(), []);
-
-    // Format relative time helper for resume dialog
-    const formatTimeAgo = (dateStr) => {
-        if (!dateStr) return 'recently';
-        const date = new Date(dateStr);
-        const diffSeconds = Math.floor((Date.now() - date.getTime()) / 1000);
-        if (diffSeconds < 60) return 'just now';
-        const diffMinutes = Math.floor(diffSeconds / 60);
-        if (diffMinutes < 60) return `${diffMinutes}m ago`;
-        const diffHours = Math.floor(diffMinutes / 60);
-        if (diffHours < 24) return `${diffHours}h ago`;
-        const diffDays = Math.floor(diffHours / 24);
-        return `${diffDays}d ago`;
-    };
+    const normalizeValue = useCallback((val) => {
+        return String(val || '')
+            .trim()
+            .toLowerCase()
+            .replace(/^[a-d\d][).:-]\s*/i, '')
+            .replace(/\[\s*correct\s*\]|\(\s*correct\s*\)|\*+$/i, '')
+            .replace(/\band\b/gi, '&')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }, []);
 
     // Save current progress to MongoDB Atlas via attemptService
     const saveCurrentProgress = useCallback(async (overrides = {}) => {
@@ -118,7 +132,7 @@ const Quiz = () => {
             if (idx !== undefined) {
                 let opts = q.options;
                 if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
-                if (normalizeValue(opts[idx]) === normalizeValue(q.correct_answer)) curScore++;
+                if (normalizeValue(opts[idx]) === normalizeValue(q.correct_answer || q.correctAnswer)) curScore++;
             }
         });
 
@@ -143,18 +157,122 @@ const Quiz = () => {
         }
     }, [normalizeValue]);
 
-    // Handle selecting an answer with debounced auto-save
-    const handleAnswerSelect = useCallback((questionId, optionIndex) => {
-        setSelectedAnswers(prev => {
-            const updated = { ...prev, [questionId]: optionIndex };
-            if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
-            setSaveStatus('saving');
-            saveTimeoutRef.current = setTimeout(() => {
-                saveCurrentProgress({ selectedAnswers: updated });
-            }, 600);
-            return updated;
-        });
-    }, [saveCurrentProgress]);
+    // Handle selecting an answer with immediate evaluation, strict answer locking, and authoritative backend persistence
+    const handleAnswerSelect = useCallback(async (questionId, optionIndex) => {
+        // STRICT SYNCHRONOUS LOCK:
+        // If question has already been answered or locked, ignore all repeated taps / clicks immediately!
+        if (
+            selectedAnswers[questionId] !== undefined ||
+            evaluatedAnswers[questionId]?.isLocked
+        ) {
+            return;
+        }
+
+        const targetQ = questions.find(q => q.id === questionId);
+        if (!targetQ) return;
+
+        let opts = targetQ.options;
+        if (typeof opts === 'string') {
+            try { opts = JSON.parse(opts); } catch { opts = []; }
+        }
+        if (optionIndex < 0 || optionIndex >= opts.length) return;
+
+        // Resolve correct option index from question if available
+        const rawCorrect = String(targetQ.correct_answer || targetQ.correctAnswer || '').trim();
+        let correctIdx = -1;
+        if (rawCorrect) {
+            correctIdx = opts.findIndex(o => normalizeValue(o) === normalizeValue(rawCorrect));
+            if (correctIdx === -1 && /^[a-d]$/i.test(rawCorrect)) {
+                correctIdx = rawCorrect.toUpperCase().charCodeAt(0) - 65;
+            }
+            if (correctIdx === -1 && /^\d+$/.test(rawCorrect)) {
+                correctIdx = parseInt(rawCorrect, 10);
+            }
+        }
+
+        const isCorrectOptimistic = (correctIdx !== -1) && (optionIndex === correctIdx);
+        const correctAnswerText = (correctIdx >= 0 && opts[correctIdx]) ? opts[correctIdx] : rawCorrect;
+
+        // 1. Synchronously lock selection in client state
+        setSelectedAnswers(prev => ({
+            ...prev,
+            [questionId]: optionIndex
+        }));
+
+        setEvaluatedAnswers(prev => ({
+            ...prev,
+            [questionId]: {
+                selectedOptionIndex: optionIndex,
+                isCorrect: isCorrectOptimistic,
+                isLocked: true,
+                correctOptionIndex: correctIdx,
+                correctAnswer: correctAnswerText,
+                explanation: targetQ.explanation || ''
+            }
+        }));
+
+        setSaveStatus('saving');
+
+        // 2. Authoritatively validate and persist answer on backend
+        const currentAttId = attemptIdRef.current;
+        if (currentAttId) {
+            try {
+                const res = await attemptService.submitAnswer(currentAttId, {
+                    questionId,
+                    selectedOptionIndex: optionIndex
+                });
+                if (res && res.success) {
+                    setEvaluatedAnswers(prev => ({
+                        ...prev,
+                        [questionId]: {
+                            selectedOptionIndex: res.selectedOptionIndex !== undefined ? res.selectedOptionIndex : optionIndex,
+                            isCorrect: res.isCorrect,
+                            isLocked: true,
+                            correctOptionIndex: res.correctOptionIndex,
+                            correctAnswer: res.correctAnswer,
+                            explanation: res.explanation || targetQ.explanation || ''
+                        }
+                    }));
+                    setSelectedAnswers(prev => ({
+                        ...prev,
+                        [questionId]: res.selectedOptionIndex !== undefined ? res.selectedOptionIndex : optionIndex
+                    }));
+                    setSaveStatus('saved');
+                } else {
+                    setSaveStatus('saved');
+                }
+            } catch (err) {
+                console.warn("Backend answer validation fallback to debounced save:", err);
+                saveCurrentProgress({
+                    selectedAnswers: { ...selectedAnswers, [questionId]: optionIndex }
+                });
+            }
+        } else {
+            // Standalone / offline validation fallback
+            try {
+                const res = await axios.post('/quizzes/validate-answer', {
+                    questionId,
+                    selectedOptionIndex: optionIndex
+                });
+                if (res.data?.success) {
+                    setEvaluatedAnswers(prev => ({
+                        ...prev,
+                        [questionId]: {
+                            selectedOptionIndex: res.data.selectedOptionIndex !== undefined ? res.data.selectedOptionIndex : optionIndex,
+                            isCorrect: res.data.isCorrect,
+                            isLocked: true,
+                            correctOptionIndex: res.data.correctOptionIndex,
+                            correctAnswer: res.data.correctAnswer,
+                            explanation: res.data.explanation || targetQ.explanation || ''
+                        }
+                    }));
+                }
+            } catch (err) {
+                console.debug('Synchronous answer evaluation error:', err);
+            }
+            setSaveStatus('saved');
+        }
+    }, [selectedAnswers, evaluatedAnswers, questions, normalizeValue, saveCurrentProgress]);
 
     // Manual Save & Exit handler
     const handleSaveAndExit = async () => {
@@ -263,22 +381,62 @@ const Quiz = () => {
         };
     }, [saveCurrentProgress, isSubmitted]);
 
-    // Restore attempt state from snapshot
+    // Restore attempt state from snapshot and keep all previous answers strictly locked with feedback restored
     const restoreAttempt = useCallback((activeAttempt) => {
-        setQuestions(activeAttempt.questionsSnapshot);
+        const snapshot = activeAttempt.questionsSnapshot || [];
+        setQuestions(snapshot);
         const safeIndex = Math.min(
             activeAttempt.currentQuestionIndex || 0,
-            activeAttempt.questionsSnapshot.length - 1
+            snapshot.length > 0 ? snapshot.length - 1 : 0
         );
         setCurrentIndex(Math.max(0, safeIndex));
-        setSelectedAnswers(activeAttempt.answers || {});
+        
+        const rawAnswers = activeAttempt.answers || {};
+        setSelectedAnswers(rawAnswers);
+
+        // Reconstruct evaluated answers and locked state for all answered questions
+        const restoredEvaluated = { ...(activeAttempt.evaluatedAnswers || {}) };
+        if (Array.isArray(snapshot)) {
+            snapshot.forEach(q => {
+                const qId = q.id || q._id;
+                if (rawAnswers[qId] !== undefined && !restoredEvaluated[qId]) {
+                    const chosenIdx = rawAnswers[qId];
+                    let opts = q.options;
+                    if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
+
+                    const rawCorrect = String(q.correct_answer || q.correctAnswer || '').trim();
+                    let correctIdx = -1;
+                    if (rawCorrect) {
+                        correctIdx = opts.findIndex(o => normalizeValue(o) === normalizeValue(rawCorrect));
+                        if (correctIdx === -1 && /^[a-d]$/i.test(rawCorrect)) {
+                            correctIdx = rawCorrect.toUpperCase().charCodeAt(0) - 65;
+                        }
+                        if (correctIdx === -1 && /^\d+$/.test(rawCorrect)) {
+                            correctIdx = parseInt(rawCorrect, 10);
+                        }
+                    }
+
+                    const isCorrect = (correctIdx !== -1) && (chosenIdx === correctIdx);
+                    restoredEvaluated[qId] = {
+                        selectedOptionIndex: chosenIdx,
+                        isCorrect,
+                        isLocked: true,
+                        correctOptionIndex: correctIdx,
+                        correctAnswer: (correctIdx >= 0 && opts[correctIdx]) ? opts[correctIdx] : rawCorrect,
+                        explanation: q.explanation || ''
+                    };
+                }
+            });
+        }
+        setEvaluatedAnswers(restoredEvaluated);
+
         setFlaggedQuestions(new Set(activeAttempt.flaggedQuestions || []));
         setAttemptId(activeAttempt.id);
         attemptIdRef.current = activeAttempt.id;
         setIsResumed(true);
         setSaveStatus('saved');
-        toast.info(`Resumed ${selectedCategory} exactly where you left off (Question ${safeIndex + 1}).`);
-    }, [selectedCategory]);
+        toast.info(`Resumed ${selectedCategory}: previously answered questions remain locked (Question ${safeIndex + 1}).`);
+    }, [selectedCategory, normalizeValue]);
 
     // Start fresh quiz from question bank and register new in_progress attempt
     const startFreshQuiz = useCallback(async () => {
@@ -398,11 +556,12 @@ const Quiz = () => {
                 category: selectedCategory,
                 session: isAllSessions ? 1 : selectedSession,
                 answers: selectedAnswers,
+                attemptId: attemptIdRef.current,
                 timeTaken,
                 questions: questions
             });
-            if (submitRes.data?.success && submitRes.data?.result) {
-                evalResult = submitRes.data.result;
+            if (submitRes.data?.success) {
+                evalResult = submitRes.data;
             }
         } catch (subErr) {
             console.warn("Primary /quizzes/submit failed, falling back to local computation:", subErr);
@@ -415,7 +574,7 @@ const Quiz = () => {
             if (idx !== undefined) {
                 let opts = q.options;
                 if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
-                if (normalizeValue(opts[idx]) === normalizeValue(q.correct_answer)) fallbackScore++;
+                if (normalizeValue(opts[idx]) === normalizeValue(q.correct_answer || q.correctAnswer)) fallbackScore++;
             }
         });
         const fallbackPercentage = questions.length > 0 ? Math.round((fallbackScore / questions.length) * 100) : 0;
@@ -439,21 +598,6 @@ const Quiz = () => {
             }
         }
 
-        // 2. Save result in quiz_results if not already handled by /quizzes/submit
-        if (!evalResult) {
-            try {
-                await axios.post('/results/save', {
-                    category: selectedCategory,
-                    session: isAllSessions ? 1 : selectedSession,
-                    score: finalScore,
-                    total: questions.length,
-                    percentage: finalPercentage
-                });
-            } catch (error) {
-                console.warn("Fallback save result notice:", error?.message);
-            }
-        }
-
         setIsSubmitted(true);
         navigate('/quiz/result', {
             state: {
@@ -462,7 +606,7 @@ const Quiz = () => {
                 percentage: finalPercentage,
                 passed: finalPassed,
                 passingScore: evalResult?.passingScore || effectivePassingScore,
-                isEligibleForCertificate: evalResult?.isEligibleForCertificate || (finalPercentage >= (settings?.certificatePassingScore || effectivePassingScore)),
+                isEligibleForCertificate: evalResult?.certificateEligible || (finalPercentage >= (settings?.certificatePassingScore || effectivePassingScore)),
                 certificateId: evalResult?.certificateId || null,
                 category: selectedCategory,
                 session: isAllSessions ? 'All' : selectedSession,
@@ -489,19 +633,25 @@ const Quiz = () => {
             const currentQ = questions[currentIndex];
             if (!currentQ) return;
 
+            const isCurrentLocked = selectedAnswers[currentQ.id] !== undefined || evaluatedAnswers[currentQ.id]?.isLocked;
+
             let opts = currentQ.options;
             if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
 
-            // Select Options: 1, 2, 3, 4 or a, b, c, d
-            if (['1', 'a'].includes(key) && opts.length > 0) {
-                handleAnswerSelect(currentQ.id, 0);
-            } else if (['2', 'b'].includes(key) && opts.length > 1) {
-                handleAnswerSelect(currentQ.id, 1);
-            } else if (['3', 'c'].includes(key) && opts.length > 2) {
-                handleAnswerSelect(currentQ.id, 2);
-            } else if (['4', 'd'].includes(key) && opts.length > 3) {
-                handleAnswerSelect(currentQ.id, 3);
-            } else if (key === 'arrowright' || key === 'enter') {
+            // Select Options: 1, 2, 3, 4 or a, b, c, d (ONLY IF CURRENT QUESTION IS NOT LOCKED)
+            if (!isCurrentLocked) {
+                if (['1', 'a'].includes(key) && opts.length > 0) {
+                    handleAnswerSelect(currentQ.id, 0);
+                } else if (['2', 'b'].includes(key) && opts.length > 1) {
+                    handleAnswerSelect(currentQ.id, 1);
+                } else if (['3', 'c'].includes(key) && opts.length > 2) {
+                    handleAnswerSelect(currentQ.id, 2);
+                } else if (['4', 'd'].includes(key) && opts.length > 3) {
+                    handleAnswerSelect(currentQ.id, 3);
+                }
+            }
+
+            if (key === 'arrowright' || key === 'enter') {
                 handleNextQuestion();
             } else if (key === 'arrowleft') {
                 handlePrevQuestion();
@@ -557,6 +707,9 @@ const Quiz = () => {
     const currentQ = questions[currentIndex];
     let currentOptions = currentQ?.options;
     if (typeof currentOptions === 'string') { try { currentOptions = JSON.parse(currentOptions); } catch { currentOptions = []; } }
+
+    const isCurrentAnswered = selectedAnswers[currentQ?.id] !== undefined || evaluatedAnswers[currentQ?.id]?.isLocked;
+    const currentEvaluation = evaluatedAnswers[currentQ?.id];
 
     const answeredCount = Object.keys(selectedAnswers).length;
     const flaggedCount = flaggedQuestions.size;
@@ -645,16 +798,19 @@ const Quiz = () => {
                     <button
                         onClick={() => setShowSaveConfirmModal(true)}
                         disabled={isSavingAndExiting}
-                        className="flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border border-[#D19A45]/40 bg-[#F3E5C5] text-[#193D35] hover:bg-[#EAD8B0] hover:border-[#D19A45] font-bold text-xs transition-all shadow-xs cursor-pointer shrink-0"
+                        className="flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border border-[#D19A45]/40 bg-[#F3E5C5] dark:bg-[#D19A45]/20 text-[#193D35] dark:text-[#F3E5C5] hover:bg-[#EAD8B0] dark:hover:bg-[#D19A45]/30 hover:border-[#D19A45] font-bold text-xs transition-all shadow-xs cursor-pointer shrink-0"
                         title="Save progress and return to dashboard (Ctrl+S)"
                     >
                         {isSavingAndExiting ? (
-                            <Loader2 size={14} className="animate-spin text-[#193D35]" />
+                            <Loader2 size={14} className="animate-spin text-[#193D35] dark:text-[#F3E5C5]" />
                         ) : (
-                            <BookmarkCheck size={14} className="text-[#193D35]" />
+                            <BookmarkCheck size={14} className="text-[#193D35] dark:text-[#F3E5C5]" />
                         )}
                         <span className="hidden xs:inline">Save & Exit</span>
                     </button>
+
+                    {/* Theme Toggle */}
+                    <ThemeToggle variant="dropdown" />
 
                     {/* Flag / Bookmark Button */}
                     <button
@@ -702,59 +858,140 @@ const Quiz = () => {
                             </span>
                         </div>
 
-                        {/* Question Prompt Title Card - cleanly styled with border-l-4 to avoid WebKit overflow-radius artifacts */}
+                        {/* Question Prompt Title Card */}
                         <div className="p-4 sm:p-6 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] border-l-4 border-l-[#193D35] shadow-xs">
                             <h2 className="text-sm sm:text-base lg:text-lg font-display font-bold text-[var(--foreground)] leading-snug sm:leading-relaxed whitespace-pre-line">
                                 {currentQ?.question_text}
                             </h2>
                         </div>
+
+                        {/* Immediate Feedback Notification Banner */}
+                        {isCurrentAnswered && currentEvaluation && (
+                            <div className={`p-3 rounded-xl border flex items-center gap-2.5 text-xs font-bold transition-all duration-300 animate-fadeIn ${
+                                currentEvaluation.isCorrect
+                                    ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200'
+                                    : 'bg-red-50 dark:bg-red-950/40 border-red-300 dark:border-red-800 text-red-800 dark:text-red-200'
+                            }`}>
+                                {currentEvaluation.isCorrect ? (
+                                    <>
+                                        <CheckCircle2 size={18} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
+                                        <span>Correct Answer! You earned 1 point for this question.</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <XCircle size={18} className="text-red-500 shrink-0" />
+                                        <span>Incorrect Answer. The correct answer has been highlighted in green below to help you learn.</span>
+                                    </>
+                                )}
+                            </div>
+                        )}
                     </div>
 
-                    {/* Middle: Interactive Options Deck (Keyboard A-D / 1-4) */}
+                    {/* Middle: Interactive Options Deck with Immediate Feedback & Strict Locking */}
                     <div className="flex-1 min-h-0 flex flex-col justify-center gap-2 sm:gap-2.5 my-2 sm:my-3 overflow-y-auto pr-1 no-scrollbar">
                         {currentOptions?.map((opt, idx) => {
-                            const isSelected = selectedAnswers[currentQ.id] === idx;
                             const optionLetter = String.fromCharCode(65 + idx);
+                            const isUserSelection = selectedAnswers[currentQ?.id] === idx;
+                            const evalState = currentEvaluation;
+                            const correctOptionIndex = evalState?.correctOptionIndex;
+                            const isCorrectOption = isCurrentAnswered && correctOptionIndex !== undefined && correctOptionIndex !== -1 && idx === correctOptionIndex;
+
+                            let cardClasses = 'bg-[var(--card-bg)] border-[var(--card-border)] hover:border-[#193D35] hover:bg-[var(--muted-bg)]/40 cursor-pointer';
+                            let chipClasses = 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground-muted)] group-hover:border-[#193D35] group-hover:text-[var(--foreground)]';
+                            let textClasses = 'text-[var(--foreground)]';
+                            let statusBadge = null;
+                            let trailingIcon = null;
+
+                            if (!isCurrentAnswered) {
+                                // Unanswered state
+                                if (isUserSelection) {
+                                    cardClasses = 'bg-[#F3E5C5]/70 border-[#193D35] shadow-sm';
+                                    chipClasses = 'bg-[#193D35] border-[#193D35] text-[#FCFAF4]';
+                                    textClasses = 'font-bold text-[#193D35]';
+                                }
+                            } else if (isUserSelection && evalState?.isCorrect) {
+                                // 1. Selected CORRECT Answer
+                                cardClasses = 'bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-600 dark:border-emerald-500 shadow-sm cursor-default';
+                                chipClasses = 'bg-emerald-600 border-emerald-600 text-white';
+                                textClasses = 'font-bold text-emerald-950 dark:text-emerald-100';
+                                trailingIcon = <CheckCircle2 size={22} className="text-emerald-600 dark:text-emerald-400 shrink-0" />;
+                                statusBadge = (
+                                    <div className="inline-flex items-center gap-1 mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700">
+                                        <Check size={12} strokeWidth={3} />
+                                        <span>Correct Answer!</span>
+                                    </div>
+                                );
+                            } else if (isUserSelection && !evalState?.isCorrect) {
+                                // 2. Selected INCORRECT Answer
+                                cardClasses = 'bg-red-50 dark:bg-red-950/40 border-2 border-red-500 shadow-sm cursor-default';
+                                chipClasses = 'bg-red-500 border-red-500 text-white';
+                                textClasses = 'font-bold text-red-950 dark:text-red-100';
+                                trailingIcon = <XCircle size={22} className="text-red-500 shrink-0" />;
+                                statusBadge = (
+                                    <div className="inline-flex items-center gap-1 mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-red-100 dark:bg-red-900/60 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700">
+                                        <X size={12} strokeWidth={3} />
+                                        <span>Incorrect Answer</span>
+                                    </div>
+                                );
+                            } else if (isCorrectOption) {
+                                // 3. Actual CORRECT answer revealed after mistake
+                                cardClasses = 'bg-emerald-50/80 dark:bg-emerald-950/30 border-2 border-emerald-600 dark:border-emerald-500 border-dashed shadow-sm cursor-default';
+                                chipClasses = 'bg-emerald-600 border-emerald-600 text-white';
+                                textClasses = 'font-bold text-emerald-950 dark:text-emerald-100';
+                                trailingIcon = <CheckCircle2 size={22} className="text-emerald-600 dark:text-emerald-400 shrink-0" />;
+                                statusBadge = (
+                                    <div className="inline-flex items-center gap-1 mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700">
+                                        <Check size={12} strokeWidth={3} />
+                                        <span>Correct Answer</span>
+                                    </div>
+                                );
+                            } else {
+                                // 4. Unselected neutral option
+                                cardClasses = 'bg-[var(--card-bg)]/60 border border-[var(--card-border)]/60 opacity-60 cursor-default';
+                                chipClasses = 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground-muted)]';
+                                textClasses = 'text-[var(--foreground-muted)]';
+                            }
 
                             return (
                                 <button
                                     key={idx}
+                                    type="button"
+                                    disabled={isCurrentAnswered}
                                     onClick={() => handleAnswerSelect(currentQ.id, idx)}
-                                    className={`w-full group text-left p-3 sm:p-4 rounded-xl sm:rounded-2xl border-2 transition-all duration-200 flex items-center gap-3 sm:gap-3.5 cursor-pointer relative ${
-                                        isSelected
-                                            ? 'bg-[#F3E5C5]/70 border-[#193D35] shadow-sm'
-                                            : 'bg-[var(--card-bg)] border-[var(--card-border)] hover:border-[#193D35] hover:bg-[var(--muted-bg)]/40'
-                                    }`}
+                                    aria-disabled={isCurrentAnswered}
+                                    className={`w-full group text-left p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-200 flex items-center gap-3 sm:gap-3.5 relative ${cardClasses}`}
                                 >
                                     {/* Option Letter Chip */}
-                                    <div
-                                        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl border-2 flex items-center justify-center shrink-0 font-mono font-extrabold text-xs sm:text-sm transition-all duration-200 ${
-                                            isSelected
-                                                ? 'bg-[#193D35] border-[#193D35] text-[#FCFAF4] shadow-2xs scale-105'
-                                                : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground-muted)] group-hover:border-[#193D35] group-hover:text-[var(--foreground)]'
-                                        }`}
-                                    >
+                                    <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl border-2 flex items-center justify-center shrink-0 font-mono font-extrabold text-xs sm:text-sm transition-all duration-200 ${chipClasses}`}>
                                         {optionLetter}
                                     </div>
 
-                                    {/* Option Text */}
-                                    <span
-                                        className={`text-xs sm:text-sm font-medium leading-relaxed flex-1 ${
-                                            isSelected ? 'font-bold text-[#193D35]' : 'text-[var(--foreground)]'
-                                        }`}
-                                    >
-                                        {opt}
-                                    </span>
+                                    {/* Option Text and Feedback Badge */}
+                                    <div className="flex-1 min-w-0">
+                                        <span className={`text-xs sm:text-sm font-medium leading-relaxed block ${textClasses}`}>
+                                            {opt}
+                                        </span>
+                                        {statusBadge}
+                                    </div>
 
-                                    {/* Selected Option Radio Indicator */}
-                                    {isSelected && (
-                                        <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-[#193D35] flex items-center justify-center shrink-0 shadow-2xs animate-scale-in">
-                                            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#193D35]" />
-                                        </div>
-                                    )}
+                                    {/* Trailing Icon (Checkmark or Cross) */}
+                                    {trailingIcon}
                                 </button>
                             );
                         })}
+
+                        {/* Explanation Card */}
+                        {isCurrentAnswered && (currentEvaluation?.explanation || currentQ?.explanation) && (
+                            <div className="p-4 sm:p-5 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] mt-2 sm:mt-3 space-y-1.5 animate-fadeIn">
+                                <div className="flex items-center gap-2 text-[#193D35] dark:text-[#D19A45] font-display font-bold text-xs uppercase tracking-wider">
+                                    <Sparkles size={16} />
+                                    <span>Explanation</span>
+                                </div>
+                                <p className="text-xs sm:text-sm text-[var(--foreground)] leading-relaxed">
+                                    {currentEvaluation?.explanation || currentQ?.explanation}
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     {/* Bottom: Persistent Action Dock */}
@@ -811,7 +1048,7 @@ const Quiz = () => {
                     />
                 )}
 
-                {/* Question Navigator Panel (Fixed / Docked by default on desktop, toggleable) */}
+                {/* Question Navigator Panel */}
                 <aside
                     className={`fixed lg:static top-0 right-0 h-full z-50 lg:z-10 w-full max-w-sm sm:w-96 lg:w-80 xl:w-96 bg-[var(--card-bg)] border-l border-[var(--card-border)] flex flex-col justify-between shrink-0 transition-all duration-300 ease-in-out ${
                         navigatorOpen
@@ -854,26 +1091,37 @@ const Quiz = () => {
                                 {questions.map((q, idx) => {
                                     const active = currentIndex === idx;
                                     const answered = selectedAnswers[q.id] !== undefined;
+                                    const evalQ = evaluatedAnswers[q.id];
                                     const flagged = flaggedQuestions.has(q.id);
+
+                                    let btnClasses = 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] hover:border-[#193D35] dark:hover:border-emerald-400 hover:text-[var(--foreground)]';
+
+                                    if (active) {
+                                        btnClasses = 'bg-[#193D35] dark:bg-emerald-600 text-white shadow-md ring-2 ring-[#193D35]/50 dark:ring-emerald-500/50 scale-105 font-black';
+                                    } else if (answered) {
+                                        if (evalQ?.isCorrect) {
+                                            btnClasses = 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-200 border border-emerald-400 dark:border-emerald-600 hover:bg-emerald-200 dark:hover:bg-emerald-900/60';
+                                        } else if (evalQ && !evalQ.isCorrect) {
+                                            btnClasses = 'bg-red-100 dark:bg-red-950/60 text-red-800 dark:text-red-200 border border-red-400 dark:border-red-600 hover:bg-red-200 dark:hover:bg-red-900/60';
+                                        } else {
+                                            btnClasses = 'bg-[#F3E5C5] dark:bg-[#D19A45]/20 text-[#193D35] dark:text-[#F3E5C5] border border-[#E2D0A6] dark:border-[#D19A45]/40 hover:bg-[#ebd8b0]';
+                                        }
+                                    }
 
                                     return (
                                         <button
                                             key={idx}
                                             onClick={() => handleJumpToQuestion(idx)}
-                                            className={`relative h-11 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer ${
-                                                active
-                                                    ? 'bg-[#193D35] text-white shadow-md ring-2 ring-[#193D35]/50 scale-105 font-black'
-                                                    : answered
-                                                        ? 'bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] hover:bg-[#ebd8b0]'
-                                                        : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] hover:border-[#193D35] hover:text-[var(--foreground)]'
-                                            }`}
+                                            className={`relative h-11 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer ${btnClasses}`}
                                         >
                                             {idx + 1}
                                             {flagged && (
                                                 <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#D19A45] ring-2 ring-white" />
                                             )}
                                             {answered && !active && (
-                                                <span className="absolute bottom-1 w-1 h-1 rounded-full bg-[#193D35]" />
+                                                <span className={`absolute bottom-1 w-1.5 h-1.5 rounded-full ${
+                                                    evalQ?.isCorrect ? 'bg-emerald-600' : (evalQ && !evalQ.isCorrect) ? 'bg-red-500' : 'bg-[#193D35]'
+                                                }`} />
                                             )}
                                         </button>
                                     );
@@ -900,12 +1148,16 @@ const Quiz = () => {
                         {/* Legend */}
                         <div className="space-y-2 pt-3 border-t border-[var(--card-border)] text-[11px] text-[var(--foreground-secondary)] font-medium">
                             <div className="flex items-center gap-2.5">
-                                <div className="w-3.5 h-3.5 rounded-md bg-[#193D35] ring-1 ring-[#193D35]" />
+                                <div className="w-3.5 h-3.5 rounded-md bg-[#193D35] dark:bg-emerald-600 ring-1 ring-[#193D35] dark:ring-emerald-500" />
                                 <span>Current Question</span>
                             </div>
                             <div className="flex items-center gap-2.5">
-                                <div className="w-3.5 h-3.5 rounded-md bg-[#F3E5C5] border border-[#E2D0A6]" />
-                                <span>Answered Question</span>
+                                <div className="w-3.5 h-3.5 rounded-md bg-emerald-100 dark:bg-emerald-950/60 border border-emerald-400 dark:border-emerald-600" />
+                                <span>Correct Answer</span>
+                            </div>
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-3.5 h-3.5 rounded-md bg-red-100 dark:bg-red-950/60 border border-red-400 dark:border-red-600" />
+                                <span>Incorrect Answer</span>
                             </div>
                             <div className="flex items-center gap-2.5">
                                 <div className="w-3.5 h-3.5 rounded-md bg-[#D19A45]" />
@@ -917,73 +1169,49 @@ const Quiz = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Drawer Footer Actions */}
-                    <div className="p-4 sm:p-5 border-t border-[var(--card-border)] bg-[var(--muted-bg)]/30 space-y-2 shrink-0">
-                        <button
-                            onClick={() => {
-                                setShowConfirmSubmit(true);
-                            }}
-                            className="btn-primary w-full justify-center py-3 text-xs font-bold shadow-md shadow-[#193D35]/15 cursor-pointer flex items-center gap-1.5"
-                        >
-                            <Send size={14} /> Submit Assessment
-                        </button>
-                        <button
-                            onClick={() => setShowSaveConfirmModal(true)}
-                            disabled={isSavingAndExiting}
-                            className="btn-secondary w-full justify-center py-2.5 text-xs font-bold cursor-pointer flex items-center gap-1.5"
-                        >
-                            <BookmarkCheck size={14} /> Save & Exit Quiz
-                        </button>
-                    </div>
                 </aside>
             </div>
 
-            {/* ═══════════════════════════════════════════════════════════
-                 4. UNFINISHED ATTEMPT MODAL (PREVENT DUPLICATES)
-               ═══════════════════════════════════════════════════════════ */}
-            {pendingResumeAttempt && typeof document !== 'undefined' && createPortal(
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-                    <div className="card p-6 sm:p-8 rounded-3xl max-w-md w-full text-center space-y-5 shadow-2xl animate-scale-in border-2 border-[#193D35]/20">
-                        <div className="w-16 h-16 rounded-2xl bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] flex items-center justify-center mx-auto shadow-sm">
-                            <PlayCircle size={32} />
+            {/* Resume Active Attempt Modal */}
+            {pendingResumeAttempt && createPortal(
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
+                    <div className="card p-6 sm:p-8 rounded-3xl max-w-md w-full space-y-5 shadow-2xl border border-[var(--card-border)]">
+                        <div className="w-14 h-14 rounded-2xl bg-[#193D35]/10 text-[#193D35] flex items-center justify-center mx-auto">
+                            <PlayCircle size={28} />
                         </div>
-                        <div className="space-y-2">
-                            <h3 className="text-xl font-display font-extrabold text-[var(--foreground)]">Unfinished Quiz Found</h3>
+                        <div className="text-center space-y-1.5">
+                            <h3 className="text-lg font-display font-bold text-[var(--foreground)]">Resume In-Progress Quiz?</h3>
                             <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
-                                You have an active attempt for <strong className="text-[var(--foreground)]">{pendingResumeAttempt.category}</strong> ({pendingResumeAttempt.session === 0 ? 'All Sessions' : `Session ${pendingResumeAttempt.session}`}) saved <span className="text-[#193D35] font-semibold">{formatTimeAgo(pendingResumeAttempt.lastSavedAt)}</span>.
+                                You have an existing unfinished quiz in <strong>{selectedCategory}</strong> ({pendingResumeAttempt.answeredCount || 0} of {pendingResumeAttempt.totalQuestions} questions answered, last saved {formatTimeAgo(pendingResumeAttempt.lastSavedAt)}).
                             </p>
-                            <div className="p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)] font-semibold flex items-center justify-around">
-                                <span>Answered: <strong className="text-[#193D35]">{pendingResumeAttempt.answeredCount || 0} / {pendingResumeAttempt.totalQuestions || 0}</strong></span>
-                                <span>•</span>
-                                <span>Progress: <strong className="text-[#193D35]">{pendingResumeAttempt.progressPercentage || 0}%</strong></span>
-                            </div>
                         </div>
-                        <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
+                        <div className="space-y-2.5 pt-2">
                             <button
                                 onClick={() => {
                                     const att = pendingResumeAttempt;
                                     setPendingResumeAttempt(null);
                                     restoreAttempt(att);
                                 }}
-                                className="btn-primary flex-1 justify-center py-2.5 text-xs font-bold cursor-pointer flex items-center gap-1.5 order-1 sm:order-2"
+                                className="w-full btn-primary py-2.5 text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md"
                             >
-                                <PlayCircle size={15} /> Resume Quiz
+                                <PlayCircle size={15} /> Resume Quiz (Question {(pendingResumeAttempt.currentQuestionIndex || 0) + 1})
                             </button>
                             <button
                                 onClick={async () => {
-                                    const attId = pendingResumeAttempt.id;
+                                    const oldId = pendingResumeAttempt.id;
                                     setPendingResumeAttempt(null);
-                                    try {
-                                        await attemptService.discardAttempt(attId);
-                                    } catch (e) {
-                                        console.warn("Could not discard prior attempt:", e);
+                                    if (oldId) {
+                                        try {
+                                            await attemptService.discardAttempt(oldId);
+                                        } catch (err) {
+                                            console.debug('Failed to discard attempt:', err);
+                                        }
                                     }
                                     await startFreshQuiz();
                                 }}
-                                className="btn-secondary flex-1 justify-center py-2.5 text-xs font-bold cursor-pointer flex items-center gap-1.5 order-2 sm:order-1 text-red-600 hover:text-red-700"
+                                className="w-full btn-secondary py-2.5 text-xs font-bold flex items-center justify-center gap-2 cursor-pointer text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30"
                             >
-                                <RotateCcw size={14} /> Start Over
+                                <RotateCcw size={15} /> Discard & Start Over
                             </button>
                         </div>
                     </div>
@@ -991,51 +1219,34 @@ const Quiz = () => {
                 document.body
             )}
 
-            {/* ═══════════════════════════════════════════════════════════
-                 5. CONFIRM SAVE & EXIT MODAL
-               ═══════════════════════════════════════════════════════════ */}
-            {showSaveConfirmModal && typeof document !== 'undefined' && createPortal(
-                <div 
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in"
-                    onClick={(e) => { if (e.target === e.currentTarget) setShowSaveConfirmModal(false); }}
-                >
-                    <div className="card p-6 sm:p-8 rounded-3xl max-w-md w-full text-center space-y-4 shadow-2xl animate-scale-in">
-                        <div className="w-16 h-16 rounded-2xl bg-[#F3E5C5] border border-[#E2D0A6] text-[#193D35] flex items-center justify-center mx-auto shadow-sm">
-                            <BookmarkCheck size={32} />
+            {/* Save & Exit Confirmation Modal */}
+            {showSaveConfirmModal && createPortal(
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
+                    <div className="card p-6 rounded-3xl max-w-sm w-full space-y-4 shadow-2xl border border-[var(--card-border)]">
+                        <div className="w-12 h-12 rounded-2xl bg-[#D19A45]/15 text-[#D19A45] flex items-center justify-center mx-auto">
+                            <BookmarkCheck size={24} />
                         </div>
-                        <div className="space-y-1.5">
-                            <h3 className="text-xl font-display font-extrabold text-[var(--foreground)]">Save & Exit Quiz?</h3>
-                            <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
-                                Your answers and progress (<strong className="text-[var(--foreground)]">{answeredCount} of {questions.length} answered</strong>) will be safely saved in your database. You can resume this quiz at any time from your dashboard.
+                        <div className="text-center space-y-1">
+                            <h3 className="text-base font-display font-bold text-[var(--foreground)]">Save Progress & Exit?</h3>
+                            <p className="text-xs text-[var(--foreground-muted)]">
+                                Your answers, question index, and evaluated results will be securely saved. You can resume anytime from your dashboard.
                             </p>
                         </div>
-                        <div className="flex gap-3 pt-2">
+                        <div className="flex gap-2.5 pt-2">
                             <button
                                 onClick={() => setShowSaveConfirmModal(false)}
-                                disabled={isSavingAndExiting}
-                                className="btn-secondary flex-1 justify-center text-xs py-2.5 cursor-pointer"
+                                className="flex-1 btn-secondary py-2 text-xs font-bold cursor-pointer"
                             >
-                                Keep Answering
+                                Continue Quiz
                             </button>
                             <button
-                                onClick={async () => {
+                                onClick={() => {
                                     setShowSaveConfirmModal(false);
-                                    await handleSaveAndExit();
+                                    handleSaveAndExit();
                                 }}
-                                disabled={isSavingAndExiting}
-                                className="btn-primary flex-1 justify-center text-xs py-2.5 shadow-md shadow-[#193D35]/20 cursor-pointer flex items-center gap-1.5"
+                                className="flex-1 btn-primary py-2 text-xs font-bold cursor-pointer"
                             >
-                                {isSavingAndExiting ? (
-                                    <>
-                                        <Loader2 size={14} className="animate-spin" />
-                                        <span>Saving...</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <BookmarkCheck size={14} />
-                                        <span>Save & Exit</span>
-                                    </>
-                                )}
+                                Save & Exit
                             </button>
                         </div>
                     </div>
@@ -1043,85 +1254,83 @@ const Quiz = () => {
                 document.body
             )}
 
-            {/* ═══════════════════════════════════════════════════════════
-                 6. CONFIRM EXIT MODAL
-               ═══════════════════════════════════════════════════════════ */}
-            {showExitConfirm && typeof document !== 'undefined' && createPortal(
-                <div 
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in"
-                    onClick={(e) => { if (e.target === e.currentTarget) setShowExitConfirm(false); }}
-                >
-                    <div className="card p-6 sm:p-8 rounded-3xl max-w-sm w-full text-center space-y-4 shadow-2xl animate-scale-in">
-                        <div className="w-14 h-14 rounded-2xl bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] flex items-center justify-center mx-auto">
-                            <AlertCircle size={28} />
+            {/* Confirm Submit Modal */}
+            {showConfirmSubmit && createPortal(
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
+                    <div className="card p-6 sm:p-7 rounded-3xl max-w-sm w-full space-y-4 shadow-2xl border border-[var(--card-border)]">
+                        <div className="w-12 h-12 rounded-2xl bg-[#193D35]/10 text-[#193D35] flex items-center justify-center mx-auto">
+                            <Send size={22} />
                         </div>
-                        <div className="space-y-1">
-                            <h3 className="text-lg font-display font-bold text-[var(--foreground)]">Leave Quiz?</h3>
+                        <div className="text-center space-y-1">
+                            <h3 className="text-base font-display font-bold text-[var(--foreground)]">Submit Assessment?</h3>
                             <p className="text-xs text-[var(--foreground-muted)]">
-                                Save your progress to continue later, or discard your current attempt.
+                                You have answered <strong className="text-[var(--foreground)]">{answeredCount}</strong> of <strong className="text-[var(--foreground)]">{questions.length}</strong> questions.
+                                {questions.length - answeredCount > 0 && (
+                                    <span className="block mt-1 text-[#D19A45] font-semibold">
+                                        ⚠️ {questions.length - answeredCount} question(s) remain unanswered.
+                                    </span>
+                                )}
+                            </p>
+                        </div>
+                        <div className="flex gap-2.5 pt-2">
+                            <button
+                                onClick={() => setShowConfirmSubmit(false)}
+                                className="flex-1 btn-secondary py-2 text-xs font-bold cursor-pointer"
+                            >
+                                Review
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setShowConfirmSubmit(false);
+                                    handleSubmitQuiz();
+                                }}
+                                className="flex-1 btn-primary py-2 text-xs font-bold cursor-pointer shadow-md"
+                            >
+                                Submit Now
+                            </button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )}
+
+            {/* Exit Confirmation Modal */}
+            {showExitConfirm && createPortal(
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in">
+                    <div className="card p-6 rounded-3xl max-w-sm w-full space-y-4 shadow-2xl border border-[var(--card-border)]">
+                        <div className="w-12 h-12 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
+                            <AlertCircle size={24} />
+                        </div>
+                        <div className="text-center space-y-1">
+                            <h3 className="text-base font-display font-bold text-[var(--foreground)]">Exit Quiz Session?</h3>
+                            <p className="text-xs text-[var(--foreground-muted)]">
+                                Would you like to save your progress to resume later, or discard this attempt?
                             </p>
                         </div>
                         <div className="space-y-2 pt-2">
                             <button
-                                onClick={async () => {
+                                onClick={() => {
                                     setShowExitConfirm(false);
-                                    await handleSaveAndExit();
+                                    handleSaveAndExit();
                                 }}
-                                className="btn-primary w-full justify-center text-xs py-2.5 cursor-pointer flex items-center gap-1.5"
+                                className="w-full btn-primary py-2 text-xs font-bold cursor-pointer"
                             >
-                                <BookmarkCheck size={14} /> Save & Exit to Dashboard
+                                Save Progress & Exit
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setShowExitConfirm(false);
+                                    handleDiscardAndExit();
+                                }}
+                                className="w-full btn-secondary py-2 text-xs font-bold cursor-pointer text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30"
+                            >
+                                Discard & Exit
                             </button>
                             <button
                                 onClick={() => setShowExitConfirm(false)}
-                                className="btn-secondary w-full justify-center text-xs py-2 cursor-pointer"
+                                className="w-full py-1.5 text-xs text-[var(--foreground-muted)] hover:text-[var(--foreground)] cursor-pointer"
                             >
-                                Continue Answering
-                            </button>
-                            <button
-                                onClick={handleDiscardAndExit}
-                                className="text-[11px] text-red-500 hover:text-red-700 font-semibold py-1 transition-colors cursor-pointer block mx-auto"
-                            >
-                                Discard Attempt & Exit
-                            </button>
-                        </div>
-                    </div>
-                </div>,
-                document.body
-            )}
-
-            {/* ═══════════════════════════════════════════════════════════
-                 5. CONFIRM SUBMIT MODAL
-               ═══════════════════════════════════════════════════════════ */}
-            {showConfirmSubmit && typeof document !== 'undefined' && createPortal(
-                <div 
-                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in"
-                    onClick={(e) => { if (e.target === e.currentTarget) setShowConfirmSubmit(false); }}
-                >
-                    <div className="card p-6 sm:p-8 rounded-3xl max-w-md w-full text-center space-y-4 shadow-2xl animate-scale-in">
-                        <div className="w-16 h-16 rounded-2xl bg-[#F3E5C5] border border-[#E2D0A6] flex items-center justify-center mx-auto">
-                            <Send size={28} className="text-[#193D35]" />
-                        </div>
-                        <h3 className="text-xl font-display font-extrabold text-[var(--foreground)]">Submit Assessment?</h3>
-                        <p className="text-xs text-[var(--foreground-muted)]">
-                            You answered <strong className="text-[var(--foreground)]">{answeredCount} of {questions.length}</strong> questions.
-                            {questions.length - answeredCount > 0 && (
-                                <span className="block text-[#D19A45] font-semibold mt-1">
-                                    ⚠️ {questions.length - answeredCount} question(s) are still unanswered.
-                                </span>
-                            )}
-                        </p>
-                        <div className="flex gap-3 pt-2">
-                            <button
-                                onClick={() => setShowConfirmSubmit(false)}
-                                className="btn-secondary flex-1 justify-center text-xs py-2.5 cursor-pointer"
-                            >
-                                Review Answers
-                            </button>
-                            <button
-                                onClick={handleSubmitQuiz}
-                                className="btn-primary flex-1 justify-center text-xs py-2.5 cursor-pointer"
-                            >
-                                Submit Now
+                                Cancel
                             </button>
                         </div>
                     </div>

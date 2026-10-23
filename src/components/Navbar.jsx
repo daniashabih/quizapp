@@ -1,347 +1,268 @@
-import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
-    Menu, X, User, LogOut, ChevronDown, LayoutDashboard,
-    Settings as SettingsIcon, BookOpen, Trophy, Code2, ShieldCheck
+    Menu,
+    X,
+    LayoutDashboard,
+    LogOut,
+    ChevronRight,
+    Award,
+    User,
+    Settings,
+    BookOpen,
+    Trophy,
+    Home,
+    ShieldCheck,
+    Globe
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from './BrandLogo';
+import ThemeToggle from './ThemeToggle';
 
-const navItems = [
-    { to: '/', label: 'Home', icon: BookOpen },
-    { to: '/technologies', label: 'Technologies', icon: Code2 },
-    { to: '/leaderboard', label: 'Leaderboard', icon: Trophy },
-];
-
-export default function Navbar() {
-    const [isOpen, setIsOpen] = useState(false);
+const Navbar = () => {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const { user, logout, isAdmin } = useAuth();
     const location = useLocation();
-    const { user, logout } = useAuth();
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
+        const handleScroll = () => setScrolled(window.scrollY > 10);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close menus when route changes
     useEffect(() => {
-        setIsOpen(false);
-        setUserMenuOpen(false);
-    }, [location.pathname]);
-
-    // Lock body scroll when mobile menu is open
-    useEffect(() => {
-        if (isOpen) {
+        if (mobileMenuOpen) {
             document.body.style.overflow = 'hidden';
         } else {
-            document.body.style.overflow = '';
+            document.body.style.overflow = 'unset';
         }
-        return () => {
-            document.body.style.overflow = '';
-        };
-    }, [isOpen]);
+        return () => { document.body.style.overflow = 'unset'; };
+    }, [mobileMenuOpen]);
 
-    // Handle Escape key to close menus
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (e.key === 'Escape') {
-                setIsOpen(false);
-                setUserMenuOpen(false);
-            }
-        };
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, []);
+    const navLinks = [
+        { name: 'Home', path: '/', icon: Home },
+        { name: 'Quizzes', path: '/technologies', icon: BookOpen },
+        { name: 'Leaderboard', path: '/leaderboard', icon: Trophy },
+        ...(user ? [
+            { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+            { name: 'Certificates', path: '/dashboard/certificates', icon: Award },
+        ] : []),
+        ...(isAdmin ? [
+            { name: 'Admin Panel', path: '/admin', icon: ShieldCheck },
+            { name: 'SEO & Growth', path: '/admin/seo', icon: Globe },
+        ] : []),
+    ];
 
-    const isActive = (path) => path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
+    const isActive = (path) => {
+        if (path === '/') return location.pathname === '/';
+        return location.pathname === path || location.pathname.startsWith(path + '/');
+    };
 
     return (
         <>
-            {/* Desktop & Mobile Header Bar */}
-            <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-                scrolled ? 'bg-[var(--card-bg)]/95 backdrop-blur-xl shadow-sm border-b border-[var(--card-border)]' : 'bg-[var(--card-bg)]/85 backdrop-blur-xl border-b border-[var(--card-border)]/60'
-            }`}>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16 lg:h-20">
-                        {/* Brand Logo */}
-                        <Link to="/" className="flex items-center group shrink-0">
-                            <BrandLogo size="md" className="transition-transform duration-300 group-hover:scale-[1.02]" />
-                        </Link>
+            <header
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+                    scrolled
+                        ? 'bg-[var(--nav-bg)] backdrop-blur-md border-b border-[var(--card-border)] shadow-xs'
+                        : 'bg-transparent'
+                }`}
+            >
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                    {/* Brand Logo */}
+                    <Link to="/" className="flex items-center group">
+                        <BrandLogo variant="compact" size="md" />
+                    </Link>
 
-                        {/* Desktop Navigation Links */}
-                        <nav className="hidden lg:flex items-center gap-1">
-                            {navItems.map(item => (
+                    {/* Desktop Links */}
+                    <nav className="hidden md:flex items-center gap-1 bg-[var(--muted-bg)]/80 p-1 rounded-xl border border-[var(--card-border)]">
+                        {navLinks.map((link) => {
+                            const Icon = link.icon;
+                            const active = isActive(link.path);
+                            return (
                                 <Link
-                                    key={item.to}
-                                    to={item.to}
-                                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                                        isActive(item.to)
-                                            ? 'bg-[#193D35] text-[#FCFAF4] shadow-xs font-semibold'
-                                            : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
+                                    key={link.path}
+                                    to={link.path}
+                                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                                        active
+                                            ? 'bg-[var(--card-bg)] text-[#193D35] dark:text-emerald-300 shadow-2xs border border-[var(--card-border)]'
+                                            : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)]'
                                     }`}
                                 >
-                                    {item.label}
+                                    <Icon size={14} className={active ? 'text-[#193D35] dark:text-emerald-400' : ''} />
+                                    {link.name}
                                 </Link>
-                            ))}
-                            {user && (
+                            );
+                        })}
+                    </nav>
+
+                    {/* Desktop Actions */}
+                    <div className="hidden md:flex items-center gap-2.5">
+                        <ThemeToggle />
+
+                        {user ? (
+                            <div className="flex items-center gap-2">
                                 <Link
-                                    to="/dashboard"
-                                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-                                        isActive('/dashboard')
-                                            ? 'bg-[#193D35] text-[#FCFAF4] shadow-xs font-semibold'
-                                            : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
-                                    }`}
+                                    to="/dashboard/profile"
+                                    className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] dark:hover:border-emerald-400 transition-all text-xs font-semibold"
                                 >
-                                    Dashboard
+                                    <div className="w-6 h-6 rounded-lg bg-[#193D35] flex items-center justify-center text-white text-[11px] font-bold">
+                                        {user.name?.charAt(0).toUpperCase() || 'U'}
+                                    </div>
+                                    <span className="max-w-[110px] truncate">{user.name}</span>
                                 </Link>
-                            )}
-                        </nav>
+                                <button
+                                    onClick={logout}
+                                    title="Logout"
+                                    className="p-2 rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground-muted)] hover:text-red-500 hover:border-red-500/30 transition-all cursor-pointer"
+                                >
+                                    <LogOut size={16} />
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-2">
+                                <Link
+                                    to="/login"
+                                    className="px-3.5 py-2 rounded-xl text-xs font-semibold text-[var(--foreground-secondary)] hover:text-[var(--foreground)] transition-colors"
+                                >
+                                    Sign In
+                                </Link>
+                                <Link to="/register" className="btn-primary text-xs py-2 px-4">
+                                    Get Started <ChevronRight size={14} />
+                                </Link>
+                            </div>
+                        )}
+                    </div>
 
-                        {/* Desktop Auth / User Menu */}
-                        <div className="hidden lg:flex items-center gap-3">
-                            {user ? (
-                                <div className="relative">
-                                    <button
-                                        type="button"
-                                        onClick={() => setUserMenuOpen(!userMenuOpen)}
-                                        className="flex items-center gap-3 pl-3 pr-2 py-1.5 rounded-xl hover:bg-[var(--muted-bg)] transition-all border border-transparent hover:border-[var(--card-border)] cursor-pointer"
-                                    >
-                                        <div className="w-8 h-8 rounded-lg bg-[#193D35] flex items-center justify-center text-[#FCFAF4] text-xs font-bold shadow-xs">
-                                            {user.name?.charAt(0).toUpperCase() || 'U'}
-                                        </div>
-                                        <div className="hidden xl:block text-left leading-tight">
-                                            <p className="text-sm font-semibold text-[var(--foreground)]">{user.name}</p>
-                                            <p className="text-[10px] text-[var(--foreground-secondary)] font-medium">{user.role || 'Member'}</p>
-                                        </div>
-                                        <ChevronDown size={14} className="text-[var(--foreground-muted)]" />
-                                    </button>
-
-                                    {userMenuOpen && (
-                                        <>
-                                            <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />
-                                            <div className="absolute right-0 mt-2 w-56 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl shadow-xl overflow-hidden animate-scale-in z-50">
-                                                <div className="p-3 border-b border-[var(--card-border)] bg-[var(--muted-bg)]/50">
-                                                    <p className="text-sm font-semibold text-[var(--foreground)] truncate">{user.name}</p>
-                                                    <p className="text-xs text-[var(--foreground-muted)] truncate">{user.email}</p>
-                                                </div>
-                                                <div className="p-2 space-y-0.5">
-                                                    <DropdownItem icon={LayoutDashboard} label="Dashboard" to="/dashboard" onClick={() => setUserMenuOpen(false)} />
-                                                    <DropdownItem icon={User} label="Profile" to="/dashboard/profile" onClick={() => setUserMenuOpen(false)} />
-                                                    <DropdownItem icon={SettingsIcon} label="Settings" to="/dashboard/settings" onClick={() => setUserMenuOpen(false)} />
-                                                    {user.role === 'admin' && (
-                                                        <DropdownItem icon={ShieldCheck} label="Admin Panel" to="/dashboard/admin" onClick={() => setUserMenuOpen(false)} />
-                                                    )}
-                                                </div>
-                                                <div className="p-2 border-t border-[var(--card-border)]">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => { logout(); setUserMenuOpen(false); }}
-                                                        className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-[#C96155] hover:bg-[#C96155]/10 transition-all cursor-pointer"
-                                                    >
-                                                        <LogOut size={16} /> Sign Out
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                            ) : (
-                                <div className="flex items-center gap-2">
-                                    <Link to="/login" className="btn-ghost text-sm font-semibold text-[var(--foreground-secondary)] hover:text-[var(--foreground)]">
-                                        Sign In
-                                    </Link>
-                                    <Link to="/register" className="btn-primary text-sm px-5 py-2.5">
-                                        Get Started
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Mobile Hamburger Toggle Button */}
-                        <div className="flex lg:hidden items-center gap-2">
-                            <button
-                                type="button"
-                                onClick={() => setIsOpen(!isOpen)}
-                                aria-label={isOpen ? "Close menu" : "Open menu"}
-                                className="p-2 rounded-xl text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors cursor-pointer"
-                            >
-                                {isOpen ? <X size={24} /> : <Menu size={24} />}
-                            </button>
-                        </div>
+                    {/* Mobile Controls */}
+                    <div className="flex items-center gap-2 md:hidden">
+                        <ThemeToggle />
+                        <button
+                            onClick={() => setMobileMenuOpen(true)}
+                            aria-label="Open menu"
+                            className="p-2 rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground)]"
+                        >
+                            <Menu size={18} />
+                        </button>
                     </div>
                 </div>
             </header>
 
-            {/* Mobile Drawer Overlay & Sidebar (Rendered OUTSIDE <header> to prevent containing-block trapping) */}
-            <AnimatePresence>
-                {isOpen && (
-                    <div className="fixed inset-0 z-50 lg:hidden flex justify-end">
-                        {/* Backdrop Overlay */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.25 }}
-                            className="fixed inset-0 bg-black/60 backdrop-blur-xs"
-                            onClick={() => setIsOpen(false)}
-                            aria-hidden="true"
-                        />
-
-                        {/* Slide-in Drawer Container */}
-                        <motion.aside
-                            initial={{ x: '100%' }}
-                            animate={{ x: 0 }}
-                            exit={{ x: '100%' }}
-                            transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-                            className="relative w-full max-w-[310px] sm:max-w-xs h-full bg-[var(--page-bg)] border-l border-[var(--card-border)] shadow-2xl flex flex-col z-10 overflow-hidden"
-                            aria-modal="true"
-                            role="dialog"
-                        >
-                            {/* Drawer Header with Logo & Close Button */}
-                            <div className="flex items-center justify-between px-5 h-16 sm:h-20 border-b border-[var(--card-border)] bg-[var(--card-bg)] shrink-0">
-                                <Link to="/" onClick={() => setIsOpen(false)} className="flex items-center">
-                                    <BrandLogo size="sm" />
-                                </Link>
+            {/* Mobile Drawer */}
+            {mobileMenuOpen && (
+                <div className="fixed inset-0 z-[60] md:hidden">
+                    <div
+                        className="fixed inset-0 bg-black/50 backdrop-blur-xs"
+                        onClick={() => setMobileMenuOpen(false)}
+                    />
+                    <div className="fixed right-0 top-0 bottom-0 w-72 bg-[var(--sidebar-bg)] border-l border-[var(--card-border)] p-5 flex flex-col justify-between shadow-2xl">
+                        <div>
+                            <div className="flex items-center justify-between pb-4 border-b border-[var(--card-border)]">
+                                <BrandLogo variant="compact" size="sm" />
                                 <button
-                                    type="button"
-                                    onClick={() => setIsOpen(false)}
+                                    onClick={() => setMobileMenuOpen(false)}
                                     aria-label="Close menu"
-                                    className="p-2 rounded-xl text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors cursor-pointer"
+                                    className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
                                 >
-                                    <X size={22} />
+                                    <X size={18} />
                                 </button>
                             </div>
 
-                            {/* Drawer Navigation Links */}
-                            <div className="p-4 space-y-1.5 flex-1 overflow-y-auto">
-                                <p className="px-3.5 pt-1 pb-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">Menu</p>
-                                {navItems.map(item => (
-                                    <MobileNavItem
-                                        key={item.to}
-                                        to={item.to}
-                                        label={item.label}
-                                        icon={item.icon}
-                                        active={isActive(item.to)}
-                                        onClick={() => setIsOpen(false)}
-                                    />
-                                ))}
+                            {user && (
+                                <div className="mt-4 p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] flex items-center gap-3">
+                                    <div className="w-9 h-9 rounded-lg bg-[#193D35] flex items-center justify-center text-white font-bold text-sm">
+                                        {user.name?.charAt(0).toUpperCase() || 'U'}
+                                    </div>
+                                    <div className="min-w-0">
+                                        <p className="text-xs font-bold text-[var(--foreground)] truncate">{user.name}</p>
+                                        <p className="text-[11px] text-[var(--foreground-muted)] truncate">{user.email}</p>
+                                    </div>
+                                </div>
+                            )}
 
+                            <div className="mt-4">
+                                <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--foreground-muted)] mb-1.5 px-1">
+                                    Appearance
+                                </p>
+                                <ThemeToggle variant="segmented" className="w-full justify-between" />
+                            </div>
+
+                            <nav className="mt-4 space-y-1">
+                                {navLinks.map((link) => {
+                                    const Icon = link.icon;
+                                    const active = isActive(link.path);
+                                    return (
+                                        <Link
+                                            key={link.path}
+                                            to={link.path}
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                                                active
+                                                    ? 'bg-[#F3E5C5] dark:bg-emerald-500/15 text-[#193D35] dark:text-emerald-300 border border-[#E2D0A6] dark:border-emerald-500/30'
+                                                    : 'text-[var(--foreground-secondary)] hover:bg-[var(--muted-bg)]'
+                                            }`}
+                                        >
+                                            <Icon size={16} />
+                                            {link.name}
+                                        </Link>
+                                    );
+                                })}
                                 {user && (
                                     <>
-                                        <div className="divider my-3" />
-                                        <p className="px-3.5 pt-1 pb-1 text-[11px] font-semibold uppercase tracking-wider text-[var(--foreground-muted)]">User Account</p>
-                                        <MobileNavItem
-                                            to="/dashboard"
-                                            label="Dashboard"
-                                            icon={LayoutDashboard}
-                                            active={isActive('/dashboard')}
-                                            onClick={() => setIsOpen(false)}
-                                        />
-                                        <MobileNavItem
+                                        <Link
                                             to="/dashboard/profile"
-                                            label="Profile"
-                                            icon={User}
-                                            active={isActive('/dashboard/profile')}
-                                            onClick={() => setIsOpen(false)}
-                                        />
-                                        <MobileNavItem
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[var(--foreground-secondary)] hover:bg-[var(--muted-bg)]"
+                                        >
+                                            <User size={16} /> Profile
+                                        </Link>
+                                        <Link
                                             to="/dashboard/settings"
-                                            label="Settings"
-                                            icon={SettingsIcon}
-                                            active={isActive('/dashboard/settings')}
-                                            onClick={() => setIsOpen(false)}
-                                        />
-                                        {user.role === 'admin' && (
-                                            <MobileNavItem
-                                                to="/dashboard/admin"
-                                                label="Admin Panel"
-                                                icon={ShieldCheck}
-                                                active={isActive('/dashboard/admin')}
-                                                onClick={() => setIsOpen(false)}
-                                            />
-                                        )}
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-[var(--foreground-secondary)] hover:bg-[var(--muted-bg)]"
+                                        >
+                                            <Settings size={16} /> Settings
+                                        </Link>
                                     </>
                                 )}
-                            </div>
+                            </nav>
+                        </div>
 
-                            {/* Drawer Footer Actions */}
-                            <div className="p-4 border-t border-[var(--card-border)] bg-[var(--card-bg)] shrink-0">
-                                {user ? (
-                                    <div className="space-y-3">
-                                        <div className="flex items-center gap-3 p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                            <div className="w-10 h-10 rounded-lg bg-[#193D35] flex items-center justify-center text-[#FCFAF4] font-bold text-sm shrink-0 shadow-2xs">
-                                                {user.name?.charAt(0).toUpperCase() || 'U'}
-                                            </div>
-                                            <div className="min-w-0 flex-1">
-                                                <p className="text-sm font-semibold text-[var(--foreground)] truncate">{user.name}</p>
-                                                <p className="text-xs text-[var(--foreground-muted)] truncate">{user.email}</p>
-                                            </div>
-                                        </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => { logout(); setIsOpen(false); }}
-                                            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold text-[#C96155] hover:bg-[#C96155]/10 border border-[var(--card-border)] transition-all cursor-pointer"
-                                        >
-                                            <LogOut size={16} /> Sign Out
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-col gap-2.5">
-                                        <Link
-                                            to="/login"
-                                            onClick={() => setIsOpen(false)}
-                                            className="btn-secondary w-full justify-center text-sm py-2.5"
-                                        >
-                                            Sign In
-                                        </Link>
-                                        <Link
-                                            to="/register"
-                                            onClick={() => setIsOpen(false)}
-                                            className="btn-primary w-full justify-center text-sm py-2.5"
-                                        >
-                                            Get Started
-                                        </Link>
-                                    </div>
-                                )}
-                            </div>
-                        </motion.aside>
+                        <div className="pt-4 border-t border-[var(--card-border)]">
+                            {user ? (
+                                <button
+                                    onClick={() => {
+                                        logout();
+                                        setMobileMenuOpen(false);
+                                    }}
+                                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-red-500/10 text-red-500 border border-red-500/20 text-xs font-semibold hover:bg-red-500 hover:text-white transition-all cursor-pointer"
+                                >
+                                    <LogOut size={15} /> Sign Out
+                                </button>
+                            ) : (
+                                <div className="grid grid-cols-2 gap-2">
+                                    <Link
+                                        to="/login"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="btn-secondary text-xs py-2.5 text-center"
+                                    >
+                                        Sign In
+                                    </Link>
+                                    <Link
+                                        to="/register"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="btn-primary text-xs py-2.5 text-center"
+                                    >
+                                        Register
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                )}
-            </AnimatePresence>
+                </div>
+            )}
         </>
     );
-}
+};
 
-function DropdownItem({ icon: Icon, label, to, onClick }) {
-    return (
-        <Link
-            to={to}
-            onClick={onClick}
-            className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all"
-        >
-            <Icon size={16} className="text-[var(--foreground-muted)]" />
-            <span>{label}</span>
-        </Link>
-    );
-}
-
-function MobileNavItem({ to, label, icon: Icon, active, onClick }) {
-    return (
-        <Link
-            to={to}
-            onClick={onClick}
-            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
-                active
-                    ? 'bg-[#193D35] text-[#FCFAF4] font-semibold shadow-xs'
-                    : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
-            }`}
-        >
-            <Icon size={18} className={active ? 'text-[#FCFAF4]' : 'text-[var(--foreground-muted)]'} />
-            <span>{label}</span>
-        </Link>
-    );
-}
+export default Navbar;

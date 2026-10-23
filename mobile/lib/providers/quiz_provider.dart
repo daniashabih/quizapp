@@ -154,14 +154,6 @@ class QuizNotifier extends StateNotifier<QuizState> {
               });
 
               final Map<String, QuestionEvaluationState> restoredEvaluated = {};
-            final rawEvaluated = attempt['evaluatedAnswers'] as Map? ?? {};
-            rawEvaluated.forEach((k, v) {
-              if (v is Map) {
-                restoredEvaluated[k.toString()] = QuestionEvaluationState.fromJson(
-                  Map<String, dynamic>.from(v),
-                );
-              }
-            });
               final rawEvaluated = localData['evaluatedAnswers'] as Map? ?? {};
               rawEvaluated.forEach((k, v) {
                 if (v is Map) {
