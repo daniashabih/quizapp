@@ -560,7 +560,7 @@ const getAdminDashboard = async (req, res) => {
             id: u.id,
             name: u.name,
             email: u.email,
-            role: u.role || 'user',
+            role: String(u.role || '').trim().toLowerCase() === 'admin' ? 'admin' : 'user',
             avatar: u.avatar || '',
             createdAt: u.createdAt
         }));

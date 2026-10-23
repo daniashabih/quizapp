@@ -1,20 +1,28 @@
 const prisma = require('../_config/prisma');
 
+const normalizeRole = (role) => {
+    return String(role || '').trim().toLowerCase() === 'admin' ? 'admin' : 'user';
+};
+
 const User = {
     create: async (name, email, password, role = 'user', avatar = '', isVerified = false) => {
         const cleanEmail = String(email || '').trim().toLowerCase();
         const cleanName = String(name || '').trim();
+        const cleanRole = normalizeRole(role);
         const result = await prisma.user.create({
             data: {
                 name: cleanName,
                 email: cleanEmail,
                 password,
-                role: role || 'user',
+                role: cleanRole,
                 avatar: avatar || '',
                 isVerified: Boolean(isVerified)
             }
         });
-        return result;
+        return {
+            ...result,
+            role: cleanRole
+        };
     },
 
     findByEmail: async (email) => {
@@ -25,6 +33,7 @@ const User = {
         if (!user) return null;
         return {
             ...user,
+            role: normalizeRole(user.role),
             created_at: user.createdAt,
             updated_at: user.updatedAt,
             is_verified: user.isVerified,
@@ -52,6 +61,7 @@ const User = {
         if (!user) return null;
         return {
             ...user,
+            role: normalizeRole(user.role),
             created_at: user.createdAt,
             updated_at: user.updatedAt,
             is_verified: user.isVerified,
@@ -75,6 +85,7 @@ const User = {
         });
         return users.map(u => ({
             ...u,
+            role: normalizeRole(u.role),
             created_at: u.createdAt,
             updated_at: u.updatedAt,
             is_verified: u.isVerified
@@ -86,7 +97,7 @@ const User = {
         if (data.name !== undefined) updateData.name = String(data.name).trim();
         if (data.email !== undefined) updateData.email = String(data.email).trim().toLowerCase();
         if (data.avatar !== undefined) updateData.avatar = String(data.avatar).trim();
-        if (data.role !== undefined) updateData.role = String(data.role).trim();
+        if (data.role !== undefined) updateData.role = normalizeRole(data.role);
         if (data.isVerified !== undefined) updateData.isVerified = Boolean(data.isVerified);
 
         const updated = await prisma.user.update({
@@ -103,7 +114,10 @@ const User = {
                 updatedAt: true
             }
         });
-        return updated;
+        return {
+            ...updated,
+            role: normalizeRole(updated.role)
+        };
     },
 
     delete: async (id) => {
@@ -143,6 +157,7 @@ const User = {
         if (!user) return null;
         return {
             ...user,
+            role: normalizeRole(user.role),
             created_at: user.createdAt,
             updated_at: user.updatedAt,
             is_verified: user.isVerified,

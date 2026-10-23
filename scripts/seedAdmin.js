@@ -41,13 +41,13 @@ async function seedAdmin() {
         if (existingUser) {
             const updated = await prisma.user.update({
                 where: { email: userEmail },
-                data: { name: userName, password: hashedUserPass, role: 'candidate' }
+                data: { name: userName, password: hashedUserPass, role: 'user' }
             });
             userId = updated.id;
             console.log(`✅ Demo candidate updated in database (ID: ${userId})`);
         } else {
             const created = await prisma.user.create({
-                data: { name: userName, email: userEmail, password: hashedUserPass, role: 'candidate' }
+                data: { name: userName, email: userEmail, password: hashedUserPass, role: 'user' }
             });
             userId = created.id;
             console.log(`✅ Demo candidate created in database (ID: ${userId})`);

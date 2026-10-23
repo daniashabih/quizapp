@@ -346,11 +346,14 @@ const AdminDashboard = () => {
     };
 
     const handleToggleUserRole = async (targetUser) => {
-        const nextRole = targetUser.role === 'admin' ? 'candidate' : 'admin';
-        if (!window.confirm(`Are you sure you want to change ${targetUser.name || targetUser.email}'s role to "${nextRole}"?`)) return;
+        const currentRole = String(targetUser.role || '').trim().toLowerCase() === 'admin' ? 'admin' : 'user';
+        const nextRole = currentRole === 'admin' ? 'user' : 'admin';
+        const actionVerb = nextRole === 'admin' ? 'promote this user to Admin' : 'demote this admin to User';
+        if (!window.confirm(`Are you sure you want to ${actionVerb} (${targetUser.name || targetUser.email})?`)) return;
         try {
-            await axios.put(`/admin/users/${targetUser.id}/role`, { role: nextRole });
-            toast.success(`User role updated to ${nextRole}.`);
+            const res = await axios.put(`/admin/users/${targetUser.id}/role`, { role: nextRole });
+            toast.success(res.data?.message || `User role updated to ${nextRole}.`);
+            setAllUsers(prev => prev.map(u => u.id === targetUser.id ? { ...u, role: nextRole } : u));
             await fetchUsers();
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to update user role.");
@@ -855,8 +858,8 @@ const AdminDashboard = () => {
                                                 <p className="text-[10px] text-[var(--foreground-muted)]">{ru.email}</p>
                                             </div>
                                         </div>
-                                        <span className={`badge text-[9px] uppercase ${ru.role === 'admin' ? 'badge-error' : 'badge-emerald'}`}>
-                                            {ru.role}
+                                        <span className={`badge text-[9px] uppercase ${String(ru.role || '').toLowerCase() === 'admin' ? 'badge-error' : 'badge-emerald'}`}>
+                                            {String(ru.role || '').toLowerCase() === 'admin' ? 'admin' : 'user'}
                                         </span>
                                     </div>
                                 ))}
@@ -1508,40 +1511,52 @@ const AdminDashboard = () => {
                                     <tr>
                                         <td colSpan={5} className="px-6 py-8 text-center text-xs text-[var(--foreground-muted)]">No users loaded.</td>
                                     </tr>
-                                ) : allUsers.map((u) => (
-                                    <tr key={u.id} className="hover:bg-[var(--muted-bg)]/30 transition-colors">
-                                        <td className="px-6 py-3.5 text-xs font-bold text-[var(--foreground)]">{u.name || 'User'}</td>
-                                        <td className="px-6 py-3.5 text-xs text-[var(--foreground-muted)] font-mono">{u.email}</td>
-                                        <td className="px-6 py-3.5">
-                                            <span className={`badge text-[10px] uppercase ${u.role === 'admin' ? 'badge-error' : 'badge-emerald'}`}>
-                                                {u.role || 'candidate'}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-3.5 text-xs text-[var(--foreground-muted)]">
-                                            {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'N/A'}
-                                        </td>
-                                        <td className="px-6 py-3.5">
-                                            <div className="flex items-center gap-1.5">
-                                                <button
-                                                    onClick={() => handleToggleUserRole(u)}
-                                                    className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-[#193D35] hover:bg-[var(--muted-bg)] transition-all cursor-pointer text-[11px] font-semibold flex items-center gap-1"
-                                                    title={`Toggle role (current: ${u.role || 'candidate'})`}
-                                                >
-                                                    <Shield size={13} /> {u.role === 'admin' ? 'Demote' : 'Promote'}
-                                                </button>
-                                                {u.role !== 'admin' && (
+                                ) : allUsers.map((u) => {
+                                    const isUserAdmin = String(u.role || '').trim().toLowerCase() === 'admin';
+                                    const displayRole = isUserAdmin ? 'admin' : 'user';
+                                    const currentAdminId = user?.id || user?._id;
+                                    const isSelf = currentAdminId && String(currentAdminId) === String(u.id);
+
+                                    return (
+                                        <tr key={u.id} className="hover:bg-[var(--muted-bg)]/30 transition-colors">
+                                            <td className="px-6 py-3.5 text-xs font-bold text-[var(--foreground)]">{u.name || 'User'}</td>
+                                            <td className="px-6 py-3.5 text-xs text-[var(--foreground-muted)] font-mono">{u.email}</td>
+                                            <td className="px-6 py-3.5">
+                                                <span className={`badge text-[10px] uppercase font-semibold tracking-wider ${isUserAdmin ? 'badge-error' : 'badge-emerald'}`}>
+                                                    {displayRole}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-3.5 text-xs text-[var(--foreground-muted)]">
+                                                {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : 'N/A'}
+                                            </td>
+                                            <td className="px-6 py-3.5">
+                                                <div className="flex items-center gap-1.5">
                                                     <button
-                                                        onClick={() => handleDeleteUser(u.id)}
-                                                        className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all cursor-pointer"
-                                                        title="Delete user from database"
+                                                        onClick={() => handleToggleUserRole(u)}
+                                                        disabled={isSelf && isUserAdmin}
+                                                        className={`p-1.5 rounded-lg text-[11px] font-semibold flex items-center gap-1 transition-all ${
+                                                            isSelf && isUserAdmin
+                                                                ? 'opacity-40 cursor-not-allowed text-[var(--foreground-muted)]'
+                                                                : 'text-[var(--foreground-muted)] hover:text-[#193D35] hover:bg-[var(--muted-bg)] cursor-pointer'
+                                                        }`}
+                                                        title={isSelf && isUserAdmin ? 'You cannot demote your own administrator account' : `Change role to ${isUserAdmin ? 'user' : 'admin'}`}
                                                     >
-                                                        <Trash2 size={14} />
+                                                        <Shield size={13} /> {isUserAdmin ? 'Demote' : 'Promote'}
                                                     </button>
-                                                )}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
+                                                    {!isUserAdmin && !isSelf && (
+                                                        <button
+                                                            onClick={() => handleDeleteUser(u.id)}
+                                                            className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all cursor-pointer"
+                                                            title="Delete user from database"
+                                                        >
+                                                            <Trash2 size={14} />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>

@@ -73,7 +73,7 @@ async function runDiagnostics() {
                 name: 'Diagnostic User',
                 email: testEmail,
                 password: 'hashedpassword',
-                role: 'candidate'
+                role: 'user'
             }
         });
         console.log(`✅ Prisma Adapter CRUD Create succeeded (User ID: ${testUser.id}).`);

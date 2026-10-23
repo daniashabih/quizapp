@@ -32,6 +32,7 @@ model Question {
   questionText  String   @map("question_text")
   options       String
   correctAnswer String   @map("correct_answer")
+  explanation   String?  @default("")
   createdAt     DateTime @default(now()) @map("created_at")
 
   @@map("questions")
