@@ -1,0 +1,54 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,4,Transact-SQL (T-SQL) is Microsoft's implementation of which standard?,ANSI standard SQL,Oracle PL/SQL,MySQL,NoSQL,ANSI standard SQL
+SQL Server,4,"In the logical order of processing a SELECT statement, which clause is evaluated immediately after WHERE?",HAVING,ORDER BY,GROUP BY,SELECT,GROUP BY
+SQL Server,4,"A set, in the context of set theory, is best described as:",An ordered list of duplicate values,A collection of distinct objects considered as a whole,A sorted copy of a table,A group of stored procedures,A collection of distinct objects considered as a whole
+SQL Server,4,"How many types of Transact-SQL statements does SQL Server support, as described in this session?",Two,Four,Five,Three,Three
+SQL Server,4,Which set operator returns distinct rows produced by both the left and right input queries?,UNION,JOIN,GROUP BY,INTERSECT,INTERSECT
+SQL Server,4,"Which language is used to define and manage all attributes and properties of a database, such as row layouts, column definitions, key columns, file locations, and storage strategy?",DML,DDL,DCL,DQL,DDL
+SQL Server,4,Which of the following is a DDL statement?,SELECT,GRANT,CREATE TABLE,INSERT,CREATE TABLE
+SQL Server,4,"For each database object, DDL usually provides which three statements?","CREATE, ALTER, DROP","SELECT, INSERT, UPDATE","GRANT, REVOKE, DENY","BEGIN, COMMIT, ROLLBACK","CREATE, ALTER, DROP"
+SQL Server,4,"Which of the following is used to select, insert, update, or delete data in the objects defined with DDL?",DCL,DDL,DML,T-SQL comments,DML
+SQL Server,4,Which of the following is NOT a DML statement?,GRANT,SELECT,UPDATE,DELETE,GRANT
+SQL Server,4,Which language is used to control permissions on database objects?,DDL,DML,DQL,DCL,DCL
+SQL Server,4,Which three statements are the basic DCL statements?,"CREATE, ALTER, DROP","GRANT, REVOKE, DENY","SELECT, INSERT, DELETE","IF, WHILE, TRY","GRANT, REVOKE, DENY"
+SQL Server,4,Which of the following applications of set theory corresponds to defining unique keys in a table?,Acting on the whole set at once,Elements in the set must be unique,No sorting instructions,Using declarative processing,Elements in the set must be unique
+SQL Server,4,A data type is best described as:,A collection of related tables,A stored procedure return code,A security permission,An attribute defining the type of data an object can contain,An attribute defining the type of data an object can contain
+SQL Server,4,Which of the following objects has a data type?,Columns in tables and views,Parameters in stored procedures,Variables,All of the above,All of the above
+SQL Server,4,Which are the two mathematical fundamentals used in SQL Server 2019 for querying data?,Fractions and Sets,Predicate Logic and Fractions,Sets and Predicate Logic,Probability and Fractions,Sets and Predicate Logic
+SQL Server,4,Which of the following is NOT one of the three kinds of data types in SQL Server 2019?,Temporary data types,System-defined data types,Alias data types,User-defined types,Temporary data types
+SQL Server,4,How much memory does a column of type int occupy?,1 byte,2 bytes,4 bytes,8 bytes,4 bytes
+SQL Server,4,What is the range of values that the smallint data type can hold?,0 to 255,"-32,768 to 32,767","-2,147,483,648 to 2,147,483,647",-128 to 127,"-32,768 to 32,767"
+SQL Server,4,Which data type occupies one byte of memory and holds integer values from 0 to 255?,bit,smallint,int,tinyint,tinyint
+SQL Server,4,Which data type occupies 8 bytes and can hold values from -2^63 to 2^63-1?,int,smallint,numeric,bigint,bigint
+SQL Server,4,Which exact numeric data type has a fixed precision and scale?,float,numeric,real,char,numeric
+SQL Server,4,"In Transact-SQL, WHERE and CASE expressions are based on which mathematical framework?",Probability theory,Matrix algebra,Predicate logic,Fractions,Predicate logic
+SQL Server,4,Which approximate numeric data type occupies four bytes of memory?,real,float,bigint,money,real
+SQL Server,4,"Which data type stores character data that is variable-length and non-Unicode, with a maximum of 8,000 characters?",char,nchar,varchar,text,varchar
+SQL Server,4,Which data type stores Unicode character data of fixed length?,nchar,char,varchar,nvarchar,nchar
+SQL Server,4,"In the logical order of processing the SELECT statement, which clause is evaluated last?",HAVING,SELECT,GROUP BY,ORDER BY,ORDER BY
+SQL Server,4,Which data type stores variable-length binary data with a maximum length of 2^30-1 bytes?,binary,image,varbinary,timestamp,image
+SQL Server,4,Alias data types are:,Created using .NET Framework languages,Based on system-supplied data types,Provided only by SQL Server for internal use,"Used only for variables, never columns",Based on system-supplied data types
+SQL Server,4,Which statement is used to create an alias data type?,CREATE ALIAS,ALTER TYPE,DEFINE TYPE,CREATE TYPE,CREATE TYPE
+SQL Server,4,What does the statement CREATE TYPE usertype FROM varchar(20) NOT NULL do?,Creates an alias data type named usertype based on varchar(20) that does not allow nulls,Creates a table named usertype,Deletes the varchar data type,Creates a stored procedure named usertype,Creates an alias data type named usertype based on varchar(20) that does not allow nulls
+SQL Server,4,User-defined types in SQL Server are created using:,Only T-SQL scripts,Only system stored procedures,Programming languages supported by the .NET Framework,The GRANT statement,Programming languages supported by the .NET Framework
+SQL Server,4,Predicates in Transact-SQL are used to evaluate whether an expression is:,"TRUE, FALSE, or UNKNOWN",Only TRUE or FALSE,NULL or NOT NULL,Numeric or character,"TRUE, FALSE, or UNKNOWN"
+SQL Server,4,Which predicate specifies a range of values to test?,IN,LIKE,BETWEEN,CONTAINS,BETWEEN
+SQL Server,4,Which predicate determines whether a specified value matches any value in a subquery or a list?,BETWEEN,IN,LIKE,CONTAINS,IN
+SQL Server,4,Which predicate is used to match characters against a specified pattern?,IN,BETWEEN,CONTAINS,LIKE,LIKE
+SQL Server,4,The CONTAINS predicate will work only on a table that has:,A clustered index,A primary key,A foreign key,A full-text index,A full-text index
+SQL Server,4,"What is the result of the following code?
+DECLARE @Number int;
+SET @Number = 2 + 2 * (4 + (5 - 3))
+SELECT @Number",24,14,12,16,14
+SQL Server,4,Which of the following is NOT one of the four types of functions in SQL Server 2019 described in this session?,Rowset functions,Aggregate functions,Compiler functions,Ranking functions,Compiler functions
+SQL Server,4,Which of the following is an aggregate function?,SUM,ROW_NUMBER,OPENXML,GETDATE,SUM
+SQL Server,4,Which of the following are ranking functions?,"SUM, MIN, MAX, AVG","OPENQUERY, OPENROWSET","RANK, DENSE_RANK, NTILE, ROW_NUMBER","UPPER, LOWER, LTRIM","RANK, DENSE_RANK, NTILE, ROW_NUMBER"
+SQL Server,4,"In scalar functions, the input and output are:",A single value and a single value,A table and a table,A set of rows and a single value,Multiple values and multiple values,A single value and a single value
+SQL Server,4,A local variable name in Transact-SQL must be prefixed with:,#,@@,$,@,@
+SQL Server,4,"In SQL Server 2019, what are the in-built system variables prefixed with two '@' signs (such as @@VERSION) categorized as?",Local variables,Functions,Expressions,Predicates,Functions
+SQL Server,4,Which statement provides branching control based on a logical test in Transact-SQL?,WHILE,IF...ELSE,BEGIN...END,TRY...CATCH,IF...ELSE
+SQL Server,4,Which control-of-flow statement defines the structure for exception and error handling?,WHILE,IF...ELSE,BEGIN TRANSACTION,TRY...CATCH,TRY...CATCH
+SQL Server,4,Which of the following is the correct way to write a single-line comment in T-SQL?,-- comment,// comment,# comment,<!-- comment -->,-- comment
+SQL Server,4,Multi-line comments in T-SQL begin with ______ and end with ______.,-- and --,// and //,/* and */,{ and },/* and */
+SQL Server,4,Which keyword signals the end of a batch in Transact-SQL?,GO,END,STOP,EXIT,GO
+SQL Server,4,"In the logical order of processing a SELECT statement, which clause is evaluated first?",SELECT,WHERE,FROM,GROUP BY,FROM

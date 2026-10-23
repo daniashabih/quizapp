@@ -1,0 +1,558 @@
+{
+  "category": "SQL Server",
+  "session": 4,
+  "title": "Session 4: T-SQL Language Elements, Data Types, and Operators — SQL Server",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "Transact-SQL (T-SQL) is Microsoft's implementation of which standard?",
+      "options": [
+        "ANSI standard SQL",
+        "Oracle PL/SQL",
+        "MySQL",
+        "NoSQL"
+      ],
+      "correctAnswer": "ANSI standard SQL",
+      "explanation": "Transact-SQL (T-SQL) is Microsoft's proprietary extension and implementation of the ANSI standard SQL."
+    },
+    {
+      "questionText": "In the logical order of processing a SELECT statement, which clause is evaluated immediately after WHERE?",
+      "options": [
+        "HAVING",
+        "ORDER BY",
+        "GROUP BY",
+        "SELECT"
+      ],
+      "correctAnswer": "GROUP BY",
+      "explanation": "The logical processing order of SELECT is FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY."
+    },
+    {
+      "questionText": "A set, in the context of set theory, is best described as:",
+      "options": [
+        "An ordered list of duplicate values",
+        "A collection of distinct objects considered as a whole",
+        "A sorted copy of a table",
+        "A group of stored procedures"
+      ],
+      "correctAnswer": "A collection of distinct objects considered as a whole",
+      "explanation": "In mathematical set theory, a set is a collection of distinct objects considered as a whole."
+    },
+    {
+      "questionText": "How many types of Transact-SQL statements does SQL Server support, as described in this session?",
+      "options": [
+        "Two",
+        "Four",
+        "Five",
+        "Three"
+      ],
+      "correctAnswer": "Three",
+      "explanation": "T-SQL statements are categorized into three main types: DDL, DML, and DCL."
+    },
+    {
+      "questionText": "Which set operator returns distinct rows produced by both the left and right input queries?",
+      "options": [
+        "UNION",
+        "JOIN",
+        "GROUP BY",
+        "INTERSECT"
+      ],
+      "correctAnswer": "INTERSECT",
+      "explanation": "INTERSECT returns only distinct rows that are output by both the left and right operational queries."
+    },
+    {
+      "questionText": "Which language is used to define and manage all attributes and properties of a database, such as row layouts, column definitions, key columns, file locations, and storage strategy?",
+      "options": [
+        "DML",
+        "DDL",
+        "DCL",
+        "DQL"
+      ],
+      "correctAnswer": "DDL",
+      "explanation": "Data Definition Language (DDL) is used to create, modify, and manage database structures and schema definitions."
+    },
+    {
+      "questionText": "Which of the following is a DDL statement?",
+      "options": [
+        "SELECT",
+        "GRANT",
+        "CREATE TABLE",
+        "INSERT"
+      ],
+      "correctAnswer": "CREATE TABLE",
+      "explanation": "CREATE TABLE is a Data Definition Language (DDL) statement."
+    },
+    {
+      "questionText": "For each database object, DDL usually provides which three statements?",
+      "options": [
+        "CREATE, ALTER, DROP",
+        "SELECT, INSERT, UPDATE",
+        "GRANT, REVOKE, DENY",
+        "BEGIN, COMMIT, ROLLBACK"
+      ],
+      "correctAnswer": "CREATE, ALTER, DROP",
+      "explanation": "DDL operations typically provide CREATE (to build), ALTER (to modify), and DROP (to delete) objects."
+    },
+    {
+      "questionText": "Which of the following is used to select, insert, update, or delete data in the objects defined with DDL?",
+      "options": [
+        "DCL",
+        "DDL",
+        "DML",
+        "T-SQL comments"
+      ],
+      "correctAnswer": "DML",
+      "explanation": "Data Manipulation Language (DML) statements manage and query data stored within database objects."
+    },
+    {
+      "questionText": "Which of the following is NOT a DML statement?",
+      "options": [
+        "GRANT",
+        "SELECT",
+        "UPDATE",
+        "DELETE"
+      ],
+      "correctAnswer": "GRANT",
+      "explanation": "GRANT is a Data Control Language (DCL) statement used for permissions, not DML."
+    },
+    {
+      "questionText": "Which language is used to control permissions on database objects?",
+      "options": [
+        "DDL",
+        "DML",
+        "DQL",
+        "DCL"
+      ],
+      "correctAnswer": "DCL",
+      "explanation": "Data Control Language (DCL) manages authorization, user access, and security permissions."
+    },
+    {
+      "questionText": "Which three statements are the basic DCL statements?",
+      "options": [
+        "CREATE, ALTER, DROP",
+        "GRANT, REVOKE, DENY",
+        "SELECT, INSERT, DELETE",
+        "IF, WHILE, TRY"
+      ],
+      "correctAnswer": "GRANT, REVOKE, DENY",
+      "explanation": "DCL security control consists of GRANT (give permissions), REVOKE (remove permissions), and DENY (explicitly block)."
+    },
+    {
+      "questionText": "Which of the following applications of set theory corresponds to defining unique keys in a table?",
+      "options": [
+        "Acting on the whole set at once",
+        "Elements in the set must be unique",
+        "No sorting instructions",
+        "Using declarative processing"
+      ],
+      "correctAnswer": "Elements in the set must be unique",
+      "explanation": "Set theory mandates that elements of a set are distinct, which translates directly to primary/unique keys."
+    },
+    {
+      "questionText": "A data type is best described as:",
+      "options": [
+        "A collection of related tables",
+        "A stored procedure return code",
+        "A security permission",
+        "An attribute defining the type of data an object can contain"
+      ],
+      "correctAnswer": "An attribute defining the type of data an object can contain",
+      "explanation": "A data type specifies the classification of data, its storage format, and the allowable values/operations."
+    },
+    {
+      "questionText": "Which of the following objects has a data type?",
+      "options": [
+        "Columns in tables and views",
+        "Parameters in stored procedures",
+        "Variables",
+        "All of the above"
+      ],
+      "correctAnswer": "All of the above",
+      "explanation": "In SQL Server, columns, parameters, variables, and expressions all possess an associated data type."
+    },
+    {
+      "questionText": "Which are the two mathematical fundamentals used in SQL Server 2019 for querying data?",
+      "options": [
+        "Fractions and Sets",
+        "Predicate Logic and Fractions",
+        "Sets and Predicate Logic",
+        "Probability and Fractions"
+      ],
+      "correctAnswer": "Sets and Predicate Logic",
+      "explanation": "Relational database querying is rooted fundamentally in Set Theory and Predicate Logic."
+    },
+    {
+      "questionText": "Which of the following is NOT one of the three kinds of data types in SQL Server 2019?",
+      "options": [
+        "Temporary data types",
+        "System-defined data types",
+        "Alias data types",
+        "User-defined types"
+      ],
+      "correctAnswer": "Temporary data types",
+      "explanation": "SQL Server 2019 supports system-supplied (system-defined), alias, and CLR user-defined types (UDTs)."
+    },
+    {
+      "questionText": "How much memory does a column of type int occupy?",
+      "options": [
+        "1 byte",
+        "2 bytes",
+        "4 bytes",
+        "8 bytes"
+      ],
+      "correctAnswer": "4 bytes",
+      "explanation": "The standard integer data type (int) in SQL Server requires 4 bytes (32 bits) of storage."
+    },
+    {
+      "questionText": "What is the range of values that the smallint data type can hold?",
+      "options": [
+        "0 to 255",
+        "-32,768 to 32,767",
+        "-2,147,483,648 to 2,147,483,647",
+        "-128 to 127"
+      ],
+      "correctAnswer": "-32,768 to 32,767",
+      "explanation": "smallint occupies 2 bytes (16 bits) and supports values from -32,768 to 32,767."
+    },
+    {
+      "questionText": "Which data type occupies one byte of memory and holds integer values from 0 to 255?",
+      "options": [
+        "bit",
+        "smallint",
+        "int",
+        "tinyint"
+      ],
+      "correctAnswer": "tinyint",
+      "explanation": "tinyint occupies 1 byte (8 bits) and stores unsigned integers ranging from 0 to 255."
+    },
+    {
+      "questionText": "Which data type occupies 8 bytes and can hold values from -2^63 to 2^63-1?",
+      "options": [
+        "int",
+        "smallint",
+        "numeric",
+        "bigint"
+      ],
+      "correctAnswer": "bigint",
+      "explanation": "bigint occupies 8 bytes (64 bits) and stores large integers from -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807."
+    },
+    {
+      "questionText": "Which exact numeric data type has a fixed precision and scale?",
+      "options": [
+        "float",
+        "numeric",
+        "real",
+        "char"
+      ],
+      "correctAnswer": "numeric",
+      "explanation": "numeric (or decimal) is an exact numeric data type with user-defined fixed precision (p) and scale (s)."
+    },
+    {
+      "questionText": "In Transact-SQL, WHERE and CASE expressions are based on which mathematical framework?",
+      "options": [
+        "Probability theory",
+        "Matrix algebra",
+        "Predicate logic",
+        "Fractions"
+      ],
+      "correctAnswer": "Predicate logic",
+      "explanation": "WHERE filters and CASE expressions evaluate predicates to TRUE, FALSE, or UNKNOWN based on predicate logic."
+    },
+    {
+      "questionText": "Which approximate numeric data type occupies four bytes of memory?",
+      "options": [
+        "real",
+        "float",
+        "bigint",
+        "money"
+      ],
+      "correctAnswer": "real",
+      "explanation": "real occupies 4 bytes of memory (equivalent to float(24)) as an approximate numeric data type."
+    },
+    {
+      "questionText": "Which data type stores character data that is variable-length and non-Unicode, with a maximum of 8,000 characters?",
+      "options": [
+        "char",
+        "nchar",
+        "varchar",
+        "text"
+      ],
+      "correctAnswer": "varchar",
+      "explanation": "varchar stores variable-length, non-Unicode 8-bit characters up to a limit of 8,000 characters (or varchar(max))."
+    },
+    {
+      "questionText": "Which data type stores Unicode character data of fixed length?",
+      "options": [
+        "nchar",
+        "char",
+        "varchar",
+        "nvarchar"
+      ],
+      "correctAnswer": "nchar",
+      "explanation": "nchar stores fixed-length Unicode characters (2 bytes per character, up to 4,000 characters)."
+    },
+    {
+      "questionText": "In the logical order of processing the SELECT statement, which clause is evaluated last?",
+      "options": [
+        "HAVING",
+        "SELECT",
+        "GROUP BY",
+        "ORDER BY"
+      ],
+      "correctAnswer": "ORDER BY",
+      "explanation": "ORDER BY is logically evaluated last, ordering the presentation of the materialized result set."
+    },
+    {
+      "questionText": "Which data type stores variable-length binary data with a maximum length of 2^30-1 bytes?",
+      "options": [
+        "binary",
+        "image",
+        "varbinary",
+        "timestamp"
+      ],
+      "correctAnswer": "image",
+      "explanation": "The legacy image data type stores variable-length binary data up to 2^31-1 (approx. 2 GB) of data."
+    },
+    {
+      "questionText": "Alias data types are:",
+      "options": [
+        "Created using .NET Framework languages",
+        "Based on system-supplied data types",
+        "Provided only by SQL Server for internal use",
+        "Used only for variables, never columns"
+      ],
+      "correctAnswer": "Based on system-supplied data types",
+      "explanation": "Alias data types allow developers to give custom business names and nullability constraints based on native system data types."
+    },
+    {
+      "questionText": "Which statement is used to create an alias data type?",
+      "options": [
+        "CREATE ALIAS",
+        "ALTER TYPE",
+        "DEFINE TYPE",
+        "CREATE TYPE"
+      ],
+      "correctAnswer": "CREATE TYPE",
+      "explanation": "The CREATE TYPE statement defines an alias data type or a CLR user-defined type."
+    },
+    {
+      "questionText": "What does the statement CREATE TYPE usertype FROM varchar(20) NOT NULL do?",
+      "options": [
+        "Creates an alias data type named usertype based on varchar(20) that does not allow nulls",
+        "Creates a table named usertype",
+        "Deletes the varchar data type",
+        "Creates a stored procedure named usertype"
+      ],
+      "correctAnswer": "Creates an alias data type named usertype based on varchar(20) that does not allow nulls",
+      "explanation": "CREATE TYPE usertype FROM varchar(20) NOT NULL defines an alias type named usertype based on varchar(20) preventing null values."
+    },
+    {
+      "questionText": "User-defined types in SQL Server are created using:",
+      "options": [
+        "Only T-SQL scripts",
+        "Only system stored procedures",
+        "Programming languages supported by the .NET Framework",
+        "The GRANT statement"
+      ],
+      "correctAnswer": "Programming languages supported by the .NET Framework",
+      "explanation": "CLR user-defined types (UDTs) are written in .NET languages (such as C#) and registered into SQL Server assemblies."
+    },
+    {
+      "questionText": "Predicates in Transact-SQL are used to evaluate whether an expression is:",
+      "options": [
+        "TRUE, FALSE, or UNKNOWN",
+        "Only TRUE or FALSE",
+        "NULL or NOT NULL",
+        "Numeric or character"
+      ],
+      "correctAnswer": "TRUE, FALSE, or UNKNOWN",
+      "explanation": "T-SQL implements three-valued logic (3VL), evaluating conditions to TRUE, FALSE, or UNKNOWN."
+    },
+    {
+      "questionText": "Which predicate specifies a range of values to test?",
+      "options": [
+        "IN",
+        "LIKE",
+        "BETWEEN",
+        "CONTAINS"
+      ],
+      "correctAnswer": "BETWEEN",
+      "explanation": "BETWEEN tests whether a value falls within an inclusive range: value BETWEEN low AND high."
+    },
+    {
+      "questionText": "Which predicate determines whether a specified value matches any value in a subquery or a list?",
+      "options": [
+        "BETWEEN",
+        "IN",
+        "LIKE",
+        "CONTAINS"
+      ],
+      "correctAnswer": "IN",
+      "explanation": "The IN predicate tests if an operand matches any member of a specified explicit list or subquery result."
+    },
+    {
+      "questionText": "Which predicate is used to match characters against a specified pattern?",
+      "options": [
+        "IN",
+        "BETWEEN",
+        "CONTAINS",
+        "LIKE"
+      ],
+      "correctAnswer": "LIKE",
+      "explanation": "LIKE tests character strings against wildcard pattern strings (e.g. %, _, [], [^])."
+    },
+    {
+      "questionText": "The CONTAINS predicate will work only on a table that has:",
+      "options": [
+        "A clustered index",
+        "A primary key",
+        "A foreign key",
+        "A full-text index"
+      ],
+      "correctAnswer": "A full-text index",
+      "explanation": "CONTAINS is a full-text search predicate and requires full-text indexing on the queried column(s)."
+    },
+    {
+      "questionText": "What is the result of the following code?\nDECLARE @Number int;\nSET @Number = 2 + 2 * (4 + (5 - 3))\nSELECT @Number",
+      "options": [
+        "24",
+        "14",
+        "12",
+        "16"
+      ],
+      "correctAnswer": "14",
+      "explanation": "Following operator precedence: (5 - 3) = 2; (4 + 2) = 6; 2 * 6 = 12; 2 + 12 = 14."
+    },
+    {
+      "questionText": "Which of the following is NOT one of the four types of functions in SQL Server 2019 described in this session?",
+      "options": [
+        "Rowset functions",
+        "Aggregate functions",
+        "Compiler functions",
+        "Ranking functions"
+      ],
+      "correctAnswer": "Compiler functions",
+      "explanation": "SQL Server 2019 categorizes built-in functions into Rowset, Aggregate, Ranking, and Scalar functions."
+    },
+    {
+      "questionText": "Which of the following is an aggregate function?",
+      "options": [
+        "SUM",
+        "ROW_NUMBER",
+        "OPENXML",
+        "GETDATE"
+      ],
+      "correctAnswer": "SUM",
+      "explanation": "SUM is an aggregate function that performs a calculation across a set of values and returns a single value."
+    },
+    {
+      "questionText": "Which of the following are ranking functions?",
+      "options": [
+        "SUM, MIN, MAX, AVG",
+        "OPENQUERY, OPENROWSET",
+        "RANK, DENSE_RANK, NTILE, ROW_NUMBER",
+        "UPPER, LOWER, LTRIM"
+      ],
+      "correctAnswer": "RANK, DENSE_RANK, NTILE, ROW_NUMBER",
+      "explanation": "The four standard T-SQL ranking functions are RANK(), DENSE_RANK(), NTILE(), and ROW_NUMBER()."
+    },
+    {
+      "questionText": "In scalar functions, the input and output are:",
+      "options": [
+        "A single value and a single value",
+        "A table and a table",
+        "A set of rows and a single value",
+        "Multiple values and multiple values"
+      ],
+      "correctAnswer": "A single value and a single value",
+      "explanation": "Scalar functions operate on a single value and return a single scalar value."
+    },
+    {
+      "questionText": "A local variable name in Transact-SQL must be prefixed with:",
+      "options": [
+        "#",
+        "@@",
+        "$",
+        "@"
+      ],
+      "correctAnswer": "@",
+      "explanation": "Local user-defined variables in T-SQL always begin with a single at sign (@)."
+    },
+    {
+      "questionText": "In SQL Server 2019, what are the in-built system variables prefixed with two '@' signs (such as @@VERSION) categorized as?",
+      "options": [
+        "Local variables",
+        "Functions",
+        "Expressions",
+        "Predicates"
+      ],
+      "correctAnswer": "Functions",
+      "explanation": "Identifiers starting with @@ are system scalar functions (such as @@VERSION, @@ERROR, @@ROWCOUNT), not global variables."
+    },
+    {
+      "questionText": "Which statement provides branching control based on a logical test in Transact-SQL?",
+      "options": [
+        "WHILE",
+        "IF...ELSE",
+        "BEGIN...END",
+        "TRY...CATCH"
+      ],
+      "correctAnswer": "IF...ELSE",
+      "explanation": "IF...ELSE provides conditional branching control in T-SQL based on a Boolean condition."
+    },
+    {
+      "questionText": "Which control-of-flow statement defines the structure for exception and error handling?",
+      "options": [
+        "WHILE",
+        "IF...ELSE",
+        "BEGIN TRANSACTION",
+        "TRY...CATCH"
+      ],
+      "correctAnswer": "TRY...CATCH",
+      "explanation": "BEGIN TRY...END TRY BEGIN CATCH...END CATCH handles errors and exceptions in T-SQL."
+    },
+    {
+      "questionText": "Which of the following is the correct way to write a single-line comment in T-SQL?",
+      "options": [
+        "-- comment",
+        "// comment",
+        "# comment",
+        "<!-- comment -->"
+      ],
+      "correctAnswer": "-- comment",
+      "explanation": "T-SQL single-line comments begin with two hyphens (--)."
+    },
+    {
+      "questionText": "Multi-line comments in T-SQL begin with ______ and end with ______.",
+      "options": [
+        "-- and --",
+        "// and //",
+        "/* and */",
+        "{ and }"
+      ],
+      "correctAnswer": "/* and */",
+      "explanation": "Block comments in T-SQL are enclosed within /* and */."
+    },
+    {
+      "questionText": "Which keyword signals the end of a batch in Transact-SQL?",
+      "options": [
+        "GO",
+        "END",
+        "STOP",
+        "EXIT"
+      ],
+      "correctAnswer": "GO",
+      "explanation": "GO is a batch separator recognized by SQL Server client tools (SSMS, SQLCMD) to submit batches to the server."
+    },
+    {
+      "questionText": "In the logical order of processing a SELECT statement, which clause is evaluated first?",
+      "options": [
+        "SELECT",
+        "WHERE",
+        "FROM",
+        "GROUP BY"
+      ],
+      "correctAnswer": "FROM",
+      "explanation": "The FROM clause is the very first clause evaluated in logical query processing, identifying source tables and joins."
+    }
+  ]
+}

@@ -23,16 +23,18 @@
     "seed:sql-server-session1": "node scripts/uploadSqlServerSession1Quiz.js",
     "seed:sql-server-session2": "node scripts/uploadSqlServerSession2Quiz.js",
     "seed:sql-server-session3": "node scripts/uploadSqlServerSession3Quiz.js",
+    "seed:sql-server-session4": "node scripts/uploadSqlServerSession4Quiz.js",
     "seed:powerbi": "node scripts/uploadPowerBiQuiz.js",
     "seed:excel": "node scripts/uploadExcelQuiz.js",
     "seed:php-xml-json-laravel-mysql-js": "node scripts/uploadCombinedSemester2Quiz.js",
     "sync:sql-server-live": "node scripts/syncSqlServerToLive.js",
     "sync:sql-server-session2-live": "node scripts/syncSqlServerSession2ToLive.js",
     "sync:sql-server-session3-live": "node scripts/syncSqlServerSession3ToLive.js",
+    "sync:sql-server-session4-live": "node scripts/syncSqlServerSession4ToLive.js",
     "sync:powerbi-live": "node scripts/syncPowerBiToLive.js",
     "sync:excel-live": "node scripts/syncExcelToLive.js",
     "sync:php-xml-json-laravel-mysql-js-live": "node scripts/syncCombinedSemester2ToLive.js",
-    "seed": "node scripts/seedTechnologies.js && node scripts/seedAdmin.js && node scripts/seedQuestions.js && node scripts/uploadAgileDevOpsQuiz.js && node scripts/uploadAgileCharacteristicsQuiz.js && node scripts/uploadPhpSession1Quiz.js && node scripts/uploadAzureQuiz.js && node scripts/uploadSeoQuiz.js && node scripts/uploadSqlServerSession1Quiz.js && node scripts/uploadSqlServerSession2Quiz.js && node scripts/uploadSqlServerSession3Quiz.js && node scripts/uploadPowerBiQuiz.js && node scripts/uploadExcelQuiz.js && node scripts/uploadCombinedSemester2Quiz.js"
+    "seed": "node scripts/seedTechnologies.js && node scripts/seedAdmin.js && node scripts/seedQuestions.js && node scripts/uploadAgileDevOpsQuiz.js && node scripts/uploadAgileCharacteristicsQuiz.js && node scripts/uploadPhpSession1Quiz.js && node scripts/uploadAzureQuiz.js && node scripts/uploadSeoQuiz.js && node scripts/uploadSqlServerSession1Quiz.js && node scripts/uploadSqlServerSession2Quiz.js && node scripts/uploadSqlServerSession3Quiz.js && node scripts/uploadSqlServerSession4Quiz.js && node scripts/uploadPowerBiQuiz.js && node scripts/uploadExcelQuiz.js && node scripts/uploadCombinedSemester2Quiz.js"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
