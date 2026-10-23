@@ -81,6 +81,17 @@ class QuizRepository {
     );
   }
 
+  Future<Map<String, dynamic>?> submitAnswer(
+    String attemptId, {
+    required String questionId,
+    required int selectedOptionIndex,
+  }) async {
+    return await quizService.submitAnswer(
+      attemptId,
+      questionId: questionId,
+      selectedOptionIndex: selectedOptionIndex,
+    );
+  }
   Future<Map<String, dynamic>?> getAttemptById(String attemptId) async {
     return await quizService.getAttemptById(attemptId);
   }

@@ -154,6 +154,14 @@ class QuizNotifier extends StateNotifier<QuizState> {
               });
 
               final Map<String, QuestionEvaluationState> restoredEvaluated = {};
+            final rawEvaluated = attempt['evaluatedAnswers'] as Map? ?? {};
+            rawEvaluated.forEach((k, v) {
+              if (v is Map) {
+                restoredEvaluated[k.toString()] = QuestionEvaluationState.fromJson(
+                  Map<String, dynamic>.from(v),
+                );
+              }
+            });
               final rawEvaluated = localData['evaluatedAnswers'] as Map? ?? {};
               rawEvaluated.forEach((k, v) {
                 if (v is Map) {
@@ -362,6 +370,32 @@ class QuizNotifier extends StateNotifier<QuizState> {
 
     // Persist immediately locally and debounce backend sync
     _persistProgress();
+
+    if (state.attemptId != null && state.attemptId!.isNotEmpty) {
+      _ref.read(quizRepositoryProvider).submitAnswer(
+        state.attemptId!,
+        questionId: questionId,
+        selectedOptionIndex: optionIndex,
+      ).then((res) {
+        if (res != null && res['success'] == true) {
+          final s = state.evaluatedAnswers[questionId];
+          if (s != null) {
+            final authoritativeEval = QuestionEvaluationState(
+              selectedOptionIndex: res['selectedOptionIndex'] as int? ?? s.selectedOptionIndex,
+              isCorrect: res['isCorrect'] as bool? ?? s.isCorrect,
+              isLocked: true,
+              correctOptionIndex: res['correctOptionIndex'] as int? ?? s.correctOptionIndex,
+              hasValidCorrectAnswer: true,
+              explanation: res['explanation'] as String? ?? s.explanation,
+            );
+            final newEvaluated = Map<String, QuestionEvaluationState>.from(state.evaluatedAnswers);
+            newEvaluated[questionId] = authoritativeEval;
+            state = state.copyWith(evaluatedAnswers: newEvaluated);
+            _saveToLocal();
+          }
+        }
+      }).catchError((_) {});
+    }
   }
 
   void toggleFlag(String questionId) {

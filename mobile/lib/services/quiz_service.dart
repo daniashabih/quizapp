@@ -152,6 +152,28 @@ class QuizService {
     }
   }
 
+  // Submit single answer for authoritative immediate evaluation
+  Future<Map<String, dynamic>?> submitAnswer(
+    String attemptId, {
+    required String questionId,
+    required int selectedOptionIndex,
+  }) async {
+    try {
+      final response = await apiClient.post(
+        ApiEndpoints.attemptAnswer(attemptId),
+        data: {
+          'questionId': questionId,
+          'selectedOptionIndex': selectedOptionIndex,
+        },
+      );
+      if (response.data is Map<String, dynamic>) {
+        return response.data as Map<String, dynamic>;
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
   // Get full attempt by ID
   Future<Map<String, dynamic>?> getAttemptById(String attemptId) async {
     try {
