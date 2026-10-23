@@ -11,27 +11,99 @@ const DEFAULT_PRODUCTION_URL = 'https://hangbug.vercel.app';
 const DEFAULT_FROM_ADDRESS = 'Hangbug <noreply@hangbug.com>';
 
 /**
+ * Parse RFC 5322 formatted sender string into display name and email address.
+ * Example: "Hangbug <noreply@domain.com>" -> { name: "Hangbug", email: "noreply@domain.com" }
+ */
+function parseSender(fromStr) {
+    const raw = String(fromStr || '').trim();
+    const match = raw.match(/^"?([^"<]+)"?\s*<([^>]+)>$/);
+    if (match) {
+        return { name: match[1].trim(), email: match[2].trim() };
+    }
+    return { name: 'Hangbug', email: raw };
+}
+
+/**
  * Resolve application base URL for generating user-facing links.
- * Prefers explicit environment variable, then production fallback or local host.
+ * Prefers explicit APP_BASE_URL, then production canonical domain, then preview or localhost.
+ * Ensures production reset emails never generate transient deployment-hash or localhost URLs.
  */
 function getAppBaseUrl() {
     if (process.env.APP_BASE_URL && process.env.APP_BASE_URL.trim()) {
         return process.env.APP_BASE_URL.trim().replace(/\/$/, '');
     }
-    if (process.env.VERCEL_URL) {
+    // In production, always default to the official canonical production domain
+    if (process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production') {
+        if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+            return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.replace(/\/$/, '')}`;
+        }
+        return DEFAULT_PRODUCTION_URL;
+    }
+    // In preview deployments (e.g. PR preview builds on Vercel)
+    if (process.env.VERCEL_ENV === 'preview' && process.env.VERCEL_URL) {
         return `https://${process.env.VERCEL_URL.replace(/\/$/, '')}`;
     }
-    if (process.env.NODE_ENV === 'production') {
-        return DEFAULT_PRODUCTION_URL;
+    // Other Vercel environment fallback
+    if (process.env.VERCEL_URL) {
+        return `https://${process.env.VERCEL_URL.replace(/\/$/, '')}`;
     }
     return 'http://localhost:3000';
 }
 
 /**
- * Resolve sender address from environment variables.
+ * Check if an environment variable exists and has a non-empty, non-literal value
  */
-function getFromAddress() {
-    return process.env.EMAIL_FROM_ADDRESS || DEFAULT_FROM_ADDRESS;
+function hasEnv(name) {
+    const val = process.env[name];
+    return Boolean(val && val !== 'undefined' && val !== 'null' && String(val).trim() !== '');
+}
+
+/**
+ * Identify which transactional email provider is active based on environment variables.
+ * @returns {'resend' | 'sendgrid' | 'smtp' | 'simulated' | 'none'}
+ */
+function detectEmailProvider() {
+    if (
+        hasEnv('RESEND_API_KEY') ||
+        process.env.EMAIL_PROVIDER === 'resend' ||
+        (hasEnv('EMAIL_PROVIDER_API_KEY') && process.env.EMAIL_PROVIDER_API_KEY.startsWith('re_'))
+    ) {
+        return 'resend';
+    }
+
+    if (
+        hasEnv('SENDGRID_API_KEY') ||
+        process.env.EMAIL_PROVIDER === 'sendgrid' ||
+        (hasEnv('EMAIL_PROVIDER_API_KEY') && process.env.EMAIL_PROVIDER_API_KEY.startsWith('SG.'))
+    ) {
+        return 'sendgrid';
+    }
+
+    if (hasEnv('SMTP_HOST')) {
+        return 'smtp';
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
+        return 'simulated';
+    }
+
+    return 'none';
+}
+
+/**
+ * Resolve sender address from environment variables.
+ * If Resend is active and no explicit EMAIL_FROM_ADDRESS is configured,
+ * fall back to onboarding@resend.dev (Resend's default testing domain) to prevent immediate NXDOMAIN rejection.
+ */
+function getFromAddress(activeProvider) {
+    if (process.env.EMAIL_FROM_ADDRESS && process.env.EMAIL_FROM_ADDRESS.trim()) {
+        return process.env.EMAIL_FROM_ADDRESS.trim();
+    }
+    const provider = activeProvider || detectEmailProvider();
+    if (provider === 'resend') {
+        return 'Hangbug <onboarding@resend.dev>';
+    }
+    return DEFAULT_FROM_ADDRESS;
 }
 
 /**
@@ -222,25 +294,26 @@ Learn - Test - Prove
 
 /**
  * Send password reset email
- * Supports Resend API (HTTP), SMTP (Nodemailer), and local development logging.
+ * Supports Resend API (HTTP), SendGrid API (HTTP), SMTP (Nodemailer), and local simulation.
  *
  * @param {{ to: string, resetUrl: string, userName?: string }} params
- * @returns {Promise<{ delivered: boolean, provider: string, messageId?: string }>}
+ * @returns {Promise<{ accepted: boolean, provider: string, messageId?: string, deliveryStatus: string, details?: string }>}
  */
 async function sendPasswordResetEmail({ to, resetUrl, userName }) {
-    const from = getFromAddress();
+    const provider = detectEmailProvider();
+    const from = getFromAddress(provider);
     const subject = 'Reset Your Hangbug Password';
     const html = renderPasswordResetHtml({ resetUrl, userName });
     const text = renderPasswordResetText({ resetUrl, userName });
 
-    const resendApiKey = process.env.RESEND_API_KEY || (
-        process.env.EMAIL_PROVIDER === 'resend' ? process.env.EMAIL_PROVIDER_API_KEY : null
-    ) || (
-        process.env.EMAIL_PROVIDER_API_KEY && process.env.EMAIL_PROVIDER_API_KEY.startsWith('re_') ? process.env.EMAIL_PROVIDER_API_KEY : null
-    );
-
     // 1. Send via Resend HTTPS API if configured
-    if (resendApiKey) {
+    if (provider === 'resend') {
+        const resendApiKey = process.env.RESEND_API_KEY || (
+            process.env.EMAIL_PROVIDER === 'resend' ? process.env.EMAIL_PROVIDER_API_KEY : null
+        ) || (
+            process.env.EMAIL_PROVIDER_API_KEY && process.env.EMAIL_PROVIDER_API_KEY.startsWith('re_') ? process.env.EMAIL_PROVIDER_API_KEY : null
+        );
+
         try {
             const response = await axios.post(
                 'https://api.resend.com/emails',
@@ -260,19 +333,91 @@ async function sendPasswordResetEmail({ to, resetUrl, userName }) {
                 }
             );
 
+            const messageId = response.data?.id;
+
             return {
-                delivered: true,
+                accepted: true,
                 provider: 'resend',
-                messageId: response.data?.id
+                messageId,
+                deliveryStatus: 'accepted_by_provider',
+                details: 'Email request accepted by Resend API and queued for transmission.'
             };
         } catch (resendError) {
-            console.error('[EmailService - Resend API Error]:', resendError.response?.data || resendError.message);
-            throw new Error(`Email provider error: ${resendError.response?.data?.message || resendError.message}`);
+            const status = resendError.response?.status;
+            const resendData = resendError.response?.data;
+            const errorMsg = resendData?.message || resendError.message;
+            const errorName = resendData?.name || (status ? `HTTP_${status}` : 'NETWORK_ERROR');
+
+            let hint = '';
+            if (status === 403) {
+                hint = ' (Check if your sender domain is verified in Resend at https://resend.com/domains, or use EMAIL_FROM_ADDRESS="Hangbug <onboarding@resend.dev>" for account-owner testing.)';
+            } else if (status === 401) {
+                hint = ' (Invalid or missing RESEND_API_KEY in environment variables.)';
+            }
+
+            const err = new Error(`Resend API error [${errorName}]: ${errorMsg}${hint}`);
+            err.provider = 'resend';
+            err.statusCode = status || 500;
+            err.code = resendData?.name || 'RESEND_DISPATCH_FAILED';
+            throw err;
         }
     }
 
-    // 2. Send via SMTP (Nodemailer) if configured
-    if (process.env.SMTP_HOST) {
+    // 2. Send via SendGrid REST API if configured
+    if (provider === 'sendgrid') {
+        const sendgridApiKey = process.env.SENDGRID_API_KEY || (
+            process.env.EMAIL_PROVIDER === 'sendgrid' ? process.env.EMAIL_PROVIDER_API_KEY : null
+        ) || (
+            process.env.EMAIL_PROVIDER_API_KEY && process.env.EMAIL_PROVIDER_API_KEY.startsWith('SG.') ? process.env.EMAIL_PROVIDER_API_KEY : null
+        );
+
+        const parsedSender = parseSender(from);
+
+        try {
+            const response = await axios.post(
+                'https://api.sendgrid.com/v3/mail/send',
+                {
+                    personalizations: [{ to: [{ email: to }] }],
+                    from: parsedSender,
+                    subject,
+                    content: [
+                        { type: 'text/plain', value: text },
+                        { type: 'text/html', value: html }
+                    ]
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${sendgridApiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    timeout: 10000
+                }
+            );
+
+            const messageId = response.headers?.['x-message-id'] || 'sendgrid-accepted';
+
+            return {
+                accepted: true,
+                provider: 'sendgrid',
+                messageId,
+                deliveryStatus: 'accepted_by_provider',
+                details: 'Email request accepted by SendGrid API and queued for transmission.'
+            };
+        } catch (sgError) {
+            const status = sgError.response?.status;
+            const sgErrors = sgError.response?.data?.errors;
+            const errorMsg = sgErrors && sgErrors.length > 0 ? sgErrors.map(e => e.message).join('; ') : sgError.message;
+
+            const err = new Error(`SendGrid API error [HTTP ${status || 500}]: ${errorMsg}`);
+            err.provider = 'sendgrid';
+            err.statusCode = status || 500;
+            err.code = 'SENDGRID_DISPATCH_FAILED';
+            throw err;
+        }
+    }
+
+    // 3. Send via SMTP (Nodemailer) if configured
+    if (provider === 'smtp') {
         try {
             const transporter = nodemailer.createTransport({
                 host: process.env.SMTP_HOST,
@@ -282,7 +427,9 @@ async function sendPasswordResetEmail({ to, resetUrl, userName }) {
                     user: process.env.SMTP_USER,
                     pass: process.env.SMTP_PASS || process.env.EMAIL_PROVIDER_API_KEY
                 },
-                timeout: 10000
+                connectionTimeout: 10000,
+                greetingTimeout: 10000,
+                socketTimeout: 10000
             });
 
             const info = await transporter.sendMail({
@@ -294,43 +441,49 @@ async function sendPasswordResetEmail({ to, resetUrl, userName }) {
             });
 
             return {
-                delivered: true,
+                accepted: true,
                 provider: 'smtp',
-                messageId: info.messageId
+                messageId: info.messageId,
+                deliveryStatus: 'accepted_by_provider',
+                details: `Message relayed to SMTP server ${process.env.SMTP_HOST}.`
             };
         } catch (smtpError) {
-            console.error('[EmailService - SMTP Error]:', smtpError.message);
-            throw new Error(`SMTP email delivery failed: ${smtpError.message}`);
+            const err = new Error(`SMTP email delivery failed [${smtpError.code || 'SMTP_ERROR'}]: ${smtpError.message}`);
+            err.provider = 'smtp';
+            err.code = smtpError.code || 'SMTP_DISPATCH_FAILED';
+            err.statusCode = 503;
+            throw err;
         }
     }
 
-    // 3. Fallback for Local Development & Testing Environments
-    // If no provider is configured, do not crash local developers; log safely to console.
-    if (process.env.NODE_ENV !== 'production') {
-        console.log('----------------------------------------------------');
-        console.log('[EmailService Local Simulation]');
-        console.log(`Recipient: ${to}`);
-        console.log(`Subject: ${subject}`);
-        console.log(`Reset URL: ${resetUrl}`);
-        console.log('To deliver real emails, set RESEND_API_KEY or SMTP_HOST in .env');
-        console.log('----------------------------------------------------');
+    // 4. Non-production local simulation fallback
+    if (provider === 'simulated') {
+        console.log('[EmailService Diagnostic] Non-production environment: simulated delivery accepted without remote provider credentials.');
+        console.log('[EmailService Diagnostic] Reset link generated successfully with path /reset-password?token=[REDACTED]');
 
         return {
-            delivered: true,
+            accepted: true,
             provider: 'simulated_dev',
-            messageId: 'dev-simulated-msg-id'
+            messageId: 'dev-simulated-msg-id',
+            deliveryStatus: 'simulated_local',
+            details: 'Email dispatch simulated locally in development mode.'
         };
     }
 
-    // In production, missing credentials should be reported clearly
-    console.error('[EmailService Error]: No email provider configured. Please configure RESEND_API_KEY or SMTP_HOST in production environment.');
-    throw new Error('Email service is not configured on this server.');
+    // 5. In production, missing credentials must be explicitly reported
+    const missingErr = new Error('No transactional email provider is configured. Configure RESEND_API_KEY or SMTP_HOST in your production environment variables.');
+    missingErr.provider = 'none';
+    missingErr.code = 'ERR_NO_EMAIL_PROVIDER';
+    missingErr.statusCode = 503;
+    throw missingErr;
 }
 
 module.exports = {
     sendPasswordResetEmail,
     getAppBaseUrl,
     getFromAddress,
+    parseSender,
+    detectEmailProvider,
     renderPasswordResetHtml,
     renderPasswordResetText
 };

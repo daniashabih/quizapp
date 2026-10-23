@@ -300,8 +300,11 @@ const updateProfile = async (req, res) => {
  */
 const forgotPassword = async (req, res) => {
     try {
+        console.log('[Auth Diagnostic] Forgot Password API called.');
+
         const { email } = req.body;
         if (!email || !EMAIL_REGEX.test(String(email).trim())) {
+            console.log('[Auth Diagnostic] Invalid email syntax provided in request body.');
             return res.status(400).json({
                 success: false,
                 message: 'Please provide a valid registered email address.'
@@ -310,6 +313,8 @@ const forgotPassword = async (req, res) => {
 
         const cleanEmail = String(email).trim().toLowerCase();
         const user = await User.findByEmail(cleanEmail);
+
+        console.log(`[Auth Diagnostic] User lookup completed: ${user ? 'account found' : 'account not found'}.`);
 
         // Generic response message to prevent account enumeration
         const genericMessage = 'If an account exists for this email address, you will receive a password reset link shortly.';
@@ -331,30 +336,43 @@ const forgotPassword = async (req, res) => {
         const resetExpiry = new Date(Date.now() + 30 * 60 * 1000);
 
         await User.setResetToken(cleanEmail, hashedToken, resetExpiry);
+        console.log('[Auth Diagnostic] Reset token generated, hashed with SHA-256, and expiry saved to database.');
 
         // Build secure reset URL
         const baseUrl = getAppBaseUrl();
         const resetUrl = `${baseUrl}/reset-password?token=${rawToken}`;
 
         try {
-            await sendPasswordResetEmail({
+            console.log('[Auth Diagnostic] Attempting email dispatch via configured email provider...');
+            const result = await sendPasswordResetEmail({
                 to: user.email,
                 resetUrl,
                 userName: user.name
             });
-        } catch (emailErr) {
-            console.error('[ForgotPassword Email Delivery Error]:', emailErr.message);
-            if (process.env.NODE_ENV !== 'production') {
-                console.warn('[ForgotPassword Local Link]:', resetUrl);
-            }
-        }
 
-        return res.status(200).json({
-            success: true,
-            message: genericMessage
-        });
+            console.log(`[Auth Diagnostic] Provider accepted email request. Provider: ${result.provider}, MessageID: ${result.messageId || 'unknown'}, DeliveryStatus: ${result.deliveryStatus}. (Note: provider acceptance queues message; recipient inbox placement depends on MX/SPF/DKIM/DMARC).`);
+
+            return res.status(200).json({
+                success: true,
+                message: genericMessage
+            });
+        } catch (emailErr) {
+            const sanitizedCode = emailErr.code || emailErr.sanitizedCode || 'EMAIL_SEND_FAILED';
+            const rawReason = emailErr.message || 'Provider rejected email transmission';
+            // Strip any accidental API keys or token fragments from logged errors
+            const sanitizedReason = rawReason
+                .replace(/re_[a-zA-Z0-9_-]+/g, '[REDACTED_RESEND_KEY]')
+                .replace(/SG\.[a-zA-Z0-9_-]+/g, '[REDACTED_SENDGRID_KEY]');
+
+            console.error(`[Auth Diagnostic] Email provider failed to send reset email. Code: ${sanitizedCode}, Reason: ${sanitizedReason}`);
+
+            return res.status(503).json({
+                success: false,
+                message: 'Unable to deliver password reset email at this time. Please try again later or contact support.'
+            });
+        }
     } catch (error) {
-        console.error('[ForgotPassword Error]:', error);
+        console.error('[ForgotPassword Error]: Server error processing password reset:', error.message);
         return res.status(500).json({
             success: false,
             message: 'Server error processing password reset request'
