@@ -3,9 +3,10 @@ import { createContext, useState, useContext, useEffect, useCallback } from 'rea
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-// Configure Axios defaults for HttpOnly Cookie Authentication
+// Configure Axios defaults for HttpOnly Cookie Authentication & sensible request timeout
 axios.defaults.baseURL = import.meta.env.VITE_API_URL || '/api';
 axios.defaults.withCredentials = true;
+axios.defaults.timeout = 15000;
 
 const AuthContext = createContext(null);
 
@@ -28,8 +29,13 @@ export const AuthProvider = ({ children }) => {
         if (typeof error.response?.data?.error === 'string') {
             return error.response.data.error;
         }
-        if (error.response?.status === 503 || error.code === 'ERR_NETWORK' || error.code === 'ECONNREFUSED') {
-            return 'Cannot connect to server. Please ensure the backend is running.';
+        if (
+            error.response?.status === 503 ||
+            error.code === 'ERR_NETWORK' ||
+            error.code === 'ECONNREFUSED' ||
+            error.code === 'ECONNABORTED'
+        ) {
+            return 'Cannot connect to server. Please check your connection or try again momentarily.';
         }
         if (error.response?.status === 409) {
             return error.response?.data?.message || 'An account with this email already exists.';
@@ -45,7 +51,7 @@ export const AuthProvider = ({ children }) => {
      */
     const getCurrentUser = useCallback(async () => {
         try {
-            const res = await axios.get('/auth/me');
+            const res = await axios.get('/auth/me', { timeout: 10000 });
             if (res.data?.success && res.data?.user) {
                 setUser(res.data.user);
                 return res.data.user;
@@ -64,7 +70,16 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        getCurrentUser();
+        // Failsafe timer so auth loading state never hangs indefinitely
+        const failsafe = setTimeout(() => {
+            setLoading(false);
+        }, 10000);
+
+        getCurrentUser().finally(() => {
+            clearTimeout(failsafe);
+        });
+
+        return () => clearTimeout(failsafe);
     }, [getCurrentUser]);
 
     /**

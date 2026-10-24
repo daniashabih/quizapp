@@ -63,7 +63,7 @@ const AdminDashboard = () => {
 
     // Central Platform & Quiz Settings State
     const [quizOptions, setQuizOptions] = useState(defaultQuizOptions);
-    const [loadingSettings, setLoadingSettings] = useState(false);
+    const [_loadingSettings, setLoadingSettings] = useState(false);
 
     // Question Modal State
     const [isFormOpen, setIsFormOpen] = useState(false);
@@ -97,7 +97,7 @@ const AdminDashboard = () => {
         try {
             const data = await settingsService.getSettings();
             if (data) {
-                setQuizOptions(prev => ({ ...prev, ...data }));
+                setQuizOptions(prev => ({ ...prev, ...(data?.data && typeof data.data === 'object' ? data.data : data) }));
             }
         } catch (err) {
             console.error('Failed to load central settings:', err);
@@ -177,7 +177,7 @@ const AdminDashboard = () => {
         e.preventDefault();
         try {
             const saved = await settingsService.updateSettings(quizOptions);
-            setQuizOptions(prev => ({ ...prev, ...saved }));
+            setQuizOptions(prev => ({ ...prev, ...(saved?.data && typeof saved.data === 'object' ? saved.data : saved) }));
             toast.success("Platform settings and quiz options saved to MongoDB Atlas!");
         } catch {
             toast.error("Failed to save platform settings.");
@@ -464,7 +464,7 @@ const AdminDashboard = () => {
         ).map(q => q.session || 1)
     )].sort((a, b) => a - b);
 
-    const difficultyBadge = (d) => {
+    const _difficultyBadge = (d) => {
         const map = {
             expert: 'bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400 border-amber-200 dark:border-amber-500/20',
             intermediate: 'bg-[#EAF5F2] text-black border-[#D4EBE5]',

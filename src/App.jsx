@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,6 +9,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import { SettingsProvider, useSettings } from "./context/SettingsContext";
 import MaintenanceScreen from "./components/MaintenanceScreen";
 import SplashScreen from "./components/SplashScreen";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // Auth Pages
 import Login from "./pages/auth/Login";
@@ -44,6 +45,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 // SEO Dashboard
 import SeoDashboard from "./pages/seo/SeoDashboard";
 
+const SPLASH_SESSION_KEY = 'hangbug_splash_seen';
+
 function AppRoutes() {
     const { user } = useAuth();
     const { settings, refreshSettings } = useSettings();
@@ -51,7 +54,7 @@ function AppRoutes() {
 
     // If maintenance mode is active, show MaintenanceScreen to non-admin users
     // (allow /login so admins can sign in and manage settings)
-    const isAdmin = user?.role === 'admin';
+    const isAdmin = String(user?.role || '').toLowerCase() === 'admin';
     const isLoginRoute = location.pathname === '/login';
 
     if (settings?.maintenanceMode && !isAdmin && !isLoginRoute) {
@@ -59,54 +62,59 @@ function AppRoutes() {
     }
 
     return (
-        <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Landing />} />
-            <Route path="/technologies" element={<Technologies />} />
-            <Route path="/technologies/level" element={<Navigate to="/technologies" replace />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
-            <Route path="/certificate/view" element={<CertificateView />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms" element={<TermsOfService />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/delete-account" element={<DeleteAccount />} />
-            <Route path="/account-deletion" element={<DeleteAccount />} />
-            <Route path="/data-deletion" element={<DeleteAccount />} />
-            <Route path="/seo" element={<Navigate to="/dashboard/seo" replace />} />
+        <ErrorBoundary resetKey={location.pathname}>
+            <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<Landing />} />
+                <Route path="/technologies" element={<Technologies />} />
+                <Route path="/technologies/level" element={<Navigate to="/technologies" replace />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
+                <Route path="/certificate/view" element={<CertificateView />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms" element={<TermsOfService />} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/contact" element={<ContactUs />} />
+                <Route path="/delete-account" element={<DeleteAccount />} />
+                <Route path="/account-deletion" element={<DeleteAccount />} />
+                <Route path="/data-deletion" element={<DeleteAccount />} />
+                <Route path="/seo" element={<Navigate to="/dashboard/seo" replace />} />
 
-            {/* Protected Quiz Routes */}
-            <Route element={<ProtectedRoute />}>
-                <Route path="/quiz/start" element={<Quiz />} />
-                <Route path="/quiz/result" element={<Result />} />
-            </Route>
+                {/* Protected Quiz Routes */}
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/quiz/start" element={<Quiz />} />
+                    <Route path="/quiz/result" element={<Result />} />
+                </Route>
 
-            {/* Protected Admin Routes */}
-            <Route path="/admin" element={<ProtectedRoute adminOnly><DashboardLayout /></ProtectedRoute>}>
-                <Route index element={<AdminDashboard />} />
-            </Route>
+                {/* Protected Admin Routes */}
+                <Route path="/admin" element={<ProtectedRoute adminOnly><DashboardLayout /></ProtectedRoute>}>
+                    <Route index element={<AdminDashboard />} />
+                </Route>
 
-            {/* Protected Dashboard Routes */}
-            <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
-                <Route index element={<UserDashboard />} />
-                <Route path="technologies" element={<Technologies />} />
-                <Route path="technologies/level" element={<Navigate to="/dashboard/technologies" replace />} />
-                <Route path="quizzes" element={<Technologies />} />
-                <Route path="certificates" element={<Certificates />} />
-                <Route path="leaderboard" element={<Leaderboard />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="seo" element={<ProtectedRoute adminOnly><SeoDashboard /></ProtectedRoute>} />
-                <Route path="admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
-            </Route>
-        </Routes>
+                {/* Protected Dashboard Routes */}
+                <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+                    <Route index element={<UserDashboard />} />
+                    <Route path="technologies" element={<Technologies />} />
+                    <Route path="technologies/level" element={<Navigate to="/dashboard/technologies" replace />} />
+                    <Route path="quizzes" element={<Technologies />} />
+                    <Route path="certificates" element={<Certificates />} />
+                    <Route path="leaderboard" element={<Leaderboard />} />
+                    <Route path="profile" element={<Profile />} />
+                    <Route path="settings" element={<Settings />} />
+                    <Route path="seo" element={<ProtectedRoute adminOnly><SeoDashboard /></ProtectedRoute>} />
+                    <Route path="admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
+                </Route>
+
+                {/* Fallback for unknown routes */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+        </ErrorBoundary>
     );
 }
 
@@ -134,15 +142,38 @@ function AppContent() {
 }
 
 function App() {
-    const [splashDone, setSplashDone] = useState(false);
+    const [splashDone, setSplashDone] = useState(() => {
+        try {
+            return sessionStorage.getItem(SPLASH_SESSION_KEY) === '1';
+        } catch {
+            return false;
+        }
+    });
+
+    const handleSplashFinish = useCallback(() => {
+        try {
+            sessionStorage.setItem(SPLASH_SESSION_KEY, '1');
+        } catch {
+            // Ignore sessionStorage errors in restricted browsing modes
+        }
+        setSplashDone(true);
+    }, []);
+
+    // Defense-in-depth failsafe: ensure splash overlay is dismissed within 1.2s
+    useEffect(() => {
+        if (splashDone) return;
+        const timer = setTimeout(handleSplashFinish, 1200);
+        return () => clearTimeout(timer);
+    }, [splashDone, handleSplashFinish]);
 
     return (
         <ThemeProvider>
-            {!splashDone && <SplashScreen onFinish={() => setSplashDone(true)} />}
-            {splashDone && <AppContent />}
+            <ErrorBoundary>
+                {!splashDone && <SplashScreen onFinish={handleSplashFinish} />}
+                <AppContent />
+            </ErrorBoundary>
         </ThemeProvider>
     );
 }
 
 export default App;
-

@@ -267,7 +267,7 @@ const getUserDashboard = async (req, res) => {
                     try {
                         const parsed = JSON.parse(att.answers);
                         ansCount = Object.keys(parsed).length;
-                    } catch {}
+                    } catch { /* ignore invalid JSON */ }
                 }
                 return {
                     id: att.id,

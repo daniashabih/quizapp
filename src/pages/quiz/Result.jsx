@@ -17,7 +17,7 @@ export default function Result() {
         timeTaken = 0,
         passed: passedFromState,
         passingScore: passingScoreFromState,
-        isEligibleForCertificate,
+        isEligibleForCertificate: _isEligibleForCertificate,
         certificateId
     } = location.state || {};
 

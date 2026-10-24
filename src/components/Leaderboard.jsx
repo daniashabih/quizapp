@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion } from 'motion/react';
 import {
     Trophy, Medal, Star, Award, Search, Users,
@@ -41,6 +41,10 @@ export default function Leaderboard({ onStatsLoaded = null }) {
     const [performers, setPerformers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const onStatsLoadedRef = useRef(onStatsLoaded);
+    useEffect(() => {
+        onStatsLoadedRef.current = onStatsLoaded;
+    }, [onStatsLoaded]);
 
     // Fetch categories for filter dropdown
     useEffect(() => {
@@ -63,12 +67,12 @@ export default function Leaderboard({ onStatsLoaded = null }) {
             const res = await dashboardService.getLeaderboard({ timeframe, category });
             if (res.success && Array.isArray(res.leaderboard)) {
                 setPerformers(res.leaderboard);
-                if (onStatsLoaded) {
+                if (onStatsLoadedRef.current) {
                     const totalRanked = res.leaderboard.length;
                     const totalCerts = res.leaderboard.reduce((acc, u) => acc + (u.certs || 0), 0);
                     const maxStreak = res.leaderboard.length > 0 ? Math.max(...res.leaderboard.map(u => u.streak || 0)) : 0;
                     const totalQuizzes = res.leaderboard.reduce((acc, u) => acc + (u.quizzes || 0), 0);
-                    onStatsLoaded({ totalRanked, totalCerts, maxStreak, totalQuizzes });
+                    onStatsLoadedRef.current({ totalRanked, totalCerts, maxStreak, totalQuizzes });
                 }
             } else {
                 throw new Error(res.message || 'Failed to load leaderboard');
@@ -79,7 +83,7 @@ export default function Leaderboard({ onStatsLoaded = null }) {
         } finally {
             setLoading(false);
         }
-    }, [timeframe, category, onStatsLoaded]);
+    }, [timeframe, category]);
 
     useEffect(() => {
         fetchLeaderboard();

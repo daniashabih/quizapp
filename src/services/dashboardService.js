@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-// Ensure baseURL and credentials are set
+// Ensure baseURL, credentials, and timeout are set
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || '/api',
     withCredentials: true,
+    timeout: 15000,
 });
 
 export const dashboardService = {

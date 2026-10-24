@@ -29,7 +29,7 @@ export default function SeoOverviewCard({
     const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
     const [device, setDevice] = useState('Desktop');
     const [deviceDropdownOpen, setDeviceDropdownOpen] = useState(false);
-    const [activeTooltip, setActiveTooltip] = useState(null);
+    const [_activeTooltip, _setActiveTooltip] = useState(null);
 
     const countryDropdownRef = useRef(null);
     const deviceDropdownRef = useRef(null);

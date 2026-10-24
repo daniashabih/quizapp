@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import settingsService from '../services/settingsService';
 
@@ -30,8 +31,9 @@ export const SettingsProvider = ({ children }) => {
     const refreshSettings = useCallback(async () => {
         try {
             const res = await settingsService.getSettings();
-            if (res.success && res.data) {
-                setSettings(prev => ({ ...prev, ...res.data }));
+            const payload = res?.data || (res?.appName ? res : null);
+            if (payload && typeof payload === 'object') {
+                setSettings(prev => ({ ...prev, ...payload }));
             }
         } catch (err) {
             console.warn('[SettingsContext Warning] Could not load settings from API:', err.message);
@@ -43,10 +45,12 @@ export const SettingsProvider = ({ children }) => {
     const updateSettings = useCallback(async (updates) => {
         try {
             const res = await settingsService.updateSettings(updates);
-            if (res.success && res.data) {
-                setSettings(res.data);
-                return res.data;
+            const payload = res?.data || res;
+            if (payload && typeof payload === 'object') {
+                setSettings(prev => ({ ...prev, ...payload }));
+                return payload;
             }
+            return null;
         } catch (err) {
             console.error('[SettingsContext Error] Could not update settings:', err);
             throw err;

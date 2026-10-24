@@ -78,10 +78,15 @@ const Quiz = () => {
         return false;
     });
     const [loading, setLoading] = useState(true);
+    const [loadError, setLoadError] = useState(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
     const [showExitConfirm, setShowExitConfirm] = useState(false);
     const [startTime, setStartTime] = useState(() => Date.now());
+    const quizOptsRef = useRef(quizOpts);
+    useEffect(() => {
+        quizOptsRef.current = quizOpts;
+    });
 
     // Keep latestStateRef updated on every state transition
     useEffect(() => {
@@ -441,20 +446,23 @@ const Quiz = () => {
     // Start fresh quiz from question bank and register new in_progress attempt
     const startFreshQuiz = useCallback(async () => {
         setLoading(true);
+        setLoadError(null);
         try {
             const url = isAllSessions 
                 ? `/questions?category=${encodeURIComponent(selectedCategory)}`
                 : `/questions?category=${encodeURIComponent(selectedCategory)}&session=${selectedSession}`;
             const res = await axios.get(url);
-            let filtered = res.data.filter(q => {
+            const rawList = Array.isArray(res.data) ? res.data : [];
+            let filtered = rawList.filter(q => {
                 return normalizeValue(q.category) === normalizeValue(selectedCategory);
             });
 
-            if (quizOpts.randomizeQuestions) {
+            const currentQuizOpts = quizOptsRef.current;
+            if (currentQuizOpts.randomizeQuestions) {
                 filtered = [...filtered].sort(() => Math.random() - 0.5);
             }
-            if (quizOpts.maxQuestions && quizOpts.maxQuestions > 0 && quizOpts.maxQuestions < 900) {
-                filtered = filtered.slice(0, quizOpts.maxQuestions);
+            if (currentQuizOpts.maxQuestions && currentQuizOpts.maxQuestions > 0 && currentQuizOpts.maxQuestions < 900) {
+                filtered = filtered.slice(0, currentQuizOpts.maxQuestions);
             }
 
             setQuestions(filtered);
@@ -482,11 +490,12 @@ const Quiz = () => {
             setStartTime(Date.now());
         } catch (err) {
             console.error("Failed to load questions:", err);
+            setLoadError(err.response?.data?.message || "Unable to load quiz questions. Please check your connection and try again.");
             toast.error("Failed to load questions.");
         } finally {
             setLoading(false);
         }
-    }, [isAllSessions, selectedCategory, selectedSession, normalizeValue, quizOpts.randomizeQuestions, quizOpts.maxQuestions]);
+    }, [isAllSessions, selectedCategory, selectedSession, normalizeValue]);
 
     // Initialize Quiz or Resume Active Attempt
     useEffect(() => {
@@ -680,6 +689,28 @@ const Quiz = () => {
                 <div className="text-center space-y-1">
                     <h3 className="text-base font-display font-bold text-[var(--foreground)]">Initializing Assessment</h3>
                     <p className="text-xs text-[var(--foreground-muted)]">Loading questions for {selectedCategory}...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (loadError) {
+        return (
+            <div className="h-screen w-screen bg-[var(--page-bg)] flex items-center justify-center p-4">
+                <div className="card p-8 rounded-3xl max-w-md w-full text-center space-y-4 shadow-xl">
+                    <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto">
+                        <AlertCircle size={30} className="text-red-500" />
+                    </div>
+                    <h2 className="text-xl font-display font-bold text-[var(--foreground)]">Unable to Load Quiz</h2>
+                    <p className="text-xs text-[var(--foreground-muted)]">{loadError}</p>
+                    <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+                        <button onClick={startFreshQuiz} className="btn-primary text-xs py-2.5 px-6 inline-flex items-center gap-1.5 cursor-pointer">
+                            <RefreshCw size={14} /> Retry
+                        </button>
+                        <button onClick={() => navigate('/technologies')} className="btn-secondary text-xs py-2.5 px-5 cursor-pointer">
+                            Browse Tracks
+                        </button>
+                    </div>
                 </div>
             </div>
         );

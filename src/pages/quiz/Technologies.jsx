@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import {
     Code2, ArrowRight, Search, Sparkles, BookOpen,
     Loader2, X, Play, Hash, CheckCircle2, Layers, Check,
-    ListChecks, Zap
+    ListChecks, Zap, AlertCircle, RefreshCw
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import Navbar from '../../components/Navbar';
@@ -19,6 +19,7 @@ export default function Technologies() {
     const isDashboard = location.pathname.startsWith('/dashboard');
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
 
     // Session Modal State
@@ -29,19 +30,29 @@ export default function Technologies() {
     const [customSessionNo, setCustomSessionNo] = useState('');
     const [isCustomMode, setIsCustomMode] = useState(false);
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const res = await axios.get('/categories');
-                setCategories(res.data);
-            } catch {
-                toast.error("Failed to load technologies");
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchCategories();
+    const fetchCategories = useCallback(async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await axios.get('/categories');
+            const list = Array.isArray(res.data)
+                ? res.data
+                : Array.isArray(res.data?.categories)
+                    ? res.data.categories
+                    : [];
+            setCategories(list);
+        } catch (err) {
+            console.error('[Technologies Fetch Error]:', err);
+            setError(err.response?.data?.message || 'Unable to load technology tracks. Please check your connection and try again.');
+            toast.error("Failed to load technologies");
+        } finally {
+            setLoading(false);
+        }
     }, []);
+
+    useEffect(() => {
+        fetchCategories();
+    }, [fetchCategories]);
 
     const handleCategoryClick = async (cat) => {
         setSelectedCatForSession(cat);
@@ -92,9 +103,10 @@ export default function Technologies() {
         setSelectedCatForSession(null);
     };
 
-    const filtered = categories
-        .filter(c => c.isEnabled !== false)
-        .filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    const safeCategories = Array.isArray(categories) ? categories : [];
+    const filtered = safeCategories
+        .filter(c => c && c.isEnabled !== false)
+        .filter(c => (c.name || '').toLowerCase().includes(searchQuery.toLowerCase()));
     const getGradient = () => techIcons.default;
 
     const totalQuestionsInTrack = sessionsList.reduce((sum, s) => sum + (s.count || 0), 0);
@@ -102,8 +114,8 @@ export default function Technologies() {
     if (loading) return (
         <div className={`min-h-screen bg-[var(--page-bg)] flex flex-col ${isDashboard ? 'p-6' : ''}`}>
             {!isDashboard && <Navbar />}
-            <div className="flex-1 flex items-center justify-center">
-                <Loader2 size={40} className="animate-spin text-black mx-auto mb-4" />
+            <div className="flex-1 flex flex-col items-center justify-center py-20">
+                <Loader2 size={40} className="animate-spin text-[#193D35] dark:text-emerald-400 mx-auto mb-4" />
                 <p className="text-sm font-medium text-[var(--foreground-muted)] animate-pulse text-center">Loading technologies...</p>
             </div>
             {!isDashboard && <Footer />}
@@ -124,7 +136,22 @@ export default function Technologies() {
                     className="w-full bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl py-2.5 pl-10 pr-4 text-xs sm:text-sm text-[var(--foreground)] placeholder-[var(--foreground-muted)] focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all" />
             </div>
 
-            {filtered.length === 0 ? (
+            {error && safeCategories.length === 0 ? (
+                <div className="max-w-md mx-auto text-center py-14 card p-8 rounded-3xl space-y-4">
+                    <div className="w-14 h-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
+                        <AlertCircle size={28} />
+                    </div>
+                    <h2 className="text-lg font-display font-bold text-[var(--foreground)]">Unable to load technologies</h2>
+                    <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">{error}</p>
+                    <button
+                        type="button"
+                        onClick={fetchCategories}
+                        className="btn-primary inline-flex items-center gap-2 text-xs py-2.5 px-6 mx-auto cursor-pointer"
+                    >
+                        <RefreshCw size={14} /> Retry
+                    </button>
+                </div>
+            ) : filtered.length === 0 ? (
                 <div className="text-center py-20">
                     <Code2 size={36} className="text-[var(--foreground-muted)] mx-auto mb-4" />
                     <p className="text-sm text-[var(--foreground-muted)]">No technologies found.</p>
@@ -135,12 +162,12 @@ export default function Technologies() {
                         const gradient = getGradient();
                         const hasMultipleSessions = Array.isArray(cat.sessions) && cat.sessions.length > 1;
                         return (
-                            <button key={cat.id}
+                            <button key={cat.id || cat.name}
                                 onClick={() => handleCategoryClick(cat)}
                                 className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 text-left hover:border-black hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col justify-between">
                                 <div>
                                     <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                                        <span className="text-white font-bold text-base">{cat.name.charAt(0)}</span>
+                                        <span className="text-white font-bold text-base">{(cat.name || 'T').charAt(0)}</span>
                                     </div>
                                     <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1 group-hover:text-black transition-colors">{cat.name}</h3>
                                     <p className="text-xs text-[var(--foreground-muted)] mb-3">Session-wise assessment covering core to advanced concepts.</p>
@@ -179,7 +206,7 @@ export default function Technologies() {
                         <div className="flex items-start justify-between">
                             <div className="flex items-center gap-3">
                                 <div className="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center font-bold text-lg shadow-md">
-                                    {selectedCatForSession.name.charAt(0)}
+                                    {(selectedCatForSession.name || 'T').charAt(0)}
                                 </div>
                                 <div>
                                     <div className="flex items-center gap-2">
@@ -407,5 +434,3 @@ export default function Technologies() {
         </div>
     );
 }
-
-

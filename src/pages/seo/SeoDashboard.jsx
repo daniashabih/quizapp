@@ -15,7 +15,7 @@ export default function SeoDashboard() {
     const [settingsOpen, setSettingsOpen] = useState(false);
 
     // Realistic static placeholder values structured for future API integration
-    const [aiSearchData, setAiSearchData] = useState({
+    const [aiSearchData] = useState({
         visibility: 0,
         mentions: 0,
         citedPages: 0,
@@ -27,7 +27,7 @@ export default function SeoDashboard() {
         ]
     });
 
-    const [seoData, setSeoData] = useState({
+    const [seoData] = useState({
         authorityScore: 0,
         semrushRank: 0,
         organicTraffic: 0,
