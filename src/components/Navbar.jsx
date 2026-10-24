@@ -50,7 +50,7 @@ const Navbar = () => {
         ] : []),
         ...(isAdmin ? [
             { name: 'Admin Panel', path: '/admin', icon: ShieldCheck },
-            { name: 'SEO & Growth', path: '/admin/seo', icon: Globe },
+            { name: 'SEO & Growth', path: '/dashboard/seo', icon: Globe },
         ] : []),
     ];
 

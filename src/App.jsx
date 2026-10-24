@@ -85,6 +85,11 @@ function AppRoutes() {
                 <Route path="/account-deletion" element={<DeleteAccount />} />
                 <Route path="/data-deletion" element={<DeleteAccount />} />
                 <Route path="/seo" element={<Navigate to="/dashboard/seo" replace />} />
+                <Route path="/admin/seo" element={<Navigate to="/dashboard/seo" replace />} />
+                <Route path="/certificates" element={<Navigate to="/dashboard/certificates" replace />} />
+                <Route path="/profile" element={<Navigate to="/dashboard/profile" replace />} />
+                <Route path="/settings" element={<Navigate to="/dashboard/settings" replace />} />
+                <Route path="/quizzes" element={<Navigate to="/technologies" replace />} />
 
                 {/* Protected Quiz Routes */}
                 <Route element={<ProtectedRoute />}>

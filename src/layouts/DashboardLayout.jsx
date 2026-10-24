@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import {
     LayoutDashboard,
     BookOpen,
@@ -25,21 +25,24 @@ const DashboardLayout = ({ children }) => {
     const location = useLocation();
 
     const navItems = [
-        { name: 'Overview', path: '/dashboard', icon: LayoutDashboard },
-        { name: 'Practice Quizzes', path: '/technologies', icon: BookOpen },
-        { name: 'Certificates', path: '/dashboard/certificates', icon: Award },
-        { name: 'Leaderboard', path: '/leaderboard', icon: Trophy },
-        { name: 'Profile', path: '/dashboard/profile', icon: User },
-        { name: 'Settings', path: '/dashboard/settings', icon: Settings },
+        { name: 'Overview', path: '/dashboard', matchPaths: ['/dashboard'], exact: true, icon: LayoutDashboard },
+        { name: 'Practice Quizzes', path: '/dashboard/technologies', matchPaths: ['/dashboard/technologies', '/dashboard/quizzes', '/technologies'], icon: BookOpen },
+        { name: 'Certificates', path: '/dashboard/certificates', matchPaths: ['/dashboard/certificates', '/certificates'], icon: Award },
+        { name: 'Leaderboard', path: '/dashboard/leaderboard', matchPaths: ['/dashboard/leaderboard', '/leaderboard'], icon: Trophy },
+        { name: 'Profile', path: '/dashboard/profile', matchPaths: ['/dashboard/profile', '/profile'], icon: User },
+        { name: 'Settings', path: '/dashboard/settings', matchPaths: ['/dashboard/settings', '/settings'], icon: Settings },
         ...(isAdmin ? [
-            { name: 'Admin Panel', path: '/admin', icon: ShieldCheck },
-            { name: 'SEO & Growth', path: '/admin/seo', icon: Globe },
+            { name: 'Admin Panel', path: '/admin', matchPaths: ['/admin', '/dashboard/admin'], exact: true, icon: ShieldCheck },
+            { name: 'SEO & Growth', path: '/dashboard/seo', matchPaths: ['/dashboard/seo', '/admin/seo', '/seo'], icon: Globe },
         ] : []),
     ];
 
-    const isActive = (path) => {
-        if (path === '/dashboard') return location.pathname === '/dashboard';
-        return location.pathname === path || location.pathname.startsWith(path + '/');
+    const isActive = (item) => {
+        const paths = item.matchPaths || [item.path];
+        if (item.exact) {
+            return paths.includes(location.pathname);
+        }
+        return paths.some((p) => location.pathname === p || location.pathname.startsWith(p + '/'));
     };
 
     return (
@@ -81,7 +84,7 @@ const DashboardLayout = ({ children }) => {
                 <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
                     {navItems.map((item) => {
                         const Icon = item.icon;
-                        const active = isActive(item.path);
+                        const active = isActive(item);
                         return (
                             <Link
                                 key={item.path}
@@ -128,7 +131,7 @@ const DashboardLayout = ({ children }) => {
                         </button>
                         <div className="hidden sm:block">
                             <h1 className="text-sm font-display font-bold text-[var(--foreground)]">
-                                {navItems.find((i) => isActive(i.path))?.name || 'Workspace'}
+                                {navItems.find((i) => isActive(i))?.name || 'Workspace'}
                             </h1>
                         </div>
                     </div>
@@ -155,8 +158,8 @@ const DashboardLayout = ({ children }) => {
                 </header>
 
                 {/* Page Body */}
-                <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
-                    {children}
+                <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto min-w-0">
+                    {children || <Outlet />}
                 </main>
             </div>
 
@@ -190,7 +193,7 @@ const DashboardLayout = ({ children }) => {
                             <nav className="mt-4 space-y-1">
                                 {navItems.map((item) => {
                                     const Icon = item.icon;
-                                    const active = isActive(item.path);
+                                    const active = isActive(item);
                                     return (
                                         <Link
                                             key={item.path}

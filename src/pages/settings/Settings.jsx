@@ -1,5 +1,4 @@
 import { Sun, Moon, Monitor, Bell, Shield, Check } from 'lucide-react';
-import DashboardLayout from '../../layouts/DashboardLayout';
 import { useTheme } from '../../context/ThemeContext';
 
 const Settings = () => {
@@ -27,16 +26,15 @@ const Settings = () => {
     ];
 
     return (
-        <DashboardLayout>
-            <div className="max-w-3xl mx-auto space-y-6">
-                <div>
-                    <h1 className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">
-                        Preferences & Settings
-                    </h1>
-                    <p className="text-xs text-[var(--foreground-muted)] mt-0.5">
-                        Customize your appearance and platform experience.
-                    </p>
-                </div>
+        <div className="max-w-3xl mx-auto space-y-6 animate-fade-up">
+            <div>
+                <h1 className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">
+                    Preferences & Settings
+                </h1>
+                <p className="text-xs text-[var(--foreground-muted)] mt-0.5">
+                    Customize your appearance and platform experience.
+                </p>
+            </div>
 
                 {/* Theme Selection */}
                 <div className="card p-6 rounded-2xl space-y-4">
@@ -140,8 +138,7 @@ const Settings = () => {
                         </p>
                     </div>
                 </div>
-            </div>
-        </DashboardLayout>
+        </div>
     );
 };
 
