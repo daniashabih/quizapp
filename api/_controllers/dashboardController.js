@@ -687,9 +687,11 @@ const getLeaderboard = async (req, res) => {
 
             // Filter by Category
             if (category && category !== 'All') {
-                userResults = userResults.filter(r => 
-                    (r.category || '').toLowerCase() === category.toLowerCase()
-                );
+                const targetCat = String(category).trim().toLowerCase();
+                userResults = userResults.filter(r => {
+                    const rCat = String(r.category || '').trim().toLowerCase();
+                    return rCat === targetCat || rCat.includes(targetCat);
+                });
             }
 
             // Filter by Timeframe

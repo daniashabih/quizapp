@@ -12,9 +12,10 @@ import 'package:hangbug/screens/quiz/quiz_screen.dart';
 
 class MockQuizRepository implements QuizRepository {
   final List<QuestionModel> stubQuestions;
+  Map<String, dynamic>? mockActiveAttemptResponse;
   int submitCount = 0;
 
-  MockQuizRepository(this.stubQuestions);
+  MockQuizRepository(this.stubQuestions, {this.mockActiveAttemptResponse});
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
@@ -36,6 +37,9 @@ class MockQuizRepository implements QuizRepository {
     bool forceNew = false,
     bool checkOnly = false,
   }) async {
+    if (checkOnly && mockActiveAttemptResponse != null) {
+      return mockActiveAttemptResponse;
+    }
     return null;
   }
 
@@ -492,6 +496,45 @@ void main() {
       notifier2.selectAnswer('q1', 1); // try to change to correct
       expect(container2.read(quizProvider).selectedAnswers['q1'], equals(0)); // remains 0!
     });
+
+    test('Backend resumed quiz enriches sanitized unanswered questions so hasValidCorrectAnswer is true', () async {
+      // Simulate server formatAttempt where q1 was answered and q2 was sanitized (no correct_answer)
+      final sanitizedSnapshot = [
+        testQuestions[0].toJson(),
+        {
+          'id': testQuestions[1].id,
+          'category': testQuestions[1].category,
+          'session': testQuestions[1].session,
+          'question_text': testQuestions[1].questionText,
+          'options': testQuestions[1].options,
+        },
+      ];
+
+      final mockRepo = MockQuizRepository(
+        testQuestions,
+        mockActiveAttemptResponse: {
+          'hasActiveAttempt': true,
+          'attempt': {
+            'id': 'att_server_1',
+            'currentQuestionIndex': 1,
+            'answers': {'q1': 1},
+            'flaggedQuestions': <String>[],
+            'questionsSnapshot': sanitizedSnapshot,
+          },
+        },
+      );
+
+      final container = ProviderContainer(
+        overrides: [quizRepositoryProvider.overrideWithValue(mockRepo)],
+      );
+      final notifier = container.read(quizProvider.notifier);
+      await notifier.startQuiz(category: 'Flutter', session: 1, forceNew: false);
+
+      final state = container.read(quizProvider);
+      expect(state.currentQuestion?.id, equals('q2'));
+      expect(state.currentQuestion?.hasValidCorrectAnswer, isTrue);
+      expect(state.currentQuestion?.correctOptionIndex, equals(2));
+    });
   });
 
   group('Regression Test 12: Certificates use the correct final score', () {
@@ -528,5 +571,152 @@ void main() {
       expect(resultPass.certificateId, isNotNull);
       expect(resultPass.percentage, equals(100.0));
     });
+  });
+
+  group('Regression Test 13: Full QuizScreen UI Layout, Non-Overlapping Feedback Banner & Responsiveness', () {
+    testWidgets(
+      'Selecting an incorrect answer renders feedback banner strictly between question card and first option without overlap',
+      (tester) async {
+        final singleQ = [testQuestions[0]]; // Option 1 ('Immutable widget') is correct
+        final mockRepo = MockQuizRepository(singleQ);
+
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [quizRepositoryProvider.overrideWithValue(mockRepo)],
+            child: const MaterialApp(
+              home: QuizScreen(category: 'Flutter', session: 1),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        // Tap wrong option A ('Mutable widget', index 0)
+        await tester.tap(find.text('Mutable widget'));
+        await tester.pumpAndSettle();
+
+        final questionCardFinder = find.byKey(const ValueKey('quiz_question_card'));
+        final feedbackBannerFinder = find.byKey(const ValueKey('quiz_feedback_banner'));
+        final firstOptionFinder = find.byKey(const ValueKey('q1_0'));
+        final secondOptionFinder = find.byKey(const ValueKey('q1_1'));
+
+        expect(questionCardFinder, findsOneWidget);
+        expect(feedbackBannerFinder, findsOneWidget);
+        expect(firstOptionFinder, findsOneWidget);
+        expect(secondOptionFinder, findsOneWidget);
+
+        // Verify strict vertical ordering and zero overlap
+        final questionRect = tester.getRect(questionCardFinder);
+        final bannerRect = tester.getRect(feedbackBannerFinder);
+        final firstOptionRect = tester.getRect(firstOptionFinder);
+        final secondOptionRect = tester.getRect(secondOptionFinder);
+
+        expect(questionRect.bottom, lessThanOrEqualTo(bannerRect.top));
+        expect(bannerRect.bottom, lessThanOrEqualTo(firstOptionRect.top));
+        expect(firstOptionRect.bottom, lessThanOrEqualTo(secondOptionRect.top));
+
+        // Both Incorrect Answer badge on Option A and Correct Answer badge on Option B are visible
+        expect(find.text('Incorrect Answer'), findsOneWidget);
+        expect(find.text('Correct Answer'), findsOneWidget);
+        expect(find.byIcon(Icons.cancel_rounded), findsOneWidget);
+        expect(find.byIcon(Icons.check_circle_rounded), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'Selecting a correct answer shows green feedback banner and locks options',
+      (tester) async {
+        final singleQ = [testQuestions[0]];
+        final mockRepo = MockQuizRepository(singleQ);
+
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [quizRepositoryProvider.overrideWithValue(mockRepo)],
+            child: const MaterialApp(
+              home: QuizScreen(category: 'Flutter', session: 1),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        // Tap correct option B ('Immutable widget', index 1)
+        await tester.tap(find.text('Immutable widget'));
+        await tester.pumpAndSettle();
+
+        expect(find.byKey(const ValueKey('quiz_feedback_banner')), findsOneWidget);
+        expect(
+          find.text('Correct Answer! You earned 1 point for this question.'),
+          findsOneWidget,
+        );
+        expect(find.text('Correct Answer'), findsOneWidget);
+        expect(find.text('Incorrect Answer'), findsNothing);
+
+        // Attempting to tap option A afterwards must not change the selection
+        await tester.tap(find.text('Mutable widget'));
+        await tester.pumpAndSettle();
+        expect(find.text('Incorrect Answer'), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'Long question text and multi-line options on small mobile screen (320x480) wrap and scroll without overflow',
+      (tester) async {
+        tester.view.physicalSize = const Size(320, 480);
+        tester.view.devicePixelRatio = 1.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        final longQuestions = [
+          const QuestionModel(
+            id: 'q_long_1',
+            category: 'Full-Stack Web & Mobile Architecture',
+            session: 1,
+            questionText:
+                'When designing a responsive cross-platform quiz interface for both web and mobile devices, which layout strategy guarantees that the feedback banner never overlaps or clips the first answer option card on compact screens?',
+            options: [
+              'Using conflicting absolute positioning with negative top margins and fixed heights on the parent container',
+              'Placing the question card, feedback banner, and answer option cards in normal vertical document flow inside a unified scrollable container',
+              'Applying justify-content: center on a fixed-height overflow container that clips top children into negative scroll space',
+              'Hiding the first answer card whenever the incorrect answer feedback banner is rendered on screen',
+            ],
+            correctAnswer:
+                'Placing the question card, feedback banner, and answer option cards in normal vertical document flow inside a unified scrollable container',
+            explanation:
+                'Normal vertical flow inside a single scrollable container prevents flex centering overflow clipping and z-index overlap across all viewport heights.',
+          ),
+        ];
+
+        final mockRepo = MockQuizRepository(longQuestions);
+
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [quizRepositoryProvider.overrideWithValue(mockRepo)],
+            child: const MaterialApp(
+              home: QuizScreen(
+                category: 'Full-Stack Web & Mobile Architecture',
+                session: 1,
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+
+        // Scroll the first option into view on the compact 320x480 screen and tap it
+        final firstOptionFinder = find.byKey(const ValueKey('q_long_1_0'));
+        await tester.ensureVisible(firstOptionFinder);
+        await tester.pumpAndSettle();
+        await tester.tap(firstOptionFinder);
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+
+        final bannerRect = tester.getRect(
+          find.byKey(const ValueKey('quiz_feedback_banner')),
+        );
+        final firstOptionRect = tester.getRect(firstOptionFinder);
+        expect(bannerRect.bottom, lessThanOrEqualTo(firstOptionRect.top));
+      },
+    );
   });
 }

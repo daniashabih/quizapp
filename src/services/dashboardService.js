@@ -48,4 +48,7 @@ export const dashboardService = {
     }
 };
 
+export const fetchLeaderboard = (timeframe = 'all-time', category = 'All') =>
+    dashboardService.getLeaderboard({ timeframe, category });
+
 export default dashboardService;

@@ -1,5 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const Attempt = require('../api/_models/attemptModel');
 const quizController = require('../api/_controllers/quizController');
@@ -204,4 +206,34 @@ test('7. Missing or Invalid Database Data fails safely without crashing', () => 
     };
     assert.equal(Attempt.getQuestionCorrectIndex(brokenQ2), -1);
     assert.equal(Attempt.evaluateAnswerCorrectness(0, brokenQ2), false);
+});
+
+test('8. React Quiz Layout & Answer Feedback UI: Strict vertical flow without overlapping or clipping', () => {
+    const quizFilePath = path.join(__dirname, '..', 'src', 'pages', 'quiz', 'Quiz.jsx');
+    const source = fs.readFileSync(quizFilePath, 'utf8');
+
+    // Verify all layout sections exist in strict vertical document order
+    const scrollIdx = source.indexOf('data-testid="quiz-scroll-container"');
+    const questionCardIdx = source.indexOf('data-testid="quiz-question-card"');
+    const feedbackBannerIdx = source.indexOf('data-testid="quiz-feedback-banner"');
+    const optionsListIdx = source.indexOf('data-testid="quiz-options-list"');
+    const explanationCardIdx = source.indexOf('data-testid="quiz-explanation-card"');
+
+    assert.ok(scrollIdx !== -1, 'Unified scrollable container must exist');
+    assert.ok(questionCardIdx > scrollIdx, 'Question card must be inside scrollable container');
+    assert.ok(feedbackBannerIdx > questionCardIdx, 'Feedback banner must appear after question card');
+    assert.ok(optionsListIdx > feedbackBannerIdx, 'Options list must appear after feedback banner');
+    assert.ok(explanationCardIdx > optionsListIdx, 'Explanation card must appear after options list');
+
+    // Ensure options list container does not use justify-center + overflow-y-auto which clipped Option A
+    const optionsListSnippet = source.slice(optionsListIdx - 120, optionsListIdx + 200);
+    assert.equal(
+        optionsListSnippet.includes('justify-center'),
+        false,
+        'Options list must not use justify-center which pushes the first option into negative scroll coordinates'
+    );
+
+    // Ensure Correct Answer and Incorrect Answer badges and banner texts are present
+    assert.ok(source.includes('Correct Answer'), 'Must display "Correct Answer" label');
+    assert.ok(source.includes('Incorrect Answer'), 'Must display "Incorrect Answer" label');
 });

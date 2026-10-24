@@ -17,7 +17,7 @@ import {
     UserCheck,
     X,
 } from 'lucide-react';
-import { fetchLeaderboard } from '../services/dashboardService';
+import { dashboardService } from '../services/dashboardService';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 
@@ -27,7 +27,22 @@ const TIMEFRAMES = [
     { id: 'weekly', label: 'This Week' },
 ];
 
-const CATEGORIES = ['All', 'React', 'JavaScript', 'Python', 'Node.js', 'CSS', 'HTML', 'MongoDB', 'TypeScript', 'Java', 'C++'];
+const DEFAULT_CATEGORIES = [
+    'All',
+    'SQL Server',
+    'Node.js',
+    'Express JS and Node JS',
+    'Agile & DevOps',
+    'Azure',
+    'PHP',
+    'HTML & CSS',
+    'Power BI',
+    'Excel',
+    'SEO',
+    'React',
+    'JavaScript',
+    'Python',
+];
 
 const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
     const { currentUser } = useAuth();
@@ -37,6 +52,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
     const [category, setCategory] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [leaderboardData, setLeaderboardData] = useState([]);
+    const [discoveredCategories, setDiscoveredCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -44,7 +60,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
         setLoading(true);
         setError(null);
         try {
-            const data = await fetchLeaderboard(timeframe, category);
+            const data = await dashboardService.getLeaderboard({ timeframe, category });
             if (!data || !Array.isArray(data.leaderboard)) {
                 throw new Error('Unexpected response format from leaderboard API.');
             }
@@ -52,16 +68,29 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
             // and re-index ranks deterministically so rankings are contiguous (1..N)
             const activeRankings = data.leaderboard
                 .filter((u) => Number(u.quizzes || 0) > 0)
-                .map((u, idx) => ({
-                    ...u,
-                    rank: idx + 1,
-                    quizzes: Number(u.quizzes || 0),
-                    score: Math.round(Number(u.score || 0)),
-                    xp: Number(u.xp || 0),
-                    certs: Number(u.certs || 0),
-                }));
+                .map((u, idx) => {
+                    const rawStreak = parseInt(String(u.streak ?? '0').replace(/\D/g, ''), 10) || 0;
+                    return {
+                        ...u,
+                        rank: idx + 1,
+                        quizzes: Number(u.quizzes || 0),
+                        score: Math.round(Number(u.score || 0)),
+                        xp: Number(u.xp || 0),
+                        certs: Number(u.certs || 0),
+                        streak: `${rawStreak}d`,
+                    };
+                });
 
             setLeaderboardData(activeRankings);
+            setDiscoveredCategories((prev) => {
+                const next = new Set(prev);
+                activeRankings.forEach((u) => {
+                    if (u.category && u.category !== 'Full Stack') {
+                        next.add(u.category);
+                    }
+                });
+                return Array.from(next);
+            });
             if (onDataLoaded) {
                 onDataLoaded({
                     ...data,
@@ -113,6 +142,12 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                 (user.category && user.category.toLowerCase().includes(q))
         );
     }, [leaderboardData, searchQuery]);
+
+    const categoryOptions = useMemo(() => {
+        const set = new Set(DEFAULT_CATEGORIES);
+        discoveredCategories.forEach((c) => set.add(c));
+        return Array.from(set);
+    }, [discoveredCategories]);
 
     const top3 = useMemo(() => filteredData.slice(0, 3), [filteredData]);
     const showPodium = !isEmbedded && !searchQuery.trim() && top3.length >= 3;
@@ -291,7 +326,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                         : 'bg-[#FAF8F5] border-[#E6E0D6] text-[#1A1D1C] focus:border-[#285A4D] focus:bg-white'
                                 }`}
                             >
-                                {CATEGORIES.map((cat) => (
+                                {categoryOptions.map((cat) => (
                                     <option
                                         key={cat}
                                         value={cat}
@@ -488,9 +523,9 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                     {showPodium && (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-stretch pt-2">
                             {[
-                                { user: top3[1], place: 2, orderClass: 'md:order-1' },
-                                { user: top3[0], place: 1, orderClass: 'md:order-2' },
-                                { user: top3[2], place: 3, orderClass: 'md:order-3' },
+                                { user: top3[0], place: 1, orderClass: 'order-1 md:order-2' },
+                                { user: top3[1], place: 2, orderClass: 'order-2 md:order-1' },
+                                { user: top3[2], place: 3, orderClass: 'order-3 md:order-3' },
                             ].map(({ user, place, orderClass }) => {
                                 const isFirst = place === 1;
                                 const isMe = isCurrentUserEntry(user);

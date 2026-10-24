@@ -25,6 +25,8 @@ class QuizScreen extends ConsumerStatefulWidget {
 }
 
 class _QuizScreenState extends ConsumerState<QuizScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _isInitializing = true;
   bool _isNavigating = false;
   bool _isSubmitting = false;
 
@@ -32,17 +34,34 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
+      if (!mounted) return;
       ref.read(quizProvider.notifier).startQuiz(
             category: widget.category,
             session: widget.session,
           );
+      if (mounted) {
+        setState(() => _isInitializing = false);
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _resetScrollPosition() {
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0);
+    }
   }
 
   void _handleNextQuestion() {
     if (_isNavigating) return;
     setState(() => _isNavigating = true);
     ref.read(quizProvider.notifier).nextQuestion();
+    _resetScrollPosition();
     Future.delayed(const Duration(milliseconds: 300), () {
       if (mounted) setState(() => _isNavigating = false);
     });
@@ -52,6 +71,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     if (_isNavigating) return;
     setState(() => _isNavigating = true);
     ref.read(quizProvider.notifier).prevQuestion();
+    _resetScrollPosition();
     Future.delayed(const Duration(milliseconds: 300), () {
       if (mounted) setState(() => _isNavigating = false);
     });
@@ -174,10 +194,14 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Question Navigator',
-                    style: AppTextStyles.displaySmall.copyWith(fontSize: 18),
+                  Flexible(
+                    child: Text(
+                      'Question Navigator',
+                      style: AppTextStyles.displaySmall.copyWith(fontSize: 18),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
+                  const SizedBox(width: 8),
                   Text(
                     '${state.answeredCount}/${state.totalQuestions} Answered',
                     style: AppTextStyles.mono.copyWith(
@@ -247,6 +271,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                                 ref
                                     .read(quizProvider.notifier)
                                     .jumpToQuestion(index);
+                                _resetScrollPosition();
                                 Navigator.of(sheetCtx).pop();
                               },
                               child: Center(
@@ -292,6 +317,36 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     final state = ref.watch(quizProvider);
     final isDark = context.isDarkMode;
     final activePrimary = isDark ? AppColors.primaryLight : AppColors.primary;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isCompactScreen = screenWidth < 360;
+    final horizontalPadding =
+        isCompactScreen ? 12.0 : (screenWidth >= 768 ? 28.0 : 20.0);
+
+    final currentQuestion = state.currentQuestion;
+    final currentQuestionId = currentQuestion?.id ?? '';
+    final currentEval =
+        currentQuestion != null ? state.evaluatedAnswers[currentQuestionId] : null;
+    final isCurrentEvaluated = currentQuestion != null &&
+        (currentEval != null ||
+            state.selectedAnswers.containsKey(currentQuestionId));
+    final currentSelectedIdx = currentEval?.selectedOptionIndex ??
+        (currentQuestion != null ? state.selectedAnswers[currentQuestionId] : null);
+    final currentHasValidAnswer =
+        (currentEval?.hasValidCorrectAnswer ?? false) ||
+            (currentQuestion?.hasValidCorrectAnswer ?? false);
+    final currentCorrectIdx =
+        (currentEval != null && currentEval.correctOptionIndex != -1)
+            ? currentEval.correctOptionIndex
+            : (currentQuestion?.correctOptionIndex ?? -1);
+    final isCurrentSelectionCorrect = currentEval != null
+        ? currentEval.isCorrect
+        : (currentHasValidAnswer &&
+            currentSelectedIdx != null &&
+            currentSelectedIdx == currentCorrectIdx);
+    final currentExplanationText = (currentEval?.explanation != null &&
+            currentEval!.explanation!.trim().isNotEmpty)
+        ? currentEval.explanation!
+        : currentQuestion?.explanation;
 
     return PopScope(
       canPop: false,
@@ -309,10 +364,13 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           ),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 state.category.isNotEmpty ? state.category : widget.category,
                 style: AppTextStyles.displaySmall.copyWith(fontSize: 16),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               Text(
                 state.session == 0 ? 'All Sessions' : 'Session ${state.session}',
@@ -320,11 +378,13 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                   fontSize: 11,
                   color: context.textSecondaryColor,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
           actions: [
-            if (!state.isLoading && state.questions.isNotEmpty) ...[
+            if (!state.isLoading && !_isInitializing && state.questions.isNotEmpty) ...[
               IconButton(
                 icon: const Icon(Icons.grid_view_rounded, size: 20),
                 onPressed: () => _showQuestionNavigator(state),
@@ -334,7 +394,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
             const SizedBox(width: 6),
           ],
         ),
-        body: state.isLoading
+        body: (state.isLoading || _isInitializing)
             ? const LoadingStateWidget(message: 'Preparing your assessment...')
             : state.questions.isEmpty
                 ? EmptyStateWidget(
@@ -359,261 +419,297 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
 
                         Expanded(
                           child: SingleChildScrollView(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
+                            key: const ValueKey('quiz_scroll_view'),
+                            controller: _scrollController,
+                            physics: const ClampingScrollPhysics(),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: horizontalPadding,
                               vertical: 16.0,
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                // Question Header & Flag Toggle
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                            child: Center(
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(maxWidth: 760),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
                                   children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: context.mutedBgColor,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Text(
-                                        'Question ${state.currentIndex + 1} of ${state.totalQuestions}',
-                                        style: AppTextStyles.labelBold.copyWith(
-                                          color: context.textSecondaryColor,
-                                          fontSize: 11,
-                                        ),
-                                      ),
-                                    ),
-                                    IconButton(
-                                      icon: Icon(
-                                        state.isCurrentFlagged
-                                            ? Icons.bookmark_rounded
-                                            : Icons.bookmark_border_rounded,
-                                        color: state.isCurrentFlagged
-                                            ? AppColors.accent
-                                            : context.textSecondaryColor,
-                                        size: 22,
-                                      ),
-                                      onPressed: () {
-                                        if (state.currentQuestion != null) {
-                                          ref
-                                              .read(quizProvider.notifier)
-                                              .toggleFlag(
-                                                state.currentQuestion!.id,
-                                              );
-                                        }
-                                      },
-                                      tooltip: 'Flag for review',
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-
-                                // Question Card
-                                Container(
-                                  padding: const EdgeInsets.all(18),
-                                  decoration: BoxDecoration(
-                                    color: context.cardBgColor,
-                                    borderRadius: BorderRadius.circular(18),
-                                    border: Border.all(
-                                      color: context.borderColor,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    state.currentQuestion?.questionText ?? '',
-                                    style: AppTextStyles.bodyLarge.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      height: 1.45,
-                                    ),
-                                  ),
-                                ),
-
-                                const SizedBox(height: 20),
-
-                                // Controlled Question Data Integrity Notice
-                                if (state.currentQuestion != null &&
-                                    !state.currentQuestion!
-                                        .hasValidCorrectAnswer)
-                                  Container(
-                                    margin: const EdgeInsets.only(bottom: 14),
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: context.errorBgColor,
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        color: context.errorColor.withValues(
-                                          alpha: 0.35,
-                                        ),
-                                      ),
-                                    ),
-                                    child: Row(
+                                    // 1. Question Header & Flag Toggle
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Icon(
-                                          Icons.error_outline_rounded,
-                                          color: context.errorColor,
-                                          size: 20,
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          child: Text(
-                                            'Data Notice: The correct answer for this question could not be verified against the options. Reported for correction.',
-                                            style:
-                                                AppTextStyles.bodySmall.copyWith(
-                                              color: context.errorColor,
-                                              fontWeight: FontWeight.w600,
+                                        Flexible(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 4,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: context.mutedBgColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Text(
+                                              'Question ${state.currentIndex + 1} of ${state.totalQuestions}',
+                                              style: AppTextStyles.labelBold
+                                                  .copyWith(
+                                                color:
+                                                    context.textSecondaryColor,
+                                                fontSize: 11,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-
-                                // Interactive Options Deck with Immediate Feedback & Animations
-                                if (state.currentQuestion != null) ...[
-                                  ...state.currentQuestion!.options
-                                      .asMap()
-                                      .entries
-                                      .map((entry) {
-                                    final index = entry.key;
-                                    final optionText = entry.value;
-                                    final questionId =
-                                        state.currentQuestion!.id;
-                                    final optionLetter =
-                                        String.fromCharCode(65 + index);
-
-                                    final eval =
-                                        state.evaluatedAnswers[questionId];
-                                    final isEvaluated = eval != null ||
-                                        state.selectedAnswers
-                                            .containsKey(questionId);
-                                    final userSelectedIdx =
-                                        eval?.selectedOptionIndex ??
-                                            state.selectedAnswers[questionId];
-                                    final isUserSelection = isEvaluated &&
-                                        userSelectedIdx == index;
-                                    final hasValid = state.currentQuestion!
-                                        .hasValidCorrectAnswer;
-                                    final correctOptionIndex =
-                                        eval?.correctOptionIndex ??
-                                            state.currentQuestion!
-                                                .correctOptionIndex;
-                                    final isCorrectOption = hasValid &&
-                                        correctOptionIndex != -1 &&
-                                        index == correctOptionIndex;
-
-                                    final shouldAnimate =
-                                        state.lastSelectedQuestionId ==
-                                                questionId &&
-                                            state.lastSelectedOptionIndex ==
-                                                index;
-
-                                    return QuizAnswerOptionCard(
-                                      key: ValueKey('${questionId}_$index'),
-                                      index: index,
-                                      optionLetter: optionLetter,
-                                      optionText: optionText,
-                                      isEvaluated: isEvaluated,
-                                      isUserSelection: isUserSelection,
-                                      isCorrectOption: isCorrectOption,
-                                      hasValidCorrectAnswer: hasValid,
-                                      shouldAnimate: shouldAnimate,
-                                      onTap: isEvaluated
-                                          ? null
-                                          : () {
+                                        IconButton(
+                                          icon: Icon(
+                                            state.isCurrentFlagged
+                                                ? Icons.bookmark_rounded
+                                                : Icons.bookmark_border_rounded,
+                                            color: state.isCurrentFlagged
+                                                ? AppColors.accent
+                                                : context.textSecondaryColor,
+                                            size: 22,
+                                          ),
+                                          onPressed: () {
+                                            if (currentQuestion != null) {
                                               ref
                                                   .read(quizProvider.notifier)
-                                                  .selectAnswer(
-                                                    questionId,
-                                                    index,
+                                                  .toggleFlag(
+                                                    currentQuestion.id,
                                                   );
-                                            },
-                                    );
-                                  }),
+                                            }
+                                          },
+                                          tooltip: 'Flag for review',
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
 
-                                  // Explanation Card
-                                  if (state.isCurrentQuestionAnswered &&
-                                      state.currentQuestion?.explanation !=
-                                          null &&
-                                      state.currentQuestion!.explanation!
-                                          .trim()
-                                          .isNotEmpty)
+                                    // 2. Question Card
                                     Container(
-                                      margin: const EdgeInsets.only(
-                                        top: 10,
-                                        bottom: 12,
+                                      key: const ValueKey('quiz_question_card'),
+                                      margin: const EdgeInsets.only(bottom: 16),
+                                      padding: EdgeInsets.all(
+                                        isCompactScreen ? 14 : 18,
                                       ),
-                                      padding: const EdgeInsets.all(16),
                                       decoration: BoxDecoration(
-                                        color: context.mutedBgColor,
-                                        borderRadius: BorderRadius.circular(16),
+                                        color: context.cardBgColor,
+                                        borderRadius: BorderRadius.circular(18),
                                         border: Border.all(
                                           color: context.borderColor,
                                         ),
                                       ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.all(6),
-                                                decoration: BoxDecoration(
-                                                  color: context
-                                                      .brandAccentColor
-                                                      .withValues(alpha: 0.14),
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                child: Icon(
-                                                  Icons.lightbulb_rounded,
-                                                  color:
-                                                      context.brandAccentColor,
-                                                  size: 18,
+                                      child: Text(
+                                        currentQuestion?.questionText ?? '',
+                                        softWrap: true,
+                                        style: AppTextStyles.bodyLarge.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: isCompactScreen ? 15 : 16,
+                                          height: 1.45,
+                                        ),
+                                      ),
+                                    ),
+
+                                    // 3. Separate Answer Feedback Banner or Controlled Data Integrity Notice
+                                    if (currentQuestion != null &&
+                                        !currentHasValidAnswer)
+                                      Container(
+                                        key: const ValueKey(
+                                          'quiz_data_notice_banner',
+                                        ),
+                                        margin:
+                                            const EdgeInsets.only(bottom: 16),
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                          color: context.errorBgColor,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          border: Border.all(
+                                            color: context.errorColor.withValues(
+                                              alpha: 0.35,
+                                            ),
+                                          ),
+                                        ),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Icon(
+                                              Icons.error_outline_rounded,
+                                              color: context.errorColor,
+                                              size: 20,
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                'Data Notice: The correct answer for this question could not be verified against the options. Reported for correction.',
+                                                softWrap: true,
+                                                style: AppTextStyles.bodySmall
+                                                    .copyWith(
+                                                  color: context.errorColor,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
-                                              const SizedBox(width: 10),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    else if (isCurrentEvaluated &&
+                                        currentHasValidAnswer)
+                                      QuizAnswerFeedbackBanner(
+                                        key: const ValueKey(
+                                          'quiz_feedback_banner',
+                                        ),
+                                        isCorrect: isCurrentSelectionCorrect,
+                                      ),
+
+                                    // 4. Interactive Options Deck with Immediate Feedback & Animations
+                                    if (currentQuestion != null) ...[
+                                      ...currentQuestion.options
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        final index = entry.key;
+                                        final optionText = entry.value;
+                                        final optionLetter =
+                                            String.fromCharCode(65 + index);
+
+                                        final isUserSelection =
+                                            isCurrentEvaluated &&
+                                                currentSelectedIdx == index;
+                                        final isCorrectOption =
+                                            currentHasValidAnswer &&
+                                                currentCorrectIdx != -1 &&
+                                                index == currentCorrectIdx;
+
+                                        final shouldAnimate =
+                                            state.lastSelectedQuestionId ==
+                                                    currentQuestionId &&
+                                                state.lastSelectedOptionIndex ==
+                                                    index;
+
+                                        return QuizAnswerOptionCard(
+                                          key: ValueKey(
+                                            '${currentQuestionId}_$index',
+                                          ),
+                                          index: index,
+                                          optionLetter: optionLetter,
+                                          optionText: optionText,
+                                          isEvaluated: isCurrentEvaluated,
+                                          isUserSelection: isUserSelection,
+                                          isCorrectOption: isCorrectOption,
+                                          hasValidCorrectAnswer:
+                                              currentHasValidAnswer,
+                                          shouldAnimate: shouldAnimate,
+                                          onTap: isCurrentEvaluated
+                                              ? null
+                                              : () {
+                                                  ref
+                                                      .read(
+                                                        quizProvider.notifier,
+                                                      )
+                                                      .selectAnswer(
+                                                        currentQuestionId,
+                                                        index,
+                                                      );
+                                                },
+                                        );
+                                      }),
+
+                                      // 5. Explanation Card
+                                      if (state.isCurrentQuestionAnswered &&
+                                          currentExplanationText != null &&
+                                          currentExplanationText
+                                              .trim()
+                                              .isNotEmpty)
+                                        Container(
+                                          key: const ValueKey(
+                                            'quiz_explanation_card',
+                                          ),
+                                          margin: const EdgeInsets.only(
+                                            top: 4,
+                                            bottom: 12,
+                                          ),
+                                          padding: EdgeInsets.all(
+                                            isCompactScreen ? 14 : 16,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: context.mutedBgColor,
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            border: Border.all(
+                                              color: context.borderColor,
+                                            ),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.all(6),
+                                                    decoration: BoxDecoration(
+                                                      color: context
+                                                          .brandAccentColor
+                                                          .withValues(
+                                                        alpha: 0.14,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                        8,
+                                                      ),
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.lightbulb_rounded,
+                                                      color: context
+                                                          .brandAccentColor,
+                                                      size: 18,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                  Expanded(
+                                                    child: Text(
+                                                      'Explanation',
+                                                      style: AppTextStyles
+                                                          .displaySmall
+                                                          .copyWith(
+                                                        fontSize: 14,
+                                                        color: context
+                                                            .brandAccentColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 10),
                                               Text(
-                                                'Explanation',
-                                                style: AppTextStyles
-                                                    .displaySmall
+                                                currentExplanationText,
+                                                softWrap: true,
+                                                style: AppTextStyles.bodyMedium
                                                     .copyWith(
-                                                  fontSize: 14,
                                                   color:
-                                                      context.brandAccentColor,
+                                                      context.textPrimaryColor,
+                                                  fontSize: 13.5,
+                                                  height: 1.45,
                                                 ),
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 10),
-                                          Text(
-                                            state.currentQuestion!.explanation!,
-                                            style: AppTextStyles.bodyMedium
-                                                .copyWith(
-                                              color: context.textPrimaryColor,
-                                              fontSize: 13.5,
-                                              height: 1.45,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                ],
-                              ],
+                                        ),
+                                    ],
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
 
                         // Bottom Navigation Action Dock
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isCompactScreen ? 12 : 16,
                             vertical: 12,
                           ),
                           decoration: BoxDecoration(
@@ -625,96 +721,185 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                               ),
                             ),
                           ),
-                          child: Row(
-                            children: [
-                              OutlinedButton(
-                                onPressed:
-                                    (state.currentIndex > 0 && !_isNavigating)
+                          child: Center(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 760),
+                              child: Row(
+                                children: [
+                                  OutlinedButton(
+                                    onPressed: (state.currentIndex > 0 &&
+                                            !_isNavigating)
                                         ? _handlePrevQuestion
                                         : null,
-                                style: OutlinedButton.styleFrom(
-                                  minimumSize: const Size(80, 44),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 14,
+                                    style: OutlinedButton.styleFrom(
+                                      minimumSize: Size(
+                                        isCompactScreen ? 68 : 80,
+                                        44,
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: isCompactScreen ? 10 : 14,
+                                      ),
+                                    ),
+                                    child: const Text('Prev'),
                                   ),
-                                ),
-                                child: const Text('Prev'),
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        '${state.currentIndex + 1} / ${state.totalQuestions}',
+                                        style: AppTextStyles.mono.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: context.textSecondaryColor,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                  if (state.isLastQuestion)
+                                    ElevatedButton(
+                                      onPressed:
+                                          (!state.isCurrentQuestionAnswered ||
+                                                  _isSubmitting ||
+                                                  state.isSubmitting)
+                                              ? null
+                                              : () => _showSubmitConfirmation(
+                                                    state.answeredCount,
+                                                    state.totalQuestions,
+                                                  ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: activePrimary,
+                                        foregroundColor: Colors.white,
+                                        disabledBackgroundColor: activePrimary
+                                            .withValues(alpha: 0.35),
+                                        disabledForegroundColor:
+                                            Colors.white.withValues(alpha: 0.7),
+                                        minimumSize: Size(
+                                          isCompactScreen ? 84 : 100,
+                                          44,
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: isCompactScreen ? 12 : 16,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                      ),
+                                      child: _isSubmitting || state.isSubmitting
+                                          ? const SizedBox(
+                                              width: 18,
+                                              height: 18,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          : const Text('Submit'),
+                                    )
+                                  else
+                                    ElevatedButton(
+                                      onPressed:
+                                          (!state.isCurrentQuestionAnswered ||
+                                                  _isNavigating)
+                                              ? null
+                                              : _handleNextQuestion,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: activePrimary,
+                                        foregroundColor: Colors.white,
+                                        disabledBackgroundColor: activePrimary
+                                            .withValues(alpha: 0.35),
+                                        disabledForegroundColor:
+                                            Colors.white.withValues(alpha: 0.7),
+                                        minimumSize: Size(
+                                          isCompactScreen ? 68 : 80,
+                                          44,
+                                        ),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: isCompactScreen ? 10 : 14,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                      ),
+                                      child: const Text('Next'),
+                                    ),
+                                ],
                               ),
-                              const Spacer(),
-                              Text(
-                                '${state.currentIndex + 1} / ${state.totalQuestions}',
-                                style: AppTextStyles.mono.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: context.textSecondaryColor,
-                                ),
-                              ),
-                              const Spacer(),
-                              if (state.isLastQuestion)
-                                ElevatedButton(
-                                  onPressed: (!state.isCurrentQuestionAnswered ||
-                                          _isSubmitting ||
-                                          state.isSubmitting)
-                                      ? null
-                                      : () => _showSubmitConfirmation(
-                                            state.answeredCount,
-                                            state.totalQuestions,
-                                          ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: activePrimary,
-                                    foregroundColor: Colors.white,
-                                    disabledBackgroundColor:
-                                        activePrimary.withValues(alpha: 0.35),
-                                    disabledForegroundColor:
-                                        Colors.white.withValues(alpha: 0.7),
-                                    minimumSize: const Size(100, 44),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                  child: _isSubmitting || state.isSubmitting
-                                      ? const SizedBox(
-                                          width: 18,
-                                          height: 18,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      : const Text('Submit'),
-                                )
-                              else
-                                ElevatedButton(
-                                  onPressed:
-                                      (!state.isCurrentQuestionAnswered ||
-                                              _isNavigating)
-                                          ? null
-                                          : _handleNextQuestion,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: activePrimary,
-                                    foregroundColor: Colors.white,
-                                    disabledBackgroundColor:
-                                        activePrimary.withValues(alpha: 0.35),
-                                    disabledForegroundColor:
-                                        Colors.white.withValues(alpha: 0.7),
-                                    minimumSize: const Size(80, 44),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 14,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                  child: const Text('Next'),
-                                ),
-                            ],
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
+      ),
+    );
+  }
+}
+
+/// Separate feedback banner rendered in normal vertical flow between the
+/// Question Card and the Answer Options so it never overlaps any option card.
+class QuizAnswerFeedbackBanner extends StatelessWidget {
+  final bool isCorrect;
+
+  const QuizAnswerFeedbackBanner({
+    super.key,
+    required this.isCorrect,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final bgColor = isCorrect ? context.successBgColor : context.errorBgColor;
+    final accentColor = isCorrect ? context.successColor : context.errorColor;
+    final message = isCorrect
+        ? 'Correct Answer! You earned 1 point for this question.'
+        : 'Incorrect Answer. The correct answer has been highlighted in green below to help you learn.';
+
+    return Semantics(
+      liveRegion: true,
+      label: message,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: accentColor,
+            width: 1.5,
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: accentColor.withValues(alpha: 0.16),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                isCorrect
+                    ? Icons.check_circle_outline_rounded
+                    : Icons.error_outline_rounded,
+                color: accentColor,
+                size: 18,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                message,
+                softWrap: true,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: context.textPrimaryColor,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                  height: 1.4,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1017,6 +1202,7 @@ class _QuizAnswerOptionCardState extends State<QuizAnswerOptionCard>
                         children: [
                           Text(
                             widget.optionText,
+                            softWrap: true,
                             style: AppTextStyles.bodyMedium.copyWith(
                               fontWeight: (isUserSelection ||
                                       (isEvaluated && isCorrectOption))

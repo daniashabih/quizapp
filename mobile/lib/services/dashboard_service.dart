@@ -16,6 +16,27 @@ class DashboardService {
     return UserDashboardModel.fromJson(payload);
   }
 
+  // Fetch global leaderboard rankings
+  Future<List<LeaderboardEntryModel>> getLeaderboard({
+    String timeframe = 'all-time',
+    String category = 'All',
+  }) async {
+    final response = await apiClient.get(
+      ApiEndpoints.leaderboard,
+      queryParameters: {
+        'timeframe': timeframe,
+        'category': category,
+      },
+    );
+    final data = response.data as Map<String, dynamic>;
+    final list = data['leaderboard'] as List? ?? [];
+    return list
+        .whereType<Map<String, dynamic>>()
+        .map(LeaderboardEntryModel.fromJson)
+        .where((entry) => entry.quizzes > 0)
+        .toList();
+  }
+
   // Fetch earned certificates
   Future<List<CertificateModel>> getCertificates() async {
     final response = await apiClient.get(ApiEndpoints.certificates);

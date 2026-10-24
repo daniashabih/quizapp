@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hangbug/core/constants/app_colors.dart';
 import 'package:hangbug/core/constants/app_strings.dart';
 import 'package:hangbug/core/theme/app_theme.dart';
+import 'package:hangbug/models/dashboard_model.dart';
 import 'package:hangbug/providers/theme_provider.dart';
 import 'package:hangbug/widgets/app_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,6 +35,32 @@ void main() {
   test('AppStrings constants verify app branding', () {
     expect(AppStrings.appName, equals('Hangbug'));
     expect(AppStrings.appTagline, equals('Learn - Test - Prove'));
+  });
+
+  test('LeaderboardEntryModel parses authoritative API response cleanly', () {
+    final entry = LeaderboardEntryModel.fromJson({
+      'id': 'u_101',
+      'rank': 1,
+      'name': 'Dania Shabih',
+      'avatar': '',
+      'initials': 'DS',
+      'role': 'Administrator',
+      'xp': 2100,
+      'score': 95.0,
+      'quizzes': 2,
+      'certs': 2,
+      'streak': '3',
+      'category': 'React',
+    });
+
+    expect(entry.id, equals('u_101'));
+    expect(entry.rank, equals(1));
+    expect(entry.name, equals('Dania Shabih'));
+    expect(entry.xp, equals(2100));
+    expect(entry.score, equals(95.0));
+    expect(entry.quizzes, equals(2));
+    expect(entry.certs, equals(2));
+    expect(entry.category, equals('React'));
   });
 
   group('ThemeModeNotifier and persistence', () {

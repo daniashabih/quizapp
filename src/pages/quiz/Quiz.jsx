@@ -58,6 +58,7 @@ const Quiz = () => {
 
     const attemptIdRef = useRef(explicitAttemptId);
     const saveTimeoutRef = useRef(null);
+    const questionScrollRef = useRef(null);
     const latestStateRef = useRef({
         currentIndex: 0,
         selectedAnswers: {},
@@ -110,6 +111,13 @@ const Quiz = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    // Reset scroll container to top whenever navigating to a different question
+    useEffect(() => {
+        if (questionScrollRef.current) {
+            questionScrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [currentIndex]);
+
     const normalizeValue = useCallback((val) => {
         return String(val || '')
             .trim()
@@ -128,16 +136,23 @@ const Quiz = () => {
 
         const curIndex = overrides.currentIndex !== undefined ? overrides.currentIndex : latestStateRef.current.currentIndex;
         const curAnswers = overrides.selectedAnswers !== undefined ? overrides.selectedAnswers : latestStateRef.current.selectedAnswers;
+        const curEvaluated = overrides.evaluatedAnswers !== undefined ? overrides.evaluatedAnswers : latestStateRef.current.evaluatedAnswers;
         const curFlagged = overrides.flaggedQuestions !== undefined ? overrides.flaggedQuestions : latestStateRef.current.flaggedQuestions;
         const curQuestions = overrides.questions || latestStateRef.current.questions;
 
         let curScore = 0;
         curQuestions.forEach(q => {
-            const idx = curAnswers[q.id];
+            const qId = q.id || q._id;
+            const idx = curAnswers[qId];
             if (idx !== undefined) {
-                let opts = q.options;
-                if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
-                if (normalizeValue(opts[idx]) === normalizeValue(q.correct_answer || q.correctAnswer)) curScore++;
+                if (curEvaluated?.[qId]?.isCorrect !== undefined) {
+                    if (curEvaluated[qId].isCorrect) curScore++;
+                } else {
+                    let opts = q.options;
+                    if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
+                    const rawCorrect = String(q.correct_answer || q.correctAnswer || '').trim();
+                    if (rawCorrect && normalizeValue(opts[idx]) === normalizeValue(rawCorrect)) curScore++;
+                }
             }
         });
 
@@ -173,7 +188,7 @@ const Quiz = () => {
             return;
         }
 
-        const targetQ = questions.find(q => q.id === questionId);
+        const targetQ = questions.find(q => (q.id || q._id) === questionId);
         if (!targetQ) return;
 
         let opts = targetQ.options;
@@ -204,17 +219,19 @@ const Quiz = () => {
             [questionId]: optionIndex
         }));
 
-        setEvaluatedAnswers(prev => ({
-            ...prev,
-            [questionId]: {
-                selectedOptionIndex: optionIndex,
-                isCorrect: isCorrectOptimistic,
-                isLocked: true,
-                correctOptionIndex: correctIdx,
-                correctAnswer: correctAnswerText,
-                explanation: targetQ.explanation || ''
-            }
-        }));
+        if (correctIdx !== -1) {
+            setEvaluatedAnswers(prev => ({
+                ...prev,
+                [questionId]: {
+                    selectedOptionIndex: optionIndex,
+                    isCorrect: isCorrectOptimistic,
+                    isLocked: true,
+                    correctOptionIndex: correctIdx,
+                    correctAnswer: correctAnswerText,
+                    explanation: targetQ.explanation || ''
+                }
+            }));
+        }
 
         setSaveStatus('saving');
 
@@ -242,12 +259,32 @@ const Quiz = () => {
                         ...prev,
                         [questionId]: res.selectedOptionIndex !== undefined ? res.selectedOptionIndex : optionIndex
                     }));
+                    if (res.correctAnswer) {
+                        setQuestions(prev => prev.map(q =>
+                            (q.id || q._id) === questionId
+                                ? { ...q, correct_answer: res.correctAnswer, correctAnswer: res.correctAnswer, explanation: res.explanation || q.explanation || '' }
+                                : q
+                        ));
+                    }
                     setSaveStatus('saved');
                 } else {
                     setSaveStatus('saved');
                 }
             } catch (err) {
                 console.warn("Backend answer validation fallback to debounced save:", err);
+                if (correctIdx === -1) {
+                    setEvaluatedAnswers(prev => ({
+                        ...prev,
+                        [questionId]: {
+                            selectedOptionIndex: optionIndex,
+                            isCorrect: false,
+                            isLocked: true,
+                            correctOptionIndex: -1,
+                            correctAnswer: '',
+                            explanation: targetQ.explanation || ''
+                        }
+                    }));
+                }
                 saveCurrentProgress({
                     selectedAnswers: { ...selectedAnswers, [questionId]: optionIndex }
                 });
@@ -271,9 +308,29 @@ const Quiz = () => {
                             explanation: res.data.explanation || targetQ.explanation || ''
                         }
                     }));
+                    if (res.data.correctAnswer) {
+                        setQuestions(prev => prev.map(q =>
+                            (q.id || q._id) === questionId
+                                ? { ...q, correct_answer: res.data.correctAnswer, correctAnswer: res.data.correctAnswer, explanation: res.data.explanation || q.explanation || '' }
+                                : q
+                        ));
+                    }
                 }
             } catch (err) {
                 console.debug('Synchronous answer evaluation error:', err);
+                if (correctIdx === -1) {
+                    setEvaluatedAnswers(prev => ({
+                        ...prev,
+                        [questionId]: {
+                            selectedOptionIndex: optionIndex,
+                            isCorrect: false,
+                            isLocked: true,
+                            correctOptionIndex: -1,
+                            correctAnswer: '',
+                            explanation: targetQ.explanation || ''
+                        }
+                    }));
+                }
             }
             setSaveStatus('saved');
         }
@@ -388,7 +445,10 @@ const Quiz = () => {
 
     // Restore attempt state from snapshot and keep all previous answers strictly locked with feedback restored
     const restoreAttempt = useCallback((activeAttempt) => {
-        const snapshot = activeAttempt.questionsSnapshot || [];
+        const snapshot = (activeAttempt.questionsSnapshot || []).map(q => ({
+            ...q,
+            id: q.id || q._id
+        }));
         setQuestions(snapshot);
         const safeIndex = Math.min(
             activeAttempt.currentQuestionIndex || 0,
@@ -441,7 +501,35 @@ const Quiz = () => {
         setIsResumed(true);
         setSaveStatus('saved');
         toast.info(`Resumed ${selectedCategory}: previously answered questions remain locked (Question ${safeIndex + 1}).`);
-    }, [selectedCategory, normalizeValue]);
+
+        // Enrich any sanitized unanswered questions in snapshot from question bank for instant evaluation
+        const hasMissingCorrect = snapshot.some(q => !q.correct_answer && !q.correctAnswer);
+        if (hasMissingCorrect && selectedCategory) {
+            const url = isAllSessions
+                ? `/questions?category=${encodeURIComponent(selectedCategory)}`
+                : `/questions?category=${encodeURIComponent(selectedCategory)}&session=${selectedSession}`;
+            axios.get(url).then(res => {
+                const bankList = Array.isArray(res.data) ? res.data : [];
+                if (bankList.length > 0) {
+                    const bankMap = new Map();
+                    bankList.forEach(bq => bankMap.set(bq.id || bq._id, bq));
+                    setQuestions(prev => prev.map(q => {
+                        const qId = q.id || q._id;
+                        const bq = bankMap.get(qId);
+                        if (bq && (!q.correct_answer && !q.correctAnswer)) {
+                            return {
+                                ...q,
+                                correct_answer: bq.correct_answer || bq.correctAnswer,
+                                correctAnswer: bq.correctAnswer || bq.correct_answer,
+                                explanation: q.explanation || bq.explanation || ''
+                            };
+                        }
+                        return q;
+                    }));
+                }
+            }).catch(() => {});
+        }
+    }, [selectedCategory, isAllSessions, selectedSession, normalizeValue]);
 
     // Start fresh quiz from question bank and register new in_progress attempt
     const startFreshQuiz = useCallback(async () => {
@@ -579,11 +667,17 @@ const Quiz = () => {
         // Local fallback calculation if offline or network failure
         let fallbackScore = 0;
         questions.forEach(q => {
-            const idx = selectedAnswers[q.id];
+            const qId = q.id || q._id;
+            const idx = selectedAnswers[qId];
             if (idx !== undefined) {
-                let opts = q.options;
-                if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
-                if (normalizeValue(opts[idx]) === normalizeValue(q.correct_answer || q.correctAnswer)) fallbackScore++;
+                if (evaluatedAnswers?.[qId]?.isCorrect !== undefined) {
+                    if (evaluatedAnswers[qId].isCorrect) fallbackScore++;
+                } else {
+                    let opts = q.options;
+                    if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
+                    const rawCorrect = String(q.correct_answer || q.correctAnswer || '').trim();
+                    if (rawCorrect && normalizeValue(opts[idx]) === normalizeValue(rawCorrect)) fallbackScore++;
+                }
             }
         });
         const fallbackPercentage = questions.length > 0 ? Math.round((fallbackScore / questions.length) * 100) : 0;
@@ -622,7 +716,7 @@ const Quiz = () => {
                 timeTaken,
             }
         });
-    }, [questions, selectedAnswers, startTime, selectedCategory, selectedSession, isAllSessions, navigate, normalizeValue, settings]);
+    }, [questions, selectedAnswers, evaluatedAnswers, startTime, selectedCategory, selectedSession, isAllSessions, navigate, normalizeValue, settings]);
 
     // Keyboard Shortcuts Support
     useEffect(() => {
@@ -749,7 +843,7 @@ const Quiz = () => {
     const progressPercent = Math.round(((currentIndex + 1) / questions.length) * 100);
 
     return (
-        <div className="h-dvh max-h-dvh min-h-dvh w-full overflow-hidden flex flex-col bg-[var(--page-bg)] text-[var(--foreground)] select-none relative">
+        <div className="min-h-dvh h-dvh w-full overflow-x-hidden overflow-y-hidden flex flex-col bg-[var(--page-bg)] text-[var(--foreground)] select-none relative">
             {/* Ambient Background Glow */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#193D35]/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#D19A45]/5 rounded-full blur-3xl pointer-events-none translate-y-1/2" />
@@ -757,7 +851,7 @@ const Quiz = () => {
             {/* ═══════════════════════════════════════════════════════════
                  1. TOP HEADER (TRACK INFO & PROGRESS)
                ═══════════════════════════════════════════════════════════ */}
-            <header className="h-14 sm:h-16 shrink-0 border-b border-[var(--card-border)] bg-[var(--nav-bg)] backdrop-blur-xl px-3 sm:px-6 lg:px-8 flex items-center justify-between z-20 gap-2">
+            <header className="relative h-14 sm:h-16 shrink-0 border-b border-[var(--card-border)] bg-[var(--nav-bg)] backdrop-blur-xl px-3 sm:px-6 lg:px-8 flex items-center justify-between z-20 gap-2">
                 {/* Left: Exit + Track Info */}
                 <div className="min-w-0 flex items-center gap-1.5 sm:gap-3 shrink">
                     <button
@@ -870,204 +964,244 @@ const Quiz = () => {
                         <span className="font-mono text-xs">{answeredCount}/{questions.length}</span>
                     </button>
                 </div>
+
+                {/* Mobile & Tablet Progress Bar along bottom edge of header */}
+                <div className="md:hidden absolute bottom-0 left-0 right-0 h-1 bg-[var(--muted-bg)] overflow-hidden">
+                    <div
+                        className="h-full bg-gradient-to-r from-[#193D35] to-[#42665B] transition-all duration-300"
+                        style={{ width: `${progressPercent}%` }}
+                    />
+                </div>
             </header>
 
             {/* ═══════════════════════════════════════════════════════════
-                 2. MAIN ASSESSMENT CANVAS (CENTERED, FIT-TO-SCREEN)
+                 2. MAIN ASSESSMENT WORKSPACE (UNIFIED SCROLLABLE FLOW)
                ═══════════════════════════════════════════════════════════ */}
             <div className="flex flex-1 min-h-0 relative overflow-hidden">
-                <main className="flex-1 h-full flex flex-col justify-between py-3 sm:py-4 lg:py-6 px-3 sm:px-8 max-w-4xl mx-auto w-full overflow-hidden">
-                    {/* Top: Mobile Progress & Question Tag */}
-                    <div className="shrink-0 space-y-1.5 sm:space-y-2">
-                        <div className="flex items-center justify-between">
-                            <span className="text-[11px] font-extrabold uppercase tracking-wider text-[var(--foreground-muted)] flex items-center gap-1.5">
-                                <span className="w-2.5 h-2.5 rounded-full bg-[#193D35]" />
-                                Question {currentIndex + 1} of {questions.length}
-                            </span>
-                            <span className="text-[10px] font-bold text-[var(--foreground-muted)] bg-[var(--muted-bg)] px-2.5 py-0.5 rounded-full border border-[var(--card-border)]">
-                                1 Point · Single Choice
-                            </span>
-                        </div>
-
-                        {/* Question Prompt Title Card */}
-                        <div className="p-4 sm:p-6 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] border-l-4 border-l-[#193D35] shadow-xs">
-                            <h2 className="text-sm sm:text-base lg:text-lg font-display font-bold text-[var(--foreground)] leading-snug sm:leading-relaxed whitespace-pre-line">
-                                {currentQ?.question_text}
-                            </h2>
-                        </div>
-
-                        {/* Immediate Feedback Notification Banner */}
-                        {isCurrentAnswered && currentEvaluation && (
-                            <div className={`p-3 rounded-xl border flex items-center gap-2.5 text-xs font-bold transition-all duration-300 animate-fadeIn ${
-                                currentEvaluation.isCorrect
-                                    ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200'
-                                    : 'bg-red-50 dark:bg-red-950/40 border-red-300 dark:border-red-800 text-red-800 dark:text-red-200'
-                            }`}>
-                                {currentEvaluation.isCorrect ? (
-                                    <>
-                                        <CheckCircle2 size={18} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                                        <span>Correct Answer! You earned 1 point for this question.</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <XCircle size={18} className="text-red-500 shrink-0" />
-                                        <span>Incorrect Answer. The correct answer has been highlighted in green below to help you learn.</span>
-                                    </>
-                                )}
+                <main className="flex-1 min-w-0 h-full flex flex-col overflow-hidden">
+                    {/* Unified Scrollable Content Flow: Question -> Feedback Banner -> Answer Options -> Explanation */}
+                    <div
+                        ref={questionScrollRef}
+                        data-testid="quiz-scroll-container"
+                        className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-3 sm:px-6 lg:px-8 py-4 sm:py-6"
+                    >
+                        <div className="max-w-3xl lg:max-w-4xl mx-auto w-full flex flex-col gap-3.5 sm:gap-4 pb-2">
+                            {/* Step 1: Question Progress & Metadata Row */}
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                                <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-wider text-[var(--foreground-muted)] flex items-center gap-1.5">
+                                    <span className="w-2.5 h-2.5 rounded-full bg-[#193D35] shrink-0" />
+                                    <span>Question {currentIndex + 1} of {questions.length}</span>
+                                </span>
+                                <span className="text-[10px] sm:text-[11px] font-bold text-[var(--foreground-muted)] bg-[var(--muted-bg)] px-2.5 py-0.5 rounded-full border border-[var(--card-border)] shrink-0">
+                                    1 Point · Single Choice
+                                </span>
                             </div>
-                        )}
-                    </div>
 
-                    {/* Middle: Interactive Options Deck with Immediate Feedback & Strict Locking */}
-                    <div className="flex-1 min-h-0 flex flex-col justify-center gap-2 sm:gap-2.5 my-2 sm:my-3 overflow-y-auto pr-1 no-scrollbar">
-                        {currentOptions?.map((opt, idx) => {
-                            const optionLetter = String.fromCharCode(65 + idx);
-                            const isUserSelection = selectedAnswers[currentQ?.id] === idx;
-                            const evalState = currentEvaluation;
-                            const correctOptionIndex = evalState?.correctOptionIndex;
-                            const isCorrectOption = isCurrentAnswered && correctOptionIndex !== undefined && correctOptionIndex !== -1 && idx === correctOptionIndex;
+                            {/* Step 2: Question Prompt Title Card */}
+                            <div
+                                data-testid="quiz-question-card"
+                                className="w-full p-4 sm:p-6 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] border-l-4 border-l-[#193D35] shadow-xs"
+                            >
+                                <h2 className="text-sm sm:text-base lg:text-lg font-display font-bold text-[var(--foreground)] leading-snug sm:leading-relaxed whitespace-pre-line break-words">
+                                    {currentQ?.question_text || currentQ?.questionText}
+                                </h2>
+                            </div>
 
-                            let cardClasses = 'bg-[var(--card-bg)] border-[var(--card-border)] hover:border-[#193D35] hover:bg-[var(--muted-bg)]/40 cursor-pointer';
-                            let chipClasses = 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground-muted)] group-hover:border-[#193D35] group-hover:text-[var(--foreground)]';
-                            let textClasses = 'text-[var(--foreground)]';
-                            let statusBadge = null;
-                            let trailingIcon = null;
-
-                            if (!isCurrentAnswered) {
-                                // Unanswered state
-                                if (isUserSelection) {
-                                    cardClasses = 'bg-[#F3E5C5]/70 border-[#193D35] shadow-sm';
-                                    chipClasses = 'bg-[#193D35] border-[#193D35] text-[#FCFAF4]';
-                                    textClasses = 'font-bold text-[#193D35]';
-                                }
-                            } else if (isUserSelection && evalState?.isCorrect) {
-                                // 1. Selected CORRECT Answer
-                                cardClasses = 'bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-600 dark:border-emerald-500 shadow-sm cursor-default';
-                                chipClasses = 'bg-emerald-600 border-emerald-600 text-white';
-                                textClasses = 'font-bold text-emerald-950 dark:text-emerald-100';
-                                trailingIcon = <CheckCircle2 size={22} className="text-emerald-600 dark:text-emerald-400 shrink-0" />;
-                                statusBadge = (
-                                    <div className="inline-flex items-center gap-1 mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700">
-                                        <Check size={12} strokeWidth={3} />
-                                        <span>Correct Answer!</span>
-                                    </div>
-                                );
-                            } else if (isUserSelection && !evalState?.isCorrect) {
-                                // 2. Selected INCORRECT Answer
-                                cardClasses = 'bg-red-50 dark:bg-red-950/40 border-2 border-red-500 shadow-sm cursor-default';
-                                chipClasses = 'bg-red-500 border-red-500 text-white';
-                                textClasses = 'font-bold text-red-950 dark:text-red-100';
-                                trailingIcon = <XCircle size={22} className="text-red-500 shrink-0" />;
-                                statusBadge = (
-                                    <div className="inline-flex items-center gap-1 mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-red-100 dark:bg-red-900/60 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700">
-                                        <X size={12} strokeWidth={3} />
-                                        <span>Incorrect Answer</span>
-                                    </div>
-                                );
-                            } else if (isCorrectOption) {
-                                // 3. Actual CORRECT answer revealed after mistake
-                                cardClasses = 'bg-emerald-50/80 dark:bg-emerald-950/30 border-2 border-emerald-600 dark:border-emerald-500 border-dashed shadow-sm cursor-default';
-                                chipClasses = 'bg-emerald-600 border-emerald-600 text-white';
-                                textClasses = 'font-bold text-emerald-950 dark:text-emerald-100';
-                                trailingIcon = <CheckCircle2 size={22} className="text-emerald-600 dark:text-emerald-400 shrink-0" />;
-                                statusBadge = (
-                                    <div className="inline-flex items-center gap-1 mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700">
-                                        <Check size={12} strokeWidth={3} />
-                                        <span>Correct Answer</span>
-                                    </div>
-                                );
-                            } else {
-                                // 4. Unselected neutral option
-                                cardClasses = 'bg-[var(--card-bg)]/60 border border-[var(--card-border)]/60 opacity-60 cursor-default';
-                                chipClasses = 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground-muted)]';
-                                textClasses = 'text-[var(--foreground-muted)]';
-                            }
-
-                            return (
-                                <button
-                                    key={idx}
-                                    type="button"
-                                    disabled={isCurrentAnswered}
-                                    onClick={() => handleAnswerSelect(currentQ.id, idx)}
-                                    aria-disabled={isCurrentAnswered}
-                                    className={`w-full group text-left p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-200 flex items-center gap-3 sm:gap-3.5 relative ${cardClasses}`}
+                            {/* Step 3: Separate Answer Feedback Banner (In normal document flow, never overlaps options) */}
+                            {isCurrentAnswered && currentEvaluation && (
+                                <div
+                                    role="status"
+                                    aria-live="polite"
+                                    data-testid="quiz-feedback-banner"
+                                    className={`w-full shrink-0 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border flex items-start sm:items-center gap-3 text-xs sm:text-sm font-bold leading-relaxed shadow-xs transition-colors duration-200 animate-fadeIn ${
+                                        currentEvaluation.isCorrect
+                                            ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-300 dark:border-emerald-700 text-emerald-900 dark:text-emerald-100'
+                                            : 'bg-red-50 dark:bg-red-950/50 border-red-300 dark:border-red-700 text-red-900 dark:text-red-100'
+                                    }`}
                                 >
-                                    {/* Option Letter Chip */}
-                                    <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl border-2 flex items-center justify-center shrink-0 font-mono font-extrabold text-xs sm:text-sm transition-all duration-200 ${chipClasses}`}>
-                                        {optionLetter}
-                                    </div>
-
-                                    {/* Option Text and Feedback Badge */}
-                                    <div className="flex-1 min-w-0">
-                                        <span className={`text-xs sm:text-sm font-medium leading-relaxed block ${textClasses}`}>
-                                            {opt}
-                                        </span>
-                                        {statusBadge}
-                                    </div>
-
-                                    {/* Trailing Icon (Checkmark or Cross) */}
-                                    {trailingIcon}
-                                </button>
-                            );
-                        })}
-
-                        {/* Explanation Card */}
-                        {isCurrentAnswered && (currentEvaluation?.explanation || currentQ?.explanation) && (
-                            <div className="p-4 sm:p-5 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] mt-2 sm:mt-3 space-y-1.5 animate-fadeIn">
-                                <div className="flex items-center gap-2 text-[#193D35] dark:text-[#D19A45] font-display font-bold text-xs uppercase tracking-wider">
-                                    <Sparkles size={16} />
-                                    <span>Explanation</span>
+                                    {currentEvaluation.isCorrect ? (
+                                        <>
+                                            <CheckCircle2 size={20} className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5 sm:mt-0" />
+                                            <div className="min-w-0 flex-1 break-words">
+                                                <span>Correct Answer! You earned 1 point for this question.</span>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <XCircle size={20} className="text-red-500 dark:text-red-400 shrink-0 mt-0.5 sm:mt-0" />
+                                            <div className="min-w-0 flex-1 break-words">
+                                                <span>Incorrect Answer. The correct answer has been highlighted in green below to help you learn.</span>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
-                                <p className="text-xs sm:text-sm text-[var(--foreground)] leading-relaxed">
-                                    {currentEvaluation?.explanation || currentQ?.explanation}
-                                </p>
+                            )}
+
+                            {/* Step 4: Interactive Answer Options Deck (Normal vertical flow, no justify-center clipping) */}
+                            <div
+                                role="radiogroup"
+                                aria-label="Answer options"
+                                data-testid="quiz-options-list"
+                                className="w-full flex flex-col gap-2.5 sm:gap-3"
+                            >
+                                {currentOptions?.map((opt, idx) => {
+                                    const optionLetter = String.fromCharCode(65 + idx);
+                                    const isUserSelection = selectedAnswers[currentQ?.id] === idx;
+                                    const evalState = currentEvaluation;
+                                    const correctOptionIndex = evalState?.correctOptionIndex;
+                                    const isCorrectOption = isCurrentAnswered && correctOptionIndex !== undefined && correctOptionIndex !== -1 && idx === correctOptionIndex;
+
+                                    let cardClasses = 'bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] hover:bg-[var(--muted-bg)]/40 cursor-pointer';
+                                    let chipClasses = 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground-muted)] group-hover:border-[#193D35] group-hover:text-[var(--foreground)]';
+                                    let textClasses = 'text-[var(--foreground)]';
+                                    let statusBadge = null;
+                                    let trailingIcon = null;
+
+                                    if (!isCurrentAnswered) {
+                                        // Unanswered state
+                                        if (isUserSelection) {
+                                            cardClasses = 'bg-[#F3E5C5]/70 border-2 border-[#193D35] shadow-sm';
+                                            chipClasses = 'bg-[#193D35] border-[#193D35] text-[#FCFAF4]';
+                                            textClasses = 'font-bold text-[#193D35]';
+                                        }
+                                    } else if (isUserSelection && evalState?.isCorrect) {
+                                        // 1. Selected CORRECT Answer
+                                        cardClasses = 'bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-600 dark:border-emerald-500 shadow-sm cursor-default';
+                                        chipClasses = 'bg-emerald-600 border-emerald-600 text-white';
+                                        textClasses = 'font-bold text-emerald-950 dark:text-emerald-100';
+                                        trailingIcon = <CheckCircle2 size={22} className="text-emerald-600 dark:text-emerald-400 shrink-0" />;
+                                        statusBadge = (
+                                            <div className="inline-flex items-center gap-1 mt-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700">
+                                                <Check size={12} strokeWidth={3} className="shrink-0" />
+                                                <span>Correct Answer</span>
+                                            </div>
+                                        );
+                                    } else if (isUserSelection && !evalState?.isCorrect) {
+                                        // 2. Selected INCORRECT Answer
+                                        cardClasses = 'bg-red-50 dark:bg-red-950/40 border-2 border-red-500 shadow-sm cursor-default';
+                                        chipClasses = 'bg-red-500 border-red-500 text-white';
+                                        textClasses = 'font-bold text-red-950 dark:text-red-100';
+                                        trailingIcon = <XCircle size={22} className="text-red-500 shrink-0" />;
+                                        statusBadge = (
+                                            <div className="inline-flex items-center gap-1 mt-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-red-100 dark:bg-red-900/60 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-700">
+                                                <X size={12} strokeWidth={3} className="shrink-0" />
+                                                <span>Incorrect Answer</span>
+                                            </div>
+                                        );
+                                    } else if (isCorrectOption) {
+                                        // 3. Actual CORRECT answer revealed after mistake
+                                        cardClasses = 'bg-emerald-50/90 dark:bg-emerald-950/35 border-2 border-emerald-600 dark:border-emerald-500 shadow-sm cursor-default';
+                                        chipClasses = 'bg-emerald-600 border-emerald-600 text-white';
+                                        textClasses = 'font-bold text-emerald-950 dark:text-emerald-100';
+                                        trailingIcon = <CheckCircle2 size={22} className="text-emerald-600 dark:text-emerald-400 shrink-0" />;
+                                        statusBadge = (
+                                            <div className="inline-flex items-center gap-1 mt-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-700">
+                                                <Check size={12} strokeWidth={3} className="shrink-0" />
+                                                <span>Correct Answer</span>
+                                            </div>
+                                        );
+                                    } else {
+                                        // 4. Unselected neutral option
+                                        cardClasses = 'bg-[var(--card-bg)]/60 border border-[var(--card-border)]/60 opacity-60 cursor-default';
+                                        chipClasses = 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground-muted)]';
+                                        textClasses = 'text-[var(--foreground-muted)]';
+                                    }
+
+                                    return (
+                                        <button
+                                            key={idx}
+                                            type="button"
+                                            role="radio"
+                                            aria-checked={isUserSelection}
+                                            disabled={isCurrentAnswered}
+                                            onClick={() => handleAnswerSelect(currentQ.id, idx)}
+                                            aria-disabled={isCurrentAnswered}
+                                            data-testid={`quiz-option-${idx}`}
+                                            className={`w-full shrink-0 group text-left p-3.5 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-200 flex items-center gap-3 sm:gap-3.5 relative ${cardClasses}`}
+                                        >
+                                            {/* Option Letter Chip */}
+                                            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl border-2 flex items-center justify-center shrink-0 font-mono font-extrabold text-xs sm:text-sm transition-all duration-200 ${chipClasses}`}>
+                                                {optionLetter}
+                                            </div>
+
+                                            {/* Option Text and Feedback Badge */}
+                                            <div className="flex-1 min-w-0">
+                                                <span className={`text-xs sm:text-sm font-medium leading-relaxed block break-words ${textClasses}`}>
+                                                    {opt}
+                                                </span>
+                                                {statusBadge}
+                                            </div>
+
+                                            {/* Trailing Icon (Checkmark or Cross) */}
+                                            {trailingIcon}
+                                        </button>
+                                    );
+                                })}
                             </div>
-                        )}
+
+                            {/* Step 5: Explanation Card */}
+                            {isCurrentAnswered && (currentEvaluation?.explanation || currentQ?.explanation) && (
+                                <div
+                                    data-testid="quiz-explanation-card"
+                                    className="w-full p-4 sm:p-5 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5 animate-fadeIn"
+                                >
+                                    <div className="flex items-center gap-2 text-[#193D35] dark:text-[#D19A45] font-display font-bold text-xs uppercase tracking-wider">
+                                        <Sparkles size={16} className="shrink-0" />
+                                        <span>Explanation</span>
+                                    </div>
+                                    <p className="text-xs sm:text-sm text-[var(--foreground)] leading-relaxed break-words whitespace-pre-line">
+                                        {currentEvaluation?.explanation || currentQ?.explanation}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
-                    {/* Bottom: Persistent Action Dock */}
-                    <div className="shrink-0 pt-2.5 sm:pt-3 border-t border-[var(--card-border)] flex items-center justify-between gap-2 sm:gap-3">
-                        <button
-                            onClick={handlePrevQuestion}
-                            disabled={currentIndex === 0}
-                            className="btn-secondary text-xs sm:text-sm py-2 sm:py-2.5 px-3 sm:px-5 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1.5"
-                        >
-                            <ChevronLeft size={16} /> <span>Prev</span>
-                        </button>
-
-                        {/* Mobile Question Indicator */}
-                        <div className="sm:hidden text-xs font-bold font-mono text-[var(--foreground-muted)]">
-                            {currentIndex + 1} / {questions.length}
-                        </div>
-
-                        {/* Desktop Keyboard navigation hints */}
-                        <div className="hidden lg:flex items-center gap-2 text-[10px] font-semibold text-[var(--foreground-muted)] bg-[var(--muted-bg)] px-3 py-1.5 rounded-full border border-[var(--card-border)]">
-                            <span>Keys:</span>
-                            <kbd className="px-1.5 py-0.5 bg-[var(--card-bg)] rounded border text-[9px] font-mono">1-4</kbd>
-                            <span>Select</span>
-                            <span>·</span>
-                            <kbd className="px-1.5 py-0.5 bg-[var(--card-bg)] rounded border text-[9px] font-mono">Enter</kbd>
-                            <span>Next</span>
-                            <span>·</span>
-                            <kbd className="px-1.5 py-0.5 bg-[var(--card-bg)] rounded border text-[9px] font-mono">F</kbd>
-                            <span>Flag</span>
-                        </div>
-
-                        {isLastQuestion ? (
+                    {/* Step 6: Bottom Persistent Action Dock */}
+                    <div className="shrink-0 border-t border-[var(--card-border)] bg-[var(--card-bg)]/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 z-10">
+                        <div className="max-w-3xl lg:max-w-4xl mx-auto w-full flex items-center justify-between gap-2 sm:gap-3">
                             <button
-                                onClick={() => setShowConfirmSubmit(true)}
-                                className="btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-6 shadow-md shadow-[#193D35]/20 cursor-pointer flex items-center gap-1.5"
+                                onClick={handlePrevQuestion}
+                                disabled={currentIndex === 0}
+                                className="btn-secondary text-xs sm:text-sm py-2 sm:py-2.5 px-3 sm:px-5 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1.5"
                             >
-                                <Send size={14} /> <span>Submit</span>
+                                <ChevronLeft size={16} /> <span>Prev</span>
                             </button>
-                        ) : (
-                            <button
-                                onClick={handleNextQuestion}
-                                className="btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-6 shadow-sm shadow-[#193D35]/15 cursor-pointer flex items-center gap-1.5"
-                            >
-                                <span>Next</span> <ChevronRight size={16} />
-                            </button>
-                        )}
+
+                            {/* Mobile Question Indicator */}
+                            <div className="sm:hidden text-xs font-bold font-mono text-[var(--foreground-muted)]">
+                                {currentIndex + 1} / {questions.length}
+                            </div>
+
+                            {/* Desktop Keyboard navigation hints */}
+                            <div className="hidden lg:flex items-center gap-2 text-[10px] font-semibold text-[var(--foreground-muted)] bg-[var(--muted-bg)] px-3 py-1.5 rounded-full border border-[var(--card-border)]">
+                                <span>Keys:</span>
+                                <kbd className="px-1.5 py-0.5 bg-[var(--card-bg)] rounded border text-[9px] font-mono">1-4</kbd>
+                                <span>Select</span>
+                                <span>·</span>
+                                <kbd className="px-1.5 py-0.5 bg-[var(--card-bg)] rounded border text-[9px] font-mono">Enter</kbd>
+                                <span>Next</span>
+                                <span>·</span>
+                                <kbd className="px-1.5 py-0.5 bg-[var(--card-bg)] rounded border text-[9px] font-mono">F</kbd>
+                                <span>Flag</span>
+                            </div>
+
+                            {isLastQuestion ? (
+                                <button
+                                    onClick={() => setShowConfirmSubmit(true)}
+                                    className="btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-6 shadow-md shadow-[#193D35]/20 cursor-pointer flex items-center gap-1.5"
+                                >
+                                    <Send size={14} /> <span>Submit</span>
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handleNextQuestion}
+                                    className="btn-primary text-xs sm:text-sm py-2 sm:py-2.5 px-4 sm:px-6 shadow-sm shadow-[#193D35]/15 cursor-pointer flex items-center gap-1.5"
+                                >
+                                    <span>Next</span> <ChevronRight size={16} />
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </main>
 

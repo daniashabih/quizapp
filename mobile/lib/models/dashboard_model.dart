@@ -66,6 +66,53 @@ class TechProgressModel {
   }
 }
 
+class LeaderboardEntryModel {
+  final String id;
+  final int rank;
+  final String name;
+  final String avatar;
+  final String initials;
+  final String role;
+  final int xp;
+  final double score;
+  final int quizzes;
+  final int certs;
+  final String streak;
+  final String category;
+
+  const LeaderboardEntryModel({
+    required this.id,
+    required this.rank,
+    required this.name,
+    this.avatar = '',
+    this.initials = 'U',
+    this.role = 'Software Engineer',
+    this.xp = 0,
+    this.score = 0.0,
+    this.quizzes = 0,
+    this.certs = 0,
+    this.streak = '0',
+    this.category = 'General',
+  });
+
+  factory LeaderboardEntryModel.fromJson(Map<String, dynamic> json) {
+    return LeaderboardEntryModel(
+      id: (json['id'] ?? json['_id'] ?? '').toString(),
+      rank: int.tryParse(json['rank']?.toString() ?? '1') ?? 1,
+      name: (json['name'] ?? 'Developer').toString(),
+      avatar: (json['avatar'] ?? '').toString(),
+      initials: (json['initials'] ?? 'U').toString(),
+      role: (json['role'] ?? 'Software Engineer').toString(),
+      xp: int.tryParse(json['xp']?.toString() ?? '0') ?? 0,
+      score: double.tryParse(json['score']?.toString() ?? '0') ?? 0.0,
+      quizzes: int.tryParse(json['quizzes']?.toString() ?? '0') ?? 0,
+      certs: int.tryParse(json['certs']?.toString() ?? '0') ?? 0,
+      streak: (json['streak'] ?? '0').toString(),
+      category: (json['category'] ?? 'General').toString(),
+    );
+  }
+}
+
 class UserDashboardModel {
   final UserModel? user;
   final UserStatsModel stats;

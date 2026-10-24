@@ -109,21 +109,21 @@ const LeaderboardPage = () => {
                     return (
                         <div
                             key={idx}
-                            className={`rounded-2xl border p-4 sm:p-5 flex items-center gap-3.5 sm:gap-4 transition-all ${
+                            className={`rounded-2xl border p-3.5 sm:p-5 flex items-center gap-2.5 sm:gap-4 transition-all ${
                                 isDark
                                     ? 'bg-[#161B22] border-[#30363D] hover:border-[#3FB950]/40'
                                     : 'bg-white border-[#E6E0D6] shadow-xs hover:border-[#285A4D]/30'
                             }`}
                         >
-                            <div className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 ${stat.iconBg}`}>
-                                <Icon className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
+                            <div className={`w-9 h-9 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0 ${stat.iconBg}`}>
+                                <Icon className="w-4 h-4 sm:w-6 sm:h-6" aria-hidden="true" />
                             </div>
                             <div className="min-w-0">
                                 {!stats.loaded ? (
                                     <div className="h-6 sm:h-7 w-14 rounded-md skeleton mb-1" />
                                 ) : (
                                     <div
-                                        className={`text-xl sm:text-2xl font-extrabold font-display tracking-tight truncate ${
+                                        className={`text-lg sm:text-2xl font-extrabold font-display tracking-tight leading-tight ${
                                             isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
                                         }`}
                                     >
@@ -131,7 +131,7 @@ const LeaderboardPage = () => {
                                     </div>
                                 )}
                                 <div
-                                    className={`text-[11px] sm:text-xs font-semibold uppercase tracking-wider truncate ${
+                                    className={`text-[10px] sm:text-xs font-semibold uppercase tracking-wider leading-tight ${
                                         isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'
                                     }`}
                                 >

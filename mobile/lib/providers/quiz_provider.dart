@@ -220,9 +220,39 @@ class QuizNotifier extends StateNotifier<QuizState> {
           final attempt = backendAttemptRes['attempt'] as Map<String, dynamic>;
           final rawSnapshot = attempt['questionsSnapshot'] as List? ?? [];
           if (rawSnapshot.isNotEmpty) {
-            final questions = rawSnapshot
+            var questions = rawSnapshot
                 .map((q) => QuestionModel.fromJson(q as Map<String, dynamic>))
                 .toList();
+
+            // Enrich any unanswered questions whose correct_answer was stripped by the server snapshot
+            if (questions.any((q) => !q.hasValidCorrectAnswer)) {
+              try {
+                final fullQuestions = await repository.getQuestions(
+                  category: category,
+                  session: session > 0 ? session : null,
+                );
+                final byId = {for (final fq in fullQuestions) fq.id: fq};
+                questions = questions.map((q) {
+                  if (q.hasValidCorrectAnswer) return q;
+                  final match = byId[q.id];
+                  if (match == null) return q;
+                  return QuestionModel(
+                    id: q.id,
+                    category: q.category.isNotEmpty ? q.category : match.category,
+                    session: q.session,
+                    questionText: q.questionText,
+                    options: q.options.isNotEmpty ? q.options : match.options,
+                    correctAnswer: match.correctAnswer,
+                    difficulty: q.difficulty,
+                    explanation: (q.explanation != null && q.explanation!.trim().isNotEmpty)
+                        ? q.explanation
+                        : match.explanation,
+                  );
+                }).toList();
+              } catch (_) {
+                // Continue with snapshot if offline
+              }
+            }
 
             final rawAnswers = attempt['answers'] as Map? ?? {};
             final Map<String, int> restoredSelected = {};
@@ -382,7 +412,25 @@ class QuizNotifier extends StateNotifier<QuizState> {
             );
             final newEvaluated = Map<String, QuestionEvaluationState>.from(state.evaluatedAnswers);
             newEvaluated[questionId] = authoritativeEval;
-            state = state.copyWith(evaluatedAnswers: newEvaluated);
+            final updatedQuestions = state.questions.map((q) {
+              if (q.id != questionId || q.hasValidCorrectAnswer) return q;
+              final serverCorrect = res['correctAnswer']?.toString() ?? '';
+              if (serverCorrect.isEmpty) return q;
+              return QuestionModel(
+                id: q.id,
+                category: q.category,
+                session: q.session,
+                questionText: q.questionText,
+                options: q.options,
+                correctAnswer: serverCorrect,
+                difficulty: q.difficulty,
+                explanation: res['explanation'] as String? ?? q.explanation,
+              );
+            }).toList();
+            state = state.copyWith(
+              questions: updatedQuestions,
+              evaluatedAnswers: newEvaluated,
+            );
             _saveToLocal();
           }
         }
