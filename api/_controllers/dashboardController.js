@@ -309,24 +309,65 @@ const getUserDashboard = async (req, res) => {
         // Streak calculation
         const streak = calculateStreak(results);
 
-        // 4. Calculate Global Rank across all users in MongoDB
+        // 4. Calculate Global Rank across all users in MongoDB using unified XP & tie-breaker rules
         let rank = 1;
         try {
-            const allUsersResults = await prisma.quizResult.groupBy({
-                by: ['userId'],
-                _sum: { score: true },
-                _avg: { percentage: true },
-                _count: { _all: true }
-            });
+            if (typeof prisma.quizResult.findMany === 'function') {
+                const allResults = await prisma.quizResult.findMany({
+                    select: {
+                        userId: true,
+                        percentage: true
+                    }
+                });
 
-            // Map user scores into XP rankings
-            const userScores = allUsersResults.map(u => ({
-                userId: u.userId,
-                xp: Math.round((u._sum.score || 0) * 50 + (u._avg.percentage || 0) * 10)
-            })).sort((a, b) => b.xp - a.xp);
+                const userMetricsMap = new Map();
+                for (const r of allResults) {
+                    if (!r.userId) continue;
+                    const uid = String(r.userId);
+                    const pct = parseFloat(r.percentage) || 0;
+                    const pts = pct * 10 + (pct >= 80 ? 100 : 0);
+                    const prev = userMetricsMap.get(uid) || { userId: uid, xp: 0, totalPct: 0, quizzes: 0, certs: 0 };
+                    prev.xp += pts;
+                    prev.totalPct += pct;
+                    prev.quizzes += 1;
+                    if (pct >= 80) prev.certs += 1;
+                    userMetricsMap.set(uid, prev);
+                }
 
-            const userRankIndex = userScores.findIndex(u => String(u.userId) === String(userId));
-            rank = userRankIndex !== -1 ? userRankIndex + 1 : (userScores.length + 1);
+                const userScores = Array.from(userMetricsMap.values())
+                    .filter(u => u.quizzes > 0)
+                    .map(u => ({
+                        userId: u.userId,
+                        xp: Math.round(u.xp),
+                        score: parseFloat((u.totalPct / u.quizzes).toFixed(1)),
+                        quizzes: u.quizzes,
+                        certs: u.certs
+                    }))
+                    .sort((a, b) => {
+                        if (b.xp !== a.xp) return b.xp - a.xp;
+                        if (b.score !== a.score) return b.score - a.score;
+                        if (b.quizzes !== a.quizzes) return b.quizzes - a.quizzes;
+                        return b.certs - a.certs;
+                    });
+
+                const userRankIndex = userScores.findIndex(u => String(u.userId) === String(userId));
+                rank = userRankIndex !== -1 ? userRankIndex + 1 : (userScores.length + 1);
+            } else {
+                const allUsersResults = await prisma.quizResult.groupBy({
+                    by: ['userId'],
+                    _sum: { score: true },
+                    _avg: { percentage: true },
+                    _count: { _all: true }
+                });
+
+                const userScores = allUsersResults.map(u => ({
+                    userId: u.userId,
+                    xp: Math.round((u._sum.score || 0) * 50 + (u._avg.percentage || 0) * 10)
+                })).sort((a, b) => b.xp - a.xp);
+
+                const userRankIndex = userScores.findIndex(u => String(u.userId) === String(userId));
+                rank = userRankIndex !== -1 ? userRankIndex + 1 : (userScores.length + 1);
+            }
         } catch (rankErr) {
             console.warn('[Dashboard Warning] Could not calculate exact global rank:', rankErr.message);
             rank = 1;
@@ -617,12 +658,11 @@ const getLeaderboard = async (req, res) => {
     try {
         const { timeframe = 'all-time', category = 'All' } = req.query;
 
-        // Fetch users with their quiz results
+        // Fetch users with their quiz results (excluding sensitive fields such as email/password)
         const users = await prisma.user.findMany({
             select: {
                 id: true,
                 name: true,
-                email: true,
                 avatar: true,
                 role: true,
                 createdAt: true,
@@ -678,23 +718,25 @@ const getLeaderboard = async (req, res) => {
             }, 0));
 
             const initials = user.name
-                ? user.name.split(' ').map(n => n.charAt(0)).join('').toUpperCase().slice(0, 2)
+                ? user.name.split(' ').filter(Boolean).map(n => n.charAt(0)).join('').toUpperCase().slice(0, 2)
                 : 'U';
 
-            // Dominant tech category
+            // Dominant tech category from completed quizzes
             const categoryCounts = {};
             userResults.forEach(r => {
-                categoryCounts[r.category] = (categoryCounts[r.category] || 0) + 1;
+                if (r.category) {
+                    categoryCounts[r.category] = (categoryCounts[r.category] || 0) + 1;
+                }
             });
-            const topCategory = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a])[0] || 'Full Stack';
+            const topCategory = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a])[0] || 'General';
+            const isAdminRole = String(user.role || '').trim().toLowerCase() === 'admin';
 
             return {
                 id: user.id,
                 name: user.name || 'Developer',
-                email: user.email,
                 avatar: user.avatar || '',
                 initials,
-                role: user.role === 'admin' ? 'Administrator' : 'Software Engineer',
+                role: isAdminRole ? 'Administrator' : 'Software Engineer',
                 xp,
                 score,
                 quizzes,
@@ -706,14 +748,19 @@ const getLeaderboard = async (req, res) => {
             };
         });
 
-        // Sort by XP DESC, then Score DESC
-        performers.sort((a, b) => {
+        // Only rank users with at least 1 completed quiz in the active filter
+        const activePerformers = performers.filter(p => p.quizzes > 0);
+
+        // Sort consistently by XP DESC, then Score DESC, then Quizzes DESC, then Certs DESC
+        activePerformers.sort((a, b) => {
             if (b.xp !== a.xp) return b.xp - a.xp;
-            return b.score - a.score;
+            if (b.score !== a.score) return b.score - a.score;
+            if (b.quizzes !== a.quizzes) return b.quizzes - a.quizzes;
+            return b.certs - a.certs;
         });
 
-        // Assign real rank
-        const rankedPerformers = performers.map((p, idx) => ({
+        // Assign contiguous 1-based rank
+        const rankedPerformers = activePerformers.map((p, idx) => ({
             ...p,
             rank: idx + 1
         }));

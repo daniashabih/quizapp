@@ -1,561 +1,907 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { motion } from 'motion/react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import {
-    Trophy, Medal, Star, Award, Search, Users,
-    TrendingUp, Flame, Zap, CheckCircle2, ChevronRight,
-    ArrowUpRight, ArrowDownRight, Minus, Filter, X, RefreshCw, AlertCircle
+    Trophy,
+    Medal,
+    Award,
+    Flame,
+    Search,
+    ChevronDown,
+    Filter,
+    Star,
+    Zap,
+    RotateCcw,
+    AlertCircle,
+    BookOpen,
+    CheckCircle2,
+    UserCheck,
+    X,
 } from 'lucide-react';
-import axios from 'axios';
+import { fetchLeaderboard } from '../services/dashboardService';
 import { useAuth } from '../context/AuthContext';
-import dashboardService from '../services/dashboardService';
+import { useTheme } from '../context/ThemeContext';
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.05,
-            delayChildren: 0.05
-        }
-    }
-};
+const TIMEFRAMES = [
+    { id: 'all-time', label: 'All-Time' },
+    { id: 'monthly', label: 'This Month' },
+    { id: 'weekly', label: 'This Week' },
+];
 
-const itemVariants = {
-    hidden: { opacity: 0, y: 15 },
-    show: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.3,
-            ease: [0.25, 0.1, 0.25, 1.0]
-        }
-    }
-};
+const CATEGORIES = ['All', 'React', 'JavaScript', 'Python', 'Node.js', 'CSS', 'HTML', 'MongoDB', 'TypeScript', 'Java', 'C++'];
 
-export default function Leaderboard({ onStatsLoaded = null }) {
-    const { user: currentUser } = useAuth();
-    const [timeframe, setTimeframe] = useState('all-time'); // 'all-time' | 'monthly' | 'weekly'
+const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
+    const { currentUser } = useAuth();
+    const { isDark } = useTheme();
+
+    const [timeframe, setTimeframe] = useState('all-time');
     const [category, setCategory] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
-    const [categories, setCategories] = useState(['All']);
-    const [performers, setPerformers] = useState([]);
+    const [leaderboardData, setLeaderboardData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const onStatsLoadedRef = useRef(onStatsLoaded);
-    useEffect(() => {
-        onStatsLoadedRef.current = onStatsLoaded;
-    }, [onStatsLoaded]);
 
-    // Fetch categories for filter dropdown
-    useEffect(() => {
-        const fetchCats = async () => {
-            try {
-                const res = await axios.get('/categories');
-                if (Array.isArray(res.data)) {
-                    setCategories(['All', ...res.data.map(c => c.name)]);
-                }
-            } catch { /* silent */ }
-        };
-        fetchCats();
-    }, []);
-
-    // Fetch live leaderboard
-    const fetchLeaderboard = useCallback(async () => {
+    const loadData = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
-            const res = await dashboardService.getLeaderboard({ timeframe, category });
-            if (res.success && Array.isArray(res.leaderboard)) {
-                setPerformers(res.leaderboard);
-                if (onStatsLoadedRef.current) {
-                    const totalRanked = res.leaderboard.length;
-                    const totalCerts = res.leaderboard.reduce((acc, u) => acc + (u.certs || 0), 0);
-                    const maxStreak = res.leaderboard.length > 0 ? Math.max(...res.leaderboard.map(u => u.streak || 0)) : 0;
-                    const totalQuizzes = res.leaderboard.reduce((acc, u) => acc + (u.quizzes || 0), 0);
-                    onStatsLoadedRef.current({ totalRanked, totalCerts, maxStreak, totalQuizzes });
-                }
-            } else {
-                throw new Error(res.message || 'Failed to load leaderboard');
+            const data = await fetchLeaderboard(timeframe, category);
+            if (!data || !Array.isArray(data.leaderboard)) {
+                throw new Error('Unexpected response format from leaderboard API.');
+            }
+            // Filter to users who have genuinely completed at least 1 quiz
+            // and re-index ranks deterministically so rankings are contiguous (1..N)
+            const activeRankings = data.leaderboard
+                .filter((u) => Number(u.quizzes || 0) > 0)
+                .map((u, idx) => ({
+                    ...u,
+                    rank: idx + 1,
+                    quizzes: Number(u.quizzes || 0),
+                    score: Math.round(Number(u.score || 0)),
+                    xp: Number(u.xp || 0),
+                    certs: Number(u.certs || 0),
+                }));
+
+            setLeaderboardData(activeRankings);
+            if (onDataLoaded) {
+                onDataLoaded({
+                    ...data,
+                    leaderboard: activeRankings,
+                    totalRanked: activeRankings.length,
+                });
             }
         } catch (err) {
-            console.error('[Leaderboard Fetch Error]:', err);
-            setError('Unable to load leaderboard data.');
+            console.error('Failed to load leaderboard:', err);
+            setError(err?.response?.data?.message || err?.message || 'Unable to load rankings right now. Please try again.');
         } finally {
             setLoading(false);
         }
-    }, [timeframe, category]);
+    }, [timeframe, category, onDataLoaded]);
 
     useEffect(() => {
-        fetchLeaderboard();
-    }, [fetchLeaderboard]);
+        loadData();
+    }, [loadData]);
 
-    const filteredPerformers = performers.filter(user => {
-        const matchesCategory = category === 'All' || user.category === category;
-        const matchesSearch = user.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.role?.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
-    });
+    const isCurrentUserEntry = useCallback(
+        (entry) => {
+            if (!currentUser || !entry) return false;
+            const currentId = String(currentUser.id || currentUser._id || '');
+            const entryId = String(entry.id || entry._id || '');
+            if (currentId && entryId && currentId === entryId) return true;
+            if (
+                currentUser.name &&
+                entry.name &&
+                currentUser.name.trim().toLowerCase() === entry.name.trim().toLowerCase()
+            ) {
+                return true;
+            }
+            return false;
+        },
+        [currentUser]
+    );
 
-    const top3 = filteredPerformers.filter(u => u.quizzes > 0).slice(0, 3);
+    const currentUserRankEntry = useMemo(() => {
+        if (!currentUser) return null;
+        return leaderboardData.find((u) => isCurrentUserEntry(u)) || null;
+    }, [leaderboardData, currentUser, isCurrentUserEntry]);
 
-    if (loading) {
-        return (
-            <div className="w-full space-y-6 animate-pulse p-2">
-                <div className="h-16 bg-[var(--muted-bg)] rounded-2xl" />
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-64">
-                    {[1, 2, 3].map(n => (
-                        <div key={n} className="bg-[var(--muted-bg)] rounded-3xl" />
-                    ))}
+    const filteredData = useMemo(() => {
+        const q = searchQuery.trim().toLowerCase();
+        if (!q) return leaderboardData;
+        return leaderboardData.filter(
+            (user) =>
+                (user.name && user.name.toLowerCase().includes(q)) ||
+                (user.category && user.category.toLowerCase().includes(q))
+        );
+    }, [leaderboardData, searchQuery]);
+
+    const top3 = useMemo(() => filteredData.slice(0, 3), [filteredData]);
+    const showPodium = !isEmbedded && !searchQuery.trim() && top3.length >= 3;
+
+    const getRankBadge = (rank) => {
+        if (rank === 1) {
+            return (
+                <div
+                    title="Rank #1"
+                    className="w-8 h-8 rounded-full bg-amber-400/20 text-amber-500 flex items-center justify-center font-bold border border-amber-400/40 shadow-xs shrink-0"
+                >
+                    <Trophy className="w-4 h-4 fill-amber-400 text-amber-600" aria-hidden="true" />
                 </div>
-                <div className="h-96 bg-[var(--muted-bg)] rounded-2xl" />
-            </div>
-        );
-    }
-
-    if (error && performers.length === 0) {
+            );
+        }
+        if (rank === 2) {
+            return (
+                <div
+                    title="Rank #2"
+                    className={`w-8 h-8 rounded-full flex items-center justify-center font-bold border shadow-xs shrink-0 ${
+                        isDark
+                            ? 'bg-slate-400/20 text-slate-300 border-slate-400/40'
+                            : 'bg-slate-200 text-slate-700 border-slate-300'
+                    }`}
+                >
+                    <Medal className="w-4 h-4" aria-hidden="true" />
+                </div>
+            );
+        }
+        if (rank === 3) {
+            return (
+                <div
+                    title="Rank #3"
+                    className={`w-8 h-8 rounded-full flex items-center justify-center font-bold border shadow-xs shrink-0 ${
+                        isDark
+                            ? 'bg-amber-700/25 text-amber-400 border-amber-600/40'
+                            : 'bg-amber-100 text-amber-800 border-amber-300'
+                    }`}
+                >
+                    <Award className="w-4 h-4" aria-hidden="true" />
+                </div>
+            );
+        }
         return (
-            <div className="text-center py-16 card p-8 rounded-3xl space-y-4 max-w-md mx-auto">
-                <AlertCircle size={32} className="text-red-500 mx-auto" />
-                <h3 className="text-lg font-bold text-[var(--foreground)]">Unable to load leaderboard</h3>
-                <p className="text-xs text-[var(--foreground-muted)]">Could not retrieve live player scores from MongoDB.</p>
-                <button onClick={fetchLeaderboard} className="btn-primary text-xs py-2 px-5 inline-flex items-center gap-1.5 mx-auto">
-                    <RefreshCw size={13} /> Retry
-                </button>
+            <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs font-mono border shrink-0 ${
+                    isDark
+                        ? 'bg-[#21262D] text-[#8B949E] border-[#30363D]'
+                        : 'bg-[#F3EFEA] text-[#5C6460] border-[#E6E0D6]'
+                }`}
+            >
+                #{rank}
             </div>
         );
-    }
+    };
+
+    const getAvatarContent = (user) => {
+        const avatarStr = String(user.avatar || '').trim();
+        if (avatarStr.startsWith('http://') || avatarStr.startsWith('https://') || avatarStr.startsWith('data:image')) {
+            return (
+                <img
+                    src={avatarStr}
+                    alt={user.name || 'User'}
+                    className="w-full h-full object-cover rounded-full"
+                />
+            );
+        }
+        const initials =
+            avatarStr.length > 0 && avatarStr.length <= 3
+                ? avatarStr.toUpperCase()
+                : String(user.name || 'U')
+                      .split(' ')
+                      .filter(Boolean)
+                      .map((n) => n[0])
+                      .join('')
+                      .substring(0, 2)
+                      .toUpperCase();
+        return <span>{initials || 'U'}</span>;
+    };
 
     return (
-        <div className="w-full space-y-8">
-            {/* Control Bar: Timeframe Tabs + Category Dropdown + Search */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[var(--card-bg)] p-4 rounded-2xl border border-[var(--card-border)] shadow-xs">
-                {/* Timeframe Tabs */}
-                <div className="flex items-center gap-1 bg-[var(--muted-bg)] p-1 rounded-xl border border-[var(--card-border)]">
-                    {[
-                        { id: 'all-time', label: 'All Time' },
-                        { id: 'monthly', label: 'This Month' },
-                        { id: 'weekly', label: 'This Week' }
-                    ].map(tab => (
-                        <button
-                            key={tab.id}
-                            onClick={() => setTimeframe(tab.id)}
-                            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                                timeframe === tab.id
-                                    ? 'bg-[#193D35] text-[#FCFAF4] shadow-xs'
-                                    : 'text-[var(--foreground-secondary)] hover:text-[var(--foreground)]'
-                            }`}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Filters */}
-                <div className="flex flex-wrap items-center gap-3">
-                    {/* Category Filter */}
-                    <div className="relative flex items-center">
-                        <Filter size={14} className="absolute left-3 text-[var(--foreground-muted)] pointer-events-none" />
-                        <select
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            className="pl-8 pr-8 py-2 text-xs font-semibold bg-[var(--muted-bg)] text-[var(--foreground)] border border-[var(--card-border)] rounded-xl focus:outline-none focus:border-[#193D35] cursor-pointer appearance-none"
-                        >
-                            {categories.map(cat => (
-                                <option key={cat} value={cat}>{cat}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Search Field */}
-                    <div className="relative flex-1 min-w-[220px]">
-                        <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] transition-colors" />
-                        <input
-                            type="text"
-                            placeholder="Search by username or role..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-9 pr-9 py-2 text-xs font-medium bg-[var(--muted-bg)] text-[var(--foreground)] border border-[var(--card-border)] rounded-xl focus:outline-none focus:border-[#193D35] focus:ring-2 focus:ring-[#193D35]/20 transition-all placeholder:text-[var(--foreground-muted)]"
-                        />
-                        {searchQuery && (
-                            <button
-                                onClick={() => setSearchQuery('')}
-                                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-md text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--card-border)]/50 transition-all cursor-pointer"
-                                title="Clear search"
-                            >
-                                <X size={12} />
-                            </button>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            {/* TOP 3 PODIUM (Rendered only when active quiz performers exist) */}
-            {top3.length >= 3 && !searchQuery && category === 'All' && (
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="show"
-                    className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 pt-6 pb-2 items-end"
+        <div className="w-full space-y-6">
+            {/* Controls Bar: Timeframe, Category, Search */}
+            {!isEmbedded && (
+                <div
+                    className={`flex flex-col lg:flex-row gap-4 justify-between items-stretch lg:items-center p-4 sm:p-5 rounded-2xl border transition-colors ${
+                        isDark
+                            ? 'bg-[#161B22] border-[#30363D]'
+                            : 'bg-white border-[#E6E0D6] shadow-xs'
+                    }`}
                 >
-                    {/* 2nd Place */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="order-2 md:order-1 bg-[var(--card-bg)] border border-[#42665B]/30 rounded-3xl p-6 text-center shadow-md relative flex flex-col items-center group hover:-translate-y-1 transition-all duration-300"
+                    {/* Timeframe Pills */}
+                    <div
+                        role="tablist"
+                        aria-label="Ranking Timeframe"
+                        className={`flex p-1 rounded-xl border w-full lg:w-auto ${
+                            isDark ? 'bg-[#0D1117] border-[#30363D]' : 'bg-[#F3EFEA] border-[#E6E0D6]'
+                        }`}
                     >
-                        <div className="absolute -top-4 px-3 py-1 bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] text-[10px] font-extrabold uppercase rounded-full shadow-xs flex items-center gap-1">
-                            <Medal size={12} className="text-[#42665B]" /> 2nd Place
+                        {TIMEFRAMES.map((tf) => {
+                            const active = timeframe === tf.id;
+                            return (
+                                <button
+                                    key={tf.id}
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={active}
+                                    onClick={() => setTimeframe(tf.id)}
+                                    className={`flex-1 lg:flex-initial px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                                        active
+                                            ? isDark
+                                                ? 'bg-[#285A4D] text-white shadow-xs'
+                                                : 'bg-[#285A4D] text-white shadow-xs'
+                                            : isDark
+                                              ? 'text-[#8B949E] hover:text-[#F0F6FC]'
+                                              : 'text-[#5C6460] hover:text-[#1A1D1C]'
+                                    }`}
+                                >
+                                    {tf.label}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Search & Category Filter */}
+                    <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                        {/* Search Input */}
+                        <div className="relative flex-grow sm:w-64">
+                            <Search
+                                className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${
+                                    isDark ? 'text-[#8B949E]' : 'text-[#8C9490]'
+                                }`}
+                                aria-hidden="true"
+                            />
+                            <input
+                                type="text"
+                                aria-label="Search participant or technology"
+                                placeholder="Search user or tech..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className={`w-full pl-10 pr-9 py-2 rounded-xl text-sm border transition-all focus:outline-none ${
+                                    isDark
+                                        ? 'bg-[#0D1117] border-[#30363D] text-[#F0F6FC] placeholder-[#8B949E] focus:border-[#3FB950]'
+                                        : 'bg-[#FAF8F5] border-[#E6E0D6] text-[#1A1D1C] placeholder-[#8C9490] focus:border-[#285A4D] focus:bg-white'
+                                }`}
+                            />
+                            {searchQuery && (
+                                <button
+                                    type="button"
+                                    aria-label="Clear search"
+                                    onClick={() => setSearchQuery('')}
+                                    className={`absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-full cursor-pointer ${
+                                        isDark ? 'text-[#8B949E] hover:text-[#F0F6FC]' : 'text-[#8C9490] hover:text-[#1A1D1C]'
+                                    }`}
+                                >
+                                    <X className="w-3.5 h-3.5" />
+                                </button>
+                            )}
                         </div>
 
-                        <div className="relative mt-2 mb-4">
-                            <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-[#42665B]/20 shadow-md bg-[#F4EFE6] flex items-center justify-center border border-[#42665B]">
-                                {top3[1].avatar ? (
-                                    <img
-                                        src={top3[1].avatar}
-                                        alt={top3[1].name}
-                                        className="w-full h-full object-cover"
-                                        onError={(e) => { e.target.style.display = 'none'; }}
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center font-bold text-[#193D35] text-xl bg-[#F4EFE6]">
-                                        {top3[1].initials}
-                                    </div>
-                                )}
-                            </div>
-                            <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-[#42665B] text-[#FCFAF4] font-black text-xs flex items-center justify-center shadow-md border-2 border-white">
-                                2
-                            </span>
+                        {/* Category Dropdown */}
+                        <div className="relative sm:w-48">
+                            <Filter
+                                className={`w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${
+                                    isDark ? 'text-[#8B949E]' : 'text-[#8C9490]'
+                                }`}
+                                aria-hidden="true"
+                            />
+                            <select
+                                aria-label="Filter by technology category"
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                                className={`w-full pl-10 pr-9 py-2 rounded-xl text-sm font-medium border appearance-none cursor-pointer transition-all focus:outline-none ${
+                                    isDark
+                                        ? 'bg-[#0D1117] border-[#30363D] text-[#F0F6FC] focus:border-[#3FB950]'
+                                        : 'bg-[#FAF8F5] border-[#E6E0D6] text-[#1A1D1C] focus:border-[#285A4D] focus:bg-white'
+                                }`}
+                            >
+                                {CATEGORIES.map((cat) => (
+                                    <option
+                                        key={cat}
+                                        value={cat}
+                                        className={isDark ? 'bg-[#161B22] text-[#F0F6FC]' : 'bg-white text-[#1A1D1C]'}
+                                    >
+                                        {cat === 'All' ? 'All Technologies' : cat}
+                                    </option>
+                                ))}
+                            </select>
+                            <ChevronDown
+                                className={`w-4 h-4 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none ${
+                                    isDark ? 'text-[#8B949E]' : 'text-[#8C9490]'
+                                }`}
+                                aria-hidden="true"
+                            />
                         </div>
-
-                        <h3 className="font-display font-bold text-base text-[var(--foreground)] line-clamp-1">{top3[1].name}</h3>
-                        <p className="text-[11px] text-[var(--foreground-muted)] font-medium mb-3">{top3[1].role}</p>
-
-                        <div className="w-full bg-[var(--muted-bg)] rounded-2xl p-3 border border-[var(--card-border)] grid grid-cols-2 gap-2 text-center">
-                            <div>
-                                <p className="text-[10px] uppercase tracking-wider text-[var(--foreground-muted)] font-semibold">XP Score</p>
-                                <p className="text-sm font-extrabold text-[#193D35]">{top3[1].xp.toLocaleString()}</p>
-                            </div>
-                            <div>
-                                <p className="text-[10px] uppercase tracking-wider text-[var(--foreground-muted)] font-semibold">Accuracy</p>
-                                <p className="text-sm font-extrabold text-[#193D35]">{top3[1].score}%</p>
-                            </div>
-                        </div>
-
-                        <div className="mt-3 flex items-center gap-2 text-xs font-semibold text-[var(--foreground-secondary)]">
-                            <span className="flex items-center gap-1 text-[#193D35]"><Flame size={13} className="text-[#D19A45] fill-[#D19A45]" /> {top3[1].streak}d Streak</span>
-                            <span>•</span>
-                            <span className="flex items-center gap-1"><Award size={13} className="text-[#193D35]" /> {top3[1].certs} Certs</span>
-                        </div>
-                    </motion.div>
-
-                    {/* 1st Place (Champion) */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="order-1 md:order-2 bg-[#193D35] text-[#FCFAF4] border-2 border-[#193D35] rounded-3xl p-7 text-center shadow-xl relative flex flex-col items-center group hover:-translate-y-2 transition-all duration-300 md:-translate-y-4"
-                    >
-                        <div className="absolute -top-5 px-4 py-1.5 bg-[#D19A45] text-white border border-[#D19A45] text-xs font-black uppercase rounded-full shadow-lg flex items-center gap-1.5 animate-pulse">
-                            <Trophy size={14} className="fill-white text-white" /> 1st Place Champion
-                        </div>
-
-                        <div className="relative mt-3 mb-4">
-                            <div className="w-24 h-24 rounded-2xl overflow-hidden ring-4 ring-[#D19A45] shadow-xl bg-[#122C26] flex items-center justify-center">
-                                {top3[0].avatar ? (
-                                    <img
-                                        src={top3[0].avatar}
-                                        alt={top3[0].name}
-                                        className="w-full h-full object-cover"
-                                        onError={(e) => { e.target.style.display = 'none'; }}
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center font-bold text-white text-2xl bg-[#122C26]">
-                                        {top3[0].initials}
-                                    </div>
-                                )}
-                            </div>
-                            <span className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-[#D19A45] text-white font-black text-sm flex items-center justify-center shadow-lg border-2 border-[#193D35]">
-                                👑
-                            </span>
-                        </div>
-
-                        <h3 className="font-display font-extrabold text-lg text-white line-clamp-1">{top3[0].name}</h3>
-                        <p className="text-xs text-[#F3E5C5] font-medium mb-4">{top3[0].role}</p>
-
-                        <div className="w-full bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/20 grid grid-cols-2 gap-2 text-center">
-                            <div>
-                                <p className="text-[10px] uppercase tracking-wider text-[#F3E5C5] font-bold">Total XP</p>
-                                <p className="text-base font-black text-white">{top3[0].xp.toLocaleString()}</p>
-                            </div>
-                            <div>
-                                <p className="text-[10px] uppercase tracking-wider text-[#F3E5C5] font-bold">Accuracy</p>
-                                <p className="text-base font-black text-white">{top3[0].score}%</p>
-                            </div>
-                        </div>
-
-                        <div className="mt-4 flex items-center justify-center gap-3 text-xs font-bold text-white">
-                            <span className="flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-full border border-white/20">
-                                <Flame size={14} className="text-[#D19A45] fill-[#D19A45]" /> {top3[0].streak} Day Streak
-                            </span>
-                            <span className="flex items-center gap-1 bg-white/10 px-2.5 py-1 rounded-full border border-white/20 text-white">
-                                <Award size={14} className="text-[#D19A45]" /> {top3[0].certs} Verified Certs
-                            </span>
-                        </div>
-                    </motion.div>
-
-                    {/* 3rd Place */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="order-3 bg-[var(--card-bg)] border border-[#D19A45]/30 rounded-3xl p-6 text-center shadow-md relative flex flex-col items-center group hover:-translate-y-1 transition-all duration-300"
-                    >
-                        <div className="absolute -top-4 px-3 py-1 bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] text-[10px] font-extrabold uppercase rounded-full shadow-xs flex items-center gap-1">
-                            <Medal size={12} className="text-[#D19A45]" /> 3rd Place
-                        </div>
-
-                        <div className="relative mt-2 mb-4">
-                            <div className="w-20 h-20 rounded-2xl overflow-hidden ring-4 ring-[#D19A45]/20 shadow-md bg-[#F4EFE6] flex items-center justify-center border border-[#D19A45]">
-                                {top3[2].avatar ? (
-                                    <img
-                                        src={top3[2].avatar}
-                                        alt={top3[2].name}
-                                        className="w-full h-full object-cover"
-                                        onError={(e) => { e.target.style.display = 'none'; }}
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center font-bold text-[#193D35] text-xl bg-[#F4EFE6]">
-                                        {top3[2].initials}
-                                    </div>
-                                )}
-                            </div>
-                            <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-full bg-[#7A807B] text-[#FCFAF4] font-black text-xs flex items-center justify-center shadow-md border-2 border-white">
-                                3
-                            </span>
-                        </div>
-
-                        <h3 className="font-display font-bold text-base text-[var(--foreground)] line-clamp-1">{top3[2].name}</h3>
-                        <p className="text-[11px] text-[var(--foreground-muted)] font-medium mb-3">{top3[2].role}</p>
-
-                        <div className="w-full bg-[var(--muted-bg)] rounded-2xl p-3 border border-[var(--card-border)] grid grid-cols-2 gap-2 text-center">
-                            <div>
-                                <p className="text-[10px] uppercase tracking-wider text-[var(--foreground-muted)] font-semibold">XP Score</p>
-                                <p className="text-sm font-extrabold text-[#193D35]">{top3[2].xp.toLocaleString()}</p>
-                            </div>
-                            <div>
-                                <p className="text-[10px] uppercase tracking-wider text-[var(--foreground-muted)] font-semibold">Accuracy</p>
-                                <p className="text-sm font-extrabold text-[#193D35]">{top3[2].score}%</p>
-                            </div>
-                        </div>
-
-                        <div className="mt-3 flex items-center gap-2 text-xs font-semibold text-[var(--foreground-secondary)]">
-                            <span className="flex items-center gap-1 text-[#193D35]"><Flame size={13} className="text-[#D19A45] fill-[#D19A45]" /> {top3[2].streak}d Streak</span>
-                            <span>•</span>
-                            <span className="flex items-center gap-1"><Award size={13} className="text-[#193D35]" /> {top3[2].certs} Certs</span>
-                        </div>
-                    </motion.div>
-                </motion.div>
+                    </div>
+                </div>
             )}
 
-            {/* LEADERBOARD RANKINGS TABLE */}
-            <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl shadow-xs overflow-hidden">
-                <div className="px-6 py-4 border-b border-[var(--card-border)] flex items-center justify-between">
-                    <div className="flex items-center gap-2 flex-wrap">
-                        <Users size={18} className="text-[#193D35]" />
-                        <h2 className="font-display font-bold text-base text-[var(--foreground)]">
-                            Overall Leaderboard ({filteredPerformers.length})
-                        </h2>
-                        {searchQuery && (
-                            <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]">
-                                Matching "{searchQuery}"
-                            </span>
-                        )}
+            {/* Current User Rank Callout Banner (when logged in & loaded) */}
+            {!loading && !error && currentUser && (
+                <div
+                    className={`rounded-2xl border p-4 sm:px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-colors ${
+                        isDark
+                            ? 'bg-emerald-950/30 border-emerald-500/30 text-[#F0F6FC]'
+                            : 'bg-[#E3EFEA]/70 border-[#285A4D]/25 text-[#1A1D1C]'
+                    }`}
+                >
+                    <div className="flex items-center gap-3.5">
+                        <div
+                            className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold shrink-0 ${
+                                isDark ? 'bg-emerald-500/20 text-emerald-400' : 'bg-[#285A4D] text-white'
+                            }`}
+                        >
+                            <UserCheck className="w-5 h-5" aria-hidden="true" />
+                        </div>
+                        <div>
+                            <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-bold text-sm sm:text-base">
+                                    {currentUserRankEntry
+                                        ? `Your Current Rank: #${currentUserRankEntry.rank}`
+                                        : 'You are not ranked in this view yet'}
+                                </span>
+                                {currentUserRankEntry && (
+                                    <span className="badge badge-success">
+                                        Top {Math.max(1, Math.round((currentUserRankEntry.rank / leaderboardData.length) * 100))}%
+                                    </span>
+                                )}
+                            </div>
+                            <p className={`text-xs sm:text-sm ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
+                                {currentUserRankEntry
+                                    ? `${currentUserRankEntry.xp.toLocaleString()} XP • ${currentUserRankEntry.quizzes} ${
+                                          currentUserRankEntry.quizzes === 1 ? 'quiz' : 'quizzes'
+                                      } completed • ${currentUserRankEntry.score}% avg score`
+                                    : 'Complete a technical quiz to earn XP and appear on the global leaderboard.'}
+                            </p>
+                        </div>
+                    </div>
+                    {!currentUserRankEntry && (
+                        <Link to="/technologies" className="btn-primary text-xs sm:text-sm py-2 px-4 shrink-0">
+                            Take a Quiz
+                        </Link>
+                    )}
+                </div>
+            )}
+
+            {/* Loading Skeletons */}
+            {loading && (
+                <div className="space-y-6" aria-busy="true" aria-label="Loading rankings">
+                    {!isEmbedded && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pt-2">
+                            {[1, 2, 3].map((n) => (
+                                <div
+                                    key={n}
+                                    className={`rounded-2xl border p-6 flex flex-col items-center ${
+                                        isDark ? 'bg-[#161B22] border-[#30363D]' : 'bg-white border-[#E6E0D6]'
+                                    }`}
+                                >
+                                    <div className="w-16 h-16 rounded-full skeleton mb-4" />
+                                    <div className="h-5 w-32 rounded-md skeleton mb-2" />
+                                    <div className="h-4 w-20 rounded-md skeleton mb-5" />
+                                    <div className="w-full grid grid-cols-2 gap-3 pt-4 border-t border-[#E6E0D6]/40">
+                                        <div className="h-10 rounded-lg skeleton" />
+                                        <div className="h-10 rounded-lg skeleton" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <div
+                        className={`rounded-2xl border overflow-hidden ${
+                            isDark ? 'bg-[#161B22] border-[#30363D]' : 'bg-white border-[#E6E0D6]'
+                        }`}
+                    >
+                        <div className="p-4 sm:p-6 space-y-4">
+                            {[1, 2, 3, 4, 5, 6].map((row) => (
+                                <div key={row} className="flex items-center justify-between gap-4">
+                                    <div className="flex items-center gap-3.5 flex-1">
+                                        <div className="w-8 h-8 rounded-full skeleton shrink-0" />
+                                        <div className="w-10 h-10 rounded-full skeleton shrink-0" />
+                                        <div className="space-y-2 flex-1 max-w-xs">
+                                            <div className="h-4 w-3/4 rounded-md skeleton" />
+                                            <div className="h-3 w-1/2 rounded-md skeleton" />
+                                        </div>
+                                    </div>
+                                    <div className="hidden sm:flex items-center gap-6">
+                                        <div className="h-4 w-16 rounded-md skeleton" />
+                                        <div className="h-4 w-20 rounded-md skeleton" />
+                                        <div className="h-6 w-20 rounded-lg skeleton" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
+            )}
 
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="border-b border-[var(--card-border)] bg-[var(--muted-bg)]/60 text-[10px] font-bold text-[var(--foreground-muted)] uppercase tracking-wider">
-                                <th className="px-5 py-3.5 w-16 text-center">Rank</th>
-                                <th className="px-5 py-3.5">Developer / Role</th>
-                                <th className="px-5 py-3.5">Category</th>
-                                <th className="px-5 py-3.5 text-right">XP Points</th>
-                                <th className="px-5 py-3.5 text-center">Accuracy</th>
-                                <th className="px-5 py-3.5 text-center">Quizzes</th>
-                                <th className="px-5 py-3.5 text-center">Certs</th>
-                                <th className="px-5 py-3.5 text-center">Streak</th>
-                                <th className="px-5 py-3.5 text-center">Trend</th>
-                            </tr>
-                        </thead>
-                        <motion.tbody
-                            key={`${timeframe}-${category}-${searchQuery}`}
-                            variants={containerVariants}
-                            initial="hidden"
-                            animate="show"
-                            className="divide-y divide-[var(--card-border)]"
-                        >
-                            {filteredPerformers.map((user) => {
-                                const isCurrentUser = currentUser && String(user.id) === String(currentUser.id);
+            {/* Error State */}
+            {!loading && error && (
+                <div
+                    role="alert"
+                    className={`rounded-2xl border p-8 sm:p-12 text-center max-w-xl mx-auto my-4 ${
+                        isDark ? 'bg-[#161B22] border-red-500/30' : 'bg-white border-red-200 shadow-xs'
+                    }`}
+                >
+                    <div className="w-14 h-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto mb-4">
+                        <AlertCircle className="w-7 h-7" aria-hidden="true" />
+                    </div>
+                    <h2 className={`text-xl font-bold font-display mb-2 ${isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}`}>
+                        Could Not Load Rankings
+                    </h2>
+                    <p className={`text-sm mb-6 ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>{error}</p>
+                    <button
+                        type="button"
+                        onClick={loadData}
+                        className="btn-primary inline-flex items-center gap-2 px-5 py-2.5 text-sm cursor-pointer"
+                    >
+                        <RotateCcw className="w-4 h-4" aria-hidden="true" />
+                        <span>Retry</span>
+                    </button>
+                </div>
+            )}
 
-                                let rankBadge = (
-                                    <span className="w-7 h-7 rounded-lg bg-[var(--muted-bg)] text-[var(--foreground-secondary)] font-bold text-xs flex items-center justify-center mx-auto border border-[var(--card-border)]">
-                                        #{user.rank}
-                                    </span>
-                                );
+            {/* Empty State */}
+            {!loading && !error && filteredData.length === 0 && (
+                <div
+                    className={`rounded-2xl border p-8 sm:p-14 text-center ${
+                        isDark ? 'bg-[#161B22] border-[#30363D]' : 'bg-white border-[#E6E0D6] shadow-xs'
+                    }`}
+                >
+                    <div
+                        className={`w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 ${
+                            isDark ? 'bg-[#21262D] text-[#8B949E]' : 'bg-[#F3EFEA] text-[#5C6460]'
+                        }`}
+                    >
+                        <Trophy className="w-7 h-7" aria-hidden="true" />
+                    </div>
+                    <h2 className={`text-xl font-bold font-display mb-2 ${isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}`}>
+                        No Rankings Found
+                    </h2>
+                    <p className={`text-sm max-w-md mx-auto mb-6 ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
+                        {searchQuery || category !== 'All' || timeframe !== 'all-time'
+                            ? 'No participants matched your active filters. Try clearing your search or switching back to All-Time rankings.'
+                            : 'No quizzes have been completed yet. Be the first to complete a quiz and claim the #1 spot!'}
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center gap-3">
+                        {(searchQuery || category !== 'All' || timeframe !== 'all-time') && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setSearchQuery('');
+                                    setCategory('All');
+                                    setTimeframe('all-time');
+                                }}
+                                className="btn-secondary text-sm py-2 px-4 cursor-pointer"
+                            >
+                                Reset Filters
+                            </button>
+                        )}
+                        <Link to="/technologies" className="btn-primary inline-flex items-center gap-2 text-sm py-2 px-5">
+                            <BookOpen className="w-4 h-4" aria-hidden="true" />
+                            <span>Explore Quizzes</span>
+                        </Link>
+                    </div>
+                </div>
+            )}
 
-                                if (user.rank === 1 && user.quizzes > 0) {
-                                    rankBadge = (
-                                        <span className="w-8 h-8 rounded-xl bg-[#D19A45] text-white font-black text-xs flex items-center justify-center mx-auto shadow-xs">
-                                            🥇
-                                        </span>
-                                    );
-                                } else if (user.rank === 2 && user.quizzes > 0) {
-                                    rankBadge = (
-                                        <span className="w-8 h-8 rounded-xl bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] font-black text-xs flex items-center justify-center mx-auto shadow-xs">
-                                            🥈
-                                        </span>
-                                    );
-                                } else if (user.rank === 3 && user.quizzes > 0) {
-                                    rankBadge = (
-                                        <span className="w-8 h-8 rounded-xl bg-[#F4EFE6] text-[#42665B] border border-[#E8E5DD] font-black text-xs flex items-center justify-center mx-auto shadow-xs">
-                                            🥉
-                                        </span>
-                                    );
-                                }
+            {/* Main Content: Podium + Rankings Table & Mobile Cards */}
+            {!loading && !error && filteredData.length > 0 && (
+                <>
+                    {/* Top 3 Podium Cards */}
+                    {showPodium && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-stretch pt-2">
+                            {[
+                                { user: top3[1], place: 2, orderClass: 'md:order-1' },
+                                { user: top3[0], place: 1, orderClass: 'md:order-2' },
+                                { user: top3[2], place: 3, orderClass: 'md:order-3' },
+                            ].map(({ user, place, orderClass }) => {
+                                const isFirst = place === 1;
+                                const isMe = isCurrentUserEntry(user);
+                                const badgeColors =
+                                    place === 1
+                                        ? 'bg-amber-400 text-amber-950 border-amber-300'
+                                        : place === 2
+                                          ? 'bg-slate-300 text-slate-900 border-slate-200'
+                                          : 'bg-amber-700 text-amber-50 border-amber-600';
 
                                 return (
-                                    <motion.tr
-                                        key={user.id}
-                                        variants={itemVariants}
-                                        className={`group hover:bg-[var(--muted-bg)]/80 transition-colors ${
-                                            isCurrentUser ? 'bg-[#F3E5C5]/40 border-l-4 border-l-[#193D35]' : ''
+                                    <div
+                                        key={user.id || place}
+                                        className={`${orderClass} relative rounded-2xl border p-6 flex flex-col items-center text-center transition-all ${
+                                            isFirst
+                                                ? isDark
+                                                    ? 'bg-gradient-to-b from-[#1F2937] to-[#161B22] border-amber-500/40 shadow-lg'
+                                                    : 'bg-gradient-to-b from-[#FFFDF9] to-white border-amber-400/70 shadow-md'
+                                                : isDark
+                                                  ? 'bg-[#161B22] border-[#30363D]'
+                                                  : 'bg-white border-[#E6E0D6] shadow-xs'
+                                        } ${isMe ? 'ring-2 ring-[#285A4D]' : ''}`}
+                                    >
+                                        {/* Place Pill */}
+                                        <div className="flex items-center justify-between w-full mb-3">
+                                            <span
+                                                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${badgeColors}`}
+                                            >
+                                                <Trophy className="w-3 h-3" aria-hidden="true" />#{place}
+                                            </span>
+                                            {isMe && <span className="badge badge-success">YOU</span>}
+                                            <span
+                                                className={`text-xs font-medium px-2.5 py-0.5 rounded-full border ${
+                                                    isDark
+                                                        ? 'bg-[#21262D] text-[#8B949E] border-[#30363D]'
+                                                        : 'bg-[#F3EFEA] text-[#5C6460] border-[#E6E0D6]'
+                                                }`}
+                                            >
+                                                {user.category || 'General'}
+                                            </span>
+                                        </div>
+
+                                        {/* Avatar */}
+                                        <div
+                                            className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center font-bold text-xl sm:text-2xl mb-3 border-2 overflow-hidden ${
+                                                isFirst
+                                                    ? 'border-amber-400 bg-amber-500/15 text-amber-500'
+                                                    : isDark
+                                                      ? 'border-[#30363D] bg-[#21262D] text-[#F0F6FC]'
+                                                      : 'border-[#E6E0D6] bg-[#E3EFEA] text-[#193D35]'
+                                            }`}
+                                        >
+                                            {getAvatarContent(user)}
+                                        </div>
+
+                                        {/* Name */}
+                                        <h3
+                                            className={`text-lg font-bold font-display truncate max-w-full mb-1 ${
+                                                isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
+                                            }`}
+                                        >
+                                            {user.name}
+                                        </h3>
+
+                                        {/* XP Pill */}
+                                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#285A4D]/10 text-[#285A4D] dark:bg-emerald-500/15 dark:text-emerald-400 font-mono font-bold text-sm mb-4">
+                                            <Zap className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
+                                            <span>{user.xp.toLocaleString()} XP</span>
+                                        </div>
+
+                                        {/* Metrics Footer */}
+                                        <div
+                                            className={`w-full grid grid-cols-3 gap-2 pt-4 mt-auto border-t text-center ${
+                                                isDark ? 'border-[#30363D]' : 'border-[#E6E0D6]'
+                                            }`}
+                                        >
+                                            <div>
+                                                <div
+                                                    className={`text-sm font-bold font-mono ${
+                                                        isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
+                                                    }`}
+                                                >
+                                                    {user.score}%
+                                                </div>
+                                                <div className={`text-[11px] ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
+                                                    Avg Score
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div
+                                                    className={`text-sm font-bold font-mono ${
+                                                        isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
+                                                    }`}
+                                                >
+                                                    {user.quizzes}
+                                                </div>
+                                                <div className={`text-[11px] ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
+                                                    Quizzes
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div
+                                                    className={`text-sm font-bold font-mono flex items-center justify-center gap-1 ${
+                                                        isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
+                                                    }`}
+                                                >
+                                                    <Flame className="w-3.5 h-3.5 text-orange-500 fill-orange-500" aria-hidden="true" />
+                                                    {user.streak || '1d'}
+                                                </div>
+                                                <div className={`text-[11px] ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
+                                                    Streak
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+
+                    {/* Rankings Container (Desktop Table + Mobile Cards) */}
+                    <div
+                        className={`rounded-2xl border overflow-hidden transition-colors ${
+                            isDark ? 'bg-[#161B22] border-[#30363D]' : 'bg-white border-[#E6E0D6] shadow-xs'
+                        }`}
+                    >
+                        {/* Section Header */}
+                        <div
+                            className={`px-4 sm:px-6 py-4 border-b flex items-center justify-between gap-2 ${
+                                isDark ? 'border-[#30363D] bg-[#1C2128]/60' : 'border-[#E6E0D6] bg-[#FAF8F5]'
+                            }`}
+                        >
+                            <div className="flex items-center gap-2">
+                                <Trophy
+                                    className={`w-4 h-4 ${isDark ? 'text-emerald-400' : 'text-[#285A4D]'}`}
+                                    aria-hidden="true"
+                                />
+                                <h2 className={`text-sm sm:text-base font-bold ${isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}`}>
+                                    Standings ({filteredData.length})
+                                </h2>
+                            </div>
+                            <span className={`text-xs font-medium ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
+                                Sorted by Total XP &amp; Accuracy
+                            </span>
+                        </div>
+
+                        {/* Desktop & Tablet Table View */}
+                        <div className="hidden md:block overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr
+                                        className={`border-b text-[11px] font-bold uppercase tracking-wider ${
+                                            isDark
+                                                ? 'border-[#30363D] text-[#8B949E] bg-[#0D1117]/40'
+                                                : 'border-[#E6E0D6] text-[#5C6460] bg-[#FAF8F5]/60'
                                         }`}
                                     >
-                                        {/* Rank Column */}
-                                        <td className="px-5 py-4 text-center">
-                                            {rankBadge}
-                                        </td>
+                                        <th className="py-3.5 px-6 w-20">Rank</th>
+                                        <th className="py-3.5 px-6">Participant</th>
+                                        <th className="py-3.5 px-6">Top Category</th>
+                                        <th className="py-3.5 px-6 text-center">Quizzes</th>
+                                        <th className="py-3.5 px-6">Avg Accuracy</th>
+                                        <th className="py-3.5 px-6">Streak</th>
+                                        <th className="py-3.5 px-6 text-right">Total XP</th>
+                                    </tr>
+                                </thead>
+                                <tbody className={`divide-y text-sm ${isDark ? 'divide-[#30363D]' : 'divide-[#E6E0D6]'}`}>
+                                    {filteredData.map((user) => {
+                                        const isMe = isCurrentUserEntry(user);
+                                        return (
+                                            <tr
+                                                key={user.id || user.rank}
+                                                className={`transition-colors ${
+                                                    isMe
+                                                        ? isDark
+                                                            ? 'bg-emerald-950/30 hover:bg-emerald-950/45 border-l-4 border-l-emerald-400'
+                                                            : 'bg-[#E3EFEA]/60 hover:bg-[#E3EFEA]/90 border-l-4 border-l-[#285A4D]'
+                                                        : isDark
+                                                          ? 'hover:bg-[#21262D]/60'
+                                                          : 'hover:bg-[#FAF8F5]'
+                                                }`}
+                                            >
+                                                {/* Rank */}
+                                                <td className="py-4 px-6 whitespace-nowrap">{getRankBadge(user.rank)}</td>
 
-                                        {/* User Column */}
-                                        <td className="px-5 py-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-[var(--muted-bg)] border border-[var(--card-border)] shrink-0 flex items-center justify-center font-bold text-xs text-[var(--foreground)]">
-                                                    {user.avatar ? (
-                                                        <img
-                                                            src={user.avatar}
-                                                            alt={user.name}
-                                                            className="w-full h-full object-cover"
-                                                            onError={(e) => { e.target.style.display = 'none'; }}
+                                                {/* Participant */}
+                                                <td className="py-4 px-6 whitespace-nowrap">
+                                                    <div className="flex items-center gap-3.5">
+                                                        <div
+                                                            className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs shrink-0 border overflow-hidden ${
+                                                                isDark
+                                                                    ? 'bg-[#21262D] text-[#F0F6FC] border-[#30363D]'
+                                                                    : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
+                                                            }`}
+                                                        >
+                                                            {getAvatarContent(user)}
+                                                        </div>
+                                                        <div className="min-w-0">
+                                                            <div className="flex items-center gap-2">
+                                                                <span
+                                                                    className={`font-bold truncate ${
+                                                                        isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
+                                                                    }`}
+                                                                >
+                                                                    {user.name}
+                                                                </span>
+                                                                {isMe && (
+                                                                    <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider bg-[#285A4D] text-white rounded-md">
+                                                                        YOU
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            <div
+                                                                className={`text-xs flex items-center gap-2 mt-0.5 ${
+                                                                    isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'
+                                                                }`}
+                                                            >
+                                                                <span>{user.role || 'Candidate'}</span>
+                                                                {user.certs > 0 && (
+                                                                    <span className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-medium">
+                                                                        • <Star className="w-3 h-3 fill-current" /> {user.certs}{' '}
+                                                                        {user.certs === 1 ? 'cert' : 'certs'}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                {/* Top Category */}
+                                                <td className="py-4 px-6 whitespace-nowrap">
+                                                    <span
+                                                        className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium border ${
+                                                            isDark
+                                                                ? 'bg-[#21262D] text-[#F0F6FC] border-[#30363D]'
+                                                                : 'bg-[#FAF8F5] text-[#1A1D1C] border-[#E6E0D6]'
+                                                        }`}
+                                                    >
+                                                        {user.category || 'General'}
+                                                    </span>
+                                                </td>
+
+                                                {/* Quizzes Completed */}
+                                                <td className="py-4 px-6 whitespace-nowrap text-center">
+                                                    <span
+                                                        className={`inline-flex items-center gap-1.5 font-mono font-bold text-sm ${
+                                                            isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
+                                                        }`}
+                                                    >
+                                                        <CheckCircle2
+                                                            className={`w-3.5 h-3.5 ${
+                                                                isDark ? 'text-emerald-400' : 'text-[#285A4D]'
+                                                            }`}
+                                                            aria-hidden="true"
                                                         />
-                                                    ) : (
-                                                        user.initials
-                                                    )}
+                                                        {user.quizzes}
+                                                    </span>
+                                                </td>
+
+                                                {/* Avg Accuracy */}
+                                                <td className="py-4 px-6 whitespace-nowrap">
+                                                    <div className="flex items-center gap-2.5">
+                                                        <div className="w-20 progress-bar">
+                                                            <div
+                                                                className="progress-bar-fill"
+                                                                style={{
+                                                                    width: `${Math.min(100, Math.max(0, user.score))}%`,
+                                                                }}
+                                                            />
+                                                        </div>
+                                                        <span
+                                                            className={`font-mono font-bold text-xs w-10 ${
+                                                                isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
+                                                            }`}
+                                                        >
+                                                            {user.score}%
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+                                                {/* Streak */}
+                                                <td className="py-4 px-6 whitespace-nowrap">
+                                                    <div
+                                                        className={`inline-flex items-center gap-1.5 font-mono text-xs font-bold px-2.5 py-1 rounded-lg border ${
+                                                            isDark
+                                                                ? 'bg-orange-500/10 text-orange-400 border-orange-500/20'
+                                                                : 'bg-orange-50 text-orange-700 border-orange-200'
+                                                        }`}
+                                                    >
+                                                        <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500" aria-hidden="true" />
+                                                        <span>{user.streak || '1d'}</span>
+                                                    </div>
+                                                </td>
+
+                                                {/* Total XP */}
+                                                <td className="py-4 px-6 whitespace-nowrap text-right">
+                                                    <div
+                                                        className={`inline-flex items-center gap-1.5 font-mono font-bold px-3 py-1 rounded-lg border ${
+                                                            isDark
+                                                                ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                                                                : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
+                                                        }`}
+                                                    >
+                                                        <Zap className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
+                                                        <span>{user.xp.toLocaleString()}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Mobile Card List View (< 768px) */}
+                        <div className={`md:hidden divide-y ${isDark ? 'divide-[#30363D]' : 'divide-[#E6E0D6]'}`}>
+                            {filteredData.map((user) => {
+                                const isMe = isCurrentUserEntry(user);
+                                return (
+                                    <div
+                                        key={user.id || user.rank}
+                                        className={`p-4 flex flex-col gap-3 transition-colors ${
+                                            isMe
+                                                ? isDark
+                                                    ? 'bg-emerald-950/30 border-l-4 border-l-emerald-400'
+                                                    : 'bg-[#E3EFEA]/60 border-l-4 border-l-[#285A4D]'
+                                                : ''
+                                        }`}
+                                    >
+                                        <div className="flex items-center justify-between gap-3">
+                                            <div className="flex items-center gap-3 min-w-0">
+                                                {getRankBadge(user.rank)}
+                                                <div
+                                                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs shrink-0 border overflow-hidden ${
+                                                        isDark
+                                                            ? 'bg-[#21262D] text-[#F0F6FC] border-[#30363D]'
+                                                            : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
+                                                    }`}
+                                                >
+                                                    {getAvatarContent(user)}
                                                 </div>
-                                                <div>
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="font-bold text-sm text-[var(--foreground)] group-hover:text-[#193D35] transition-colors">
+                                                <div className="min-w-0">
+                                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                                        <span
+                                                            className={`font-bold text-sm truncate ${
+                                                                isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
+                                                            }`}
+                                                        >
                                                             {user.name}
                                                         </span>
-                                                        {isCurrentUser && (
-                                                            <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#193D35] text-[#FCFAF4]">
+                                                        {isMe && (
+                                                            <span className="px-1.5 py-0.5 text-[10px] font-extrabold uppercase bg-[#285A4D] text-white rounded">
                                                                 YOU
                                                             </span>
                                                         )}
                                                     </div>
-                                                    <p className="text-xs text-[var(--foreground-muted)]">{user.role}</p>
+                                                    <div
+                                                        className={`text-xs truncate ${
+                                                            isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'
+                                                        }`}
+                                                    >
+                                                        {user.category || 'General'}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </td>
 
-                                        {/* Category */}
-                                        <td className="px-5 py-4">
-                                            <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[var(--muted-bg)] text-[var(--foreground-secondary)] border border-[var(--card-border)]">
-                                                {user.category}
-                                            </span>
-                                        </td>
+                                            <div
+                                                className={`inline-flex items-center gap-1 font-mono font-bold text-xs px-2.5 py-1 rounded-lg border shrink-0 ${
+                                                    isDark
+                                                        ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                                                        : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
+                                                }`}
+                                            >
+                                                <Zap className="w-3 h-3 fill-current" aria-hidden="true" />
+                                                <span>{user.xp.toLocaleString()} XP</span>
+                                            </div>
+                                        </div>
 
-                                        {/* XP Points */}
-                                        <td className="px-5 py-4 text-right">
-                                            <span className="font-extrabold text-sm text-[#193D35]">
-                                                {user.xp.toLocaleString()} <span className="text-[10px] font-semibold text-[var(--foreground-muted)]">XP</span>
-                                            </span>
-                                        </td>
-
-                                        {/* Accuracy */}
-                                        <td className="px-5 py-4 text-center">
-                                            <div className="flex flex-col items-center">
-                                                <span className="font-extrabold text-xs text-[#193D35]">
+                                        <div
+                                            className={`grid grid-cols-3 gap-2 pt-2 border-t text-xs ${
+                                                isDark ? 'border-[#30363D]/60' : 'border-[#E6E0D6]/70'
+                                            }`}
+                                        >
+                                            <div>
+                                                <span className={isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}>Quizzes: </span>
+                                                <span className={`font-mono font-bold ${isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}`}>
+                                                    {user.quizzes}
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <span className={isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}>Accuracy: </span>
+                                                <span className={`font-mono font-bold ${isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}`}>
                                                     {user.score}%
                                                 </span>
-                                                <div className="w-16 h-1.5 bg-[#F4EFE6] rounded-full mt-1 overflow-hidden">
-                                                    <div
-                                                        className="h-full bg-[#193D35] rounded-full"
-                                                        style={{ width: `${user.score}%` }}
-                                                    />
-                                                </div>
                                             </div>
-                                        </td>
-
-                                        {/* Quizzes Completed */}
-                                        <td className="px-5 py-4 text-center text-xs font-semibold text-[var(--foreground)]">
-                                            {user.quizzes}
-                                        </td>
-
-                                        {/* Certificates */}
-                                        <td className="px-5 py-4 text-center">
-                                            <span className="inline-flex items-center gap-1 text-xs font-bold text-[#193D35]">
-                                                <Award size={13} className="text-[#D19A45]" /> {user.certs}
-                                            </span>
-                                        </td>
-
-                                        {/* Streak */}
-                                        <td className="px-5 py-4 text-center">
-                                            <span className="inline-flex items-center gap-1 text-xs font-bold text-[#193D35]">
-                                                <Flame size={13} className="text-[#D19A45] fill-[#D19A45]" /> {user.streak}d
-                                            </span>
-                                        </td>
-
-                                        {/* Trend */}
-                                        <td className="px-5 py-4 text-center">
-                                            {user.trend === 'up' && (
-                                                <span className="inline-flex items-center text-xs font-bold text-[#67966D]">
-                                                    <ArrowUpRight size={14} /> {user.change}
+                                            <div className="flex items-center justify-end gap-1 font-mono font-bold">
+                                                <Flame className="w-3.5 h-3.5 text-orange-500 fill-orange-500" aria-hidden="true" />
+                                                <span className={isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}>
+                                                    {user.streak || '1d'}
                                                 </span>
-                                            )}
-                                            {user.trend === 'down' && (
-                                                <span className="inline-flex items-center text-xs font-bold text-[#C96155]">
-                                                    <ArrowDownRight size={14} /> {user.change}
-                                                </span>
-                                            )}
-                                            {user.trend === 'same' && (
-                                                <span className="inline-flex items-center text-xs font-bold text-[var(--foreground-muted)]">
-                                                    <Minus size={14} />
-                                                </span>
-                                            )}
-                                        </td>
-                                    </motion.tr>
+                                            </div>
+                                        </div>
+                                    </div>
                                 );
                             })}
-                        </motion.tbody>
-                    </table>
-
-                    {filteredPerformers.length === 0 && (
-                        <div className="p-12 text-center">
-                            <Users size={32} className="mx-auto text-[var(--foreground-muted)] opacity-40 mb-3" />
-                            <p className="text-sm font-semibold text-[var(--foreground-muted)] mb-1">
-                                {searchQuery ? `No performers found matching "${searchQuery}".` : 'No ranked candidates yet.'}
-                            </p>
-                            <p className="text-xs text-[var(--foreground-muted)] mb-4">
-                                Take a quiz to claim the #1 spot on the leaderboard!
-                            </p>
-                            {searchQuery && (
-                                <button
-                                    onClick={() => { setSearchQuery(''); setCategory('All'); }}
-                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#193D35] text-[#FCFAF4] hover:bg-[#122C26] transition-colors cursor-pointer"
-                                >
-                                    <X size={12} /> Clear Filters
-                                </button>
-                            )}
                         </div>
-                    )}
-                </div>
-            </div>
+                    </div>
+                </>
+            )}
         </div>
     );
-}
+};
+
+export default Leaderboard;

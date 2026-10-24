@@ -317,17 +317,35 @@ const quizController = {
             const passed = computedPercentage >= passingScore;
             const certificateEligible = certificateEnabled && (computedPercentage >= certificatePassingScore);
 
-            // 2. Persist official result to MongoDB Atlas
-            const result = await prisma.quizResult.create({
-                data: {
-                    userId: String(userId),
-                    category: String(category).trim(),
-                    session: sessionNum,
-                    score: computedScore,
-                    total: computedTotal,
-                    percentage: computedPercentage
-                }
-            });
+            // 2. Persist official result to MongoDB Atlas (guarding against rapid duplicate submissions within 30s)
+            let result = null;
+            if (typeof prisma.quizResult.findFirst === 'function') {
+                const recentWindow = new Date(Date.now() - 30 * 1000);
+                result = await prisma.quizResult.findFirst({
+                    where: {
+                        userId: String(userId),
+                        category: String(category).trim(),
+                        session: sessionNum,
+                        score: computedScore,
+                        total: computedTotal,
+                        createdAt: { gte: recentWindow }
+                    },
+                    orderBy: { createdAt: 'desc' }
+                });
+            }
+
+            if (!result) {
+                result = await prisma.quizResult.create({
+                    data: {
+                        userId: String(userId),
+                        category: String(category).trim(),
+                        session: sessionNum,
+                        score: computedScore,
+                        total: computedTotal,
+                        percentage: computedPercentage
+                    }
+                });
+            }
 
             // 3. Mark in_progress attempt as completed if attemptId provided
             if (attemptId) {
