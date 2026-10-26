@@ -1,6 +1,6 @@
 class AppConfig {
   static const String appName = 'Hangbug';
-  static const String appVersion = '1.3.0';
+  static const String appVersion = '1.2.1';
   static const int appBuildNumber = 10;
 
   // Production API Base URL (Vercel Live Deployment)
