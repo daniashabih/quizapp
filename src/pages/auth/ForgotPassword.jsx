@@ -6,6 +6,7 @@ import { Mail, ArrowLeft, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
+import InputField from '../../components/ui/InputField';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -93,24 +94,20 @@ export default function ForgotPassword() {
 
                         {!submitted ? (
                             <form onSubmit={handleSubmit} className="space-y-4">
-                                <div className="space-y-1">
-                                    <label className="input-label text-xs">Email Address</label>
-                                    <div className="relative">
-                                        <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                        <input
-                                            type="email"
-                                            value={email}
-                                            onChange={(e) => {
-                                                setEmail(e.target.value);
-                                                if (errorMessage) setErrorMessage('');
-                                            }}
-                                            className="input-field pl-10 py-2.5 text-xs sm:text-sm w-full"
-                                            placeholder="name@example.com"
-                                            required
-                                            autoFocus
-                                        />
-                                    </div>
-                                </div>
+                                <InputField
+                                    label="Email Address"
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => {
+                                        setEmail(e.target.value);
+                                        if (errorMessage) setErrorMessage('');
+                                    }}
+                                    placeholder="name@example.com"
+                                    required
+                                    autoFocus
+                                    prefixIcon={<Mail size={16} />}
+                                    autoComplete="email"
+                                />
 
                                 <button
                                     type="submit"

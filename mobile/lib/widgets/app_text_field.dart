@@ -67,28 +67,62 @@ class _AppTextFieldState extends State<AppTextField> {
           enabled: widget.enabled,
           onChanged: widget.onChanged,
           onFieldSubmitted: widget.onSubmitted,
+          textAlignVertical: TextAlignVertical.center,
           style: AppTextStyles.bodyMedium.copyWith(
             color: context.textPrimaryColor,
           ),
           decoration: InputDecoration(
             hintText: widget.hint,
-            prefixIcon: widget.prefixIcon,
-            suffixIcon: widget.isPassword
-                ? IconButton(
-                    icon: Icon(
-                      _obscureText
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                      size: 20,
-                      color: context.textSecondaryColor,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
+            prefixIcon: widget.prefixIcon != null
+                ? SizedBox(
+                    width: 44,
+                    height: 44,
+                    child: Center(child: widget.prefixIcon),
                   )
-                : widget.suffixIcon,
+                : null,
+            prefixIconConstraints: const BoxConstraints(
+              minWidth: 44,
+              minHeight: 44,
+            ),
+            suffixIcon: widget.isPassword
+                ? SizedBox(
+                    width: 44,
+                    height: 44,
+                    child: Center(
+                      child: IconButton(
+                        icon: Icon(
+                          _obscureText
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          size: 20,
+                          color: context.textSecondaryColor,
+                        ),
+                        splashRadius: 20,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(
+                          minWidth: 40,
+                          minHeight: 40,
+                        ),
+                        tooltip: _obscureText ? 'Show password' : 'Hide password',
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                      ),
+                    ),
+                  )
+                : (widget.suffixIcon != null
+                    ? SizedBox(
+                        width: 44,
+                        height: 44,
+                        child: Center(child: widget.suffixIcon),
+                      )
+                    : null),
+            suffixIconConstraints: const BoxConstraints(
+              minWidth: 44,
+              minHeight: 44,
+            ),
           ),
         ),
       ],

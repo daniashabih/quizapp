@@ -6,6 +6,7 @@ import { Lock, ArrowRight, Eye, EyeOff, ArrowLeft, Check, X, AlertTriangle, Chec
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
+import InputField from '../../components/ui/InputField';
 
 export default function ResetPassword() {
     const { token: pathToken } = useParams();
@@ -239,53 +240,51 @@ export default function ResetPassword() {
 
                                 <form onSubmit={handleSubmit} className="space-y-4">
                                     {/* New Password */}
-                                    <div className="space-y-1">
-                                        <label className="input-label text-xs">New Password</label>
-                                        <div className="relative">
-                                            <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                            <input
-                                                type={showPassword ? 'text' : 'password'}
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                                className="input-field pl-10 pr-10 py-2.5 text-xs sm:text-sm w-full"
-                                                placeholder="Enter new password"
-                                                required
-                                                autoFocus
-                                            />
+                                    <InputField
+                                        label="New Password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="Enter new password"
+                                        required
+                                        autoFocus
+                                        prefixIcon={<Lock size={16} />}
+                                        autoComplete="new-password"
+                                        suffix={
                                             <button
                                                 type="button"
                                                 onClick={() => setShowPassword(!showPassword)}
-                                                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors"
+                                                className="input-suffix-action"
                                                 tabIndex={-1}
+                                                aria-label={showPassword ? 'Hide password' : 'Show password'}
                                             >
                                                 {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
                                             </button>
-                                        </div>
-                                    </div>
+                                        }
+                                    />
 
                                     {/* Confirm New Password */}
-                                    <div className="space-y-1">
-                                        <label className="input-label text-xs">Confirm New Password</label>
-                                        <div className="relative">
-                                            <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                            <input
-                                                type={showConfirm ? 'text' : 'password'}
-                                                value={confirmPassword}
-                                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                                className="input-field pl-10 pr-10 py-2.5 text-xs sm:text-sm w-full"
-                                                placeholder="Re-enter new password"
-                                                required
-                                            />
+                                    <InputField
+                                        label="Confirm New Password"
+                                        type={showConfirm ? 'text' : 'password'}
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        placeholder="Re-enter new password"
+                                        required
+                                        prefixIcon={<Lock size={16} />}
+                                        autoComplete="new-password"
+                                        suffix={
                                             <button
                                                 type="button"
                                                 onClick={() => setShowConfirm(!showConfirm)}
-                                                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)] transition-colors"
+                                                className="input-suffix-action"
                                                 tabIndex={-1}
+                                                aria-label={showConfirm ? 'Hide password' : 'Show password'}
                                             >
                                                 {showConfirm ? <EyeOff size={15} /> : <Eye size={15} />}
                                             </button>
-                                        </div>
-                                    </div>
+                                        }
+                                    />
 
                                     {/* Password Policy Requirements Checklist */}
                                     <div className="p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5 text-xs">

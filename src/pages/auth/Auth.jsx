@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
+import InputField from '../../components/ui/InputField';
 
 function GoogleIcon() {
     return (
@@ -345,85 +346,78 @@ export default function Auth({ initialMode = 'login' }) {
                         <form onSubmit={handleSubmit} className="space-y-3.5">
                             {/* Full Name field in Sign Up mode */}
                             {isSignUp && (
-                                <div className="space-y-1 animate-fade-in">
-                                    <label className="input-label text-xs">Full Name</label>
-                                    <div className="relative">
-                                        <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                        <input
-                                            type="text"
-                                            required
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value)}
-                                            className="input-field pl-10 py-2.5 text-xs sm:text-sm"
-                                            placeholder="John Doe"
-                                        />
-                                    </div>
-                                </div>
+                                <InputField
+                                    label="Full Name"
+                                    type="text"
+                                    required
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="John Doe"
+                                    prefixIcon={<User size={16} />}
+                                    autoComplete="name"
+                                    className="animate-fade-in"
+                                />
                             )}
 
                             {/* Email field */}
-                            <div className="space-y-1">
-                                <label className="input-label text-xs">Email Address</label>
-                                <div className="relative">
-                                    <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                    <input
-                                        type="email"
-                                        required
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className="input-field pl-10 py-2.5 text-xs sm:text-sm"
-                                        placeholder="name@example.com"
-                                    />
-                                </div>
-                            </div>
+                            <InputField
+                                label="Email Address"
+                                type="email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="name@example.com"
+                                prefixIcon={<Mail size={16} />}
+                                autoComplete="email"
+                            />
 
                             {/* Password fields */}
                             {isSignUp ? (
                                 <>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 animate-fade-in">
-                                        <div className="space-y-1">
-                                            <label className="input-label text-xs">Password</label>
-                                            <div className="relative">
-                                                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                                <input
-                                                    type={showPass ? 'text' : 'password'}
-                                                    required
-                                                    value={password}
-                                                    onChange={(e) => setPassword(e.target.value)}
-                                                    className="input-field pl-10 pr-8 py-2.5 text-xs sm:text-sm"
-                                                    placeholder="Password123"
-                                                />
+                                        <InputField
+                                            label="Password"
+                                            type={showPass ? 'text' : 'password'}
+                                            required
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Password123"
+                                            prefixIcon={<Lock size={16} />}
+                                            autoComplete="new-password"
+                                            suffix={
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowPass(!showPass)}
-                                                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
+                                                    className="input-suffix-action"
+                                                    tabIndex={-1}
+                                                    aria-label={showPass ? 'Hide password' : 'Show password'}
                                                 >
-                                                    {showPass ? <EyeOff size={14} /> : <Eye size={14} />}
+                                                    {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
                                                 </button>
-                                            </div>
-                                        </div>
+                                            }
+                                        />
 
-                                        <div className="space-y-1">
-                                            <label className="input-label text-xs">Confirm Password</label>
-                                            <div className="relative">
-                                                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                                <input
-                                                    type={showConfirm ? 'text' : 'password'}
-                                                    required
-                                                    value={confirm}
-                                                    onChange={(e) => setConfirm(e.target.value)}
-                                                    className="input-field pl-10 pr-8 py-2.5 text-xs sm:text-sm"
-                                                    placeholder="Confirm password"
-                                                />
+                                        <InputField
+                                            label="Confirm Password"
+                                            type={showConfirm ? 'text' : 'password'}
+                                            required
+                                            value={confirm}
+                                            onChange={(e) => setConfirm(e.target.value)}
+                                            placeholder="Confirm password"
+                                            prefixIcon={<Lock size={16} />}
+                                            autoComplete="new-password"
+                                            suffix={
                                                 <button
                                                     type="button"
                                                     onClick={() => setShowConfirm(!showConfirm)}
-                                                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
+                                                    className="input-suffix-action"
+                                                    tabIndex={-1}
+                                                    aria-label={showConfirm ? 'Hide password' : 'Show password'}
                                                 >
-                                                    {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
+                                                    {showConfirm ? <EyeOff size={15} /> : <Eye size={15} />}
                                                 </button>
-                                            </div>
-                                        </div>
+                                            }
+                                        />
                                     </div>
 
                                     {/* Visual Password Requirements Checklist */}
@@ -449,30 +443,32 @@ export default function Auth({ initialMode = 'login' }) {
                                 </>
                             ) : (
                                 <div className="space-y-1">
-                                    <div className="flex items-center justify-between">
-                                        <label className="input-label text-xs">Password</label>
-                                        <Link to="/forgot-password" className="text-xs font-semibold text-[#163B34] hover:underline">
-                                            Forgot password?
-                                        </Link>
-                                    </div>
-                                    <div className="relative">
-                                        <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
-                                        <input
-                                            type={showPass ? 'text' : 'password'}
-                                            required
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            className="input-field pl-10 pr-10 py-2.5 text-xs sm:text-sm"
-                                            placeholder="••••••••"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => setShowPass(!showPass)}
-                                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] hover:text-[var(--foreground)]"
-                                        >
-                                            {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
-                                        </button>
-                                    </div>
+                                    <InputField
+                                        label="Password"
+                                        labelRight={
+                                            <Link to="/forgot-password" className="text-xs font-semibold text-[#163B34] dark:text-[#34D399] hover:underline">
+                                                Forgot password?
+                                            </Link>
+                                        }
+                                        type={showPass ? 'text' : 'password'}
+                                        required
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="••••••••"
+                                        prefixIcon={<Lock size={16} />}
+                                        autoComplete="current-password"
+                                        suffix={
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPass(!showPass)}
+                                                className="input-suffix-action"
+                                                tabIndex={-1}
+                                                aria-label={showPass ? 'Hide password' : 'Show password'}
+                                            >
+                                                {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
+                                            </button>
+                                        }
+                                    />
 
                                     {/* Remember Me Checkbox */}
                                     <div className="pt-2 flex items-center">
