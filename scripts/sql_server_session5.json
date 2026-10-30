@@ -1,0 +1,558 @@
+{
+  "category": "SQL Server",
+  "session": 5,
+  "title": "Session 5: Database Administration, Storage, Filegroups, and Snapshots — SQL Server",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "Which of the following is a complete administration utility for SQL Server?",
+      "options": [
+        "SQL-SMO",
+        "SQL Server Management Studio (SSMS)",
+        "Transact-SQL",
+        "Stored procedures"
+      ],
+      "correctAnswer": "SQL Server Management Studio (SSMS)",
+      "explanation": "SQL Server Management Studio (SSMS) is a complete administrative and management graphical utility for SQL Server."
+    },
+    {
+      "questionText": "Users are NOT allowed to directly update information in which of the following?",
+      "options": [
+        "User-defined tables",
+        "User-defined views",
+        "User-defined stored procedures",
+        "System tables, system stored procedures, and catalog views"
+      ],
+      "correctAnswer": "System tables, system stored procedures, and catalog views",
+      "explanation": "Users are prevented from directly modifying system tables, system stored procedures, and catalog views to protect database integrity."
+    },
+    {
+      "questionText": "Which API includes complete functionality for administering SQL Server in applications?",
+      "options": [
+        "SQL Server Management Objects (SQL-SMO)",
+        "ADO.NET Entity API",
+        "Query Store API",
+        "PolyBase API"
+      ],
+      "correctAnswer": "SQL Server Management Objects (SQL-SMO)",
+      "explanation": "SQL Server Management Objects (SQL-SMO) is the programmatic object model that exposes complete administration functionality for SQL Server."
+    },
+    {
+      "questionText": "Which of these is required information to create a user-defined database?",
+      "options": [
+        "Only the name of the database",
+        "Name, owner, size, and files and filegroups of the database",
+        "Only the owner and size",
+        "Only the collation name"
+      ],
+      "correctAnswer": "Name, owner, size, and files and filegroups of the database",
+      "explanation": "Creating a user-defined database requires identifying the name, owner, initial size, collation, and physical files and filegroups."
+    },
+    {
+      "questionText": "The purpose of user-defined databases is to store ______.",
+      "options": [
+        "user data",
+        "system metadata only",
+        "SQL Server error logs only",
+        "server-wide configuration only"
+      ],
+      "correctAnswer": "user data",
+      "explanation": "User-defined databases are created specifically to store user and application data, separate from system metadata."
+    },
+    {
+      "questionText": "In the CREATE DATABASE syntax, which clause indicates the disk files used to store the database log?",
+      "options": [
+        "ON PRIMARY",
+        "COLLATE",
+        "FILEGROUP",
+        "LOG ON"
+      ],
+      "correctAnswer": "LOG ON",
+      "explanation": "The LOG ON clause defines the physical disk files allocated for recording the transaction log."
+    },
+    {
+      "questionText": "In the CREATE DATABASE syntax, the ON clause indicates ______.",
+      "options": [
+        "the disk files used to store the log",
+        "the disk files used to store the data sections of the database",
+        "the database owner",
+        "the snapshot source"
+      ],
+      "correctAnswer": "the disk files used to store the data sections of the database",
+      "explanation": "The ON clause in CREATE DATABASE designates the disk files used to store the data sections of the database."
+    },
+    {
+      "questionText": "What does the COLLATE clause define in CREATE DATABASE?",
+      "options": [
+        "The default collation (rules for comparing and sorting character data) for the database",
+        "The size of the log file",
+        "The owner of the database",
+        "The default filegroup"
+      ],
+      "correctAnswer": "The default collation (rules for comparing and sorting character data) for the database",
+      "explanation": "The COLLATE clause specifies the database default collation, determining how character data is sorted and compared."
+    },
+    {
+      "questionText": "A collation defines rules for ______.",
+      "options": [
+        "encrypting data files",
+        "shrinking database files",
+        "comparing and sorting character data based on a particular language and locale",
+        "creating indexes"
+      ],
+      "correctAnswer": "comparing and sorting character data based on a particular language and locale",
+      "explanation": "A collation provides the rules for comparing and sorting character data according to language, culture, case, and accent sensitivity."
+    },
+    {
+      "questionText": "Which is the correct syntax to create a database with a primary file and log file?",
+      "options": [
+        "CREATE DATABASE [Customer_DB] ON PRIMARY (NAME='Customer_DB', FILENAME='...Customer_DB.mdf') LOG ON (...)",
+        "CREATE DB [Customer_DB] ON PRIMARY (...)",
+        "MAKE DATABASE [Customer_DB] ON PRIMARY (...)",
+        "NEW DATABASE [Customer_DB] ON PRIMARY (...)"
+      ],
+      "correctAnswer": "CREATE DATABASE [Customer_DB] ON PRIMARY (NAME='Customer_DB', FILENAME='...Customer_DB.mdf') LOG ON (...)",
+      "explanation": "The standard SQL Server syntax is CREATE DATABASE [db_name] ON PRIMARY (NAME=..., FILENAME=...) LOG ON (...)."
+    },
+    {
+      "questionText": "Which file extension is recommended for the primary database file?",
+      "options": [
+        ".ndf",
+        ".ldf",
+        ".sql",
+        ".mdf"
+      ],
+      "correctAnswer": ".mdf",
+      "explanation": "Microsoft recommends .mdf (Master Data File) as the file extension for primary data files."
+    },
+    {
+      "questionText": "Which file extension is recommended for the transaction log file?",
+      "options": [
+        ".mdf",
+        ".ndf",
+        ".ldf",
+        ".bak"
+      ],
+      "correctAnswer": ".ldf",
+      "explanation": "The recommended file extension for SQL Server transaction log files is .ldf (Log Data File)."
+    },
+    {
+      "questionText": "Which file extension is recommended for secondary data files?",
+      "options": [
+        ".mdf",
+        ".ldf",
+        ".dat",
+        ".ndf"
+      ],
+      "correctAnswer": ".ndf",
+      "explanation": "Secondary data files use the recommended file extension .ndf."
+    },
+    {
+      "questionText": "MDF stands for ______.",
+      "options": [
+        "Master Database File",
+        "Main Data Format",
+        "Managed Data File",
+        "Multiple Database Filegroup"
+      ],
+      "correctAnswer": "Master Database File",
+      "explanation": "MDF stands for Master Database File (also known as Master Data File)."
+    },
+    {
+      "questionText": "Does SQL Server enforce the .mdf, .ndf, and .ldf file name extensions?",
+      "options": [
+        "No, they are only recommended to help identify the use of the file",
+        "Yes, always",
+        "Only for system databases",
+        "Only for databases created using SSMS"
+      ],
+      "correctAnswer": "No, they are only recommended to help identify the use of the file",
+      "explanation": "SQL Server does not enforce file extensions; .mdf, .ndf, and .ldf are recommended conventions to clarify file roles."
+    },
+    {
+      "questionText": "Which statement is used to modify an existing database?",
+      "options": [
+        "ALTER DATABASE",
+        "UPDATE DATABASE",
+        "MODIFY DATABASE",
+        "CHANGE DATABASE"
+      ],
+      "correctAnswer": "ALTER DATABASE",
+      "explanation": "The ALTER DATABASE statement is used to modify the configuration, files, or properties of an existing database."
+    },
+    {
+      "questionText": "Which is the correct statement to rename the database Customer_DB to CUST_DB?",
+      "options": [
+        "RENAME DATABASE Customer_DB TO CUST_DB",
+        "ALTER DATABASE Customer_DB MODIFY NAME = CUST_DB",
+        "UPDATE DATABASE Customer_DB SET NAME = CUST_DB",
+        "ALTER DATABASE Customer_DB RENAME CUST_DB"
+      ],
+      "correctAnswer": "ALTER DATABASE Customer_DB MODIFY NAME = CUST_DB",
+      "explanation": "The syntax to rename a database in SQL Server is ALTER DATABASE Customer_DB MODIFY NAME = CUST_DB."
+    },
+    {
+      "questionText": "Which of the following can be performed using ALTER DATABASE?",
+      "options": [
+        "Only rename the database",
+        "Only drop the database",
+        "Only create database snapshots",
+        "Add or modify files and filegroups, set database options, rename, and change collation"
+      ],
+      "correctAnswer": "Add or modify files and filegroups, set database options, rename, and change collation",
+      "explanation": "ALTER DATABASE can add or modify files and filegroups, configure options, rename the database, and modify collation."
+    },
+    {
+      "questionText": "Which system stored procedure is used to change the ownership of a database?",
+      "options": [
+        "sp_configure",
+        "sp_helpdb",
+        "sp_rename",
+        "sp_changedbowner"
+      ],
+      "correctAnswer": "sp_changedbowner",
+      "explanation": "The sp_changedbowner system stored procedure changes the ownership of a database."
+    },
+    {
+      "questionText": "After sp_changedbowner is executed, the new owner is known as the ______ user inside the database.",
+      "options": [
+        "dbo",
+        "sa",
+        "guest",
+        "public"
+      ],
+      "correctAnswer": "dbo",
+      "explanation": "Inside the database, the database owner is mapped to the dbo user."
+    },
+    {
+      "questionText": "The ownership of which of these databases CANNOT be changed?",
+      "options": [
+        "master, model, and tempdb system databases",
+        "Any user-defined database",
+        "CUST_DB",
+        "SalesDB"
+      ],
+      "correctAnswer": "master, model, and tempdb system databases",
+      "explanation": "The ownership of system databases (master, model, tempdb) cannot be changed."
+    },
+    {
+      "questionText": "Which of these is NOT a database option type supported by SQL Server 2019?",
+      "options": [
+        "Automatic options",
+        "Network options",
+        "Cursor options",
+        "Recovery options"
+      ],
+      "correctAnswer": "Network options",
+      "explanation": "Network options are configured at the SQL Server instance/protocol level, not as database options."
+    },
+    {
+      "questionText": "Which database option type controls recovery models of a database?",
+      "options": [
+        "Recovery options",
+        "Automatic options",
+        "State options",
+        "Cursor options"
+      ],
+      "correctAnswer": "Recovery options",
+      "explanation": "Recovery options control the recovery model (FULL, BULK_LOGGED, SIMPLE) and page verification."
+    },
+    {
+      "questionText": "Which database option type controls the online/offline state and user connectivity?",
+      "options": [
+        "Cursor options",
+        "Miscellaneous options",
+        "State options",
+        "Automatic options"
+      ],
+      "correctAnswer": "State options",
+      "explanation": "State options govern the state of the database (ONLINE, OFFLINE, EMERGENCY) and access modes (SINGLE_USER, RESTRICTED_USER, MULTI_USER)."
+    },
+    {
+      "questionText": "Database options are set using which clause of the ALTER DATABASE statement?",
+      "options": [
+        "SET",
+        "WITH",
+        "APPLY",
+        "CONFIG"
+      ],
+      "correctAnswer": "SET",
+      "explanation": "Database options are configured using the SET clause, e.g., ALTER DATABASE database_name SET option_name ON|OFF."
+    },
+    {
+      "questionText": "Server-wide settings in SQL Server are set using ______.",
+      "options": [
+        "ALTER DATABASE ... SET",
+        "CREATE DATABASE",
+        "DROP DATABASE",
+        "the sp_configure system stored procedure or SSMS"
+      ],
+      "correctAnswer": "the sp_configure system stored procedure or SSMS",
+      "explanation": "Server-level configuration options are managed using the sp_configure system stored procedure or Server Properties in SSMS."
+    },
+    {
+      "questionText": "What does setting the AUTO_SHRINK option to ON do?",
+      "options": [
+        "Shrinks the database that has free space",
+        "Grows the database automatically",
+        "Makes the database read-only",
+        "Drops unused filegroups"
+      ],
+      "correctAnswer": "Shrinks the database that has free space",
+      "explanation": "When AUTO_SHRINK is ON, SQL Server periodically shrinks database files that contain unused free space."
+    },
+    {
+      "questionText": "In SQL Server, data files are subdivided into ______ for the sake of performance.",
+      "options": [
+        "snapshots",
+        "collations",
+        "triggers",
+        "filegroups"
+      ],
+      "correctAnswer": "filegroups",
+      "explanation": "Data files are grouped into filegroups to manage storage allocation, separation, and parallel disk I/O performance."
+    },
+    {
+      "questionText": "Where are all system tables placed?",
+      "options": [
+        "Inside any user-defined filegroup",
+        "Inside the primary filegroup",
+        "Inside the transaction log",
+        "Inside tempdb only"
+      ],
+      "correctAnswer": "Inside the primary filegroup",
+      "explanation": "All system tables and catalog metadata are placed in the primary filegroup."
+    },
+    {
+      "questionText": "What is the maximum number of filegroups that can be created for each database?",
+      "options": [
+        "1,024",
+        "256",
+        "32,767",
+        "Unlimited"
+      ],
+      "correctAnswer": "32,767",
+      "explanation": "SQL Server allows a maximum of 32,767 filegroups per database."
+    },
+    {
+      "questionText": "Which statement about filegroups is correct?",
+      "options": [
+        "Transaction log files must belong to the primary filegroup",
+        "Filegroups can contain only data files; transaction log files cannot belong to a filegroup",
+        "Filegroups can contain only log files",
+        "A filegroup can contain only one file"
+      ],
+      "correctAnswer": "Filegroups can contain only data files; transaction log files cannot belong to a filegroup",
+      "explanation": "Filegroups are exclusively used for data files (.mdf and .ndf); transaction log files (.ldf) are never part of a filegroup."
+    },
+    {
+      "questionText": "Which statement about a file and filegroups is correct?",
+      "options": [
+        "A file cannot be a member of more than one filegroup at the same time",
+        "A file can belong to any number of filegroups",
+        "A file can belong to a maximum of two filegroups",
+        "A log file can belong to a user-defined filegroup"
+      ],
+      "correctAnswer": "A file cannot be a member of more than one filegroup at the same time",
+      "explanation": "In SQL Server, a specific data file can belong to only one filegroup at any time."
+    },
+    {
+      "questionText": "Can a file be moved to a different filegroup after it has been added to the database?",
+      "options": [
+        "Yes, using sp_changedbowner",
+        "Yes, using DROP DATABASE",
+        "Yes, but only for log files",
+        "No, files cannot be moved to a different filegroup once added"
+      ],
+      "correctAnswer": "No, files cannot be moved to a different filegroup once added",
+      "explanation": "Once a file is created and associated with a filegroup, it cannot be reassigned or moved to another filegroup."
+    },
+    {
+      "questionText": "Which statement adds a filegroup named FG_ReadOnly to the existing database CUST_DB?",
+      "options": [
+        "CREATE FILEGROUP FG_ReadOnly IN CUST_DB",
+        "ALTER DATABASE CUST_DB CREATE FILEGROUP FG_ReadOnly",
+        "ALTER DATABASE CUST_DB ADD FILEGROUP FG_ReadOnly",
+        "UPDATE DATABASE CUST_DB ADD FILEGROUP FG_ReadOnly"
+      ],
+      "correctAnswer": "ALTER DATABASE CUST_DB ADD FILEGROUP FG_ReadOnly",
+      "explanation": "The syntax to add a filegroup is ALTER DATABASE [dbname] ADD FILEGROUP [filegroup_name]."
+    },
+    {
+      "questionText": "What is required to make a filegroup the default filegroup?",
+      "options": [
+        "It must be read-only",
+        "It must contain the transaction log",
+        "It must contain at least one file",
+        "It must be named DEFAULT"
+      ],
+      "correctAnswer": "It must contain at least one file",
+      "explanation": "To be designated as the default filegroup, it must not be empty (must contain at least one file)."
+    },
+    {
+      "questionText": "Which statement makes the filegroup FG_ReadOnly the default filegroup?",
+      "options": [
+        "ALTER DATABASE CUST_DB MODIFY FILEGROUP FG_ReadOnly DEFAULT",
+        "ALTER DATABASE CUST_DB SET DEFAULT FILEGROUP FG_ReadOnly",
+        "MODIFY FILEGROUP FG_ReadOnly AS DEFAULT",
+        "ALTER FILEGROUP FG_ReadOnly DEFAULT"
+      ],
+      "correctAnswer": "ALTER DATABASE CUST_DB MODIFY FILEGROUP FG_ReadOnly DEFAULT",
+      "explanation": "The statement ALTER DATABASE CUST_DB MODIFY FILEGROUP FG_ReadOnly DEFAULT designates FG_ReadOnly as the default filegroup."
+    },
+    {
+      "questionText": "What does the transaction log in SQL Server record?",
+      "options": [
+        "Only SELECT statements",
+        "All transactions and the database modifications made by each transaction",
+        "Only the DDL statements",
+        "Only the login attempts"
+      ],
+      "correctAnswer": "All transactions and the database modifications made by each transaction",
+      "explanation": "The transaction log records all transactions and data modifications to ensure data integrity and facilitate recovery."
+    },
+    {
+      "questionText": "Which of the following is a clause used to add a transaction log file to an existing database?",
+      "options": [
+        "ADD LOG FILE",
+        "ADD LOG TO FILEGROUP",
+        "INSERT LOG FILE",
+        "CREATE LOG FILE"
+      ],
+      "correctAnswer": "ADD LOG FILE",
+      "explanation": "The ADD LOG FILE clause of ALTER DATABASE is used to add an additional transaction log file."
+    },
+    {
+      "questionText": "Which Transact-SQL statement is used to delete a database?",
+      "options": [
+        "DELETE DATABASE",
+        "REMOVE DATABASE",
+        "TRUNCATE DATABASE",
+        "DROP DATABASE"
+      ],
+      "correctAnswer": "DROP DATABASE",
+      "explanation": "The DROP DATABASE statement deletes one or more user-defined databases or snapshots."
+    },
+    {
+      "questionText": "What should be done before dropping a database?",
+      "options": [
+        "The log file should be deleted",
+        "A full backup of the database should be taken",
+        "The database should be renamed",
+        "A snapshot should be set as default"
+      ],
+      "correctAnswer": "A full backup of the database should be taken",
+      "explanation": "A full backup should always be taken before dropping a database so that data can be recovered if needed."
+    },
+    {
+      "questionText": "A deleted database can be re-created only by ______.",
+      "options": [
+        "running ALTER DATABASE",
+        "restoring a backup",
+        "running sp_changedbowner",
+        "refreshing Object Explorer"
+      ],
+      "correctAnswer": "restoring a backup",
+      "explanation": "Because DROP DATABASE removes the physical files from disk, the database can only be re-created by restoring from a backup."
+    },
+    {
+      "questionText": "Which of these statements about a database snapshot is true?",
+      "options": [
+        "It provides a read-write copy of the database",
+        "It can be created only using SSMS",
+        "It can be backed up like a normal database",
+        "It provides a read-only, static view of a SQL Server database"
+      ],
+      "correctAnswer": "It provides a read-only, static view of a SQL Server database",
+      "explanation": "A database snapshot provides a read-only, static, point-in-time view of a SQL Server source database."
+    },
+    {
+      "questionText": "How can a database snapshot be created?",
+      "options": [
+        "Using SSMS only",
+        "Using both SSMS and Transact-SQL",
+        "Using sp_changedbowner",
+        "Using Transact-SQL only; SSMS does not support it"
+      ],
+      "correctAnswer": "Using Transact-SQL only; SSMS does not support it",
+      "explanation": "SQL Server Management Studio does not support creating snapshots through its graphical interface; they must be created using T-SQL."
+    },
+    {
+      "questionText": "Which of these is an advantage of database snapshots?",
+      "options": [
+        "Snapshot backups can be created easily",
+        "New users can be granted access to snapshot data",
+        "Snapshots can be located on any server",
+        "When queried, there is no deterioration of server performance"
+      ],
+      "correctAnswer": "When queried, there is no deterioration of server performance",
+      "explanation": "Snapshots provide reporting views that isolate reads from live write locks, helping prevent query contention and server performance deterioration on live data."
+    },
+    {
+      "questionText": "Which of these is a disadvantage of database snapshots?",
+      "options": [
+        "Snapshot files are large",
+        "A snapshot backup cannot be created",
+        "They take a long time to create",
+        "They provide a read-write copy"
+      ],
+      "correctAnswer": "A snapshot backup cannot be created",
+      "explanation": "A key limitation of database snapshots is that SQL Server does not support taking backups of snapshot databases."
+    },
+    {
+      "questionText": "Which of these is a disadvantage of database snapshots?",
+      "options": [
+        "A snapshot must exist on the same database server as the source database",
+        "They degrade query performance",
+        "They cannot be queried",
+        "They cannot be dropped"
+      ],
+      "correctAnswer": "A snapshot must exist on the same database server as the source database",
+      "explanation": "Database snapshots are tied directly to their source database and must reside on the exact same SQL Server instance."
+    },
+    {
+      "questionText": "Which clause is used in CREATE DATABASE to create a database snapshot?",
+      "options": [
+        "AS SNAPSHOT OF",
+        "FROM SNAPSHOT",
+        "COPY OF",
+        "WITH SNAPSHOT"
+      ],
+      "correctAnswer": "AS SNAPSHOT OF",
+      "explanation": "The AS SNAPSHOT OF clause in the CREATE DATABASE statement indicates the source database for the snapshot."
+    },
+    {
+      "questionText": "In a database snapshot, if a user makes a mistake in the source database, the source database can be ______.",
+      "options": [
+        "deleted automatically",
+        "reverted to the state when the snapshot was created",
+        "converted to read-only permanently",
+        "renamed automatically"
+      ],
+      "correctAnswer": "reverted to the state when the snapshot was created",
+      "explanation": "The source database can be restored/reverted back to the snapshot's point in time, discarding errors made after the snapshot was taken."
+    },
+    {
+      "questionText": "In the New Database dialog box in SSMS, how can the database collation be changed?",
+      "options": [
+        "Select the Filegroups page",
+        "Select the General page only",
+        "Select the Options page and choose a collation from the list",
+        "Collation cannot be changed"
+      ],
+      "correctAnswer": "Select the Options page and choose a collation from the list",
+      "explanation": "In SSMS, the Collation setting is located on the Options page of the New Database dialog."
+    },
+    {
+      "questionText": "In SSMS, where can a new filegroup be added while creating a database?",
+      "options": [
+        "The Options page",
+        "The Filegroups page",
+        "The Extended Properties page",
+        "The General page only"
+      ],
+      "correctAnswer": "The Filegroups page",
+      "explanation": "In SSMS New Database dialog, the Filegroups page is where additional filegroups are defined."
+    }
+  ]
+}
