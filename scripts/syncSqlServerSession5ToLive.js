@@ -71,7 +71,7 @@ async function syncToLive() {
         if (postRes.ok) {
             console.log(`  [${i + 1}/${questions.length}] ➕ Added: "${q.questionText.substring(0, 45)}..."`);
             inserted++;
-            existingTexts.add(normalizedText);
+            existingKeys.add(key);
         } else {
             const errData = await postRes.text();
             console.error(`  [${i + 1}/${questions.length}] ❌ Failed to add: "${q.questionText.substring(0, 45)}..." - ${errData}`);

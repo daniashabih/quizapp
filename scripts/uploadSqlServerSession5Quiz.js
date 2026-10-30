@@ -57,7 +57,8 @@ async function seed() {
                 where: {
                     category: effectiveCategoryName,
                     session: SESSION_NUMBER,
-                    questionText: q.questionText
+                    questionText: q.questionText,
+                    correctAnswer: q.correctAnswer
                 }
             });
 
