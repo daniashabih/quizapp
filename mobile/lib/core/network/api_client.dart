@@ -122,6 +122,30 @@ class ApiClient {
     }
   }
 
+  // PATCH
+  Future<Response> patch(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final response = await dio.patch(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      );
+      return response;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    } catch (e) {
+      throw NetworkException(message: e.toString());
+    }
+  }
+
   // DELETE
   Future<Response> delete(
     String path, {

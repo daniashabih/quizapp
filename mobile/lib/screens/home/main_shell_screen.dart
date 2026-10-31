@@ -56,6 +56,11 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
         label: 'Explore',
       ),
       const BottomNavigationBarItem(
+        icon: Icon(Icons.sports_esports_outlined),
+        activeIcon: Icon(Icons.sports_esports_rounded),
+        label: 'Games',
+      ),
+      const BottomNavigationBarItem(
         icon: Icon(Icons.workspace_premium_outlined),
         activeIcon: Icon(Icons.workspace_premium_rounded),
         label: 'Certificates',

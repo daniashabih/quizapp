@@ -200,6 +200,15 @@ class AdminDashboardScreen extends ConsumerWidget {
                   onTap: () => context.push('/admin/ai-generator'),
                 ),
 
+                const SizedBox(height: 8),
+                _buildToolTile(
+                  context,
+                  icon: Icons.sports_esports_rounded,
+                  title: 'Manage Mini Games',
+                  subtitle: 'Publish, feature, or manage casual arcade mini games',
+                  color: Colors.teal,
+                  onTap: () => context.push('/admin/games'),
+                ),
                 const SizedBox(height: 28),
 
                 // Recent Attempts Section

@@ -19,6 +19,9 @@ import '../screens/auth/reset_password_screen.dart';
 import '../screens/certificates/certificate_view_screen.dart';
 import '../screens/certificates/certificates_screen.dart';
 import '../screens/explore/explore_screen.dart';
+import '../screens/games/games_hub_screen.dart';
+import '../screens/games/game_player_screen.dart';
+import '../screens/admin/admin_games_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/home/main_shell_screen.dart';
 import '../screens/legal/privacy_policy_screen.dart';
@@ -33,6 +36,7 @@ import '../screens/splash/splash_screen.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHome');
 final _shellNavigatorExploreKey = GlobalKey<NavigatorState>(debugLabel: 'shellExplore');
+final _shellNavigatorGamesKey = GlobalKey<NavigatorState>(debugLabel: 'shellGames');
 final _shellNavigatorCertsKey = GlobalKey<NavigatorState>(debugLabel: 'shellCerts');
 final _shellNavigatorProfileKey = GlobalKey<NavigatorState>(debugLabel: 'shellProfile');
 final _shellNavigatorAdminKey = GlobalKey<NavigatorState>(debugLabel: 'shellAdmin');
@@ -113,6 +117,22 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      // Game Player Fullscreen
+      GoRoute(
+        path: '/games/:slug',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final slug = state.pathParameters['slug'] ?? '';
+          return GamePlayerScreen(slug: slug);
+        },
+      ),
+
+      // Admin Games Management
+      GoRoute(
+        path: '/admin/games',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AdminGamesScreen(),
+      ),
       // Maintenance
       GoRoute(
         path: '/maintenance',
@@ -183,7 +203,17 @@ final routerProvider = Provider<GoRouter>((ref) {
             ],
           ),
 
-          // Branch 2: Certificates
+          // Branch 2: Games
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorGamesKey,
+            routes: [
+              GoRoute(
+                path: '/games',
+                builder: (context, state) => const GamesHubScreen(),
+              ),
+            ],
+          ),
+          // Branch 3: Certificates
           StatefulShellBranch(
             navigatorKey: _shellNavigatorCertsKey,
             routes: [

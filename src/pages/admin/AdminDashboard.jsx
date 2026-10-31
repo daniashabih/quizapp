@@ -7,8 +7,9 @@ import {
     ShieldCheck, Search, BookOpen, FolderOpen, Upload, Download, FileText, Layers,
     ChevronDown, Sparkles, Sliders, Percent, Shuffle, HelpCircle, AlertCircle,
     CheckCircle2, RefreshCw, Bot, BarChart3, TrendingUp, Award, Activity,
-    Eye, EyeOff, Shield, UserCheck, Wrench, Clock, Volume2, Palette
+    Eye, EyeOff, Shield, UserCheck, Wrench, Clock, Volume2, Palette, Gamepad2
 } from 'lucide-react';
+import AdminGamesManagement from './components/AdminGamesManagement';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import dashboardService from '../../services/dashboardService';
@@ -545,6 +546,7 @@ const AdminDashboard = () => {
                 {[
                     { id: 'overview', label: 'Analytics & Overview', icon: BarChart3 },
                     { id: 'questions', label: 'Questions Bank', icon: BookOpen, count: stats.totalQuestions || questions.length },
+                    { id: 'games', label: 'Mini Games', icon: Gamepad2 },
                     { id: 'settings', label: 'Quiz Rules & Options', icon: Sliders },
                     { id: 'ai', label: 'AI Generator', icon: Bot, highlight: true },
                     { id: 'categories', label: 'Categories', icon: FolderOpen, count: stats.totalTechnologies || categories.length },
@@ -870,6 +872,8 @@ const AdminDashboard = () => {
             )}
 
             {/* TAB 1: QUESTIONS BANK */}
+            {activeTab === 'games' && <AdminGamesManagement />}
+
             {activeTab === 'questions' && (
                 <div className="space-y-4">
                     {/* Search, Category & Session Filter Bar */}

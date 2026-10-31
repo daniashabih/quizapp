@@ -58,4 +58,14 @@ class ApiEndpoints {
   static const String adminQuestions = '/admin/questions';
   static const String adminCertificates = '/admin/certificates';
   static const String adminResults = '/admin/results';
+
+  // Games
+  static const String games = '/games';
+  static const String gamesUserStats = '/games/user/stats';
+  static String gameBySlug(String slug) => '/games/$slug';
+  static String gameScore(String slug) => '/games/$slug/score';
+  static String gameFavorite(String slug) => '/games/$slug/favorite';
+  static const String adminGames = '/admin/games';
+  static String adminGameTogglePublish(String id) => '/admin/games/$id/toggle-publish';
+  static String adminGameToggleFeature(String id) => '/admin/games/$id/toggle-feature';
 }
