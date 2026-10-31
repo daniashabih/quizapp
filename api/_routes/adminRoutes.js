@@ -6,6 +6,7 @@ const { getAllUsers } = require('../_controllers/authController');
 const { getCategories, createCategory, updateCategory, deleteCategory } = require('../_controllers/categoryController');
 const { getQuestions, createQuestion, updateQuestion, deleteQuestion } = require('../_controllers/questionController');
 const { getSettings, updateSettings } = require('../_controllers/settingController');
+const gameController = require('../_controllers/gameController');
 const Setting = require('../_models/settingModel');
 const prisma = require('../_config/prisma');
 
@@ -162,5 +163,14 @@ router.get('/results', async (req, res) => {
         res.status(500).json({ success: false, message: err.message });
     }
 });
+
+// 7. /api/admin/games
+router.get('/games', gameController.adminGetGames);
+router.post('/games', gameController.adminCreateGame);
+router.put('/games/:id', gameController.adminUpdateGame);
+router.delete('/games/:id', gameController.adminDeleteGame);
+router.patch('/games/:id/toggle-publish', gameController.adminTogglePublish);
+router.patch('/games/:id/toggle-feature', gameController.adminToggleFeature);
+router.post('/games/seed', gameController.adminSeedGames);
 
 module.exports = router;

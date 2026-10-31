@@ -21,6 +21,7 @@ model User {
   createdAt         DateTime     @default(now()) @map("created_at")
   updatedAt         DateTime?    @updatedAt @map("updated_at")
   results           QuizResult[]
+  gameScores        GameScore[]
 
   @@map("users")
 }
@@ -101,4 +102,72 @@ model Setting {
   updatedAt               DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("settings")
+}
+
+model Game {
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
+  slug         String             @unique
+  title        String
+  description  String
+  instructions String?            @default("")
+  category     String             // e.g., "Puzzle Games", "Arcade Games", "Brain Games", "Casual Games", "Racing Games", "Sports Games"
+  thumbnail    String?            @default("")
+  badge        String?            @default("") // "Featured", "Hot", "New", "Classic", "Popular"
+  isPublished  Boolean            @default(true) @map("is_published")
+  isFeatured   Boolean            @default(false) @map("is_featured")
+  cardSize     String?            @default("medium") @map("card_size") // "large", "tall", "medium", "small"
+  aspectRatio  String?            @default("16/9") @map("aspect_ratio")
+  order        Int                @default(0)
+  playsCount   Int                @default(0) @map("plays_count")
+  rating       Float?             @default(4.8)
+  createdAt    DateTime           @default(now()) @map("created_at")
+  updatedAt    DateTime?          @updatedAt @map("updated_at")
+  scores       GameScore[]
+  favorites    UserGameFavorite[]
+
+  @@map("games")
+}
+
+model GameScore {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String   @map("user_id") @db.ObjectId
+  gameId          String   @map("game_id") @db.ObjectId
+  gameSlug        String   @map("game_slug")
+  score           Int
+  highScore       Int?     @default(0) @map("high_score")
+  durationSeconds Int?     @default(0) @map("duration_seconds")
+  metadata        String?  @default("{}")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@index([userId, gameSlug])
+  @@index([gameSlug, score])
+  @@map("game_scores")
+}
+
+model UserGameProgress {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @map("user_id")
+  gameSlug     String   @map("game_slug")
+  highScore    Int      @default(0) @map("high_score")
+  totalPlays   Int      @default(0) @map("total_plays")
+  lastPlayedAt DateTime @default(now()) @map("last_played_at")
+
+  @@unique([userId, gameSlug])
+  @@map("user_game_progress")
+}
+
+model UserGameFavorite {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @map("user_id")
+  gameId    String   @map("game_id") @db.ObjectId
+  gameSlug  String   @map("game_slug")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameSlug])
+  @@map("user_game_favorites")
 }
