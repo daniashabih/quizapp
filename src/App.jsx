@@ -22,6 +22,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // Public Pages
 import Landing from "./pages/Landing";
 import Technologies from "./pages/quiz/Technologies";
+import GamesHub from "./pages/games/GamesHub";
+import GamePlayer from "./pages/games/GamePlayer";
 import Quiz from "./pages/quiz/Quiz";
 import Result from "./pages/quiz/Result";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
@@ -68,6 +70,8 @@ function AppRoutes() {
                 <Route path="/" element={<Landing />} />
                 <Route path="/technologies" element={<Technologies />} />
                 <Route path="/technologies/level" element={<Navigate to="/technologies" replace />} />
+                <Route path="/games" element={<GamesHub />} />
+                <Route path="/games/:slug" element={<GamePlayer />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/signup" element={<Signup />} />
@@ -109,6 +113,7 @@ function AppRoutes() {
                     <Route path="technologies/level" element={<Navigate to="/dashboard/technologies" replace />} />
                     <Route path="quizzes" element={<Technologies />} />
                     <Route path="certificates" element={<Certificates />} />
+                    <Route path="games" element={<Navigate to="/games" replace />} />
                     <Route path="leaderboard" element={<Leaderboard />} />
                     <Route path="profile" element={<Profile />} />
                     <Route path="settings" element={<Settings />} />
