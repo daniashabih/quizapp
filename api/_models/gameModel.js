@@ -1667,11 +1667,53 @@ const GameModel = {
     },
 
     /**
-     * Reset default games in memory
+     * Reset default games in memory and synchronize MongoDB if online
      */
-    resetSeed: () => {
+    resetSeed: async () => {
         memGames = JSON.parse(JSON.stringify(INITIAL_GAMES));
         memChallenges = JSON.parse(JSON.stringify(INITIAL_CHALLENGES));
+
+        try {
+            for (const g of INITIAL_GAMES) {
+                await prisma.game.upsert({
+                    where: { slug: g.slug },
+                    update: {
+                        title: g.title,
+                        category: g.category,
+                        difficulty: g.difficulty || 'All Levels',
+                        badge: g.badge,
+                        cardSize: g.cardSize,
+                        rating: g.rating,
+                        playsCount: g.playsCount,
+                        order: g.order,
+                        isPublished: g.isPublished,
+                        isFeatured: g.isFeatured,
+                        thumbnail: g.thumbnail,
+                        description: g.description,
+                        instructions: g.instructions
+                    },
+                    create: {
+                        slug: g.slug,
+                        title: g.title,
+                        category: g.category,
+                        difficulty: g.difficulty || 'All Levels',
+                        badge: g.badge,
+                        cardSize: g.cardSize,
+                        rating: g.rating,
+                        playsCount: g.playsCount,
+                        order: g.order,
+                        isPublished: g.isPublished,
+                        isFeatured: g.isFeatured,
+                        thumbnail: g.thumbnail,
+                        description: g.description,
+                        instructions: g.instructions
+                    }
+                });
+            }
+        } catch {
+            // DB fallback
+        }
+
         return memGames;
     }
 };

@@ -69,6 +69,7 @@ app.use('/api/certificates', certificateRoutes);
 app.use('/api/settings', settingRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/games', gameRoutes);
+app.use('/api/api/games', gameRoutes); // Defensive alias for clients with redundant base URL
 
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });

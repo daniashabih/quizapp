@@ -505,7 +505,7 @@ const gameController = {
      */
     adminSeedGames: async (req, res) => {
         try {
-            const seeded = GameModel.resetSeed();
+            const seeded = await GameModel.resetSeed();
             res.json({
                 success: true,
                 message: 'Initial games catalog seeded successfully.',
