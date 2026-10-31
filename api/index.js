@@ -21,6 +21,7 @@ const settingRoutes = require('./_routes/settingRoutes');
 const quizRoutes = require('./_routes/quizRoutes');
 const certificateRoutes = require('./_routes/certificateRoutes');
 const userRoutes = require('./_routes/userRoutes');
+const gameRoutes = require('./_routes/gameRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -67,6 +68,7 @@ app.use('/api/attempts', attemptRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/settings', settingRoutes);
 app.use('/api/activity', activityRoutes);
+app.use('/api/games', gameRoutes);
 
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });
@@ -122,4 +124,3 @@ if (require.main === module) {
 }
 
 module.exports = app;
-

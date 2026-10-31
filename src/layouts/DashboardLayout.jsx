@@ -13,7 +13,8 @@ import {
     ShieldCheck,
     ChevronRight,
     Home,
-    Globe
+    Globe,
+    Gamepad2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from '../components/BrandLogo';
@@ -27,6 +28,7 @@ const DashboardLayout = ({ children }) => {
     const navItems = [
         { name: 'Overview', path: '/dashboard', matchPaths: ['/dashboard'], exact: true, icon: LayoutDashboard },
         { name: 'Practice Quizzes', path: '/dashboard/technologies', matchPaths: ['/dashboard/technologies', '/dashboard/quizzes', '/technologies'], icon: BookOpen },
+        { name: 'Mini Games', path: '/games', matchPaths: ['/games', '/dashboard/games'], icon: Gamepad2 },
         { name: 'Certificates', path: '/dashboard/certificates', matchPaths: ['/dashboard/certificates', '/certificates'], icon: Award },
         { name: 'Leaderboard', path: '/dashboard/leaderboard', matchPaths: ['/dashboard/leaderboard', '/leaderboard'], icon: Trophy },
         { name: 'Profile', path: '/dashboard/profile', matchPaths: ['/dashboard/profile', '/profile'], icon: User },
