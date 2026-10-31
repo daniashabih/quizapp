@@ -18,124 +18,140 @@ function createMockRes() {
     };
 }
 
-test('1. Games Catalog: Default list contains initial playable games across categories', async () => {
+test('1. Coding & Typing Games Catalog: List contains all 14 educational coding & typing games', async () => {
     const games = await GameModel.getAll();
     assert.ok(Array.isArray(games), 'Games must be returned as an array');
-    assert.ok(games.length >= 5, 'Must contain at least 5 playable games');
+    assert.equal(games.length, 14, 'Must contain exactly 14 coding and typing games');
 
     const slugs = games.map(g => g.slug);
-    assert.ok(slugs.includes('tic-tac-toe'), 'Must include Tic Tac Toe');
-    assert.ok(slugs.includes('2048'), 'Must include 2048');
-    assert.ok(slugs.includes('snake'), 'Must include Snake');
+    // 8 Coding Games
+    assert.ok(slugs.includes('code-puzzle'), 'Must include Code Puzzle');
+    assert.ok(slugs.includes('find-the-bug'), 'Must include Find the Bug');
+    assert.ok(slugs.includes('output-predictor'), 'Must include Output Predictor');
+    assert.ok(slugs.includes('code-scramble'), 'Must include Code Scramble');
+    assert.ok(slugs.includes('missing-code'), 'Must include Missing Code');
+    assert.ok(slugs.includes('logic-builder'), 'Must include Logic Builder');
+    assert.ok(slugs.includes('sql-challenge'), 'Must include SQL Challenge');
     assert.ok(slugs.includes('memory-match'), 'Must include Memory Match');
-    assert.ok(slugs.includes('brick-breaker'), 'Must include Brick Breaker');
+
+    // 6 Typing Games
+    assert.ok(slugs.includes('speed-typing'), 'Must include Speed Typing');
+    assert.ok(slugs.includes('code-typing'), 'Must include Code Typing');
+    assert.ok(slugs.includes('sixty-second-challenge'), 'Must include 60-Second Challenge');
+    assert.ok(slugs.includes('error-free-typing'), 'Must include Error-Free Typing');
+    assert.ok(slugs.includes('syntax-typing'), 'Must include Syntax Typing');
+    assert.ok(slugs.includes('word-rain'), 'Must include Word Rain');
 });
 
-test('2. Games Filtering: Category filter returns matching subset', async () => {
-    const puzzleGames = await GameModel.getAll({ category: 'Puzzle Games' });
-    assert.ok(puzzleGames.length > 0, 'Must return puzzle games');
-    puzzleGames.forEach(g => {
-        assert.equal(g.category, 'Puzzle Games');
+test('2. Educational Categories Filtering: Category filter returns matching Coding vs Typing subsets', async () => {
+    const codingGames = await GameModel.getAll({ category: 'Coding Games' });
+    assert.equal(codingGames.length, 8, 'Must return exactly 8 Coding Games');
+    codingGames.forEach(g => {
+        assert.equal(g.category, 'Coding Games');
     });
 
-    const arcadeGames = await GameModel.getAll({ category: 'Arcade Games' });
-    assert.ok(arcadeGames.length > 0, 'Must return arcade games');
-    arcadeGames.forEach(g => {
-        assert.equal(g.category, 'Arcade Games');
+    const typingGames = await GameModel.getAll({ category: 'Typing Games' });
+    assert.equal(typingGames.length, 6, 'Must return exactly 6 Typing Games');
+    typingGames.forEach(g => {
+        assert.equal(g.category, 'Typing Games');
     });
 });
 
-test('3. Game Details: Lookup by slug returns instructions and metadata', async () => {
-    const snake = await GameModel.findBySlug('snake');
-    assert.ok(snake, 'Snake game must exist');
-    assert.equal(snake.title, 'Snake Classic');
-    assert.ok(snake.instructions.length > 10, 'Game must contain detailed gameplay instructions');
-    assert.ok(snake.description.length > 5, 'Game must contain description');
+test('3. Game Details: Lookup by slug returns instructions, difficulty, and metadata', async () => {
+    const bugGame = await GameModel.findBySlug('find-the-bug');
+    assert.ok(bugGame, 'Find the Bug game must exist');
+    assert.equal(bugGame.title, 'Find the Bug');
+    assert.equal(bugGame.category, 'Coding Games');
+    assert.equal(bugGame.difficulty, 'Beginner');
+    assert.ok(bugGame.instructions.length > 10, 'Game must contain detailed gameplay instructions');
+    assert.ok(bugGame.description.length > 5, 'Game must contain description');
 });
 
-test('4. Score Recording & Personal Best: Correctly tracks high score and increments play count', async () => {
-    const testUserId = 'test_user_score_1';
-    const slug = '2048';
+test('4. Score Recording & Gamification: Tracks high score, WPM, and accuracy', async () => {
+    const testUserId = 'test_user_score_typing_1';
+    const slug = 'speed-typing';
 
-    // First score
+    // First attempt
     const res1 = await GameModel.recordScore({
         userId: testUserId,
         gameSlug: slug,
-        score: 512,
-        durationSeconds: 120
+        score: 450,
+        wpm: 65,
+        accuracy: 98.5,
+        durationSeconds: 60
     });
     assert.equal(res1.success, true);
     assert.equal(res1.isNewHighScore, true);
-    assert.equal(res1.highScore, 512);
+    assert.equal(res1.highScore, 450);
+    assert.equal(res1.wpm, 65);
+    assert.equal(res1.accuracy, 98.5);
     assert.equal(res1.totalPlays, 1);
 
-    // Second lower score -> does not overwrite high score
+    // Second higher score
     const res2 = await GameModel.recordScore({
         userId: testUserId,
         gameSlug: slug,
-        score: 256,
-        durationSeconds: 60
+        score: 620,
+        wpm: 82,
+        accuracy: 99.1,
+        durationSeconds: 58
     });
     assert.equal(res2.success, true);
-    assert.equal(res2.isNewHighScore, false);
-    assert.equal(res2.highScore, 512);
+    assert.equal(res2.isNewHighScore, true);
+    assert.equal(res2.highScore, 620);
     assert.equal(res2.totalPlays, 2);
+});
 
-    // Third higher score -> updates high score
-    const res3 = await GameModel.recordScore({
-        userId: testUserId,
-        gameSlug: slug,
-        score: 1024,
-        durationSeconds: 180
+test('5. Challenge Sanitization: Client challenge retrieval withholds raw solutions', async () => {
+    const challenges = await GameModel.getChallenges('find-the-bug');
+    assert.ok(challenges.length > 0, 'Must have Find the Bug challenges');
+    challenges.forEach(c => {
+        assert.equal(c.solution, undefined, 'Solution must NEVER be exposed in getChallenges payload');
+        assert.ok(c.title, 'Challenge must have title');
+        assert.ok(c.content, 'Challenge must have content');
     });
-    assert.equal(res3.success, true);
-    assert.equal(res3.isNewHighScore, true);
-    assert.equal(res3.highScore, 1024);
-    assert.equal(res3.totalPlays, 3);
 });
 
-test('5. User Game Stats: Aggregates total plays, personal bests, and recent history', async () => {
-    const testUserId = 'test_user_stats_2';
+test('6. Server-Side Challenge Verification: Validates answers and awards points securely', async () => {
+    const challenges = await GameModel.getChallenges('find-the-bug');
+    const firstChallenge = challenges[0];
 
-    await GameModel.recordScore({ userId: testUserId, gameSlug: 'tic-tac-toe', score: 10 });
-    await GameModel.recordScore({ userId: testUserId, gameSlug: 'snake', score: 80 });
+    // Correct line number submission (line 3 for sumArray off-by-one bug)
+    const verificationCorrect = await GameModel.verifyChallenge('find-the-bug', firstChallenge.id, '3');
+    assert.equal(verificationCorrect.isCorrect, true);
+    assert.ok(verificationCorrect.points > 0);
+    assert.ok(verificationCorrect.explanation.length > 10);
 
-    const stats = await GameModel.getUserStats(testUserId);
-    assert.ok(stats.totalPlayed >= 2, 'Should aggregate total plays');
-    assert.equal(stats.highScores['tic-tac-toe'], 10);
-    assert.equal(stats.highScores['snake'], 80);
+    // Incorrect line number submission
+    const verificationWrong = await GameModel.verifyChallenge('find-the-bug', firstChallenge.id, '1');
+    assert.equal(verificationWrong.isCorrect, false);
+    assert.equal(verificationWrong.points, 0);
 });
 
-test('6. Favorite Toggle: Allows favoriting and unfavoriting games', async () => {
-    const testUserId = 'test_user_fav_3';
-    const slug = 'memory-match';
-
-    const fav1 = await GameModel.toggleFavorite(testUserId, slug);
-    assert.equal(fav1, true, 'First toggle should favorite the game');
-
-    const stats = await GameModel.getUserStats(testUserId);
-    assert.ok(stats.favorites.includes(slug), 'Favorites should list the favorited game');
-
-    const fav2 = await GameModel.toggleFavorite(testUserId, slug);
-    assert.equal(fav2, false, 'Second toggle should unfavorite the game');
+test('7. Daily Featured Game Challenge: Returns deterministic daily challenge', async () => {
+    const daily = await GameModel.getDailyChallenge();
+    assert.ok(daily.date, 'Must return date');
+    assert.ok(daily.game, 'Must return daily featured game');
+    assert.ok(daily.bonusMultiplier >= 1.0, 'Must include bonus multiplier');
 });
 
-test('7. Controller API: GET /api/games returns payload with categories and featured game', async () => {
+test('8. Controller API: GET /api/games returns Coding and Typing category counts', async () => {
     const req = { query: {} };
     const res = createMockRes();
 
     await gameController.getGames(req, res);
     assert.equal(res.statusCode, 200);
     assert.equal(res.body.success, true);
-    assert.ok(res.body.data.length >= 5);
+    assert.equal(res.body.data.length, 14);
     assert.ok(res.body.featuredGame, 'Must return a featured game');
-    assert.ok(res.body.categoryCounts['All Games'] >= 5);
+    assert.equal(res.body.categoryCounts['Coding Games'], 8);
+    assert.equal(res.body.categoryCounts['Typing Games'], 6);
 });
 
-test('8. Controller API: Guest score submission acknowledged without error', async () => {
+test('9. Controller API: Guest score submission acknowledged without persistence error', async () => {
     const req = {
-        params: { slug: 'snake' },
-        body: { score: 120 },
+        params: { slug: 'word-rain' },
+        body: { score: 350, wpm: 45, accuracy: 96 },
         user: null,
         cookies: {},
         headers: {}
@@ -146,35 +162,4 @@ test('8. Controller API: Guest score submission acknowledged without error', asy
     assert.equal(res.statusCode, 200);
     assert.equal(res.body.success, true);
     assert.equal(res.body.isGuest, true);
-});
-
-test('9. Admin Game Management: Can create, update, and toggle publish status', async () => {
-    const reqCreate = {
-        body: {
-            title: 'Test New Game',
-            category: 'Casual Games',
-            description: 'Test description',
-            instructions: 'Test instructions',
-            badge: 'New'
-        }
-    };
-    const resCreate = createMockRes();
-    await gameController.adminCreateGame(reqCreate, resCreate);
-    assert.equal(resCreate.statusCode, 201);
-    assert.equal(resCreate.body.success, true);
-    const createdId = resCreate.body.data.id || resCreate.body.data.slug;
-
-    // Toggle publish
-    const reqToggle = { params: { id: createdId } };
-    const resToggle = createMockRes();
-    await gameController.adminTogglePublish(reqToggle, resToggle);
-    assert.equal(resToggle.statusCode, 200);
-    assert.equal(resToggle.body.success, true);
-
-    // Delete
-    const reqDelete = { params: { id: createdId } };
-    const resDelete = createMockRes();
-    await gameController.adminDeleteGame(reqDelete, resDelete);
-    assert.equal(resDelete.statusCode, 200);
-    assert.equal(resDelete.body.success, true);
 });

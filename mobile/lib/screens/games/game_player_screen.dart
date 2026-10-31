@@ -4,12 +4,14 @@ import 'package:go_router/go_router.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../models/game_model.dart';
 import '../../../providers/game_provider.dart';
-import 'engines/flutter_2048.dart';
-import 'engines/flutter_brick_breaker.dart';
-import 'engines/flutter_flappy_bug.dart';
+
+// Engines
+import 'engines/flutter_code_puzzle.dart';
+import 'engines/flutter_find_the_bug.dart';
+import 'engines/flutter_output_predictor.dart';
+import 'engines/flutter_speed_typing.dart';
+import 'engines/flutter_word_rain.dart';
 import 'engines/flutter_memory_match.dart';
-import 'engines/flutter_snake.dart';
-import 'engines/flutter_tic_tac_toe.dart';
 
 class GamePlayerScreen extends ConsumerStatefulWidget {
   final String slug;
@@ -69,9 +71,9 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
               size: 44,
             ),
             const SizedBox(height: 8),
-            Text(
-              isNewHigh ? 'New Personal Best! 🎉' : 'Game Finished',
-              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+            const Text(
+              'Challenge Complete!',
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
             ),
           ],
         ),
@@ -81,41 +83,40 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               decoration: BoxDecoration(
-                color: Colors.green.withValues(alpha: 0.1),
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
                 children: [
-                  const Text('Final Score', style: TextStyle(fontSize: 11, color: Colors.grey)),
+                  const Text('FINAL SCORE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
+                  const SizedBox(height: 2),
                   Text(
-                    '$finalScore',
-                    style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Colors.green),
+                    '$finalScore pts',
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Color(0xFF10B981)),
                   ),
+                  if (isNewHigh) ...[
+                    const SizedBox(height: 4),
+                    const Text('⭐ New Personal Best! ⭐', style: TextStyle(fontSize: 11, color: Colors.amber, fontWeight: FontWeight.bold)),
+                  ],
                 ],
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              'Personal Best: $_personalBest',
-              style: const TextStyle(fontSize: 12, color: Colors.grey),
-            ),
           ],
         ),
-        actionsAlignment: MainAxisAlignment.center,
         actions: [
-          OutlinedButton(
+          TextButton(
             onPressed: () {
               Navigator.pop(ctx);
               context.pop();
             },
-            child: const Text('Exit'),
+            child: const Text('All Games'),
           ),
           FilledButton.icon(
             onPressed: () {
               Navigator.pop(ctx);
-              _restart();
+              _restartGame();
             },
-            icon: const Icon(Icons.refresh_rounded, size: 16),
+            icon: const Icon(Icons.replay_rounded, size: 16),
             label: const Text('Play Again'),
           ),
         ],
@@ -123,7 +124,7 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
     );
   }
 
-  void _restart() {
+  void _restartGame() {
     setState(() {
       _currentScore = 0;
       _isPaused = false;
@@ -134,6 +135,7 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
   void _showInstructions(GameModel game) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -180,29 +182,27 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
     );
 
     switch (widget.slug) {
-      case '2048':
-        return Flutter2048(
+      // Coding Games
+      case 'code-puzzle':
+      case 'code-scramble':
+        return FlutterCodePuzzle(
           key: _engineKey,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
         );
-      case 'snake':
-        return FlutterSnake(
+      case 'find-the-bug':
+      case 'sql-challenge':
+        return FlutterFindTheBug(
           key: _engineKey,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
         );
-      case 'brick-breaker':
-        return FlutterBrickBreaker(
-          key: _engineKey,
-          onGameOver: commonProps.onGameOver,
-          onScoreUpdate: commonProps.onScoreUpdate,
-          isPaused: commonProps.isPaused,
-        );
-      case 'tic-tac-toe':
-        return FlutterTicTacToe(
+      case 'output-predictor':
+      case 'missing-code':
+      case 'logic-builder':
+        return FlutterOutputPredictor(
           key: _engineKey,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
@@ -215,15 +215,28 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
         );
-      case 'flappy-bug':
-        return FlutterFlappyBug(
+
+      // Typing Games
+      case 'speed-typing':
+      case 'code-typing':
+      case 'sixty-second-challenge':
+      case 'error-free-typing':
+      case 'syntax-typing':
+        return FlutterSpeedTyping(
+          key: _engineKey,
+          onGameOver: commonProps.onGameOver,
+          onScoreUpdate: commonProps.onScoreUpdate,
+          isPaused: commonProps.isPaused,
+        );
+      case 'word-rain':
+        return FlutterWordRain(
           key: _engineKey,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
         );
       default:
-        return const Center(child: Text('Game engine coming soon!'));
+        return const Center(child: Text('Game challenge ready!'));
     }
   }
 
@@ -239,99 +252,91 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
           error: (_, _) => const Text('Mini Game'),
         ),
         actions: [
+          // Favorite
           IconButton(
-            icon: Icon(_isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded),
-            tooltip: _isPaused ? 'Resume' : 'Pause',
-            onPressed: () => setState(() => _isPaused = !_isPaused),
+            icon: Icon(
+              _isFavorite ? Icons.favorite : Icons.favorite_border,
+              color: _isFavorite ? Colors.red : null,
+            ),
+            onPressed: () async {
+              final newFav = await ref.read(gameRepositoryProvider).toggleFavorite(widget.slug);
+              setState(() => _isFavorite = newFav);
+            },
           ),
-          IconButton(
-            icon: const Icon(Icons.refresh_rounded),
-            tooltip: 'Restart',
-            onPressed: _restart,
-          ),
+          // Instructions
           gameAsync.maybeWhen(
             data: (game) => game != null
                 ? IconButton(
                     icon: const Icon(Icons.info_outline_rounded),
-                    tooltip: 'Instructions',
                     onPressed: () => _showInstructions(game),
                   )
                 : const SizedBox.shrink(),
             orElse: () => const SizedBox.shrink(),
           ),
+          // Restart
+          IconButton(
+            icon: const Icon(Icons.refresh_rounded),
+            onPressed: _restartGame,
+          ),
         ],
       ),
-      body: gameAsync.when(
-        data: (game) {
-          if (game != null && _personalBest == 0 && game.userHighScore > 0) {
-            _personalBest = game.userHighScore;
-            _isFavorite = game.isFavorite;
-          }
-
-          return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Column(
-              children: [
-                // Top Score Bar
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  margin: const EdgeInsets.only(bottom: 16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: Theme.of(context).dividerColor.withValues(alpha: 0.15),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Top HUD Bar: Score & Best
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              color: Theme.of(context).cardColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
                     children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.sports_esports_rounded, size: 16, color: Colors.green),
-                          const SizedBox(width: 6),
-                          Text(
-                            'Score: $_currentScore',
-                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(Icons.emoji_events_rounded, size: 16, color: Colors.amber),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Best: $_personalBest',
-                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(width: 8),
-                          InkWell(
-                            onTap: () async {
-                              final fav = await ref.read(gameRepositoryProvider).toggleFavorite(widget.slug);
-                              setState(() {
-                                _isFavorite = fav;
-                              });
-                            },
-                            child: Icon(
-                              _isFavorite ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
-                              size: 18,
-                              color: _isFavorite ? Colors.red : Colors.grey,
-                            ),
-                          ),
-                        ],
+                      const Text('SCORE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
+                      Text(
+                        '$_currentScore',
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Color(0xFF10B981)),
                       ),
                     ],
                   ),
-                ),
-
-                // Active Engine Container
-                _buildEngine(),
-              ],
+                  Column(
+                    children: [
+                      const Text('BEST', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
+                      Text(
+                        '$_personalBest',
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.amber),
+                      ),
+                    ],
+                  ),
+                  IconButton.filledTonal(
+                    icon: Icon(_isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded),
+                    onPressed: () => setState(() => _isPaused = !_isPaused),
+                  ),
+                ],
+              ),
             ),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text('Error loading game: $err')),
+
+            if (_isPaused)
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                color: Colors.amber.withValues(alpha: 0.2),
+                alignment: Alignment.center,
+                child: const Text(
+                  'PAUSED - Tap Play to continue',
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.amber),
+                ),
+              ),
+
+            // Game Engine Viewport
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: _buildEngine(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

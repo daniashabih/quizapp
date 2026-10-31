@@ -34,12 +34,13 @@ const gameController = {
      */
     getGames: async (req, res) => {
         try {
-            const { category, search, featured } = req.query;
+            const { category, search, difficulty, featured } = req.query;
             const userId = getOptionalUserId(req);
 
             const games = await GameModel.getAll({
                 category,
                 search,
+                difficulty,
                 isPublished: true,
                 isFeatured: featured ? (featured === 'true' || featured === '1') : undefined,
                 userId
@@ -53,17 +54,14 @@ const gameController = {
             const allPublished = await GameModel.getAll({ isPublished: true, userId });
             const categoryCounts = {
                 'All Games': allPublished.length,
-                'Puzzle Games': 0,
-                'Arcade Games': 0,
-                'Racing Games': 0,
-                'Sports Games': 0,
-                'Brain Games': 0,
-                'Adventure Games': 0,
-                'Casual Games': 0
+                'Coding Games': 0,
+                'Typing Games': 0
             };
             allPublished.forEach(g => {
                 if (categoryCounts[g.category] !== undefined) {
                     categoryCounts[g.category] += 1;
+                } else {
+                    categoryCounts[g.category] = (categoryCounts[g.category] || 0) + 1;
                 }
             });
 
@@ -116,13 +114,115 @@ const gameController = {
     },
 
     /**
+     * GET /api/games/:slug/challenges
+     * Get sanitized challenges for a game
+     */
+    getChallenges: async (req, res) => {
+        try {
+            const { slug } = req.params;
+            const { difficulty, language } = req.query;
+
+            const challenges = await GameModel.getChallenges(slug.toLowerCase(), { difficulty, language });
+            res.json({
+                success: true,
+                count: challenges.length,
+                data: challenges
+            });
+        } catch (err) {
+            console.error('Error getting game challenges:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to fetch game challenges.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
+     * POST /api/games/:slug/verify
+     * Securely verify a coding challenge solution on the server
+     */
+    verifyChallenge: async (req, res) => {
+        try {
+            const { slug } = req.params;
+            const { challengeId, submission } = req.body;
+
+            if (!challengeId) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'challengeId is required.'
+                });
+            }
+
+            const result = await GameModel.verifyChallenge(slug.toLowerCase(), challengeId, submission);
+            res.json({
+                success: true,
+                ...result
+            });
+        } catch (err) {
+            console.error('Error verifying game challenge:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to verify challenge submission.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
+     * GET /api/games/daily/challenge
+     * Get today's daily featured game challenge
+     */
+    getDailyChallenge: async (req, res) => {
+        try {
+            const daily = await GameModel.getDailyChallenge();
+            res.json({
+                success: true,
+                data: daily
+            });
+        } catch (err) {
+            console.error('Error getting daily game challenge:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to fetch daily challenge.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
+     * GET /api/games/leaderboard/:slug
+     * Get game leaderboard
+     */
+    getLeaderboard: async (req, res) => {
+        try {
+            const { slug } = req.params;
+            const limit = parseInt(req.query.limit, 10) || 10;
+            const leaderboard = await GameModel.getLeaderboard(slug.toLowerCase(), limit);
+
+            res.json({
+                success: true,
+                count: leaderboard.length,
+                data: leaderboard
+            });
+        } catch (err) {
+            console.error('Error getting game leaderboard:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to fetch leaderboard.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
      * POST /api/games/:slug/score
      * Record a user's score (supports authenticated users, returns guest hint if unauthenticated)
      */
     submitScore: async (req, res) => {
         try {
             const { slug } = req.params;
-            const { score, durationSeconds, metadata } = req.body;
+            const { score, durationSeconds, accuracy, wpm, difficulty, metadata } = req.body;
             const userId = req.user?.id || getOptionalUserId(req);
 
             if (!slug) {
@@ -144,6 +244,8 @@ const gameController = {
                     success: true,
                     isGuest: true,
                     score: Number(score),
+                    wpm: Number(wpm || 0),
+                    accuracy: Number(accuracy || 100),
                     message: 'Score acknowledged for guest. Sign in to save your personal best and track progress on the leaderboard!'
                 });
             }
@@ -153,6 +255,9 @@ const gameController = {
                 gameSlug: slug.toLowerCase(),
                 score: Number(score),
                 durationSeconds: Number(durationSeconds || 0),
+                accuracy: accuracy !== undefined ? Number(accuracy) : 100,
+                wpm: wpm !== undefined ? Number(wpm) : 0,
+                difficulty: difficulty || 'All Levels',
                 metadata: metadata || {}
             });
 
@@ -220,6 +325,8 @@ const gameController = {
                     data: {
                         totalPlayed: 0,
                         highScores: {},
+                        bestWpm: {},
+                        bestAccuracy: {},
                         favorites: [],
                         recentGames: [],
                         history: []
@@ -271,7 +378,7 @@ const gameController = {
      */
     adminCreateGame: async (req, res) => {
         try {
-            const { title, description, instructions, category, thumbnail, badge, cardSize, isPublished, isFeatured, order } = req.body;
+            const { title, description, instructions, category, difficulty, thumbnail, badge, cardSize, isPublished, isFeatured, order } = req.body;
             if (!title) {
                 return res.status(400).json({ success: false, message: 'Game title is required.' });
             }
@@ -280,7 +387,8 @@ const gameController = {
                 title,
                 description: description || '',
                 instructions: instructions || '',
-                category: category || 'Casual Games',
+                category: category || 'Coding Games',
+                difficulty: difficulty || 'All Levels',
                 thumbnail: thumbnail || 'gradient-indigo',
                 badge: badge || '',
                 cardSize: cardSize || 'medium',

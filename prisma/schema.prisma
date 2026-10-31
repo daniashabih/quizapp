@@ -110,16 +110,17 @@ model Game {
   title        String
   description  String
   instructions String?            @default("")
-  category     String             // e.g., "Puzzle Games", "Arcade Games", "Brain Games", "Casual Games", "Racing Games", "Sports Games"
+  category     String             // "Coding Games" or "Typing Games"
+  difficulty   String?            @default("All Levels")
   thumbnail    String?            @default("")
-  badge        String?            @default("") // "Featured", "Hot", "New", "Classic", "Popular"
+  badge        String?            @default("") // "Featured", "Hot", "New", "Popular"
   isPublished  Boolean            @default(true) @map("is_published")
   isFeatured   Boolean            @default(false) @map("is_featured")
   cardSize     String?            @default("medium") @map("card_size") // "large", "tall", "medium", "small"
   aspectRatio  String?            @default("16/9") @map("aspect_ratio")
   order        Int                @default(0)
   playsCount   Int                @default(0) @map("plays_count")
-  rating       Float?             @default(4.8)
+  rating       Float?             @default(4.9)
   createdAt    DateTime           @default(now()) @map("created_at")
   updatedAt    DateTime?          @updatedAt @map("updated_at")
   scores       GameScore[]
@@ -135,6 +136,10 @@ model GameScore {
   gameSlug        String   @map("game_slug")
   score           Int
   highScore       Int?     @default(0) @map("high_score")
+  accuracy        Float?   @default(100.0)
+  wpm             Float?   @default(0.0)
+  difficulty      String?  @default("All Levels")
+  isCompleted     Boolean? @default(true) @map("is_completed")
   durationSeconds Int?     @default(0) @map("duration_seconds")
   metadata        String?  @default("{}")
   createdAt       DateTime @default(now()) @map("created_at")
@@ -152,6 +157,8 @@ model UserGameProgress {
   userId       String   @map("user_id")
   gameSlug     String   @map("game_slug")
   highScore    Int      @default(0) @map("high_score")
+  bestWpm      Float?   @default(0) @map("best_wpm")
+  bestAccuracy Float?   @default(0) @map("best_accuracy")
   totalPlays   Int      @default(0) @map("total_plays")
   lastPlayedAt DateTime @default(now()) @map("last_played_at")
 
@@ -170,4 +177,23 @@ model UserGameFavorite {
 
   @@unique([userId, gameSlug])
   @@map("user_game_favorites")
+}
+
+model GameChallenge {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  gameSlug     String   @map("game_slug")
+  title        String
+  difficulty   String   @default("Beginner") // Beginner, Intermediate, Advanced
+  language     String?  @default("javascript") // html, css, javascript, php, python, sql, general
+  description  String?  @default("")
+  content      String   // Code snippet, passage text, scrambled blocks, or puzzle spec (JSON or string)
+  solution     String   // Expected answer, order, correct line, or expected SQL result (kept secure on backend)
+  hints        String?  @default("")
+  explanation  String?  @default("")
+  order        Int      @default(0)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@index([gameSlug, difficulty])
+  @@map("game_challenges")
 }

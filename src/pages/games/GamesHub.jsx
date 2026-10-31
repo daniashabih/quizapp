@@ -9,13 +9,14 @@ import {
     Heart,
     Star,
     Play,
-    Filter,
-    Compass,
-    SlidersHorizontal,
+    Code2,
+    Keyboard,
     ArrowRight,
     Users,
     Zap,
-    RotateCcw
+    RotateCcw,
+    Gauge,
+    ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import gameService from '../../services/gameService';
@@ -24,15 +25,12 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 
 const CATEGORIES = [
-    { name: 'All Games', icon: '🎮' },
-    { name: 'Puzzle Games', icon: '🧩' },
-    { name: 'Arcade Games', icon: '🕹️' },
-    { name: 'Racing Games', icon: '🏎️' },
-    { name: 'Sports Games', icon: '⚽' },
-    { name: 'Brain Games', icon: '🧠' },
-    { name: 'Adventure Games', icon: '🗺️' },
-    { name: 'Casual Games', icon: '🎯' }
+    { name: 'All Games', icon: <Gamepad2 size={16} /> },
+    { name: 'Coding Games', icon: <Code2 size={16} /> },
+    { name: 'Typing Games', icon: <Keyboard size={16} /> }
 ];
+
+const DIFFICULTIES = ['All Levels', 'Beginner', 'Intermediate', 'Advanced'];
 
 export const GamesHub = () => {
     const { user } = useAuth();
@@ -45,6 +43,7 @@ export const GamesHub = () => {
 
     // Filters
     const [selectedCategory, setSelectedCategory] = useState('All Games');
+    const [selectedDifficulty, setSelectedDifficulty] = useState('All Levels');
     const [searchQuery, setSearchQuery] = useState('');
     const [activeTab, setActiveTab] = useState('all'); // 'all', 'favorites', 'featured', 'recent'
 
@@ -103,6 +102,13 @@ export const GamesHub = () => {
                 return false;
             }
 
+            // Difficulty filter
+            if (selectedDifficulty !== 'All Levels') {
+                if ((game.difficulty || '').toLowerCase() !== selectedDifficulty.toLowerCase()) {
+                    return false;
+                }
+            }
+
             // Tab filter
             if (activeTab === 'favorites' && !game.isFavorite) {
                 return false;
@@ -126,16 +132,15 @@ export const GamesHub = () => {
 
             return true;
         });
-    }, [games, selectedCategory, activeTab, searchQuery, userStats]);
+    }, [games, selectedCategory, selectedDifficulty, activeTab, searchQuery, userStats]);
 
     return (
         <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col">
             <Navbar />
 
             <main className="flex-1 pt-20 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-                {/* 1. ARCADE HERO BANNER & DAILY FEATURED SPOTLIGHT */}
+                {/* 1. HERO BANNER & DAILY FEATURED SPOTLIGHT */}
                 <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-emerald-950 via-teal-900 to-slate-950 border border-emerald-500/20 shadow-2xl p-6 sm:p-8 md:p-10 mb-8 text-white">
-                    {/* Glowing background orbs */}
                     <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
                     <div className="absolute -bottom-10 right-0 w-80 h-80 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
 
@@ -144,33 +149,33 @@ export const GamesHub = () => {
                         <div className="lg:col-span-7 space-y-4">
                             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold tracking-wide backdrop-blur-xs">
                                 <Sparkles size={14} className="animate-spin text-emerald-400" />
-                                <span>HANGBUG MINI GAMES ARCADE</span>
+                                <span>HANGBUG CODING & TYPING GAMES</span>
                             </div>
 
                             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
-                                Casual Games, <br />
+                                Code Logic, Debugging & <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-                                    Instant Fun & Reflexes
+                                    High-Speed Developer Typing
                                 </span>
                             </h1>
 
                             <p className="text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed">
-                                Take a well-deserved break between coding quizzes! Enjoy our curated gallery of retro puzzles, arcade hits, reflex challenges, and brain boosters.
+                                Master real programming syntax, solve algorithmic code puzzles, spot hidden syntax bugs, and build lightning-fast keyboard muscle memory through 14 interactive coding & typing challenges.
                             </p>
 
                             {/* Stats Chips */}
                             <div className="flex flex-wrap items-center gap-3 pt-2">
                                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs">
-                                    <Gamepad2 size={16} className="text-emerald-400" />
-                                    <span><strong>{games.length}+</strong> Playable Games</span>
+                                    <Code2 size={16} className="text-emerald-400" />
+                                    <span><strong>8</strong> Coding Games</span>
                                 </div>
                                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs">
-                                    <Zap size={16} className="text-amber-400" />
-                                    <span>No Downloads Required</span>
+                                    <Keyboard size={16} className="text-cyan-400" />
+                                    <span><strong>6</strong> Typing Games</span>
                                 </div>
                                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs">
                                     <Trophy size={16} className="text-yellow-400" />
-                                    <span>Cloud High Scores</span>
+                                    <span>Cloud Persistence & WPM</span>
                                 </div>
                             </div>
                         </div>
@@ -181,7 +186,7 @@ export const GamesHub = () => {
                                 <div className="relative group bg-slate-900/90 border border-emerald-500/30 rounded-3xl p-5 shadow-2xl backdrop-blur-md transform hover:-translate-y-1 transition-all duration-300">
                                     <div className="flex items-center justify-between mb-3">
                                         <span className="text-[11px] font-black uppercase tracking-wider text-amber-400 bg-amber-400/20 px-2.5 py-0.5 rounded-full border border-amber-400/30 flex items-center gap-1">
-                                            <Flame size={12} /> Daily Spotlight
+                                            <Flame size={12} /> Daily Quest: 1.5x XP
                                         </span>
                                         <div className="flex items-center gap-1 text-xs text-slate-400">
                                             <Star size={13} className="text-amber-400 fill-amber-400" />
@@ -195,7 +200,12 @@ export const GamesHub = () => {
                                         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
                                     </div>
 
-                                    <h3 className="text-lg font-black text-white mb-1">{featuredGame.title}</h3>
+                                    <div className="flex items-center justify-between mb-1">
+                                        <h3 className="text-lg font-black text-white">{featuredGame.title}</h3>
+                                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                                            {featuredGame.difficulty || 'All Levels'}
+                                        </span>
+                                    </div>
                                     <p className="text-xs text-slate-300 line-clamp-2 mb-4 leading-relaxed">
                                         {featuredGame.description}
                                     </p>
@@ -204,7 +214,7 @@ export const GamesHub = () => {
                                         to={`/games/${featuredGame.slug}`}
                                         className="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/30 active:scale-98 transition-all"
                                     >
-                                        <Play size={14} className="fill-slate-950" /> Play Now
+                                        <Play size={14} className="fill-slate-950" /> Play Daily Quest
                                     </Link>
                                 </div>
                             </div>
@@ -212,7 +222,7 @@ export const GamesHub = () => {
                     </div>
                 </div>
 
-                {/* 2. USER ARCADE PROFILE STRIP */}
+                {/* 2. USER PROFILE STRIP */}
                 {user ? (
                     <div className="mb-8 p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-xs flex flex-wrap items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
@@ -220,14 +230,14 @@ export const GamesHub = () => {
                                 {user.name?.charAt(0).toUpperCase() || 'U'}
                             </div>
                             <div>
-                                <h4 className="text-xs font-bold text-[var(--foreground)]">{user.name}'s Arcade Hub</h4>
-                                <p className="text-[11px] text-[var(--foreground-muted)]">Scores and personal bests automatically synced with your cloud profile.</p>
+                                <h4 className="text-xs font-bold text-[var(--foreground)]">{user.name}'s Dev Profile</h4>
+                                <p className="text-[11px] text-[var(--foreground-muted)]">Code challenges solved and typing metrics saved to your account.</p>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4 text-center">
+                        <div className="flex items-center gap-3 text-center">
                             <div className="px-3 py-1 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
-                                <span className="text-[10px] font-bold uppercase text-[var(--foreground-muted)] block">Games Played</span>
+                                <span className="text-[10px] font-bold uppercase text-[var(--foreground-muted)] block">Challenges Solved</span>
                                 <span className="text-sm font-black text-emerald-500">{userStats?.totalPlayed || 0}</span>
                             </div>
                             <div className="px-3 py-1 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
@@ -238,7 +248,7 @@ export const GamesHub = () => {
                     </div>
                 ) : (
                     <div className="mb-8 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs text-amber-500 flex-wrap gap-2">
-                        <span>👋 <strong>Playing in Guest Mode:</strong> You can play any game freely! Sign in to save personal high scores and favorite titles.</span>
+                        <span>👋 <strong>Playing in Guest Mode:</strong> All 14 games are freely playable! Sign in to record your personal best score, live WPM, and favorite games.</span>
                         <Link to="/login" className="px-3 py-1 rounded-lg bg-amber-500 text-stone-950 font-bold hover:bg-amber-600 transition-colors">
                             Sign In
                         </Link>
@@ -300,7 +310,7 @@ export const GamesHub = () => {
                         <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
                         <input
                             type="text"
-                            placeholder="Search arcade games..."
+                            placeholder="Search games or skills..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)] placeholder-[var(--foreground-muted)] focus:outline-hidden focus:border-[#193D35] transition-all"
@@ -309,40 +319,60 @@ export const GamesHub = () => {
                 </div>
 
                 {/* 4. CATEGORY PILL FILTER CHIPS */}
-                <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-6 scrollbar-none">
-                    {CATEGORIES.map((cat) => {
-                        const isSelected = selectedCategory === cat.name;
-                        const count = categoryCounts[cat.name] || 0;
-                        return (
+                <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+                    <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                        {CATEGORIES.map((cat) => {
+                            const isSelected = selectedCategory === cat.name;
+                            const count = categoryCounts[cat.name] || 0;
+                            return (
+                                <button
+                                    key={cat.name}
+                                    onClick={() => setSelectedCategory(cat.name)}
+                                    className={`px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap flex items-center gap-2 transition-all cursor-pointer border ${
+                                        isSelected
+                                            ? 'bg-[#193D35] dark:bg-emerald-500 text-white dark:text-stone-950 border-[#193D35] dark:border-emerald-400 shadow-md shadow-[#193D35]/20 dark:shadow-emerald-500/20 scale-102'
+                                            : 'bg-[var(--card-bg)] text-[var(--foreground-secondary)] border-[var(--card-border)] hover:border-[#193D35] dark:hover:border-emerald-400'
+                                    }`}
+                                >
+                                    {cat.icon}
+                                    <span>{cat.name}</span>
+                                    {count > 0 && (
+                                        <span
+                                            className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                                                isSelected ? 'bg-white/20 text-white dark:text-stone-950' : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)]'
+                                            }`}
+                                        >
+                                            {count}
+                                        </span>
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    {/* Difficulty selector */}
+                    <div className="flex items-center gap-1.5 text-xs">
+                        <span className="text-[11px] text-[var(--foreground-muted)] font-medium mr-1">Difficulty:</span>
+                        {DIFFICULTIES.map(diff => (
                             <button
-                                key={cat.name}
-                                onClick={() => setSelectedCategory(cat.name)}
-                                className={`px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap flex items-center gap-2 transition-all cursor-pointer border ${
-                                    isSelected
-                                        ? 'bg-[#193D35] dark:bg-emerald-500 text-white dark:text-stone-950 border-[#193D35] dark:border-emerald-400 shadow-md shadow-[#193D35]/20 dark:shadow-emerald-500/20 scale-102'
-                                        : 'bg-[var(--card-bg)] text-[var(--foreground-secondary)] border-[var(--card-border)] hover:border-[#193D35] dark:hover:border-emerald-400'
+                                key={diff}
+                                onClick={() => setSelectedDifficulty(diff)}
+                                className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
+                                    selectedDifficulty === diff
+                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                                        : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
                                 }`}
                             >
-                                <span>{cat.icon}</span>
-                                <span>{cat.name}</span>
-                                {count > 0 && (
-                                    <span
-                                        className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                                            isSelected ? 'bg-white/20 text-white dark:text-stone-950' : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)]'
-                                        }`}
-                                    >
-                                        {count}
-                                    </span>
-                                )}
+                                {diff}
                             </button>
-                        );
-                    })}
+                        ))}
+                    </div>
                 </div>
 
-                {/* 5. RICH MASONRY / BENTO GRID GALLERY OF GAMES */}
+                {/* 5. RICH MASONRY / BENTO GRID GALLERY OF CODING & TYPING GAMES */}
                 {loading ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                        {[1, 2, 3, 4, 5, 6].map(i => (
+                        {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
                             <div key={i} className="h-64 rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)] animate-pulse p-4 flex flex-col justify-between">
                                 <div className="h-36 rounded-2xl bg-[var(--muted-bg)]" />
                                 <div className="h-4 bg-[var(--muted-bg)] rounded-md w-3/4" />
@@ -353,12 +383,12 @@ export const GamesHub = () => {
                 ) : filteredGames.length === 0 ? (
                     <div className="p-12 text-center bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl my-6">
                         <Gamepad2 size={48} className="mx-auto text-[var(--foreground-muted)] mb-3 opacity-60" />
-                        <h3 className="text-base font-bold mb-1">No games found</h3>
+                        <h3 className="text-base font-bold mb-1">No games match your filters</h3>
                         <p className="text-xs text-[var(--foreground-muted)] max-w-sm mx-auto mb-4">
-                            Try adjusting your search query or selecting a different game category.
+                            Try adjusting your search query, difficulty level, or selecting All Games.
                         </p>
                         <button
-                            onClick={() => { setSelectedCategory('All Games'); setSearchQuery(''); setActiveTab('all'); }}
+                            onClick={() => { setSelectedCategory('All Games'); setSelectedDifficulty('All Levels'); setSearchQuery(''); setActiveTab('all'); }}
                             className="px-4 py-2 rounded-xl bg-[#193D35] text-white text-xs font-bold hover:bg-[#193D35]/90 cursor-pointer"
                         >
                             Reset All Filters
@@ -369,6 +399,7 @@ export const GamesHub = () => {
                         {filteredGames.map((game) => {
                             const isLarge = game.cardSize === 'large';
                             const isTall = game.cardSize === 'tall';
+                            const isTyping = game.category === 'Typing Games';
 
                             return (
                                 <Link
@@ -398,7 +429,7 @@ export const GamesHub = () => {
                                                     onClick={(e) => handleToggleFavorite(e, game.slug)}
                                                     className={`p-1.5 rounded-full backdrop-blur-md transition-all pointer-events-auto cursor-pointer ${
                                                         game.isFavorite
-                                                            ? 'bg-rose-500 text-white shadow-md'
+                                                             ? 'bg-rose-500 text-white shadow-md'
                                                             : 'bg-black/50 text-white/80 hover:text-rose-400 hover:bg-black/70'
                                                     }`}
                                                     title={game.isFavorite ? "Favorited" : "Add to favorites"}
@@ -429,8 +460,8 @@ export const GamesHub = () => {
                                                 <h3 className="text-sm font-black text-[var(--foreground)] group-hover:text-emerald-500 dark:group-hover:text-emerald-400 transition-colors truncate">
                                                     {game.title}
                                                 </h3>
-                                                <span className="text-[10px] font-bold text-[var(--foreground-muted)] whitespace-nowrap">
-                                                    {game.category.replace(' Games', '')}
+                                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-[var(--muted-bg)] text-[var(--foreground-muted)] whitespace-nowrap">
+                                                    {game.difficulty || 'All Levels'}
                                                 </span>
                                             </div>
                                             <p className="text-[11px] text-[var(--foreground-muted)] line-clamp-2 leading-relaxed mb-3">
@@ -441,18 +472,20 @@ export const GamesHub = () => {
                                         {/* Bottom Metrics Bar */}
                                         <div className="pt-2.5 border-t border-[var(--card-border)] flex items-center justify-between text-[11px]">
                                             <div className="flex items-center gap-1 text-[var(--foreground-muted)]">
-                                                <Users size={12} />
-                                                <span>{(game.playsCount || 0).toLocaleString()} plays</span>
+                                                {isTyping ? <Keyboard size={12} /> : <Code2 size={12} />}
+                                                <span>{game.category.replace(' Games', '')}</span>
                                             </div>
 
                                             {game.userHighScore > 0 ? (
                                                 <div className="flex items-center gap-1 text-amber-500 font-bold">
                                                     <Trophy size={12} />
-                                                    <span>Best: {game.userHighScore}</span>
+                                                    <span>
+                                                        Best: {game.userHighScore} {isTyping && game.userBestWpm ? `(${game.userBestWpm} WPM)` : 'pts'}
+                                                    </span>
                                                 </div>
                                             ) : (
                                                 <span className="font-bold text-emerald-500 flex items-center gap-1">
-                                                    Play <ArrowRight size={12} />
+                                                    Play Challenge <ArrowRight size={12} />
                                                 </span>
                                             )}
                                         </div>

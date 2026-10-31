@@ -26,12 +26,56 @@ const gameService = {
     },
 
     /**
+     * Get challenges for a game
+     */
+    getChallenges: async (slug, params = {}) => {
+        const response = await axios.get(`${API_BASE}/${slug}/challenges`, {
+            params,
+            withCredentials: true
+        });
+        return response.data;
+    },
+
+    /**
+     * Verify challenge submission on backend
+     */
+    verifyChallenge: async (slug, challengeId, submission) => {
+        const response = await axios.post(
+            `${API_BASE}/${slug}/verify`,
+            { challengeId, submission },
+            { withCredentials: true }
+        );
+        return response.data;
+    },
+
+    /**
+     * Get daily featured game quest
+     */
+    getDailyChallenge: async () => {
+        const response = await axios.get(`${API_BASE}/daily/challenge`, {
+            withCredentials: true
+        });
+        return response.data;
+    },
+
+    /**
+     * Get game leaderboard
+     */
+    getLeaderboard: async (slug, limit = 10) => {
+        const response = await axios.get(`${API_BASE}/leaderboard/${slug}`, {
+            params: { limit },
+            withCredentials: true
+        });
+        return response.data;
+    },
+
+    /**
      * Submit game score
      */
-    submitScore: async (slug, { score, durationSeconds, metadata }) => {
+    submitScore: async (slug, { score, durationSeconds, accuracy, wpm, difficulty, metadata }) => {
         const response = await axios.post(
             `${API_BASE}/${slug}/score`,
-            { score, durationSeconds, metadata },
+            { score, durationSeconds, accuracy, wpm, difficulty, metadata },
             { withCredentials: true }
         );
         return response.data;

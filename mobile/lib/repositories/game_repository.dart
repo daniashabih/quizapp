@@ -9,59 +9,109 @@ class GameRepository {
 
   // Fallback initial games for offline or local preview
   static final List<GameModel> fallbackGames = [
+    // --- 8 Coding Games ---
     const GameModel(
-      id: '2048',
-      slug: '2048',
-      title: '2048',
-      description: 'Join identical numbered tiles and reach the legendary 2048 tile in this addictive sliding puzzle.',
-      instructions: 'Swipe in any direction to slide tiles. Identical numbers merge when they collide. Reach 2048 to win!',
-      category: 'Puzzle Games',
-      badge: 'Hot',
+      id: 'code-puzzle',
+      slug: 'code-puzzle',
+      title: 'Code Puzzle',
+      description: 'Arrange shuffled programming code blocks in the correct logical order to complete working snippets.',
+      instructions: 'Drag or use arrows to rearrange statements in the correct logical execution flow.',
+      category: 'Coding Games',
+      difficulty: 'Intermediate',
+      badge: 'Popular',
       cardSize: 'large',
       rating: 4.9,
-      playsCount: 1420,
+      playsCount: 3840,
       isPublished: true,
       isFeatured: true,
     ),
     const GameModel(
-      id: 'snake',
-      slug: 'snake',
-      title: 'Snake Classic',
-      description: 'Guide the retro pixel snake to munch delicious apples, grow longer, and dodge dangerous wall collisions.',
-      instructions: 'Use the D-pad or swipe gestures to steer the snake. Gobble apples for +10 points. Don\'t bite yourself or walls!',
-      category: 'Arcade Games',
-      badge: 'Popular',
+      id: 'find-the-bug',
+      slug: 'find-the-bug',
+      title: 'Find the Bug',
+      description: 'Spot syntax, logic, and type errors hidden in real code snippets and click the buggy line.',
+      instructions: 'Inspect line by line and tap the line with the defect.',
+      category: 'Coding Games',
+      difficulty: 'Beginner',
+      badge: 'Hot',
       cardSize: 'tall',
-      rating: 4.8,
-      playsCount: 2150,
+      rating: 4.9,
+      playsCount: 4210,
       isPublished: true,
-      isFeatured: true,
+      isFeatured: false,
     ),
     const GameModel(
-      id: 'brick-breaker',
-      slug: 'brick-breaker',
-      title: 'Brick Breaker',
-      description: 'Smash through vibrant brick matrices with bouncing balls, dynamic paddle rebounds, and power reflexes.',
-      instructions: 'Drag your finger to move the paddle. Bounce the ball to shatter all bricks before losing your 3 lives!',
-      category: 'Arcade Games',
+      id: 'output-predictor',
+      slug: 'output-predictor',
+      title: 'Output Predictor',
+      description: 'Trace loops, closures, scope, and operations to predict the exact terminal output before code runs.',
+      instructions: 'Read code carefully and choose the correct predicted output.',
+      category: 'Coding Games',
+      difficulty: 'Intermediate',
+      badge: 'Brain Boost',
+      cardSize: 'medium',
+      rating: 4.8,
+      playsCount: 3120,
+      isPublished: true,
+      isFeatured: false,
+    ),
+    const GameModel(
+      id: 'code-scramble',
+      slug: 'code-scramble',
+      title: 'Code Scramble',
+      description: 'Rearrange scrambled programming statements into the correct executable sequence.',
+      instructions: 'Move scrambled lines up and down until they form a coherent algorithm.',
+      category: 'Coding Games',
+      difficulty: 'Intermediate',
+      badge: 'Challenge',
+      cardSize: 'medium',
+      rating: 4.7,
+      playsCount: 2650,
+      isPublished: true,
+      isFeatured: false,
+    ),
+    const GameModel(
+      id: 'missing-code',
+      slug: 'missing-code',
+      title: 'Missing Code',
+      description: 'Fill in missing keywords, expressions, and syntax tokens to complete defective code structures.',
+      instructions: 'Select the missing keyword from choices to restore the code snippet.',
+      category: 'Coding Games',
+      difficulty: 'Beginner',
       badge: 'Featured',
       cardSize: 'large',
       rating: 4.9,
-      playsCount: 1890,
+      playsCount: 3590,
       isPublished: true,
-      isFeatured: true,
+      isFeatured: false,
     ),
     const GameModel(
-      id: 'tic-tac-toe',
-      slug: 'tic-tac-toe',
-      title: 'Tic Tac Toe',
-      description: 'The timeless strategy game with Single Player (Easy, Medium, Unbeatable Minimax AI) and 2-Player modes.',
-      instructions: 'Take turns placing X or O on the 3x3 grid. Line up 3 in a row to win against smart AI or a friend!',
-      category: 'Puzzle Games',
-      badge: 'Classic',
+      id: 'logic-builder',
+      slug: 'logic-builder',
+      title: 'Logic Builder',
+      description: 'Solve programmatic logic puzzles involving sequences, truth tables, loop bounds, and array transforms.',
+      instructions: 'Evaluate algorithmic rules and choose the correct solution.',
+      category: 'Coding Games',
+      difficulty: 'Advanced',
+      badge: 'Mental Gym',
       cardSize: 'medium',
-      rating: 4.7,
-      playsCount: 3100,
+      rating: 4.8,
+      playsCount: 2890,
+      isPublished: true,
+      isFeatured: false,
+    ),
+    const GameModel(
+      id: 'sql-challenge',
+      slug: 'sql-challenge',
+      title: 'SQL Challenge',
+      description: 'Write SQL queries (SELECT, WHERE, JOIN, GROUP BY) against practice schemas to retrieve target datasets.',
+      instructions: 'Test queries safely against in-memory datasets. Production DB is never touched.',
+      category: 'Coding Games',
+      difficulty: 'Intermediate',
+      badge: 'Database Pro',
+      cardSize: 'medium',
+      rating: 4.9,
+      playsCount: 3780,
       isPublished: true,
       isFeatured: false,
     ),
@@ -69,27 +119,106 @@ class GameRepository {
       id: 'memory-match',
       slug: 'memory-match',
       title: 'Memory Match',
-      description: 'Test and sharpen your visual recall by matching pairs of colorful arcade and tech cards.',
-      instructions: 'Flip cards two at a time to find identical pairs. Clear the board in the fewest moves!',
-      category: 'Brain Games',
-      badge: 'Brain Boost',
+      description: 'Match programming concepts and syntax with their correct definitions and code outputs.',
+      instructions: 'Flip cards two at a time to find matching terms and definitions.',
+      category: 'Coding Games',
+      difficulty: 'Beginner',
+      badge: 'Quick Mind',
       cardSize: 'medium',
       rating: 4.8,
-      playsCount: 1650,
+      playsCount: 4500,
+      isPublished: true,
+      isFeatured: false,
+    ),
+
+    // --- 6 Typing Games ---
+    const GameModel(
+      id: 'speed-typing',
+      slug: 'speed-typing',
+      title: 'Speed Typing',
+      description: 'Type developer articles, documentation, and technical passages with live WPM and accuracy tracking.',
+      instructions: 'Type displayed prose to benchmark developer WPM and accuracy.',
+      category: 'Typing Games',
+      difficulty: 'All Levels',
+      badge: 'High Speed',
+      cardSize: 'large',
+      rating: 4.9,
+      playsCount: 5210,
+      isPublished: true,
+      isFeatured: true,
+    ),
+    const GameModel(
+      id: 'code-typing',
+      slug: 'code-typing',
+      title: 'Code Typing',
+      description: 'Practice typing authentic syntax and code snippets across JavaScript, Python, PHP, HTML, CSS, and SQL.',
+      instructions: 'Type out indented code character-by-character to build syntax muscle memory.',
+      category: 'Typing Games',
+      difficulty: 'Intermediate',
+      badge: 'Dev Stamina',
+      cardSize: 'tall',
+      rating: 4.9,
+      playsCount: 4890,
       isPublished: true,
       isFeatured: false,
     ),
     const GameModel(
-      id: 'flappy-bug',
-      slug: 'flappy-bug',
-      title: 'Flappy Bug',
-      description: 'Help the cute Hangbug mascot flap gracefully through perilous green obstacle pipes.',
-      instructions: 'Tap anywhere to flap Hangbug upward. Time your flaps to fly between pipe gaps without crashing!',
-      category: 'Arcade Games',
-      badge: 'New',
+      id: 'sixty-second-challenge',
+      slug: 'sixty-second-challenge',
+      title: '60-Second Challenge',
+      description: 'A rapid 60-second typing sprint to type as many programming words and statements as humanly possible.',
+      instructions: 'Timer starts on first keypress. Type as many keywords as you can in 60s!',
+      category: 'Typing Games',
+      difficulty: 'All Levels',
+      badge: 'Sprint',
       cardSize: 'medium',
-      rating: 4.6,
-      playsCount: 980,
+      rating: 4.8,
+      playsCount: 4100,
+      isPublished: true,
+      isFeatured: false,
+    ),
+    const GameModel(
+      id: 'error-free-typing',
+      slug: 'error-free-typing',
+      title: 'Error-Free Typing',
+      description: 'Perfectionist typing mode: zero mistakes allowed! Typos block progress until corrected.',
+      instructions: 'Type flawlessly. Mistakes will halt progression until backspaced.',
+      category: 'Typing Games',
+      difficulty: 'Advanced',
+      badge: 'Precision',
+      cardSize: 'medium',
+      rating: 4.7,
+      playsCount: 3200,
+      isPublished: true,
+      isFeatured: false,
+    ),
+    const GameModel(
+      id: 'syntax-typing',
+      slug: 'syntax-typing',
+      title: 'Syntax Typing',
+      description: 'Drill tricky programming symbols: curly braces, brackets, semicolons, arrows =>, and logical operators.',
+      instructions: 'Drill special symbols: {}, [], (), ;, :, =>, &&, ||, !==.',
+      category: 'Typing Games',
+      difficulty: 'Intermediate',
+      badge: 'Symbol Drill',
+      cardSize: 'medium',
+      rating: 4.8,
+      playsCount: 3670,
+      isPublished: true,
+      isFeatured: false,
+    ),
+    const GameModel(
+      id: 'word-rain',
+      slug: 'word-rain',
+      title: 'Word Rain',
+      description: 'Programming keywords and identifiers fall from the sky! Type them rapidly before they hit the ground.',
+      instructions: 'Type falling keywords to destroy them before reaching the danger zone!',
+      category: 'Typing Games',
+      difficulty: 'All Levels',
+      badge: 'Arcade Rush',
+      cardSize: 'large',
+      rating: 4.9,
+      playsCount: 6100,
       isPublished: true,
       isFeatured: false,
     ),
@@ -103,14 +232,14 @@ class GameRepository {
   }) async {
     try {
       final queryParams = <String, dynamic>{};
-      if (category != null && category.isNotEmpty && category != 'All Games') {
+      if (category != null && category != 'All Games' && category != 'All') {
         queryParams['category'] = category;
       }
       if (search != null && search.isNotEmpty) {
         queryParams['search'] = search;
       }
       if (featured != null) {
-        queryParams['featured'] = featured.toString();
+        queryParams['featured'] = featured ? 'true' : 'false';
       }
 
       final response = await _apiClient.get(
@@ -118,38 +247,38 @@ class GameRepository {
         queryParameters: queryParams,
       );
 
-      final data = response.data;
-      if (data != null && data['data'] is List) {
-        return (data['data'] as List)
-            .map((item) => GameModel.fromJson(item as Map<String, dynamic>))
-            .toList();
+      if (response.data != null && response.data['success'] == true) {
+        final List rawData = response.data['data'] ?? [];
+        return rawData.map((json) => GameModel.fromJson(json)).toList();
       }
-      return fallbackGames;
     } catch (_) {
-      // Offline fallback
-      var list = List<GameModel>.from(fallbackGames);
-      if (category != null && category.isNotEmpty && category != 'All Games') {
-        list = list.where((g) => g.category.toLowerCase().contains(category.toLowerCase().replaceAll(' games', ''))).toList();
-      }
-      if (search != null && search.isNotEmpty) {
-        final q = search.toLowerCase();
-        list = list.where((g) => g.title.toLowerCase().contains(q) || g.category.toLowerCase().contains(q)).toList();
-      }
-      return list;
+      // Return filtered fallback data if backend is offline/unreachable
     }
+
+    var list = fallbackGames;
+    if (category != null && category != 'All Games' && category != 'All') {
+      final cat = category.toLowerCase().replaceAll(' games', '');
+      list = list.where((g) => g.category.toLowerCase().contains(cat)).toList();
+    }
+    if (search != null && search.isNotEmpty) {
+      final q = search.toLowerCase();
+      list = list.where((g) => g.title.toLowerCase().contains(q) || g.description.toLowerCase().contains(q)).toList();
+    }
+    if (featured != null) {
+      list = list.where((g) => g.isFeatured == featured).toList();
+    }
+    return list;
   }
 
   /// Get single game by slug
   Future<GameModel?> getGameBySlug(String slug) async {
     try {
-      final response = await _apiClient.get(ApiEndpoints.gameBySlug(slug));
-      final data = response.data;
-      if (data != null && data['data'] is Map<String, dynamic>) {
-        return GameModel.fromJson(data['data'] as Map<String, dynamic>);
+      final response = await _apiClient.get('${ApiEndpoints.games}/$slug');
+      if (response.data != null && response.data['success'] == true) {
+        return GameModel.fromJson(response.data['data']);
       }
     } catch (_) {}
 
-    // Fallback search
     try {
       return fallbackGames.firstWhere((g) => g.slug == slug);
     } catch (_) {
@@ -157,10 +286,12 @@ class GameRepository {
     }
   }
 
-  /// Submit score
+  /// Submit game score
   Future<GameScoreSubmitResult> submitScore(
     String slug,
     int score, {
+    double wpm = 0,
+    double accuracy = 100,
     int durationSeconds = 0,
     Map<String, dynamic>? metadata,
   }) async {
@@ -169,23 +300,26 @@ class GameRepository {
         ApiEndpoints.gameScore(slug),
         data: {
           'score': score,
+          'wpm': wpm,
+          'accuracy': accuracy,
           'durationSeconds': durationSeconds,
           'metadata': metadata ?? {},
         },
       );
-      if (response.data is Map<String, dynamic>) {
-        return GameScoreSubmitResult.fromJson(response.data as Map<String, dynamic>);
+      if (response.data != null && response.data['success'] == true) {
+        return GameScoreSubmitResult.fromJson(response.data);
       }
     } catch (_) {}
 
     return GameScoreSubmitResult(
       success: true,
-      isNewHighScore: false,
+      isNewHighScore: true,
       highScore: score,
       score: score,
+      wpm: wpm,
+      accuracy: accuracy,
       totalPlays: 1,
-      message: 'Score saved locally.',
-      isGuest: true,
+      message: 'Score saved locally!',
     );
   }
 
@@ -193,52 +327,51 @@ class GameRepository {
   Future<bool> toggleFavorite(String slug) async {
     try {
       final response = await _apiClient.post(ApiEndpoints.gameFavorite(slug));
-      return response.data?['isFavorite'] == true;
-    } catch (_) {
-      return false;
-    }
+      if (response.data != null && response.data['success'] == true) {
+        return response.data['isFavorite'] == true;
+      }
+    } catch (_) {}
+    return false;
   }
 
-  /// Get user stats
+  /// Get user game stats
   Future<UserGameStatsModel?> getUserStats() async {
     try {
       final response = await _apiClient.get(ApiEndpoints.gamesUserStats);
-      if (response.data?['data'] is Map<String, dynamic>) {
-        return UserGameStatsModel.fromJson(response.data['data'] as Map<String, dynamic>);
+      if (response.data != null && response.data['success'] == true) {
+        return UserGameStatsModel.fromJson(response.data['data'] ?? {});
       }
     } catch (_) {}
     return null;
   }
 
-  // Admin Methods
+  /// Admin: Get all games
   Future<List<GameModel>> adminGetGames() async {
     try {
       final response = await _apiClient.get(ApiEndpoints.adminGames);
-      final data = response.data;
-      if (data != null && data['data'] is List) {
-        return (data['data'] as List)
-            .map((item) => GameModel.fromJson(item as Map<String, dynamic>))
-            .toList();
+      if (response.data != null && response.data['success'] == true) {
+        final List rawData = response.data['data'] ?? [];
+        return rawData.map((json) => GameModel.fromJson(json)).toList();
       }
     } catch (_) {}
     return fallbackGames;
   }
 
-  Future<bool> adminTogglePublish(String id) async {
-    try {
-      final response = await _apiClient.patch(ApiEndpoints.adminGameTogglePublish(id));
-      return response.statusCode == 200;
-    } catch (_) {
-      return false;
-    }
-  }
-
+  /// Admin: Toggle featured status
   Future<bool> adminToggleFeature(String id) async {
     try {
       final response = await _apiClient.patch(ApiEndpoints.adminGameToggleFeature(id));
-      return response.statusCode == 200;
-    } catch (_) {
-      return false;
-    }
+      return response.data?['success'] == true;
+    } catch (_) {}
+    return false;
+  }
+
+  /// Admin: Toggle published status
+  Future<bool> adminTogglePublish(String id) async {
+    try {
+      final response = await _apiClient.patch(ApiEndpoints.adminGameTogglePublish(id));
+      return response.data?['success'] == true;
+    } catch (_) {}
+    return false;
   }
 }

@@ -1,224 +1,373 @@
 import React from 'react';
+import {
+    Code2, Bug, Terminal, Shuffle, HelpCircle, Cpu, Database,
+    Layers, Keyboard, Gauge, Timer, ShieldCheck, Hash, CloudRain
+} from 'lucide-react';
 
 /**
- * High-quality vector game artworks tailored for each arcade game.
- * Uses high-contrast, colorful gradients and crisp geometric vector shapes.
+ * High-quality vector game artworks tailored for each Coding & Typing game.
+ * Uses modern gradients, tech motifs, glowing accents, and high-contrast typography.
  */
 export const GameArtwork = ({ slug, className = "w-full h-full object-cover", title = "" }) => {
     switch (slug) {
-        case '2048':
+        // --- 8 CODING GAMES ---
+        case 'code-puzzle':
             return (
-                <div className={`relative overflow-hidden bg-gradient-to-br from-amber-500 via-orange-600 to-yellow-500 flex items-center justify-center ${className}`}>
-                    {/* Glowing background circles */}
-                    <div className="absolute -top-10 -left-10 w-36 h-36 bg-yellow-300/30 rounded-full blur-xl" />
-                    <div className="absolute -bottom-10 -right-10 w-36 h-36 bg-orange-700/40 rounded-full blur-xl" />
-
-                    {/* Geometric mini 2048 board representation */}
-                    <div className="relative z-10 grid grid-cols-2 gap-2 p-3 bg-black/25 backdrop-blur-md rounded-2xl border border-white/20 shadow-2xl transform group-hover:scale-105 transition-transform duration-300">
-                        <div className="w-11 h-11 sm:w-14 sm:h-14 bg-amber-200/90 rounded-xl flex items-center justify-center font-black text-amber-950 text-sm sm:text-base shadow-md">
-                            2
+                <div className={`relative overflow-hidden bg-gradient-to-br from-indigo-600 via-violet-700 to-purple-900 flex items-center justify-center ${className}`}>
+                    <div className="absolute -top-10 -left-10 w-36 h-36 bg-violet-400/20 rounded-full blur-xl" />
+                    <div className="relative z-10 flex flex-col gap-1.5 p-3.5 bg-black/40 backdrop-blur-md rounded-2xl border border-violet-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center justify-between pb-1 border-b border-white/10">
+                            <span className="text-[10px] font-mono text-violet-300 flex items-center gap-1">
+                                <Code2 className="w-3 h-3 text-violet-400" /> puzzle.js
+                            </span>
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                         </div>
-                        <div className="w-11 h-11 sm:w-14 sm:h-14 bg-orange-400 rounded-xl flex items-center justify-center font-black text-white text-sm sm:text-base shadow-md">
-                            64
+                        <div className="bg-violet-900/60 border border-violet-500/40 px-2 py-1 rounded font-mono text-[11px] text-violet-200">
+                            1. const evens = arr.filter()
                         </div>
-                        <div className="w-11 h-11 sm:w-14 sm:h-14 bg-amber-500 rounded-xl flex items-center justify-center font-black text-white text-sm sm:text-base shadow-md">
-                            512
+                        <div className="bg-purple-900/60 border border-purple-500/40 px-2 py-1 rounded font-mono text-[11px] text-purple-200">
+                            2. const squared = evens.map()
                         </div>
-                        <div className="w-11 h-11 sm:w-14 sm:h-14 bg-yellow-300 rounded-xl flex items-center justify-center font-black text-amber-950 text-xs sm:text-sm font-extrabold shadow-lg animate-pulse">
-                            2048
+                        <div className="bg-fuchsia-900/60 border border-fuchsia-500/40 px-2 py-1 rounded font-mono text-[11px] text-fuchsia-200">
+                            3. return squared;
                         </div>
                     </div>
-                    <span className="absolute bottom-2.5 right-3 text-[11px] font-black uppercase tracking-wider text-white/80 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                        Slide & Merge
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-violet-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Order Blocks
                     </span>
                 </div>
             );
 
-        case 'snake':
+        case 'find-the-bug':
             return (
-                <div className={`relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-700 to-green-900 flex items-center justify-center ${className}`}>
-                    {/* Retro Grid Background */}
-                    <div
-                        className="absolute inset-0 opacity-15"
-                        style={{
-                            backgroundImage: `linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px)`,
-                            backgroundSize: '16px 16px'
-                        }}
-                    />
-                    <div className="relative z-10 flex items-center justify-center">
-                        {/* Winding Snake Body */}
-                        <div className="flex items-center gap-1.5 p-3 bg-black/30 backdrop-blur-md rounded-2xl border border-emerald-400/30 shadow-xl group-hover:scale-105 transition-transform duration-300">
-                            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-300 border-2 border-emerald-100 flex items-center justify-center shadow-lg relative">
-                                <div className="w-1.5 h-1.5 bg-black rounded-full absolute top-1.5 left-1.5" />
-                                <div className="w-1.5 h-1.5 bg-black rounded-full absolute bottom-1.5 left-1.5" />
-                            </div>
-                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-400" />
-                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-lg bg-emerald-500" />
-                            <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-lg bg-emerald-600" />
-                            {/* Glowing Red Apple */}
-                            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-red-500 ml-3 shadow-lg shadow-red-500/50 flex items-center justify-center animate-bounce">
-                                <div className="w-1 h-1.5 bg-green-300 -top-1 relative rounded-xs" />
-                            </div>
+                <div className={`relative overflow-hidden bg-gradient-to-br from-rose-600 via-pink-700 to-red-900 flex items-center justify-center ${className}`}>
+                    <div className="absolute -bottom-10 -right-10 w-36 h-36 bg-red-400/20 rounded-full blur-xl" />
+                    <div className="relative z-10 flex flex-col gap-1.5 p-3.5 bg-black/40 backdrop-blur-md rounded-2xl border border-rose-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center justify-between pb-1 border-b border-white/10">
+                            <span className="text-[10px] font-mono text-rose-300 flex items-center gap-1">
+                                <Bug className="w-3 h-3 text-rose-400" /> debug.py
+                            </span>
+                            <span className="text-[10px] bg-rose-500/30 text-rose-300 px-1.5 py-0.2 rounded font-mono">1 Error</span>
+                        </div>
+                        <div className="font-mono text-[11px] text-slate-300 pl-1">
+                            L1: def calculate(x):
+                        </div>
+                        <div className="font-mono text-[11px] text-red-200 bg-red-500/30 border border-red-500/60 px-1.5 py-0.5 rounded font-bold flex items-center justify-between">
+                            <span>L2: return x / 0</span>
+                            <span className="text-[9px] text-red-300 bg-black/40 px-1 rounded">Bug</span>
+                        </div>
+                        <div className="font-mono text-[11px] text-slate-300 pl-1">
+                            L3: print(calculate(10))
                         </div>
                     </div>
-                    <span className="absolute bottom-2.5 right-3 text-[11px] font-black uppercase tracking-wider text-emerald-200 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                        Retro Classic
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-rose-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Spot The Flaw
                     </span>
                 </div>
             );
 
-        case 'brick-breaker':
+        case 'output-predictor':
             return (
-                <div className={`relative overflow-hidden bg-gradient-to-br from-indigo-700 via-purple-800 to-slate-900 flex items-center justify-center ${className}`}>
-                    {/* Bricks Grid */}
-                    <div className="relative z-10 w-4/5 max-w-[200px] flex flex-col gap-1.5 p-3 bg-black/30 backdrop-blur-md rounded-2xl border border-indigo-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300">
-                        <div className="grid grid-cols-4 gap-1.5">
-                            <div className="h-3 rounded-xs bg-red-500 shadow-xs shadow-red-500/50" />
-                            <div className="h-3 rounded-xs bg-orange-500 shadow-xs shadow-orange-500/50" />
-                            <div className="h-3 rounded-xs bg-yellow-400 shadow-xs shadow-yellow-400/50" />
-                            <div className="h-3 rounded-xs bg-emerald-400 shadow-xs shadow-emerald-400/50" />
+                <div className={`relative overflow-hidden bg-gradient-to-br from-amber-500 via-orange-600 to-yellow-600 flex items-center justify-center ${className}`}>
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-300/20 rounded-full blur-xl" />
+                    <div className="relative z-10 flex flex-col gap-2 p-3.5 bg-black/50 backdrop-blur-md rounded-2xl border border-amber-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center gap-1.5 pb-1 border-b border-white/10">
+                            <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                            <span className="text-[10px] font-mono text-amber-200 ml-1">Terminal</span>
                         </div>
-                        <div className="grid grid-cols-4 gap-1.5">
-                            <div className="h-3 rounded-xs bg-cyan-400 shadow-xs shadow-cyan-400/50" />
-                            <div className="h-3 rounded-xs bg-blue-500 shadow-xs shadow-blue-500/50" />
-                            <div className="h-3 rounded-xs bg-purple-400 shadow-xs shadow-purple-400/50" />
-                            <div className="h-3 rounded-xs bg-pink-500 shadow-xs shadow-pink-500/50" />
+                        <div className="font-mono text-[11px] text-amber-200">
+                            &gt; console.log([] + {})
                         </div>
-                        {/* Ball */}
-                        <div className="my-2 flex justify-center relative">
-                            <div className="w-4 h-4 rounded-full bg-white shadow-lg shadow-white/80 ring-2 ring-indigo-300 animate-ping absolute" />
-                            <div className="w-4 h-4 rounded-full bg-white shadow-lg shadow-white/80 relative z-10" />
-                        </div>
-                        {/* Paddle */}
-                        <div className="flex justify-center">
-                            <div className="w-20 h-3 rounded-full bg-gradient-to-r from-cyan-400 via-indigo-300 to-cyan-400 shadow-lg shadow-cyan-400/40" />
+                        <div className="font-mono text-[12px] font-bold text-emerald-300 bg-emerald-950/60 border border-emerald-500/40 px-2 py-1 rounded">
+                            Output: "[object Object]"
                         </div>
                     </div>
-                    <span className="absolute bottom-2.5 right-3 text-[11px] font-black uppercase tracking-wider text-indigo-200 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                        Arcade Smash
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-amber-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Predict Output
                     </span>
                 </div>
             );
 
-        case 'tic-tac-toe':
+        case 'code-scramble':
             return (
-                <div className={`relative overflow-hidden bg-gradient-to-br from-cyan-600 via-blue-700 to-indigo-900 flex items-center justify-center ${className}`}>
-                    <div className="relative z-10 p-3 bg-black/30 backdrop-blur-md rounded-2xl border border-cyan-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300">
-                        <div className="grid grid-cols-3 gap-1.5 w-28 h-28 sm:w-32 sm:h-32">
-                            <div className="bg-white/10 rounded-lg flex items-center justify-center text-cyan-300 font-black text-xl shadow-inner">✕</div>
-                            <div className="bg-white/10 rounded-lg flex items-center justify-center text-rose-400 font-black text-xl shadow-inner">◯</div>
-                            <div className="bg-white/10 rounded-lg flex items-center justify-center text-cyan-300 font-black text-xl shadow-inner">✕</div>
-
-                            <div className="bg-white/10 rounded-lg flex items-center justify-center text-rose-400 font-black text-xl shadow-inner">◯</div>
-                            <div className="bg-cyan-400/30 rounded-lg flex items-center justify-center text-cyan-200 font-black text-2xl shadow-lg ring-1 ring-cyan-300">✕</div>
-                            <div className="bg-white/10 rounded-lg"></div>
-
-                            <div className="bg-white/10 rounded-lg flex items-center justify-center text-rose-400 font-black text-xl shadow-inner">◯</div>
-                            <div className="bg-white/10 rounded-lg"></div>
-                            <div className="bg-cyan-400/30 rounded-lg flex items-center justify-center text-cyan-200 font-black text-2xl shadow-lg ring-1 ring-cyan-300">✕</div>
+                <div className={`relative overflow-hidden bg-gradient-to-br from-cyan-600 via-teal-700 to-blue-900 flex items-center justify-center ${className}`}>
+                    <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px] opacity-10" />
+                    <div className="relative z-10 flex flex-col gap-1.5 p-3.5 bg-black/40 backdrop-blur-md rounded-2xl border border-cyan-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center justify-between pb-1 border-b border-white/10">
+                            <span className="text-[10px] font-mono text-cyan-300 flex items-center gap-1">
+                                <Shuffle className="w-3 h-3 text-cyan-400" /> unscramble.ts
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2 bg-cyan-950/60 border border-cyan-500/30 px-2 py-1 rounded font-mono text-[11px] text-cyan-200">
+                            <span className="text-cyan-400 font-bold">&#8597;</span> if (!res.ok) throw...
+                        </div>
+                        <div className="flex items-center gap-2 bg-teal-950/60 border border-teal-500/30 px-2 py-1 rounded font-mono text-[11px] text-teal-200">
+                            <span className="text-teal-400 font-bold">&#8597;</span> const res = await fetch
+                        </div>
+                        <div className="flex items-center gap-2 bg-sky-950/60 border border-sky-500/30 px-2 py-1 rounded font-mono text-[11px] text-sky-200">
+                            <span className="text-sky-400 font-bold">&#8597;</span> return res.json();
                         </div>
                     </div>
-                    <span className="absolute bottom-2.5 right-3 text-[11px] font-black uppercase tracking-wider text-cyan-200 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                        AI Duel
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-cyan-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Sequence Flow
+                    </span>
+                </div>
+            );
+
+        case 'missing-code':
+            return (
+                <div className={`relative overflow-hidden bg-gradient-to-br from-emerald-600 via-green-700 to-teal-900 flex items-center justify-center ${className}`}>
+                    <div className="absolute -top-10 -right-10 w-36 h-36 bg-emerald-400/20 rounded-full blur-xl" />
+                    <div className="relative z-10 flex flex-col gap-2 p-3.5 bg-black/40 backdrop-blur-md rounded-2xl border border-emerald-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center justify-between pb-1 border-b border-white/10">
+                            <span className="text-[10px] font-mono text-emerald-300 flex items-center gap-1">
+                                <HelpCircle className="w-3 h-3 text-emerald-400" /> Fill Token
+                            </span>
+                        </div>
+                        <div className="font-mono text-[11px] text-emerald-100 leading-relaxed">
+                            const data = <span className="bg-emerald-400/30 border border-emerald-400 text-emerald-300 font-bold px-1.5 py-0.5 rounded animate-pulse">await</span> fetch(url);
+                        </div>
+                        <div className="flex gap-1.5 pt-1">
+                            <span className="text-[10px] bg-emerald-950 border border-emerald-600/40 text-emerald-300 px-2 py-0.5 rounded font-mono">await</span>
+                            <span className="text-[10px] bg-slate-900 border border-slate-700 text-slate-400 px-2 py-0.5 rounded font-mono">async</span>
+                            <span className="text-[10px] bg-slate-900 border border-slate-700 text-slate-400 px-2 py-0.5 rounded font-mono">yield</span>
+                        </div>
+                    </div>
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-emerald-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Fill In Blanks
+                    </span>
+                </div>
+            );
+
+        case 'logic-builder':
+            return (
+                <div className={`relative overflow-hidden bg-gradient-to-br from-purple-700 via-fuchsia-800 to-indigo-950 flex items-center justify-center ${className}`}>
+                    <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px] opacity-15" />
+                    <div className="relative z-10 flex flex-col gap-2 p-3.5 bg-black/40 backdrop-blur-md rounded-2xl border border-purple-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center justify-between pb-1 border-b border-white/10">
+                            <span className="text-[10px] font-mono text-purple-300 flex items-center gap-1">
+                                <Cpu className="w-3 h-3 text-purple-400" /> Logic Gates
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-around py-1 font-mono text-[11px]">
+                            <div className="px-2 py-1 bg-purple-900/80 border border-purple-400/40 rounded text-purple-200 font-bold">A: TRUE</div>
+                            <span className="text-fuchsia-400 font-bold">AND</span>
+                            <div className="px-2 py-1 bg-fuchsia-900/80 border border-fuchsia-400/40 rounded text-fuchsia-200 font-bold">B: TRUE</div>
+                        </div>
+                        <div className="text-center font-mono text-[11px] bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 py-0.5 rounded font-bold">
+                            RESULT &#8594; TRUE
+                        </div>
+                    </div>
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-purple-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Algorithms
+                    </span>
+                </div>
+            );
+
+        case 'sql-challenge':
+            return (
+                <div className={`relative overflow-hidden bg-gradient-to-br from-teal-700 via-emerald-800 to-slate-950 flex items-center justify-center ${className}`}>
+                    <div className="absolute -bottom-10 -left-10 w-36 h-36 bg-teal-400/20 rounded-full blur-xl" />
+                    <div className="relative z-10 flex flex-col gap-1.5 p-3.5 bg-black/40 backdrop-blur-md rounded-2xl border border-teal-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center justify-between pb-1 border-b border-white/10">
+                            <span className="text-[10px] font-mono text-teal-300 flex items-center gap-1">
+                                <Database className="w-3 h-3 text-teal-400" /> schema.sql
+                            </span>
+                        </div>
+                        <div className="font-mono text-[11px] text-teal-200">
+                            <span className="text-teal-400 font-bold">SELECT</span> id, name, gpa
+                        </div>
+                        <div className="font-mono text-[11px] text-teal-200">
+                            <span className="text-teal-400 font-bold">FROM</span> students
+                        </div>
+                        <div className="font-mono text-[11px] text-emerald-300 font-bold">
+                            <span className="text-teal-400">WHERE</span> gpa &gt;= 3.5;
+                        </div>
+                    </div>
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-teal-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Query Master
                     </span>
                 </div>
             );
 
         case 'memory-match':
             return (
-                <div className={`relative overflow-hidden bg-gradient-to-br from-purple-600 via-fuchsia-700 to-pink-800 flex items-center justify-center ${className}`}>
-                    <div className="relative z-10 p-3 bg-black/30 backdrop-blur-md rounded-2xl border border-purple-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300">
-                        <div className="grid grid-cols-3 gap-2 w-32 h-24 sm:w-36 sm:h-28">
-                            <div className="bg-purple-300 rounded-xl flex items-center justify-center text-lg shadow-md shadow-purple-500/30">💎</div>
-                            <div className="bg-purple-300 rounded-xl flex items-center justify-center text-lg shadow-md shadow-purple-500/30">💎</div>
-                            <div className="bg-gradient-to-br from-purple-800 to-fuchsia-900 rounded-xl flex items-center justify-center text-sm font-bold text-purple-300 border border-purple-400/30">?</div>
-
-                            <div className="bg-gradient-to-br from-purple-800 to-fuchsia-900 rounded-xl flex items-center justify-center text-sm font-bold text-purple-300 border border-purple-400/30">?</div>
-                            <div className="bg-fuchsia-300 rounded-xl flex items-center justify-center text-lg shadow-md shadow-fuchsia-500/30">🚀</div>
-                            <div className="bg-fuchsia-300 rounded-xl flex items-center justify-center text-lg shadow-md shadow-fuchsia-500/30">🚀</div>
+                <div className={`relative overflow-hidden bg-gradient-to-br from-blue-600 via-indigo-700 to-slate-900 flex items-center justify-center ${className}`}>
+                    <div className="relative z-10 grid grid-cols-2 gap-2 p-3 bg-black/40 backdrop-blur-md rounded-2xl border border-blue-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300">
+                        <div className="w-16 h-12 bg-blue-500/30 border border-blue-400/50 rounded-xl flex items-center justify-center font-mono text-[10px] text-blue-200 font-bold text-center px-1">
+                            Closure
+                        </div>
+                        <div className="w-16 h-12 bg-indigo-500/30 border border-indigo-400/50 rounded-xl flex items-center justify-center font-mono text-[9px] text-indigo-200 text-center px-1">
+                            Lexical Scope
+                        </div>
+                        <div className="w-16 h-12 bg-cyan-500/30 border border-cyan-400/50 rounded-xl flex items-center justify-center font-mono text-[10px] text-cyan-200 font-bold text-center px-1">
+                            Promise
+                        </div>
+                        <div className="w-16 h-12 bg-sky-500/30 border border-sky-400/50 rounded-xl flex items-center justify-center font-mono text-[9px] text-sky-200 text-center px-1">
+                            Async Result
                         </div>
                     </div>
-                    <span className="absolute bottom-2.5 right-3 text-[11px] font-black uppercase tracking-wider text-purple-200 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                        Brain Boost
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-blue-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Match Concepts
                     </span>
                 </div>
             );
 
-        case 'flappy-bug':
+        // --- 6 TYPING GAMES ---
+        case 'speed-typing':
             return (
-                <div className={`relative overflow-hidden bg-gradient-to-br from-sky-500 via-teal-600 to-emerald-700 flex items-center justify-center ${className}`}>
-                    {/* Clouds */}
-                    <div className="absolute top-3 left-6 w-16 h-6 bg-white/40 rounded-full blur-xs" />
-                    <div className="absolute top-8 right-8 w-20 h-7 bg-white/30 rounded-full blur-xs" />
-
-                    <div className="relative z-10 flex items-center gap-6">
-                        {/* Flapping Bug Mascot */}
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-400 to-teal-200 shadow-xl border-2 border-white flex items-center justify-center text-2xl animate-bounce">
-                            🐞
+                <div className={`relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-700 to-cyan-900 flex items-center justify-center ${className}`}>
+                    <div className="absolute top-0 left-0 w-36 h-36 bg-emerald-400/20 rounded-full blur-xl" />
+                    <div className="relative z-10 flex flex-col gap-2 p-3.5 bg-black/40 backdrop-blur-md rounded-2xl border border-emerald-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center justify-between pb-1 border-b border-white/10">
+                            <span className="text-[10px] font-mono text-emerald-300 flex items-center gap-1">
+                                <Gauge className="w-3.5 h-3.5 text-emerald-400" /> Speed Meter
+                            </span>
+                            <span className="text-[12px] font-black text-emerald-300">84 WPM</span>
                         </div>
-                        {/* Pipes */}
-                        <div className="flex flex-col gap-10">
-                            <div className="w-8 h-12 bg-gradient-to-r from-green-500 to-emerald-700 rounded-b-lg border-2 border-emerald-900 shadow-md" />
-                            <div className="w-8 h-12 bg-gradient-to-r from-green-500 to-emerald-700 rounded-t-lg border-2 border-emerald-900 shadow-md" />
+                        <div className="font-mono text-[11px] text-slate-300 leading-snug">
+                            <span className="text-emerald-400 font-bold bg-emerald-950/60 px-0.5 rounded">Clean code is</span>
+                            <span className="border-l-2 border-emerald-400 animate-pulse ml-0.5"> </span>
+                            <span className="text-slate-500">readable, direct prose...</span>
+                        </div>
+                        <div className="flex justify-between text-[10px] font-mono text-emerald-200/80 pt-0.5">
+                            <span>Accuracy: 99%</span>
+                            <span>CPM: 420</span>
                         </div>
                     </div>
-                    <span className="absolute bottom-2.5 right-3 text-[11px] font-black uppercase tracking-wider text-sky-200 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                        Tap To Fly
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-emerald-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Real-time WPM
                     </span>
                 </div>
             );
 
-        case 'color-match':
+        case 'code-typing':
             return (
-                <div className={`relative overflow-hidden bg-gradient-to-br from-rose-500 via-pink-600 to-amber-600 flex items-center justify-center ${className}`}>
-                    <div className="relative z-10 p-3 bg-black/30 backdrop-blur-md rounded-2xl border border-rose-300/30 shadow-2xl flex flex-col items-center gap-2 group-hover:scale-105 transition-transform duration-300">
-                        <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-full bg-emerald-400 shadow-md" />
-                            <div className="w-6 h-6 rounded-full bg-amber-400 shadow-md" />
-                            <div className="w-6 h-6 rounded-full bg-sky-400 shadow-md" />
-                            <div className="w-6 h-6 rounded-full bg-rose-400 shadow-md" />
+                <div className={`relative overflow-hidden bg-gradient-to-br from-indigo-700 via-purple-800 to-slate-950 flex items-center justify-center ${className}`}>
+                    <div className="absolute -top-10 -left-10 w-36 h-36 bg-indigo-400/20 rounded-full blur-xl" />
+                    <div className="relative z-10 flex flex-col gap-1.5 p-3.5 bg-black/50 backdrop-blur-md rounded-2xl border border-indigo-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center justify-between pb-1 border-b border-white/10">
+                            <span className="text-[10px] font-mono text-indigo-300 flex items-center gap-1">
+                                <Keyboard className="w-3.5 h-3.5 text-indigo-400" /> syntax.jsx
+                            </span>
+                            <span className="text-[10px] bg-indigo-500/30 text-indigo-300 px-1.5 rounded font-mono">React</span>
                         </div>
-                        <span className="text-sm font-black tracking-wider text-cyan-300 bg-black/40 px-3 py-1 rounded-lg">
-                            BLUE
+                        <div className="font-mono text-[11px] text-indigo-200">
+                            <span className="text-emerald-400">const</span> [count, setCount]
+                        </div>
+                        <div className="font-mono text-[11px] text-indigo-200">
+                            = <span className="text-yellow-400">useState</span>(0);
+                        </div>
+                    </div>
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-indigo-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Code Muscle
+                    </span>
+                </div>
+            );
+
+        case 'sixty-second-challenge':
+            return (
+                <div className={`relative overflow-hidden bg-gradient-to-br from-rose-600 via-red-700 to-amber-900 flex items-center justify-center ${className}`}>
+                    <div className="absolute -top-10 -right-10 w-36 h-36 bg-amber-400/20 rounded-full blur-xl" />
+                    <div className="relative z-10 flex flex-col items-center gap-1 p-3.5 bg-black/40 backdrop-blur-md rounded-2xl border border-rose-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center gap-1.5 text-amber-300 font-mono text-[12px] font-black">
+                            <Timer className="w-4 h-4 text-amber-400 animate-spin" /> 00:59
+                        </div>
+                        <div className="font-mono text-[14px] font-black text-white bg-rose-500/30 px-3 py-1 rounded-lg border border-rose-400/40">
+                            polymorphism
+                        </div>
+                        <span className="text-[10px] font-mono text-rose-200">Words typed: 38</span>
+                    </div>
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-rose-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        60s Sprint
+                    </span>
+                </div>
+            );
+
+        case 'error-free-typing':
+            return (
+                <div className={`relative overflow-hidden bg-gradient-to-br from-amber-600 via-orange-700 to-stone-900 flex items-center justify-center ${className}`}>
+                    <div className="relative z-10 flex flex-col items-center gap-1.5 p-3.5 bg-black/40 backdrop-blur-md rounded-2xl border border-amber-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="w-10 h-10 rounded-full bg-amber-400/20 border border-amber-400/50 flex items-center justify-center text-amber-300 shadow-lg">
+                            <ShieldCheck className="w-5 h-5 text-amber-400" />
+                        </div>
+                        <div className="font-mono text-[12px] font-black text-amber-200">
+                            100% Accuracy Required
+                        </div>
+                        <span className="text-[10px] font-mono text-stone-300 text-center">
+                            Zero typos allowed
                         </span>
                     </div>
-                    <span className="absolute bottom-2.5 right-3 text-[11px] font-black uppercase tracking-wider text-rose-200 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                        Reflex Speed
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-amber-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Zero Error
                     </span>
                 </div>
             );
 
-        case 'number-puzzle':
+        case 'syntax-typing':
             return (
-                <div className={`relative overflow-hidden bg-gradient-to-br from-blue-600 via-slate-700 to-indigo-900 flex items-center justify-center ${className}`}>
-                    <div className="relative z-10 p-2.5 bg-black/30 backdrop-blur-md rounded-2xl border border-blue-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300">
-                        <div className="grid grid-cols-3 gap-1.5 w-24 h-24 sm:w-28 sm:h-28">
-                            <div className="bg-slate-200 rounded-md flex items-center justify-center font-black text-slate-800 text-xs sm:text-sm">1</div>
-                            <div className="bg-slate-200 rounded-md flex items-center justify-center font-black text-slate-800 text-xs sm:text-sm">2</div>
-                            <div className="bg-slate-200 rounded-md flex items-center justify-center font-black text-slate-800 text-xs sm:text-sm">3</div>
-                            <div className="bg-slate-200 rounded-md flex items-center justify-center font-black text-slate-800 text-xs sm:text-sm">4</div>
-                            <div className="bg-slate-200 rounded-md flex items-center justify-center font-black text-slate-800 text-xs sm:text-sm">5</div>
-                            <div className="bg-slate-200 rounded-md flex items-center justify-center font-black text-slate-800 text-xs sm:text-sm">6</div>
-                            <div className="bg-slate-200 rounded-md flex items-center justify-center font-black text-slate-800 text-xs sm:text-sm">7</div>
-                            <div className="bg-slate-200 rounded-md flex items-center justify-center font-black text-slate-800 text-xs sm:text-sm">8</div>
-                            <div className="bg-slate-800/40 border border-dashed border-white/40 rounded-md"></div>
+                <div className={`relative overflow-hidden bg-gradient-to-br from-cyan-600 via-blue-700 to-indigo-950 flex items-center justify-center ${className}`}>
+                    <div className="relative z-10 flex flex-wrap justify-center gap-1.5 p-3 bg-black/40 backdrop-blur-md rounded-2xl border border-cyan-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 max-w-[210px]">
+                        <div className="w-9 h-8 rounded bg-cyan-950/80 border border-cyan-400/40 flex items-center justify-center font-mono text-[13px] font-black text-cyan-300">
+                            {'{ }'}
+                        </div>
+                        <div className="w-9 h-8 rounded bg-blue-950/80 border border-blue-400/40 flex items-center justify-center font-mono text-[13px] font-black text-blue-300">
+                            {'[ ]'}
+                        </div>
+                        <div className="w-9 h-8 rounded bg-indigo-950/80 border border-indigo-400/40 flex items-center justify-center font-mono text-[13px] font-black text-indigo-300">
+                            {'=>'}
+                        </div>
+                        <div className="w-9 h-8 rounded bg-sky-950/80 border border-sky-400/40 flex items-center justify-center font-mono text-[13px] font-black text-sky-300">
+                            {'&&'}
+                        </div>
+                        <div className="w-9 h-8 rounded bg-teal-950/80 border border-teal-400/40 flex items-center justify-center font-mono text-[13px] font-black text-teal-300">
+                            {';'}
+                        </div>
+                        <div className="w-9 h-8 rounded bg-cyan-950/80 border border-cyan-400/40 flex items-center justify-center font-mono text-[13px] font-black text-cyan-300">
+                            {'!=='}
                         </div>
                     </div>
-                    <span className="absolute bottom-2.5 right-3 text-[11px] font-black uppercase tracking-wider text-blue-200 bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                        Sliding Tiles
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-cyan-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Symbol Drills
+                    </span>
+                </div>
+            );
+
+        case 'word-rain':
+            return (
+                <div className={`relative overflow-hidden bg-gradient-to-br from-purple-800 via-violet-900 to-black flex items-center justify-center ${className}`}>
+                    <div className="relative z-10 flex flex-col gap-1.5 p-3.5 bg-black/50 backdrop-blur-md rounded-2xl border border-purple-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[210px]">
+                        <div className="flex items-center justify-between pb-1 border-b border-white/10">
+                            <span className="text-[10px] font-mono text-purple-300 flex items-center gap-1">
+                                <CloudRain className="w-3.5 h-3.5 text-purple-400" /> Falling Words
+                            </span>
+                            <span className="text-[10px] text-purple-300 font-mono">&#10084;&#65039; &#10084;&#65039; &#10084;&#65039;</span>
+                        </div>
+                        <div className="text-right font-mono text-[11px] text-purple-300 bg-purple-950/60 px-2 py-0.5 rounded">
+                            async
+                        </div>
+                        <div className="text-left font-mono text-[11px] text-fuchsia-300 bg-fuchsia-950/60 px-2 py-0.5 rounded">
+                            function
+                        </div>
+                        <div className="text-center font-mono text-[11px] text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded font-bold">
+                            &gt; promise
+                        </div>
+                    </div>
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-purple-200 bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        Type Before Drop
                     </span>
                 </div>
             );
 
         default:
             return (
-                <div className={`relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-700 to-indigo-900 flex items-center justify-center ${className}`}>
-                    <div className="text-center p-4">
-                        <div className="w-14 h-14 mx-auto rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl mb-2 shadow-lg">
-                            🎮
-                        </div>
-                        <p className="font-bold text-white text-sm">{title || 'Mini Game'}</p>
-                    </div>
+                <div className={`relative overflow-hidden bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center ${className}`}>
+                    <Code2 className="w-12 h-12 text-slate-400/60" />
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-bold text-white/70 bg-black/40 px-2 py-0.5 rounded">
+                        {title || 'Coding Game'}
+                    </span>
                 </div>
             );
     }

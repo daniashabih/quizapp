@@ -14,20 +14,24 @@ import {
     Trophy,
     Gamepad2,
     Layers,
-    Save
+    Save,
+    Code2,
+    Keyboard
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import gameService from '../../../services/gameService';
 import GameArtwork from '../../games/components/GameArtwork';
 
 const CATEGORIES = [
-    'Puzzle Games',
-    'Arcade Games',
-    'Racing Games',
-    'Sports Games',
-    'Brain Games',
-    'Adventure Games',
-    'Casual Games'
+    'Coding Games',
+    'Typing Games'
+];
+
+const DIFFICULTIES = [
+    'All Levels',
+    'Beginner',
+    'Intermediate',
+    'Advanced'
 ];
 
 const CARD_SIZES = [
@@ -37,7 +41,7 @@ const CARD_SIZES = [
     { value: 'small', label: 'Small (Compact 1x1)' }
 ];
 
-const BADGES = ['Featured', 'Hot', 'Popular', 'Classic', 'New', 'Brain Boost', 'Quick Play', ''];
+const BADGES = ['Popular', 'Hot', 'Featured', 'New', 'Brain Boost', 'Sprint', 'Precision', 'High Speed', ''];
 
 export const AdminGamesManagement = () => {
     const [games, setGames] = useState([]);
@@ -51,7 +55,8 @@ export const AdminGamesManagement = () => {
     const [formData, setFormData] = useState({
         title: '',
         slug: '',
-        category: 'Casual Games',
+        category: 'Coding Games',
+        difficulty: 'Beginner',
         description: '',
         instructions: '',
         cardSize: 'medium',
@@ -82,17 +87,18 @@ export const AdminGamesManagement = () => {
         fetchGames();
     }, [fetchGames]);
 
-    // Open Add Modal
+    // Open Modal for Add
     const handleOpenAdd = () => {
         setEditingGame(null);
         setFormData({
             title: '',
             slug: '',
-            category: 'Casual Games',
+            category: 'Coding Games',
+            difficulty: 'Beginner',
             description: '',
             instructions: '',
             cardSize: 'medium',
-            badge: 'New',
+            badge: '',
             thumbnail: 'gradient-indigo',
             isPublished: true,
             isFeatured: false,
@@ -101,14 +107,15 @@ export const AdminGamesManagement = () => {
         setIsModalOpen(true);
     };
 
-    // Open Edit Modal
+    // Open Modal for Edit
     const handleOpenEdit = (game) => {
         setEditingGame(game);
         setFormData({
-            title: game.title,
-            slug: game.slug,
-            category: game.category,
-            description: game.description,
+            title: game.title || '',
+            slug: game.slug || '',
+            category: game.category || 'Coding Games',
+            difficulty: game.difficulty || 'All Levels',
+            description: game.description || '',
             instructions: game.instructions || '',
             cardSize: game.cardSize || 'medium',
             badge: game.badge || '',
@@ -124,7 +131,7 @@ export const AdminGamesManagement = () => {
     const handleSave = async (e) => {
         e.preventDefault();
         if (!formData.title.trim()) {
-            toast.error('Please enter a game title.');
+            toast.error('Game title is required.');
             return;
         }
 
@@ -140,13 +147,13 @@ export const AdminGamesManagement = () => {
             } else {
                 const res = await gameService.adminCreateGame(formData);
                 if (res.success) {
-                    toast.success('Game created successfully!');
+                    toast.success('New game created successfully!');
                     setIsModalOpen(false);
                     fetchGames();
                 }
             }
         } catch (err) {
-            console.error('Save game error:', err);
+            console.error('Save game failed:', err);
             toast.error(err.response?.data?.message || 'Failed to save game.');
         } finally {
             setIsSaving(false);
@@ -200,11 +207,11 @@ export const AdminGamesManagement = () => {
 
     // Reseed Default Games
     const handleReseed = async () => {
-        if (!window.confirm('Reset/Reseed games to default arcade catalog?')) return;
+        if (!window.confirm('Reset/Reseed games to default 14 Coding & Typing catalog?')) return;
         try {
             const res = await gameService.adminSeedGames();
             if (res.success) {
-                toast.success('Games catalog refreshed!');
+                toast.success('Coding & Typing games catalog refreshed!');
                 fetchGames();
             }
         } catch (err) {
@@ -228,10 +235,10 @@ export const AdminGamesManagement = () => {
                 <div>
                     <h2 className="text-lg font-black flex items-center gap-2">
                         <Gamepad2 className="text-emerald-500" size={22} />
-                        Mini Games Management
+                        Coding & Typing Games Management
                     </h2>
                     <p className="text-xs text-[var(--foreground-muted)]">
-                        Manage catalog, configure categories, assign thumbnails, and toggle homepage featured status.
+                        Manage 14 interactive coding & typing challenges, assign difficulty levels, and toggle featured daily quests.
                     </p>
                 </div>
 
@@ -239,7 +246,7 @@ export const AdminGamesManagement = () => {
                     <button
                         onClick={handleReseed}
                         className="px-3.5 py-2 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-[var(--foreground-secondary)] text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer"
-                        title="Reseed Default Games"
+                        title="Reseed Default 14 Games"
                     >
                         <RotateCcw size={14} /> Reset Seed
                     </button>
@@ -252,15 +259,37 @@ export const AdminGamesManagement = () => {
                 </div>
             </div>
 
-            {/* Filter Bar */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1">
+            {/* Quick Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div className="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)]">
+                    <span className="text-[10px] font-bold uppercase text-[var(--foreground-muted)] block">Total Games</span>
+                    <span className="text-xl font-black text-emerald-500">{games.length}</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)]">
+                    <span className="text-[10px] font-bold uppercase text-[var(--foreground-muted)] block">Published</span>
+                    <span className="text-xl font-black text-cyan-500">{games.filter(g => g.isPublished).length}</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)]">
+                    <span className="text-[10px] font-bold uppercase text-[var(--foreground-muted)] block">Featured Quests</span>
+                    <span className="text-xl font-black text-amber-500">{games.filter(g => g.isFeatured).length}</span>
+                </div>
+                <div className="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)]">
+                    <span className="text-[10px] font-bold uppercase text-[var(--foreground-muted)] block">Total Plays</span>
+                    <span className="text-xl font-black text-purple-500">
+                        {games.reduce((acc, g) => acc + (g.playsCount || 0), 0).toLocaleString()}
+                    </span>
+                </div>
+            </div>
+
+            {/* Filters Bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)]">
+                <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
                     <button
                         onClick={() => setSelectedCategory('All')}
                         className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                             selectedCategory === 'All'
                                 ? 'bg-[#193D35] text-white'
-                                : 'bg-[var(--card-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)]'
+                                : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
                         }`}
                     >
                         All Categories ({games.length})
@@ -272,107 +301,129 @@ export const AdminGamesManagement = () => {
                             className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                                 selectedCategory === cat
                                     ? 'bg-[#193D35] text-white'
-                                    : 'bg-[var(--card-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)]'
+                                    : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
                             }`}
                         >
-                            {cat.replace(' Games', '')}
+                            {cat} ({games.filter(g => g.category === cat).length})
                         </button>
                     ))}
                 </div>
 
                 <div className="relative w-full sm:w-64">
-                    <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
                     <input
                         type="text"
                         placeholder="Search games..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
+                        className="w-full pl-9 pr-3 py-1.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)] focus:outline-hidden"
                     />
                 </div>
             </div>
 
-            {/* Games Table */}
+            {/* Games Table List */}
             <div className="rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)] overflow-hidden shadow-xs">
                 {loading ? (
-                    <div className="p-8 text-center text-xs text-[var(--foreground-muted)]">Loading games bank...</div>
+                    <div className="p-8 text-center text-xs text-[var(--foreground-muted)] animate-pulse">
+                        Loading games repository...
+                    </div>
                 ) : filteredGames.length === 0 ? (
-                    <div className="p-8 text-center text-xs text-[var(--foreground-muted)]">No games match your criteria.</div>
+                    <div className="p-8 text-center text-xs text-[var(--foreground-muted)]">
+                        No games match the selected filters.
+                    </div>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left text-xs">
-                            <thead className="bg-[var(--muted-bg)]/80 text-[var(--foreground-muted)] font-bold uppercase text-[10px] border-b border-[var(--card-border)]">
+                            <thead className="bg-[var(--muted-bg)] border-b border-[var(--card-border)] text-[var(--foreground-muted)] uppercase text-[10px] font-bold">
                                 <tr>
                                     <th className="py-3 px-4">Game</th>
                                     <th className="py-3 px-4">Category</th>
-                                    <th className="py-3 px-4">Card Size</th>
+                                    <th className="py-3 px-4">Difficulty</th>
                                     <th className="py-3 px-4">Badge</th>
-                                    <th className="py-3 px-4 text-center">Featured</th>
+                                    <th className="py-3 px-4">Card Size</th>
+                                    <th className="py-3 px-4">Plays</th>
                                     <th className="py-3 px-4 text-center">Status</th>
-                                    <th className="py-3 px-4 text-right">Plays</th>
                                     <th className="py-3 px-4 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-[var(--card-border)]">
                                 {filteredGames.map((game) => (
-                                    <tr key={game.slug} className="hover:bg-[var(--muted-bg)]/40 transition-colors">
+                                    <tr key={game.id || game.slug} className="hover:bg-[var(--muted-bg)]/50 transition-colors">
+                                        {/* Game Info */}
                                         <td className="py-3 px-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-12 h-10 rounded-xl overflow-hidden shrink-0 border border-[var(--card-border)]">
+                                                <div className="w-12 h-9 rounded-lg overflow-hidden border border-[var(--card-border)] shrink-0">
                                                     <GameArtwork slug={game.slug} title={game.title} />
                                                 </div>
                                                 <div>
-                                                    <span className="font-extrabold text-[var(--foreground)] block">{game.title}</span>
-                                                    <span className="text-[10px] text-[var(--foreground-muted)] font-mono">/{game.slug}</span>
+                                                    <div className="font-bold text-[var(--foreground)]">{game.title}</div>
+                                                    <div className="text-[10px] font-mono text-[var(--foreground-muted)]">/{game.slug}</div>
                                                 </div>
                                             </div>
                                         </td>
+
+                                        {/* Category */}
                                         <td className="py-3 px-4 font-semibold text-[var(--foreground-secondary)]">
                                             {game.category}
                                         </td>
+
+                                        {/* Difficulty */}
                                         <td className="py-3 px-4">
-                                            <span className="capitalize px-2 py-0.5 rounded-md bg-[var(--muted-bg)] text-[10px] font-bold">
-                                                {game.cardSize || 'medium'}
+                                            <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[var(--muted-bg)] text-[var(--foreground-secondary)]">
+                                                {game.difficulty || 'All Levels'}
                                             </span>
                                         </td>
+
+                                        {/* Badge */}
                                         <td className="py-3 px-4">
                                             {game.badge ? (
-                                                <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 text-[10px] font-black uppercase">
+                                                <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                                                     {game.badge}
                                                 </span>
                                             ) : (
                                                 <span className="text-[var(--foreground-muted)]">—</span>
                                             )}
                                         </td>
-                                        <td className="py-3 px-4 text-center">
-                                            <button
-                                                onClick={() => handleToggleFeature(game)}
-                                                className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                                                    game.isFeatured
-                                                        ? 'bg-amber-500/20 text-amber-500 hover:bg-amber-500/30'
-                                                        : 'text-[var(--foreground-muted)] hover:bg-[var(--muted-bg)]'
-                                                }`}
-                                                title={game.isFeatured ? "Featured on hub homepage" : "Not featured"}
-                                            >
-                                                <Flame size={16} className={game.isFeatured ? 'fill-amber-500' : ''} />
-                                            </button>
+
+                                        {/* Card Size */}
+                                        <td className="py-3 px-4 text-[var(--foreground-muted)] uppercase text-[10px] font-bold">
+                                            {game.cardSize || 'medium'}
                                         </td>
-                                        <td className="py-3 px-4 text-center">
-                                            <button
-                                                onClick={() => handleTogglePublish(game)}
-                                                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black cursor-pointer transition-all ${
-                                                    game.isPublished
-                                                        ? 'bg-emerald-500/15 text-emerald-500 border border-emerald-500/30'
-                                                        : 'bg-stone-500/15 text-stone-400 border border-stone-500/30'
-                                                }`}
-                                            >
-                                                {game.isPublished ? <Eye size={12} /> : <EyeOff size={12} />}
-                                                <span>{game.isPublished ? 'Published' : 'Draft'}</span>
-                                            </button>
-                                        </td>
-                                        <td className="py-3 px-4 text-right font-mono font-bold text-[var(--foreground-muted)]">
+
+                                        {/* Plays */}
+                                        <td className="py-3 px-4 font-mono font-semibold">
                                             {(game.playsCount || 0).toLocaleString()}
                                         </td>
+
+                                        {/* Status */}
+                                        <td className="py-3 px-4 text-center">
+                                            <div className="inline-flex items-center gap-1.5">
+                                                <button
+                                                    onClick={() => handleTogglePublish(game)}
+                                                    className={`p-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                                                        game.isPublished
+                                                            ? 'bg-emerald-500/20 text-emerald-400'
+                                                            : 'bg-stone-500/20 text-stone-400'
+                                                    }`}
+                                                    title={game.isPublished ? "Unpublish game" : "Publish game"}
+                                                >
+                                                    {game.isPublished ? <Eye size={13} /> : <EyeOff size={13} />}
+                                                </button>
+                                                <button
+                                                    onClick={() => handleToggleFeature(game)}
+                                                    className={`p-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                                                        game.isFeatured
+                                                            ? 'bg-amber-500/20 text-amber-400'
+                                                            : 'bg-stone-500/20 text-stone-400'
+                                                    }`}
+                                                    title={game.isFeatured ? "Remove daily spotlight" : "Set daily spotlight"}
+                                                >
+                                                    <Flame size={13} className={game.isFeatured ? "fill-amber-400" : ""} />
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                        {/* Actions */}
                                         <td className="py-3 px-4 text-right">
                                             <div className="flex items-center justify-end gap-1.5">
                                                 <button
@@ -417,7 +468,6 @@ export const AdminGamesManagement = () => {
                         </div>
 
                         <form onSubmit={handleSave} className="space-y-4 text-xs">
-                            {/* Title & Slug */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                     <label className="block font-bold mb-1 text-[var(--foreground)]">Game Title *</label>
@@ -426,7 +476,7 @@ export const AdminGamesManagement = () => {
                                         required
                                         value={formData.title}
                                         onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                        placeholder="e.g. Sudoku Challenge"
+                                        placeholder="e.g. Code Puzzle"
                                         className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
                                     />
                                 </div>
@@ -436,13 +486,12 @@ export const AdminGamesManagement = () => {
                                         type="text"
                                         value={formData.slug}
                                         onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                                        placeholder="e.g. sudoku-challenge"
+                                        placeholder="e.g. code-puzzle"
                                         className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)] font-mono"
                                     />
                                 </div>
                             </div>
 
-                            {/* Category & Card Size */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                     <label className="block font-bold mb-1 text-[var(--foreground)]">Category</label>
@@ -451,13 +500,28 @@ export const AdminGamesManagement = () => {
                                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                                         className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
                                     >
-                                        {CATEGORIES.map(cat => (
-                                            <option key={cat} value={cat}>{cat}</option>
+                                        {CATEGORIES.map(c => (
+                                            <option key={c} value={c}>{c}</option>
                                         ))}
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block font-bold mb-1 text-[var(--foreground)]">Bento Card Size</label>
+                                    <label className="block font-bold mb-1 text-[var(--foreground)]">Difficulty</label>
+                                    <select
+                                        value={formData.difficulty}
+                                        onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })}
+                                        className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
+                                    >
+                                        {DIFFICULTIES.map(d => (
+                                            <option key={d} value={d}>{d}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label className="block font-bold mb-1 text-[var(--foreground)]">Card Size (Bento)</label>
                                     <select
                                         value={formData.cardSize}
                                         onChange={(e) => setFormData({ ...formData, cardSize: e.target.value })}
@@ -468,10 +532,6 @@ export const AdminGamesManagement = () => {
                                         ))}
                                     </select>
                                 </div>
-                            </div>
-
-                            {/* Badge & Order */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                     <label className="block font-bold mb-1 text-[var(--foreground)]">Badge Tag</label>
                                     <select
@@ -484,79 +544,64 @@ export const AdminGamesManagement = () => {
                                         ))}
                                     </select>
                                 </div>
-                                <div>
-                                    <label className="block font-bold mb-1 text-[var(--foreground)]">Display Order</label>
-                                    <input
-                                        type="number"
-                                        value={formData.order}
-                                        onChange={(e) => setFormData({ ...formData, order: Number(e.target.value) })}
-                                        className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
-                                    />
-                                </div>
                             </div>
 
-                            {/* Description */}
                             <div>
-                                <label className="block font-bold mb-1 text-[var(--foreground)]">Short Description</label>
+                                <label className="block font-bold mb-1 text-[var(--foreground)]">Short Description *</label>
                                 <textarea
+                                    required
                                     rows={2}
                                     value={formData.description}
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    placeholder="Brief description for discovery card..."
-                                    className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)] resize-none"
+                                    className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
                                 />
                             </div>
 
-                            {/* Instructions */}
                             <div>
-                                <label className="block font-bold mb-1 text-[var(--foreground)]">Gameplay Instructions</label>
+                                <label className="block font-bold mb-1 text-[var(--foreground)]">How to Play Instructions</label>
                                 <textarea
                                     rows={3}
                                     value={formData.instructions}
                                     onChange={(e) => setFormData({ ...formData, instructions: e.target.value })}
-                                    placeholder="How to play, controls, rules..."
-                                    className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)] resize-none"
+                                    className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
                                 />
                             </div>
 
-                            {/* Checkboxes */}
                             <div className="flex items-center gap-6 pt-2">
-                                <label className="flex items-center gap-2 cursor-pointer font-bold">
+                                <label className="flex items-center gap-2 cursor-pointer">
                                     <input
                                         type="checkbox"
                                         checked={formData.isPublished}
                                         onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
-                                        className="rounded-sm text-emerald-600 focus:ring-0"
+                                        className="rounded text-emerald-500"
                                     />
-                                    <span>Published</span>
+                                    <span className="font-bold text-[var(--foreground)]">Published & Playable</span>
                                 </label>
-                                <label className="flex items-center gap-2 cursor-pointer font-bold">
+                                <label className="flex items-center gap-2 cursor-pointer">
                                     <input
                                         type="checkbox"
                                         checked={formData.isFeatured}
                                         onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
-                                        className="rounded-sm text-amber-500 focus:ring-0"
+                                        className="rounded text-amber-500"
                                     />
-                                    <span>Featured on Hub</span>
+                                    <span className="font-bold text-[var(--foreground)]">Daily Featured Spotlight</span>
                                 </label>
                             </div>
 
-                            {/* Modal Actions */}
-                            <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-[var(--card-border)]">
+                            <div className="pt-4 border-t border-[var(--card-border)] flex items-center justify-end gap-2.5">
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="px-4 py-2 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-[var(--foreground)] font-bold transition-colors cursor-pointer"
+                                    className="px-4 py-2 rounded-xl bg-[var(--muted-bg)] text-[var(--foreground)] font-bold hover:bg-[var(--card-border)]"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={isSaving}
-                                    className="px-5 py-2 rounded-xl bg-[#193D35] hover:bg-[#193D35]/90 text-white font-bold transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+                                    className="px-5 py-2 rounded-xl bg-[#193D35] dark:bg-emerald-500 text-white dark:text-stone-950 font-bold flex items-center gap-1.5 shadow-md disabled:opacity-50"
                                 >
-                                    <Save size={14} />
-                                    <span>{isSaving ? 'Saving...' : 'Save Game'}</span>
+                                    <Save size={14} /> {isSaving ? 'Saving...' : 'Save Game'}
                                 </button>
                             </div>
                         </form>

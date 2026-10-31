@@ -5,6 +5,7 @@ class GameModel {
   final String description;
   final String instructions;
   final String category;
+  final String difficulty;
   final String thumbnail;
   final String badge;
   final String cardSize;
@@ -13,6 +14,8 @@ class GameModel {
   final bool isPublished;
   final bool isFeatured;
   final int userHighScore;
+  final double userBestWpm;
+  final double userBestAccuracy;
   final int userTotalPlays;
   final bool isFavorite;
 
@@ -23,6 +26,7 @@ class GameModel {
     required this.description,
     this.instructions = '',
     required this.category,
+    this.difficulty = 'All Levels',
     this.thumbnail = 'gradient-indigo',
     this.badge = '',
     this.cardSize = 'medium',
@@ -31,6 +35,8 @@ class GameModel {
     this.isPublished = true,
     this.isFeatured = false,
     this.userHighScore = 0,
+    this.userBestWpm = 0,
+    this.userBestAccuracy = 100,
     this.userTotalPlays = 0,
     this.isFavorite = false,
   });
@@ -42,7 +48,8 @@ class GameModel {
       title: json['title']?.toString() ?? '',
       description: json['description']?.toString() ?? '',
       instructions: json['instructions']?.toString() ?? '',
-      category: json['category']?.toString() ?? 'Casual Games',
+      category: json['category']?.toString() ?? 'Coding Games',
+      difficulty: json['difficulty']?.toString() ?? 'All Levels',
       thumbnail: json['thumbnail']?.toString() ?? 'gradient-indigo',
       badge: json['badge']?.toString() ?? '',
       cardSize: json['cardSize']?.toString() ?? json['card_size']?.toString() ?? 'medium',
@@ -55,6 +62,12 @@ class GameModel {
       userHighScore: (json['userHighScore'] is num)
           ? (json['userHighScore'] as num).toInt()
           : (json['highScore'] is num ? (json['highScore'] as num).toInt() : 0),
+      userBestWpm: (json['userBestWpm'] is num)
+          ? (json['userBestWpm'] as num).toDouble()
+          : (json['bestWpm'] is num ? (json['bestWpm'] as num).toDouble() : 0),
+      userBestAccuracy: (json['userBestAccuracy'] is num)
+          ? (json['userBestAccuracy'] as num).toDouble()
+          : (json['bestAccuracy'] is num ? (json['bestAccuracy'] as num).toDouble() : 100),
       userTotalPlays: (json['userTotalPlays'] is num)
           ? (json['userTotalPlays'] as num).toInt()
           : (json['totalPlays'] is num ? (json['totalPlays'] as num).toInt() : 0),
@@ -70,6 +83,7 @@ class GameModel {
       'description': description,
       'instructions': instructions,
       'category': category,
+      'difficulty': difficulty,
       'thumbnail': thumbnail,
       'badge': badge,
       'cardSize': cardSize,
@@ -78,6 +92,8 @@ class GameModel {
       'isPublished': isPublished,
       'isFeatured': isFeatured,
       'userHighScore': userHighScore,
+      'userBestWpm': userBestWpm,
+      'userBestAccuracy': userBestAccuracy,
       'userTotalPlays': userTotalPlays,
       'isFavorite': isFavorite,
     };
@@ -88,6 +104,7 @@ class GameModel {
     String? description,
     String? instructions,
     String? category,
+    String? difficulty,
     String? thumbnail,
     String? badge,
     String? cardSize,
@@ -96,6 +113,8 @@ class GameModel {
     bool? isPublished,
     bool? isFeatured,
     int? userHighScore,
+    double? userBestWpm,
+    double? userBestAccuracy,
     int? userTotalPlays,
     bool? isFavorite,
   }) {
@@ -106,6 +125,7 @@ class GameModel {
       description: description ?? this.description,
       instructions: instructions ?? this.instructions,
       category: category ?? this.category,
+      difficulty: difficulty ?? this.difficulty,
       thumbnail: thumbnail ?? this.thumbnail,
       badge: badge ?? this.badge,
       cardSize: cardSize ?? this.cardSize,
@@ -114,6 +134,8 @@ class GameModel {
       isPublished: isPublished ?? this.isPublished,
       isFeatured: isFeatured ?? this.isFeatured,
       userHighScore: userHighScore ?? this.userHighScore,
+      userBestWpm: userBestWpm ?? this.userBestWpm,
+      userBestAccuracy: userBestAccuracy ?? this.userBestAccuracy,
       userTotalPlays: userTotalPlays ?? this.userTotalPlays,
       isFavorite: isFavorite ?? this.isFavorite,
     );
@@ -125,6 +147,8 @@ class GameScoreSubmitResult {
   final bool isNewHighScore;
   final int highScore;
   final int score;
+  final double wpm;
+  final double accuracy;
   final int totalPlays;
   final String message;
   final bool isGuest;
@@ -134,6 +158,8 @@ class GameScoreSubmitResult {
     required this.isNewHighScore,
     required this.highScore,
     required this.score,
+    this.wpm = 0,
+    this.accuracy = 100,
     required this.totalPlays,
     required this.message,
     this.isGuest = false,
@@ -145,6 +171,8 @@ class GameScoreSubmitResult {
       isNewHighScore: json['isNewHighScore'] == true,
       highScore: (json['highScore'] is num) ? (json['highScore'] as num).toInt() : 0,
       score: (json['score'] is num) ? (json['score'] as num).toInt() : 0,
+      wpm: (json['wpm'] is num) ? (json['wpm'] as num).toDouble() : 0,
+      accuracy: (json['accuracy'] is num) ? (json['accuracy'] as num).toDouble() : 100,
       totalPlays: (json['totalPlays'] is num) ? (json['totalPlays'] as num).toInt() : 1,
       message: json['message']?.toString() ?? '',
       isGuest: json['isGuest'] == true,
