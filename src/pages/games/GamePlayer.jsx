@@ -23,6 +23,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthContext';
 import gameService from '../../services/gameService';
 import gameAudio from '../../utils/gameAudio';
+import { trackGameStart, trackGameComplete } from '../../utils/analytics';
 
 // Coding Games Engines
 import CodePuzzleEngine from './engines/CodePuzzleEngine';
@@ -61,6 +62,8 @@ export const GamePlayer = () => {
 
     const playerContainerRef = useRef(null);
     const gameStartTimeRef = useRef(Date.now());
+    const hasTrackedGameStartRef = useRef(false);
+    const hasTrackedGameOverRef = useRef(false);
 
     const handleToggleSound = () => {
         const newMuted = gameAudio.toggleMuted();
@@ -76,6 +79,14 @@ export const GamePlayer = () => {
                 setGame(res.data);
                 setPersonalBest(res.data.userHighScore || 0);
                 setIsFavorite(Boolean(res.data.isFavorite));
+                if (!hasTrackedGameStartRef.current) {
+                    hasTrackedGameStartRef.current = true;
+                    trackGameStart({
+                        slug: res.data.slug || slug,
+                        name: res.data.title || res.data.name || slug,
+                        category: res.data.category || 'Educational'
+                    });
+                }
             } else {
                 toast.error('Game not found.');
                 navigate('/games');
@@ -175,6 +186,18 @@ export const GamePlayer = () => {
             metadata
         });
 
+        if (!hasTrackedGameOverRef.current) {
+            hasTrackedGameOverRef.current = true;
+            trackGameComplete({
+                slug,
+                name: game?.title || game?.name || slug,
+                score: finalScore,
+                durationSeconds,
+                wpm,
+                accuracy
+            });
+        }
+
         // Submit score to backend
         try {
             await gameService.submitScore(slug, {
@@ -197,6 +220,12 @@ export const GamePlayer = () => {
         setIsPaused(false);
         gameStartTimeRef.current = Date.now();
         gameService.clearProgress(slug).catch(() => {});
+        hasTrackedGameOverRef.current = false;
+        trackGameStart({
+            slug,
+            name: game?.title || game?.name || slug,
+            category: game?.category || 'Educational'
+        });
         setPlayKey(prev => prev + 1);
     };
 

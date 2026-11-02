@@ -568,6 +568,14 @@ const Quiz = () => {
             if (filtered.length === 0) {
                 toast.info(`No questions found for ${selectedCategory} (${isAllSessions ? 'All Sessions' : `Session ${selectedSession}`}).`);
             } else {
+                if (!hasTrackedStartRef.current) {
+                    hasTrackedStartRef.current = true;
+                    trackQuizStart({
+                        category: selectedCategory,
+                        session: isAllSessions ? 'All' : selectedSession,
+                        totalQuestions: filtered.length
+                    });
+                }
                 try {
                     const startRes = await attemptService.startOrResumeAttempt({
                         category: selectedCategory,
@@ -709,6 +717,27 @@ const Quiz = () => {
             } catch (attErr) {
                 console.warn("Could not mark attempt completed:", attErr);
             }
+        }
+
+        const isEligibleForCert = evalResult?.certificateEligible || (finalPercentage >= (settings?.certificatePassingScore || effectivePassingScore));
+        const certId = evalResult?.certificateId || null;
+
+        trackQuizCompletion({
+            category: selectedCategory,
+            session: isAllSessions ? 'All' : selectedSession,
+            score: finalScore,
+            totalQuestions: evalResult ? evalResult.total : questions.length,
+            percentage: finalPercentage,
+            passed: finalPassed,
+            timeTaken
+        });
+
+        if (finalPassed && isEligibleForCert) {
+            trackCertificateGeneration({
+                category: selectedCategory,
+                percentage: finalPercentage,
+                certificateId: certId
+            });
         }
 
         setIsSubmitted(true);

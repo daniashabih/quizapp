@@ -6,11 +6,13 @@ import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import { Download, Linkedin, ArrowLeft, Award, QrCode, Loader2, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { trackCertificateGeneration, trackCertificateDownload } from '../../utils/analytics';
 
 export default function CertificateView() {
     const location = useLocation();
     const { user: authUser } = useAuth();
     const certRef = useRef(null);
+    const hasTrackedViewRef = useRef(false);
     const [downloaded, setDownloaded] = useState(false);
 
     const searchParams = new URLSearchParams(location.search);
@@ -47,7 +49,19 @@ export default function CertificateView() {
         ? new Date(fetchedCert.issuedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
         : (state.date || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }));
 
+    useEffect(() => {
+        if (!loadingCert && !certError && (fetchedCert || location.state) && !hasTrackedViewRef.current) {
+            hasTrackedViewRef.current = true;
+            trackCertificateGeneration({
+                category,
+                percentage,
+                certificateId: certId
+            });
+        }
+    }, [loadingCert, certError, fetchedCert, location.state, category, percentage, certId]);
+
     const handleDownload = () => {
+        trackCertificateDownload({ category, certificateId: certId });
         setDownloaded(true);
         setTimeout(() => setDownloaded(false), 3000);
     };
