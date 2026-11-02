@@ -452,6 +452,14 @@ const Quiz = () => {
             id: q.id || q._id
         }));
         setQuestions(snapshot);
+        if (!hasTrackedStartRef.current && snapshot.length > 0) {
+            hasTrackedStartRef.current = true;
+            trackQuizStart({
+                category: selectedCategory,
+                session: isAllSessions ? 'All' : selectedSession,
+                totalQuestions: snapshot.length
+            });
+        }
         const safeIndex = Math.min(
             activeAttempt.currentQuestionIndex || 0,
             snapshot.length > 0 ? snapshot.length - 1 : 0
