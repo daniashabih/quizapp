@@ -35,6 +35,25 @@ test('GA4 Integration: index.html contains official gtag script and configuratio
     );
 });
 
+test('GA4 Integration: dist/index.html (production build) contains gtag immediately after <head>', () => {
+    const distPath = path.join(__dirname, '..', 'dist', 'index.html');
+    if (fs.existsSync(distPath)) {
+        const distHtml = fs.readFileSync(distPath, 'utf-8');
+        assert.ok(
+            distHtml.includes('https://www.googletagmanager.com/gtag/js?id=G-BSZBBFZZH0'),
+            'dist/index.html must include the official Google Tag script'
+        );
+        assert.ok(
+            distHtml.includes("gtag('config', 'G-BSZBBFZZH0');"),
+            'dist/index.html must initialize gtag config'
+        );
+        assert.ok(
+            /<head>\s*<!-- Google tag \(gtag\.js\) -->/.test(distHtml),
+            'dist/index.html must have the Google tag immediately after opening <head>'
+        );
+    }
+});
+
 test('GA4 Integration: analytics utility handles all required events and prevents duplicates', async () => {
     // Mock browser environment
     const events = [];
