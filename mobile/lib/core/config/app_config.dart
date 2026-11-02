@@ -4,7 +4,7 @@ class AppConfig {
   static const int appBuildNumber = 14;
 
   // Production API Base URL (Vercel Live Deployment)
-  static const String defaultProductionApiUrl = 'https://hangbug.vercel.app/api';
+  static const String defaultProductionApiUrl = 'https://www.hangbug.com/api';
 
   // Configurable at compile time via: --dart-define=API_URL=https://...
   static const String baseUrl = String.fromEnvironment(
@@ -15,9 +15,9 @@ class AppConfig {
   static const String apiBaseUrl = baseUrl;
 
   // Legal and Documentation URLs
-  static const String privacyPolicyUrl = 'https://hangbug.vercel.app/privacy';
-  static const String termsOfServiceUrl = 'https://hangbug.vercel.app/terms';
-  static const String accountDeletionUrl = 'https://hangbug.vercel.app/delete-account';
+  static const String privacyPolicyUrl = 'https://www.hangbug.com/privacy';
+  static const String termsOfServiceUrl = 'https://www.hangbug.com/terms';
+  static const String accountDeletionUrl = 'https://www.hangbug.com/delete-account';
   static const String supportEmail = 'support@hangbug.com';
-  static const String websiteUrl = 'https://hangbug.vercel.app';
+  static const String websiteUrl = 'https://www.hangbug.com';
 }

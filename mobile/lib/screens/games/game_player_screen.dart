@@ -292,6 +292,18 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
           error: (_, _) => const Text('Mini Game'),
         ),
         actions: [
+          // Sound toggle
+          IconButton(
+            icon: Icon(_isMuted ? Icons.volume_off_rounded : Icons.volume_up_rounded),
+            tooltip: _isMuted ? 'Unmute Sound' : 'Mute Sound',
+            onPressed: _toggleSound,
+          ),
+          // Fullscreen toggle
+          IconButton(
+            icon: Icon(_isFullscreen ? Icons.fullscreen_exit_rounded : Icons.fullscreen_rounded),
+            tooltip: _isFullscreen ? 'Exit Fullscreen' : 'Fullscreen',
+            onPressed: _toggleFullscreen,
+          ),
           // Favorite
           IconButton(
             icon: Icon(

@@ -204,7 +204,7 @@ const quizController = {
                             percentage: existingResult.percentage,
                             learnerName: req.user.name || 'Verified Learner',
                             date: new Date(existingResult.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
-                            verificationUrl: `https://hangbug.vercel.app/certificate/view?id=${certId}`
+                            verificationUrl: `${(process.env.APP_BASE_URL || 'https://www.hangbug.com').replace(/\/$/, '')}/certificate/view?id=${certId}`
                         } : null;
 
                         return res.status(200).json({
@@ -372,7 +372,7 @@ const quizController = {
                     percentage: computedPercentage,
                     learnerName: req.user.name || 'Verified Learner',
                     date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
-                    verificationUrl: `https://hangbug.vercel.app/certificate/view?id=${certId}`
+                    verificationUrl: `${(process.env.APP_BASE_URL || 'https://www.hangbug.com').replace(/\/$/, '')}/certificate/view?id=${certId}`
                 }
                 : null;
 

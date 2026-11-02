@@ -7,7 +7,7 @@ const axios = require('axios');
  */
 
 // Production base URL fallback
-const DEFAULT_PRODUCTION_URL = 'https://hangbug.vercel.app';
+const DEFAULT_PRODUCTION_URL = 'https://www.hangbug.com';
 const DEFAULT_FROM_ADDRESS = 'Hangbug <noreply@hangbug.com>';
 
 /**

@@ -17,7 +17,7 @@ class CertificateModel {
     this.learnerName,
   });
 
-  String get verificationUrl => 'https://hangbug.vercel.app/certificate/view?id=$id';
+  String get verificationUrl => 'https://www.hangbug.com/certificate/view?id=$id';
 
   factory CertificateModel.fromJson(Map<String, dynamic> json) {
     final rawScore = json['score'] ?? json['percentage'] ?? 0;
