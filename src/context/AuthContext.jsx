@@ -2,6 +2,7 @@
 import { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { trackLogin } from '../utils/analytics';
 
 // Configure Axios defaults for HttpOnly Cookie Authentication & sensible request timeout
 axios.defaults.baseURL = import.meta.env.VITE_API_URL || '/api';
@@ -157,6 +158,7 @@ export const AuthProvider = ({ children }) => {
             const res = await axios.post('/auth/login', { email: demoEmail, password: demoPass });
             const userData = res.data?.user || res.data;
             setUser(userData);
+            trackLogin('guest');
             toast.success(`Signed in as Guest (${role === 'admin' ? 'Admin' : 'Candidate'})`);
             return userData;
         } catch {
@@ -170,6 +172,7 @@ export const AuthProvider = ({ children }) => {
                 isVerified: true
             };
             setUser(guestUser);
+            trackLogin('guest');
             toast.success(`Signed in as Guest (${role === 'admin' ? 'Admin' : 'Candidate'})`);
             return guestUser;
         }

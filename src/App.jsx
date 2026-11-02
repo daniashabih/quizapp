@@ -10,6 +10,7 @@ import { SettingsProvider, useSettings } from "./context/SettingsContext";
 import MaintenanceScreen from "./components/MaintenanceScreen";
 import SplashScreen from "./components/SplashScreen";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { trackPageView } from "./utils/analytics";
 
 // Auth Pages
 import Login from "./pages/auth/Login";
@@ -53,6 +54,11 @@ function AppRoutes() {
     const { user } = useAuth();
     const { settings, refreshSettings } = useSettings();
     const location = useLocation();
+
+    // Track SPA route changes in Google Analytics 4
+    useEffect(() => {
+        trackPageView(location.pathname + location.search);
+    }, [location.pathname, location.search]);
 
     // If maintenance mode is active, show MaintenanceScreen to non-admin users
     // (allow /login so admins can sign in and manage settings)

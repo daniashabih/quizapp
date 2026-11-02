@@ -7,6 +7,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import InputField from '../../components/ui/InputField';
+import { trackSignUp, trackLogin } from '../../utils/analytics';
 
 function GoogleIcon() {
     return (
@@ -89,6 +90,11 @@ export default function Auth({ initialMode = 'login' }) {
                                 try {
                                     const user = await loginWithGoogle({ credential: response.credential });
                                     if (user) {
+                                        if (isSignUp) {
+                                            trackSignUp('google_onetap');
+                                        } else {
+                                            trackLogin('google_onetap');
+                                        }
                                         navigate(user.role === 'admin' ? '/dashboard/admin' : from);
                                     }
                                 } catch (err) {
@@ -127,6 +133,11 @@ export default function Auth({ initialMode = 'login' }) {
                     email: email.trim() || undefined
                 });
                 if (user) {
+                    if (isSignUp) {
+                        trackSignUp('google_demo');
+                    } else {
+                        trackLogin('google_demo');
+                    }
                     navigate(user.role === 'admin' ? '/dashboard/admin' : from);
                 }
             } catch (err) {
@@ -164,6 +175,11 @@ export default function Auth({ initialMode = 'login' }) {
                         try {
                             const user = await loginWithGoogle({ token: tokenResponse.access_token });
                             if (user) {
+                                if (isSignUp) {
+                                    trackSignUp('google');
+                                } else {
+                                    trackLogin('google');
+                                }
                                 navigate(user.role === 'admin' ? '/dashboard/admin' : from);
                             }
                         } catch (err) {
@@ -213,11 +229,13 @@ export default function Auth({ initialMode = 'login' }) {
             if (isSignUp) {
                 const user = await signup(name, email, password);
                 if (user) {
+                    trackSignUp('email');
                     navigate(user.role === 'admin' ? '/dashboard/admin' : from);
                 }
             } else {
                 const user = await login(email, password);
                 if (user) {
+                    trackLogin('email');
                     navigate(user.role === 'admin' ? '/dashboard/admin' : from);
                 }
             }

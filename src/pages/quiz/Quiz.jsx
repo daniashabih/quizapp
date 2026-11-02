@@ -13,6 +13,7 @@ import {
 import attemptService from '../../services/attemptService';
 import { useSettings } from '../../context/SettingsContext';
 import ThemeToggle from '../../components/ThemeToggle';
+import { trackQuizStart, trackQuizCompletion, trackCertificateGeneration } from '../../utils/analytics';
 
 // Format relative time helper for resume dialog
 function formatTimeAgo(dateStr) {
@@ -57,6 +58,7 @@ const Quiz = () => {
     const [showSaveConfirmModal, setShowSaveConfirmModal] = useState(false);
 
     const attemptIdRef = useRef(explicitAttemptId);
+    const hasTrackedStartRef = useRef(false);
     const saveTimeoutRef = useRef(null);
     const questionScrollRef = useRef(null);
     const latestStateRef = useRef({
