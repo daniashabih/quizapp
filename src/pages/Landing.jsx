@@ -174,7 +174,7 @@ export default function Landing() {
                             className="pt-4 border-t border-[var(--card-border)] grid grid-cols-3 gap-4 max-w-lg"
                         >
                             <div>
-                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">{technologies.length || 0}+</p>
+                                <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">{activeTechs.length || 0}+</p>
                                 <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Active Tech Tracks</p>
                             </div>
                             <div>
