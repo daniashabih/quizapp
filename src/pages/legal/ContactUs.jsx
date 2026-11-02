@@ -4,8 +4,14 @@ import { Mail, MessageSquare, Clock, Send, CheckCircle2, ArrowLeft, HelpCircle }
 import { toast } from 'react-toastify';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import usePageSeo from '../../hooks/usePageSeo';
 
 export default function ContactUs() {
+    usePageSeo({
+        title: 'Contact Support & Inquiries — HangBug',
+        description: 'Get in touch with the HangBug team for questions regarding quizzes, verified certificates, developer partnerships, or technical support.',
+        canonicalPath: '/contact'
+    });
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);

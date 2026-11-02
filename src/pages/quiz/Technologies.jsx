@@ -10,10 +10,16 @@ import {
 import { toast } from 'react-toastify';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import usePageSeo from '../../hooks/usePageSeo';
 
 const techIcons = { default: 'from-black to-zinc-800' };
 
 export default function Technologies() {
+    usePageSeo({
+        title: 'Choose Your Tech Stack — Programming & Framework Quizzes | HangBug',
+        description: 'Explore interactive quiz tracks across modern web technologies including SQL Server, Express, Node.js, PHP, Agile, Azure, and more.',
+        canonicalPath: '/technologies'
+    });
     const navigate = useNavigate();
     const location = useLocation();
     const isDashboard = location.pathname.startsWith('/dashboard');
@@ -105,7 +111,7 @@ export default function Technologies() {
 
     const safeCategories = Array.isArray(categories) ? categories : [];
     const filtered = safeCategories
-        .filter(c => c && c.isEnabled !== false)
+        .filter(c => c && c.isEnabled !== false && Number(c.questionCount || 0) > 0)
         .filter(c => (c.name || '').toLowerCase().includes(searchQuery.toLowerCase()));
     const getGradient = () => techIcons.default;
 

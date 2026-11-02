@@ -4,8 +4,14 @@ import { Sparkles, Code2, Award, Users, Target, ShieldCheck, ArrowRight, ArrowLe
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
+import usePageSeo from '../../hooks/usePageSeo';
 
 export default function AboutUs() {
+    usePageSeo({
+        title: 'About Us — HangBug Developer Skill Verification Platform',
+        description: "Learn about HangBug's mission to help software engineers benchmark programming skills, prepare for technical interviews, and earn verifiable certificates.",
+        canonicalPath: '/about'
+    });
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);

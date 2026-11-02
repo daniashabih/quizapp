@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import usePageSeo from '../../hooks/usePageSeo';
 
 export default function PrivacyPolicy() {
     const lastUpdated = "September 24, 2026";

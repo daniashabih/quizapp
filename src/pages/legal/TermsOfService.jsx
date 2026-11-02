@@ -3,8 +3,14 @@ import { Link } from 'react-router-dom';
 import { FileText, Award, AlertCircle, Scale, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import usePageSeo from '../../hooks/usePageSeo';
 
 export default function TermsOfService() {
+    usePageSeo({
+        title: 'Terms of Service — HangBug Platform Terms & Conditions',
+        description: 'Review the HangBug Terms of Service governing platform usage, credential verification, intellectual property, and community guidelines.',
+        canonicalPath: '/terms'
+    });
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
