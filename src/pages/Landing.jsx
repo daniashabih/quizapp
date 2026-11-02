@@ -162,7 +162,7 @@ export default function Landing() {
                             </Link>
 
                             <Link to="/technologies" className="btn-secondary text-sm py-3 px-5 rounded-2xl">
-                                Browse {technologies.length > 0 ? `${technologies.length}+ Tech Tracks` : 'Technologies'}
+                                Browse {activeTechs.length > 0 ? `${activeTechs.length}+ Tech Tracks` : 'Technologies'}
                             </Link>
                         </motion.div>
 
