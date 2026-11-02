@@ -163,6 +163,7 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
   }
 
   void _restartGame() {
+    ref.read(gameRepositoryProvider).clearProgress(widget.slug);
     setState(() {
       _currentScore = 0;
       _isPaused = false;
@@ -228,6 +229,7 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
+          isMuted: _isMuted,
         );
       case 'find-the-bug':
       case 'sql-challenge':
