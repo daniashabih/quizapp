@@ -8,6 +8,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/dashboard_provider.dart';
 import '../../widgets/error_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
+import '../../widgets/banner_ad_widget.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -36,7 +37,10 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(width: 8),
         ],
       ),
-      body: dashboardAsync.when(
+      body: Column(
+        children: [
+          Expanded(
+            child: dashboardAsync.when(
         loading: () =>
             const LoadingStateWidget(message: 'Loading live dashboard...'),
         error: (err, _) => ErrorStateWidget(
@@ -522,6 +526,10 @@ class HomeScreen extends ConsumerWidget {
             ),
           );
         },
+      ),
+          ),
+          const BannerAdWidget(),
+        ],
       ),
     );
   }

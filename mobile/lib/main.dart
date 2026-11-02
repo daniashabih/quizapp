@@ -6,9 +6,13 @@ import 'core/constants/app_strings.dart';
 import 'core/theme/app_theme.dart';
 import 'providers/theme_provider.dart';
 import 'routes/app_router.dart';
+import 'services/ad_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Google Mobile Ads SDK safely
+  await AdService.initialize();
 
   // Lock orientation to portrait for consistent quiz experience
   await SystemChrome.setPreferredOrientations([

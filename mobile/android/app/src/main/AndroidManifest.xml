@@ -8,6 +8,11 @@
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
         android:allowBackup="false">
+
+        <!-- Google AdMob Application ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1003128718127272~7941454138"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

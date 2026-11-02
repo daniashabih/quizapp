@@ -11,6 +11,7 @@ import '../../widgets/app_text_field.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
+import '../../widgets/banner_ad_widget.dart';
 
 class ExploreScreen extends ConsumerStatefulWidget {
   const ExploreScreen({super.key});
@@ -58,7 +59,10 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
           const SizedBox(width: 8),
         ],
       ),
-      body: categoriesAsync.when(
+      body: Column(
+        children: [
+          Expanded(
+            child: categoriesAsync.when(
         loading: () =>
             const LoadingStateWidget(message: 'Loading technologies...'),
         error: (err, _) => ErrorStateWidget(
@@ -134,6 +138,10 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
             ),
           );
         },
+      ),
+          ),
+          const BannerAdWidget(),
+        ],
       ),
     );
   }
