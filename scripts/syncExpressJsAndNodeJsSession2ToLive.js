@@ -2,13 +2,13 @@ const { questions, CATEGORY_NAME, SESSION_NUMBER } = require('./uploadExpressJsA
 
 async function syncToLive() {
     console.log('================================================================');
-    console.log(`  UPLOADING ${questions.length} MCQS TO LIVE SERVER (https://hangbug.vercel.app)`);
+    console.log(`  UPLOADING ${questions.length} MCQS TO LIVE SERVER (https://www.hangbug.com)`);
     console.log(`  Track: "${CATEGORY_NAME}", Session: ${SESSION_NUMBER}`);
     console.log('================================================================\n');
 
     // Step 1: Admin Login
     console.log('Logging in as Admin...');
-    const loginRes = await fetch('https://hangbug.vercel.app/api/auth/login', {
+    const loginRes = await fetch('https://www.hangbug.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: 'admin@example.com', password: 'AdminPassword123!' })
@@ -23,7 +23,7 @@ async function syncToLive() {
 
     // Step 2: Ensure Category Exists
     console.log(`Checking category "${CATEGORY_NAME}" on live server...`);
-    const catRes = await fetch('https://hangbug.vercel.app/api/categories');
+    const catRes = await fetch('https://www.hangbug.com/api/categories');
     const existingCats = catRes.ok ? await catRes.json() : [];
     const catExists = (Array.isArray(existingCats) ? existingCats : []).some(
         c => c.name.toLowerCase() === CATEGORY_NAME.toLowerCase()
@@ -31,7 +31,7 @@ async function syncToLive() {
 
     if (!catExists) {
         console.log(`Creating category "${CATEGORY_NAME}"...`);
-        const createCatRes = await fetch('https://hangbug.vercel.app/api/categories', {
+        const createCatRes = await fetch('https://www.hangbug.com/api/categories', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ async function syncToLive() {
 
     // Step 3: Fetch Existing Questions for Category & Session
     const encodedCategory = encodeURIComponent(CATEGORY_NAME);
-    const existingRes = await fetch(`https://hangbug.vercel.app/api/questions?category=${encodedCategory}&session=${SESSION_NUMBER}`);
+    const existingRes = await fetch(`https://www.hangbug.com/api/questions?category=${encodedCategory}&session=${SESSION_NUMBER}`);
     const existingQuestions = existingRes.ok ? await existingRes.json() : [];
     const existingTexts = new Set(
         (Array.isArray(existingQuestions) ? existingQuestions : []).map(q => (q.question_text || q.questionText || '').trim().toLowerCase())
@@ -71,7 +71,7 @@ async function syncToLive() {
             continue;
         }
 
-        const postRes = await fetch('https://hangbug.vercel.app/api/questions', {
+        const postRes = await fetch('https://www.hangbug.com/api/questions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -101,14 +101,14 @@ async function syncToLive() {
     }
 
     // Step 4: Verify Final Counts
-    const verifyRes = await fetch('https://hangbug.vercel.app/api/categories');
+    const verifyRes = await fetch('https://www.hangbug.com/api/categories');
     const categories = await verifyRes.json();
     const liveCat = (Array.isArray(categories) ? categories : []).find(c => c.name.toLowerCase() === CATEGORY_NAME.toLowerCase());
 
-    const verifyQuestionsRes = await fetch(`https://hangbug.vercel.app/api/questions?category=${encodedCategory}&session=${SESSION_NUMBER}`);
+    const verifyQuestionsRes = await fetch(`https://www.hangbug.com/api/questions?category=${encodedCategory}&session=${SESSION_NUMBER}`);
     const verifyQuestions = verifyQuestionsRes.ok ? await verifyQuestionsRes.json() : [];
 
-    const sessionsRes = await fetch(`https://hangbug.vercel.app/api/questions/sessions?category=${encodedCategory}`);
+    const sessionsRes = await fetch(`https://www.hangbug.com/api/questions/sessions?category=${encodedCategory}`);
     const sessions = sessionsRes.ok ? await sessionsRes.json() : [];
 
     console.log('\n================================================================');

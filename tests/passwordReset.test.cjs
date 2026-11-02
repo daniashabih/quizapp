@@ -22,8 +22,8 @@ test('Email Service: getAppBaseUrl defaults to production URL or env', () => {
 
     try {
         // 1. Explicit APP_BASE_URL takes absolute highest precedence
-        process.env.APP_BASE_URL = 'https://hangbug.vercel.app';
-        assert.equal(getAppBaseUrl(), 'https://hangbug.vercel.app');
+        process.env.APP_BASE_URL = 'https://www.hangbug.com';
+        assert.equal(getAppBaseUrl(), 'https://www.hangbug.com');
 
         process.env.APP_BASE_URL = 'https://custom-domain.com/';
         assert.equal(getAppBaseUrl(), 'https://custom-domain.com');
@@ -33,11 +33,11 @@ test('Email Service: getAppBaseUrl defaults to production URL or env', () => {
         process.env.NODE_ENV = 'production';
         process.env.VERCEL_ENV = 'production';
         process.env.VERCEL_URL = 'hangbug-git-main-daniashabih.vercel.app';
-        assert.equal(getAppBaseUrl(), 'https://hangbug.vercel.app', 'Production must prefer canonical domain over transient hash');
+        assert.equal(getAppBaseUrl(), 'https://www.hangbug.com', 'Production must prefer canonical domain over transient hash');
 
         // 3. Vercel project production URL takes priority if set in production
-        process.env.VERCEL_PROJECT_PRODUCTION_URL = 'hangbug.vercel.app';
-        assert.equal(getAppBaseUrl(), 'https://hangbug.vercel.app');
+        process.env.VERCEL_PROJECT_PRODUCTION_URL = 'www.hangbug.com';
+        assert.equal(getAppBaseUrl(), 'https://www.hangbug.com');
 
         // 4. Preview environment uses preview deployment URL
         process.env.NODE_ENV = 'development';
@@ -145,7 +145,7 @@ test('Email Service: Delivery status distinction (accepted_by_provider vs delive
         delete process.env.RESEND_API_KEY; // Ensure test runs in simulation without remote API side-effects
         const result = await sendPasswordResetEmail({
             to: 'learner@hangbug.com',
-            resetUrl: 'https://hangbug.vercel.app/reset-password?token=mocktoken',
+            resetUrl: 'https://www.hangbug.com/reset-password?token=mocktoken',
             userName: 'Learner'
         });
 
@@ -175,7 +175,7 @@ test('Email Service: Production throws error when credentials missing (no false 
             async () => {
                 await sendPasswordResetEmail({
                     to: 'learner@hangbug.com',
-                    resetUrl: 'https://hangbug.vercel.app/reset-password?token=mocktoken'
+                    resetUrl: 'https://www.hangbug.com/reset-password?token=mocktoken'
                 });
             },
             (err) => {
@@ -193,7 +193,7 @@ test('Email Service: Production throws error when credentials missing (no false 
 });
 
 test('Email Service: renderPasswordResetHtml includes branding and required content', () => {
-    const resetUrl = 'https://hangbug.vercel.app/reset-password?token=abc123test';
+    const resetUrl = 'https://www.hangbug.com/reset-password?token=abc123test';
     const html = renderPasswordResetHtml({ resetUrl, userName: 'Ada Lovelace' });
 
     assert.ok(html.includes('Hangbug'), 'Must contain Hangbug brand name');
@@ -208,7 +208,7 @@ test('Email Service: renderPasswordResetHtml includes branding and required cont
 });
 
 test('Email Service: renderPasswordResetText fallback renders correctly', () => {
-    const resetUrl = 'https://hangbug.vercel.app/reset-password?token=abc123test';
+    const resetUrl = 'https://www.hangbug.com/reset-password?token=abc123test';
     const text = renderPasswordResetText({ resetUrl });
 
     assert.ok(text.includes('Hello,'), 'Must include default greeting');

@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import ThemeToggle from '../ThemeToggle';
 
 export default function SeoHeader({
-    currentDomain = "hangbug.vercel.app",
+    currentDomain = "www.hangbug.com",
     onDomainChange,
     onOpenFeedback,
     onOpenCreateProject,
@@ -24,9 +24,9 @@ export default function SeoHeader({
     const dropdownRef = useRef(null);
 
     const availableDomains = [
-        "hangbug.vercel.app",
+        "www.hangbug.com",
         "hangbug.com",
-        "quizapp-azure.vercel.app"
+        "hangbug.vercel.app"
     ];
 
     useEffect(() => {

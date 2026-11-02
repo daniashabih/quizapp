@@ -7,7 +7,7 @@ import { RefreshCw, RotateCcw, AlertCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 export default function SeoDashboard() {
-    const [domain, setDomain] = useState("hangbug.vercel.app");
+    const [domain, setDomain] = useState("www.hangbug.com");
     const [card1Visible, setCard1Visible] = useState(true);
     const [card2Visible, setCard2Visible] = useState(true);
     const [createProjectOpen, setCreateProjectOpen] = useState(false);

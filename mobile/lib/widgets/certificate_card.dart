@@ -185,7 +185,7 @@ class CertificateCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'hangbug.vercel.app',
+                            'www.hangbug.com',
                             style: AppTextStyles.mono.copyWith(
                               fontSize: 10,
                               color: context.brandAccentColor,

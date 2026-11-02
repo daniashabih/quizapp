@@ -71,7 +71,7 @@ class TermsScreen extends StatelessWidget {
               context: context,
               title: '7. Governing Law & Contact',
               body:
-                  'These Terms shall be governed by and construed in accordance with applicable laws. For inquiries regarding these terms, please contact legal@hangbug.com or visit https://hangbug.vercel.app.',
+                  'These Terms shall be governed by and construed in accordance with applicable laws. For inquiries regarding these terms, please contact legal@hangbug.com or visit https://www.hangbug.com.',
             ),
             const SizedBox(height: 32),
           ],

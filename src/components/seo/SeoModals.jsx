@@ -52,7 +52,7 @@ export function CreateProjectModal({ isOpen, onClose, onProjectCreated }) {
                         </label>
                         <input
                             type="text"
-                            placeholder="e.g. hangbug.vercel.app or myapp.com"
+                            placeholder="e.g. www.hangbug.com or myapp.com"
                             value={domain}
                             onChange={(e) => setDomain(e.target.value)}
                             className="w-full px-3.5 py-2 text-sm rounded-xl border border-[#E5E5E7] focus:outline-none focus:border-[#4F5BD5] focus:ring-2 focus:ring-[#4F5BD5]/15 transition-all text-[#222222]"

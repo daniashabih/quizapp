@@ -159,7 +159,7 @@ export default function CertificateView() {
                                 </div>
                                 <div className="text-left">
                                     <p className="text-[9px] font-bold text-[var(--foreground-muted)] uppercase">Verify Online</p>
-                                    <p className="text-[10px] text-[var(--foreground-muted)] font-mono">hangbug.com/verify</p>
+                                    <p className="text-[10px] text-[var(--foreground-muted)] font-mono">www.hangbug.com/certificate/view</p>
                                 </div>
                             </div>
                             <div className="w-12 h-12 rounded-full bg-[#F3E5C5] border border-[#E2D0A6] flex items-center justify-center shadow-xs">

@@ -1,7 +1,7 @@
 const { questions, CATEGORY_NAME, SESSION_NUMBER } = require('./uploadPowerBiQuiz');
 
 async function syncToLive() {
-    const BASE_URL = process.env.LIVE_API_URL || 'https://hangbug.vercel.app';
+    const BASE_URL = process.env.LIVE_API_URL || 'https://www.hangbug.com';
     console.log('================================================================');
     console.log(`  UPLOADING ${questions.length} MCQS TO LIVE SERVER (${BASE_URL})`);
     console.log(`  Track: "${CATEGORY_NAME}", Session: ${SESSION_NUMBER}`);

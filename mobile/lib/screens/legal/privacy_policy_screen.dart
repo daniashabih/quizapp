@@ -68,7 +68,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               body:
                   'In compliance with Google Play Store User Data policies, you have complete control over your data:\n\n'
                   '• In-App Deletion: You can permanently delete your HangBug account and all associated records (quiz histories, scores, certificates) directly inside the app under Profile → Settings → Delete Account & Data.\n'
-                  '• Web / Support Request: You can also request complete account deletion at any time by contacting support@hangbug.com or visiting https://hangbug.vercel.app.\n\n'
+                  '• Web / Support Request: You can also request complete account deletion at any time by contacting support@hangbug.com or visiting https://www.hangbug.com.\n\n'
                   'Upon confirmation, all personal identifiers and quiz records are permanently erased from our databases.',
             ),
             _buildSection(
@@ -83,7 +83,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               body:
                   'If you have questions, comments, or concerns regarding this policy or our data practices, please reach out to us at:\n\n'
                   'Email: privacy@hangbug.com\n'
-                  'Website: https://hangbug.vercel.app',
+                  'Website: https://www.hangbug.com',
             ),
             const SizedBox(height: 32),
           ],

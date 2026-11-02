@@ -319,7 +319,7 @@ class ResultScreen extends StatelessWidget {
     Share.share(
       '🎯 I just scored ${result.percentage.toStringAsFixed(0)}% (${result.score}/${result.total}) '
       'on the ${result.category} quiz on ${AppConfig.appName}!\n\n'
-      'Test your web development and programming skills at: https://hangbug.vercel.app',
+      'Test your web development and programming skills at: https://www.hangbug.com',
       subject: 'My ${AppConfig.appName} Quiz Result for ${result.category}',
     );
   }

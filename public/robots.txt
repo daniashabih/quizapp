@@ -1,0 +1,6 @@
+# HangBug Robots Policy
+User-agent: *
+Allow: /
+
+# Canonical Sitemap
+Sitemap: https://www.hangbug.com/sitemap.xml

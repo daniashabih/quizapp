@@ -3,7 +3,7 @@ const path = require('path');
 
 async function syncToLive() {
     console.log('================================================================');
-    console.log('  UPLOADING 54 MCQS TO LIVE SERVER (https://hangbug.vercel.app)');
+    console.log('  UPLOADING 54 MCQS TO LIVE SERVER (https://www.hangbug.com)');
     console.log('================================================================\n');
 
     const content = fs.readFileSync(path.resolve(__dirname, 'uploadSqlServerSession1Quiz.js'), 'utf8');
@@ -13,7 +13,7 @@ async function syncToLive() {
 
     // Step 1: Admin Login
     console.log('Logging in as Admin...');
-    const loginRes = await fetch('https://hangbug.vercel.app/api/auth/login', {
+    const loginRes = await fetch('https://www.hangbug.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: 'admin@example.com', password: 'AdminPassword123!' })
@@ -27,7 +27,7 @@ async function syncToLive() {
     console.log('✅ Admin login successful.\n');
 
     // Step 2: Fetch Existing Questions for Category & Session
-    const existingRes = await fetch('https://hangbug.vercel.app/api/questions?category=SQL%20Server&session=1');
+    const existingRes = await fetch('https://www.hangbug.com/api/questions?category=SQL%20Server&session=1');
     const existingQuestions = existingRes.ok ? await existingRes.json() : [];
     const existingTexts = new Set(
         (Array.isArray(existingQuestions) ? existingQuestions : []).map(q => (q.question_text || q.questionText || '').trim().toLowerCase())
@@ -47,7 +47,7 @@ async function syncToLive() {
             continue;
         }
 
-        const postRes = await fetch('https://hangbug.vercel.app/api/questions', {
+        const postRes = await fetch('https://www.hangbug.com/api/questions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ async function syncToLive() {
     }
 
     // Step 3: Verify Final Counts
-    const verifyRes = await fetch('https://hangbug.vercel.app/api/categories');
+    const verifyRes = await fetch('https://www.hangbug.com/api/categories');
     const categories = await verifyRes.json();
     const sqlCat = (Array.isArray(categories) ? categories : []).find(c => c.name.toLowerCase() === 'sql server');
 

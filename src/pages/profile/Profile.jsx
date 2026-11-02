@@ -169,7 +169,7 @@ export default function Profile() {
                         <InfoRow icon={Mail} label="Email" value={user?.email} />
                         <InfoRow icon={Calendar} label="Joined" value={joinedDate} />
                         <InfoRow icon={MapPin} label="Location" value="Earth" />
-                        <InfoRow icon={Globe} label="Website" value="https://hangbug.dev" isLink />
+                        <InfoRow icon={Globe} label="Website" value="https://www.hangbug.com" isLink />
                     </div>
 
                     {/* Social */}

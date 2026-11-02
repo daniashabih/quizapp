@@ -43,6 +43,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:scheme="https"
+                    android:host="www.hangbug.com"
+                    android:pathPrefix="/reset-password" />
+                <data
+                    android:scheme="https"
+                    android:host="hangbug.com"
+                    android:pathPrefix="/reset-password" />
+                <data
+                    android:scheme="https"
                     android:host="hangbug.vercel.app"
                     android:pathPrefix="/reset-password" />
             </intent-filter>

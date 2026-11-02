@@ -575,7 +575,7 @@ const googleLogin = async (req, res) => {
             }
         } else if (isDemo) {
             // Instant Demo Mode Google Account
-            email = demoEmail || 'google.demo@hangbug.dev';
+            email = demoEmail || 'google.demo@hangbug.com';
             name = demoName || 'Jane Google (Demo)';
             avatar = demoAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80';
         } else {

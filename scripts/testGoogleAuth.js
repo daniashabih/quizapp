@@ -46,7 +46,7 @@ async function runGoogleAuthTests() {
 
         // TEST 3: Instant Demo Google Authentication (New User Creation)
         console.log('\n--- 3. Testing Google Auth New User Creation & Cookie ---');
-        const demoEmail = `google_tester_${Date.now()}@hangbug.dev`;
+        const demoEmail = `google_tester_${Date.now()}@hangbug.com`;
         const demoName = 'Google Test User';
         const demoAvatar = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150';
 
