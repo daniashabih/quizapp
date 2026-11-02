@@ -9,6 +9,40 @@
   },
   "headers": [
     {
+      "source": "/robots.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/sitemap.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
       "source": "/app-ads.txt",
       "headers": [
         {
@@ -66,7 +100,7 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!api/|assets/|branding/|favicon|robots\\.txt|sitemap\\.xml|ads\\.txt|app-ads\\.txt|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]

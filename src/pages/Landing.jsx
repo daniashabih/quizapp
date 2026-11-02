@@ -9,8 +9,14 @@ import {
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BrandLogo from '../components/BrandLogo';
+import usePageSeo from '../hooks/usePageSeo';
 
 export default function Landing() {
+    usePageSeo({
+        title: 'HangBug — Test & Master Web Development Skills | Interactive Quizzes',
+        description: 'Evaluate your full-stack web development expertise with AI-calibrated quizzes. Practice React, Node.js, SQL, Python, earn verified certificates, and compete globally.',
+        canonicalPath: '/'
+    });
     const [searchQuery, setSearchQuery] = useState('');
     const [activeTab, setActiveTab] = useState('assessment');
     const [technologies, setTechnologies] = useState([]);
@@ -30,8 +36,10 @@ export default function Landing() {
         fetchCategories();
     }, []);
 
-    const filteredTechs = technologies.filter(t => (t.name || '').toLowerCase().includes(searchQuery.toLowerCase()));
-    const totalQuestions = technologies.reduce((sum, t) => sum + (t.questionCount || 0), 0);
+    // Filter only categories with active questions (> 0) and enabled
+    const activeTechs = technologies.filter(t => t && t.isEnabled !== false && Number(t.questionCount || 0) > 0);
+    const filteredTechs = activeTechs.filter(t => (t.name || '').toLowerCase().includes(searchQuery.toLowerCase()));
+    const totalQuestions = activeTechs.reduce((sum, t) => sum + (t.questionCount || 0), 0);
 
     return (
         <div className="min-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-x-hidden relative transition-colors duration-300">

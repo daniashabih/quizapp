@@ -32,6 +32,7 @@ import TermsOfService from "./pages/legal/TermsOfService";
 import AboutUs from "./pages/legal/AboutUs";
 import ContactUs from "./pages/legal/ContactUs";
 import DeleteAccount from "./pages/legal/DeleteAccount";
+import NotFound from "./pages/NotFound";
 
 // Dashboard
 import DashboardLayout from "./layouts/DashboardLayout";
@@ -128,7 +129,7 @@ function AppRoutes() {
                 </Route>
 
                 {/* Fallback for unknown routes */}
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </ErrorBoundary>
     );
