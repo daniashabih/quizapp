@@ -26,10 +26,15 @@ const getCategories = async (req, res) => {
     try {
         const categories = await Category.getAll();
         const enabledOnly = req.query.enabledOnly === 'true' || req.query.activeOnly === 'true';
+        const hasQuestionsOnly = req.query.hasQuestions === 'true' || req.query.public === 'true';
+        let result = categories;
         if (enabledOnly) {
-            return res.json(categories.filter(c => c.isEnabled !== false));
+            result = result.filter(c => c.isEnabled !== false);
         }
-        res.json(categories);
+        if (hasQuestionsOnly) {
+            result = result.filter(c => Number(c.questionCount || 0) > 0);
+        }
+        res.json(result);
     } catch (error) {
         console.error('Get Categories Error:', error);
         res.status(500).json({ message: 'Server error fetching categories' });

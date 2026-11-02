@@ -5,8 +5,15 @@ import Footer from '../../components/Footer';
 import LeaderboardComponent from '../../components/Leaderboard';
 import { Trophy, Award, Flame, CheckCircle2 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import usePageSeo from '../../hooks/usePageSeo';
 
 const LeaderboardPage = () => {
+    usePageSeo({
+        title: 'Global Developer Leaderboard & Rankings — HangBug',
+        description: 'See top ranked software engineers and learners worldwide. Track XP, accuracy, quiz streaks, and verified certificates on HangBug.',
+        canonicalPath: '/leaderboard'
+    });
+
     const location = useLocation();
     const { isDark } = useTheme();
     const isDashboard = location.pathname.startsWith('/dashboard');

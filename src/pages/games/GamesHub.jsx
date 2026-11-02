@@ -26,6 +26,7 @@ import gameService, { FALLBACK_GAMES } from '../../services/gameService';
 import GameArtwork from './components/GameArtwork';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import usePageSeo from '../../hooks/usePageSeo';
 
 const CATEGORIES = [
     { name: 'All Games', icon: <Gamepad2 size={16} /> },
@@ -36,6 +37,12 @@ const CATEGORIES = [
 const DIFFICULTIES = ['All Levels', 'Beginner', 'Intermediate', 'Advanced'];
 
 export const GamesHub = () => {
+    usePageSeo({
+        title: 'Coding & Typing Games for Developers — HangBug Games Hub',
+        description: 'Sharpen your coding logic, syntax memory, and typing speed with interactive browser games including Code Puzzle, Find the Bug, and Speed Typing.',
+        canonicalPath: '/games'
+    });
+
     const { user } = useAuth();
 
     // Data State

@@ -334,6 +334,17 @@ export default function PrivacyPolicy() {
                         <p className="text-[var(--foreground-muted)]">
                             Advertising providers may process certain information (such as your IP address, device type, browser information, and interactions with advertisements) to provide, personalize, measure, or improve advertisements, subject to their own policies and applicable user settings.
                         </p>
+                        <p className="text-[var(--foreground-muted)]">
+                            Google, as a third-party vendor, uses cookies to serve ads on Hangbug. To learn more about how Google collects, shares, and processes data when you access or interact with our services, please review Google's official privacy and terms documentation:{' '}
+                            <a
+                                href="https://policies.google.com/technologies/partner-sites"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#193D35] font-semibold underline inline-flex items-center gap-1"
+                            >
+                                How Google uses information from sites or apps that use our services <ExternalLink size={12} />
+                            </a>.
+                        </p>
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)] space-y-2">
                             <h3 className="font-semibold text-xs sm:text-sm text-[var(--foreground)]">Managing Your Advertising Preferences</h3>
                             <p className="text-xs text-[var(--foreground-muted)]">

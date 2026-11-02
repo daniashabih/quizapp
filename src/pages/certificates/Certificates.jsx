@@ -49,7 +49,7 @@ export default function Certificates() {
     const earnedTechs = new Set(earnedCerts.map(c => (c.tech || c.category || '').toLowerCase()));
     
     const availableTracks = allCategories
-        .filter(cat => !earnedTechs.has(cat.name.toLowerCase()))
+        .filter(cat => cat && cat.isEnabled !== false && Number(cat.questionCount || 0) > 0 && !earnedTechs.has((cat.name || '').toLowerCase()))
         .map(cat => ({
             id: `TRACK-${cat.id.slice(-4).toUpperCase()}`,
             tech: cat.name,
