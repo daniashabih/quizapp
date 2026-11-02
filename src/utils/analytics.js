@@ -36,7 +36,7 @@ export function trackEvent(eventName, params = {}) {
             });
         }
     } catch (err) {
-        if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development') {
+        if (typeof window !== 'undefined' && window.__HB_DEBUG_GA4__) {
             console.warn(`[GA4] Failed to record event "${eventName}":`, err);
         }
     }
