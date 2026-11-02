@@ -27,38 +27,14 @@ export default function PrivacyPolicy() {
     const lastUpdated = "September 24, 2026";
     const supportEmail = "support@hangbug.com";
 
+    usePageSeo({
+        title: 'Privacy Policy — HangBug Data Protection & Cookie Policy',
+        description: 'Understand how HangBug collects, utilizes, stores, and protects user data, authentication credentials, and advertising cookie disclosures.',
+        canonicalPath: '/privacy-policy'
+    });
+
     useEffect(() => {
         window.scrollTo(0, 0);
-
-        // SEO: Title & Description metadata update
-        const previousTitle = document.title;
-        document.title = "Hangbug Privacy Policy";
-
-        let metaDesc = document.querySelector('meta[name="description"]');
-        let createdMeta = false;
-        let previousDesc = "";
-
-        if (metaDesc) {
-            previousDesc = metaDesc.getAttribute('content') || "";
-            metaDesc.setAttribute('content', 'Learn how Hangbug collects, uses, stores, and protects user information.');
-        } else {
-            metaDesc = document.createElement('meta');
-            metaDesc.name = "description";
-            metaDesc.content = "Learn how Hangbug collects, uses, stores, and protects user information.";
-            document.head.appendChild(metaDesc);
-            createdMeta = true;
-        }
-
-        return () => {
-            document.title = previousTitle || "HangBug — Debug Your Knowledge. Build Your Future.";
-            if (metaDesc) {
-                if (createdMeta) {
-                    document.head.removeChild(metaDesc);
-                } else if (previousDesc) {
-                    metaDesc.setAttribute('content', previousDesc);
-                }
-            }
-        };
     }, []);
 
     return (
