@@ -63,6 +63,9 @@ class ApiEndpoints {
   static const String games = '/games';
   static const String gamesUserStats = '/games/user/stats';
   static String gameBySlug(String slug) => '/games/$slug';
+  static String gameChallenges(String slug) => '/games/$slug/challenges';
+  static String gameVerify(String slug) => '/games/$slug/verify';
+  static String gameProgress(String slug) => '/games/$slug/progress';
   static String gameScore(String slug) => '/games/$slug/score';
   static String gameFavorite(String slug) => '/games/$slug/favorite';
   static const String adminGames = '/admin/games';

@@ -364,6 +364,74 @@ const gameService = {
     },
 
     /**
+     * Get active game progress for session resumption
+     */
+    getProgress: async (slug) => {
+        try {
+            const response = await api.get(`/games/${slug}/progress`);
+            if (response.data && response.data.success && response.data.data) {
+                return response.data.data;
+            }
+        } catch (err) {
+            console.warn(`[gameService] getProgress API failed for ${slug}:`, err.message);
+        }
+
+        // Local storage fallback for offline / guest
+        try {
+            const local = localStorage.getItem(`hangbug_game_progress_${slug}`);
+            if (local) {
+                return JSON.parse(local);
+            }
+        } catch {
+            // ignore
+        }
+        return null;
+    },
+
+    /**
+     * Save active game progress for session resumption
+     */
+    saveProgress: async (slug, progressData) => {
+        try {
+            if (typeof window !== 'undefined') {
+                localStorage.setItem(`hangbug_game_progress_${slug}`, JSON.stringify(progressData));
+            }
+        } catch {
+            // storage quota safety
+        }
+
+        try {
+            const response = await api.post(`/games/${slug}/progress`, progressData);
+            return response.data;
+        } catch (err) {
+            return {
+                success: true,
+                message: 'Progress saved locally'
+            };
+        }
+    },
+
+    /**
+     * Clear active game progress upon completion or restart
+     */
+    clearProgress: async (slug) => {
+        try {
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem(`hangbug_game_progress_${slug}`);
+            }
+        } catch {
+            // ignore
+        }
+
+        try {
+            const response = await api.delete(`/games/${slug}/progress`);
+            return response.data;
+        } catch (err) {
+            return { success: true };
+        }
+    },
+
+    /**
      * Get daily featured game quest
      */
     getDailyChallenge: async () => {

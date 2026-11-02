@@ -248,14 +248,15 @@ const INITIAL_GAMES = [
 const INITIAL_CHALLENGES = {
     'code-puzzle': [
         {
-            id: 'cp_js_1',
+            id: 'cp_1',
+            aliasId: 'cp_js_1',
             gameSlug: 'code-puzzle',
-            title: 'Filter & Map Even Squares',
+            title: 'Filter & Map Evens Squared',
             difficulty: 'Beginner',
             language: 'javascript',
-            description: 'Arrange code blocks to filter even numbers and square them.',
+            description: 'Arrange blocks to filter even numbers and calculate their squares.',
             content: JSON.stringify({
-                shuffledBlocks: [
+                blocks: [
                     'return squared;',
                     'const numbers = [1, 2, 3, 4, 5, 6];',
                     'const squared = evens.map(n => n * n);',
@@ -268,19 +269,20 @@ const INITIAL_CHALLENGES = {
                 'const squared = evens.map(n => n * n);',
                 'return squared;'
             ]),
-            hints: 'First define the array, then filter even numbers, square them, and finally return the result.',
-            explanation: 'The pipeline must first have access to `numbers`, filter it into `evens`, compute `squared`, and return.',
+            hints: 'Variables must be initialized before they can be referenced in .filter() and .map() pipeline.',
+            explanation: 'Variables must be initialized before they can be referenced in .filter() and .map() pipeline.',
             order: 1
         },
         {
-            id: 'cp_py_1',
+            id: 'cp_2',
+            aliasId: 'cp_py_1',
             gameSlug: 'code-puzzle',
             title: 'Python Fibonacci Generator',
             difficulty: 'Intermediate',
             language: 'python',
             description: 'Order statements to produce a Fibonacci list of length n.',
             content: JSON.stringify({
-                shuffledBlocks: [
+                blocks: [
                     'return fib',
                     'def get_fib(n):',
                     '    for _ in range(2, n):',
@@ -295,19 +297,20 @@ const INITIAL_CHALLENGES = {
                 '        fib.append(fib[-1] + fib[-2])',
                 '    return fib'
             ]),
-            hints: 'Function declaration comes first, initialize the seed list [0, 1], run loop, return result.',
-            explanation: 'Standard iterative Fibonacci generation initializing seed values before appending sums.',
+            hints: 'The function header defines scope, seed list is created, iterative loop appends sum, then list is returned.',
+            explanation: 'The function header defines scope, seed list is created, iterative loop appends sum, then list is returned.',
             order: 2
         },
         {
-            id: 'cp_sql_1',
+            id: 'cp_3',
+            aliasId: 'cp_sql_1',
             gameSlug: 'code-puzzle',
-            title: 'Top Departments by Salary',
+            title: 'SQL Top Department Salaries',
             difficulty: 'Advanced',
             language: 'sql',
             description: 'Arrange clauses to aggregate average department salaries above 50k.',
             content: JSON.stringify({
-                shuffledBlocks: [
+                blocks: [
                     'LIMIT 5;',
                     'SELECT department, AVG(salary) AS avg_sal',
                     'HAVING AVG(salary) > 50000',
@@ -324,9 +327,39 @@ const INITIAL_CHALLENGES = {
                 'ORDER BY avg_sal DESC',
                 'LIMIT 5;'
             ]),
-            hints: 'Standard SQL execution order: SELECT -> FROM -> GROUP BY -> HAVING -> ORDER BY -> LIMIT.',
-            explanation: 'SQL grammar requires SELECT first, then FROM, followed by GROUP BY, HAVING filter, ORDER BY, and LIMIT.',
+            hints: 'SQL grammar requires SELECT, FROM, GROUP BY, HAVING, ORDER BY, and finally LIMIT.',
+            explanation: 'SQL grammar requires SELECT, FROM, GROUP BY, HAVING, ORDER BY, and finally LIMIT.',
             order: 3
+        },
+        {
+            id: 'cp_4',
+            aliasId: 'cp_html_1',
+            gameSlug: 'code-puzzle',
+            title: 'HTML Semantic Card Structure',
+            difficulty: 'Beginner',
+            language: 'html',
+            description: 'Arrange HTML elements into a semantic card layout.',
+            content: JSON.stringify({
+                blocks: [
+                    '  </div>',
+                    '  <img src="avatar.jpg" alt="Profile" />',
+                    '<article class="user-card">',
+                    '  <div class="user-info">',
+                    '    <h3>Alex Rivera</h3>',
+                    '</article>'
+                ]
+            }),
+            solution: JSON.stringify([
+                '<article class="user-card">',
+                '  <img src="avatar.jpg" alt="Profile" />',
+                '  <div class="user-info">',
+                '    <h3>Alex Rivera</h3>',
+                '  </div>',
+                '</article>'
+            ]),
+            hints: 'HTML tags must open and close symmetrically, nesting the heading within the info wrapper.',
+            explanation: 'HTML tags must open and close symmetrically, nesting the heading within the info wrapper.',
+            order: 4
         }
     ],
 
@@ -863,6 +896,7 @@ let memChallenges = JSON.parse(JSON.stringify(INITIAL_CHALLENGES));
 let memScores = [];
 let memProgress = {}; // key: `${userId}_${gameSlug}`
 let memFavorites = {}; // key: `${userId}_${gameSlug}`
+let memActiveProgress = {}; // key: `${userId}_${gameSlug}`
 
 const GameModel = {
     INITIAL_GAMES,
@@ -1080,6 +1114,15 @@ const GameModel = {
      * Get challenges for a game (sanitized for client play - solutions withheld)
      */
     getChallenges: async (gameSlug, { difficulty, language } = {}) => {
+        const parseBlocks = (content) => {
+            try {
+                const parsed = typeof content === 'string' ? JSON.parse(content) : (content || {});
+                return parsed.blocks || parsed.shuffledBlocks || [];
+            } catch {
+                return [];
+            }
+        };
+
         try {
             const where = { gameSlug };
             if (difficulty && difficulty !== 'All Levels') {
@@ -1104,7 +1147,9 @@ const GameModel = {
                     language: c.language,
                     description: c.description,
                     content: c.content,
+                    blocks: parseBlocks(c.content),
                     hints: c.hints,
+                    explanation: c.explanation,
                     order: c.order
                 }));
             }
@@ -1121,7 +1166,9 @@ const GameModel = {
             language: c.language,
             description: c.description,
             content: c.content,
+            blocks: parseBlocks(c.content),
             hints: c.hints,
+            explanation: c.explanation,
             order: c.order
         }));
     },
@@ -1142,7 +1189,7 @@ const GameModel = {
 
         if (!challenge) {
             const list = memChallenges[gameSlug] || [];
-            challenge = list.find(c => c.id === challengeId);
+            challenge = list.find(c => c.id === challengeId || c.aliasId === challengeId);
         }
 
         if (!challenge) {
@@ -1170,7 +1217,7 @@ const GameModel = {
             try {
                 const expArr = JSON.parse(expected);
                 const subArr = Array.isArray(submission) ? submission : JSON.parse(userSub);
-                isCorrect = expArr.length === subArr.length && expArr.every((v, i) => v.trim() === subArr[i].trim());
+                isCorrect = expArr.length === subArr.length && expArr.every((v, i) => String(v).trim() === String(subArr[i]).trim());
             } catch {
                 isCorrect = false;
             }
@@ -1185,12 +1232,45 @@ const GameModel = {
         const basePoints = challenge.difficulty === 'Advanced' ? 300 : challenge.difficulty === 'Intermediate' ? 200 : 100;
         const points = isCorrect ? basePoints : 0;
 
+        let parsedSolution = null;
+        try {
+            parsedSolution = JSON.parse(challenge.solution);
+        } catch {
+            parsedSolution = challenge.solution;
+        }
+
         return {
             isCorrect,
             points,
             explanation: challenge.explanation,
-            solution: isCorrect ? null : challenge.solution
+            solution: isCorrect ? null : parsedSolution
         };
+    },
+
+    /**
+     * Active Game Session Progress Save and Resume
+     */
+    getActiveProgress: async (userId, gameSlug) => {
+        const key = `${userId}_${gameSlug}`;
+        return memActiveProgress[key] || null;
+    },
+
+    saveActiveProgress: async (userId, gameSlug, progressData) => {
+        const key = `${userId}_${gameSlug}`;
+        const record = {
+            ...progressData,
+            userId,
+            gameSlug,
+            updatedAt: new Date().toISOString()
+        };
+        memActiveProgress[key] = record;
+        return record;
+    },
+
+    clearActiveProgress: async (userId, gameSlug) => {
+        const key = `${userId}_${gameSlug}`;
+        delete memActiveProgress[key];
+        return true;
     },
 
     /**

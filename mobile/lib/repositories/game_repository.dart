@@ -224,6 +224,78 @@ class GameRepository {
     ),
   ];
 
+  static final List<Map<String, dynamic>> fallbackCodePuzzles = [
+    {
+      'id': 'cp_1',
+      'title': 'Filter & Map Evens Squared',
+      'language': 'javascript',
+      'difficulty': 'Beginner',
+      'description': 'Arrange blocks to filter even numbers and calculate their squares.',
+      'blocks': [
+        'return squared;',
+        'const numbers = [1, 2, 3, 4, 5, 6];',
+        'const squared = evens.map(n => n * n);',
+        'const evens = numbers.filter(n => n % 2 === 0);',
+      ],
+      'hints': 'Variables must be initialized before they can be referenced in .filter() and .map() pipeline.',
+      'explanation': 'Variables must be initialized before they can be referenced in .filter() and .map() pipeline.',
+      'order': 1,
+    },
+    {
+      'id': 'cp_2',
+      'title': 'Python Fibonacci Generator',
+      'language': 'python',
+      'difficulty': 'Intermediate',
+      'description': 'Order statements to produce a Fibonacci list of length n.',
+      'blocks': [
+        'return fib',
+        'def get_fib(n):',
+        '    for _ in range(2, n):',
+        '        fib.append(fib[-1] + fib[-2])',
+        '    fib = [0, 1]',
+      ],
+      'hints': 'The function header defines scope, seed list is created, iterative loop appends sum, then list is returned.',
+      'explanation': 'The function header defines scope, seed list is created, iterative loop appends sum, then list is returned.',
+      'order': 2,
+    },
+    {
+      'id': 'cp_3',
+      'title': 'SQL Top Department Salaries',
+      'language': 'sql',
+      'difficulty': 'Advanced',
+      'description': 'Arrange clauses to aggregate average department salaries above 50k.',
+      'blocks': [
+        'LIMIT 5;',
+        'SELECT department, AVG(salary) AS avg_sal',
+        'HAVING AVG(salary) > 50000',
+        'FROM employees',
+        'ORDER BY avg_sal DESC',
+        'GROUP BY department',
+      ],
+      'hints': 'SQL grammar requires SELECT, FROM, GROUP BY, HAVING, ORDER BY, and finally LIMIT.',
+      'explanation': 'SQL grammar requires SELECT, FROM, GROUP BY, HAVING, ORDER BY, and finally LIMIT.',
+      'order': 3,
+    },
+    {
+      'id': 'cp_4',
+      'title': 'HTML Semantic Card Structure',
+      'language': 'html',
+      'difficulty': 'Beginner',
+      'description': 'Arrange HTML elements into a semantic card layout.',
+      'blocks': [
+        '  </div>',
+        '  <img src="avatar.jpg" alt="Profile" />',
+        '<article class="user-card">',
+        '  <div class="user-info">',
+        '    <h3>Alex Rivera</h3>',
+        '</article>',
+      ],
+      'hints': 'HTML tags must open and close symmetrically, nesting the heading within the info wrapper.',
+      'explanation': 'HTML tags must open and close symmetrically, nesting the heading within the info wrapper.',
+      'order': 4,
+    },
+  ];
+
   /// Get published games
   Future<List<GameModel>> getGames({
     String? category,
@@ -370,6 +442,134 @@ class GameRepository {
   Future<bool> adminTogglePublish(String id) async {
     try {
       final response = await _apiClient.patch(ApiEndpoints.adminGameTogglePublish(id));
+      return response.data?['success'] == true;
+    } catch (_) {}
+    return false;
+  }
+
+  /// Get challenges for a game
+  Future<List<Map<String, dynamic>>> getChallenges(String slug) async {
+    try {
+      final response = await _apiClient.get(ApiEndpoints.gameChallenges(slug));
+      if (response.data != null && response.data['success'] == true) {
+        final List raw = response.data['data'] ?? [];
+        return raw.map((item) => Map<String, dynamic>.from(item)).toList();
+      }
+    } catch (_) {}
+
+    if (slug == 'code-puzzle') {
+      return fallbackCodePuzzles;
+    }
+    return [];
+  }
+
+  /// Verify challenge submission on backend
+  Future<Map<String, dynamic>> verifyChallenge(
+    String slug,
+    String challengeId,
+    dynamic submission,
+  ) async {
+    try {
+      final response = await _apiClient.post(
+        ApiEndpoints.gameVerify(slug),
+        data: {
+          'challengeId': challengeId,
+          'submission': submission,
+        },
+      );
+      if (response.data != null && response.data['success'] == true) {
+        return Map<String, dynamic>.from(response.data);
+      }
+    } catch (_) {}
+
+    // Offline / fallback verification
+    if (slug == 'code-puzzle') {
+      final solutions = {
+        'cp_1': [
+          'const numbers = [1, 2, 3, 4, 5, 6];',
+          'const evens = numbers.filter(n => n % 2 === 0);',
+          'const squared = evens.map(n => n * n);',
+          'return squared;',
+        ],
+        'cp_2': [
+          'def get_fib(n):',
+          '    fib = [0, 1]',
+          '    for _ in range(2, n):',
+          '        fib.append(fib[-1] + fib[-2])',
+          '    return fib',
+        ],
+        'cp_3': [
+          'SELECT department, AVG(salary) AS avg_sal',
+          'FROM employees',
+          'GROUP BY department',
+          'HAVING AVG(salary) > 50000',
+          'ORDER BY avg_sal DESC',
+          'LIMIT 5;',
+        ],
+        'cp_4': [
+          '<article class="user-card">',
+          '  <img src="avatar.jpg" alt="Profile" />',
+          '  <div class="user-info">',
+          '    <h3>Alex Rivera</h3>',
+          '  </div>',
+          '</article>',
+        ],
+      };
+
+      final expected = solutions[challengeId];
+      if (expected != null && submission is List) {
+        bool matches = expected.length == submission.length;
+        if (matches) {
+          for (int i = 0; i < expected.length; i++) {
+            if (expected[i].toString().trim() != submission[i].toString().trim()) {
+              matches = false;
+              break;
+            }
+          }
+        }
+        return {
+          'success': true,
+          'isCorrect': matches,
+          'points': matches ? 200 : 0,
+          'solution': matches ? null : expected,
+        };
+      }
+    }
+
+    return {
+      'success': false,
+      'isCorrect': false,
+      'points': 0,
+    };
+  }
+
+  /// Get active game progress for session resumption
+  Future<Map<String, dynamic>?> getProgress(String slug) async {
+    try {
+      final response = await _apiClient.get(ApiEndpoints.gameProgress(slug));
+      if (response.data != null && response.data['success'] == true && response.data['data'] != null) {
+        return Map<String, dynamic>.from(response.data['data']);
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  /// Save active game progress
+  Future<bool> saveProgress(String slug, Map<String, dynamic> progress) async {
+    try {
+      final response = await _apiClient.post(
+        ApiEndpoints.gameProgress(slug),
+        data: progress,
+      );
+      return response.data?['success'] == true;
+    } catch (_) {}
+    return false;
+  }
+
+  /// Clear active game progress upon completion or restart
+  Future<bool> clearProgress(String slug) async {
+    try {
+      final response = await _apiClient.dio.delete(ApiEndpoints.gameProgress(slug));
       return response.data?['success'] == true;
     } catch (_) {}
     return false;

@@ -22,6 +22,7 @@ import {
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthContext';
 import gameService from '../../services/gameService';
+import gameAudio from '../../utils/gameAudio';
 
 // Coding Games Engines
 import CodePuzzleEngine from './engines/CodePuzzleEngine';
@@ -53,13 +54,18 @@ export const GamePlayer = () => {
     const [isFavorite, setIsFavorite] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [isMuted, setIsMuted] = useState(false);
+    const [isMuted, setIsMuted] = useState(() => (typeof window !== 'undefined' ? gameAudio.isMuted : false));
     const [showInstructions, setShowInstructions] = useState(false);
     const [gameOverModal, setGameOverModal] = useState(null);
     const [playKey, setPlayKey] = useState(0);
 
     const playerContainerRef = useRef(null);
     const gameStartTimeRef = useRef(Date.now());
+
+    const handleToggleSound = () => {
+        const newMuted = gameAudio.toggleMuted();
+        setIsMuted(newMuted);
+    };
 
     // Fetch game details
     const fetchGame = useCallback(async () => {
@@ -190,6 +196,7 @@ export const GamePlayer = () => {
         setGameOverModal(null);
         setIsPaused(false);
         gameStartTimeRef.current = Date.now();
+        gameService.clearProgress(slug).catch(() => {});
         setPlayKey(prev => prev + 1);
     };
 
@@ -199,7 +206,8 @@ export const GamePlayer = () => {
             key: playKey,
             onGameOver: handleGameOver,
             onScoreUpdate: handleScoreUpdate,
-            isPaused
+            isPaused,
+            isMuted
         };
 
         switch (slug) {
@@ -334,6 +342,19 @@ export const GamePlayer = () => {
                             title="Instructions & Rules"
                         >
                             <Info size={16} />
+                        </button>
+
+                        {/* Sound Toggle */}
+                        <button
+                            onClick={handleToggleSound}
+                            className={`p-2 rounded-xl transition-colors cursor-pointer ${
+                                isMuted
+                                    ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20'
+                                    : 'bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
+                            }`}
+                            title={isMuted ? "Unmute Sound" : "Mute Sound"}
+                        >
+                            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
                         </button>
 
                         {/* Favorite */}

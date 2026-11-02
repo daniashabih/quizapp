@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../models/game_model.dart';
 import '../../../providers/game_provider.dart';
@@ -27,11 +29,47 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
   int _personalBest = 0;
   bool _isPaused = false;
   bool _isFavorite = false;
+  bool _isMuted = false;
+  bool _isFullscreen = false;
   Key _engineKey = UniqueKey();
 
   @override
   void initState() {
     super.initState();
+    _loadSettings();
+  }
+
+  void _loadSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (mounted) {
+      setState(() {
+        _isMuted = prefs.getBool('hangbug_game_sound_muted') ?? false;
+      });
+    }
+  }
+
+  void _toggleSound() async {
+    final newMuted = !_isMuted;
+    setState(() => _isMuted = newMuted);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hangbug_game_sound_muted', newMuted);
+  }
+
+  void _toggleFullscreen() {
+    setState(() => _isFullscreen = !_isFullscreen);
+    if (_isFullscreen) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    } else {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_isFullscreen) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    }
+    super.dispose();
   }
 
   void _onScoreUpdate(int newScore) {

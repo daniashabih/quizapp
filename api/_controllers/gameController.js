@@ -350,6 +350,87 @@ const gameController = {
         }
     },
 
+    /**
+     * GET /api/games/:slug/progress
+     * Retrieve saved in-progress game state
+     */
+    getProgress: async (req, res) => {
+        try {
+            const { slug } = req.params;
+            const userId = req.user?.id || getOptionalUserId(req) || 'guest';
+            const progress = await GameModel.getActiveProgress(userId, slug.toLowerCase());
+            res.json({
+                success: true,
+                isGuest: userId === 'guest',
+                data: progress
+            });
+        } catch (err) {
+            console.error('Error getting game progress:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to retrieve game progress.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
+     * POST /api/games/:slug/progress
+     * Save active in-progress game state
+     */
+    saveProgress: async (req, res) => {
+        try {
+            const { slug } = req.params;
+            const userId = req.user?.id || getOptionalUserId(req) || 'guest';
+            const { puzzleIndex, score, streak, completedPuzzles, currentBlocks } = req.body;
+
+            const record = await GameModel.saveActiveProgress(userId, slug.toLowerCase(), {
+                puzzleIndex: Number(puzzleIndex || 0),
+                score: Number(score || 0),
+                streak: Number(streak || 0),
+                completedPuzzles: completedPuzzles || [],
+                currentBlocks: currentBlocks || null
+            });
+
+            res.json({
+                success: true,
+                isGuest: userId === 'guest',
+                data: record,
+                message: 'Game progress saved successfully.'
+            });
+        } catch (err) {
+            console.error('Error saving game progress:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to save game progress.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
+     * DELETE /api/games/:slug/progress
+     * Reset/clear active in-progress game state
+     */
+    clearProgress: async (req, res) => {
+        try {
+            const { slug } = req.params;
+            const userId = req.user?.id || getOptionalUserId(req) || 'guest';
+            await GameModel.clearActiveProgress(userId, slug.toLowerCase());
+            res.json({
+                success: true,
+                message: 'Game progress reset successfully.'
+            });
+        } catch (err) {
+            console.error('Error clearing game progress:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to clear game progress.',
+                error: err.message
+            });
+        }
+    },
+
     // ==========================================
     // ADMIN ENDPOINTS
     // ==========================================
