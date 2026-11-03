@@ -1181,22 +1181,41 @@ const GameModel = {
 
             if (dbChallenges && dbChallenges.length > 0) {
                 // Sanitize: do not send raw solution to client
-                return dbChallenges.map(c => ({
-                    id: c.id,
-                    gameSlug: c.gameSlug,
-                    technology: c.technology || 'general',
-                    technologyName: c.technologyName || '',
-                    title: c.title,
-                    difficulty: c.difficulty,
-                    language: c.language,
-                    description: c.description,
-                    content: c.content,
-                    blocks: parseBlocks(c.content),
-                    hints: c.hints,
-                    explanation: c.explanation,
-                    points: c.points || 100,
-                    order: c.order
-                }));
+                return dbChallenges.map(c => {
+                    let parsedContent = {};
+                    try {
+                        parsedContent = typeof c.content === 'string' ? JSON.parse(c.content) : (c.content || {});
+                    } catch {
+                        parsedContent = {};
+                    }
+
+                    return {
+                        id: c.id,
+                        gameSlug: c.gameSlug,
+                        technology: c.technology || 'general',
+                        technologyName: c.technologyName || '',
+                        title: c.title,
+                        difficulty: c.difficulty,
+                        language: c.language,
+                        description: c.description,
+                        content: c.content,
+                        blocks: parseBlocks(c.content),
+                        options: c.options || parsedContent.options || [],
+                        code: c.code || parsedContent.code || (typeof c.content === 'string' && !c.content.trim().startsWith('{') ? c.content : ''),
+                        codeBefore: c.codeBefore || parsedContent.codeBefore || '',
+                        blank: c.blank || parsedContent.blank || '',
+                        codeAfter: c.codeAfter || parsedContent.codeAfter || '',
+                        statements: c.statements || parsedContent.statements || [],
+                        dataset: c.dataset || parsedContent.dataset || null,
+                        starterQuery: c.starterQuery || parsedContent.starterQuery || '',
+                        expectedRows: c.expectedRows || parsedContent.expectedRows || null,
+                        prompt: c.prompt || parsedContent.prompt || '',
+                        hints: c.hints,
+                        explanation: c.explanation,
+                        points: c.points || 100,
+                        order: c.order
+                    };
+                });
             }
         } catch {
             // DB fallback
@@ -1224,22 +1243,41 @@ const GameModel = {
             }
         }
 
-        return list.map(c => ({
-            id: c.id,
-            gameSlug: c.gameSlug,
-            technology: c.technology || 'general',
-            technologyName: c.technologyName || '',
-            title: c.title,
-            difficulty: c.difficulty,
-            language: c.language,
-            description: c.description,
-            content: c.content,
-            blocks: parseBlocks(c.content),
-            hints: c.hints,
-            explanation: c.explanation,
-            points: c.points || 100,
-            order: c.order
-        }));
+        return list.map(c => {
+            let parsedContent = {};
+            try {
+                parsedContent = typeof c.content === 'string' ? JSON.parse(c.content) : (c.content || {});
+            } catch {
+                parsedContent = {};
+            }
+
+            return {
+                id: c.id,
+                gameSlug: c.gameSlug,
+                technology: c.technology || 'general',
+                technologyName: c.technologyName || '',
+                title: c.title,
+                difficulty: c.difficulty,
+                language: c.language,
+                description: c.description,
+                content: c.content,
+                blocks: parseBlocks(c.content),
+                options: c.options || parsedContent.options || [],
+                code: c.code || parsedContent.code || (typeof c.content === 'string' && !c.content.trim().startsWith('{') ? c.content : ''),
+                codeBefore: c.codeBefore || parsedContent.codeBefore || '',
+                blank: c.blank || parsedContent.blank || '',
+                codeAfter: c.codeAfter || parsedContent.codeAfter || '',
+                statements: c.statements || parsedContent.statements || [],
+                dataset: c.dataset || parsedContent.dataset || null,
+                starterQuery: c.starterQuery || parsedContent.starterQuery || '',
+                expectedRows: c.expectedRows || parsedContent.expectedRows || null,
+                prompt: c.prompt || parsedContent.prompt || '',
+                hints: c.hints,
+                explanation: c.explanation,
+                points: c.points || 100,
+                order: c.order
+            };
+        });
     },
 
     /**
