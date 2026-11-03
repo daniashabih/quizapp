@@ -279,3 +279,58 @@ test('4. Duplicate quiz submissions within 30 seconds do not create duplicate Qu
         Setting.get = origSettingGet;
     }
 });
+
+test('5. Leaderboard supports pagination and top-5 limit queries with accurate metadata', async () => {
+    const origUserFindMany = prisma.user.findMany;
+    const now = new Date();
+
+    try {
+        // Create 7 users with varying scores
+        prisma.user.findMany = async () => Array.from({ length: 7 }, (_, i) => ({
+            id: `u_${i + 1}`,
+            name: `User ${i + 1}`,
+            email: `user${i + 1}@example.com`,
+            avatar: '',
+            role: 'user',
+            createdAt: now,
+            results: [
+                {
+                    id: `r_${i + 1}`,
+                    category: 'JavaScript',
+                    score: 10,
+                    total: 10,
+                    percentage: (i + 1) * 10, // 10%, 20%, ... 70%
+                    createdAt: now
+                }
+            ]
+        }));
+
+        // Test limit=5 (Top 5 users)
+        const reqTop5 = { query: { timeframe: 'all-time', category: 'All', limit: '5', page: '1' } };
+        const resTop5 = createMockRes();
+        await dashboardController.getLeaderboard(reqTop5, resTop5);
+
+        assert.equal(resTop5.statusCode, 200);
+        assert.equal(resTop5.body.totalRanked, 7);
+        assert.equal(resTop5.body.leaderboard.length, 5);
+        assert.equal(resTop5.body.page, 1);
+        assert.equal(resTop5.body.totalPages, 2);
+        assert.equal(resTop5.body.hasMore, true);
+        assert.equal(resTop5.body.leaderboard[0].rank, 1);
+        assert.equal(resTop5.body.leaderboard[4].rank, 5);
+
+        // Test page=2 with limit=5
+        const reqPage2 = { query: { timeframe: 'all-time', category: 'All', limit: '5', page: '2' } };
+        const resPage2 = createMockRes();
+        await dashboardController.getLeaderboard(reqPage2, resPage2);
+
+        assert.equal(resPage2.statusCode, 200);
+        assert.equal(resPage2.body.leaderboard.length, 2);
+        assert.equal(resPage2.body.page, 2);
+        assert.equal(resPage2.body.hasMore, false);
+        assert.equal(resPage2.body.leaderboard[0].rank, 6);
+        assert.equal(resPage2.body.leaderboard[1].rank, 7);
+    } finally {
+        prisma.user.findMany = origUserFindMany;
+    }
+});
