@@ -18,13 +18,13 @@ function createMockRes() {
     };
 }
 
-test('1. Coding & Typing Games Catalog: List contains all 14 educational coding & typing games', async () => {
+test('1. Coding & Typing Games Catalog: List contains all educational coding & typing games including C#', async () => {
     const games = await GameModel.getAll();
     assert.ok(Array.isArray(games), 'Games must be returned as an array');
-    assert.equal(games.length, 14, 'Must contain exactly 14 coding and typing games');
+    assert.equal(games.length, 18, 'Must contain all 18 coding and typing games');
 
     const slugs = games.map(g => g.slug);
-    // 8 Coding Games
+    // 8 Base Coding Games
     assert.ok(slugs.includes('code-puzzle'), 'Must include Code Puzzle');
     assert.ok(slugs.includes('find-the-bug'), 'Must include Find the Bug');
     assert.ok(slugs.includes('output-predictor'), 'Must include Output Predictor');
@@ -33,6 +33,12 @@ test('1. Coding & Typing Games Catalog: List contains all 14 educational coding 
     assert.ok(slugs.includes('logic-builder'), 'Must include Logic Builder');
     assert.ok(slugs.includes('sql-challenge'), 'Must include SQL Challenge');
     assert.ok(slugs.includes('memory-match'), 'Must include Memory Match');
+
+    // 4 Dedicated C# Coding Games
+    assert.ok(slugs.includes('csharp-oop-challenge'), 'Must include C# OOP Challenge');
+    assert.ok(slugs.includes('csharp-collections-challenge'), 'Must include C# Collections Challenge');
+    assert.ok(slugs.includes('csharp-linq-challenge'), 'Must include C# LINQ Challenge');
+    assert.ok(slugs.includes('csharp-exception-handling'), 'Must include C# Exception Handling');
 
     // 6 Typing Games
     assert.ok(slugs.includes('speed-typing'), 'Must include Speed Typing');
@@ -45,7 +51,7 @@ test('1. Coding & Typing Games Catalog: List contains all 14 educational coding 
 
 test('2. Educational Categories Filtering: Category filter returns matching Coding vs Typing subsets', async () => {
     const codingGames = await GameModel.getAll({ category: 'Coding Games' });
-    assert.equal(codingGames.length, 8, 'Must return exactly 8 Coding Games');
+    assert.equal(codingGames.length, 12, 'Must return exactly 12 Coding Games');
     codingGames.forEach(g => {
         assert.equal(g.category, 'Coding Games');
     });
@@ -142,9 +148,9 @@ test('8. Controller API: GET /api/games returns Coding and Typing category count
     await gameController.getGames(req, res);
     assert.equal(res.statusCode, 200);
     assert.equal(res.body.success, true);
-    assert.equal(res.body.data.length, 14);
+    assert.equal(res.body.data.length, 18);
     assert.ok(res.body.featuredGame, 'Must return a featured game');
-    assert.equal(res.body.categoryCounts['Coding Games'], 8);
+    assert.equal(res.body.categoryCounts['Coding Games'], 12);
     assert.equal(res.body.categoryCounts['Typing Games'], 6);
 });
 

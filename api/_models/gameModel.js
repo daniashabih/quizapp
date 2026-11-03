@@ -243,8 +243,97 @@ const INITIAL_GAMES = [
         thumbnail: 'gradient-purple',
         description: 'Programming keywords and identifiers fall from the sky! Type them rapidly before they hit the ground.',
         instructions: 'Watch words drop from the top of the canvas. Type the letters of the lowest word to destroy it before it hits the bottom. You have 3 lives—stay alert!'
+    },
+
+    // --- 4 DEDICATED C# CODING GAMES ---
+    {
+        id: 'game_csharp_oop_challenge',
+        slug: 'csharp-oop-challenge',
+        title: 'C# OOP Challenge',
+        category: 'Coding Games',
+        badge: 'OOP Mastery',
+        cardSize: 'medium',
+        difficulty: 'Intermediate',
+        rating: 4.9,
+        playsCount: 2980,
+        order: 15,
+        isPublished: true,
+        isFeatured: false,
+        thumbnail: 'gradient-purple',
+        description: 'Practice classes, objects, inheritance, polymorphism, encapsulation, and design patterns in C#.',
+        instructions: 'Read real-world C# class architectures. Predict polymorphic output, configure abstract contracts, and solve object-oriented challenges.'
+    },
+    {
+        id: 'game_csharp_collections_challenge',
+        slug: 'csharp-collections-challenge',
+        title: 'C# Collections Challenge',
+        category: 'Coding Games',
+        badge: 'Data Structures',
+        cardSize: 'medium',
+        difficulty: 'Intermediate',
+        rating: 4.8,
+        playsCount: 2740,
+        order: 16,
+        isPublished: true,
+        isFeatured: false,
+        thumbnail: 'gradient-teal',
+        description: 'Solve challenges using arrays, lists, dictionaries, hashsets, queues, and generic collections.',
+        instructions: 'Test your understanding of C# collections, memory allocations, TryGetValue lookups, and concurrent collections.'
+    },
+    {
+        id: 'game_csharp_linq_challenge',
+        slug: 'csharp-linq-challenge',
+        title: 'C# LINQ Challenge',
+        category: 'Coding Games',
+        badge: 'LINQ Query',
+        cardSize: 'medium',
+        difficulty: 'Advanced',
+        rating: 4.9,
+        playsCount: 3340,
+        order: 17,
+        isPublished: true,
+        isFeatured: false,
+        thumbnail: 'gradient-indigo',
+        description: 'Practice Where, Select, OrderBy, GroupBy, SelectMany, and deferred execution operations.',
+        instructions: 'Analyze LINQ method and query syntax expressions. Trace pipelines, determine projected types, and predict sequence outputs.'
+    },
+    {
+        id: 'game_csharp_exception_handling',
+        slug: 'csharp-exception-handling',
+        title: 'C# Exception Handling',
+        category: 'Coding Games',
+        badge: 'Fault Tolerance',
+        cardSize: 'tall',
+        difficulty: 'Intermediate',
+        rating: 4.8,
+        playsCount: 2510,
+        order: 18,
+        isPublished: true,
+        isFeatured: false,
+        thumbnail: 'gradient-rose',
+        description: 'Identify and implement try, catch, finally, when filters, throw preservation, and custom exceptions.',
+        instructions: 'Inspect robust error handling code snippets. Identify exception bugs, ensure clean finally execution, and catch filtered errors.'
     }
 ];
+
+const GAME_ALIASES = {
+    'csharp-code-puzzle': { baseSlug: 'code-puzzle', title: 'C# Code Puzzle', defaultTech: 'csharp', category: 'Coding Games', description: 'Arrange C# statements in the correct execution order.' },
+    'code-puzzle-csharp': { baseSlug: 'code-puzzle', title: 'C# Code Puzzle', defaultTech: 'csharp', category: 'Coding Games', description: 'Arrange C# statements in the correct execution order.' },
+    'find-the-bug-csharp': { baseSlug: 'find-the-bug', title: 'Find the Bug – C#', defaultTech: 'csharp', category: 'Coding Games', description: 'Identify syntax, logical, and runtime errors in C# code.' },
+    'csharp-find-the-bug': { baseSlug: 'find-the-bug', title: 'Find the Bug – C#', defaultTech: 'csharp', category: 'Coding Games', description: 'Identify syntax, logical, and runtime errors in C# code.' },
+    'csharp-output-predictor': { baseSlug: 'output-predictor', title: 'C# Output Predictor', defaultTech: 'csharp', category: 'Coding Games', description: 'Predict the output of C# programs.' },
+    'output-predictor-csharp': { baseSlug: 'output-predictor', title: 'C# Output Predictor', defaultTech: 'csharp', category: 'Coding Games', description: 'Predict the output of C# programs.' },
+    'csharp-code-scramble': { baseSlug: 'code-scramble', title: 'C# Code Scramble', defaultTech: 'csharp', category: 'Coding Games', description: 'Rearrange scrambled C# code into a working program.' },
+    'code-scramble-csharp': { baseSlug: 'code-scramble', title: 'C# Code Scramble', defaultTech: 'csharp', category: 'Coding Games', description: 'Rearrange scrambled C# code into a working program.' },
+    'csharp-missing-code': { baseSlug: 'missing-code', title: 'Missing Code – C#', defaultTech: 'csharp', category: 'Coding Games', description: 'Fill in missing keywords, statements, methods, and expressions.' },
+    'missing-code-csharp': { baseSlug: 'missing-code', title: 'Missing Code – C#', defaultTech: 'csharp', category: 'Coding Games', description: 'Fill in missing keywords, statements, methods, and expressions.' },
+    'csharp-logic-builder': { baseSlug: 'logic-builder', title: 'C# Logic Builder', defaultTech: 'csharp', category: 'Coding Games', description: 'Solve programming logic challenges using C#.' },
+    'logic-builder-csharp': { baseSlug: 'logic-builder', title: 'C# Logic Builder', defaultTech: 'csharp', category: 'Coding Games', description: 'Solve programming logic challenges using C#.' },
+    'csharp-speed-typing': { baseSlug: 'speed-typing', title: 'C# Speed Typing', defaultTech: 'csharp', category: 'Typing Games', description: 'Type C# code within a time limit.' },
+    'csharp-syntax-typing': { baseSlug: 'syntax-typing', title: 'C# Syntax Typing', defaultTech: 'csharp', category: 'Typing Games', description: 'Practice C# keywords, operators, and syntax.' },
+    'csharp-code-typing': { baseSlug: 'code-typing', title: 'C# Code Typing', defaultTech: 'csharp', category: 'Typing Games', description: 'Type complete C# code snippets accurately.' },
+    'csharp-accuracy-challenge': { baseSlug: 'error-free-typing', title: 'C# Accuracy Challenge', defaultTech: 'csharp', category: 'Typing Games', description: 'Improve typing accuracy with C# programming statements.' }
+};
 
 // Rich, curated challenges for Coding and Typing games
 const INITIAL_CHALLENGES = {
@@ -889,7 +978,13 @@ def time_it(func):
             solution: '',
             order: 1
         }
-    ]
+    ],
+
+    // Dedicated C# Challenges
+    'csharp-oop-challenge': TECHNOLOGY_CHALLENGES.filter(c => c.gameSlug === 'csharp-oop-challenge'),
+    'csharp-collections-challenge': TECHNOLOGY_CHALLENGES.filter(c => c.gameSlug === 'csharp-collections-challenge'),
+    'csharp-linq-challenge': TECHNOLOGY_CHALLENGES.filter(c => c.gameSlug === 'csharp-linq-challenge'),
+    'csharp-exception-handling': TECHNOLOGY_CHALLENGES.filter(c => c.gameSlug === 'csharp-exception-handling')
 };
 
 // In-memory fallback state for dev / offline / test environments
@@ -1116,7 +1211,22 @@ const GameModel = {
             // DB fallback
         }
 
-        const game = memGames.find(g => g.slug === cleanSlug);
+        let game = memGames.find(g => g.slug === cleanSlug);
+        if (!game && GAME_ALIASES[cleanSlug]) {
+            const alias = GAME_ALIASES[cleanSlug];
+            const baseGame = memGames.find(g => g.slug === alias.baseSlug);
+            if (baseGame) {
+                game = {
+                    ...baseGame,
+                    id: `game_${cleanSlug.replace(/-/g, '_')}`,
+                    slug: cleanSlug,
+                    title: alias.title,
+                    description: alias.description || baseGame.description,
+                    category: alias.category || baseGame.category,
+                    defaultTechnology: alias.defaultTech
+                };
+            }
+        }
         if (!game) return null;
 
         let userHighScore = 0;
@@ -1162,16 +1272,27 @@ const GameModel = {
             ? String(technology).toLowerCase().trim()
             : null;
 
+        let targetGameSlug = gameSlug;
+        let resolvedTech = cleanTech;
+        if (GAME_ALIASES[gameSlug]) {
+            targetGameSlug = GAME_ALIASES[gameSlug].baseSlug;
+            resolvedTech = resolvedTech || GAME_ALIASES[gameSlug].defaultTech;
+        } else if (!resolvedTech && (gameSlug.startsWith('csharp-') || gameSlug.endsWith('-csharp'))) {
+            resolvedTech = 'csharp';
+        }
+
         try {
-            const where = { gameSlug };
+            const where = {
+                gameSlug: { in: [targetGameSlug, gameSlug] }
+            };
             if (difficulty && difficulty !== 'All Levels') {
                 where.difficulty = difficulty;
             }
             if (language && language !== 'all') {
                 where.language = language;
             }
-            if (cleanTech) {
-                where.technology = cleanTech;
+            if (resolvedTech) {
+                where.technology = resolvedTech;
             }
 
             const dbChallenges = await prisma.gameChallenge.findMany({
@@ -1223,17 +1344,17 @@ const GameModel = {
 
         // Memory fallback: check TECHNOLOGY_CHALLENGES first if tech was requested
         let list = [];
-        if (cleanTech) {
+        if (resolvedTech) {
             list = TECHNOLOGY_CHALLENGES.filter(c =>
-                c.gameSlug === gameSlug &&
-                c.technology === cleanTech &&
+                (c.gameSlug === targetGameSlug || c.gameSlug === gameSlug) &&
+                c.technology === resolvedTech &&
                 (!difficulty || difficulty === 'All Levels' || c.difficulty.toLowerCase() === difficulty.toLowerCase())
             );
         }
 
         // If no tech-specific challenge found, fall back to default game challenges
         if (list.length === 0) {
-            const defaultList = memChallenges[gameSlug] || [];
+            const defaultList = memChallenges[targetGameSlug] || memChallenges[gameSlug] || [];
             list = defaultList.filter(c =>
                 (!difficulty || difficulty === 'All Levels' || (c.difficulty && c.difficulty.toLowerCase() === difficulty.toLowerCase())) &&
                 (!language || language === 'all' || (c.language && c.language.toLowerCase() === language.toLowerCase()))
@@ -1286,6 +1407,11 @@ const GameModel = {
     verifyChallenge: async (gameSlug, challengeId, submission) => {
         let challenge = null;
 
+        let targetGameSlug = gameSlug;
+        if (GAME_ALIASES[gameSlug]) {
+            targetGameSlug = GAME_ALIASES[gameSlug].baseSlug;
+        }
+
         try {
             challenge = await prisma.gameChallenge.findUnique({
                 where: { id: challengeId }
@@ -1295,7 +1421,7 @@ const GameModel = {
         }
 
         if (!challenge) {
-            const list = memChallenges[gameSlug] || [];
+            const list = memChallenges[targetGameSlug] || memChallenges[gameSlug] || [];
             challenge = list.find(c => c.id === challengeId || c.aliasId === challengeId);
         }
 
@@ -1332,7 +1458,7 @@ const GameModel = {
             } catch {
                 isCorrect = false;
             }
-        } else if (gameSlug === 'find-the-bug') {
+        } else if (targetGameSlug === 'find-the-bug' || challenge.gameSlug === 'find-the-bug' || /^\d+$/.test(expected)) {
             // Line number match
             isCorrect = String(userSub).trim() === expected;
         } else {

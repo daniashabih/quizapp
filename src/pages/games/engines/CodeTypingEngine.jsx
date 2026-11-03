@@ -228,6 +228,64 @@ server.listen(3000);`
   { $sort: { totalSpent: -1 } },
   { $limit: 10 }
 ]);`
+    },
+    // C# (C-Sharp)
+    {
+        id: 'ct_csharp_1',
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        title: 'C# Binary Search Algorithm',
+        code: `public static int BinarySearch(int[] arr, int target)
+{
+    int low = 0, high = arr.Length - 1;
+    while (low <= high)
+    {
+        int mid = low + (high - low) / 2;
+        if (arr[mid] == target) return mid;
+        if (arr[mid] < target) low = mid + 1;
+        else high = mid - 1;
+    }
+    return -1;
+}`
+    },
+    {
+        id: 'ct_csharp_2',
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        title: 'C# Generic Thread-Safe Cache',
+        code: `public class MemoryCache<TKey, TValue> where TKey : notnull
+{
+    private readonly Dictionary<TKey, TValue> _store = new();
+    private readonly object _lock = new();
+
+    public void Set(TKey key, TValue value)
+    {
+        lock (_lock) { _store[key] = value; }
+    }
+
+    public bool TryGet(TKey key, out TValue? val)
+    {
+        lock (_lock) { return _store.TryGetValue(key, out val); }
+    }
+}`
+    },
+    {
+        id: 'ct_csharp_3',
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        title: 'C# Asynchronous Generic Repository',
+        code: `public interface IRepository<T> where T : class
+{
+    Task<T?> GetByIdAsync(int id, CancellationToken ct = default);
+    Task AddAsync(T entity, CancellationToken ct = default);
+    Task<IReadOnlyList<T>> ListAsync(Expression<Func<T, bool>> predicate);
+}`
     }
 ];
 

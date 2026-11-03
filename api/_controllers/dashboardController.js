@@ -656,7 +656,7 @@ const getAdminDashboard = async (req, res) => {
  */
 const getLeaderboard = async (req, res) => {
     try {
-        const { timeframe = 'all-time', category = 'All' } = req.query;
+        const { timeframe = 'all-time', category = 'All', limit, page } = req.query;
 
         // Fetch users with their quiz results (excluding sensitive fields such as email/password)
         const users = await prisma.user.findMany({
@@ -767,10 +767,27 @@ const getLeaderboard = async (req, res) => {
             rank: idx + 1
         }));
 
+        let returnedPerformers = rankedPerformers;
+        let totalPages = 1;
+        let currentPage = 1;
+
+        if (limit !== undefined && limit !== null) {
+            const parsedLimit = parseInt(limit, 10);
+            if (!isNaN(parsedLimit) && parsedLimit > 0) {
+                currentPage = Math.max(1, parseInt(page, 10) || 1);
+                totalPages = Math.ceil(rankedPerformers.length / parsedLimit) || 1;
+                const offset = (currentPage - 1) * parsedLimit;
+                returnedPerformers = rankedPerformers.slice(offset, offset + parsedLimit);
+            }
+        }
+
         return res.status(200).json({
             success: true,
-            leaderboard: rankedPerformers,
-            totalRanked: rankedPerformers.length
+            leaderboard: returnedPerformers,
+            totalRanked: rankedPerformers.length,
+            page: currentPage,
+            totalPages,
+            hasMore: currentPage < totalPages
         });
 
     } catch (error) {

@@ -99,6 +99,28 @@ const ALL_PASSAGES = [
         technologyName: 'Data Structures & Algorithms',
         difficulty: 'Advanced',
         text: "Algorithmic time complexity measures asymptotic growth rates using Big-O notation. Selecting balanced search trees, heaps, or hash tables optimizes critical path lookups from quadratic to logarithmic time."
+    },
+    // C# (C-Sharp)
+    {
+        id: 'pass_csharp_1',
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Beginner',
+        text: "C# is a modern, object-oriented, type-safe programming language developed by Microsoft for .NET. Strongly typed variables, memory safety via garbage collection, and expressive string interpolation empower developers to build performant desktop and cloud applications."
+    },
+    {
+        id: 'pass_csharp_2',
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Intermediate',
+        text: "In C#, encapsulation and polymorphism govern clean domain design. Auto-implemented properties with private setters protect internal object state, while interfaces define testable contracts that decouple service implementations from client controllers."
+    },
+    {
+        id: 'pass_csharp_3',
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Advanced',
+        text: "Asynchronous programming in C# utilizes the Task-based Asynchronous Pattern with async and await. Non-blocking I/O operations release thread pool workers back to the runtime, maximizing throughput in high-concurrency web APIs and microservices."
     }
 ];
 

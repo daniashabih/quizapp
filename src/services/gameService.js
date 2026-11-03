@@ -255,6 +255,76 @@ export const FALLBACK_GAMES = [
         thumbnail: 'gradient-purple',
         description: 'Programming keywords rain down from the sky—destroy them with precise typing before they touch ground!',
         instructions: 'Type the falling programming keywords before they touch the red ground line. Three lives total. Clear waves to earn speed multipliers and bonus scores!'
+    },
+
+    // --- 4 DEDICATED C# CODING GAMES ---
+    {
+        id: 'game_csharp_oop_challenge',
+        slug: 'csharp-oop-challenge',
+        title: 'C# OOP Challenge',
+        category: 'Coding Games',
+        badge: 'OOP Mastery',
+        cardSize: 'medium',
+        difficulty: 'Intermediate',
+        rating: 4.9,
+        playsCount: 2980,
+        order: 15,
+        isPublished: true,
+        isFeatured: false,
+        thumbnail: 'gradient-purple',
+        description: 'Practice classes, objects, inheritance, polymorphism, encapsulation, and design patterns in C#.',
+        instructions: 'Read real-world C# class architectures. Predict polymorphic output, configure abstract contracts, and solve object-oriented challenges.'
+    },
+    {
+        id: 'game_csharp_collections_challenge',
+        slug: 'csharp-collections-challenge',
+        title: 'C# Collections Challenge',
+        category: 'Coding Games',
+        badge: 'Data Structures',
+        cardSize: 'medium',
+        difficulty: 'Intermediate',
+        rating: 4.8,
+        playsCount: 2740,
+        order: 16,
+        isPublished: true,
+        isFeatured: false,
+        thumbnail: 'gradient-teal',
+        description: 'Solve challenges using arrays, lists, dictionaries, hashsets, queues, and generic collections.',
+        instructions: 'Test your understanding of C# collections, memory allocations, TryGetValue lookups, and concurrent collections.'
+    },
+    {
+        id: 'game_csharp_linq_challenge',
+        slug: 'csharp-linq-challenge',
+        title: 'C# LINQ Challenge',
+        category: 'Coding Games',
+        badge: 'LINQ Query',
+        cardSize: 'medium',
+        difficulty: 'Advanced',
+        rating: 4.9,
+        playsCount: 3340,
+        order: 17,
+        isPublished: true,
+        isFeatured: false,
+        thumbnail: 'gradient-indigo',
+        description: 'Practice Where, Select, OrderBy, GroupBy, SelectMany, and deferred execution operations.',
+        instructions: 'Analyze LINQ method and query syntax expressions. Trace pipelines, determine projected types, and predict sequence outputs.'
+    },
+    {
+        id: 'game_csharp_exception_handling',
+        slug: 'csharp-exception-handling',
+        title: 'C# Exception Handling',
+        category: 'Coding Games',
+        badge: 'Fault Tolerance',
+        cardSize: 'tall',
+        difficulty: 'Intermediate',
+        rating: 4.8,
+        playsCount: 2510,
+        order: 18,
+        isPublished: true,
+        isFeatured: false,
+        thumbnail: 'gradient-rose',
+        description: 'Identify and implement try, catch, finally, when filters, throw preservation, and custom exceptions.',
+        instructions: 'Inspect robust error handling code snippets. Identify exception bugs, ensure clean finally execution, and catch filtered errors.'
     }
 ];
 
@@ -739,7 +809,8 @@ export const FALLBACK_TECH_CATEGORIES = [
     { id: 'cat_database', name: 'Database', slug: 'database', description: 'Relational and NoSQL database query engines.', icon: 'Database', isEnabled: true, order: 3 },
     { id: 'cat_mobile', name: 'Mobile Development', slug: 'mobile-development', description: 'Cross-platform mobile apps for iOS and Android.', icon: 'Smartphone', isEnabled: true, order: 4 },
     { id: 'cat_fundamentals', name: 'Programming Fundamentals', slug: 'programming-fundamentals', description: 'Logic, OOP, and data structures.', icon: 'Cpu', isEnabled: true, order: 5 },
-    { id: 'cat_webdev', name: 'Web Development', slug: 'web-development', description: 'Full stack development and web protocols.', icon: 'Globe', isEnabled: true, order: 6 }
+    { id: 'cat_webdev', name: 'Web Development', slug: 'web-development', description: 'Full stack development and web protocols.', icon: 'Globe', isEnabled: true, order: 6 },
+    { id: 'cat_languages', name: 'Programming Languages', slug: 'programming-languages', description: 'Core programming languages, syntax paradigms, runtime environments, and typing systems.', icon: 'Code2', isEnabled: true, order: 7 }
 ];
 
 export const FALLBACK_TECHNOLOGIES = [
@@ -770,7 +841,37 @@ export const FALLBACK_TECHNOLOGIES = [
 
     { id: 'tech_html_css', categorySlug: 'web-development', name: 'HTML & CSS', slug: 'html-css', color: '#E44D26', icon: 'palette', supportedGames: ['code-puzzle', 'find-the-bug', 'missing-code', 'memory-match', 'code-typing', 'speed-typing'], isEnabled: true },
     { id: 'tech_fullstack', categorySlug: 'web-development', name: 'Full Stack Development', slug: 'full-stack', color: '#10B981', icon: 'layers', supportedGames: ['logic-builder', 'code-puzzle', 'find-the-bug', 'output-predictor', 'code-typing'], isEnabled: true },
-    { id: 'tech_web_fundamentals', categorySlug: 'web-development', name: 'Web Development Fundamentals', slug: 'web-fundamentals', color: '#06B6D4', icon: 'compass', supportedGames: ['memory-match', 'speed-typing', 'output-predictor', 'find-the-bug', 'code-puzzle'], isEnabled: true }
+    { id: 'tech_web_fundamentals', categorySlug: 'web-development', name: 'Web Development Fundamentals', slug: 'web-fundamentals', color: '#06B6D4', icon: 'compass', supportedGames: ['memory-match', 'speed-typing', 'output-predictor', 'find-the-bug', 'code-puzzle'], isEnabled: true },
+
+    // Programming Languages (1)
+    {
+        id: 'tech_csharp',
+        categorySlug: 'programming-languages',
+        name: 'C#',
+        slug: 'csharp',
+        description: 'Practice C# programming through interactive coding games and challenges.',
+        color: '#9B4993',
+        icon: 'csharp',
+        badge: 'Modern .NET',
+        supportedGames: [
+            'code-puzzle',
+            'find-the-bug',
+            'output-predictor',
+            'code-scramble',
+            'missing-code',
+            'logic-builder',
+            'csharp-oop-challenge',
+            'csharp-collections-challenge',
+            'csharp-linq-challenge',
+            'csharp-exception-handling',
+            'speed-typing',
+            'syntax-typing',
+            'code-typing',
+            'error-free-typing'
+        ],
+        isEnabled: true,
+        order: 24
+    }
 ];
 
 export default gameService;

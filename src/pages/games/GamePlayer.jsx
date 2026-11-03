@@ -53,7 +53,8 @@ export const GamePlayer = () => {
     const { user } = useAuth();
 
     // Parse technology and difficulty from query params
-    const queryTech = searchParams.get('tech') || searchParams.get('technology') || 'all';
+    const defaultTechBySlug = (slug?.startsWith('csharp-') || slug?.endsWith('-csharp')) ? 'csharp' : 'all';
+    const queryTech = searchParams.get('tech') || searchParams.get('technology') || defaultTechBySlug;
     const queryDifficulty = searchParams.get('difficulty') || 'All Levels';
 
     const [selectedTechnology, setSelectedTechnology] = useState(queryTech);
@@ -296,16 +297,26 @@ export const GamePlayer = () => {
         switch (slug) {
             // Coding Games
             case 'code-puzzle':
+            case 'csharp-code-puzzle':
                 return <CodePuzzleEngine {...commonProps} />;
             case 'find-the-bug':
+            case 'find-the-bug-csharp':
                 return <FindTheBugEngine {...commonProps} />;
             case 'output-predictor':
+            case 'csharp-output-predictor':
+            case 'csharp-oop-challenge':
+            case 'csharp-collections-challenge':
+            case 'csharp-linq-challenge':
+            case 'csharp-exception-handling':
                 return <OutputPredictorEngine {...commonProps} />;
             case 'code-scramble':
+            case 'csharp-code-scramble':
                 return <CodeScrambleEngine {...commonProps} />;
             case 'missing-code':
+            case 'csharp-missing-code':
                 return <MissingCodeEngine {...commonProps} />;
             case 'logic-builder':
+            case 'csharp-logic-builder':
                 return <LogicBuilderEngine {...commonProps} />;
             case 'sql-challenge':
                 return <SqlChallengeEngine {...commonProps} />;
@@ -314,14 +325,18 @@ export const GamePlayer = () => {
 
             // Typing Games
             case 'speed-typing':
+            case 'csharp-speed-typing':
                 return <SpeedTypingEngine {...commonProps} />;
             case 'code-typing':
+            case 'csharp-code-typing':
                 return <CodeTypingEngine {...commonProps} />;
             case 'sixty-second-challenge':
                 return <SixtySecondChallengeEngine {...commonProps} />;
             case 'error-free-typing':
+            case 'csharp-accuracy-challenge':
                 return <ErrorFreeTypingEngine {...commonProps} />;
             case 'syntax-typing':
+            case 'csharp-syntax-typing':
                 return <SyntaxTypingEngine {...commonProps} />;
             case 'word-rain':
                 return <WordRainEngine {...commonProps} />;

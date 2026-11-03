@@ -47,7 +47,8 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
   @override
   void initState() {
     super.initState();
-    _selectedTechnology = widget.initialTechnology ?? 'all';
+    final defaultTech = (widget.slug.startsWith('csharp-') || widget.slug.endsWith('-csharp')) ? 'csharp' : 'all';
+    _selectedTechnology = widget.initialTechnology ?? defaultTech;
     _selectedDifficulty = widget.initialDifficulty ?? 'All Levels';
     _loadSettings();
   }
@@ -256,6 +257,8 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
       // Coding Games
       case 'code-puzzle':
       case 'code-scramble':
+      case 'csharp-code-puzzle':
+      case 'csharp-code-scramble':
         return FlutterCodePuzzle(
           key: key,
           onGameOver: commonProps.onGameOver,
@@ -265,6 +268,7 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
         );
       case 'find-the-bug':
       case 'sql-challenge':
+      case 'find-the-bug-csharp':
         return FlutterFindTheBug(
           key: key,
           onGameOver: commonProps.onGameOver,
@@ -274,6 +278,13 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
       case 'output-predictor':
       case 'missing-code':
       case 'logic-builder':
+      case 'csharp-output-predictor':
+      case 'csharp-missing-code':
+      case 'csharp-logic-builder':
+      case 'csharp-oop-challenge':
+      case 'csharp-collections-challenge':
+      case 'csharp-linq-challenge':
+      case 'csharp-exception-handling':
         return FlutterOutputPredictor(
           key: key,
           onGameOver: commonProps.onGameOver,
@@ -294,6 +305,10 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
       case 'sixty-second-challenge':
       case 'error-free-typing':
       case 'syntax-typing':
+      case 'csharp-speed-typing':
+      case 'csharp-syntax-typing':
+      case 'csharp-code-typing':
+      case 'csharp-accuracy-challenge':
         return FlutterSpeedTyping(
           key: key,
           onGameOver: commonProps.onGameOver,

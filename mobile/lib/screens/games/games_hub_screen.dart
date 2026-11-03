@@ -511,10 +511,10 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                                   ),
                                                   child: Center(
                                                     child: Text(
-                                                      tech.name.isNotEmpty ? tech.name[0] : 'T',
+                                                      tech.slug == 'csharp' ? 'C#' : (tech.name.isNotEmpty ? tech.name[0] : 'T'),
                                                       style: TextStyle(
                                                         color: techColor,
-                                                        fontSize: 12,
+                                                        fontSize: tech.slug == 'csharp' ? 10 : 12,
                                                         fontWeight: FontWeight.w900,
                                                       ),
                                                     ),

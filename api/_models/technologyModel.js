@@ -55,10 +55,19 @@ const INITIAL_TECH_CATEGORIES = [
         icon: 'Globe',
         order: 6,
         isEnabled: true
+    },
+    {
+        id: 'cat_languages',
+        name: 'Programming Languages',
+        slug: 'programming-languages',
+        description: 'Core programming languages, syntax paradigms, runtime environments, and typing systems.',
+        icon: 'Code2',
+        order: 7,
+        isEnabled: true
     }
 ];
 
-// 2. Initial 23 Technologies Across the 6 Categories
+// 2. Initial 24 Technologies Across the 7 Categories
 const INITIAL_TECHNOLOGIES = [
     // Frontend Development (6)
     {
@@ -369,6 +378,36 @@ const INITIAL_TECHNOLOGIES = [
         supportedGames: ['memory-match', 'speed-typing', 'output-predictor', 'find-the-bug', 'code-puzzle'],
         isEnabled: true,
         order: 23
+    },
+
+    // Programming Languages (1)
+    {
+        id: 'tech_csharp',
+        categorySlug: 'programming-languages',
+        name: 'C#',
+        slug: 'csharp',
+        description: 'Practice C# programming through interactive coding games and challenges.',
+        icon: 'csharp',
+        color: '#9B4993',
+        badge: 'Modern .NET',
+        supportedGames: [
+            'code-puzzle',
+            'find-the-bug',
+            'output-predictor',
+            'code-scramble',
+            'missing-code',
+            'logic-builder',
+            'csharp-oop-challenge',
+            'csharp-collections-challenge',
+            'csharp-linq-challenge',
+            'csharp-exception-handling',
+            'speed-typing',
+            'syntax-typing',
+            'code-typing',
+            'error-free-typing'
+        ],
+        isEnabled: true,
+        order: 24
     }
 ];
 
@@ -1199,10 +1238,13 @@ const TechnologyModel = {
 
             const dbCategories = await prisma.gameTechCategory.findMany();
             const catMap = {};
-            dbCategories.forEach(c => { catMap[c.slug] = c.id; });
+            dbCategories.forEach(c => {
+                catMap[c.slug] = c.id;
+                catMap[c.name.toLowerCase().trim()] = c.id;
+            });
 
             for (const tech of INITIAL_TECHNOLOGIES) {
-                const catId = catMap[tech.categorySlug];
+                const catId = catMap[tech.categorySlug] || (tech.categorySlug === 'programming-languages' ? catMap['programming languages'] : null);
                 if (catId) {
                     await prisma.gameTechnology.upsert({
                         where: { slug: tech.slug },

@@ -120,6 +120,31 @@ const ALL_SYMBOL_DRILLS = [
         difficulty: 'Beginner',
         title: 'CSS Calc & Custom Properties',
         syntax: 'width: calc(100% - var(--sidebar-width, 240px));'
+    },
+    // C# (C-Sharp)
+    {
+        id: 'stx_csharp_1',
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Beginner',
+        title: 'C# Record & Primary Constructor',
+        syntax: 'public record UserDto(int Id, string Username, string Email);'
+    },
+    {
+        id: 'stx_csharp_2',
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Intermediate',
+        title: 'C# Pattern Matching Switch Expression',
+        syntax: 'string status = code switch { 200 => "OK", 404 => "Not Found", _ => "Error" };'
+    },
+    {
+        id: 'stx_csharp_3',
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Advanced',
+        title: 'C# Async Generic Method with CancellationToken',
+        syntax: 'public async Task<IReadOnlyList<T>> GetAsync<T>(CancellationToken ct = default);'
     }
 ];
 

@@ -49,6 +49,25 @@ const TECH_ERROR_FREE_PASSAGES = [
         technologyName: 'Dart',
         difficulty: 'Intermediate',
         text: "Sound null safety ensures that variables cannot contain null values unless explicitly declared with a question mark, eliminating null pointer exceptions at runtime."
+    },
+    // C# (C-Sharp)
+    {
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Beginner',
+        text: "In C#, nullable reference types enable the compiler to diagnose null dereferences at compile time. Always initialize variables before accessing their members."
+    },
+    {
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Intermediate',
+        text: "Using declarations ensure deterministic resource cleanup. When using var connection leaves its enclosing scope, DisposeAsync closes the database connection cleanly."
+    },
+    {
+        technology: 'csharp',
+        technologyName: 'C#',
+        difficulty: 'Advanced',
+        text: "In high-reliability C# financial engines, checked arithmetic blocks enforce OverflowException detection if arithmetic operations exceed maximum type bounds."
     }
 ];
 

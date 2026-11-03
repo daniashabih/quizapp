@@ -1007,6 +1007,716 @@ const TECHNOLOGY_CHALLENGES = [
         explanation: 'Controller handles HTTP payload, communicates with database layer, and returns formatted JSON.',
         points: 150,
         order: 1
+    },
+
+    // ==========================================
+    // C# (C-SHARP) DEDICATED CHALLENGES
+    // ==========================================
+
+    // --- C# Code Puzzle ---
+    {
+        id: 'csharp_cp_beg_1',
+        gameSlug: 'code-puzzle',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'C# User Greeting and Interpolation',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Arrange C# statements in the correct execution order to calculate retirement years.',
+        content: JSON.stringify({
+            blocks: [
+                'int retirementAge = 65;',
+                'string name = "Jordan";',
+                'Console.WriteLine($"Hello {name}, you have {yearsLeft} years until retirement.");',
+                'int currentAge = 25;',
+                'int yearsLeft = retirementAge - currentAge;'
+            ]
+        }),
+        solution: JSON.stringify([
+            'string name = "Jordan";',
+            'int currentAge = 25;',
+            'int retirementAge = 65;',
+            'int yearsLeft = retirementAge - currentAge;',
+            'Console.WriteLine($"Hello {name}, you have {yearsLeft} years until retirement.");'
+        ]),
+        hints: 'Declare variables first, perform subtraction, and finally print with string interpolation.',
+        explanation: 'Variables must be initialized before they can be used in arithmetic operations and output formatting.',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_cp_int_1',
+        gameSlug: 'code-puzzle',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'C# Encapsulated BankAccount Class',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Order C# class members with constructor, encapsulation, and deposit method.',
+        content: JSON.stringify({
+            blocks: [
+                '    public void Deposit(decimal amount) => Balance += amount;',
+                'public class BankAccount',
+                '{',
+                '    public decimal Balance { get; private set; }',
+                '    public BankAccount(decimal opening) => Balance = opening;',
+                '}'
+            ]
+        }),
+        solution: JSON.stringify([
+            'public class BankAccount',
+            '{',
+            '    public decimal Balance { get; private set; }',
+            '    public BankAccount(decimal opening) => Balance = opening;',
+            '    public void Deposit(decimal amount) => Balance += amount;',
+            '}'
+        ]),
+        hints: 'Class declaration opens first, followed by properties, constructor, methods, and closing brace.',
+        explanation: 'Standard C# class convention defines state properties first, constructor initializers, then public domain methods.',
+        points: 150,
+        order: 2
+    },
+    {
+        id: 'csharp_cp_adv_1',
+        gameSlug: 'code-puzzle',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'C# Async Generic Web Downloader',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Assemble an asynchronous generic HTTP pipeline with type constraint.',
+        content: JSON.stringify({
+            blocks: [
+                '    return JsonSerializer.Deserialize<T>(json);',
+                'public async Task<T?> FetchDataAsync<T>(string url) where T : class',
+                '{',
+                '    using var client = new HttpClient();',
+                '    var response = await client.GetAsync(url);',
+                '    response.EnsureSuccessStatusCode();',
+                '    var json = await response.Content.ReadAsStringAsync();',
+                '}'
+            ]
+        }),
+        solution: JSON.stringify([
+            'public async Task<T?> FetchDataAsync<T>(string url) where T : class',
+            '{',
+            '    using var client = new HttpClient();',
+            '    var response = await client.GetAsync(url);',
+            '    response.EnsureSuccessStatusCode();',
+            '    var json = await response.Content.ReadAsStringAsync();',
+            '    return JsonSerializer.Deserialize<T>(json);',
+            '}'
+        ]),
+        hints: 'Signature with where constraint -> HttpClient -> GetAsync -> EnsureSuccessStatusCode -> ReadAsStringAsync -> Deserialize.',
+        explanation: 'Asynchronous HTTP operations require awaiting the network response, validating the status code, reading content stream, and deserializing.',
+        points: 200,
+        order: 3
+    },
+
+    // --- Find the Bug – C# ---
+    {
+        id: 'csharp_ftb_beg_1',
+        gameSlug: 'find-the-bug',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Integer Division Truncation in Average',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        category: 'Arithmetic Bug',
+        description: 'Identify syntax, logical, and runtime errors in C# code.',
+        content: JSON.stringify({
+            lines: [
+                'public double CalculateAverage(int[] scores)',
+                '{',
+                '    int sum = 0;',
+                '    for (int i = 0; i < scores.Length; i++) sum += scores[i];',
+                '    double average = sum / scores.Length;',
+                '    return average;',
+                '}'
+            ],
+            bugLine: 5,
+            fix: '    double average = (double)sum / scores.Length;'
+        }),
+        solution: '5',
+        hints: 'Dividing two integer operands performs integer truncation before converting to double.',
+        explanation: 'Line 5 performs integer division because both `sum` and `scores.Length` are integers. Cast at least one operand to `double` or `(double)sum / scores.Length`.',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_ftb_int_1',
+        gameSlug: 'find-the-bug',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Missing Override Keyword in Derived Class',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        category: 'Polymorphism Bug',
+        description: 'Spot the polymorphism defect causing base method invocation.',
+        content: JSON.stringify({
+            lines: [
+                'public class Employee {',
+                '    public virtual decimal GetBonus() => 1000m;',
+                '}',
+                'public class Manager : Employee {',
+                '    public decimal GetBonus() => 5000m;',
+                '}',
+                'Employee staff = new Manager();'
+            ],
+            bugLine: 5,
+            fix: '    public override decimal GetBonus() => 5000m;'
+        }),
+        solution: '5',
+        hints: 'In C#, omitting `override` hides the base virtual method instead of overriding it.',
+        explanation: 'Line 5 lacks the `override` modifier. Without `override`, `Manager.GetBonus` hides `Employee.GetBonus` (CS0114), so calling `staff.GetBonus()` yields 1000m instead of 5000m.',
+        points: 150,
+        order: 2
+    },
+    {
+        id: 'csharp_ftb_adv_1',
+        gameSlug: 'find-the-bug',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Async Void Exception Swallowing Bug',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        category: 'Asynchronous Bug',
+        description: 'Find the unhandled async task defect in service method.',
+        content: JSON.stringify({
+            lines: [
+                'public class PaymentService {',
+                '    public async void ProcessTransactionAsync(string orderId)',
+                '    {',
+                '        await Task.Delay(100);',
+                '        throw new InvalidOperationException("Gateway timeout");',
+                '    }',
+                '}'
+            ],
+            bugLine: 2,
+            fix: '    public async Task ProcessTransactionAsync(string orderId)'
+        }),
+        solution: '2',
+        hints: 'Async methods that perform background work should return Task, not void.',
+        explanation: 'Line 2 declares `async void`. Unhandled exceptions thrown by `async void` methods cannot be caught by callers and will crash the process or terminate the SynchronizationContext.',
+        points: 200,
+        order: 3
+    },
+
+    // --- C# Output Predictor ---
+    {
+        id: 'csharp_op_beg_1',
+        gameSlug: 'output-predictor',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Primitive Type Pass-by-Value Parameter',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Predict the output of C# programs.',
+        content: JSON.stringify({
+            code: 'int number = 15;\nvoid DoubleIt(int x) { x *= 2; }\nDoubleIt(number);\nConsole.WriteLine(number);',
+            options: ['15', '30', '0', 'Compilation Error']
+        }),
+        solution: '15',
+        hints: 'In C#, value types like int are passed by value unless ref or out keywords are specified.',
+        explanation: 'In C#, `int` is a value type. The `DoubleIt` method receives a copy of `number`. Modifying `x` inside the method does not alter the caller original variable.',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_op_int_1',
+        gameSlug: 'output-predictor',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Virtual Override vs New Method Hiding',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Predict the console output of polymorphic dispatch.',
+        content: JSON.stringify({
+            code: 'class Parent { public virtual void Show() => Console.Write("P "); }\nclass Child : Parent { public new void Show() => Console.Write("C "); }\nParent item = new Child();\nitem.Show();',
+            options: ['P ', 'C ', 'P C ', 'Runtime Exception']
+        }),
+        solution: 'P ',
+        hints: 'Method hiding with the new keyword relies on the compile-time variable reference type.',
+        explanation: 'Because `Child` declares `Show` using `new` rather than `override`, virtual dispatch is disabled. The variable `item` is typed as `Parent`, so `Parent.Show()` is executed.',
+        points: 150,
+        order: 2
+    },
+    {
+        id: 'csharp_op_adv_1',
+        gameSlug: 'output-predictor',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'LINQ Deferred Execution with Mutation',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Trace deferred execution of LINQ query when underlying list mutates.',
+        content: JSON.stringify({
+            code: 'var list = new List<int> { 1, 2, 3 };\nint factor = 2;\nvar query = list.Select(x => x * factor);\nfactor = 10;\nlist.Add(4);\nConsole.WriteLine(string.Join(", ", query));',
+            options: ['10, 20, 30, 40', '2, 4, 6', '2, 4, 6, 8', '10, 20, 30']
+        }),
+        solution: '10, 20, 30, 40',
+        hints: 'LINQ Select is deferred and executes only when enumerated by string.Join.',
+        explanation: 'LINQ queries are lazily evaluated. When `string.Join` forces evaluation, `factor` has been updated to 10 and `list` contains 4 elements: [1*10, 2*10, 3*10, 4*10].',
+        points: 200,
+        order: 3
+    },
+
+    // --- C# Code Scramble ---
+    {
+        id: 'csharp_cs_beg_1',
+        gameSlug: 'code-scramble',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Array Accumulator For Loop',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Rearrange scrambled C# code into a working program.',
+        content: JSON.stringify({
+            statements: [
+                'int[] grades = { 80, 90, 100 };',
+                'int sum = 0;',
+                'for (int i = 0; i < grades.Length; i++)',
+                '{ sum += grades[i]; }',
+                'Console.WriteLine($"Total: {sum}");'
+            ]
+        }),
+        solution: JSON.stringify([
+            'int[] grades = { 80, 90, 100 };',
+            'int sum = 0;',
+            'for (int i = 0; i < grades.Length; i++)',
+            '{ sum += grades[i]; }',
+            'Console.WriteLine($"Total: {sum}");'
+        ]),
+        hints: 'Initialize array and accumulator, loop through elements, then print total.',
+        explanation: 'Loop iteration accumulates each array value into `sum` before printing.',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_cs_int_1',
+        gameSlug: 'code-scramble',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Dictionary Frequency Counter',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Rearrange statements to count string token occurrences.',
+        content: JSON.stringify({
+            statements: [
+                'var counts = new Dictionary<string, int>();',
+                'string[] tags = { "csharp", "dotnet", "csharp" };',
+                'foreach (var tag in tags)',
+                '{',
+                '    if (!counts.TryAdd(tag, 1))',
+                '        counts[tag]++;',
+                '}',
+                'Console.WriteLine(counts["csharp"]);'
+            ]
+        }),
+        solution: JSON.stringify([
+            'var counts = new Dictionary<string, int>();',
+            'string[] tags = { "csharp", "dotnet", "csharp" };',
+            'foreach (var tag in tags)',
+            '{',
+            '    if (!counts.TryAdd(tag, 1))',
+            '        counts[tag]++;',
+            '}',
+            'Console.WriteLine(counts["csharp"]);'
+        ]),
+        hints: 'Instantiate Dictionary, define tags array, loop to TryAdd or increment, print count.',
+        explanation: 'Dictionary.TryAdd safely adds new keys or returns false so existing values can be incremented.',
+        points: 150,
+        order: 2
+    },
+    {
+        id: 'csharp_cs_adv_1',
+        gameSlug: 'code-scramble',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Parallel Async Task Pipeline',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Order statements to spawn concurrent tasks and await combined results.',
+        content: JSON.stringify({
+            statements: [
+                'var taskA = Task.Run(() => 100 * 2);',
+                'var taskB = Task.Run(() => 50 * 4);',
+                'var results = await Task.WhenAll(taskA, taskB);',
+                'int combined = results[0] + results[1];',
+                'Console.WriteLine($"Result: {combined}");'
+            ]
+        }),
+        solution: JSON.stringify([
+            'var taskA = Task.Run(() => 100 * 2);',
+            'var taskB = Task.Run(() => 50 * 4);',
+            'var results = await Task.WhenAll(taskA, taskB);',
+            'int combined = results[0] + results[1];',
+            'Console.WriteLine($"Result: {combined}");'
+        ]),
+        hints: 'Start background tasks, await Task.WhenAll, sum outcomes, and log to console.',
+        explanation: 'Task.WhenAll coordinates parallel asynchronous operations and returns an array of completed results.',
+        points: 200,
+        order: 3
+    },
+
+    // --- Missing Code – C# ---
+    {
+        id: 'csharp_mc_beg_1',
+        gameSlug: 'missing-code',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Pattern Matching Switch Discard Pattern',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Fill in missing keywords, statements, methods, and expressions.',
+        content: JSON.stringify({
+            codeBefore: 'object val = 42;\nstring desc = val switch\n{\n    int n => $"Integer: {n}",\n    string s => $"String: {s}",\n    ',
+            blank: '_',
+            codeAfter: ' => "Unknown"\n};\nConsole.WriteLine(desc);',
+            options: ['_', 'default', '*', 'else']
+        }),
+        solution: '_',
+        hints: 'In C# switch expressions, what character is the discard pattern for all other values?',
+        explanation: 'C# switch expressions use the discard pattern `_` to match any unhandled input, equivalent to the default case in switch statements.',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_mc_int_1',
+        gameSlug: 'missing-code',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'C# Interface Implementation Syntax',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Complete the class declaration implementing an interface contract.',
+        content: JSON.stringify({
+            codeBefore: 'public interface ICalculator { int Add(int a, int b); }\n\npublic class SimpleCalculator ',
+            blank: ':',
+            codeAfter: ' ICalculator\n{\n    public int Add(int a, int b) => a + b;\n}',
+            options: [':', 'implements', 'extends', 'with']
+        }),
+        solution: ':',
+        hints: 'C# uses a colon syntax for both class inheritance and interface implementation.',
+        explanation: 'Unlike Java (implements) or TypeScript (implements), C# uses a single colon `:` symbol for both class derivation and interface contracts.',
+        points: 150,
+        order: 2
+    },
+    {
+        id: 'csharp_mc_adv_1',
+        gameSlug: 'missing-code',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Generic Type Parameter Constraint Clause',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Complete the generic factory method constraint clause.',
+        content: JSON.stringify({
+            codeBefore: 'public class Factory<T> ',
+            blank: 'where',
+            codeAfter: ' T : class, new()\n{\n    public T Create() => new T();\n}',
+            options: ['where', 'having', 'when', 'requires']
+        }),
+        solution: 'where',
+        hints: 'Which C# keyword introduces generic type constraints?',
+        explanation: 'The `where` keyword introduces generic type constraints, ensuring `T` is a reference type with a parameterless constructor (`class, new()`).',
+        points: 200,
+        order: 3
+    },
+
+    // --- C# Logic Builder ---
+    {
+        id: 'csharp_lb_beg_1',
+        gameSlug: 'logic-builder',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Bitwise Parity Calculation',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Solve programming logic challenges using C#.',
+        content: JSON.stringify({
+            prompt: 'In C#, given byte value = 0b00110101 (decimal 53), how many 1-bits are present, and is the count even or odd?',
+            options: ['4 bits (even)', '5 bits (odd)', '3 bits (odd)', '6 bits (even)']
+        }),
+        solution: '4 bits (even)',
+        hints: 'Count the number of 1s in 00110101.',
+        explanation: '0b00110101 has 1s at positions 0, 2, 4, 5 (four set bits). Since 4 % 2 == 0, the parity count is even.',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_lb_int_1',
+        gameSlug: 'logic-builder',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Two-Pointer Palindrome Validation',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Evaluate string symmetry using two-pointer traversal.',
+        content: JSON.stringify({
+            prompt: 'Given string s = "racecar", if left pointer starts at 0 and right at 6, how many character comparisons are performed before pointers meet?',
+            options: ['3 comparisons', '4 comparisons', '7 comparisons', '6 comparisons']
+        }),
+        solution: '3 comparisons',
+        hints: 'Compare indices: (0, 6), (1, 5), (2, 4). At index 3, both pointers meet.',
+        explanation: 'Three comparisons are made: (r, r), (a, a), (c, c). At index 3 (e), left == right and the loop terminates with true.',
+        points: 150,
+        order: 2
+    },
+    {
+        id: 'csharp_lb_adv_1',
+        gameSlug: 'logic-builder',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Sliding Window Maximum Sum',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Calculate max subarray sum with window size k = 3.',
+        content: JSON.stringify({
+            prompt: 'Given array int[] arr = { 2, 1, 5, 1, 3, 2 } and window size k = 3, what is the maximum window sum?',
+            options: ['9', '8', '7', '11']
+        }),
+        solution: '9',
+        hints: 'Windows: [2,1,5]=8, [1,5,1]=7, [5,1,3]=9, [1,3,2]=6.',
+        explanation: 'The subarray [5, 1, 3] produces the maximum sum: 5 + 1 + 3 = 9.',
+        points: 200,
+        order: 3
+    },
+
+    // --- C# OOP Challenge ---
+    {
+        id: 'csharp_oop_beg_1',
+        gameSlug: 'csharp-oop-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Encapsulation with Auto-Properties',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Practice classes, objects, inheritance, polymorphism, and encapsulation.',
+        content: JSON.stringify({
+            code: 'public class Student\n{\n    public string Name { get; set; }\n    public int Grade { get; private set; }\n    public Student(string name, int grade) { Name = name; Grade = grade; }\n}\nStudent s = new Student("Taylor", 95);\n// What happens if we run: s.Grade = 100;',
+            options: ['Compile-time error: The property cannot be used in this context because the set accessor is inaccessible', 'Grade updates successfully to 100', 'Runtime NullReferenceException', 'Throws SecurityException']
+        }),
+        solution: 'Compile-time error: The property cannot be used in this context because the set accessor is inaccessible',
+        hints: 'Look at the access modifier on the setter: private set.',
+        explanation: 'Declaring `private set` encapsulates the property so only code inside `Student` can mutate `Grade`. External assignments fail at compile-time.',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_oop_int_1',
+        gameSlug: 'csharp-oop-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Polymorphic Base Class Contract',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Evaluate polymorphic area computation across Shape hierarchy.',
+        content: JSON.stringify({
+            code: 'public abstract class Shape { public abstract double GetArea(); }\npublic class Circle : Shape {\n    public double Radius { get; set; } = 2;\n    public override double GetArea() => Math.PI * Radius * Radius;\n}\nShape s = new Circle();\nConsole.WriteLine((int)s.GetArea());',
+            options: ['12', '4', '0', 'Compilation Error: Cannot instantiate abstract class']
+        }),
+        solution: '12',
+        hints: 'Radius is 2, area is PI * 4 = ~12.566. Truncated to int is 12.',
+        explanation: '`Circle` correctly overrides `GetArea()`. Invoking through the `Shape` base reference triggers dynamic dispatch, yielding ~12.566, cast to 12.',
+        points: 150,
+        order: 2
+    },
+    {
+        id: 'csharp_oop_adv_1',
+        gameSlug: 'csharp-oop-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Dependency Injection Service Lifetimes',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Determine behavior difference between AddScoped and AddSingleton.',
+        content: JSON.stringify({
+            code: '// ASP.NET Core DI Registration:\nservices.AddScoped<IOrderService, OrderService>();\nservices.AddSingleton<ICacheService, CacheService>();\n// Across two concurrent HTTP requests, how many instances are created?',
+            options: ['2 OrderService instances, 1 CacheService instance', '1 OrderService instance, 1 CacheService instance', '2 OrderService instances, 2 CacheService instances', 'A new instance of each per injected class constructor']
+        }),
+        solution: '2 OrderService instances, 1 CacheService instance',
+        hints: 'Scoped creates one instance per client HTTP request; Singleton creates one instance application-wide.',
+        explanation: '`AddScoped` creates a unique instance per HTTP request scope (2 requests = 2 instances), while `AddSingleton` creates a single shared instance for the lifetime of the application.',
+        points: 200,
+        order: 3
+    },
+
+    // --- C# Collections Challenge ---
+    {
+        id: 'csharp_col_beg_1',
+        gameSlug: 'csharp-collections-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'List<T> Capacity Scaling',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Solve challenges using arrays, lists, dictionaries, and collections.',
+        content: JSON.stringify({
+            code: 'var list = new List<int>();\n// Initial list capacity is 0.\nlist.Add(1);\n// When the 5th element is added (exceeding initial default capacity of 4), what does list.Capacity become?',
+            options: ['8', '5', '10', '16']
+        }),
+        solution: '8',
+        hints: 'In C# .NET, List<T> doubles its internal backing array whenever capacity is exceeded.',
+        explanation: 'When adding the first element, `List<T>` allocates capacity 4. When the 5th element is added, the CLR doubles the capacity from 4 to 8 to maintain O(1) amortized addition.',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_col_int_1',
+        gameSlug: 'csharp-collections-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Dictionary Safe Lookup with TryGetValue',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Safe key retrieval avoiding KeyNotFoundException.',
+        content: JSON.stringify({
+            code: 'var scores = new Dictionary<string, int> { ["Alice"] = 90 };\nif (scores.TryGetValue("Bob", out int score))\n    Console.WriteLine(score);\nelse\n    Console.WriteLine(score); // What is default value of score?',
+            options: ['0', 'KeyNotFoundException', 'null', 'Compilation Error']
+        }),
+        solution: '0',
+        hints: 'When TryGetValue fails, the out parameter receives the default value of the value type (int).',
+        explanation: 'When `TryGetValue` returns false, the `out` parameter is assigned the default value of its type (`0` for `int`, `null` for reference types), avoiding exceptions.',
+        points: 150,
+        order: 2
+    },
+    {
+        id: 'csharp_col_adv_1',
+        gameSlug: 'csharp-collections-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'ConcurrentDictionary Atomic AddOrUpdate',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Thread-safe lock-free mutations in multithreaded systems.',
+        content: JSON.stringify({
+            code: 'var counts = new ConcurrentDictionary<string, int>();\ncounts.AddOrUpdate("visits", 1, (key, current) => current + 1);\ncounts.AddOrUpdate("visits", 1, (key, current) => current + 1);\nConsole.WriteLine(counts["visits"]);',
+            options: ['2', '1', 'ConcurrencyException', '0']
+        }),
+        solution: '2',
+        hints: 'First call inserts 1. Second call executes the update factory delegate (1 + 1).',
+        explanation: '`AddOrUpdate` atomically adds value 1 if the key does not exist, or executes the update delegate `(key, current) => current + 1` if it exists. Result is 2.',
+        points: 200,
+        order: 3
+    },
+
+    // --- C# LINQ Challenge ---
+    {
+        id: 'csharp_linq_beg_1',
+        gameSlug: 'csharp-linq-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'LINQ Where Filter & Select Projection',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Practice Where, Select, OrderBy, GroupBy, and other LINQ operations.',
+        content: JSON.stringify({
+            code: 'var names = new[] { "Ana", "Charlie", "Bob", "Danielle" };\nvar result = names.Where(n => n.Length > 3).Select(n => n.ToUpper());\nConsole.WriteLine(string.Join(", ", result));',
+            options: ['CHARLIE, DANIELLE', 'Ana, Bob', 'CHARLIE, BOB, DANIELLE', 'Ana, Charlie, Danielle']
+        }),
+        solution: 'CHARLIE, DANIELLE',
+        hints: 'Filter for names with strictly more than 3 letters and project to uppercase.',
+        explanation: '"Charlie" (7) and "Danielle" (8) have length > 3. `Select` projects them to "CHARLIE" and "DANIELLE".',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_linq_int_1',
+        gameSlug: 'csharp-linq-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'LINQ GroupBy Aggregation',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Group items by category and compute group counts.',
+        content: JSON.stringify({
+            code: 'var items = new[] {\n    new { Cat = "Tech", Price = 100 },\n    new { Cat = "Book", Price = 20 },\n    new { Cat = "Tech", Price = 200 }\n};\nvar techCount = items.GroupBy(x => x.Cat).First(g => g.Key == "Tech").Count();\nConsole.WriteLine(techCount);',
+            options: ['2', '1', '3', '300']
+        }),
+        solution: '2',
+        hints: 'How many items have Cat == "Tech"?',
+        explanation: '`GroupBy(x => x.Cat)` partitions elements into "Tech" and "Book". The "Tech" group contains 2 elements.',
+        points: 150,
+        order: 2
+    },
+    {
+        id: 'csharp_linq_adv_1',
+        gameSlug: 'csharp-linq-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Flattening Collections with SelectMany',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Flatten multidimensional sequences into single IEnumerable.',
+        content: JSON.stringify({
+            code: 'var teams = new List<List<string>> {\n    new() { "Alice", "Bob" },\n    new() { "Charlie" },\n    new() { "Dave", "Eve" }\n};\nvar allMembers = teams.SelectMany(t => t);\nConsole.WriteLine(allMembers.Count());',
+            options: ['5', '3', '1', 'Compilation Error']
+        }),
+        solution: '5',
+        hints: 'SelectMany flattens nested lists into a single continuous sequence.',
+        explanation: '`SelectMany` projects each inner list into the stream and flattens all elements: 2 + 1 + 2 = 5 total members.',
+        points: 200,
+        order: 3
+    },
+
+    // --- C# Exception Handling ---
+    {
+        id: 'csharp_ex_beg_1',
+        gameSlug: 'csharp-exception-handling',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Try-Catch-Finally Execution Guarantee',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Identify and implement try, catch, finally, and custom exceptions.',
+        content: JSON.stringify({
+            code: 'int Compute()\n{\n    try {\n        return 10;\n    }\n    finally {\n        Console.Write("Cleanup ");\n    }\n}\nint result = Compute();\nConsole.Write(result);',
+            options: ['Cleanup 10', '10 Cleanup', '10', 'Cleanup']
+        }),
+        solution: 'Cleanup 10',
+        hints: 'Finally blocks execute before the calling code receives the returned value.',
+        explanation: 'In C#, `finally` is guaranteed to execute whenever control leaves a `try` block, printing "Cleanup " before the caller receives `10`.',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_ex_int_1',
+        gameSlug: 'csharp-exception-handling',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Exception Filters with When Clause',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Conditional exception catch blocks without stack unwinding.',
+        content: JSON.stringify({
+            code: 'try {\n    throw new HttpRequestException("Not Found", null, System.Net.HttpStatusCode.NotFound);\n}\ncatch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound) {\n    Console.WriteLine("Handled 404");\n}\ncatch (HttpRequestException) {\n    Console.WriteLine("Generic HTTP Error");\n}',
+            options: ['Handled 404', 'Generic HTTP Error', 'Unhandled Exception', 'Compilation Error']
+        }),
+        solution: 'Handled 404',
+        hints: 'The when clause filters matching exceptions based on the boolean condition.',
+        explanation: 'C# exception filters `catch (...) when (condition)` inspect exception state before unwinding the stack. The 404 condition matches and handles the error.',
+        points: 150,
+        order: 2
+    },
+    {
+        id: 'csharp_ex_adv_1',
+        gameSlug: 'csharp-exception-handling',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Rethrowing Exceptions: throw vs throw ex',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Preserving original stack trace versus stack reset.',
+        content: JSON.stringify({
+            code: 'try {\n    DoWork();\n}\ncatch (Exception ex) {\n    // Which statement preserves the original call stack trace?\n    // Option A: throw;\n    // Option B: throw ex;\n}',
+            options: ['throw; preserves the original call stack', 'throw ex; preserves the original call stack', 'Both statements preserve the exact same stack trace', 'Neither; exceptions must be wrapped in new Exception(ex)']
+        }),
+        solution: 'throw; preserves the original call stack',
+        hints: 'throw ex resets the stack trace to the catch block, while bare throw preserves original origin point.',
+        explanation: '`throw;` re-throws the existing exception and maintains the full original call stack trace. `throw ex;` resets the stack trace origin to the current catch line.',
+        points: 200,
+        order: 3
     }
 ];
 
