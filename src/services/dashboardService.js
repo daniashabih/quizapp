@@ -30,10 +30,12 @@ export const dashboardService = {
      * Get Global Leaderboard derived from MongoDB
      * GET /api/dashboard/leaderboard
      */
-    getLeaderboard: async ({ timeframe = 'all-time', category = 'All' } = {}) => {
+    getLeaderboard: async ({ timeframe = 'all-time', category = 'All', limit, page } = {}) => {
         const params = new URLSearchParams();
         if (timeframe) params.append('timeframe', timeframe);
         if (category) params.append('category', category);
+        if (limit !== undefined && limit !== null) params.append('limit', limit);
+        if (page !== undefined && page !== null) params.append('page', page);
         const response = await api.get(`/dashboard/leaderboard?${params.toString()}`);
         return response.data;
     },

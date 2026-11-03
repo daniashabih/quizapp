@@ -40,7 +40,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     if (success && mounted) {
       final auth = ref.read(authProvider);
-      if (auth.isAdmin) {
+      final redirect = GoRouterState.of(context).uri.queryParameters['redirect'];
+      if (redirect != null && redirect.isNotEmpty) {
+        context.go(redirect);
+      } else if (auth.isAdmin) {
         context.go('/admin');
       } else {
         context.go('/home');
@@ -247,6 +250,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                         ),
                       ],
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Logged-out visitor Top 5 Leaderboard Entry
+                    Center(
+                      child: TextButton.icon(
+                        icon: const Icon(
+                          Icons.emoji_events_outlined,
+                          size: 16,
+                          color: Color(0xFFD97706),
+                        ),
+                        label: Text(
+                          'View Top 5 Leaderboard',
+                          style: AppTextStyles.bodySmall.copyWith(
+                            color: context.brandAccentColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        onPressed: () => context.push('/leaderboard'),
+                      ),
                     ),
                   ],
                 ),

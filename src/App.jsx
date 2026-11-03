@@ -86,7 +86,8 @@ function AppRoutes() {
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
                 <Route path="/certificate/view" element={<CertificateView />} />
-                <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route path="/leaderboard" element={<Leaderboard mode="top5" />} />
+                <Route path="/leaderboard/full" element={<Leaderboard mode="full" />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms" element={<TermsOfService />} />
@@ -121,7 +122,8 @@ function AppRoutes() {
                     <Route path="quizzes" element={<Technologies />} />
                     <Route path="certificates" element={<Certificates />} />
                     <Route path="games" element={<Navigate to="/games" replace />} />
-                    <Route path="leaderboard" element={<Leaderboard />} />
+                    <Route path="leaderboard" element={<Leaderboard mode="top5" />} />
+                    <Route path="leaderboard/full" element={<Leaderboard mode="full" />} />
                     <Route path="profile" element={<Profile />} />
                     <Route path="settings" element={<Settings />} />
                     <Route path="seo" element={<ProtectedRoute adminOnly><SeoDashboard /></ProtectedRoute>} />

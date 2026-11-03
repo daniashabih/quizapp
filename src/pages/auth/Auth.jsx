@@ -67,7 +67,18 @@ export default function Auth({ initialMode = 'login' }) {
     const { login, signup, loginWithGoogle } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || '/dashboard';
+    const queryParams = new URLSearchParams(location.search);
+    const redirectParam = queryParams.get('redirect') || queryParams.get('from');
+    const from = (typeof location.state?.from === 'string' ? location.state.from : location.state?.from?.pathname) ||
+                 redirectParam ||
+                 '/dashboard';
+
+    const getTargetDestination = (user) => {
+        if (from && from !== '/dashboard' && from !== '/dashboard/') {
+            return from;
+        }
+        return user?.role === 'admin' ? '/dashboard/admin' : '/dashboard';
+    };
 
     // Real-time password requirement validations
     const passwordChecks = useMemo(() => {
@@ -120,7 +131,7 @@ export default function Auth({ initialMode = 'login' }) {
                                         } else {
                                             trackLogin('google');
                                         }
-                                        navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                                        navigate(getTargetDestination(user), { replace: true });
                                     }
                                 } catch (err) {
                                     setErrorMessage(err.message || 'Google Sign-In failed');
@@ -162,7 +173,7 @@ export default function Auth({ initialMode = 'login' }) {
                                         } else {
                                             trackLogin('google_onetap');
                                         }
-                                        navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                                        navigate(getTargetDestination(user), { replace: true });
                                     }
                                 } catch (err) {
                                     setErrorMessage(err.message || 'Google Sign-In failed');
@@ -205,7 +216,7 @@ export default function Auth({ initialMode = 'login' }) {
                     } else {
                         trackLogin('google_demo');
                     }
-                    navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                    navigate(getTargetDestination(user), { replace: true });
                 }
             } catch (err) {
                 setErrorMessage(err.message || 'Google Sign-In failed');
@@ -256,7 +267,7 @@ export default function Auth({ initialMode = 'login' }) {
                                 } else {
                                     trackLogin('google');
                                 }
-                                navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                                navigate(getTargetDestination(user), { replace: true });
                             }
                         } catch (err) {
                             setErrorMessage(err.message || 'Google Sign-In failed');
@@ -313,13 +324,13 @@ export default function Auth({ initialMode = 'login' }) {
                 const user = await signup(name, email, password);
                 if (user) {
                     trackSignUp('email');
-                    navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                    navigate(getTargetDestination(user), { replace: true });
                 }
             } else {
                 const user = await login(email, password);
                 if (user) {
                     trackLogin('email');
-                    navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                    navigate(getTargetDestination(user), { replace: true });
                 }
             }
         } catch (err) {

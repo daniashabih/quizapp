@@ -24,6 +24,8 @@ import '../screens/games/game_player_screen.dart';
 import '../screens/admin/admin_games_screen.dart';
 import '../screens/home/home_screen.dart';
 import '../screens/home/main_shell_screen.dart';
+import '../screens/leaderboard/leaderboard_screen.dart';
+import '../screens/leaderboard/leaderboard_full_screen.dart';
 import '../screens/legal/privacy_policy_screen.dart';
 import '../screens/legal/terms_screen.dart';
 import '../screens/maintenance/maintenance_screen.dart';
@@ -97,15 +99,23 @@ final routerProvider = Provider<GoRouter>((ref) {
           currentLoc == '/forgot-password' ||
           currentLoc.startsWith('/reset-password') ||
           currentLoc == '/maintenance' ||
-          currentLoc.startsWith('/legal');
+          currentLoc.startsWith('/legal') ||
+          currentLoc == '/leaderboard';
 
       // Unauthenticated user trying to access protected screen
       if (!isAuth && !isPublicRoute) {
+        if (currentLoc == '/leaderboard/full') {
+          return '/login?redirect=/leaderboard/full';
+        }
         return '/login';
       }
 
       // Authenticated user on auth entry screen
       if (isAuth && (currentLoc == '/login' || currentLoc == '/register')) {
+        final redirect = state.uri.queryParameters['redirect'];
+        if (redirect != null && redirect.isNotEmpty) {
+          return redirect;
+        }
         return isAdmin ? '/admin' : '/home';
       }
 
@@ -117,6 +127,17 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      // Leaderboard
+      GoRoute(
+        path: '/leaderboard',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const LeaderboardScreen(),
+      ),
+      GoRoute(
+        path: '/leaderboard/full',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const LeaderboardFullScreen(),
+      ),
       // Game Player Fullscreen
       GoRoute(
         path: '/games/:slug',

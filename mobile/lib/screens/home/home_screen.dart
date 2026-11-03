@@ -397,7 +397,11 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: 24),
                   ],
 
-                  // 5. Recent Attempts
+                  // 5. Leaderboard (Top 5)
+                  _buildLeaderboardSection(context, ref, isDark),
+                  const SizedBox(height: 24),
+
+                  // 6. Recent Attempts
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -531,6 +535,263 @@ class HomeScreen extends ConsumerWidget {
           const BannerAdWidget(),
         ],
       ),
+    );
+  }
+
+    Widget _buildLeaderboardSection(BuildContext context, WidgetRef ref, bool isDark) {
+    final top5Async = ref.watch(top5LeaderboardProvider);
+    final auth = ref.watch(authProvider);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.emoji_events_rounded,
+                  size: 20,
+                  color: Color(0xFFD97706),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Leaderboard',
+                  style: AppTextStyles.displaySmall.copyWith(fontSize: 16),
+                ),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: const Color(0xFFD97706).withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFFD97706).withValues(alpha: 0.4)),
+              ),
+              child: const Text(
+                'Top 5 Standings',
+                style: TextStyle(
+                  color: Color(0xFFD97706),
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        top5Async.when(
+          loading: () => Container(
+            height: 100,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: context.cardBgColor,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: context.borderColor),
+            ),
+            child: const CircularProgressIndicator(strokeWidth: 2),
+          ),
+          error: (err, _) => Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: context.cardBgColor,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: context.borderColor),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.error_outline_rounded, color: Colors.red, size: 20),
+                const SizedBox(width: 8),
+                const Expanded(
+                  child: Text(
+                    'Could not load leaderboard.',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => ref.refresh(top5LeaderboardProvider),
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          ),
+          data: (users) {
+            if (users.isEmpty) {
+              return Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: context.cardBgColor,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: context.borderColor),
+                ),
+                child: const Center(
+                  child: Text(
+                    'No quiz completions yet. Take a quiz to rank #1!',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+              );
+            }
+
+            return Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: context.cardBgColor,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: context.borderColor),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  ...users.take(5).map((entry) {
+                    final rank = entry.rank;
+                    final isGold = rank == 1;
+                    final isSilver = rank == 2;
+                    final isBronze = rank == 3;
+
+                    Color rankColor = isGold
+                        ? const Color(0xFFF59E0B)
+                        : isSilver
+                            ? const Color(0xFF94A3B8)
+                            : isBronze
+                                ? const Color(0xFFB45309)
+                                : context.textSecondaryColor;
+
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: (isGold || isSilver || isBronze)
+                            ? rankColor.withValues(alpha: isDark ? 0.12 : 0.08)
+                            : context.mutedBgColor,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: (isGold || isSilver || isBronze)
+                              ? rankColor.withValues(alpha: 0.4)
+                              : Colors.transparent,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 28,
+                            height: 28,
+                            decoration: BoxDecoration(
+                              color: rankColor.withValues(alpha: 0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: isGold
+                                  ? const Icon(Icons.emoji_events_rounded, size: 16, color: Color(0xFFF59E0B))
+                                  : isSilver
+                                      ? const Icon(Icons.military_tech_rounded, size: 16, color: Color(0xFF94A3B8))
+                                      : isBronze
+                                          ? const Icon(Icons.stars_rounded, size: 16, color: Color(0xFFB45309))
+                                          : Text(
+                                              '#$rank',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.bold,
+                                                color: rankColor,
+                                              ),
+                                            ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          CircleAvatar(
+                            radius: 14,
+                            backgroundColor: context.mutedBgColor,
+                            backgroundImage: entry.avatar.isNotEmpty && entry.avatar.startsWith('http')
+                                ? NetworkImage(entry.avatar)
+                                : null,
+                            child: entry.avatar.isEmpty || !entry.avatar.startsWith('http')
+                                ? Text(
+                                    entry.initials,
+                                    style: TextStyle(
+                                      color: context.brandAccentColor,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  entry.name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  entry.category,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: context.textSecondaryColor,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Text(
+                            '${entry.xp} XP',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: isDark ? const Color(0xFF6EE7B7) : AppColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                  const SizedBox(height: 6),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.arrow_forward_rounded, size: 16),
+                      label: const Text(
+                        'See More Standings',
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isDark ? AppColors.primaryLight : AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: () {
+                        if (auth.isAuthenticated) {
+                          context.push('/leaderboard/full');
+                        } else {
+                          context.push('/login?redirect=/leaderboard/full');
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 

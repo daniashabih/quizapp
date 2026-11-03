@@ -1,22 +1,47 @@
-import React, { useState, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import LeaderboardComponent from '../../components/Leaderboard';
-import { Trophy, Award, Flame, CheckCircle2 } from 'lucide-react';
+import { Trophy, Award, Flame, CheckCircle2, ChevronLeft, Lock } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
 import usePageSeo from '../../hooks/usePageSeo';
 
-const LeaderboardPage = () => {
+const LeaderboardPage = ({ mode: propMode }) => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { isDark } = useTheme();
+    const { user, isAuthenticated, loading: authLoading } = useAuth();
+
+    const isDashboard = location.pathname.startsWith('/dashboard');
+    const isFullMode =
+        propMode === 'full' ||
+        location.pathname.endsWith('/full') ||
+        location.search.includes('view=full');
+
     usePageSeo({
-        title: 'Global Developer Leaderboard & Rankings — HangBug',
-        description: 'See top ranked software engineers and learners worldwide. Track XP, accuracy, quiz streaks, and verified certificates on HangBug.',
-        canonicalPath: '/leaderboard'
+        title: isFullMode
+            ? 'Complete Global Developer Leaderboard & Directory — HangBug'
+            : 'Global Developer Leaderboard & Top Rankings — HangBug',
+        description: isFullMode
+            ? 'Explore the complete directory of ranked software engineers and learners worldwide on HangBug.'
+            : 'See top ranked software engineers and learners worldwide. Track XP, accuracy, quiz streaks, and verified certificates on HangBug.',
+        canonicalPath: isFullMode ? '/leaderboard/full' : '/leaderboard'
     });
 
-    const location = useLocation();
-    const { isDark } = useTheme();
-    const isDashboard = location.pathname.startsWith('/dashboard');
+    // Requirement 3: Full Leaderboard requires authentication.
+    // If a logged-out visitor attempts to access /leaderboard/full directly,
+    // redirect them to /login with the intended destination preserved.
+    useEffect(() => {
+        if (isFullMode && !authLoading && !isAuthenticated) {
+            const currentPath = location.pathname + location.search;
+            navigate(`/login?redirect=${encodeURIComponent(currentPath)}`, {
+                replace: true,
+                state: { from: currentPath }
+            });
+        }
+    }, [isFullMode, authLoading, isAuthenticated, location, navigate]);
 
     const [stats, setStats] = useState({
         totalRanked: 0,
@@ -38,7 +63,7 @@ const LeaderboardPage = () => {
         });
 
         setStats({
-            totalRanked: activeUsers.length,
+            totalRanked: data.totalRanked ?? activeUsers.length,
             verifiedCerts: certs,
             maxStreak: `${maxStrk}d`,
             totalQuizzes: quizzes,
@@ -73,6 +98,34 @@ const LeaderboardPage = () => {
         },
     ];
 
+    // If redirected to login while loading auth in full mode, show sleek placeholder
+    if (isFullMode && authLoading) {
+        return (
+            <div className={`min-h-screen flex items-center justify-center ${isDark ? 'bg-[#0D1117] text-white' : 'bg-[#FAF8F5] text-slate-800'}`}>
+                <div className="flex flex-col items-center gap-3">
+                    <div className="w-8 h-8 border-3 border-[#285A4D] border-t-transparent rounded-full animate-spin" />
+                    <p className="text-sm font-medium">Verifying access...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (isFullMode && !isAuthenticated) {
+        return (
+            <div className={`min-h-screen flex items-center justify-center p-6 ${isDark ? 'bg-[#0D1117] text-white' : 'bg-[#FAF8F5] text-slate-800'}`}>
+                <div className="max-w-md w-full text-center space-y-4">
+                    <div className="w-12 h-12 rounded-full bg-emerald-500/15 text-emerald-500 flex items-center justify-center mx-auto">
+                        <Lock className="w-6 h-6" />
+                    </div>
+                    <h2 className="text-xl font-bold">Sign In Required</h2>
+                    <p className="text-sm text-[var(--foreground-secondary)]">
+                        Redirecting you to sign in to access the complete developer leaderboard...
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     const content = (
         <div className={isDashboard ? 'w-full pb-12' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-20'}>
             {/* Page Header Banner */}
@@ -85,10 +138,24 @@ const LeaderboardPage = () => {
                 }`}
             >
                 <div className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
-                    {/* Pill Badge with horizontally & vertically aligned Trophy icon and heading label */}
-                    <div className="badge badge-emerald mb-4 inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full shadow-xs">
-                        <Trophy className="w-4 h-4 shrink-0" aria-hidden="true" />
-                        <span className="font-semibold tracking-wide">Global Rankings</span>
+                    {/* Mode switcher / Pill badge */}
+                    <div className="flex items-center gap-2 mb-4">
+                        <div className="badge badge-emerald inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full shadow-xs">
+                            <Trophy className="w-4 h-4 shrink-0" aria-hidden="true" />
+                            <span className="font-semibold tracking-wide">
+                                {isFullMode ? 'Global Directory' : 'Top 5 Highlights'}
+                            </span>
+                        </div>
+                        {isFullMode && (
+                            <button
+                                type="button"
+                                onClick={() => navigate(isDashboard ? '/dashboard/leaderboard' : '/leaderboard')}
+                                className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground-secondary)] hover:text-[var(--foreground)] transition-all cursor-pointer"
+                            >
+                                <ChevronLeft className="w-3.5 h-3.5" />
+                                <span>Back to Top 5</span>
+                            </button>
+                        )}
                     </div>
 
                     <h1
@@ -96,7 +163,7 @@ const LeaderboardPage = () => {
                             isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
                         }`}
                     >
-                        Top Performers
+                        {isFullMode ? 'All Ranked Performers' : 'Top 5 Performers'}
                     </h1>
 
                     <p
@@ -104,7 +171,9 @@ const LeaderboardPage = () => {
                             isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'
                         }`}
                     >
-                        Discover how developers rank across technical assessments. Scores and XP are calculated directly from completed quizzes and verified accuracy.
+                        {isFullMode
+                            ? 'Discover how developers rank across technical assessments worldwide. XP and points are calculated dynamically from completed quizzes and verified accuracy.'
+                            : 'Featuring the top 5 developers globally. Top 3 are honored with Gold, Silver, and Bronze badges based on verified quiz points and accuracy.'}
                     </p>
                 </div>
             </section>
@@ -150,8 +219,11 @@ const LeaderboardPage = () => {
                 })}
             </section>
 
-            {/* Main Leaderboard Component */}
-            <LeaderboardComponent onDataLoaded={handleStatsLoad} />
+            {/* Main Leaderboard Component with Top 5 / Full Mode toggle */}
+            <LeaderboardComponent
+                mode={isFullMode ? 'full' : 'top5'}
+                onDataLoaded={handleStatsLoad}
+            />
         </div>
     );
 

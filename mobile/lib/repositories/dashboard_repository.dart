@@ -14,10 +14,14 @@ class DashboardRepository {
   Future<List<LeaderboardEntryModel>> getLeaderboard({
     String timeframe = 'all-time',
     String category = 'All',
+    int? limit,
+    int? page,
   }) async {
     return await dashboardService.getLeaderboard(
       timeframe: timeframe,
       category: category,
+      limit: limit,
+      page: page,
     );
   }
 

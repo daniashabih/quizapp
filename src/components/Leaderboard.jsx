@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
     Trophy,
     Medal,
@@ -7,6 +7,10 @@ import {
     Flame,
     Search,
     ChevronDown,
+    ChevronLeft,
+    ChevronRight,
+    ChevronsLeft,
+    ChevronsRight,
     Filter,
     Star,
     Zap,
@@ -16,6 +20,8 @@ import {
     CheckCircle2,
     UserCheck,
     X,
+    ArrowRight,
+    Sparkles,
 } from 'lucide-react';
 import { dashboardService } from '../services/dashboardService';
 import { useAuth } from '../context/AuthContext';
@@ -44,9 +50,22 @@ const DEFAULT_CATEGORIES = [
     'Python',
 ];
 
-const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
-    const { currentUser } = useAuth();
+const PAGE_SIZE = 10;
+
+const Leaderboard = ({
+    mode = 'top5', // 'top5' | 'full'
+    isEmbedded = false,
+    onDataLoaded,
+}) => {
+    const { user, isAuthenticated } = useAuth();
+    const currentUser = user;
     const { isDark } = useTheme();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const isDashboard = location.pathname.startsWith('/dashboard');
+    const isFullMode = mode === 'full' || location.pathname.endsWith('/full') || location.search.includes('view=full');
+    const isTop5 = !isFullMode;
 
     const [timeframe, setTimeframe] = useState('all-time');
     const [category, setCategory] = useState('All');
@@ -55,6 +74,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
     const [discoveredCategories, setDiscoveredCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const loadData = useCallback(async () => {
         setLoading(true);
@@ -64,8 +84,8 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
             if (!data || !Array.isArray(data.leaderboard)) {
                 throw new Error('Unexpected response format from leaderboard API.');
             }
-            // Filter to users who have genuinely completed at least 1 quiz
-            // and re-index ranks deterministically so rankings are contiguous (1..N)
+            // Filter to users who have completed at least 1 quiz
+            // Deterministically sort and index ranks 1..N
             const activeRankings = data.leaderboard
                 .filter((u) => Number(u.quizzes || 0) > 0)
                 .map((u, idx) => {
@@ -110,6 +130,11 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
         loadData();
     }, [loadData]);
 
+    // Reset page to 1 when filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, category, timeframe]);
+
     const isCurrentUserEntry = useCallback(
         (entry) => {
             if (!currentUser || !entry) return false;
@@ -152,48 +177,79 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
     const top3 = useMemo(() => filteredData.slice(0, 3), [filteredData]);
     const showPodium = !isEmbedded && !searchQuery.trim() && top3.length >= 3;
 
+    // In Top 5 mode, display only up to 5 users. In Full mode, apply pagination.
+    const totalRanked = filteredData.length;
+    const totalPages = Math.max(1, Math.ceil(totalRanked / PAGE_SIZE));
+    const safeCurrentPage = Math.min(currentPage, totalPages);
+
+    const displayData = useMemo(() => {
+        if (isTop5) {
+            return filteredData.slice(0, 5);
+        }
+        const startIndex = (safeCurrentPage - 1) * PAGE_SIZE;
+        return filteredData.slice(startIndex, startIndex + PAGE_SIZE);
+    }, [filteredData, isTop5, safeCurrentPage]);
+
+    // Navigation handlers
+    const handleSeeMore = () => {
+        const fullPath = isDashboard ? '/dashboard/leaderboard/full' : '/leaderboard/full';
+        if (!isAuthenticated) {
+            navigate(`/login?redirect=${encodeURIComponent(fullPath)}`, {
+                state: { from: fullPath },
+            });
+        } else {
+            navigate(fullPath);
+        }
+    };
+
+    const handleShowLess = () => {
+        const top5Path = isDashboard ? '/dashboard/leaderboard' : '/leaderboard';
+        navigate(top5Path);
+    };
+
+    // Rank Badge with Gold, Silver, Bronze visual highlights
     const getRankBadge = (rank) => {
         if (rank === 1) {
             return (
                 <div
-                    title="Rank #1"
-                    className="w-8 h-8 rounded-full bg-amber-400/20 text-amber-500 flex items-center justify-center font-bold border border-amber-400/40 shadow-xs shrink-0"
+                    title="Rank #1 — Gold Champion"
+                    className="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-500/30 via-amber-400/25 to-yellow-300/30 text-amber-500 flex items-center justify-center font-extrabold border-2 border-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.35)] shrink-0"
                 >
-                    <Trophy className="w-4 h-4 fill-amber-400 text-amber-600" aria-hidden="true" />
+                    <Trophy className="w-4 h-4 fill-amber-400 text-amber-600 drop-shadow-xs" aria-hidden="true" />
                 </div>
             );
         }
         if (rank === 2) {
             return (
                 <div
-                    title="Rank #2"
-                    className={`w-8 h-8 rounded-full flex items-center justify-center font-bold border shadow-xs shrink-0 ${
+                    title="Rank #2 — Silver Runner-Up"
+                    className={`w-9 h-9 rounded-full flex items-center justify-center font-extrabold border-2 shadow-[0_0_10px_rgba(148,163,184,0.25)] shrink-0 ${
                         isDark
-                            ? 'bg-slate-400/20 text-slate-300 border-slate-400/40'
-                            : 'bg-slate-200 text-slate-700 border-slate-300'
+                            ? 'bg-gradient-to-tr from-slate-400/25 to-slate-200/20 text-slate-200 border-slate-300/60'
+                            : 'bg-gradient-to-tr from-slate-200 to-slate-100 text-slate-700 border-slate-400'
                     }`}
                 >
-                    <Medal className="w-4 h-4" aria-hidden="true" />
+                    <Medal className="w-4 h-4 text-slate-400 dark:text-slate-200" aria-hidden="true" />
                 </div>
             );
         }
         if (rank === 3) {
             return (
                 <div
-                    title="Rank #3"
-                    className={`w-8 h-8 rounded-full flex items-center justify-center font-bold border shadow-xs shrink-0 ${
+                    title="Rank #3 — Bronze Third Place"
+                    className={`w-9 h-9 rounded-full flex items-center justify-center font-extrabold border-2 shadow-[0_0_10px_rgba(180,83,9,0.25)] shrink-0 ${
                         isDark
-                            ? 'bg-amber-700/25 text-amber-400 border-amber-600/40'
-                            : 'bg-amber-100 text-amber-800 border-amber-300'
+                            ? 'bg-gradient-to-tr from-amber-700/30 to-amber-600/20 text-amber-400 border-amber-600/60'
+                            : 'bg-gradient-to-tr from-amber-100 to-amber-50 text-amber-800 border-amber-600/50'
                     }`}
                 >
-                    <Award className="w-4 h-4" aria-hidden="true" />
+                    <Award className="w-4 h-4 text-amber-600 dark:text-amber-400" aria-hidden="true" />
                 </div>
             );
         }
         return (
             <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs font-mono border shrink-0 ${
+                className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs font-mono border shrink-0 ${
                     isDark
                         ? 'bg-[#21262D] text-[#8B949E] border-[#30363D]'
                         : 'bg-[#F3EFEA] text-[#5C6460] border-[#E6E0D6]'
@@ -204,13 +260,13 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
         );
     };
 
-    const getAvatarContent = (user) => {
-        const avatarStr = String(user.avatar || '').trim();
+    const getAvatarContent = (userEntry) => {
+        const avatarStr = String(userEntry.avatar || '').trim();
         if (avatarStr.startsWith('http://') || avatarStr.startsWith('https://') || avatarStr.startsWith('data:image')) {
             return (
                 <img
                     src={avatarStr}
-                    alt={user.name || 'User'}
+                    alt={userEntry.name || 'User'}
                     className="w-full h-full object-cover rounded-full"
                 />
             );
@@ -218,7 +274,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
         const initials =
             avatarStr.length > 0 && avatarStr.length <= 3
                 ? avatarStr.toUpperCase()
-                : String(user.name || 'U')
+                : String(userEntry.name || 'U')
                       .split(' ')
                       .filter(Boolean)
                       .map((n) => n[0])
@@ -230,6 +286,28 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
 
     return (
         <div className="w-full space-y-6">
+            {/* Top Navigation Bar in Full Mode */}
+            {!isTop5 && (
+                <div className="flex items-center justify-between gap-4 p-4 rounded-2xl border transition-colors bg-[var(--card-bg)] border-[var(--card-border)] shadow-xs">
+                    <div className="flex items-center gap-3">
+                        <button
+                            type="button"
+                            onClick={handleShowLess}
+                            className="btn-secondary inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98]"
+                        >
+                            <ChevronLeft className="w-4 h-4" />
+                            <span>Show Less (Top 5)</span>
+                        </button>
+                        <div className="hidden sm:block text-xs text-[var(--foreground-secondary)]">
+                            Showing full leaderboard directory ({totalRanked} total learners)
+                        </div>
+                    </div>
+                    <span className="badge badge-emerald text-xs font-bold px-3 py-1">
+                        Full Standings
+                    </span>
+                </div>
+            )}
+
             {/* Controls Bar: Timeframe, Category, Search */}
             {!isEmbedded && (
                 <div
@@ -258,9 +336,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                     onClick={() => setTimeframe(tf.id)}
                                     className={`flex-1 lg:flex-initial px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                                         active
-                                            ? isDark
-                                                ? 'bg-[#285A4D] text-white shadow-xs'
-                                                : 'bg-[#285A4D] text-white shadow-xs'
+                                            ? 'bg-[#285A4D] text-white shadow-xs'
                                             : isDark
                                               ? 'text-[#8B949E] hover:text-[#F0F6FC]'
                                               : 'text-[#5C6460] hover:text-[#1A1D1C]'
@@ -424,7 +500,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                         }`}
                     >
                         <div className="p-4 sm:p-6 space-y-4">
-                            {[1, 2, 3, 4, 5, 6].map((row) => (
+                            {[1, 2, 3, 4, 5].map((row) => (
                                 <div key={row} className="flex items-center justify-between gap-4">
                                     <div className="flex items-center gap-3.5 flex-1">
                                         <div className="w-8 h-8 rounded-full skeleton shrink-0" />
@@ -519,81 +595,103 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
             {/* Main Content: Podium + Rankings Table & Mobile Cards */}
             {!loading && !error && filteredData.length > 0 && (
                 <>
-                    {/* Top 3 Podium Cards */}
+                    {/* Top 3 Podium Cards with Gold, Silver, Bronze Highlights */}
                     {showPodium && (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 items-stretch pt-2">
                             {[
                                 { user: top3[0], place: 1, orderClass: 'order-1 md:order-2' },
                                 { user: top3[1], place: 2, orderClass: 'order-2 md:order-1' },
                                 { user: top3[2], place: 3, orderClass: 'order-3 md:order-3' },
-                            ].map(({ user, place, orderClass }) => {
+                            ].map(({ user: topUser, place, orderClass }) => {
                                 const isFirst = place === 1;
-                                const isMe = isCurrentUserEntry(user);
-                                const badgeColors =
-                                    place === 1
-                                        ? 'bg-amber-400 text-amber-950 border-amber-300'
-                                        : place === 2
-                                          ? 'bg-slate-300 text-slate-900 border-slate-200'
-                                          : 'bg-amber-700 text-amber-50 border-amber-600';
+                                const isSecond = place === 2;
+                                const isThird = place === 3;
+                                const isMe = isCurrentUserEntry(topUser);
+
+                                // Card highlights
+                                const cardBorderHighlight = isFirst
+                                    ? isDark
+                                        ? 'bg-gradient-to-b from-[#252015] via-[#1A1813] to-[#161B22] border-amber-400/80 shadow-[0_0_30px_rgba(245,158,11,0.22)]'
+                                        : 'bg-gradient-to-b from-[#FFFDF2] via-[#FFF9E6] to-white border-amber-400 shadow-[0_0_24px_rgba(245,158,11,0.2)]'
+                                    : isSecond
+                                      ? isDark
+                                          ? 'bg-gradient-to-b from-[#1C2331] via-[#171B26] to-[#161B22] border-slate-300/70 shadow-[0_0_20px_rgba(148,163,184,0.18)]'
+                                          : 'bg-gradient-to-b from-[#F8FAFC] via-[#F1F5F9] to-white border-slate-300 shadow-[0_0_18px_rgba(148,163,184,0.15)]'
+                                      : isDark
+                                        ? 'bg-gradient-to-b from-[#241A13] via-[#1C1713] to-[#161B22] border-amber-700/70 shadow-[0_0_20px_rgba(180,83,9,0.18)]'
+                                        : 'bg-gradient-to-b from-[#FFF9F5] via-[#FDF2EA] to-white border-amber-600/40 shadow-[0_0_18px_rgba(180,83,9,0.14)]';
+
+                                const badgeColors = isFirst
+                                    ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-amber-950 border-amber-300 font-extrabold shadow-sm'
+                                    : isSecond
+                                      ? 'bg-gradient-to-r from-slate-200 to-slate-300 dark:from-slate-600 dark:to-slate-500 text-slate-900 dark:text-slate-100 border-slate-300 font-extrabold shadow-sm'
+                                      : 'bg-gradient-to-r from-amber-700 to-amber-800 text-amber-100 border-amber-600 font-extrabold shadow-sm';
+
+                                const avatarRing = isFirst
+                                    ? 'border-2 border-amber-400 ring-4 ring-amber-400/25 bg-amber-500/15 text-amber-500'
+                                    : isSecond
+                                      ? 'border-2 border-slate-300 ring-4 ring-slate-400/25 bg-slate-400/15 text-slate-700 dark:text-slate-200'
+                                      : 'border-2 border-amber-600 ring-4 ring-amber-600/25 bg-amber-700/15 text-amber-700 dark:text-amber-400';
 
                                 return (
                                     <div
-                                        key={user.id || place}
-                                        className={`${orderClass} relative rounded-2xl border p-6 flex flex-col items-center text-center transition-all ${
-                                            isFirst
-                                                ? isDark
-                                                    ? 'bg-gradient-to-b from-[#1F2937] to-[#161B22] border-amber-500/40 shadow-lg'
-                                                    : 'bg-gradient-to-b from-[#FFFDF9] to-white border-amber-400/70 shadow-md'
-                                                : isDark
-                                                  ? 'bg-[#161B22] border-[#30363D]'
-                                                  : 'bg-white border-[#E6E0D6] shadow-xs'
-                                        } ${isMe ? 'ring-2 ring-[#285A4D]' : ''}`}
+                                        key={topUser.id || place}
+                                        className={`${orderClass} relative rounded-3xl border-2 p-6 flex flex-col items-center text-center transition-all hover:-translate-y-1 ${cardBorderHighlight} ${
+                                            isMe ? 'ring-2 ring-[#285A4D]' : ''
+                                        }`}
                                     >
-                                        {/* Place Pill */}
+                                        {/* Highlight Header */}
                                         <div className="flex items-center justify-between w-full mb-3">
                                             <span
-                                                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${badgeColors}`}
+                                                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs border ${badgeColors}`}
                                             >
-                                                <Trophy className="w-3 h-3" aria-hidden="true" />#{place}
+                                                {isFirst ? (
+                                                    <Trophy className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
+                                                ) : isSecond ? (
+                                                    <Medal className="w-3.5 h-3.5" aria-hidden="true" />
+                                                ) : (
+                                                    <Award className="w-3.5 h-3.5" aria-hidden="true" />
+                                                )}
+                                                <span>#{place} {isFirst ? 'Gold' : isSecond ? 'Silver' : 'Bronze'}</span>
                                             </span>
-                                            {isMe && <span className="badge badge-success">YOU</span>}
+                                            {isMe && <span className="badge badge-success text-[10px] font-extrabold">YOU</span>}
                                             <span
-                                                className={`text-xs font-medium px-2.5 py-0.5 rounded-full border ${
+                                                className={`text-[11px] font-medium px-2.5 py-0.5 rounded-full border truncate max-w-[120px] ${
                                                     isDark
                                                         ? 'bg-[#21262D] text-[#8B949E] border-[#30363D]'
                                                         : 'bg-[#F3EFEA] text-[#5C6460] border-[#E6E0D6]'
                                                 }`}
                                             >
-                                                {user.category || 'General'}
+                                                {topUser.category || 'General'}
                                             </span>
                                         </div>
 
                                         {/* Avatar */}
                                         <div
-                                            className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center font-bold text-xl sm:text-2xl mb-3 border-2 overflow-hidden ${
-                                                isFirst
-                                                    ? 'border-amber-400 bg-amber-500/15 text-amber-500'
-                                                    : isDark
-                                                      ? 'border-[#30363D] bg-[#21262D] text-[#F0F6FC]'
-                                                      : 'border-[#E6E0D6] bg-[#E3EFEA] text-[#193D35]'
-                                            }`}
+                                            className={`w-18 h-18 sm:w-22 sm:h-22 rounded-full flex items-center justify-center font-bold text-2xl mb-3 overflow-hidden shadow-md ${avatarRing}`}
                                         >
-                                            {getAvatarContent(user)}
+                                            {getAvatarContent(topUser)}
                                         </div>
 
                                         {/* Name */}
                                         <h3
-                                            className={`text-lg font-bold font-display truncate max-w-full mb-1 ${
+                                            className={`text-lg sm:text-xl font-extrabold font-display truncate max-w-full mb-1 ${
                                                 isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
                                             }`}
                                         >
-                                            {user.name}
+                                            {topUser.name}
                                         </h3>
 
                                         {/* XP Pill */}
-                                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#285A4D]/10 text-[#285A4D] dark:bg-emerald-500/15 dark:text-emerald-400 font-mono font-bold text-sm mb-4">
+                                        <div className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-xl font-mono font-bold text-sm mb-4 border ${
+                                            isFirst
+                                                ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-400/40'
+                                                : isSecond
+                                                  ? 'bg-slate-400/15 text-slate-700 dark:text-slate-300 border-slate-400/40'
+                                                  : 'bg-amber-700/15 text-amber-700 dark:text-amber-400 border-amber-700/40'
+                                        }`}>
                                             <Zap className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
-                                            <span>{user.xp.toLocaleString()} XP</span>
+                                            <span>{topUser.xp.toLocaleString()} XP</span>
                                         </div>
 
                                         {/* Metrics Footer */}
@@ -608,7 +706,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                         isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
                                                     }`}
                                                 >
-                                                    {user.score}%
+                                                    {topUser.score}%
                                                 </div>
                                                 <div className={`text-[11px] ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
                                                     Avg Score
@@ -620,7 +718,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                         isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
                                                     }`}
                                                 >
-                                                    {user.quizzes}
+                                                    {topUser.quizzes}
                                                 </div>
                                                 <div className={`text-[11px] ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
                                                     Quizzes
@@ -633,7 +731,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                     }`}
                                                 >
                                                     <Flame className="w-3.5 h-3.5 text-orange-500 fill-orange-500" aria-hidden="true" />
-                                                    {user.streak || '1d'}
+                                                    {topUser.streak || '1d'}
                                                 </div>
                                                 <div className={`text-[11px] ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
                                                     Streak
@@ -654,7 +752,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                     >
                         {/* Section Header */}
                         <div
-                            className={`px-4 sm:px-6 py-4 border-b flex items-center justify-between gap-2 ${
+                            className={`px-4 sm:px-6 py-4 border-b flex flex-wrap items-center justify-between gap-3 ${
                                 isDark ? 'border-[#30363D] bg-[#1C2128]/60' : 'border-[#E6E0D6] bg-[#FAF8F5]'
                             }`}
                         >
@@ -664,12 +762,35 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                     aria-hidden="true"
                                 />
                                 <h2 className={`text-sm sm:text-base font-bold ${isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}`}>
-                                    Standings ({filteredData.length})
+                                    {isTop5 ? 'Top 5 Standings' : `All Standings (${totalRanked})`}
                                 </h2>
+                                {isTop5 && totalRanked > 5 && (
+                                    <span className="badge badge-emerald text-[11px]">
+                                        Top 5 View
+                                    </span>
+                                )}
                             </div>
-                            <span className={`text-xs font-medium ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
-                                Sorted by Total XP &amp; Accuracy
-                            </span>
+
+                            <div className="flex items-center gap-3">
+                                <span className={`text-xs font-medium hidden sm:inline ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
+                                    {isTop5
+                                        ? 'Displaying Top 5 by XP & Accuracy'
+                                        : `Showing ${Math.min((safeCurrentPage - 1) * PAGE_SIZE + 1, totalRanked)}–${Math.min(
+                                              safeCurrentPage * PAGE_SIZE,
+                                              totalRanked
+                                          )} of ${totalRanked} developers`}
+                                </span>
+                                {!isTop5 && (
+                                    <button
+                                        type="button"
+                                        onClick={handleShowLess}
+                                        className="btn-secondary text-xs px-3 py-1.5 rounded-lg inline-flex items-center gap-1 cursor-pointer"
+                                    >
+                                        <ChevronLeft className="w-3.5 h-3.5" />
+                                        <span>Show Less</span>
+                                    </button>
+                                )}
+                            </div>
                         </div>
 
                         {/* Desktop & Tablet Table View */}
@@ -693,35 +814,59 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                     </tr>
                                 </thead>
                                 <tbody className={`divide-y text-sm ${isDark ? 'divide-[#30363D]' : 'divide-[#E6E0D6]'}`}>
-                                    {filteredData.map((user) => {
-                                        const isMe = isCurrentUserEntry(user);
+                                    {displayData.map((userRow) => {
+                                        const isMe = isCurrentUserEntry(userRow);
+                                        const isGold = userRow.rank === 1;
+                                        const isSilver = userRow.rank === 2;
+                                        const isBronze = userRow.rank === 3;
+
                                         return (
                                             <tr
-                                                key={user.id || user.rank}
+                                                key={userRow.id || userRow.rank}
                                                 className={`transition-colors ${
                                                     isMe
                                                         ? isDark
                                                             ? 'bg-emerald-950/30 hover:bg-emerald-950/45 border-l-4 border-l-emerald-400'
                                                             : 'bg-[#E3EFEA]/60 hover:bg-[#E3EFEA]/90 border-l-4 border-l-[#285A4D]'
-                                                        : isDark
-                                                          ? 'hover:bg-[#21262D]/60'
-                                                          : 'hover:bg-[#FAF8F5]'
+                                                        : isGold
+                                                          ? isDark
+                                                              ? 'bg-amber-500/[0.04] hover:bg-amber-500/[0.08] border-l-4 border-l-amber-400'
+                                                              : 'bg-amber-500/[0.03] hover:bg-amber-500/[0.06] border-l-4 border-l-amber-400'
+                                                          : isSilver
+                                                            ? isDark
+                                                                ? 'bg-slate-400/[0.04] hover:bg-slate-400/[0.08] border-l-4 border-l-slate-400'
+                                                                : 'bg-slate-400/[0.03] hover:bg-slate-400/[0.06] border-l-4 border-l-slate-400'
+                                                            : isBronze
+                                                              ? isDark
+                                                                  ? 'bg-amber-700/[0.04] hover:bg-amber-700/[0.08] border-l-4 border-l-amber-600'
+                                                                  : 'bg-amber-700/[0.03] hover:bg-amber-700/[0.06] border-l-4 border-l-amber-600'
+                                                              : isDark
+                                                                ? 'hover:bg-[#21262D]/60'
+                                                                : 'hover:bg-[#FAF8F5]'
                                                 }`}
                                             >
                                                 {/* Rank */}
-                                                <td className="py-4 px-6 whitespace-nowrap">{getRankBadge(user.rank)}</td>
+                                                <td className="py-4 px-6 whitespace-nowrap">
+                                                    {getRankBadge(userRow.rank)}
+                                                </td>
 
                                                 {/* Participant */}
                                                 <td className="py-4 px-6 whitespace-nowrap">
                                                     <div className="flex items-center gap-3.5">
                                                         <div
                                                             className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs shrink-0 border overflow-hidden ${
-                                                                isDark
-                                                                    ? 'bg-[#21262D] text-[#F0F6FC] border-[#30363D]'
-                                                                    : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
+                                                                isGold
+                                                                    ? 'border-2 border-amber-400 ring-2 ring-amber-400/20 bg-amber-500/10 text-amber-600'
+                                                                    : isSilver
+                                                                      ? 'border-2 border-slate-400 ring-2 ring-slate-400/20 bg-slate-300/20 text-slate-700 dark:text-slate-200'
+                                                                      : isBronze
+                                                                        ? 'border-2 border-amber-600 ring-2 ring-amber-600/20 bg-amber-700/15 text-amber-700 dark:text-amber-400'
+                                                                        : isDark
+                                                                          ? 'bg-[#21262D] text-[#F0F6FC] border-[#30363D]'
+                                                                          : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
                                                             }`}
                                                         >
-                                                            {getAvatarContent(user)}
+                                                            {getAvatarContent(userRow)}
                                                         </div>
                                                         <div className="min-w-0">
                                                             <div className="flex items-center gap-2">
@@ -730,7 +875,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                                         isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
                                                                     }`}
                                                                 >
-                                                                    {user.name}
+                                                                    {userRow.name}
                                                                 </span>
                                                                 {isMe && (
                                                                     <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider bg-[#285A4D] text-white rounded-md">
@@ -743,11 +888,11 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                                     isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'
                                                                 }`}
                                                             >
-                                                                <span>{user.role || 'Candidate'}</span>
-                                                                {user.certs > 0 && (
+                                                                <span>{userRow.role || 'Candidate'}</span>
+                                                                {userRow.certs > 0 && (
                                                                     <span className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-medium">
-                                                                        • <Star className="w-3 h-3 fill-current" /> {user.certs}{' '}
-                                                                        {user.certs === 1 ? 'cert' : 'certs'}
+                                                                        • <Star className="w-3 h-3 fill-current" /> {userRow.certs}{' '}
+                                                                        {userRow.certs === 1 ? 'cert' : 'certs'}
                                                                     </span>
                                                                 )}
                                                             </div>
@@ -764,7 +909,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                                 : 'bg-[#FAF8F5] text-[#1A1D1C] border-[#E6E0D6]'
                                                         }`}
                                                     >
-                                                        {user.category || 'General'}
+                                                        {userRow.category || 'General'}
                                                     </span>
                                                 </td>
 
@@ -781,7 +926,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                             }`}
                                                             aria-hidden="true"
                                                         />
-                                                        {user.quizzes}
+                                                        {userRow.quizzes}
                                                     </span>
                                                 </td>
 
@@ -792,7 +937,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                             <div
                                                                 className="progress-bar-fill"
                                                                 style={{
-                                                                    width: `${Math.min(100, Math.max(0, user.score))}%`,
+                                                                    width: `${Math.min(100, Math.max(0, userRow.score))}%`,
                                                                 }}
                                                             />
                                                         </div>
@@ -801,7 +946,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                                 isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
                                                             }`}
                                                         >
-                                                            {user.score}%
+                                                            {userRow.score}%
                                                         </span>
                                                     </div>
                                                 </td>
@@ -816,7 +961,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                         }`}
                                                     >
                                                         <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500" aria-hidden="true" />
-                                                        <span>{user.streak || '1d'}</span>
+                                                        <span>{userRow.streak || '1d'}</span>
                                                     </div>
                                                 </td>
 
@@ -824,13 +969,19 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                 <td className="py-4 px-6 whitespace-nowrap text-right">
                                                     <div
                                                         className={`inline-flex items-center gap-1.5 font-mono font-bold px-3 py-1 rounded-lg border ${
-                                                            isDark
-                                                                ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
-                                                                : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
+                                                            isGold
+                                                                ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-400/30'
+                                                                : isSilver
+                                                                  ? 'bg-slate-300/20 text-slate-800 dark:text-slate-200 border-slate-300/40'
+                                                                  : isBronze
+                                                                    ? 'bg-amber-700/15 text-amber-700 dark:text-amber-400 border-amber-700/30'
+                                                                    : isDark
+                                                                      ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                                                                      : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
                                                         }`}
                                                     >
                                                         <Zap className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
-                                                        <span>{user.xp.toLocaleString()}</span>
+                                                        <span>{userRow.xp.toLocaleString()}</span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -842,30 +993,52 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
 
                         {/* Mobile Card List View (< 768px) */}
                         <div className={`md:hidden divide-y ${isDark ? 'divide-[#30363D]' : 'divide-[#E6E0D6]'}`}>
-                            {filteredData.map((user) => {
-                                const isMe = isCurrentUserEntry(user);
+                            {displayData.map((userCard) => {
+                                const isMe = isCurrentUserEntry(userCard);
+                                const isGold = userCard.rank === 1;
+                                const isSilver = userCard.rank === 2;
+                                const isBronze = userCard.rank === 3;
+
                                 return (
                                     <div
-                                        key={user.id || user.rank}
+                                        key={userCard.id || userCard.rank}
                                         className={`p-4 flex flex-col gap-3 transition-colors ${
                                             isMe
                                                 ? isDark
                                                     ? 'bg-emerald-950/30 border-l-4 border-l-emerald-400'
                                                     : 'bg-[#E3EFEA]/60 border-l-4 border-l-[#285A4D]'
-                                                : ''
+                                                : isGold
+                                                  ? isDark
+                                                      ? 'bg-amber-500/[0.04] border-l-4 border-l-amber-400'
+                                                      : 'bg-amber-500/[0.03] border-l-4 border-l-amber-400'
+                                                  : isSilver
+                                                    ? isDark
+                                                        ? 'bg-slate-400/[0.04] border-l-4 border-l-slate-400'
+                                                        : 'bg-slate-400/[0.03] border-l-4 border-l-slate-400'
+                                                    : isBronze
+                                                      ? isDark
+                                                          ? 'bg-amber-700/[0.04] border-l-4 border-l-amber-600'
+                                                          : 'bg-amber-700/[0.03] border-l-4 border-l-amber-600'
+                                                      : ''
                                         }`}
                                     >
                                         <div className="flex items-center justify-between gap-3">
                                             <div className="flex items-center gap-3 min-w-0">
-                                                {getRankBadge(user.rank)}
+                                                {getRankBadge(userCard.rank)}
                                                 <div
                                                     className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs shrink-0 border overflow-hidden ${
-                                                        isDark
-                                                            ? 'bg-[#21262D] text-[#F0F6FC] border-[#30363D]'
-                                                            : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
+                                                        isGold
+                                                            ? 'border-2 border-amber-400 ring-2 ring-amber-400/20 bg-amber-500/10 text-amber-600'
+                                                            : isSilver
+                                                              ? 'border-2 border-slate-400 ring-2 ring-slate-400/20 bg-slate-300/20 text-slate-700 dark:text-slate-200'
+                                                              : isBronze
+                                                                ? 'border-2 border-amber-600 ring-2 ring-amber-600/20 bg-amber-700/15 text-amber-700 dark:text-amber-400'
+                                                                : isDark
+                                                                  ? 'bg-[#21262D] text-[#F0F6FC] border-[#30363D]'
+                                                                  : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
                                                     }`}
                                                 >
-                                                    {getAvatarContent(user)}
+                                                    {getAvatarContent(userCard)}
                                                 </div>
                                                 <div className="min-w-0">
                                                     <div className="flex items-center gap-1.5 flex-wrap">
@@ -874,7 +1047,7 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                                 isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
                                                             }`}
                                                         >
-                                                            {user.name}
+                                                            {userCard.name}
                                                         </span>
                                                         {isMe && (
                                                             <span className="px-1.5 py-0.5 text-[10px] font-extrabold uppercase bg-[#285A4D] text-white rounded">
@@ -887,20 +1060,26 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                                             isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'
                                                         }`}
                                                     >
-                                                        {user.category || 'General'}
+                                                        {userCard.category || 'General'}
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div
                                                 className={`inline-flex items-center gap-1 font-mono font-bold text-xs px-2.5 py-1 rounded-lg border shrink-0 ${
-                                                    isDark
-                                                        ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
-                                                        : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
+                                                    isGold
+                                                        ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-400/30'
+                                                        : isSilver
+                                                          ? 'bg-slate-300/20 text-slate-800 dark:text-slate-200 border-slate-300/40'
+                                                          : isBronze
+                                                            ? 'bg-amber-700/15 text-amber-700 dark:text-amber-400 border-amber-700/30'
+                                                            : isDark
+                                                              ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                                                              : 'bg-[#E3EFEA] text-[#193D35] border-[#285A4D]/20'
                                                 }`}
                                             >
                                                 <Zap className="w-3 h-3 fill-current" aria-hidden="true" />
-                                                <span>{user.xp.toLocaleString()} XP</span>
+                                                <span>{userCard.xp.toLocaleString()} XP</span>
                                             </div>
                                         </div>
 
@@ -912,19 +1091,19 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                                             <div>
                                                 <span className={isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}>Quizzes: </span>
                                                 <span className={`font-mono font-bold ${isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}`}>
-                                                    {user.quizzes}
+                                                    {userCard.quizzes}
                                                 </span>
                                             </div>
                                             <div>
                                                 <span className={isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}>Accuracy: </span>
                                                 <span className={`font-mono font-bold ${isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}`}>
-                                                    {user.score}%
+                                                    {userCard.score}%
                                                 </span>
                                             </div>
                                             <div className="flex items-center justify-end gap-1 font-mono font-bold">
                                                 <Flame className="w-3.5 h-3.5 text-orange-500 fill-orange-500" aria-hidden="true" />
                                                 <span className={isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}>
-                                                    {user.streak || '1d'}
+                                                    {userCard.streak || '1d'}
                                                 </span>
                                             </div>
                                         </div>
@@ -933,6 +1112,148 @@ const Leaderboard = ({ isEmbedded = false, onDataLoaded }) => {
                             })}
                         </div>
                     </div>
+
+                    {/* Top 5 Mode: Clear "See More" Button Below Top 5 Users */}
+                    {isTop5 && totalRanked > 5 && (
+                        <div
+                            className={`p-6 sm:p-8 rounded-3xl border text-center transition-all shadow-sm ${
+                                isDark
+                                    ? 'bg-gradient-to-br from-[#161B22] via-[#1C2128] to-[#0D1117] border-[#30363D]'
+                                    : 'bg-gradient-to-br from-white via-[#FAF8F5] to-[#F3EFEA] border-[#E6E0D6]'
+                            }`}
+                        >
+                            <div className="max-w-xl mx-auto flex flex-col items-center gap-3">
+                                <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 flex items-center justify-center shadow-inner">
+                                    <Sparkles className="w-6 h-6" />
+                                </div>
+                                <h3 className={`text-lg sm:text-xl font-extrabold font-display ${isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'}`}>
+                                    Viewing Top 5 of {totalRanked} Ranked Developers
+                                </h3>
+                                <p className={`text-xs sm:text-sm max-w-md ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
+                                    {isAuthenticated
+                                        ? `Explore all ${totalRanked} ranked developers, filter by technical domains, and inspect full global standings.`
+                                        : `Sign in to access all ${totalRanked} ranked learners worldwide, view personalized technology stats, and verify your rank.`}
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={handleSeeMore}
+                                    className="btn-primary mt-2 inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl font-bold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                                >
+                                    <Trophy className="w-4 h-4" />
+                                    <span>See More ({totalRanked - 5} More Learners)</span>
+                                    <ArrowRight className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Full Mode: Pagination Controls */}
+                    {!isTop5 && totalPages > 1 && (
+                        <div
+                            className={`p-4 sm:p-5 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors ${
+                                isDark ? 'bg-[#161B22] border-[#30363D]' : 'bg-white border-[#E6E0D6] shadow-xs'
+                            }`}
+                        >
+                            <div className={`text-xs font-medium ${isDark ? 'text-[#8B949E]' : 'text-[#5C6460]'}`}>
+                                Showing page <span className="font-bold text-[var(--foreground)]">{safeCurrentPage}</span> of{' '}
+                                <span className="font-bold text-[var(--foreground)]">{totalPages}</span> ({totalRanked} total learners)
+                            </div>
+
+                            <div className="flex items-center gap-1.5">
+                                {/* First page */}
+                                <button
+                                    type="button"
+                                    title="First page"
+                                    onClick={() => setCurrentPage(1)}
+                                    disabled={safeCurrentPage === 1}
+                                    className={`p-2 rounded-lg border text-xs font-semibold transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+                                        isDark
+                                            ? 'bg-[#21262D] border-[#30363D] text-[#F0F6FC] hover:bg-[#30363D]'
+                                            : 'bg-white border-[#E6E0D6] text-[#1A1D1C] hover:bg-[#FAF8F5]'
+                                    }`}
+                                >
+                                    <ChevronsLeft className="w-4 h-4" />
+                                </button>
+
+                                {/* Prev page */}
+                                <button
+                                    type="button"
+                                    title="Previous page"
+                                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                                    disabled={safeCurrentPage === 1}
+                                    className={`inline-flex items-center gap-1 px-3 py-2 rounded-lg border text-xs font-semibold transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+                                        isDark
+                                            ? 'bg-[#21262D] border-[#30363D] text-[#F0F6FC] hover:bg-[#30363D]'
+                                            : 'bg-white border-[#E6E0D6] text-[#1A1D1C] hover:bg-[#FAF8F5]'
+                                    }`}
+                                >
+                                    <ChevronLeft className="w-4 h-4" />
+                                    <span>Prev</span>
+                                </button>
+
+                                {/* Numbered page buttons */}
+                                {Array.from({ length: totalPages }, (_, idx) => idx + 1)
+                                    .filter((p) => Math.abs(p - safeCurrentPage) <= 2 || p === 1 || p === totalPages)
+                                    .map((p, idx, arr) => {
+                                        const prevPageNum = arr[idx - 1];
+                                        const showEllipsisBefore = prevPageNum && p - prevPageNum > 1;
+                                        const isActivePage = p === safeCurrentPage;
+
+                                        return (
+                                            <React.Fragment key={p}>
+                                                {showEllipsisBefore && (
+                                                    <span className="px-1 text-xs text-[var(--foreground-secondary)]">…</span>
+                                                )}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setCurrentPage(p)}
+                                                    className={`w-8 h-8 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                                                        isActivePage
+                                                            ? 'bg-[#285A4D] text-white shadow-xs'
+                                                            : isDark
+                                                              ? 'bg-[#21262D] border border-[#30363D] text-[#8B949E] hover:text-[#F0F6FC]'
+                                                              : 'bg-white border border-[#E6E0D6] text-[#5C6460] hover:text-[#1A1D1C]'
+                                                    }`}
+                                                >
+                                                    {p}
+                                                </button>
+                                            </React.Fragment>
+                                        );
+                                    })}
+
+                                {/* Next page */}
+                                <button
+                                    type="button"
+                                    title="Next page"
+                                    onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                                    disabled={safeCurrentPage === totalPages}
+                                    className={`inline-flex items-center gap-1 px-3 py-2 rounded-lg border text-xs font-semibold transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+                                        isDark
+                                            ? 'bg-[#21262D] border-[#30363D] text-[#F0F6FC] hover:bg-[#30363D]'
+                                            : 'bg-white border-[#E6E0D6] text-[#1A1D1C] hover:bg-[#FAF8F5]'
+                                    }`}
+                                >
+                                    <span>Next</span>
+                                    <ChevronRight className="w-4 h-4" />
+                                </button>
+
+                                {/* Last page */}
+                                <button
+                                    type="button"
+                                    title="Last page"
+                                    onClick={() => setCurrentPage(totalPages)}
+                                    disabled={safeCurrentPage === totalPages}
+                                    className={`p-2 rounded-lg border text-xs font-semibold transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed ${
+                                        isDark
+                                            ? 'bg-[#21262D] border-[#30363D] text-[#F0F6FC] hover:bg-[#30363D]'
+                                            : 'bg-white border-[#E6E0D6] text-[#1A1D1C] hover:bg-[#FAF8F5]'
+                                    }`}
+                                >
+                                    <ChevronsRight className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </>
             )}
         </div>

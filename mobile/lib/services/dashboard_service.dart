@@ -20,13 +20,19 @@ class DashboardService {
   Future<List<LeaderboardEntryModel>> getLeaderboard({
     String timeframe = 'all-time',
     String category = 'All',
+    int? limit,
+    int? page,
   }) async {
+    final queryParams = <String, dynamic>{
+      'timeframe': timeframe,
+      'category': category,
+    };
+    if (limit != null) queryParams['limit'] = limit.toString();
+    if (page != null) queryParams['page'] = page.toString();
+
     final response = await apiClient.get(
       ApiEndpoints.leaderboard,
-      queryParameters: {
-        'timeframe': timeframe,
-        'category': category,
-      },
+      queryParameters: queryParams,
     );
     final data = response.data as Map<String, dynamic>;
     final list = data['leaderboard'] as List? ?? [];

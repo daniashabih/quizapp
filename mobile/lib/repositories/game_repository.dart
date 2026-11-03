@@ -433,7 +433,7 @@ class GameRepository {
       'blocks': [
         'int retirementAge = 65;',
         'string name = "Jordan";',
-        'Console.WriteLine($"Hello {name}, you have {yearsLeft} years until retirement.");',
+        r'Console.WriteLine($"Hello {name}, you have {yearsLeft} years until retirement.");',
         'int currentAge = 25;',
         'int yearsLeft = retirementAge - currentAge;',
       ],
@@ -757,7 +757,7 @@ class GameRepository {
           'int currentAge = 25;',
           'int retirementAge = 65;',
           'int yearsLeft = retirementAge - currentAge;',
-          'Console.WriteLine($"Hello {name}, you have {yearsLeft} years until retirement.");',
+          r'Console.WriteLine($"Hello {name}, you have {yearsLeft} years until retirement.");',
         ],
       };
 
