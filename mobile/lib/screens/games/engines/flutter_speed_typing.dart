@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/constants/app_colors.dart';
 
 class FlutterSpeedTyping extends StatefulWidget {
   final void Function(int score, Map<String, dynamic> metadata) onGameOver;
@@ -74,88 +75,143 @@ class _FlutterSpeedTypingState extends State<FlutterSpeedTyping> {
   Widget build(BuildContext context) {
     final typedText = _controller.text;
 
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Chip(
-                  label: Text(
-                    '$_wpm WPM',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.green),
-                  ),
-                  visualDensity: VisualDensity.compact,
-                ),
-                Text(
-                  'Accuracy: $_accuracy%',
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.all(12),
-              child: RichText(
-                text: TextSpan(
-                  children: List.generate(_passage.length, (i) {
-                    final char = _passage[i];
-                    Color col = Colors.grey.shade600;
-
-                    if (i < typedText.length) {
-                      col = typedText[i] == char ? Colors.greenAccent : Colors.redAccent;
-                    }
-
-                    return TextSpan(
-                      text: char,
-                      style: TextStyle(
-                        fontFamily: 'monospace',
-                        fontSize: 13,
-                        color: col,
-                        fontWeight: i < typedText.length && typedText[i] != char ? FontWeight.bold : FontWeight.normal,
-                      ),
-                    );
-                  }),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _controller,
-              focusNode: _focusNode,
-              enabled: !_isFinished && !widget.isPaused,
-              onChanged: _onTextChanged,
-              decoration: InputDecoration(
-                hintText: 'Start typing here...',
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-            ),
-            if (_isFinished) ...[
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  'Passage Finished! Final: $_wpm WPM with $_accuracy% accuracy.',
-                  style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 720),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: context.cardBgColor,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: context.borderColor),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: context.isDarkMode ? 0.3 : 0.05),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
               ),
             ],
-          ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: context.gameBadgeBgColor,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: context.gameBadgeBorderColor),
+                    ),
+                    child: Text(
+                      '$_wpm WPM',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                        fontFamily: 'monospace',
+                        color: context.gameBadgeTextColor,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'Accuracy: $_accuracy%',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.gameBestScore,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Container(
+                decoration: BoxDecoration(
+                  color: context.gameCodeBgColor,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: context.gameCodeBorderColor),
+                ),
+                padding: const EdgeInsets.all(14),
+                child: RichText(
+                  text: TextSpan(
+                    children: List.generate(_passage.length, (i) {
+                      final char = _passage[i];
+                      Color col = context.textMutedColor;
+
+                      if (i < typedText.length) {
+                        col = typedText[i] == char ? AppColors.success : AppColors.error;
+                      }
+
+                      return TextSpan(
+                        text: char,
+                        style: TextStyle(
+                          fontFamily: 'monospace',
+                          fontSize: 13,
+                          height: 1.4,
+                          color: col,
+                          fontWeight: i < typedText.length && typedText[i] != char ? FontWeight.bold : FontWeight.normal,
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _controller,
+                focusNode: _focusNode,
+                enabled: !_isFinished && !widget.isPaused,
+                onChanged: _onTextChanged,
+                style: TextStyle(
+                  color: context.textPrimaryColor,
+                  fontFamily: 'monospace',
+                  fontSize: 13,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Start typing here...',
+                  hintStyle: TextStyle(color: context.textMutedColor),
+                  filled: true,
+                  fillColor: context.cardBgColor,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: context.borderColor),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: context.borderColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: AppColors.gamePrimaryButton, width: 2),
+                  ),
+                ),
+              ),
+              if (_isFinished) ...[
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.green.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: Colors.green.withValues(alpha: 0.4)),
+                  ),
+                  child: Text(
+                    'Passage Finished! Final: $_wpm WPM with $_accuracy% accuracy.',
+                    style: const TextStyle(
+                      color: Color(0xFF15803D),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );

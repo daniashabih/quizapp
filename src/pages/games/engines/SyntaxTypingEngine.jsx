@@ -1,30 +1,129 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Hash, CheckCircle2, RotateCcw, ArrowRight } from 'lucide-react';
 
-const SYMBOL_DRILLS = [
+const ALL_SYMBOL_DRILLS = [
+    // JavaScript
     {
-        id: 'stx_1',
+        id: 'stx_js_1',
+        technology: 'javascript',
+        technologyName: 'JavaScript',
+        difficulty: 'Beginner',
         title: 'Arrow Function & Return',
         syntax: 'const add = (a, b) => { return a + b; };'
     },
     {
-        id: 'stx_2',
+        id: 'stx_js_2',
+        technology: 'javascript',
+        technologyName: 'JavaScript',
+        difficulty: 'Intermediate',
         title: 'Logical Nullish Coalescing',
         syntax: 'const { id, tags = [] } = response?.data ?? {};'
     },
+    // React
     {
-        id: 'stx_3',
-        title: 'Conditional Logical Operators',
-        syntax: 'if (x !== null && (arr[0] || str.length === 0)) { ... }'
+        id: 'stx_react_1',
+        technology: 'react',
+        technologyName: 'React.js',
+        difficulty: 'Beginner',
+        title: 'React Destructured Props & State',
+        syntax: 'const [state, setState] = useState<User | null>(null);'
     },
     {
-        id: 'stx_4',
-        title: 'Destructured Export Config',
-        syntax: 'export default async function handler(req, res) { try { ... } }'
+        id: 'stx_react_2',
+        technology: 'react',
+        technologyName: 'React.js',
+        difficulty: 'Intermediate',
+        title: 'React Fragment & Dynamic Callback',
+        syntax: '<>{items.map(({ id, name }) => <Card key={id} onClick={() => fn(id)} />)}</>'
+    },
+    // Python
+    {
+        id: 'stx_py_1',
+        technology: 'python',
+        technologyName: 'Python',
+        difficulty: 'Beginner',
+        title: 'Python Slicing & Comprehension',
+        syntax: 'evens = [x**2 for x in data[::2] if x is not None]'
+    },
+    {
+        id: 'stx_py_2',
+        technology: 'python',
+        technologyName: 'Python',
+        difficulty: 'Intermediate',
+        title: 'Type Hinted Lambda & Dict Unpacking',
+        syntax: 'merge = lambda a, b: {**a, **b, "ts": time.time()}'
+    },
+    // PHP
+    {
+        id: 'stx_php_1',
+        technology: 'php',
+        technologyName: 'PHP',
+        difficulty: 'Beginner',
+        title: 'PHP Array & Arrow Operator',
+        syntax: '$user = $request->user()?->only(["id", "name"]);'
+    },
+    {
+        id: 'stx_php_2',
+        technology: 'php',
+        technologyName: 'PHP',
+        difficulty: 'Intermediate',
+        title: 'Nullsafe Operator & Match Expression',
+        syntax: '$status = match ($code) { 200, 201 => "OK", 404 => "NOT_FOUND", default => "ERR" };'
+    },
+    // SQL / MySQL
+    {
+        id: 'stx_sql_1',
+        technology: 'sql',
+        technologyName: 'SQL',
+        difficulty: 'Beginner',
+        title: 'SQL Relational Filtering Syntax',
+        syntax: 'SELECT * FROM users WHERE (age >= 18 AND status != "banned") LIMIT 10;'
+    },
+    {
+        id: 'stx_sql_2',
+        technology: 'mysql',
+        technologyName: 'MySQL',
+        difficulty: 'Intermediate',
+        title: 'MySQL Conditional Aggregate',
+        syntax: 'COUNT(CASE WHEN is_verified = 1 THEN 1 END) AS verified_total'
+    },
+    // Flutter / Dart
+    {
+        id: 'stx_dart_1',
+        technology: 'dart',
+        technologyName: 'Dart',
+        difficulty: 'Beginner',
+        title: 'Dart Cascades & Named Parameters',
+        syntax: 'final paint = Paint()..color = Colors.emerald..strokeWidth = 2.5;'
+    },
+    {
+        id: 'stx_dart_2',
+        technology: 'flutter',
+        technologyName: 'Flutter',
+        difficulty: 'Intermediate',
+        title: 'Flutter Builder Pattern & Collection If',
+        syntax: 'children: [if (isLoading) const CircularProgressIndicator() else const View()]'
+    },
+    // HTML / CSS
+    {
+        id: 'stx_html_1',
+        technology: 'html',
+        technologyName: 'HTML',
+        difficulty: 'Beginner',
+        title: 'HTML Tag & Data Attributes',
+        syntax: '<meta name="viewport" content="width=device-width, initial-scale=1.0" />'
+    },
+    {
+        id: 'stx_css_1',
+        technology: 'css',
+        technologyName: 'CSS',
+        difficulty: 'Beginner',
+        title: 'CSS Calc & Custom Properties',
+        syntax: 'width: calc(100% - var(--sidebar-width, 240px));'
     }
 ];
 
-export const SyntaxTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
+export const SyntaxTypingEngine = ({ onGameOver, onScoreUpdate, isPaused, technology, difficulty }) => {
     const [drillIdx, setDrillIdx] = useState(0);
     const [typed, setTyped] = useState('');
     const [startTime, setStartTime] = useState(null);
@@ -32,7 +131,21 @@ export const SyntaxTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
     const [isFinished, setIsFinished] = useState(false);
 
     const inputRef = useRef(null);
-    const drill = SYMBOL_DRILLS[drillIdx];
+
+    const filteredDrills = useMemo(() => {
+        if (!technology || technology === 'all') {
+            return ALL_SYMBOL_DRILLS;
+        }
+        const matched = ALL_SYMBOL_DRILLS.filter(d =>
+            d.technology.toLowerCase() === technology.toLowerCase() &&
+            (!difficulty || difficulty === 'All Levels' || d.difficulty.toLowerCase() === difficulty.toLowerCase())
+        );
+        if (matched.length > 0) return matched;
+        const techOnly = ALL_SYMBOL_DRILLS.filter(d => d.technology.toLowerCase() === technology.toLowerCase());
+        return techOnly.length > 0 ? techOnly : ALL_SYMBOL_DRILLS;
+    }, [technology, difficulty]);
+
+    const drill = filteredDrills[drillIdx] || filteredDrills[0] || ALL_SYMBOL_DRILLS[0];
     const target = drill.syntax;
 
     useEffect(() => {
@@ -40,7 +153,7 @@ export const SyntaxTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
         setStartTime(null);
         setIsFinished(false);
         if (inputRef.current) inputRef.current.focus();
-    }, [drillIdx]);
+    }, [drillIdx, technology, difficulty]);
 
     const handleChange = (e) => {
         if (isFinished || isPaused) return;
@@ -55,25 +168,21 @@ export const SyntaxTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
         if (val.length >= target.length) {
             setIsFinished(true);
             const elapsedMins = (Date.now() - (startTime || Date.now())) / 60000;
-            const finalScore = score + 200;
-            setScore(finalScore);
-            if (onScoreUpdate) onScoreUpdate(finalScore);
+            const points = 150;
+            const newScore = score + points;
+            setScore(newScore);
 
-            if (drillIdx + 1 >= SYMBOL_DRILLS.length) {
-                if (onGameOver) {
-                    onGameOver({
-                        score: finalScore,
-                        accuracy: 100,
-                        metadata: { drillsCompleted: SYMBOL_DRILLS.length }
-                    });
-                }
+            if (onScoreUpdate) onScoreUpdate(newScore);
+            if (onGameOver && drillIdx + 1 >= filteredDrills.length) {
+                onGameOver({
+                    score: newScore,
+                    accuracy: 100,
+                    metadata: {
+                        drillsCompleted: filteredDrills.length,
+                        technology: drill.technology
+                    }
+                });
             }
-        }
-    };
-
-    const handleNext = () => {
-        if (drillIdx + 1 < SYMBOL_DRILLS.length) {
-            setDrillIdx(prev => prev + 1);
         }
     };
 
@@ -82,70 +191,75 @@ export const SyntaxTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
-                            <Hash size={12} /> Symbol Drills
+                        <span className="game-tech-badge flex items-center gap-1">
+                            <Hash size={12} /> {drill.technologyName || 'Syntax Drill'}
+                        </span>
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                            {drill.difficulty || difficulty || 'All Levels'}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
-                            Drill {drillIdx + 1} of {SYMBOL_DRILLS.length}
+                            Drill {drillIdx + 1} of {filteredDrills.length}
                         </span>
                     </div>
                     <h2 className="text-lg font-black text-[var(--foreground)]">{drill.title}</h2>
-                    <p className="text-xs text-[var(--foreground-muted)]">Drill tricky brackets, braces, arrows, and punctuation marks.</p>
+                    <p className="text-xs text-[var(--foreground-muted)]">Master developer symbols: braces, brackets, arrows, and punctuation.</p>
                 </div>
 
                 <div className="text-right">
                     <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Score</span>
-                    <span className="text-sm font-black text-cyan-400">{score} pts</span>
+                    <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">{score} pts</span>
                 </div>
             </div>
 
-            {/* Target Syntax */}
+            {/* Target Syntax Display with live character highlights */}
             <div
                 onClick={() => inputRef.current?.focus()}
-                className="relative p-5 rounded-2xl bg-[var(--muted-bg)] font-mono text-sm sm:text-base leading-relaxed tracking-wider select-none cursor-text border border-[var(--card-border)] min-h-[100px] shadow-xs"
+                className="relative p-5 rounded-2xl bg-[var(--muted-bg)] font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto select-none cursor-text border border-[var(--card-border)] min-h-[110px] shadow-xs"
             >
-                {target.split('').map((char, i) => {
-                    let color = 'text-stone-400 dark:text-stone-500';
-                    let isCurrent = i === typed.length;
+                <pre className="whitespace-pre">
+                    {target.split('').map((char, i) => {
+                        let color = 'text-stone-400 dark:text-stone-500';
+                        let isCurrent = i === typed.length;
 
-                    if (i < typed.length) {
-                        color = typed[i] === char ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-500/15 font-semibold' : 'text-rose-700 dark:text-rose-400 bg-rose-500/20 font-bold';
-                    }
+                        if (i < typed.length) {
+                            color = typed[i] === char
+                                ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-500/15 font-semibold'
+                                : 'text-rose-700 dark:text-rose-400 bg-rose-500/20 font-bold underline';
+                        }
 
-                    return (
-                        <span key={i} className={`${color} ${isCurrent ? 'border-b-2 border-indigo-500 animate-pulse' : ''}`}>
-                            {char}
-                        </span>
-                    );
-                })}
+                        return (
+                            <span key={i} className={`relative ${color} ${isCurrent ? 'border-b-2 border-indigo-500 animate-pulse' : ''}`}>
+                                {char}
+                            </span>
+                        );
+                    })}
+                </pre>
             </div>
 
-            {/* Input Field */}
+            {/* Input field */}
             <input
                 ref={inputRef}
                 type="text"
                 value={typed}
                 onChange={handleChange}
                 disabled={isFinished || isPaused}
-                placeholder="Type the exact symbols above..."
-                className="w-full px-4 py-3 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] text-xs sm:text-sm font-mono text-[var(--foreground)] focus:outline-hidden focus:border-indigo-500 transition-all shadow-xs"
+                placeholder="Type the exact syntax here..."
+                className="w-full px-4 py-3 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs sm:text-sm font-mono text-[var(--foreground)] focus:outline-hidden focus:border-emerald-500 transition-all"
                 autoComplete="off"
                 autoCorrect="off"
+                autoCapitalize="off"
                 spellCheck="false"
             />
 
             {isFinished && (
-                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300 flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                        <CheckCircle2 size={24} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
-                        <div>
-                            <p className="font-black text-sm">Drill Completed! (+200 pts)</p>
-                            <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">Accurate keyboard muscle memory locked in.</p>
-                        </div>
+                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <CheckCircle2 size={20} className="text-emerald-400" />
+                        <span className="font-bold text-sm">Punctuation & Syntax Perfect! (+150 pts)</span>
                     </div>
-                    {drillIdx + 1 < SYMBOL_DRILLS.length && (
+                    {drillIdx + 1 < filteredDrills.length && (
                         <button
-                            onClick={handleNext}
+                            onClick={() => setDrillIdx(prev => prev + 1)}
                             className="game-btn-primary"
                         >
                             Next Drill <ArrowRight size={14} />
@@ -156,7 +270,7 @@ export const SyntaxTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
 
             <div className="flex items-center justify-between pt-1">
                 <span className="text-xs text-[var(--foreground-muted)]">
-                    Progress: {typed.length} / {target.length} symbols
+                    Progress: {typed.length} / {target.length} characters
                 </span>
                 <button
                     onClick={() => {
@@ -166,7 +280,7 @@ export const SyntaxTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                     }}
                     className="game-btn-secondary"
                 >
-                    <RotateCcw size={14} /> Retry Drill
+                    <RotateCcw size={14} /> Reset Drill
                 </button>
             </div>
         </div>

@@ -390,11 +390,11 @@ export const GamePlayer = () => {
                     <div className="flex items-center gap-2 sm:gap-3">
                         <div className="text-center px-2.5 py-1 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                             <span className="text-[9px] uppercase font-bold text-[var(--foreground-muted)] block">Score</span>
-                            <span className="text-sm sm:text-base font-black text-emerald-500">{currentScore}</span>
+                            <span className="text-sm sm:text-base font-mono font-black text-emerald-600 dark:text-emerald-400">{currentScore}</span>
                         </div>
                         <div className="text-center px-2.5 py-1 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                             <span className="text-[9px] uppercase font-bold text-[var(--foreground-muted)] block">Best</span>
-                            <span className="text-sm sm:text-base font-black text-amber-500">{personalBest}</span>
+                            <span className="text-sm sm:text-base font-mono font-black text-amber-600 dark:text-amber-400">{personalBest}</span>
                         </div>
                     </div>
 
@@ -484,7 +484,7 @@ export const GamePlayer = () => {
                             ))}
                         </select>
                         {selectedTechnology !== 'all' && (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                            <span className="game-tech-badge">
                                 <TechIcon slug={selectedTechnology} className="w-3.5 h-3.5" />
                                 {supportedTechs.find(t => t.slug === selectedTechnology)?.name || selectedTechnology}
                             </span>
@@ -500,7 +500,7 @@ export const GamePlayer = () => {
                                 onClick={() => handleDifficultyChange(diff)}
                                 className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
                                     selectedDifficulty === diff
-                                        ? 'bg-[#193D35] dark:bg-emerald-500 text-white dark:text-stone-950 shadow-xs'
+                                        ? 'bg-gradient-to-r from-indigo-500 to-violet-600 text-white shadow-xs'
                                         : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
                                 }`}
                             >
@@ -565,7 +565,7 @@ export const GamePlayer = () => {
                         <div className="pt-5 mt-4 border-t border-[var(--card-border)] flex justify-end">
                             <button
                                 onClick={() => setShowInstructions(false)}
-                                className="px-5 py-2.5 rounded-xl bg-[#193D35] dark:bg-emerald-500 text-white dark:text-stone-950 font-bold text-xs hover:bg-[#193D35]/90 transition-all cursor-pointer"
+                                className="game-btn-primary"
                             >
                                 Got it, Let's Play!
                             </button>
@@ -578,7 +578,7 @@ export const GamePlayer = () => {
             {gameOverModal && (
                 <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
                     <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-                        <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 flex items-center justify-center mx-auto mb-4 shadow-xl shadow-emerald-500/30">
+                        <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-indigo-500 to-violet-600 text-white flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-500/30">
                             <Trophy size={32} />
                         </div>
 
@@ -590,7 +590,7 @@ export const GamePlayer = () => {
                         {/* Score Box */}
                         <div className="p-4 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] mb-5">
                             <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block mb-0.5">Final Score</span>
-                            <span className="text-3xl font-black text-emerald-500">{gameOverModal.score} pts</span>
+                            <span className="text-3xl font-mono font-black text-emerald-600 dark:text-emerald-400">{gameOverModal.score} pts</span>
 
                             {gameOverModal.wpm > 0 && (
                                 <p className="text-xs text-indigo-400 font-bold mt-1">
@@ -615,13 +615,13 @@ export const GamePlayer = () => {
                         <div className="flex flex-col gap-2.5">
                             <button
                                 onClick={handleRestart}
-                                className="w-full py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/30 active:scale-98 transition-all cursor-pointer"
+                                className="game-btn-primary w-full py-3"
                             >
                                 <RotateCcw size={14} /> Play Again
                             </button>
                             <Link
                                 to="/games"
-                                className="w-full py-3 rounded-2xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-[var(--foreground)] font-bold text-xs flex items-center justify-center transition-colors"
+                                className="game-btn-secondary w-full py-3"
                             >
                                 Back to All Games
                             </Link>

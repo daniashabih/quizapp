@@ -17,8 +17,15 @@ import 'engines/flutter_memory_match.dart';
 
 class GamePlayerScreen extends ConsumerStatefulWidget {
   final String slug;
+  final String? initialTechnology;
+  final String? initialDifficulty;
 
-  const GamePlayerScreen({super.key, required this.slug});
+  const GamePlayerScreen({
+    super.key,
+    required this.slug,
+    this.initialTechnology,
+    this.initialDifficulty,
+  });
 
   @override
   ConsumerState<GamePlayerScreen> createState() => _GamePlayerScreenState();
@@ -32,10 +39,16 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
   bool _isMuted = false;
   bool _isFullscreen = false;
   Key _engineKey = UniqueKey();
+  late String _selectedTechnology;
+  late String _selectedDifficulty;
+
+  static const List<String> _difficulties = ['All Levels', 'Beginner', 'Intermediate', 'Advanced'];
 
   @override
   void initState() {
     super.initState();
+    _selectedTechnology = widget.initialTechnology ?? 'all';
+    _selectedDifficulty = widget.initialDifficulty ?? 'All Levels';
     _loadSettings();
   }
 
@@ -86,10 +99,12 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
       });
     }
 
-    // Submit score
+    // Submit score with technology and difficulty
     ref.read(gameRepositoryProvider).submitScore(
       widget.slug,
       finalScore,
+      technology: _selectedTechnology,
+      difficulty: _selectedDifficulty,
       metadata: metadata,
     );
 
@@ -136,6 +151,13 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
                     const SizedBox(height: 4),
                     const Text('⭐ New Personal Best! ⭐', style: TextStyle(fontSize: 11, color: Colors.amber, fontWeight: FontWeight.bold)),
                   ],
+                  if (_selectedTechnology != 'all') ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      'Technology: ${_selectedTechnology.toUpperCase()} • $_selectedDifficulty',
+                      style: const TextStyle(fontSize: 10, color: Colors.grey, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -155,7 +177,12 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
               _restartGame();
             },
             icon: const Icon(Icons.replay_rounded, size: 16),
-            label: const Text('Play Again'),
+            label: const Text('Play Again', style: TextStyle(fontWeight: FontWeight.w900)),
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.gamePrimaryButton,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
           ),
         ],
       ),
@@ -163,20 +190,19 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
   }
 
   void _restartGame() {
-    ref.read(gameRepositoryProvider).clearProgress(widget.slug);
     setState(() {
       _currentScore = 0;
       _isPaused = false;
       _engineKey = UniqueKey();
     });
+    ref.read(gameRepositoryProvider).clearProgress(widget.slug);
   }
 
   void _showInstructions(GameModel game) {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       builder: (ctx) => Padding(
         padding: const EdgeInsets.all(24.0),
@@ -186,25 +212,29 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
           children: [
             Row(
               children: [
-                const Icon(Icons.info_outline_rounded, color: AppColors.primary),
+                const Icon(Icons.help_outline_rounded, color: AppColors.primary),
                 const SizedBox(width: 8),
                 Text(
-                  '${game.title} Instructions',
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+                  'How to Play ${game.title}',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             Text(
               game.instructions.isNotEmpty ? game.instructions : game.description,
-              style: const TextStyle(fontSize: 13, height: 1.5),
+              style: const TextStyle(fontSize: 14, height: 1.5),
             ),
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
                 onPressed: () => Navigator.pop(ctx),
-                child: const Text("Got It, Let's Play!"),
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppColors.gamePrimaryButton,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                ),
+                child: const Text('Got It!'),
               ),
             ),
           ],
@@ -220,12 +250,14 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
       isPaused: _isPaused,
     );
 
+    final key = Key('${_engineKey}_${_selectedTechnology}_${_selectedDifficulty}');
+
     switch (widget.slug) {
       // Coding Games
       case 'code-puzzle':
       case 'code-scramble':
         return FlutterCodePuzzle(
-          key: _engineKey,
+          key: key,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
@@ -234,7 +266,7 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
       case 'find-the-bug':
       case 'sql-challenge':
         return FlutterFindTheBug(
-          key: _engineKey,
+          key: key,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
@@ -243,14 +275,14 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
       case 'missing-code':
       case 'logic-builder':
         return FlutterOutputPredictor(
-          key: _engineKey,
+          key: key,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
         );
       case 'memory-match':
         return FlutterMemoryMatch(
-          key: _engineKey,
+          key: key,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
@@ -263,14 +295,14 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
       case 'error-free-typing':
       case 'syntax-typing':
         return FlutterSpeedTyping(
-          key: _engineKey,
+          key: key,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
         );
       case 'word-rain':
         return FlutterWordRain(
-          key: _engineKey,
+          key: key,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
@@ -283,6 +315,8 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
   @override
   Widget build(BuildContext context) {
     final gameAsync = ref.watch(gameDetailProvider(widget.slug));
+    final technologiesAsync = ref.watch(gameTechnologiesProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
@@ -338,7 +372,10 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
             // Top HUD Bar: Score & Best
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              color: Theme.of(context).cardColor,
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                border: Border(bottom: BorderSide(color: isDark ? Colors.white12 : Colors.black12)),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -356,13 +393,131 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
                       const Text('BEST', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey)),
                       Text(
                         '$_personalBest',
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.amber),
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: AppColors.gameBestScore),
                       ),
                     ],
                   ),
                   IconButton.filledTonal(
                     icon: Icon(_isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded),
                     onPressed: () => setState(() => _isPaused = !_isPaused),
+                  ),
+                ],
+              ),
+            ),
+
+            // Technology & Difficulty Control Bar
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
+              color: isDark ? const Color(0xFF141F1A) : const Color(0xFFF0FDF4),
+              child: Row(
+                children: [
+                  // Technology Selector
+                  technologiesAsync.when(
+                    data: (techs) {
+                      final activeTechName = techs.where((t) => t.slug == _selectedTechnology).firstOrNull?.name ??
+                          (_selectedTechnology == 'all' ? 'All Techs' : _selectedTechnology.toUpperCase());
+
+                      return Expanded(
+                        child: Row(
+                          children: [
+                            const Icon(Icons.code_rounded, size: 14, color: AppColors.primary),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: PopupMenuButton<String>(
+                                initialValue: _selectedTechnology,
+                                onSelected: (val) {
+                                  setState(() {
+                                    _selectedTechnology = val;
+                                    _currentScore = 0;
+                                    _engineKey = UniqueKey();
+                                  });
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: isDark ? Colors.white10 : Colors.black.withValues(alpha: 0.05),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          activeTechName,
+                                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      const Icon(Icons.arrow_drop_down, size: 16),
+                                    ],
+                                  ),
+                                ),
+                                itemBuilder: (ctx) => [
+                                  const PopupMenuItem(
+                                    value: 'all',
+                                    child: Text('All Technologies (Default)'),
+                                  ),
+                                  ...techs.map((t) => PopupMenuItem(
+                                    value: t.slug,
+                                    child: Row(
+                                      children: [
+                                        Text(t.name),
+                                        const Spacer(),
+                                        Text(t.categorySlug, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                                      ],
+                                    ),
+                                  )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    loading: () => const SizedBox(width: 80, child: LinearProgressIndicator()),
+                    error: (_, _) => const Text('General Tech', style: TextStyle(fontSize: 11)),
+                  ),
+
+                  const SizedBox(width: 8),
+
+                  // Difficulty Selector
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.tune_rounded, size: 14, color: AppColors.primary),
+                      const SizedBox(width: 4),
+                      PopupMenuButton<String>(
+                        initialValue: _selectedDifficulty,
+                        onSelected: (val) {
+                          setState(() {
+                            _selectedDifficulty = val;
+                            _currentScore = 0;
+                            _engineKey = UniqueKey();
+                          });
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: isDark ? Colors.white10 : Colors.black.withValues(alpha: 0.05),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                _selectedDifficulty,
+                                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                              ),
+                              const Icon(Icons.arrow_drop_down, size: 16),
+                            ],
+                          ),
+                        ),
+                        itemBuilder: (ctx) => _difficulties.map((d) => PopupMenuItem(
+                          value: d,
+                          child: Text(d),
+                        )).toList(),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -59,8 +59,13 @@ class ApiEndpoints {
   static const String adminCertificates = '/admin/certificates';
   static const String adminResults = '/admin/results';
 
-  // Games
+  // Games & Technologies
   static const String games = '/games';
+  static const String gameCategories = '/games/categories';
+  static const String gameTechnologies = '/games/technologies';
+  static String gameTechnologyBySlug(String slug) => '/games/technologies/$slug';
+  static String gameTechnologyGames(String slug) => '/games/technologies/$slug/games';
+  static String gameTechnologyStats(String slug) => '/games/technologies/$slug/stats';
   static const String gamesUserStats = '/games/user/stats';
   static String gameBySlug(String slug) => '/games/$slug';
   static String gameChallenges(String slug) => '/games/$slug/challenges';
@@ -69,6 +74,10 @@ class ApiEndpoints {
   static String gameScore(String slug) => '/games/$slug/score';
   static String gameFavorite(String slug) => '/games/$slug/favorite';
   static const String adminGames = '/admin/games';
+  static const String adminGameCategories = '/admin/games/categories';
+  static const String adminGameTechnologies = '/admin/games/technologies';
+  static const String adminGameChallenges = '/admin/games/challenges';
+  static const String adminGameStats = '/admin/games/stats';
   static String adminGameTogglePublish(String id) => '/admin/games/$id/toggle-publish';
   static String adminGameToggleFeature(String id) => '/admin/games/$id/toggle-feature';
 }

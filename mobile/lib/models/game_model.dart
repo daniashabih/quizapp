@@ -18,6 +18,7 @@ class GameModel {
   final double userBestAccuracy;
   final int userTotalPlays;
   final bool isFavorite;
+  final List<String> supportedTechnologies;
 
   const GameModel({
     required this.id,
@@ -39,9 +40,15 @@ class GameModel {
     this.userBestAccuracy = 100,
     this.userTotalPlays = 0,
     this.isFavorite = false,
+    this.supportedTechnologies = const [],
   });
 
   factory GameModel.fromJson(Map<String, dynamic> json) {
+    List<String> techs = [];
+    if (json['supportedTechnologies'] is List) {
+      techs = (json['supportedTechnologies'] as List).map((e) => e.toString()).toList();
+    }
+
     return GameModel(
       id: json['id']?.toString() ?? json['_id']?.toString() ?? json['slug']?.toString() ?? '',
       slug: json['slug']?.toString() ?? '',
@@ -72,6 +79,7 @@ class GameModel {
           ? (json['userTotalPlays'] as num).toInt()
           : (json['totalPlays'] is num ? (json['totalPlays'] as num).toInt() : 0),
       isFavorite: json['isFavorite'] == true,
+      supportedTechnologies: techs,
     );
   }
 
@@ -96,6 +104,7 @@ class GameModel {
       'userBestAccuracy': userBestAccuracy,
       'userTotalPlays': userTotalPlays,
       'isFavorite': isFavorite,
+      'supportedTechnologies': supportedTechnologies,
     };
   }
 
@@ -117,6 +126,7 @@ class GameModel {
     double? userBestAccuracy,
     int? userTotalPlays,
     bool? isFavorite,
+    List<String>? supportedTechnologies,
   }) {
     return GameModel(
       id: id,
@@ -138,7 +148,125 @@ class GameModel {
       userBestAccuracy: userBestAccuracy ?? this.userBestAccuracy,
       userTotalPlays: userTotalPlays ?? this.userTotalPlays,
       isFavorite: isFavorite ?? this.isFavorite,
+      supportedTechnologies: supportedTechnologies ?? this.supportedTechnologies,
     );
+  }
+}
+
+class TechnologyCategoryModel {
+  final String id;
+  final String name;
+  final String slug;
+  final String description;
+  final String icon;
+  final bool isEnabled;
+  final int order;
+
+  const TechnologyCategoryModel({
+    required this.id,
+    required this.name,
+    required this.slug,
+    this.description = '',
+    this.icon = 'Layout',
+    this.isEnabled = true,
+    this.order = 1,
+  });
+
+  factory TechnologyCategoryModel.fromJson(Map<String, dynamic> json) {
+    return TechnologyCategoryModel(
+      id: json['id']?.toString() ?? json['_id']?.toString() ?? json['slug']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      slug: json['slug']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      icon: json['icon']?.toString() ?? 'Layout',
+      isEnabled: json['isEnabled'] ?? json['is_enabled'] ?? true,
+      order: (json['order'] is num) ? (json['order'] as num).toInt() : 1,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'slug': slug,
+      'description': description,
+      'icon': icon,
+      'isEnabled': isEnabled,
+      'order': order,
+    };
+  }
+}
+
+class TechnologyModel {
+  final String id;
+  final String categorySlug;
+  final String name;
+  final String slug;
+  final String description;
+  final String color;
+  final String icon;
+  final String badge;
+  final List<String> supportedGames;
+  final bool isEnabled;
+  final int order;
+  final int? userHighScore;
+  final int? userTotalPlays;
+
+  const TechnologyModel({
+    required this.id,
+    required this.categorySlug,
+    required this.name,
+    required this.slug,
+    this.description = '',
+    this.color = '#10B981',
+    this.icon = 'code',
+    this.badge = '',
+    this.supportedGames = const [],
+    this.isEnabled = true,
+    this.order = 1,
+    this.userHighScore,
+    this.userTotalPlays,
+  });
+
+  factory TechnologyModel.fromJson(Map<String, dynamic> json) {
+    List<String> games = [];
+    if (json['supportedGames'] is List) {
+      games = (json['supportedGames'] as List).map((e) => e.toString()).toList();
+    }
+
+    return TechnologyModel(
+      id: json['id']?.toString() ?? json['_id']?.toString() ?? json['slug']?.toString() ?? '',
+      categorySlug: json['categorySlug']?.toString() ?? json['category_slug']?.toString() ?? 'frontend-development',
+      name: json['name']?.toString() ?? '',
+      slug: json['slug']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      color: json['color']?.toString() ?? '#10B981',
+      icon: json['icon']?.toString() ?? 'code',
+      badge: json['badge']?.toString() ?? '',
+      supportedGames: games,
+      isEnabled: json['isEnabled'] ?? json['is_enabled'] ?? true,
+      order: (json['order'] is num) ? (json['order'] as num).toInt() : 1,
+      userHighScore: (json['userHighScore'] is num) ? (json['userHighScore'] as num).toInt() : null,
+      userTotalPlays: (json['userTotalPlays'] is num) ? (json['userTotalPlays'] as num).toInt() : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'categorySlug': categorySlug,
+      'name': name,
+      'slug': slug,
+      'description': description,
+      'color': color,
+      'icon': icon,
+      'badge': badge,
+      'supportedGames': supportedGames,
+      'isEnabled': isEnabled,
+      'order': order,
+      'userHighScore': userHighScore,
+      'userTotalPlays': userTotalPlays,
+    };
   }
 }
 
@@ -152,6 +280,7 @@ class GameScoreSubmitResult {
   final int totalPlays;
   final String message;
   final bool isGuest;
+  final String? technology;
 
   const GameScoreSubmitResult({
     required this.success,
@@ -163,6 +292,7 @@ class GameScoreSubmitResult {
     required this.totalPlays,
     required this.message,
     this.isGuest = false,
+    this.technology,
   });
 
   factory GameScoreSubmitResult.fromJson(Map<String, dynamic> json) {
@@ -176,6 +306,7 @@ class GameScoreSubmitResult {
       totalPlays: (json['totalPlays'] is num) ? (json['totalPlays'] as num).toInt() : 1,
       message: json['message']?.toString() ?? '',
       isGuest: json['isGuest'] == true,
+      technology: json['technology']?.toString(),
     );
   }
 }

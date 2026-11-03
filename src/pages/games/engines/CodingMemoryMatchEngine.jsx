@@ -1,7 +1,120 @@
 import React, { useState, useEffect } from 'react';
 import { Layers, RotateCcw, Trophy, Timer, Sparkles, CheckCircle2 } from 'lucide-react';
 
-const PROGRAMMING_PAIRS = [
+const TECH_MEMORY_PAIRS = {
+    react: [
+        { id: '1', term: 'useState', match: 'Component State' },
+        { id: '2', term: 'useEffect', match: 'Side Effects Lifecycle' },
+        { id: '3', term: 'useMemo', match: 'Memoized Result' },
+        { id: '4', term: 'useCallback', match: 'Memoized Function' },
+        { id: '5', term: 'Props', match: 'Parent-to-Child Inputs' },
+        { id: '6', term: 'JSX', match: 'Syntax Extension for JS' },
+        { id: '7', term: 'Virtual DOM', match: 'In-Memory React Tree' },
+        { id: '8', term: 'Context', match: 'Global State Delivery' }
+    ],
+    javascript: [
+        { id: '1', term: 'Closure', match: 'Function + Lexical Scope' },
+        { id: '2', term: 'Hoisting', match: 'Declarations Moved Up' },
+        { id: '3', term: 'Event Loop', match: 'Concurrency Stack' },
+        { id: '4', term: 'Promise', match: 'Eventual Async Result' },
+        { id: '5', term: 'Prototype', match: 'Inheritance Chain' },
+        { id: '6', term: 'Strict Mode', match: 'Prevents Silent Errors' },
+        { id: '7', term: 'Currying', match: 'Unary Function Chain' },
+        { id: '8', term: 'Idempotent', match: 'Same Output on Repeats' }
+    ],
+    python: [
+        { id: '1', term: 'List Comprehension', match: 'Compact List Creation' },
+        { id: '2', term: 'Decorator', match: 'Wrap Function Logic' },
+        { id: '3', term: 'Generator', match: 'Lazy Yield Execution' },
+        { id: '4', term: 'Dunder', match: 'Double Underscore Method' },
+        { id: '5', term: 'GIL', match: 'Global Interpreter Lock' },
+        { id: '6', term: 'Tuple', match: 'Immutable Sequence' },
+        { id: '7', term: 'Dictionary', match: 'Hash Map Key-Values' },
+        { id: '8', term: 'Lambda', match: 'Anonymous Inline Function' }
+    ],
+    php: [
+        { id: '1', term: 'Eloquent', match: 'ActiveRecord ORM' },
+        { id: '2', term: 'Artisan', match: 'CLI Management Tool' },
+        { id: '3', term: 'Blade', match: 'Templating Engine' },
+        { id: '4', term: 'Middleware', match: 'HTTP Request Pipeline' },
+        { id: '5', term: 'Migration', match: 'Database Version Control' },
+        { id: '6', term: 'Facade', match: 'Static Interface to Service' },
+        { id: '7', term: 'Composer', match: 'PHP Dependency Manager' },
+        { id: '8', term: 'Controller', match: 'Handles Request Logic' }
+    ],
+    laravel: [
+        { id: '1', term: 'Eloquent', match: 'ActiveRecord ORM' },
+        { id: '2', term: 'Artisan', match: 'CLI Management Tool' },
+        { id: '3', term: 'Blade', match: 'Templating Engine' },
+        { id: '4', term: 'Middleware', match: 'HTTP Request Pipeline' },
+        { id: '5', term: 'Migration', match: 'Database Version Control' },
+        { id: '6', term: 'Facade', match: 'Static Interface to Service' },
+        { id: '7', term: 'Composer', match: 'PHP Dependency Manager' },
+        { id: '8', term: 'Controller', match: 'Handles Request Logic' }
+    ],
+    sql: [
+        { id: '1', term: 'Primary Key', match: 'Unique Row Identifier' },
+        { id: '2', term: 'Foreign Key', match: 'Referential Table Link' },
+        { id: '3', term: 'JOIN', match: 'Combine Table Records' },
+        { id: '4', term: 'INDEX', match: 'B-Tree Query Speedup' },
+        { id: '5', term: 'HAVING', match: 'Post-Aggregate Filter' },
+        { id: '6', term: 'ACID', match: 'Transaction Guarantees' },
+        { id: '7', term: 'GROUP BY', match: 'Category Aggregation' },
+        { id: '8', term: 'CASCADE', match: 'Propagates Relational Edits' }
+    ],
+    mysql: [
+        { id: '1', term: 'Primary Key', match: 'Unique Row Identifier' },
+        { id: '2', term: 'Foreign Key', match: 'Referential Table Link' },
+        { id: '3', term: 'JOIN', match: 'Combine Table Records' },
+        { id: '4', term: 'INDEX', match: 'B-Tree Query Speedup' },
+        { id: '5', term: 'HAVING', match: 'Post-Aggregate Filter' },
+        { id: '6', term: 'ACID', match: 'Transaction Guarantees' },
+        { id: '7', term: 'GROUP BY', match: 'Category Aggregation' },
+        { id: '8', term: 'CASCADE', match: 'Propagates Relational Edits' }
+    ],
+    flutter: [
+        { id: '1', term: 'Widget', match: 'Immutable UI Element' },
+        { id: '2', term: 'StatefulWidget', match: 'Mutable Internal State' },
+        { id: '3', term: 'BuildContext', match: 'Element Tree Location' },
+        { id: '4', term: 'Hot Reload', match: 'Instant VM Code Injection' },
+        { id: '5', term: 'Future', match: 'Single Async Value' },
+        { id: '6', term: 'Stream', match: 'Asynchronous Data Series' },
+        { id: '7', term: 'Scaffold', match: 'Material Layout Structure' },
+        { id: '8', term: 'Pubspec', match: 'Dependency & Asset Config' }
+    ],
+    dart: [
+        { id: '1', term: 'Widget', match: 'Immutable UI Element' },
+        { id: '2', term: 'StatefulWidget', match: 'Mutable Internal State' },
+        { id: '3', term: 'BuildContext', match: 'Element Tree Location' },
+        { id: '4', term: 'Hot Reload', match: 'Instant VM Code Injection' },
+        { id: '5', term: 'Future', match: 'Single Async Value' },
+        { id: '6', term: 'Stream', match: 'Asynchronous Data Series' },
+        { id: '7', term: 'Scaffold', match: 'Material Layout Structure' },
+        { id: '8', term: 'Pubspec', match: 'Dependency & Asset Config' }
+    ],
+    html: [
+        { id: '1', term: 'Semantic HTML', match: 'Meaningful Markup Tags' },
+        { id: '2', term: 'Flexbox', match: '1D Flexible Layout' },
+        { id: '3', term: 'CSS Grid', match: '2D Layout Matrix' },
+        { id: '4', term: 'Specificity', match: 'Selector Weighting Rule' },
+        { id: '5', term: 'Box Model', match: 'Content Padding Border Margin' },
+        { id: '6', term: 'rem', match: 'Root Relative Font Unit' },
+        { id: '7', term: 'Viewport', match: 'Visible Screen Frame' },
+        { id: '8', term: 'DOCTYPE', match: 'HTML5 Mode Declaration' }
+    ],
+    css: [
+        { id: '1', term: 'Semantic HTML', match: 'Meaningful Markup Tags' },
+        { id: '2', term: 'Flexbox', match: '1D Flexible Layout' },
+        { id: '3', term: 'CSS Grid', match: '2D Layout Matrix' },
+        { id: '4', term: 'Specificity', match: 'Selector Weighting Rule' },
+        { id: '5', term: 'Box Model', match: 'Content Padding Border Margin' },
+        { id: '6', term: 'rem', match: 'Root Relative Font Unit' },
+        { id: '7', term: 'Viewport', match: 'Visible Screen Frame' },
+        { id: '8', term: 'DOCTYPE', match: 'HTML5 Mode Declaration' }
+    ]
+};
+
+const DEFAULT_PROGRAMMING_PAIRS = [
     { id: '1', term: 'Closure', match: 'Function + Lexical Scope' },
     { id: '2', term: 'Polymorphism', match: 'Many Forms / Same Method' },
     { id: '3', term: 'Promise', match: 'Eventual Async Result' },
@@ -12,7 +125,7 @@ const PROGRAMMING_PAIRS = [
     { id: '8', term: 'Idempotent', match: 'Same Output on Repeats' }
 ];
 
-export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
+export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused, technology, difficulty }) => {
     const [cards, setCards] = useState([]);
     const [flipped, setFlipped] = useState([]);
     const [matched, setMatched] = useState([]);
@@ -20,10 +133,12 @@ export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused })
     const [seconds, setSeconds] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
 
+    const activePairs = (technology && TECH_MEMORY_PAIRS[technology.toLowerCase()]) || DEFAULT_PROGRAMMING_PAIRS;
+
     // Shuffle cards
     const initGame = () => {
         const deck = [];
-        PROGRAMMING_PAIRS.forEach(p => {
+        activePairs.forEach(p => {
             deck.push({ cardId: `${p.id}_term`, pairId: p.id, text: p.term, isTerm: true });
             deck.push({ cardId: `${p.id}_match`, pairId: p.id, text: p.match, isTerm: false });
         });
@@ -38,7 +153,7 @@ export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused })
 
     useEffect(() => {
         initGame();
-    }, []);
+    }, [technology, difficulty]);
 
     // Timer
     useEffect(() => {
@@ -71,15 +186,15 @@ export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused })
                 const currentScore = newMatched.length * 150 - (moves * 5);
                 if (onScoreUpdate) onScoreUpdate(Math.max(0, currentScore));
 
-                if (newMatched.length === PROGRAMMING_PAIRS.length) {
+                if (newMatched.length === activePairs.length) {
                     setIsComplete(true);
-                    const finalScore = Math.max(100, (PROGRAMMING_PAIRS.length * 200) - (moves * 10) - seconds * 2);
+                    const finalScore = Math.max(100, (activePairs.length * 200) - (moves * 10) - seconds * 2);
                     if (onScoreUpdate) onScoreUpdate(finalScore);
                     if (onGameOver) {
                         onGameOver({
                             score: finalScore,
-                            accuracy: Math.round((PROGRAMMING_PAIRS.length / (moves || 1)) * 100),
-                            metadata: { moves, durationSeconds: seconds }
+                            accuracy: Math.round((activePairs.length / (moves || 1)) * 100),
+                            metadata: { moves, durationSeconds: seconds, technology }
                         });
                     }
                 }
@@ -98,11 +213,14 @@ export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused })
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
-                            <Layers size={12} /> Memory Recall
+                        <span className="game-tech-badge flex items-center gap-1">
+                            <Layers size={12} /> {technology && technology !== 'all' ? technology.toUpperCase() : 'General'}
+                        </span>
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                            {difficulty || 'All Levels'}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
-                            Pairs: {matched.length} / {PROGRAMMING_PAIRS.length}
+                            Pairs: {matched.length} / {activePairs.length}
                         </span>
                     </div>
                     <h2 className="text-lg font-black text-[var(--foreground)]">Programming Concepts Memory Match</h2>

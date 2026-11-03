@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Keyboard, CheckCircle2, RotateCcw, ArrowRight, Sparkles } from 'lucide-react';
 
-const CODE_SNIPPETS = [
+const ALL_CODE_SNIPPETS = [
+    // JavaScript
     {
-        id: 'ct_1',
+        id: 'ct_js_1',
+        technology: 'javascript',
+        technologyName: 'JavaScript',
+        difficulty: 'Beginner',
         language: 'javascript',
         title: 'Binary Search Function',
         code: `function binarySearch(arr, target) {
@@ -17,8 +21,12 @@ const CODE_SNIPPETS = [
     return -1;
 }`
     },
+    // Python
     {
-        id: 'ct_2',
+        id: 'ct_py_1',
+        technology: 'python',
+        technologyName: 'Python',
+        difficulty: 'Intermediate',
         language: 'python',
         title: 'Python Decorator Wrapper',
         code: `import time
@@ -34,8 +42,12 @@ def time_it(func):
         return result
     return wrapper`
     },
+    // SQL / MySQL
     {
-        id: 'ct_3',
+        id: 'ct_sql_1',
+        technology: 'sql',
+        technologyName: 'SQL',
+        difficulty: 'Intermediate',
         language: 'sql',
         title: 'Aggregated Revenue Query',
         code: `SELECT department, SUM(amount) AS total_revenue
@@ -44,10 +56,182 @@ WHERE transaction_date >= '2026-01-01'
 GROUP BY department
 HAVING SUM(amount) > 10000
 ORDER BY total_revenue DESC;`
+    },
+    {
+        id: 'ct_mysql_1',
+        technology: 'mysql',
+        technologyName: 'MySQL',
+        difficulty: 'Beginner',
+        language: 'sql',
+        title: 'User Authentication Query',
+        code: `SELECT id, username, email, role
+FROM users
+WHERE email = 'dev@hangbug.com'
+  AND is_active = 1
+LIMIT 1;`
+    },
+    // React
+    {
+        id: 'ct_react_1',
+        technology: 'react',
+        technologyName: 'React.js',
+        difficulty: 'Beginner',
+        language: 'javascript',
+        title: 'React Custom Fetch Hook',
+        code: `import { useState, useEffect } from 'react';
+
+export function useFetch(url) {
+    const [data, setData] = useState(null);
+    useEffect(() => {
+        let isMounted = true;
+        fetch(url)
+            .then(res => res.json())
+            .then(json => { if (isMounted) setData(json); });
+        return () => { isMounted = false; };
+    }, [url]);
+    return data;
+}`
+    },
+    // HTML
+    {
+        id: 'ct_html_1',
+        technology: 'html',
+        technologyName: 'HTML',
+        difficulty: 'Beginner',
+        language: 'html',
+        title: 'Semantic Article Markup',
+        code: `<article class="post-card">
+  <header>
+    <h2>Mastering Web Dev</h2>
+    <time datetime="2026-11-03">Nov 2026</time>
+  </header>
+  <p>Practice writing semantic accessible HTML5.</p>
+</article>`
+    },
+    // CSS
+    {
+        id: 'ct_css_1',
+        technology: 'css',
+        technologyName: 'CSS',
+        difficulty: 'Beginner',
+        language: 'css',
+        title: 'Centering Flexbox Container',
+        code: `.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    gap: 1.5rem;
+}`
+    },
+    // PHP
+    {
+        id: 'ct_php_1',
+        technology: 'php',
+        technologyName: 'PHP',
+        difficulty: 'Beginner',
+        language: 'php',
+        title: 'PHP PDO Prepared Statement',
+        code: `<?php
+$stmt = $pdo->prepare('SELECT id, name FROM users WHERE email = :email');
+$stmt->execute(['email' => $email]);
+$user = $stmt->fetch();
+if ($user && password_verify($password, $user['password'])) {
+    session_start();
+}`
+    },
+    // Laravel
+    {
+        id: 'ct_laravel_1',
+        technology: 'laravel',
+        technologyName: 'Laravel',
+        difficulty: 'Intermediate',
+        language: 'php',
+        title: 'Laravel Eloquent Query Scope',
+        code: `class User extends Authenticatable
+{
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true)
+                     ->whereNotNull('email_verified_at');
+    }
+}`
+    },
+    // Flutter
+    {
+        id: 'ct_flutter_1',
+        technology: 'flutter',
+        technologyName: 'Flutter',
+        difficulty: 'Beginner',
+        language: 'dart',
+        title: 'Flutter Stateless Card Widget',
+        code: `class TechBadge extends StatelessWidget {
+  final String label;
+  const TechBadge({super.key, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.emerald,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(label),
+    );
+  }
+}`
+    },
+    // Dart
+    {
+        id: 'ct_dart_1',
+        technology: 'dart',
+        technologyName: 'Dart',
+        difficulty: 'Intermediate',
+        language: 'dart',
+        title: 'Dart Stream Transformer',
+        code: `Stream<int> countStream(int max) async* {
+  for (int i = 1; i <= max; i++) {
+    await Future.delayed(const Duration(milliseconds: 100));
+    yield i;
+  }
+}`
+    },
+    // Node.js
+    {
+        id: 'ct_node_1',
+        technology: 'nodejs',
+        technologyName: 'Node.js',
+        difficulty: 'Beginner',
+        language: 'javascript',
+        title: 'Node HTTP Stream Response',
+        code: `import { createReadStream } from 'node:fs';
+import { createServer } from 'node:http';
+
+const server = createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    createReadStream('file.txt').pipe(res);
+});
+server.listen(3000);`
+    },
+    // MongoDB
+    {
+        id: 'ct_mongo_1',
+        technology: 'mongodb',
+        technologyName: 'MongoDB',
+        difficulty: 'Intermediate',
+        language: 'javascript',
+        title: 'MongoDB Aggregation Pipeline',
+        code: `db.orders.aggregate([
+  { $match: { status: 'completed' } },
+  { $group: { _id: '$customerId', totalSpent: { $sum: '$amount' } } },
+  { $sort: { totalSpent: -1 } },
+  { $limit: 10 }
+]);`
     }
 ];
 
-export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
+export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused, technology, difficulty }) => {
     const [snippetIdx, setSnippetIdx] = useState(0);
     const [typed, setTyped] = useState('');
     const [startTime, setStartTime] = useState(null);
@@ -56,7 +240,22 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
     const [isFinished, setIsFinished] = useState(false);
 
     const inputRef = useRef(null);
-    const currentSnippet = CODE_SNIPPETS[snippetIdx];
+
+    // Filter snippets by technology and difficulty if specified
+    const filteredSnippets = React.useMemo(() => {
+        if (!technology || technology === 'all') {
+            return ALL_CODE_SNIPPETS;
+        }
+        const matched = ALL_CODE_SNIPPETS.filter(s =>
+            s.technology.toLowerCase() === technology.toLowerCase() &&
+            (!difficulty || difficulty === 'All Levels' || s.difficulty.toLowerCase() === difficulty.toLowerCase())
+        );
+        if (matched.length > 0) return matched;
+        const techOnly = ALL_CODE_SNIPPETS.filter(s => s.technology.toLowerCase() === technology.toLowerCase());
+        return techOnly.length > 0 ? techOnly : ALL_CODE_SNIPPETS;
+    }, [technology, difficulty]);
+
+    const currentSnippet = filteredSnippets[snippetIdx] || filteredSnippets[0] || ALL_CODE_SNIPPETS[0];
     const targetCode = currentSnippet.code;
 
     useEffect(() => {
@@ -66,7 +265,7 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
         setAccuracy(100);
         setIsFinished(false);
         if (inputRef.current) inputRef.current.focus();
-    }, [snippetIdx]);
+    }, [snippetIdx, technology, difficulty]);
 
     useEffect(() => {
         if (!startTime || isFinished || isPaused) return;
@@ -113,7 +312,11 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                     score: finalScore,
                     wpm: finalWpm,
                     accuracy: acc,
-                    metadata: { language: currentSnippet.language, characters: targetCode.length }
+                    metadata: {
+                        technology: currentSnippet.technology,
+                        language: currentSnippet.language,
+                        characters: targetCode.length
+                    }
                 });
             }
         }
@@ -124,11 +327,14 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
-                            <Keyboard size={12} /> {currentSnippet.language}
+                        <span className="game-tech-badge flex items-center gap-1">
+                            <Keyboard size={12} /> {currentSnippet.technologyName || currentSnippet.language}
+                        </span>
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                            {currentSnippet.difficulty || difficulty || 'All Levels'}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
-                            Snippet {snippetIdx + 1} of {CODE_SNIPPETS.length}
+                            Snippet {snippetIdx + 1} of {filteredSnippets.length}
                         </span>
                     </div>
                     <h2 className="text-lg font-black text-[var(--foreground)]">{currentSnippet.title}</h2>
@@ -150,7 +356,7 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             {/* Syntax Reference Code Display with live character highlights */}
             <div
                 onClick={() => inputRef.current?.focus()}
-                className="relative p-5 rounded-2xl bg-[var(--muted-bg)] font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto select-none cursor-text border border-[var(--card-border)] min-h-[160px] shadow-xs"
+                className="game-code-container relative p-5 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto select-none cursor-text min-h-[160px] shadow-xs"
             >
                 <pre className="whitespace-pre">
                     {targetCode.split('').map((char, i) => {
@@ -158,11 +364,16 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                         let isCurrent = i === typed.length;
 
                         if (i < typed.length) {
-                            color = typed[i] === char ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-500/15 font-semibold' : 'text-rose-700 dark:text-rose-400 bg-rose-500/20 font-bold';
+                            color = typed[i] === char
+                                ? 'text-emerald-600 dark:text-emerald-400 font-bold'
+                                : 'text-rose-600 dark:text-rose-400 bg-rose-500/20 font-bold underline';
                         }
 
                         return (
-                            <span key={i} className={`${color} ${isCurrent ? 'border-b-2 border-indigo-400 animate-pulse' : ''}`}>
+                            <span
+                                key={i}
+                                className={`${color} ${isCurrent ? 'border-b-2 border-indigo-500 animate-pulse bg-indigo-500/10' : ''}`}
+                            >
                                 {char}
                             </span>
                         );
@@ -170,49 +381,52 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 </pre>
             </div>
 
-            {/* Input textarea */}
+            {/* Invisible native input for keyboard capture */}
             <textarea
                 ref={inputRef}
                 value={typed}
                 onChange={handleChange}
                 disabled={isFinished || isPaused}
-                rows={3}
-                placeholder="Type the exact code above with indentation..."
-                className="w-full px-4 py-3 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] text-xs sm:text-sm font-mono text-[var(--foreground)] focus:outline-hidden focus:border-indigo-500 transition-all resize-none shadow-xs"
+                rows={1}
+                className="opacity-0 absolute -z-10"
+                autoCapitalize="none"
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck="false"
             />
 
+            {/* Completion Banner */}
             {isFinished && (
-                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300 flex items-center justify-between gap-3">
+                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <CheckCircle2 size={24} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
+                        <CheckCircle2 size={24} className="shrink-0 text-emerald-600 dark:text-emerald-400" />
                         <div>
-                            <p className="font-black text-sm">Code Snippet Typed Flawlessly!</p>
-                            <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">
-                                Speed: <strong>{wpm} WPM</strong> | Accuracy: <strong>{accuracy}%</strong>
-                            </p>
+                            <p className="font-black text-sm text-emerald-900 dark:text-emerald-200">Snippet Completed!</p>
+                            <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">{wpm} WPM with {accuracy}% accuracy.</p>
                         </div>
                     </div>
-                    <button
-                        onClick={() => setSnippetIdx(prev => (prev + 1) % CODE_SNIPPETS.length)}
-                        className="game-btn-primary"
-                    >
-                        Next Snippet
-                    </button>
+                    {snippetIdx + 1 < filteredSnippets.length && (
+                        <button
+                            onClick={() => setSnippetIdx(prev => prev + 1)}
+                            className="game-btn-primary"
+                        >
+                            Next Snippet <ArrowRight size={14} />
+                        </button>
+                    )}
                 </div>
             )}
 
-            <div className="flex items-center justify-between pt-1">
-                <span className="text-xs text-[var(--foreground-muted)]">
-                    Progress: {typed.length} / {targetCode.length} characters
+            <div className="flex items-center justify-between pt-2">
+                <span className="text-xs text-[var(--foreground-muted)] font-medium">
+                    {typed.length} / {targetCode.length} characters
                 </span>
                 <button
                     onClick={() => {
                         setTyped('');
                         setStartTime(null);
                         setWpm(0);
+                        setAccuracy(100);
+                        setIsFinished(false);
                         inputRef.current?.focus();
                     }}
                     className="game-btn-secondary"

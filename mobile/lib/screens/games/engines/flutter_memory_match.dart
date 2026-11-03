@@ -1,16 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../../../core/constants/app_colors.dart';
 
 class FlutterMemoryMatch extends StatefulWidget {
-  final Function(int score, Map<String, dynamic> metadata) onGameOver;
-  final Function(int score) onScoreUpdate;
+  final void Function(int score, Map<String, dynamic> metadata) onGameOver;
+  final void Function(int score) onScoreUpdate;
   final bool isPaused;
 
   const FlutterMemoryMatch({
     super.key,
     required this.onGameOver,
     required this.onScoreUpdate,
-    this.isPaused = false,
+    required this.isPaused,
   });
 
   @override
@@ -18,17 +19,19 @@ class FlutterMemoryMatch extends StatefulWidget {
 }
 
 class _FlutterMemoryMatchState extends State<FlutterMemoryMatch> {
-  static const List<String> _symbols = ['🚀', '🎮', '⚡', '💎', '🐞', '🧠', '🎯', '🏆'];
+  static const List<String> _symbols = [
+    '⚛️', '🐍', '🚀', '⚡', '💻', '🔥', '🎨', '⚙️'
+  ];
 
   late List<Map<String, dynamic>> _cards;
   final List<int> _flippedIndices = [];
   final Set<int> _matchedIndices = {};
+
   int _moves = 0;
-  int _streak = 0;
   int _score = 0;
+  int _streak = 0;
   int _seconds = 0;
   Timer? _timer;
-  bool _started = false;
 
   @override
   void initState() {
@@ -44,37 +47,35 @@ class _FlutterMemoryMatchState extends State<FlutterMemoryMatch> {
 
   void _initCards() {
     _timer?.cancel();
-    final deck = <Map<String, dynamic>>[];
+    _seconds = 0;
+    _moves = 0;
+    _score = 0;
+    _streak = 0;
+    _flippedIndices.clear();
+    _matchedIndices.clear();
+
+    final List<Map<String, dynamic>> deck = [];
     for (int i = 0; i < _symbols.length; i++) {
-      deck.add({'id': i * 2, 'symbol': _symbols[i]});
-      deck.add({'id': i * 2 + 1, 'symbol': _symbols[i]});
+      deck.add({'symbol': _symbols[i], 'pairId': i});
+      deck.add({'symbol': _symbols[i], 'pairId': i});
     }
     deck.shuffle();
 
     setState(() {
       _cards = deck;
-      _flippedIndices.clear();
-      _matchedIndices.clear();
-      _moves = 0;
-      _streak = 0;
-      _score = 0;
-      _seconds = 0;
-      _started = false;
     });
-    widget.onScoreUpdate(0);
   }
 
   void _onCardTap(int index) {
     if (widget.isPaused ||
-        _matchedIndices.contains(index) ||
         _flippedIndices.contains(index) ||
-        _flippedIndices.length == 2) {
+        _matchedIndices.contains(index) ||
+        _flippedIndices.length >= 2) {
       return;
     }
 
-    if (!_started) {
-      _started = true;
-      _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+    if (_timer == null || !_timer!.isActive) {
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         if (!widget.isPaused && mounted) {
           setState(() {
             _seconds++;
@@ -133,97 +134,144 @@ class _FlutterMemoryMatchState extends State<FlutterMemoryMatch> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Stats
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('$_moves Moves', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-            Text(
-              '${_seconds ~/ 60}:${(_seconds % 60).toString().padLeft(2, '0')}',
-              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, fontFamily: 'monospace'),
-            ),
-            Row(
-              children: [
-                Text('SCORE: $_score', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.purpleAccent)),
-                const SizedBox(width: 4),
-                IconButton(
-                  onPressed: _initCards,
-                  icon: const Icon(Icons.refresh_rounded, size: 18),
-                  visualDensity: VisualDensity.compact,
-                ),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-
-        // 4x4 Grid
-        Container(
-          width: 280,
-          height: 280,
-          padding: const EdgeInsets.all(6),
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 420),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+            color: context.cardBgColor,
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
+            border: Border.all(color: context.borderColor),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: context.isDarkMode ? 0.3 : 0.05),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+              ),
+            ],
           ),
-          child: GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              crossAxisSpacing: 6,
-              mainAxisSpacing: 6,
-            ),
-            itemCount: 16,
-            itemBuilder: (context, index) {
-              final isFlipped = _flippedIndices.contains(index) || _matchedIndices.contains(index);
-              final isMatched = _matchedIndices.contains(index);
-
-              return InkWell(
-                onTap: () => _onCardTap(index),
-                borderRadius: BorderRadius.circular(12),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  decoration: BoxDecoration(
-                    color: isMatched
-                        ? Colors.purple.withValues(alpha: 0.25)
-                        : (isFlipped
-                            ? Colors.purple
-                            : (isDark ? const Color(0xFF0F172A) : Colors.white)),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: isMatched
-                          ? Colors.purpleAccent
-                          : (isDark ? Colors.white12 : Colors.black12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Stats
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '$_moves Moves',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: context.textPrimaryColor),
+                  ),
+                  Text(
+                    '${_seconds ~/ 60}:${(_seconds % 60).toString().padLeft(2, '0')}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'monospace',
+                      color: context.textPrimaryColor,
                     ),
                   ),
-                  child: Center(
-                    child: Text(
-                      isFlipped ? _cards[index]['symbol'] : '?',
-                      style: TextStyle(
-                        fontSize: isFlipped ? 20 : 14,
-                        fontWeight: FontWeight.bold,
-                        color: isFlipped ? Colors.white : Colors.grey,
+                  Row(
+                    children: [
+                      Text(
+                        'SCORE: $_score',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.gameScore,
+                          fontFamily: 'monospace',
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 4),
+                      IconButton(
+                        onPressed: _initCards,
+                        icon: const Icon(Icons.refresh_rounded, size: 18),
+                        visualDensity: VisualDensity.compact,
+                        tooltip: 'Reset Board',
+                      ),
+                    ],
                   ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // 4x4 Grid
+              Container(
+                width: 320,
+                height: 320,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: context.gameCodeBgColor,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: context.gameCodeBorderColor),
                 ),
-              );
-            },
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
+                  itemCount: 16,
+                  itemBuilder: (context, index) {
+                    final isFlipped = _flippedIndices.contains(index) || _matchedIndices.contains(index);
+                    final isMatched = _matchedIndices.contains(index);
+
+                    Color cardBg = context.cardBgColor;
+                    Color cardBorder = context.borderColor;
+
+                    if (isMatched) {
+                      cardBg = AppColors.successBg;
+                      cardBorder = AppColors.success;
+                    } else if (isFlipped) {
+                      cardBg = context.gameBadgeBgColor;
+                      cardBorder = AppColors.gamePrimaryButton;
+                    }
+
+                    return InkWell(
+                      onTap: () => _onCardTap(index),
+                      borderRadius: BorderRadius.circular(12),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 250),
+                        decoration: BoxDecoration(
+                          color: cardBg,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: cardBorder, width: isFlipped || isMatched ? 1.5 : 1),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: context.isDarkMode ? 0.2 : 0.04),
+                              blurRadius: 4,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            isFlipped ? _cards[index]['symbol'] : '⚡',
+                            style: TextStyle(
+                              fontSize: isFlipped ? 22 : 14,
+                              fontWeight: FontWeight.bold,
+                              color: isFlipped
+                                  ? (isMatched ? AppColors.success : context.gameBadgeTextColor)
+                                  : context.textMutedColor.withValues(alpha: 0.5),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 12),
+              Text(
+                'Tap cards to find matching pairs in minimal moves!',
+                style: TextStyle(fontSize: 11, color: context.textMutedColor),
+              ),
+            ],
           ),
         ),
-
-        const SizedBox(height: 12),
-        const Text(
-          'Tap cards to find matching pairs in minimal moves!',
-          style: TextStyle(fontSize: 11, color: Colors.grey),
-        ),
-      ],
+      ),
     );
   }
 }

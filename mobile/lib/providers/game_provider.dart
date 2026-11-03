@@ -9,15 +9,29 @@ final gameRepositoryProvider = Provider<GameRepository>((ref) {
 });
 
 final selectedGameCategoryProvider = StateProvider<String>((ref) => 'All Games');
+final selectedGameTechnologyProvider = StateProvider<String>((ref) => 'all');
+final selectedGameDifficultyProvider = StateProvider<String>((ref) => 'All Levels');
 final gameSearchQueryProvider = StateProvider<String>((ref) => '');
+
+final gameCategoriesProvider = FutureProvider<List<TechnologyCategoryModel>>((ref) async {
+  final repo = ref.watch(gameRepositoryProvider);
+  return repo.getGameCategories();
+});
+
+final gameTechnologiesProvider = FutureProvider<List<TechnologyModel>>((ref) async {
+  final repo = ref.watch(gameRepositoryProvider);
+  return repo.getGameTechnologies();
+});
 
 final gamesListProvider = FutureProvider<List<GameModel>>((ref) async {
   final repo = ref.watch(gameRepositoryProvider);
   final category = ref.watch(selectedGameCategoryProvider);
+  final technology = ref.watch(selectedGameTechnologyProvider);
   final search = ref.watch(gameSearchQueryProvider);
 
   return repo.getGames(
     category: category,
+    technology: technology != 'all' ? technology : null,
     search: search,
   );
 });

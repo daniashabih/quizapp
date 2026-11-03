@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { HelpCircle, CheckCircle2, XCircle, ArrowRight, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { HelpCircle, CheckCircle2, XCircle, ArrowRight, Sparkles, Loader2 } from 'lucide-react';
+import gameService from '../../../services/gameService';
 
-const MISSING_CODE_CHALLENGES = [
+const FALLBACK_MISSING_CODE_CHALLENGES = [
     {
         id: 'mc_1',
         title: 'Promise All Settlement',
         language: 'javascript',
+        technology: 'javascript',
+        technologyName: 'JavaScript',
         difficulty: 'Beginner',
         codeBefore: `async function loadData() {\n    const [users, posts] = await Promise.`,
         blank: 'all',
@@ -17,6 +20,8 @@ const MISSING_CODE_CHALLENGES = [
         id: 'mc_2',
         title: 'Python List Comprehension Filtering',
         language: 'python',
+        technology: 'python',
+        technologyName: 'Python',
         difficulty: 'Beginner',
         codeBefore: `numbers = [1, 2, 3, 4, 5, 6]\nevens = [n for n in numbers `,
         blank: 'if',
@@ -28,6 +33,8 @@ const MISSING_CODE_CHALLENGES = [
         id: 'mc_3',
         title: 'SQL Aggregate Group Filtering',
         language: 'sql',
+        technology: 'sql',
+        technologyName: 'SQL',
         difficulty: 'Intermediate',
         codeBefore: `SELECT department, COUNT(*)\nFROM employees\nGROUP BY department\n`,
         blank: 'HAVING',
@@ -39,6 +46,8 @@ const MISSING_CODE_CHALLENGES = [
         id: 'mc_4',
         title: 'React Stateful Counter Hook',
         language: 'javascript',
+        technology: 'react',
+        technologyName: 'React.js',
         difficulty: 'Beginner',
         codeBefore: `import React, { `,
         blank: 'useState',
@@ -48,29 +57,111 @@ const MISSING_CODE_CHALLENGES = [
     }
 ];
 
-export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
+export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused, technology, difficulty }) => {
+    const [challenges, setChallenges] = useState(FALLBACK_MISSING_CODE_CHALLENGES);
     const [challengeIdx, setChallengeIdx] = useState(0);
     const [selectedOption, setSelectedOption] = useState(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [verificationResult, setVerificationResult] = useState(null);
+    const [isValidating, setIsValidating] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [score, setScore] = useState(0);
     const [correctCount, setCorrectCount] = useState(0);
 
-    const challenge = MISSING_CODE_CHALLENGES[challengeIdx];
+    useEffect(() => {
+        let isMounted = true;
+        async function loadChallenges() {
+            setLoading(true);
+            try {
+                const res = await gameService.getChallenges('missing-code', {
+                    technology: technology && technology !== 'all' ? technology : undefined,
+                    difficulty: difficulty && difficulty !== 'All Levels' ? difficulty : undefined
+                });
+
+                if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    const parsed = res.data.map(item => {
+                        let codeBefore = item.codeBefore || '';
+                        let codeAfter = item.codeAfter || '';
+                        const content = item.content || '';
+
+                        if (!codeBefore && !codeAfter && content.includes('_____')) {
+                            const parts = content.split('_____');
+                            codeBefore = parts[0] || '';
+                            codeAfter = parts.slice(1).join('_____') || '';
+                        }
+
+                        return {
+                            ...item,
+                            codeBefore,
+                            codeAfter,
+                            blank: item.blank || item.solution || '',
+                            options: Array.isArray(item.options) && item.options.length > 0
+                                ? item.options
+                                : ['token_a', 'token_b', 'token_c', 'token_d'],
+                            explanation: item.explanation || 'Supplying the proper keyword restores syntax and semantic meaning.'
+                        };
+                    });
+
+                    if (isMounted) {
+                        setChallenges(parsed);
+                        setChallengeIdx(0);
+                        setSelectedOption(null);
+                        setIsSubmitted(false);
+                        setVerificationResult(null);
+                    }
+                } else if (technology && technology !== 'all') {
+                    const filtered = FALLBACK_MISSING_CODE_CHALLENGES.filter(c =>
+                        c.technology === technology.toLowerCase()
+                    );
+                    if (isMounted && filtered.length > 0) {
+                        setChallenges(filtered);
+                        setChallengeIdx(0);
+                    }
+                }
+            } catch (err) {
+                console.warn('[MissingCode] Using fallback challenges:', err);
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        }
+
+        loadChallenges();
+        return () => { isMounted = false; };
+    }, [technology, difficulty]);
+
+    const challenge = challenges[challengeIdx] || FALLBACK_MISSING_CODE_CHALLENGES[0];
 
     const handleSelect = (opt) => {
-        if (isSubmitted || isPaused) return;
+        if (isSubmitted || isPaused || isValidating) return;
         setSelectedOption(opt);
     };
 
-    const handleSubmit = () => {
-        if (!selectedOption || isSubmitted || isPaused) return;
+    const handleSubmit = async () => {
+        if (!selectedOption || isSubmitted || isPaused || isValidating) return;
 
+        setIsValidating(true);
+        let isMatch = false;
+        let explanation = challenge.explanation;
+
+        try {
+            const res = await gameService.verifyChallenge('missing-code', challenge.id, selectedOption);
+            if (res && typeof res.isCorrect === 'boolean') {
+                isMatch = res.isCorrect;
+                if (res.explanation) explanation = res.explanation;
+            } else if (challenge.blank) {
+                isMatch = String(selectedOption).trim() === String(challenge.blank).trim();
+            }
+        } catch {
+            isMatch = challenge.blank ? (String(selectedOption).trim() === String(challenge.blank).trim()) : false;
+        }
+
+        setVerificationResult({ isMatch, explanation });
         setIsSubmitted(true);
-        const isMatch = selectedOption === challenge.blank;
+        setIsValidating(false);
 
         let newScore = score;
         if (isMatch) {
-            newScore = score + 200;
+            newScore = score + (challenge.points || 200);
             setScore(newScore);
             setCorrectCount(prev => prev + 1);
             if (onScoreUpdate) onScoreUpdate(newScore);
@@ -78,33 +169,48 @@ export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
     };
 
     const handleNext = () => {
-        if (challengeIdx + 1 < MISSING_CODE_CHALLENGES.length) {
+        if (challengeIdx + 1 < challenges.length) {
             setChallengeIdx(prev => prev + 1);
             setSelectedOption(null);
             setIsSubmitted(false);
+            setVerificationResult(null);
         } else {
             if (onGameOver) {
+                const total = challenges.length;
+                const correct = correctCount + (verificationResult?.isMatch ? 1 : 0);
                 onGameOver({
                     score,
-                    accuracy: Math.round(((correctCount + (selectedOption === challenge.blank ? 1 : 0)) / MISSING_CODE_CHALLENGES.length) * 100),
-                    metadata: { challengesCompleted: MISSING_CODE_CHALLENGES.length }
+                    accuracy: Math.round((correct / total) * 100),
+                    metadata: { challengesCompleted: total, correctCount: correct, technology }
                 });
             }
         }
     };
 
-    const isCorrect = selectedOption === challenge.blank;
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center p-12 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl max-w-3xl mx-auto w-full">
+                <Loader2 size={32} className="animate-spin text-emerald-500 mb-3" />
+                <p className="text-sm font-semibold text-[var(--foreground-muted)]">Loading {technology || 'technology'} syntax gaps...</p>
+            </div>
+        );
+    }
+
+    const isCorrect = verificationResult ? verificationResult.isMatch : (selectedOption === challenge.blank);
 
     return (
         <div className="flex flex-col gap-5 p-4 sm:p-6 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl shadow-xl max-w-3xl mx-auto w-full">
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge">
-                            {challenge.language}
+                        <span className="game-tech-badge">
+                            <HelpCircle size={12} /> {challenge.technologyName || challenge.language || 'Code'}
+                        </span>
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                            {challenge.difficulty || difficulty || 'All Levels'}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
-                            Challenge {challengeIdx + 1} of {MISSING_CODE_CHALLENGES.length}
+                            Challenge {challengeIdx + 1} of {challenges.length}
                         </span>
                     </div>
                     <h2 className="text-lg font-black text-[var(--foreground)]">{challenge.title}</h2>
@@ -113,12 +219,12 @@ export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
 
                 <div className="text-right">
                     <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Score</span>
-                    <span className="text-sm font-black text-emerald-600 dark:text-emerald-400 font-black">{score} pts</span>
+                    <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">{score} pts</span>
                 </div>
             </div>
 
             {/* Incomplete Code Preview */}
-            <div className="rounded-2xl overflow-hidden border border-[var(--card-border)] bg-[var(--muted-bg)] font-mono text-xs sm:text-sm p-4 text-[var(--foreground)] leading-relaxed shadow-xs">
+            <div className="game-code-container rounded-2xl overflow-hidden font-mono text-xs sm:text-sm p-4 leading-relaxed shadow-xs">
                 <pre className="whitespace-pre overflow-x-auto">
                     {challenge.codeBefore}
                     <span className={`inline-block px-2.5 py-0.5 mx-1 rounded-md border font-black ${
@@ -144,14 +250,14 @@ export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                     {challenge.options.map((opt, idx) => {
                         const isSelected = selectedOption === opt;
-                        const isAnswer = isSubmitted && opt === challenge.blank;
+                        const isAnswer = isSubmitted && isSelected && isCorrect;
                         const isWrongSelection = isSubmitted && isSelected && !isCorrect;
 
                         return (
                             <button
                                 key={idx}
                                 onClick={() => handleSelect(opt)}
-                                disabled={isSubmitted || isPaused}
+                                disabled={isSubmitted || isPaused || isValidating}
                                 className={`p-3 rounded-2xl border font-mono text-xs sm:text-sm text-center font-bold transition-all cursor-pointer ${
                                     isAnswer
                                         ? 'bg-emerald-500/15 border-emerald-500 text-emerald-800 dark:text-emerald-200 font-bold'
@@ -177,10 +283,10 @@ export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 }`}>
                     <div className="flex items-center gap-2 font-bold text-sm">
                         {isCorrect ? <CheckCircle2 size={18} className="text-emerald-400" /> : <XCircle size={18} className="text-rose-400" />}
-                        <span>{isCorrect ? 'Syntax Restored! (+200 pts)' : `Incorrect Token (Correct: ${challenge.blank})`}</span>
+                        <span>{isCorrect ? `Syntax Restored! (+${challenge.points || 200} pts)` : `Incorrect Token (Correct: ${challenge.blank || 'Specified keyword'})`}</span>
                     </div>
                     <p className="text-xs leading-relaxed text-[var(--foreground-secondary)]">
-                        {challenge.explanation}
+                        {verificationResult?.explanation || challenge.explanation}
                     </p>
                 </div>
             )}
@@ -193,10 +299,11 @@ export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 {!isSubmitted ? (
                     <button
                         onClick={handleSubmit}
-                        disabled={!selectedOption || isPaused}
+                        disabled={!selectedOption || isPaused || isValidating}
                         className="game-btn-primary"
                     >
-                        <Sparkles size={14} /> Submit Answer
+                        {isValidating ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
+                        Submit Answer
                     </button>
                 ) : (
                     <button

@@ -246,8 +246,8 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                               icon: const Icon(Icons.play_arrow_rounded, size: 18),
                               label: const Text('PLAY DAILY QUEST', style: TextStyle(fontWeight: FontWeight.w900)),
                               style: FilledButton.styleFrom(
-                                backgroundColor: const Color(0xFF10B981),
-                                foregroundColor: Colors.black,
+                                backgroundColor: AppColors.gamePrimaryButton,
+                                foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                               ),
                             ),
@@ -359,9 +359,7 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                             decoration: BoxDecoration(
                               color: Theme.of(context).cardColor,
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: Theme.of(context).dividerColor.withValues(alpha: 0.15),
-                              ),
+                              border: Border.all(color: context.borderColor),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
@@ -474,12 +472,12 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                             if (game.userHighScore > 0)
                                               Text(
                                                 'Best: ${game.userHighScore}',
-                                                style: const TextStyle(fontSize: 10, color: Colors.amber, fontWeight: FontWeight.bold),
+                                                style: const TextStyle(fontSize: 10, color: AppColors.gameBestScore, fontWeight: FontWeight.bold),
                                               )
                                             else
                                               const Text(
                                                 'Play',
-                                                style: TextStyle(fontSize: 10, color: Color(0xFF10B981), fontWeight: FontWeight.bold),
+                                                style: TextStyle(fontSize: 10, color: AppColors.gamePrimaryButton, fontWeight: FontWeight.bold),
                                               ),
                                           ],
                                         ),

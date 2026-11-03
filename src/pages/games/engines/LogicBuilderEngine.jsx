@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Cpu, CheckCircle2, XCircle, ArrowRight, Lightbulb, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Cpu, CheckCircle2, XCircle, ArrowRight, Lightbulb, Sparkles, Loader2 } from 'lucide-react';
+import gameService from '../../../services/gameService';
 
-const LOGIC_PROBLEMS = [
+const FALLBACK_LOGIC_PROBLEMS = [
     {
         id: 'lb_1',
         title: 'Alternating Sequence Pattern',
-        difficulty: 'Easy',
+        difficulty: 'Beginner',
+        technology: 'programming-logic',
+        technologyName: 'Programming Logic',
         description: 'Deduce the algorithmic rule and calculate the next integer.',
         prompt: 'Given sequence: 2, 4, 8, 10, 20, 22, 44, ___',
         options: ['46', '88', '50', '48'],
@@ -16,7 +19,9 @@ const LOGIC_PROBLEMS = [
     {
         id: 'lb_2',
         title: 'Boolean Logic Simplification',
-        difficulty: 'Medium',
+        difficulty: 'Intermediate',
+        technology: 'programming-logic',
+        technologyName: 'Programming Logic',
         description: 'Evaluate the logical statement for inputs A=true, B=false, C=true.',
         prompt: 'Expression: (A && !B) || (B && C)',
         options: ['true', 'false', 'undefined', 'null'],
@@ -27,7 +32,9 @@ const LOGIC_PROBLEMS = [
     {
         id: 'lb_3',
         title: 'Cyclic Array Shift Bounds',
-        difficulty: 'Hard',
+        difficulty: 'Advanced',
+        technology: 'dsa',
+        technologyName: 'Data Structures & Algorithms',
         description: 'Predict the element at index 1 after 14 circular right-shifts on array of length 5.',
         prompt: 'Array: [10, 20, 30, 40, 50] shifted right by 14 positions. What is element at index 0?',
         options: ['20', '30', '40', '50'],
@@ -37,30 +44,98 @@ const LOGIC_PROBLEMS = [
     }
 ];
 
-export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
+export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused, technology, difficulty }) => {
+    const [problems, setProblems] = useState(FALLBACK_LOGIC_PROBLEMS);
     const [problemIdx, setProblemIdx] = useState(0);
     const [selectedOption, setSelectedOption] = useState(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [verificationResult, setVerificationResult] = useState(null);
+    const [isValidating, setIsValidating] = useState(false);
     const [showHint, setShowHint] = useState(false);
     const [score, setScore] = useState(0);
     const [correctCount, setCorrectCount] = useState(0);
+    const [loading, setLoading] = useState(true);
 
-    const problem = LOGIC_PROBLEMS[problemIdx];
+    useEffect(() => {
+        let isMounted = true;
+        async function loadChallenges() {
+            setLoading(true);
+            try {
+                const res = await gameService.getChallenges('logic-builder', {
+                    technology: technology && technology !== 'all' ? technology : undefined,
+                    difficulty: difficulty && difficulty !== 'All Levels' ? difficulty : undefined
+                });
+
+                if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+                    const parsed = res.data.map(item => ({
+                        ...item,
+                        prompt: item.prompt || item.description || item.content || 'Solve the logical condition.',
+                        options: Array.isArray(item.options) && item.options.length > 0
+                            ? item.options
+                            : ['Choice A', 'Choice B', 'Choice C', 'Choice D'],
+                        hint: item.hints || item.hint || 'Evaluate the operator precedence and branch condition.',
+                        explanation: item.explanation || 'Logical rule deduced.'
+                    }));
+
+                    if (isMounted) {
+                        setProblems(parsed);
+                        setProblemIdx(0);
+                        setSelectedOption(null);
+                        setIsSubmitted(false);
+                    }
+                } else if (technology && technology !== 'all') {
+                    const filtered = FALLBACK_LOGIC_PROBLEMS.filter(c =>
+                        c.technology === technology.toLowerCase()
+                    );
+                    if (isMounted && filtered.length > 0) {
+                        setProblems(filtered);
+                        setProblemIdx(0);
+                    }
+                }
+            } catch (err) {
+                console.warn('[LogicBuilder] Using fallback challenges:', err);
+            } finally {
+                if (isMounted) setLoading(false);
+            }
+        }
+
+        loadChallenges();
+        return () => { isMounted = false; };
+    }, [technology, difficulty]);
+
+    const problem = problems[problemIdx] || FALLBACK_LOGIC_PROBLEMS[0];
 
     const handleSelect = (opt) => {
-        if (isSubmitted || isPaused) return;
+        if (isSubmitted || isPaused || isValidating) return;
         setSelectedOption(opt);
     };
 
-    const handleSubmit = () => {
-        if (!selectedOption || isSubmitted || isPaused) return;
+    const handleSubmit = async () => {
+        if (!selectedOption || isSubmitted || isPaused || isValidating) return;
 
+        setIsValidating(true);
+        let isMatch = false;
+        let explanation = problem.explanation;
+
+        try {
+            const res = await gameService.verifyChallenge('logic-builder', problem.id, selectedOption);
+            if (res && typeof res.isCorrect === 'boolean') {
+                isMatch = res.isCorrect;
+                if (res.explanation) explanation = res.explanation;
+            } else if (problem.solution) {
+                isMatch = String(selectedOption).trim().toLowerCase() === String(problem.solution).trim().toLowerCase();
+            }
+        } catch {
+            isMatch = problem.solution ? (String(selectedOption).trim().toLowerCase() === String(problem.solution).trim().toLowerCase()) : false;
+        }
+
+        setVerificationResult({ isMatch, explanation });
         setIsSubmitted(true);
-        const isMatch = selectedOption === problem.solution;
+        setIsValidating(false);
 
         let newScore = score;
         if (isMatch) {
-            const points = problem.difficulty === 'Hard' ? 300 : problem.difficulty === 'Medium' ? 200 : 100;
+            const points = problem.points || (problem.difficulty === 'Advanced' ? 300 : problem.difficulty === 'Intermediate' ? 200 : 100);
             newScore = score + points;
             setScore(newScore);
             setCorrectCount(prev => prev + 1);
@@ -69,34 +144,49 @@ export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
     };
 
     const handleNext = () => {
-        if (problemIdx + 1 < LOGIC_PROBLEMS.length) {
+        if (problemIdx + 1 < problems.length) {
             setProblemIdx(prev => prev + 1);
             setSelectedOption(null);
             setIsSubmitted(false);
+            setVerificationResult(null);
             setShowHint(false);
         } else {
             if (onGameOver) {
+                const total = problems.length;
+                const correct = correctCount + (verificationResult?.isMatch ? 1 : 0);
                 onGameOver({
                     score,
-                    accuracy: Math.round(((correctCount + (selectedOption === problem.solution ? 1 : 0)) / LOGIC_PROBLEMS.length) * 100),
-                    metadata: { problemsSolved: LOGIC_PROBLEMS.length }
+                    accuracy: Math.round((correct / total) * 100),
+                    metadata: { problemsSolved: total, correctCount: correct, technology }
                 });
             }
         }
     };
 
-    const isCorrect = selectedOption === problem.solution;
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center p-12 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl max-w-3xl mx-auto w-full">
+                <Loader2 size={32} className="animate-spin text-emerald-500 mb-3" />
+                <p className="text-sm font-semibold text-[var(--foreground-muted)]">Loading {technology || 'logic'} reasoning problems...</p>
+            </div>
+        );
+    }
+
+    const isCorrect = verificationResult ? verificationResult.isMatch : (selectedOption === problem.solution);
 
     return (
         <div className="flex flex-col gap-5 p-4 sm:p-6 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl shadow-xl max-w-3xl mx-auto w-full">
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
-                            <Cpu size={12} /> {problem.difficulty}
+                        <span className="game-tech-badge flex items-center gap-1">
+                            <Cpu size={12} /> {problem.technologyName || problem.language || 'Logic'}
+                        </span>
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20">
+                            {problem.difficulty || difficulty || 'All Levels'}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
-                            Problem {problemIdx + 1} of {LOGIC_PROBLEMS.length}
+                            Problem {problemIdx + 1} of {problems.length}
                         </span>
                     </div>
                     <h2 className="text-lg font-black text-[var(--foreground)]">{problem.title}</h2>
@@ -132,14 +222,14 @@ export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="grid grid-cols-2 gap-3">
                 {problem.options.map((opt, idx) => {
                     const isSelected = selectedOption === opt;
-                    const isAnswer = isSubmitted && opt === problem.solution;
+                    const isAnswer = isSubmitted && isSelected && isCorrect;
                     const isWrongSelection = isSubmitted && isSelected && !isCorrect;
 
                     return (
                         <button
                             key={idx}
                             onClick={() => handleSelect(opt)}
-                            disabled={isSubmitted || isPaused}
+                            disabled={isSubmitted || isPaused || isValidating}
                             className={`p-4 rounded-2xl border font-mono text-sm sm:text-base text-center font-bold transition-all cursor-pointer ${
                                 isAnswer
                                     ? 'bg-emerald-500/15 border-emerald-500 text-emerald-800 dark:text-emerald-200 font-bold'
@@ -164,10 +254,10 @@ export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 }`}>
                     <div className="flex items-center gap-2 font-bold text-sm">
                         {isCorrect ? <CheckCircle2 size={18} className="text-emerald-400" /> : <XCircle size={18} className="text-rose-400" />}
-                        <span>{isCorrect ? 'Logic Solved!' : `Incorrect (Expected: ${problem.solution})`}</span>
+                        <span>{isCorrect ? 'Logic Solved!' : `Incorrect (Expected: ${problem.solution || 'Specified solution'})`}</span>
                     </div>
                     <p className="text-xs leading-relaxed text-[var(--foreground-secondary)]">
-                        {problem.explanation}
+                        {verificationResult?.explanation || problem.explanation}
                     </p>
                 </div>
             )}
@@ -180,10 +270,11 @@ export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 {!isSubmitted ? (
                     <button
                         onClick={handleSubmit}
-                        disabled={!selectedOption || isPaused}
+                        disabled={!selectedOption || isPaused || isValidating}
                         className="game-btn-primary"
                     >
-                        <Sparkles size={14} /> Submit Solution
+                        {isValidating ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
+                        Submit Solution
                     </button>
                 ) : (
                     <button

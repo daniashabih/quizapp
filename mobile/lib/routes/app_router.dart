@@ -123,7 +123,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) {
           final slug = state.pathParameters['slug'] ?? '';
-          return GamePlayerScreen(slug: slug);
+          final tech = state.uri.queryParameters['tech'];
+          final diff = state.uri.queryParameters['difficulty'];
+          return GamePlayerScreen(
+            slug: slug,
+            initialTechnology: tech,
+            initialDifficulty: diff,
+          );
         },
       ),
 

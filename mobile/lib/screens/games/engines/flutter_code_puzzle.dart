@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../providers/game_provider.dart';
+import '../../../../core/constants/app_colors.dart';
 
 class FlutterCodePuzzle extends ConsumerStatefulWidget {
   final void Function(int score, Map<String, dynamic> metadata) onGameOver;
@@ -391,9 +392,7 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color: Theme.of(context).dividerColor.withValues(alpha: 0.15),
-              ),
+              border: Border.all(color: context.borderColor),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
@@ -420,17 +419,17 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                 decoration: BoxDecoration(
-                                  color: Colors.indigo.withValues(alpha: 0.15),
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(color: Colors.indigo.withValues(alpha: 0.3)),
+                                  color: context.gameBadgeBgColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: context.gameBadgeBorderColor),
                                 ),
                                 child: Text(
                                   (puzzle['language'] ?? 'code').toString().toUpperCase(),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'monospace',
-                                    color: Colors.indigoAccent,
+                                    color: context.gameBadgeTextColor,
                                   ),
                                 ),
                               ),
@@ -474,7 +473,7 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                           height: 24,
                           width: 1,
                           margin: const EdgeInsets.symmetric(horizontal: 10),
-                          color: Theme.of(context).dividerColor.withValues(alpha: 0.2),
+                          color: context.gameCodeBorderColor,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -497,16 +496,16 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.indigo.withValues(alpha: 0.08),
+                    color: context.gameHintBgColor,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.indigo.withValues(alpha: 0.2)),
+                    border: Border.all(color: context.gameHintBorderColor),
                   ),
                   child: Row(
                     children: [
-                      const Expanded(
+                      Expanded(
                         child: Text(
                           'Use the arrows to rearrange statements in the correct logical sequence.',
-                          style: TextStyle(fontSize: 11, color: Colors.indigoAccent),
+                          style: TextStyle(fontSize: 11, color: context.gameHintTextColor, fontWeight: FontWeight.w500),
                         ),
                       ),
                       TextButton.icon(
@@ -515,10 +514,10 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                         ),
                         onPressed: () => setState(() => _showHint = !_showHint),
-                        icon: Icon(_showHint ? Icons.visibility_off : Icons.help_outline, size: 14, color: Colors.indigoAccent),
+                        icon: Icon(_showHint ? Icons.visibility_off : Icons.help_outline, size: 14, color: context.gameHintTextColor),
                         label: Text(
                           _showHint ? 'Hide Hint' : 'Hint',
-                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.indigoAccent),
+                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: context.gameHintTextColor),
                         ),
                       ),
                     ],
@@ -557,7 +556,7 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                           ? Colors.green.withValues(alpha: 0.15)
                           : isItemIncorrect
                               ? Colors.red.withValues(alpha: 0.15)
-                              : Theme.of(context).colorScheme.surfaceContainerHighest,
+                              : context.gameCodeBgColor,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
                         color: isItemCorrect
@@ -585,10 +584,11 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                             scrollDirection: Axis.horizontal,
                             child: Text(
                               line,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontFamily: 'monospace',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
+                                color: context.textPrimaryColor,
                               ),
                             ),
                           ),

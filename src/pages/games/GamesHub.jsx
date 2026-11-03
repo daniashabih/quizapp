@@ -616,7 +616,7 @@ export const GamesHub = () => {
                         </p>
                         <button
                             onClick={() => { setSelectedCategory('All Games'); setSelectedDifficulty('All Levels'); setSearchQuery(''); setActiveTab('all'); }}
-                            className="px-5 py-2.5 rounded-xl bg-[#193D35] dark:bg-emerald-500 text-white dark:text-stone-950 text-xs font-bold hover:opacity-90 cursor-pointer shadow-sm"
+                            className="game-btn-primary"
                         >
                             Reset All Filters
                         </button>
@@ -717,8 +717,8 @@ export const GamesHub = () => {
                                             </div>
 
                                             {/* Visible Play Now Button */}
-                                            <span className="px-3.5 py-1.5 rounded-xl bg-[#193D35] dark:bg-emerald-500 text-white dark:text-stone-950 font-bold text-xs flex items-center gap-1.5 shadow-sm group-hover:scale-105 active:scale-95 transition-transform shrink-0">
-                                                <Play size={12} className="fill-current" /> Play Now
+                                            <span className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white font-black text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-indigo-500/20 group-hover:scale-105 active:scale-95 transition-all shrink-0">
+                                                <Play size={12} className="fill-white" /> Play Now
                                             </span>
                                         </div>
                                     </div>

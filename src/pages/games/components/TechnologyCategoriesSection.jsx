@@ -211,7 +211,7 @@ export const TechnologyCategoriesSection = ({
 
             {/* Active Selected Technology Highlight Banner */}
             {activeTechObj && (
-                <div className="mt-4 p-4 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-teal-950/60 to-slate-900 border border-emerald-500/30 shadow-lg text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in fade-in duration-300">
+                <div className="mt-4 p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-md text-[var(--foreground)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-in fade-in duration-300">
                     <div className="flex items-center gap-3">
                         <div
                             className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border border-white/10 shadow-md"
@@ -224,9 +224,9 @@ export const TechnologyCategoriesSection = ({
                                 <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
                                     Active Technology
                                 </span>
-                                <h3 className="text-base font-black text-white">{activeTechObj.name}</h3>
+                                <h3 className="text-base font-black text-[var(--foreground)]">{activeTechObj.name}</h3>
                             </div>
-                            <p className="text-xs text-slate-300 max-w-xl line-clamp-1 mt-0.5">
+                            <p className="text-xs text-[var(--foreground-muted)] max-w-xl line-clamp-1 mt-0.5">
                                 {activeTechObj.description}
                             </p>
                         </div>
@@ -234,18 +234,18 @@ export const TechnologyCategoriesSection = ({
 
                     <div className="flex items-center gap-3">
                         {activeTechObj.userHighScore > 0 && (
-                            <div className="px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 text-center">
-                                <span className="text-[10px] text-slate-400 block font-bold uppercase">Best Score</span>
+                            <div className="px-3 py-1.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-center">
+                                <span className="text-[10px] text-[var(--foreground-muted)] block font-bold uppercase">Best Score</span>
                                 <span className="text-xs font-black text-amber-400">★ {activeTechObj.userHighScore} pts</span>
                             </div>
                         )}
-                        <div className="px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 text-center">
-                            <span className="text-[10px] text-slate-400 block font-bold uppercase">Available Games</span>
+                        <div className="px-3 py-1.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-center">
+                            <span className="text-[10px] text-[var(--foreground-muted)] block font-bold uppercase">Available Games</span>
                             <span className="text-xs font-black text-emerald-400">{(activeTechObj.supportedGames || []).length}</span>
                         </div>
                         <button
                             onClick={() => onSelectTechnology(null)}
-                            className="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/20 transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap"
+                            className="game-btn-secondary text-xs"
                         >
                             <X size={14} /> Clear Filter
                         </button>
