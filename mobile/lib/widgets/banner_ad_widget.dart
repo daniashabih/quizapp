@@ -8,6 +8,7 @@ import '../core/config/ad_config.dart';
 ///
 /// Features:
 /// - Asynchronous ad loading using official Google Mobile Ads SDK.
+/// - Adaptive banner sizing support based on screen width.
 /// - Caches ad instance across parent widget rebuilds to avoid reload loops.
 /// - Disposes the BannerAd instance properly in [dispose] to prevent memory leaks.
 /// - Returns [SizedBox.shrink] while loading or if loading fails (no blank placeholders).
@@ -16,8 +17,8 @@ class BannerAdWidget extends StatefulWidget {
   /// The AdMob Ad Unit ID. Defaults to [AdConfig.bannerAdUnitId].
   final String? adUnitId;
 
-  /// The banner ad size. Defaults to [AdSize.banner] (320x50 standard).
-  final AdSize adSize;
+  /// The banner ad size. If null, automatically computes anchored adaptive banner size based on device width.
+  final AdSize? adSize;
 
   /// Optional padding around the banner container.
   final EdgeInsetsGeometry padding;
@@ -25,7 +26,7 @@ class BannerAdWidget extends StatefulWidget {
   const BannerAdWidget({
     super.key,
     this.adUnitId,
-    this.adSize = AdSize.banner,
+    this.adSize,
     this.padding = const EdgeInsets.symmetric(vertical: 6.0),
   });
 
@@ -37,15 +38,14 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   BannerAd? _bannerAd;
   bool _isLoaded = false;
   bool _hasFailed = false;
+  bool _isLoading = false;
+  bool _isInitialized = false;
+  Orientation? _lastOrientation;
+  double? _lastWidth;
 
   @override
-  void initState() {
-    super.initState();
-    _loadBannerAd();
-  }
-
-  void _loadBannerAd() {
-    // Mobile Ads are only supported on physical/emulated Android & iOS devices
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     if (AdConfig.disableAdsForTesting ||
         kIsWeb ||
         (defaultTargetPlatform != TargetPlatform.android &&
@@ -53,11 +53,62 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
       return;
     }
 
+    final orientation = MediaQuery.orientationOf(context);
+    final width = MediaQuery.sizeOf(context).width;
+
+    if (!_isInitialized) {
+      _isInitialized = true;
+      _lastOrientation = orientation;
+      _lastWidth = width;
+      _loadBannerAd();
+    } else if (_lastOrientation != orientation ||
+        (_lastWidth != null && (_lastWidth! - width).abs() > 40)) {
+      _lastOrientation = orientation;
+      _lastWidth = width;
+      _loadBannerAd();
+    }
+  }
+
+  Future<void> _loadBannerAd() async {
+    if (AdConfig.disableAdsForTesting ||
+        kIsWeb ||
+        (defaultTargetPlatform != TargetPlatform.android &&
+            defaultTargetPlatform != TargetPlatform.iOS)) {
+      return;
+    }
+
+    if (_isLoading) return;
+    _isLoading = true;
+
+    AdSize targetSize;
+    if (widget.adSize != null) {
+      targetSize = widget.adSize!;
+    } else {
+      try {
+        final screenWidth = MediaQuery.sizeOf(context).width.truncate();
+        final adaptiveSize =
+            await AdSize.getLargeAnchoredAdaptiveBannerAdSize(screenWidth) ??
+                // ignore: deprecated_member_use
+                await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                  screenWidth,
+                );
+        targetSize = adaptiveSize ?? AdSize.banner;
+      } catch (e) {
+        targetSize = AdSize.banner;
+      }
+    }
+
+    if (!mounted) {
+      _isLoading = false;
+      return;
+    }
+
     final targetUnitId = widget.adUnitId ?? AdConfig.bannerAdUnitId;
 
+    await _bannerAd?.dispose();
     _bannerAd = BannerAd(
       adUnitId: targetUnitId,
-      size: widget.adSize,
+      size: targetSize,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (ad) {
@@ -66,11 +117,13 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
             return;
           }
           setState(() {
+            _bannerAd = ad as BannerAd;
             _isLoaded = true;
             _hasFailed = false;
+            _isLoading = false;
           });
           developer.log(
-            'Banner ad loaded successfully ($targetUnitId)',
+            'Banner ad loaded successfully ($targetUnitId, size: ${targetSize.width}x${targetSize.height})',
             name: 'BannerAdWidget',
           );
         },
@@ -85,6 +138,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
             _bannerAd = null;
             _isLoaded = false;
             _hasFailed = true;
+            _isLoading = false;
           });
         },
         onAdOpened: (ad) =>
@@ -96,7 +150,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
       ),
     );
 
-    _bannerAd!.load();
+    return _bannerAd!.load();
   }
 
   @override
@@ -113,13 +167,16 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
       return const SizedBox.shrink();
     }
 
-    return Padding(
-      padding: widget.padding,
-      child: Center(
-        child: SizedBox(
-          width: _bannerAd!.size.width.toDouble(),
-          height: _bannerAd!.size.height.toDouble(),
-          child: AdWidget(ad: _bannerAd!),
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: widget.padding,
+        child: Center(
+          child: SizedBox(
+            width: _bannerAd!.size.width.toDouble(),
+            height: _bannerAd!.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd!),
+          ),
         ),
       ),
     );

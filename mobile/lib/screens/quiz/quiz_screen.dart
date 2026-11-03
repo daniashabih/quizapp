@@ -9,6 +9,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../providers/quiz_provider.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
+import '../../widgets/banner_ad_widget.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   final String category;
@@ -828,6 +829,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                             ),
                           ),
                         ),
+                        const BannerAdWidget(),
                       ],
                     ),
                   ),

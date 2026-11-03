@@ -19,6 +19,14 @@ class AdConfig {
   /// Compile-time or runtime toggle to disable native ad loading in automated test suites
   static bool disableAdsForTesting = false;
 
+  /// Optional runtime override:
+  static bool? _runtimeUseProductionAds;
+
+  /// Programmatically set whether to use production ads.
+  static void setUseProductionAds(bool? value) {
+    _runtimeUseProductionAds = value;
+  }
+
   /// Optional compile-time override:
   /// e.g. flutter run --dart-define=USE_PRODUCTION_ADS=true
   static const bool _forceProductionAds = bool.fromEnvironment(
@@ -29,7 +37,8 @@ class AdConfig {
   /// Returns whether production ads should be served.
   /// Defaults to test ads in debug and profile modes to protect publisher account,
   /// and automatically switches to production ads in release builds.
-  static bool get isProductionAds => _forceProductionAds || kReleaseMode;
+  static bool get isProductionAds =>
+      _runtimeUseProductionAds ?? (_forceProductionAds || kReleaseMode);
 
   /// Returns the appropriate Banner Ad Unit ID based on the current build mode.
   static String get bannerAdUnitId {

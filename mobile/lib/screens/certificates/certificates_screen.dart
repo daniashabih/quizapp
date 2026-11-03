@@ -12,6 +12,7 @@ import '../../providers/dashboard_provider.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
+import '../../widgets/banner_ad_widget.dart';
 
 class CertificatesScreen extends ConsumerWidget {
   const CertificatesScreen({super.key});
@@ -34,14 +35,17 @@ class CertificatesScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: certsAsync.when(
-        loading: () =>
-            const LoadingStateWidget(message: 'Loading your certificates...'),
-        error: (err, stack) => ErrorStateWidget(
-          message: 'Failed to load certificates: ${err.toString()}',
-          onRetry: () => ref.invalidate(certificatesProvider),
-        ),
-        data: (certificates) {
+      body: Column(
+        children: [
+          Expanded(
+            child: certsAsync.when(
+              loading: () =>
+                  const LoadingStateWidget(message: 'Loading your certificates...'),
+              error: (err, stack) => ErrorStateWidget(
+                message: 'Failed to load certificates: ${err.toString()}',
+                onRetry: () => ref.invalidate(certificatesProvider),
+              ),
+              data: (certificates) {
           if (certificates.isEmpty) {
             return EmptyStateWidget(
               icon: Icons.workspace_premium_outlined,
@@ -72,6 +76,10 @@ class CertificatesScreen extends ConsumerWidget {
             ),
           );
         },
+      ),
+          ),
+          const BannerAdWidget(),
+        ],
       ),
     );
   }

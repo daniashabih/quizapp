@@ -6,6 +6,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../models/quiz_result_model.dart';
 import '../../widgets/app_button.dart';
+import '../../widgets/banner_ad_widget.dart';
 
 class ResultScreen extends StatelessWidget {
   final QuizResultModel result;
@@ -27,6 +28,9 @@ class ResultScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
+        bottomNavigationBar: const SafeArea(
+          child: BannerAdWidget(),
+        ),
         appBar: AppBar(
           title: const Text('Quiz Completed'),
           leading: IconButton(

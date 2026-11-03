@@ -6,6 +6,7 @@ import '../../../providers/game_provider.dart';
 import '../../../widgets/empty_state_widget.dart';
 import '../../../widgets/error_state_widget.dart';
 import '../../../widgets/loading_state_widget.dart';
+import '../../../widgets/banner_ad_widget.dart';
 
 class GamesHubScreen extends ConsumerStatefulWidget {
   const GamesHubScreen({super.key});
@@ -122,14 +123,17 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
           ),
         ],
       ),
-      body: gamesAsync.when(
-        loading: () => const LoadingStateWidget(message: 'Loading games catalog...'),
-        error: (err, _) => ErrorStateWidget(
-          message: err.toString(),
-          onRetry: () => ref.refresh(gamesListProvider),
-        ),
-        data: (games) {
-          final featuredGame = games.where((g) => g.isFeatured).firstOrNull ?? games.firstOrNull;
+      body: Column(
+        children: [
+          Expanded(
+            child: gamesAsync.when(
+              loading: () => const LoadingStateWidget(message: 'Loading games catalog...'),
+              error: (err, _) => ErrorStateWidget(
+                message: err.toString(),
+                onRetry: () => ref.refresh(gamesListProvider),
+              ),
+              data: (games) {
+                final featuredGame = games.where((g) => g.isFeatured).firstOrNull ?? games.firstOrNull;
 
           return RefreshIndicator(
             onRefresh: () async => ref.refresh(gamesListProvider),
@@ -494,6 +498,10 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
             ),
           );
         },
+      ),
+          ),
+          const BannerAdWidget(),
+        ],
       ),
     );
   }
