@@ -92,7 +92,7 @@ export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30 flex items-center gap-1">
+                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
                             <Cpu size={12} /> {problem.difficulty}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
@@ -105,24 +105,24 @@ export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
 
                 <div className="text-right">
                     <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Score</span>
-                    <span className="text-sm font-black text-purple-400">{score} pts</span>
+                    <span className="text-sm font-black text-emerald-600 dark:text-emerald-400 font-black">{score} pts</span>
                 </div>
             </div>
 
             {/* Prompt Box */}
-            <div className="p-5 rounded-2xl bg-purple-950/20 border border-purple-500/30 text-purple-100 flex flex-col gap-2 shadow-inner">
-                <span className="text-[11px] font-mono text-purple-300 uppercase tracking-wider font-bold">Logic Problem:</span>
-                <p className="text-base sm:text-lg font-mono font-bold text-white">{problem.prompt}</p>
+            <div className="p-5 rounded-2xl bg-[var(--game-hint-bg)] border border-[var(--game-hint-border)] text-[var(--game-hint-text)] flex flex-col gap-2 shadow-xs">
+                <span className="text-[11px] font-mono uppercase tracking-wider font-bold text-[var(--game-hint-text)]">Logic Problem:</span>
+                <p className="text-base sm:text-lg font-mono font-bold text-[var(--foreground)]">{problem.prompt}</p>
                 <div className="flex justify-end pt-2">
                     <button
                         onClick={() => setShowHint(!showHint)}
-                        className="text-xs font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1 cursor-pointer"
+                        className="text-xs font-bold text-[var(--game-hint-btn)] hover:opacity-80 flex items-center gap-1 cursor-pointer"
                     >
                         <Lightbulb size={13} /> {showHint ? 'Hide Hint' : 'Show Hint'}
                     </button>
                 </div>
                 {showHint && (
-                    <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs">
+                    <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs">
                         💡 {problem.hint}
                     </div>
                 )}
@@ -142,12 +142,12 @@ export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                             disabled={isSubmitted || isPaused}
                             className={`p-4 rounded-2xl border font-mono text-sm sm:text-base text-center font-bold transition-all cursor-pointer ${
                                 isAnswer
-                                    ? 'bg-emerald-950/60 border-emerald-500 text-emerald-300'
+                                    ? 'bg-emerald-500/15 border-emerald-500 text-emerald-800 dark:text-emerald-200 font-bold'
                                     : isWrongSelection
-                                    ? 'bg-rose-950/60 border-rose-500 text-rose-300'
+                                    ? 'bg-rose-500/15 border-rose-500 text-rose-800 dark:text-rose-200'
                                     : isSelected
-                                    ? 'bg-purple-500/20 border-purple-500 text-purple-300'
-                                    : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)] hover:border-purple-500/30'
+                                    ? 'bg-indigo-500/20 border-indigo-500 text-indigo-800 dark:text-indigo-200 font-bold'
+                                    : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)] hover:border-indigo-500/40'
                             }`}
                         >
                             {opt}
@@ -159,14 +159,14 @@ export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             {isSubmitted && (
                 <div className={`p-4 rounded-2xl border flex flex-col gap-2 ${
                     isCorrect
-                        ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
-                        : 'bg-rose-950/30 border-rose-500/40 text-rose-300'
+                        ? 'bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300'
+                        : 'bg-rose-500/15 border border-rose-500/40 text-rose-800 dark:text-rose-300'
                 }`}>
                     <div className="flex items-center gap-2 font-bold text-sm">
                         {isCorrect ? <CheckCircle2 size={18} className="text-emerald-400" /> : <XCircle size={18} className="text-rose-400" />}
                         <span>{isCorrect ? 'Logic Solved!' : `Incorrect (Expected: ${problem.solution})`}</span>
                     </div>
-                    <p className="text-xs leading-relaxed text-slate-300">
+                    <p className="text-xs leading-relaxed text-[var(--foreground-secondary)]">
                         {problem.explanation}
                     </p>
                 </div>
@@ -181,14 +181,14 @@ export const LogicBuilderEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                     <button
                         onClick={handleSubmit}
                         disabled={!selectedOption || isPaused}
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-purple-500/30 active:scale-98 transition-all cursor-pointer disabled:opacity-50"
+                        className="game-btn-primary"
                     >
                         <Sparkles size={14} /> Submit Solution
                     </button>
                 ) : (
                     <button
                         onClick={handleNext}
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-emerald-500/30 active:scale-98 transition-all cursor-pointer"
+                        className="game-btn-primary"
                     >
                         Next Problem <ArrowRight size={14} />
                     </button>

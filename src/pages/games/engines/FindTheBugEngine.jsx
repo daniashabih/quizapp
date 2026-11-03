@@ -129,10 +129,10 @@ export const FindTheBugEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-1">
+                        <span className="game-tech-badge">
                             <Bug size={12} /> {currentChallenge.language}
                         </span>
-                        <span className="text-xs font-semibold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        <span className="text-xs font-semibold px-2 py-0.5 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/20">
                             {currentChallenge.category}
                         </span>
                     </div>
@@ -143,19 +143,19 @@ export const FindTheBugEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 <div className="flex items-center gap-3">
                     <div className="text-right">
                         <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Challenge</span>
-                        <span className="text-sm font-black text-rose-400">{challengeIdx + 1} / {BUG_CHALLENGES.length}</span>
+                        <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">{challengeIdx + 1} / {BUG_CHALLENGES.length}</span>
                     </div>
                 </div>
             </div>
 
             {/* Code Inspector Pane */}
-            <div className="rounded-2xl overflow-hidden border border-[var(--card-border)] bg-slate-950 font-mono text-xs sm:text-sm select-none shadow-inner">
-                <div className="flex items-center justify-between px-4 py-2 bg-slate-900 border-b border-white/10 text-slate-400 text-[11px]">
-                    <span>source_code.{currentChallenge.language === 'python' ? 'py' : currentChallenge.language === 'sql' ? 'sql' : 'js'}</span>
-                    <span className="text-slate-500">Click a line to select</span>
+            <div className="rounded-2xl overflow-hidden border border-[var(--card-border)] bg-[var(--muted-bg)] font-mono text-xs sm:text-sm select-none shadow-xs">
+                <div className="flex items-center justify-between px-4 py-2 bg-[var(--card-bg)] border-b border-[var(--card-border)] text-[var(--foreground-muted)] text-[11px]">
+                    <span className="font-semibold">source_code.{currentChallenge.language === 'python' ? 'py' : currentChallenge.language === 'sql' ? 'sql' : 'js'}</span>
+                    <span>Click a line to select</span>
                 </div>
 
-                <div className="p-3 divide-y divide-white/5">
+                <div className="p-3 divide-y divide-[var(--card-border)]/50">
                     {currentChallenge.code.map((line, idx) => {
                         const lineNum = idx + 1;
                         const isSelected = selectedLine === lineNum;
@@ -168,18 +168,18 @@ export const FindTheBugEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                                 onClick={() => handleLineClick(lineNum)}
                                 className={`flex items-center py-1.5 px-3 rounded-lg cursor-pointer transition-all ${
                                     isBugLine
-                                        ? 'bg-rose-500/30 text-rose-200 border border-rose-500/60 font-bold'
+                                        ? 'bg-rose-500/20 text-rose-800 dark:text-rose-200 border border-rose-500/60 font-bold'
                                         : isFalsePick
-                                        ? 'bg-amber-500/20 text-amber-200 border border-amber-500/40'
+                                        ? 'bg-amber-500/20 text-amber-800 dark:text-amber-200 border border-amber-500/40'
                                         : isSelected
-                                        ? 'bg-indigo-600/30 text-indigo-200 border border-indigo-500/50'
-                                        : 'text-slate-300 hover:bg-white/5'
+                                        ? 'bg-indigo-500/20 text-indigo-800 dark:text-indigo-200 border border-indigo-500/50 font-bold'
+                                        : 'text-[var(--foreground)] hover:bg-[var(--hover-bg)]'
                                 }`}
                             >
-                                <span className="w-8 shrink-0 text-slate-500 text-right pr-4 select-none text-[11px]">
+                                <span className="w-8 shrink-0 text-[var(--foreground-muted)] text-right pr-4 select-none text-[11px]">
                                     {lineNum}
                                 </span>
-                                <pre className="font-mono whitespace-pre overflow-x-auto flex-1">{line}</pre>
+                                <pre className="font-mono whitespace-pre overflow-x-auto flex-1 font-medium">{line}</pre>
                                 {isBugLine && (
                                     <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.5 rounded ml-2 shrink-0">
                                         BUG HERE
@@ -195,18 +195,18 @@ export const FindTheBugEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             {isSubmitted && (
                 <div className={`p-4 rounded-2xl border flex flex-col gap-2 ${
                     isCorrect
-                        ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
-                        : 'bg-rose-950/30 border-rose-500/40 text-rose-300'
+                        ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-800 dark:text-emerald-300'
+                        : 'bg-rose-500/15 border-rose-500/40 text-rose-800 dark:text-rose-300'
                 }`}>
                     <div className="flex items-center gap-2 font-bold text-sm">
-                        {isCorrect ? <CheckCircle2 size={18} className="text-emerald-400" /> : <XCircle size={18} className="text-rose-400" />}
-                        <span>{isCorrect ? 'Target Locked! Correct Bug Found (+250 pts)' : `Incorrect Line (Bug is on Line ${currentChallenge.bugLine})`}</span>
+                        {isCorrect ? <CheckCircle2 size={18} className="text-emerald-600 dark:text-emerald-400" /> : <XCircle size={18} className="text-rose-600 dark:text-rose-400" />}
+                        <span className="text-[var(--foreground)] font-black">{isCorrect ? 'Target Locked! Correct Bug Found (+250 pts)' : `Incorrect Line (Bug is on Line ${currentChallenge.bugLine})`}</span>
                     </div>
-                    <p className="text-xs leading-relaxed text-slate-300">
+                    <p className="text-xs leading-relaxed text-[var(--foreground-secondary)]">
                         {currentChallenge.explanation}
                     </p>
-                    <div className="mt-1 p-2.5 rounded-xl bg-black/40 border border-white/10 font-mono text-xs text-emerald-300">
-                        <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">Recommended Fix:</span>
+                    <div className="mt-1 p-2.5 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] font-mono text-xs text-emerald-700 dark:text-emerald-400">
+                        <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block mb-1">Recommended Fix:</span>
                         <code>{currentChallenge.fix}</code>
                     </div>
                 </div>
@@ -214,7 +214,7 @@ export const FindTheBugEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
 
             {/* Footer Buttons */}
             <div className="flex items-center justify-between pt-2">
-                <span className="text-xs text-[var(--foreground-muted)]">
+                <span className="text-xs text-[var(--foreground-muted)] font-medium">
                     {selectedLine ? `Selected Line: ${selectedLine}` : 'No line selected'}
                 </span>
 
@@ -222,14 +222,14 @@ export const FindTheBugEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                     <button
                         onClick={handleSubmit}
                         disabled={!selectedLine || isPaused}
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-rose-500/30 active:scale-98 transition-all cursor-pointer disabled:opacity-50"
+                        className="game-btn-primary"
                     >
                         <Bug size={14} /> Submit Line
                     </button>
                 ) : (
                     <button
                         onClick={handleNext}
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-emerald-500/30 active:scale-98 transition-all cursor-pointer"
+                        className="game-btn-primary"
                     >
                         Next Challenge <ArrowRight size={14} />
                     </button>

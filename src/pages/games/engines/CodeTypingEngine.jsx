@@ -124,7 +124,7 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 flex items-center gap-1">
+                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
                             <Keyboard size={12} /> {currentSnippet.language}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
@@ -138,11 +138,11 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 <div className="flex items-center gap-4">
                     <div className="text-right">
                         <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Speed</span>
-                        <span className="text-base font-black text-indigo-400">{wpm} WPM</span>
+                        <span className="text-base font-black text-emerald-600 dark:text-emerald-400">{wpm} WPM</span>
                     </div>
                     <div className="text-right pl-3 border-l border-[var(--card-border)]">
                         <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Accuracy</span>
-                        <span className="text-base font-black text-emerald-400">{accuracy}%</span>
+                        <span className="text-base font-black text-amber-600 dark:text-amber-400">{accuracy}%</span>
                     </div>
                 </div>
             </div>
@@ -150,15 +150,15 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             {/* Syntax Reference Code Display with live character highlights */}
             <div
                 onClick={() => inputRef.current?.focus()}
-                className="relative p-5 rounded-2xl bg-slate-950 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto select-none cursor-text border border-white/10 min-h-[160px] shadow-inner"
+                className="relative p-5 rounded-2xl bg-[var(--muted-bg)] font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto select-none cursor-text border border-[var(--card-border)] min-h-[160px] shadow-xs"
             >
                 <pre className="whitespace-pre">
                     {targetCode.split('').map((char, i) => {
-                        let color = 'text-slate-500';
+                        let color = 'text-stone-400 dark:text-stone-500';
                         let isCurrent = i === typed.length;
 
                         if (i < typed.length) {
-                            color = typed[i] === char ? 'text-emerald-400 bg-emerald-950/40' : 'text-rose-400 bg-rose-950/60 font-bold';
+                            color = typed[i] === char ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-500/15 font-semibold' : 'text-rose-700 dark:text-rose-400 bg-rose-500/20 font-bold';
                         }
 
                         return (
@@ -178,26 +178,26 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 disabled={isFinished || isPaused}
                 rows={3}
                 placeholder="Type the exact code above with indentation..."
-                className="w-full px-4 py-3 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs sm:text-sm font-mono text-[var(--foreground)] focus:outline-hidden focus:border-indigo-500 transition-all resize-none"
+                className="w-full px-4 py-3 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] text-xs sm:text-sm font-mono text-[var(--foreground)] focus:outline-hidden focus:border-indigo-500 transition-all resize-none shadow-xs"
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck="false"
             />
 
             {isFinished && (
-                <div className="p-4 rounded-2xl bg-indigo-500/15 border border-indigo-500/40 text-indigo-300 flex items-center justify-between gap-3">
+                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                        <CheckCircle2 size={24} className="text-indigo-400 shrink-0" />
+                        <CheckCircle2 size={24} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
                         <div>
                             <p className="font-black text-sm">Code Snippet Typed Flawlessly!</p>
-                            <p className="text-xs text-indigo-300/80 mt-0.5">
+                            <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">
                                 Speed: <strong>{wpm} WPM</strong> | Accuracy: <strong>{accuracy}%</strong>
                             </p>
                         </div>
                     </div>
                     <button
                         onClick={() => setSnippetIdx(prev => (prev + 1) % CODE_SNIPPETS.length)}
-                        className="px-4 py-2 rounded-xl bg-indigo-500 text-white text-xs font-black uppercase tracking-wider hover:bg-indigo-400 cursor-pointer"
+                        className="game-btn-primary"
                     >
                         Next Snippet
                     </button>
@@ -215,7 +215,7 @@ export const CodeTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                         setWpm(0);
                         inputRef.current?.focus();
                     }}
-                    className="px-4 py-2 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-xs font-bold text-[var(--foreground-secondary)] flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="game-btn-secondary"
                 >
                     <RotateCcw size={14} /> Reset Snippet
                 </button>

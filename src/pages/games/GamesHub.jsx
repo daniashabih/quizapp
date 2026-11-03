@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
     Gamepad2,
     Sparkles,
@@ -22,8 +22,10 @@ import {
     CheckCircle2
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import gameService, { FALLBACK_GAMES } from '../../services/gameService';
+import gameService, { FALLBACK_GAMES, FALLBACK_TECH_CATEGORIES, FALLBACK_TECHNOLOGIES } from '../../services/gameService';
 import GameArtwork from './components/GameArtwork';
+import TechnologyCategoriesSection from './components/TechnologyCategoriesSection';
+import TechIcon from './components/TechIcon';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
@@ -44,6 +46,13 @@ export const GamesHub = () => {
     });
 
     const { user } = useAuth();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // Technology State
+    const urlTech = searchParams.get('tech') || searchParams.get('technology') || null;
+    const [selectedTechnology, setSelectedTechnology] = useState(urlTech);
+    const [categories, setCategories] = useState(FALLBACK_TECH_CATEGORIES);
+    const [technologies, setTechnologies] = useState(FALLBACK_TECHNOLOGIES);
 
     // Data State
     const [games, setGames] = useState([]);
@@ -60,15 +69,43 @@ export const GamesHub = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeTab, setActiveTab] = useState('all'); // 'all', 'featured', 'favorites', 'recent'
 
-    // Load games & user statistics
+    // Handle technology selection
+    const handleSelectTechnology = (techSlug) => {
+        setSelectedTechnology(techSlug);
+        setSearchParams(prev => {
+            const next = new URLSearchParams(prev);
+            if (techSlug) {
+                next.set('tech', techSlug);
+            } else {
+                next.delete('tech');
+                next.delete('technology');
+            }
+            return next;
+        });
+    };
+
+    // Load games & user statistics & technologies
     const loadGamesData = useCallback(async () => {
         setLoading(true);
         setError(null);
         try {
-            const [gamesRes, statsRes] = await Promise.all([
-                gameService.getGames(),
-                user ? gameService.getUserStats().catch(() => null) : Promise.resolve(null)
+            const [gamesRes, statsRes, catsRes, techsRes] = await Promise.all([
+                gameService.getGames({
+                    technology: selectedTechnology || undefined,
+                    category: selectedCategory !== 'All Games' ? selectedCategory : undefined,
+                    difficulty: selectedDifficulty !== 'All Levels' ? selectedDifficulty : undefined
+                }),
+                user ? gameService.getUserStats().catch(() => null) : Promise.resolve(null),
+                gameService.getCategories().catch(() => null),
+                gameService.getTechnologies().catch(() => null)
             ]);
+
+            if (catsRes?.success && Array.isArray(catsRes.data) && catsRes.data.length > 0) {
+                setCategories(catsRes.data);
+            }
+            if (techsRes?.success && Array.isArray(techsRes.data) && techsRes.data.length > 0) {
+                setTechnologies(techsRes.data);
+            }
 
             if (gamesRes?.success && Array.isArray(gamesRes.data) && gamesRes.data.length > 0) {
                 setGames(gamesRes.data);
@@ -81,12 +118,19 @@ export const GamesHub = () => {
                 setIsOfflineMode(Boolean(gamesRes.isOffline));
             } else {
                 // If response had no games, fallback to standard catalog
-                setGames(FALLBACK_GAMES);
-                setFeaturedGame(FALLBACK_GAMES.find(g => g.isFeatured) || FALLBACK_GAMES[0]);
+                let fallback = FALLBACK_GAMES;
+                if (selectedTechnology) {
+                    const tech = FALLBACK_TECHNOLOGIES.find(t => t.slug === selectedTechnology);
+                    if (tech && Array.isArray(tech.supportedGames)) {
+                        fallback = FALLBACK_GAMES.filter(g => tech.supportedGames.includes(g.slug));
+                    }
+                }
+                setGames(fallback);
+                setFeaturedGame(fallback.find(g => g.isFeatured) || fallback[0] || null);
                 setCategoryCounts({
-                    'All Games': FALLBACK_GAMES.length,
-                    'Coding Games': FALLBACK_GAMES.filter(g => g.category === 'Coding Games').length,
-                    'Typing Games': FALLBACK_GAMES.filter(g => g.category === 'Typing Games').length
+                    'All Games': fallback.length,
+                    'Coding Games': fallback.filter(g => g.category === 'Coding Games').length,
+                    'Typing Games': fallback.filter(g => g.category === 'Typing Games').length
                 });
             }
 
@@ -96,19 +140,25 @@ export const GamesHub = () => {
         } catch (err) {
             console.error('[GamesHub] Error loading games:', err);
             setError(err.message || 'Unable to connect to games server.');
-            // Fallback gracefully so users never see a completely dead page
-            setGames(FALLBACK_GAMES);
-            setFeaturedGame(FALLBACK_GAMES.find(g => g.isFeatured) || FALLBACK_GAMES[0]);
+            let fallback = FALLBACK_GAMES;
+            if (selectedTechnology) {
+                const tech = FALLBACK_TECHNOLOGIES.find(t => t.slug === selectedTechnology);
+                if (tech && Array.isArray(tech.supportedGames)) {
+                    fallback = FALLBACK_GAMES.filter(g => tech.supportedGames.includes(g.slug));
+                }
+            }
+            setGames(fallback);
+            setFeaturedGame(fallback.find(g => g.isFeatured) || fallback[0] || null);
             setCategoryCounts({
-                'All Games': FALLBACK_GAMES.length,
-                'Coding Games': FALLBACK_GAMES.filter(g => g.category === 'Coding Games').length,
-                'Typing Games': FALLBACK_GAMES.filter(g => g.category === 'Typing Games').length
+                'All Games': fallback.length,
+                'Coding Games': fallback.filter(g => g.category === 'Coding Games').length,
+                'Typing Games': fallback.filter(g => g.category === 'Typing Games').length
             });
             setIsOfflineMode(true);
         } finally {
             setLoading(false);
         }
-    }, [user]);
+    }, [user, selectedTechnology, selectedCategory, selectedDifficulty]);
 
     useEffect(() => {
         loadGamesData();
@@ -376,7 +426,17 @@ export const GamesHub = () => {
                     </div>
                 )}
 
-                {/* 5. SEARCH & QUICK FILTER TABS */}
+                {/* 5. TECHNOLOGY CATEGORIES SECTION */}
+                <TechnologyCategoriesSection
+                    categories={categories}
+                    technologies={technologies}
+                    selectedTechnology={selectedTechnology}
+                    onSelectTechnology={handleSelectTechnology}
+                    userStats={userStats}
+                    totalGamesCount={games.length}
+                />
+
+                {/* 6. SEARCH & QUICK FILTER TABS */}
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
                     {/* Filter Tabs */}
                     <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] w-full md:w-auto overflow-x-auto">
@@ -569,10 +629,14 @@ export const GamesHub = () => {
                             const isTall = game.cardSize === 'tall';
                             const isTyping = game.category === 'Typing Games';
 
+                            const targetUrl = `/games/${game.slug}${
+                                selectedTechnology ? `?tech=${selectedTechnology}` : ''
+                            }${selectedDifficulty !== 'All Levels' ? `${selectedTechnology ? '&' : '?'}difficulty=${selectedDifficulty}` : ''}`;
+
                             return (
                                 <Link
                                     key={game.id || game.slug}
-                                    to={`/games/${game.slug}`}
+                                    to={targetUrl}
                                     className={`group relative flex flex-col rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-emerald-500/60 dark:hover:border-emerald-400/60 shadow-xs hover:shadow-xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1.5 ${
                                         isLarge ? 'sm:col-span-2' : ''
                                     }`}

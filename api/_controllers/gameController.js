@@ -1,4 +1,7 @@
 const GameModel = require('../_models/gameModel');
+const TechnologyModel = require('../_models/technologyModel');
+const { TECHNOLOGY_CHALLENGES } = require('../_models/technologyChallenges');
+const prisma = require('../_config/prisma');
 const jwt = require('jsonwebtoken');
 
 /**
@@ -30,17 +33,19 @@ function getOptionalUserId(req) {
 const gameController = {
     /**
      * GET /api/games
-     * Public list of published games with category filtering, search, and optional user metrics
+     * Public list of published games with category filtering, technology filtering, search, and user metrics
      */
     getGames: async (req, res) => {
         try {
-            const { category, search, difficulty, featured } = req.query;
+            const { category, search, difficulty, featured, technology, tech } = req.query;
+            const activeTech = technology || tech || null;
             const userId = getOptionalUserId(req);
 
             const games = await GameModel.getAll({
                 category,
                 search,
                 difficulty,
+                technology: activeTech,
                 isPublished: true,
                 isFeatured: featured ? (featured === 'true' || featured === '1') : undefined,
                 userId
@@ -51,7 +56,7 @@ const gameController = {
             const featuredGame = featuredGames.length > 0 ? featuredGames[0] : (games[0] || null);
 
             // Compute category counts
-            const allPublished = await GameModel.getAll({ isPublished: true, userId });
+            const allPublished = await GameModel.getAll({ isPublished: true, technology: activeTech, userId });
             const categoryCounts = {
                 'All Games': allPublished.length,
                 'Coding Games': 0,
@@ -68,6 +73,7 @@ const gameController = {
             res.json({
                 success: true,
                 count: games.length,
+                technology: activeTech,
                 featuredGame,
                 categoryCounts,
                 data: games
@@ -77,6 +83,173 @@ const gameController = {
             res.status(500).json({
                 success: false,
                 message: 'Failed to retrieve games catalog.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
+     * GET /api/games/categories
+     * List all technology categories with their technologies and game statistics
+     */
+    getTechnologyCategories: async (req, res) => {
+        try {
+            const categories = await TechnologyModel.getAllCategories({ includeDisabled: false });
+            res.json({
+                success: true,
+                count: categories.length,
+                data: categories
+            });
+        } catch (err) {
+            console.error('Error fetching technology categories:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to retrieve technology categories.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
+     * GET /api/games/technologies
+     * List all technologies with game counts and optional category filtering
+     */
+    getTechnologies: async (req, res) => {
+        try {
+            const { category, categorySlug, search } = req.query;
+            const userId = getOptionalUserId(req);
+            const technologies = await TechnologyModel.getAllTechnologies({
+                categorySlug: categorySlug || category || 'all',
+                isEnabled: true,
+                search,
+                userId
+            });
+
+            res.json({
+                success: true,
+                count: technologies.length,
+                data: technologies
+            });
+        } catch (err) {
+            console.error('Error fetching technologies:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to retrieve technologies.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
+     * GET /api/games/technologies/:techSlug
+     * Single technology details with user progress and supported games
+     */
+    getTechnologyDetails: async (req, res) => {
+        try {
+            const { techSlug } = req.params;
+            const userId = getOptionalUserId(req);
+            const technology = await TechnologyModel.getTechnologyBySlug(techSlug, userId);
+
+            if (!technology) {
+                return res.status(404).json({
+                    success: false,
+                    message: `Technology with slug "${techSlug}" was not found.`
+                });
+            }
+
+            // Get available games for this technology
+            const games = await GameModel.getAll({
+                technology: techSlug,
+                isPublished: true,
+                userId
+            });
+
+            res.json({
+                success: true,
+                data: {
+                    ...technology,
+                    availableGames: games,
+                    availableGamesCount: games.length
+                }
+            });
+        } catch (err) {
+            console.error('Error getting technology details:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to retrieve technology details.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
+     * GET /api/games/technologies/:techSlug/games
+     * List games supported by this technology
+     */
+    getGamesByTechnology: async (req, res) => {
+        try {
+            const { techSlug } = req.params;
+            const { difficulty, search } = req.query;
+            const userId = getOptionalUserId(req);
+
+            const games = await GameModel.getAll({
+                technology: techSlug,
+                difficulty,
+                search,
+                isPublished: true,
+                userId
+            });
+
+            res.json({
+                success: true,
+                technology: techSlug,
+                count: games.length,
+                data: games
+            });
+        } catch (err) {
+            console.error('Error getting games by technology:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to retrieve games for technology.',
+                error: err.message
+            });
+        }
+    },
+
+    /**
+     * GET /api/games/technologies/:techSlug/stats
+     * Get user's statistics and progress for a specific technology
+     */
+    getUserTechStats: async (req, res) => {
+        try {
+            const { techSlug } = req.params;
+            const userId = req.user?.id || getOptionalUserId(req);
+
+            if (!userId) {
+                return res.json({
+                    success: true,
+                    isGuest: true,
+                    data: {
+                        totalPlays: 0,
+                        highScore: 0,
+                        bestWpm: 0,
+                        bestAccuracy: 100
+                    }
+                });
+            }
+
+            const stats = await TechnologyModel.getUserTechStats(userId, techSlug);
+            res.json({
+                success: true,
+                isGuest: false,
+                technology: techSlug,
+                data: stats
+            });
+        } catch (err) {
+            console.error('Error getting user tech stats:', err);
+            res.status(500).json({
+                success: false,
+                message: 'Failed to retrieve user technology statistics.',
                 error: err.message
             });
         }
@@ -120,9 +293,14 @@ const gameController = {
     getChallenges: async (req, res) => {
         try {
             const { slug } = req.params;
-            const { difficulty, language } = req.query;
+            const { difficulty, language, technology, tech } = req.query;
+            const activeTech = technology || tech || null;
 
-            const challenges = await GameModel.getChallenges(slug.toLowerCase(), { difficulty, language });
+            const challenges = await GameModel.getChallenges(slug.toLowerCase(), {
+                difficulty,
+                language,
+                technology: activeTech
+            });
             res.json({
                 success: true,
                 count: challenges.length,
@@ -222,7 +400,7 @@ const gameController = {
     submitScore: async (req, res) => {
         try {
             const { slug } = req.params;
-            const { score, durationSeconds, accuracy, wpm, difficulty, metadata } = req.body;
+            const { score, durationSeconds, accuracy, wpm, difficulty, technology, tech, metadata } = req.body;
             const userId = req.user?.id || getOptionalUserId(req);
 
             if (!slug) {
@@ -246,6 +424,7 @@ const gameController = {
                     score: Number(score),
                     wpm: Number(wpm || 0),
                     accuracy: Number(accuracy || 100),
+                    technology: technology || tech || 'all',
                     message: 'Score acknowledged for guest. Sign in to save your personal best and track progress on the leaderboard!'
                 });
             }
@@ -258,6 +437,7 @@ const gameController = {
                 accuracy: accuracy !== undefined ? Number(accuracy) : 100,
                 wpm: wpm !== undefined ? Number(wpm) : 0,
                 difficulty: difficulty || 'All Levels',
+                technology: technology || tech || 'all',
                 metadata: metadata || {}
             });
 
@@ -265,6 +445,7 @@ const gameController = {
                 success: true,
                 isGuest: false,
                 ...result,
+                technology: technology || tech || 'all',
                 message: result.isNewHighScore
                     ? 'Incredible! New personal best score recorded!'
                     : 'Game score recorded successfully.'
@@ -594,6 +775,289 @@ const gameController = {
             });
         } catch (err) {
             console.error('Admin seed games error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    // ==========================================
+    // TECHNOLOGY CATEGORIES ADMIN ENDPOINTS
+    // ==========================================
+
+    adminGetTechCategories: async (req, res) => {
+        try {
+            const categories = await TechnologyModel.getAllCategories({ includeDisabled: true });
+            res.json({ success: true, count: categories.length, data: categories });
+        } catch (err) {
+            console.error('Admin get categories error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    adminCreateTechCategory: async (req, res) => {
+        try {
+            const category = await TechnologyModel.createCategory(req.body);
+            res.status(201).json({ success: true, message: 'Technology category created.', data: category });
+        } catch (err) {
+            console.error('Admin create category error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    adminUpdateTechCategory: async (req, res) => {
+        try {
+            const updated = await TechnologyModel.updateCategory(req.params.id, req.body);
+            if (!updated) {
+                return res.status(404).json({ success: false, message: 'Category not found.' });
+            }
+            res.json({ success: true, message: 'Technology category updated.', data: updated });
+        } catch (err) {
+            console.error('Admin update category error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    adminDeleteTechCategory: async (req, res) => {
+        try {
+            const success = await TechnologyModel.deleteCategory(req.params.id);
+            if (!success) {
+                return res.status(404).json({ success: false, message: 'Category not found.' });
+            }
+            res.json({ success: true, message: 'Technology category deleted successfully.' });
+        } catch (err) {
+            console.error('Admin delete category error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    // ==========================================
+    // TECHNOLOGIES ADMIN ENDPOINTS
+    // ==========================================
+
+    adminGetTechnologies: async (req, res) => {
+        try {
+            const { categorySlug, search } = req.query;
+            const technologies = await TechnologyModel.getAllTechnologies({
+                categorySlug,
+                isEnabled: null,
+                search
+            });
+            res.json({ success: true, count: technologies.length, data: technologies });
+        } catch (err) {
+            console.error('Admin get technologies error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    adminCreateTechnology: async (req, res) => {
+        try {
+            const tech = await TechnologyModel.createTechnology(req.body);
+            res.status(201).json({ success: true, message: 'Technology created successfully.', data: tech });
+        } catch (err) {
+            console.error('Admin create technology error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    adminUpdateTechnology: async (req, res) => {
+        try {
+            const updated = await TechnologyModel.updateTechnology(req.params.id, req.body);
+            if (!updated) {
+                return res.status(404).json({ success: false, message: 'Technology not found.' });
+            }
+            res.json({ success: true, message: 'Technology updated successfully.', data: updated });
+        } catch (err) {
+            console.error('Admin update technology error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    adminDeleteTechnology: async (req, res) => {
+        try {
+            const success = await TechnologyModel.deleteTechnology(req.params.id);
+            if (!success) {
+                return res.status(404).json({ success: false, message: 'Technology not found.' });
+            }
+            res.json({ success: true, message: 'Technology deleted successfully.' });
+        } catch (err) {
+            console.error('Admin delete technology error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    adminToggleTechnology: async (req, res) => {
+        try {
+            const updated = await TechnologyModel.toggleTechnology(req.params.id);
+            if (!updated) {
+                return res.status(404).json({ success: false, message: 'Technology not found.' });
+            }
+            res.json({
+                success: true,
+                message: `Technology ${updated.isEnabled ? 'activated' : 'deactivated'} successfully.`,
+                data: updated
+            });
+        } catch (err) {
+            console.error('Admin toggle technology error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    // ==========================================
+    // TECHNOLOGY-SPECIFIC CHALLENGES & QUESTIONS ADMIN
+    // ==========================================
+
+    adminGetChallenges: async (req, res) => {
+        try {
+            const { gameSlug, technology, difficulty } = req.query;
+            const where = {};
+            if (gameSlug && gameSlug !== 'all') where.gameSlug = gameSlug;
+            if (technology && technology !== 'all') where.technology = technology;
+            if (difficulty && difficulty !== 'All Levels') where.difficulty = difficulty;
+
+            let challenges = await prisma.gameChallenge.findMany({
+                where,
+                orderBy: { createdAt: 'desc' }
+            }).catch(() => []);
+
+            if (!challenges || challenges.length === 0) {
+                challenges = TECHNOLOGY_CHALLENGES.filter(c =>
+                    (!gameSlug || gameSlug === 'all' || c.gameSlug === gameSlug) &&
+                    (!technology || technology === 'all' || c.technology === technology) &&
+                    (!difficulty || difficulty === 'All Levels' || c.difficulty === difficulty)
+                );
+            }
+
+            res.json({
+                success: true,
+                count: challenges.length,
+                data: challenges
+            });
+        } catch (err) {
+            console.error('Admin get challenges error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    adminCreateChallenge: async (req, res) => {
+        try {
+            const { gameSlug, technology, title, difficulty, language, description, content, solution, hints, explanation, points } = req.body;
+            if (!gameSlug || !title) {
+                return res.status(400).json({ success: false, message: 'gameSlug and title are required.' });
+            }
+
+            const challenge = await prisma.gameChallenge.create({
+                data: {
+                    gameSlug: gameSlug.toLowerCase(),
+                    technology: technology ? technology.toLowerCase() : 'general',
+                    technologyName: req.body.technologyName || '',
+                    title,
+                    difficulty: difficulty || 'Beginner',
+                    language: language || 'javascript',
+                    description: description || '',
+                    content: typeof content === 'object' ? JSON.stringify(content) : (content || ''),
+                    solution: typeof solution === 'object' ? JSON.stringify(solution) : (solution || ''),
+                    hints: hints || '',
+                    explanation: explanation || '',
+                    points: Number(points || 100),
+                    order: 0
+                }
+            }).catch(async () => {
+                // In-memory fallback
+                const newC = {
+                    id: `ch_${Date.now()}`,
+                    gameSlug: gameSlug.toLowerCase(),
+                    technology: technology ? technology.toLowerCase() : 'general',
+                    title,
+                    difficulty: difficulty || 'Beginner',
+                    language: language || 'javascript',
+                    description: description || '',
+                    content: typeof content === 'object' ? JSON.stringify(content) : (content || ''),
+                    solution: typeof solution === 'object' ? JSON.stringify(solution) : (solution || ''),
+                    hints: hints || '',
+                    explanation: explanation || '',
+                    points: Number(points || 100),
+                    order: 0,
+                    createdAt: new Date()
+                };
+                TECHNOLOGY_CHALLENGES.unshift(newC);
+                return newC;
+            });
+
+            res.status(201).json({
+                success: true,
+                message: 'Challenge created successfully.',
+                data: challenge
+            });
+        } catch (err) {
+            console.error('Admin create challenge error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    adminUpdateChallenge: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const updated = await prisma.gameChallenge.update({
+                where: { id },
+                data: {
+                    title: req.body.title,
+                    gameSlug: req.body.gameSlug,
+                    technology: req.body.technology,
+                    difficulty: req.body.difficulty,
+                    language: req.body.language,
+                    description: req.body.description,
+                    content: typeof req.body.content === 'object' ? JSON.stringify(req.body.content) : req.body.content,
+                    solution: typeof req.body.solution === 'object' ? JSON.stringify(req.body.solution) : req.body.solution,
+                    hints: req.body.hints,
+                    explanation: req.body.explanation,
+                    points: req.body.points ? Number(req.body.points) : undefined
+                }
+            }).catch(() => {
+                const c = TECHNOLOGY_CHALLENGES.find(item => item.id === id);
+                if (c) {
+                    Object.assign(c, req.body);
+                    return c;
+                }
+                return null;
+            });
+
+            if (!updated) {
+                return res.status(404).json({ success: false, message: 'Challenge not found.' });
+            }
+
+            res.json({ success: true, message: 'Challenge updated.', data: updated });
+        } catch (err) {
+            console.error('Admin update challenge error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    adminDeleteChallenge: async (req, res) => {
+        try {
+            const { id } = req.params;
+            await prisma.gameChallenge.delete({ where: { id } }).catch(() => {
+                const idx = TECHNOLOGY_CHALLENGES.findIndex(c => c.id === id);
+                if (idx !== -1) TECHNOLOGY_CHALLENGES.splice(idx, 1);
+            });
+            res.json({ success: true, message: 'Challenge deleted successfully.' });
+        } catch (err) {
+            console.error('Admin delete challenge error:', err);
+            res.status(500).json({ success: false, message: err.message });
+        }
+    },
+
+    // ==========================================
+    // ADMIN STATISTICS & USER PERFORMANCE
+    // ==========================================
+
+    adminGetStats: async (req, res) => {
+        try {
+            const stats = await TechnologyModel.getAdminStatistics();
+            res.json({
+                success: true,
+                data: stats
+            });
+        } catch (err) {
+            console.error('Admin get stats error:', err);
             res.status(500).json({ success: false, message: err.message });
         }
     }

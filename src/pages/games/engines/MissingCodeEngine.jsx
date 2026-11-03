@@ -100,7 +100,7 @@ export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge">
                             {challenge.language}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
@@ -113,22 +113,22 @@ export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
 
                 <div className="text-right">
                     <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Score</span>
-                    <span className="text-sm font-black text-emerald-400">{score} pts</span>
+                    <span className="text-sm font-black text-emerald-600 dark:text-emerald-400 font-black">{score} pts</span>
                 </div>
             </div>
 
             {/* Incomplete Code Preview */}
-            <div className="rounded-2xl overflow-hidden border border-[var(--card-border)] bg-slate-950 font-mono text-xs sm:text-sm p-4 text-slate-200 leading-relaxed shadow-inner">
+            <div className="rounded-2xl overflow-hidden border border-[var(--card-border)] bg-[var(--muted-bg)] font-mono text-xs sm:text-sm p-4 text-[var(--foreground)] leading-relaxed shadow-xs">
                 <pre className="whitespace-pre overflow-x-auto">
                     {challenge.codeBefore}
                     <span className={`inline-block px-2.5 py-0.5 mx-1 rounded-md border font-black ${
                         isSubmitted
                             ? isCorrect
-                                ? 'bg-emerald-500/30 border-emerald-400 text-emerald-300'
-                                : 'bg-rose-500/30 border-rose-400 text-rose-300'
+                                ? 'bg-emerald-500/20 border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold'
+                                : 'bg-rose-500/20 border-rose-500 text-rose-800 dark:text-rose-300 font-bold'
                             : selectedOption
-                            ? 'bg-emerald-500/20 border-emerald-400/60 text-emerald-300'
-                            : 'bg-emerald-400/20 border-emerald-400/40 text-emerald-300 border-dashed animate-pulse'
+                            ? 'bg-indigo-500/20 border-indigo-500 text-indigo-800 dark:text-indigo-200 font-bold'
+                            : 'bg-indigo-500/10 border-indigo-500/40 text-indigo-700 dark:text-indigo-300 border-dashed animate-pulse font-bold'
                     }`}>
                         {selectedOption || '_____'}
                     </span>
@@ -154,12 +154,12 @@ export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                                 disabled={isSubmitted || isPaused}
                                 className={`p-3 rounded-2xl border font-mono text-xs sm:text-sm text-center font-bold transition-all cursor-pointer ${
                                     isAnswer
-                                        ? 'bg-emerald-950/60 border-emerald-500 text-emerald-300'
+                                        ? 'bg-emerald-500/15 border-emerald-500 text-emerald-800 dark:text-emerald-200 font-bold'
                                         : isWrongSelection
-                                        ? 'bg-rose-950/60 border-rose-500 text-rose-300'
+                                        ? 'bg-rose-500/15 border-rose-500 text-rose-800 dark:text-rose-200'
                                         : isSelected
-                                        ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300'
-                                        : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)] hover:border-emerald-500/30'
+                                        ? 'bg-indigo-500/20 border-indigo-500 text-indigo-800 dark:text-indigo-200 font-bold'
+                                        : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)] hover:border-indigo-500/40'
                                 }`}
                             >
                                 {opt}
@@ -172,14 +172,14 @@ export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             {isSubmitted && (
                 <div className={`p-4 rounded-2xl border flex flex-col gap-2 ${
                     isCorrect
-                        ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
-                        : 'bg-rose-950/30 border-rose-500/40 text-rose-300'
+                        ? 'bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300'
+                        : 'bg-rose-500/15 border border-rose-500/40 text-rose-800 dark:text-rose-300'
                 }`}>
                     <div className="flex items-center gap-2 font-bold text-sm">
                         {isCorrect ? <CheckCircle2 size={18} className="text-emerald-400" /> : <XCircle size={18} className="text-rose-400" />}
                         <span>{isCorrect ? 'Syntax Restored! (+200 pts)' : `Incorrect Token (Correct: ${challenge.blank})`}</span>
                     </div>
-                    <p className="text-xs leading-relaxed text-slate-300">
+                    <p className="text-xs leading-relaxed text-[var(--foreground-secondary)]">
                         {challenge.explanation}
                     </p>
                 </div>
@@ -194,14 +194,14 @@ export const MissingCodeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                     <button
                         onClick={handleSubmit}
                         disabled={!selectedOption || isPaused}
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-emerald-500/30 active:scale-98 transition-all cursor-pointer disabled:opacity-50"
+                        className="game-btn-primary"
                     >
                         <Sparkles size={14} /> Submit Answer
                     </button>
                 ) : (
                     <button
                         onClick={handleNext}
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-emerald-500/30 active:scale-98 transition-all cursor-pointer"
+                        className="game-btn-primary"
                     >
                         Next Challenge <ArrowRight size={14} />
                     </button>

@@ -4,6 +4,11 @@ const gameController = require('../_controllers/gameController');
 
 // Public & user game routes
 router.get('/', gameController.getGames);
+router.get('/categories', gameController.getTechnologyCategories);
+router.get('/technologies', gameController.getTechnologies);
+router.get('/technologies/:techSlug', gameController.getTechnologyDetails);
+router.get('/technologies/:techSlug/games', gameController.getGamesByTechnology);
+router.get('/technologies/:techSlug/stats', gameController.getUserTechStats);
 router.get('/daily/challenge', gameController.getDailyChallenge);
 router.get('/user/stats', gameController.getUserGameStats);
 router.get('/leaderboard/:slug', gameController.getLeaderboard);

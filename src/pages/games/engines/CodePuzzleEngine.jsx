@@ -72,7 +72,7 @@ const FALLBACK_PUZZLES = [
     }
 ];
 
-export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted }) => {
+export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted, technology, difficulty }) => {
     const [puzzles, setPuzzles] = useState(FALLBACK_PUZZLES);
     const [loading, setLoading] = useState(true);
     const [puzzleIdx, setPuzzleIdx] = useState(0);
@@ -114,7 +114,10 @@ export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted 
             let loadedPuzzles = FALLBACK_PUZZLES;
 
             try {
-                const res = await gameService.getChallenges('code-puzzle');
+                const res = await gameService.getChallenges('code-puzzle', {
+                    technology: technology && technology !== 'all' ? technology : undefined,
+                    difficulty: difficulty && difficulty !== 'All Levels' ? difficulty : undefined
+                });
                 if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
                     loadedPuzzles = res.data.map(p => {
                         let parsedBlocks = p.blocks;
@@ -353,7 +356,7 @@ export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted 
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                        <span className="game-tech-badge">
                             {currentPuzzle.language}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
@@ -367,28 +370,32 @@ export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted 
                 <div className="flex items-center gap-3">
                     <div className="text-right">
                         <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Difficulty</span>
-                        <span className="text-xs font-bold text-amber-400">{currentPuzzle.difficulty}</span>
+                        <span className={`text-xs font-bold ${
+                            currentPuzzle.difficulty === 'Beginner' ? 'text-emerald-600 dark:text-emerald-400' :
+                            currentPuzzle.difficulty === 'Intermediate' ? 'text-amber-600 dark:text-amber-400' :
+                            'text-purple-600 dark:text-purple-400'
+                        }`}>{currentPuzzle.difficulty}</span>
                     </div>
                     <div className="text-right pl-3 border-l border-[var(--card-border)]">
                         <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Streak</span>
-                        <span className="text-sm font-black text-emerald-400">{streak}🔥</span>
+                        <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">{streak}🔥</span>
                     </div>
                 </div>
             </div>
 
             {/* Instruction banner */}
-            <div className="text-xs text-indigo-300/90 bg-indigo-950/40 border border-indigo-500/20 rounded-xl p-3 flex items-center justify-between">
+            <div className="game-hint-banner">
                 <span>Use the arrows to rearrange statements in the correct logical sequence.</span>
                 <button
                     onClick={() => setShowHint(!showHint)}
-                    className="flex items-center gap-1 text-[11px] font-bold text-indigo-400 hover:text-indigo-300 cursor-pointer"
+                    className="flex items-center gap-1 text-[11px] font-bold text-[var(--game-hint-btn)] hover:opacity-80 cursor-pointer"
                 >
                     <HelpCircle size={13} /> {showHint ? 'Hide Hint' : 'Hint'}
                 </button>
             </div>
 
             {showHint && (
-                <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs">
+                <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs">
                     💡 <strong>Hint:</strong> {currentPuzzle.hints || currentPuzzle.explanation}
                 </div>
             )}
@@ -400,24 +407,24 @@ export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted 
                         key={idx}
                         className={`flex items-center justify-between p-3 rounded-2xl border font-mono text-xs sm:text-sm transition-all ${
                             status === 'correct'
-                                ? 'bg-emerald-950/40 border-emerald-500/60 text-emerald-200'
+                                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500/60 text-emerald-800 dark:text-emerald-200'
                                 : status === 'incorrect'
-                                ? 'bg-rose-950/30 border-rose-500/50 text-rose-200'
-                                : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)] hover:border-indigo-500/40'
+                                ? 'bg-rose-50 dark:bg-rose-950/30 border-rose-500/50 text-rose-800 dark:text-rose-200'
+                                : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)] hover:border-indigo-500/50'
                         }`}
                     >
                         <div className="flex items-center gap-3 overflow-x-auto">
                             <span className="text-[11px] font-bold text-[var(--foreground-muted)] w-5 text-right select-none">
                                 {idx + 1}.
                             </span>
-                            <pre className="whitespace-pre font-mono">{line}</pre>
+                            <pre className="whitespace-pre font-mono font-medium">{line}</pre>
                         </div>
 
                         <div className="flex items-center gap-1 ml-2 select-none">
                             <button
                                 onClick={() => moveBlock(idx, idx - 1)}
                                 disabled={idx === 0 || isPaused || status === 'correct' || isValidating}
-                                className="p-1.5 rounded-lg bg-[var(--card-bg)] hover:bg-indigo-500/20 text-[var(--foreground-muted)] hover:text-indigo-400 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                                className="p-1.5 rounded-lg bg-[var(--card-bg)] hover:bg-indigo-500/15 text-[var(--foreground-muted)] hover:text-indigo-600 dark:hover:text-indigo-400 border border-[var(--card-border)] disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
                                 title="Move Up"
                             >
                                 <ArrowUp size={14} />
@@ -425,7 +432,7 @@ export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted 
                             <button
                                 onClick={() => moveBlock(idx, idx + 1)}
                                 disabled={idx === blocks.length - 1 || isPaused || status === 'correct' || isValidating}
-                                className="p-1.5 rounded-lg bg-[var(--card-bg)] hover:bg-indigo-500/20 text-[var(--foreground-muted)] hover:text-indigo-400 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                                className="p-1.5 rounded-lg bg-[var(--card-bg)] hover:bg-indigo-500/15 text-[var(--foreground-muted)] hover:text-indigo-600 dark:hover:text-indigo-400 border border-[var(--card-border)] disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
                                 title="Move Down"
                             >
                                 <ArrowDown size={14} />
@@ -437,30 +444,30 @@ export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted 
 
             {/* Status Feedback */}
             {status === 'correct' && (
-                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 flex items-center gap-3">
-                    <CheckCircle2 size={20} className="shrink-0" />
+                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300 flex items-center gap-3">
+                    <CheckCircle2 size={20} className="shrink-0 text-emerald-600 dark:text-emerald-400" />
                     <div>
-                        <p className="font-black text-sm">
+                        <p className="font-black text-sm text-emerald-900 dark:text-emerald-200">
                             Correct Arrangement! +{pointsAwarded} pts{streak > 1 ? ` (${streak}x Streak!)` : ''}
                         </p>
-                        <p className="text-xs text-emerald-300/80 mt-0.5">{feedbackExplanation}</p>
+                        <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">{feedbackExplanation}</p>
                     </div>
                 </div>
             )}
 
             {status === 'incorrect' && (
-                <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-400 flex items-center justify-between gap-3">
+                <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-800 dark:text-rose-300 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                        <XCircle size={20} className="shrink-0" />
+                        <XCircle size={20} className="shrink-0 text-rose-600 dark:text-rose-400" />
                         <div>
-                            <p className="font-black text-sm">Not quite right yet.</p>
-                            <p className="text-xs text-rose-300/80 mt-0.5">Check the logical execution flow and try again.</p>
+                            <p className="font-black text-sm text-rose-900 dark:text-rose-200">Not quite right yet.</p>
+                            <p className="text-xs text-rose-800/80 dark:text-rose-300/80 mt-0.5">Check the logical execution flow and try again.</p>
                         </div>
                     </div>
                     {revealedSolution && (
                         <button
                             onClick={handleRevealSolution}
-                            className="px-3 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 text-xs font-bold border border-rose-500/30 cursor-pointer whitespace-nowrap"
+                            className="px-3 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-700 dark:text-rose-200 text-xs font-bold border border-rose-500/30 cursor-pointer whitespace-nowrap"
                         >
                             Reveal Solution
                         </button>
@@ -469,11 +476,11 @@ export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted 
             )}
 
             {status === 'revealed' && (
-                <div className="p-4 rounded-2xl bg-amber-500/15 border border-amber-500/40 text-amber-300 flex items-center gap-3">
-                    <HelpCircle size={20} className="shrink-0" />
+                <div className="p-4 rounded-2xl bg-amber-500/15 border border-amber-500/40 text-amber-800 dark:text-amber-300 flex items-center gap-3">
+                    <HelpCircle size={20} className="shrink-0 text-amber-600 dark:text-amber-400" />
                     <div>
-                        <p className="font-black text-sm">Solution Revealed</p>
-                        <p className="text-xs text-amber-300/80 mt-0.5">Study the correct logical sequence above, then hit Reset to practice arranging it yourself.</p>
+                        <p className="font-black text-sm text-amber-900 dark:text-amber-200">Solution Revealed</p>
+                        <p className="text-xs text-amber-800/80 dark:text-amber-300/80 mt-0.5">Study the correct logical sequence above, then hit Reset to practice arranging it yourself.</p>
                     </div>
                 </div>
             )}
@@ -483,7 +490,7 @@ export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted 
                 <button
                     onClick={handleReset}
                     disabled={isPaused || isValidating || status === 'correct'}
-                    className="px-4 py-2 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-xs font-bold text-[var(--foreground-secondary)] flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-40"
+                    className="game-btn-secondary"
                 >
                     <RotateCcw size={14} /> Reset
                 </button>
@@ -491,7 +498,7 @@ export const CodePuzzleEngine = ({ onGameOver, onScoreUpdate, isPaused, isMuted 
                 <button
                     onClick={handleCheckAnswer}
                     disabled={isPaused || isValidating || status === 'correct'}
-                    className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-indigo-500/30 active:scale-98 transition-all cursor-pointer disabled:opacity-50"
+                    className="game-btn-primary"
                 >
                     {isValidating ? (
                         <>

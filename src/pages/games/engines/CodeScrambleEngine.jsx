@@ -119,7 +119,7 @@ export const CodeScrambleEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+                        <span className="game-tech-badge">
                             {challenge.language}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
@@ -127,12 +127,12 @@ export const CodeScrambleEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                         </span>
                     </div>
                     <h2 className="text-lg font-black text-[var(--foreground)]">{challenge.title}</h2>
-                    <p className="text-xs text-[var(--foreground-muted)]">Order statements into the correct executable algorithm sequence.</p>
+                    <p className="text-xs text-[var(--foreground-muted)]">{challenge.description}</p>
                 </div>
 
                 <div className="text-right">
                     <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Score</span>
-                    <span className="text-sm font-black text-cyan-400">{score} pts</span>
+                    <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">{score} pts</span>
                 </div>
             </div>
 
@@ -142,10 +142,10 @@ export const CodeScrambleEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                         key={idx}
                         className={`flex items-center justify-between p-3 rounded-2xl border font-mono text-xs sm:text-sm transition-all ${
                             status === 'correct'
-                                ? 'bg-emerald-950/40 border-emerald-500/60 text-emerald-200'
+                                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500/60 text-emerald-800 dark:text-emerald-200'
                                 : status === 'incorrect'
-                                ? 'bg-rose-950/30 border-rose-500/50 text-rose-200'
-                                : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)]'
+                                ? 'bg-rose-50 dark:bg-rose-950/30 border-rose-500/50 text-rose-800 dark:text-rose-200'
+                                : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)] hover:border-indigo-500/40'
                         }`}
                     >
                         <div className="flex items-center gap-3 overflow-x-auto">
@@ -159,14 +159,14 @@ export const CodeScrambleEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                             <button
                                 onClick={() => moveStatement(idx, idx - 1)}
                                 disabled={idx === 0 || isPaused || status === 'correct'}
-                                className="p-1.5 rounded-lg bg-[var(--card-bg)] hover:bg-cyan-500/20 text-[var(--foreground-muted)] hover:text-cyan-400 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                                className="p-1.5 rounded-lg bg-[var(--card-bg)] hover:bg-indigo-500/15 text-[var(--foreground-muted)] hover:text-indigo-600 dark:hover:text-indigo-400 border border-[var(--card-border)] disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
                             >
                                 <ArrowUp size={14} />
                             </button>
                             <button
                                 onClick={() => moveStatement(idx, idx + 1)}
                                 disabled={idx === statements.length - 1 || isPaused || status === 'correct'}
-                                className="p-1.5 rounded-lg bg-[var(--card-bg)] hover:bg-cyan-500/20 text-[var(--foreground-muted)] hover:text-cyan-400 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                                className="p-1.5 rounded-lg bg-[var(--card-bg)] hover:bg-indigo-500/15 text-[var(--foreground-muted)] hover:text-indigo-600 dark:hover:text-indigo-400 border border-[var(--card-border)] disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
                             >
                                 <ArrowDown size={14} />
                             </button>
@@ -176,21 +176,21 @@ export const CodeScrambleEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             </div>
 
             {status === 'correct' && (
-                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 flex items-center gap-3">
+                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300 flex items-center gap-3">
                     <CheckCircle2 size={20} className="shrink-0" />
                     <div>
-                        <p className="font-black text-sm">Sequence Reconstructed! (+220 pts)</p>
-                        <p className="text-xs text-emerald-300/80 mt-0.5">{challenge.explanation}</p>
+                        <p className="font-black text-sm text-emerald-900 dark:text-emerald-200">Sequence Reconstructed! (+220 pts)</p>
+                        <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">{challenge.explanation}</p>
                     </div>
                 </div>
             )}
 
             {status === 'incorrect' && (
-                <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-400 flex items-center gap-3">
+                <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-800 dark:text-rose-300 flex items-center gap-3">
                     <XCircle size={20} className="shrink-0" />
                     <div>
-                        <p className="font-black text-sm">Incorrect Sequence.</p>
-                        <p className="text-xs text-rose-300/80 mt-0.5">Trace the inputs, conditional branches, and return points.</p>
+                        <p className="font-black text-sm text-rose-900 dark:text-rose-200">Incorrect Sequence.</p>
+                        <p className="text-xs text-rose-800/80 dark:text-rose-300/80 mt-0.5">Trace the inputs, conditional branches, and return points.</p>
                     </div>
                 </div>
             )}
@@ -201,7 +201,7 @@ export const CodeScrambleEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                         setStatements([...challenge.statements].sort(() => Math.random() - 0.5));
                         setStatus(null);
                     }}
-                    className="px-4 py-2 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-xs font-bold text-[var(--foreground-secondary)] flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="game-btn-secondary"
                 >
                     <RotateCcw size={14} /> Re-shuffle
                 </button>
@@ -209,7 +209,7 @@ export const CodeScrambleEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 <button
                     onClick={handleCheck}
                     disabled={isPaused || status === 'correct'}
-                    className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-400 hover:to-teal-500 text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-cyan-500/30 active:scale-98 transition-all cursor-pointer disabled:opacity-50"
+                    className="game-btn-primary"
                 >
                     <Sparkles size={14} /> Verify Sequence
                 </button>

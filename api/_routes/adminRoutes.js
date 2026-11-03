@@ -165,6 +165,24 @@ router.get('/results', async (req, res) => {
 });
 
 // 7. /api/admin/games
+router.get('/games/categories', gameController.adminGetTechCategories);
+router.post('/games/categories', gameController.adminCreateTechCategory);
+router.put('/games/categories/:id', gameController.adminUpdateTechCategory);
+router.delete('/games/categories/:id', gameController.adminDeleteTechCategory);
+
+router.get('/games/technologies', gameController.adminGetTechnologies);
+router.post('/games/technologies', gameController.adminCreateTechnology);
+router.put('/games/technologies/:id', gameController.adminUpdateTechnology);
+router.delete('/games/technologies/:id', gameController.adminDeleteTechnology);
+router.patch('/games/technologies/:id/toggle', gameController.adminToggleTechnology);
+
+router.get('/games/challenges', gameController.adminGetChallenges);
+router.post('/games/challenges', gameController.adminCreateChallenge);
+router.put('/games/challenges/:id', gameController.adminUpdateChallenge);
+router.delete('/games/challenges/:id', gameController.adminDeleteChallenge);
+
+router.get('/games/stats', gameController.adminGetStats);
+
 router.get('/games', gameController.adminGetGames);
 router.post('/games', gameController.adminCreateGame);
 router.put('/games/:id', gameController.adminUpdateGame);

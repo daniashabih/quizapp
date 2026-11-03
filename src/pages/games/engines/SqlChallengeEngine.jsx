@@ -134,7 +134,7 @@ export const SqlChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-teal-500/20 text-teal-400 border border-teal-500/30 flex items-center gap-1">
+                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
                             <Database size={12} /> SQL Studio
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
@@ -147,17 +147,17 @@ export const SqlChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
 
                 <div className="text-right">
                     <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Score</span>
-                    <span className="text-sm font-black text-teal-400">{score} pts</span>
+                    <span className="text-sm font-black text-emerald-600 dark:text-emerald-400 font-black">{score} pts</span>
                 </div>
             </div>
 
             {/* Schema Table Preview */}
-            <div className="p-3 rounded-2xl bg-slate-950/80 border border-white/10 text-xs text-slate-300 font-mono">
-                <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-[11px] text-teal-400 font-bold">
+            <div className="p-3.5 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)] font-mono shadow-xs">
+                <div className="flex items-center justify-between pb-2 mb-2 border-b border-[var(--card-border)] text-[11px] text-indigo-700 dark:text-indigo-400 font-bold">
                     <span className="flex items-center gap-1"><Table size={13} /> Sample Database Schema & Records:</span>
                     <button
                         onClick={() => setShowHint(!showHint)}
-                        className="text-amber-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer font-sans"
+                        className="text-amber-600 dark:text-amber-400 hover:opacity-80 flex items-center gap-1 cursor-pointer font-sans"
                     >
                         <Lightbulb size={12} /> {showHint ? 'Hide Hint' : 'Hint'}
                     </button>
@@ -168,7 +168,7 @@ export const SqlChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                     </div>
                 )}
                 <div className="overflow-x-auto max-h-36">
-                    <pre className="text-[11px] leading-tight text-slate-400">
+                    <pre className="text-[11px] leading-tight text-[var(--foreground-secondary)]">
                         {JSON.stringify(scenario.dataset, null, 2)}
                     </pre>
                 </div>
@@ -176,16 +176,16 @@ export const SqlChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
 
             {/* Interactive SQL Editor */}
             <div className="flex flex-col gap-1.5 font-mono">
-                <label className="text-xs font-bold text-teal-300 flex items-center justify-between">
+                <label className="text-xs font-bold text-[var(--foreground)] font-bold flex items-center justify-between">
                     <span>Interactive SQL Console (Safe In-Browser Sandbox):</span>
-                    <span className="text-[10px] text-slate-400 font-normal">Production DB is 100% Protected</span>
+                    <span className="text-[10px] text-[var(--foreground-secondary)] font-normal">Production DB is 100% Protected</span>
                 </label>
-                <div className="rounded-2xl overflow-hidden border border-teal-500/30 bg-slate-950 shadow-inner">
+                <div className="rounded-2xl overflow-hidden border border-[var(--card-border)] bg-[var(--card-bg)] shadow-xs focus-within:border-indigo-500">
                     <textarea
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         rows={4}
-                        className="w-full p-4 bg-transparent text-emerald-300 font-mono text-xs sm:text-sm focus:outline-hidden leading-relaxed resize-none"
+                        className="w-full p-4 bg-transparent text-[var(--foreground)] font-mono text-xs sm:text-sm focus:outline-hidden leading-relaxed resize-none"
                         spellCheck={false}
                     />
                 </div>
@@ -209,7 +209,7 @@ export const SqlChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                     <div className="p-3 overflow-x-auto max-h-40">
                         <table className="w-full text-left">
                             <thead>
-                                <tr className="border-b border-[var(--card-border)] text-slate-400 text-[10px]">
+                                <tr className="border-b border-[var(--card-border)] text-[var(--foreground-secondary)] text-[10px]">
                                     {Object.keys(queryResult[0] || {}).map(k => (
                                         <th key={k} className="p-1 uppercase">{k}</th>
                                     ))}
@@ -217,7 +217,7 @@ export const SqlChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                             </thead>
                             <tbody>
                                 {queryResult.map((row, idx) => (
-                                    <tr key={idx} className="border-b border-white/5 text-[11px] text-slate-300">
+                                    <tr key={idx} className="border-b border-[var(--card-border)]/50 text-[11px] text-[var(--foreground)]">
                                         {Object.values(row).map((val, vIdx) => (
                                             <td key={vIdx} className="p-1">{String(val)}</td>
                                         ))}
@@ -242,7 +242,7 @@ export const SqlChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                     <button
                         onClick={executeQuery}
                         disabled={isPaused}
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-400 hover:to-emerald-500 text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-teal-500/30 active:scale-98 transition-all cursor-pointer disabled:opacity-50"
+                        className="px-6 py-2.5 rounded-xl game-btn-primary disabled:opacity-50"
                     >
                         <Play size={14} className="fill-slate-950" /> Run Query
                     </button>

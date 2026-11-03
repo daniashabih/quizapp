@@ -92,7 +92,7 @@ export const SpeedTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
                             <Gauge size={12} /> Typing Benchmark
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
@@ -106,11 +106,11 @@ export const SpeedTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 <div className="flex items-center gap-4">
                     <div className="text-right">
                         <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Speed</span>
-                        <span className="text-base font-black text-emerald-400">{wpm} WPM</span>
+                        <span className="text-base font-black text-emerald-600 dark:text-emerald-400">{wpm} WPM</span>
                     </div>
                     <div className="text-right pl-3 border-l border-[var(--card-border)]">
                         <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Accuracy</span>
-                        <span className="text-base font-black text-cyan-400">{accuracy}%</span>
+                        <span className="text-base font-black text-amber-600 dark:text-amber-400">{accuracy}%</span>
                     </div>
                 </div>
             </div>
@@ -118,18 +118,18 @@ export const SpeedTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             {/* Target Passage with real-time character highlights */}
             <div
                 onClick={() => inputRef.current?.focus()}
-                className="relative p-5 rounded-2xl bg-slate-950 font-mono text-sm sm:text-base leading-relaxed tracking-wide select-none cursor-text border border-white/10 min-h-[140px] shadow-inner"
+                className="relative p-5 rounded-2xl bg-[var(--muted-bg)] font-mono text-sm sm:text-base leading-relaxed tracking-wide select-none cursor-text border border-[var(--card-border)] min-h-[140px] shadow-xs"
             >
                 {passage.split('').map((char, i) => {
-                    let color = 'text-slate-500';
+                    let color = 'text-stone-400 dark:text-stone-500';
                     let isCurrent = i === typed.length;
 
                     if (i < typed.length) {
-                        color = typed[i] === char ? 'text-emerald-400 bg-emerald-950/40' : 'text-rose-400 bg-rose-950/60 font-bold';
+                        color = typed[i] === char ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-500/15 font-semibold' : 'text-rose-700 dark:text-rose-400 bg-rose-500/20 font-bold underline';
                     }
 
                     return (
-                        <span key={i} className={`relative ${color} ${isCurrent ? 'border-b-2 border-emerald-400 animate-pulse' : ''}`}>
+                        <span key={i} className={`relative ${color} ${isCurrent ? 'border-b-2 border-indigo-500 animate-pulse' : ''}`}>
                             {char}
                         </span>
                     );
@@ -153,19 +153,19 @@ export const SpeedTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
 
             {/* Completion Result */}
             {isFinished && (
-                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 flex items-center justify-between gap-3">
+                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                         <CheckCircle2 size={24} className="text-emerald-400 shrink-0" />
                         <div>
                             <p className="font-black text-sm">Passage Completed!</p>
-                            <p className="text-xs text-emerald-300/80 mt-0.5">
+                            <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">
                                 Final Speed: <strong>{wpm} WPM</strong> | Accuracy: <strong>{accuracy}%</strong> | CPM: <strong>{cpm}</strong>
                             </p>
                         </div>
                     </div>
                     <button
                         onClick={() => setPassageIdx(prev => (prev + 1) % PASSAGES.length)}
-                        className="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 text-xs font-black uppercase tracking-wider hover:bg-emerald-400 cursor-pointer"
+                        className="game-btn-primary"
                     >
                         Next Passage
                     </button>
@@ -183,7 +183,7 @@ export const SpeedTypingEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                         setWpm(0);
                         inputRef.current?.focus();
                     }}
-                    className="px-4 py-2 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-xs font-bold text-[var(--foreground-secondary)] flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="game-btn-secondary"
                 >
                     <RotateCcw size={14} /> Restart Passage
                 </button>

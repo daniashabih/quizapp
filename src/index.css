@@ -56,6 +56,21 @@
     --shadow-md: 0 4px 8px -1px rgba(25, 61, 53, 0.06);
     --shadow-lg: 0 10px 20px -3px rgba(25, 61, 53, 0.08);
     --shadow-xl: 0 20px 30px -5px rgba(25, 61, 53, 0.12);
+
+    /* Hangbug Games Section Tokens (Approved Light Mode) */
+    --game-badge-bg: #EDE9FE;
+    --game-badge-text: #5B21B6;
+    --game-badge-border: #DDD6FE;
+    --game-hint-bg: #F5F3FF;
+    --game-hint-text: #4C1D95;
+    --game-hint-border: #DDD6FE;
+    --game-hint-btn: #6D28D9;
+    --game-code-bg: #F4EFE6;
+    --game-code-border: #DCD8CE;
+    --game-code-text: #0A0E0C;
+    --game-score-color: #10B981;
+    --game-best-score-color: #F59E0B;
+    --game-btn-gradient: linear-gradient(135deg, #6366F1 0%, #7C3AED 100%);
     color-scheme: light;
   }
 
@@ -90,6 +105,21 @@
     --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 10px 20px -3px rgba(0, 0, 0, 0.45);
     --shadow-xl: 0 20px 30px -5px rgba(0, 0, 0, 0.55);
+
+    /* Hangbug Games Section Tokens (Dark Mode) */
+    --game-badge-bg: rgba(99, 102, 241, 0.2);
+    --game-badge-text: #C7D2FE;
+    --game-badge-border: rgba(99, 102, 241, 0.35);
+    --game-hint-bg: rgba(49, 46, 129, 0.35);
+    --game-hint-text: #C7D2FE;
+    --game-hint-border: rgba(99, 102, 241, 0.3);
+    --game-hint-btn: #A5B4FC;
+    --game-code-bg: #141D19;
+    --game-code-border: #2A3832;
+    --game-code-text: #F3F6F4;
+    --game-score-color: #34D399;
+    --game-best-score-color: #FBBF24;
+    --game-btn-gradient: linear-gradient(135deg, #6366F1 0%, #7C3AED 100%);
     color-scheme: dark;
   }
 
@@ -216,6 +246,97 @@
 .dark .glass {
   background: rgba(24, 34, 30, 0.9);
   border: 1px solid var(--card-border);
+}
+
+/* ===================================================
+   Hangbug Games Section — Approved Light & Dark Theme
+   =================================================== */
+.game-tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--game-badge-bg);
+  color: var(--game-badge-text);
+  border: 1px solid var(--game-badge-border);
+}
+
+.game-hint-banner {
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--game-hint-bg);
+  color: var(--game-hint-text);
+  border: 1px solid var(--game-hint-border);
+}
+
+.game-code-container {
+  background-color: var(--game-code-bg);
+  color: var(--game-code-text);
+  border: 1px solid var(--game-code-border);
+  border-radius: 1rem;
+}
+
+.game-btn-primary {
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(to right, #6366F1, #7C3AED);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.game-btn-primary:hover:not(:disabled) {
+  background: linear-gradient(to right, #4F46E5, #6D28D9);
+}
+.game-btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.game-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.game-btn-secondary {
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--muted-bg);
+  border: 1px solid var(--card-border);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--foreground-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.game-btn-secondary:hover:not(:disabled) {
+  background-color: var(--hover-bg);
+  border-color: var(--card-border);
+  color: var(--foreground);
+}
+.game-btn-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .glass-nav {

@@ -478,7 +478,7 @@ const gameService = {
     /**
      * Submit game score
      */
-    submitScore: async (slug, { score, durationSeconds, accuracy, wpm, difficulty, metadata }) => {
+    submitScore: async (slug, { score, durationSeconds, accuracy, wpm, difficulty, technology, metadata }) => {
         try {
             const response = await api.post(`/games/${slug}/score`, {
                 score,
@@ -486,6 +486,7 @@ const gameService = {
                 accuracy,
                 wpm,
                 difficulty,
+                technology,
                 metadata
             });
             return response.data;
@@ -498,6 +499,7 @@ const gameService = {
                 score,
                 wpm: wpm || 0,
                 accuracy: accuracy || 100,
+                technology: technology || 'all',
                 totalPlays: 1,
                 message: 'Score recorded locally'
             };
@@ -573,7 +575,202 @@ const gameService = {
     adminSeedGames: async () => {
         const response = await api.post('/admin/games/seed', {});
         return response.data;
+    },
+
+    // Technology Categories & Technologies
+    getCategories: async () => {
+        try {
+            const response = await api.get('/games/categories');
+            return response.data;
+        } catch (err) {
+            console.warn('[gameService] getCategories fallback:', err.message);
+            return {
+                success: true,
+                data: FALLBACK_TECH_CATEGORIES,
+                isOffline: true
+            };
+        }
+    },
+
+    getTechnologies: async (params = {}) => {
+        try {
+            const response = await api.get('/games/technologies', { params });
+            return response.data;
+        } catch (err) {
+            console.warn('[gameService] getTechnologies fallback:', err.message);
+            let list = FALLBACK_TECHNOLOGIES.slice();
+            if (params.categorySlug && params.categorySlug !== 'all') {
+                list = list.filter(t => t.categorySlug === params.categorySlug);
+            }
+            if (params.search) {
+                const q = params.search.toLowerCase();
+                list = list.filter(t => t.name.toLowerCase().includes(q) || t.slug.toLowerCase().includes(q));
+            }
+            return {
+                success: true,
+                count: list.length,
+                data: list,
+                isOffline: true
+            };
+        }
+    },
+
+    getTechnologyBySlug: async (slug) => {
+        try {
+            const response = await api.get(`/games/technologies/${slug}`);
+            return response.data;
+        } catch (err) {
+            console.warn(`[gameService] getTechnologyBySlug fallback for ${slug}:`, err.message);
+            const tech = FALLBACK_TECHNOLOGIES.find(t => t.slug === slug);
+            return {
+                success: Boolean(tech),
+                data: tech || null,
+                isOffline: true
+            };
+        }
+    },
+
+    getGamesByTechnology: async (slug, params = {}) => {
+        try {
+            const response = await api.get(`/games/technologies/${slug}/games`, { params });
+            return response.data;
+        } catch (err) {
+            console.warn(`[gameService] getGamesByTechnology fallback for ${slug}:`, err.message);
+            const tech = FALLBACK_TECHNOLOGIES.find(t => t.slug === slug);
+            const list = FALLBACK_GAMES.filter(g => tech?.supportedGames?.includes(g.slug));
+            return {
+                success: true,
+                technology: slug,
+                count: list.length,
+                data: list,
+                isOffline: true
+            };
+        }
+    },
+
+    getUserTechStats: async (slug) => {
+        try {
+            const response = await api.get(`/games/technologies/${slug}/stats`);
+            return response.data;
+        } catch {
+            return {
+                success: true,
+                isGuest: true,
+                data: { totalPlays: 0, highScore: 0, bestWpm: 0, bestAccuracy: 100 }
+            };
+        }
+    },
+
+    // Admin Technology Management
+    adminGetTechCategories: async () => {
+        const response = await api.get('/admin/games/categories');
+        return response.data;
+    },
+
+    adminCreateTechCategory: async (data) => {
+        const response = await api.post('/admin/games/categories', data);
+        return response.data;
+    },
+
+    adminUpdateTechCategory: async (id, data) => {
+        const response = await api.put(`/admin/games/categories/${id}`, data);
+        return response.data;
+    },
+
+    adminDeleteTechCategory: async (id) => {
+        const response = await api.delete(`/admin/games/categories/${id}`);
+        return response.data;
+    },
+
+    adminGetTechnologies: async (params = {}) => {
+        const response = await api.get('/admin/games/technologies', { params });
+        return response.data;
+    },
+
+    adminCreateTechnology: async (data) => {
+        const response = await api.post('/admin/games/technologies', data);
+        return response.data;
+    },
+
+    adminUpdateTechnology: async (id, data) => {
+        const response = await api.put(`/admin/games/technologies/${id}`, data);
+        return response.data;
+    },
+
+    adminDeleteTechnology: async (id) => {
+        const response = await api.delete(`/admin/games/technologies/${id}`);
+        return response.data;
+    },
+
+    adminToggleTechnology: async (id) => {
+        const response = await api.patch(`/admin/games/technologies/${id}/toggle`, {});
+        return response.data;
+    },
+
+    adminGetChallenges: async (params = {}) => {
+        const response = await api.get('/admin/games/challenges', { params });
+        return response.data;
+    },
+
+    adminCreateChallenge: async (data) => {
+        const response = await api.post('/admin/games/challenges', data);
+        return response.data;
+    },
+
+    adminUpdateChallenge: async (id, data) => {
+        const response = await api.put(`/admin/games/challenges/${id}`, data);
+        return response.data;
+    },
+
+    adminDeleteChallenge: async (id) => {
+        const response = await api.delete(`/admin/games/challenges/${id}`);
+        return response.data;
+    },
+
+    adminGetStats: async () => {
+        const response = await api.get('/admin/games/stats');
+        return response.data;
     }
 };
+
+export const FALLBACK_TECH_CATEGORIES = [
+    { id: 'cat_frontend', name: 'Frontend Development', slug: 'frontend-development', description: 'Client-side interfaces and responsive UX.', icon: 'Layout', isEnabled: true, order: 1 },
+    { id: 'cat_backend', name: 'Backend Development', slug: 'backend-development', description: 'Server APIs, data layers, and services.', icon: 'Server', isEnabled: true, order: 2 },
+    { id: 'cat_database', name: 'Database', slug: 'database', description: 'Relational and NoSQL database query engines.', icon: 'Database', isEnabled: true, order: 3 },
+    { id: 'cat_mobile', name: 'Mobile Development', slug: 'mobile-development', description: 'Cross-platform mobile apps for iOS and Android.', icon: 'Smartphone', isEnabled: true, order: 4 },
+    { id: 'cat_fundamentals', name: 'Programming Fundamentals', slug: 'programming-fundamentals', description: 'Logic, OOP, and data structures.', icon: 'Cpu', isEnabled: true, order: 5 },
+    { id: 'cat_webdev', name: 'Web Development', slug: 'web-development', description: 'Full stack development and web protocols.', icon: 'Globe', isEnabled: true, order: 6 }
+];
+
+export const FALLBACK_TECHNOLOGIES = [
+    { id: 'tech_html', categorySlug: 'frontend-development', name: 'HTML', slug: 'html', color: '#E34F26', icon: 'html5', supportedGames: ['find-the-bug', 'code-puzzle', 'missing-code', 'memory-match', 'code-typing', 'syntax-typing', 'speed-typing'], isEnabled: true },
+    { id: 'tech_css', categorySlug: 'frontend-development', name: 'CSS', slug: 'css', color: '#1572B6', icon: 'css3', supportedGames: ['code-puzzle', 'find-the-bug', 'output-predictor', 'missing-code', 'memory-match', 'code-typing', 'syntax-typing'], isEnabled: true },
+    { id: 'tech_javascript', categorySlug: 'frontend-development', name: 'JavaScript', slug: 'javascript', color: '#F7DF1E', icon: 'javascript', supportedGames: ['output-predictor', 'code-scramble', 'logic-builder', 'code-puzzle', 'find-the-bug', 'missing-code', 'memory-match', 'speed-typing', 'code-typing', 'syntax-typing', 'sixty-second-challenge', 'error-free-typing', 'word-rain'], isEnabled: true },
+    { id: 'tech_bootstrap', categorySlug: 'frontend-development', name: 'Bootstrap', slug: 'bootstrap', color: '#7952B3', icon: 'bootstrap', supportedGames: ['find-the-bug', 'missing-code', 'code-puzzle', 'memory-match', 'code-typing'], isEnabled: true },
+    { id: 'tech_jquery', categorySlug: 'frontend-development', name: 'jQuery', slug: 'jquery', color: '#0769AD', icon: 'jquery', supportedGames: ['find-the-bug', 'code-puzzle', 'missing-code', 'code-typing', 'output-predictor'], isEnabled: true },
+    { id: 'tech_react', categorySlug: 'frontend-development', name: 'React.js', slug: 'react', color: '#61DAFB', icon: 'react', supportedGames: ['code-puzzle', 'find-the-bug', 'output-predictor', 'missing-code', 'logic-builder', 'code-typing', 'syntax-typing'], isEnabled: true },
+
+    { id: 'tech_php', categorySlug: 'backend-development', name: 'PHP', slug: 'php', color: '#777BB4', icon: 'php', supportedGames: ['find-the-bug', 'missing-code', 'code-puzzle', 'output-predictor', 'code-typing', 'syntax-typing'], isEnabled: true },
+    { id: 'tech_laravel', categorySlug: 'backend-development', name: 'Laravel', slug: 'laravel', color: '#FF2D20', icon: 'laravel', supportedGames: ['code-puzzle', 'find-the-bug', 'logic-builder', 'missing-code', 'code-typing'], isEnabled: true },
+    { id: 'tech_nodejs', categorySlug: 'backend-development', name: 'Node.js', slug: 'nodejs', color: '#339933', icon: 'nodejs', supportedGames: ['output-predictor', 'code-puzzle', 'find-the-bug', 'code-scramble', 'code-typing', 'speed-typing'], isEnabled: true },
+    { id: 'tech_express', categorySlug: 'backend-development', name: 'Express.js', slug: 'express', color: '#68A063', icon: 'express', supportedGames: ['find-the-bug', 'code-puzzle', 'missing-code', 'logic-builder', 'code-typing'], isEnabled: true },
+    { id: 'tech_python', categorySlug: 'backend-development', name: 'Python', slug: 'python', color: '#3776AB', icon: 'python', supportedGames: ['output-predictor', 'code-puzzle', 'find-the-bug', 'logic-builder', 'code-scramble', 'code-typing', 'speed-typing'], isEnabled: true },
+
+    { id: 'tech_mysql', categorySlug: 'database', name: 'MySQL', slug: 'mysql', color: '#4479A1', icon: 'mysql', supportedGames: ['sql-challenge', 'output-predictor', 'code-puzzle', 'find-the-bug', 'code-typing'], isEnabled: true },
+    { id: 'tech_mongodb', categorySlug: 'database', name: 'MongoDB', slug: 'mongodb', color: '#47A248', icon: 'mongodb', supportedGames: ['sql-challenge', 'find-the-bug', 'output-predictor', 'code-puzzle', 'code-typing'], isEnabled: true },
+    { id: 'tech_sql', categorySlug: 'database', name: 'SQL', slug: 'sql', color: '#00758F', icon: 'sql', supportedGames: ['sql-challenge', 'output-predictor', 'code-puzzle', 'find-the-bug', 'code-typing', 'syntax-typing'], isEnabled: true },
+
+    { id: 'tech_flutter', categorySlug: 'mobile-development', name: 'Flutter', slug: 'flutter', color: '#02569B', icon: 'flutter', supportedGames: ['code-puzzle', 'find-the-bug', 'code-scramble', 'missing-code', 'code-typing', 'syntax-typing'], isEnabled: true },
+    { id: 'tech_dart', categorySlug: 'mobile-development', name: 'Dart', slug: 'dart', color: '#0175C2', icon: 'dart', supportedGames: ['code-puzzle', 'find-the-bug', 'output-predictor', 'code-scramble', 'code-typing', 'syntax-typing'], isEnabled: true },
+    { id: 'tech_android', categorySlug: 'mobile-development', name: 'Android Development', slug: 'android-development', color: '#3DDC84', icon: 'android', supportedGames: ['find-the-bug', 'code-puzzle', 'output-predictor', 'code-typing', 'missing-code'], isEnabled: true },
+
+    { id: 'tech_logic', categorySlug: 'programming-fundamentals', name: 'Programming Logic', slug: 'programming-logic', color: '#8B5CF6', icon: 'binary', supportedGames: ['logic-builder', 'output-predictor', 'code-scramble', 'code-puzzle', 'memory-match'], isEnabled: true },
+    { id: 'tech_oop', categorySlug: 'programming-fundamentals', name: 'Object-Oriented Programming (OOP)', slug: 'oop', color: '#EC4899', icon: 'box', supportedGames: ['memory-match', 'find-the-bug', 'code-puzzle', 'output-predictor', 'logic-builder'], isEnabled: true },
+    { id: 'tech_dsa', categorySlug: 'programming-fundamentals', name: 'Data Structures & Algorithms', slug: 'dsa', color: '#F97316', icon: 'network', supportedGames: ['logic-builder', 'code-scramble', 'output-predictor', 'code-puzzle', 'memory-match'], isEnabled: true },
+
+    { id: 'tech_html_css', categorySlug: 'web-development', name: 'HTML & CSS', slug: 'html-css', color: '#E44D26', icon: 'palette', supportedGames: ['code-puzzle', 'find-the-bug', 'missing-code', 'memory-match', 'code-typing', 'speed-typing'], isEnabled: true },
+    { id: 'tech_fullstack', categorySlug: 'web-development', name: 'Full Stack Development', slug: 'full-stack', color: '#10B981', icon: 'layers', supportedGames: ['logic-builder', 'code-puzzle', 'find-the-bug', 'output-predictor', 'code-typing'], isEnabled: true },
+    { id: 'tech_web_fundamentals', categorySlug: 'web-development', name: 'Web Development Fundamentals', slug: 'web-fundamentals', color: '#06B6D4', icon: 'compass', supportedGames: ['memory-match', 'speed-typing', 'output-predictor', 'find-the-bug', 'code-puzzle'], isEnabled: true }
+];
 
 export default gameService;

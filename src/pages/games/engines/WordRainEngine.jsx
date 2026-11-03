@@ -129,7 +129,7 @@ export const WordRainEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
             <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30 flex items-center gap-1">
+                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
                             <CloudRain size={12} /> Word Rain
                         </span>
                     </div>
@@ -150,7 +150,7 @@ export const WordRainEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                     </div>
                     <div className="text-right pl-3 border-l border-[var(--card-border)]">
                         <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Score</span>
-                        <span className="text-base font-black text-purple-400">{score}</span>
+                        <span className="text-base font-black text-emerald-600 dark:text-emerald-400">{score}</span>
                     </div>
                 </div>
             </div>
@@ -190,7 +190,7 @@ export const WordRainEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                         <p className="text-xs text-slate-300">Final Score: {score} | Missed: {missedCount}</p>
                         <button
                             onClick={handleRestart}
-                            className="px-6 py-2 rounded-xl bg-purple-500 text-white font-bold text-xs uppercase tracking-wider hover:bg-purple-400 cursor-pointer"
+                            className="game-btn-primary"
                         >
                             Play Again
                         </button>
@@ -206,7 +206,7 @@ export const WordRainEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 onChange={handleChange}
                 disabled={isGameOver || isPaused}
                 placeholder="Type the lowest word to destroy it..."
-                className="w-full px-5 py-3 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-center text-sm font-mono text-[var(--foreground)] focus:outline-hidden focus:border-purple-500 transition-all"
+                className="w-full px-5 py-3 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] text-center text-sm font-mono text-[var(--foreground)] focus:outline-hidden focus:border-indigo-500 transition-all shadow-xs"
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck="false"
@@ -219,7 +219,7 @@ export const WordRainEngine = ({ onGameOver, onScoreUpdate, isPaused }) => {
                 </span>
                 <button
                     onClick={handleRestart}
-                    className="px-4 py-2 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-xs font-bold text-[var(--foreground-secondary)] flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="game-btn-secondary"
                 >
                     <RotateCcw size={14} /> Restart Rain
                 </button>

@@ -126,7 +126,7 @@ export const OutputPredictorEngine = ({ onGameOver, onScoreUpdate, isPaused }) =
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                        <span className="game-tech-badge">
                             {challenge.language}
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
@@ -139,19 +139,19 @@ export const OutputPredictorEngine = ({ onGameOver, onScoreUpdate, isPaused }) =
 
                 <div className="text-right">
                     <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Score</span>
-                    <span className="text-sm font-black text-amber-400">{score} pts</span>
+                    <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">{score} pts</span>
                 </div>
             </div>
 
             {/* Code Snippet Box */}
-            <div className="rounded-2xl overflow-hidden border border-[var(--card-border)] bg-slate-950 font-mono text-xs sm:text-sm shadow-inner">
-                <div className="flex items-center gap-1.5 px-4 py-2 bg-slate-900 border-b border-white/10 text-slate-400 text-[11px]">
+            <div className="rounded-2xl overflow-hidden border border-[var(--card-border)] bg-[var(--muted-bg)] font-mono text-xs sm:text-sm shadow-xs">
+                <div className="flex items-center gap-1.5 px-4 py-2 bg-[var(--card-bg)] border-b border-[var(--card-border)] text-[var(--foreground-muted)] text-[11px]">
                     <div className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400/80" />
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/80" />
-                    <span className="ml-2 font-mono text-slate-300">snippet.{challenge.language === 'python' ? 'py' : challenge.language === 'sql' ? 'sql' : 'js'}</span>
+                    <span className="ml-2 font-mono font-semibold text-[var(--foreground)]">snippet.{challenge.language === 'python' ? 'py' : challenge.language === 'sql' ? 'sql' : 'js'}</span>
                 </div>
-                <div className="p-4 overflow-x-auto text-slate-200 leading-relaxed font-mono">
+                <div className="p-4 overflow-x-auto text-[var(--foreground)] leading-relaxed font-mono font-medium">
                     <pre className="whitespace-pre">{challenge.code}</pre>
                 </div>
             </div>
@@ -174,17 +174,17 @@ export const OutputPredictorEngine = ({ onGameOver, onScoreUpdate, isPaused }) =
                                 disabled={isSubmitted || isPaused}
                                 className={`p-3.5 rounded-2xl border font-mono text-xs sm:text-sm text-left transition-all cursor-pointer flex items-center justify-between ${
                                     isAnswer
-                                        ? 'bg-emerald-950/40 border-emerald-500/60 text-emerald-200 font-bold'
+                                        ? 'bg-emerald-500/15 border-emerald-500/60 text-emerald-800 dark:text-emerald-200 font-bold'
                                         : isWrongSelection
-                                        ? 'bg-rose-950/40 border-rose-500/60 text-rose-200'
+                                        ? 'bg-rose-500/15 border-rose-500/60 text-rose-800 dark:text-rose-200'
                                         : isSelected
-                                        ? 'bg-amber-500/20 border-amber-500/50 text-amber-200 font-bold'
-                                        : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)] hover:border-amber-500/30'
+                                        ? 'bg-indigo-500/20 border-indigo-500/50 text-indigo-800 dark:text-indigo-200 font-bold'
+                                        : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-[var(--foreground)] hover:border-indigo-500/30'
                                 }`}
                             >
                                 <span>{opt}</span>
-                                {isAnswer && <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />}
-                                {isWrongSelection && <XCircle size={16} className="text-rose-400 shrink-0" />}
+                                {isAnswer && <CheckCircle2 size={16} className="text-emerald-600 dark:text-emerald-400 shrink-0" />}
+                                {isWrongSelection && <XCircle size={16} className="text-rose-600 dark:text-rose-400 shrink-0" />}
                             </button>
                         );
                     })}
@@ -195,14 +195,14 @@ export const OutputPredictorEngine = ({ onGameOver, onScoreUpdate, isPaused }) =
             {isSubmitted && (
                 <div className={`p-4 rounded-2xl border flex flex-col gap-2 ${
                     isCorrect
-                        ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
-                        : 'bg-rose-950/30 border-rose-500/40 text-rose-300'
+                        ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-800 dark:text-emerald-300'
+                        : 'bg-rose-500/15 border-rose-500/40 text-rose-800 dark:text-rose-300'
                 }`}>
                     <div className="flex items-center gap-2 font-bold text-sm">
-                        {isCorrect ? <CheckCircle2 size={18} className="text-emerald-400" /> : <XCircle size={18} className="text-rose-400" />}
-                        <span>{isCorrect ? 'Correct Prediction! (+200 pts)' : `Incorrect (Expected: ${challenge.solution})`}</span>
+                        {isCorrect ? <CheckCircle2 size={18} className="text-emerald-600 dark:text-emerald-400" /> : <XCircle size={18} className="text-rose-600 dark:text-rose-400" />}
+                        <span className="text-[var(--foreground)] font-black">{isCorrect ? 'Correct Prediction! (+200 pts)' : `Incorrect (Expected: ${challenge.solution})`}</span>
                     </div>
-                    <p className="text-xs leading-relaxed text-slate-300">
+                    <p className="text-xs leading-relaxed text-[var(--foreground-secondary)]">
                         {challenge.explanation}
                     </p>
                 </div>
@@ -210,7 +210,7 @@ export const OutputPredictorEngine = ({ onGameOver, onScoreUpdate, isPaused }) =
 
             {/* Footer Buttons */}
             <div className="flex items-center justify-between pt-2">
-                <span className="text-xs text-[var(--foreground-muted)]">
+                <span className="text-xs text-[var(--foreground-muted)] font-medium">
                     {selectedOption ? `Selected: ${selectedOption}` : 'Choose an output'}
                 </span>
 
@@ -218,14 +218,14 @@ export const OutputPredictorEngine = ({ onGameOver, onScoreUpdate, isPaused }) =
                     <button
                         onClick={handleSubmit}
                         disabled={!selectedOption || isPaused}
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-amber-500/30 active:scale-98 transition-all cursor-pointer disabled:opacity-50"
+                        className="game-btn-primary"
                     >
-                        <Play size={14} className="fill-slate-950" /> Verify Output
+                        <Play size={14} className="fill-white" /> Verify Output
                     </button>
                 ) : (
                     <button
                         onClick={handleNext}
-                        className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-emerald-500/30 active:scale-98 transition-all cursor-pointer"
+                        className="game-btn-primary"
                     >
                         Next Snippet <ArrowRight size={14} />
                     </button>

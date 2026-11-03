@@ -121,6 +121,7 @@ model Game {
   order        Int                @default(0)
   playsCount   Int                @default(0) @map("plays_count")
   rating       Float?             @default(4.9)
+  supportedTechnologies String[]  @default([]) @map("supported_technologies")
   createdAt    DateTime           @default(now()) @map("created_at")
   updatedAt    DateTime?          @updatedAt @map("updated_at")
   scores       GameScore[]
@@ -134,6 +135,8 @@ model GameScore {
   userId          String   @map("user_id") @db.ObjectId
   gameId          String   @map("game_id") @db.ObjectId
   gameSlug        String   @map("game_slug")
+  technology      String?  @default("all")
+  technologyName  String?  @default("") @map("technology_name")
   score           Int
   highScore       Int?     @default(0) @map("high_score")
   accuracy        Float?   @default(100.0)
@@ -149,6 +152,7 @@ model GameScore {
 
   @@index([userId, gameSlug])
   @@index([gameSlug, score])
+  @@index([userId, technology])
   @@map("game_scores")
 }
 
@@ -166,6 +170,23 @@ model UserGameProgress {
   @@map("user_game_progress")
 }
 
+model UserTechProgress {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @map("user_id")
+  technology   String   // e.g. "html", "javascript", "flutter"
+  gameSlug     String   @default("overall") @map("game_slug")
+  difficulty   String?  @default("All Levels")
+  highScore    Int      @default(0) @map("high_score")
+  bestWpm      Float?   @default(0) @map("best_wpm")
+  bestAccuracy Float?   @default(0) @map("best_accuracy")
+  totalPlays   Int      @default(0) @map("total_plays")
+  lastPlayedAt DateTime @default(now()) @map("last_played_at")
+
+  @@unique([userId, technology, gameSlug])
+  @@index([userId, technology])
+  @@map("user_tech_progress")
+}
+
 model UserGameFavorite {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @map("user_id")
@@ -179,21 +200,62 @@ model UserGameFavorite {
   @@map("user_game_favorites")
 }
 
+model GameTechCategory {
+  id           String           @id @default(auto()) @map("_id") @db.ObjectId
+  name         String           @unique
+  slug         String           @unique
+  description  String?          @default("")
+  icon         String?          @default("Layout")
+  order        Int              @default(0)
+  isEnabled    Boolean          @default(true) @map("is_enabled")
+  createdAt    DateTime         @default(now()) @map("created_at")
+  updatedAt    DateTime?        @updatedAt @map("updated_at")
+  technologies GameTechnology[]
+
+  @@map("game_tech_categories")
+}
+
+model GameTechnology {
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  categoryId     String           @map("category_id") @db.ObjectId
+  categorySlug   String           @map("category_slug")
+  name           String           @unique
+  slug           String           @unique
+  description    String?          @default("")
+  icon           String?          @default("code")
+  color          String?          @default("#10B981")
+  badge          String?          @default("")
+  supportedGames String[]         @default([]) @map("supported_games")
+  isEnabled      Boolean          @default(true) @map("is_enabled")
+  order          Int              @default(0)
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime?        @updatedAt @map("updated_at")
+
+  category       GameTechCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([categorySlug])
+  @@map("game_technologies")
+}
+
 model GameChallenge {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  gameSlug     String   @map("game_slug")
-  title        String
-  difficulty   String   @default("Beginner") // Beginner, Intermediate, Advanced
-  language     String?  @default("javascript") // html, css, javascript, php, python, sql, general
-  description  String?  @default("")
-  content      String   // Code snippet, passage text, scrambled blocks, or puzzle spec (JSON or string)
-  solution     String   // Expected answer, order, correct line, or expected SQL result (kept secure on backend)
-  hints        String?  @default("")
-  explanation  String?  @default("")
-  order        Int      @default(0)
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  gameSlug       String   @map("game_slug")
+  technology     String?  @default("general")
+  technologyName String?  @default("") @map("technology_name")
+  title          String
+  difficulty     String   @default("Beginner") // Beginner, Intermediate, Advanced
+  language       String?  @default("javascript") // html, css, javascript, php, python, sql, dart, flutter, etc.
+  description    String?  @default("")
+  content        String   // Code snippet, passage text, scrambled blocks, or puzzle spec (JSON or string)
+  solution       String   // Expected answer, order, correct line, or expected SQL result (kept secure on backend)
+  hints          String?  @default("")
+  explanation    String?  @default("")
+  points         Int?     @default(100)
+  order          Int      @default(0)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   @@index([gameSlug, difficulty])
+  @@index([gameSlug, technology, difficulty])
   @@map("game_challenges")
 }

@@ -58,6 +58,34 @@ class AppColors {
   static const Color darkErrorBg = Color(0xFF2D1618);
   static const Color darkWarning = Color(0xFFFBBF24);
   static const Color darkWarningBg = Color(0xFF2C2212);
+
+  // Games Approved Light & Dark Mode Tokens
+  static const Color gameBadgeBg = Color(0xFFEDE9FE); // Soft lavender
+  static const Color gameBadgeText = Color(0xFF5B21B6); // Purple text
+  static const Color gameBadgeBorder = Color(0xFFDDD6FE);
+
+  static const Color darkGameBadgeBg = Color(0x336366F1);
+  static const Color darkGameBadgeText = Color(0xFFC7D2FE);
+  static const Color darkGameBadgeBorder = Color(0x596366F1);
+
+  static const Color gameHintBg = Color(0xFFF5F3FF); // Soft lavender background
+  static const Color gameHintText = Color(0xFF4C1D95);
+  static const Color gameHintBorder = Color(0xFFDDD6FE);
+
+  static const Color darkGameHintBg = Color(0x40312E81);
+  static const Color darkGameHintText = Color(0xFFC7D2FE);
+  static const Color darkGameHintBorder = Color(0x4D6366F1);
+
+  static const Color gameCodeBg = Color(0xFFF4EFE6); // Light beige
+  static const Color darkGameCodeBg = Color(0xFF141D19);
+  static const Color gameCodeBorder = Color(0xFFDCD8CE);
+  static const Color darkGameCodeBorder = Color(0xFF2A3832);
+
+  static const Color gamePrimaryButton = Color(0xFF6366F1); // Purple
+  static const Color gamePrimaryButtonEnd = Color(0xFF7C3AED);
+
+  static const Color gameScore = Color(0xFF10B981); // Green
+  static const Color gameBestScore = Color(0xFFF59E0B); // Orange
 }
 
 extension AppThemeContext on BuildContext {
@@ -104,6 +132,30 @@ extension AppThemeContext on BuildContext {
 
   Color get warningBgColor =>
       isDarkMode ? AppColors.darkWarningBg : AppColors.warningBg;
+
+  Color get gameBadgeBgColor =>
+      isDarkMode ? AppColors.darkGameBadgeBg : AppColors.gameBadgeBg;
+
+  Color get gameBadgeTextColor =>
+      isDarkMode ? AppColors.darkGameBadgeText : AppColors.gameBadgeText;
+
+  Color get gameBadgeBorderColor =>
+      isDarkMode ? AppColors.darkGameBadgeBorder : AppColors.gameBadgeBorder;
+
+  Color get gameHintBgColor =>
+      isDarkMode ? AppColors.darkGameHintBg : AppColors.gameHintBg;
+
+  Color get gameHintTextColor =>
+      isDarkMode ? AppColors.darkGameHintText : AppColors.gameHintText;
+
+  Color get gameHintBorderColor =>
+      isDarkMode ? AppColors.darkGameHintBorder : AppColors.gameHintBorder;
+
+  Color get gameCodeBgColor =>
+      isDarkMode ? AppColors.darkGameCodeBg : AppColors.gameCodeBg;
+
+  Color get gameCodeBorderColor =>
+      isDarkMode ? AppColors.darkGameCodeBorder : AppColors.gameCodeBorder;
 
   String get brandCompactLogoAsset => isDarkMode
       ? 'assets/images/branding/hangbug-logo-compact-dark.png'

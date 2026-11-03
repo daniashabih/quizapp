@@ -103,7 +103,7 @@ export const SixtySecondChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 border border-rose-500/30 flex items-center gap-1">
+                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
                             <Timer size={12} /> 60s Sprint
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
@@ -129,12 +129,12 @@ export const SixtySecondChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused
             </div>
 
             {/* Target Word Stream */}
-            <div className="p-6 rounded-2xl bg-slate-950 border border-white/10 flex items-center justify-center gap-4 select-none overflow-hidden shadow-inner">
-                <span className="text-2xl sm:text-3xl font-mono font-black text-emerald-400 px-4 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-400/40">
+            <div className="p-6 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] flex items-center justify-center gap-4 select-none overflow-hidden shadow-xs">
+                <span className="text-2xl sm:text-3xl font-mono font-black text-indigo-900 dark:text-indigo-200 px-4 py-1.5 rounded-xl bg-[var(--game-badge-bg)] border border-[var(--game-badge-border)]">
                     {currentWord}
                 </span>
                 {upcomingWords.map((w, idx) => (
-                    <span key={idx} className="text-lg sm:text-xl font-mono text-slate-500 hidden sm:inline opacity-60">
+                    <span key={idx} className="text-lg sm:text-xl font-mono text-[var(--foreground-muted)] hidden sm:inline opacity-60">
                         {w}
                     </span>
                 ))}
@@ -149,7 +149,7 @@ export const SixtySecondChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused
                 onKeyDown={handleKeyDown}
                 disabled={isFinished || isPaused}
                 placeholder={isActive ? "Type word and press Spacebar..." : "Start typing to begin 60s countdown..."}
-                className="w-full px-5 py-4 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-base font-mono text-center text-[var(--foreground)] focus:outline-hidden focus:border-rose-500 transition-all shadow-inner"
+                className="w-full px-5 py-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] text-base font-mono text-center text-[var(--foreground)] focus:outline-hidden focus:border-indigo-500 transition-all shadow-xs"
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck="false"
@@ -158,19 +158,19 @@ export const SixtySecondChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused
 
             {/* Results */}
             {isFinished && (
-                <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-rose-300 flex items-center justify-between gap-3">
+                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-800 dark:text-emerald-300 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                         <Trophy size={24} className="text-amber-400 shrink-0" />
                         <div>
                             <p className="font-black text-sm">Sprint Completed! Final: {correctWords} WPM</p>
-                            <p className="text-xs text-rose-300/80 mt-0.5">
+                            <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">
                                 Errors: {errors} | Accuracy: {Math.round((correctWords / (correctWords + errors || 1)) * 100)}%
                             </p>
                         </div>
                     </div>
                     <button
                         onClick={handleRestart}
-                        className="px-4 py-2 rounded-xl bg-rose-500 text-white text-xs font-black uppercase tracking-wider hover:bg-rose-400 cursor-pointer"
+                        className="game-btn-primary"
                     >
                         Try Again
                     </button>
@@ -183,7 +183,7 @@ export const SixtySecondChallengeEngine = ({ onGameOver, onScoreUpdate, isPaused
                 </span>
                 <button
                     onClick={handleRestart}
-                    className="px-4 py-2 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-xs font-bold text-[var(--foreground-secondary)] flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="game-btn-secondary"
                 >
                     <RotateCcw size={14} /> Reset
                 </button>

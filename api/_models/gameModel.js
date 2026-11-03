@@ -1,4 +1,6 @@
 const prisma = require('../_config/prisma');
+const TechnologyModel = require('./technologyModel');
+const { TECHNOLOGY_CHALLENGES } = require('./technologyChallenges');
 
 const INITIAL_GAMES = [
     // --- 8 CODING GAMES ---
@@ -905,7 +907,7 @@ const GameModel = {
     /**
      * Get all games with optional filtering
      */
-    getAll: async ({ category, search, difficulty, isPublished, isFeatured, userId } = {}) => {
+    getAll: async ({ category, search, difficulty, technology, isPublished, isFeatured, userId } = {}) => {
         try {
             const where = {};
             if (isPublished !== undefined) {
@@ -957,23 +959,45 @@ const GameModel = {
             }
 
             if (games && games.length > 0) {
+                // Technology filter if requested
+                if (technology && technology !== 'all' && technology !== 'All Technologies') {
+                    const cleanTech = String(technology).toLowerCase().trim();
+                    const techItem = TechnologyModel.INITIAL_TECHNOLOGIES.find(t => t.slug === cleanTech);
+                    if (techItem && Array.isArray(techItem.supportedGames) && techItem.supportedGames.length > 0) {
+                        games = games.filter(g => techItem.supportedGames.includes(g.slug));
+                    }
+                }
+
                 if (userId) {
-                    const [userProgress, userFavs] = await Promise.all([
+                    const cleanTech = (technology && technology !== 'all' && technology !== 'All Technologies')
+                        ? String(technology).toLowerCase().trim()
+                        : null;
+
+                    const [userProgress, userFavs, techProgress] = await Promise.all([
                         prisma.userGameProgress.findMany({ where: { userId: String(userId) } }).catch(() => []),
-                        prisma.userGameFavorite.findMany({ where: { userId: String(userId) } }).catch(() => [])
+                        prisma.userGameFavorite.findMany({ where: { userId: String(userId) } }).catch(() => []),
+                        cleanTech
+                            ? prisma.userTechProgress.findMany({ where: { userId: String(userId), technology: cleanTech } }).catch(() => [])
+                            : Promise.resolve([])
                     ]);
+
                     const progressMap = {};
                     userProgress.forEach(p => { progressMap[p.gameSlug] = p; });
+                    const techProgressMap = {};
+                    techProgress.forEach(tp => { techProgressMap[tp.gameSlug] = tp; });
                     const favSet = new Set(userFavs.map(f => f.gameSlug));
 
-                    games = games.map(g => ({
-                        ...g,
-                        userHighScore: progressMap[g.slug]?.highScore || 0,
-                        userBestWpm: progressMap[g.slug]?.bestWpm || 0,
-                        userBestAccuracy: progressMap[g.slug]?.bestAccuracy || 0,
-                        userTotalPlays: progressMap[g.slug]?.totalPlays || 0,
-                        isFavorite: favSet.has(g.slug)
-                    }));
+                    games = games.map(g => {
+                        const tp = techProgressMap[g.slug];
+                        return {
+                            ...g,
+                            userHighScore: tp?.highScore !== undefined ? tp.highScore : (progressMap[g.slug]?.highScore || 0),
+                            userBestWpm: tp?.bestWpm !== undefined ? tp.bestWpm : (progressMap[g.slug]?.bestWpm || 0),
+                            userBestAccuracy: tp?.bestAccuracy !== undefined ? tp.bestAccuracy : (progressMap[g.slug]?.bestAccuracy || 0),
+                            userTotalPlays: tp?.totalPlays !== undefined ? tp.totalPlays : (progressMap[g.slug]?.totalPlays || 0),
+                            isFavorite: favSet.has(g.slug)
+                        };
+                    });
                 }
 
                 if (search) {
@@ -1006,6 +1030,13 @@ const GameModel = {
         if (difficulty && difficulty !== 'All Levels') {
             games = games.filter(g => (g.difficulty || '').toLowerCase() === difficulty.toLowerCase());
         }
+        if (technology && technology !== 'all' && technology !== 'All Technologies') {
+            const cleanTech = String(technology).toLowerCase().trim();
+            const techItem = TechnologyModel.INITIAL_TECHNOLOGIES.find(t => t.slug === cleanTech);
+            if (techItem && Array.isArray(techItem.supportedGames) && techItem.supportedGames.length > 0) {
+                games = games.filter(g => techItem.supportedGames.includes(g.slug));
+            }
+        }
         if (search) {
             const q = search.toLowerCase();
             games = games.filter(g =>
@@ -1016,6 +1047,10 @@ const GameModel = {
         }
 
         if (userId) {
+            const cleanTech = (technology && technology !== 'all' && technology !== 'All Technologies')
+                ? String(technology).toLowerCase().trim()
+                : null;
+
             games = games.map(g => {
                 const progKey = `${userId}_${g.slug}`;
                 const prog = memProgress[progKey];
@@ -1113,7 +1148,7 @@ const GameModel = {
     /**
      * Get challenges for a game (sanitized for client play - solutions withheld)
      */
-    getChallenges: async (gameSlug, { difficulty, language } = {}) => {
+    getChallenges: async (gameSlug, { difficulty, language, technology } = {}) => {
         const parseBlocks = (content) => {
             try {
                 const parsed = typeof content === 'string' ? JSON.parse(content) : (content || {});
@@ -1123,6 +1158,10 @@ const GameModel = {
             }
         };
 
+        const cleanTech = (technology && technology !== 'all' && technology !== 'All Technologies')
+            ? String(technology).toLowerCase().trim()
+            : null;
+
         try {
             const where = { gameSlug };
             if (difficulty && difficulty !== 'All Levels') {
@@ -1130,6 +1169,9 @@ const GameModel = {
             }
             if (language && language !== 'all') {
                 where.language = language;
+            }
+            if (cleanTech) {
+                where.technology = cleanTech;
             }
 
             const dbChallenges = await prisma.gameChallenge.findMany({
@@ -1142,6 +1184,8 @@ const GameModel = {
                 return dbChallenges.map(c => ({
                     id: c.id,
                     gameSlug: c.gameSlug,
+                    technology: c.technology || 'general',
+                    technologyName: c.technologyName || '',
                     title: c.title,
                     difficulty: c.difficulty,
                     language: c.language,
@@ -1150,6 +1194,7 @@ const GameModel = {
                     blocks: parseBlocks(c.content),
                     hints: c.hints,
                     explanation: c.explanation,
+                    points: c.points || 100,
                     order: c.order
                 }));
             }
@@ -1157,10 +1202,33 @@ const GameModel = {
             // DB fallback
         }
 
-        const list = memChallenges[gameSlug] || [];
+        // Memory fallback: check TECHNOLOGY_CHALLENGES first if tech was requested
+        let list = [];
+        if (cleanTech) {
+            list = TECHNOLOGY_CHALLENGES.filter(c =>
+                c.gameSlug === gameSlug &&
+                c.technology === cleanTech &&
+                (!difficulty || difficulty === 'All Levels' || c.difficulty.toLowerCase() === difficulty.toLowerCase())
+            );
+        }
+
+        // If no tech-specific challenge found, fall back to default game challenges
+        if (list.length === 0) {
+            const defaultList = memChallenges[gameSlug] || [];
+            list = defaultList.filter(c =>
+                (!difficulty || difficulty === 'All Levels' || (c.difficulty && c.difficulty.toLowerCase() === difficulty.toLowerCase())) &&
+                (!language || language === 'all' || (c.language && c.language.toLowerCase() === language.toLowerCase()))
+            );
+            if (list.length === 0 && defaultList.length > 0) {
+                list = defaultList;
+            }
+        }
+
         return list.map(c => ({
             id: c.id,
             gameSlug: c.gameSlug,
+            technology: c.technology || 'general',
+            technologyName: c.technologyName || '',
             title: c.title,
             difficulty: c.difficulty,
             language: c.language,
@@ -1169,6 +1237,7 @@ const GameModel = {
             blocks: parseBlocks(c.content),
             hints: c.hints,
             explanation: c.explanation,
+            points: c.points || 100,
             order: c.order
         }));
     },
@@ -1190,6 +1259,10 @@ const GameModel = {
         if (!challenge) {
             const list = memChallenges[gameSlug] || [];
             challenge = list.find(c => c.id === challengeId || c.aliasId === challengeId);
+        }
+
+        if (!challenge) {
+            challenge = TECHNOLOGY_CHALLENGES.find(c => c.id === challengeId);
         }
 
         if (!challenge) {
@@ -1444,7 +1517,7 @@ const GameModel = {
     /**
      * Record a user's game score
      */
-    recordScore: async ({ userId, gameSlug, score, durationSeconds = 0, accuracy = 100, wpm = 0, difficulty = 'All Levels', metadata = {} }) => {
+    recordScore: async ({ userId, gameSlug, score, durationSeconds = 0, accuracy = 100, wpm = 0, difficulty = 'All Levels', technology, metadata = {} }) => {
         const numericScore = Math.max(0, parseInt(score, 10) || 0);
         const duration = Math.max(0, parseInt(durationSeconds, 10) || 0);
         const numericAccuracy = Math.max(0, Math.min(100, parseFloat(accuracy) || 100));
@@ -1456,6 +1529,20 @@ const GameModel = {
         let totalPlays = 1;
         let bestWpm = numericWpm;
         let bestAccuracy = numericAccuracy;
+
+        // Also record technology-specific score if technology provided
+        if (userId && technology && technology !== 'all' && technology !== 'All Technologies') {
+            await TechnologyModel.recordTechScore({
+                userId,
+                techSlug: technology,
+                gameSlug,
+                difficulty,
+                score: numericScore,
+                wpm: numericWpm,
+                accuracy: numericAccuracy,
+                durationSeconds: duration
+            }).catch(() => {});
+        }
 
         try {
             const game = await prisma.game.findUnique({
@@ -1514,6 +1601,7 @@ const GameModel = {
                         userId: String(userId),
                         gameId: game.id,
                         gameSlug,
+                        technology: technology || 'all',
                         score: numericScore,
                         highScore: userHighScore,
                         wpm: numericWpm,

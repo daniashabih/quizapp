@@ -98,7 +98,7 @@ export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused })
             <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[var(--card-border)]">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center gap-1">
+                        <span className="text-xs font-mono font-bold uppercase tracking-wider game-tech-badge flex items-center gap-1">
                             <Layers size={12} /> Memory Recall
                         </span>
                         <span className="text-xs font-semibold text-[var(--foreground-muted)]">
@@ -112,11 +112,11 @@ export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused })
                 <div className="flex items-center gap-4">
                     <div className="text-right">
                         <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Moves</span>
-                        <span className="text-sm font-black text-blue-400">{moves}</span>
+                        <span className="text-sm font-black text-[var(--foreground)]">{moves}</span>
                     </div>
                     <div className="text-right pl-3 border-l border-[var(--card-border)]">
                         <span className="text-[10px] uppercase font-bold text-[var(--foreground-muted)] block">Time</span>
-                        <span className="text-sm font-black text-emerald-400">{seconds}s</span>
+                        <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">{seconds}s</span>
                     </div>
                 </div>
             </div>
@@ -134,9 +134,9 @@ export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused })
                             className={`h-24 sm:h-28 rounded-2xl border p-2.5 flex items-center justify-center text-center font-mono cursor-pointer select-none transition-all duration-300 transform ${
                                 isFlipped
                                     ? isMatchedCard
-                                        ? 'bg-emerald-950/60 border-emerald-500/60 text-emerald-300 shadow-md scale-98'
-                                        : 'bg-indigo-950/60 border-indigo-500/60 text-indigo-200 shadow-md scale-102'
-                                    : 'bg-[var(--muted-bg)] border-[var(--card-border)] text-transparent hover:border-blue-500/40 hover:scale-102'
+                                        ? 'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-500/60 text-emerald-800 dark:text-emerald-200 font-bold shadow-md scale-98'
+                                        : 'bg-[var(--game-badge-bg)] border border-[var(--game-badge-border)] text-[var(--game-badge-text)] font-bold shadow-md scale-102'
+                                    : 'bg-[var(--muted-bg)] border border-[var(--card-border)] text-transparent hover:border-indigo-500/40 hover:scale-102'
                             }`}
                         >
                             {isFlipped ? (
@@ -163,7 +163,7 @@ export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused })
                     <CheckCircle2 size={24} className="shrink-0" />
                     <div>
                         <p className="font-black text-sm">All Concepts Matched! Memory Master!</p>
-                        <p className="text-xs text-emerald-300/80 mt-0.5">Completed in {moves} moves and {seconds} seconds.</p>
+                        <p className="text-xs text-emerald-800/80 dark:text-emerald-300/80 mt-0.5">Completed in {moves} moves and {seconds} seconds.</p>
                     </div>
                 </div>
             )}
@@ -174,7 +174,7 @@ export const CodingMemoryMatchEngine = ({ onGameOver, onScoreUpdate, isPaused })
                 </span>
                 <button
                     onClick={initGame}
-                    className="px-4 py-2 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-xs font-bold text-[var(--foreground-secondary)] flex items-center gap-1.5 transition-colors cursor-pointer"
+                    className="game-btn-secondary"
                 >
                     <RotateCcw size={14} /> Reset Board
                 </button>

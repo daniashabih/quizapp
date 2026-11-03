@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import {
     ArrowLeft,
     Maximize2,
@@ -17,11 +17,14 @@ import {
     Volume2,
     VolumeX,
     Code2,
-    Keyboard
+    Keyboard,
+    Layers,
+    ChevronDown
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthContext';
-import gameService from '../../services/gameService';
+import gameService, { FALLBACK_TECHNOLOGIES } from '../../services/gameService';
+import TechIcon from './components/TechIcon';
 import gameAudio from '../../utils/gameAudio';
 import { trackGameStart, trackGameComplete } from '../../utils/analytics';
 
@@ -46,7 +49,15 @@ import WordRainEngine from './engines/WordRainEngine';
 export const GamePlayer = () => {
     const { slug } = useParams();
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
     const { user } = useAuth();
+
+    // Parse technology and difficulty from query params
+    const queryTech = searchParams.get('tech') || searchParams.get('technology') || 'all';
+    const queryDifficulty = searchParams.get('difficulty') || 'All Levels';
+
+    const [selectedTechnology, setSelectedTechnology] = useState(queryTech);
+    const [selectedDifficulty, setSelectedDifficulty] = useState(queryDifficulty);
 
     const [game, setGame] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -65,9 +76,49 @@ export const GamePlayer = () => {
     const hasTrackedGameStartRef = useRef(false);
     const hasTrackedGameOverRef = useRef(false);
 
+    // List of technologies that support this game (or all fallback techs)
+    const supportedTechs = useMemo(() => {
+        return FALLBACK_TECHNOLOGIES.filter(t => !slug || t.supportedGames?.includes(slug));
+    }, [slug]);
+
     const handleToggleSound = () => {
         const newMuted = gameAudio.toggleMuted();
         setIsMuted(newMuted);
+    };
+
+    // Handle technology change
+    const handleTechChange = (newTech) => {
+        setSelectedTechnology(newTech);
+        setCurrentScore(0);
+        setGameOverModal(null);
+        setSearchParams(prev => {
+            const next = new URLSearchParams(prev);
+            if (newTech && newTech !== 'all') {
+                next.set('tech', newTech);
+            } else {
+                next.delete('tech');
+                next.delete('technology');
+            }
+            return next;
+        });
+        setPlayKey(prev => prev + 1);
+    };
+
+    // Handle difficulty change
+    const handleDifficultyChange = (newDiff) => {
+        setSelectedDifficulty(newDiff);
+        setCurrentScore(0);
+        setGameOverModal(null);
+        setSearchParams(prev => {
+            const next = new URLSearchParams(prev);
+            if (newDiff && newDiff !== 'All Levels') {
+                next.set('difficulty', newDiff);
+            } else {
+                next.delete('difficulty');
+            }
+            return next;
+        });
+        setPlayKey(prev => prev + 1);
     };
 
     // Fetch game details
@@ -205,7 +256,8 @@ export const GamePlayer = () => {
                 durationSeconds,
                 accuracy,
                 wpm,
-                difficulty: game?.difficulty || 'All Levels',
+                difficulty: selectedDifficulty || game?.difficulty || 'All Levels',
+                technology: selectedTechnology || 'all',
                 metadata
             });
         } catch (err) {
@@ -232,7 +284,9 @@ export const GamePlayer = () => {
     // Render active game engine
     const renderEngine = () => {
         const commonProps = {
-            key: playKey,
+            key: `${playKey}_${selectedTechnology}_${selectedDifficulty}`,
+            technology: selectedTechnology,
+            difficulty: selectedDifficulty,
             onGameOver: handleGameOver,
             onScoreUpdate: handleScoreUpdate,
             isPaused,
@@ -407,6 +461,52 @@ export const GamePlayer = () => {
                         >
                             {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
                         </button>
+                    </div>
+                </div>
+
+                {/* Technology & Difficulty Selector Bar */}
+                <div className="w-full flex flex-wrap items-center justify-between gap-3 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3 mb-4 shadow-xs">
+                    {/* Technology Selector */}
+                    <div className="flex items-center gap-2">
+                        <span className="text-[11px] font-bold text-[var(--foreground-muted)] flex items-center gap-1">
+                            <Layers size={13} className="text-emerald-500" /> Technology:
+                        </span>
+                        <select
+                            value={selectedTechnology}
+                            onChange={(e) => handleTechChange(e.target.value)}
+                            className="text-xs font-bold px-2.5 py-1.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-[var(--foreground)] focus:outline-hidden focus:border-emerald-500 cursor-pointer"
+                        >
+                            <option value="all">🌐 All Technologies</option>
+                            {supportedTechs.map(t => (
+                                <option key={t.slug} value={t.slug}>
+                                    {t.name}
+                                </option>
+                            ))}
+                        </select>
+                        {selectedTechnology !== 'all' && (
+                            <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                                <TechIcon slug={selectedTechnology} className="w-3.5 h-3.5" />
+                                {supportedTechs.find(t => t.slug === selectedTechnology)?.name || selectedTechnology}
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Difficulty Selector: Beginner, Intermediate, Advanced */}
+                    <div className="flex items-center gap-1.5">
+                        <span className="text-[11px] font-bold text-[var(--foreground-muted)] mr-1">Difficulty:</span>
+                        {['All Levels', 'Beginner', 'Intermediate', 'Advanced'].map(diff => (
+                            <button
+                                key={diff}
+                                onClick={() => handleDifficultyChange(diff)}
+                                className={`px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
+                                    selectedDifficulty === diff
+                                        ? 'bg-[#193D35] dark:bg-emerald-500 text-white dark:text-stone-950 shadow-xs'
+                                        : 'bg-[var(--muted-bg)] text-[var(--foreground-muted)] hover:text-[var(--foreground)]'
+                                }`}
+                            >
+                                {diff}
+                            </button>
+                        ))}
                     </div>
                 </div>
 
