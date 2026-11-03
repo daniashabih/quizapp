@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, Check, X, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -23,12 +23,14 @@ function GoogleIcon() {
 const loadGoogleGsiScript = () => {
     return new Promise((resolve) => {
         if (typeof window === 'undefined') return resolve(null);
-        if (window.google?.accounts?.oauth2) return resolve(window.google);
+        if (window.google?.accounts) return resolve(window.google);
 
-        const existing = document.getElementById('google-gsi-client');
+        const existing = document.getElementById('google-gsi-client') || 
+                         document.querySelector('script[src*="accounts.google.com/gsi/client"]');
         if (existing) {
+            if (window.google?.accounts) return resolve(window.google);
             existing.addEventListener('load', () => resolve(window.google));
-            if (window.google?.accounts?.oauth2) resolve(window.google);
+            existing.addEventListener('error', () => resolve(null));
             return;
         }
 
@@ -58,6 +60,10 @@ export default function Auth({ initialMode = 'login' }) {
     const [googleLoading, setGoogleLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
+    const tokenClientRef = useRef(null);
+    const isSignUpRef = useRef(isSignUp);
+    isSignUpRef.current = isSignUp;
+
     const { login, signup, loginWithGoogle } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
@@ -74,13 +80,74 @@ export default function Auth({ initialMode = 'login' }) {
 
     const isPasswordValid = passwordChecks.hasLength && passwordChecks.hasUpper && passwordChecks.hasNumber;
 
-    // Initialize Google One Tap if client ID is configured
+    // Initialize Google One Tap & Token Client if client ID is configured
     useEffect(() => {
         const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID;
         if (!googleClientId || googleClientId.includes('your_google_client_id')) return;
 
         loadGoogleGsiScript().then((google) => {
-            if (google?.accounts?.id) {
+            if (!google?.accounts) return;
+
+            // 1. Initialize Token Client for custom button click (OAuth 2.0 popup)
+            if (google.accounts.oauth2) {
+                try {
+                    tokenClientRef.current = google.accounts.oauth2.initTokenClient({
+                        client_id: googleClientId,
+                        scope: 'email profile openid',
+                        prompt: 'select_account',
+                        callback: async (tokenResponse) => {
+                            if (tokenResponse?.error) {
+                                setGoogleLoading(false);
+                                if (tokenResponse.error === 'popup_closed_by_user') {
+                                    return;
+                                }
+                                if (tokenResponse.error === 'access_denied') {
+                                    setErrorMessage('Google Sign-In was cancelled.');
+                                    return;
+                                }
+                                const desc = tokenResponse.error_description || tokenResponse.error || 'Google authentication failed.';
+                                setErrorMessage(desc);
+                                toast.error(desc);
+                                return;
+                            }
+
+                            if (tokenResponse?.access_token) {
+                                try {
+                                    const user = await loginWithGoogle({ token: tokenResponse.access_token });
+                                    if (user) {
+                                        if (isSignUpRef.current) {
+                                            trackSignUp('google');
+                                        } else {
+                                            trackLogin('google');
+                                        }
+                                        navigate(user.role === 'admin' ? '/dashboard/admin' : from);
+                                    }
+                                } catch (err) {
+                                    setErrorMessage(err.message || 'Google Sign-In failed');
+                                } finally {
+                                    setGoogleLoading(false);
+                                }
+                            }
+                        },
+                        error_callback: (nonOAuthError) => {
+                            setGoogleLoading(false);
+                            console.error('[Google OAuth Error Callback]:', nonOAuthError);
+                            if (nonOAuthError?.type === 'popup_blocked') {
+                                const msg = 'Google Sign-In popup was blocked by your browser. Please allow popups for https://www.hangbug.com and try again.';
+                                setErrorMessage(msg);
+                                toast.error(msg);
+                            } else if (nonOAuthError?.type !== 'popup_closed') {
+                                setErrorMessage(nonOAuthError?.message || 'Google popup could not be opened.');
+                            }
+                        }
+                    });
+                } catch (clientErr) {
+                    console.warn('[Google Token Client Init Warning]:', clientErr);
+                }
+            }
+
+            // 2. Initialize Google One Tap
+            if (google.accounts.id) {
                 try {
                     google.accounts.id.initialize({
                         client_id: googleClientId,
@@ -90,7 +157,7 @@ export default function Auth({ initialMode = 'login' }) {
                                 try {
                                     const user = await loginWithGoogle({ credential: response.credential });
                                     if (user) {
-                                        if (isSignUp) {
+                                        if (isSignUpRef.current) {
                                             trackSignUp('google_onetap');
                                         } else {
                                             trackLogin('google_onetap');
@@ -151,9 +218,14 @@ export default function Auth({ initialMode = 'login' }) {
         setGoogleLoading(true);
 
         try {
-            // Ensure GIS SDK is available
-            const google = window.google?.accounts?.oauth2 ? window.google : await loadGoogleGsiScript();
+            // Trigger pre-initialized token client directly for synchronous user-gesture handling
+            if (tokenClientRef.current) {
+                tokenClientRef.current.requestAccessToken();
+                return;
+            }
 
+            // Fallback if not initialized yet
+            const google = window.google?.accounts?.oauth2 ? window.google : await loadGoogleGsiScript();
             if (!google?.accounts?.oauth2) {
                 throw new Error('Google Identity Services SDK could not be loaded. Please disable ad-blockers or check your connection.');
             }
@@ -165,17 +237,21 @@ export default function Auth({ initialMode = 'login' }) {
                 callback: async (tokenResponse) => {
                     if (tokenResponse?.error) {
                         setGoogleLoading(false);
-                        if (tokenResponse.error !== 'popup_closed_by_user') {
-                            setErrorMessage(tokenResponse.error_description || 'Google authentication was cancelled or failed.');
-                            toast.error(tokenResponse.error_description || 'Google authentication failed');
+                        if (tokenResponse.error === 'popup_closed_by_user') return;
+                        if (tokenResponse.error === 'access_denied') {
+                            setErrorMessage('Google Sign-In was cancelled.');
+                            return;
                         }
+                        const desc = tokenResponse.error_description || tokenResponse.error || 'Google authentication failed.';
+                        setErrorMessage(desc);
+                        toast.error(desc);
                         return;
                     }
                     if (tokenResponse?.access_token) {
                         try {
                             const user = await loginWithGoogle({ token: tokenResponse.access_token });
                             if (user) {
-                                if (isSignUp) {
+                                if (isSignUpRef.current) {
                                     trackSignUp('google');
                                 } else {
                                     trackLogin('google');
@@ -192,10 +268,17 @@ export default function Auth({ initialMode = 'login' }) {
                 error_callback: (nonOAuthError) => {
                     setGoogleLoading(false);
                     console.error('[Google OAuth Error Callback]:', nonOAuthError);
-                    setErrorMessage(nonOAuthError?.message || 'Google popup could not be opened.');
+                    if (nonOAuthError?.type === 'popup_blocked') {
+                        const msg = 'Google Sign-In popup was blocked by your browser. Please allow popups for https://www.hangbug.com and try again.';
+                        setErrorMessage(msg);
+                        toast.error(msg);
+                    } else if (nonOAuthError?.type !== 'popup_closed') {
+                        setErrorMessage(nonOAuthError?.message || 'Google popup could not be opened.');
+                    }
                 }
             });
 
+            tokenClientRef.current = tokenClient;
             tokenClient.requestAccessToken();
         } catch (err) {
             console.error('[Google Sign-In Error]:', err);

@@ -50,3 +50,8 @@ final adminGamesProvider = FutureProvider<List<GameModel>>((ref) async {
   final repo = ref.watch(gameRepositoryProvider);
   return repo.adminGetGames();
 });
+
+final adminGameStatsProvider = FutureProvider<Map<String, dynamic>>((ref) async {
+  final repo = ref.watch(gameRepositoryProvider);
+  return repo.adminGetGameStats();
+});

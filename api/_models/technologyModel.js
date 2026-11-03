@@ -879,9 +879,21 @@ const TechnologyModel = {
      * Toggle technology enabled status (Admin)
      */
     toggleTechnology: async (idOrSlug) => {
-        const existing = await TechnologyModel.getTechnologyBySlug(idOrSlug);
+        let existing = null;
+        try {
+            existing = await prisma.gameTechnology.findFirst({
+                where: {
+                    OR: [{ id: String(idOrSlug) }, { slug: String(idOrSlug) }]
+                }
+            });
+        } catch {
+            // DB fallback
+        }
+        if (!existing) {
+            existing = memTechnologies.find(t => t.id === idOrSlug || t.slug === idOrSlug);
+        }
         if (!existing) return null;
-        return TechnologyModel.updateTechnology(idOrSlug, { isEnabled: !existing.isEnabled });
+        return TechnologyModel.updateTechnology(existing.id, { isEnabled: !existing.isEnabled });
     },
 
     /**

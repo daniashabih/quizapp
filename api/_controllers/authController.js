@@ -521,6 +521,10 @@ const googleLogin = async (req, res) => {
     try {
         const { credential, token, isDemo, email: demoEmail, name: demoName, avatar: demoAvatar } = req.body;
 
+        const expectedClientId = process.env.GOOGLE_CLIENT_ID || 
+                                 process.env.VITE_GOOGLE_CLIENT_ID || 
+                                 '540959878402-dm79psv3n2jtungji4cvm4s8j9eoes3o.apps.googleusercontent.com';
+
         let email = '';
         let name = '';
         let avatar = '';
@@ -538,6 +542,24 @@ const googleLogin = async (req, res) => {
                     });
                 }
 
+                // Verify token audience matches Hangbug Web Client ID
+                if (payload.aud !== expectedClientId) {
+                    console.error(`[Google Auth Error] Token audience mismatch: received '${payload.aud}', expected '${expectedClientId}'`);
+                    return res.status(401).json({
+                        success: false,
+                        message: 'Google token verification failed: audience mismatch'
+                    });
+                }
+
+                // Verify email is verified by Google
+                const isEmailVerified = payload.email_verified === 'true' || payload.email_verified === true;
+                if (!isEmailVerified) {
+                    return res.status(401).json({
+                        success: false,
+                        message: 'Google authentication failed: Email address is not verified by Google.'
+                    });
+                }
+
                 email = payload.email;
                 name = payload.name || payload.given_name || email.split('@')[0];
                 avatar = payload.picture || '';
@@ -549,23 +571,50 @@ const googleLogin = async (req, res) => {
                 });
             }
         } else if (token) {
-            // Verify Google Access Token via Google userinfo endpoint
+            // Verify Google Access Token via Google tokeninfo & userinfo endpoints
             try {
-                const googleRes = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                const payload = googleRes.data;
+                // 1. Verify audience/authorized party and email verification via tokeninfo
+                const tokenInfoRes = await axios.get(`https://oauth2.googleapis.com/tokeninfo?access_token=${encodeURIComponent(token)}`);
+                const tokenInfo = tokenInfoRes.data;
 
-                if (!payload || !payload.email) {
+                if (!tokenInfo || !tokenInfo.email) {
                     return res.status(400).json({
                         success: false,
                         message: 'Invalid Google access token'
                     });
                 }
 
-                email = payload.email;
-                name = payload.name || payload.given_name || email.split('@')[0];
-                avatar = payload.picture || '';
+                const clientAudience = tokenInfo.aud || tokenInfo.azp;
+                if (clientAudience && clientAudience !== expectedClientId) {
+                    console.error(`[Google Auth Error] Access token audience mismatch: received '${clientAudience}', expected '${expectedClientId}'`);
+                    return res.status(401).json({
+                        success: false,
+                        message: 'Google access token verification failed: client mismatch'
+                    });
+                }
+
+                const isEmailVerified = tokenInfo.email_verified === 'true' || tokenInfo.email_verified === true;
+                if (!isEmailVerified) {
+                    return res.status(401).json({
+                        success: false,
+                        message: 'Google authentication failed: Email address is not verified by Google.'
+                    });
+                }
+
+                // 2. Fetch full profile details (name, avatar) from userinfo endpoint
+                let userProfile = {};
+                try {
+                    const profileRes = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    userProfile = profileRes.data || {};
+                } catch (profileErr) {
+                    console.warn('[Google UserInfo Warning] Falling back to tokeninfo profile:', profileErr.message);
+                }
+
+                email = tokenInfo.email;
+                name = userProfile.name || userProfile.given_name || email.split('@')[0];
+                avatar = userProfile.picture || '';
             } catch (tokenErr) {
                 console.error('[Google UserInfo Error]:', tokenErr.response?.data || tokenErr.message);
                 return res.status(401).json({
@@ -574,7 +623,13 @@ const googleLogin = async (req, res) => {
                 });
             }
         } else if (isDemo) {
-            // Instant Demo Mode Google Account
+            // Demo mode is disallowed in production for security
+            if (process.env.NODE_ENV === 'production') {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Demo mode is not available in production'
+                });
+            }
             email = demoEmail || 'google.demo@hangbug.com';
             name = demoName || 'Jane Google (Demo)';
             avatar = demoAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80';

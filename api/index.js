@@ -36,6 +36,7 @@ app.use(cors({
 
 app.use(helmet({
     contentSecurityPolicy: false,
+    crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
 }));
 app.use(cookieParser());
 app.use(morgan('dev'));

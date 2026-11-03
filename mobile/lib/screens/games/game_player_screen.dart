@@ -250,7 +250,7 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
       isPaused: _isPaused,
     );
 
-    final key = Key('${_engineKey}_${_selectedTechnology}_${_selectedDifficulty}');
+    final key = Key('${_engineKey}_${_selectedTechnology}_$_selectedDifficulty');
 
     switch (widget.slug) {
       // Coding Games
