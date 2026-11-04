@@ -1,0 +1,133 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SEO,2,What is the main goal of local SEO?,Reduce the file size of images,Improve visibility in location-based searches,Block crawlers from a site,Rank for broad global keywords only,Improve visibility in location-based searches
+SEO,2,Which tool is most recommended for submitting local business information so that it appears on Google Maps and local search results?,Google Keyword Planner,Google My Business,TinyPNG,Squoosh,Google My Business
+SEO,2,Which of the following is an example of a local keyword?,Bakery,"Italian bakery in Agoura Hills, CA",Baking,Italian bakery,"Italian bakery in Agoura Hills, CA"
+SEO,2,"According to the guide, local searches lead to approximately what percentage of purchases in physical stores?",70%,50%,10%,90%,90%
+SEO,2,Approximately what percentage of users read online reviews before choosing local services?,40%,20%,90%,60%,90%
+SEO,2,What percentage of users use Google Maps to explore local stores and businesses?,46%,86%,16%,66%,86%
+SEO,2,'Near me' and 'buy now' searches increased by how much in 2020 alone?,50%,150%,5%,500%,500%
+SEO,2,Which link-building strategy supports local SEO?,Removing all outbound links,Buying thousands of links,Sharing links with local businesses in exchange for links to their sites,Hiding links in white text,Sharing links with local businesses in exchange for links to their sites
+SEO,2,What does NAP stand for in local SEO?,"Name, Address, Phone number","Name, Anchor, Permalink","Navigation, Alt text, Pages","Network, Algorithm, Page","Name, Address, Phone number"
+SEO,2,"Local SEO is an essential part of which type of SEO, since more mobile users search for local businesses?",Email marketing,Mobile SEO,Paid search,Black hat SEO,Mobile SEO
+SEO,2,Approximately how many searches does Google receive every day that include local searches?,160 billion,1.6 billion,1.6 million,16 million,1.6 billion
+SEO,2,Positive online reviews mainly help a local business by:,Making it look trustworthy,Blocking competitors,Increasing image size,Reducing hosting costs Section 2: Regional SEO (SEO Localization),Making it look trustworthy
+SEO,2,SEO localization is the process of:,Adapting website content to the cultural level of a new location,Hosting a site on several servers,Removing all local content,Translating a site word-for-word only,Adapting website content to the cultural level of a new location
+SEO,2,Which domain extension is a country-code TLD (ccTLD) used to target Canada?,.com,.ca,.net,.org,.ca
+SEO,2,Which ccTLD indicates a site for the United Kingdom?,.co.uk,.info,.edu,.us,.co.uk
+SEO,2,Which attribute tells search engines that an alternate language version of a page exists?,canonical-size,hreflang,noindex,nofollow,hreflang
+SEO,2,Which URL structure is an example of a subdirectory?,domainname.com/?lang=en-us,uk.domainname.com,domainnameuksite.com,domainname.com/uk,domainname.com/uk
+SEO,2,Which URL is an example of a subdomain structure?,domainname.com/uk,domainname.co.uk,domainname.com/?lang=es,uk.domainname.com,uk.domainname.com
+SEO,2,Search engines understand that a site targets a specific country when:,The site is hosted on a local IP,Links are built from local resources,Links point to local content,All of the above,All of the above
+SEO,2,Which of the following is NOT an element that should be adapted for a target audience?,Time zone and cultural differences,Server cabling colour,Local language,Currency,Server cabling colour
+SEO,2,"While preparing source text for SEO localization, what must be avoided to prevent search engine penalties?",Product keywords,Headings,Keyword stuffing,Short sentences,Keyword stuffing
+SEO,2,Why should the native currency be displayed on a localized website?,Buyers understand the price without conversion,It blocks other countries,It replaces the need for translation,It improves server speed,Buyers understand the price without conversion
+SEO,2,Which of the following is a gTLD?,.ca,.co.uk,.org,.jp,.org
+SEO,2,"In the guide's example, how do Amazon's Canadian and Japanese sites differ?",Only by logo,By robots.txt,They are identical,By currency and language Section 3: Keyword Research,By currency and language Section 3: Keyword Research
+SEO,2,Keyword research refers to:,Identifying the words users search for so they can be used in content,Compressing images,Buying backlinks,Writing meta tags only,Identifying the words users search for so they can be used in content
+SEO,2,Which is a recommended first step in thorough keyword research?,Buy ads,Gain good knowledge about the industry,Delete old pages,Submit a robots.txt,Gain good knowledge about the industry
+SEO,2,Where can 'Related searches' be found to get more keyword ideas?,In image alt text,In the site footer only,In the robots.txt file,At the bottom of the Google search results page,At the bottom of the Google search results page
+SEO,2,Why is it important to think like your customers during keyword research?,Different users use different search terms,It reduces page speed,Search engines ignore keywords,It is a legal requirement,Different users use different search terms
+SEO,2,Search intent is also known as:,Crawl budget,Page rank,User intent,Link equity,User intent
+SEO,2,"Grouping keywords into themes means, for a site about exercise, using groups such as:",Random unrelated words,"'sitting exercise', 'standing exercise', 'wall exercise'",Only numbers,Only brand names,"'sitting exercise', 'standing exercise', 'wall exercise'"
+SEO,2,Which of the following is a method of keyword research mentioned in the guide?,Guessing,Participating in forums and community groups,Copying competitors' code,Deleting analytics,Participating in forums and community groups
+SEO,2,Using terms like 'Hardest Cardio Exercises' and 'Hard Cardio Workout' for the same topic shows:,Duplicate content,Using several search terms for the same topic,Keyword stuffing,Cloaking,Using several search terms for the same topic
+SEO,2,A search for 'Healing backpain through exercise' shows which kind of intent?,Buying a product,Looking for information,Downloading software,Navigating to a known site,Looking for information
+SEO,2,Keyword research helps a site primarily to:,Attract the right visitors,Remove backlinks,Increase server load,Hide pages from users,Attract the right visitors
+SEO,2,"After listing important topics, what should be done next?",Buy a domain,Publish without keywords,Rank the topics by importance,Delete the topics,Rank the topics by importance
+SEO,2,The guide recommends content matching which of the following?,The search intent of the audience,Only competitor headings,Only the owner's preferences,Only the longest keywords Section 4: Keyword Matrix,The search intent of the audience
+SEO,2,A keyword matrix is best described as:,A sitemap format,A robots.txt directive,"A table that organizes keywords with details such as topic, volume, intent and target page",A type of backlink,"A table that organizes keywords with details such as topic, volume, intent and target page"
+SEO,2,Which column would typically be found in a keyword matrix?,Image DPI,Search volume,Server temperature,Monitor size,Search volume
+SEO,2,"In a keyword matrix, short-tail keywords usually represent:",Backlinks,Broad topics,Sub-topics,Error codes,Broad topics
+SEO,2,"In a keyword matrix, long-tail keywords usually represent:",Sub-topics under a broad topic,Domain names,Social profiles,HTTP status codes,Sub-topics under a broad topic
+SEO,2,Keyword cannibalization occurs when:,A site has no sitemap,Images are too large,A page has no keywords,Several pages target the same keyword and compete with each other,Several pages target the same keyword and compete with each other
+SEO,2,Mapping keywords to pages in a matrix helps to:,Increase image size,Remove titles,Avoid duplicate targeting and plan content,Block Googlebot,Avoid duplicate targeting and plan content
+SEO,2,The guide suggests ranking topics by:,Alphabetical order,Monthly search volume,Word length,Domain age,Monthly search volume
+SEO,2,Approximately how many long-tail keywords does the guide suggest identifying for each short-tail keyword?,About 12,None,About 100,About 2,About 12
+SEO,2,Which search intent type would be recorded for the keyword 'buy pull-up bar online'?,Error,Informational,Navigational,Transactional,Transactional
+SEO,2,What does a keyword difficulty column indicate?,How hard it is to rank for the keyword,The page's load time,The number of images,How long the keyword is,How hard it is to rank for the keyword
+SEO,2,A matrix of topics (short-tail) against sub-topics (long-tail) is effectively:,A server report,A content table of contents plan,A crawl log,An XML feed,A content table of contents plan
+SEO,2,Which tool can supply data for filling in a keyword matrix?,TinyPNG,Google Keyword Planner,Notepad only,Squoosh Section 5: Pages per Session (Page/Session Rate) and Bounce Rate,Google Keyword Planner
+SEO,2,Pages per session is calculated as:,Total users ÷ total pageviews,Total pageviews ÷ total sessions,Total clicks ÷ total impressions,Total sessions ÷ total users,Total pageviews ÷ total sessions
+SEO,2,"If a site recorded 600 pageviews across 200 sessions, what is the pages per session?",0.33,4,3,2,3
+SEO,2,A higher pages-per-session figure generally suggests:,Crawling is blocked,Visitors are more engaged and explore more pages,Visitors never left the home page,The site is down,Visitors are more engaged and explore more pages
+SEO,2,A pageview is:,A backlink,A click in search results,A visit from a unique person,An instance of a page being loaded or reloaded in a browser,An instance of a page being loaded or reloaded in a browser
+SEO,2,Unique visitors are:,The number of keywords,The number of individuals who visited a site in a given period,The total number of pageviews,The number of backlinks,The number of individuals who visited a site in a given period
+SEO,2,"According to the guide, bounce rate represents:",The percentage of visitors who enter the site and leave instead of viewing other pages,The speed of the server,The percentage of pages indexed,The percentage of clicks on ads,The percentage of visitors who enter the site and leave instead of viewing other pages
+SEO,2,A session in which the visitor views only one page and leaves is usually counted as:,A conversion,A backlink,An indexed page,A bounce,A bounce
+SEO,2,Which action can help increase pages per session?,Removing navigation,Removing all content,Adding relevant internal links,Slowing page load,Adding relevant internal links
+SEO,2,"An SEO-friendly, quality content strategy is expected to lead to:",No visitors,A higher bounce rate,A minimal bounce rate,Blocked crawling,A minimal bounce rate
+SEO,2,Which is the difference between a session and a pageview?,A pageview is a keyword,A session is a backlink,They are the same,A session is a group of visits/interactions by a user; a pageview is a single page load,A session is a group of visits/interactions by a user; a pageview is a single page load
+SEO,2,Which tool can report pages per session?,robots.txt,Squoosh,hreflang,Google Analytics,Google Analytics
+SEO,2,Very low pages per session combined with a high bounce rate may indicate:,The site is perfectly optimized,Too many backlinks,Content or navigation does not engage visitors,The sitemap is excessive Section 6: Keyword Research Tools,Content or navigation does not engage visitors
+SEO,2,Which of the following is a keyword research tool?,TinyPNG,Google Keyword Planner,robots.txt,Squoosh,Google Keyword Planner
+SEO,2,Which pair are both keyword research tools named in the guide?,Squoosh and TinyPNG,Ahrefs and SEMrush,Zoom and Teams,Gmail and Drive,Ahrefs and SEMrush
+SEO,2,Which question can a keyword research tool answer?,Who owns the domain's server?,How many employees work at a company?,What colour is the logo?,What is the estimated monthly search volume for a keyword?,What is the estimated monthly search volume for a keyword?
+SEO,2,Keyword Planner is a tool provided by:,Amazon,Twitter,Google,Bing only,Google
+SEO,2,Keyword research tools can suggest:,Logo designs,Server upgrades,New keyword ideas,Ad budgets only,New keyword ideas
+SEO,2,A keyword tool can help identify:,Relevant terms in the local area,Image formats only,HTTP versions,Employee salaries,Relevant terms in the local area
+SEO,2,Which of these is used to compress images rather than research keywords?,Keyword Planner,Ahrefs,Squoosh,SEMrush,Squoosh
+SEO,2,The guide suggests using SEO tools such as Google's Keyword Tool and Ahrefs to:,Compress video,Write HTML,Identify search volume and variations of search terms,Block crawlers,Identify search volume and variations of search terms
+SEO,2,"Which tool also offers a Backlink Analytics feature, as shown in the guide?",SEMrush,Notepad,Squoosh,TinyPNG,SEMrush
+SEO,2,Why should keyword tool data be compared with search intent?,Intent is never needed,Volume alone does not show whether the keyword matches the audience's purpose,Tools are always wrong,Volume is irrelevant,Volume alone does not show whether the keyword matches the audience's purpose
+SEO,2,Long-tail keyword ideas can be found using:,An image editor,A robots.txt file only,A spreadsheet of colours,A keyword tool,A keyword tool
+SEO,2,Which is true of keyword research tools?,They guarantee rank #1,They estimate search volume and competition,They host the website,They replace content creation Section 7: Google Analytics,They estimate search volume and competition
+SEO,2,Google Analytics is used to:,Track and analyze the performance of a website or app,Compress images,Write robots.txt,Host a website,Track and analyze the performance of a website or app
+SEO,2,Who can access Google Analytics?,Only web developers,Only paid customers,Only Google employees,Anyone with a Google account,Anyone with a Google account
+SEO,2,What is the paid version of Google Analytics called?,Google Analytics Pro Max,Search Console Premium,Google Analytics 360,Analytics Plus,Google Analytics 360
+SEO,2,Where are the standard reports located in the Analytics dashboard?,On the left side,On the right only,At the bottom,In the footer,On the left side
+SEO,2,Which of the following metrics can Analytics report?,"Bounce rate, page views and unique visitors",Server temperature,Domain price,Employee count,"Bounce rate, page views and unique visitors"
+SEO,2,"If a user does not want to browse reports, Analytics allows them to:",Ask questions in plain English,Call support only,Delete data,Print the website,Ask questions in plain English
+SEO,2,Which resource helps users learn Analytics?,Search Central only,Analytics Academy,Keyword Planner,Squoosh,Analytics Academy
+SEO,2,Which question can Analytics answer?,What is the CEO's age?,Which colour is best?,How many users came from mobile last week?,Who wrote the robots.txt?,How many users came from mobile last week?
+SEO,2,What should be clicked on the Analytics welcome page after signing in?,Export sitemap,Start crawling,Delete account,Start measuring,Start measuring
+SEO,2,Analytics data helps decide which blog content to:,Buy,Block permanently,"Retain, remove or improve",Rename randomly,"Retain, remove or improve"
+SEO,2,Google Analytics differs from Google Search Console in that Analytics mainly:,Requests URL indexing,Reports visitor behaviour on the site,Tests robots.txt,Submits sitemaps,Reports visitor behaviour on the site
+SEO,2,Google Analytics can show which audience details?,Phone brand price,Shoe size,Hair colour,Age group of visitors Section 8: Crawling,Age group of visitors Section 8: Crawling
+SEO,2,Crawling is the process in which search engines:,Discover and visit web pages,Write content,Sell advertising,Delete pages,Discover and visit web pages
+SEO,2,Search engine crawlers are also known as:,Banners,Spiders,Cookies,Widgets,Spiders
+SEO,2,Google can discover new pages through:,Links from already visited pages,Sitemaps/lists submitted by site owners,Both of the above,None of the above,Both of the above
+SEO,2,Does Google accept payment to crawl a website more frequently?,Only for stores,"Yes, always",Only for blogs,No,No
+SEO,2,Which file tells crawlers which URLs they can access?,readme.txt,style.css,robots.txt,index.php,robots.txt
+SEO,2,Which directive in robots.txt blocks a crawler from a path?,Follow,Index,Disallow,Allow all,Disallow
+SEO,2,Does a sitemap guarantee that a page will be crawled and indexed?,Only for XML,"No, it only improves crawling",Only for HTML,Yes,"No, it only improves crawling"
+SEO,2,Which Google tool can request a URL to be crawled or recrawled?,TinyPNG,Analytics 360,Search Console URL Inspection tool,Squoosh,Search Console URL Inspection tool
+SEO,2,"What can prevent efficient crawling, according to the guide?",Clean URLs,Session IDs or URL parameters,Sitemaps,Good navigation,Session IDs or URL parameters
+SEO,2,What is the main job of a web crawler?,Charge users,Design the logo,Write ads,Find and fetch pages to be added to the index,Find and fetch pages to be added to the index
+SEO,2,Crawl errors are:,Errors in keyword spelling,Slow images only,Errors that do not allow search engines to crawl pages,Social media errors,Errors that do not allow search engines to crawl pages
+SEO,2,Which is the order of Google's process?,"Ranking, crawling, serving","Indexing, serving, crawling","Serving, crawling, indexing","Crawling, indexing, serving Section 9: Indexing","Crawling, indexing, serving Section 9: Indexing"
+SEO,2,Indexing is:,Paying for a page,The process of understanding and storing information about a page,Writing a page,Deleting a page,The process of understanding and storing information about a page
+SEO,2,Where does Google store analysed page information?,In the robots.txt,In the Google index (a large database),In the browser cache,In a spreadsheet,In the Google index (a large database)
+SEO,2,Which element helps Google index images and videos better?,Hidden text,No title,Alternative text and relevant attributes,Large file size,Alternative text and relevant attributes
+SEO,2,Which page titles does Google index well?,Extremely long,Meaningful and short,Duplicated everywhere,Empty,Meaningful and short
+SEO,2,Mobile-first indexing means Google primarily uses which version of a page for indexing and ranking?,Print version,Mobile (smartphone) version,Desktop only,PDF version,Mobile (smartphone) version
+SEO,2,In what year did Google enable mobile-first indexing by default for all new websites?,2019,2012,2025,2005,2019
+SEO,2,"How can indexing of a page be blocked, according to the guide's advice?",Using hreflang,Using a longer title,Adding more images,Using noindex or password protection,Using noindex or password protection
+SEO,2,Which stage comes after indexing?,Crawling,Hosting,Deleting,Serving search results,Serving search results
+SEO,2,The Google Search Console index report helps to:,Buy domains,View and fix indexing problems,Design layouts,Compress images,View and fix indexing problems
+SEO,2,What happens if the Live URL test finds no indexing issues?,The page is queued for indexing,The site is penalized,The page is deleted,The page is blocked,The page is queued for indexing
+SEO,2,Why should the same content be provided on mobile and desktop versions?,Because indexing and ranking are based on the mobile version,To avoid sitemaps,To block crawlers,To increase file size,Because indexing and ranking are based on the mobile version
+SEO,2,Which statement is true?,All crawled pages are always indexed,Crawling does not guarantee indexing,Indexing is the same as ranking,Indexing happens before crawling Section 10: Short-tail Keywords,Crawling does not guarantee indexing
+SEO,2,A short-tail keyword usually consists of:,A full paragraph,A single URL,Two or three words,Ten words,Two or three words
+SEO,2,Short-tail keywords generally represent:,Backlinks,Very specific sub-topics,Broad topics,Errors,Broad topics
+SEO,2,Which of the following is a short-tail keyword?,How to install a pull up bar on a door,Where to buy a cheap pull up bar amazon,Pull-up bars,Pull up bar for home with parallel grips,Pull-up bars
+SEO,2,Long-tail keywords are described in the guide as:,Header tags,The same as short-tail,Sub-topics of short-tail keywords,Meta tags,Sub-topics of short-tail keywords
+SEO,2,Long-tail keywords usually contain:,Only numbers,No words,One word,More than three words,More than three words
+SEO,2,Short-tail keywords typically have:,Higher search volume and higher competition,Zero search volume,No competition,Only local intent,Higher search volume and higher competition
+SEO,2,Which is a long-tail keyword for the topic 'pull up bar'?,Bar,Pull-up bar for home,Gym,Equipment,Pull-up bar for home
+SEO,2,"According to the guide, a long-tail keyword should be used how many times at maximum in a post?",Four times,Twenty times,Zero times,One hundred times,Four times
+SEO,2,Why are short-tail keywords often harder to rank for?,Search engines ignore them,They are broad and many sites compete,They are illegal,They contain no letters,They are broad and many sites compete
+SEO,2,"In John's gym-equipment example, short-tail keywords are used as:",Topics for content,Passwords,Server names,Image names only,Topics for content
+SEO,2,Which statement is correct?,They are identical,Short-tail keywords are always local,Long-tail keywords are always one word,Short-tail keywords capture broad interest; long-tail capture specific intent,Short-tail keywords capture broad interest; long-tail capture specific intent
+SEO,2,Which is a benefit of combining short-tail and long-tail keywords?,It blocks crawlers,It increases file size,It removes the need for titles,Content caters to people with different interests Section 11: Meta Description,Content caters to people with different interests Section 11: Meta Description
+SEO,2,Where is the meta description tag placed in an HTML page?,In robots.txt,Inside the <head> section,Inside the footer only,In the image folder,Inside the <head> section
+SEO,2,Which is the correct syntax of a meta description?,"<description meta=""..."">","<meta link=""description"">","<title name=""description"">","<meta name=""description"" content=""...""/>","<meta name=""description"" content=""...""/>"
+SEO,2,A meta description should:,Briefly summarize the page content,Be left empty,Copy other sites,Include unrelated text,Briefly summarize the page content
+SEO,2,"Within how many characters should a meta description ideally be kept, as per the guide?",30,1000,500,155,155
+SEO,2,What happens to a meta description longer than the limit?,It becomes the title,It is deleted from the page,It is truncated by Google,It improves ranking,It is truncated by Google
+SEO,2,What is the typical maximum length of a title tag before truncation?,500 characters,10 characters,60 characters,200 characters,60 characters
+SEO,2,Where does the meta description usually appear?,In the footer of every page,Inside image files,Under the title in search results as a snippet,On the server console,Under the title in search results as a snippet
+SEO,2,A good meta description is:,Missing,Stuffed with keywords,"Relevant, unique and compelling",Duplicated on all pages,"Relevant, unique and compelling"
+SEO,2,Which tag is the first thing visitors see in search results?,Alt text,Meta description,Title,Footer,Title
+SEO,2,Should desktop and mobile versions use the same meta descriptions?,"Yes, same titles and meta descriptions are recommended",Neither needs them,Only mobile needs them,"No, they must be different","Yes, same titles and meta descriptions are recommended"
+SEO,2,An effective meta description may encourage users to:,Leave the web,Block ads,Click the result,Clear cookies,Click the result
+SEO,2,Meta descriptions and page titles are examples of:,CSS variables,Database tables,HTML tags to optimize,Server logs,HTML tags to optimize
