@@ -217,7 +217,7 @@ export default function Technologies() {
                                 <div>
                                     <div className="flex items-center gap-2">
                                         <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#193D35] bg-[#F3E5C5] px-2.5 py-0.5 rounded-full border border-[#E2D0A6]">
-                                            Session Wise Assessment
+                                            {selectedCatForSession?.name?.toLowerCase() === 'seo' ? 'Self Assessment' : 'Session Wise Assessment'}
                                         </span>
                                         {totalQuestionsInTrack > 0 && (
                                             <span className="text-[10px] font-bold text-[var(--foreground-muted)]">
@@ -249,10 +249,10 @@ export default function Technologies() {
                                     <div className="flex items-center justify-between mb-2">
                                         <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-1.5">
                                             <ListChecks size={14} className="text-[#193D35]" />
-                                            <span>Available Sessions</span>
+                                            <span>{selectedCatForSession?.name?.toLowerCase() === 'seo' ? 'Assessment' : 'Available Sessions'}</span>
                                         </label>
                                         <span className="text-[10px] font-semibold text-[var(--foreground-muted)]">
-                                            Select any session to start
+                                            {selectedCatForSession?.name?.toLowerCase() === 'seo' ? 'Start your assessment' : 'Select any session to start'}
                                         </span>
                                     </div>
 
@@ -334,53 +334,55 @@ export default function Technologies() {
                                     </div>
 
                                     {/* Option 3: Add / Enter Custom Session No Toggle & Input */}
-                                    <div className="p-3.5 rounded-2xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)] space-y-2">
-                                        <button
-                                            type="button"
-                                            onClick={() => setIsCustomMode(!isCustomMode)}
-                                            className="w-full flex items-center justify-between text-xs font-bold text-[var(--foreground)] cursor-pointer"
-                                        >
-                                            <span className="flex items-center gap-1.5">
-                                                <Hash size={14} className="text-[#193D35]" />
-                                                Enter Custom Session No
-                                            </span>
-                                            <span className="text-[10px] font-semibold text-[#193D35] underline">
-                                                {isCustomMode ? 'Use listed sessions' : '+ Choose custom session number'}
-                                            </span>
-                                        </button>
+                                    {selectedCatForSession?.name?.toLowerCase() !== 'seo' && (
+                                        <div className="p-3.5 rounded-2xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)] space-y-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => setIsCustomMode(!isCustomMode)}
+                                                className="w-full flex items-center justify-between text-xs font-bold text-[var(--foreground)] cursor-pointer"
+                                            >
+                                                <span className="flex items-center gap-1.5">
+                                                    <Hash size={14} className="text-[#193D35]" />
+                                                    Enter Custom Session No
+                                                </span>
+                                                <span className="text-[10px] font-semibold text-[#193D35] underline">
+                                                    {isCustomMode ? 'Use listed sessions' : '+ Choose custom session number'}
+                                                </span>
+                                            </button>
 
-                                        {isCustomMode && (
-                                            <div className="pt-2 animate-fade-in space-y-2">
-                                                <div className="flex items-center gap-2">
-                                                    <input
-                                                        type="number"
-                                                        min="1"
-                                                        placeholder="e.g. 2, 3, 5..."
-                                                        value={customSessionNo}
-                                                        onChange={(e) => setCustomSessionNo(e.target.value)}
-                                                        className="input-field text-xs py-2 flex-1 font-mono font-bold"
-                                                        autoFocus
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => {
-                                                            const val = parseInt(customSessionNo, 10);
-                                                            if (val > 0) {
-                                                                setChosenSession(val);
-                                                                toast.info(`Selected Session ${val}`);
-                                                            }
-                                                        }}
-                                                        className="btn-secondary text-xs py-2 px-3 shrink-0"
-                                                    >
-                                                        Select
-                                                    </button>
+                                            {isCustomMode && (
+                                                <div className="pt-2 animate-fade-in space-y-2">
+                                                    <div className="flex items-center gap-2">
+                                                        <input
+                                                            type="number"
+                                                            min="1"
+                                                            placeholder="e.g. 2, 3, 5..."
+                                                            value={customSessionNo}
+                                                            onChange={(e) => setCustomSessionNo(e.target.value)}
+                                                            className="input-field text-xs py-2 flex-1 font-mono font-bold"
+                                                            autoFocus
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                const val = parseInt(customSessionNo, 10);
+                                                                if (val > 0) {
+                                                                    setChosenSession(val);
+                                                                    toast.info(`Selected Session ${val}`);
+                                                                }
+                                                            }}
+                                                            className="btn-secondary text-xs py-2 px-3 shrink-0"
+                                                        >
+                                                            Select
+                                                        </button>
+                                                    </div>
+                                                    <p className="text-[10px] text-[var(--foreground-muted)]">
+                                                        Enter any session number you want to take an assessment for.
+                                                    </p>
                                                 </div>
-                                                <p className="text-[10px] text-[var(--foreground-muted)]">
-                                                    Enter any session number you want to take an assessment for.
-                                                </p>
-                                            </div>
-                                        )}
-                                    </div>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Active Selection Live Summary */}
