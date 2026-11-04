@@ -1,0 +1,580 @@
+{
+  "category": "SQL Server",
+  "session": 8,
+  "title": "Session 8: Accessing Data — SQL Server",
+  "totalQuestions": 52,
+  "questions": [
+    {
+      "questionText": "Which statement is the core command used to access data in SQL Server?",
+      "options": [
+        "FETCH",
+        "GET",
+        "SELECT",
+        "OPEN"
+      ],
+      "correctAnswer": "SELECT",
+      "explanation": "Correct answer is option C: SELECT."
+    },
+    {
+      "questionText": "The output of a SELECT statement is another table called a:",
+      "options": [
+        "Dataset",
+        "Resultset",
+        "Rowset only",
+        "Viewset"
+      ],
+      "correctAnswer": "Resultset",
+      "explanation": "Correct answer is option B: Resultset."
+    },
+    {
+      "questionText": "Which keyword specifies the table from which data is retrieved?",
+      "options": [
+        "FROM",
+        "INTO",
+        "ORDER BY",
+        "WHERE"
+      ],
+      "correctAnswer": "FROM",
+      "explanation": "Correct answer is option A: FROM."
+    },
+    {
+      "questionText": "Which symbol in a SELECT statement retrieves all columns of a table?",
+      "options": [
+        "#",
+        "%",
+        "&",
+        "*"
+      ],
+      "correctAnswer": "*",
+      "explanation": "Correct answer is option D: *."
+    },
+    {
+      "questionText": "Can a SELECT statement be used without a FROM clause in SQL Server 2019?",
+      "options": [
+        "Only in triggers",
+        "No",
+        "Yes",
+        "Only in views"
+      ],
+      "correctAnswer": "Yes",
+      "explanation": "Correct answer is option C: Yes."
+    },
+    {
+      "questionText": "Which keyword is used to rename a column heading in a resultset?",
+      "options": [
+        "ALIAS",
+        "AS",
+        "TOP",
+        "LIKE"
+      ],
+      "correctAnswer": "AS",
+      "explanation": "Correct answer is option B: AS."
+    },
+    {
+      "questionText": "The table named in the FROM clause of a query is called the:",
+      "options": [
+        "Parent table",
+        "Result table",
+        "Base table",
+        "Master table"
+      ],
+      "correctAnswer": "Base table",
+      "explanation": "Correct answer is option C: Base table."
+    },
+    {
+      "questionText": "Which keyword prevents the retrieval of duplicate records?",
+      "options": [
+        "DISTINCT",
+        "UNIQUE",
+        "UNION",
+        "TOP"
+      ],
+      "correctAnswer": "DISTINCT",
+      "explanation": "Correct answer is option A: DISTINCT."
+    },
+    {
+      "questionText": "Which keyword limits the number of rows returned to the first few rows?",
+      "options": [
+        "LIMIT",
+        "ROWNUM",
+        "FIRST",
+        "TOP"
+      ],
+      "correctAnswer": "TOP",
+      "explanation": "Correct answer is option D: TOP."
+    },
+    {
+      "questionText": "The PERCENT option with TOP:",
+      "options": [
+        "Sorts rows by percent",
+        "Returns a percentage of the rows",
+        "Counts the rows",
+        "Returns only duplicate rows"
+      ],
+      "correctAnswer": "Returns a percentage of the rows",
+      "explanation": "Correct answer is option B: Returns a percentage of the rows."
+    },
+    {
+      "questionText": "The WITH TIES option with TOP:",
+      "options": [
+        "Removes tied rows",
+        "Joins two tables",
+        "Groups tied rows",
+        "Returns additional rows that tie with the last row in the ordered set"
+      ],
+      "correctAnswer": "Returns additional rows that tie with the last row in the ordered set",
+      "explanation": "Correct answer is option D: Returns additional rows that tie with the last row in the ordered set."
+    },
+    {
+      "questionText": "Which clause creates a new table from the result of a SELECT statement?",
+      "options": [
+        "INTO",
+        "WHERE",
+        "HAVING",
+        "FROM"
+      ],
+      "correctAnswer": "INTO",
+      "explanation": "Correct answer is option A: INTO."
+    },
+    {
+      "questionText": "What permission is required to use the INTO clause?",
+      "options": [
+        "SHOWPLAN permission",
+        "CREATE TABLE permission in the destination database",
+        "DROP DATABASE permission",
+        "BACKUP permission"
+      ],
+      "correctAnswer": "CREATE TABLE permission in the destination database",
+      "explanation": "Correct answer is option B: CREATE TABLE permission in the destination database."
+    },
+    {
+      "questionText": "Which clause conditionally selects or limits the records retrieved by a query?",
+      "options": [
+        "ORDER BY",
+        "WHERE",
+        "INTO",
+        "GROUP BY"
+      ],
+      "correctAnswer": "WHERE",
+      "explanation": "Correct answer is option B: WHERE."
+    },
+    {
+      "questionText": "In a WHERE clause, a row is returned if the Boolean expression is:",
+      "options": [
+        "Both true and false",
+        "Null only",
+        "False",
+        "True"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Correct answer is option D: True."
+    },
+    {
+      "questionText": "How are text (character) values enclosed in a SQL query?",
+      "options": [
+        "Single quotes",
+        "Square brackets",
+        "Angle brackets",
+        "Curly braces"
+      ],
+      "correctAnswer": "Single quotes",
+      "explanation": "Correct answer is option A: Single quotes."
+    },
+    {
+      "questionText": "Numeric values in a WHERE clause are:",
+      "options": [
+        "Enclosed in single quotes",
+        "Enclosed in brackets",
+        "Enclosed in double hashes",
+        "Not enclosed in quotes"
+      ],
+      "correctAnswer": "Not enclosed in quotes",
+      "explanation": "Correct answer is option D: Not enclosed in quotes."
+    },
+    {
+      "questionText": "Which keyword is used with wildcard characters in a WHERE clause?",
+      "options": [
+        "TOP",
+        "AS",
+        "LIKE",
+        "IS"
+      ],
+      "correctAnswer": "LIKE",
+      "explanation": "Correct answer is option C: LIKE."
+    },
+    {
+      "questionText": "Which wildcard represents a string of any length?",
+      "options": [
+        "%",
+        "[]",
+        "_",
+        "^"
+      ],
+      "correctAnswer": "%",
+      "explanation": "Correct answer is option A: %."
+    },
+    {
+      "questionText": "Which wildcard represents any single character?",
+      "options": [
+        "_",
+        "[]",
+        "*",
+        "%"
+      ],
+      "correctAnswer": "_",
+      "explanation": "Correct answer is option A: _."
+    },
+    {
+      "questionText": "Which wildcard represents a single character within a given range or set?",
+      "options": [
+        "[^ ]",
+        "%",
+        "[ ]",
+        "_"
+      ],
+      "correctAnswer": "[ ]",
+      "explanation": "Correct answer is option C: [ ]."
+    },
+    {
+      "questionText": "Which wildcard represents any single character NOT within the specified range?",
+      "options": [
+        "_",
+        "[^ ]",
+        "[ ]",
+        "%"
+      ],
+      "correctAnswer": "[^ ]",
+      "explanation": "Correct answer is option B: [^ ]."
+    },
+    {
+      "questionText": "The AND operator returns TRUE:",
+      "options": [
+        "When a condition is null",
+        "When both conditions are false",
+        "Only when both conditions are true",
+        "When either condition is true"
+      ],
+      "correctAnswer": "Only when both conditions are true",
+      "explanation": "Correct answer is option C: Only when both conditions are true."
+    },
+    {
+      "questionText": "The OR operator returns TRUE:",
+      "options": [
+        "Only when both are false",
+        "Only when both are true",
+        "Never",
+        "When at least one condition is true"
+      ],
+      "correctAnswer": "When at least one condition is true",
+      "explanation": "Correct answer is option D: When at least one condition is true."
+    },
+    {
+      "questionText": "The NOT operator:",
+      "options": [
+        "Groups the rows",
+        "Sorts the result",
+        "Joins two conditions",
+        "Negates the search condition"
+      ],
+      "correctAnswer": "Negates the search condition",
+      "explanation": "Correct answer is option D: Negates the search condition."
+    },
+    {
+      "questionText": "When multiple logical operators are used in a single statement, which is evaluated first?",
+      "options": [
+        "NOT",
+        "OR",
+        "AND",
+        "All at the same time"
+      ],
+      "correctAnswer": "NOT",
+      "explanation": "Correct answer is option A: NOT."
+    },
+    {
+      "questionText": "The GROUP BY clause:",
+      "options": [
+        "Limits rows to the first few",
+        "Partitions the resultset into one or more subsets",
+        "Creates a new table",
+        "Sorts the result in ascending order"
+      ],
+      "correctAnswer": "Partitions the resultset into one or more subsets",
+      "explanation": "Correct answer is option B: Partitions the resultset into one or more subsets."
+    },
+    {
+      "questionText": "Which function is used with GROUP BY to total a column such as resource hours?",
+      "options": [
+        "COUNT_BIG()",
+        "ISNULL()",
+        "CAST()",
+        "SUM()"
+      ],
+      "correctAnswer": "SUM()",
+      "explanation": "Correct answer is option D: SUM()."
+    },
+    {
+      "questionText": "Which clause specifies a search condition for a group, such as filtering on an aggregate?",
+      "options": [
+        "INTO",
+        "TOP",
+        "WHERE",
+        "HAVING"
+      ],
+      "correctAnswer": "HAVING",
+      "explanation": "Correct answer is option D: HAVING."
+    },
+    {
+      "questionText": "Which clause sorts the query results?",
+      "options": [
+        "ORDER BY",
+        "ARRANGE BY",
+        "GROUP BY",
+        "SORT BY"
+      ],
+      "correctAnswer": "ORDER BY",
+      "explanation": "Correct answer is option A: ORDER BY."
+    },
+    {
+      "questionText": "What is the default sort order in ORDER BY?",
+      "options": [
+        "Alphabetical only",
+        "Descending",
+        "Ascending",
+        "Random"
+      ],
+      "correctAnswer": "Ascending",
+      "explanation": "Correct answer is option C: Ascending."
+    },
+    {
+      "questionText": "Which keyword switches ORDER BY to descending order?",
+      "options": [
+        "REVERSE",
+        "DOWN",
+        "DESC",
+        "DSC"
+      ],
+      "correctAnswer": "DESC",
+      "explanation": "Correct answer is option C: DESC."
+    },
+    {
+      "questionText": "When multiple columns are used in ORDER BY, which is the primary level of sort?",
+      "options": [
+        "The rightmost column",
+        "The first numeric column",
+        "The column with most rows",
+        "The leftmost column"
+      ],
+      "correctAnswer": "The leftmost column",
+      "explanation": "Correct answer is option D: The leftmost column."
+    },
+    {
+      "questionText": "What does XML stand for?",
+      "options": [
+        "Extra Markup Logic",
+        "Executable Markup Language",
+        "Extended Markup Language",
+        "Extensible Markup Language"
+      ],
+      "correctAnswer": "Extensible Markup Language",
+      "explanation": "Correct answer is option D: Extensible Markup Language."
+    },
+    {
+      "questionText": "Which data type is used to store XML documents and fragments in SQL Server?",
+      "options": [
+        "varchar(max) only",
+        "text",
+        "xml",
+        "image"
+      ],
+      "correctAnswer": "xml",
+      "explanation": "Correct answer is option C: xml."
+    },
+    {
+      "questionText": "An XML fragment is an XML instance in which:",
+      "options": [
+        "The top-level element is missing",
+        "The attributes are missing",
+        "The schema is missing",
+        "All elements are missing"
+      ],
+      "correctAnswer": "The top-level element is missing",
+      "explanation": "Correct answer is option A: The top-level element is missing."
+    },
+    {
+      "questionText": "Which of these is an advantage of native XML storage in SQL Server?",
+      "options": [
+        "Better performance for queries compared to documents in a file system",
+        "No query support",
+        "No indexing support",
+        "Larger file sizes"
+      ],
+      "correctAnswer": "Better performance for queries compared to documents in a file system",
+      "explanation": "Correct answer is option A: Better performance for queries compared to documents in a file system."
+    },
+    {
+      "questionText": "Which statement creates a variable of type xml?",
+      "options": [
+        "DIM",
+        "CREATE VARIABLE",
+        "DECLARE",
+        "SET VAR"
+      ],
+      "correctAnswer": "DECLARE",
+      "explanation": "Correct answer is option C: DECLARE."
+    },
+    {
+      "questionText": "Local variable names in Transact-SQL must start with:",
+      "options": [
+        "@",
+        "#",
+        "$",
+        "%"
+      ],
+      "correctAnswer": "@",
+      "explanation": "Correct answer is option A: @."
+    },
+    {
+      "questionText": "If no initial value is assigned to a variable at declaration, its value is:",
+      "options": [
+        "Undefined and causes an error",
+        "Zero",
+        "NULL",
+        "An empty string"
+      ],
+      "correctAnswer": "NULL",
+      "explanation": "Correct answer is option C: NULL."
+    },
+    {
+      "questionText": "An xml data type column cannot be used as:",
+      "options": [
+        "A primary key",
+        "A column with a DEFAULT value",
+        "A column with a NOT NULL constraint",
+        "A nullable column"
+      ],
+      "correctAnswer": "A primary key",
+      "explanation": "Correct answer is option A: A primary key."
+    },
+    {
+      "questionText": "An XML instance that has a schema associated with it is called:",
+      "options": [
+        "Native XML",
+        "Untyped XML",
+        "Fragment XML",
+        "Typed XML"
+      ],
+      "correctAnswer": "Typed XML",
+      "explanation": "Correct answer is option D: Typed XML."
+    },
+    {
+      "questionText": "An XML schema describes:",
+      "options": [
+        "Only the table's primary key",
+        "The structure and limits the contents of XML documents",
+        "The server's configuration",
+        "The database backups"
+      ],
+      "correctAnswer": "The structure and limits the contents of XML documents",
+      "explanation": "Correct answer is option B: The structure and limits the contents of XML documents."
+    },
+    {
+      "questionText": "Which statement is used to register an XML schema?",
+      "options": [
+        "REGISTER XML",
+        "CREATE XML SCHEMA COLLECTION",
+        "CREATE SCHEMA XML",
+        "ADD XML SCHEMA"
+      ],
+      "correctAnswer": "CREATE XML SCHEMA COLLECTION",
+      "explanation": "Correct answer is option B: CREATE XML SCHEMA COLLECTION."
+    },
+    {
+      "questionText": "For untyped XML data, SQL Server ensures that the data is:",
+      "options": [
+        "Always empty",
+        "Validated against a schema",
+        "Well-formed",
+        "Encrypted"
+      ],
+      "correctAnswer": "Well-formed",
+      "explanation": "Correct answer is option C: Well-formed."
+    },
+    {
+      "questionText": "Which is recommended to enable validation of XML data when it is stored?",
+      "options": [
+        "Avoiding the xml type",
+        "Using varchar columns",
+        "Using temporary tables",
+        "Associating XML schemas with XML instances"
+      ],
+      "correctAnswer": "Associating XML schemas with XML instances",
+      "explanation": "Correct answer is option D: Associating XML schemas with XML instances."
+    },
+    {
+      "questionText": "A column heading like 'ChangedDate' for ModifiedDate is created using:",
+      "options": [
+        "ModifiedDate INTO 'ChangedDate'",
+        "ModifiedDate TO 'ChangedDate'",
+        "ModifiedDate AS 'ChangedDate'",
+        "ModifiedDate LIKE 'ChangedDate'"
+      ],
+      "correctAnswer": "ModifiedDate AS 'ChangedDate'",
+      "explanation": "Correct answer is option C: ModifiedDate AS 'ChangedDate'."
+    },
+    {
+      "questionText": "A SELECT statement can contain mathematical expressions by:",
+      "options": [
+        "Using the INTO clause",
+        "Applying operators to one or more columns",
+        "Using only the TOP keyword",
+        "Using only constants"
+      ],
+      "correctAnswer": "Applying operators to one or more columns",
+      "explanation": "Correct answer is option B: Applying operators to one or more columns."
+    },
+    {
+      "questionText": "A calculated column such as StandardCost * 0.15 AS Discount:",
+      "options": [
+        "Is stored permanently in the base table",
+        "Does not exist in the base table but is calculated in the resultset",
+        "Modifies the base table",
+        "Requires the INTO clause"
+      ],
+      "correctAnswer": "Does not exist in the base table but is calculated in the resultset",
+      "explanation": "Correct answer is option B: Does not exist in the base table but is calculated in the resultset."
+    },
+    {
+      "questionText": "Why is the column name Group enclosed in brackets in the sample query?",
+      "options": [
+        "To sort it",
+        "To avoid conflict with the Transact-SQL keyword GROUP",
+        "To make it unique",
+        "To make it numeric"
+      ],
+      "correctAnswer": "To avoid conflict with the Transact-SQL keyword GROUP",
+      "explanation": "Correct answer is option B: To avoid conflict with the Transact-SQL keyword GROUP."
+    },
+    {
+      "questionText": "The DISTINCT keyword on StandardCost displays:",
+      "options": [
+        "Each standard cost value only once",
+        "All values including duplicates",
+        "Only the highest value",
+        "Only NULL values"
+      ],
+      "correctAnswer": "Each standard cost value only once",
+      "explanation": "Correct answer is option A: Each standard cost value only once."
+    },
+    {
+      "questionText": "Which of the following is TRUE about the SELECT statement?",
+      "options": [
+        "It can only retrieve one column",
+        "It retrieves rows and columns from one or more tables",
+        "It always modifies data",
+        "It can only be used with views"
+      ],
+      "correctAnswer": "It retrieves rows and columns from one or more tables",
+      "explanation": "Correct answer is option B: It retrieves rows and columns from one or more tables."
+    }
+  ]
+}

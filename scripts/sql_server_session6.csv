@@ -1,0 +1,52 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,6,Which statement is used to create a table in SQL Server 2019?,NEW TABLE,ADD TABLE,MAKE TABLE,CREATE TABLE,CREATE TABLE
+SQL Server,6,"Which statement is used to modify a table definition by adding, altering, or dropping columns and constraints?",MODIFY TABLE,UPDATE TABLE,ALTER TABLE,CHANGE TABLE,ALTER TABLE
+SQL Server,6,What is the maximum number of characters allowed in a table_name?,128,64,256,255,128
+SQL Server,6,Which filegroup is always created and is the default one when a database is created?,PRIMARY,DEFAULT_GROUP,SYSTEM,MAIN,PRIMARY
+SQL Server,6,Which advanced data type represents a position in a hierarchy?,geography,hierarchyid,cursor,rowversion,hierarchyid
+SQL Server,6,Which data type represents data in a Euclidean (flat) coordinate system?,hierarchyid,geometry,xml,geography,geometry
+SQL Server,6,Which data type is used to store ellipsoidal (round-earth) data such as GPS latitude and longitude?,hierarchyid,rowversion,geometry,geography,geography
+SQL Server,6,Which data type is used to store XML data in SQL Server tables?,text,varbinary,hierarchyid,xml,xml
+SQL Server,6,The cursor data type is used for:,Storing GPS coordinates,Generating unique binary numbers,Storing XML documents,Variables or stored procedure OUTPUT parameters that reference a cursor,Variables or stored procedure OUTPUT parameters that reference a cursor
+SQL Server,6,"Which data type is useful for storing a result set temporarily for later processing, for example in a table-valued function?",rowversion,geometry,table,cursor,table
+SQL Server,6,The rowversion data type returns:,Hierarchy paths,XML fragments,GUID values across networks,"Automatically generated, unique binary numbers within a database","Automatically generated, unique binary numbers within a database"
+SQL Server,6,Which clause of ALTER TABLE removes a column from a table?,REMOVE COLUMN,CUT COLUMN,DROP COLUMN,DELETE COLUMN,DROP COLUMN
+SQL Server,6,Which of the following prevents a column from being dropped?,The column is used in a PRIMARY KEY constraint,The column holds numeric data,The column allows NULL values,The column is the last column in the table,The column is used in a PRIMARY KEY constraint
+SQL Server,6,Which clause of ALTER TABLE is used to change the data type or size of an existing column?,UPDATE COLUMN,ALTER COLUMN,MODIFY COLUMN,CHANGE COLUMN,ALTER COLUMN
+SQL Server,6,What does the DROP TABLE statement remove?,Only the data in the table,Only the table's constraints,Only the table's indexes,"The table definition, its data, and associated objects such as indexes, triggers, and constraints","The table definition, its data, and associated objects such as indexes, triggers, and constraints"
+SQL Server,6,Which statement adds a new row to a table?,ALTER,APPEND,INSERT,UPDATE,INSERT
+SQL Server,6,"In the INSERT statement, which keyword is optional between INSERT and the target table?",INTO,VALUES,SET,TABLE,INTO
+SQL Server,6,What happens if a DELETE statement is executed without a WHERE clause?,The statement raises a syntax error,No rows are deleted,All rows in the table are deleted,Only the first row is deleted,All rows in the table are deleted
+SQL Server,6,Which statement modifies existing data in a table?,UPDATE,CHANGE,MODIFY,INSERT,UPDATE
+SQL Server,6,"In SQL Server, a NULL value means that the value is:",A zero-length string,Zero,A blank space,Unknown or not set,Unknown or not set
+SQL Server,6,Which keyword indicates that null values are not allowed in a column?,NON NULL,NO NULL,NOT NULL,NULL NOT,NOT NULL
+SQL Server,6,"If no value is supplied for a nullable column that has no default definition, SQL Server inserts:",Zero,NULL,An empty string,The column's previous value,NULL
+SQL Server,6,What happens when a row is inserted without a value for a NOT NULL column that has no default?,The insert fails with an error,The column is skipped silently,Zero is inserted,NULL is inserted,The insert fails with an error
+SQL Server,6,What is the purpose of a DEFAULT definition?,To generate GUID values,To prevent duplicate values,To assign a value to a column when no value is given at insertion,To link two tables,To assign a value to a column when no value is given at insertion
+SQL Server,6,"When a DEFAULT definition is added to an existing column, SQL Server applies the new default to:",Only newly added rows,Only the first row,Only rows containing NULL,All existing rows,Only newly added rows
+SQL Server,6,The IDENTITY property is used to create columns that:,Hold globally unique values only,Store XML data,Accept only NULL values,Contain auto-generated sequential values,Contain auto-generated sequential values
+SQL Server,6,"In an IDENTITY property, the value assigned to the first row inserted is called the:",Offset,Base,Increment,Seed,Seed
+SQL Server,6,"In an IDENTITY property, the value added to the previous identity value to generate the next one is called the:",Increment,Offset,Seed,Step,Increment
+SQL Server,6,"For a column defined as Person_ID int IDENTITY(500,1), what is the identity value of the second inserted row?",502,1,500,501,501
+SQL Server,6,Which data type can be used with the IDENTITY property?,xml,smallint,datetime,varchar,smallint
+SQL Server,6,Which keyword is used in a SELECT statement to retrieve the identity column without knowing its name?,IDCOLUMN,IDENTITYKEY,IDENTITYCOL,ROWGUIDCOL,IDENTITYCOL
+SQL Server,6,Which function is used to find out whether a table has an IDENTITY column?,COLUMNS_UPDATED,OBJECTPROPERTY,ISNULL,NEWID,OBJECTPROPERTY
+SQL Server,6,Which function is used to retrieve the name of the IDENTITY column in a table?,NEWID,COLUMNPROPERTY,SCOPE_IDENTITY,DB_NAME,COLUMNPROPERTY
+SQL Server,6,Which function must be used in a DEFAULT definition to generate a globally unique value?,NEWNUM(),GETDATE(),NEWID(),UNIQUE(),NEWID()
+SQL Server,6,Which data type is used for globally unique identifier columns?,varbinary(max),uniqueidentifier,bigint,rowversion,uniqueidentifier
+SQL Server,6,Which keyword is used to reference a globally unique identifier column in a SELECT list?,UNIQUECOL,ROWGUIDCOL,IDENTITYCOL,GUIDCOL,ROWGUIDCOL
+SQL Server,6,How many identifier (IDENTITY) columns can be created per table?,Only one,Unlimited,Up to ten,Two,Only one
+SQL Server,6,Values for a globally unique identifier column are:,Always NULL,Not generated automatically unless a DEFAULT with NEWID() is defined,Always generated automatically,Generated only by IDENTITY,Not generated automatically unless a DEFAULT with NEWID() is defined
+SQL Server,6,A constraint is:,A stored procedure,A type of index,A temporary table,A property assigned to a column or set of columns to prevent inconsistent data values,A property assigned to a column or set of columns to prevent inconsistent data values
+SQL Server,6,When must a table constraint be used instead of a column constraint?,When the table has no data,When more than one column is included in the constraint,When the constraint must allow NULL,When the column is of type int,When more than one column is included in the constraint
+SQL Server,6,How many PRIMARY KEY constraints can be created per table?,Unlimited,One,One per column,Two,One
+SQL Server,6,Can a column that is a primary key contain NULL values?,Yes,Only if it is numeric,No,Only one NULL,No
+SQL Server,6,What happens when an INSERT would duplicate an existing primary key value?,The old row is overwritten,The key value is changed automatically,The statement fails,Both rows are stored,The statement fails
+SQL Server,6,Which constraint ensures that only unique values are entered in a column but allows NULL?,UNIQUE,CHECK,FOREIGN KEY,PRIMARY KEY,UNIQUE
+SQL Server,6,A single table can have:,More than one UNIQUE constraint,No UNIQUE constraints,Only one UNIQUE constraint,Only one UNIQUE constraint per database,More than one UNIQUE constraint
+SQL Server,6,Which constraint enforces referential integrity?,UNIQUE,FOREIGN KEY,CHECK,DEFAULT,FOREIGN KEY
+SQL Server,6,A foreign key points to:,A primary key or unique column in another table,Any column in the same table,An index,A view,A primary key or unique column in another table
+SQL Server,6,What happens if a value is inserted into a foreign key column that does not exist in the referenced table?,The insertion fails,The referenced table is updated,The value is converted to NULL,The value is inserted anyway,The insertion fails
+SQL Server,6,"A CHECK constraint evaluates its condition to TRUE, FALSE, or unknown. Which values are rejected?",TRUE,TRUE and unknown,FALSE,Unknown,FALSE
+SQL Server,6,Which constraint enforces domain integrity by disallowing null values?,FOREIGN KEY,UNIQUE,PRIMARY KEY,NOT NULL,NOT NULL
+SQL Server,6,Which constraints enforce entity integrity by ensuring each row can be uniquely identified?,NOT NULL and DEFAULT,CHECK and DEFAULT,PRIMARY KEY and UNIQUE,FOREIGN KEY and CHECK,PRIMARY KEY and UNIQUE

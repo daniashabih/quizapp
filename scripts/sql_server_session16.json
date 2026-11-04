@@ -1,0 +1,569 @@
+{
+  "category": "SQL Server",
+  "session": 16,
+  "title": "Session 16: Enhancements in SQL Server 2019 — SQL Server",
+  "totalQuestions": 51,
+  "questions": [
+    {
+      "questionText": "Which SQL Server 2019 feature gives detailed information on which column and value caused a truncation error?",
+      "options": [
+        "Query Store",
+        "Verbose Truncation Warnings",
+        "PolyBase",
+        "Stretch Database"
+      ],
+      "correctAnswer": "Verbose Truncation Warnings",
+      "explanation": "Correct answer is option B: Verbose Truncation Warnings."
+    },
+    {
+      "questionText": "In SQL Server 2019, the verbose truncation error message includes:",
+      "options": [
+        "Only the row number",
+        "The table name, the column name, and the truncated value",
+        "Only the login name",
+        "Only the database name"
+      ],
+      "correctAnswer": "The table name, the column name, and the truncated value",
+      "explanation": "Correct answer is option B: The table name, the column name, and the truncated value."
+    },
+    {
+      "questionText": "Which database compatibility level is needed to enable verbose truncation warnings behavior by default in SQL Server 2019?",
+      "options": [
+        "150",
+        "110",
+        "120",
+        "100"
+      ],
+      "correctAnswer": "150",
+      "explanation": "Correct answer is option A: 150."
+    },
+    {
+      "questionText": "Which error message is replaced by the verbose truncation message?",
+      "options": [
+        "Invalid object name",
+        "Divide by zero error",
+        "String or binary data would be truncated",
+        "Cannot insert NULL value"
+      ],
+      "correctAnswer": "String or binary data would be truncated",
+      "explanation": "Correct answer is option C: String or binary data would be truncated."
+    },
+    {
+      "questionText": "Which tool can be used to set the database compatibility level?",
+      "options": [
+        "Database Properties in SSMS",
+        "PolyBase",
+        "Query Store",
+        "Stretch Database"
+      ],
+      "correctAnswer": "Database Properties in SSMS",
+      "explanation": "Correct answer is option A: Database Properties in SSMS."
+    },
+    {
+      "questionText": "SQL Vulnerability Assessment is:",
+      "options": [
+        "A service that discovers, tracks, and helps remediate potential database vulnerabilities",
+        "A performance counter",
+        "A data migration tool",
+        "A backup tool"
+      ],
+      "correctAnswer": "A service that discovers, tracks, and helps remediate potential database vulnerabilities",
+      "explanation": "Correct answer is option A: A service that discovers, tracks, and helps remediate potential database vulnerabilities."
+    },
+    {
+      "questionText": "SQL Vulnerability Assessment is part of:",
+      "options": [
+        "Azure Backup",
+        "Azure DevOps",
+        "Azure Defender for SQL",
+        "Azure Monitor only"
+      ],
+      "correctAnswer": "Azure Defender for SQL",
+      "explanation": "Correct answer is option C: Azure Defender for SQL."
+    },
+    {
+      "questionText": "What does the Vulnerability Assessment service use to scan databases?",
+      "options": [
+        "A knowledge base of rules that flag security vulnerabilities",
+        "Manual audits only",
+        "Backup files",
+        "Random sampling"
+      ],
+      "correctAnswer": "A knowledge base of rules that flag security vulnerabilities",
+      "explanation": "Correct answer is option A: A knowledge base of rules that flag security vulnerabilities."
+    },
+    {
+      "questionText": "Vulnerability Assessment reports can be customized by:",
+      "options": [
+        "Deleting rules permanently",
+        "Editing the master database",
+        "Setting a baseline",
+        "Disabling Azure"
+      ],
+      "correctAnswer": "Setting a baseline",
+      "explanation": "Correct answer is option C: Setting a baseline."
+    },
+    {
+      "questionText": "A baseline in Vulnerability Assessment is used to:",
+      "options": [
+        "Delete the database",
+        "Encrypt backups",
+        "Create indexes",
+        "Mark current results as acceptable so that only deviations are reported"
+      ],
+      "correctAnswer": "Mark current results as acceptable so that only deviations are reported",
+      "explanation": "Correct answer is option D: Mark current results as acceptable so that only deviations are reported."
+    },
+    {
+      "questionText": "Before running a scan, Vulnerability Assessment requires:",
+      "options": [
+        "A Hadoop cluster",
+        "A storage account where scan results are stored",
+        "A new database",
+        "A Linux server"
+      ],
+      "correctAnswer": "A storage account where scan results are stored",
+      "explanation": "Correct answer is option B: A storage account where scan results are stored."
+    },
+    {
+      "questionText": "After configuring storage, which action is selected to check the database for vulnerabilities?",
+      "options": [
+        "Merge",
+        "Scan",
+        "Sync",
+        "Deploy"
+      ],
+      "correctAnswer": "Scan",
+      "explanation": "Correct answer is option B: Scan."
+    },
+    {
+      "questionText": "Vulnerability Assessment findings may include:",
+      "options": [
+        "Remediation scripts where applicable",
+        "User passwords",
+        "Source code of the engine",
+        "Backup files"
+      ],
+      "correctAnswer": "Remediation scripts where applicable",
+      "explanation": "Correct answer is option A: Remediation scripts where applicable."
+    },
+    {
+      "questionText": "A Vulnerability Assessment rule can check that:",
+      "options": [
+        "A minimal set of principals have access to a database-level role",
+        "All tables have identity columns",
+        "All views are indexed",
+        "All queries use TOP"
+      ],
+      "correctAnswer": "A minimal set of principals have access to a database-level role",
+      "explanation": "Correct answer is option A: A minimal set of principals have access to a database-level role."
+    },
+    {
+      "questionText": "SQL Server Big Data Clusters run:",
+      "options": [
+        "Linux containers orchestrated by Kubernetes",
+        "Only in Excel",
+        "Only on a single laptop",
+        "Only on Windows Server"
+      ],
+      "correctAnswer": "Linux containers orchestrated by Kubernetes",
+      "explanation": "Correct answer is option A: Linux containers orchestrated by Kubernetes."
+    },
+    {
+      "questionText": "Which of the following is a component of a SQL Server Big Data Cluster?",
+      "options": [
+        "Backup pool",
+        "Storage pool",
+        "Index pool",
+        "Query pool only"
+      ],
+      "correctAnswer": "Storage pool",
+      "explanation": "Correct answer is option B: Storage pool."
+    },
+    {
+      "questionText": "The storage pool of a Big Data Cluster is used to store:",
+      "options": [
+        "Only temp tables",
+        "Only transaction logs",
+        "Only indexes",
+        "Big data in HDFS, potentially ingested from external sources"
+      ],
+      "correctAnswer": "Big data in HDFS, potentially ingested from external sources",
+      "explanation": "Correct answer is option D: Big data in HDFS, potentially ingested from external sources."
+    },
+    {
+      "questionText": "The data pool in a Big Data Cluster is used to:",
+      "options": [
+        "Store only XML",
+        "Manage backups",
+        "Run Kubernetes master",
+        "Ingest data from SQL queries and store it across SQL Server instances"
+      ],
+      "correctAnswer": "Ingest data from SQL queries and store it across SQL Server instances",
+      "explanation": "Correct answer is option D: Ingest data from SQL queries and store it across SQL Server instances."
+    },
+    {
+      "questionText": "The compute pool in a Big Data Cluster consists of:",
+      "options": [
+        "Only Windows servers",
+        "SQL Server on Linux pods that provide computational resources",
+        "Only storage devices",
+        "Hadoop name nodes only"
+      ],
+      "correctAnswer": "SQL Server on Linux pods that provide computational resources",
+      "explanation": "Correct answer is option B: SQL Server on Linux pods that provide computational resources."
+    },
+    {
+      "questionText": "The SQL master instance in a Big Data Cluster provides:",
+      "options": [
+        "Only Spark jobs",
+        "T-SQL query access and the main SQL Server for the cluster",
+        "Only monitoring",
+        "Only backup storage"
+      ],
+      "correctAnswer": "T-SQL query access and the main SQL Server for the cluster",
+      "explanation": "Correct answer is option B: T-SQL query access and the main SQL Server for the cluster."
+    },
+    {
+      "questionText": "In Kubernetes, a cluster is a set of machines known as:",
+      "options": [
+        "Schemas",
+        "Tables",
+        "Nodes",
+        "Partitions"
+      ],
+      "correctAnswer": "Nodes",
+      "explanation": "Correct answer is option C: Nodes."
+    },
+    {
+      "questionText": "In Kubernetes, the node that controls the cluster is called the:",
+      "options": [
+        "Worker",
+        "Container",
+        "Pod",
+        "Master"
+      ],
+      "correctAnswer": "Master",
+      "explanation": "Correct answer is option D: Master."
+    },
+    {
+      "questionText": "Kubernetes master is responsible for:",
+      "options": [
+        "Storing user data only",
+        "Authenticating Windows users",
+        "Compiling Transact-SQL",
+        "Distributing work between the workers and monitoring the health of the cluster"
+      ],
+      "correctAnswer": "Distributing work between the workers and monitoring the health of the cluster",
+      "explanation": "Correct answer is option D: Distributing work between the workers and monitoring the health of the cluster."
+    },
+    {
+      "questionText": "In Kubernetes, a pod is:",
+      "options": [
+        "A group of one or more containers that run on a node",
+        "A type of index",
+        "A SQL table",
+        "A database"
+      ],
+      "correctAnswer": "A group of one or more containers that run on a node",
+      "explanation": "Correct answer is option A: A group of one or more containers that run on a node."
+    },
+    {
+      "questionText": "Big Data Clusters can query external data sources:",
+      "options": [
+        "Only from Oracle",
+        "Only by copying data first",
+        "Without moving or copying the data",
+        "Only from Excel"
+      ],
+      "correctAnswer": "Without moving or copying the data",
+      "explanation": "Correct answer is option C: Without moving or copying the data."
+    },
+    {
+      "questionText": "JSON stands for:",
+      "options": [
+        "JavaScript Object Notation",
+        "Joint Standard Object Notation",
+        "JavaScript Online Network",
+        "Java Standard Object Naming"
+      ],
+      "correctAnswer": "JavaScript Object Notation",
+      "explanation": "Correct answer is option A: JavaScript Object Notation."
+    },
+    {
+      "questionText": "JSON is a textual data format used for:",
+      "options": [
+        "Only backups",
+        "Only storing images",
+        "Only indexes",
+        "Exchanging data in modern web and mobile applications"
+      ],
+      "correctAnswer": "Exchanging data in modern web and mobile applications",
+      "explanation": "Correct answer is option D: Exchanging data in modern web and mobile applications."
+    },
+    {
+      "questionText": "Which function tests whether a string contains valid JSON?",
+      "options": [
+        "IS_JSON",
+        "VALIDJSON",
+        "CHECKJSON",
+        "ISJSON"
+      ],
+      "correctAnswer": "ISJSON",
+      "explanation": "Correct answer is option D: ISJSON."
+    },
+    {
+      "questionText": "Which function extracts a scalar value from a JSON string?",
+      "options": [
+        "JSON_READ",
+        "JSON_VALUE",
+        "JSON_SELECT",
+        "JSON_GET"
+      ],
+      "correctAnswer": "JSON_VALUE",
+      "explanation": "Correct answer is option B: JSON_VALUE."
+    },
+    {
+      "questionText": "Which function extracts an object or an array from a JSON string?",
+      "options": [
+        "JSON_ARRAY_READ",
+        "JSON_FETCH",
+        "JSON_OBJECT_GET",
+        "JSON_QUERY"
+      ],
+      "correctAnswer": "JSON_QUERY",
+      "explanation": "Correct answer is option D: JSON_QUERY."
+    },
+    {
+      "questionText": "Which function updates the value of a property in a JSON string?",
+      "options": [
+        "JSON_UPDATE",
+        "JSON_CHANGE",
+        "JSON_MODIFY",
+        "JSON_SET"
+      ],
+      "correctAnswer": "JSON_MODIFY",
+      "explanation": "Correct answer is option C: JSON_MODIFY."
+    },
+    {
+      "questionText": "Which function converts JSON text to a rowset that can be queried with SELECT?",
+      "options": [
+        "OPENJSON",
+        "TABLEJSON",
+        "SELECTJSON",
+        "READJSON"
+      ],
+      "correctAnswer": "OPENJSON",
+      "explanation": "Correct answer is option A: OPENJSON."
+    },
+    {
+      "questionText": "Which clause formats SQL query results as JSON text?",
+      "options": [
+        "TO JSON",
+        "FOR JSON",
+        "AS JSON",
+        "INTO JSON"
+      ],
+      "correctAnswer": "FOR JSON",
+      "explanation": "Correct answer is option B: FOR JSON."
+    },
+    {
+      "questionText": "In OPENJSON, the WITH clause is used to:",
+      "options": [
+        "Specify the output columns and their data types",
+        "Define the transaction",
+        "Grant permission",
+        "Create indexes"
+      ],
+      "correctAnswer": "Specify the output columns and their data types",
+      "explanation": "Correct answer is option A: Specify the output columns and their data types."
+    },
+    {
+      "questionText": "In OPENJSON, a path can be specified to:",
+      "options": [
+        "Create a view",
+        "Delete JSON text",
+        "Reference a nested property or a property with a different name",
+        "Rename the database"
+      ],
+      "correctAnswer": "Reference a nested property or a property with a different name",
+      "explanation": "Correct answer is option C: Reference a nested property or a property with a different name."
+    },
+    {
+      "questionText": "OPENJSON transforms an array of JSON objects into a table in which:",
+      "options": [
+        "Each value is a separate table",
+        "Each object is represented as one row",
+        "Each array is a column",
+        "Each property is a database"
+      ],
+      "correctAnswer": "Each object is represented as one row",
+      "explanation": "Correct answer is option B: Each object is represented as one row."
+    },
+    {
+      "questionText": "Which FOR JSON option gives full control over the output format using dot-separated paths?",
+      "options": [
+        "FOR JSON ROOT",
+        "FOR JSON PATH",
+        "FOR JSON AUTO",
+        "FOR JSON RAW"
+      ],
+      "correctAnswer": "FOR JSON PATH",
+      "explanation": "Correct answer is option B: FOR JSON PATH."
+    },
+    {
+      "questionText": "Which FOR JSON option automatically formats output based on the SELECT statement structure?",
+      "options": [
+        "FOR JSON MERGE",
+        "FOR JSON PATH",
+        "FOR JSON AUTO",
+        "FOR JSON ROW"
+      ],
+      "correctAnswer": "FOR JSON AUTO",
+      "explanation": "Correct answer is option C: FOR JSON AUTO."
+    },
+    {
+      "questionText": "JSON data in SQL Server is stored in:",
+      "options": [
+        "The hierarchyid type",
+        "The xml data type only",
+        "A dedicated json data type",
+        "Text columns such as nvarchar"
+      ],
+      "correctAnswer": "Text columns such as nvarchar",
+      "explanation": "Correct answer is option D: Text columns such as nvarchar."
+    },
+    {
+      "questionText": "JSON is commonly used to store:",
+      "options": [
+        "Only fixed-width data",
+        "Unstructured or semi-structured data in log files or NoSQL databases",
+        "Only numeric data",
+        "Only binary images"
+      ],
+      "correctAnswer": "Unstructured or semi-structured data in log files or NoSQL databases",
+      "explanation": "Correct answer is option B: Unstructured or semi-structured data in log files or NoSQL databases."
+    },
+    {
+      "questionText": "Which of the following allows combining relational columns with columns that contain JSON documents?",
+      "options": [
+        "Storing JSON text in table columns",
+        "Using only cursors",
+        "Using only hash indexes",
+        "Using only spatial types"
+      ],
+      "correctAnswer": "Storing JSON text in table columns",
+      "explanation": "Correct answer is option A: Storing JSON text in table columns."
+    },
+    {
+      "questionText": "Which Azure database is an example of a NoSQL service commonly using JSON?",
+      "options": [
+        "Azure SQL Edge only",
+        "Azure Backup",
+        "Azure Data Lake only",
+        "Azure Cosmos DB"
+      ],
+      "correctAnswer": "Azure Cosmos DB",
+      "explanation": "Correct answer is option D: Azure Cosmos DB."
+    },
+    {
+      "questionText": "Which JSON function would you use to read a value like the name property?",
+      "options": [
+        "JSON_MODIFY",
+        "ISJSON",
+        "JSON_VALUE",
+        "FOR JSON"
+      ],
+      "correctAnswer": "JSON_VALUE",
+      "explanation": "Correct answer is option C: JSON_VALUE."
+    },
+    {
+      "questionText": "An OPENJSON default call without a WITH clause returns:",
+      "options": [
+        "Only one column",
+        "Key, value, and type columns",
+        "XML",
+        "Binary"
+      ],
+      "correctAnswer": "Key, value, and type columns",
+      "explanation": "Correct answer is option B: Key, value, and type columns."
+    },
+    {
+      "questionText": "The SQL Server 2019 feature that helps a database administrator find the exact column and value for string truncation is useful for:",
+      "options": [
+        "Reducing table size",
+        "Creating indexes",
+        "Faster troubleshooting of data load failures",
+        "Faster backups"
+      ],
+      "correctAnswer": "Faster troubleshooting of data load failures",
+      "explanation": "Correct answer is option C: Faster troubleshooting of data load failures."
+    },
+    {
+      "questionText": "Which of the following is a purpose of Vulnerability Assessment?",
+      "options": [
+        "Speed up queries",
+        "Replace backups",
+        "Migrate data to Hadoop",
+        "Improve database security posture and meet compliance requirements"
+      ],
+      "correctAnswer": "Improve database security posture and meet compliance requirements",
+      "explanation": "Correct answer is option D: Improve database security posture and meet compliance requirements."
+    },
+    {
+      "questionText": "Which of the following features in SQL Server 2019 helps work with data in HDFS and Spark?",
+      "options": [
+        "Query Store",
+        "Stretch Database",
+        "Big Data Clusters",
+        "Verbose Truncation Warnings"
+      ],
+      "correctAnswer": "Big Data Clusters",
+      "explanation": "Correct answer is option C: Big Data Clusters."
+    },
+    {
+      "questionText": "Kubernetes is used in Big Data Clusters to:",
+      "options": [
+        "Encrypt tables only",
+        "Store T-SQL scripts",
+        "Orchestrate and manage containers",
+        "Create indexes"
+      ],
+      "correctAnswer": "Orchestrate and manage containers",
+      "explanation": "Correct answer is option C: Orchestrate and manage containers."
+    },
+    {
+      "questionText": "Which type of data can Big Data Clusters help analyze?",
+      "options": [
+        "Structured and unstructured data at scale",
+        "Only small tables",
+        "Only text files",
+        "Only XML"
+      ],
+      "correctAnswer": "Structured and unstructured data at scale",
+      "explanation": "Correct answer is option A: Structured and unstructured data at scale."
+    },
+    {
+      "questionText": "In JSON, data is represented as:",
+      "options": [
+        "Binary pages",
+        "Tables and rows only",
+        "Name/value pairs and arrays",
+        "Angle-bracket tags only"
+      ],
+      "correctAnswer": "Name/value pairs and arrays",
+      "explanation": "Correct answer is option C: Name/value pairs and arrays."
+    },
+    {
+      "questionText": "In a JSON path expression, the dollar sign ($) represents:",
+      "options": [
+        "A currency",
+        "A variable",
+        "A comment",
+        "The context item (root of the JSON)"
+      ],
+      "correctAnswer": "The context item (root of the JSON)",
+      "explanation": "Correct answer is option D: The context item (root of the JSON)."
+    }
+  ]
+}

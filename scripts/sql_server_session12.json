@@ -1,0 +1,591 @@
+{
+  "category": "SQL Server",
+  "session": 12,
+  "title": "Session 12: Triggers — SQL Server",
+  "totalQuestions": 53,
+  "questions": [
+    {
+      "questionText": "A trigger is:",
+      "options": [
+        "A kind of index",
+        "A backup utility",
+        "A type of view",
+        "A special type of stored procedure that executes when data is modified or an event occurs"
+      ],
+      "correctAnswer": "A special type of stored procedure that executes when data is modified or an event occurs",
+      "explanation": "Correct answer is option D: A special type of stored procedure that executes when data is modified or an event occurs."
+    },
+    {
+      "questionText": "Which statement is used to create a trigger?",
+      "options": [
+        "ADD TRIGGER",
+        "MAKE TRIGGER",
+        "NEW TRIGGER",
+        "CREATE TRIGGER"
+      ],
+      "correctAnswer": "CREATE TRIGGER",
+      "explanation": "Correct answer is option D: CREATE TRIGGER."
+    },
+    {
+      "questionText": "Triggers are executed:",
+      "options": [
+        "Automatically when a defined event occurs",
+        "Only when called with EXEC",
+        "Only manually by an administrator",
+        "Only at server startup"
+      ],
+      "correctAnswer": "Automatically when a defined event occurs",
+      "explanation": "Correct answer is option A: Automatically when a defined event occurs."
+    },
+    {
+      "questionText": "DML triggers respond to which statements?",
+      "options": [
+        "INSERT, UPDATE, DELETE",
+        "CREATE, ALTER, DROP",
+        "LOGON, LOGOFF",
+        "BACKUP, RESTORE"
+      ],
+      "correctAnswer": "INSERT, UPDATE, DELETE",
+      "explanation": "Correct answer is option A: INSERT, UPDATE, DELETE."
+    },
+    {
+      "questionText": "DDL triggers respond to which type of statements?",
+      "options": [
+        "SELECT only",
+        "CREATE, ALTER, DROP",
+        "INSERT, UPDATE, DELETE",
+        "GRANT only"
+      ],
+      "correctAnswer": "CREATE, ALTER, DROP",
+      "explanation": "Correct answer is option B: CREATE, ALTER, DROP."
+    },
+    {
+      "questionText": "Which triggers fire in response to a LOGON event?",
+      "options": [
+        "Nested triggers",
+        "DML triggers",
+        "Instead-of triggers",
+        "Logon triggers"
+      ],
+      "correctAnswer": "Logon triggers",
+      "explanation": "Correct answer is option D: Logon triggers."
+    },
+    {
+      "questionText": "Which temporary tables are available to DML triggers to hold affected rows?",
+      "options": [
+        "Inserted and Deleted",
+        "Old and New",
+        "Temp and Perm",
+        "Source and Target"
+      ],
+      "correctAnswer": "Inserted and Deleted",
+      "explanation": "Correct answer is option A: Inserted and Deleted."
+    },
+    {
+      "questionText": "The Inserted table holds:",
+      "options": [
+        "Copies of the new rows",
+        "All table rows",
+        "Copies of the old rows",
+        "No data"
+      ],
+      "correctAnswer": "Copies of the new rows",
+      "explanation": "Correct answer is option A: Copies of the new rows."
+    },
+    {
+      "questionText": "The Deleted table holds:",
+      "options": [
+        "Copies of the rows removed or the old values before an update",
+        "All table rows",
+        "The trigger definition",
+        "Only new rows"
+      ],
+      "correctAnswer": "Copies of the rows removed or the old values before an update",
+      "explanation": "Correct answer is option A: Copies of the rows removed or the old values before an update."
+    },
+    {
+      "questionText": "In an UPDATE trigger, the old values are in:",
+      "options": [
+        "Source table",
+        "Inserted table",
+        "Deleted table",
+        "Master table"
+      ],
+      "correctAnswer": "Deleted table",
+      "explanation": "Correct answer is option C: Deleted table."
+    },
+    {
+      "questionText": "In an UPDATE trigger, the new values are in:",
+      "options": [
+        "Source table",
+        "Master table",
+        "Inserted table",
+        "Deleted table"
+      ],
+      "correctAnswer": "Inserted table",
+      "explanation": "Correct answer is option C: Inserted table."
+    },
+    {
+      "questionText": "An INSERT trigger is executed when:",
+      "options": [
+        "A table is dropped",
+        "A user logs in",
+        "A record is deleted",
+        "A new record is inserted in the table"
+      ],
+      "correctAnswer": "A new record is inserted in the table",
+      "explanation": "Correct answer is option D: A new record is inserted in the table."
+    },
+    {
+      "questionText": "The FOR keyword in a DML trigger specifies that the trigger executes:",
+      "options": [
+        "At logon",
+        "Before the table is created",
+        "After the modification operations complete",
+        "Instead of the operation"
+      ],
+      "correctAnswer": "After the modification operations complete",
+      "explanation": "Correct answer is option C: After the modification operations complete."
+    },
+    {
+      "questionText": "Which trigger type executes in place of the INSERT, UPDATE, or DELETE operation?",
+      "options": [
+        "INSTEAD OF trigger",
+        "AFTER trigger",
+        "Logon trigger",
+        "FOR trigger"
+      ],
+      "correctAnswer": "INSTEAD OF trigger",
+      "explanation": "Correct answer is option A: INSTEAD OF trigger."
+    },
+    {
+      "questionText": "INSTEAD OF triggers are executed:",
+      "options": [
+        "After the transaction commits",
+        "After constraint checks",
+        "Before constraint checks are performed on the table",
+        "Only at night"
+      ],
+      "correctAnswer": "Before constraint checks are performed on the table",
+      "explanation": "Correct answer is option C: Before constraint checks are performed on the table."
+    },
+    {
+      "questionText": "AFTER triggers are executed:",
+      "options": [
+        "Before the action",
+        "After the Inserted and Deleted tables are created and the action completes",
+        "Instead of the action",
+        "Only on views"
+      ],
+      "correctAnswer": "After the Inserted and Deleted tables are created and the action completes",
+      "explanation": "Correct answer is option B: After the Inserted and Deleted tables are created and the action completes."
+    },
+    {
+      "questionText": "Which stored procedure sets the order of firing of AFTER triggers?",
+      "options": [
+        "sp_triggerfirst",
+        "sp_order",
+        "sp_helptrigger",
+        "sp_settriggerorder"
+      ],
+      "correctAnswer": "sp_settriggerorder",
+      "explanation": "Correct answer is option D: sp_settriggerorder."
+    },
+    {
+      "questionText": "Which positions can be assigned with sp_settriggerorder?",
+      "options": [
+        "First, Last, or None",
+        "Top or Bottom",
+        "Start or End",
+        "High or Low"
+      ],
+      "correctAnswer": "First, Last, or None",
+      "explanation": "Correct answer is option A: First, Last, or None."
+    },
+    {
+      "questionText": "To view the definition of a DML trigger, which stored procedure is used?",
+      "options": [
+        "sp_helptext",
+        "sp_who",
+        "sp_lock",
+        "sp_depends"
+      ],
+      "correctAnswer": "sp_helptext",
+      "explanation": "Correct answer is option A: sp_helptext."
+    },
+    {
+      "questionText": "Which option prevents a trigger definition from being displayed?",
+      "options": [
+        "WITH CHECK OPTION",
+        "WITH ENCRYPTION",
+        "WITH SCHEMABINDING",
+        "WITH RECOMPILE"
+      ],
+      "correctAnswer": "WITH ENCRYPTION",
+      "explanation": "Correct answer is option B: WITH ENCRYPTION."
+    },
+    {
+      "questionText": "Which statement removes a trigger?",
+      "options": [
+        "DELETE TRIGGER",
+        "CLEAR TRIGGER",
+        "DROP TRIGGER",
+        "REMOVE TRIGGER"
+      ],
+      "correctAnswer": "DROP TRIGGER",
+      "explanation": "Correct answer is option C: DROP TRIGGER."
+    },
+    {
+      "questionText": "Which statement modifies an existing trigger?",
+      "options": [
+        "CHANGE TRIGGER",
+        "MODIFY TRIGGER",
+        "UPDATE TRIGGER",
+        "ALTER TRIGGER"
+      ],
+      "correctAnswer": "ALTER TRIGGER",
+      "explanation": "Correct answer is option D: ALTER TRIGGER."
+    },
+    {
+      "questionText": "A DELETE trigger can be used to:",
+      "options": [
+        "Restrict a user from deleting a particular record",
+        "Rename a column",
+        "Insert a record",
+        "Create a table"
+      ],
+      "correctAnswer": "Restrict a user from deleting a particular record",
+      "explanation": "Correct answer is option A: Restrict a user from deleting a particular record."
+    },
+    {
+      "questionText": "To cancel the action that fired a trigger, which statement is typically used in the trigger body?",
+      "options": [
+        "BEGIN TRANSACTION",
+        "ROLLBACK TRANSACTION",
+        "COMMIT TRANSACTION",
+        "SAVE TRANSACTION"
+      ],
+      "correctAnswer": "ROLLBACK TRANSACTION",
+      "explanation": "Correct answer is option B: ROLLBACK TRANSACTION."
+    },
+    {
+      "questionText": "Triggers can enforce integrity by:",
+      "options": [
+        "Creating logins",
+        "Dropping tables",
+        "Backing up data",
+        "Cascading changes through related tables"
+      ],
+      "correctAnswer": "Cascading changes through related tables",
+      "explanation": "Correct answer is option D: Cascading changes through related tables."
+    },
+    {
+      "questionText": "One primary use of triggers is to:",
+      "options": [
+        "Create databases",
+        "Install SQL Server",
+        "Backup logs",
+        "Apply complex data integrity checks"
+      ],
+      "correctAnswer": "Apply complex data integrity checks",
+      "explanation": "Correct answer is option D: Apply complex data integrity checks."
+    },
+    {
+      "questionText": "Triggers can invoke custom error messages to:",
+      "options": [
+        "Create tables",
+        "Alter constraints",
+        "Change permissions",
+        "Provide meaningful messages on violations"
+      ],
+      "correctAnswer": "Provide meaningful messages on violations",
+      "explanation": "Correct answer is option D: Provide meaningful messages on violations."
+    },
+    {
+      "questionText": "Which of the following is a benefit of triggers over CHECK constraints?",
+      "options": [
+        "Triggers need no code",
+        "Triggers are faster always",
+        "Triggers cannot be disabled",
+        "Triggers can reference columns in other tables"
+      ],
+      "correctAnswer": "Triggers can reference columns in other tables",
+      "explanation": "Correct answer is option D: Triggers can reference columns in other tables."
+    },
+    {
+      "questionText": "DDL triggers can be scoped at:",
+      "options": [
+        "Column level",
+        "Row level",
+        "Cursor level",
+        "Database level or server level"
+      ],
+      "correctAnswer": "Database level or server level",
+      "explanation": "Correct answer is option D: Database level or server level."
+    },
+    {
+      "questionText": "DDL triggers are useful to:",
+      "options": [
+        "Prevent modifications in the database schema",
+        "Sort data",
+        "Compute aggregates",
+        "Insert data"
+      ],
+      "correctAnswer": "Prevent modifications in the database schema",
+      "explanation": "Correct answer is option A: Prevent modifications in the database schema."
+    },
+    {
+      "questionText": "Which DDL event would be used to stop someone from dropping tables?",
+      "options": [
+        "SELECT_TABLE",
+        "LOGON",
+        "INSERT_TABLE",
+        "DROP_TABLE"
+      ],
+      "correctAnswer": "DROP_TABLE",
+      "explanation": "Correct answer is option D: DROP_TABLE."
+    },
+    {
+      "questionText": "Logon triggers fire:",
+      "options": [
+        "Before authentication",
+        "Only for sysadmin",
+        "After authentication succeeds but before the user session is established",
+        "After the session ends"
+      ],
+      "correctAnswer": "After authentication succeeds but before the user session is established",
+      "explanation": "Correct answer is option C: After authentication succeeds but before the user session is established."
+    },
+    {
+      "questionText": "Logon triggers can be used to:",
+      "options": [
+        "Drop views",
+        "Update indexes",
+        "Audit and control server sessions or limit logins",
+        "Create tables"
+      ],
+      "correctAnswer": "Audit and control server sessions or limit logins",
+      "explanation": "Correct answer is option C: Audit and control server sessions or limit logins."
+    },
+    {
+      "questionText": "When a trigger on one table causes another trigger to fire, the triggers are called:",
+      "options": [
+        "Instead-of triggers",
+        "Nested triggers",
+        "Parallel triggers",
+        "Recursive triggers only"
+      ],
+      "correctAnswer": "Nested triggers",
+      "explanation": "Correct answer is option B: Nested triggers."
+    },
+    {
+      "questionText": "What is the maximum nesting level for triggers in SQL Server?",
+      "options": [
+        "16",
+        "32",
+        "64",
+        "8"
+      ],
+      "correctAnswer": "32",
+      "explanation": "Correct answer is option B: 32."
+    },
+    {
+      "questionText": "When the maximum nesting level of triggers is exceeded, the trigger:",
+      "options": [
+        "Is terminated",
+        "Continues indefinitely",
+        "Is disabled permanently",
+        "Is deleted"
+      ],
+      "correctAnswer": "Is terminated",
+      "explanation": "Correct answer is option A: Is terminated."
+    },
+    {
+      "questionText": "Which function can be used inside an INSERT or UPDATE trigger to test whether a column was modified?",
+      "options": [
+        "MODIFIED()",
+        "CHANGED()",
+        "UPDATE()",
+        "IS_UPDATED()"
+      ],
+      "correctAnswer": "UPDATE()",
+      "explanation": "Correct answer is option C: UPDATE()."
+    },
+    {
+      "questionText": "Triggers that fire for multiple rows in one statement should be written to handle:",
+      "options": [
+        "Multi-row operations",
+        "Single rows only",
+        "Only identity columns",
+        "Only NULL values"
+      ],
+      "correctAnswer": "Multi-row operations",
+      "explanation": "Correct answer is option A: Multi-row operations."
+    },
+    {
+      "questionText": "A trigger can be associated with:",
+      "options": [
+        "Only a stored procedure",
+        "Only an index",
+        "A table or a view",
+        "Only a function"
+      ],
+      "correctAnswer": "A table or a view",
+      "explanation": "Correct answer is option C: A table or a view."
+    },
+    {
+      "questionText": "Which statement temporarily stops a trigger from firing without dropping it?",
+      "options": [
+        "DISABLE TRIGGER",
+        "STOP TRIGGER",
+        "PAUSE TRIGGER",
+        "DROP TRIGGER"
+      ],
+      "correctAnswer": "DISABLE TRIGGER",
+      "explanation": "Correct answer is option A: DISABLE TRIGGER."
+    },
+    {
+      "questionText": "Which statement re-activates a disabled trigger?",
+      "options": [
+        "RESUME TRIGGER",
+        "ENABLE TRIGGER",
+        "START TRIGGER",
+        "ALTER TRIGGER ENABLE ALL"
+      ],
+      "correctAnswer": "ENABLE TRIGGER",
+      "explanation": "Correct answer is option B: ENABLE TRIGGER."
+    },
+    {
+      "questionText": "A trigger cannot be circumvented because:",
+      "options": [
+        "It runs only when invoked",
+        "It is stored on the client",
+        "It fires automatically on the defined event",
+        "It has no code"
+      ],
+      "correctAnswer": "It fires automatically on the defined event",
+      "explanation": "Correct answer is option C: It fires automatically on the defined event."
+    },
+    {
+      "questionText": "AFTER triggers can be defined only on:",
+      "options": [
+        "Functions",
+        "Indexes",
+        "Views only",
+        "Tables"
+      ],
+      "correctAnswer": "Tables",
+      "explanation": "Correct answer is option D: Tables."
+    },
+    {
+      "questionText": "INSTEAD OF triggers can be defined on:",
+      "options": [
+        "Only functions",
+        "Tables and views",
+        "Only indexes",
+        "Only schemas"
+      ],
+      "correctAnswer": "Tables and views",
+      "explanation": "Correct answer is option B: Tables and views."
+    },
+    {
+      "questionText": "The trigger table is the table:",
+      "options": [
+        "On which the trigger is defined",
+        "Used for logging only",
+        "Of the system",
+        "In the master database"
+      ],
+      "correctAnswer": "On which the trigger is defined",
+      "explanation": "Correct answer is option A: On which the trigger is defined."
+    },
+    {
+      "questionText": "The Inserted and Deleted tables are stored:",
+      "options": [
+        "Permanently in the database",
+        "In msdb",
+        "In memory (temporary) and exist only for the duration of the trigger",
+        "On the client machine"
+      ],
+      "correctAnswer": "In memory (temporary) and exist only for the duration of the trigger",
+      "explanation": "Correct answer is option C: In memory (temporary) and exist only for the duration of the trigger."
+    },
+    {
+      "questionText": "Which of these is a DML trigger event?",
+      "options": [
+        "ALTER",
+        "UPDATE",
+        "DROP",
+        "GRANT"
+      ],
+      "correctAnswer": "UPDATE",
+      "explanation": "Correct answer is option B: UPDATE."
+    },
+    {
+      "questionText": "Which type of trigger fires once per statement rather than per row?",
+      "options": [
+        "Cursor trigger",
+        "Row-level trigger",
+        "DML trigger",
+        "Table trigger"
+      ],
+      "correctAnswer": "DML trigger",
+      "explanation": "Correct answer is option C: DML trigger."
+    },
+    {
+      "questionText": "Which of the following can a DDL trigger NOT respond to?",
+      "options": [
+        "ALTER TABLE",
+        "INSERT statements",
+        "DROP TABLE",
+        "CREATE TABLE"
+      ],
+      "correctAnswer": "INSERT statements",
+      "explanation": "Correct answer is option B: INSERT statements."
+    },
+    {
+      "questionText": "A trigger that restores a deleted row typically does so by:",
+      "options": [
+        "Reading from master",
+        "Copying the row from the Deleted table back to the trigger table",
+        "Using DROP",
+        "Using TRUNCATE"
+      ],
+      "correctAnswer": "Copying the row from the Deleted table back to the trigger table",
+      "explanation": "Correct answer is option B: Copying the row from the Deleted table back to the trigger table."
+    },
+    {
+      "questionText": "The UPDATE trigger on a table fires when:",
+      "options": [
+        "A record is inserted only",
+        "A record is updated",
+        "A user connects",
+        "A table is dropped"
+      ],
+      "correctAnswer": "A record is updated",
+      "explanation": "Correct answer is option B: A record is updated."
+    },
+    {
+      "questionText": "Which keyword in an INSERT trigger specifies that the trigger fires for inserts?",
+      "options": [
+        "BEFORE INSERT",
+        "ON INSERT ONLY",
+        "FOR INSERT",
+        "DURING INSERT"
+      ],
+      "correctAnswer": "FOR INSERT",
+      "explanation": "Correct answer is option C: FOR INSERT."
+    },
+    {
+      "questionText": "Which type of trigger is created using CREATE TRIGGER ... ON ALL SERVER?",
+      "options": [
+        "Database DML trigger",
+        "Server-scoped DDL trigger",
+        "Table trigger",
+        "View trigger"
+      ],
+      "correctAnswer": "Server-scoped DDL trigger",
+      "explanation": "Correct answer is option B: Server-scoped DDL trigger."
+    }
+  ]
+}

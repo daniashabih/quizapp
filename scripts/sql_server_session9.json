@@ -1,0 +1,646 @@
+{
+  "category": "SQL Server",
+  "session": 9,
+  "title": "Session 9: Advanced Queries and Joins — SQL Server",
+  "totalQuestions": 58,
+  "questions": [
+    {
+      "questionText": "Which clause partitions a resultset into subsets that share common values?",
+      "options": [
+        "TOP",
+        "GROUP BY",
+        "HAVING",
+        "ORDER BY"
+      ],
+      "correctAnswer": "GROUP BY",
+      "explanation": "Correct answer is option B: GROUP BY."
+    },
+    {
+      "questionText": "Which built-in function calculates the total of a column?",
+      "options": [
+        "SUM()",
+        "COUNT()",
+        "MAX()",
+        "AVG()"
+      ],
+      "correctAnswer": "SUM()",
+      "explanation": "Correct answer is option A: SUM()."
+    },
+    {
+      "questionText": "In a query with WHERE and GROUP BY, when are rows eliminated by the WHERE clause?",
+      "options": [
+        "After sorting",
+        "After grouping",
+        "After the HAVING clause",
+        "Before grouping"
+      ],
+      "correctAnswer": "Before grouping",
+      "explanation": "Correct answer is option D: Before grouping."
+    },
+    {
+      "questionText": "If a grouping column contains NULL values, they are:",
+      "options": [
+        "Ignored completely",
+        "Converted to zero",
+        "Each in a separate group",
+        "Put together in a single group"
+      ],
+      "correctAnswer": "Put together in a single group",
+      "explanation": "Correct answer is option D: Put together in a single group."
+    },
+    {
+      "questionText": "When GROUP BY ALL is used, it includes:",
+      "options": [
+        "All groups, even those not meeting the WHERE condition",
+        "Only groups that meet the condition",
+        "Only the first group",
+        "Only NULL groups"
+      ],
+      "correctAnswer": "All groups, even those not meeting the WHERE condition",
+      "explanation": "Correct answer is option A: All groups, even those not meeting the WHERE condition."
+    },
+    {
+      "questionText": "GROUP BY ALL is significant only when the SELECT has:",
+      "options": [
+        "An ORDER BY clause",
+        "A JOIN",
+        "A subquery",
+        "A WHERE clause"
+      ],
+      "correctAnswer": "A WHERE clause",
+      "explanation": "Correct answer is option D: A WHERE clause."
+    },
+    {
+      "questionText": "The HAVING clause is used to:",
+      "options": [
+        "Sort rows",
+        "Join tables",
+        "Filter groups, for example on aggregate results",
+        "Filter individual rows only"
+      ],
+      "correctAnswer": "Filter groups, for example on aggregate results",
+      "explanation": "Correct answer is option C: Filter groups, for example on aggregate results."
+    },
+    {
+      "questionText": "Which operator produces super-aggregate rows for every possible combination of the grouped columns?",
+      "options": [
+        "UNION",
+        "PIVOT",
+        "CUBE",
+        "ROLLUP"
+      ],
+      "correctAnswer": "CUBE",
+      "explanation": "Correct answer is option C: CUBE."
+    },
+    {
+      "questionText": "Which operator generates summary rows arranged in a hierarchical order from lowest to highest?",
+      "options": [
+        "ROLLUP",
+        "EXCEPT",
+        "CUBE",
+        "INTERSECT"
+      ],
+      "correctAnswer": "ROLLUP",
+      "explanation": "Correct answer is option A: ROLLUP."
+    },
+    {
+      "questionText": "In a CUBE or ROLLUP resultset, summary rows display which value in the aggregated column positions?",
+      "options": [
+        "Blank string",
+        "Zero",
+        "NULL",
+        "'ALL'"
+      ],
+      "correctAnswer": "NULL",
+      "explanation": "Correct answer is option C: NULL."
+    },
+    {
+      "questionText": "Aggregate functions, except COUNT(*), ignore:",
+      "options": [
+        "Numeric values",
+        "Character values",
+        "NULL values",
+        "Duplicate values only"
+      ],
+      "correctAnswer": "NULL values",
+      "explanation": "Correct answer is option C: NULL values."
+    },
+    {
+      "questionText": "Which function counts all rows including those with NULL values?",
+      "options": [
+        "COUNT(column)",
+        "MAX(*)",
+        "SUM(*)",
+        "COUNT(*)"
+      ],
+      "correctAnswer": "COUNT(*)",
+      "explanation": "Correct answer is option D: COUNT(*)."
+    },
+    {
+      "questionText": "Which aggregate returns the average of the non-NULL numeric values?",
+      "options": [
+        "SUM()",
+        "MID()",
+        "MEAN()",
+        "AVG()"
+      ],
+      "correctAnswer": "AVG()",
+      "explanation": "Correct answer is option D: AVG()."
+    },
+    {
+      "questionText": "Aggregate functions return:",
+      "options": [
+        "A single value",
+        "Multiple columns",
+        "A table",
+        "A cursor"
+      ],
+      "correctAnswer": "A single value",
+      "explanation": "Correct answer is option A: A single value."
+    },
+    {
+      "questionText": "An aggregate function in the SELECT list does NOT generate:",
+      "options": [
+        "A value",
+        "A column alias",
+        "An error",
+        "A result"
+      ],
+      "correctAnswer": "A column alias",
+      "explanation": "Correct answer is option B: A column alias."
+    },
+    {
+      "questionText": "In a SELECT with an aggregate and no GROUP BY, every non-aggregated column in the SELECT list causes:",
+      "options": [
+        "Grouping by that column",
+        "An error",
+        "Sorting of the result",
+        "A warning only"
+      ],
+      "correctAnswer": "An error",
+      "explanation": "Correct answer is option B: An error."
+    },
+    {
+      "questionText": "Which spatial aggregate returns a bounding area for a set of geometry or geography objects?",
+      "options": [
+        "Collection Aggregate",
+        "Sum Aggregate",
+        "Envelope Aggregate",
+        "Union Aggregate"
+      ],
+      "correctAnswer": "Envelope Aggregate",
+      "explanation": "Correct answer is option C: Envelope Aggregate."
+    },
+    {
+      "questionText": "For the geography type, the Envelope Aggregate returns:",
+      "options": [
+        "A circular object",
+        "A rectangular polygon",
+        "A line",
+        "A single point"
+      ],
+      "correctAnswer": "A circular object",
+      "explanation": "Correct answer is option A: A circular object."
+    },
+    {
+      "questionText": "For the geometry type, the Envelope Aggregate returns:",
+      "options": [
+        "A collection of lines",
+        "A rectangular polygon closely bounding the objects",
+        "A circle",
+        "A single point"
+      ],
+      "correctAnswer": "A rectangular polygon closely bounding the objects",
+      "explanation": "Correct answer is option B: A rectangular polygon closely bounding the objects."
+    },
+    {
+      "questionText": "Which spatial aggregate combines multiple spatial objects into a single object by removing interior boundaries?",
+      "options": [
+        "Union Aggregate",
+        "Collection Aggregate",
+        "ConvexHull Aggregate",
+        "Envelope Aggregate"
+      ],
+      "correctAnswer": "Union Aggregate",
+      "explanation": "Correct answer is option A: Union Aggregate."
+    },
+    {
+      "questionText": "Which spatial aggregate returns a GeometryCollection/GeographyCollection with one part per input object?",
+      "options": [
+        "ConvexHull Aggregate",
+        "Union Aggregate",
+        "Envelope Aggregate",
+        "Collection Aggregate"
+      ],
+      "correctAnswer": "Collection Aggregate",
+      "explanation": "Correct answer is option D: Collection Aggregate."
+    },
+    {
+      "questionText": "Which spatial aggregate returns a convex hull polygon enclosing one or more spatial objects?",
+      "options": [
+        "ConvexHull Aggregate",
+        "Collection Aggregate",
+        "Union Aggregate",
+        "Envelope Aggregate"
+      ],
+      "correctAnswer": "ConvexHull Aggregate",
+      "explanation": "Correct answer is option A: ConvexHull Aggregate."
+    },
+    {
+      "questionText": "Which method combines two geography variables into a third variable?",
+      "options": [
+        "STEnvelope()",
+        "STArea()",
+        "STUnion()",
+        "STBuffer()"
+      ],
+      "correctAnswer": "STUnion()",
+      "explanation": "Correct answer is option C: STUnion()."
+    },
+    {
+      "questionText": "In SSMS, which tab is used to visualize spatial data in query results?",
+      "options": [
+        "Execution plan",
+        "Messages",
+        "Client statistics",
+        "Spatial results"
+      ],
+      "correctAnswer": "Spatial results",
+      "explanation": "Correct answer is option D: Spatial results."
+    },
+    {
+      "questionText": "A subquery is:",
+      "options": [
+        "A stored procedure",
+        "A view",
+        "A SELECT statement whose result is used as criteria for another query",
+        "An index"
+      ],
+      "correctAnswer": "A SELECT statement whose result is used as criteria for another query",
+      "explanation": "Correct answer is option C: A SELECT statement whose result is used as criteria for another query."
+    },
+    {
+      "questionText": "In a subquery, which statement is executed first?",
+      "options": [
+        "The outermost SELECT",
+        "They execute at random",
+        "The innermost SELECT",
+        "The last SELECT"
+      ],
+      "correctAnswer": "The innermost SELECT",
+      "explanation": "Correct answer is option C: The innermost SELECT."
+    },
+    {
+      "questionText": "A subquery that returns a single value is called a:",
+      "options": [
+        "Scalar subquery",
+        "Nested subquery",
+        "Correlated subquery",
+        "Multi-valued subquery"
+      ],
+      "correctAnswer": "Scalar subquery",
+      "explanation": "Correct answer is option A: Scalar subquery."
+    },
+    {
+      "questionText": "A subquery that returns a result similar to a single-column table is called a:",
+      "options": [
+        "Multi-valued subquery",
+        "Self-contained subquery",
+        "Scalar subquery",
+        "Recursive subquery"
+      ],
+      "correctAnswer": "Multi-valued subquery",
+      "explanation": "Correct answer is option A: Multi-valued subquery."
+    },
+    {
+      "questionText": "If an = operator is used with a subquery that returns more than one value:",
+      "options": [
+        "The first value is used",
+        "An error occurs",
+        "The last value is used",
+        "All values are used"
+      ],
+      "correctAnswer": "An error occurs",
+      "explanation": "Correct answer is option B: An error occurs."
+    },
+    {
+      "questionText": "Which keywords are used with multi-valued subqueries?",
+      "options": [
+        "PIVOT, CUBE, ROLLUP, MERGE",
+        "BEGIN, END, GOTO, WHILE",
+        "TOP, INTO, DISTINCT, AS",
+        "ANY, ALL, IN, EXISTS"
+      ],
+      "correctAnswer": "ANY, ALL, IN, EXISTS",
+      "explanation": "Correct answer is option D: ANY, ALL, IN, EXISTS."
+    },
+    {
+      "questionText": "SOME and ANY are:",
+      "options": [
+        "Opposites of each other",
+        "Used only with joins",
+        "Used only with views",
+        "Equivalent and return the same result"
+      ],
+      "correctAnswer": "Equivalent and return the same result",
+      "explanation": "Correct answer is option D: Equivalent and return the same result."
+    },
+    {
+      "questionText": "A self-contained subquery:",
+      "options": [
+        "Can run independently of the outer query",
+        "Depends on the outer query",
+        "Cannot return results",
+        "Must use EXISTS"
+      ],
+      "correctAnswer": "Can run independently of the outer query",
+      "explanation": "Correct answer is option A: Can run independently of the outer query."
+    },
+    {
+      "questionText": "A correlated subquery:",
+      "options": [
+        "Never references the outer query",
+        "References columns of the outer query and cannot run separately",
+        "Is always scalar",
+        "Is processed once only"
+      ],
+      "correctAnswer": "References columns of the outer query and cannot run separately",
+      "explanation": "Correct answer is option B: References columns of the outer query and cannot run separately."
+    },
+    {
+      "questionText": "Why must a correlated subquery be re-evaluated?",
+      "options": [
+        "Its criteria depend on each row of the parent query",
+        "It uses a CTE",
+        "It returns NULL",
+        "It uses temporary tables"
+      ],
+      "correctAnswer": "Its criteria depend on each row of the parent query",
+      "explanation": "Correct answer is option A: Its criteria depend on each row of the parent query."
+    },
+    {
+      "questionText": "The EXISTS keyword returns:",
+      "options": [
+        "The count of rows",
+        "TRUE or FALSE depending on whether the subquery returns rows",
+        "The data of the subquery",
+        "A table"
+      ],
+      "correctAnswer": "TRUE or FALSE depending on whether the subquery returns rows",
+      "explanation": "Correct answer is option B: TRUE or FALSE depending on whether the subquery returns rows."
+    },
+    {
+      "questionText": "A subquery defined inside another subquery is called a:",
+      "options": [
+        "Derived subquery",
+        "Nested subquery",
+        "Recursive subquery",
+        "Scalar subquery"
+      ],
+      "correctAnswer": "Nested subquery",
+      "explanation": "Correct answer is option B: Nested subquery."
+    },
+    {
+      "questionText": "Joins are used to:",
+      "options": [
+        "Create indexes",
+        "Back up tables",
+        "Retrieve data from two or more tables based on a logical relationship",
+        "Delete rows from tables"
+      ],
+      "correctAnswer": "Retrieve data from two or more tables based on a logical relationship",
+      "explanation": "Correct answer is option C: Retrieve data from two or more tables based on a logical relationship."
+    },
+    {
+      "questionText": "A join typically specifies which type of relationship between tables?",
+      "options": [
+        "Self-reference only",
+        "Foreign key relationship",
+        "Many-to-many only",
+        "Unique constraint only"
+      ],
+      "correctAnswer": "Foreign key relationship",
+      "explanation": "Correct answer is option B: Foreign key relationship."
+    },
+    {
+      "questionText": "Table aliases in a join are used to:",
+      "options": [
+        "Create a copy of the table",
+        "Rename the table permanently",
+        "Avoid typing full table names",
+        "Delete the table"
+      ],
+      "correctAnswer": "Avoid typing full table names",
+      "explanation": "Correct answer is option C: Avoid typing full table names."
+    },
+    {
+      "questionText": "An inner join returns:",
+      "options": [
+        "All rows from both tables",
+        "All rows from the right table",
+        "All rows from the left table",
+        "Only rows that have matching values in both tables"
+      ],
+      "correctAnswer": "Only rows that have matching values in both tables",
+      "explanation": "Correct answer is option D: Only rows that have matching values in both tables."
+    },
+    {
+      "questionText": "A left outer join returns:",
+      "options": [
+        "All rows from the right table",
+        "No rows",
+        "All rows from the left table and matching rows from the right table",
+        "Only matching rows"
+      ],
+      "correctAnswer": "All rows from the left table and matching rows from the right table",
+      "explanation": "Correct answer is option C: All rows from the left table and matching rows from the right table."
+    },
+    {
+      "questionText": "In a left outer join, unmatched right-table columns show:",
+      "options": [
+        "Empty string",
+        "NULL",
+        "Zero",
+        "The left value"
+      ],
+      "correctAnswer": "NULL",
+      "explanation": "Correct answer is option B: NULL."
+    },
+    {
+      "questionText": "A right outer join returns:",
+      "options": [
+        "All rows from the right table and matching rows from the left table",
+        "Only unmatched rows",
+        "Only matching rows",
+        "All rows from the left table"
+      ],
+      "correctAnswer": "All rows from the right table and matching rows from the left table",
+      "explanation": "Correct answer is option A: All rows from the right table and matching rows from the left table."
+    },
+    {
+      "questionText": "A self-join is used to:",
+      "options": [
+        "Join two databases",
+        "Find records in a table related to other records in the same table",
+        "Join a table to a view only",
+        "Join unrelated tables"
+      ],
+      "correctAnswer": "Find records in a table related to other records in the same table",
+      "explanation": "Correct answer is option B: Find records in a table related to other records in the same table."
+    },
+    {
+      "questionText": "The MERGE statement allows you to:",
+      "options": [
+        "Join tables permanently",
+        "Merge two columns",
+        "Insert, update, or delete rows in a target table based on a source table in one statement",
+        "Combine two databases"
+      ],
+      "correctAnswer": "Insert, update, or delete rows in a target table based on a source table in one statement",
+      "explanation": "Correct answer is option C: Insert, update, or delete rows in a target table based on a source table in one statement."
+    },
+    {
+      "questionText": "In a MERGE statement, when the match condition is FALSE (NOT MATCHED), the usual action is to:",
+      "options": [
+        "Drop the target table",
+        "Insert the row into the target table",
+        "Update the target row",
+        "Ignore the source"
+      ],
+      "correctAnswer": "Insert the row into the target table",
+      "explanation": "Correct answer is option B: Insert the row into the target table."
+    },
+    {
+      "questionText": "Which optional MERGE clause displays the records that were inserted, updated, or deleted?",
+      "options": [
+        "RETURN",
+        "OUTPUT",
+        "DISPLAY",
+        "SHOW"
+      ],
+      "correctAnswer": "OUTPUT",
+      "explanation": "Correct answer is option B: OUTPUT."
+    },
+    {
+      "questionText": "What does CTE stand for?",
+      "options": [
+        "Combined Table Element",
+        "Common Table Expression",
+        "Column Type Expression",
+        "Calculated Table Entry"
+      ],
+      "correctAnswer": "Common Table Expression",
+      "explanation": "Correct answer is option B: Common Table Expression."
+    },
+    {
+      "questionText": "A CTE is defined using which keyword?",
+      "options": [
+        "TEMP",
+        "CTE",
+        "DEFINE",
+        "WITH"
+      ],
+      "correctAnswer": "WITH",
+      "explanation": "Correct answer is option D: WITH."
+    },
+    {
+      "questionText": "A CTE that references itself is called a:",
+      "options": [
+        "Recursive CTE",
+        "Nested CTE",
+        "Scalar CTE",
+        "Static CTE"
+      ],
+      "correctAnswer": "Recursive CTE",
+      "explanation": "Correct answer is option A: Recursive CTE."
+    },
+    {
+      "questionText": "Which is a key advantage of CTEs?",
+      "options": [
+        "They replace tables",
+        "They run faster than all joins",
+        "Improved readability and maintenance of complex queries",
+        "They permanently store data"
+      ],
+      "correctAnswer": "Improved readability and maintenance of complex queries",
+      "explanation": "Correct answer is option C: Improved readability and maintenance of complex queries."
+    },
+    {
+      "questionText": "Which operator combines results of two queries into a single resultset and removes duplicates by default?",
+      "options": [
+        "INTERSECT",
+        "JOIN",
+        "UNION",
+        "UNION ALL"
+      ],
+      "correctAnswer": "UNION",
+      "explanation": "Correct answer is option C: UNION."
+    },
+    {
+      "questionText": "Which keyword with UNION includes duplicate rows in the result?",
+      "options": [
+        "DISTINCT",
+        "ALL",
+        "ANY",
+        "TOP"
+      ],
+      "correctAnswer": "ALL",
+      "explanation": "Correct answer is option B: ALL."
+    },
+    {
+      "questionText": "Which operator returns only the distinct rows common to both queries?",
+      "options": [
+        "UNION",
+        "MERGE",
+        "EXCEPT",
+        "INTERSECT"
+      ],
+      "correctAnswer": "INTERSECT",
+      "explanation": "Correct answer is option D: INTERSECT."
+    },
+    {
+      "questionText": "Which operator returns distinct rows from the left query that are not found in the right query?",
+      "options": [
+        "EXCEPT",
+        "JOIN",
+        "UNION",
+        "INTERSECT"
+      ],
+      "correctAnswer": "EXCEPT",
+      "explanation": "Correct answer is option A: EXCEPT."
+    },
+    {
+      "questionText": "A rule for UNION, INTERSECT, and EXCEPT is that:",
+      "options": [
+        "Column names must be identical",
+        "Both queries must use GROUP BY",
+        "Tables must have the same name",
+        "The number of columns must be equal and data types compatible"
+      ],
+      "correctAnswer": "The number of columns must be equal and data types compatible",
+      "explanation": "Correct answer is option D: The number of columns must be equal and data types compatible."
+    },
+    {
+      "questionText": "Which operator rotates rows into columns to transform data orientation?",
+      "options": [
+        "PIVOT",
+        "UNPIVOT",
+        "CUBE",
+        "MERGE"
+      ],
+      "correctAnswer": "PIVOT",
+      "explanation": "Correct answer is option A: PIVOT."
+    },
+    {
+      "questionText": "Which subclause of GROUP BY specifies multiple groupings in a single query?",
+      "options": [
+        "ROLLUP only",
+        "TOP",
+        "INTO",
+        "GROUPING SETS"
+      ],
+      "correctAnswer": "GROUPING SETS",
+      "explanation": "Correct answer is option D: GROUPING SETS."
+    }
+  ]
+}

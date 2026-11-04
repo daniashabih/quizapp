@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,11,An index in SQL Server is:,A backup file,A type of constraint,A stored procedure,A data structure associated with a table or view that speeds up queries,A data structure associated with a table or view that speeds up queries
+SQL Server,11,Which statement creates an index?,CREATE INDEX,ADD INDEX,NEW INDEX,MAKE INDEX,CREATE INDEX
+SQL Server,11,"What is the basic unit of data storage in SQL Server, and size?","Block, 16 KB","Row, 1 KB","Page, 8 KB","Extent, 8 KB","Page, 8 KB"
+SQL Server,11,An extent consists of:,Sixteen pages,One page,Eight contiguous pages,Two pages,Eight contiguous pages
+SQL Server,11,The primary data file has the recommended file extension:,.bak,.ndf,.ldf,.mdf,.mdf
+SQL Server,11,Secondary data files have the recommended extension:,.ndf,.ldf,.sql,.mdf,.ndf
+SQL Server,11,The transaction log file has the extension:,.mdf,.ldf,.dat,.ndf,.ldf
+SQL Server,11,All input and output operations in a database are performed at the:,Column level,Row level,Page level,Table level,Page level
+SQL Server,11,"When no index exists for searching, SQL Server performs:",A cascade,A table scan,A seek,A merge,A table scan
+SQL Server,11,A table without a clustered index is stored as a:,Heap,B-tree,Cluster,Cube,Heap
+SQL Server,11,"In a heap, data rows are:",Not stored in any particular order,Stored in a B-tree,Stored in columns,Always sorted by key,Not stored in any particular order
+SQL Server,11,Indexes in SQL Server are organized as:,Queues,Hash tables only,B-trees,Linked lists,B-trees
+SQL Server,11,The top node of a B-tree index is the:,Page node,Root node,Heap node,Leaf node,Root node
+SQL Server,11,The bottom nodes of a B-tree index are the:,Leaf nodes,Index nodes,Heap nodes,Root nodes,Leaf nodes
+SQL Server,11,How many clustered indexes can a table have?,Two,Unlimited,Up to 999,One,One
+SQL Server,11,"In a clustered index, the data rows are:",Stored randomly,Stored in the log,Stored in sorted order based on the index key,Stored in a separate table,Stored in sorted order based on the index key
+SQL Server,11,The leaf level of a clustered index contains:,The actual data pages,Only the root,Only statistics,Only pointers,The actual data pages
+SQL Server,11,A nonclustered index:,Cannot be created on a heap,Reorders the data rows physically,Can exist only once per table,Has a structure separate from the data rows,Has a structure separate from the data rows
+SQL Server,11,Nonclustered indexes are useful when:,The table is empty,Only one search column exists,The table has no data,Multiple ways to search the data are needed,Multiple ways to search the data are needed
+SQL Server,11,How many nonclustered indexes can be created per table in SQL Server 2019?,249,1,999,16,999
+SQL Server,11,Which index type ensures that no two rows have the same index key value?,Columnstore index,Filtered index,Unique index,Spatial index,Unique index
+SQL Server,11,Which index type includes non-key columns to cover queries?,Index with included columns,XML index,Hash index,Clustered index,Index with included columns
+SQL Server,11,Which index stores data column-wise and is used mainly for data warehousing?,Filtered index,Columnstore index,Clustered index,Hash index,Columnstore index
+SQL Server,11,"In a columnstore index, which structure holds rows that are too few to be compressed into a rowgroup?",Bucket,Heap,Partition,Deltastore,Deltastore
+SQL Server,11,"In a hash index, each bucket is:",Four bytes,Eight bytes,Sixteen bytes,One byte,Eight bytes
+SQL Server,11,Where must the number of buckets in a hash index be specified?,At backup time,At query time,At index definition time,Only after restart,At index definition time
+SQL Server,11,Hash indexes are used with which kind of tables?,Temporary tables only,Memory-optimized tables,Partitioned views,Heap tables only,Memory-optimized tables
+SQL Server,11,Which index type is optimized for queries on XML columns?,Spatial index,XML index,Unique index,Hash index,XML index
+SQL Server,11,A primary XML index must be created before:,A filtered index,A clustered index,A hash index,A secondary XML index,A secondary XML index
+SQL Server,11,Spatial indexes are built using:,Linked lists,Hash tables,Bitmaps,B-trees,B-trees
+SQL Server,11,A filtered index is a:,Nonclustered index optimized with a WHERE predicate on a subset of rows,Clustered index with no filter,Hash index only,Columnstore only,Nonclustered index optimized with a WHERE predicate on a subset of rows
+SQL Server,11,A filtered index is a good choice when:,The table has no rows,Every column is a key,A column has many NULL values,Every row is queried,A column has many NULL values
+SQL Server,11,Which statement disables an index?,ALTER INDEX ... DISABLE,PAUSE INDEX,STOP INDEX,DROP INDEX ... DISABLE,ALTER INDEX ... DISABLE
+SQL Server,11,A disabled index can be re-enabled using:,UPDATE INDEX,ENABLE INDEX statement only,RESUME INDEX,ALTER INDEX ... REBUILD,ALTER INDEX ... REBUILD
+SQL Server,11,Which stored procedure renames a user-created object such as an index?,sp_help,sp_rename,sp_who,sp_renamedb only,sp_rename
+SQL Server,11,Which statement removes an index?,DELETE INDEX,DROP INDEX,CLEAR INDEX,REMOVE INDEX,DROP INDEX
+SQL Server,11,Using the IF EXISTS option with DROP INDEX prevents:,Rebuilding the index,Dropping the table,An error when the index does not exist,Disabling the index,An error when the index does not exist
+SQL Server,11,Partitioning divides table and index data:,Into backup files only,"Horizontally, mapping groups of rows to partitions",Into separate databases,Vertically by columns only,"Horizontally, mapping groups of rows to partitions"
+SQL Server,11,Which object defines how the rows of a partitioned table are mapped to partitions based on boundary values?,Partition function,Partition key table,Partition view,Partition index,Partition function
+SQL Server,11,Which object maps partitions to filegroups?,Partition trigger,Partition key,Partition scheme,Partition function,Partition scheme
+SQL Server,11,A benefit of partitioning large tables and indexes is:,Automatic encryption,Improved manageability and performance,Elimination of all indexes,Reduced data storage,Improved manageability and performance
+SQL Server,11,XML data is stored in xml columns as:,Rows of integers,Plain text files,Heaps only,Large binary objects (BLOBs),Large binary objects (BLOBs)
+SQL Server,11,Which statement creates a columnstore index?,CREATE INDEX COLUMN,CREATE CSTORE,CREATE COLUMNSTORE INDEX,ALTER COLUMNSTORE,CREATE COLUMNSTORE INDEX
+SQL Server,11,The main benefit of a columnstore index for aggregation queries is:,No storage requirement,High compression and faster scans of columns,Slower reads,Faster single-row inserts,High compression and faster scans of columns
+SQL Server,11,A page in SQL Server stores data in:,Rows,Files,Columns only,Extents,Rows
+SQL Server,11,Which type of index is the default when no type is specified in CREATE INDEX?,Nonclustered,Clustered,Columnstore,Spatial,Nonclustered
+SQL Server,11,"When a clustered index is created on a heap table, the table is:",Partitioned,Deleted,Encrypted,Converted into a clustered structure,Converted into a clustered structure
+SQL Server,11,The unique allocation unit for LOB columns in a heap or clustered index is:,ROW_OVERFLOW_DATA,LOB_DATA,IN_ROW_DATA,INDEX_DATA,LOB_DATA
+SQL Server,11,The allocation unit used for variable-length columns exceeding the row limit is:,ROW_OVERFLOW_DATA,LOB_DATA,IN_ROW_DATA,HEAP_DATA,ROW_OVERFLOW_DATA
+SQL Server,11,Which of the following is a disadvantage of too many indexes on a table?,Faster inserts,No effect on data modification,"Slower INSERT, UPDATE, and DELETE operations",Smaller table size,"Slower INSERT, UPDATE, and DELETE operations"
+SQL Server,11,A table scan is:,A partition switch,A backup operation,A fast index seek,Reading every page of a table to find the required rows,Reading every page of a table to find the required rows
+SQL Server,11,Which index is created on a view to materialize its results?,Filtered index,Heap index,Indexed (clustered) view index,Hash index,Indexed (clustered) view index
+SQL Server,11,An index is analogous to:,A book cover,The index at the end of a book,A glossary only,A table of contents only,The index at the end of a book
+SQL Server,11,Which index is built on a column and does not change the physical order of data rows?,Nonclustered index,Heap index,Partition index,Clustered index,Nonclustered index
+SQL Server,11,A secondary XML index covers the same data as:,The hash index,The clustered index,The spatial index,"The primary XML index, for specific query types","The primary XML index, for specific query types"

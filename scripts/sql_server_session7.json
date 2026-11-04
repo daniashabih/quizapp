@@ -1,0 +1,569 @@
+{
+  "category": "SQL Server",
+  "session": 7,
+  "title": "Session 7: Azure SQL — SQL Server",
+  "totalQuestions": 51,
+  "questions": [
+    {
+      "questionText": "Azure SQL is best described as:",
+      "options": [
+        "A cloud-based relational database service that leverages existing SQL Server technologies",
+        "An on-premises-only database engine",
+        "A reporting tool",
+        "A NoSQL document database only"
+      ],
+      "correctAnswer": "A cloud-based relational database service that leverages existing SQL Server technologies",
+      "explanation": "Correct answer is option A: A cloud-based relational database service that leverages existing SQL Server technologies."
+    },
+    {
+      "questionText": "Which cloud platform provides Azure SQL?",
+      "options": [
+        "Microsoft Azure",
+        "IBM Cloud",
+        "Amazon Web Services",
+        "Google Cloud"
+      ],
+      "correctAnswer": "Microsoft Azure",
+      "explanation": "Correct answer is option A: Microsoft Azure."
+    },
+    {
+      "questionText": "Which Amazon product is often compared to Azure SQL?",
+      "options": [
+        "Amazon EC2",
+        "AWS Lambda",
+        "AWS Relational Database Service (RDS)",
+        "Amazon S3"
+      ],
+      "correctAnswer": "AWS Relational Database Service (RDS)",
+      "explanation": "Correct answer is option C: AWS Relational Database Service (RDS)."
+    },
+    {
+      "questionText": "Which protocol do applications use to retrieve data from Azure SQL?",
+      "options": [
+        "File Transfer Protocol",
+        "Tabular Data Stream (TDS)",
+        "Simple Mail Transfer Protocol",
+        "Hypertext Transfer Protocol only"
+      ],
+      "correctAnswer": "Tabular Data Stream (TDS)",
+      "explanation": "Correct answer is option B: Tabular Data Stream (TDS)."
+    },
+    {
+      "questionText": "What does TDS stand for?",
+      "options": [
+        "Tabular Direct Stream",
+        "Tabular Data System",
+        "Tabular Distinction Stream",
+        "Tabular Data Stream"
+      ],
+      "correctAnswer": "Tabular Data Stream",
+      "explanation": "Correct answer is option D: Tabular Data Stream."
+    },
+    {
+      "questionText": "Which of the following is a service in the Azure SQL family?",
+      "options": [
+        "Azure Functions",
+        "Azure Blob Storage",
+        "Azure SQL Managed Instance",
+        "Azure DevOps"
+      ],
+      "correctAnswer": "Azure SQL Managed Instance",
+      "explanation": "Correct answer is option C: Azure SQL Managed Instance."
+    },
+    {
+      "questionText": "Which Azure SQL option offers 100% SQL Server compatibility using Infrastructure-as-a-Service (IaaS)?",
+      "options": [
+        "Azure Cosmos DB",
+        "Azure Table Storage",
+        "SQL Server on Azure Virtual Machines",
+        "Azure SQL Database"
+      ],
+      "correctAnswer": "SQL Server on Azure Virtual Machines",
+      "explanation": "Correct answer is option C: SQL Server on Azure Virtual Machines."
+    },
+    {
+      "questionText": "Azure SQL Database is more suited for applications that require:",
+      "options": [
+        "Elastic scale and lesser overhead",
+        "Local file-system access",
+        "Physical hardware management",
+        "Full control over the operating system"
+      ],
+      "correctAnswer": "Elastic scale and lesser overhead",
+      "explanation": "Correct answer is option A: Elastic scale and lesser overhead."
+    },
+    {
+      "questionText": "How many key layers does the Azure SQL architecture have?",
+      "options": [
+        "Two",
+        "Four",
+        "Five",
+        "Three"
+      ],
+      "correctAnswer": "Four",
+      "explanation": "Correct answer is option B: Four."
+    },
+    {
+      "questionText": "Which layer of the Azure SQL architecture acts as an interface for applications and includes tools such as ADO.NET and ODBC?",
+      "options": [
+        "Infrastructure layer",
+        "Services layer",
+        "Platform layer",
+        "Client layer"
+      ],
+      "correctAnswer": "Client layer",
+      "explanation": "Correct answer is option D: Client layer."
+    },
+    {
+      "questionText": "Which layer lies between the platform and client layers, validates requests, and authenticates users?",
+      "options": [
+        "Services layer",
+        "Infrastructure layer",
+        "Client layer",
+        "Platform layer"
+      ],
+      "correctAnswer": "Services layer",
+      "explanation": "Correct answer is option A: Services layer."
+    },
+    {
+      "questionText": "Which layer includes data nodes that host the actual SQL Server databases in the data center?",
+      "options": [
+        "Client layer",
+        "Services layer",
+        "Platform layer",
+        "Infrastructure layer"
+      ],
+      "correctAnswer": "Platform layer",
+      "explanation": "Correct answer is option C: Platform layer."
+    },
+    {
+      "questionText": "Which layer is the bottom-most layer, responsible for administration of the OS and physical hardware?",
+      "options": [
+        "Platform layer",
+        "Services layer",
+        "Client layer",
+        "Infrastructure layer"
+      ],
+      "correctAnswer": "Infrastructure layer",
+      "explanation": "Correct answer is option D: Infrastructure layer."
+    },
+    {
+      "questionText": "In Azure SQL, each database is replicated:",
+      "options": [
+        "Only on the client machine",
+        "Twice, across two different physical servers",
+        "Only once monthly",
+        "Never"
+      ],
+      "correctAnswer": "Twice, across two different physical servers",
+      "explanation": "Correct answer is option B: Twice, across two different physical servers."
+    },
+    {
+      "questionText": "What is the role of TDS in the Azure SQL architecture?",
+      "options": [
+        "It transfers data between applications and the database",
+        "It creates indexes",
+        "It manages billing",
+        "It encrypts backups"
+      ],
+      "correctAnswer": "It transfers data between applications and the database",
+      "explanation": "Correct answer is option A: It transfers data between applications and the database."
+    },
+    {
+      "questionText": "Which Azure SQL feature allows a shared set of compute resources to be assigned to a collection of databases?",
+      "options": [
+        "Resource Cluster",
+        "Shared Disk",
+        "Elastic Pool",
+        "Failover Group"
+      ],
+      "correctAnswer": "Elastic Pool",
+      "explanation": "Correct answer is option C: Elastic Pool."
+    },
+    {
+      "questionText": "Why do developers find it easy to work with Azure SQL?",
+      "options": [
+        "It uses the same TDS interface as on-premises SQL Server",
+        "It requires new client libraries",
+        "It does not support Transact-SQL",
+        "It uses a proprietary language"
+      ],
+      "correctAnswer": "It uses the same TDS interface as on-premises SQL Server",
+      "explanation": "Correct answer is option A: It uses the same TDS interface as on-premises SQL Server."
+    },
+    {
+      "questionText": "Azure SQL provides high availability by:",
+      "options": [
+        "Requiring manual backups",
+        "Using a single physical server",
+        "Disabling replication",
+        "Storing multiple copies of data and using automatic failover"
+      ],
+      "correctAnswer": "Storing multiple copies of data and using automatic failover",
+      "explanation": "Correct answer is option D: Storing multiple copies of data and using automatic failover."
+    },
+    {
+      "questionText": "The pricing model of Azure SQL is flexible because it is based on:",
+      "options": [
+        "The number of tables created",
+        "A fixed yearly fee",
+        "The number of SSMS installations",
+        "The storage capacity used by the organization"
+      ],
+      "correctAnswer": "The storage capacity used by the organization",
+      "explanation": "Correct answer is option D: The storage capacity used by the organization."
+    },
+    {
+      "questionText": "Which language does Azure SQL support for queries, similar to on-premises SQL Server?",
+      "options": [
+        "Only XQuery",
+        "Transact-SQL",
+        "Only PL/SQL",
+        "Only Python"
+      ],
+      "correctAnswer": "Transact-SQL",
+      "explanation": "Correct answer is option B: Transact-SQL."
+    },
+    {
+      "questionText": "Which statement is NOT supported by Azure SQL?",
+      "options": [
+        "SELECT",
+        "USE",
+        "CREATE TABLE",
+        "INSERT"
+      ],
+      "correctAnswer": "USE",
+      "explanation": "Correct answer is option B: USE."
+    },
+    {
+      "questionText": "Which authentication does Azure SQL (as described in the session) support?",
+      "options": [
+        "SQL Server authentication",
+        "Windows authentication only",
+        "No authentication",
+        "Both Windows and SQL Server authentication"
+      ],
+      "correctAnswer": "SQL Server authentication",
+      "explanation": "Correct answer is option A: SQL Server authentication."
+    },
+    {
+      "questionText": "In Azure SQL, administrative accounts are created in:",
+      "options": [
+        "The Azure management portal",
+        "SSMS only",
+        "The Windows Registry",
+        "The master database of each instance"
+      ],
+      "correctAnswer": "The Azure management portal",
+      "explanation": "Correct answer is option A: The Azure management portal."
+    },
+    {
+      "questionText": "In Azure SQL, instance-level user logins are:",
+      "options": [
+        "Optional",
+        "Not available",
+        "Always available",
+        "Created by USE statement"
+      ],
+      "correctAnswer": "Not available",
+      "explanation": "Correct answer is option B: Not available."
+    },
+    {
+      "questionText": "Which feature does an on-premises SQL Server have that is handled differently in Azure SQL because data is in the cloud?",
+      "options": [
+        "Backup and restore for disaster recovery",
+        "Index creation",
+        "Table creation",
+        "SELECT queries"
+      ],
+      "correctAnswer": "Backup and restore for disaster recovery",
+      "explanation": "Correct answer is option A: Backup and restore for disaster recovery."
+    },
+    {
+      "questionText": "When using an Azure Free Account, how long do you receive credit?",
+      "options": [
+        "1 day",
+        "30 days",
+        "90 days",
+        "7 days"
+      ],
+      "correctAnswer": "30 days",
+      "explanation": "Correct answer is option B: 30 days."
+    },
+    {
+      "questionText": "An Azure free account gives access to Azure SQL Database free for:",
+      "options": [
+        "30 days",
+        "12 months",
+        "24 months",
+        "3 months"
+      ],
+      "correctAnswer": "12 months",
+      "explanation": "Correct answer is option B: 12 months."
+    },
+    {
+      "questionText": "What is a DTU?",
+      "options": [
+        "A database tuning utility",
+        "A disk throughput unit only",
+        "A blended measure of CPU, memory, and read/write rates",
+        "A data transfer unit for networks"
+      ],
+      "correctAnswer": "A blended measure of CPU, memory, and read/write rates",
+      "explanation": "Correct answer is option C: A blended measure of CPU, memory, and read/write rates."
+    },
+    {
+      "questionText": "Which purchasing model gives a choice between provisioned and serverless compute tiers?",
+      "options": [
+        "DTU-based purchasing model",
+        "vCore-based purchasing model",
+        "Free tier model",
+        "Reserved hardware model"
+      ],
+      "correctAnswer": "vCore-based purchasing model",
+      "explanation": "Correct answer is option B: vCore-based purchasing model."
+    },
+    {
+      "questionText": "Which purchasing model provides bundled compute and storage packages balanced for common workloads?",
+      "options": [
+        "Serverless model",
+        "vCore-based purchasing model",
+        "DTU-based purchasing model",
+        "Hybrid model"
+      ],
+      "correctAnswer": "DTU-based purchasing model",
+      "explanation": "Correct answer is option C: DTU-based purchasing model."
+    },
+    {
+      "questionText": "For a single database, which purchasing model is considered ideal because it is flexible?",
+      "options": [
+        "Per-query",
+        "vCore-based",
+        "Fixed-price",
+        "DTU-based"
+      ],
+      "correctAnswer": "vCore-based",
+      "explanation": "Correct answer is option B: vCore-based."
+    },
+    {
+      "questionText": "What does the serverless compute tier do?",
+      "options": [
+        "Removes the need for storage",
+        "Stops all billing permanently",
+        "Provisions fixed compute always",
+        "Autoscales compute and optimizes price-performance"
+      ],
+      "correctAnswer": "Autoscales compute and optimizes price-performance",
+      "explanation": "Correct answer is option D: Autoscales compute and optimizes price-performance."
+    },
+    {
+      "questionText": "To access Azure SQL with SSMS, what must first be created?",
+      "options": [
+        "An Oracle account",
+        "A Microsoft Azure account",
+        "A local SQL Server instance",
+        "A Windows domain"
+      ],
+      "correctAnswer": "A Microsoft Azure account",
+      "explanation": "Correct answer is option B: A Microsoft Azure account."
+    },
+    {
+      "questionText": "Which portal address is used to sign into Azure?",
+      "options": [
+        "sql.azure.net",
+        "azure.sqlserver.org",
+        "msdn.microsoft.com",
+        "portal.azure.com"
+      ],
+      "correctAnswer": "portal.azure.com",
+      "explanation": "Correct answer is option D: portal.azure.com."
+    },
+    {
+      "questionText": "Which identity verification methods are used when signing up for an Azure free trial?",
+      "options": [
+        "Email only",
+        "Fingerprint",
+        "Passport scan",
+        "Phone and credit card"
+      ],
+      "correctAnswer": "Phone and credit card",
+      "explanation": "Correct answer is option D: Phone and credit card."
+    },
+    {
+      "questionText": "From the Azure services list, which option is clicked to create a database?",
+      "options": [
+        "App Services",
+        "Virtual machines",
+        "SQL databases",
+        "Storage accounts"
+      ],
+      "correctAnswer": "SQL databases",
+      "explanation": "Correct answer is option C: SQL databases."
+    },
+    {
+      "questionText": "Which of the following is a rule for the server admin login name?",
+      "options": [
+        "It must start with a number",
+        "It must be dbo",
+        "It must not be a typical system name such as admin or sa",
+        "It must include special symbols"
+      ],
+      "correctAnswer": "It must not be a typical system name such as admin or sa",
+      "explanation": "Correct answer is option C: It must not be a typical system name such as admin or sa."
+    },
+    {
+      "questionText": "Which login name is NOT allowed for the Azure SQL server admin?",
+      "options": [
+        "administrator",
+        "aptechuser",
+        "sqlmaster7",
+        "dbadmin1x"
+      ],
+      "correctAnswer": "administrator",
+      "explanation": "Correct answer is option A: administrator."
+    },
+    {
+      "questionText": "In the Connect to Server dialog box of SSMS, which authentication is selected for Azure SQL?",
+      "options": [
+        "Kerberos only",
+        "Windows Authentication",
+        "SQL Server Authentication",
+        "Anonymous"
+      ],
+      "correctAnswer": "SQL Server Authentication",
+      "explanation": "Correct answer is option C: SQL Server Authentication."
+    },
+    {
+      "questionText": "When SSMS cannot connect because the client IP lacks access, what is created?",
+      "options": [
+        "A new login in master",
+        "A new schema",
+        "A new database",
+        "A new firewall rule"
+      ],
+      "correctAnswer": "A new firewall rule",
+      "explanation": "Correct answer is option D: A new firewall rule."
+    },
+    {
+      "questionText": "After connecting to Azure SQL in SSMS, where does the Azure SQL database appear?",
+      "options": [
+        "Object Explorer",
+        "Registered Servers only",
+        "Template Browser",
+        "Solution Explorer"
+      ],
+      "correctAnswer": "Object Explorer",
+      "explanation": "Correct answer is option A: Object Explorer."
+    },
+    {
+      "questionText": "Which tool in the Azure portal can be used to run queries on the cloud database?",
+      "options": [
+        "Query Editor",
+        "Performance Monitor",
+        "Task Manager",
+        "Event Viewer"
+      ],
+      "correctAnswer": "Query Editor",
+      "explanation": "Correct answer is option A: Query Editor."
+    },
+    {
+      "questionText": "A table created through SSMS on Azure SQL can be viewed in the portal's:",
+      "options": [
+        "Cost analysis page",
+        "Subscription page",
+        "Billing page",
+        "Query Editor"
+      ],
+      "correctAnswer": "Query Editor",
+      "explanation": "Correct answer is option D: Query Editor."
+    },
+    {
+      "questionText": "Which of the following services is part of the Azure SQL family and is not an on-premises product?",
+      "options": [
+        "Microsoft Access",
+        "Azure SQL Database",
+        "SQL Server Reporting Services only",
+        "SQL Server Express on a laptop"
+      ],
+      "correctAnswer": "Azure SQL Database",
+      "explanation": "Correct answer is option B: Azure SQL Database."
+    },
+    {
+      "questionText": "Azure SQL can store and retrieve:",
+      "options": [
+        "Only unstructured data",
+        "Only structured data",
+        "Both structured and unstructured data",
+        "Only XML data"
+      ],
+      "correctAnswer": "Both structured and unstructured data",
+      "explanation": "Correct answer is option C: Both structured and unstructured data."
+    },
+    {
+      "questionText": "Azure SQL was first released in:",
+      "options": [
+        "2010",
+        "1998",
+        "2005",
+        "2019"
+      ],
+      "correctAnswer": "2010",
+      "explanation": "Correct answer is option A: 2010."
+    },
+    {
+      "questionText": "Data stored in Azure SQL does not have the constraint of being:",
+      "options": [
+        "Relational",
+        "Location-specific",
+        "Queryable",
+        "Secure"
+      ],
+      "correctAnswer": "Location-specific",
+      "explanation": "Correct answer is option B: Location-specific."
+    },
+    {
+      "questionText": "Why is a cloud database such as Azure SQL useful for workloads that peak during specific months?",
+      "options": [
+        "Hardware must be purchased up front",
+        "Fixed capacity is always required",
+        "It prevents all peak loads",
+        "Resources can be used optimally only when required"
+      ],
+      "correctAnswer": "Resources can be used optimally only when required",
+      "explanation": "Correct answer is option D: Resources can be used optimally only when required."
+    },
+    {
+      "questionText": "Azure SQL helps organizations avoid the cost of:",
+      "options": [
+        "Using SSMS",
+        "Creating tables",
+        "Writing queries",
+        "Developing a dedicated IT infrastructure and department to manage databases"
+      ],
+      "correctAnswer": "Developing a dedicated IT infrastructure and department to manage databases",
+      "explanation": "Correct answer is option D: Developing a dedicated IT infrastructure and department to manage databases."
+    },
+    {
+      "questionText": "Which statement about Azure SQL is true?",
+      "options": [
+        "Windows Authentication is the only option",
+        "The USE statement is fully supported",
+        "Not all Transact-SQL functions are supported",
+        "All Transact-SQL functions are supported"
+      ],
+      "correctAnswer": "Not all Transact-SQL functions are supported",
+      "explanation": "Correct answer is option C: Not all Transact-SQL functions are supported."
+    },
+    {
+      "questionText": "SQL Server on Azure VMs offers up to what level of scalability in terms of IOPS?",
+      "options": [
+        "2,000",
+        "2 million",
+        "20,000",
+        "200"
+      ],
+      "correctAnswer": "20,000",
+      "explanation": "Correct answer is option C: 20,000."
+    }
+  ]
+}

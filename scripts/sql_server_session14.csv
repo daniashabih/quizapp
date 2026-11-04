@@ -1,0 +1,54 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,14,A transaction is:,A type of index,A single unit of work that either fully succeeds or fully fails,A stored procedure,A single SELECT statement only,A single unit of work that either fully succeeds or fully fails
+SQL Server,14,Which property ensures all operations in a transaction complete or none do?,Consistency,Atomicity,Isolation,Durability,Atomicity
+SQL Server,14,Which ACID property ensures the database moves from one valid state to another?,Consistency,Durability,Atomicity,Isolation,Consistency
+SQL Server,14,Which ACID property ensures concurrent transactions do not interfere with each other?,Isolation,Durability,Atomicity,Consistency,Isolation
+SQL Server,14,Which ACID property ensures committed changes survive system failures?,Durability,Isolation,Consistency,Atomicity,Durability
+SQL Server,14,What does ACID stand for?,"Atomicity, Control, Isolation, Data","Atomicity, Consistency, Isolation, Durability","Accuracy, Control, Integrity, Data","Availability, Consistency, Integrity, Durability","Atomicity, Consistency, Isolation, Durability"
+SQL Server,14,In which transaction mode does SQL Server automatically start a new transaction after the previous one completes?,Implicit transactions,Explicit transactions,Autocommit transactions,Batch-scoped transactions,Implicit transactions
+SQL Server,14,In which transaction mode is each individual statement committed automatically?,Implicit,Explicit,Batch-scoped,Autocommit,Autocommit
+SQL Server,14,"In explicit transactions, the user:",Defines the start and end with BEGIN TRANSACTION and COMMIT/ROLLBACK,Defines no boundaries,Uses only SELECT,Does nothing,Defines the start and end with BEGIN TRANSACTION and COMMIT/ROLLBACK
+SQL Server,14,Batch-scoped transactions apply to:,Views only,Triggers only,Logins only,Multiple Active Result Sets (MARS),Multiple Active Result Sets (MARS)
+SQL Server,14,Which statement starts an explicit transaction?,INIT TRANSACTION,BEGIN TRANSACTION,START TRANSACTION,OPEN TRANSACTION,BEGIN TRANSACTION
+SQL Server,14,Which statement makes the changes of a transaction permanent?,END TRANSACTION,SAVE TRANSACTION,COMMIT TRANSACTION,FINISH TRANSACTION,COMMIT TRANSACTION
+SQL Server,14,Which statement undoes all changes made in a transaction?,RESET TRANSACTION,CANCEL TRANSACTION,UNDO TRANSACTION,ROLLBACK TRANSACTION,ROLLBACK TRANSACTION
+SQL Server,14,Which statement creates a savepoint inside a transaction?,BOOKMARK,POINT TRANSACTION,MARK TRANSACTION,SAVE TRANSACTION,SAVE TRANSACTION
+SQL Server,14,Rolling back to a savepoint:,Drops the savepoint table,Commits the transaction,Undoes only the work after the savepoint,Undoes all work,Undoes only the work after the savepoint
+SQL Server,14,Which function returns the number of active BEGIN TRANSACTION statements for the current connection?,@@ROWCOUNT,@@ERROR,@@TRANCOUNT,@@VERSION,@@TRANCOUNT
+SQL Server,14,"When BEGIN TRANSACTION is executed, @@TRANCOUNT is:",Unchanged,Incremented by 1,Set to zero,Decremented by 1,Incremented by 1
+SQL Server,14,"When COMMIT TRANSACTION is executed on the outermost transaction, @@TRANCOUNT becomes:",2,1,0,NULL,0
+SQL Server,14,ROLLBACK TRANSACTION (without savepoint) sets @@TRANCOUNT to:,0,-1,1,Unchanged,0
+SQL Server,14,The WITH MARK option in BEGIN TRANSACTION:,Marks the table,Marks the transaction in the log,Marks an index,Marks a view,Marks the transaction in the log
+SQL Server,14,Marked transactions are useful for:,Encrypting backups,Creating logins,Restoring related databases to a logically consistent point,Creating indexes,Restoring related databases to a logically consistent point
+SQL Server,14,What is the maximum number of characters used from a transaction name?,64,32,128,16,32
+SQL Server,14,A transaction name variable can be declared as:,datetime,xml,int,"char, varchar, nchar, or nvarchar","char, varchar, nchar, or nvarchar"
+SQL Server,14,Which of the following is a concurrency problem?,Index fragmentation,Dirty read,Disk failure,Syntax error,Dirty read
+SQL Server,14,A dirty read occurs when a transaction:,Reads data modified by another transaction that has not yet committed,Locks the table,Deletes data,Reads committed data only,Reads data modified by another transaction that has not yet committed
+SQL Server,14,A nonrepeatable read occurs when:,The row is deleted,A table is dropped,A row read twice in a transaction returns different values,The row is locked,A row read twice in a transaction returns different values
+SQL Server,14,Phantom reads occur when:,A column is dropped,New rows matching a query appear when it is re-run in the same transaction,A trigger fires,A row is locked,New rows matching a query appear when it is re-run in the same transaction
+SQL Server,14,A lost update occurs when:,An index is rebuilt,A table is renamed,Two transactions update the same row and one overwrites the other's change,A row is inserted,Two transactions update the same row and one overwrites the other's change
+SQL Server,14,Which isolation level allows dirty reads?,READ UNCOMMITTED,SERIALIZABLE,REPEATABLE READ,READ COMMITTED,READ UNCOMMITTED
+SQL Server,14,Which isolation level is the default in SQL Server?,READ COMMITTED,SNAPSHOT,SERIALIZABLE,READ UNCOMMITTED,READ COMMITTED
+SQL Server,14,Which isolation level prevents dirty reads but allows nonrepeatable reads?,READ UNCOMMITTED,REPEATABLE READ,READ COMMITTED,SERIALIZABLE,READ COMMITTED
+SQL Server,14,Which isolation level prevents dirty reads and nonrepeatable reads but not phantoms?,READ UNCOMMITTED,SERIALIZABLE,REPEATABLE READ,READ COMMITTED,REPEATABLE READ
+SQL Server,14,Which isolation level is the most restrictive and prevents phantoms?,READ COMMITTED,SERIALIZABLE,READ UNCOMMITTED,SNAPSHOT,SERIALIZABLE
+SQL Server,14,Which isolation level uses row versioning to give a transaction a consistent view of the data?,SERIALIZABLE,SNAPSHOT,READ UNCOMMITTED,REPEATABLE READ,SNAPSHOT
+SQL Server,14,Which statement sets the isolation level for a session?,CHANGE ISOLATION LEVEL,ALTER ISOLATION,SET ISOLATION,SET TRANSACTION ISOLATION LEVEL,SET TRANSACTION ISOLATION LEVEL
+SQL Server,14,Locking is used by SQL Server to:,Encrypt data,Create indexes,Control concurrent access and maintain data consistency,Compress data,Control concurrent access and maintain data consistency
+SQL Server,14,A shared (S) lock is used for:,Bulk copy,Update operations,Read operations,Schema changes,Read operations
+SQL Server,14,An exclusive (X) lock is used for:,Index scans,Read operations only,Data modification operations,Backup,Data modification operations
+SQL Server,14,An update (U) lock is used on resources that:,Are only read,"Can be updated, to prevent a common form of deadlock",Are dropped,Are copied,"Can be updated, to prevent a common form of deadlock"
+SQL Server,14,Intent locks are used to:,Encrypt data,Delete data,Create tables,Indicate a lock will be placed at a lower level in the hierarchy,Indicate a lock will be placed at a lower level in the hierarchy
+SQL Server,14,Which lock is used while performing a table DDL operation such as adding a column?,Schema modification lock,Intent lock,Bulk update lock,Shared lock,Schema modification lock
+SQL Server,14,Bulk update (BU) locks are used when:,Reading small tables,Bulk copying data into a table with the TABLOCK hint,Creating views,Dropping indexes,Bulk copying data into a table with the TABLOCK hint
+SQL Server,14,A shared lock and an exclusive lock on the same resource are:,Converted to update locks,Always granted together,Compatible,Not compatible,Not compatible
+SQL Server,14,A deadlock occurs when:,"Two or more transactions block each other, each waiting for the other's lock",A table is empty,A disk is full,A login fails,"Two or more transactions block each other, each waiting for the other's lock"
+SQL Server,14,SQL Server resolves a deadlock by:,Rebooting the server,Ignoring the deadlock,Deleting both transactions,Choosing a victim transaction and rolling it back,Choosing a victim transaction and rolling it back
+SQL Server,14,"By default, each individual SQL statement in SQL Server is:",Deferred,Batched,Non-transactional,Transactional (autocommit),Transactional (autocommit)
+SQL Server,14,Which of the following statements is NOT allowed inside a transaction?,UPDATE,INSERT,DELETE,CREATE DATABASE,CREATE DATABASE
+SQL Server,14,The transaction log records:,Only user passwords,Only index names,Only SELECT statements,All transactions and the database modifications made by each,All transactions and the database modifications made by each
+SQL Server,14,Log truncation frees:,Memory only,Space in data files,Space in the log for reuse,Index pages,Space in the log for reuse
+SQL Server,14,Which recovery model supports point-in-time recovery by keeping full log history?,Full recovery model,None,Auto recovery model,Simple recovery model,Full recovery model
+SQL Server,14,Which recovery model automatically reclaims log space at checkpoints?,Bulk-logged recovery model,Full recovery model,Differential model,Simple recovery model,Simple recovery model
+SQL Server,14,Which of the following is TRUE about a transaction that is rolled back?,All its data modifications are undone,Its changes are made permanent,It cannot be repeated,It deletes the table,All its data modifications are undone
+SQL Server,14,"In a funds transfer, why is a transaction essential?",So debit and credit either both succeed or both fail,To reduce the table size,To speed up the query,To create indexes,So debit and credit either both succeed or both fail

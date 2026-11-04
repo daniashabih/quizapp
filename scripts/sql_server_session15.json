@@ -1,0 +1,591 @@
+{
+  "category": "SQL Server",
+  "session": 15,
+  "title": "Session 15: Error Handling — SQL Server",
+  "totalQuestions": 53,
+  "questions": [
+    {
+      "questionText": "Which construct is used to handle errors in Transact-SQL?",
+      "options": [
+        "ON ERROR GOTO",
+        "HANDLE...END",
+        "IF ERROR",
+        "TRY...CATCH"
+      ],
+      "correctAnswer": "TRY...CATCH",
+      "explanation": "Correct answer is option D: TRY...CATCH."
+    },
+    {
+      "questionText": "A TRY block must be immediately followed by:",
+      "options": [
+        "A CATCH block",
+        "A GO statement",
+        "A RETURN statement",
+        "A COMMIT statement"
+      ],
+      "correctAnswer": "A CATCH block",
+      "explanation": "Correct answer is option A: A CATCH block."
+    },
+    {
+      "questionText": "When an error occurs inside a TRY block, control passes to:",
+      "options": [
+        "The first statement in the CATCH block",
+        "The beginning of the TRY block",
+        "The server log only",
+        "The end of the batch"
+      ],
+      "correctAnswer": "The first statement in the CATCH block",
+      "explanation": "Correct answer is option A: The first statement in the CATCH block."
+    },
+    {
+      "questionText": "If there is no error in the TRY block, control passes to:",
+      "options": [
+        "The beginning of the TRY block",
+        "The error log",
+        "The statement after the END CATCH",
+        "The CATCH block"
+      ],
+      "correctAnswer": "The statement after the END CATCH",
+      "explanation": "Correct answer is option C: The statement after the END CATCH."
+    },
+    {
+      "questionText": "Syntax errors are errors that occur:",
+      "options": [
+        "Only in triggers",
+        "Only at run time",
+        "When code violates Transact-SQL grammar rules",
+        "Only on the server"
+      ],
+      "correctAnswer": "When code violates Transact-SQL grammar rules",
+      "explanation": "Correct answer is option C: When code violates Transact-SQL grammar rules."
+    },
+    {
+      "questionText": "Which of the following is a run-time error?",
+      "options": [
+        "Divide-by-zero",
+        "An unclosed parenthesis in the code",
+        "Misspelled keyword highlighted in the editor",
+        "Missing keyword in a statement typed in the editor"
+      ],
+      "correctAnswer": "Divide-by-zero",
+      "explanation": "Correct answer is option A: Divide-by-zero."
+    },
+    {
+      "questionText": "Which of the following can cause a run-time error?",
+      "options": [
+        "Misspelling a variable in the editor",
+        "Performing an invalid operation such as a constraint violation",
+        "Missing a comma in the editor",
+        "Typing a keyword incorrectly"
+      ],
+      "correctAnswer": "Performing an invalid operation such as a constraint violation",
+      "explanation": "Correct answer is option B: Performing an invalid operation such as a constraint violation."
+    },
+    {
+      "questionText": "Which function returns the error number of the error that caused the CATCH block to run?",
+      "options": [
+        "ERROR_CODE()",
+        "ERROR_VALUE()",
+        "ERROR_NUMBER()",
+        "ERROR_ID()"
+      ],
+      "correctAnswer": "ERROR_NUMBER()",
+      "explanation": "Correct answer is option C: ERROR_NUMBER()."
+    },
+    {
+      "questionText": "Which function returns the severity of the error that caused the CATCH block to run?",
+      "options": [
+        "ERROR_LEVEL()",
+        "ERROR_SEVERITY()",
+        "ERROR_RANK()",
+        "ERROR_CLASS()"
+      ],
+      "correctAnswer": "ERROR_SEVERITY()",
+      "explanation": "Correct answer is option B: ERROR_SEVERITY()."
+    },
+    {
+      "questionText": "Which function returns the state number of the error?",
+      "options": [
+        "ERROR_STEP()",
+        "ERROR_CODE()",
+        "ERROR_STATE()",
+        "ERROR_STATUS()"
+      ],
+      "correctAnswer": "ERROR_STATE()",
+      "explanation": "Correct answer is option C: ERROR_STATE()."
+    },
+    {
+      "questionText": "Which function returns the name of the stored procedure or trigger where the error occurred?",
+      "options": [
+        "ERROR_OBJECT()",
+        "ERROR_NAME()",
+        "ERROR_SOURCE()",
+        "ERROR_PROCEDURE()"
+      ],
+      "correctAnswer": "ERROR_PROCEDURE()",
+      "explanation": "Correct answer is option D: ERROR_PROCEDURE()."
+    },
+    {
+      "questionText": "Which function returns the line number where the error occurred?",
+      "options": [
+        "ERROR_LINE()",
+        "ERROR_ROW()",
+        "ERROR_POSITION()",
+        "ERROR_LOC()"
+      ],
+      "correctAnswer": "ERROR_LINE()",
+      "explanation": "Correct answer is option A: ERROR_LINE()."
+    },
+    {
+      "questionText": "Which function returns the complete text of the error message?",
+      "options": [
+        "ERROR_DESC()",
+        "ERROR_INFO()",
+        "ERROR_TEXT()",
+        "ERROR_MESSAGE()"
+      ],
+      "correctAnswer": "ERROR_MESSAGE()",
+      "explanation": "Correct answer is option D: ERROR_MESSAGE()."
+    },
+    {
+      "questionText": "Outside the scope of a CATCH block, ERROR_NUMBER() returns:",
+      "options": [
+        "NULL",
+        "The last error number",
+        "-1",
+        "0"
+      ],
+      "correctAnswer": "NULL",
+      "explanation": "Correct answer is option A: NULL."
+    },
+    {
+      "questionText": "The ERROR_PROCEDURE() function returns NULL when:",
+      "options": [
+        "The error did not occur within a stored procedure or trigger",
+        "The error is severe",
+        "The error is a syntax error only",
+        "The error is a warning"
+      ],
+      "correctAnswer": "The error did not occur within a stored procedure or trigger",
+      "explanation": "Correct answer is option A: The error did not occur within a stored procedure or trigger."
+    },
+    {
+      "questionText": "The return data type of ERROR_MESSAGE() is:",
+      "options": [
+        "int",
+        "nvarchar",
+        "datetime",
+        "bit"
+      ],
+      "correctAnswer": "nvarchar",
+      "explanation": "Correct answer is option B: nvarchar."
+    },
+    {
+      "questionText": "The return data type of ERROR_NUMBER() is:",
+      "options": [
+        "int",
+        "varchar(max)",
+        "nvarchar",
+        "char"
+      ],
+      "correctAnswer": "int",
+      "explanation": "Correct answer is option A: int."
+    },
+    {
+      "questionText": "The @@ERROR function returns:",
+      "options": [
+        "The line number",
+        "The severity",
+        "The error number of the last Transact-SQL statement executed",
+        "The error message text"
+      ],
+      "correctAnswer": "The error number of the last Transact-SQL statement executed",
+      "explanation": "Correct answer is option C: The error number of the last Transact-SQL statement executed."
+    },
+    {
+      "questionText": "@@ERROR is reset after:",
+      "options": [
+        "Each database restart",
+        "Each login",
+        "Each batch only",
+        "Each Transact-SQL statement is executed"
+      ],
+      "correctAnswer": "Each Transact-SQL statement is executed",
+      "explanation": "Correct answer is option D: Each Transact-SQL statement is executed."
+    },
+    {
+      "questionText": "What is the error number for a CHECK constraint violation?",
+      "options": [
+        "2627",
+        "515",
+        "547",
+        "8134"
+      ],
+      "correctAnswer": "547",
+      "explanation": "Correct answer is option C: 547."
+    },
+    {
+      "questionText": "Which statement raises a user-defined error message?",
+      "options": [
+        "RAISERROR",
+        "SIGNAL",
+        "ERRORMSG",
+        "RAISE"
+      ],
+      "correctAnswer": "RAISERROR",
+      "explanation": "Correct answer is option A: RAISERROR."
+    },
+    {
+      "questionText": "Which statement can be used in a CATCH block to re-raise the original error?",
+      "options": [
+        "RAISE",
+        "THROW",
+        "RETHROW",
+        "RESIGNAL"
+      ],
+      "correctAnswer": "THROW",
+      "explanation": "Correct answer is option B: THROW."
+    },
+    {
+      "questionText": "Errors with severity 10 or lower are:",
+      "options": [
+        "Always caught by CATCH",
+        "System errors only",
+        "Always fatal",
+        "Informational messages and not handled by CATCH"
+      ],
+      "correctAnswer": "Informational messages and not handled by CATCH",
+      "explanation": "Correct answer is option D: Informational messages and not handled by CATCH."
+    },
+    {
+      "questionText": "TRY...CATCH catches errors with severity:",
+      "options": [
+        "20 and higher that terminate the connection",
+        "Greater than 10 that do not terminate the database connection",
+        "Equal to 0 only",
+        "Below 5 only"
+      ],
+      "correctAnswer": "Greater than 10 that do not terminate the database connection",
+      "explanation": "Correct answer is option B: Greater than 10 that do not terminate the database connection."
+    },
+    {
+      "questionText": "Errors with severity 20 or higher that terminate the connection are:",
+      "options": [
+        "Always handled",
+        "Not handled by TRY...CATCH",
+        "Converted to warnings",
+        "Handled only by THROW"
+      ],
+      "correctAnswer": "Not handled by TRY...CATCH",
+      "explanation": "Correct answer is option B: Not handled by TRY...CATCH."
+    },
+    {
+      "questionText": "Severity levels 20 through 25 in RAISERROR can be specified by:",
+      "options": [
+        "Any user",
+        "No one",
+        "Members of the sysadmin role or users with ALTER TRACE permission",
+        "Only guest users"
+      ],
+      "correctAnswer": "Members of the sysadmin role or users with ALTER TRACE permission",
+      "explanation": "Correct answer is option C: Members of the sysadmin role or users with ALTER TRACE permission."
+    },
+    {
+      "questionText": "RAISERROR with severity level 16 inside a TRY block will:",
+      "options": [
+        "Commit the transaction",
+        "Terminate the connection",
+        "Transfer control to the CATCH block",
+        "Be ignored"
+      ],
+      "correctAnswer": "Transfer control to the CATCH block",
+      "explanation": "Correct answer is option C: Transfer control to the CATCH block."
+    },
+    {
+      "questionText": "The RAISERROR arguments include:",
+      "options": [
+        "Message, severity, and state",
+        "Login, password, and server",
+        "Trigger, view, and schema",
+        "Table, index, and column"
+      ],
+      "correctAnswer": "Message, severity, and state",
+      "explanation": "Correct answer is option A: Message, severity, and state."
+    },
+    {
+      "questionText": "Which RAISERROR option writes the message to the SQL Server error log and application log?",
+      "options": [
+        "WITH NOWAIT",
+        "WITH SETERROR",
+        "WITH SAVE",
+        "WITH LOG"
+      ],
+      "correctAnswer": "WITH LOG",
+      "explanation": "Correct answer is option D: WITH LOG."
+    },
+    {
+      "questionText": "Which RAISERROR option sends messages immediately to the client?",
+      "options": [
+        "WITH NOWAIT",
+        "WITH LOG",
+        "WITH NOWARN",
+        "WITH SETERROR"
+      ],
+      "correctAnswer": "WITH NOWAIT",
+      "explanation": "Correct answer is option A: WITH NOWAIT."
+    },
+    {
+      "questionText": "Which catalog view stores system and user-defined error messages?",
+      "options": [
+        "sys.messages",
+        "sys.logs",
+        "sys.events",
+        "sys.errors"
+      ],
+      "correctAnswer": "sys.messages",
+      "explanation": "Correct answer is option A: sys.messages."
+    },
+    {
+      "questionText": "Which system stored procedure adds a custom message to sys.messages?",
+      "options": [
+        "sp_newerror",
+        "sp_addmessage",
+        "sp_createmsg",
+        "sp_adderror"
+      ],
+      "correctAnswer": "sp_addmessage",
+      "explanation": "Correct answer is option B: sp_addmessage."
+    },
+    {
+      "questionText": "Which function returns the state of a transaction that is in a TRY...CATCH block?",
+      "options": [
+        "XACT_STATE()",
+        "TRAN_STATE()",
+        "STATE_OF()",
+        "@@TRANSTATE"
+      ],
+      "correctAnswer": "XACT_STATE()",
+      "explanation": "Correct answer is option A: XACT_STATE()."
+    },
+    {
+      "questionText": "XACT_STATE() returns -1 when:",
+      "options": [
+        "There is no transaction",
+        "The transaction is active and committable",
+        "The transaction is rolled back",
+        "The transaction is uncommittable"
+      ],
+      "correctAnswer": "The transaction is uncommittable",
+      "explanation": "Correct answer is option D: The transaction is uncommittable."
+    },
+    {
+      "questionText": "XACT_STATE() returns 1 when:",
+      "options": [
+        "The transaction is uncommittable",
+        "There is an active, committable transaction",
+        "The transaction failed",
+        "There is no transaction"
+      ],
+      "correctAnswer": "There is an active, committable transaction",
+      "explanation": "Correct answer is option B: There is an active, committable transaction."
+    },
+    {
+      "questionText": "XACT_STATE() returns 0 when:",
+      "options": [
+        "The transaction is committable",
+        "The transaction is uncommittable",
+        "There is no active transaction",
+        "An error has been raised"
+      ],
+      "correctAnswer": "There is no active transaction",
+      "explanation": "Correct answer is option C: There is no active transaction."
+    },
+    {
+      "questionText": "When an error in a TRY block makes the current transaction uncommittable, the transaction:",
+      "options": [
+        "Is ignored",
+        "Is automatically committed",
+        "Can be committed",
+        "Must be rolled back"
+      ],
+      "correctAnswer": "Must be rolled back",
+      "explanation": "Correct answer is option D: Must be rolled back."
+    },
+    {
+      "questionText": "Which error is NOT caught by TRY...CATCH at the same level of execution?",
+      "options": [
+        "Constraint violations",
+        "Divide-by-zero errors",
+        "Object name resolution errors",
+        "RAISERROR with severity 16"
+      ],
+      "correctAnswer": "Object name resolution errors",
+      "explanation": "Correct answer is option C: Object name resolution errors."
+    },
+    {
+      "questionText": "TRY...CATCH constructs can be:",
+      "options": [
+        "Nested",
+        "Used only in functions",
+        "Used only once per batch",
+        "Used only in views"
+      ],
+      "correctAnswer": "Nested",
+      "explanation": "Correct answer is option A: Nested."
+    },
+    {
+      "questionText": "TRY...CATCH cannot span:",
+      "options": [
+        "Multiple transactions",
+        "Multiple statements",
+        "Multiple blocks",
+        "Multiple batches"
+      ],
+      "correctAnswer": "Multiple batches",
+      "explanation": "Correct answer is option D: Multiple batches."
+    },
+    {
+      "questionText": "A TRY...CATCH construct can catch unhandled errors from:",
+      "options": [
+        "Only syntax errors",
+        "Only the CATCH block",
+        "Stored procedures or triggers executed by the TRY block",
+        "Only server startup"
+      ],
+      "correctAnswer": "Stored procedures or triggers executed by the TRY block",
+      "explanation": "Correct answer is option C: Stored procedures or triggers executed by the TRY block."
+    },
+    {
+      "questionText": "The THROW statement can be used in a CATCH block to:",
+      "options": [
+        "Define a new severity level 25 error only",
+        "Start a new TRY block",
+        "Re-raise the original error without specifying parameters",
+        "Create a new transaction"
+      ],
+      "correctAnswer": "Re-raise the original error without specifying parameters",
+      "explanation": "Correct answer is option C: Re-raise the original error without specifying parameters."
+    },
+    {
+      "questionText": "Which statement ends a TRY...CATCH construct?",
+      "options": [
+        "END TRY",
+        "END CATCH",
+        "STOP CATCH",
+        "END TRYCATCH"
+      ],
+      "correctAnswer": "END CATCH",
+      "explanation": "Correct answer is option B: END CATCH."
+    },
+    {
+      "questionText": "The statement that begins the TRY block is:",
+      "options": [
+        "OPEN TRY",
+        "TRY BEGIN",
+        "START TRY",
+        "BEGIN TRY"
+      ],
+      "correctAnswer": "BEGIN TRY",
+      "explanation": "Correct answer is option D: BEGIN TRY."
+    },
+    {
+      "questionText": "What type of error is a divide-by-zero?",
+      "options": [
+        "Compile-time warning",
+        "Run-time error",
+        "Logical typo",
+        "Syntax error"
+      ],
+      "correctAnswer": "Run-time error",
+      "explanation": "Correct answer is option B: Run-time error."
+    },
+    {
+      "questionText": "Why is it good practice to display error information?",
+      "options": [
+        "It reduces server load",
+        "It helps in diagnosing and resolving the problem",
+        "It speeds up the CATCH block",
+        "It disables TRY"
+      ],
+      "correctAnswer": "It helps in diagnosing and resolving the problem",
+      "explanation": "Correct answer is option B: It helps in diagnosing and resolving the problem."
+    },
+    {
+      "questionText": "In the CATCH block, error information functions return values:",
+      "options": [
+        "Only for severity 16",
+        "Only once",
+        "Only in triggers",
+        "Regardless of how many times they are executed in the CATCH scope"
+      ],
+      "correctAnswer": "Regardless of how many times they are executed in the CATCH scope",
+      "explanation": "Correct answer is option D: Regardless of how many times they are executed in the CATCH scope."
+    },
+    {
+      "questionText": "If an error occurs within a trigger or stored procedure, ERROR_LINE() returns:",
+      "options": [
+        "Zero",
+        "The line number within that trigger or procedure",
+        "The batch line number",
+        "NULL"
+      ],
+      "correctAnswer": "The line number within that trigger or procedure",
+      "explanation": "Correct answer is option B: The line number within that trigger or procedure."
+    },
+    {
+      "questionText": "Which statement is true of RAISERROR with severity 10 or lower inside a TRY block?",
+      "options": [
+        "It terminates the connection",
+        "It does not transfer control to CATCH",
+        "It always goes to CATCH",
+        "It rolls back the transaction"
+      ],
+      "correctAnswer": "It does not transfer control to CATCH",
+      "explanation": "Correct answer is option B: It does not transfer control to CATCH."
+    },
+    {
+      "questionText": "Which of the following is a benefit of structured error handling?",
+      "options": [
+        "It speeds up all queries",
+        "It removes the need for transactions",
+        "It disables constraints",
+        "Centralized handling of errors with cleanup and rollback"
+      ],
+      "correctAnswer": "Centralized handling of errors with cleanup and rollback",
+      "explanation": "Correct answer is option D: Centralized handling of errors with cleanup and rollback."
+    },
+    {
+      "questionText": "Which function would you use to find the line of code that caused the error?",
+      "options": [
+        "ERROR_STATE()",
+        "ERROR_NUMBER()",
+        "ERROR_SEVERITY()",
+        "ERROR_LINE()"
+      ],
+      "correctAnswer": "ERROR_LINE()",
+      "explanation": "Correct answer is option D: ERROR_LINE()."
+    },
+    {
+      "questionText": "@@ERROR returns 0 when:",
+      "options": [
+        "The last statement executed successfully",
+        "The statement failed",
+        "The transaction rolled back",
+        "The server restarted"
+      ],
+      "correctAnswer": "The last statement executed successfully",
+      "explanation": "Correct answer is option A: The last statement executed successfully."
+    },
+    {
+      "questionText": "To handle an error and then pass it back to the caller, one would use:",
+      "options": [
+        "COMMIT in the TRY block",
+        "WAITFOR",
+        "THROW in the CATCH block",
+        "GOTO in the batch"
+      ],
+      "correctAnswer": "THROW in the CATCH block",
+      "explanation": "Correct answer is option C: THROW in the CATCH block."
+    }
+  ]
+}

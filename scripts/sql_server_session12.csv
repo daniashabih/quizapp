@@ -1,0 +1,54 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,12,A trigger is:,A kind of index,A backup utility,A type of view,A special type of stored procedure that executes when data is modified or an event occurs,A special type of stored procedure that executes when data is modified or an event occurs
+SQL Server,12,Which statement is used to create a trigger?,ADD TRIGGER,MAKE TRIGGER,NEW TRIGGER,CREATE TRIGGER,CREATE TRIGGER
+SQL Server,12,Triggers are executed:,Automatically when a defined event occurs,Only when called with EXEC,Only manually by an administrator,Only at server startup,Automatically when a defined event occurs
+SQL Server,12,DML triggers respond to which statements?,"INSERT, UPDATE, DELETE","CREATE, ALTER, DROP","LOGON, LOGOFF","BACKUP, RESTORE","INSERT, UPDATE, DELETE"
+SQL Server,12,DDL triggers respond to which type of statements?,SELECT only,"CREATE, ALTER, DROP","INSERT, UPDATE, DELETE",GRANT only,"CREATE, ALTER, DROP"
+SQL Server,12,Which triggers fire in response to a LOGON event?,Nested triggers,DML triggers,Instead-of triggers,Logon triggers,Logon triggers
+SQL Server,12,Which temporary tables are available to DML triggers to hold affected rows?,Inserted and Deleted,Old and New,Temp and Perm,Source and Target,Inserted and Deleted
+SQL Server,12,The Inserted table holds:,Copies of the new rows,All table rows,Copies of the old rows,No data,Copies of the new rows
+SQL Server,12,The Deleted table holds:,Copies of the rows removed or the old values before an update,All table rows,The trigger definition,Only new rows,Copies of the rows removed or the old values before an update
+SQL Server,12,"In an UPDATE trigger, the old values are in:",Source table,Inserted table,Deleted table,Master table,Deleted table
+SQL Server,12,"In an UPDATE trigger, the new values are in:",Source table,Master table,Inserted table,Deleted table,Inserted table
+SQL Server,12,An INSERT trigger is executed when:,A table is dropped,A user logs in,A record is deleted,A new record is inserted in the table,A new record is inserted in the table
+SQL Server,12,The FOR keyword in a DML trigger specifies that the trigger executes:,At logon,Before the table is created,After the modification operations complete,Instead of the operation,After the modification operations complete
+SQL Server,12,"Which trigger type executes in place of the INSERT, UPDATE, or DELETE operation?",INSTEAD OF trigger,AFTER trigger,Logon trigger,FOR trigger,INSTEAD OF trigger
+SQL Server,12,INSTEAD OF triggers are executed:,After the transaction commits,After constraint checks,Before constraint checks are performed on the table,Only at night,Before constraint checks are performed on the table
+SQL Server,12,AFTER triggers are executed:,Before the action,After the Inserted and Deleted tables are created and the action completes,Instead of the action,Only on views,After the Inserted and Deleted tables are created and the action completes
+SQL Server,12,Which stored procedure sets the order of firing of AFTER triggers?,sp_triggerfirst,sp_order,sp_helptrigger,sp_settriggerorder,sp_settriggerorder
+SQL Server,12,Which positions can be assigned with sp_settriggerorder?,"First, Last, or None",Top or Bottom,Start or End,High or Low,"First, Last, or None"
+SQL Server,12,"To view the definition of a DML trigger, which stored procedure is used?",sp_helptext,sp_who,sp_lock,sp_depends,sp_helptext
+SQL Server,12,Which option prevents a trigger definition from being displayed?,WITH CHECK OPTION,WITH ENCRYPTION,WITH SCHEMABINDING,WITH RECOMPILE,WITH ENCRYPTION
+SQL Server,12,Which statement removes a trigger?,DELETE TRIGGER,CLEAR TRIGGER,DROP TRIGGER,REMOVE TRIGGER,DROP TRIGGER
+SQL Server,12,Which statement modifies an existing trigger?,CHANGE TRIGGER,MODIFY TRIGGER,UPDATE TRIGGER,ALTER TRIGGER,ALTER TRIGGER
+SQL Server,12,A DELETE trigger can be used to:,Restrict a user from deleting a particular record,Rename a column,Insert a record,Create a table,Restrict a user from deleting a particular record
+SQL Server,12,"To cancel the action that fired a trigger, which statement is typically used in the trigger body?",BEGIN TRANSACTION,ROLLBACK TRANSACTION,COMMIT TRANSACTION,SAVE TRANSACTION,ROLLBACK TRANSACTION
+SQL Server,12,Triggers can enforce integrity by:,Creating logins,Dropping tables,Backing up data,Cascading changes through related tables,Cascading changes through related tables
+SQL Server,12,One primary use of triggers is to:,Create databases,Install SQL Server,Backup logs,Apply complex data integrity checks,Apply complex data integrity checks
+SQL Server,12,Triggers can invoke custom error messages to:,Create tables,Alter constraints,Change permissions,Provide meaningful messages on violations,Provide meaningful messages on violations
+SQL Server,12,Which of the following is a benefit of triggers over CHECK constraints?,Triggers need no code,Triggers are faster always,Triggers cannot be disabled,Triggers can reference columns in other tables,Triggers can reference columns in other tables
+SQL Server,12,DDL triggers can be scoped at:,Column level,Row level,Cursor level,Database level or server level,Database level or server level
+SQL Server,12,DDL triggers are useful to:,Prevent modifications in the database schema,Sort data,Compute aggregates,Insert data,Prevent modifications in the database schema
+SQL Server,12,Which DDL event would be used to stop someone from dropping tables?,SELECT_TABLE,LOGON,INSERT_TABLE,DROP_TABLE,DROP_TABLE
+SQL Server,12,Logon triggers fire:,Before authentication,Only for sysadmin,After authentication succeeds but before the user session is established,After the session ends,After authentication succeeds but before the user session is established
+SQL Server,12,Logon triggers can be used to:,Drop views,Update indexes,Audit and control server sessions or limit logins,Create tables,Audit and control server sessions or limit logins
+SQL Server,12,"When a trigger on one table causes another trigger to fire, the triggers are called:",Instead-of triggers,Nested triggers,Parallel triggers,Recursive triggers only,Nested triggers
+SQL Server,12,What is the maximum nesting level for triggers in SQL Server?,16,32,64,8,32
+SQL Server,12,"When the maximum nesting level of triggers is exceeded, the trigger:",Is terminated,Continues indefinitely,Is disabled permanently,Is deleted,Is terminated
+SQL Server,12,Which function can be used inside an INSERT or UPDATE trigger to test whether a column was modified?,MODIFIED(),CHANGED(),UPDATE(),IS_UPDATED(),UPDATE()
+SQL Server,12,Triggers that fire for multiple rows in one statement should be written to handle:,Multi-row operations,Single rows only,Only identity columns,Only NULL values,Multi-row operations
+SQL Server,12,A trigger can be associated with:,Only a stored procedure,Only an index,A table or a view,Only a function,A table or a view
+SQL Server,12,Which statement temporarily stops a trigger from firing without dropping it?,DISABLE TRIGGER,STOP TRIGGER,PAUSE TRIGGER,DROP TRIGGER,DISABLE TRIGGER
+SQL Server,12,Which statement re-activates a disabled trigger?,RESUME TRIGGER,ENABLE TRIGGER,START TRIGGER,ALTER TRIGGER ENABLE ALL,ENABLE TRIGGER
+SQL Server,12,A trigger cannot be circumvented because:,It runs only when invoked,It is stored on the client,It fires automatically on the defined event,It has no code,It fires automatically on the defined event
+SQL Server,12,AFTER triggers can be defined only on:,Functions,Indexes,Views only,Tables,Tables
+SQL Server,12,INSTEAD OF triggers can be defined on:,Only functions,Tables and views,Only indexes,Only schemas,Tables and views
+SQL Server,12,The trigger table is the table:,On which the trigger is defined,Used for logging only,Of the system,In the master database,On which the trigger is defined
+SQL Server,12,The Inserted and Deleted tables are stored:,Permanently in the database,In msdb,In memory (temporary) and exist only for the duration of the trigger,On the client machine,In memory (temporary) and exist only for the duration of the trigger
+SQL Server,12,Which of these is a DML trigger event?,ALTER,UPDATE,DROP,GRANT,UPDATE
+SQL Server,12,Which type of trigger fires once per statement rather than per row?,Cursor trigger,Row-level trigger,DML trigger,Table trigger,DML trigger
+SQL Server,12,Which of the following can a DDL trigger NOT respond to?,ALTER TABLE,INSERT statements,DROP TABLE,CREATE TABLE,INSERT statements
+SQL Server,12,A trigger that restores a deleted row typically does so by:,Reading from master,Copying the row from the Deleted table back to the trigger table,Using DROP,Using TRUNCATE,Copying the row from the Deleted table back to the trigger table
+SQL Server,12,The UPDATE trigger on a table fires when:,A record is inserted only,A record is updated,A user connects,A table is dropped,A record is updated
+SQL Server,12,Which keyword in an INSERT trigger specifies that the trigger fires for inserts?,BEFORE INSERT,ON INSERT ONLY,FOR INSERT,DURING INSERT,FOR INSERT
+SQL Server,12,Which type of trigger is created using CREATE TRIGGER ... ON ALL SERVER?,Database DML trigger,Server-scoped DDL trigger,Table trigger,View trigger,Server-scoped DDL trigger

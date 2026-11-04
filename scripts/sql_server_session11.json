@@ -1,0 +1,613 @@
+{
+  "category": "SQL Server",
+  "session": 11,
+  "title": "Session 11: Indexes — SQL Server",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "An index in SQL Server is:",
+      "options": [
+        "A backup file",
+        "A type of constraint",
+        "A stored procedure",
+        "A data structure associated with a table or view that speeds up queries"
+      ],
+      "correctAnswer": "A data structure associated with a table or view that speeds up queries",
+      "explanation": "Correct answer is option D: A data structure associated with a table or view that speeds up queries."
+    },
+    {
+      "questionText": "Which statement creates an index?",
+      "options": [
+        "CREATE INDEX",
+        "ADD INDEX",
+        "NEW INDEX",
+        "MAKE INDEX"
+      ],
+      "correctAnswer": "CREATE INDEX",
+      "explanation": "Correct answer is option A: CREATE INDEX."
+    },
+    {
+      "questionText": "What is the basic unit of data storage in SQL Server, and size?",
+      "options": [
+        "Block, 16 KB",
+        "Row, 1 KB",
+        "Page, 8 KB",
+        "Extent, 8 KB"
+      ],
+      "correctAnswer": "Page, 8 KB",
+      "explanation": "Correct answer is option C: Page, 8 KB."
+    },
+    {
+      "questionText": "An extent consists of:",
+      "options": [
+        "Sixteen pages",
+        "One page",
+        "Eight contiguous pages",
+        "Two pages"
+      ],
+      "correctAnswer": "Eight contiguous pages",
+      "explanation": "Correct answer is option C: Eight contiguous pages."
+    },
+    {
+      "questionText": "The primary data file has the recommended file extension:",
+      "options": [
+        ".bak",
+        ".ndf",
+        ".ldf",
+        ".mdf"
+      ],
+      "correctAnswer": ".mdf",
+      "explanation": "Correct answer is option D: .mdf."
+    },
+    {
+      "questionText": "Secondary data files have the recommended extension:",
+      "options": [
+        ".ndf",
+        ".ldf",
+        ".sql",
+        ".mdf"
+      ],
+      "correctAnswer": ".ndf",
+      "explanation": "Correct answer is option A: .ndf."
+    },
+    {
+      "questionText": "The transaction log file has the extension:",
+      "options": [
+        ".mdf",
+        ".ldf",
+        ".dat",
+        ".ndf"
+      ],
+      "correctAnswer": ".ldf",
+      "explanation": "Correct answer is option B: .ldf."
+    },
+    {
+      "questionText": "All input and output operations in a database are performed at the:",
+      "options": [
+        "Column level",
+        "Row level",
+        "Page level",
+        "Table level"
+      ],
+      "correctAnswer": "Page level",
+      "explanation": "Correct answer is option C: Page level."
+    },
+    {
+      "questionText": "When no index exists for searching, SQL Server performs:",
+      "options": [
+        "A cascade",
+        "A table scan",
+        "A seek",
+        "A merge"
+      ],
+      "correctAnswer": "A table scan",
+      "explanation": "Correct answer is option B: A table scan."
+    },
+    {
+      "questionText": "A table without a clustered index is stored as a:",
+      "options": [
+        "Heap",
+        "B-tree",
+        "Cluster",
+        "Cube"
+      ],
+      "correctAnswer": "Heap",
+      "explanation": "Correct answer is option A: Heap."
+    },
+    {
+      "questionText": "In a heap, data rows are:",
+      "options": [
+        "Not stored in any particular order",
+        "Stored in a B-tree",
+        "Stored in columns",
+        "Always sorted by key"
+      ],
+      "correctAnswer": "Not stored in any particular order",
+      "explanation": "Correct answer is option A: Not stored in any particular order."
+    },
+    {
+      "questionText": "Indexes in SQL Server are organized as:",
+      "options": [
+        "Queues",
+        "Hash tables only",
+        "B-trees",
+        "Linked lists"
+      ],
+      "correctAnswer": "B-trees",
+      "explanation": "Correct answer is option C: B-trees."
+    },
+    {
+      "questionText": "The top node of a B-tree index is the:",
+      "options": [
+        "Page node",
+        "Root node",
+        "Heap node",
+        "Leaf node"
+      ],
+      "correctAnswer": "Root node",
+      "explanation": "Correct answer is option B: Root node."
+    },
+    {
+      "questionText": "The bottom nodes of a B-tree index are the:",
+      "options": [
+        "Leaf nodes",
+        "Index nodes",
+        "Heap nodes",
+        "Root nodes"
+      ],
+      "correctAnswer": "Leaf nodes",
+      "explanation": "Correct answer is option A: Leaf nodes."
+    },
+    {
+      "questionText": "How many clustered indexes can a table have?",
+      "options": [
+        "Two",
+        "Unlimited",
+        "Up to 999",
+        "One"
+      ],
+      "correctAnswer": "One",
+      "explanation": "Correct answer is option D: One."
+    },
+    {
+      "questionText": "In a clustered index, the data rows are:",
+      "options": [
+        "Stored randomly",
+        "Stored in the log",
+        "Stored in sorted order based on the index key",
+        "Stored in a separate table"
+      ],
+      "correctAnswer": "Stored in sorted order based on the index key",
+      "explanation": "Correct answer is option C: Stored in sorted order based on the index key."
+    },
+    {
+      "questionText": "The leaf level of a clustered index contains:",
+      "options": [
+        "The actual data pages",
+        "Only the root",
+        "Only statistics",
+        "Only pointers"
+      ],
+      "correctAnswer": "The actual data pages",
+      "explanation": "Correct answer is option A: The actual data pages."
+    },
+    {
+      "questionText": "A nonclustered index:",
+      "options": [
+        "Cannot be created on a heap",
+        "Reorders the data rows physically",
+        "Can exist only once per table",
+        "Has a structure separate from the data rows"
+      ],
+      "correctAnswer": "Has a structure separate from the data rows",
+      "explanation": "Correct answer is option D: Has a structure separate from the data rows."
+    },
+    {
+      "questionText": "Nonclustered indexes are useful when:",
+      "options": [
+        "The table is empty",
+        "Only one search column exists",
+        "The table has no data",
+        "Multiple ways to search the data are needed"
+      ],
+      "correctAnswer": "Multiple ways to search the data are needed",
+      "explanation": "Correct answer is option D: Multiple ways to search the data are needed."
+    },
+    {
+      "questionText": "How many nonclustered indexes can be created per table in SQL Server 2019?",
+      "options": [
+        "249",
+        "1",
+        "999",
+        "16"
+      ],
+      "correctAnswer": "999",
+      "explanation": "Correct answer is option C: 999."
+    },
+    {
+      "questionText": "Which index type ensures that no two rows have the same index key value?",
+      "options": [
+        "Columnstore index",
+        "Filtered index",
+        "Unique index",
+        "Spatial index"
+      ],
+      "correctAnswer": "Unique index",
+      "explanation": "Correct answer is option C: Unique index."
+    },
+    {
+      "questionText": "Which index type includes non-key columns to cover queries?",
+      "options": [
+        "Index with included columns",
+        "XML index",
+        "Hash index",
+        "Clustered index"
+      ],
+      "correctAnswer": "Index with included columns",
+      "explanation": "Correct answer is option A: Index with included columns."
+    },
+    {
+      "questionText": "Which index stores data column-wise and is used mainly for data warehousing?",
+      "options": [
+        "Filtered index",
+        "Columnstore index",
+        "Clustered index",
+        "Hash index"
+      ],
+      "correctAnswer": "Columnstore index",
+      "explanation": "Correct answer is option B: Columnstore index."
+    },
+    {
+      "questionText": "In a columnstore index, which structure holds rows that are too few to be compressed into a rowgroup?",
+      "options": [
+        "Bucket",
+        "Heap",
+        "Partition",
+        "Deltastore"
+      ],
+      "correctAnswer": "Deltastore",
+      "explanation": "Correct answer is option D: Deltastore."
+    },
+    {
+      "questionText": "In a hash index, each bucket is:",
+      "options": [
+        "Four bytes",
+        "Eight bytes",
+        "Sixteen bytes",
+        "One byte"
+      ],
+      "correctAnswer": "Eight bytes",
+      "explanation": "Correct answer is option B: Eight bytes."
+    },
+    {
+      "questionText": "Where must the number of buckets in a hash index be specified?",
+      "options": [
+        "At backup time",
+        "At query time",
+        "At index definition time",
+        "Only after restart"
+      ],
+      "correctAnswer": "At index definition time",
+      "explanation": "Correct answer is option C: At index definition time."
+    },
+    {
+      "questionText": "Hash indexes are used with which kind of tables?",
+      "options": [
+        "Temporary tables only",
+        "Memory-optimized tables",
+        "Partitioned views",
+        "Heap tables only"
+      ],
+      "correctAnswer": "Memory-optimized tables",
+      "explanation": "Correct answer is option B: Memory-optimized tables."
+    },
+    {
+      "questionText": "Which index type is optimized for queries on XML columns?",
+      "options": [
+        "Spatial index",
+        "XML index",
+        "Unique index",
+        "Hash index"
+      ],
+      "correctAnswer": "XML index",
+      "explanation": "Correct answer is option B: XML index."
+    },
+    {
+      "questionText": "A primary XML index must be created before:",
+      "options": [
+        "A filtered index",
+        "A clustered index",
+        "A hash index",
+        "A secondary XML index"
+      ],
+      "correctAnswer": "A secondary XML index",
+      "explanation": "Correct answer is option D: A secondary XML index."
+    },
+    {
+      "questionText": "Spatial indexes are built using:",
+      "options": [
+        "Linked lists",
+        "Hash tables",
+        "Bitmaps",
+        "B-trees"
+      ],
+      "correctAnswer": "B-trees",
+      "explanation": "Correct answer is option D: B-trees."
+    },
+    {
+      "questionText": "A filtered index is a:",
+      "options": [
+        "Nonclustered index optimized with a WHERE predicate on a subset of rows",
+        "Clustered index with no filter",
+        "Hash index only",
+        "Columnstore only"
+      ],
+      "correctAnswer": "Nonclustered index optimized with a WHERE predicate on a subset of rows",
+      "explanation": "Correct answer is option A: Nonclustered index optimized with a WHERE predicate on a subset of rows."
+    },
+    {
+      "questionText": "A filtered index is a good choice when:",
+      "options": [
+        "The table has no rows",
+        "Every column is a key",
+        "A column has many NULL values",
+        "Every row is queried"
+      ],
+      "correctAnswer": "A column has many NULL values",
+      "explanation": "Correct answer is option C: A column has many NULL values."
+    },
+    {
+      "questionText": "Which statement disables an index?",
+      "options": [
+        "ALTER INDEX ... DISABLE",
+        "PAUSE INDEX",
+        "STOP INDEX",
+        "DROP INDEX ... DISABLE"
+      ],
+      "correctAnswer": "ALTER INDEX ... DISABLE",
+      "explanation": "Correct answer is option A: ALTER INDEX ... DISABLE."
+    },
+    {
+      "questionText": "A disabled index can be re-enabled using:",
+      "options": [
+        "UPDATE INDEX",
+        "ENABLE INDEX statement only",
+        "RESUME INDEX",
+        "ALTER INDEX ... REBUILD"
+      ],
+      "correctAnswer": "ALTER INDEX ... REBUILD",
+      "explanation": "Correct answer is option D: ALTER INDEX ... REBUILD."
+    },
+    {
+      "questionText": "Which stored procedure renames a user-created object such as an index?",
+      "options": [
+        "sp_help",
+        "sp_rename",
+        "sp_who",
+        "sp_renamedb only"
+      ],
+      "correctAnswer": "sp_rename",
+      "explanation": "Correct answer is option B: sp_rename."
+    },
+    {
+      "questionText": "Which statement removes an index?",
+      "options": [
+        "DELETE INDEX",
+        "DROP INDEX",
+        "CLEAR INDEX",
+        "REMOVE INDEX"
+      ],
+      "correctAnswer": "DROP INDEX",
+      "explanation": "Correct answer is option B: DROP INDEX."
+    },
+    {
+      "questionText": "Using the IF EXISTS option with DROP INDEX prevents:",
+      "options": [
+        "Rebuilding the index",
+        "Dropping the table",
+        "An error when the index does not exist",
+        "Disabling the index"
+      ],
+      "correctAnswer": "An error when the index does not exist",
+      "explanation": "Correct answer is option C: An error when the index does not exist."
+    },
+    {
+      "questionText": "Partitioning divides table and index data:",
+      "options": [
+        "Into backup files only",
+        "Horizontally, mapping groups of rows to partitions",
+        "Into separate databases",
+        "Vertically by columns only"
+      ],
+      "correctAnswer": "Horizontally, mapping groups of rows to partitions",
+      "explanation": "Correct answer is option B: Horizontally, mapping groups of rows to partitions."
+    },
+    {
+      "questionText": "Which object defines how the rows of a partitioned table are mapped to partitions based on boundary values?",
+      "options": [
+        "Partition function",
+        "Partition key table",
+        "Partition view",
+        "Partition index"
+      ],
+      "correctAnswer": "Partition function",
+      "explanation": "Correct answer is option A: Partition function."
+    },
+    {
+      "questionText": "Which object maps partitions to filegroups?",
+      "options": [
+        "Partition trigger",
+        "Partition key",
+        "Partition scheme",
+        "Partition function"
+      ],
+      "correctAnswer": "Partition scheme",
+      "explanation": "Correct answer is option C: Partition scheme."
+    },
+    {
+      "questionText": "A benefit of partitioning large tables and indexes is:",
+      "options": [
+        "Automatic encryption",
+        "Improved manageability and performance",
+        "Elimination of all indexes",
+        "Reduced data storage"
+      ],
+      "correctAnswer": "Improved manageability and performance",
+      "explanation": "Correct answer is option B: Improved manageability and performance."
+    },
+    {
+      "questionText": "XML data is stored in xml columns as:",
+      "options": [
+        "Rows of integers",
+        "Plain text files",
+        "Heaps only",
+        "Large binary objects (BLOBs)"
+      ],
+      "correctAnswer": "Large binary objects (BLOBs)",
+      "explanation": "Correct answer is option D: Large binary objects (BLOBs)."
+    },
+    {
+      "questionText": "Which statement creates a columnstore index?",
+      "options": [
+        "CREATE INDEX COLUMN",
+        "CREATE CSTORE",
+        "CREATE COLUMNSTORE INDEX",
+        "ALTER COLUMNSTORE"
+      ],
+      "correctAnswer": "CREATE COLUMNSTORE INDEX",
+      "explanation": "Correct answer is option C: CREATE COLUMNSTORE INDEX."
+    },
+    {
+      "questionText": "The main benefit of a columnstore index for aggregation queries is:",
+      "options": [
+        "No storage requirement",
+        "High compression and faster scans of columns",
+        "Slower reads",
+        "Faster single-row inserts"
+      ],
+      "correctAnswer": "High compression and faster scans of columns",
+      "explanation": "Correct answer is option B: High compression and faster scans of columns."
+    },
+    {
+      "questionText": "A page in SQL Server stores data in:",
+      "options": [
+        "Rows",
+        "Files",
+        "Columns only",
+        "Extents"
+      ],
+      "correctAnswer": "Rows",
+      "explanation": "Correct answer is option A: Rows."
+    },
+    {
+      "questionText": "Which type of index is the default when no type is specified in CREATE INDEX?",
+      "options": [
+        "Nonclustered",
+        "Clustered",
+        "Columnstore",
+        "Spatial"
+      ],
+      "correctAnswer": "Nonclustered",
+      "explanation": "Correct answer is option A: Nonclustered."
+    },
+    {
+      "questionText": "When a clustered index is created on a heap table, the table is:",
+      "options": [
+        "Partitioned",
+        "Deleted",
+        "Encrypted",
+        "Converted into a clustered structure"
+      ],
+      "correctAnswer": "Converted into a clustered structure",
+      "explanation": "Correct answer is option D: Converted into a clustered structure."
+    },
+    {
+      "questionText": "The unique allocation unit for LOB columns in a heap or clustered index is:",
+      "options": [
+        "ROW_OVERFLOW_DATA",
+        "LOB_DATA",
+        "IN_ROW_DATA",
+        "INDEX_DATA"
+      ],
+      "correctAnswer": "LOB_DATA",
+      "explanation": "Correct answer is option B: LOB_DATA."
+    },
+    {
+      "questionText": "The allocation unit used for variable-length columns exceeding the row limit is:",
+      "options": [
+        "ROW_OVERFLOW_DATA",
+        "LOB_DATA",
+        "IN_ROW_DATA",
+        "HEAP_DATA"
+      ],
+      "correctAnswer": "ROW_OVERFLOW_DATA",
+      "explanation": "Correct answer is option A: ROW_OVERFLOW_DATA."
+    },
+    {
+      "questionText": "Which of the following is a disadvantage of too many indexes on a table?",
+      "options": [
+        "Faster inserts",
+        "No effect on data modification",
+        "Slower INSERT, UPDATE, and DELETE operations",
+        "Smaller table size"
+      ],
+      "correctAnswer": "Slower INSERT, UPDATE, and DELETE operations",
+      "explanation": "Correct answer is option C: Slower INSERT, UPDATE, and DELETE operations."
+    },
+    {
+      "questionText": "A table scan is:",
+      "options": [
+        "A partition switch",
+        "A backup operation",
+        "A fast index seek",
+        "Reading every page of a table to find the required rows"
+      ],
+      "correctAnswer": "Reading every page of a table to find the required rows",
+      "explanation": "Correct answer is option D: Reading every page of a table to find the required rows."
+    },
+    {
+      "questionText": "Which index is created on a view to materialize its results?",
+      "options": [
+        "Filtered index",
+        "Heap index",
+        "Indexed (clustered) view index",
+        "Hash index"
+      ],
+      "correctAnswer": "Indexed (clustered) view index",
+      "explanation": "Correct answer is option C: Indexed (clustered) view index."
+    },
+    {
+      "questionText": "An index is analogous to:",
+      "options": [
+        "A book cover",
+        "The index at the end of a book",
+        "A glossary only",
+        "A table of contents only"
+      ],
+      "correctAnswer": "The index at the end of a book",
+      "explanation": "Correct answer is option B: The index at the end of a book."
+    },
+    {
+      "questionText": "Which index is built on a column and does not change the physical order of data rows?",
+      "options": [
+        "Nonclustered index",
+        "Heap index",
+        "Partition index",
+        "Clustered index"
+      ],
+      "correctAnswer": "Nonclustered index",
+      "explanation": "Correct answer is option A: Nonclustered index."
+    },
+    {
+      "questionText": "A secondary XML index covers the same data as:",
+      "options": [
+        "The hash index",
+        "The clustered index",
+        "The spatial index",
+        "The primary XML index, for specific query types"
+      ],
+      "correctAnswer": "The primary XML index, for specific query types",
+      "explanation": "Correct answer is option D: The primary XML index, for specific query types."
+    }
+  ]
+}

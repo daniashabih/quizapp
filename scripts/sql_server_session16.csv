@@ -1,0 +1,52 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,16,Which SQL Server 2019 feature gives detailed information on which column and value caused a truncation error?,Query Store,Verbose Truncation Warnings,PolyBase,Stretch Database,Verbose Truncation Warnings
+SQL Server,16,"In SQL Server 2019, the verbose truncation error message includes:",Only the row number,"The table name, the column name, and the truncated value",Only the login name,Only the database name,"The table name, the column name, and the truncated value"
+SQL Server,16,Which database compatibility level is needed to enable verbose truncation warnings behavior by default in SQL Server 2019?,150,110,120,100,150
+SQL Server,16,Which error message is replaced by the verbose truncation message?,Invalid object name,Divide by zero error,String or binary data would be truncated,Cannot insert NULL value,String or binary data would be truncated
+SQL Server,16,Which tool can be used to set the database compatibility level?,Database Properties in SSMS,PolyBase,Query Store,Stretch Database,Database Properties in SSMS
+SQL Server,16,SQL Vulnerability Assessment is:,"A service that discovers, tracks, and helps remediate potential database vulnerabilities",A performance counter,A data migration tool,A backup tool,"A service that discovers, tracks, and helps remediate potential database vulnerabilities"
+SQL Server,16,SQL Vulnerability Assessment is part of:,Azure Backup,Azure DevOps,Azure Defender for SQL,Azure Monitor only,Azure Defender for SQL
+SQL Server,16,What does the Vulnerability Assessment service use to scan databases?,A knowledge base of rules that flag security vulnerabilities,Manual audits only,Backup files,Random sampling,A knowledge base of rules that flag security vulnerabilities
+SQL Server,16,Vulnerability Assessment reports can be customized by:,Deleting rules permanently,Editing the master database,Setting a baseline,Disabling Azure,Setting a baseline
+SQL Server,16,A baseline in Vulnerability Assessment is used to:,Delete the database,Encrypt backups,Create indexes,Mark current results as acceptable so that only deviations are reported,Mark current results as acceptable so that only deviations are reported
+SQL Server,16,"Before running a scan, Vulnerability Assessment requires:",A Hadoop cluster,A storage account where scan results are stored,A new database,A Linux server,A storage account where scan results are stored
+SQL Server,16,"After configuring storage, which action is selected to check the database for vulnerabilities?",Merge,Scan,Sync,Deploy,Scan
+SQL Server,16,Vulnerability Assessment findings may include:,Remediation scripts where applicable,User passwords,Source code of the engine,Backup files,Remediation scripts where applicable
+SQL Server,16,A Vulnerability Assessment rule can check that:,A minimal set of principals have access to a database-level role,All tables have identity columns,All views are indexed,All queries use TOP,A minimal set of principals have access to a database-level role
+SQL Server,16,SQL Server Big Data Clusters run:,Linux containers orchestrated by Kubernetes,Only in Excel,Only on a single laptop,Only on Windows Server,Linux containers orchestrated by Kubernetes
+SQL Server,16,Which of the following is a component of a SQL Server Big Data Cluster?,Backup pool,Storage pool,Index pool,Query pool only,Storage pool
+SQL Server,16,The storage pool of a Big Data Cluster is used to store:,Only temp tables,Only transaction logs,Only indexes,"Big data in HDFS, potentially ingested from external sources","Big data in HDFS, potentially ingested from external sources"
+SQL Server,16,The data pool in a Big Data Cluster is used to:,Store only XML,Manage backups,Run Kubernetes master,Ingest data from SQL queries and store it across SQL Server instances,Ingest data from SQL queries and store it across SQL Server instances
+SQL Server,16,The compute pool in a Big Data Cluster consists of:,Only Windows servers,SQL Server on Linux pods that provide computational resources,Only storage devices,Hadoop name nodes only,SQL Server on Linux pods that provide computational resources
+SQL Server,16,The SQL master instance in a Big Data Cluster provides:,Only Spark jobs,T-SQL query access and the main SQL Server for the cluster,Only monitoring,Only backup storage,T-SQL query access and the main SQL Server for the cluster
+SQL Server,16,"In Kubernetes, a cluster is a set of machines known as:",Schemas,Tables,Nodes,Partitions,Nodes
+SQL Server,16,"In Kubernetes, the node that controls the cluster is called the:",Worker,Container,Pod,Master,Master
+SQL Server,16,Kubernetes master is responsible for:,Storing user data only,Authenticating Windows users,Compiling Transact-SQL,Distributing work between the workers and monitoring the health of the cluster,Distributing work between the workers and monitoring the health of the cluster
+SQL Server,16,"In Kubernetes, a pod is:",A group of one or more containers that run on a node,A type of index,A SQL table,A database,A group of one or more containers that run on a node
+SQL Server,16,Big Data Clusters can query external data sources:,Only from Oracle,Only by copying data first,Without moving or copying the data,Only from Excel,Without moving or copying the data
+SQL Server,16,JSON stands for:,JavaScript Object Notation,Joint Standard Object Notation,JavaScript Online Network,Java Standard Object Naming,JavaScript Object Notation
+SQL Server,16,JSON is a textual data format used for:,Only backups,Only storing images,Only indexes,Exchanging data in modern web and mobile applications,Exchanging data in modern web and mobile applications
+SQL Server,16,Which function tests whether a string contains valid JSON?,IS_JSON,VALIDJSON,CHECKJSON,ISJSON,ISJSON
+SQL Server,16,Which function extracts a scalar value from a JSON string?,JSON_READ,JSON_VALUE,JSON_SELECT,JSON_GET,JSON_VALUE
+SQL Server,16,Which function extracts an object or an array from a JSON string?,JSON_ARRAY_READ,JSON_FETCH,JSON_OBJECT_GET,JSON_QUERY,JSON_QUERY
+SQL Server,16,Which function updates the value of a property in a JSON string?,JSON_UPDATE,JSON_CHANGE,JSON_MODIFY,JSON_SET,JSON_MODIFY
+SQL Server,16,Which function converts JSON text to a rowset that can be queried with SELECT?,OPENJSON,TABLEJSON,SELECTJSON,READJSON,OPENJSON
+SQL Server,16,Which clause formats SQL query results as JSON text?,TO JSON,FOR JSON,AS JSON,INTO JSON,FOR JSON
+SQL Server,16,"In OPENJSON, the WITH clause is used to:",Specify the output columns and their data types,Define the transaction,Grant permission,Create indexes,Specify the output columns and their data types
+SQL Server,16,"In OPENJSON, a path can be specified to:",Create a view,Delete JSON text,Reference a nested property or a property with a different name,Rename the database,Reference a nested property or a property with a different name
+SQL Server,16,OPENJSON transforms an array of JSON objects into a table in which:,Each value is a separate table,Each object is represented as one row,Each array is a column,Each property is a database,Each object is represented as one row
+SQL Server,16,Which FOR JSON option gives full control over the output format using dot-separated paths?,FOR JSON ROOT,FOR JSON PATH,FOR JSON AUTO,FOR JSON RAW,FOR JSON PATH
+SQL Server,16,Which FOR JSON option automatically formats output based on the SELECT statement structure?,FOR JSON MERGE,FOR JSON PATH,FOR JSON AUTO,FOR JSON ROW,FOR JSON AUTO
+SQL Server,16,JSON data in SQL Server is stored in:,The hierarchyid type,The xml data type only,A dedicated json data type,Text columns such as nvarchar,Text columns such as nvarchar
+SQL Server,16,JSON is commonly used to store:,Only fixed-width data,Unstructured or semi-structured data in log files or NoSQL databases,Only numeric data,Only binary images,Unstructured or semi-structured data in log files or NoSQL databases
+SQL Server,16,Which of the following allows combining relational columns with columns that contain JSON documents?,Storing JSON text in table columns,Using only cursors,Using only hash indexes,Using only spatial types,Storing JSON text in table columns
+SQL Server,16,Which Azure database is an example of a NoSQL service commonly using JSON?,Azure SQL Edge only,Azure Backup,Azure Data Lake only,Azure Cosmos DB,Azure Cosmos DB
+SQL Server,16,Which JSON function would you use to read a value like the name property?,JSON_MODIFY,ISJSON,JSON_VALUE,FOR JSON,JSON_VALUE
+SQL Server,16,An OPENJSON default call without a WITH clause returns:,Only one column,"Key, value, and type columns",XML,Binary,"Key, value, and type columns"
+SQL Server,16,The SQL Server 2019 feature that helps a database administrator find the exact column and value for string truncation is useful for:,Reducing table size,Creating indexes,Faster troubleshooting of data load failures,Faster backups,Faster troubleshooting of data load failures
+SQL Server,16,Which of the following is a purpose of Vulnerability Assessment?,Speed up queries,Replace backups,Migrate data to Hadoop,Improve database security posture and meet compliance requirements,Improve database security posture and meet compliance requirements
+SQL Server,16,Which of the following features in SQL Server 2019 helps work with data in HDFS and Spark?,Query Store,Stretch Database,Big Data Clusters,Verbose Truncation Warnings,Big Data Clusters
+SQL Server,16,Kubernetes is used in Big Data Clusters to:,Encrypt tables only,Store T-SQL scripts,Orchestrate and manage containers,Create indexes,Orchestrate and manage containers
+SQL Server,16,Which type of data can Big Data Clusters help analyze?,Structured and unstructured data at scale,Only small tables,Only text files,Only XML,Structured and unstructured data at scale
+SQL Server,16,"In JSON, data is represented as:",Binary pages,Tables and rows only,Name/value pairs and arrays,Angle-bracket tags only,Name/value pairs and arrays
+SQL Server,16,"In a JSON path expression, the dollar sign ($) represents:",A currency,A variable,A comment,The context item (root of the JSON),The context item (root of the JSON)

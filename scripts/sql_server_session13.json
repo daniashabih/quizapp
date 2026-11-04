@@ -1,0 +1,580 @@
+{
+  "category": "SQL Server",
+  "session": 13,
+  "title": "Session 13: Programming Transact-SQL — SQL Server",
+  "totalQuestions": 52,
+  "questions": [
+    {
+      "questionText": "Transact-SQL programming is:",
+      "options": [
+        "A graphical tool",
+        "A hardware component",
+        "A procedural language extension to SQL",
+        "A report writer"
+      ],
+      "correctAnswer": "A procedural language extension to SQL",
+      "explanation": "Correct answer is option C: A procedural language extension to SQL."
+    },
+    {
+      "questionText": "A batch is:",
+      "options": [
+        "A single table",
+        "A saved query result",
+        "A group of one or more Transact-SQL statements sent to the server together",
+        "A type of constraint"
+      ],
+      "correctAnswer": "A group of one or more Transact-SQL statements sent to the server together",
+      "explanation": "Correct answer is option C: A group of one or more Transact-SQL statements sent to the server together."
+    },
+    {
+      "questionText": "Which command signals the end of a batch to SQL Server tools?",
+      "options": [
+        "STOP",
+        "END",
+        "BATCH",
+        "GO"
+      ],
+      "correctAnswer": "GO",
+      "explanation": "Correct answer is option D: GO."
+    },
+    {
+      "questionText": "If a batch has a syntax error in one statement, what happens?",
+      "options": [
+        "Only that statement is skipped",
+        "The whole batch is not executed",
+        "The server restarts",
+        "All other statements run"
+      ],
+      "correctAnswer": "The whole batch is not executed",
+      "explanation": "Correct answer is option B: The whole batch is not executed."
+    },
+    {
+      "questionText": "Which statements must be the first statement in a batch?",
+      "options": [
+        "SELECT",
+        "UPDATE",
+        "CREATE statements such as CREATE VIEW or CREATE PROCEDURE",
+        "INSERT"
+      ],
+      "correctAnswer": "CREATE statements such as CREATE VIEW or CREATE PROCEDURE",
+      "explanation": "Correct answer is option C: CREATE statements such as CREATE VIEW or CREATE PROCEDURE."
+    },
+    {
+      "questionText": "It is recommended to terminate Transact-SQL statements with:",
+      "options": [
+        "A colon",
+        "A semicolon",
+        "A comma",
+        "A period"
+      ],
+      "correctAnswer": "A semicolon",
+      "explanation": "Correct answer is option B: A semicolon."
+    },
+    {
+      "questionText": "Which statement declares a variable?",
+      "options": [
+        "SET VARIABLE",
+        "DECLARE",
+        "VAR",
+        "DIM"
+      ],
+      "correctAnswer": "DECLARE",
+      "explanation": "Correct answer is option B: DECLARE."
+    },
+    {
+      "questionText": "Which data types cannot be used for a variable?",
+      "options": [
+        "int",
+        "text, ntext, and image",
+        "varchar",
+        "datetime"
+      ],
+      "correctAnswer": "text, ntext, and image",
+      "explanation": "Correct answer is option B: text, ntext, and image."
+    },
+    {
+      "questionText": "Which two methods can assign a value to a variable?",
+      "options": [
+        "MOVE and COPY",
+        "SET and SELECT",
+        "GET and PUT",
+        "LET and ASSIGN"
+      ],
+      "correctAnswer": "SET and SELECT",
+      "explanation": "Correct answer is option B: SET and SELECT."
+    },
+    {
+      "questionText": "SET can assign from a query only when the query returns:",
+      "options": [
+        "Multiple rows",
+        "An XML document",
+        "A scalar value",
+        "A table"
+      ],
+      "correctAnswer": "A scalar value",
+      "explanation": "Correct answer is option C: A scalar value."
+    },
+    {
+      "questionText": "If a SELECT assignment query returns no rows, the variable:",
+      "options": [
+        "Becomes zero",
+        "Retains its previous value",
+        "Causes an error",
+        "Becomes NULL always"
+      ],
+      "correctAnswer": "Retains its previous value",
+      "explanation": "Correct answer is option B: Retains its previous value."
+    },
+    {
+      "questionText": "A synonym is:",
+      "options": [
+        "A type of index",
+        "A user login",
+        "A copy of a table",
+        "An alternative name for a database object"
+      ],
+      "correctAnswer": "An alternative name for a database object",
+      "explanation": "Correct answer is option D: An alternative name for a database object."
+    },
+    {
+      "questionText": "Which statement creates a synonym?",
+      "options": [
+        "MAKE SYNONYM",
+        "ADD SYNONYM",
+        "CREATE SYNONYM",
+        "NEW ALIAS"
+      ],
+      "correctAnswer": "CREATE SYNONYM",
+      "explanation": "Correct answer is option C: CREATE SYNONYM."
+    },
+    {
+      "questionText": "Which statement removes a synonym?",
+      "options": [
+        "CLEAR SYNONYM",
+        "REMOVE SYNONYM",
+        "DROP SYNONYM",
+        "DELETE SYNONYM"
+      ],
+      "correctAnswer": "DROP SYNONYM",
+      "explanation": "Correct answer is option C: DROP SYNONYM."
+    },
+    {
+      "questionText": "A synonym can be modified using:",
+      "options": [
+        "UPDATE SYNONYM",
+        "ALTER SYNONYM",
+        "MODIFY SYNONYM",
+        "DROP and CREATE, since there is no ALTER SYNONYM"
+      ],
+      "correctAnswer": "DROP and CREATE, since there is no ALTER SYNONYM",
+      "explanation": "Correct answer is option D: DROP and CREATE, since there is no ALTER SYNONYM."
+    },
+    {
+      "questionText": "Synonyms provide a layer of abstraction that:",
+      "options": [
+        "Speeds up all queries",
+        "Encrypts data",
+        "Protects client applications from changes to the name or location of the base object",
+        "Replaces indexes"
+      ],
+      "correctAnswer": "Protects client applications from changes to the name or location of the base object",
+      "explanation": "Correct answer is option C: Protects client applications from changes to the name or location of the base object."
+    },
+    {
+      "questionText": "Which constructs are control-of-flow statements in Transact-SQL?",
+      "options": [
+        "SELECT, INSERT",
+        "PIVOT, UNPIVOT",
+        "JOIN, UNION",
+        "IF...ELSE, WHILE, BEGIN...END"
+      ],
+      "correctAnswer": "IF...ELSE, WHILE, BEGIN...END",
+      "explanation": "Correct answer is option D: IF...ELSE, WHILE, BEGIN...END."
+    },
+    {
+      "questionText": "BEGIN and END are used to:",
+      "options": [
+        "Declare variables",
+        "Start and stop the server",
+        "Begin and end a database",
+        "Group multiple statements into a block"
+      ],
+      "correctAnswer": "Group multiple statements into a block",
+      "explanation": "Correct answer is option D: Group multiple statements into a block."
+    },
+    {
+      "questionText": "The IF...ELSE construct is used to:",
+      "options": [
+        "Execute statements conditionally",
+        "Delete rows",
+        "Loop repeatedly",
+        "Join tables"
+      ],
+      "correctAnswer": "Execute statements conditionally",
+      "explanation": "Correct answer is option A: Execute statements conditionally."
+    },
+    {
+      "questionText": "The WHILE loop executes statements:",
+      "options": [
+        "Never",
+        "Only when the condition is false",
+        "Repeatedly as long as the condition is true",
+        "Once only"
+      ],
+      "correctAnswer": "Repeatedly as long as the condition is true",
+      "explanation": "Correct answer is option C: Repeatedly as long as the condition is true."
+    },
+    {
+      "questionText": "Which statement exits a WHILE loop immediately?",
+      "options": [
+        "BREAK",
+        "STOP",
+        "EXIT WHILE",
+        "END LOOP"
+      ],
+      "correctAnswer": "BREAK",
+      "explanation": "Correct answer is option A: BREAK."
+    },
+    {
+      "questionText": "Which statement skips to the next iteration of a WHILE loop?",
+      "options": [
+        "SKIP",
+        "NEXT",
+        "CONTINUE",
+        "ITERATE"
+      ],
+      "correctAnswer": "CONTINUE",
+      "explanation": "Correct answer is option C: CONTINUE."
+    },
+    {
+      "questionText": "Which statement unconditionally exits from a query or procedure?",
+      "options": [
+        "EXIT",
+        "RETURN",
+        "QUIT",
+        "ABORT"
+      ],
+      "correctAnswer": "RETURN",
+      "explanation": "Correct answer is option B: RETURN."
+    },
+    {
+      "questionText": "Which statement delays execution for a specified time?",
+      "options": [
+        "WAITFOR",
+        "DELAY",
+        "SLEEP",
+        "PAUSE"
+      ],
+      "correctAnswer": "WAITFOR",
+      "explanation": "Correct answer is option A: WAITFOR."
+    },
+    {
+      "questionText": "The CASE expression is used to:",
+      "options": [
+        "Define variables",
+        "Evaluate conditions and return one of several possible results",
+        "Create loops",
+        "Join tables"
+      ],
+      "correctAnswer": "Evaluate conditions and return one of several possible results",
+      "explanation": "Correct answer is option B: Evaluate conditions and return one of several possible results."
+    },
+    {
+      "questionText": "Which statement jumps to a label?",
+      "options": [
+        "GOTO",
+        "LABEL",
+        "BRANCH",
+        "JUMP"
+      ],
+      "correctAnswer": "GOTO",
+      "explanation": "Correct answer is option A: GOTO."
+    },
+    {
+      "questionText": "A deterministic function:",
+      "options": [
+        "Cannot take parameters",
+        "Returns different results every time",
+        "Always returns NULL",
+        "Returns the same result every time it is called with the same input values"
+      ],
+      "correctAnswer": "Returns the same result every time it is called with the same input values",
+      "explanation": "Correct answer is option D: Returns the same result every time it is called with the same input values."
+    },
+    {
+      "questionText": "Which function is non-deterministic?",
+      "options": [
+        "DAY()",
+        "ABS()",
+        "YEAR()",
+        "GETDATE()"
+      ],
+      "correctAnswer": "GETDATE()",
+      "explanation": "Correct answer is option D: GETDATE()."
+    },
+    {
+      "questionText": "Which function is deterministic?",
+      "options": [
+        "NEWID()",
+        "DAY()",
+        "GETDATE()",
+        "RAND() without seed"
+      ],
+      "correctAnswer": "DAY()",
+      "explanation": "Correct answer is option B: DAY()."
+    },
+    {
+      "questionText": "User-defined functions (UDFs) are:",
+      "options": [
+        "Routines that accept parameters, perform an action, and return a result or table",
+        "System tables",
+        "Database backups",
+        "Index types"
+      ],
+      "correctAnswer": "Routines that accept parameters, perform an action, and return a result or table",
+      "explanation": "Correct answer is option A: Routines that accept parameters, perform an action, and return a result or table."
+    },
+    {
+      "questionText": "A scalar-valued function:",
+      "options": [
+        "Returns a table",
+        "Returns a cursor only",
+        "Returns a single value",
+        "Returns no value"
+      ],
+      "correctAnswer": "Returns a single value",
+      "explanation": "Correct answer is option C: Returns a single value."
+    },
+    {
+      "questionText": "A table-valued function:",
+      "options": [
+        "Returns only strings",
+        "Returns a single int",
+        "Returns a table data type",
+        "Returns only dates"
+      ],
+      "correctAnswer": "Returns a table data type",
+      "explanation": "Correct answer is option C: Returns a table data type."
+    },
+    {
+      "questionText": "Which statement creates a user-defined function?",
+      "options": [
+        "DEFINE FUNCTION",
+        "NEW FUNCTION",
+        "MAKE FUNCTION",
+        "CREATE FUNCTION"
+      ],
+      "correctAnswer": "CREATE FUNCTION",
+      "explanation": "Correct answer is option D: CREATE FUNCTION."
+    },
+    {
+      "questionText": "Which statement modifies a user-defined function?",
+      "options": [
+        "ALTER FUNCTION",
+        "UPDATE FUNCTION",
+        "MODIFY FUNCTION",
+        "CHANGE FUNCTION"
+      ],
+      "correctAnswer": "ALTER FUNCTION",
+      "explanation": "Correct answer is option A: ALTER FUNCTION."
+    },
+    {
+      "questionText": "Which statement removes a user-defined function?",
+      "options": [
+        "DROP FUNCTION",
+        "REMOVE FUNCTION",
+        "DELETE FUNCTION",
+        "CLEAR FUNCTION"
+      ],
+      "correctAnswer": "DROP FUNCTION",
+      "explanation": "Correct answer is option A: DROP FUNCTION."
+    },
+    {
+      "questionText": "A window function is applied using which clause?",
+      "options": [
+        "ACROSS",
+        "OVER",
+        "WITHIN",
+        "WINDOW BY"
+      ],
+      "correctAnswer": "OVER",
+      "explanation": "Correct answer is option B: OVER."
+    },
+    {
+      "questionText": "The three core components of a window defined with OVER are:",
+      "options": [
+        "Partitioning, ordering, and framing",
+        "Selecting, filtering, and limiting",
+        "Inserting, updating, and deleting",
+        "Grouping, joining, and sorting"
+      ],
+      "correctAnswer": "Partitioning, ordering, and framing",
+      "explanation": "Correct answer is option A: Partitioning, ordering, and framing."
+    },
+    {
+      "questionText": "Which OVER subclause divides the rows into groups?",
+      "options": [
+        "GROUP BY",
+        "PARTITION BY",
+        "SPLIT BY",
+        "DIVIDE BY"
+      ],
+      "correctAnswer": "PARTITION BY",
+      "explanation": "Correct answer is option B: PARTITION BY."
+    },
+    {
+      "questionText": "Which function assigns a unique sequential number to each row within a partition?",
+      "options": [
+        "LAG()",
+        "RANK()",
+        "NTILE()",
+        "ROW_NUMBER()"
+      ],
+      "correctAnswer": "ROW_NUMBER()",
+      "explanation": "Correct answer is option D: ROW_NUMBER()."
+    },
+    {
+      "questionText": "RANK() differs from DENSE_RANK() in that RANK():",
+      "options": [
+        "Produces no gaps",
+        "Leaves gaps in ranking after ties",
+        "Ignores ordering",
+        "Never produces ties"
+      ],
+      "correctAnswer": "Leaves gaps in ranking after ties",
+      "explanation": "Correct answer is option B: Leaves gaps in ranking after ties."
+    },
+    {
+      "questionText": "Which function distributes rows into a specified number of groups?",
+      "options": [
+        "RANK()",
+        "LEAD()",
+        "ROW_NUMBER()",
+        "NTILE()"
+      ],
+      "correctAnswer": "NTILE()",
+      "explanation": "Correct answer is option D: NTILE()."
+    },
+    {
+      "questionText": "Which analytic function returns a value from a previous row?",
+      "options": [
+        "LAG()",
+        "LEAD()",
+        "NTILE()",
+        "FIRST_VALUE()"
+      ],
+      "correctAnswer": "LAG()",
+      "explanation": "Correct answer is option A: LAG()."
+    },
+    {
+      "questionText": "Which analytic function returns a value from a following row?",
+      "options": [
+        "LAST_VALUE()",
+        "LEAD()",
+        "LAG()",
+        "RANK()"
+      ],
+      "correctAnswer": "LEAD()",
+      "explanation": "Correct answer is option B: LEAD()."
+    },
+    {
+      "questionText": "Ranking functions are also called:",
+      "options": [
+        "Scalar functions",
+        "Aggregate-only functions",
+        "System functions",
+        "Window ranking functions"
+      ],
+      "correctAnswer": "Window ranking functions",
+      "explanation": "Correct answer is option D: Window ranking functions."
+    },
+    {
+      "questionText": "In batches, variables declared are:",
+      "options": [
+        "Local to the batch in which they are declared",
+        "Permanent",
+        "Global across all connections",
+        "Stored in master"
+      ],
+      "correctAnswer": "Local to the batch in which they are declared",
+      "explanation": "Correct answer is option A: Local to the batch in which they are declared."
+    },
+    {
+      "questionText": "Which function returns the current system date and time?",
+      "options": [
+        "NOW()",
+        "TODAY()",
+        "CURRENT()",
+        "GETDATE()"
+      ],
+      "correctAnswer": "GETDATE()",
+      "explanation": "Correct answer is option D: GETDATE()."
+    },
+    {
+      "questionText": "Which function returns the length of a string?",
+      "options": [
+        "SIZE()",
+        "COUNT()",
+        "LEN()",
+        "LENGTH_OF()"
+      ],
+      "correctAnswer": "LEN()",
+      "explanation": "Correct answer is option C: LEN()."
+    },
+    {
+      "questionText": "Which function returns the leftmost characters of a string?",
+      "options": [
+        "FIRST()",
+        "TOP()",
+        "LEFT()",
+        "START()"
+      ],
+      "correctAnswer": "LEFT()",
+      "explanation": "Correct answer is option C: LEFT()."
+    },
+    {
+      "questionText": "Which function adds an interval to a date?",
+      "options": [
+        "DATEADD()",
+        "DATEPLUS()",
+        "DATESUM()",
+        "ADDDATE()"
+      ],
+      "correctAnswer": "DATEADD()",
+      "explanation": "Correct answer is option A: DATEADD()."
+    },
+    {
+      "questionText": "Which function returns the difference between two dates?",
+      "options": [
+        "DATEDIFF()",
+        "DATESUB()",
+        "DATECOMPARE()",
+        "DIFFDATE()"
+      ],
+      "correctAnswer": "DATEDIFF()",
+      "explanation": "Correct answer is option A: DATEDIFF()."
+    },
+    {
+      "questionText": "Which function converts one data type to another?",
+      "options": [
+        "CAST() or CONVERT()",
+        "TRANSFORM()",
+        "SWITCH()",
+        "CHANGE()"
+      ],
+      "correctAnswer": "CAST() or CONVERT()",
+      "explanation": "Correct answer is option A: CAST() or CONVERT()."
+    },
+    {
+      "questionText": "An inline table-valued function:",
+      "options": [
+        "Cannot accept parameters",
+        "Is not allowed in SQL Server",
+        "Returns a single scalar value",
+        "Returns a table from a single SELECT statement"
+      ],
+      "correctAnswer": "Returns a table from a single SELECT statement",
+      "explanation": "Correct answer is option D: Returns a table from a single SELECT statement."
+    }
+  ]
+}

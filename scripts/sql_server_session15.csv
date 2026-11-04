@@ -1,0 +1,54 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,15,Which construct is used to handle errors in Transact-SQL?,ON ERROR GOTO,HANDLE...END,IF ERROR,TRY...CATCH,TRY...CATCH
+SQL Server,15,A TRY block must be immediately followed by:,A CATCH block,A GO statement,A RETURN statement,A COMMIT statement,A CATCH block
+SQL Server,15,"When an error occurs inside a TRY block, control passes to:",The first statement in the CATCH block,The beginning of the TRY block,The server log only,The end of the batch,The first statement in the CATCH block
+SQL Server,15,"If there is no error in the TRY block, control passes to:",The beginning of the TRY block,The error log,The statement after the END CATCH,The CATCH block,The statement after the END CATCH
+SQL Server,15,Syntax errors are errors that occur:,Only in triggers,Only at run time,When code violates Transact-SQL grammar rules,Only on the server,When code violates Transact-SQL grammar rules
+SQL Server,15,Which of the following is a run-time error?,Divide-by-zero,An unclosed parenthesis in the code,Misspelled keyword highlighted in the editor,Missing keyword in a statement typed in the editor,Divide-by-zero
+SQL Server,15,Which of the following can cause a run-time error?,Misspelling a variable in the editor,Performing an invalid operation such as a constraint violation,Missing a comma in the editor,Typing a keyword incorrectly,Performing an invalid operation such as a constraint violation
+SQL Server,15,Which function returns the error number of the error that caused the CATCH block to run?,ERROR_CODE(),ERROR_VALUE(),ERROR_NUMBER(),ERROR_ID(),ERROR_NUMBER()
+SQL Server,15,Which function returns the severity of the error that caused the CATCH block to run?,ERROR_LEVEL(),ERROR_SEVERITY(),ERROR_RANK(),ERROR_CLASS(),ERROR_SEVERITY()
+SQL Server,15,Which function returns the state number of the error?,ERROR_STEP(),ERROR_CODE(),ERROR_STATE(),ERROR_STATUS(),ERROR_STATE()
+SQL Server,15,Which function returns the name of the stored procedure or trigger where the error occurred?,ERROR_OBJECT(),ERROR_NAME(),ERROR_SOURCE(),ERROR_PROCEDURE(),ERROR_PROCEDURE()
+SQL Server,15,Which function returns the line number where the error occurred?,ERROR_LINE(),ERROR_ROW(),ERROR_POSITION(),ERROR_LOC(),ERROR_LINE()
+SQL Server,15,Which function returns the complete text of the error message?,ERROR_DESC(),ERROR_INFO(),ERROR_TEXT(),ERROR_MESSAGE(),ERROR_MESSAGE()
+SQL Server,15,"Outside the scope of a CATCH block, ERROR_NUMBER() returns:",NULL,The last error number,-1,0,NULL
+SQL Server,15,The ERROR_PROCEDURE() function returns NULL when:,The error did not occur within a stored procedure or trigger,The error is severe,The error is a syntax error only,The error is a warning,The error did not occur within a stored procedure or trigger
+SQL Server,15,The return data type of ERROR_MESSAGE() is:,int,nvarchar,datetime,bit,nvarchar
+SQL Server,15,The return data type of ERROR_NUMBER() is:,int,varchar(max),nvarchar,char,int
+SQL Server,15,The @@ERROR function returns:,The line number,The severity,The error number of the last Transact-SQL statement executed,The error message text,The error number of the last Transact-SQL statement executed
+SQL Server,15,@@ERROR is reset after:,Each database restart,Each login,Each batch only,Each Transact-SQL statement is executed,Each Transact-SQL statement is executed
+SQL Server,15,What is the error number for a CHECK constraint violation?,2627,515,547,8134,547
+SQL Server,15,Which statement raises a user-defined error message?,RAISERROR,SIGNAL,ERRORMSG,RAISE,RAISERROR
+SQL Server,15,Which statement can be used in a CATCH block to re-raise the original error?,RAISE,THROW,RETHROW,RESIGNAL,THROW
+SQL Server,15,Errors with severity 10 or lower are:,Always caught by CATCH,System errors only,Always fatal,Informational messages and not handled by CATCH,Informational messages and not handled by CATCH
+SQL Server,15,TRY...CATCH catches errors with severity:,20 and higher that terminate the connection,Greater than 10 that do not terminate the database connection,Equal to 0 only,Below 5 only,Greater than 10 that do not terminate the database connection
+SQL Server,15,Errors with severity 20 or higher that terminate the connection are:,Always handled,Not handled by TRY...CATCH,Converted to warnings,Handled only by THROW,Not handled by TRY...CATCH
+SQL Server,15,Severity levels 20 through 25 in RAISERROR can be specified by:,Any user,No one,Members of the sysadmin role or users with ALTER TRACE permission,Only guest users,Members of the sysadmin role or users with ALTER TRACE permission
+SQL Server,15,RAISERROR with severity level 16 inside a TRY block will:,Commit the transaction,Terminate the connection,Transfer control to the CATCH block,Be ignored,Transfer control to the CATCH block
+SQL Server,15,The RAISERROR arguments include:,"Message, severity, and state","Login, password, and server","Trigger, view, and schema","Table, index, and column","Message, severity, and state"
+SQL Server,15,Which RAISERROR option writes the message to the SQL Server error log and application log?,WITH NOWAIT,WITH SETERROR,WITH SAVE,WITH LOG,WITH LOG
+SQL Server,15,Which RAISERROR option sends messages immediately to the client?,WITH NOWAIT,WITH LOG,WITH NOWARN,WITH SETERROR,WITH NOWAIT
+SQL Server,15,Which catalog view stores system and user-defined error messages?,sys.messages,sys.logs,sys.events,sys.errors,sys.messages
+SQL Server,15,Which system stored procedure adds a custom message to sys.messages?,sp_newerror,sp_addmessage,sp_createmsg,sp_adderror,sp_addmessage
+SQL Server,15,Which function returns the state of a transaction that is in a TRY...CATCH block?,XACT_STATE(),TRAN_STATE(),STATE_OF(),@@TRANSTATE,XACT_STATE()
+SQL Server,15,XACT_STATE() returns -1 when:,There is no transaction,The transaction is active and committable,The transaction is rolled back,The transaction is uncommittable,The transaction is uncommittable
+SQL Server,15,XACT_STATE() returns 1 when:,The transaction is uncommittable,"There is an active, committable transaction",The transaction failed,There is no transaction,"There is an active, committable transaction"
+SQL Server,15,XACT_STATE() returns 0 when:,The transaction is committable,The transaction is uncommittable,There is no active transaction,An error has been raised,There is no active transaction
+SQL Server,15,"When an error in a TRY block makes the current transaction uncommittable, the transaction:",Is ignored,Is automatically committed,Can be committed,Must be rolled back,Must be rolled back
+SQL Server,15,Which error is NOT caught by TRY...CATCH at the same level of execution?,Constraint violations,Divide-by-zero errors,Object name resolution errors,RAISERROR with severity 16,Object name resolution errors
+SQL Server,15,TRY...CATCH constructs can be:,Nested,Used only in functions,Used only once per batch,Used only in views,Nested
+SQL Server,15,TRY...CATCH cannot span:,Multiple transactions,Multiple statements,Multiple blocks,Multiple batches,Multiple batches
+SQL Server,15,A TRY...CATCH construct can catch unhandled errors from:,Only syntax errors,Only the CATCH block,Stored procedures or triggers executed by the TRY block,Only server startup,Stored procedures or triggers executed by the TRY block
+SQL Server,15,The THROW statement can be used in a CATCH block to:,Define a new severity level 25 error only,Start a new TRY block,Re-raise the original error without specifying parameters,Create a new transaction,Re-raise the original error without specifying parameters
+SQL Server,15,Which statement ends a TRY...CATCH construct?,END TRY,END CATCH,STOP CATCH,END TRYCATCH,END CATCH
+SQL Server,15,The statement that begins the TRY block is:,OPEN TRY,TRY BEGIN,START TRY,BEGIN TRY,BEGIN TRY
+SQL Server,15,What type of error is a divide-by-zero?,Compile-time warning,Run-time error,Logical typo,Syntax error,Run-time error
+SQL Server,15,Why is it good practice to display error information?,It reduces server load,It helps in diagnosing and resolving the problem,It speeds up the CATCH block,It disables TRY,It helps in diagnosing and resolving the problem
+SQL Server,15,"In the CATCH block, error information functions return values:",Only for severity 16,Only once,Only in triggers,Regardless of how many times they are executed in the CATCH scope,Regardless of how many times they are executed in the CATCH scope
+SQL Server,15,"If an error occurs within a trigger or stored procedure, ERROR_LINE() returns:",Zero,The line number within that trigger or procedure,The batch line number,NULL,The line number within that trigger or procedure
+SQL Server,15,Which statement is true of RAISERROR with severity 10 or lower inside a TRY block?,It terminates the connection,It does not transfer control to CATCH,It always goes to CATCH,It rolls back the transaction,It does not transfer control to CATCH
+SQL Server,15,Which of the following is a benefit of structured error handling?,It speeds up all queries,It removes the need for transactions,It disables constraints,Centralized handling of errors with cleanup and rollback,Centralized handling of errors with cleanup and rollback
+SQL Server,15,Which function would you use to find the line of code that caused the error?,ERROR_STATE(),ERROR_NUMBER(),ERROR_SEVERITY(),ERROR_LINE(),ERROR_LINE()
+SQL Server,15,@@ERROR returns 0 when:,The last statement executed successfully,The statement failed,The transaction rolled back,The server restarted,The last statement executed successfully
+SQL Server,15,"To handle an error and then pass it back to the caller, one would use:",COMMIT in the TRY block,WAITFOR,THROW in the CATCH block,GOTO in the batch,THROW in the CATCH block

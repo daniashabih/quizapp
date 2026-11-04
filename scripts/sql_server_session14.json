@@ -1,0 +1,591 @@
+{
+  "category": "SQL Server",
+  "session": 14,
+  "title": "Session 14: Transactions — SQL Server",
+  "totalQuestions": 53,
+  "questions": [
+    {
+      "questionText": "A transaction is:",
+      "options": [
+        "A type of index",
+        "A single unit of work that either fully succeeds or fully fails",
+        "A stored procedure",
+        "A single SELECT statement only"
+      ],
+      "correctAnswer": "A single unit of work that either fully succeeds or fully fails",
+      "explanation": "Correct answer is option B: A single unit of work that either fully succeeds or fully fails."
+    },
+    {
+      "questionText": "Which property ensures all operations in a transaction complete or none do?",
+      "options": [
+        "Consistency",
+        "Atomicity",
+        "Isolation",
+        "Durability"
+      ],
+      "correctAnswer": "Atomicity",
+      "explanation": "Correct answer is option B: Atomicity."
+    },
+    {
+      "questionText": "Which ACID property ensures the database moves from one valid state to another?",
+      "options": [
+        "Consistency",
+        "Durability",
+        "Atomicity",
+        "Isolation"
+      ],
+      "correctAnswer": "Consistency",
+      "explanation": "Correct answer is option A: Consistency."
+    },
+    {
+      "questionText": "Which ACID property ensures concurrent transactions do not interfere with each other?",
+      "options": [
+        "Isolation",
+        "Durability",
+        "Atomicity",
+        "Consistency"
+      ],
+      "correctAnswer": "Isolation",
+      "explanation": "Correct answer is option A: Isolation."
+    },
+    {
+      "questionText": "Which ACID property ensures committed changes survive system failures?",
+      "options": [
+        "Durability",
+        "Isolation",
+        "Consistency",
+        "Atomicity"
+      ],
+      "correctAnswer": "Durability",
+      "explanation": "Correct answer is option A: Durability."
+    },
+    {
+      "questionText": "What does ACID stand for?",
+      "options": [
+        "Atomicity, Control, Isolation, Data",
+        "Atomicity, Consistency, Isolation, Durability",
+        "Accuracy, Control, Integrity, Data",
+        "Availability, Consistency, Integrity, Durability"
+      ],
+      "correctAnswer": "Atomicity, Consistency, Isolation, Durability",
+      "explanation": "Correct answer is option B: Atomicity, Consistency, Isolation, Durability."
+    },
+    {
+      "questionText": "In which transaction mode does SQL Server automatically start a new transaction after the previous one completes?",
+      "options": [
+        "Implicit transactions",
+        "Explicit transactions",
+        "Autocommit transactions",
+        "Batch-scoped transactions"
+      ],
+      "correctAnswer": "Implicit transactions",
+      "explanation": "Correct answer is option A: Implicit transactions."
+    },
+    {
+      "questionText": "In which transaction mode is each individual statement committed automatically?",
+      "options": [
+        "Implicit",
+        "Explicit",
+        "Batch-scoped",
+        "Autocommit"
+      ],
+      "correctAnswer": "Autocommit",
+      "explanation": "Correct answer is option D: Autocommit."
+    },
+    {
+      "questionText": "In explicit transactions, the user:",
+      "options": [
+        "Defines the start and end with BEGIN TRANSACTION and COMMIT/ROLLBACK",
+        "Defines no boundaries",
+        "Uses only SELECT",
+        "Does nothing"
+      ],
+      "correctAnswer": "Defines the start and end with BEGIN TRANSACTION and COMMIT/ROLLBACK",
+      "explanation": "Correct answer is option A: Defines the start and end with BEGIN TRANSACTION and COMMIT/ROLLBACK."
+    },
+    {
+      "questionText": "Batch-scoped transactions apply to:",
+      "options": [
+        "Views only",
+        "Triggers only",
+        "Logins only",
+        "Multiple Active Result Sets (MARS)"
+      ],
+      "correctAnswer": "Multiple Active Result Sets (MARS)",
+      "explanation": "Correct answer is option D: Multiple Active Result Sets (MARS)."
+    },
+    {
+      "questionText": "Which statement starts an explicit transaction?",
+      "options": [
+        "INIT TRANSACTION",
+        "BEGIN TRANSACTION",
+        "START TRANSACTION",
+        "OPEN TRANSACTION"
+      ],
+      "correctAnswer": "BEGIN TRANSACTION",
+      "explanation": "Correct answer is option B: BEGIN TRANSACTION."
+    },
+    {
+      "questionText": "Which statement makes the changes of a transaction permanent?",
+      "options": [
+        "END TRANSACTION",
+        "SAVE TRANSACTION",
+        "COMMIT TRANSACTION",
+        "FINISH TRANSACTION"
+      ],
+      "correctAnswer": "COMMIT TRANSACTION",
+      "explanation": "Correct answer is option C: COMMIT TRANSACTION."
+    },
+    {
+      "questionText": "Which statement undoes all changes made in a transaction?",
+      "options": [
+        "RESET TRANSACTION",
+        "CANCEL TRANSACTION",
+        "UNDO TRANSACTION",
+        "ROLLBACK TRANSACTION"
+      ],
+      "correctAnswer": "ROLLBACK TRANSACTION",
+      "explanation": "Correct answer is option D: ROLLBACK TRANSACTION."
+    },
+    {
+      "questionText": "Which statement creates a savepoint inside a transaction?",
+      "options": [
+        "BOOKMARK",
+        "POINT TRANSACTION",
+        "MARK TRANSACTION",
+        "SAVE TRANSACTION"
+      ],
+      "correctAnswer": "SAVE TRANSACTION",
+      "explanation": "Correct answer is option D: SAVE TRANSACTION."
+    },
+    {
+      "questionText": "Rolling back to a savepoint:",
+      "options": [
+        "Drops the savepoint table",
+        "Commits the transaction",
+        "Undoes only the work after the savepoint",
+        "Undoes all work"
+      ],
+      "correctAnswer": "Undoes only the work after the savepoint",
+      "explanation": "Correct answer is option C: Undoes only the work after the savepoint."
+    },
+    {
+      "questionText": "Which function returns the number of active BEGIN TRANSACTION statements for the current connection?",
+      "options": [
+        "@@ROWCOUNT",
+        "@@ERROR",
+        "@@TRANCOUNT",
+        "@@VERSION"
+      ],
+      "correctAnswer": "@@TRANCOUNT",
+      "explanation": "Correct answer is option C: @@TRANCOUNT."
+    },
+    {
+      "questionText": "When BEGIN TRANSACTION is executed, @@TRANCOUNT is:",
+      "options": [
+        "Unchanged",
+        "Incremented by 1",
+        "Set to zero",
+        "Decremented by 1"
+      ],
+      "correctAnswer": "Incremented by 1",
+      "explanation": "Correct answer is option B: Incremented by 1."
+    },
+    {
+      "questionText": "When COMMIT TRANSACTION is executed on the outermost transaction, @@TRANCOUNT becomes:",
+      "options": [
+        "2",
+        "1",
+        "0",
+        "NULL"
+      ],
+      "correctAnswer": "0",
+      "explanation": "Correct answer is option C: 0."
+    },
+    {
+      "questionText": "ROLLBACK TRANSACTION (without savepoint) sets @@TRANCOUNT to:",
+      "options": [
+        "0",
+        "-1",
+        "1",
+        "Unchanged"
+      ],
+      "correctAnswer": "0",
+      "explanation": "Correct answer is option A: 0."
+    },
+    {
+      "questionText": "The WITH MARK option in BEGIN TRANSACTION:",
+      "options": [
+        "Marks the table",
+        "Marks the transaction in the log",
+        "Marks an index",
+        "Marks a view"
+      ],
+      "correctAnswer": "Marks the transaction in the log",
+      "explanation": "Correct answer is option B: Marks the transaction in the log."
+    },
+    {
+      "questionText": "Marked transactions are useful for:",
+      "options": [
+        "Encrypting backups",
+        "Creating logins",
+        "Restoring related databases to a logically consistent point",
+        "Creating indexes"
+      ],
+      "correctAnswer": "Restoring related databases to a logically consistent point",
+      "explanation": "Correct answer is option C: Restoring related databases to a logically consistent point."
+    },
+    {
+      "questionText": "What is the maximum number of characters used from a transaction name?",
+      "options": [
+        "64",
+        "32",
+        "128",
+        "16"
+      ],
+      "correctAnswer": "32",
+      "explanation": "Correct answer is option B: 32."
+    },
+    {
+      "questionText": "A transaction name variable can be declared as:",
+      "options": [
+        "datetime",
+        "xml",
+        "int",
+        "char, varchar, nchar, or nvarchar"
+      ],
+      "correctAnswer": "char, varchar, nchar, or nvarchar",
+      "explanation": "Correct answer is option D: char, varchar, nchar, or nvarchar."
+    },
+    {
+      "questionText": "Which of the following is a concurrency problem?",
+      "options": [
+        "Index fragmentation",
+        "Dirty read",
+        "Disk failure",
+        "Syntax error"
+      ],
+      "correctAnswer": "Dirty read",
+      "explanation": "Correct answer is option B: Dirty read."
+    },
+    {
+      "questionText": "A dirty read occurs when a transaction:",
+      "options": [
+        "Reads data modified by another transaction that has not yet committed",
+        "Locks the table",
+        "Deletes data",
+        "Reads committed data only"
+      ],
+      "correctAnswer": "Reads data modified by another transaction that has not yet committed",
+      "explanation": "Correct answer is option A: Reads data modified by another transaction that has not yet committed."
+    },
+    {
+      "questionText": "A nonrepeatable read occurs when:",
+      "options": [
+        "The row is deleted",
+        "A table is dropped",
+        "A row read twice in a transaction returns different values",
+        "The row is locked"
+      ],
+      "correctAnswer": "A row read twice in a transaction returns different values",
+      "explanation": "Correct answer is option C: A row read twice in a transaction returns different values."
+    },
+    {
+      "questionText": "Phantom reads occur when:",
+      "options": [
+        "A column is dropped",
+        "New rows matching a query appear when it is re-run in the same transaction",
+        "A trigger fires",
+        "A row is locked"
+      ],
+      "correctAnswer": "New rows matching a query appear when it is re-run in the same transaction",
+      "explanation": "Correct answer is option B: New rows matching a query appear when it is re-run in the same transaction."
+    },
+    {
+      "questionText": "A lost update occurs when:",
+      "options": [
+        "An index is rebuilt",
+        "A table is renamed",
+        "Two transactions update the same row and one overwrites the other's change",
+        "A row is inserted"
+      ],
+      "correctAnswer": "Two transactions update the same row and one overwrites the other's change",
+      "explanation": "Correct answer is option C: Two transactions update the same row and one overwrites the other's change."
+    },
+    {
+      "questionText": "Which isolation level allows dirty reads?",
+      "options": [
+        "READ UNCOMMITTED",
+        "SERIALIZABLE",
+        "REPEATABLE READ",
+        "READ COMMITTED"
+      ],
+      "correctAnswer": "READ UNCOMMITTED",
+      "explanation": "Correct answer is option A: READ UNCOMMITTED."
+    },
+    {
+      "questionText": "Which isolation level is the default in SQL Server?",
+      "options": [
+        "READ COMMITTED",
+        "SNAPSHOT",
+        "SERIALIZABLE",
+        "READ UNCOMMITTED"
+      ],
+      "correctAnswer": "READ COMMITTED",
+      "explanation": "Correct answer is option A: READ COMMITTED."
+    },
+    {
+      "questionText": "Which isolation level prevents dirty reads but allows nonrepeatable reads?",
+      "options": [
+        "READ UNCOMMITTED",
+        "REPEATABLE READ",
+        "READ COMMITTED",
+        "SERIALIZABLE"
+      ],
+      "correctAnswer": "READ COMMITTED",
+      "explanation": "Correct answer is option C: READ COMMITTED."
+    },
+    {
+      "questionText": "Which isolation level prevents dirty reads and nonrepeatable reads but not phantoms?",
+      "options": [
+        "READ UNCOMMITTED",
+        "SERIALIZABLE",
+        "REPEATABLE READ",
+        "READ COMMITTED"
+      ],
+      "correctAnswer": "REPEATABLE READ",
+      "explanation": "Correct answer is option C: REPEATABLE READ."
+    },
+    {
+      "questionText": "Which isolation level is the most restrictive and prevents phantoms?",
+      "options": [
+        "READ COMMITTED",
+        "SERIALIZABLE",
+        "READ UNCOMMITTED",
+        "SNAPSHOT"
+      ],
+      "correctAnswer": "SERIALIZABLE",
+      "explanation": "Correct answer is option B: SERIALIZABLE."
+    },
+    {
+      "questionText": "Which isolation level uses row versioning to give a transaction a consistent view of the data?",
+      "options": [
+        "SERIALIZABLE",
+        "SNAPSHOT",
+        "READ UNCOMMITTED",
+        "REPEATABLE READ"
+      ],
+      "correctAnswer": "SNAPSHOT",
+      "explanation": "Correct answer is option B: SNAPSHOT."
+    },
+    {
+      "questionText": "Which statement sets the isolation level for a session?",
+      "options": [
+        "CHANGE ISOLATION LEVEL",
+        "ALTER ISOLATION",
+        "SET ISOLATION",
+        "SET TRANSACTION ISOLATION LEVEL"
+      ],
+      "correctAnswer": "SET TRANSACTION ISOLATION LEVEL",
+      "explanation": "Correct answer is option D: SET TRANSACTION ISOLATION LEVEL."
+    },
+    {
+      "questionText": "Locking is used by SQL Server to:",
+      "options": [
+        "Encrypt data",
+        "Create indexes",
+        "Control concurrent access and maintain data consistency",
+        "Compress data"
+      ],
+      "correctAnswer": "Control concurrent access and maintain data consistency",
+      "explanation": "Correct answer is option C: Control concurrent access and maintain data consistency."
+    },
+    {
+      "questionText": "A shared (S) lock is used for:",
+      "options": [
+        "Bulk copy",
+        "Update operations",
+        "Read operations",
+        "Schema changes"
+      ],
+      "correctAnswer": "Read operations",
+      "explanation": "Correct answer is option C: Read operations."
+    },
+    {
+      "questionText": "An exclusive (X) lock is used for:",
+      "options": [
+        "Index scans",
+        "Read operations only",
+        "Data modification operations",
+        "Backup"
+      ],
+      "correctAnswer": "Data modification operations",
+      "explanation": "Correct answer is option C: Data modification operations."
+    },
+    {
+      "questionText": "An update (U) lock is used on resources that:",
+      "options": [
+        "Are only read",
+        "Can be updated, to prevent a common form of deadlock",
+        "Are dropped",
+        "Are copied"
+      ],
+      "correctAnswer": "Can be updated, to prevent a common form of deadlock",
+      "explanation": "Correct answer is option B: Can be updated, to prevent a common form of deadlock."
+    },
+    {
+      "questionText": "Intent locks are used to:",
+      "options": [
+        "Encrypt data",
+        "Delete data",
+        "Create tables",
+        "Indicate a lock will be placed at a lower level in the hierarchy"
+      ],
+      "correctAnswer": "Indicate a lock will be placed at a lower level in the hierarchy",
+      "explanation": "Correct answer is option D: Indicate a lock will be placed at a lower level in the hierarchy."
+    },
+    {
+      "questionText": "Which lock is used while performing a table DDL operation such as adding a column?",
+      "options": [
+        "Schema modification lock",
+        "Intent lock",
+        "Bulk update lock",
+        "Shared lock"
+      ],
+      "correctAnswer": "Schema modification lock",
+      "explanation": "Correct answer is option A: Schema modification lock."
+    },
+    {
+      "questionText": "Bulk update (BU) locks are used when:",
+      "options": [
+        "Reading small tables",
+        "Bulk copying data into a table with the TABLOCK hint",
+        "Creating views",
+        "Dropping indexes"
+      ],
+      "correctAnswer": "Bulk copying data into a table with the TABLOCK hint",
+      "explanation": "Correct answer is option B: Bulk copying data into a table with the TABLOCK hint."
+    },
+    {
+      "questionText": "A shared lock and an exclusive lock on the same resource are:",
+      "options": [
+        "Converted to update locks",
+        "Always granted together",
+        "Compatible",
+        "Not compatible"
+      ],
+      "correctAnswer": "Not compatible",
+      "explanation": "Correct answer is option D: Not compatible."
+    },
+    {
+      "questionText": "A deadlock occurs when:",
+      "options": [
+        "Two or more transactions block each other, each waiting for the other's lock",
+        "A table is empty",
+        "A disk is full",
+        "A login fails"
+      ],
+      "correctAnswer": "Two or more transactions block each other, each waiting for the other's lock",
+      "explanation": "Correct answer is option A: Two or more transactions block each other, each waiting for the other's lock."
+    },
+    {
+      "questionText": "SQL Server resolves a deadlock by:",
+      "options": [
+        "Rebooting the server",
+        "Ignoring the deadlock",
+        "Deleting both transactions",
+        "Choosing a victim transaction and rolling it back"
+      ],
+      "correctAnswer": "Choosing a victim transaction and rolling it back",
+      "explanation": "Correct answer is option D: Choosing a victim transaction and rolling it back."
+    },
+    {
+      "questionText": "By default, each individual SQL statement in SQL Server is:",
+      "options": [
+        "Deferred",
+        "Batched",
+        "Non-transactional",
+        "Transactional (autocommit)"
+      ],
+      "correctAnswer": "Transactional (autocommit)",
+      "explanation": "Correct answer is option D: Transactional (autocommit)."
+    },
+    {
+      "questionText": "Which of the following statements is NOT allowed inside a transaction?",
+      "options": [
+        "UPDATE",
+        "INSERT",
+        "DELETE",
+        "CREATE DATABASE"
+      ],
+      "correctAnswer": "CREATE DATABASE",
+      "explanation": "Correct answer is option D: CREATE DATABASE."
+    },
+    {
+      "questionText": "The transaction log records:",
+      "options": [
+        "Only user passwords",
+        "Only index names",
+        "Only SELECT statements",
+        "All transactions and the database modifications made by each"
+      ],
+      "correctAnswer": "All transactions and the database modifications made by each",
+      "explanation": "Correct answer is option D: All transactions and the database modifications made by each."
+    },
+    {
+      "questionText": "Log truncation frees:",
+      "options": [
+        "Memory only",
+        "Space in data files",
+        "Space in the log for reuse",
+        "Index pages"
+      ],
+      "correctAnswer": "Space in the log for reuse",
+      "explanation": "Correct answer is option C: Space in the log for reuse."
+    },
+    {
+      "questionText": "Which recovery model supports point-in-time recovery by keeping full log history?",
+      "options": [
+        "Full recovery model",
+        "None",
+        "Auto recovery model",
+        "Simple recovery model"
+      ],
+      "correctAnswer": "Full recovery model",
+      "explanation": "Correct answer is option A: Full recovery model."
+    },
+    {
+      "questionText": "Which recovery model automatically reclaims log space at checkpoints?",
+      "options": [
+        "Bulk-logged recovery model",
+        "Full recovery model",
+        "Differential model",
+        "Simple recovery model"
+      ],
+      "correctAnswer": "Simple recovery model",
+      "explanation": "Correct answer is option D: Simple recovery model."
+    },
+    {
+      "questionText": "Which of the following is TRUE about a transaction that is rolled back?",
+      "options": [
+        "All its data modifications are undone",
+        "Its changes are made permanent",
+        "It cannot be repeated",
+        "It deletes the table"
+      ],
+      "correctAnswer": "All its data modifications are undone",
+      "explanation": "Correct answer is option A: All its data modifications are undone."
+    },
+    {
+      "questionText": "In a funds transfer, why is a transaction essential?",
+      "options": [
+        "So debit and credit either both succeed or both fail",
+        "To reduce the table size",
+        "To speed up the query",
+        "To create indexes"
+      ],
+      "correctAnswer": "So debit and credit either both succeed or both fail",
+      "explanation": "Correct answer is option A: So debit and credit either both succeed or both fail."
+    }
+  ]
+}

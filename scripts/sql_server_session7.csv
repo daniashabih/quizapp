@@ -1,0 +1,52 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,7,Azure SQL is best described as:,A cloud-based relational database service that leverages existing SQL Server technologies,An on-premises-only database engine,A reporting tool,A NoSQL document database only,A cloud-based relational database service that leverages existing SQL Server technologies
+SQL Server,7,Which cloud platform provides Azure SQL?,Microsoft Azure,IBM Cloud,Amazon Web Services,Google Cloud,Microsoft Azure
+SQL Server,7,Which Amazon product is often compared to Azure SQL?,Amazon EC2,AWS Lambda,AWS Relational Database Service (RDS),Amazon S3,AWS Relational Database Service (RDS)
+SQL Server,7,Which protocol do applications use to retrieve data from Azure SQL?,File Transfer Protocol,Tabular Data Stream (TDS),Simple Mail Transfer Protocol,Hypertext Transfer Protocol only,Tabular Data Stream (TDS)
+SQL Server,7,What does TDS stand for?,Tabular Direct Stream,Tabular Data System,Tabular Distinction Stream,Tabular Data Stream,Tabular Data Stream
+SQL Server,7,Which of the following is a service in the Azure SQL family?,Azure Functions,Azure Blob Storage,Azure SQL Managed Instance,Azure DevOps,Azure SQL Managed Instance
+SQL Server,7,Which Azure SQL option offers 100% SQL Server compatibility using Infrastructure-as-a-Service (IaaS)?,Azure Cosmos DB,Azure Table Storage,SQL Server on Azure Virtual Machines,Azure SQL Database,SQL Server on Azure Virtual Machines
+SQL Server,7,Azure SQL Database is more suited for applications that require:,Elastic scale and lesser overhead,Local file-system access,Physical hardware management,Full control over the operating system,Elastic scale and lesser overhead
+SQL Server,7,How many key layers does the Azure SQL architecture have?,Two,Four,Five,Three,Four
+SQL Server,7,Which layer of the Azure SQL architecture acts as an interface for applications and includes tools such as ADO.NET and ODBC?,Infrastructure layer,Services layer,Platform layer,Client layer,Client layer
+SQL Server,7,"Which layer lies between the platform and client layers, validates requests, and authenticates users?",Services layer,Infrastructure layer,Client layer,Platform layer,Services layer
+SQL Server,7,Which layer includes data nodes that host the actual SQL Server databases in the data center?,Client layer,Services layer,Platform layer,Infrastructure layer,Platform layer
+SQL Server,7,"Which layer is the bottom-most layer, responsible for administration of the OS and physical hardware?",Platform layer,Services layer,Client layer,Infrastructure layer,Infrastructure layer
+SQL Server,7,"In Azure SQL, each database is replicated:",Only on the client machine,"Twice, across two different physical servers",Only once monthly,Never,"Twice, across two different physical servers"
+SQL Server,7,What is the role of TDS in the Azure SQL architecture?,It transfers data between applications and the database,It creates indexes,It manages billing,It encrypts backups,It transfers data between applications and the database
+SQL Server,7,Which Azure SQL feature allows a shared set of compute resources to be assigned to a collection of databases?,Resource Cluster,Shared Disk,Elastic Pool,Failover Group,Elastic Pool
+SQL Server,7,Why do developers find it easy to work with Azure SQL?,It uses the same TDS interface as on-premises SQL Server,It requires new client libraries,It does not support Transact-SQL,It uses a proprietary language,It uses the same TDS interface as on-premises SQL Server
+SQL Server,7,Azure SQL provides high availability by:,Requiring manual backups,Using a single physical server,Disabling replication,Storing multiple copies of data and using automatic failover,Storing multiple copies of data and using automatic failover
+SQL Server,7,The pricing model of Azure SQL is flexible because it is based on:,The number of tables created,A fixed yearly fee,The number of SSMS installations,The storage capacity used by the organization,The storage capacity used by the organization
+SQL Server,7,"Which language does Azure SQL support for queries, similar to on-premises SQL Server?",Only XQuery,Transact-SQL,Only PL/SQL,Only Python,Transact-SQL
+SQL Server,7,Which statement is NOT supported by Azure SQL?,SELECT,USE,CREATE TABLE,INSERT,USE
+SQL Server,7,Which authentication does Azure SQL (as described in the session) support?,SQL Server authentication,Windows authentication only,No authentication,Both Windows and SQL Server authentication,SQL Server authentication
+SQL Server,7,"In Azure SQL, administrative accounts are created in:",The Azure management portal,SSMS only,The Windows Registry,The master database of each instance,The Azure management portal
+SQL Server,7,"In Azure SQL, instance-level user logins are:",Optional,Not available,Always available,Created by USE statement,Not available
+SQL Server,7,Which feature does an on-premises SQL Server have that is handled differently in Azure SQL because data is in the cloud?,Backup and restore for disaster recovery,Index creation,Table creation,SELECT queries,Backup and restore for disaster recovery
+SQL Server,7,"When using an Azure Free Account, how long do you receive credit?",1 day,30 days,90 days,7 days,30 days
+SQL Server,7,An Azure free account gives access to Azure SQL Database free for:,30 days,12 months,24 months,3 months,12 months
+SQL Server,7,What is a DTU?,A database tuning utility,A disk throughput unit only,"A blended measure of CPU, memory, and read/write rates",A data transfer unit for networks,"A blended measure of CPU, memory, and read/write rates"
+SQL Server,7,Which purchasing model gives a choice between provisioned and serverless compute tiers?,DTU-based purchasing model,vCore-based purchasing model,Free tier model,Reserved hardware model,vCore-based purchasing model
+SQL Server,7,Which purchasing model provides bundled compute and storage packages balanced for common workloads?,Serverless model,vCore-based purchasing model,DTU-based purchasing model,Hybrid model,DTU-based purchasing model
+SQL Server,7,"For a single database, which purchasing model is considered ideal because it is flexible?",Per-query,vCore-based,Fixed-price,DTU-based,vCore-based
+SQL Server,7,What does the serverless compute tier do?,Removes the need for storage,Stops all billing permanently,Provisions fixed compute always,Autoscales compute and optimizes price-performance,Autoscales compute and optimizes price-performance
+SQL Server,7,"To access Azure SQL with SSMS, what must first be created?",An Oracle account,A Microsoft Azure account,A local SQL Server instance,A Windows domain,A Microsoft Azure account
+SQL Server,7,Which portal address is used to sign into Azure?,sql.azure.net,azure.sqlserver.org,msdn.microsoft.com,portal.azure.com,portal.azure.com
+SQL Server,7,Which identity verification methods are used when signing up for an Azure free trial?,Email only,Fingerprint,Passport scan,Phone and credit card,Phone and credit card
+SQL Server,7,"From the Azure services list, which option is clicked to create a database?",App Services,Virtual machines,SQL databases,Storage accounts,SQL databases
+SQL Server,7,Which of the following is a rule for the server admin login name?,It must start with a number,It must be dbo,It must not be a typical system name such as admin or sa,It must include special symbols,It must not be a typical system name such as admin or sa
+SQL Server,7,Which login name is NOT allowed for the Azure SQL server admin?,administrator,aptechuser,sqlmaster7,dbadmin1x,administrator
+SQL Server,7,"In the Connect to Server dialog box of SSMS, which authentication is selected for Azure SQL?",Kerberos only,Windows Authentication,SQL Server Authentication,Anonymous,SQL Server Authentication
+SQL Server,7,"When SSMS cannot connect because the client IP lacks access, what is created?",A new login in master,A new schema,A new database,A new firewall rule,A new firewall rule
+SQL Server,7,"After connecting to Azure SQL in SSMS, where does the Azure SQL database appear?",Object Explorer,Registered Servers only,Template Browser,Solution Explorer,Object Explorer
+SQL Server,7,Which tool in the Azure portal can be used to run queries on the cloud database?,Query Editor,Performance Monitor,Task Manager,Event Viewer,Query Editor
+SQL Server,7,A table created through SSMS on Azure SQL can be viewed in the portal's:,Cost analysis page,Subscription page,Billing page,Query Editor,Query Editor
+SQL Server,7,Which of the following services is part of the Azure SQL family and is not an on-premises product?,Microsoft Access,Azure SQL Database,SQL Server Reporting Services only,SQL Server Express on a laptop,Azure SQL Database
+SQL Server,7,Azure SQL can store and retrieve:,Only unstructured data,Only structured data,Both structured and unstructured data,Only XML data,Both structured and unstructured data
+SQL Server,7,Azure SQL was first released in:,2010,1998,2005,2019,2010
+SQL Server,7,Data stored in Azure SQL does not have the constraint of being:,Relational,Location-specific,Queryable,Secure,Location-specific
+SQL Server,7,Why is a cloud database such as Azure SQL useful for workloads that peak during specific months?,Hardware must be purchased up front,Fixed capacity is always required,It prevents all peak loads,Resources can be used optimally only when required,Resources can be used optimally only when required
+SQL Server,7,Azure SQL helps organizations avoid the cost of:,Using SSMS,Creating tables,Writing queries,Developing a dedicated IT infrastructure and department to manage databases,Developing a dedicated IT infrastructure and department to manage databases
+SQL Server,7,Which statement about Azure SQL is true?,Windows Authentication is the only option,The USE statement is fully supported,Not all Transact-SQL functions are supported,All Transact-SQL functions are supported,Not all Transact-SQL functions are supported
+SQL Server,7,SQL Server on Azure VMs offers up to what level of scalability in terms of IOPS?,"2,000",2 million,"20,000",200,"20,000"

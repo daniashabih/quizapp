@@ -1,0 +1,54 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,10,A view is:,A stored procedure,A type of index,A virtual table made up of selected columns from one or more tables,A physical copy of a table,A virtual table made up of selected columns from one or more tables
+SQL Server,10,The tables from which a view is created are called:,Linked tables,Source indexes,Base tables,Parent tables,Base tables
+SQL Server,10,What is the maximum number of columns a view can have?,256,"1,024",512,"4,096","1,024"
+SQL Server,10,Which statement creates a view?,NEW VIEW,BUILD VIEW,MAKE VIEW,CREATE VIEW,CREATE VIEW
+SQL Server,10,A view can be created only in:,tempdb only,Any database at once,The master database only,The current database,The current database
+SQL Server,10,"Per recommended coding conventions, view names are prefixed with:",vw,usp,tbl,v_tmp,vw
+SQL Server,10,Which statement removes a view?,DELETE VIEW,DROP VIEW,REMOVE VIEW,CLEAR VIEW,DROP VIEW
+SQL Server,10,"When a view is dropped, the data in the base tables:",Is deleted,Is encrypted,Remains unaffected,Is archived,Remains unaffected
+SQL Server,10,Which statement modifies the definition of a view?,ALTER VIEW,CHANGE VIEW,MODIFY VIEW,UPDATE VIEW,ALTER VIEW
+SQL Server,10,"If columns are added to a base table after a view is created, the new columns:",Cause an error,Do not appear in the view until it is altered,Delete the view,Appear automatically,Do not appear in the view until it is altered
+SQL Server,10,An INSERT through a view built on two base tables will:,Fail because the view is not updatable,Insert only in the first table,Succeed in both tables,Insert NULL values,Fail because the view is not updatable
+SQL Server,10,Which clause is used to modify a section of a large-value data type column through an UPDATE?,.WRITE,WRITE(),SET WRITE,MODIFY,.WRITE
+SQL Server,10,The .WRITE clause cannot be used to:,Specify a length,Update a varchar(max) column,Update a NULL value in a column,Specify an offset,Update a NULL value in a column
+SQL Server,10,A column with the IDENTITY property:,Cannot have its value updated,Must be NULL,Is always a GUID,Can be freely updated,Cannot have its value updated
+SQL Server,10,Records cannot be updated through a view if the base table contains a column of type:,datetime,varchar,int,TIMESTAMP,TIMESTAMP
+SQL Server,10,Rows deleted from a view are:,Archived automatically,Kept in the base table,Moved to another view,Also deleted from the base table,Also deleted from the base table
+SQL Server,10,Which view option ensures all modifications through the view satisfy the view's WHERE conditions?,WITH ENCRYPTION,WITH CHECK OPTION,WITH RECOMPILE,WITH SCHEMABINDING,WITH CHECK OPTION
+SQL Server,10,WITH CHECK OPTION enforces:,Domain integrity,Backup integrity,Entity integrity only,Referential integrity only,Domain integrity
+SQL Server,10,Updates made directly to base tables are verified against the view's CHECK OPTION:,"Yes, always","No, they are not verified",Only for INSERT,Only for DELETE,"No, they are not verified"
+SQL Server,10,Which option prevents base tables from being modified in a way that affects the view definition?,SCHEMABINDING,NOLOCK,RECOMPILE,CHECK OPTION,SCHEMABINDING
+SQL Server,10,"When using SCHEMABINDING, the object names must be specified with:",Two-part names (schema name included),Server names only,One-part names,Aliases only,Two-part names (schema name included)
+SQL Server,10,A table that is schema-bound to a view can be dropped only if:,The view is dropped or altered to remove schema binding,The table has no indexes,The table is empty,The table has no rows,The view is dropped or altered to remove schema binding
+SQL Server,10,Which stored procedure refreshes the metadata of a view after the base table changes?,sp_rename,sp_depends,sp_helptext,sp_refreshview,sp_refreshview
+SQL Server,10,Which stored procedure displays the definition of a view (if not encrypted)?,sp_who,sp_helptext,sp_refreshview,sp_lock,sp_helptext
+SQL Server,10,A stored procedure is:,A virtual table,A group of Transact-SQL statements stored in the database as a single named block,A type of constraint,A kind of index,A group of Transact-SQL statements stored in the database as a single named block
+SQL Server,10,Stored procedures are stored in the database in which form?,Binary file outside the database,XML form,Plain text only,Compiled form,Compiled form
+SQL Server,10,One advantage of stored procedures is:,Inability to reuse code,Loss of security,Increased network traffic,Reduced network traffic because only the call is sent,Reduced network traffic because only the call is sent
+SQL Server,10,Stored procedures can accept values through:,Input parameters,Table hints,Only constants,Only global variables,Input parameters
+SQL Server,10,Values are returned from a stored procedure to the caller using:,Input parameters,Output parameters,Only SELECT,Only PRINT,Output parameters
+SQL Server,10,Which keyword marks a parameter as an output parameter?,OUTPUT,EXPORT,RETURNS,OUT_ONLY,OUTPUT
+SQL Server,10,Which stored procedures are created by users and are also called custom stored procedures?,User-defined stored procedures,System stored procedures,Remote stored procedures,Extended stored procedures,User-defined stored procedures
+SQL Server,10,System stored procedures have the prefix:,sp_,sys_,xp_,usp_,sp_
+SQL Server,10,System stored procedures are physically stored in:,msdb only,tempdb,The model database,The Resource database,The Resource database
+SQL Server,10,Which stored procedures are used for temporary use within a session?,System stored procedures,Remote stored procedures,Temporary stored procedures,Extended stored procedures,Temporary stored procedures
+SQL Server,10,Which stored procedures run on remote SQL Servers?,Temporary stored procedures,Remote stored procedures,Local stored procedures,Nested stored procedures,Remote stored procedures
+SQL Server,10,Extended stored procedures are used to:,Define indexes,Create views,Create tables,Perform tasks that cannot be done with standard Transact-SQL,Perform tasks that cannot be done with standard Transact-SQL
+SQL Server,10,Which keyword in ALTER PROCEDURE forces the procedure to be compiled at run-time?,RESET,RECOMPILE,REBUILD,REFRESH,RECOMPILE
+SQL Server,10,"When a stored procedure is altered, its permissions:",Are doubled,Are transferred to dbo,Remain the same,Are deleted,Remain the same
+SQL Server,10,Which statement removes a stored procedure?,DELETE PROCEDURE,REMOVE PROC,CLEAR PROC,DROP PROCEDURE,DROP PROCEDURE
+SQL Server,10,"When a stored procedure calls another stored procedure, the nesting level:",Increases by one,Stays the same,Decreases by one,Resets to zero,Increases by one
+SQL Server,10,Metadata is:,Backup data,User data only,"Data about data, such as properties of tables and views",Log data,"Data about data, such as properties of tables and views"
+SQL Server,10,Which views contain information about the catalog in a SQL Server system?,Temporary views,Catalog views,Partitioned views,Indexed views,Catalog views
+SQL Server,10,Which views are ANSI-standard views useful to third-party tools for querying system metadata?,Indexed views,Partitioned views,Information schema views,Dynamic management views,Information schema views
+SQL Server,10,Which of the following returns server and database state information to monitor the health of a server instance?,Information schema views only,Dynamic Management Views (DMVs),Backup devices,Database snapshots,Dynamic Management Views (DMVs)
+SQL Server,10,"To query DMVs, a user must have:",DROP DATABASE permission,No permission,VIEW SERVER STATE or VIEW DATABASE STATE permission,BACKUP permission,VIEW SERVER STATE or VIEW DATABASE STATE permission
+SQL Server,10,Which DMV displays information about all active user connections and internal tasks at server scope?,sys.tables,sys.columns,sys.objects,sys.dm_exec_sessions,sys.dm_exec_sessions
+SQL Server,10,System functions such as scalar and table-valued functions can be used to:,Delete users,Create tables,Backup data,Return information about system state and metadata,Return information about system state and metadata
+SQL Server,10,Which view type presents data that is NOT physically stored but computed when referenced?,A table,An indexed table,A standard view,A temp table,A standard view
+SQL Server,10,A view can include columns from:,Only one table,"Tables and other views, from the same or different databases",Only system tables,Only one database,"Tables and other views, from the same or different databases"
+SQL Server,10,"To create a view, a user must have:",sysadmin role only,DROP permission only,Permission to access the underlying tables and views,No permission,Permission to access the underlying tables and views
+SQL Server,10,Which command lets a user execute a stored procedure?,RUN,START,CALL,EXECUTE (EXEC),EXECUTE (EXEC)
+SQL Server,10,A benefit of using a view is that it:,Increases table size,Replaces all indexes,Can restrict users to specific columns and rows of data,Deletes base tables,Can restrict users to specific columns and rows of data
+SQL Server,10,The CHECK OPTION is associated with which statement?,CREATE SYNONYM,CREATE INDEX,CREATE VIEW,CREATE TABLE only,CREATE VIEW

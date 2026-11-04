@@ -1,0 +1,53 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,13,Transact-SQL programming is:,A graphical tool,A hardware component,A procedural language extension to SQL,A report writer,A procedural language extension to SQL
+SQL Server,13,A batch is:,A single table,A saved query result,A group of one or more Transact-SQL statements sent to the server together,A type of constraint,A group of one or more Transact-SQL statements sent to the server together
+SQL Server,13,Which command signals the end of a batch to SQL Server tools?,STOP,END,BATCH,GO,GO
+SQL Server,13,"If a batch has a syntax error in one statement, what happens?",Only that statement is skipped,The whole batch is not executed,The server restarts,All other statements run,The whole batch is not executed
+SQL Server,13,Which statements must be the first statement in a batch?,SELECT,UPDATE,CREATE statements such as CREATE VIEW or CREATE PROCEDURE,INSERT,CREATE statements such as CREATE VIEW or CREATE PROCEDURE
+SQL Server,13,It is recommended to terminate Transact-SQL statements with:,A colon,A semicolon,A comma,A period,A semicolon
+SQL Server,13,Which statement declares a variable?,SET VARIABLE,DECLARE,VAR,DIM,DECLARE
+SQL Server,13,Which data types cannot be used for a variable?,int,"text, ntext, and image",varchar,datetime,"text, ntext, and image"
+SQL Server,13,Which two methods can assign a value to a variable?,MOVE and COPY,SET and SELECT,GET and PUT,LET and ASSIGN,SET and SELECT
+SQL Server,13,SET can assign from a query only when the query returns:,Multiple rows,An XML document,A scalar value,A table,A scalar value
+SQL Server,13,"If a SELECT assignment query returns no rows, the variable:",Becomes zero,Retains its previous value,Causes an error,Becomes NULL always,Retains its previous value
+SQL Server,13,A synonym is:,A type of index,A user login,A copy of a table,An alternative name for a database object,An alternative name for a database object
+SQL Server,13,Which statement creates a synonym?,MAKE SYNONYM,ADD SYNONYM,CREATE SYNONYM,NEW ALIAS,CREATE SYNONYM
+SQL Server,13,Which statement removes a synonym?,CLEAR SYNONYM,REMOVE SYNONYM,DROP SYNONYM,DELETE SYNONYM,DROP SYNONYM
+SQL Server,13,A synonym can be modified using:,UPDATE SYNONYM,ALTER SYNONYM,MODIFY SYNONYM,"DROP and CREATE, since there is no ALTER SYNONYM","DROP and CREATE, since there is no ALTER SYNONYM"
+SQL Server,13,Synonyms provide a layer of abstraction that:,Speeds up all queries,Encrypts data,Protects client applications from changes to the name or location of the base object,Replaces indexes,Protects client applications from changes to the name or location of the base object
+SQL Server,13,Which constructs are control-of-flow statements in Transact-SQL?,"SELECT, INSERT","PIVOT, UNPIVOT","JOIN, UNION","IF...ELSE, WHILE, BEGIN...END","IF...ELSE, WHILE, BEGIN...END"
+SQL Server,13,BEGIN and END are used to:,Declare variables,Start and stop the server,Begin and end a database,Group multiple statements into a block,Group multiple statements into a block
+SQL Server,13,The IF...ELSE construct is used to:,Execute statements conditionally,Delete rows,Loop repeatedly,Join tables,Execute statements conditionally
+SQL Server,13,The WHILE loop executes statements:,Never,Only when the condition is false,Repeatedly as long as the condition is true,Once only,Repeatedly as long as the condition is true
+SQL Server,13,Which statement exits a WHILE loop immediately?,BREAK,STOP,EXIT WHILE,END LOOP,BREAK
+SQL Server,13,Which statement skips to the next iteration of a WHILE loop?,SKIP,NEXT,CONTINUE,ITERATE,CONTINUE
+SQL Server,13,Which statement unconditionally exits from a query or procedure?,EXIT,RETURN,QUIT,ABORT,RETURN
+SQL Server,13,Which statement delays execution for a specified time?,WAITFOR,DELAY,SLEEP,PAUSE,WAITFOR
+SQL Server,13,The CASE expression is used to:,Define variables,Evaluate conditions and return one of several possible results,Create loops,Join tables,Evaluate conditions and return one of several possible results
+SQL Server,13,Which statement jumps to a label?,GOTO,LABEL,BRANCH,JUMP,GOTO
+SQL Server,13,A deterministic function:,Cannot take parameters,Returns different results every time,Always returns NULL,Returns the same result every time it is called with the same input values,Returns the same result every time it is called with the same input values
+SQL Server,13,Which function is non-deterministic?,DAY(),ABS(),YEAR(),GETDATE(),GETDATE()
+SQL Server,13,Which function is deterministic?,NEWID(),DAY(),GETDATE(),RAND() without seed,DAY()
+SQL Server,13,User-defined functions (UDFs) are:,"Routines that accept parameters, perform an action, and return a result or table",System tables,Database backups,Index types,"Routines that accept parameters, perform an action, and return a result or table"
+SQL Server,13,A scalar-valued function:,Returns a table,Returns a cursor only,Returns a single value,Returns no value,Returns a single value
+SQL Server,13,A table-valued function:,Returns only strings,Returns a single int,Returns a table data type,Returns only dates,Returns a table data type
+SQL Server,13,Which statement creates a user-defined function?,DEFINE FUNCTION,NEW FUNCTION,MAKE FUNCTION,CREATE FUNCTION,CREATE FUNCTION
+SQL Server,13,Which statement modifies a user-defined function?,ALTER FUNCTION,UPDATE FUNCTION,MODIFY FUNCTION,CHANGE FUNCTION,ALTER FUNCTION
+SQL Server,13,Which statement removes a user-defined function?,DROP FUNCTION,REMOVE FUNCTION,DELETE FUNCTION,CLEAR FUNCTION,DROP FUNCTION
+SQL Server,13,A window function is applied using which clause?,ACROSS,OVER,WITHIN,WINDOW BY,OVER
+SQL Server,13,The three core components of a window defined with OVER are:,"Partitioning, ordering, and framing","Selecting, filtering, and limiting","Inserting, updating, and deleting","Grouping, joining, and sorting","Partitioning, ordering, and framing"
+SQL Server,13,Which OVER subclause divides the rows into groups?,GROUP BY,PARTITION BY,SPLIT BY,DIVIDE BY,PARTITION BY
+SQL Server,13,Which function assigns a unique sequential number to each row within a partition?,LAG(),RANK(),NTILE(),ROW_NUMBER(),ROW_NUMBER()
+SQL Server,13,RANK() differs from DENSE_RANK() in that RANK():,Produces no gaps,Leaves gaps in ranking after ties,Ignores ordering,Never produces ties,Leaves gaps in ranking after ties
+SQL Server,13,Which function distributes rows into a specified number of groups?,RANK(),LEAD(),ROW_NUMBER(),NTILE(),NTILE()
+SQL Server,13,Which analytic function returns a value from a previous row?,LAG(),LEAD(),NTILE(),FIRST_VALUE(),LAG()
+SQL Server,13,Which analytic function returns a value from a following row?,LAST_VALUE(),LEAD(),LAG(),RANK(),LEAD()
+SQL Server,13,Ranking functions are also called:,Scalar functions,Aggregate-only functions,System functions,Window ranking functions,Window ranking functions
+SQL Server,13,"In batches, variables declared are:",Local to the batch in which they are declared,Permanent,Global across all connections,Stored in master,Local to the batch in which they are declared
+SQL Server,13,Which function returns the current system date and time?,NOW(),TODAY(),CURRENT(),GETDATE(),GETDATE()
+SQL Server,13,Which function returns the length of a string?,SIZE(),COUNT(),LEN(),LENGTH_OF(),LEN()
+SQL Server,13,Which function returns the leftmost characters of a string?,FIRST(),TOP(),LEFT(),START(),LEFT()
+SQL Server,13,Which function adds an interval to a date?,DATEADD(),DATEPLUS(),DATESUM(),ADDDATE(),DATEADD()
+SQL Server,13,Which function returns the difference between two dates?,DATEDIFF(),DATESUB(),DATECOMPARE(),DIFFDATE(),DATEDIFF()
+SQL Server,13,Which function converts one data type to another?,CAST() or CONVERT(),TRANSFORM(),SWITCH(),CHANGE(),CAST() or CONVERT()
+SQL Server,13,An inline table-valued function:,Cannot accept parameters,Is not allowed in SQL Server,Returns a single scalar value,Returns a table from a single SELECT statement,Returns a table from a single SELECT statement

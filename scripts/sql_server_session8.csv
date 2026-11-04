@@ -1,0 +1,53 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,8,Which statement is the core command used to access data in SQL Server?,FETCH,GET,SELECT,OPEN,SELECT
+SQL Server,8,The output of a SELECT statement is another table called a:,Dataset,Resultset,Rowset only,Viewset,Resultset
+SQL Server,8,Which keyword specifies the table from which data is retrieved?,FROM,INTO,ORDER BY,WHERE,FROM
+SQL Server,8,Which symbol in a SELECT statement retrieves all columns of a table?,#,%,&,*,*
+SQL Server,8,Can a SELECT statement be used without a FROM clause in SQL Server 2019?,Only in triggers,No,Yes,Only in views,Yes
+SQL Server,8,Which keyword is used to rename a column heading in a resultset?,ALIAS,AS,TOP,LIKE,AS
+SQL Server,8,The table named in the FROM clause of a query is called the:,Parent table,Result table,Base table,Master table,Base table
+SQL Server,8,Which keyword prevents the retrieval of duplicate records?,DISTINCT,UNIQUE,UNION,TOP,DISTINCT
+SQL Server,8,Which keyword limits the number of rows returned to the first few rows?,LIMIT,ROWNUM,FIRST,TOP,TOP
+SQL Server,8,The PERCENT option with TOP:,Sorts rows by percent,Returns a percentage of the rows,Counts the rows,Returns only duplicate rows,Returns a percentage of the rows
+SQL Server,8,The WITH TIES option with TOP:,Removes tied rows,Joins two tables,Groups tied rows,Returns additional rows that tie with the last row in the ordered set,Returns additional rows that tie with the last row in the ordered set
+SQL Server,8,Which clause creates a new table from the result of a SELECT statement?,INTO,WHERE,HAVING,FROM,INTO
+SQL Server,8,What permission is required to use the INTO clause?,SHOWPLAN permission,CREATE TABLE permission in the destination database,DROP DATABASE permission,BACKUP permission,CREATE TABLE permission in the destination database
+SQL Server,8,Which clause conditionally selects or limits the records retrieved by a query?,ORDER BY,WHERE,INTO,GROUP BY,WHERE
+SQL Server,8,"In a WHERE clause, a row is returned if the Boolean expression is:",Both true and false,Null only,False,True,True
+SQL Server,8,How are text (character) values enclosed in a SQL query?,Single quotes,Square brackets,Angle brackets,Curly braces,Single quotes
+SQL Server,8,Numeric values in a WHERE clause are:,Enclosed in single quotes,Enclosed in brackets,Enclosed in double hashes,Not enclosed in quotes,Not enclosed in quotes
+SQL Server,8,Which keyword is used with wildcard characters in a WHERE clause?,TOP,AS,LIKE,IS,LIKE
+SQL Server,8,Which wildcard represents a string of any length?,%,[],_,^,%
+SQL Server,8,Which wildcard represents any single character?,_,[],*,%,_
+SQL Server,8,Which wildcard represents a single character within a given range or set?,[^ ],%,[ ],_,[ ]
+SQL Server,8,Which wildcard represents any single character NOT within the specified range?,_,[^ ],[ ],%,[^ ]
+SQL Server,8,The AND operator returns TRUE:,When a condition is null,When both conditions are false,Only when both conditions are true,When either condition is true,Only when both conditions are true
+SQL Server,8,The OR operator returns TRUE:,Only when both are false,Only when both are true,Never,When at least one condition is true,When at least one condition is true
+SQL Server,8,The NOT operator:,Groups the rows,Sorts the result,Joins two conditions,Negates the search condition,Negates the search condition
+SQL Server,8,"When multiple logical operators are used in a single statement, which is evaluated first?",NOT,OR,AND,All at the same time,NOT
+SQL Server,8,The GROUP BY clause:,Limits rows to the first few,Partitions the resultset into one or more subsets,Creates a new table,Sorts the result in ascending order,Partitions the resultset into one or more subsets
+SQL Server,8,Which function is used with GROUP BY to total a column such as resource hours?,COUNT_BIG(),ISNULL(),CAST(),SUM(),SUM()
+SQL Server,8,"Which clause specifies a search condition for a group, such as filtering on an aggregate?",INTO,TOP,WHERE,HAVING,HAVING
+SQL Server,8,Which clause sorts the query results?,ORDER BY,ARRANGE BY,GROUP BY,SORT BY,ORDER BY
+SQL Server,8,What is the default sort order in ORDER BY?,Alphabetical only,Descending,Ascending,Random,Ascending
+SQL Server,8,Which keyword switches ORDER BY to descending order?,REVERSE,DOWN,DESC,DSC,DESC
+SQL Server,8,"When multiple columns are used in ORDER BY, which is the primary level of sort?",The rightmost column,The first numeric column,The column with most rows,The leftmost column,The leftmost column
+SQL Server,8,What does XML stand for?,Extra Markup Logic,Executable Markup Language,Extended Markup Language,Extensible Markup Language,Extensible Markup Language
+SQL Server,8,Which data type is used to store XML documents and fragments in SQL Server?,varchar(max) only,text,xml,image,xml
+SQL Server,8,An XML fragment is an XML instance in which:,The top-level element is missing,The attributes are missing,The schema is missing,All elements are missing,The top-level element is missing
+SQL Server,8,Which of these is an advantage of native XML storage in SQL Server?,Better performance for queries compared to documents in a file system,No query support,No indexing support,Larger file sizes,Better performance for queries compared to documents in a file system
+SQL Server,8,Which statement creates a variable of type xml?,DIM,CREATE VARIABLE,DECLARE,SET VAR,DECLARE
+SQL Server,8,Local variable names in Transact-SQL must start with:,@,#,$,%,@
+SQL Server,8,"If no initial value is assigned to a variable at declaration, its value is:",Undefined and causes an error,Zero,NULL,An empty string,NULL
+SQL Server,8,An xml data type column cannot be used as:,A primary key,A column with a DEFAULT value,A column with a NOT NULL constraint,A nullable column,A primary key
+SQL Server,8,An XML instance that has a schema associated with it is called:,Native XML,Untyped XML,Fragment XML,Typed XML,Typed XML
+SQL Server,8,An XML schema describes:,Only the table's primary key,The structure and limits the contents of XML documents,The server's configuration,The database backups,The structure and limits the contents of XML documents
+SQL Server,8,Which statement is used to register an XML schema?,REGISTER XML,CREATE XML SCHEMA COLLECTION,CREATE SCHEMA XML,ADD XML SCHEMA,CREATE XML SCHEMA COLLECTION
+SQL Server,8,"For untyped XML data, SQL Server ensures that the data is:",Always empty,Validated against a schema,Well-formed,Encrypted,Well-formed
+SQL Server,8,Which is recommended to enable validation of XML data when it is stored?,Avoiding the xml type,Using varchar columns,Using temporary tables,Associating XML schemas with XML instances,Associating XML schemas with XML instances
+SQL Server,8,A column heading like 'ChangedDate' for ModifiedDate is created using:,ModifiedDate INTO 'ChangedDate',ModifiedDate TO 'ChangedDate',ModifiedDate AS 'ChangedDate',ModifiedDate LIKE 'ChangedDate',ModifiedDate AS 'ChangedDate'
+SQL Server,8,A SELECT statement can contain mathematical expressions by:,Using the INTO clause,Applying operators to one or more columns,Using only the TOP keyword,Using only constants,Applying operators to one or more columns
+SQL Server,8,A calculated column such as StandardCost * 0.15 AS Discount:,Is stored permanently in the base table,Does not exist in the base table but is calculated in the resultset,Modifies the base table,Requires the INTO clause,Does not exist in the base table but is calculated in the resultset
+SQL Server,8,Why is the column name Group enclosed in brackets in the sample query?,To sort it,To avoid conflict with the Transact-SQL keyword GROUP,To make it unique,To make it numeric,To avoid conflict with the Transact-SQL keyword GROUP
+SQL Server,8,The DISTINCT keyword on StandardCost displays:,Each standard cost value only once,All values including duplicates,Only the highest value,Only NULL values,Each standard cost value only once
+SQL Server,8,Which of the following is TRUE about the SELECT statement?,It can only retrieve one column,It retrieves rows and columns from one or more tables,It always modifies data,It can only be used with views,It retrieves rows and columns from one or more tables

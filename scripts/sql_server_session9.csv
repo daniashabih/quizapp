@@ -1,0 +1,59 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,9,Which clause partitions a resultset into subsets that share common values?,TOP,GROUP BY,HAVING,ORDER BY,GROUP BY
+SQL Server,9,Which built-in function calculates the total of a column?,SUM(),COUNT(),MAX(),AVG(),SUM()
+SQL Server,9,"In a query with WHERE and GROUP BY, when are rows eliminated by the WHERE clause?",After sorting,After grouping,After the HAVING clause,Before grouping,Before grouping
+SQL Server,9,"If a grouping column contains NULL values, they are:",Ignored completely,Converted to zero,Each in a separate group,Put together in a single group,Put together in a single group
+SQL Server,9,"When GROUP BY ALL is used, it includes:","All groups, even those not meeting the WHERE condition",Only groups that meet the condition,Only the first group,Only NULL groups,"All groups, even those not meeting the WHERE condition"
+SQL Server,9,GROUP BY ALL is significant only when the SELECT has:,An ORDER BY clause,A JOIN,A subquery,A WHERE clause,A WHERE clause
+SQL Server,9,The HAVING clause is used to:,Sort rows,Join tables,"Filter groups, for example on aggregate results",Filter individual rows only,"Filter groups, for example on aggregate results"
+SQL Server,9,Which operator produces super-aggregate rows for every possible combination of the grouped columns?,UNION,PIVOT,CUBE,ROLLUP,CUBE
+SQL Server,9,Which operator generates summary rows arranged in a hierarchical order from lowest to highest?,ROLLUP,EXCEPT,CUBE,INTERSECT,ROLLUP
+SQL Server,9,"In a CUBE or ROLLUP resultset, summary rows display which value in the aggregated column positions?",Blank string,Zero,NULL,'ALL',NULL
+SQL Server,9,"Aggregate functions, except COUNT(*), ignore:",Numeric values,Character values,NULL values,Duplicate values only,NULL values
+SQL Server,9,Which function counts all rows including those with NULL values?,COUNT(column),MAX(*),SUM(*),COUNT(*),COUNT(*)
+SQL Server,9,Which aggregate returns the average of the non-NULL numeric values?,SUM(),MID(),MEAN(),AVG(),AVG()
+SQL Server,9,Aggregate functions return:,A single value,Multiple columns,A table,A cursor,A single value
+SQL Server,9,An aggregate function in the SELECT list does NOT generate:,A value,A column alias,An error,A result,A column alias
+SQL Server,9,"In a SELECT with an aggregate and no GROUP BY, every non-aggregated column in the SELECT list causes:",Grouping by that column,An error,Sorting of the result,A warning only,An error
+SQL Server,9,Which spatial aggregate returns a bounding area for a set of geometry or geography objects?,Collection Aggregate,Sum Aggregate,Envelope Aggregate,Union Aggregate,Envelope Aggregate
+SQL Server,9,"For the geography type, the Envelope Aggregate returns:",A circular object,A rectangular polygon,A line,A single point,A circular object
+SQL Server,9,"For the geometry type, the Envelope Aggregate returns:",A collection of lines,A rectangular polygon closely bounding the objects,A circle,A single point,A rectangular polygon closely bounding the objects
+SQL Server,9,Which spatial aggregate combines multiple spatial objects into a single object by removing interior boundaries?,Union Aggregate,Collection Aggregate,ConvexHull Aggregate,Envelope Aggregate,Union Aggregate
+SQL Server,9,Which spatial aggregate returns a GeometryCollection/GeographyCollection with one part per input object?,ConvexHull Aggregate,Union Aggregate,Envelope Aggregate,Collection Aggregate,Collection Aggregate
+SQL Server,9,Which spatial aggregate returns a convex hull polygon enclosing one or more spatial objects?,ConvexHull Aggregate,Collection Aggregate,Union Aggregate,Envelope Aggregate,ConvexHull Aggregate
+SQL Server,9,Which method combines two geography variables into a third variable?,STEnvelope(),STArea(),STUnion(),STBuffer(),STUnion()
+SQL Server,9,"In SSMS, which tab is used to visualize spatial data in query results?",Execution plan,Messages,Client statistics,Spatial results,Spatial results
+SQL Server,9,A subquery is:,A stored procedure,A view,A SELECT statement whose result is used as criteria for another query,An index,A SELECT statement whose result is used as criteria for another query
+SQL Server,9,"In a subquery, which statement is executed first?",The outermost SELECT,They execute at random,The innermost SELECT,The last SELECT,The innermost SELECT
+SQL Server,9,A subquery that returns a single value is called a:,Scalar subquery,Nested subquery,Correlated subquery,Multi-valued subquery,Scalar subquery
+SQL Server,9,A subquery that returns a result similar to a single-column table is called a:,Multi-valued subquery,Self-contained subquery,Scalar subquery,Recursive subquery,Multi-valued subquery
+SQL Server,9,If an = operator is used with a subquery that returns more than one value:,The first value is used,An error occurs,The last value is used,All values are used,An error occurs
+SQL Server,9,Which keywords are used with multi-valued subqueries?,"PIVOT, CUBE, ROLLUP, MERGE","BEGIN, END, GOTO, WHILE","TOP, INTO, DISTINCT, AS","ANY, ALL, IN, EXISTS","ANY, ALL, IN, EXISTS"
+SQL Server,9,SOME and ANY are:,Opposites of each other,Used only with joins,Used only with views,Equivalent and return the same result,Equivalent and return the same result
+SQL Server,9,A self-contained subquery:,Can run independently of the outer query,Depends on the outer query,Cannot return results,Must use EXISTS,Can run independently of the outer query
+SQL Server,9,A correlated subquery:,Never references the outer query,References columns of the outer query and cannot run separately,Is always scalar,Is processed once only,References columns of the outer query and cannot run separately
+SQL Server,9,Why must a correlated subquery be re-evaluated?,Its criteria depend on each row of the parent query,It uses a CTE,It returns NULL,It uses temporary tables,Its criteria depend on each row of the parent query
+SQL Server,9,The EXISTS keyword returns:,The count of rows,TRUE or FALSE depending on whether the subquery returns rows,The data of the subquery,A table,TRUE or FALSE depending on whether the subquery returns rows
+SQL Server,9,A subquery defined inside another subquery is called a:,Derived subquery,Nested subquery,Recursive subquery,Scalar subquery,Nested subquery
+SQL Server,9,Joins are used to:,Create indexes,Back up tables,Retrieve data from two or more tables based on a logical relationship,Delete rows from tables,Retrieve data from two or more tables based on a logical relationship
+SQL Server,9,A join typically specifies which type of relationship between tables?,Self-reference only,Foreign key relationship,Many-to-many only,Unique constraint only,Foreign key relationship
+SQL Server,9,Table aliases in a join are used to:,Create a copy of the table,Rename the table permanently,Avoid typing full table names,Delete the table,Avoid typing full table names
+SQL Server,9,An inner join returns:,All rows from both tables,All rows from the right table,All rows from the left table,Only rows that have matching values in both tables,Only rows that have matching values in both tables
+SQL Server,9,A left outer join returns:,All rows from the right table,No rows,All rows from the left table and matching rows from the right table,Only matching rows,All rows from the left table and matching rows from the right table
+SQL Server,9,"In a left outer join, unmatched right-table columns show:",Empty string,NULL,Zero,The left value,NULL
+SQL Server,9,A right outer join returns:,All rows from the right table and matching rows from the left table,Only unmatched rows,Only matching rows,All rows from the left table,All rows from the right table and matching rows from the left table
+SQL Server,9,A self-join is used to:,Join two databases,Find records in a table related to other records in the same table,Join a table to a view only,Join unrelated tables,Find records in a table related to other records in the same table
+SQL Server,9,The MERGE statement allows you to:,Join tables permanently,Merge two columns,"Insert, update, or delete rows in a target table based on a source table in one statement",Combine two databases,"Insert, update, or delete rows in a target table based on a source table in one statement"
+SQL Server,9,"In a MERGE statement, when the match condition is FALSE (NOT MATCHED), the usual action is to:",Drop the target table,Insert the row into the target table,Update the target row,Ignore the source,Insert the row into the target table
+SQL Server,9,"Which optional MERGE clause displays the records that were inserted, updated, or deleted?",RETURN,OUTPUT,DISPLAY,SHOW,OUTPUT
+SQL Server,9,What does CTE stand for?,Combined Table Element,Common Table Expression,Column Type Expression,Calculated Table Entry,Common Table Expression
+SQL Server,9,A CTE is defined using which keyword?,TEMP,CTE,DEFINE,WITH,WITH
+SQL Server,9,A CTE that references itself is called a:,Recursive CTE,Nested CTE,Scalar CTE,Static CTE,Recursive CTE
+SQL Server,9,Which is a key advantage of CTEs?,They replace tables,They run faster than all joins,Improved readability and maintenance of complex queries,They permanently store data,Improved readability and maintenance of complex queries
+SQL Server,9,Which operator combines results of two queries into a single resultset and removes duplicates by default?,INTERSECT,JOIN,UNION,UNION ALL,UNION
+SQL Server,9,Which keyword with UNION includes duplicate rows in the result?,DISTINCT,ALL,ANY,TOP,ALL
+SQL Server,9,Which operator returns only the distinct rows common to both queries?,UNION,MERGE,EXCEPT,INTERSECT,INTERSECT
+SQL Server,9,Which operator returns distinct rows from the left query that are not found in the right query?,EXCEPT,JOIN,UNION,INTERSECT,EXCEPT
+SQL Server,9,"A rule for UNION, INTERSECT, and EXCEPT is that:",Column names must be identical,Both queries must use GROUP BY,Tables must have the same name,The number of columns must be equal and data types compatible,The number of columns must be equal and data types compatible
+SQL Server,9,Which operator rotates rows into columns to transform data orientation?,PIVOT,UNPIVOT,CUBE,MERGE,PIVOT
+SQL Server,9,Which subclause of GROUP BY specifies multiple groupings in a single query?,ROLLUP only,TOP,INTO,GROUPING SETS,GROUPING SETS

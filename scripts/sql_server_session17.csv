@@ -1,0 +1,53 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SQL Server,17,Which statement is used to configure PolyBase?,sp_configure 'polybase',EXEC sp_configure 'hadoop connectivity',ALTER SYSTEM SET POLYBASE = ON,ENABLE POLYBASE,ENABLE POLYBASE
+SQL Server,17,PolyBase is used to:,Create backups,Defragment indexes,Encrypt databases,Process Transact-SQL queries that read data from external data sources,Defragment indexes
+SQL Server,17,Which external data sources can PolyBase access?,Only SQL Server,Hadoop and Azure Blob Storage,Only Excel files,Only local text files,Only SQL Server
+SQL Server,17,PolyBase allows queries on external data to be joined with:,Relational tables in SQL Server,Only other external tables,Nothing,Only views,Nothing
+SQL Server,17,PolyBase supports which Hadoop distributions?,Only Oracle,Only MySQL,Cloudera and Hortonworks,Only Windows,Only MySQL
+SQL Server,17,"In the PolyBase scale-out architecture, how many head nodes can each PolyBase group have?",Eight,One,Unlimited,Two,One
+SQL Server,17,"In PolyBase, the node to which PolyBase queries are submitted is the:",Compute node,Head node,Data node,Name node,Head node
+SQL Server,17,A PolyBase compute node:,Stores the master key,Assists with scale-out query processing on external data,Compiles the stored procedures,Replaces the head node,Assists with scale-out query processing on external data
+SQL Server,17,Which PolyBase components must run the same version of SQL Server?,None,Head node and compute nodes,Only name nodes,Only data nodes,Only data nodes
+SQL Server,17,"A PolyBase scale-out group can spin up to how many readers for external tables on SQL Server, Oracle, or Teradata?",Two,One,Sixty-four,Eight,Eight
+SQL Server,17,"In a PolyBase scale-out group, each reader is assigned:",No partitions,One database,All partitions,One partition to read in the external table,One partition to read in the external table
+SQL Server,17,Which protocol must be enabled for PolyBase to function correctly?,FTP,SMTP,NetBIOS only,TCP/IP,SMTP
+SQL Server,17,"After installing PolyBase (standalone or scale-out group), the installation mode can:",Be changed any time,Not be changed without uninstalling and reinstalling,Be changed from SSMS,Be changed by restarting the PC,Be changed any time
+SQL Server,17,"After installing PolyBase, which must be done before it can be used?",Configure PolyBase for the external data source,Rebuild all indexes,Delete the master database,Enable Query Store,Enable Query Store
+SQL Server,17,Which statement creates the master key used to encrypt credentials in a database?,CREATE KEY PASSWORD,ADD MASTER KEY,CREATE ENCRYPTED KEY,CREATE MASTER KEY ENCRYPTION BY PASSWORD,CREATE ENCRYPTED KEY
+SQL Server,17,Which statement stores credentials used to access an external data source?,CREATE USER CREDENTIAL,ADD EXTERNAL LOGIN,CREATE DATABASE SCOPED CREDENTIAL,CREATE LOGIN CREDENTIAL,CREATE USER CREDENTIAL
+SQL Server,17,Which statement defines the location and type of an external data source?,CREATE EXTERNAL DATA SOURCE,CREATE REMOTE SOURCE,ADD DATA SOURCE,CREATE LINKED DATA,ADD DATA SOURCE
+SQL Server,17,Which statement describes the format of external data such as delimited text?,CREATE FORMAT,CREATE FILE TYPE,CREATE EXTERNAL FILE FORMAT,SET DATA FORMAT,CREATE EXTERNAL FILE FORMAT
+SQL Server,17,Which statement defines a table that maps to data in the external data source?,CREATE HADOOP TABLE,CREATE LINKED TABLE,CREATE EXTERNAL TABLE,CREATE REMOTE TABLE,CREATE EXTERNAL TABLE
+SQL Server,17,Which of the following is a supported external file format for PolyBase?,PDF,Excel workbook,Delimited text,Word document,Excel workbook
+SQL Server,17,"In the PolyBase example in the session, which data is used?",Employee payroll,Car sensor data,Bank account data,Weather forecasts,Employee payroll
+SQL Server,17,Which Azure storage service can PolyBase query?,Azure Blob Storage,Azure Key Vault,Azure Monitor,Azure DevOps,Azure Monitor
+SQL Server,17,Query Store is a feature that:,Stores backup files,Migrates data to Azure,"Captures a history of queries, plans, and runtime statistics",Encrypts databases,Migrates data to Azure
+SQL Server,17,Query Store simplifies performance troubleshooting by helping to:,Create indexes automatically,Identify performance differences caused by query plan changes,Delete old data,Compress tables,Compress tables
+SQL Server,17,Query Store separates data into time windows so that:,Queries run in parallel,Backups run faster,Tables are partitioned,Database usage patterns and plan changes can be identified,Tables are partitioned
+SQL Server,17,Query Store is enabled by default in:,No databases,New SQL Server databases,New Azure SQL Database databases,All SQL Server databases,No databases
+SQL Server,17,"In SQL Server 2019, Query Store for a new user database is:",Not enabled by default,Enabled only for master,Always enabled,Enabled only for tempdb,Not enabled by default
+SQL Server,17,Which statement is used to enable Query Store for a database?,ALTER DATABASE ... SET QUERY_STORE = ON,SET QUERYSTORE ON,ENABLE QUERY_STORE,CREATE QUERY_STORE,ALTER DATABASE ... SET QUERY_STORE = ON
+SQL Server,17,"To enable Query Store in SSMS, the Operation Mode (Requested) is set to:",Read Write,Off,Read Only,Clear,Read Only
+SQL Server,17,Query Store information about compilation and execution is first stored in:,The error log,The master database,Cache (memory) and then flushed to disk,Tempdb only,The error log
+SQL Server,17,Which parameter determines how often Query Store flushes data to disk?,DATA_FLUSH_INTERVAL_SECONDS,MAX_STORAGE_SIZE_MB,INTERVAL_LENGTH_MINUTES,QUERY_CAPTURE_MODE,INTERVAL_LENGTH_MINUTES
+SQL Server,17,Which parameter sets the time interval at which runtime execution statistics are aggregated?,DATA_FLUSH_INTERVAL_SECONDS,MAX_PLANS_PER_QUERY,INTERVAL_LENGTH_MINUTES,SIZE_BASED_CLEANUP_MODE,SIZE_BASED_CLEANUP_MODE
+SQL Server,17,Which parameter sets the maximum size of Query Store?,MAX_QUERY_SIZE,STORE_SIZE_LIMIT,MAX_SIZE_GB,MAX_STORAGE_SIZE_MB,MAX_QUERY_SIZE
+SQL Server,17,Which parameter limits the number of plans maintained for each query?,MAX_PLANS_PER_QUERY,PLAN_COUNT,PLANS_LIMIT,MAX_QUERY_PLANS,PLAN_COUNT
+SQL Server,17,Which Query Store stored procedure forces a specific plan for a query?,sp_query_force,sp_query_store_force_plan,sp_force_plan,sp_plan_force,sp_query_force
+SQL Server,17,Which Query Store stored procedure removes the forced plan?,sp_query_store_unforce_plan,sp_remove_forced,sp_plan_reset,sp_query_unforce,sp_remove_forced
+SQL Server,17,Which catalog view in Query Store holds query text?,sys.store_text,sys.query_store_query_text,sys.query_sql,sys.query_text,sys.query_text
+SQL Server,17,Which catalog view holds runtime execution statistics in Query Store?,sys.store_stats,sys.runtime_stats,sys.query_runtime,sys.query_store_runtime_stats,sys.runtime_stats
+SQL Server,17,A scenario where Query Store helps is:,Encrypting backups,Identifying and reverting to a previous plan after a plan regression,Creating new tables,Resizing data files,Identifying and reverting to a previous plan after a plan regression
+SQL Server,17,Query Store allows you to ‘roll back’ to:,Older SSMS versions,Query plans from history,Older database backups,Older table definitions,Older table definitions
+SQL Server,17,Query Store can help identify queries that:,Use only SELECT *,Use the fewest columns,Have the longest names,"Consume the most CPU, memory, or I/O","Consume the most CPU, memory, or I/O"
+SQL Server,17,"Before a Query Optimizer upgrade, Query Store can be used to:",Create views,Change the compatibility level,Delete old plans,Record query performance and compare after the upgrade,Create views
+SQL Server,17,Stretch Database is used to:,Migrate cold or archive data securely and transparently to Azure,Encrypt columns,Create full backups,Speed up joins,Encrypt columns
+SQL Server,17,Which data is typically moved to the cloud by Stretch Database?,Logins,Cold (historical) data,Hot (current) data only,System tables,Hot (current) data only
+SQL Server,17,Applications can query Stretch-enabled tables:,Only through Azure Portal,Only after the data is copied back,"In the same way as before, without changes",Only by using new syntax,Only by using new syntax
+SQL Server,17,Which setting enables the remote data archive option for Stretch Database?,sp_configure 'stretch' set to 0,Setting compat level to 90,Enabling TCP/IP only,sp_configure 'remote data archive' set to 1,sp_configure 'remote data archive' set to 1
+SQL Server,17,Enabling Stretch Database on a database establishes:,A Hadoop cluster,A new local filegroup only,A new SQL login only,A connection to the remote (Azure) database,A new SQL login only
+SQL Server,17,Stretch Database eligible data is migrated:,Only at server restart,Immediately and manually only,In the background after the feature is enabled on a table,Never,In the background after the feature is enabled on a table
+SQL Server,17,Which of the following is a Stretch Database limitation?,Cloud storage is not supported,Only one row can be migrated,Rows that have been migrated or are eligible for migration cannot be updated or deleted,Tables cannot be queried,Cloud storage is not supported
+SQL Server,17,Which of the following is not supported by Stretch Database?,Tables that use Change Tracking or are replicated,Tables with indexes,Ordinary tables with cold data,Tables with a primary key,Tables with a primary key
+SQL Server,17,An index cannot be created on:,A regular table,A heap,A partitioned table,A view that includes Stretch-enabled tables,A regular table
+SQL Server,17,"To use Stretch Database, the source SQL Server must be able to:",Communicate with Microsoft Azure,Run only on Linux,Have no indexes,Have only one table,Have no indexes
