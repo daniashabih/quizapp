@@ -23,7 +23,7 @@ const LeaderboardPage = ({ mode: propMode }) => {
     usePageSeo({
         title: isFullMode
             ? 'Complete Global Developer Leaderboard & Directory — HangBug'
-            : 'Global Developer Leaderboard & Top Rankings — HangBug',
+            : 'Global Developer Leaderboard & Rankings — HangBug',
         description: isFullMode
             ? 'Explore the complete directory of ranked software engineers and learners worldwide on HangBug.'
             : 'See top ranked software engineers and learners worldwide. Track XP, accuracy, quiz streaks, and verified certificates on HangBug.',

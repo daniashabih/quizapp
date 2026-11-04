@@ -276,30 +276,30 @@ export const GamesHub = () => {
                                 <span>CODING & TYPING MASTERY</span>
                             </div>
 
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">
-                                Sharpen Logic & <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight text-white">
+                                <span className="text-white">Sharpen Logic &</span> <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-cyan-300">
                                     Developer Keyboard Speed
                                 </span>
                             </h2>
 
-                            <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
+                            <p className="text-xs sm:text-sm text-emerald-100/90 max-w-xl leading-relaxed">
                                 Master real programming syntax, solve algorithmic code puzzles, spot hidden syntax bugs, and build lightning-fast keyboard muscle memory across 14 interactive coding & typing challenges.
                             </p>
 
                             {/* Stats Chips */}
                             <div className="flex flex-wrap items-center gap-3 pt-2">
-                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs">
-                                    <Code2 size={16} className="text-emerald-400" />
-                                    <span><strong>8</strong> Coding Games</span>
+                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs text-white">
+                                    <Code2 size={16} className="text-emerald-400 shrink-0" />
+                                    <span className="text-white"><strong>8</strong> Coding Games</span>
                                 </div>
-                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs">
-                                    <Keyboard size={16} className="text-cyan-400" />
-                                    <span><strong>6</strong> Typing Games</span>
+                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs text-white">
+                                    <Keyboard size={16} className="text-cyan-400 shrink-0" />
+                                    <span className="text-white"><strong>6</strong> Typing Games</span>
                                 </div>
-                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs">
-                                    <Trophy size={16} className="text-yellow-400" />
-                                    <span>Cloud Scores & Live WPM</span>
+                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-xs text-white">
+                                    <Trophy size={16} className="text-yellow-400 shrink-0" />
+                                    <span className="text-white">Cloud Scores & Live WPM</span>
                                 </div>
                             </div>
                         </div>
