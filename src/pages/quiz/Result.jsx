@@ -23,6 +23,8 @@ export default function Result() {
 
     const effectivePassingScore = passingScoreFromState ?? settings?.passingScore ?? 70;
     const passed = passedFromState !== undefined ? passedFromState : (percentage >= effectivePassingScore);
+    const isSeo = String(category || '').toLowerCase() === 'seo';
+    const assessmentLabel = isSeo ? 'Self Assessment' : `Session ${session}`;
     const [animateScore, setAnimateScore] = useState(0);
     const [showConfetti, setShowConfetti] = useState(passed);
     const minutes = Math.floor(timeTaken / 60);
@@ -101,7 +103,7 @@ export default function Result() {
                                 {passed && <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#D19A45] flex items-center justify-center shadow-md"><Sparkles size={12} className="text-white" /></div>}
                             </div>
                             <h1 className="text-2xl lg:text-3xl font-display font-extrabold text-[var(--foreground)] mb-1">{passed ? 'Congratulations!' : 'Keep Going!'}</h1>
-                            <p className="text-[var(--foreground-muted)] text-xs mb-4">{passed ? `You passed Session ${session}!` : 'Review and try again.'}</p>
+                            <p className="text-[var(--foreground-muted)] text-xs mb-4">{passed ? `You passed ${assessmentLabel}!` : 'Review and try again.'}</p>
 
                             {/* Circular Score */}
                             <div className="circular-progress w-28 h-28 mx-auto mb-3">
@@ -117,7 +119,7 @@ export default function Result() {
                                 </div>
                             </div>
                             <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]">
-                                Grade: {grade.label} · Session {session}
+                                Grade: {grade.label} · {assessmentLabel}
                             </div>
                         </div>
 
@@ -141,7 +143,7 @@ export default function Result() {
                             <div className="grid grid-cols-2 gap-2.5">
                                 <div className="p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                     <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase mb-0.5">Technology & Session</p>
-                                    <p className="text-xs font-bold text-[var(--foreground)]">{category} (Session {session})</p>
+                                    <p className="text-xs font-bold text-[var(--foreground)]">{category} ({assessmentLabel})</p>
                                 </div>
                                 <div className="p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                     <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase mb-0.5">Status</p>
@@ -152,10 +154,10 @@ export default function Result() {
                             <div className="space-y-2">
                                 <div className="grid grid-cols-2 gap-2.5">
                                     <Link to="/quiz/start" state={{ category, language: category, session }} className="btn-primary justify-center py-2.5 text-xs sm:text-sm">
-                                        <RotateCcw size={14} /> Retry Session {session}
+                                        <RotateCcw size={14} /> Retry {assessmentLabel}
                                     </Link>
                                     <Link to="/technologies" className="btn-secondary justify-center py-2.5 text-xs sm:text-sm">
-                                        <Home size={14} /> Select Session
+                                        <Home size={14} /> {isSeo ? 'Select Assessment' : 'Select Session'}
                                     </Link>
                                 </div>
                                 {passed && (

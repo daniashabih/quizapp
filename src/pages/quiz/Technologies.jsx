@@ -320,7 +320,11 @@ export default function Technologies() {
                                                             <Check size={10} strokeWidth={3} />
                                                         </div>
                                                     )}
-                                                    <p className="text-xs font-black">Session {s.session}</p>
+                                                    <p className="text-xs font-black">
+                                                        {selectedCatForSession?.name?.toLowerCase() === 'seo'
+                                                            ? (s.session === 1 ? 'Self Assessment' : `Assessment ${s.session}`)
+                                                            : `Session ${s.session}`}
+                                                    </p>
                                                     <p className={`text-[10px] mt-0.5 font-semibold ${isSelected ? 'text-white/90' : 'text-[#193D35]'}`}>
                                                         {s.count} {s.count === 1 ? 'Question' : 'Questions'}
                                                     </p>
@@ -385,11 +389,13 @@ export default function Technologies() {
                                     <span className="font-extrabold text-[#193D35] flex items-center gap-1.5">
                                         <CheckCircle2 size={13} className="text-[#193D35]" />
                                         {selectedCatForSession.name} · {
-                                            isCustomMode
-                                                ? `Session ${customSessionNo || chosenSession}`
-                                                : chosenSession === 'all'
-                                                    ? 'All Sessions (Full Track)'
-                                                    : `Session ${chosenSession}`
+                                            selectedCatForSession?.name?.toLowerCase() === 'seo'
+                                                ? (chosenSession === 'all' ? 'All Assessments (Full Track)' : 'Self Assessment')
+                                                : (isCustomMode
+                                                    ? `Session ${customSessionNo || chosenSession}`
+                                                    : chosenSession === 'all'
+                                                        ? 'All Sessions (Full Track)'
+                                                        : `Session ${chosenSession}`)
                                         }
                                     </span>
                                 </div>
@@ -409,11 +415,13 @@ export default function Technologies() {
                                         className="btn-primary flex-1 justify-center text-xs py-2.5 shadow-md shadow-[#193D35]/20 cursor-pointer font-bold"
                                     >
                                         <Play size={14} /> Start {
-                                            isCustomMode
-                                                ? `Session ${customSessionNo || chosenSession}`
-                                                : chosenSession === 'all'
-                                                    ? 'All Sessions'
-                                                    : `Session ${chosenSession}`
+                                            selectedCatForSession?.name?.toLowerCase() === 'seo'
+                                                ? (chosenSession === 'all' ? 'All Assessments' : 'Self Assessment')
+                                                : (isCustomMode
+                                                    ? `Session ${customSessionNo || chosenSession}`
+                                                    : chosenSession === 'all'
+                                                        ? 'All Sessions'
+                                                        : `Session ${chosenSession}`)
                                         } Quiz
                                     </button>
                                 </div>

@@ -1,0 +1,55 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SEO,1,Which of the following is not an aspect of URL optimization?,URL naming,URL size,URL structure,URL Length,URL size
+SEO,1,_____analysis should be done regularly to maintain the health of Website,Backlink,Domain Authority,No follow links,Do-follow Link,Backlink
+SEO,1,______refers to optimizing a website for search queries from mobile devices,Off page SEO,On-page SEO,Mobile SEO,Mobile Sitemap,Mobile SEO
+SEO,1,_____refers to the exact location of a file or Web,Protocol,Domain,Path,Link,Path
+SEO,1,Which of the following is not a component of search engine?,Web Crawler,Compressed Images,Database,Search Interface,Compressed Images
+SEO,1,Which of the following is a dominant leader in Internet searches?,Bing,Yahoo,Baidu,Google,Google
+SEO,1,When was Google first introduced as a search engine?,1990,1994,1998,2004,1998
+SEO,1,______refers to the process of getting links from other Websites to one’s own site.,Content Audit,Link Building,Content Marketing,Indexing,Link Building
+SEO,1,______determines how data is transferred between the host and Web browser.,Protocol,Path,Web address,Domain,Protocol
+SEO,1,Which of the following is not an Off-page SEO strategy?,Content Marketing,Local SEO,Tag Optimization,Influencer Marketing,Tag Optimization
+SEO,1,What can you do by placing a $ before a number in a search query with Google?,Find exact match,Find hashtags,Search social media,Search for a price,Search for a price
+SEO,1,Which do search engines use to rank the results by most relevant to least relevant?,Algorithms,Keywords,Social signals,Cookies,Algorithms
+SEO,1,What should Sarah do to ensure that her Web pages are read by Google? (multiple correct),Submit Website in Google Search Console,Index Web pages,Understand different search behaviour patterns,Use the right amount of details,Submit Website in Google Search Console
+SEO,1,You want to view estimates on the number of searches a keyword gets. Which one of the following tools will you use?,Black hat SEO,Keyword Planner,Sitemaps Report,Index Coverage Report,Keyword Planner
+SEO,1,Query or search terms given by the users are called,Algorithms,Social Signals,Keywords,Small Touch Elements,Keywords
+SEO,1,Google provides a tool called ______ to help users with new keywords.,Keyword Planner,Grammarly,SEMrush,Trust Flow,Keyword Planner
+SEO,1,SEO is unethical and is created against search engine guidelines,Mobile,White Hat,Black Hat,Gray Hat,Black Hat
+SEO,1,A good search engine rank indicates_____(multiple correct),Increase in the number of organic visitors,Increase in the advertising budget,Greater chances of content being shared on social media,More requirement of blogs,Increase in the number of organic visitors
+SEO,1,What can you do by placing a $ before a number in a search query with Google?,Find exact match,Find hashtags,Search social media,Search for a price,Search for a price
+SEO,1,Nancy is checking the method through which a visitor arrives at a Web page. What is she looking at?,Conversion,Source,Medium,Channel,Medium
+SEO,1,John is using the technique of cloaking for SEO ranking. What will this technique do?,Copy content from a different Website and publish on owner's site,Show different content to users and different content to search engines,Use synonyms of keywords at different places in a blog,Ensure proper internal links for navigation,Show different content to users and different content to search engines
+SEO,1,"Which of the following technologies are used by Responsive Web Design to resize, hide, shrink, enlarge, and move the content on any screen?",CSS,Java,CSS and HTML,XML,CSS and HTML
+SEO,1,________is used to arrange the grid columns in proportion based on page element sizing,Fluid Grid,Grid,Liquid Grid,Fluid,Fluid Grid
+SEO,1,Content audit should always be recorded in a _______mainly because they are flexible.,Hierarchy,Spreadsheet,Tags,HTML,Spreadsheet
+SEO,1,_______concentrates on setting up an engaging interface with logic behaviours,Interaction Design,Information Architecture,Visual Design,Dropdown List,Interaction Design
+SEO,1,________is a navigation aid that allows the user to keep track of the location within programs.,Pagination,Tag,Breadcrumb,Search Field,Breadcrumb
+SEO,1,Which of the following principles emphasizes the importance of designing the user interface to prevent users from making errors.,Feedback,Visibility,Simplicity,Tolerance,Tolerance
+SEO,1,Which layer of the Progressive Enhancement uses JavaScript for improved usability?,First Layer,Second Layer,Third Layer,Fourth Layer,Third Layer
+SEO,1,Which phase of the Responsive Work Design workflow consists of the processes called UX sketches and Interaction design?,Discover,Design,Develop,Deploy,Design
+SEO,1,Which phase of the Responsive Work Design workflow consists of the processes called content migration and user acceptance testing?,Deploy,Develop,Discover,Design,Deploy
+SEO,1,Which of the following is not the normal screen width for designers?,320,460,760,960,460
+SEO,1,An adaptable matrix can be made using________,CSS3 Module,XML,HTML5,CSS2 Syntax,CSS3 Module
+SEO,1,The______ tag is used for displaying information about the data.,html,meta,title,script,meta
+SEO,1,Identify the satellite navigation system that provides information about the location from any part of the globe.,GSM,Bluetooth,WIFI,GPS,GPS
+SEO,1,The_______element is a column or a section that generally contains data linked to the main information but not as relevant or important as the main information.,<aside>,<nav>,<mark>,<section>,<aside>
+SEO,1,The______ element emphasizes the text as compared to its surrounding text,STRONG,SUB,SUP,INS,STRONG
+SEO,1,Identify the correct syntax of doctype in HTML5.,<?DOCTYPE html>,<!DOCTYPE html>,<!DOCTYPE html/>,<?DOCTYPE html?>,<!DOCTYPE html>
+SEO,1,_____property of the navigator object retrieves the version number and platform of the browser.,appVersion,Version,appVer,Ver,appVersion
+SEO,1,_______styles are placed inside the <head> section of a particular Web page source code.,Indented,Internal,External,Inline,Internal
+SEO,1,Which of the following browsers require the -web kit-prefix to support CSS3 transitions?,Apple Safari 3.1,Mozilla Firefox 3.7,Google Chrome,Opera 10.5x,Apple Safari 3.1
+SEO,1,Which of the following options are valid values that can be assigned to the text-decoration property?,none,overline,strike-through,line-through,line-through
+SEO,1,Which of the following options is a text-level semantic tag?,Section,Aside,Nav,Mark,Mark
+SEO,1,HTML5 Canvas allows the user to create quadratic curves using the______method.,makeQuadraticCurve (),quadraticCurveTo(),drawQuadraticCurve (),quadraticCurve(),quadraticCurveTo()
+SEO,1,Identify the correct syntax of the <embed> tag to insert an external file into an HTML page.,"<embed source=""sample.mp3"" />","<embed < src=""sample.mp3"" /embed>","<embed src=""sample.mp3"" />","<embed file='sample.mp3"" />","<embed src=""sample.mp3"" />"
+SEO,1,Identify the correct syntax for specifying an inline style for the <p> tag.,"<p style=""font-size: 20px; color: red:"">","<p font-style=""font-size: 20px; color: red; "">","<p font-size: 20px; color: red;"">",<p style=font-size:20; color: red;>,"<p style=""font-size: 20px; color: red:"">"
+SEO,1,Identify the correct syntax for specifying a background image in an HTML Web page.,"<html> <body image=""bgimg.jpg""> </body> </html>","<html> <body> <background=""bgimg.jpg""> </body> </html>","<html> <body background=""bgimg.jpg""> </body> </html>","<html> <body img=""bgimg.jpg""> </body> </html>","<html> <body background=""bgimg.jpg""> </body> </html>"
+SEO,1,Which of the following is not an Off-page SEO strategy?,Content Marketing,Local SEO,Tag Optimization,Influencer Marketing,Tag Optimization
+SEO,1,__________report provides a summary of the user experience of visitors,Page Experience,Index Coverage,Sitemaps,Links,Page Experience
+SEO,1,Link generation using microsites is a practice of_________SEO.,White Hat SEO,Black Hat SEO,Mobile SEO,Gray Hat SEO,Black Hat SEO
+SEO,1,"______is a set of metrics for loading speed, responsiveness, and visual stability to measure user experience on the Web.",Core Web Vitals,Mobile friendliness,Secure Connection,Sitemaps,Core Web Vitals
+SEO,1,________ is the first thing that visitors see in search results,Description,Font,Title,Header,Title
+SEO,1,_____indicates organized topics in relevant categories,URL naming,URL size,URL structure,URL Length,URL structure
+SEO,1,A_______tells the search engine crawlers about URLs that they can access from the site.,robots.txt file,sitmap.xml file,social signal,backlink,robots.txt file
+SEO,1,Why does Google recommend to use a responsive Web design? (multiple correct),For a reduced engineering time to maintain multiple pages for the same content,To easily share content with a single URL,For a single Googlebot user agent to crawl the page once,For automatic conversion of negative space,To easily share content with a single URL
