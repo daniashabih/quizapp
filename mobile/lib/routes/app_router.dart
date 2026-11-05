@@ -364,6 +364,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 Widget _buildQuizScreen(GoRouterState state) {
   String? category;
   int? session;
+  String? attemptId;
 
   if (state.extra is Map) {
     final map = state.extra as Map;
@@ -373,11 +374,19 @@ Widget _buildQuizScreen(GoRouterState state) {
     if (map['session'] != null) {
       session = int.tryParse(map['session'].toString());
     }
+    if (map['attemptId'] != null) {
+      attemptId = map['attemptId'].toString();
+    }
   }
 
   category ??= state.uri.queryParameters['category'] ?? 'JavaScript';
   session ??= int.tryParse(state.uri.queryParameters['session'] ?? '1') ?? 1;
+  attemptId ??= state.uri.queryParameters['attemptId'];
 
-  return QuizScreen(category: category, session: session);
+  return QuizScreen(
+    category: category,
+    session: session,
+    attemptId: attemptId,
+  );
 }
 

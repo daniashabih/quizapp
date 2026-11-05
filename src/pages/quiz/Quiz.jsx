@@ -344,13 +344,23 @@ const Quiz = () => {
         if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
 
         try {
-            await saveCurrentProgress();
-            toast.success("Quiz progress saved! You can resume anytime from your dashboard.");
-            navigate('/dashboard');
+            const currentQ = questions[currentIndex];
+            const isCurrentAnswered = currentQ && (
+                selectedAnswers[currentQ.id || currentQ._id] !== undefined ||
+                evaluatedAnswers[currentQ.id || currentQ._id]?.isLocked
+            );
+            let targetIndex = currentIndex;
+            if (isCurrentAnswered && currentIndex < questions.length - 1) {
+                targetIndex = currentIndex + 1;
+            }
+
+            await saveCurrentProgress({ currentIndex: targetIndex });
+            toast.success("Your progress has been saved! You can continue your quiz anytime.");
+            navigate('/technologies');
         } catch (err) {
             console.error("Save & Exit error:", err);
-            toast.info("Navigating to dashboard.");
-            navigate('/dashboard');
+            toast.success("Your progress has been saved! You can continue your quiz anytime.");
+            navigate('/technologies');
         } finally {
             setIsSavingAndExiting(false);
         }
@@ -366,7 +376,7 @@ const Quiz = () => {
                 console.warn("Failed to discard attempt:", err);
             }
         }
-        navigate('/dashboard');
+        navigate('/technologies');
     };
 
     // Navigation Handlers with immediate auto-save
@@ -460,13 +470,30 @@ const Quiz = () => {
                 totalQuestions: snapshot.length
             });
         }
+        const rawAnswers = activeAttempt.answers || {};
+        let targetIndex = activeAttempt.currentQuestionIndex || 0;
+
+        // If the question at targetIndex was already answered, resume at the first unanswered question
+        if (snapshot.length > 0) {
+            const currentQId = snapshot[targetIndex]?.id;
+            if (rawAnswers[currentQId] !== undefined) {
+                const nextUnanswered = snapshot.findIndex((q, i) => i >= targetIndex && rawAnswers[q.id] === undefined);
+                if (nextUnanswered !== -1) {
+                    targetIndex = nextUnanswered;
+                } else {
+                    const anyUnanswered = snapshot.findIndex(q => rawAnswers[q.id] === undefined);
+                    if (anyUnanswered !== -1) {
+                        targetIndex = anyUnanswered;
+                    }
+                }
+            }
+        }
+
         const safeIndex = Math.min(
-            activeAttempt.currentQuestionIndex || 0,
+            targetIndex,
             snapshot.length > 0 ? snapshot.length - 1 : 0
         );
         setCurrentIndex(Math.max(0, safeIndex));
-        
-        const rawAnswers = activeAttempt.answers || {};
         setSelectedAnswers(rawAnswers);
 
         // Reconstruct evaluated answers and locked state for all answered questions
@@ -637,6 +664,11 @@ const Quiz = () => {
                     if (checkRes.success && checkRes.hasActiveAttempt && checkRes.attempt) {
                         const att = checkRes.attempt;
                         if (Array.isArray(att.questionsSnapshot) && att.questionsSnapshot.length > 0) {
+                            if (location.state?.resumeDirect) {
+                                restoreAttempt(att);
+                                setLoading(false);
+                                return;
+                            }
                             // Prompt user whether to Resume or Start Over
                             setPendingResumeAttempt(att);
                             setLoading(false);

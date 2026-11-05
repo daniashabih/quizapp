@@ -96,6 +96,10 @@ class QuizRepository {
     return await quizService.getAttemptById(attemptId);
   }
 
+  Future<List<Map<String, dynamic>>> getInProgressAttempts() async {
+    return await quizService.getInProgressAttempts();
+  }
+
   Future<bool> discardAttempt(String attemptId) async {
     return await quizService.discardAttempt(attemptId);
   }

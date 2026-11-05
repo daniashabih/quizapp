@@ -201,7 +201,7 @@ const Attempt = {
      * Record an individual answer authoritatively with concurrency safety and strict locking.
      * Prevents duplicate submissions from altering the original answer or re-incrementing score.
      */
-    recordAnswer: async (id, userId, { questionId, selectedOptionIndex }) => {
+    recordAnswer: async (id, userId, { questionId, selectedOptionIndex, currentQuestionIndex }) => {
         const attempt = await prisma.quizAttempt.findFirst({
             where: {
                 id: String(id),
@@ -307,15 +307,20 @@ const Attempt = {
         const newAnsweredCount = answerKeys.length;
         const newProgressPct = totalQ > 0 ? Math.round((newAnsweredCount / totalQ) * 100) : 0;
 
+        const updateData = {
+            answers: JSON.stringify(updatedAnswers),
+            score: computedScore,
+            answeredCount: newAnsweredCount,
+            progressPercentage: newProgressPct,
+            lastSavedAt: new Date()
+        };
+        if (currentQuestionIndex !== undefined && !isNaN(parseInt(currentQuestionIndex, 10))) {
+            updateData.currentQuestionIndex = parseInt(currentQuestionIndex, 10);
+        }
+
         const updated = await prisma.quizAttempt.update({
             where: { id: String(id) },
-            data: {
-                answers: JSON.stringify(updatedAnswers),
-                score: computedScore,
-                answeredCount: newAnsweredCount,
-                progressPercentage: newProgressPct,
-                lastSavedAt: new Date()
-            }
+            data: updateData
         });
 
         return {
@@ -330,7 +335,8 @@ const Attempt = {
             score: updated.score,
             answeredCount: updated.answeredCount,
             totalQuestions: updated.totalQuestions,
-            progressPercentage: updated.progressPercentage
+            progressPercentage: updated.progressPercentage,
+            currentQuestionIndex: updated.currentQuestionIndex
         };
     },
 

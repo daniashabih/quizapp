@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../models/category_model.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/core_providers.dart';
 import '../../providers/dashboard_provider.dart';
+import '../../providers/quiz_provider.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/empty_state_widget.dart';
@@ -39,9 +41,318 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
     );
   }
 
+  String _formatTimeAgo(dynamic dateVal) {
+    if (dateVal == null) return 'recently';
+    DateTime? dt;
+    if (dateVal is DateTime) {
+      dt = dateVal;
+    } else if (dateVal is String) {
+      dt = DateTime.tryParse(dateVal);
+    }
+    if (dt == null) return 'recently';
+
+    final diff = DateTime.now().difference(dt);
+    if (diff.inSeconds < 60) return 'just now';
+    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
+    if (diff.inHours < 24) return '${diff.inHours}h ago';
+    if (diff.inDays < 7) return '${diff.inDays}d ago';
+    return '${dt.day}/${dt.month}/${dt.year}';
+  }
+
+  void _showDiscardConfirmation(Map<String, dynamic> quiz) {
+    final id = quiz['id']?.toString() ?? '';
+    final category = quiz['category'] ?? quiz['technology'] ?? 'Quiz';
+    final session = quiz['session']?.toString() ?? '1';
+
+    showDialog(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Discard Saved Progress?'),
+        content: Text(
+          'Discard saved progress for $category (Session $session)? This specific quiz attempt will be deleted.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogCtx).pop(),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: context.errorColor,
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () async {
+              Navigator.of(dialogCtx).pop();
+              final success = await ref.read(quizRepositoryProvider).discardAttempt(id);
+              if (success) {
+                ref.invalidate(inProgressAttemptsProvider);
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Quiz progress discarded.'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                }
+              }
+            },
+            child: const Text('Discard'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSavedQuizzesSection(
+    BuildContext context,
+    List<Map<String, dynamic>> attempts,
+  ) {
+    if (attempts.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.bookmark_added_rounded,
+                size: 16,
+                color: context.brandAccentColor,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                'Saved In-Progress Quizzes',
+                style: AppTextStyles.bodyMedium.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 13,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                decoration: BoxDecoration(
+                  color: context.brandAccentColor.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  '${attempts.length} Saved',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: context.brandAccentColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            height: 155,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: attempts.length,
+              separatorBuilder: (context, index) => const SizedBox(width: 12),
+              itemBuilder: (context, index) {
+                final quiz = attempts[index];
+                final category = (quiz['category'] ?? quiz['technology'] ?? 'Quiz').toString();
+                final session = int.tryParse(quiz['session']?.toString() ?? '1') ?? 1;
+                final answered = int.tryParse(quiz['answeredCount']?.toString() ?? '0') ?? 0;
+                final total = int.tryParse(quiz['totalQuestions']?.toString() ?? '0') ?? 0;
+                final pct = (total > 0 ? (answered / total) : 0.0).clamp(0.0, 1.0);
+                final pctInt = (pct * 100).round();
+                final lastSaved = quiz['lastSavedAt'] ?? quiz['updatedAt'];
+
+                return Container(
+                  width: 290,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: context.cardBgColor,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: context.brandAccentColor.withValues(alpha: 0.35),
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Top Row: Title, Session Badge, Time
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  category,
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 3),
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 1.5,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: context.brandAccentColor.withValues(alpha: 0.12),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        session == 0 ? 'All Sessions' : 'Session $session',
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: context.brandAccentColor,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Icon(
+                                      Icons.access_time_rounded,
+                                      size: 11,
+                                      color: context.textSecondaryColor,
+                                    ),
+                                    const SizedBox(width: 2),
+                                    Text(
+                                      _formatTimeAgo(lastSaved),
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: context.textSecondaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Discard Button
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete_outline_rounded,
+                              size: 18,
+                              color: context.errorColor,
+                            ),
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+                            tooltip: 'Discard progress',
+                            onPressed: () => _showDiscardConfirmation(quiz),
+                          ),
+                        ],
+                      ),
+
+                      // Progress Bar & Stats
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '$answered / $total questions completed',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: context.textSecondaryColor,
+                                ),
+                              ),
+                              Text(
+                                '$pctInt%',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: context.brandAccentColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 5),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: LinearProgressIndicator(
+                              value: pct,
+                              minHeight: 5,
+                              backgroundColor: context.borderColor,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                context.brandAccentColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      // Resume Button
+                      SizedBox(
+                        width: double.infinity,
+                        height: 34,
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: context.brandAccentColor,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 0,
+                          ),
+                          icon: const Icon(Icons.play_arrow_rounded, size: 16),
+                          label: const Text(
+                            'Resume Quiz',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: () {
+                            context.push(
+                              '/quiz',
+                              extra: {
+                                'category': category,
+                                'session': session,
+                                'attemptId': quiz['id'],
+                              },
+                            ).then((_) {
+                              ref.invalidate(inProgressAttemptsProvider);
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoriesAsync = ref.watch(categoriesProvider);
+    final authState = ref.watch(authProvider);
+    final inProgressAsync = authState.isAuthenticated
+        ? ref.watch(inProgressAttemptsProvider)
+        : null;
 
     return Scaffold(
       backgroundColor: context.scaffoldBgColor,
@@ -53,7 +364,12 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_rounded, size: 20),
-            onPressed: () => ref.refresh(categoriesProvider),
+            onPressed: () {
+              ref.invalidate(categoriesProvider);
+              if (authState.isAuthenticated) {
+                ref.invalidate(inProgressAttemptsProvider);
+              }
+            },
             tooltip: 'Refresh Categories',
           ),
           const SizedBox(width: 8),
@@ -80,7 +396,13 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
 
           return RefreshIndicator(
             color: context.brandAccentColor,
-            onRefresh: () async => ref.refresh(categoriesProvider.future),
+            onRefresh: () async {
+              ref.invalidate(categoriesProvider);
+              if (authState.isAuthenticated) {
+                ref.invalidate(inProgressAttemptsProvider);
+              }
+              await ref.read(categoriesProvider.future);
+            },
             child: Column(
               children: [
                 // Search Bar
@@ -109,6 +431,14 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                     onChanged: (v) => setState(() => _searchQuery = v),
                   ),
                 ),
+
+                // Saved In-Progress Quizzes Section
+                if (inProgressAsync != null)
+                  inProgressAsync.when(
+                    data: (attempts) => _buildSavedQuizzesSection(context, attempts),
+                    loading: () => const SizedBox.shrink(),
+                    error: (error, stack) => const SizedBox.shrink(),
+                  ),
 
                 // Grid / List of technologies
                 Expanded(

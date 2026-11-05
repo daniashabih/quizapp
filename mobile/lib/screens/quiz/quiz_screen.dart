@@ -14,11 +14,13 @@ import '../../widgets/banner_ad_widget.dart';
 class QuizScreen extends ConsumerStatefulWidget {
   final String category;
   final int session;
+  final String? attemptId;
 
   const QuizScreen({
     super.key,
     required this.category,
     required this.session,
+    this.attemptId,
   });
 
   @override
@@ -39,6 +41,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       ref.read(quizProvider.notifier).startQuiz(
             category: widget.category,
             session: widget.session,
+            explicitAttemptId: widget.attemptId,
           );
       if (mounted) {
         setState(() => _isInitializing = false);
@@ -85,31 +88,47 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text(AppStrings.quitQuizTitle),
         content: const Text(
-          'Your progress has been automatically saved. You can resume this attempt later, or discard it now.',
+          'Would you like to save your progress to resume later, or discard this attempt?',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogCtx).pop(),
-            child: const Text('Resume Quiz'),
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              foregroundColor: context.brandAccentColor,
-            ),
-            onPressed: () {
-              Navigator.of(dialogCtx).pop();
-              context.pop();
-            },
-            child: const Text('Save & Exit'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             style: TextButton.styleFrom(foregroundColor: context.errorColor),
             onPressed: () async {
               Navigator.of(dialogCtx).pop();
               await ref.read(quizProvider.notifier).discardCurrentAttempt();
-              if (mounted) context.pop();
+              if (mounted) {
+                ref.invalidate(inProgressAttemptsProvider);
+                context.go('/explore');
+              }
             },
             child: const Text('Discard'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: context.brandAccentColor,
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () async {
+              Navigator.of(dialogCtx).pop();
+              await ref.read(quizProvider.notifier).saveAndExit();
+              if (mounted) {
+                ref.invalidate(inProgressAttemptsProvider);
+                context.go('/explore');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Your progress has been saved! You can continue your quiz anytime.',
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              }
+            },
+            child: const Text('Save Progress & Exit'),
           ),
         ],
       ),

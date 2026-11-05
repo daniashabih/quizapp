@@ -174,6 +174,7 @@ class QuizService {
       return null;
     }
   }
+
   // Get full attempt by ID
   Future<Map<String, dynamic>?> getAttemptById(String attemptId) async {
     try {
@@ -184,6 +185,20 @@ class QuizService {
       return null;
     } catch (_) {
       return null;
+    }
+  }
+
+  // Get in-progress attempts for user
+  Future<List<Map<String, dynamic>>> getInProgressAttempts() async {
+    try {
+      final response = await apiClient.get(ApiEndpoints.attemptsInProgress);
+      if (response.data is Map<String, dynamic> && response.data['data'] is List) {
+        final list = response.data['data'] as List;
+        return list.map((item) => Map<String, dynamic>.from(item as Map)).toList();
+      }
+      return [];
+    } catch (_) {
+      return [];
     }
   }
 

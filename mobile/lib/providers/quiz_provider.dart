@@ -121,6 +121,7 @@ class QuizNotifier extends StateNotifier<QuizState> {
   Future<void> startQuiz({
     required String category,
     required int session,
+    String? explicitAttemptId,
     bool forceNew = false,
   }) async {
     state = QuizState(
@@ -132,6 +133,108 @@ class QuizNotifier extends StateNotifier<QuizState> {
     try {
       final repository = _ref.read(quizRepositoryProvider);
       final storageKey = _getStorageKey(category, session);
+
+      // 0. If explicit attempt ID provided (e.g. from Resume Quiz button), fetch and restore directly
+      if (!forceNew && explicitAttemptId != null && explicitAttemptId.isNotEmpty) {
+        final attemptRes = await repository.getAttemptById(explicitAttemptId);
+        if (attemptRes != null && attemptRes['attempt'] != null) {
+          final attempt = attemptRes['attempt'] as Map<String, dynamic>;
+          final rawSnapshot = attempt['questionsSnapshot'] as List? ?? [];
+          if (rawSnapshot.isNotEmpty) {
+            var questions = rawSnapshot
+                .map((q) => QuestionModel.fromJson(q as Map<String, dynamic>))
+                .toList();
+
+            if (questions.any((q) => !q.hasValidCorrectAnswer)) {
+              try {
+                final fullQuestions = await repository.getQuestions(
+                  category: category,
+                  session: session > 0 ? session : null,
+                );
+                final byId = {for (final fq in fullQuestions) fq.id: fq};
+                questions = questions.map((q) {
+                  if (q.hasValidCorrectAnswer) return q;
+                  final match = byId[q.id];
+                  if (match == null) return q;
+                  return QuestionModel(
+                    id: q.id,
+                    category: q.category.isNotEmpty ? q.category : match.category,
+                    session: q.session,
+                    questionText: q.questionText,
+                    options: q.options.isNotEmpty ? q.options : match.options,
+                    correctAnswer: match.correctAnswer,
+                    difficulty: q.difficulty,
+                    explanation: (q.explanation != null && q.explanation!.trim().isNotEmpty)
+                        ? q.explanation
+                        : match.explanation,
+                  );
+                }).toList();
+              } catch (_) {}
+            }
+
+            final rawAnswers = attempt['answers'] as Map? ?? {};
+            final Map<String, int> restoredSelected = {};
+            final Map<String, QuestionEvaluationState> restoredEvaluated = {};
+
+            rawAnswers.forEach((k, v) {
+              final idx = int.tryParse(v.toString());
+              if (idx != null) {
+                restoredSelected[k.toString()] = idx;
+              }
+            });
+
+            for (final q in questions) {
+              if (restoredSelected.containsKey(q.id)) {
+                final chosenIdx = restoredSelected[q.id]!;
+                final correctIdx = q.correctOptionIndex;
+                final hasValid = q.hasValidCorrectAnswer;
+                restoredEvaluated[q.id] = QuestionEvaluationState(
+                  selectedOptionIndex: chosenIdx,
+                  isCorrect: hasValid && chosenIdx == correctIdx,
+                  isLocked: true,
+                  correctOptionIndex: correctIdx,
+                  hasValidCorrectAnswer: hasValid,
+                  explanation: q.explanation,
+                );
+              }
+            }
+
+            final rawFlagged = attempt['flaggedQuestions'] as List? ?? [];
+            final flagged = rawFlagged.map((f) => f.toString()).toSet();
+            int currIdx = int.tryParse(attempt['currentQuestionIndex']?.toString() ?? '0') ?? 0;
+
+            if (questions.isNotEmpty && currIdx < questions.length && restoredSelected.containsKey(questions[currIdx].id)) {
+              final nextUnanswered = questions.indexWhere(
+                (q) => !restoredSelected.containsKey(q.id),
+                currIdx,
+              );
+              if (nextUnanswered != -1) {
+                currIdx = nextUnanswered;
+              } else {
+                final anyUnanswered = questions.indexWhere(
+                  (q) => !restoredSelected.containsKey(q.id),
+                );
+                if (anyUnanswered != -1) {
+                  currIdx = anyUnanswered;
+                }
+              }
+            }
+
+            _quizStartTime = DateTime.now();
+            state = state.copyWith(
+              attemptId: attempt['id']?.toString() ?? explicitAttemptId,
+              questions: questions,
+              currentIndex: currIdx.clamp(0, questions.length - 1),
+              selectedAnswers: restoredSelected,
+              evaluatedAnswers: restoredEvaluated,
+              flaggedQuestions: flagged,
+              isLoading: false,
+            );
+            _saveToLocal();
+            return;
+          }
+        }
+      }
 
       // 1. Check local persistence first for instant resume
       if (!forceNew) {
@@ -283,7 +386,24 @@ class QuizNotifier extends StateNotifier<QuizState> {
 
             final rawFlagged = attempt['flaggedQuestions'] as List? ?? [];
             final flagged = rawFlagged.map((f) => f.toString()).toSet();
-            final currIdx = int.tryParse(attempt['currentQuestionIndex']?.toString() ?? '0') ?? 0;
+            int currIdx = int.tryParse(attempt['currentQuestionIndex']?.toString() ?? '0') ?? 0;
+
+            if (questions.isNotEmpty && currIdx < questions.length && restoredSelected.containsKey(questions[currIdx].id)) {
+              final nextUnanswered = questions.indexWhere(
+                (q) => !restoredSelected.containsKey(q.id),
+                currIdx,
+              );
+              if (nextUnanswered != -1) {
+                currIdx = nextUnanswered;
+              } else {
+                final anyUnanswered = questions.indexWhere(
+                  (q) => !restoredSelected.containsKey(q.id),
+                );
+                if (anyUnanswered != -1) {
+                  currIdx = anyUnanswered;
+                }
+              }
+            }
 
             _quizStartTime = DateTime.now();
             state = state.copyWith(
@@ -622,6 +742,38 @@ class QuizNotifier extends StateNotifier<QuizState> {
     }
   }
 
+  /// Save progress immediately to backend and local storage, advancing to next question if current is answered
+  Future<void> saveAndExit() async {
+    _autoSaveDebounceTimer?.cancel();
+
+    int targetIndex = state.currentIndex;
+    if (state.isCurrentQuestionAnswered && state.currentIndex < state.questions.length - 1) {
+      targetIndex = state.currentIndex + 1;
+    }
+    state = state.copyWith(currentIndex: targetIndex);
+    await _saveToLocal();
+
+    if (state.attemptId != null && state.attemptId!.isNotEmpty) {
+      try {
+        final repository = _ref.read(quizRepositoryProvider);
+        final Map<String, dynamic> answersPayload = {};
+        state.selectedAnswers.forEach((k, v) => answersPayload[k] = v);
+
+        await repository.updateAttemptProgress(
+          state.attemptId!,
+          currentQuestionIndex: targetIndex,
+          answers: answersPayload,
+          flaggedQuestions: state.flaggedQuestions.toList(),
+          answeredCount: state.selectedAnswers.length,
+          progressPercentage: state.totalQuestions > 0
+              ? (state.selectedAnswers.length / state.totalQuestions) * 100
+              : 0.0,
+          status: 'in_progress',
+        );
+      } catch (_) {}
+    }
+  }
+
   /// Discard current attempt and clear saved state
   Future<void> discardCurrentAttempt() async {
     _autoSaveDebounceTimer?.cancel();
@@ -649,4 +801,10 @@ class QuizNotifier extends StateNotifier<QuizState> {
 
 final quizProvider = StateNotifierProvider<QuizNotifier, QuizState>((ref) {
   return QuizNotifier(ref);
+});
+
+final inProgressAttemptsProvider =
+    FutureProvider.autoDispose<List<Map<String, dynamic>>>((ref) async {
+  final repository = ref.watch(quizRepositoryProvider);
+  return await repository.getInProgressAttempts();
 });

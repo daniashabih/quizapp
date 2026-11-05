@@ -53,23 +53,34 @@ function formatAttempt(att) {
         }
     }) : [];
 
+    const totalQ = att.totalQuestions || (Array.isArray(snapshot) ? snapshot.length : 0);
+    const answeredCount = att.answeredCount || Object.keys(answers).length;
+    const unansweredCount = Math.max(0, totalQ - answeredCount);
+    const sessName = att.session === 0 ? 'All Sessions' : `Session ${att.session || 1}`;
+
     return {
         id: att.id,
+        quizId: att.id,
         userId: att.userId,
         category: att.category,
+        technology: att.category,
         session: att.session || 1,
+        quizTitle: `${att.category} - ${sessName}`,
         currentQuestionIndex: att.currentQuestionIndex || 0,
         answers: answers,
         evaluatedAnswers: evaluatedAnswers,
         flaggedQuestions: parseSafeJson(att.flaggedQuestions, []),
         questionsSnapshot: sanitizedSnapshot,
         score: att.score || 0,
-        totalQuestions: att.totalQuestions || 0,
-        answeredCount: att.answeredCount || 0,
-        progressPercentage: att.progressPercentage || 0,
+        totalQuestions: totalQ,
+        answeredCount: answeredCount,
+        unansweredCount: unansweredCount,
+        progressPercentage: att.progressPercentage || (totalQ > 0 ? Math.round((answeredCount / totalQ) * 100) : 0),
         status: att.status || 'in_progress',
         startedAt: att.startedAt,
+        createdAt: att.startedAt,
         lastSavedAt: att.lastSavedAt,
+        updatedAt: att.lastSavedAt,
         completedAt: att.completedAt
     };
 }
@@ -149,17 +160,34 @@ const attemptController = {
             const userId = req.user.id;
             const attempts = await Attempt.findInProgressByUserId(userId);
 
-            const formatted = attempts.map(att => ({
-                id: att.id,
-                category: att.category,
-                session: att.session || 1,
-                currentQuestionIndex: att.currentQuestionIndex || 0,
-                answeredCount: att.answeredCount || Object.keys(parseSafeJson(att.answers, {})).length,
-                totalQuestions: att.totalQuestions || 0,
-                progressPercentage: att.progressPercentage || 0,
-                startedAt: att.startedAt,
-                lastSavedAt: att.lastSavedAt
-            }));
+            const formatted = attempts.map(att => {
+                const answers = parseSafeJson(att.answers, {});
+                const totalQ = att.totalQuestions || 0;
+                const answered = att.answeredCount || Object.keys(answers).length;
+                const unanswered = Math.max(0, totalQ - answered);
+                const sessName = att.session === 0 ? 'All Sessions' : `Session ${att.session || 1}`;
+
+                return {
+                    id: att.id,
+                    quizId: att.id,
+                    userId: att.userId,
+                    category: att.category,
+                    technology: att.category,
+                    session: att.session || 1,
+                    quizTitle: `${att.category} - ${sessName}`,
+                    currentQuestionIndex: att.currentQuestionIndex || 0,
+                    answeredCount: answered,
+                    totalQuestions: totalQ,
+                    unansweredCount: unanswered,
+                    score: att.score || 0,
+                    progressPercentage: att.progressPercentage || (totalQ > 0 ? Math.round((answered / totalQ) * 100) : 0),
+                    status: att.status || 'in_progress',
+                    startedAt: att.startedAt,
+                    createdAt: att.startedAt,
+                    lastSavedAt: att.lastSavedAt,
+                    updatedAt: att.lastSavedAt
+                };
+            });
 
             res.status(200).json({
                 success: true,
@@ -214,7 +242,7 @@ const attemptController = {
         try {
             const userId = req.user?.id;
             const { id } = req.params;
-            const { questionId, selectedOptionIndex } = req.body;
+            const { questionId, selectedOptionIndex, currentQuestionIndex } = req.body;
 
             if (!userId) {
                 return res.status(401).json({
@@ -240,7 +268,8 @@ const attemptController = {
 
             const result = await Attempt.recordAnswer(id, userId, {
                 questionId: String(questionId),
-                selectedOptionIndex: numericIndex
+                selectedOptionIndex: numericIndex,
+                currentQuestionIndex: currentQuestionIndex !== undefined ? parseInt(currentQuestionIndex, 10) : undefined
             });
 
             if (!result) {

@@ -5,14 +5,33 @@ import axios from 'axios';
 import {
     Code2, ArrowRight, Search, Sparkles, BookOpen,
     Loader2, X, Play, Hash, CheckCircle2, Layers, Check,
-    ListChecks, Zap, AlertCircle, RefreshCw
+    ListChecks, Zap, AlertCircle, RefreshCw, Clock, Trash2, BookmarkCheck, PlayCircle
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
+import { useAuth } from '../../context/AuthContext';
+import attemptService from '../../services/attemptService';
 
 const techIcons = { default: 'from-black to-zinc-800' };
+
+function formatTimeAgo(date) {
+    if (!date) return 'Recently';
+    const now = new Date();
+    const past = new Date(date);
+    const diffMs = now - past;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return past.toLocaleDateString();
+}
 
 export default function Technologies() {
     usePageSeo({
@@ -28,6 +47,10 @@ export default function Technologies() {
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
 
+    const { user } = useAuth();
+    const [savedAttempts, setSavedAttempts] = useState([]);
+    const [loadingSaved, setLoadingSaved] = useState(false);
+
     // Session Modal State
     const [selectedCatForSession, setSelectedCatForSession] = useState(null);
     const [sessionsList, setSessionsList] = useState([]);
@@ -35,6 +58,56 @@ export default function Technologies() {
     const [chosenSession, setChosenSession] = useState(1);
     const [customSessionNo, setCustomSessionNo] = useState('');
     const [isCustomMode, setIsCustomMode] = useState(false);
+
+    const fetchSavedAttempts = useCallback(async () => {
+        if (!user) {
+            setSavedAttempts([]);
+            return;
+        }
+        setLoadingSaved(true);
+        try {
+            const res = await attemptService.getInProgressAttempts();
+            if (res && res.success && Array.isArray(res.data)) {
+                setSavedAttempts(res.data);
+            } else if (Array.isArray(res)) {
+                setSavedAttempts(res);
+            }
+        } catch (err) {
+            console.debug('No in-progress attempts found or guest mode:', err);
+        } finally {
+            setLoadingSaved(false);
+        }
+    }, [user]);
+
+    useEffect(() => {
+        fetchSavedAttempts();
+    }, [fetchSavedAttempts]);
+
+    const handleResumeQuiz = (quiz) => {
+        navigate('/quiz/start', {
+            state: {
+                attemptId: quiz.id,
+                category: quiz.category || quiz.technology,
+                session: quiz.session,
+                resumeDirect: true
+            }
+        });
+    };
+
+    const handleDiscardSavedAttempt = async (quiz) => {
+        const title = quiz.quizTitle || `${quiz.category || quiz.technology} (Session ${quiz.session})`;
+        if (!window.confirm(`Discard saved progress for ${title}? This will delete this specific saved attempt.`)) {
+            return;
+        }
+        try {
+            await attemptService.discardAttempt(quiz.id);
+            setSavedAttempts(prev => prev.filter(q => q.id !== quiz.id));
+            toast.success('Saved quiz attempt discarded.');
+        } catch (err) {
+            console.error('Failed to discard attempt:', err);
+            toast.error('Failed to discard saved attempt.');
+        }
+    };
 
     const fetchCategories = useCallback(async () => {
         setLoading(true);
@@ -135,6 +208,101 @@ export default function Technologies() {
                 <h1 className="text-3xl lg:text-4xl font-display font-extrabold text-[var(--foreground)] mb-2">Choose Your <span className="text-black underline decoration-black/20 underline-offset-4">Stack</span></h1>
                 <p className="text-sm text-[var(--foreground-muted)] max-w-xl mx-auto">Select a technology to choose a session and start your assessment.</p>
             </div>
+
+            {/* ═══════════════════════════════════════════════════════════
+                 SAVED / IN-PROGRESS QUIZZES CARD SECTION
+               ═══════════════════════════════════════════════════════════ */}
+            {savedAttempts.length > 0 && (
+                <div className="mb-8 card p-5 sm:p-6 rounded-3xl border-2 border-[#193D35]/25 bg-gradient-to-br from-[#193D35]/5 via-[var(--card-bg)] to-[#F3E5C5]/10 shadow-sm space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--card-border)] pb-3">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-[#193D35] text-white flex items-center justify-center shadow-md shrink-0">
+                                <BookmarkCheck size={20} />
+                            </div>
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <h2 className="text-base sm:text-lg font-display font-extrabold text-[var(--foreground)]">
+                                        Saved In-Progress Quizzes
+                                    </h2>
+                                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#193D35] text-white shadow-2xs">
+                                        {savedAttempts.length} Saved
+                                    </span>
+                                </div>
+                                <p className="text-xs text-[var(--foreground-muted)]">
+                                    Continue your quiz exactly where you stopped with your score and previous answers preserved.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-1">
+                        {savedAttempts.map(quiz => {
+                            const completedCount = quiz.answeredCount || 0;
+                            const totalQ = quiz.totalQuestions || 0;
+                            const pct = quiz.progressPercentage !== undefined ? quiz.progressPercentage : (totalQ > 0 ? Math.round((completedCount / totalQ) * 100) : 0);
+                            const lastSaved = quiz.lastSavedAt || quiz.updatedAt;
+
+                            return (
+                                <div
+                                    key={quiz.id}
+                                    className="p-5 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35]/60 hover:shadow-md transition-all flex flex-col justify-between space-y-4 group"
+                                >
+                                    <div className="space-y-3">
+                                        <div className="flex items-start justify-between gap-2">
+                                            <div>
+                                                <h3 className="text-base font-display font-bold text-[var(--foreground)] group-hover:text-[#193D35] transition-colors line-clamp-1">
+                                                    {quiz.category || quiz.technology}
+                                                </h3>
+                                                <div className="flex flex-wrap items-center gap-2 mt-1">
+                                                    <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6]">
+                                                        {quiz.session === 0 ? 'All Sessions' : `Session ${quiz.session}`}
+                                                    </span>
+                                                    <span className="text-[11px] text-[var(--foreground-muted)] flex items-center gap-1 font-medium">
+                                                        <Clock size={11} /> {formatTimeAgo(lastSaved)}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Progress Bar & Counter */}
+                                        <div className="space-y-1.5 pt-1">
+                                            <div className="flex items-center justify-between text-xs font-semibold">
+                                                <span className="text-[var(--foreground-muted)]">
+                                                    <strong className="text-[var(--foreground)]">{completedCount}</strong> / {totalQ} questions completed
+                                                </span>
+                                                <span className="text-[#193D35] font-black">{pct}%</span>
+                                            </div>
+                                            <div className="w-full h-2 rounded-full bg-[var(--muted-bg)] overflow-hidden border border-[var(--card-border)]/50">
+                                                <div
+                                                    className="h-full bg-gradient-to-r from-[#193D35] to-[#42665B] rounded-full transition-all duration-500"
+                                                    style={{ width: `${Math.min(100, Math.max(0, pct))}%` }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Action Buttons */}
+                                    <div className="flex items-center gap-2 pt-2 border-t border-[var(--card-border)]">
+                                        <button
+                                            onClick={() => handleResumeQuiz(quiz)}
+                                            className="btn-primary flex-1 justify-center py-2 text-xs font-bold shadow-xs cursor-pointer flex items-center gap-1.5"
+                                        >
+                                            <Play size={13} className="fill-white" /> Resume Quiz
+                                        </button>
+                                        <button
+                                            onClick={() => handleDiscardSavedAttempt(quiz)}
+                                            className="p-2 rounded-xl text-[var(--foreground-muted)] hover:text-red-600 hover:bg-red-500/10 border border-transparent hover:border-red-200 transition-all cursor-pointer shrink-0"
+                                            title="Discard saved attempt"
+                                        >
+                                            <Trash2 size={15} />
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
 
             <div className="relative max-w-md mx-auto mb-6">
                 <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
