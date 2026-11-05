@@ -437,7 +437,7 @@ export const GamesHub = () => {
                 />
 
                 {/* 6. SEARCH & QUICK FILTER TABS */}
-                <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+                <div id="games-catalog" className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 scroll-mt-24">
                     {/* Filter Tabs */}
                     <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] w-full md:w-auto overflow-x-auto">
                         <button
