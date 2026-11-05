@@ -73,7 +73,7 @@ export default function SplashScreen({ onFinish, message = 'HangBug' }) {
                 <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[var(--card-bg)] border-2 border-[var(--card-border)] shadow-lg flex items-center justify-center p-4">
                     <img
                         src={logoIcon}
-                        alt="HangBug Emblem"
+                        alt="HangBug developer platform emblem"
                         className="w-full h-full object-contain"
                         draggable={false}
                     />
@@ -82,9 +82,9 @@ export default function SplashScreen({ onFinish, message = 'HangBug' }) {
 
             {/* Brand Title */}
             <div className="text-center space-y-1.5">
-                <h1 className="text-2xl sm:text-3xl font-display font-extrabold tracking-tight text-[var(--foreground)]">
+                <p className="text-2xl sm:text-3xl font-display font-extrabold tracking-tight text-[var(--foreground)]">
                     Hang<span className="text-[#193D35] dark:text-emerald-400">Bug</span>
-                </h1>
+                </p>
                 <p className="text-xs sm:text-sm font-semibold tracking-wide text-[#193D35] dark:text-emerald-400/90 uppercase">
                     Learn · Test · Prove
                 </p>

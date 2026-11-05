@@ -22,6 +22,7 @@ const quizRoutes = require('./_routes/quizRoutes');
 const certificateRoutes = require('./_routes/certificateRoutes');
 const userRoutes = require('./_routes/userRoutes');
 const gameRoutes = require('./_routes/gameRoutes');
+const { getDynamicSitemap, getRobotsTxt } = require('./_controllers/seoController');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -71,6 +72,18 @@ app.use('/api/settings', settingRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/api/games', gameRoutes); // Defensive alias for clients with redundant base URL
+
+// Canonical Technical SEO Directives & Dynamic XML Sitemap
+app.get('/robots.txt', getRobotsTxt);
+app.get('/sitemap.xml', getDynamicSitemap);
+app.get('/api/sitemap.xml', getDynamicSitemap);
+
+// Technical SEO 301 Canonical Redirects
+app.get('/privacy', (req, res) => res.redirect(301, '/privacy-policy'));
+app.get('/account-deletion', (req, res) => res.redirect(301, '/delete-account'));
+app.get('/data-deletion', (req, res) => res.redirect(301, '/delete-account'));
+app.get('/quizzes', (req, res) => res.redirect(301, '/technologies'));
+app.get('/games/coding-memory-match', (req, res) => res.redirect(301, '/games/memory-match'));
 
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });

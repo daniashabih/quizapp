@@ -4,6 +4,7 @@ import axios from 'axios';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
+import usePageSeo from '../../hooks/usePageSeo';
 import { Download, Linkedin, ArrowLeft, Award, QrCode, Loader2, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { trackCertificateGeneration, trackCertificateDownload } from '../../utils/analytics';
@@ -21,6 +22,13 @@ export default function CertificateView() {
     const [fetchedCert, setFetchedCert] = useState(null);
     const [loadingCert, setLoadingCert] = useState(!!queryId && !location.state);
     const [certError, setCertError] = useState(null);
+
+    usePageSeo({
+        title: 'Verify Developer Certificate — HangBug Skill Verification',
+        description: 'Verify the authentic developer credentials, test scores, and issue dates of HangBug skill assessment certificates.',
+        canonicalPath: '/certificate/view',
+        noindex: true
+    });
 
     useEffect(() => {
         if (queryId && !location.state) {
@@ -103,7 +111,7 @@ export default function CertificateView() {
     return (
         <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col">
             <Navbar />
-            <div className="flex-1 pt-24 pb-12">
+            <main className="flex-1 pt-24 pb-12">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center gap-3 mb-6">
                         <Link to="/dashboard" className="inline-flex items-center gap-2 text-xs sm:text-sm text-[var(--foreground-muted)] hover:text-[#193D35] transition-colors">
@@ -132,9 +140,9 @@ export default function CertificateView() {
                         <div className="text-center pt-6 pb-4">
                             <BrandLogo variant="mark" size="lg" className="mx-auto mb-4" />
                             <div className="w-24 h-1 bg-[#D19A45] mx-auto mb-6 rounded-full" />
-                            <span className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-widest">
+                            <h1 className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-widest inline-block">
                                 Certificate of Completion
-                            </span>
+                            </h1>
                         </div>
 
                         {/* Body */}
@@ -182,7 +190,7 @@ export default function CertificateView() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
             <Footer />
         </div>
     );

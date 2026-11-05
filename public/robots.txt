@@ -1,6 +1,24 @@
 # HangBug Robots Policy
+# https://www.hangbug.com
+
 User-agent: *
 Allow: /
+
+# Disallow private user dashboards, admin pages, authentication endpoints and APIs
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /signup
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /reset-password/
+Disallow: /delete-account
+Disallow: /account-deletion
+Disallow: /data-deletion
+Disallow: /quiz/start
+Disallow: /quiz/result
 
 # Canonical Sitemap
 Sitemap: https://www.hangbug.com/sitemap.xml

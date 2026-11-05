@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node --test tests/googleAuth.test.cjs tests/passwordReset.test.cjs tests/roleManagement.test.cjs tests/quizFeedbackAndLocking.test.cjs tests/leaderboardAndScoring.test.cjs tests/gamesSection.test.cjs tests/codePuzzleGame.test.cjs tests/gameTechnology.test.cjs tests/googleAnalytics.test.cjs tests/adsenseReadinessPhase1.test.cjs",
     "dev": "node api/index.js",
-    "build": "prisma generate && vite build",
+    "build": "prisma generate && node scripts/generateSitemap.js && vite build && node scripts/generateSitemap.js",
     "postinstall": "prisma generate",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -33,6 +33,7 @@
     "sync:sql-server-session3-live": "node scripts/syncSqlServerSession3ToLive.js",
     "sync:sql-server-session4-live": "node scripts/syncSqlServerSession4ToLive.js",
     "sync:sql-server-session5-live": "node scripts/syncSqlServerSession5ToLive.js",
+    "sync:seo-live": "node scripts/syncAllSeoSessionsToLive.js",
     "sync:powerbi-live": "node scripts/syncPowerBiToLive.js",
     "sync:excel-live": "node scripts/syncExcelToLive.js",
     "sync:php-xml-json-laravel-mysql-js-live": "node scripts/syncCombinedSemester2ToLive.js",

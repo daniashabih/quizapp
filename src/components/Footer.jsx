@@ -25,6 +25,7 @@ export default function Footer() {
                         <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Platform</p>
                         <ul className="space-y-2 text-xs text-[var(--foreground-muted)] font-medium">
                             <li><Link to="/technologies" className="hover:text-[var(--foreground)] transition-colors">Technologies</Link></li>
+                            <li><Link to="/games" className="hover:text-[var(--foreground)] transition-colors">Coding & Typing Games</Link></li>
                             <li><Link to="/leaderboard" className="hover:text-[var(--foreground)] transition-colors">Global Leaderboard</Link></li>
                             <li><Link to="/certificate/view" className="hover:text-[var(--foreground)] transition-colors">Verify Certificate</Link></li>
                             <li><Link to="/dashboard" className="hover:text-[var(--foreground)] transition-colors">Developer Dashboard</Link></li>

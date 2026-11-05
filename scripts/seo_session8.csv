@@ -1,0 +1,59 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SEO,8,SEO tools help to:,Host websites,Create logos,Print documents,Thoroughly investigate a website and give insights on keywords and backlinks,Thoroughly investigate a website and give insights on keywords and backlinks
+SEO,8,SEO tools help maintain site health by:,Discovering areas of opportunity,Removing keywords,Deleting pages,Hiding errors,Discovering areas of opportunity
+SEO,8,SEO tool reports can show issues such as:,Missing logos only,Missing meta descriptions and page server errors,Missing emails,Missing fonts,Missing meta descriptions and page server errors
+SEO,8,Live data on a site shows:,Total backlinks,Page loading history,Keywords,How many visitors are on the site right now,How many visitors are on the site right now
+SEO,8,Conversion occurs when:,A page loads,A link breaks,A user leaves,A user becomes a customer and transacts with the business,A user becomes a customer and transacts with the business
+SEO,8,Google Analytics is a tool to:,Host sites,Edit videos,Track and analyze performance of a website or app,Compress images,Track and analyze performance of a website or app
+SEO,8,Who can access Google Analytics?,Only paid users,Only Google employees,Anyone with a Google account,Only developers,Anyone with a Google account
+SEO,8,The paid version of Google Analytics is called:,Analytics Pro,GA Premium,Google Analytics 360,Analytics Plus,Google Analytics 360
+SEO,8,"To get started with Analytics, click:",Print,Start measuring on the Welcome page,Share,Delete,Start measuring on the Welcome page
+SEO,8,"In the account setup, it is recommended to use:",An email,No name,A random name,A business name as the account name,A business name as the account name
+SEO,8,"In Google Analytics, a property is:","A website, mobile app or URL with a unique tracking ID",A server,A password,An image,"A website, mobile app or URL with a unique tracking ID"
+SEO,8,The tracking code is used to:,Block crawlers,Host files,Edit images,Collect and organize data from the website,Collect and organize data from the website
+SEO,8,Universal Analytics property was introduced in:,2000,2024,2012,2020,2012
+SEO,8,GA4 property was introduced in:,2012,October 2020,2005,1998,October 2020
+SEO,8,GA4 uses which technology to provide smart insights?,Paper reports,Manual counting,Machine learning,Radio,Machine learning
+SEO,8,GA4 uses which ID to identify the data stream?,Tracking ID only,Measurement ID,Site ID only,User ID only,Measurement ID
+SEO,8,Data streams are sources such as:,Fax machines,Radios,Printers,"Website, Android app and iOS app","Website, Android app and iOS app"
+SEO,8,A Web stream indicates that:,The source of data is the web,The source is a phone call,The source is a printer,The source is paper,The source of data is the web
+SEO,8,Universal Analytics uses which ID to collect data?,Tracking ID,Server ID,Order ID,Measurement ID,Tracking ID
+SEO,8,Where is the Analytics tracking code pasted?,In the footer image,After the <head> tag of every web page to be tracked,In robots.txt,In the title text,After the <head> tag of every web page to be tracked
+SEO,8,Where is Tracking Code found in Admin?,View column > Settings,Property column > Tracking Info > Tracking Code,Footer,Account column > Delete,Property column > Tracking Info > Tracking Code
+SEO,8,Standard reports in Analytics appear:,At the bottom,On the left side of the dashboard,In a separate website,Not at all,On the left side of the dashboard
+SEO,8,The standard reports are divided into:,"Realtime, Audience, Acquisition, Behavior and Conversions","Red, Blue, Green and Yellow","Home, Away and Draw","Start, Stop and Pause","Realtime, Audience, Acquisition, Behavior and Conversions"
+SEO,8,Realtime Overview data becomes available within:,Two seconds of a visitor hitting the site,Two months,Two weeks,Two years,Two seconds of a visitor hitting the site
+SEO,8,Realtime shows a graph of:,Employee hours,Pageviews per minute and second,Server cost,Annual revenue,Pageviews per minute and second
+SEO,8,Social traffic refers to:,Traffic from printed ads,Traffic from social networks and social media,Traffic from email only,Traffic from paid ads only,Traffic from social networks and social media
+SEO,8,Referrals are:,Visits from bookmarks,Visits to the site from links that appear on other sites,Visits from ads,Visits from typing the URL,Visits to the site from links that appear on other sites
+SEO,8,Audiences are:,Visitors grouped by certain attributes,Backlinks,Keywords,Servers,Visitors grouped by certain attributes
+SEO,8,The Audience Overview report shows:,"Number of visitors each day, device type and time on site",Only passwords,Only pages,Server cost,"Number of visitors each day, device type and time on site"
+SEO,8,Audience data can be viewed by:,Only language,Only phone number,Only password,"Language, city and country","Language, city and country"
+SEO,8,A session is:,A group of user interactions with the site in a given time frame,A keyword,A page,A link,A group of user interactions with the site in a given time frame
+SEO,8,Pages per session shows:,The number of keywords,The number of ads,The average number of pages viewed by each user per session,The number of links,The average number of pages viewed by each user per session
+SEO,8,New visitors are those who:,Bought something,Visit daily,Visit the site for the first time,Never visit,Visit the site for the first time
+SEO,8,Bounce rate in Analytics is:,The page speed,The ad cost,The percentage of sales,The percentage of single-page visits where the visitor leaves,The percentage of single-page visits where the visitor leaves
+SEO,8,The Acquisition Overview report tells:,The server model,The font size,The page colour,Which channel brings the most visitors,Which channel brings the most visitors
+SEO,8,A source in Acquisition is:,The font,The logo,The footer,"The last visited place of the visitor, such as a website","The last visited place of the visitor, such as a website"
+SEO,8,A medium in Acquisition is:,The domain,The medium through which visitors get to the website,The password,The server,The medium through which visitors get to the website
+SEO,8,Paid Search channel refers to:,Email,Free search,"Paid links, such as Google Ads, through which visitors come",Typed URL,"Paid links, such as Google Ads, through which visitors come"
+SEO,8,A Direct channel means visitors come by:,Email only,Typing the URL in the address bar or using a bookmark,Clicking ads,Social media,Typing the URL in the address bar or using a bookmark
+SEO,8,The Social channel refers to:,Typed URLs,Printed ads,Social networking platforms through which visitors come,Search engines,Social networking platforms through which visitors come
+SEO,8,Behavior Overview report shows:,Only servers,"Pageviews, unique pageviews, average time on page, bounce rate and exit rate",Only keywords,Only ads,"Pageviews, unique pageviews, average time on page, bounce rate and exit rate"
+SEO,8,Unique pageviews are:,The number of sessions during which a page is viewed,The number of backlinks,The number of visitors online,The number of ads,The number of sessions during which a page is viewed
+SEO,8,Exit rate is:,The percentage of first pages,The percentage of the last visited page in a session,The percentage of images,The percentage of ads,The percentage of the last visited page in a session
+SEO,8,A goal in Analytics is:,An ad,A robots.txt rule,A server,Any conversion that occurs on the site,Any conversion that occurs on the site
+SEO,8,Which Conversion report analyses purchase activity?,Realtime,Audience,Behavior,Ecommerce,Ecommerce
+SEO,8,Ecommerce reports can show:,Image names,Font sizes,"Number of transactions, average order value and conversion rate",Server logs,"Number of transactions, average order value and conversion rate"
+SEO,8,Multi-Channel Funnels reports help to:,Edit pages,Determine how marketing channels contribute to conversions,Delete users,Block ads,Determine how marketing channels contribute to conversions
+SEO,8,Ahrefs SEO tools are popular among:,Pilots,Painters,Marketing professionals,Chefs,Marketing professionals
+SEO,8,"To use Ahrefs paid tools, a project is set up by:",Printing domains,Deleting domains,Verifying the domain,Ignoring domains,Verifying the domain
+SEO,8,Ahrefs Site Explorer provides information about:,Only images,Only printers,Organic search traffic and backlink profile of any website or URL,Only emails,Organic search traffic and backlink profile of any website or URL
+SEO,8,Which is a tool in Ahrefs Site Explorer?,Backlink checker,Email client,Video editor,Image editor,Backlink checker
+SEO,8,Organic traffic research in Ahrefs helps to:,Block competitors,Print reports,Check how competitors rank for keywords and pages that bring the most traffic,Delete competitors,Check how competitors rank for keywords and pages that bring the most traffic
+SEO,8,Paid traffic research in Ahrefs helps to:,Delete ads,Edit code,Buy domains,Check if competitors are doing paid ads,Check if competitors are doing paid ads
+SEO,8,"In Ahrefs, which report shows competing domains?",Home > Exit,Organic search > Competing domains,Paid > Delete,Backlinks > Print,Organic search > Competing domains
+SEO,8,"In keyword reports, ""KD"" typically stands for:",Key Data,Keyword Difficulty,Keyword Domain,Known Demand,Keyword Difficulty
+SEO,8,"In keyword reports, ""CPC"" stands for:",Cost per cookie,Content per column,Cost per click,Clicks per category,Cost per click
+SEO,8,"In keyword reports, ""Volume"" indicates:",Sound level,Page width,Average monthly searches,Image size,Average monthly searches
+SEO,8,SEMrush Backlink Analytics can be used to:,Edit images,Host a blog,Send email,Perform backlink analysis for a site,Perform backlink analysis for a site

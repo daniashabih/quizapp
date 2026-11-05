@@ -7,10 +7,16 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import InputField from '../../components/ui/InputField';
+import usePageSeo from '../../hooks/usePageSeo';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ForgotPassword() {
+    usePageSeo({
+        title: 'Forgot Password — HangBug',
+        description: 'Reset your HangBug account password securely.',
+        noindex: true
+    });
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);

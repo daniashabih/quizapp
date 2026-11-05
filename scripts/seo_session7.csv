@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SEO,7,SEO localization is:,Hosting in one country only,Removing all keywords,Adapting website content to the cultural level of a new location,Blocking other countries,Adapting website content to the cultural level of a new location
+SEO,7,"In the Mary example, searching ""bakery"" in Los Angeles shows nearby places because of:",Bing,Random chance,Paid ads,SEO localization,SEO localization
+SEO,7,Which two things are important to understand in SEO localization?,How customers search and the search terms they use,Server type and speed,Colour and font,Logo and slogan,How customers search and the search terms they use
+SEO,7,The Amazon Canada and Japan sites differ in:,Currency and language,HTML,Nothing,The Amazon name,Currency and language
+SEO,7,"How many steps are needed to get the right keywords for SEO localization, per the guide?",One,Twenty,Seven,Two,Seven
+SEO,7,"In the first step, source text should:",Remove local or cultural references and include all product keywords,Add local slang,Include only images,Remove all keywords,Remove local or cultural references and include all product keywords
+SEO,7,Transactional keywords are those that potential customers use to:,"Find a product or service, such as purchase, discount or online shop",Fix errors,Learn about a topic,Find a brand's info only,"Find a product or service, such as purchase, discount or online shop"
+SEO,7,Informational keywords help users to:,Buy immediately,Pay taxes,Learn more about a topic,Log in,Learn more about a topic
+SEO,7,Brand keywords are used to:,Edit code,Find free images,Block crawlers,Find specific information about a brand's products or services,Find specific information about a brand's products or services
+SEO,7,Extracted keywords are set up in a:,Cookie,Sitemap,Database of passwords,Termbase,Termbase
+SEO,7,Who should be included when adding suggested topics in the target language?,No one,A robot only,A competitor,A native speaker,A native speaker
+SEO,7,"After target topics are ready, a keyword tool is used to analyze:",Image sizes,Server logs,Search volumes,Fonts,Search volumes
+SEO,7,A native speaker is asked to:,Write ads only,Find a match between source terms and target terms,Delete the keywords,Block pages,Find a match between source terms and target terms
+SEO,7,CAT tools stand for:,Crawl And Track tools,Copy And Translate tools,Content Analytics Tools,Computer Assisted Translation tools,Computer Assisted Translation tools
+SEO,7,CAT tools provide:,Server hosting,Real-time translation of the termbase,Ad budgets,Backlinks,Real-time translation of the termbase
+SEO,7,A proofreader should ensure that the translation:,Retains all keywords and terminology and is natural,Is word-for-word only,Is shorter,Removes keywords,Retains all keywords and terminology and is natural
+SEO,7,Which elements are localized in the last step?,Only fonts,"Name, address, phone number and schema markup",Only the logo,Only the domain,"Name, address, phone number and schema markup"
+SEO,7,SEO internationalization is the process of:,Making a website multilingual to market internationally,Hosting locally only,Removing languages,Blocking countries,Making a website multilingual to market internationally
+SEO,7,Targeting a country and language is a:,Business goal such as maximum sales,Font choice,Server setting,Hosting plan,Business goal such as maximum sales
+SEO,7,Search engines understand a site targets a country when it is hosted on:,A foreign IP only,A random IP,No IP,A local IP,A local IP
+SEO,7,Search engines understand a country target when links are:,Built from local resources,Hidden,Removed,Built from no one,Built from local resources
+SEO,7,ccTLD stands for:,Central cache top-level domain,Country code top-level domain,Content control top domain,Common code text link domain,Country code top-level domain
+SEO,7,.ca is the ccTLD for:,China,Canada,California,Cuba,Canada
+SEO,7,.co.uk is the ccTLD for:,Corsica,United Kingdom,Costa Rica,Colombia,United Kingdom
+SEO,7,Which URL structure uses a subdomain?,domainname.com/uk,uk.domainname.com,domainname.co.uk,domainname.com/?lang=en,uk.domainname.com
+SEO,7,Which URL structure is a subdirectory?,domainname.com/?lang,domainname.com/uk,uk.domainname.com,domainnameuksite.com,domainname.com/uk
+SEO,7,Which is a disadvantage of using a subdirectory?,It has no URL,It blocks language,It uses a ccTLD,The number of pages within the URL increases,The number of pages within the URL increases
+SEO,7,Which are examples of gTLDs?,".pdf, .doc, .jpg",".html, .css, .js",".ca, .uk, .jp, .in",".net, .edu, .com, .org",".net, .edu, .com, .org"
+SEO,7,A language parameter in a URL appears:,At the end of the URL after a question mark,In the title,In the footer,At the start of the domain,At the end of the URL after a question mark
+SEO,7,What does domainnameuksite.com represent?,A language parameter,A subdomain,A different domain name for internationalized content,A subdirectory,A different domain name for internationalized content
+SEO,7,The hreflang attribute or language meta tags:,Notify search engines of an alternate language version,Block crawlers,Hide pages,Remove keywords,Notify search engines of an alternate language version
+SEO,7,Using language meta tags helps search engines:,Hide results,Delete pages,Show results to users searching in that language,Block users,Show results to users searching in that language
+SEO,7,Why should local currency be shown?,It hides prices,Buyers understand the price without conversion,It blocks ads,It slows the site,Buyers understand the price without conversion
+SEO,7,SEO internationalization includes which elements?,Only fonts,"Local language, currency, time zone and cultural differences",Only images,Only the logo,"Local language, currency, time zone and cultural differences"
+SEO,7,Time zone helps to understand:,Keyword counts,Server speed,The use of time by customers and best time of purchases,Color usage,The use of time by customers and best time of purchases
+SEO,7,Cultural elements include:,Only fonts,"Societal codes, values, customs and colors",Only server specs,Only the domain age,"Societal codes, values, customs and colors"
+SEO,7,Which practice should be avoided to show different-language versions of a page?,Using cookies,Using separate URLs,Using language tags,Using hreflang,Using cookies
+SEO,7,Why avoid automatic redirection based on location?,It is required,The user may be a traveller or in that location for a reason,It improves SEO,It speeds the site,The user may be a traveller or in that location for a reason
+SEO,7,What is recommended instead of automatic redirection?,Force a redirect,Suggest the language/version to the user,Block the user,Delete the page,Suggest the language/version to the user
+SEO,7,All content on a site's page should be in:,Mixed languages,Random language,No language,The primary language,The primary language
+SEO,7,Social Media Optimization (SMO) is:,Compressing images,Editing HTML,Changing hosting,Using social networks to grow an organization's message and online presence,Using social networks to grow an organization's message and online presence
+SEO,7,User engagement on social media is measured by:,"Comments, likes and shares",Titles,Server logs,Fonts,"Comments, likes and shares"
+SEO,7,User engagement is considered:,Illegal,Not important,A penalty,A ranking signal,A ranking signal
+SEO,7,The hashtag symbol is added:,Before a relevant keyword or phrase in posts,In robots.txt,In the title tag,At the end of the page,Before a relevant keyword or phrase in posts
+SEO,7,"On Facebook, it is recommended to use:",At least twenty hashtags,Zero hashtags always,Hundred hashtags,No more than two hashtags,No more than two hashtags
+SEO,7,"After Google, which is the second-largest search engine?",YouTube,Bing,Pinterest,Yahoo,YouTube
+SEO,7,YouTube and Google belong to:,Different companies,Microsoft,Amazon,The same company,The same company
+SEO,7,Google search results can show:,No videos,Only ads,Only text,A carousel of video content from YouTube and other platforms,A carousel of video content from YouTube and other platforms
+SEO,7,Choosing the right social media platform means:,Using none,Using all platforms equally,Identifying which platforms the target audience uses more,Using only one forever,Identifying which platforms the target audience uses more
+SEO,7,Which statement is correct about SEO localization?,It ignores culture,It ensures cultural references and social attitudes are taken care of,It blocks local users,It removes language,It ensures cultural references and social attitudes are taken care of

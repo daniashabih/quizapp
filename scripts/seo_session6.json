@@ -1,0 +1,624 @@
+{
+  "category": "SEO",
+  "session": 6,
+  "title": "Session 6: SEO Content Strategy and Local SEO Content",
+  "totalQuestions": 56,
+  "questions": [
+    {
+      "questionText": "SEO-friendly content is described as:",
+      "options": [
+        "The most expensive way to advertise",
+        "Only for paid ads",
+        "The cheapest way to expand the audience",
+        "Useless for ranking"
+      ],
+      "correctAnswer": "The cheapest way to expand the audience",
+      "explanation": "Correct answer is C) The cheapest way to expand the audience."
+    },
+    {
+      "questionText": "Search engines act as:",
+      "options": [
+        "A bank",
+        "A hosting provider",
+        "A paid-only platform",
+        "A free advertising platform for SEO-friendly content"
+      ],
+      "correctAnswer": "A free advertising platform for SEO-friendly content",
+      "explanation": "Correct answer is D) A free advertising platform for SEO-friendly content."
+    },
+    {
+      "questionText": "SEO-friendly content results in:",
+      "options": [
+        "No visitors",
+        "Blocked crawlers",
+        "Slower sites",
+        "Good search engine ranking and more organic visitors"
+      ],
+      "correctAnswer": "Good search engine ranking and more organic visitors",
+      "explanation": "Correct answer is D) Good search engine ranking and more organic visitors."
+    },
+    {
+      "questionText": "Bounce rate represents:",
+      "options": [
+        "The number of backlinks",
+        "The percentage of visitors who enter the site and leave without viewing other pages",
+        "The page loading time",
+        "The number of keywords"
+      ],
+      "correctAnswer": "The percentage of visitors who enter the site and leave without viewing other pages",
+      "explanation": "Correct answer is B) The percentage of visitors who enter the site and leave without viewing other pages."
+    },
+    {
+      "questionText": "Which of the following is the first step of an effective SEO content strategy?",
+      "options": [
+        "List topics",
+        "Compress media",
+        "Track content",
+        "Follow guidelines"
+      ],
+      "correctAnswer": "List topics",
+      "explanation": "Correct answer is A) List topics."
+    },
+    {
+      "questionText": "Topics for content are ranked based on:",
+      "options": [
+        "Colour",
+        "Word length",
+        "Alphabetical order",
+        "Monthly search volume"
+      ],
+      "correctAnswer": "Monthly search volume",
+      "explanation": "Correct answer is D) Monthly search volume."
+    },
+    {
+      "questionText": "Approximately how many topics should be listed in the first step, according to the guide?",
+      "options": [
+        "100-200",
+        "0",
+        "13-14",
+        "1-2"
+      ],
+      "correctAnswer": "13-14",
+      "explanation": "Correct answer is C) 13-14."
+    },
+    {
+      "questionText": "Short-tail keywords usually consist of:",
+      "options": [
+        "A full sentence",
+        "Two or three words",
+        "A URL",
+        "Ten words"
+      ],
+      "correctAnswer": "Two or three words",
+      "explanation": "Correct answer is B) Two or three words."
+    },
+    {
+      "questionText": "Short-tail keywords represent:",
+      "options": [
+        "Images",
+        "Backlinks",
+        "Broad topics",
+        "Sub-topics only"
+      ],
+      "correctAnswer": "Broad topics",
+      "explanation": "Correct answer is C) Broad topics."
+    },
+    {
+      "questionText": "Pull-up bars and push-up bars on John's gym website are examples of:",
+      "options": [
+        "Short-tail keywords",
+        "Long-tail keywords",
+        "Anchor texts",
+        "Meta tags"
+      ],
+      "correctAnswer": "Short-tail keywords",
+      "explanation": "Correct answer is A) Short-tail keywords."
+    },
+    {
+      "questionText": "Long-tail keywords can be considered:",
+      "options": [
+        "Topics",
+        "Sub-topics",
+        "Domains",
+        "Images"
+      ],
+      "correctAnswer": "Sub-topics",
+      "explanation": "Correct answer is B) Sub-topics."
+    },
+    {
+      "questionText": "Long-tail keywords usually have:",
+      "options": [
+        "No words",
+        "More than three words",
+        "One word",
+        "Only digits"
+      ],
+      "correctAnswer": "More than three words",
+      "explanation": "Correct answer is B) More than three words."
+    },
+    {
+      "questionText": "Which tool can be used to find long-tail keywords?",
+      "options": [
+        "Squoosh",
+        "TinyPNG",
+        "Google Keyword Planner, Auto-complete or related searches",
+        "Notepad"
+      ],
+      "correctAnswer": "Google Keyword Planner, Auto-complete or related searches",
+      "explanation": "Correct answer is C) Google Keyword Planner, Auto-complete or related searches."
+    },
+    {
+      "questionText": "How many long-tail keywords should ideally be identified for each short-tail keyword?",
+      "options": [
+        "0",
+        "About 12",
+        "1",
+        "500"
+      ],
+      "correctAnswer": "About 12",
+      "explanation": "Correct answer is B) About 12."
+    },
+    {
+      "questionText": "\"Pull-up bars with parallel grips\" is an example of:",
+      "options": [
+        "A protocol",
+        "A short-tail keyword",
+        "A long-tail keyword",
+        "A domain"
+      ],
+      "correctAnswer": "A long-tail keyword",
+      "explanation": "Correct answer is C) A long-tail keyword."
+    },
+    {
+      "questionText": "The second step in the content strategy is:",
+      "options": [
+        "Track content",
+        "Set up a blog",
+        "Compress media",
+        "List long-tail keywords based on topics"
+      ],
+      "correctAnswer": "List long-tail keywords based on topics",
+      "explanation": "Correct answer is D) List long-tail keywords based on topics."
+    },
+    {
+      "questionText": "The third step is to:",
+      "options": [
+        "Build pages for each topic",
+        "Write robots.txt",
+        "Buy ads",
+        "Delete topics"
+      ],
+      "correctAnswer": "Build pages for each topic",
+      "explanation": "Correct answer is A) Build pages for each topic."
+    },
+    {
+      "questionText": "Creating a list of long-tail keywords for each topic gives:",
+      "options": [
+        "A server report",
+        "A list of backlinks",
+        "A complete table of contents of topics and subtopics",
+        "A sitemap"
+      ],
+      "correctAnswer": "A complete table of contents of topics and subtopics",
+      "explanation": "Correct answer is C) A complete table of contents of topics and subtopics."
+    },
+    {
+      "questionText": "Creating pages around long-tail keywords ensures content caters to:",
+      "options": [
+        "No audience",
+        "Only bots",
+        "People with different interests and concerns",
+        "Only one audience"
+      ],
+      "correctAnswer": "People with different interests and concerns",
+      "explanation": "Correct answer is C) People with different interests and concerns."
+    },
+    {
+      "questionText": "Regular blogging gives search engines:",
+      "options": [
+        "Nothing new",
+        "A reason to delete pages",
+        "A penalty",
+        "Something new to index"
+      ],
+      "correctAnswer": "Something new to index",
+      "explanation": "Correct answer is D) Something new to index."
+    },
+    {
+      "questionText": "Each blog post can be considered:",
+      "options": [
+        "A duplicate",
+        "A new web page and an opportunity to rank",
+        "A spam page",
+        "A link only"
+      ],
+      "correctAnswer": "A new web page and an opportunity to rank",
+      "explanation": "Correct answer is B) A new web page and an opportunity to rank."
+    },
+    {
+      "questionText": "Which are free blogging platforms mentioned?",
+      "options": [
+        "Gmail, Drive and Docs",
+        "Bing, Yahoo and Archie",
+        "Excel, Word and PowerPoint",
+        "Wix, Weebly and WordPress"
+      ],
+      "correctAnswer": "Wix, Weebly and WordPress",
+      "explanation": "Correct answer is D) Wix, Weebly and WordPress."
+    },
+    {
+      "questionText": "How many times should the long-tail keyword be used at most in a blog post?",
+      "options": [
+        "Four",
+        "One hundred",
+        "Zero",
+        "Fifty"
+      ],
+      "correctAnswer": "Four",
+      "explanation": "Correct answer is A) Four."
+    },
+    {
+      "questionText": "Using the keyword too many times might make search engines:",
+      "options": [
+        "Consider it a deliberate attempt to influence ranking",
+        "Index it faster",
+        "Reward the page",
+        "Ignore the title"
+      ],
+      "correctAnswer": "Consider it a deliberate attempt to influence ranking",
+      "explanation": "Correct answer is A) Consider it a deliberate attempt to influence ranking."
+    },
+    {
+      "questionText": "A blog post should provide a link out to:",
+      "options": [
+        "A random site",
+        "A competitor only",
+        "Nothing",
+        "The main topic"
+      ],
+      "correctAnswer": "The main topic",
+      "explanation": "Correct answer is D) The main topic."
+    },
+    {
+      "questionText": "Setting up a blogging schedule brings:",
+      "options": [
+        "Penalties",
+        "Confusion",
+        "Slower loading",
+        "Consistency and focus"
+      ],
+      "correctAnswer": "Consistency and focus",
+      "explanation": "Correct answer is D) Consistency and focus."
+    },
+    {
+      "questionText": "Link-building is the process of:",
+      "options": [
+        "Removing links",
+        "Attracting backlinks, also called inbound links",
+        "Buying domains",
+        "Creating pop-ups"
+      ],
+      "correctAnswer": "Attracting backlinks, also called inbound links",
+      "explanation": "Correct answer is B) Attracting backlinks, also called inbound links."
+    },
+    {
+      "questionText": "A link-building strategy includes:",
+      "options": [
+        "Hiding links",
+        "Sharing links with local businesses in exchange for links",
+        "Buying spam links",
+        "Deleting posts"
+      ],
+      "correctAnswer": "Sharing links with local businesses in exchange for links",
+      "explanation": "Correct answer is B) Sharing links with local businesses in exchange for links."
+    },
+    {
+      "questionText": "Guest blogging is used to:",
+      "options": [
+        "Block indexing",
+        "Reduce posts",
+        "Generate backlinks",
+        "Remove authority"
+      ],
+      "correctAnswer": "Generate backlinks",
+      "explanation": "Correct answer is C) Generate backlinks."
+    },
+    {
+      "questionText": "Page speed is:",
+      "options": [
+        "A social signal",
+        "Irrelevant to ranking",
+        "A crucial ranking factor",
+        "A penalty"
+      ],
+      "correctAnswer": "A crucial ranking factor",
+      "explanation": "Correct answer is C) A crucial ranking factor."
+    },
+    {
+      "questionText": "Media files should be:",
+      "options": [
+        "Compressed to a small file size",
+        "Deleted",
+        "Left at maximum size",
+        "Hidden"
+      ],
+      "correctAnswer": "Compressed to a small file size",
+      "explanation": "Correct answer is A) Compressed to a small file size."
+    },
+    {
+      "questionText": "Which tools can be used for image compression?",
+      "options": [
+        "Ahrefs and SEMrush",
+        "TinyPNG and Google's Squoosh",
+        "Moz and Majestic",
+        "Gmail and Docs"
+      ],
+      "correctAnswer": "TinyPNG and Google's Squoosh",
+      "explanation": "Correct answer is B) TinyPNG and Google's Squoosh."
+    },
+    {
+      "questionText": "Compressed media files can be used:",
+      "options": [
+        "Never",
+        "Without compromising on quality",
+        "Only with poor quality",
+        "Only in videos"
+      ],
+      "correctAnswer": "Without compromising on quality",
+      "explanation": "Correct answer is B) Without compromising on quality."
+    },
+    {
+      "questionText": "Why should one follow the latest SEO guidelines?",
+      "options": [
+        "Search engine algorithms constantly evolve",
+        "Algorithms never change",
+        "They are not important",
+        "Guidelines are secret"
+      ],
+      "correctAnswer": "Search engine algorithms constantly evolve",
+      "explanation": "Correct answer is A) Search engine algorithms constantly evolve."
+    },
+    {
+      "questionText": "Where can one check updates in Google Search?",
+      "options": [
+        "A sitemap",
+        "The robots.txt",
+        "The \"What's new\" section of Google Search Central",
+        "The footer"
+      ],
+      "correctAnswer": "The \"What's new\" section of Google Search Central",
+      "explanation": "Correct answer is C) The \"What's new\" section of Google Search Central."
+    },
+    {
+      "questionText": "Which of these provide updates on SEO guidelines?",
+      "options": [
+        "Moz and Search Engine Roundtable",
+        "Excel and Word",
+        "Gmail and Drive",
+        "Zoom and Teams"
+      ],
+      "correctAnswer": "Moz and Search Engine Roundtable",
+      "explanation": "Correct answer is A) Moz and Search Engine Roundtable."
+    },
+    {
+      "questionText": "Which tools can track content performance?",
+      "options": [
+        "Squoosh",
+        "TinyPNG",
+        "Notepad",
+        "Google Analytics and similar web analytics tools"
+      ],
+      "correctAnswer": "Google Analytics and similar web analytics tools",
+      "explanation": "Correct answer is D) Google Analytics and similar web analytics tools."
+    },
+    {
+      "questionText": "Web analytics tools show data such as:",
+      "options": [
+        "Bounce rates, page views and unique visitors",
+        "Passwords",
+        "Bank details",
+        "Phone numbers"
+      ],
+      "correctAnswer": "Bounce rates, page views and unique visitors",
+      "explanation": "Correct answer is A) Bounce rates, page views and unique visitors."
+    },
+    {
+      "questionText": "A pageview is:",
+      "options": [
+        "A unique visitor",
+        "A backlink",
+        "An instance of a page being loaded or reloaded in a browser",
+        "A keyword"
+      ],
+      "correctAnswer": "An instance of a page being loaded or reloaded in a browser",
+      "explanation": "Correct answer is C) An instance of a page being loaded or reloaded in a browser."
+    },
+    {
+      "questionText": "Unique visitors are:",
+      "options": [
+        "The number of pages",
+        "The number of ads",
+        "The number of links",
+        "The number of individuals who visited a website in a given time period"
+      ],
+      "correctAnswer": "The number of individuals who visited a website in a given time period",
+      "explanation": "Correct answer is D) The number of individuals who visited a website in a given time period."
+    },
+    {
+      "questionText": "Core components of SEO content include:",
+      "options": [
+        "Ads only",
+        "Hosting only",
+        "Printing and mailing",
+        "Technical SEO, On-page SEO and Off-page SEO"
+      ],
+      "correctAnswer": "Technical SEO, On-page SEO and Off-page SEO",
+      "explanation": "Correct answer is D) Technical SEO, On-page SEO and Off-page SEO."
+    },
+    {
+      "questionText": "Local SEO statistics show that how many searches Google receives every day include local\n searches?",
+      "options": [
+        "None",
+        "Approximately 1.6 thousand",
+        "Approximately 1.6 billion",
+        "Approximately 16"
+      ],
+      "correctAnswer": "Approximately 1.6 billion",
+      "explanation": "Correct answer is C) Approximately 1.6 billion."
+    },
+    {
+      "questionText": "Users visit how many physical locations every month based on Google searches and reviews?",
+      "options": [
+        "15 thousand",
+        "150",
+        "None",
+        "1.5 billion"
+      ],
+      "correctAnswer": "1.5 billion",
+      "explanation": "Correct answer is D) 1.5 billion."
+    },
+    {
+      "questionText": "Local searches lead to what percent of purchases in physical stores?",
+      "options": [
+        "19%",
+        "0%",
+        "9%",
+        "90%"
+      ],
+      "correctAnswer": "90%",
+      "explanation": "Correct answer is D) 90%."
+    },
+    {
+      "questionText": "Searches such as 'near me' and 'buy now' increased by how much in 2020?",
+      "options": [
+        "50%",
+        "5%",
+        "0%",
+        "500%"
+      ],
+      "correctAnswer": "500%",
+      "explanation": "Correct answer is D) 500%."
+    },
+    {
+      "questionText": "What percent of users who do 'near me' searches visit the actual store?",
+      "options": [
+        "0%",
+        "5%",
+        "50%",
+        "99%"
+      ],
+      "correctAnswer": "50%",
+      "explanation": "Correct answer is C) 50%."
+    },
+    {
+      "questionText": "Users who read online reviews before choosing local services are about:",
+      "options": [
+        "2%",
+        "10%",
+        "90%",
+        "0%"
+      ],
+      "correctAnswer": "90%",
+      "explanation": "Correct answer is C) 90%."
+    },
+    {
+      "questionText": "What percent of users use Google Maps to explore local stores and businesses?",
+      "options": [
+        "86%",
+        "16%",
+        "6%",
+        "0%"
+      ],
+      "correctAnswer": "86%",
+      "explanation": "Correct answer is A) 86%."
+    },
+    {
+      "questionText": "Positive online reviews:",
+      "options": [
+        "Make a business look trustworthy",
+        "Block maps",
+        "Cause penalties",
+        "Reduce sales"
+      ],
+      "correctAnswer": "Make a business look trustworthy",
+      "explanation": "Correct answer is A) Make a business look trustworthy."
+    },
+    {
+      "questionText": "Links published on social media are treated as:",
+      "options": [
+        "Errors",
+        "Duplicate content",
+        "Spam only",
+        "Credible backlinks"
+      ],
+      "correctAnswer": "Credible backlinks",
+      "explanation": "Correct answer is D) Credible backlinks."
+    },
+    {
+      "questionText": "Social media profiles can appear:",
+      "options": [
+        "Only in ads",
+        "Only in images",
+        "Never in results",
+        "Among the top results when brand names are searched"
+      ],
+      "correctAnswer": "Among the top results when brand names are searched",
+      "explanation": "Correct answer is D) Among the top results when brand names are searched."
+    },
+    {
+      "questionText": "Which platform is described as the largest professional network?",
+      "options": [
+        "Pinterest",
+        "Reddit",
+        "LinkedIn",
+        "Twitter"
+      ],
+      "correctAnswer": "LinkedIn",
+      "explanation": "Correct answer is C) LinkedIn."
+    },
+    {
+      "questionText": "On Pinterest, the information seen in search results is called:",
+      "options": [
+        "A thread",
+        "A pin",
+        "A post",
+        "A tweet"
+      ],
+      "correctAnswer": "A pin",
+      "explanation": "Correct answer is B) A pin."
+    },
+    {
+      "questionText": "Short posts published on Twitter are called:",
+      "options": [
+        "Boards",
+        "Threads",
+        "Tweets",
+        "Pins"
+      ],
+      "correctAnswer": "Tweets",
+      "explanation": "Correct answer is C) Tweets."
+    },
+    {
+      "questionText": "Reddit is described as:",
+      "options": [
+        "A search engine",
+        "A bank",
+        "A discussion, social news aggregation and web content rating website",
+        "An image editor"
+      ],
+      "correctAnswer": "A discussion, social news aggregation and web content rating website",
+      "explanation": "Correct answer is C) A discussion, social news aggregation and web content rating website."
+    },
+    {
+      "questionText": "Wikipedia is described as:",
+      "options": [
+        "A paid ad network",
+        "A video platform",
+        "An open content online encyclopedia",
+        "A forum only"
+      ],
+      "correctAnswer": "An open content online encyclopedia",
+      "explanation": "Correct answer is C) An open content online encyclopedia."
+    }
+  ]
+}

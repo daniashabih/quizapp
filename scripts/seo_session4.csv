@@ -1,0 +1,60 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SEO,4,Off-page SEO directly helps to:,Reduce server load,Change fonts,Improve the ranking of a website on SERPs and gain relevant traffic,Edit HTML tags,Improve the ranking of a website on SERPs and gain relevant traffic
+SEO,4,Off-page SEO is a:,Technical file,One-time activity,Server setting,Continuous process for gaining new and relevant links,Continuous process for gaining new and relevant links
+SEO,4,A site with a huge number of high-value backlinks is usually:,Removed,Ranked lower,Hidden,Ranked higher,Ranked higher
+SEO,4,Which are the three types of links by how they are earned?,"Inbound, outbound and broken","Red, blue and green","Natural, manual and self-created","Fast, slow and medium","Natural, manual and self-created"
+SEO,4,Natural links are:,Forced by the owner,Created through spam,Gained automatically due to contextual relevance of content,Bought links,Gained automatically due to contextual relevance of content
+SEO,4,Manual links are:,Server logs,Deleted links,Gained automatically,"Built deliberately, such as making a profile on a social media platform","Built deliberately, such as making a profile on a social media platform"
+SEO,4,Self-created links are:,Always banned,Natural links,Always safe,"Forced links, such as adding a link in a comment or forum signature","Forced links, such as adding a link in a comment or forum signature"
+SEO,4,Which off-page technique involves sharing links on Facebook and Twitter?,Robots.txt editing,Title optimization,Engaging on social media platforms,Technical SEO,Engaging on social media platforms
+SEO,4,Social bookmarking sites allow users to:,Edit HTML,Delete websites,"Save, add, annotate, tag and share bookmarked web pages",Compress files,"Save, add, annotate, tag and share bookmarked web pages"
+SEO,4,Which is a social bookmarking site mentioned?,Notepad,Pinterest,Excel,Calculator,Pinterest
+SEO,4,"Why create fresh, shareable content?",It blocks crawlers,It avoids keywords,It reduces traffic,It generates natural links,It generates natural links
+SEO,4,Reaching out to influencers requires first ensuring content is:,Hidden,"Share-worthy, detailed and factually correct",Short and unclear,Copied,"Share-worthy, detailed and factually correct"
+SEO,4,Guest blogging helps to:,Block indexing,Delete backlinks,Reach newer audiences and earn backlinks,Reduce traffic,Reach newer audiences and earn backlinks
+SEO,4,"When guest posting, one should avoid:",Publishing well-researched content,Searching for blogs open to guest posts,Posting multiple times on the same guest blog site,Linking to relevant content,Posting multiple times on the same guest blog site
+SEO,4,Forums are useful for SEO because they:,Remove authority,Provide community and allow sharing of links without spamming,Slow the site,Always block links,Provide community and allow sharing of links without spamming
+SEO,4,Which are popular forums mentioned?,Excel and Word,Bing and Yahoo,Gmail and Drive,Reddit and Quora,Reddit and Quora
+SEO,4,Domain Authority (DA) is a metric that shows:,The size of a site,The number of images,The page load time,How a website ranks in SERPs,How a website ranks in SERPs
+SEO,4,The DA score usually ranges from:,0 to 5,1 to 10,100 to 1000,1 to 100,1 to 100
+SEO,4,Which company first developed DA?,Ahrefs,Moz,Bing,Google,Moz
+SEO,4,Does Google use DA as a ranking factor?,No,Only for blogs,Only for images,"Yes, always",No
+SEO,4,A directory with a high DA score provides:,Penalties only,Low-quality backlinks,No backlinks,High-quality backlinks,High-quality backlinks
+SEO,4,It is recommended to submit a blog to how many directories in a day?,Two or three,Hundreds,None,Fifty,Two or three
+SEO,4,Do-follow links:,Are always spam,Are only for images,Allow visitors and search engines to follow the link to another website,Cannot be followed by search bots,Allow visitors and search engines to follow the link to another website
+SEO,4,No-follow links:,Are always penalized,Are the same as do-follow,Promote the article by increasing visibility but cannot be followed by search bots,Pass full authority,Promote the article by increasing visibility but cannot be followed by search bots
+SEO,4,"When choosing article submission sites, you should ensure they:",Accept any content,Are anonymous,Are always paid,Comply with copyright laws and have transparent terms,Comply with copyright laws and have transparent terms
+SEO,4,Articles submitted should be free of:,Categories,Keyword stuffing,Titles,Anchor text,Keyword stuffing
+SEO,4,"Which form of digital content is described as the most engaging and generating maximum
+ conversion?",Footer text,Video,Plain text,Cookies,Video
+SEO,4,"When uploading videos, you should:",Add a descriptive title and sufficient description,Avoid keywords,Leave the title blank,Remove contact details,Add a descriptive title and sufficient description
+SEO,4,Which image file format is ideal for animated graphics?,BMP,JPEG,PNG,GIF,GIF
+SEO,4,Which image format is ideal when greater colour depth with small file size is required?,GIF,PNG,TXT,JPEG only,PNG
+SEO,4,Which format is ideal for high-resolution web images with low compression?,DOC,GIF,JPEG,TXT,JPEG
+SEO,4,Google recommends separating words in image file names using:,Commas,Underscores only,Spaces,Hyphens,Hyphens
+SEO,4,Image file names should be limited to about how many words?,One hundred,Fifty,Twenty,Six,Six
+SEO,4,Alt text serves which purpose?,Changes the colour,Gives search engines better image descriptions and appears when the image does not load,Deletes the image,Compresses the image,Gives search engines better image descriptions and appears when the image does not load
+SEO,4,Alt text also helps:,Slow loading,Block crawlers,Visually impaired users through screen readers,Increase file size,Visually impaired users through screen readers
+SEO,4,Sites that offer free copyright-free images include:,Pixabay and Unsplash,Gmail and Drive,Excel and Word,Zoom and Teams,Pixabay and Unsplash
+SEO,4,Documents can be shared on document sharing sites in the form of:,"Word, PPT or PDF",Only JPEG,Only MP3,Only ZIP,"Word, PPT or PDF"
+SEO,4,Branding a shared document can be done by:,Removing all text,Adding a logo on the cover page and website link,Hiding the title,Using random fonts,Adding a logo on the cover page and website link
+SEO,4,Comment spam occurs when users:,Ask relevant questions,Share the post,Insert unrelated links in comments to gain backlinks,Leave genuine thanks,Insert unrelated links in comments to gain backlinks
+SEO,4,How can comment spam be controlled?,Disabling HTTPS,Allowing all comments,Deleting the site,Comment moderation and comment blocking,Comment moderation and comment blocking
+SEO,4,Buying and selling links is:,Required for ranking,Always recommended,A violation of Google's Webmaster guidelines,A white hat practice,A violation of Google's Webmaster guidelines
+SEO,4,Publishing blogs on a different platform than the main site leads to:,Managing and optimizing two different sites,Fewer pages,Faster loading,Better ranking always,Managing and optimizing two different sites
+SEO,4,Which directories should business details be submitted to?,Only spam directories,None,Credible ones such as Google My Business and Yelp,Any random directory,Credible ones such as Google My Business and Yelp
+SEO,4,Which directory is most recommended for local information?,Paid blogs,Google My Business,Random directories,Forums,Google My Business
+SEO,4,Moz's PA score predicts:,How well a specific page will rank on SERPs,The speed of a server,The number of ads,The age of a site,How well a specific page will rank on SERPs
+SEO,4,Moz PA score ranges from:,1 to 10,10 to 20,1 to 100,0 to 1000,1 to 100
+SEO,4,"Which tool measures domain authority using a metric called ""Trust Flow""?",Google,Moz,Majestic SEO,Bing,Majestic SEO
+SEO,4,Moz's spam score measures:,Image size,How similar a site is to others penalized by Google,Page speed,Font size,How similar a site is to others penalized by Google
+SEO,4,Linking Root Domains refers to:,The number of unique domains linking to a site,The number of keywords,The number of pages,The number of images,The number of unique domains linking to a site
+SEO,4,A 301 redirect is:,A permanent redirect that passes link equity to the new URL,A sitemap,A temporary redirect,An error page,A permanent redirect that passes link equity to the new URL
+SEO,4,A 302 redirect is:,A permanent redirect,A server crash,A DNS record,A temporary redirect that passes no link equity to the new URL,A temporary redirect that passes no link equity to the new URL
+SEO,4,"In backlink analysis, competitors' sites should be:",Ignored,Copied word-for-word,Blocked,Analysed to gain insights into their strategies,Analysed to gain insights into their strategies
+SEO,4,Which is a backlink analysis tool metric?,Font size,Total unique linking root domains,Image alt text only,Server type,Total unique linking root domains
+SEO,4,Inbound links are:,Image links,Broken internal links,Backlinks from other websites to your site,Links from your site to others,Backlinks from other websites to your site
+SEO,4,Outbound links are:,Image links,Links in your website that point to websites with a different domain,Links from other sites to yours,Internal links,Links in your website that point to websites with a different domain
+SEO,4,A benefit of outbound links is that they:,Build trust with readers by citing sources,Reduce content,Remove authority,Block crawlers,Build trust with readers by citing sources
+SEO,4,Lost links are links that:,Are internal,No longer refer to the site,Are newly created,Are do-follow only,No longer refer to the site
+SEO,4,"If a page has 5 referring domains and 1,000 backlinks, search engines may consider it:",A sitemap,Perfect,Spam,Authoritative,Spam

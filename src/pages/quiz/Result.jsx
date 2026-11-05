@@ -3,9 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, RotateCcw, Download, CheckCircle2, XCircle, Clock, BarChart3, Sparkles, Linkedin } from "lucide-react";
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import usePageSeo from '../../hooks/usePageSeo';
 import { useSettings } from '../../context/SettingsContext';
 
 export default function Result() {
+    usePageSeo({
+        title: 'Quiz Assessment Results — HangBug',
+        noindex: true
+    });
     const location = useLocation();
     const { settings } = useSettings();
     const {

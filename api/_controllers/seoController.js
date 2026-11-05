@@ -1,0 +1,97 @@
+const fs = require('fs');
+const path = require('path');
+
+const BASE_URL = 'https://www.hangbug.com';
+
+const PUBLIC_ROUTES = [
+    { loc: '/', changefreq: 'daily', priority: '1.0' },
+    { loc: '/technologies', changefreq: 'daily', priority: '0.9' },
+    { loc: '/games', changefreq: 'daily', priority: '0.9' },
+    { loc: '/leaderboard', changefreq: 'daily', priority: '0.8' },
+    { loc: '/about', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/contact', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/privacy-policy', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/terms', changefreq: 'monthly', priority: '0.6' },
+];
+
+const GAME_SLUGS = [
+    'code-puzzle',
+    'find-the-bug',
+    'output-predictor',
+    'code-scramble',
+    'missing-code',
+    'logic-builder',
+    'sql-challenge',
+    'memory-match',
+    'speed-typing',
+    'code-typing',
+    'sixty-second-challenge',
+    'error-free-typing',
+    'syntax-typing',
+    'word-rain',
+    'csharp-oop-challenge',
+    'csharp-collections-challenge',
+    'csharp-linq-challenge',
+    'csharp-exception-handling'
+];
+
+function buildSitemapXml() {
+    const urls = [
+        ...PUBLIC_ROUTES.map(r => `  <url>\n    <loc>${BASE_URL}${r.loc}</loc>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`),
+        ...GAME_SLUGS.map(slug => `  <url>\n    <loc>${BASE_URL}/games/${slug}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`)
+    ];
+
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
+}
+
+function buildRobotsTxt() {
+    return `# HangBug Robots Policy
+# https://www.hangbug.com
+
+User-agent: *
+Allow: /
+
+# Disallow private user dashboards, admin pages, authentication endpoints and APIs
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /signup
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /reset-password/
+Disallow: /delete-account
+Disallow: /account-deletion
+Disallow: /data-deletion
+Disallow: /quiz/start
+Disallow: /quiz/result
+
+# Canonical Sitemap
+Sitemap: ${BASE_URL}/sitemap.xml
+`;
+}
+
+function getDynamicSitemap(req, res) {
+    const xml = buildSitemapXml();
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=43200');
+    return res.status(200).send(xml);
+}
+
+function getRobotsTxt(req, res) {
+    const robots = buildRobotsTxt();
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.status(200).send(robots);
+}
+
+module.exports = {
+    BASE_URL,
+    PUBLIC_ROUTES,
+    GAME_SLUGS,
+    buildSitemapXml,
+    buildRobotsTxt,
+    getDynamicSitemap,
+    getRobotsTxt
+};

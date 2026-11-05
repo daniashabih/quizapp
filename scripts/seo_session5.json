@@ -1,0 +1,602 @@
+{
+  "category": "SEO",
+  "session": 5,
+  "title": "Session 5: Mobile SEO",
+  "totalQuestions": 54,
+  "questions": [
+    {
+      "questionText": "Mobile SEO refers to:",
+      "options": [
+        "Optimizing only for printers",
+        "Building mobile phones",
+        "Optimizing a website for search queries from mobile devices",
+        "Creating app stores"
+      ],
+      "correctAnswer": "Optimizing a website for search queries from mobile devices",
+      "explanation": "Correct answer is C) Optimizing a website for search queries from mobile devices."
+    },
+    {
+      "questionText": "Mobile SEO can be implemented if a website has:",
+      "options": [
+        "A password",
+        "Only desktop pages",
+        "No CSS",
+        "A responsive web design"
+      ],
+      "correctAnswer": "A responsive web design",
+      "explanation": "Correct answer is D) A responsive web design."
+    },
+    {
+      "questionText": "Responsive web design means:",
+      "options": [
+        "The site is offline",
+        "Web content automatically adjusts to the screen size of any device",
+        "The site has no images",
+        "Content is fixed for one screen"
+      ],
+      "correctAnswer": "Web content automatically adjusts to the screen size of any device",
+      "explanation": "Correct answer is B) Web content automatically adjusts to the screen size of any device."
+    },
+    {
+      "questionText": "A responsive design serves all devices with:",
+      "options": [
+        "Different code for each device",
+        "No code",
+        "Only images",
+        "The same code"
+      ],
+      "correctAnswer": "The same code",
+      "explanation": "Correct answer is D) The same code."
+    },
+    {
+      "questionText": "Why does Google recommend responsive web design?",
+      "options": [
+        "It blocks mobile users",
+        "It needs multiple URLs",
+        "It requires reduced engineering time and a single Googlebot crawl",
+        "It increases maintenance"
+      ],
+      "correctAnswer": "It requires reduced engineering time and a single Googlebot crawl",
+      "explanation": "Correct answer is C) It requires reduced engineering time and a single Googlebot crawl."
+    },
+    {
+      "questionText": "AMP stands for:",
+      "options": [
+        "Automatic Mobile Pictures",
+        "Advanced Mobile Programming",
+        "Applied Media Pages",
+        "Accelerated Mobile Pages"
+      ],
+      "correctAnswer": "Accelerated Mobile Pages",
+      "explanation": "Correct answer is D) Accelerated Mobile Pages."
+    },
+    {
+      "questionText": "AMP is:",
+      "options": [
+        "A paid social network",
+        "A search engine",
+        "A type of image",
+        "An open-source framework designed for fast load times on mobile pages"
+      ],
+      "correctAnswer": "An open-source framework designed for fast load times on mobile pages",
+      "explanation": "Correct answer is D) An open-source framework designed for fast load times on mobile pages."
+    },
+    {
+      "questionText": "Features of AMP include:",
+      "options": [
+        "Less JavaScript and CSS elements",
+        "Large images",
+        "Heavy videos",
+        "More JavaScript"
+      ],
+      "correctAnswer": "Less JavaScript and CSS elements",
+      "explanation": "Correct answer is A) Less JavaScript and CSS elements."
+    },
+    {
+      "questionText": "Compressed images on mobile:",
+      "options": [
+        "Block crawlers",
+        "Decrease page load time",
+        "Remove content",
+        "Increase load time"
+      ],
+      "correctAnswer": "Decrease page load time",
+      "explanation": "Correct answer is B) Decrease page load time."
+    },
+    {
+      "questionText": "Mobile search terms are generally:",
+      "options": [
+        "Always numeric",
+        "Always paragraphs",
+        "Very long",
+        "Short"
+      ],
+      "correctAnswer": "Short",
+      "explanation": "Correct answer is D) Short."
+    },
+    {
+      "questionText": "Mobile keyword research is used to:",
+      "options": [
+        "Edit HTML",
+        "Identify keywords a mobile user might use as search terms",
+        "Compress images",
+        "Block bots"
+      ],
+      "correctAnswer": "Identify keywords a mobile user might use as search terms",
+      "explanation": "Correct answer is B) Identify keywords a mobile user might use as search terms."
+    },
+    {
+      "questionText": "Social signals refer to:",
+      "options": [
+        "Phone signals",
+        "Server signals",
+        "Wi-Fi signals",
+        "Engagement on social media such as comments, likes and shares"
+      ],
+      "correctAnswer": "Engagement on social media such as comments, likes and shares",
+      "explanation": "Correct answer is D) Engagement on social media such as comments, likes and shares."
+    },
+    {
+      "questionText": "Does Google consider social signals a direct ranking factor?",
+      "options": [
+        "No, but they have an impact on rankings",
+        "Only for ads",
+        "Yes, always",
+        "Never any impact"
+      ],
+      "correctAnswer": "No, but they have an impact on rankings",
+      "explanation": "Correct answer is A) No, but they have an impact on rankings."
+    },
+    {
+      "questionText": "Which search engine has a direct use of social signals, according to the guide?",
+      "options": [
+        "AskJeeves",
+        "Bing",
+        "Yahoo directory",
+        "Archie"
+      ],
+      "correctAnswer": "Bing",
+      "explanation": "Correct answer is B) Bing."
+    },
+    {
+      "questionText": "What percentage of content shared on mobile is done through messaging apps such as\n WhatsApp?",
+      "options": [
+        "Over 17%",
+        "Under 1%",
+        "Over 7%",
+        "Over 77%"
+      ],
+      "correctAnswer": "Over 77%",
+      "explanation": "Correct answer is D) Over 77%."
+    },
+    {
+      "questionText": "Local SEO is an essential part of mobile SEO because:",
+      "options": [
+        "It is illegal",
+        "More mobile users search for local businesses",
+        "It reduces speed",
+        "Mobile users never search locally"
+      ],
+      "correctAnswer": "More mobile users search for local businesses",
+      "explanation": "Correct answer is B) More mobile users search for local businesses."
+    },
+    {
+      "questionText": "\"Chess classes near me\" is an example of:",
+      "options": [
+        "A branded search",
+        "A local search",
+        "A video search",
+        "An image search"
+      ],
+      "correctAnswer": "A local search",
+      "explanation": "Correct answer is B) A local search."
+    },
+    {
+      "questionText": "Local keywords include:",
+      "options": [
+        "Only brand names",
+        "Only numbers",
+        "A location, such as \"Italian bakery in Agoura Hills, CA\"",
+        "Only emojis"
+      ],
+      "correctAnswer": "A location, such as \"Italian bakery in Agoura Hills, CA\"",
+      "explanation": "Correct answer is C) A location, such as \"Italian bakery in Agoura Hills, CA\"."
+    },
+    {
+      "questionText": "Which of these negatively affects mobile rankings?",
+      "options": [
+        "Responsive design",
+        "Compressed images",
+        "Crawl errors",
+        "Fast loading"
+      ],
+      "correctAnswer": "Crawl errors",
+      "explanation": "Correct answer is C) Crawl errors."
+    },
+    {
+      "questionText": "Which Google tool provides a complete report on crawl errors?",
+      "options": [
+        "Google Maps",
+        "Google Docs",
+        "Google Drive",
+        "Google Search Console"
+      ],
+      "correctAnswer": "Google Search Console",
+      "explanation": "Correct answer is D) Google Search Console."
+    },
+    {
+      "questionText": "Too many ads on mobile:",
+      "options": [
+        "Increase page speed",
+        "Are required",
+        "Always improve ranking",
+        "Take away the content experience"
+      ],
+      "correctAnswer": "Take away the content experience",
+      "explanation": "Correct answer is D) Take away the content experience."
+    },
+    {
+      "questionText": "The ideal base font size for mobile is:",
+      "options": [
+        "16 pixels",
+        "8 pixels",
+        "60 pixels",
+        "4 pixels"
+      ],
+      "correctAnswer": "16 pixels",
+      "explanation": "Correct answer is A) 16 pixels."
+    },
+    {
+      "questionText": "Font size smaller than ideal on mobile requires visitors to:",
+      "options": [
+        "Click an ad",
+        "Log out",
+        "Pinch and zoom",
+        "Refresh the page"
+      ],
+      "correctAnswer": "Pinch and zoom",
+      "explanation": "Correct answer is C) Pinch and zoom."
+    },
+    {
+      "questionText": "Intrusive interstitials are:",
+      "options": [
+        "Sitemaps",
+        "Meta tags",
+        "Faster images",
+        "Popup ads that block most of a mobile landing page"
+      ],
+      "correctAnswer": "Popup ads that block most of a mobile landing page",
+      "explanation": "Correct answer is D) Popup ads that block most of a mobile landing page."
+    },
+    {
+      "questionText": "Google does not rank high pages with:",
+      "options": [
+        "Clear fonts",
+        "Intrusive interstitials",
+        "Fast loading",
+        "Responsive design"
+      ],
+      "correctAnswer": "Intrusive interstitials",
+      "explanation": "Correct answer is B) Intrusive interstitials."
+    },
+    {
+      "questionText": "Small elements placed close together on mobile:",
+      "options": [
+        "Always improve usability",
+        "Speed up loading",
+        "Are required",
+        "Can create a bad experience because users may click the wrong item"
+      ],
+      "correctAnswer": "Can create a bad experience because users may click the wrong item",
+      "explanation": "Correct answer is D) Can create a bad experience because users may click the wrong item."
+    },
+    {
+      "questionText": "A mobile layout should use:",
+      "options": [
+        "No spacing",
+        "Tiny buttons",
+        "Overlapping buttons",
+        "Plenty of negative space around elements"
+      ],
+      "correctAnswer": "Plenty of negative space around elements",
+      "explanation": "Correct answer is D) Plenty of negative space around elements."
+    },
+    {
+      "questionText": "Mobile users tend to be more distracted, so it is better to follow:",
+      "options": [
+        "The short rule (short content)",
+        "Large banners",
+        "Very long paragraphs",
+        "Long videos only"
+      ],
+      "correctAnswer": "The short rule (short content)",
+      "explanation": "Correct answer is A) The short rule (short content)."
+    },
+    {
+      "questionText": "A mobile sitemap provides:",
+      "options": [
+        "Information about the mobile pages",
+        "Social posts",
+        "Ads",
+        "Passwords"
+      ],
+      "correctAnswer": "Information about the mobile pages",
+      "explanation": "Correct answer is A) Information about the mobile pages."
+    },
+    {
+      "questionText": "A mobile sitemap helps search engines to:",
+      "options": [
+        "Block users",
+        "Edit HTML",
+        "Delete pages",
+        "Crawl mobile sites more efficiently"
+      ],
+      "correctAnswer": "Crawl mobile sites more efficiently",
+      "explanation": "Correct answer is D) Crawl mobile sites more efficiently."
+    },
+    {
+      "questionText": "Google recommends that a responsive mobile website should have:",
+      "options": [
+        "A separate mobile sitemap submitted independently",
+        "No sitemap",
+        "Only a text file",
+        "A sitemap in images"
+      ],
+      "correctAnswer": "A separate mobile sitemap submitted independently",
+      "explanation": "Correct answer is A) A separate mobile sitemap submitted independently."
+    },
+    {
+      "questionText": "If a site has multiple mobile markup languages, one should:",
+      "options": [
+        "Create a separate mobile sitemap for each markup language",
+        "Use no sitemap",
+        "Use one sitemap for all",
+        "Delete the languages"
+      ],
+      "correctAnswer": "Create a separate mobile sitemap for each markup language",
+      "explanation": "Correct answer is A) Create a separate mobile sitemap for each markup language."
+    },
+    {
+      "questionText": "In which year did Google enable mobile-first indexing by default for all new websites?",
+      "options": [
+        "2000",
+        "2010",
+        "2025",
+        "2019"
+      ],
+      "correctAnswer": "2019",
+      "explanation": "Correct answer is D) 2019."
+    },
+    {
+      "questionText": "Mobile-first indexing means Google predominantly uses:",
+      "options": [
+        "The mobile version of content for indexing and ranking",
+        "The desktop version only",
+        "The PDF version",
+        "The print version"
+      ],
+      "correctAnswer": "The mobile version of content for indexing and ranking",
+      "explanation": "Correct answer is A) The mobile version of content for indexing and ranking."
+    },
+    {
+      "questionText": "Is a separate mobile-first index maintained by Google?",
+      "options": [
+        "Only for images",
+        "No, Google Search uses only one index",
+        "Yes, two indexes",
+        "Yes, a separate index"
+      ],
+      "correctAnswer": "No, Google Search uses only one index",
+      "explanation": "Correct answer is B) No, Google Search uses only one index."
+    },
+    {
+      "questionText": "Is a mobile version of pages mandatory?",
+      "options": [
+        "Not recommended",
+        "Not mandatory, but Google strongly recommends it",
+        "Always mandatory",
+        "Illegal"
+      ],
+      "correctAnswer": "Not mandatory, but Google strongly recommends it",
+      "explanation": "Correct answer is B) Not mandatory, but Google strongly recommends it."
+    },
+    {
+      "questionText": "Primary content on desktop and mobile should be:",
+      "options": [
+        "Missing on mobile",
+        "Missing on desktop",
+        "Completely different",
+        "The same"
+      ],
+      "correctAnswer": "The same",
+      "explanation": "Correct answer is D) The same."
+    },
+    {
+      "questionText": "Both desktop and mobile sites should have the same:",
+      "options": [
+        "Domain registrar",
+        "Structured data",
+        "Server",
+        "Colour"
+      ],
+      "correctAnswer": "Structured data",
+      "explanation": "Correct answer is B) Structured data."
+    },
+    {
+      "questionText": "Page titles and meta descriptions for desktop and mobile should be:",
+      "options": [
+        "Missing on mobile",
+        "Hidden",
+        "Different",
+        "The same"
+      ],
+      "correctAnswer": "The same",
+      "explanation": "Correct answer is D) The same."
+    },
+    {
+      "questionText": "For images on mobile, you should use:",
+      "options": [
+        "No alt text",
+        "The same alt text as the desktop site",
+        "Alt text only on desktop",
+        "Random alt text"
+      ],
+      "correctAnswer": "The same alt text as the desktop site",
+      "explanation": "Correct answer is B) The same alt text as the desktop site."
+    },
+    {
+      "questionText": "Videos on mobile should have:",
+      "options": [
+        "Hidden placement",
+        "Unsupported formats",
+        "The same structured data as desktop",
+        "No structured data"
+      ],
+      "correctAnswer": "The same structured data as desktop",
+      "explanation": "Correct answer is C) The same structured data as desktop."
+    },
+    {
+      "questionText": "If Search Console is used, both mobile and desktop versions should be:",
+      "options": [
+        "Hidden",
+        "Verified",
+        "Ignored",
+        "Deleted"
+      ],
+      "correctAnswer": "Verified",
+      "explanation": "Correct answer is B) Verified."
+    },
+    {
+      "questionText": "The error page status should be:",
+      "options": [
+        "Same on desktop and mobile sites",
+        "Missing",
+        "Different on mobile",
+        "Blank"
+      ],
+      "correctAnswer": "Same on desktop and mobile sites",
+      "explanation": "Correct answer is A) Same on desktop and mobile sites."
+    },
+    {
+      "questionText": "Which is a best practice for ad placement on mobile?",
+      "options": [
+        "Use many pop-ups",
+        "Follow ad standards",
+        "Place ads over content",
+        "Hide content"
+      ],
+      "correctAnswer": "Follow ad standards",
+      "explanation": "Correct answer is B) Follow ad standards."
+    },
+    {
+      "questionText": "Which statement about local SEO and mobile is true?",
+      "options": [
+        "Local SEO is a Google penalty",
+        "Local SEO blocks crawlers",
+        "Local SEO is irrelevant to mobile",
+        "Local SEO is essential for mobile SEO"
+      ],
+      "correctAnswer": "Local SEO is essential for mobile SEO",
+      "explanation": "Correct answer is D) Local SEO is essential for mobile SEO."
+    },
+    {
+      "questionText": "\"Fitness classes near me\" is an example of:",
+      "options": [
+        "A navigational keyword only",
+        "A brand keyword",
+        "A local keyword",
+        "An image keyword"
+      ],
+      "correctAnswer": "A local keyword",
+      "explanation": "Correct answer is C) A local keyword."
+    },
+    {
+      "questionText": "Using local keywords helps the site:",
+      "options": [
+        "Remove ads",
+        "Appear in local search results",
+        "Load slower",
+        "Disappear from search"
+      ],
+      "correctAnswer": "Appear in local search results",
+      "explanation": "Correct answer is B) Appear in local search results."
+    },
+    {
+      "questionText": "The Search Console report on mobile errors helps:",
+      "options": [
+        "Delete pages",
+        "Increase ads",
+        "Resolve issues affecting mobile crawling",
+        "Hide content"
+      ],
+      "correctAnswer": "Resolve issues affecting mobile crawling",
+      "explanation": "Correct answer is C) Resolve issues affecting mobile crawling."
+    },
+    {
+      "questionText": "Why is mobile SEO crucial?",
+      "options": [
+        "Nobody uses mobile",
+        "It is optional and useless",
+        "Only for ads",
+        "Almost everyone uses a mobile to communicate and search"
+      ],
+      "correctAnswer": "Almost everyone uses a mobile to communicate and search",
+      "explanation": "Correct answer is D) Almost everyone uses a mobile to communicate and search."
+    },
+    {
+      "questionText": "Which design reduces the need to maintain multiple pages for the same content?",
+      "options": [
+        "Separate desktop site",
+        "Print layout",
+        "Separate mobile site",
+        "Responsive web design"
+      ],
+      "correctAnswer": "Responsive web design",
+      "explanation": "Correct answer is D) Responsive web design."
+    },
+    {
+      "questionText": "Which is TRUE of AMP?",
+      "options": [
+        "It helps simple mobile pages load fast",
+        "It is a backlink type",
+        "It makes pages slower",
+        "It is a social network"
+      ],
+      "correctAnswer": "It helps simple mobile pages load fast",
+      "explanation": "Correct answer is A) It helps simple mobile pages load fast."
+    },
+    {
+      "questionText": "Which indicates that mobile layout may differ from desktop?",
+      "options": [
+        "Content must differ completely",
+        "Mobile layout is banned",
+        "Layout can never differ",
+        "A mobile layout can differ but primary content stays the same"
+      ],
+      "correctAnswer": "A mobile layout can differ but primary content stays the same",
+      "explanation": "Correct answer is D) A mobile layout can differ but primary content stays the same."
+    },
+    {
+      "questionText": "On mobile, some content can be moved to:",
+      "options": [
+        "The footer only",
+        "The robots.txt",
+        "Comments",
+        "Tabs"
+      ],
+      "correctAnswer": "Tabs",
+      "explanation": "Correct answer is D) Tabs."
+    },
+    {
+      "questionText": "Google crawls and indexes pages with:",
+      "options": [
+        "A printer agent",
+        "A TV agent",
+        "No agent",
+        "The smartphone agent"
+      ],
+      "correctAnswer": "The smartphone agent",
+      "explanation": "Correct answer is D) The smartphone agent."
+    }
+  ]
+}

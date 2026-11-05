@@ -1,0 +1,61 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SEO,3,On-page SEO is the process of:,Building links on other sites,Posting on social media,Buying ads,Optimizing individual web pages with quality content and wise use of HTML source code,Optimizing individual web pages with quality content and wise use of HTML source code
+SEO,3,Why must a website be updated as per the latest search engine guidelines?,Search engines ignore websites,Search engines keep updating their algorithms,It is a legal rule,Guidelines never change,Search engines keep updating their algorithms
+SEO,3,Which tag is the first thing visitors see in search results?,Footer,Title,Alt text,Canonical,Title
+SEO,3,How many characters does a title usually include at maximum before truncation?,60,200,500,10,60
+SEO,3,The meta description is placed in:,The head section,The footer,The robots.txt file,The image folder,The head section
+SEO,3,A meta description should ideally be kept within how many characters?,400,1000,155,20,155
+SEO,3,H1 is usually used for:,Image captions,The footer,The title of the page,Sitemaps,The title of the page
+SEO,3,Heading tags should follow the hierarchy:,H1 to H6,Only H3,Random order,H6 to H1,H1 to H6
+SEO,3,"What font size is recommended for readable content, especially on mobile?",4-point,16-point,8-point,6-point,16-point
+SEO,3,Which content formatting guideline improves readability?,One huge paragraph,Short paragraphs,Very small text,Unreadable background colours,Short paragraphs
+SEO,3,What is the purpose of anchor links in content?,To slow the page,To block crawlers,Users immediately reach the section they want,To hide content,Users immediately reach the section they want
+SEO,3,Bullet points help users to:,Skip reading,Delete text,Scan information,Download images,Scan information
+SEO,3,URL optimization includes which three aspects?,"URL naming, structure and length","Colour, size and font","Title, header and footer","Port, host and path only","URL naming, structure and length"
+SEO,3,URL naming should:,Always be very long,Avoid any context,Contain random characters,Make clear what the page is about with keywords,Make clear what the page is about with keywords
+SEO,3,A short URL is recommended because:,"It is easy to copy, paste and share",It is secret,It removes keywords,It blocks crawlers,"It is easy to copy, paste and share"
+SEO,3,Internal links help:,Crawlers find all pages in the site,Block social media,Hide pages,Reduce page content,Crawlers find all pages in the site
+SEO,3,External links to one's site:,Create credibility of the content,Remove authority,Block indexing,Reduce traffic,Create credibility of the content
+SEO,3,Page experience signals include:,Post length only,Font names only,Domain colour,Core Web Vitals,Core Web Vitals
+SEO,3,Core Web Vitals measure:,"Loading speed, responsiveness and visual stability",Social shares only,Domain age,Backlinks only,"Loading speed, responsiveness and visual stability"
+SEO,3,A page complies with Core Web Vitals if it meets targets at which percentile?,75th,10th,99th,50th,75th
+SEO,3,A delay of how many milliseconds or less is considered good interactivity?,1000,10000,100,5000,100
+SEO,3,A layout shift score of what or less is considered good?,1.5,10,0.1,5,0.1
+SEO,3,"What percentage of US citizens search for local information on smartphones, according to the
+ guide?",94%,44%,24%,64%,94%
+SEO,3,Which Search Console tool checks if a page is mobile-friendly?,URL Removal tool,Index Coverage,Links report,Mobile-Friendly Test tool,Mobile-Friendly Test tool
+SEO,3,HTTPS provides:,Only ads,Only colours,"Encryption, data integrity and authentication",Only faster typing,"Encryption, data integrity and authentication"
+SEO,3,Encryption in HTTPS ensures:,Pages load twice,Backlinks increase,Pages are deleted,An outsider cannot track the user's activities or steal information,An outsider cannot track the user's activities or steal information
+SEO,3,Data integrity in HTTPS:,Edits URLs,Protects data from being modified or corrupted without detection,Compresses images,Creates sitemaps,Protects data from being modified or corrupted without detection
+SEO,3,Authentication in HTTPS ensures:,Users communicate with the intended site,Keywords are added,Images are resized,Pages are cached,Users communicate with the intended site
+SEO,3,Which key size is recommended for a robust security certificate?,2048-bit,64-bit,8-bit,16-bit,2048-bit
+SEO,3,A content audit is the process of:,Writing a new site,Removing the domain,Buying links,Determining how well the website is performing,Determining how well the website is performing
+SEO,3,"How often should a content audit be done, according to the guide?",Every day,Once in every four months,Once in ten years,Never,Once in every four months
+SEO,3,Which tool provides in-depth analysis of website performance and answers data questions?,Google Analytics,Squoosh,Notepad,TinyPNG,Google Analytics
+SEO,3,Sitemaps are usually required when a website:,Is private,Is very large and has rich media content,Has a single page,Has no media,Is very large and has rich media content
+SEO,3,Does a sitemap guarantee that search engines will crawl and index pages?,"No, it only improves crawling","Yes, for HTML only","Yes, for XML only","Yes, always","No, it only improves crawling"
+SEO,3,Which sitemap format is a text file with one URL per line?,mRSS,Text format,XML,RSS,Text format
+SEO,3,RSS stands for:,Random Server Setup,Remote Search Service,Rapid Site Search,Really Simple Syndication,Really Simple Syndication
+SEO,3,Which sitemap format gives Google details about video content?,Plain XML only,Media RSS (mRSS),Text,HTML,Media RSS (mRSS)
+SEO,3,HTML sitemaps are designed for:,"Visitors, to navigate pages",Servers,Email clients,Crawlers only,"Visitors, to navigate pages"
+SEO,3,Where is an HTML sitemap usually found?,In the title,In the images,In robots.txt only,At the footer of a website,At the footer of a website
+SEO,3,How can a sitemap be submitted to Google?,By adding it to robots.txt or submitting it in Search Console,Only by email,Only by post,It cannot be submitted,By adding it to robots.txt or submitting it in Search Console
+SEO,3,Allowing comments on blog posts can help with:,Reducing content,Blocking crawlers,Latent Semantic Indexing (LSI) of keywords,Hiding posts,Latent Semantic Indexing (LSI) of keywords
+SEO,3,Search intent is also known as:,Bot intent,User intent,Link intent,Crawl intent,User intent
+SEO,3,Which is the first step in thorough keyword research?,Delete topics,Ensure good knowledge about the industry,Submit robots.txt,Buy ads,Ensure good knowledge about the industry
+SEO,3,"Where can ""Related searches"" be viewed to consider more keywords?",At the bottom of the Google search result page,In the footer of the site,In the robots.txt file,In the title tag,At the bottom of the Google search result page
+SEO,3,Which are keyword research tools mentioned?,Notepad and Word,Gmail and Docs,"Google Keyword Planner, Ahrefs and SEMrush",Squoosh and TinyPNG,"Google Keyword Planner, Ahrefs and SEMrush"
+SEO,3,CTR is calculated as:,Backlinks divided by pages,Clicks received divided by the number of times the page is shown,Pages divided by sessions,Users divided by clicks,Clicks received divided by the number of times the page is shown
+SEO,3,Breadcrumbs are:,Links that let users track where they are on a website,Types of cookies,Image formats,Backlinks,Links that let users track where they are on a website
+SEO,3,Which of the following helps in structuring a site?,Large images,Hidden pages,"Breadcrumbs, tags and internal links",Random redirects,"Breadcrumbs, tags and internal links"
+SEO,3,A contextual link is:,Clickable text within a web page,A server file,A paid ad,A redirect,Clickable text within a web page
+SEO,3,A robots.txt file resides:,In a subdomain only,At the root of the site,In the images folder,In the footer,At the root of the site
+SEO,3,How many robots.txt files can a site have?,Unlimited,Two,Ten,Only one,Only one
+SEO,3,Robots.txt rules are:,Written in images,Always ignored,Case-insensitive,Case-sensitive,Case-sensitive
+SEO,3,"In robots.txt, ""Disallow"" is used to:",Specify a directory or page the user agent should not crawl,Allow all pages,Create a sitemap,Delete the site,Specify a directory or page the user agent should not crawl
+SEO,3,"In robots.txt, ""Allow"" is used to:",Compress pages,Delete files,Block all agents,Specify a page or directory the user agent may crawl and overrides Disallow,Specify a page or directory the user agent may crawl and overrides Disallow
+SEO,3,"In robots.txt, the asterisk (*) indicates:",All crawlers,No crawlers,Only Googlebot,Only Bing,All crawlers
+SEO,3,Which tool in Search Console tests robots.txt?,robots.txt Tester,Page Speed,Mobile Test,Links report,robots.txt Tester
+SEO,3,Which encoding should the robots.txt file be saved in?,JPEG,MP3,UTF-8,PDF,UTF-8
+SEO,3,"To keep a page out of search engines, which is recommended instead of relying only on
+ robots.txt?",Block indexing or password-protect the page,Delete the title,Add more images,Add more keywords,Block indexing or password-protect the page

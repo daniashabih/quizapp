@@ -266,7 +266,7 @@ const Leaderboard = ({
             return (
                 <img
                     src={avatarStr}
-                    alt={userEntry.name || 'User'}
+                    alt={userEntry.name ? `${userEntry.name}'s profile avatar` : 'Developer profile avatar'}
                     className="w-full h-full object-cover rounded-full"
                 />
             );

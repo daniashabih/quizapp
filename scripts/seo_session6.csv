@@ -1,0 +1,58 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SEO,6,SEO-friendly content is described as:,The most expensive way to advertise,Only for paid ads,The cheapest way to expand the audience,Useless for ranking,The cheapest way to expand the audience
+SEO,6,Search engines act as:,A bank,A hosting provider,A paid-only platform,A free advertising platform for SEO-friendly content,A free advertising platform for SEO-friendly content
+SEO,6,SEO-friendly content results in:,No visitors,Blocked crawlers,Slower sites,Good search engine ranking and more organic visitors,Good search engine ranking and more organic visitors
+SEO,6,Bounce rate represents:,The number of backlinks,The percentage of visitors who enter the site and leave without viewing other pages,The page loading time,The number of keywords,The percentage of visitors who enter the site and leave without viewing other pages
+SEO,6,Which of the following is the first step of an effective SEO content strategy?,List topics,Compress media,Track content,Follow guidelines,List topics
+SEO,6,Topics for content are ranked based on:,Colour,Word length,Alphabetical order,Monthly search volume,Monthly search volume
+SEO,6,"Approximately how many topics should be listed in the first step, according to the guide?",100-200,0,13-14,1-2,13-14
+SEO,6,Short-tail keywords usually consist of:,A full sentence,Two or three words,A URL,Ten words,Two or three words
+SEO,6,Short-tail keywords represent:,Images,Backlinks,Broad topics,Sub-topics only,Broad topics
+SEO,6,Pull-up bars and push-up bars on John's gym website are examples of:,Short-tail keywords,Long-tail keywords,Anchor texts,Meta tags,Short-tail keywords
+SEO,6,Long-tail keywords can be considered:,Topics,Sub-topics,Domains,Images,Sub-topics
+SEO,6,Long-tail keywords usually have:,No words,More than three words,One word,Only digits,More than three words
+SEO,6,Which tool can be used to find long-tail keywords?,Squoosh,TinyPNG,"Google Keyword Planner, Auto-complete or related searches",Notepad,"Google Keyword Planner, Auto-complete or related searches"
+SEO,6,How many long-tail keywords should ideally be identified for each short-tail keyword?,0,About 12,1,500,About 12
+SEO,6,"""Pull-up bars with parallel grips"" is an example of:",A protocol,A short-tail keyword,A long-tail keyword,A domain,A long-tail keyword
+SEO,6,The second step in the content strategy is:,Track content,Set up a blog,Compress media,List long-tail keywords based on topics,List long-tail keywords based on topics
+SEO,6,The third step is to:,Build pages for each topic,Write robots.txt,Buy ads,Delete topics,Build pages for each topic
+SEO,6,Creating a list of long-tail keywords for each topic gives:,A server report,A list of backlinks,A complete table of contents of topics and subtopics,A sitemap,A complete table of contents of topics and subtopics
+SEO,6,Creating pages around long-tail keywords ensures content caters to:,No audience,Only bots,People with different interests and concerns,Only one audience,People with different interests and concerns
+SEO,6,Regular blogging gives search engines:,Nothing new,A reason to delete pages,A penalty,Something new to index,Something new to index
+SEO,6,Each blog post can be considered:,A duplicate,A new web page and an opportunity to rank,A spam page,A link only,A new web page and an opportunity to rank
+SEO,6,Which are free blogging platforms mentioned?,"Gmail, Drive and Docs","Bing, Yahoo and Archie","Excel, Word and PowerPoint","Wix, Weebly and WordPress","Wix, Weebly and WordPress"
+SEO,6,How many times should the long-tail keyword be used at most in a blog post?,Four,One hundred,Zero,Fifty,Four
+SEO,6,Using the keyword too many times might make search engines:,Consider it a deliberate attempt to influence ranking,Index it faster,Reward the page,Ignore the title,Consider it a deliberate attempt to influence ranking
+SEO,6,A blog post should provide a link out to:,A random site,A competitor only,Nothing,The main topic,The main topic
+SEO,6,Setting up a blogging schedule brings:,Penalties,Confusion,Slower loading,Consistency and focus,Consistency and focus
+SEO,6,Link-building is the process of:,Removing links,"Attracting backlinks, also called inbound links",Buying domains,Creating pop-ups,"Attracting backlinks, also called inbound links"
+SEO,6,A link-building strategy includes:,Hiding links,Sharing links with local businesses in exchange for links,Buying spam links,Deleting posts,Sharing links with local businesses in exchange for links
+SEO,6,Guest blogging is used to:,Block indexing,Reduce posts,Generate backlinks,Remove authority,Generate backlinks
+SEO,6,Page speed is:,A social signal,Irrelevant to ranking,A crucial ranking factor,A penalty,A crucial ranking factor
+SEO,6,Media files should be:,Compressed to a small file size,Deleted,Left at maximum size,Hidden,Compressed to a small file size
+SEO,6,Which tools can be used for image compression?,Ahrefs and SEMrush,TinyPNG and Google's Squoosh,Moz and Majestic,Gmail and Docs,TinyPNG and Google's Squoosh
+SEO,6,Compressed media files can be used:,Never,Without compromising on quality,Only with poor quality,Only in videos,Without compromising on quality
+SEO,6,Why should one follow the latest SEO guidelines?,Search engine algorithms constantly evolve,Algorithms never change,They are not important,Guidelines are secret,Search engine algorithms constantly evolve
+SEO,6,Where can one check updates in Google Search?,A sitemap,The robots.txt,"The ""What's new"" section of Google Search Central",The footer,"The ""What's new"" section of Google Search Central"
+SEO,6,Which of these provide updates on SEO guidelines?,Moz and Search Engine Roundtable,Excel and Word,Gmail and Drive,Zoom and Teams,Moz and Search Engine Roundtable
+SEO,6,Which tools can track content performance?,Squoosh,TinyPNG,Notepad,Google Analytics and similar web analytics tools,Google Analytics and similar web analytics tools
+SEO,6,Web analytics tools show data such as:,"Bounce rates, page views and unique visitors",Passwords,Bank details,Phone numbers,"Bounce rates, page views and unique visitors"
+SEO,6,A pageview is:,A unique visitor,A backlink,An instance of a page being loaded or reloaded in a browser,A keyword,An instance of a page being loaded or reloaded in a browser
+SEO,6,Unique visitors are:,The number of pages,The number of ads,The number of links,The number of individuals who visited a website in a given time period,The number of individuals who visited a website in a given time period
+SEO,6,Core components of SEO content include:,Ads only,Hosting only,Printing and mailing,"Technical SEO, On-page SEO and Off-page SEO","Technical SEO, On-page SEO and Off-page SEO"
+SEO,6,"Local SEO statistics show that how many searches Google receives every day include local
+ searches?",None,Approximately 1.6 thousand,Approximately 1.6 billion,Approximately 16,Approximately 1.6 billion
+SEO,6,Users visit how many physical locations every month based on Google searches and reviews?,15 thousand,150,None,1.5 billion,1.5 billion
+SEO,6,Local searches lead to what percent of purchases in physical stores?,19%,0%,9%,90%,90%
+SEO,6,Searches such as 'near me' and 'buy now' increased by how much in 2020?,50%,5%,0%,500%,500%
+SEO,6,What percent of users who do 'near me' searches visit the actual store?,0%,5%,50%,99%,50%
+SEO,6,Users who read online reviews before choosing local services are about:,2%,10%,90%,0%,90%
+SEO,6,What percent of users use Google Maps to explore local stores and businesses?,86%,16%,6%,0%,86%
+SEO,6,Positive online reviews:,Make a business look trustworthy,Block maps,Cause penalties,Reduce sales,Make a business look trustworthy
+SEO,6,Links published on social media are treated as:,Errors,Duplicate content,Spam only,Credible backlinks,Credible backlinks
+SEO,6,Social media profiles can appear:,Only in ads,Only in images,Never in results,Among the top results when brand names are searched,Among the top results when brand names are searched
+SEO,6,Which platform is described as the largest professional network?,Pinterest,Reddit,LinkedIn,Twitter,LinkedIn
+SEO,6,"On Pinterest, the information seen in search results is called:",A thread,A pin,A post,A tweet,A pin
+SEO,6,Short posts published on Twitter are called:,Boards,Threads,Tweets,Pins,Tweets
+SEO,6,Reddit is described as:,A search engine,A bank,"A discussion, social news aggregation and web content rating website",An image editor,"A discussion, social news aggregation and web content rating website"
+SEO,6,Wikipedia is described as:,A paid ad network,A video platform,An open content online encyclopedia,A forum only,An open content online encyclopedia

@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SEO,5,Mobile SEO refers to:,Optimizing only for printers,Building mobile phones,Optimizing a website for search queries from mobile devices,Creating app stores,Optimizing a website for search queries from mobile devices
+SEO,5,Mobile SEO can be implemented if a website has:,A password,Only desktop pages,No CSS,A responsive web design,A responsive web design
+SEO,5,Responsive web design means:,The site is offline,Web content automatically adjusts to the screen size of any device,The site has no images,Content is fixed for one screen,Web content automatically adjusts to the screen size of any device
+SEO,5,A responsive design serves all devices with:,Different code for each device,No code,Only images,The same code,The same code
+SEO,5,Why does Google recommend responsive web design?,It blocks mobile users,It needs multiple URLs,It requires reduced engineering time and a single Googlebot crawl,It increases maintenance,It requires reduced engineering time and a single Googlebot crawl
+SEO,5,AMP stands for:,Automatic Mobile Pictures,Advanced Mobile Programming,Applied Media Pages,Accelerated Mobile Pages,Accelerated Mobile Pages
+SEO,5,AMP is:,A paid social network,A search engine,A type of image,An open-source framework designed for fast load times on mobile pages,An open-source framework designed for fast load times on mobile pages
+SEO,5,Features of AMP include:,Less JavaScript and CSS elements,Large images,Heavy videos,More JavaScript,Less JavaScript and CSS elements
+SEO,5,Compressed images on mobile:,Block crawlers,Decrease page load time,Remove content,Increase load time,Decrease page load time
+SEO,5,Mobile search terms are generally:,Always numeric,Always paragraphs,Very long,Short,Short
+SEO,5,Mobile keyword research is used to:,Edit HTML,Identify keywords a mobile user might use as search terms,Compress images,Block bots,Identify keywords a mobile user might use as search terms
+SEO,5,Social signals refer to:,Phone signals,Server signals,Wi-Fi signals,"Engagement on social media such as comments, likes and shares","Engagement on social media such as comments, likes and shares"
+SEO,5,Does Google consider social signals a direct ranking factor?,"No, but they have an impact on rankings",Only for ads,"Yes, always",Never any impact,"No, but they have an impact on rankings"
+SEO,5,"Which search engine has a direct use of social signals, according to the guide?",AskJeeves,Bing,Yahoo directory,Archie,Bing
+SEO,5,"What percentage of content shared on mobile is done through messaging apps such as
+ WhatsApp?",Over 17%,Under 1%,Over 7%,Over 77%,Over 77%
+SEO,5,Local SEO is an essential part of mobile SEO because:,It is illegal,More mobile users search for local businesses,It reduces speed,Mobile users never search locally,More mobile users search for local businesses
+SEO,5,"""Chess classes near me"" is an example of:",A branded search,A local search,A video search,An image search,A local search
+SEO,5,Local keywords include:,Only brand names,Only numbers,"A location, such as ""Italian bakery in Agoura Hills, CA""",Only emojis,"A location, such as ""Italian bakery in Agoura Hills, CA"""
+SEO,5,Which of these negatively affects mobile rankings?,Responsive design,Compressed images,Crawl errors,Fast loading,Crawl errors
+SEO,5,Which Google tool provides a complete report on crawl errors?,Google Maps,Google Docs,Google Drive,Google Search Console,Google Search Console
+SEO,5,Too many ads on mobile:,Increase page speed,Are required,Always improve ranking,Take away the content experience,Take away the content experience
+SEO,5,The ideal base font size for mobile is:,16 pixels,8 pixels,60 pixels,4 pixels,16 pixels
+SEO,5,Font size smaller than ideal on mobile requires visitors to:,Click an ad,Log out,Pinch and zoom,Refresh the page,Pinch and zoom
+SEO,5,Intrusive interstitials are:,Sitemaps,Meta tags,Faster images,Popup ads that block most of a mobile landing page,Popup ads that block most of a mobile landing page
+SEO,5,Google does not rank high pages with:,Clear fonts,Intrusive interstitials,Fast loading,Responsive design,Intrusive interstitials
+SEO,5,Small elements placed close together on mobile:,Always improve usability,Speed up loading,Are required,Can create a bad experience because users may click the wrong item,Can create a bad experience because users may click the wrong item
+SEO,5,A mobile layout should use:,No spacing,Tiny buttons,Overlapping buttons,Plenty of negative space around elements,Plenty of negative space around elements
+SEO,5,"Mobile users tend to be more distracted, so it is better to follow:",The short rule (short content),Large banners,Very long paragraphs,Long videos only,The short rule (short content)
+SEO,5,A mobile sitemap provides:,Information about the mobile pages,Social posts,Ads,Passwords,Information about the mobile pages
+SEO,5,A mobile sitemap helps search engines to:,Block users,Edit HTML,Delete pages,Crawl mobile sites more efficiently,Crawl mobile sites more efficiently
+SEO,5,Google recommends that a responsive mobile website should have:,A separate mobile sitemap submitted independently,No sitemap,Only a text file,A sitemap in images,A separate mobile sitemap submitted independently
+SEO,5,"If a site has multiple mobile markup languages, one should:",Create a separate mobile sitemap for each markup language,Use no sitemap,Use one sitemap for all,Delete the languages,Create a separate mobile sitemap for each markup language
+SEO,5,In which year did Google enable mobile-first indexing by default for all new websites?,2000,2010,2025,2019,2019
+SEO,5,Mobile-first indexing means Google predominantly uses:,The mobile version of content for indexing and ranking,The desktop version only,The PDF version,The print version,The mobile version of content for indexing and ranking
+SEO,5,Is a separate mobile-first index maintained by Google?,Only for images,"No, Google Search uses only one index","Yes, two indexes","Yes, a separate index","No, Google Search uses only one index"
+SEO,5,Is a mobile version of pages mandatory?,Not recommended,"Not mandatory, but Google strongly recommends it",Always mandatory,Illegal,"Not mandatory, but Google strongly recommends it"
+SEO,5,Primary content on desktop and mobile should be:,Missing on mobile,Missing on desktop,Completely different,The same,The same
+SEO,5,Both desktop and mobile sites should have the same:,Domain registrar,Structured data,Server,Colour,Structured data
+SEO,5,Page titles and meta descriptions for desktop and mobile should be:,Missing on mobile,Hidden,Different,The same,The same
+SEO,5,"For images on mobile, you should use:",No alt text,The same alt text as the desktop site,Alt text only on desktop,Random alt text,The same alt text as the desktop site
+SEO,5,Videos on mobile should have:,Hidden placement,Unsupported formats,The same structured data as desktop,No structured data,The same structured data as desktop
+SEO,5,"If Search Console is used, both mobile and desktop versions should be:",Hidden,Verified,Ignored,Deleted,Verified
+SEO,5,The error page status should be:,Same on desktop and mobile sites,Missing,Different on mobile,Blank,Same on desktop and mobile sites
+SEO,5,Which is a best practice for ad placement on mobile?,Use many pop-ups,Follow ad standards,Place ads over content,Hide content,Follow ad standards
+SEO,5,Which statement about local SEO and mobile is true?,Local SEO is a Google penalty,Local SEO blocks crawlers,Local SEO is irrelevant to mobile,Local SEO is essential for mobile SEO,Local SEO is essential for mobile SEO
+SEO,5,"""Fitness classes near me"" is an example of:",A navigational keyword only,A brand keyword,A local keyword,An image keyword,A local keyword
+SEO,5,Using local keywords helps the site:,Remove ads,Appear in local search results,Load slower,Disappear from search,Appear in local search results
+SEO,5,The Search Console report on mobile errors helps:,Delete pages,Increase ads,Resolve issues affecting mobile crawling,Hide content,Resolve issues affecting mobile crawling
+SEO,5,Why is mobile SEO crucial?,Nobody uses mobile,It is optional and useless,Only for ads,Almost everyone uses a mobile to communicate and search,Almost everyone uses a mobile to communicate and search
+SEO,5,Which design reduces the need to maintain multiple pages for the same content?,Separate desktop site,Print layout,Separate mobile site,Responsive web design,Responsive web design
+SEO,5,Which is TRUE of AMP?,It helps simple mobile pages load fast,It is a backlink type,It makes pages slower,It is a social network,It helps simple mobile pages load fast
+SEO,5,Which indicates that mobile layout may differ from desktop?,Content must differ completely,Mobile layout is banned,Layout can never differ,A mobile layout can differ but primary content stays the same,A mobile layout can differ but primary content stays the same
+SEO,5,"On mobile, some content can be moved to:",The footer only,The robots.txt,Comments,Tabs,Tabs
+SEO,5,Google crawls and indexes pages with:,A printer agent,A TV agent,No agent,The smartphone agent,The smartphone agent

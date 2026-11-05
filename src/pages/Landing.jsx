@@ -223,6 +223,7 @@ export default function Landing() {
                         </div>
 
                         {/* Interactive Tab Card Display */}
+                        <h2 className="sr-only">Interactive Assessment & Platform Highlights</h2>
                         <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-5 sm:p-6 shadow-xl relative overflow-hidden transition-all duration-300 min-h-[330px] flex flex-col justify-between">
                             <AnimatePresence mode="wait">
                                 {activeTab === 'assessment' && (
@@ -303,7 +304,7 @@ export default function Landing() {
                                                         <div className={`p-1.5 rounded-lg bg-[#F3E5C5] border border-[#E2D0A6] shadow-2xs ${feat.color}`}>
                                                             <Icon size={16} />
                                                         </div>
-                                                        <h4 className="text-xs font-bold text-[var(--foreground)]">{feat.title}</h4>
+                                                        <h3 className="text-xs font-bold text-[var(--foreground)]">{feat.title}</h3>
                                                     </div>
                                                     <p className="text-[11px] text-[var(--foreground-muted)] leading-snug">{feat.desc}</p>
                                                 </div>
@@ -376,7 +377,7 @@ export default function Landing() {
                                                     {item.step}
                                                 </div>
                                                 <div>
-                                                    <h4 className="text-xs font-bold text-[var(--foreground)]">{item.title}</h4>
+                                                    <h3 className="text-xs font-bold text-[var(--foreground)]">{item.title}</h3>
                                                     <p className="text-[11px] text-[var(--foreground-muted)]">{item.desc}</p>
                                                 </div>
                                             </div>

@@ -1,0 +1,602 @@
+{
+  "category": "SEO",
+  "session": 1,
+  "title": "Session 1: Search Engines",
+  "totalQuestions": 54,
+  "questions": [
+    {
+      "questionText": "What is a search engine?",
+      "options": [
+        "A type of web browser plugin",
+        "A tool that only stores passwords",
+        "A software system that executes web searches based on a user's query",
+        "A programming language"
+      ],
+      "correctAnswer": "A software system that executes web searches based on a user's query",
+      "explanation": "Correct answer is C) A software system that executes web searches based on a user's query."
+    },
+    {
+      "questionText": "The results displayed by a search engine are called:",
+      "options": [
+        "Search Engine Results Pages (SERPs)",
+        "Server Response Pages",
+        "Search Engine Ranking Packets",
+        "Site Entry Result Points"
+      ],
+      "correctAnswer": "Search Engine Results Pages (SERPs)",
+      "explanation": "Correct answer is A) Search Engine Results Pages (SERPs)."
+    },
+    {
+      "questionText": "In Google results, listings marked with the word \"Ad\" are:",
+      "options": [
+        "Organic results",
+        "Paid search results",
+        "Broken links",
+        "Spam pages"
+      ],
+      "correctAnswer": "Paid search results",
+      "explanation": "Correct answer is B) Paid search results."
+    },
+    {
+      "questionText": "How does Google charge for a Google Ads search campaign, according to the guide?",
+      "options": [
+        "A small amount on the clicks made on the link",
+        "A fee on every search",
+        "A fixed fee per page",
+        "Nothing; it is free"
+      ],
+      "correctAnswer": "A small amount on the clicks made on the link",
+      "explanation": "Correct answer is A) A small amount on the clicks made on the link."
+    },
+    {
+      "questionText": "Search engines use algorithms to rank results from:",
+      "options": [
+        "Most relevant to least relevant",
+        "Shortest to longest",
+        "Alphabetical order",
+        "Newest to oldest only"
+      ],
+      "correctAnswer": "Most relevant to least relevant",
+      "explanation": "Correct answer is A) Most relevant to least relevant."
+    },
+    {
+      "questionText": "Where are the most relevant pages displayed in the results?",
+      "options": [
+        "At the bottom",
+        "Only in the Maps tab",
+        "On the last page",
+        "On the top"
+      ],
+      "correctAnswer": "On the top",
+      "explanation": "Correct answer is D) On the top."
+    },
+    {
+      "questionText": "The query or search terms typed by users are called:",
+      "options": [
+        "Backlinks",
+        "Keywords",
+        "Spiders",
+        "Tags"
+      ],
+      "correctAnswer": "Keywords",
+      "explanation": "Correct answer is B) Keywords."
+    },
+    {
+      "questionText": "Search suggestions appear:",
+      "options": [
+        "Only on mobile",
+        "As the user starts typing",
+        "Only after sign-in",
+        "After the results load"
+      ],
+      "correctAnswer": "As the user starts typing",
+      "explanation": "Correct answer is B) As the user starts typing."
+    },
+    {
+      "questionText": "Automated programs that search the Internet for information are called:",
+      "options": [
+        "Spiders or crawlers",
+        "Cookies",
+        "Widgets",
+        "Banners"
+      ],
+      "correctAnswer": "Spiders or crawlers",
+      "explanation": "Correct answer is A) Spiders or crawlers."
+    },
+    {
+      "questionText": "What is the search index?",
+      "options": [
+        "A list of paid advertisements",
+        "A browser history file",
+        "A huge database where crawled content is categorized and stored",
+        "A social media feed"
+      ],
+      "correctAnswer": "A huge database where crawled content is categorized and stored",
+      "explanation": "Correct answer is C) A huge database where crawled content is categorized and stored."
+    },
+    {
+      "questionText": "Information that is NOT in the search index will:",
+      "options": [
+        "Not be displayed to the user",
+        "Be displayed as an ad",
+        "Be displayed first",
+        "Be displayed with a warning"
+      ],
+      "correctAnswer": "Not be displayed to the user",
+      "explanation": "Correct answer is A) Not be displayed to the user."
+    },
+    {
+      "questionText": "Which of the following is a ranking factor mentioned in the guide?",
+      "options": [
+        "Server brand",
+        "Number of images only",
+        "Content freshness",
+        "Domain colour"
+      ],
+      "correctAnswer": "Content freshness",
+      "explanation": "Correct answer is C) Content freshness."
+    },
+    {
+      "questionText": "Which are the three basic components of a search engine?",
+      "options": [
+        "Web crawler, database and search interface",
+        "Index, ad and cookie",
+        "Browser, router and modem",
+        "Spider, widget and banner"
+      ],
+      "correctAnswer": "Web crawler, database and search interface",
+      "explanation": "Correct answer is A) Web crawler, database and search interface."
+    },
+    {
+      "questionText": "Another name for a web crawler is:",
+      "options": [
+        "Router",
+        "Spider or bot",
+        "Server",
+        "Browser"
+      ],
+      "correctAnswer": "Spider or bot",
+      "explanation": "Correct answer is B) Spider or bot."
+    },
+    {
+      "questionText": "The search interface is:",
+      "options": [
+        "The ad server",
+        "The program that crawls pages",
+        "Where a user places a query and sees the results",
+        "The database of indexed pages"
+      ],
+      "correctAnswer": "Where a user places a query and sees the results",
+      "explanation": "Correct answer is C) Where a user places a query and sees the results."
+    },
+    {
+      "questionText": "A search engine database is:",
+      "options": [
+        "Stored only on the user's computer",
+        "Used only for ads",
+        "Never updated",
+        "Frequently updated to maintain the latest information"
+      ],
+      "correctAnswer": "Frequently updated to maintain the latest information",
+      "explanation": "Correct answer is D) Frequently updated to maintain the latest information."
+    },
+    {
+      "questionText": "A web address is also known as:",
+      "options": [
+        "Universal Result Link",
+        "Uniform Resource Locator (URL)",
+        "User Request Line",
+        "Unified Route Locator"
+      ],
+      "correctAnswer": "Uniform Resource Locator (URL)",
+      "explanation": "Correct answer is B) Uniform Resource Locator (URL)."
+    },
+    {
+      "questionText": "Which three parts form the basic structure of a web address?",
+      "options": [
+        "Title, header and footer",
+        "Protocol, domain and path",
+        "Name, phone and email",
+        "Spider, index and rank"
+      ],
+      "correctAnswer": "Protocol, domain and path",
+      "explanation": "Correct answer is B) Protocol, domain and path."
+    },
+    {
+      "questionText": "In https://www.aptechlearning.com/, what is \"https\"?",
+      "options": [
+        "The protocol",
+        "The path",
+        "The index",
+        "The domain"
+      ],
+      "correctAnswer": "The protocol",
+      "explanation": "Correct answer is A) The protocol."
+    },
+    {
+      "questionText": "Which protocol is described as secure and the most used?",
+      "options": [
+        "smtp",
+        "telnet",
+        "https",
+        "ftp"
+      ],
+      "correctAnswer": "https",
+      "explanation": "Correct answer is C) https."
+    },
+    {
+      "questionText": "In a web address, the domain is:",
+      "options": [
+        "The exact location of a file",
+        "The name of a website",
+        "The data transfer protocol",
+        "The search query"
+      ],
+      "correctAnswer": "The name of a website",
+      "explanation": "Correct answer is B) The name of a website."
+    },
+    {
+      "questionText": "In a web address, the path is:",
+      "options": [
+        "The exact location of a file or web page, separated by a forward slash",
+        "The browser name",
+        "The name of the website",
+        "The protocol"
+      ],
+      "correctAnswer": "The exact location of a file or web page, separated by a forward slash",
+      "explanation": "Correct answer is A) The exact location of a file or web page, separated by a forward slash."
+    },
+    {
+      "questionText": "A web page is usually written in:",
+      "options": [
+        "HTML",
+        "Python only",
+        "C++ only",
+        "SQL"
+      ],
+      "correctAnswer": "HTML",
+      "explanation": "Correct answer is A) HTML."
+    },
+    {
+      "questionText": "A website is:",
+      "options": [
+        "A browser setting",
+        "A collection of web pages that share a single domain name",
+        "A type of search engine only",
+        "A single image file"
+      ],
+      "correctAnswer": "A collection of web pages that share a single domain name",
+      "explanation": "Correct answer is B) A collection of web pages that share a single domain name."
+    },
+    {
+      "questionText": "All publicly accessible websites make up the:",
+      "options": [
+        "Local Area Network",
+        "Intranet only",
+        "World Wide Web",
+        "Dark index"
+      ],
+      "correctAnswer": "World Wide Web",
+      "explanation": "Correct answer is C) World Wide Web."
+    },
+    {
+      "questionText": "Which early search tool crawled an index of downloadable files, making only listings available?",
+      "options": [
+        "Google",
+        "Bing",
+        "AskJeeves",
+        "Archie"
+      ],
+      "correctAnswer": "Archie",
+      "explanation": "Correct answer is D) Archie."
+    },
+    {
+      "questionText": "Yahoo! Search was created by David Filo and Jerry Yang as:",
+      "options": [
+        "A social network",
+        "A directory of other websites",
+        "An email client",
+        "An image editor"
+      ],
+      "correctAnswer": "A directory of other websites",
+      "explanation": "Correct answer is B) A directory of other websites."
+    },
+    {
+      "questionText": "Which search engine is described as the first where human editors responded to search\n queries?",
+      "options": [
+        "Bing",
+        "Archie",
+        "AskJeeves",
+        "Google"
+      ],
+      "correctAnswer": "AskJeeves",
+      "explanation": "Correct answer is C) AskJeeves."
+    },
+    {
+      "questionText": "In October 2020, Microsoft renamed its search engine to:",
+      "options": [
+        "Live Search",
+        "Microsoft Bing",
+        "Edge Search",
+        "MSN Search"
+      ],
+      "correctAnswer": "Microsoft Bing",
+      "explanation": "Correct answer is B) Microsoft Bing."
+    },
+    {
+      "questionText": "Which search engine is described as the dominant leader in Internet searches today?",
+      "options": [
+        "Google",
+        "Archie",
+        "AskJeeves",
+        "Yahoo"
+      ],
+      "correctAnswer": "Google",
+      "explanation": "Correct answer is A) Google."
+    },
+    {
+      "questionText": "Which is a tip for the perfect Google search mentioned in the guide?",
+      "options": [
+        "Use voice search with the microphone icon",
+        "Always type in capital letters",
+        "Avoid adding any location",
+        "Use only one word"
+      ],
+      "correctAnswer": "Use voice search with the microphone icon",
+      "explanation": "Correct answer is A) Use voice search with the microphone icon."
+    },
+    {
+      "questionText": "Searching \"Fitness studios, Seattle\" returns results that:",
+      "options": [
+        "Include only global results",
+        "Show no addresses",
+        "Include fitness studios in the Seattle area",
+        "Show only videos"
+      ],
+      "correctAnswer": "Include fitness studios in the Seattle area",
+      "explanation": "Correct answer is C) Include fitness studios in the Seattle area."
+    },
+    {
+      "questionText": "How does Google treat spelling errors and casing in searches?",
+      "options": [
+        "It ignores casing and uses the most used spelling",
+        "It deletes the query",
+        "It rejects the search",
+        "It treats every letter case as different"
+      ],
+      "correctAnswer": "It ignores casing and uses the most used spelling",
+      "explanation": "Correct answer is A) It ignores casing and uses the most used spelling."
+    },
+    {
+      "questionText": "Google considers \"american express\" the same as \"American Express\". This shows that:",
+      "options": [
+        "Casing is not important in Google search",
+        "Google supports only lower case",
+        "Google ignores all words",
+        "Casing must always match"
+      ],
+      "correctAnswer": "Casing is not important in Google search",
+      "explanation": "Correct answer is A) Casing is not important in Google search."
+    },
+    {
+      "questionText": "Instead of \"help as I am unable to digest food\", a better search term is:",
+      "options": [
+        "I cannot eat",
+        "Stomach",
+        "Food help me please now",
+        "Digestive issues"
+      ],
+      "correctAnswer": "Digestive issues",
+      "explanation": "Correct answer is D) Digestive issues."
+    },
+    {
+      "questionText": "Which symbol/format is used to find an exact match in Google?",
+      "options": [
+        "The $ symbol",
+        "Quotation marks, such as \"plank position\"",
+        "The # symbol",
+        "The @ symbol"
+      ],
+      "correctAnswer": "Quotation marks, such as \"plank position\"",
+      "explanation": "Correct answer is B) Quotation marks, such as \"plank position\"."
+    },
+    {
+      "questionText": "To search social media for a name, you place which symbol before the word?",
+      "options": [
+        "@",
+        "$",
+        "..",
+        "#"
+      ],
+      "correctAnswer": "@",
+      "explanation": "Correct answer is A) @."
+    },
+    {
+      "questionText": "To look for hashtags, you place which symbol before a word?",
+      "options": [
+        "%",
+        "@",
+        "$",
+        "#"
+      ],
+      "correctAnswer": "#",
+      "explanation": "Correct answer is D) #."
+    },
+    {
+      "questionText": "To search for a price, you place which symbol before a number?",
+      "options": [
+        "@",
+        "#",
+        "&",
+        "$"
+      ],
+      "correctAnswer": "$",
+      "explanation": "Correct answer is D) $."
+    },
+    {
+      "questionText": "To search within a range of numbers, you use:",
+      "options": [
+        "A hyphen only",
+        "A slash",
+        "A plus sign",
+        "Two dots (..) between the numbers"
+      ],
+      "correctAnswer": "Two dots (..) between the numbers",
+      "explanation": "Correct answer is D) Two dots (..) between the numbers."
+    },
+    {
+      "questionText": "To open Google's advanced search for web pages, you click the file format and then:",
+      "options": [
+        "Menu > Share",
+        "Settings > Advanced Search",
+        "Help > About",
+        "Tools > Delete"
+      ],
+      "correctAnswer": "Settings > Advanced Search",
+      "explanation": "Correct answer is B) Settings > Advanced Search."
+    },
+    {
+      "questionText": "Which section of Advanced Search lets you search for all words, an exact word, any word or\n none of the words?",
+      "options": [
+        "Search Settings",
+        "Safe results",
+        "Find pages with...",
+        "Then narrow your results by..."
+      ],
+      "correctAnswer": "Find pages with...",
+      "explanation": "Correct answer is C) Find pages with...."
+    },
+    {
+      "questionText": "In Advanced Search, results can be narrowed by options such as:",
+      "options": [
+        "Browser version",
+        "Phone brand",
+        "Language, region and last update",
+        "Colour and size only"
+      ],
+      "correctAnswer": "Language, region and last update",
+      "explanation": "Correct answer is C) Language, region and last update."
+    },
+    {
+      "questionText": "Which URL is for Google's advanced image search?",
+      "options": [
+        "google.com/advanced_search",
+        "google.com/advanced_image_search",
+        "google.com/advanced_book_search",
+        "google.com/advanced_video_search"
+      ],
+      "correctAnswer": "google.com/advanced_image_search",
+      "explanation": "Correct answer is B) google.com/advanced_image_search."
+    },
+    {
+      "questionText": "Which Google setting avoids the display of unwanted content?",
+      "options": [
+        "Auto-complete",
+        "Search history",
+        "Voice answers",
+        "SafeSearch"
+      ],
+      "correctAnswer": "SafeSearch",
+      "explanation": "Correct answer is D) SafeSearch."
+    },
+    {
+      "questionText": "Which of the following is a Google search setting mentioned in the guide?",
+      "options": [
+        "Saving search history for a personalized experience",
+        "Buying keywords",
+        "Editing robots.txt",
+        "Changing the domain name"
+      ],
+      "correctAnswer": "Saving search history for a personalized experience",
+      "explanation": "Correct answer is A) Saving search history for a personalized experience."
+    },
+    {
+      "questionText": "Which three processes does Google use to generate search results?",
+      "options": [
+        "Hosting, coding and testing",
+        "Writing, editing and printing",
+        "Buying, selling and sharing",
+        "Crawling, indexing and serving"
+      ],
+      "correctAnswer": "Crawling, indexing and serving",
+      "explanation": "Correct answer is D) Crawling, indexing and serving."
+    },
+    {
+      "questionText": "Which of the following is a way Google finds new pages?",
+      "options": [
+        "Paid crawl requests",
+        "Random guessing",
+        "Social media likes",
+        "Links from an already visited page"
+      ],
+      "correctAnswer": "Links from an already visited page",
+      "explanation": "Correct answer is D) Links from an already visited page."
+    },
+    {
+      "questionText": "Does Google accept payment to crawl a website more frequently?",
+      "options": [
+        "Yes",
+        "Only for blogs",
+        "Only for large sites",
+        "No"
+      ],
+      "correctAnswer": "No",
+      "explanation": "Correct answer is D) No."
+    },
+    {
+      "questionText": "The process of understanding a page is called:",
+      "options": [
+        "Hosting",
+        "Indexing",
+        "Billing",
+        "Serving"
+      ],
+      "correctAnswer": "Indexing",
+      "explanation": "Correct answer is B) Indexing."
+    },
+    {
+      "questionText": "The database in which Google stores page information is called:",
+      "options": [
+        "Page Index",
+        "Google DB",
+        "Google index",
+        "Google Indexer"
+      ],
+      "correctAnswer": "Google index",
+      "explanation": "Correct answer is C) Google index."
+    },
+    {
+      "questionText": "Which of the following helps Google index a page meaningfully?",
+      "options": [
+        "Page headings that communicate the subject",
+        "Blank titles",
+        "Hidden text",
+        "Random numbers"
+      ],
+      "correctAnswer": "Page headings that communicate the subject",
+      "explanation": "Correct answer is A) Page headings that communicate the subject."
+    },
+    {
+      "questionText": "During serving, the search \"bakery shops nearby\" shows different results for Belgium and\n Norway because Google considers:",
+      "options": [
+        "Only the site's age",
+        "Language and location",
+        "Only paid ads",
+        "The browser colour"
+      ],
+      "correctAnswer": "Language and location",
+      "explanation": "Correct answer is B) Language and location."
+    },
+    {
+      "questionText": "Which of the following affects ranking of web pages in Google, according to the guide?",
+      "options": [
+        "Faster page loading",
+        "Number of pages in the website only",
+        "Font colour",
+        "The owner's age"
+      ],
+      "correctAnswer": "Faster page loading",
+      "explanation": "Correct answer is A) Faster page loading."
+    }
+  ]
+}

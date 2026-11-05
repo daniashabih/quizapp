@@ -1,0 +1,646 @@
+{
+  "category": "SEO",
+  "session": 4,
+  "title": "Session 4: Off-page Optimization",
+  "totalQuestions": 58,
+  "questions": [
+    {
+      "questionText": "Off-page SEO directly helps to:",
+      "options": [
+        "Reduce server load",
+        "Change fonts",
+        "Improve the ranking of a website on SERPs and gain relevant traffic",
+        "Edit HTML tags"
+      ],
+      "correctAnswer": "Improve the ranking of a website on SERPs and gain relevant traffic",
+      "explanation": "Correct answer is C) Improve the ranking of a website on SERPs and gain relevant traffic."
+    },
+    {
+      "questionText": "Off-page SEO is a:",
+      "options": [
+        "Technical file",
+        "One-time activity",
+        "Server setting",
+        "Continuous process for gaining new and relevant links"
+      ],
+      "correctAnswer": "Continuous process for gaining new and relevant links",
+      "explanation": "Correct answer is D) Continuous process for gaining new and relevant links."
+    },
+    {
+      "questionText": "A site with a huge number of high-value backlinks is usually:",
+      "options": [
+        "Removed",
+        "Ranked lower",
+        "Hidden",
+        "Ranked higher"
+      ],
+      "correctAnswer": "Ranked higher",
+      "explanation": "Correct answer is D) Ranked higher."
+    },
+    {
+      "questionText": "Which are the three types of links by how they are earned?",
+      "options": [
+        "Inbound, outbound and broken",
+        "Red, blue and green",
+        "Natural, manual and self-created",
+        "Fast, slow and medium"
+      ],
+      "correctAnswer": "Natural, manual and self-created",
+      "explanation": "Correct answer is C) Natural, manual and self-created."
+    },
+    {
+      "questionText": "Natural links are:",
+      "options": [
+        "Forced by the owner",
+        "Created through spam",
+        "Gained automatically due to contextual relevance of content",
+        "Bought links"
+      ],
+      "correctAnswer": "Gained automatically due to contextual relevance of content",
+      "explanation": "Correct answer is C) Gained automatically due to contextual relevance of content."
+    },
+    {
+      "questionText": "Manual links are:",
+      "options": [
+        "Server logs",
+        "Deleted links",
+        "Gained automatically",
+        "Built deliberately, such as making a profile on a social media platform"
+      ],
+      "correctAnswer": "Built deliberately, such as making a profile on a social media platform",
+      "explanation": "Correct answer is D) Built deliberately, such as making a profile on a social media platform."
+    },
+    {
+      "questionText": "Self-created links are:",
+      "options": [
+        "Always banned",
+        "Natural links",
+        "Always safe",
+        "Forced links, such as adding a link in a comment or forum signature"
+      ],
+      "correctAnswer": "Forced links, such as adding a link in a comment or forum signature",
+      "explanation": "Correct answer is D) Forced links, such as adding a link in a comment or forum signature."
+    },
+    {
+      "questionText": "Which off-page technique involves sharing links on Facebook and Twitter?",
+      "options": [
+        "Robots.txt editing",
+        "Title optimization",
+        "Engaging on social media platforms",
+        "Technical SEO"
+      ],
+      "correctAnswer": "Engaging on social media platforms",
+      "explanation": "Correct answer is C) Engaging on social media platforms."
+    },
+    {
+      "questionText": "Social bookmarking sites allow users to:",
+      "options": [
+        "Edit HTML",
+        "Delete websites",
+        "Save, add, annotate, tag and share bookmarked web pages",
+        "Compress files"
+      ],
+      "correctAnswer": "Save, add, annotate, tag and share bookmarked web pages",
+      "explanation": "Correct answer is C) Save, add, annotate, tag and share bookmarked web pages."
+    },
+    {
+      "questionText": "Which is a social bookmarking site mentioned?",
+      "options": [
+        "Notepad",
+        "Pinterest",
+        "Excel",
+        "Calculator"
+      ],
+      "correctAnswer": "Pinterest",
+      "explanation": "Correct answer is B) Pinterest."
+    },
+    {
+      "questionText": "Why create fresh, shareable content?",
+      "options": [
+        "It blocks crawlers",
+        "It avoids keywords",
+        "It reduces traffic",
+        "It generates natural links"
+      ],
+      "correctAnswer": "It generates natural links",
+      "explanation": "Correct answer is D) It generates natural links."
+    },
+    {
+      "questionText": "Reaching out to influencers requires first ensuring content is:",
+      "options": [
+        "Hidden",
+        "Share-worthy, detailed and factually correct",
+        "Short and unclear",
+        "Copied"
+      ],
+      "correctAnswer": "Share-worthy, detailed and factually correct",
+      "explanation": "Correct answer is B) Share-worthy, detailed and factually correct."
+    },
+    {
+      "questionText": "Guest blogging helps to:",
+      "options": [
+        "Block indexing",
+        "Delete backlinks",
+        "Reach newer audiences and earn backlinks",
+        "Reduce traffic"
+      ],
+      "correctAnswer": "Reach newer audiences and earn backlinks",
+      "explanation": "Correct answer is C) Reach newer audiences and earn backlinks."
+    },
+    {
+      "questionText": "When guest posting, one should avoid:",
+      "options": [
+        "Publishing well-researched content",
+        "Searching for blogs open to guest posts",
+        "Posting multiple times on the same guest blog site",
+        "Linking to relevant content"
+      ],
+      "correctAnswer": "Posting multiple times on the same guest blog site",
+      "explanation": "Correct answer is C) Posting multiple times on the same guest blog site."
+    },
+    {
+      "questionText": "Forums are useful for SEO because they:",
+      "options": [
+        "Remove authority",
+        "Provide community and allow sharing of links without spamming",
+        "Slow the site",
+        "Always block links"
+      ],
+      "correctAnswer": "Provide community and allow sharing of links without spamming",
+      "explanation": "Correct answer is B) Provide community and allow sharing of links without spamming."
+    },
+    {
+      "questionText": "Which are popular forums mentioned?",
+      "options": [
+        "Excel and Word",
+        "Bing and Yahoo",
+        "Gmail and Drive",
+        "Reddit and Quora"
+      ],
+      "correctAnswer": "Reddit and Quora",
+      "explanation": "Correct answer is D) Reddit and Quora."
+    },
+    {
+      "questionText": "Domain Authority (DA) is a metric that shows:",
+      "options": [
+        "The size of a site",
+        "The number of images",
+        "The page load time",
+        "How a website ranks in SERPs"
+      ],
+      "correctAnswer": "How a website ranks in SERPs",
+      "explanation": "Correct answer is D) How a website ranks in SERPs."
+    },
+    {
+      "questionText": "The DA score usually ranges from:",
+      "options": [
+        "0 to 5",
+        "1 to 10",
+        "100 to 1000",
+        "1 to 100"
+      ],
+      "correctAnswer": "1 to 100",
+      "explanation": "Correct answer is D) 1 to 100."
+    },
+    {
+      "questionText": "Which company first developed DA?",
+      "options": [
+        "Ahrefs",
+        "Moz",
+        "Bing",
+        "Google"
+      ],
+      "correctAnswer": "Moz",
+      "explanation": "Correct answer is B) Moz."
+    },
+    {
+      "questionText": "Does Google use DA as a ranking factor?",
+      "options": [
+        "No",
+        "Only for blogs",
+        "Only for images",
+        "Yes, always"
+      ],
+      "correctAnswer": "No",
+      "explanation": "Correct answer is A) No."
+    },
+    {
+      "questionText": "A directory with a high DA score provides:",
+      "options": [
+        "Penalties only",
+        "Low-quality backlinks",
+        "No backlinks",
+        "High-quality backlinks"
+      ],
+      "correctAnswer": "High-quality backlinks",
+      "explanation": "Correct answer is D) High-quality backlinks."
+    },
+    {
+      "questionText": "It is recommended to submit a blog to how many directories in a day?",
+      "options": [
+        "Two or three",
+        "Hundreds",
+        "None",
+        "Fifty"
+      ],
+      "correctAnswer": "Two or three",
+      "explanation": "Correct answer is A) Two or three."
+    },
+    {
+      "questionText": "Do-follow links:",
+      "options": [
+        "Are always spam",
+        "Are only for images",
+        "Allow visitors and search engines to follow the link to another website",
+        "Cannot be followed by search bots"
+      ],
+      "correctAnswer": "Allow visitors and search engines to follow the link to another website",
+      "explanation": "Correct answer is C) Allow visitors and search engines to follow the link to another website."
+    },
+    {
+      "questionText": "No-follow links:",
+      "options": [
+        "Are always penalized",
+        "Are the same as do-follow",
+        "Promote the article by increasing visibility but cannot be followed by search bots",
+        "Pass full authority"
+      ],
+      "correctAnswer": "Promote the article by increasing visibility but cannot be followed by search bots",
+      "explanation": "Correct answer is C) Promote the article by increasing visibility but cannot be followed by search bots."
+    },
+    {
+      "questionText": "When choosing article submission sites, you should ensure they:",
+      "options": [
+        "Accept any content",
+        "Are anonymous",
+        "Are always paid",
+        "Comply with copyright laws and have transparent terms"
+      ],
+      "correctAnswer": "Comply with copyright laws and have transparent terms",
+      "explanation": "Correct answer is D) Comply with copyright laws and have transparent terms."
+    },
+    {
+      "questionText": "Articles submitted should be free of:",
+      "options": [
+        "Categories",
+        "Keyword stuffing",
+        "Titles",
+        "Anchor text"
+      ],
+      "correctAnswer": "Keyword stuffing",
+      "explanation": "Correct answer is B) Keyword stuffing."
+    },
+    {
+      "questionText": "Which form of digital content is described as the most engaging and generating maximum\n conversion?",
+      "options": [
+        "Footer text",
+        "Video",
+        "Plain text",
+        "Cookies"
+      ],
+      "correctAnswer": "Video",
+      "explanation": "Correct answer is B) Video."
+    },
+    {
+      "questionText": "When uploading videos, you should:",
+      "options": [
+        "Add a descriptive title and sufficient description",
+        "Avoid keywords",
+        "Leave the title blank",
+        "Remove contact details"
+      ],
+      "correctAnswer": "Add a descriptive title and sufficient description",
+      "explanation": "Correct answer is A) Add a descriptive title and sufficient description."
+    },
+    {
+      "questionText": "Which image file format is ideal for animated graphics?",
+      "options": [
+        "BMP",
+        "JPEG",
+        "PNG",
+        "GIF"
+      ],
+      "correctAnswer": "GIF",
+      "explanation": "Correct answer is D) GIF."
+    },
+    {
+      "questionText": "Which image format is ideal when greater colour depth with small file size is required?",
+      "options": [
+        "GIF",
+        "PNG",
+        "TXT",
+        "JPEG only"
+      ],
+      "correctAnswer": "PNG",
+      "explanation": "Correct answer is B) PNG."
+    },
+    {
+      "questionText": "Which format is ideal for high-resolution web images with low compression?",
+      "options": [
+        "DOC",
+        "GIF",
+        "JPEG",
+        "TXT"
+      ],
+      "correctAnswer": "JPEG",
+      "explanation": "Correct answer is C) JPEG."
+    },
+    {
+      "questionText": "Google recommends separating words in image file names using:",
+      "options": [
+        "Commas",
+        "Underscores only",
+        "Spaces",
+        "Hyphens"
+      ],
+      "correctAnswer": "Hyphens",
+      "explanation": "Correct answer is D) Hyphens."
+    },
+    {
+      "questionText": "Image file names should be limited to about how many words?",
+      "options": [
+        "One hundred",
+        "Fifty",
+        "Twenty",
+        "Six"
+      ],
+      "correctAnswer": "Six",
+      "explanation": "Correct answer is D) Six."
+    },
+    {
+      "questionText": "Alt text serves which purpose?",
+      "options": [
+        "Changes the colour",
+        "Gives search engines better image descriptions and appears when the image does not load",
+        "Deletes the image",
+        "Compresses the image"
+      ],
+      "correctAnswer": "Gives search engines better image descriptions and appears when the image does not load",
+      "explanation": "Correct answer is B) Gives search engines better image descriptions and appears when the image does not load."
+    },
+    {
+      "questionText": "Alt text also helps:",
+      "options": [
+        "Slow loading",
+        "Block crawlers",
+        "Visually impaired users through screen readers",
+        "Increase file size"
+      ],
+      "correctAnswer": "Visually impaired users through screen readers",
+      "explanation": "Correct answer is C) Visually impaired users through screen readers."
+    },
+    {
+      "questionText": "Sites that offer free copyright-free images include:",
+      "options": [
+        "Pixabay and Unsplash",
+        "Gmail and Drive",
+        "Excel and Word",
+        "Zoom and Teams"
+      ],
+      "correctAnswer": "Pixabay and Unsplash",
+      "explanation": "Correct answer is A) Pixabay and Unsplash."
+    },
+    {
+      "questionText": "Documents can be shared on document sharing sites in the form of:",
+      "options": [
+        "Word, PPT or PDF",
+        "Only JPEG",
+        "Only MP3",
+        "Only ZIP"
+      ],
+      "correctAnswer": "Word, PPT or PDF",
+      "explanation": "Correct answer is A) Word, PPT or PDF."
+    },
+    {
+      "questionText": "Branding a shared document can be done by:",
+      "options": [
+        "Removing all text",
+        "Adding a logo on the cover page and website link",
+        "Hiding the title",
+        "Using random fonts"
+      ],
+      "correctAnswer": "Adding a logo on the cover page and website link",
+      "explanation": "Correct answer is B) Adding a logo on the cover page and website link."
+    },
+    {
+      "questionText": "Comment spam occurs when users:",
+      "options": [
+        "Ask relevant questions",
+        "Share the post",
+        "Insert unrelated links in comments to gain backlinks",
+        "Leave genuine thanks"
+      ],
+      "correctAnswer": "Insert unrelated links in comments to gain backlinks",
+      "explanation": "Correct answer is C) Insert unrelated links in comments to gain backlinks."
+    },
+    {
+      "questionText": "How can comment spam be controlled?",
+      "options": [
+        "Disabling HTTPS",
+        "Allowing all comments",
+        "Deleting the site",
+        "Comment moderation and comment blocking"
+      ],
+      "correctAnswer": "Comment moderation and comment blocking",
+      "explanation": "Correct answer is D) Comment moderation and comment blocking."
+    },
+    {
+      "questionText": "Buying and selling links is:",
+      "options": [
+        "Required for ranking",
+        "Always recommended",
+        "A violation of Google's Webmaster guidelines",
+        "A white hat practice"
+      ],
+      "correctAnswer": "A violation of Google's Webmaster guidelines",
+      "explanation": "Correct answer is C) A violation of Google's Webmaster guidelines."
+    },
+    {
+      "questionText": "Publishing blogs on a different platform than the main site leads to:",
+      "options": [
+        "Managing and optimizing two different sites",
+        "Fewer pages",
+        "Faster loading",
+        "Better ranking always"
+      ],
+      "correctAnswer": "Managing and optimizing two different sites",
+      "explanation": "Correct answer is A) Managing and optimizing two different sites."
+    },
+    {
+      "questionText": "Which directories should business details be submitted to?",
+      "options": [
+        "Only spam directories",
+        "None",
+        "Credible ones such as Google My Business and Yelp",
+        "Any random directory"
+      ],
+      "correctAnswer": "Credible ones such as Google My Business and Yelp",
+      "explanation": "Correct answer is C) Credible ones such as Google My Business and Yelp."
+    },
+    {
+      "questionText": "Which directory is most recommended for local information?",
+      "options": [
+        "Paid blogs",
+        "Google My Business",
+        "Random directories",
+        "Forums"
+      ],
+      "correctAnswer": "Google My Business",
+      "explanation": "Correct answer is B) Google My Business."
+    },
+    {
+      "questionText": "Moz's PA score predicts:",
+      "options": [
+        "How well a specific page will rank on SERPs",
+        "The speed of a server",
+        "The number of ads",
+        "The age of a site"
+      ],
+      "correctAnswer": "How well a specific page will rank on SERPs",
+      "explanation": "Correct answer is A) How well a specific page will rank on SERPs."
+    },
+    {
+      "questionText": "Moz PA score ranges from:",
+      "options": [
+        "1 to 10",
+        "10 to 20",
+        "1 to 100",
+        "0 to 1000"
+      ],
+      "correctAnswer": "1 to 100",
+      "explanation": "Correct answer is C) 1 to 100."
+    },
+    {
+      "questionText": "Which tool measures domain authority using a metric called \"Trust Flow\"?",
+      "options": [
+        "Google",
+        "Moz",
+        "Majestic SEO",
+        "Bing"
+      ],
+      "correctAnswer": "Majestic SEO",
+      "explanation": "Correct answer is C) Majestic SEO."
+    },
+    {
+      "questionText": "Moz's spam score measures:",
+      "options": [
+        "Image size",
+        "How similar a site is to others penalized by Google",
+        "Page speed",
+        "Font size"
+      ],
+      "correctAnswer": "How similar a site is to others penalized by Google",
+      "explanation": "Correct answer is B) How similar a site is to others penalized by Google."
+    },
+    {
+      "questionText": "Linking Root Domains refers to:",
+      "options": [
+        "The number of unique domains linking to a site",
+        "The number of keywords",
+        "The number of pages",
+        "The number of images"
+      ],
+      "correctAnswer": "The number of unique domains linking to a site",
+      "explanation": "Correct answer is A) The number of unique domains linking to a site."
+    },
+    {
+      "questionText": "A 301 redirect is:",
+      "options": [
+        "A permanent redirect that passes link equity to the new URL",
+        "A sitemap",
+        "A temporary redirect",
+        "An error page"
+      ],
+      "correctAnswer": "A permanent redirect that passes link equity to the new URL",
+      "explanation": "Correct answer is A) A permanent redirect that passes link equity to the new URL."
+    },
+    {
+      "questionText": "A 302 redirect is:",
+      "options": [
+        "A permanent redirect",
+        "A server crash",
+        "A DNS record",
+        "A temporary redirect that passes no link equity to the new URL"
+      ],
+      "correctAnswer": "A temporary redirect that passes no link equity to the new URL",
+      "explanation": "Correct answer is D) A temporary redirect that passes no link equity to the new URL."
+    },
+    {
+      "questionText": "In backlink analysis, competitors' sites should be:",
+      "options": [
+        "Ignored",
+        "Copied word-for-word",
+        "Blocked",
+        "Analysed to gain insights into their strategies"
+      ],
+      "correctAnswer": "Analysed to gain insights into their strategies",
+      "explanation": "Correct answer is D) Analysed to gain insights into their strategies."
+    },
+    {
+      "questionText": "Which is a backlink analysis tool metric?",
+      "options": [
+        "Font size",
+        "Total unique linking root domains",
+        "Image alt text only",
+        "Server type"
+      ],
+      "correctAnswer": "Total unique linking root domains",
+      "explanation": "Correct answer is B) Total unique linking root domains."
+    },
+    {
+      "questionText": "Inbound links are:",
+      "options": [
+        "Image links",
+        "Broken internal links",
+        "Backlinks from other websites to your site",
+        "Links from your site to others"
+      ],
+      "correctAnswer": "Backlinks from other websites to your site",
+      "explanation": "Correct answer is C) Backlinks from other websites to your site."
+    },
+    {
+      "questionText": "Outbound links are:",
+      "options": [
+        "Image links",
+        "Links in your website that point to websites with a different domain",
+        "Links from other sites to yours",
+        "Internal links"
+      ],
+      "correctAnswer": "Links in your website that point to websites with a different domain",
+      "explanation": "Correct answer is B) Links in your website that point to websites with a different domain."
+    },
+    {
+      "questionText": "A benefit of outbound links is that they:",
+      "options": [
+        "Build trust with readers by citing sources",
+        "Reduce content",
+        "Remove authority",
+        "Block crawlers"
+      ],
+      "correctAnswer": "Build trust with readers by citing sources",
+      "explanation": "Correct answer is A) Build trust with readers by citing sources."
+    },
+    {
+      "questionText": "Lost links are links that:",
+      "options": [
+        "Are internal",
+        "No longer refer to the site",
+        "Are newly created",
+        "Are do-follow only"
+      ],
+      "correctAnswer": "No longer refer to the site",
+      "explanation": "Correct answer is B) No longer refer to the site."
+    },
+    {
+      "questionText": "If a page has 5 referring domains and 1,000 backlinks, search engines may consider it:",
+      "options": [
+        "A sitemap",
+        "Perfect",
+        "Spam",
+        "Authoritative"
+      ],
+      "correctAnswer": "Spam",
+      "explanation": "Correct answer is C) Spam."
+    }
+  ]
+}

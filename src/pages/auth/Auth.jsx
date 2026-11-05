@@ -7,6 +7,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import InputField from '../../components/ui/InputField';
+import usePageSeo from '../../hooks/usePageSeo';
 import { trackSignUp, trackLogin } from '../../utils/analytics';
 
 function GoogleIcon() {
@@ -49,6 +50,14 @@ const DEFAULT_GOOGLE_CLIENT_ID = '540959878402-dm79psv3n2jtungji4cvm4s8j9eoes3o.
 
 export default function Auth({ initialMode = 'login' }) {
     const [isSignUp, setIsSignUp] = useState(initialMode === 'signup');
+
+    usePageSeo({
+        title: isSignUp ? 'Create an Account — HangBug' : 'Sign In to Your Account — HangBug',
+        description: isSignUp
+            ? 'Create your HangBug account to test your programming skills and earn verified certificates.'
+            : 'Sign in to HangBug to practice web development quizzes, track your progress, and view certificates.',
+        noindex: true
+    });
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

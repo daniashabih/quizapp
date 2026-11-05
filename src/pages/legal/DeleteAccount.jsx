@@ -24,6 +24,7 @@ import {
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
+import usePageSeo from '../../hooks/usePageSeo';
 import { useAuth } from '../../context/AuthContext';
 
 export default function DeleteAccount() {
@@ -42,37 +43,15 @@ export default function DeleteAccount() {
     // FAQ accordion state
     const [openFaq, setOpenFaq] = useState(null);
 
+    usePageSeo({
+        title: 'Account Deletion & Data Removal Request — HangBug',
+        description: 'Submit an account deletion and personal data removal request on the HangBug platform in compliance with Google Play Store policies.',
+        canonicalPath: '/delete-account',
+        noindex: true
+    });
+
     useEffect(() => {
         window.scrollTo(0, 0);
-
-        const previousTitle = document.title;
-        document.title = "HangBug — Account Deletion & Data Removal Request";
-
-        let metaDesc = document.querySelector('meta[name="description"]');
-        let createdMeta = false;
-        let previousDesc = "";
-
-        if (metaDesc) {
-            previousDesc = metaDesc.getAttribute('content') || "";
-            metaDesc.setAttribute('content', 'Request account and associated data deletion for the HangBug app in compliance with Google Play Store User Data policies.');
-        } else {
-            metaDesc = document.createElement('meta');
-            metaDesc.name = "description";
-            metaDesc.content = "Request account and associated data deletion for the HangBug app in compliance with Google Play Store User Data policies.";
-            document.head.appendChild(metaDesc);
-            createdMeta = true;
-        }
-
-        return () => {
-            document.title = previousTitle || "HangBug — Debug Your Knowledge. Build Your Future.";
-            if (metaDesc) {
-                if (createdMeta) {
-                    document.head.removeChild(metaDesc);
-                } else if (previousDesc) {
-                    metaDesc.setAttribute('content', previousDesc);
-                }
-            }
-        };
     }, []);
 
     const toggleFaq = (index) => {

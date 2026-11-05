@@ -1,0 +1,646 @@
+{
+  "category": "SEO",
+  "session": 8,
+  "title": "Session 8: SEO Tools and Google Analytics",
+  "totalQuestions": 58,
+  "questions": [
+    {
+      "questionText": "SEO tools help to:",
+      "options": [
+        "Host websites",
+        "Create logos",
+        "Print documents",
+        "Thoroughly investigate a website and give insights on keywords and backlinks"
+      ],
+      "correctAnswer": "Thoroughly investigate a website and give insights on keywords and backlinks",
+      "explanation": "Correct answer is D) Thoroughly investigate a website and give insights on keywords and backlinks."
+    },
+    {
+      "questionText": "SEO tools help maintain site health by:",
+      "options": [
+        "Discovering areas of opportunity",
+        "Removing keywords",
+        "Deleting pages",
+        "Hiding errors"
+      ],
+      "correctAnswer": "Discovering areas of opportunity",
+      "explanation": "Correct answer is A) Discovering areas of opportunity."
+    },
+    {
+      "questionText": "SEO tool reports can show issues such as:",
+      "options": [
+        "Missing logos only",
+        "Missing meta descriptions and page server errors",
+        "Missing emails",
+        "Missing fonts"
+      ],
+      "correctAnswer": "Missing meta descriptions and page server errors",
+      "explanation": "Correct answer is B) Missing meta descriptions and page server errors."
+    },
+    {
+      "questionText": "Live data on a site shows:",
+      "options": [
+        "Total backlinks",
+        "Page loading history",
+        "Keywords",
+        "How many visitors are on the site right now"
+      ],
+      "correctAnswer": "How many visitors are on the site right now",
+      "explanation": "Correct answer is D) How many visitors are on the site right now."
+    },
+    {
+      "questionText": "Conversion occurs when:",
+      "options": [
+        "A page loads",
+        "A link breaks",
+        "A user leaves",
+        "A user becomes a customer and transacts with the business"
+      ],
+      "correctAnswer": "A user becomes a customer and transacts with the business",
+      "explanation": "Correct answer is D) A user becomes a customer and transacts with the business."
+    },
+    {
+      "questionText": "Google Analytics is a tool to:",
+      "options": [
+        "Host sites",
+        "Edit videos",
+        "Track and analyze performance of a website or app",
+        "Compress images"
+      ],
+      "correctAnswer": "Track and analyze performance of a website or app",
+      "explanation": "Correct answer is C) Track and analyze performance of a website or app."
+    },
+    {
+      "questionText": "Who can access Google Analytics?",
+      "options": [
+        "Only paid users",
+        "Only Google employees",
+        "Anyone with a Google account",
+        "Only developers"
+      ],
+      "correctAnswer": "Anyone with a Google account",
+      "explanation": "Correct answer is C) Anyone with a Google account."
+    },
+    {
+      "questionText": "The paid version of Google Analytics is called:",
+      "options": [
+        "Analytics Pro",
+        "GA Premium",
+        "Google Analytics 360",
+        "Analytics Plus"
+      ],
+      "correctAnswer": "Google Analytics 360",
+      "explanation": "Correct answer is C) Google Analytics 360."
+    },
+    {
+      "questionText": "To get started with Analytics, click:",
+      "options": [
+        "Print",
+        "Start measuring on the Welcome page",
+        "Share",
+        "Delete"
+      ],
+      "correctAnswer": "Start measuring on the Welcome page",
+      "explanation": "Correct answer is B) Start measuring on the Welcome page."
+    },
+    {
+      "questionText": "In the account setup, it is recommended to use:",
+      "options": [
+        "An email",
+        "No name",
+        "A random name",
+        "A business name as the account name"
+      ],
+      "correctAnswer": "A business name as the account name",
+      "explanation": "Correct answer is D) A business name as the account name."
+    },
+    {
+      "questionText": "In Google Analytics, a property is:",
+      "options": [
+        "A website, mobile app or URL with a unique tracking ID",
+        "A server",
+        "A password",
+        "An image"
+      ],
+      "correctAnswer": "A website, mobile app or URL with a unique tracking ID",
+      "explanation": "Correct answer is A) A website, mobile app or URL with a unique tracking ID."
+    },
+    {
+      "questionText": "The tracking code is used to:",
+      "options": [
+        "Block crawlers",
+        "Host files",
+        "Edit images",
+        "Collect and organize data from the website"
+      ],
+      "correctAnswer": "Collect and organize data from the website",
+      "explanation": "Correct answer is D) Collect and organize data from the website."
+    },
+    {
+      "questionText": "Universal Analytics property was introduced in:",
+      "options": [
+        "2000",
+        "2024",
+        "2012",
+        "2020"
+      ],
+      "correctAnswer": "2012",
+      "explanation": "Correct answer is C) 2012."
+    },
+    {
+      "questionText": "GA4 property was introduced in:",
+      "options": [
+        "2012",
+        "October 2020",
+        "2005",
+        "1998"
+      ],
+      "correctAnswer": "October 2020",
+      "explanation": "Correct answer is B) October 2020."
+    },
+    {
+      "questionText": "GA4 uses which technology to provide smart insights?",
+      "options": [
+        "Paper reports",
+        "Manual counting",
+        "Machine learning",
+        "Radio"
+      ],
+      "correctAnswer": "Machine learning",
+      "explanation": "Correct answer is C) Machine learning."
+    },
+    {
+      "questionText": "GA4 uses which ID to identify the data stream?",
+      "options": [
+        "Tracking ID only",
+        "Measurement ID",
+        "Site ID only",
+        "User ID only"
+      ],
+      "correctAnswer": "Measurement ID",
+      "explanation": "Correct answer is B) Measurement ID."
+    },
+    {
+      "questionText": "Data streams are sources such as:",
+      "options": [
+        "Fax machines",
+        "Radios",
+        "Printers",
+        "Website, Android app and iOS app"
+      ],
+      "correctAnswer": "Website, Android app and iOS app",
+      "explanation": "Correct answer is D) Website, Android app and iOS app."
+    },
+    {
+      "questionText": "A Web stream indicates that:",
+      "options": [
+        "The source of data is the web",
+        "The source is a phone call",
+        "The source is a printer",
+        "The source is paper"
+      ],
+      "correctAnswer": "The source of data is the web",
+      "explanation": "Correct answer is A) The source of data is the web."
+    },
+    {
+      "questionText": "Universal Analytics uses which ID to collect data?",
+      "options": [
+        "Tracking ID",
+        "Server ID",
+        "Order ID",
+        "Measurement ID"
+      ],
+      "correctAnswer": "Tracking ID",
+      "explanation": "Correct answer is A) Tracking ID."
+    },
+    {
+      "questionText": "Where is the Analytics tracking code pasted?",
+      "options": [
+        "In the footer image",
+        "After the <head> tag of every web page to be tracked",
+        "In robots.txt",
+        "In the title text"
+      ],
+      "correctAnswer": "After the <head> tag of every web page to be tracked",
+      "explanation": "Correct answer is B) After the <head> tag of every web page to be tracked."
+    },
+    {
+      "questionText": "Where is Tracking Code found in Admin?",
+      "options": [
+        "View column > Settings",
+        "Property column > Tracking Info > Tracking Code",
+        "Footer",
+        "Account column > Delete"
+      ],
+      "correctAnswer": "Property column > Tracking Info > Tracking Code",
+      "explanation": "Correct answer is B) Property column > Tracking Info > Tracking Code."
+    },
+    {
+      "questionText": "Standard reports in Analytics appear:",
+      "options": [
+        "At the bottom",
+        "On the left side of the dashboard",
+        "In a separate website",
+        "Not at all"
+      ],
+      "correctAnswer": "On the left side of the dashboard",
+      "explanation": "Correct answer is B) On the left side of the dashboard."
+    },
+    {
+      "questionText": "The standard reports are divided into:",
+      "options": [
+        "Realtime, Audience, Acquisition, Behavior and Conversions",
+        "Red, Blue, Green and Yellow",
+        "Home, Away and Draw",
+        "Start, Stop and Pause"
+      ],
+      "correctAnswer": "Realtime, Audience, Acquisition, Behavior and Conversions",
+      "explanation": "Correct answer is A) Realtime, Audience, Acquisition, Behavior and Conversions."
+    },
+    {
+      "questionText": "Realtime Overview data becomes available within:",
+      "options": [
+        "Two seconds of a visitor hitting the site",
+        "Two months",
+        "Two weeks",
+        "Two years"
+      ],
+      "correctAnswer": "Two seconds of a visitor hitting the site",
+      "explanation": "Correct answer is A) Two seconds of a visitor hitting the site."
+    },
+    {
+      "questionText": "Realtime shows a graph of:",
+      "options": [
+        "Employee hours",
+        "Pageviews per minute and second",
+        "Server cost",
+        "Annual revenue"
+      ],
+      "correctAnswer": "Pageviews per minute and second",
+      "explanation": "Correct answer is B) Pageviews per minute and second."
+    },
+    {
+      "questionText": "Social traffic refers to:",
+      "options": [
+        "Traffic from printed ads",
+        "Traffic from social networks and social media",
+        "Traffic from email only",
+        "Traffic from paid ads only"
+      ],
+      "correctAnswer": "Traffic from social networks and social media",
+      "explanation": "Correct answer is B) Traffic from social networks and social media."
+    },
+    {
+      "questionText": "Referrals are:",
+      "options": [
+        "Visits from bookmarks",
+        "Visits to the site from links that appear on other sites",
+        "Visits from ads",
+        "Visits from typing the URL"
+      ],
+      "correctAnswer": "Visits to the site from links that appear on other sites",
+      "explanation": "Correct answer is B) Visits to the site from links that appear on other sites."
+    },
+    {
+      "questionText": "Audiences are:",
+      "options": [
+        "Visitors grouped by certain attributes",
+        "Backlinks",
+        "Keywords",
+        "Servers"
+      ],
+      "correctAnswer": "Visitors grouped by certain attributes",
+      "explanation": "Correct answer is A) Visitors grouped by certain attributes."
+    },
+    {
+      "questionText": "The Audience Overview report shows:",
+      "options": [
+        "Number of visitors each day, device type and time on site",
+        "Only passwords",
+        "Only pages",
+        "Server cost"
+      ],
+      "correctAnswer": "Number of visitors each day, device type and time on site",
+      "explanation": "Correct answer is A) Number of visitors each day, device type and time on site."
+    },
+    {
+      "questionText": "Audience data can be viewed by:",
+      "options": [
+        "Only language",
+        "Only phone number",
+        "Only password",
+        "Language, city and country"
+      ],
+      "correctAnswer": "Language, city and country",
+      "explanation": "Correct answer is D) Language, city and country."
+    },
+    {
+      "questionText": "A session is:",
+      "options": [
+        "A group of user interactions with the site in a given time frame",
+        "A keyword",
+        "A page",
+        "A link"
+      ],
+      "correctAnswer": "A group of user interactions with the site in a given time frame",
+      "explanation": "Correct answer is A) A group of user interactions with the site in a given time frame."
+    },
+    {
+      "questionText": "Pages per session shows:",
+      "options": [
+        "The number of keywords",
+        "The number of ads",
+        "The average number of pages viewed by each user per session",
+        "The number of links"
+      ],
+      "correctAnswer": "The average number of pages viewed by each user per session",
+      "explanation": "Correct answer is C) The average number of pages viewed by each user per session."
+    },
+    {
+      "questionText": "New visitors are those who:",
+      "options": [
+        "Bought something",
+        "Visit daily",
+        "Visit the site for the first time",
+        "Never visit"
+      ],
+      "correctAnswer": "Visit the site for the first time",
+      "explanation": "Correct answer is C) Visit the site for the first time."
+    },
+    {
+      "questionText": "Bounce rate in Analytics is:",
+      "options": [
+        "The page speed",
+        "The ad cost",
+        "The percentage of sales",
+        "The percentage of single-page visits where the visitor leaves"
+      ],
+      "correctAnswer": "The percentage of single-page visits where the visitor leaves",
+      "explanation": "Correct answer is D) The percentage of single-page visits where the visitor leaves."
+    },
+    {
+      "questionText": "The Acquisition Overview report tells:",
+      "options": [
+        "The server model",
+        "The font size",
+        "The page colour",
+        "Which channel brings the most visitors"
+      ],
+      "correctAnswer": "Which channel brings the most visitors",
+      "explanation": "Correct answer is D) Which channel brings the most visitors."
+    },
+    {
+      "questionText": "A source in Acquisition is:",
+      "options": [
+        "The font",
+        "The logo",
+        "The footer",
+        "The last visited place of the visitor, such as a website"
+      ],
+      "correctAnswer": "The last visited place of the visitor, such as a website",
+      "explanation": "Correct answer is D) The last visited place of the visitor, such as a website."
+    },
+    {
+      "questionText": "A medium in Acquisition is:",
+      "options": [
+        "The domain",
+        "The medium through which visitors get to the website",
+        "The password",
+        "The server"
+      ],
+      "correctAnswer": "The medium through which visitors get to the website",
+      "explanation": "Correct answer is B) The medium through which visitors get to the website."
+    },
+    {
+      "questionText": "Paid Search channel refers to:",
+      "options": [
+        "Email",
+        "Free search",
+        "Paid links, such as Google Ads, through which visitors come",
+        "Typed URL"
+      ],
+      "correctAnswer": "Paid links, such as Google Ads, through which visitors come",
+      "explanation": "Correct answer is C) Paid links, such as Google Ads, through which visitors come."
+    },
+    {
+      "questionText": "A Direct channel means visitors come by:",
+      "options": [
+        "Email only",
+        "Typing the URL in the address bar or using a bookmark",
+        "Clicking ads",
+        "Social media"
+      ],
+      "correctAnswer": "Typing the URL in the address bar or using a bookmark",
+      "explanation": "Correct answer is B) Typing the URL in the address bar or using a bookmark."
+    },
+    {
+      "questionText": "The Social channel refers to:",
+      "options": [
+        "Typed URLs",
+        "Printed ads",
+        "Social networking platforms through which visitors come",
+        "Search engines"
+      ],
+      "correctAnswer": "Social networking platforms through which visitors come",
+      "explanation": "Correct answer is C) Social networking platforms through which visitors come."
+    },
+    {
+      "questionText": "Behavior Overview report shows:",
+      "options": [
+        "Only servers",
+        "Pageviews, unique pageviews, average time on page, bounce rate and exit rate",
+        "Only keywords",
+        "Only ads"
+      ],
+      "correctAnswer": "Pageviews, unique pageviews, average time on page, bounce rate and exit rate",
+      "explanation": "Correct answer is B) Pageviews, unique pageviews, average time on page, bounce rate and exit rate."
+    },
+    {
+      "questionText": "Unique pageviews are:",
+      "options": [
+        "The number of sessions during which a page is viewed",
+        "The number of backlinks",
+        "The number of visitors online",
+        "The number of ads"
+      ],
+      "correctAnswer": "The number of sessions during which a page is viewed",
+      "explanation": "Correct answer is A) The number of sessions during which a page is viewed."
+    },
+    {
+      "questionText": "Exit rate is:",
+      "options": [
+        "The percentage of first pages",
+        "The percentage of the last visited page in a session",
+        "The percentage of images",
+        "The percentage of ads"
+      ],
+      "correctAnswer": "The percentage of the last visited page in a session",
+      "explanation": "Correct answer is B) The percentage of the last visited page in a session."
+    },
+    {
+      "questionText": "A goal in Analytics is:",
+      "options": [
+        "An ad",
+        "A robots.txt rule",
+        "A server",
+        "Any conversion that occurs on the site"
+      ],
+      "correctAnswer": "Any conversion that occurs on the site",
+      "explanation": "Correct answer is D) Any conversion that occurs on the site."
+    },
+    {
+      "questionText": "Which Conversion report analyses purchase activity?",
+      "options": [
+        "Realtime",
+        "Audience",
+        "Behavior",
+        "Ecommerce"
+      ],
+      "correctAnswer": "Ecommerce",
+      "explanation": "Correct answer is D) Ecommerce."
+    },
+    {
+      "questionText": "Ecommerce reports can show:",
+      "options": [
+        "Image names",
+        "Font sizes",
+        "Number of transactions, average order value and conversion rate",
+        "Server logs"
+      ],
+      "correctAnswer": "Number of transactions, average order value and conversion rate",
+      "explanation": "Correct answer is C) Number of transactions, average order value and conversion rate."
+    },
+    {
+      "questionText": "Multi-Channel Funnels reports help to:",
+      "options": [
+        "Edit pages",
+        "Determine how marketing channels contribute to conversions",
+        "Delete users",
+        "Block ads"
+      ],
+      "correctAnswer": "Determine how marketing channels contribute to conversions",
+      "explanation": "Correct answer is B) Determine how marketing channels contribute to conversions."
+    },
+    {
+      "questionText": "Ahrefs SEO tools are popular among:",
+      "options": [
+        "Pilots",
+        "Painters",
+        "Marketing professionals",
+        "Chefs"
+      ],
+      "correctAnswer": "Marketing professionals",
+      "explanation": "Correct answer is C) Marketing professionals."
+    },
+    {
+      "questionText": "To use Ahrefs paid tools, a project is set up by:",
+      "options": [
+        "Printing domains",
+        "Deleting domains",
+        "Verifying the domain",
+        "Ignoring domains"
+      ],
+      "correctAnswer": "Verifying the domain",
+      "explanation": "Correct answer is C) Verifying the domain."
+    },
+    {
+      "questionText": "Ahrefs Site Explorer provides information about:",
+      "options": [
+        "Only images",
+        "Only printers",
+        "Organic search traffic and backlink profile of any website or URL",
+        "Only emails"
+      ],
+      "correctAnswer": "Organic search traffic and backlink profile of any website or URL",
+      "explanation": "Correct answer is C) Organic search traffic and backlink profile of any website or URL."
+    },
+    {
+      "questionText": "Which is a tool in Ahrefs Site Explorer?",
+      "options": [
+        "Backlink checker",
+        "Email client",
+        "Video editor",
+        "Image editor"
+      ],
+      "correctAnswer": "Backlink checker",
+      "explanation": "Correct answer is A) Backlink checker."
+    },
+    {
+      "questionText": "Organic traffic research in Ahrefs helps to:",
+      "options": [
+        "Block competitors",
+        "Print reports",
+        "Check how competitors rank for keywords and pages that bring the most traffic",
+        "Delete competitors"
+      ],
+      "correctAnswer": "Check how competitors rank for keywords and pages that bring the most traffic",
+      "explanation": "Correct answer is C) Check how competitors rank for keywords and pages that bring the most traffic."
+    },
+    {
+      "questionText": "Paid traffic research in Ahrefs helps to:",
+      "options": [
+        "Delete ads",
+        "Edit code",
+        "Buy domains",
+        "Check if competitors are doing paid ads"
+      ],
+      "correctAnswer": "Check if competitors are doing paid ads",
+      "explanation": "Correct answer is D) Check if competitors are doing paid ads."
+    },
+    {
+      "questionText": "In Ahrefs, which report shows competing domains?",
+      "options": [
+        "Home > Exit",
+        "Organic search > Competing domains",
+        "Paid > Delete",
+        "Backlinks > Print"
+      ],
+      "correctAnswer": "Organic search > Competing domains",
+      "explanation": "Correct answer is B) Organic search > Competing domains."
+    },
+    {
+      "questionText": "In keyword reports, \"KD\" typically stands for:",
+      "options": [
+        "Key Data",
+        "Keyword Difficulty",
+        "Keyword Domain",
+        "Known Demand"
+      ],
+      "correctAnswer": "Keyword Difficulty",
+      "explanation": "Correct answer is B) Keyword Difficulty."
+    },
+    {
+      "questionText": "In keyword reports, \"CPC\" stands for:",
+      "options": [
+        "Cost per cookie",
+        "Content per column",
+        "Cost per click",
+        "Clicks per category"
+      ],
+      "correctAnswer": "Cost per click",
+      "explanation": "Correct answer is C) Cost per click."
+    },
+    {
+      "questionText": "In keyword reports, \"Volume\" indicates:",
+      "options": [
+        "Sound level",
+        "Page width",
+        "Average monthly searches",
+        "Image size"
+      ],
+      "correctAnswer": "Average monthly searches",
+      "explanation": "Correct answer is C) Average monthly searches."
+    },
+    {
+      "questionText": "SEMrush Backlink Analytics can be used to:",
+      "options": [
+        "Edit images",
+        "Host a blog",
+        "Send email",
+        "Perform backlink analysis for a site"
+      ],
+      "correctAnswer": "Perform backlink analysis for a site",
+      "explanation": "Correct answer is D) Perform backlink analysis for a site."
+    }
+  ]
+}

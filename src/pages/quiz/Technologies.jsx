@@ -611,9 +611,9 @@ export default function Technologies() {
     return (
         <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col">
             <Navbar />
-            <div className="flex-1 pt-24 pb-12 min-h-0">
+            <main className="flex-1 pt-24 pb-12 min-h-0">
                 {mainContent}
-            </div>
+            </main>
             <Footer />
         </div>
     );

@@ -1,0 +1,558 @@
+{
+  "category": "SEO",
+  "session": 7,
+  "title": "Session 7: SEO Internationalization and Localization",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "SEO localization is:",
+      "options": [
+        "Hosting in one country only",
+        "Removing all keywords",
+        "Adapting website content to the cultural level of a new location",
+        "Blocking other countries"
+      ],
+      "correctAnswer": "Adapting website content to the cultural level of a new location",
+      "explanation": "Correct answer is C) Adapting website content to the cultural level of a new location."
+    },
+    {
+      "questionText": "In the Mary example, searching \"bakery\" in Los Angeles shows nearby places because of:",
+      "options": [
+        "Bing",
+        "Random chance",
+        "Paid ads",
+        "SEO localization"
+      ],
+      "correctAnswer": "SEO localization",
+      "explanation": "Correct answer is D) SEO localization."
+    },
+    {
+      "questionText": "Which two things are important to understand in SEO localization?",
+      "options": [
+        "How customers search and the search terms they use",
+        "Server type and speed",
+        "Colour and font",
+        "Logo and slogan"
+      ],
+      "correctAnswer": "How customers search and the search terms they use",
+      "explanation": "Correct answer is A) How customers search and the search terms they use."
+    },
+    {
+      "questionText": "The Amazon Canada and Japan sites differ in:",
+      "options": [
+        "Currency and language",
+        "HTML",
+        "Nothing",
+        "The Amazon name"
+      ],
+      "correctAnswer": "Currency and language",
+      "explanation": "Correct answer is A) Currency and language."
+    },
+    {
+      "questionText": "How many steps are needed to get the right keywords for SEO localization, per the guide?",
+      "options": [
+        "One",
+        "Twenty",
+        "Seven",
+        "Two"
+      ],
+      "correctAnswer": "Seven",
+      "explanation": "Correct answer is C) Seven."
+    },
+    {
+      "questionText": "In the first step, source text should:",
+      "options": [
+        "Remove local or cultural references and include all product keywords",
+        "Add local slang",
+        "Include only images",
+        "Remove all keywords"
+      ],
+      "correctAnswer": "Remove local or cultural references and include all product keywords",
+      "explanation": "Correct answer is A) Remove local or cultural references and include all product keywords."
+    },
+    {
+      "questionText": "Transactional keywords are those that potential customers use to:",
+      "options": [
+        "Find a product or service, such as purchase, discount or online shop",
+        "Fix errors",
+        "Learn about a topic",
+        "Find a brand's info only"
+      ],
+      "correctAnswer": "Find a product or service, such as purchase, discount or online shop",
+      "explanation": "Correct answer is A) Find a product or service, such as purchase, discount or online shop."
+    },
+    {
+      "questionText": "Informational keywords help users to:",
+      "options": [
+        "Buy immediately",
+        "Pay taxes",
+        "Learn more about a topic",
+        "Log in"
+      ],
+      "correctAnswer": "Learn more about a topic",
+      "explanation": "Correct answer is C) Learn more about a topic."
+    },
+    {
+      "questionText": "Brand keywords are used to:",
+      "options": [
+        "Edit code",
+        "Find free images",
+        "Block crawlers",
+        "Find specific information about a brand's products or services"
+      ],
+      "correctAnswer": "Find specific information about a brand's products or services",
+      "explanation": "Correct answer is D) Find specific information about a brand's products or services."
+    },
+    {
+      "questionText": "Extracted keywords are set up in a:",
+      "options": [
+        "Cookie",
+        "Sitemap",
+        "Database of passwords",
+        "Termbase"
+      ],
+      "correctAnswer": "Termbase",
+      "explanation": "Correct answer is D) Termbase."
+    },
+    {
+      "questionText": "Who should be included when adding suggested topics in the target language?",
+      "options": [
+        "No one",
+        "A robot only",
+        "A competitor",
+        "A native speaker"
+      ],
+      "correctAnswer": "A native speaker",
+      "explanation": "Correct answer is D) A native speaker."
+    },
+    {
+      "questionText": "After target topics are ready, a keyword tool is used to analyze:",
+      "options": [
+        "Image sizes",
+        "Server logs",
+        "Search volumes",
+        "Fonts"
+      ],
+      "correctAnswer": "Search volumes",
+      "explanation": "Correct answer is C) Search volumes."
+    },
+    {
+      "questionText": "A native speaker is asked to:",
+      "options": [
+        "Write ads only",
+        "Find a match between source terms and target terms",
+        "Delete the keywords",
+        "Block pages"
+      ],
+      "correctAnswer": "Find a match between source terms and target terms",
+      "explanation": "Correct answer is B) Find a match between source terms and target terms."
+    },
+    {
+      "questionText": "CAT tools stand for:",
+      "options": [
+        "Crawl And Track tools",
+        "Copy And Translate tools",
+        "Content Analytics Tools",
+        "Computer Assisted Translation tools"
+      ],
+      "correctAnswer": "Computer Assisted Translation tools",
+      "explanation": "Correct answer is D) Computer Assisted Translation tools."
+    },
+    {
+      "questionText": "CAT tools provide:",
+      "options": [
+        "Server hosting",
+        "Real-time translation of the termbase",
+        "Ad budgets",
+        "Backlinks"
+      ],
+      "correctAnswer": "Real-time translation of the termbase",
+      "explanation": "Correct answer is B) Real-time translation of the termbase."
+    },
+    {
+      "questionText": "A proofreader should ensure that the translation:",
+      "options": [
+        "Retains all keywords and terminology and is natural",
+        "Is word-for-word only",
+        "Is shorter",
+        "Removes keywords"
+      ],
+      "correctAnswer": "Retains all keywords and terminology and is natural",
+      "explanation": "Correct answer is A) Retains all keywords and terminology and is natural."
+    },
+    {
+      "questionText": "Which elements are localized in the last step?",
+      "options": [
+        "Only fonts",
+        "Name, address, phone number and schema markup",
+        "Only the logo",
+        "Only the domain"
+      ],
+      "correctAnswer": "Name, address, phone number and schema markup",
+      "explanation": "Correct answer is B) Name, address, phone number and schema markup."
+    },
+    {
+      "questionText": "SEO internationalization is the process of:",
+      "options": [
+        "Making a website multilingual to market internationally",
+        "Hosting locally only",
+        "Removing languages",
+        "Blocking countries"
+      ],
+      "correctAnswer": "Making a website multilingual to market internationally",
+      "explanation": "Correct answer is A) Making a website multilingual to market internationally."
+    },
+    {
+      "questionText": "Targeting a country and language is a:",
+      "options": [
+        "Business goal such as maximum sales",
+        "Font choice",
+        "Server setting",
+        "Hosting plan"
+      ],
+      "correctAnswer": "Business goal such as maximum sales",
+      "explanation": "Correct answer is A) Business goal such as maximum sales."
+    },
+    {
+      "questionText": "Search engines understand a site targets a country when it is hosted on:",
+      "options": [
+        "A foreign IP only",
+        "A random IP",
+        "No IP",
+        "A local IP"
+      ],
+      "correctAnswer": "A local IP",
+      "explanation": "Correct answer is D) A local IP."
+    },
+    {
+      "questionText": "Search engines understand a country target when links are:",
+      "options": [
+        "Built from local resources",
+        "Hidden",
+        "Removed",
+        "Built from no one"
+      ],
+      "correctAnswer": "Built from local resources",
+      "explanation": "Correct answer is A) Built from local resources."
+    },
+    {
+      "questionText": "ccTLD stands for:",
+      "options": [
+        "Central cache top-level domain",
+        "Country code top-level domain",
+        "Content control top domain",
+        "Common code text link domain"
+      ],
+      "correctAnswer": "Country code top-level domain",
+      "explanation": "Correct answer is B) Country code top-level domain."
+    },
+    {
+      "questionText": ".ca is the ccTLD for:",
+      "options": [
+        "China",
+        "Canada",
+        "California",
+        "Cuba"
+      ],
+      "correctAnswer": "Canada",
+      "explanation": "Correct answer is B) Canada."
+    },
+    {
+      "questionText": ".co.uk is the ccTLD for:",
+      "options": [
+        "Corsica",
+        "United Kingdom",
+        "Costa Rica",
+        "Colombia"
+      ],
+      "correctAnswer": "United Kingdom",
+      "explanation": "Correct answer is B) United Kingdom."
+    },
+    {
+      "questionText": "Which URL structure uses a subdomain?",
+      "options": [
+        "domainname.com/uk",
+        "uk.domainname.com",
+        "domainname.co.uk",
+        "domainname.com/?lang=en"
+      ],
+      "correctAnswer": "uk.domainname.com",
+      "explanation": "Correct answer is B) uk.domainname.com."
+    },
+    {
+      "questionText": "Which URL structure is a subdirectory?",
+      "options": [
+        "domainname.com/?lang",
+        "domainname.com/uk",
+        "uk.domainname.com",
+        "domainnameuksite.com"
+      ],
+      "correctAnswer": "domainname.com/uk",
+      "explanation": "Correct answer is B) domainname.com/uk."
+    },
+    {
+      "questionText": "Which is a disadvantage of using a subdirectory?",
+      "options": [
+        "It has no URL",
+        "It blocks language",
+        "It uses a ccTLD",
+        "The number of pages within the URL increases"
+      ],
+      "correctAnswer": "The number of pages within the URL increases",
+      "explanation": "Correct answer is D) The number of pages within the URL increases."
+    },
+    {
+      "questionText": "Which are examples of gTLDs?",
+      "options": [
+        ".pdf, .doc, .jpg",
+        ".html, .css, .js",
+        ".ca, .uk, .jp, .in",
+        ".net, .edu, .com, .org"
+      ],
+      "correctAnswer": ".net, .edu, .com, .org",
+      "explanation": "Correct answer is D) .net, .edu, .com, .org."
+    },
+    {
+      "questionText": "A language parameter in a URL appears:",
+      "options": [
+        "At the end of the URL after a question mark",
+        "In the title",
+        "In the footer",
+        "At the start of the domain"
+      ],
+      "correctAnswer": "At the end of the URL after a question mark",
+      "explanation": "Correct answer is A) At the end of the URL after a question mark."
+    },
+    {
+      "questionText": "What does domainnameuksite.com represent?",
+      "options": [
+        "A language parameter",
+        "A subdomain",
+        "A different domain name for internationalized content",
+        "A subdirectory"
+      ],
+      "correctAnswer": "A different domain name for internationalized content",
+      "explanation": "Correct answer is C) A different domain name for internationalized content."
+    },
+    {
+      "questionText": "The hreflang attribute or language meta tags:",
+      "options": [
+        "Notify search engines of an alternate language version",
+        "Block crawlers",
+        "Hide pages",
+        "Remove keywords"
+      ],
+      "correctAnswer": "Notify search engines of an alternate language version",
+      "explanation": "Correct answer is A) Notify search engines of an alternate language version."
+    },
+    {
+      "questionText": "Using language meta tags helps search engines:",
+      "options": [
+        "Hide results",
+        "Delete pages",
+        "Show results to users searching in that language",
+        "Block users"
+      ],
+      "correctAnswer": "Show results to users searching in that language",
+      "explanation": "Correct answer is C) Show results to users searching in that language."
+    },
+    {
+      "questionText": "Why should local currency be shown?",
+      "options": [
+        "It hides prices",
+        "Buyers understand the price without conversion",
+        "It blocks ads",
+        "It slows the site"
+      ],
+      "correctAnswer": "Buyers understand the price without conversion",
+      "explanation": "Correct answer is B) Buyers understand the price without conversion."
+    },
+    {
+      "questionText": "SEO internationalization includes which elements?",
+      "options": [
+        "Only fonts",
+        "Local language, currency, time zone and cultural differences",
+        "Only images",
+        "Only the logo"
+      ],
+      "correctAnswer": "Local language, currency, time zone and cultural differences",
+      "explanation": "Correct answer is B) Local language, currency, time zone and cultural differences."
+    },
+    {
+      "questionText": "Time zone helps to understand:",
+      "options": [
+        "Keyword counts",
+        "Server speed",
+        "The use of time by customers and best time of purchases",
+        "Color usage"
+      ],
+      "correctAnswer": "The use of time by customers and best time of purchases",
+      "explanation": "Correct answer is C) The use of time by customers and best time of purchases."
+    },
+    {
+      "questionText": "Cultural elements include:",
+      "options": [
+        "Only fonts",
+        "Societal codes, values, customs and colors",
+        "Only server specs",
+        "Only the domain age"
+      ],
+      "correctAnswer": "Societal codes, values, customs and colors",
+      "explanation": "Correct answer is B) Societal codes, values, customs and colors."
+    },
+    {
+      "questionText": "Which practice should be avoided to show different-language versions of a page?",
+      "options": [
+        "Using cookies",
+        "Using separate URLs",
+        "Using language tags",
+        "Using hreflang"
+      ],
+      "correctAnswer": "Using cookies",
+      "explanation": "Correct answer is A) Using cookies."
+    },
+    {
+      "questionText": "Why avoid automatic redirection based on location?",
+      "options": [
+        "It is required",
+        "The user may be a traveller or in that location for a reason",
+        "It improves SEO",
+        "It speeds the site"
+      ],
+      "correctAnswer": "The user may be a traveller or in that location for a reason",
+      "explanation": "Correct answer is B) The user may be a traveller or in that location for a reason."
+    },
+    {
+      "questionText": "What is recommended instead of automatic redirection?",
+      "options": [
+        "Force a redirect",
+        "Suggest the language/version to the user",
+        "Block the user",
+        "Delete the page"
+      ],
+      "correctAnswer": "Suggest the language/version to the user",
+      "explanation": "Correct answer is B) Suggest the language/version to the user."
+    },
+    {
+      "questionText": "All content on a site's page should be in:",
+      "options": [
+        "Mixed languages",
+        "Random language",
+        "No language",
+        "The primary language"
+      ],
+      "correctAnswer": "The primary language",
+      "explanation": "Correct answer is D) The primary language."
+    },
+    {
+      "questionText": "Social Media Optimization (SMO) is:",
+      "options": [
+        "Compressing images",
+        "Editing HTML",
+        "Changing hosting",
+        "Using social networks to grow an organization's message and online presence"
+      ],
+      "correctAnswer": "Using social networks to grow an organization's message and online presence",
+      "explanation": "Correct answer is D) Using social networks to grow an organization's message and online presence."
+    },
+    {
+      "questionText": "User engagement on social media is measured by:",
+      "options": [
+        "Comments, likes and shares",
+        "Titles",
+        "Server logs",
+        "Fonts"
+      ],
+      "correctAnswer": "Comments, likes and shares",
+      "explanation": "Correct answer is A) Comments, likes and shares."
+    },
+    {
+      "questionText": "User engagement is considered:",
+      "options": [
+        "Illegal",
+        "Not important",
+        "A penalty",
+        "A ranking signal"
+      ],
+      "correctAnswer": "A ranking signal",
+      "explanation": "Correct answer is D) A ranking signal."
+    },
+    {
+      "questionText": "The hashtag symbol is added:",
+      "options": [
+        "Before a relevant keyword or phrase in posts",
+        "In robots.txt",
+        "In the title tag",
+        "At the end of the page"
+      ],
+      "correctAnswer": "Before a relevant keyword or phrase in posts",
+      "explanation": "Correct answer is A) Before a relevant keyword or phrase in posts."
+    },
+    {
+      "questionText": "On Facebook, it is recommended to use:",
+      "options": [
+        "At least twenty hashtags",
+        "Zero hashtags always",
+        "Hundred hashtags",
+        "No more than two hashtags"
+      ],
+      "correctAnswer": "No more than two hashtags",
+      "explanation": "Correct answer is D) No more than two hashtags."
+    },
+    {
+      "questionText": "After Google, which is the second-largest search engine?",
+      "options": [
+        "YouTube",
+        "Bing",
+        "Pinterest",
+        "Yahoo"
+      ],
+      "correctAnswer": "YouTube",
+      "explanation": "Correct answer is A) YouTube."
+    },
+    {
+      "questionText": "YouTube and Google belong to:",
+      "options": [
+        "Different companies",
+        "Microsoft",
+        "Amazon",
+        "The same company"
+      ],
+      "correctAnswer": "The same company",
+      "explanation": "Correct answer is D) The same company."
+    },
+    {
+      "questionText": "Google search results can show:",
+      "options": [
+        "No videos",
+        "Only ads",
+        "Only text",
+        "A carousel of video content from YouTube and other platforms"
+      ],
+      "correctAnswer": "A carousel of video content from YouTube and other platforms",
+      "explanation": "Correct answer is D) A carousel of video content from YouTube and other platforms."
+    },
+    {
+      "questionText": "Choosing the right social media platform means:",
+      "options": [
+        "Using none",
+        "Using all platforms equally",
+        "Identifying which platforms the target audience uses more",
+        "Using only one forever"
+      ],
+      "correctAnswer": "Identifying which platforms the target audience uses more",
+      "explanation": "Correct answer is C) Identifying which platforms the target audience uses more."
+    },
+    {
+      "questionText": "Which statement is correct about SEO localization?",
+      "options": [
+        "It ignores culture",
+        "It ensures cultural references and social attitudes are taken care of",
+        "It blocks local users",
+        "It removes language"
+      ],
+      "correctAnswer": "It ensures cultural references and social attitudes are taken care of",
+      "explanation": "Correct answer is B) It ensures cultural references and social attitudes are taken care of."
+    }
+  ]
+}

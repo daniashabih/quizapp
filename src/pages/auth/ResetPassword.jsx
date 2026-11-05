@@ -7,8 +7,14 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import InputField from '../../components/ui/InputField';
+import usePageSeo from '../../hooks/usePageSeo';
 
 export default function ResetPassword() {
+    usePageSeo({
+        title: 'Reset Password — HangBug',
+        description: 'Set a new secure password for your HangBug account.',
+        noindex: true
+    });
     const { token: pathToken } = useParams();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();

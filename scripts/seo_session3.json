@@ -1,0 +1,646 @@
+{
+  "category": "SEO",
+  "session": 3,
+  "title": "Session 3: On-page Optimization",
+  "totalQuestions": 58,
+  "questions": [
+    {
+      "questionText": "On-page SEO is the process of:",
+      "options": [
+        "Building links on other sites",
+        "Posting on social media",
+        "Buying ads",
+        "Optimizing individual web pages with quality content and wise use of HTML source code"
+      ],
+      "correctAnswer": "Optimizing individual web pages with quality content and wise use of HTML source code",
+      "explanation": "Correct answer is D) Optimizing individual web pages with quality content and wise use of HTML source code."
+    },
+    {
+      "questionText": "Why must a website be updated as per the latest search engine guidelines?",
+      "options": [
+        "Search engines ignore websites",
+        "Search engines keep updating their algorithms",
+        "It is a legal rule",
+        "Guidelines never change"
+      ],
+      "correctAnswer": "Search engines keep updating their algorithms",
+      "explanation": "Correct answer is B) Search engines keep updating their algorithms."
+    },
+    {
+      "questionText": "Which tag is the first thing visitors see in search results?",
+      "options": [
+        "Footer",
+        "Title",
+        "Alt text",
+        "Canonical"
+      ],
+      "correctAnswer": "Title",
+      "explanation": "Correct answer is B) Title."
+    },
+    {
+      "questionText": "How many characters does a title usually include at maximum before truncation?",
+      "options": [
+        "60",
+        "200",
+        "500",
+        "10"
+      ],
+      "correctAnswer": "60",
+      "explanation": "Correct answer is A) 60."
+    },
+    {
+      "questionText": "The meta description is placed in:",
+      "options": [
+        "The head section",
+        "The footer",
+        "The robots.txt file",
+        "The image folder"
+      ],
+      "correctAnswer": "The head section",
+      "explanation": "Correct answer is A) The head section."
+    },
+    {
+      "questionText": "A meta description should ideally be kept within how many characters?",
+      "options": [
+        "400",
+        "1000",
+        "155",
+        "20"
+      ],
+      "correctAnswer": "155",
+      "explanation": "Correct answer is C) 155."
+    },
+    {
+      "questionText": "H1 is usually used for:",
+      "options": [
+        "Image captions",
+        "The footer",
+        "The title of the page",
+        "Sitemaps"
+      ],
+      "correctAnswer": "The title of the page",
+      "explanation": "Correct answer is C) The title of the page."
+    },
+    {
+      "questionText": "Heading tags should follow the hierarchy:",
+      "options": [
+        "H1 to H6",
+        "Only H3",
+        "Random order",
+        "H6 to H1"
+      ],
+      "correctAnswer": "H1 to H6",
+      "explanation": "Correct answer is A) H1 to H6."
+    },
+    {
+      "questionText": "What font size is recommended for readable content, especially on mobile?",
+      "options": [
+        "4-point",
+        "16-point",
+        "8-point",
+        "6-point"
+      ],
+      "correctAnswer": "16-point",
+      "explanation": "Correct answer is B) 16-point."
+    },
+    {
+      "questionText": "Which content formatting guideline improves readability?",
+      "options": [
+        "One huge paragraph",
+        "Short paragraphs",
+        "Very small text",
+        "Unreadable background colours"
+      ],
+      "correctAnswer": "Short paragraphs",
+      "explanation": "Correct answer is B) Short paragraphs."
+    },
+    {
+      "questionText": "What is the purpose of anchor links in content?",
+      "options": [
+        "To slow the page",
+        "To block crawlers",
+        "Users immediately reach the section they want",
+        "To hide content"
+      ],
+      "correctAnswer": "Users immediately reach the section they want",
+      "explanation": "Correct answer is C) Users immediately reach the section they want."
+    },
+    {
+      "questionText": "Bullet points help users to:",
+      "options": [
+        "Skip reading",
+        "Delete text",
+        "Scan information",
+        "Download images"
+      ],
+      "correctAnswer": "Scan information",
+      "explanation": "Correct answer is C) Scan information."
+    },
+    {
+      "questionText": "URL optimization includes which three aspects?",
+      "options": [
+        "URL naming, structure and length",
+        "Colour, size and font",
+        "Title, header and footer",
+        "Port, host and path only"
+      ],
+      "correctAnswer": "URL naming, structure and length",
+      "explanation": "Correct answer is A) URL naming, structure and length."
+    },
+    {
+      "questionText": "URL naming should:",
+      "options": [
+        "Always be very long",
+        "Avoid any context",
+        "Contain random characters",
+        "Make clear what the page is about with keywords"
+      ],
+      "correctAnswer": "Make clear what the page is about with keywords",
+      "explanation": "Correct answer is D) Make clear what the page is about with keywords."
+    },
+    {
+      "questionText": "A short URL is recommended because:",
+      "options": [
+        "It is easy to copy, paste and share",
+        "It is secret",
+        "It removes keywords",
+        "It blocks crawlers"
+      ],
+      "correctAnswer": "It is easy to copy, paste and share",
+      "explanation": "Correct answer is A) It is easy to copy, paste and share."
+    },
+    {
+      "questionText": "Internal links help:",
+      "options": [
+        "Crawlers find all pages in the site",
+        "Block social media",
+        "Hide pages",
+        "Reduce page content"
+      ],
+      "correctAnswer": "Crawlers find all pages in the site",
+      "explanation": "Correct answer is A) Crawlers find all pages in the site."
+    },
+    {
+      "questionText": "External links to one's site:",
+      "options": [
+        "Create credibility of the content",
+        "Remove authority",
+        "Block indexing",
+        "Reduce traffic"
+      ],
+      "correctAnswer": "Create credibility of the content",
+      "explanation": "Correct answer is A) Create credibility of the content."
+    },
+    {
+      "questionText": "Page experience signals include:",
+      "options": [
+        "Post length only",
+        "Font names only",
+        "Domain colour",
+        "Core Web Vitals"
+      ],
+      "correctAnswer": "Core Web Vitals",
+      "explanation": "Correct answer is D) Core Web Vitals."
+    },
+    {
+      "questionText": "Core Web Vitals measure:",
+      "options": [
+        "Loading speed, responsiveness and visual stability",
+        "Social shares only",
+        "Domain age",
+        "Backlinks only"
+      ],
+      "correctAnswer": "Loading speed, responsiveness and visual stability",
+      "explanation": "Correct answer is A) Loading speed, responsiveness and visual stability."
+    },
+    {
+      "questionText": "A page complies with Core Web Vitals if it meets targets at which percentile?",
+      "options": [
+        "75th",
+        "10th",
+        "99th",
+        "50th"
+      ],
+      "correctAnswer": "75th",
+      "explanation": "Correct answer is A) 75th."
+    },
+    {
+      "questionText": "A delay of how many milliseconds or less is considered good interactivity?",
+      "options": [
+        "1000",
+        "10000",
+        "100",
+        "5000"
+      ],
+      "correctAnswer": "100",
+      "explanation": "Correct answer is C) 100."
+    },
+    {
+      "questionText": "A layout shift score of what or less is considered good?",
+      "options": [
+        "1.5",
+        "10",
+        "0.1",
+        "5"
+      ],
+      "correctAnswer": "0.1",
+      "explanation": "Correct answer is C) 0.1."
+    },
+    {
+      "questionText": "What percentage of US citizens search for local information on smartphones, according to the\n guide?",
+      "options": [
+        "94%",
+        "44%",
+        "24%",
+        "64%"
+      ],
+      "correctAnswer": "94%",
+      "explanation": "Correct answer is A) 94%."
+    },
+    {
+      "questionText": "Which Search Console tool checks if a page is mobile-friendly?",
+      "options": [
+        "URL Removal tool",
+        "Index Coverage",
+        "Links report",
+        "Mobile-Friendly Test tool"
+      ],
+      "correctAnswer": "Mobile-Friendly Test tool",
+      "explanation": "Correct answer is D) Mobile-Friendly Test tool."
+    },
+    {
+      "questionText": "HTTPS provides:",
+      "options": [
+        "Only ads",
+        "Only colours",
+        "Encryption, data integrity and authentication",
+        "Only faster typing"
+      ],
+      "correctAnswer": "Encryption, data integrity and authentication",
+      "explanation": "Correct answer is C) Encryption, data integrity and authentication."
+    },
+    {
+      "questionText": "Encryption in HTTPS ensures:",
+      "options": [
+        "Pages load twice",
+        "Backlinks increase",
+        "Pages are deleted",
+        "An outsider cannot track the user's activities or steal information"
+      ],
+      "correctAnswer": "An outsider cannot track the user's activities or steal information",
+      "explanation": "Correct answer is D) An outsider cannot track the user's activities or steal information."
+    },
+    {
+      "questionText": "Data integrity in HTTPS:",
+      "options": [
+        "Edits URLs",
+        "Protects data from being modified or corrupted without detection",
+        "Compresses images",
+        "Creates sitemaps"
+      ],
+      "correctAnswer": "Protects data from being modified or corrupted without detection",
+      "explanation": "Correct answer is B) Protects data from being modified or corrupted without detection."
+    },
+    {
+      "questionText": "Authentication in HTTPS ensures:",
+      "options": [
+        "Users communicate with the intended site",
+        "Keywords are added",
+        "Images are resized",
+        "Pages are cached"
+      ],
+      "correctAnswer": "Users communicate with the intended site",
+      "explanation": "Correct answer is A) Users communicate with the intended site."
+    },
+    {
+      "questionText": "Which key size is recommended for a robust security certificate?",
+      "options": [
+        "2048-bit",
+        "64-bit",
+        "8-bit",
+        "16-bit"
+      ],
+      "correctAnswer": "2048-bit",
+      "explanation": "Correct answer is A) 2048-bit."
+    },
+    {
+      "questionText": "A content audit is the process of:",
+      "options": [
+        "Writing a new site",
+        "Removing the domain",
+        "Buying links",
+        "Determining how well the website is performing"
+      ],
+      "correctAnswer": "Determining how well the website is performing",
+      "explanation": "Correct answer is D) Determining how well the website is performing."
+    },
+    {
+      "questionText": "How often should a content audit be done, according to the guide?",
+      "options": [
+        "Every day",
+        "Once in every four months",
+        "Once in ten years",
+        "Never"
+      ],
+      "correctAnswer": "Once in every four months",
+      "explanation": "Correct answer is B) Once in every four months."
+    },
+    {
+      "questionText": "Which tool provides in-depth analysis of website performance and answers data questions?",
+      "options": [
+        "Google Analytics",
+        "Squoosh",
+        "Notepad",
+        "TinyPNG"
+      ],
+      "correctAnswer": "Google Analytics",
+      "explanation": "Correct answer is A) Google Analytics."
+    },
+    {
+      "questionText": "Sitemaps are usually required when a website:",
+      "options": [
+        "Is private",
+        "Is very large and has rich media content",
+        "Has a single page",
+        "Has no media"
+      ],
+      "correctAnswer": "Is very large and has rich media content",
+      "explanation": "Correct answer is B) Is very large and has rich media content."
+    },
+    {
+      "questionText": "Does a sitemap guarantee that search engines will crawl and index pages?",
+      "options": [
+        "No, it only improves crawling",
+        "Yes, for HTML only",
+        "Yes, for XML only",
+        "Yes, always"
+      ],
+      "correctAnswer": "No, it only improves crawling",
+      "explanation": "Correct answer is A) No, it only improves crawling."
+    },
+    {
+      "questionText": "Which sitemap format is a text file with one URL per line?",
+      "options": [
+        "mRSS",
+        "Text format",
+        "XML",
+        "RSS"
+      ],
+      "correctAnswer": "Text format",
+      "explanation": "Correct answer is B) Text format."
+    },
+    {
+      "questionText": "RSS stands for:",
+      "options": [
+        "Random Server Setup",
+        "Remote Search Service",
+        "Rapid Site Search",
+        "Really Simple Syndication"
+      ],
+      "correctAnswer": "Really Simple Syndication",
+      "explanation": "Correct answer is D) Really Simple Syndication."
+    },
+    {
+      "questionText": "Which sitemap format gives Google details about video content?",
+      "options": [
+        "Plain XML only",
+        "Media RSS (mRSS)",
+        "Text",
+        "HTML"
+      ],
+      "correctAnswer": "Media RSS (mRSS)",
+      "explanation": "Correct answer is B) Media RSS (mRSS)."
+    },
+    {
+      "questionText": "HTML sitemaps are designed for:",
+      "options": [
+        "Visitors, to navigate pages",
+        "Servers",
+        "Email clients",
+        "Crawlers only"
+      ],
+      "correctAnswer": "Visitors, to navigate pages",
+      "explanation": "Correct answer is A) Visitors, to navigate pages."
+    },
+    {
+      "questionText": "Where is an HTML sitemap usually found?",
+      "options": [
+        "In the title",
+        "In the images",
+        "In robots.txt only",
+        "At the footer of a website"
+      ],
+      "correctAnswer": "At the footer of a website",
+      "explanation": "Correct answer is D) At the footer of a website."
+    },
+    {
+      "questionText": "How can a sitemap be submitted to Google?",
+      "options": [
+        "By adding it to robots.txt or submitting it in Search Console",
+        "Only by email",
+        "Only by post",
+        "It cannot be submitted"
+      ],
+      "correctAnswer": "By adding it to robots.txt or submitting it in Search Console",
+      "explanation": "Correct answer is A) By adding it to robots.txt or submitting it in Search Console."
+    },
+    {
+      "questionText": "Allowing comments on blog posts can help with:",
+      "options": [
+        "Reducing content",
+        "Blocking crawlers",
+        "Latent Semantic Indexing (LSI) of keywords",
+        "Hiding posts"
+      ],
+      "correctAnswer": "Latent Semantic Indexing (LSI) of keywords",
+      "explanation": "Correct answer is C) Latent Semantic Indexing (LSI) of keywords."
+    },
+    {
+      "questionText": "Search intent is also known as:",
+      "options": [
+        "Bot intent",
+        "User intent",
+        "Link intent",
+        "Crawl intent"
+      ],
+      "correctAnswer": "User intent",
+      "explanation": "Correct answer is B) User intent."
+    },
+    {
+      "questionText": "Which is the first step in thorough keyword research?",
+      "options": [
+        "Delete topics",
+        "Ensure good knowledge about the industry",
+        "Submit robots.txt",
+        "Buy ads"
+      ],
+      "correctAnswer": "Ensure good knowledge about the industry",
+      "explanation": "Correct answer is B) Ensure good knowledge about the industry."
+    },
+    {
+      "questionText": "Where can \"Related searches\" be viewed to consider more keywords?",
+      "options": [
+        "At the bottom of the Google search result page",
+        "In the footer of the site",
+        "In the robots.txt file",
+        "In the title tag"
+      ],
+      "correctAnswer": "At the bottom of the Google search result page",
+      "explanation": "Correct answer is A) At the bottom of the Google search result page."
+    },
+    {
+      "questionText": "Which are keyword research tools mentioned?",
+      "options": [
+        "Notepad and Word",
+        "Gmail and Docs",
+        "Google Keyword Planner, Ahrefs and SEMrush",
+        "Squoosh and TinyPNG"
+      ],
+      "correctAnswer": "Google Keyword Planner, Ahrefs and SEMrush",
+      "explanation": "Correct answer is C) Google Keyword Planner, Ahrefs and SEMrush."
+    },
+    {
+      "questionText": "CTR is calculated as:",
+      "options": [
+        "Backlinks divided by pages",
+        "Clicks received divided by the number of times the page is shown",
+        "Pages divided by sessions",
+        "Users divided by clicks"
+      ],
+      "correctAnswer": "Clicks received divided by the number of times the page is shown",
+      "explanation": "Correct answer is B) Clicks received divided by the number of times the page is shown."
+    },
+    {
+      "questionText": "Breadcrumbs are:",
+      "options": [
+        "Links that let users track where they are on a website",
+        "Types of cookies",
+        "Image formats",
+        "Backlinks"
+      ],
+      "correctAnswer": "Links that let users track where they are on a website",
+      "explanation": "Correct answer is A) Links that let users track where they are on a website."
+    },
+    {
+      "questionText": "Which of the following helps in structuring a site?",
+      "options": [
+        "Large images",
+        "Hidden pages",
+        "Breadcrumbs, tags and internal links",
+        "Random redirects"
+      ],
+      "correctAnswer": "Breadcrumbs, tags and internal links",
+      "explanation": "Correct answer is C) Breadcrumbs, tags and internal links."
+    },
+    {
+      "questionText": "A contextual link is:",
+      "options": [
+        "Clickable text within a web page",
+        "A server file",
+        "A paid ad",
+        "A redirect"
+      ],
+      "correctAnswer": "Clickable text within a web page",
+      "explanation": "Correct answer is A) Clickable text within a web page."
+    },
+    {
+      "questionText": "A robots.txt file resides:",
+      "options": [
+        "In a subdomain only",
+        "At the root of the site",
+        "In the images folder",
+        "In the footer"
+      ],
+      "correctAnswer": "At the root of the site",
+      "explanation": "Correct answer is B) At the root of the site."
+    },
+    {
+      "questionText": "How many robots.txt files can a site have?",
+      "options": [
+        "Unlimited",
+        "Two",
+        "Ten",
+        "Only one"
+      ],
+      "correctAnswer": "Only one",
+      "explanation": "Correct answer is D) Only one."
+    },
+    {
+      "questionText": "Robots.txt rules are:",
+      "options": [
+        "Written in images",
+        "Always ignored",
+        "Case-insensitive",
+        "Case-sensitive"
+      ],
+      "correctAnswer": "Case-sensitive",
+      "explanation": "Correct answer is D) Case-sensitive."
+    },
+    {
+      "questionText": "In robots.txt, \"Disallow\" is used to:",
+      "options": [
+        "Specify a directory or page the user agent should not crawl",
+        "Allow all pages",
+        "Create a sitemap",
+        "Delete the site"
+      ],
+      "correctAnswer": "Specify a directory or page the user agent should not crawl",
+      "explanation": "Correct answer is A) Specify a directory or page the user agent should not crawl."
+    },
+    {
+      "questionText": "In robots.txt, \"Allow\" is used to:",
+      "options": [
+        "Compress pages",
+        "Delete files",
+        "Block all agents",
+        "Specify a page or directory the user agent may crawl and overrides Disallow"
+      ],
+      "correctAnswer": "Specify a page or directory the user agent may crawl and overrides Disallow",
+      "explanation": "Correct answer is D) Specify a page or directory the user agent may crawl and overrides Disallow."
+    },
+    {
+      "questionText": "In robots.txt, the asterisk (*) indicates:",
+      "options": [
+        "All crawlers",
+        "No crawlers",
+        "Only Googlebot",
+        "Only Bing"
+      ],
+      "correctAnswer": "All crawlers",
+      "explanation": "Correct answer is A) All crawlers."
+    },
+    {
+      "questionText": "Which tool in Search Console tests robots.txt?",
+      "options": [
+        "robots.txt Tester",
+        "Page Speed",
+        "Mobile Test",
+        "Links report"
+      ],
+      "correctAnswer": "robots.txt Tester",
+      "explanation": "Correct answer is A) robots.txt Tester."
+    },
+    {
+      "questionText": "Which encoding should the robots.txt file be saved in?",
+      "options": [
+        "JPEG",
+        "MP3",
+        "UTF-8",
+        "PDF"
+      ],
+      "correctAnswer": "UTF-8",
+      "explanation": "Correct answer is C) UTF-8."
+    },
+    {
+      "questionText": "To keep a page out of search engines, which is recommended instead of relying only on\n robots.txt?",
+      "options": [
+        "Block indexing or password-protect the page",
+        "Delete the title",
+        "Add more images",
+        "Add more keywords"
+      ],
+      "correctAnswer": "Block indexing or password-protect the page",
+      "explanation": "Correct answer is A) Block indexing or password-protect the page."
+    }
+  ]
+}

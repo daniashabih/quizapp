@@ -1,1460 +1,602 @@
 {
   "category": "SEO",
   "session": 2,
-  "title": "Session 2: A Guide to Search Optimization",
-  "totalQuestions": 132,
+  "title": "Session 2: Search Engine Optimization and Its Components",
+  "totalQuestions": 54,
   "questions": [
     {
-      "questionText": "What is the main goal of local SEO?",
+      "questionText": "Search Engine Optimization (SEO) refers to the process of:",
       "options": [
-        "Reduce the file size of images",
-        "Improve visibility in location-based searches",
-        "Block crawlers from a site",
-        "Rank for broad global keywords only"
+        "Buying ads only",
+        "Increasing the visibility of web pages and ranking them higher",
+        "Building hardware",
+        "Deleting web pages"
       ],
-      "correctAnswer": "Improve visibility in location-based searches",
-      "explanation": "Correct answer is B) Improve visibility in location-based searches."
+      "correctAnswer": "Increasing the visibility of web pages and ranking them higher",
+      "explanation": "Correct answer is B) Increasing the visibility of web pages and ranking them higher."
     },
     {
-      "questionText": "Which tool is most recommended for submitting local business information so that it appears on Google Maps and local search results?",
+      "questionText": "Page rank refers to:",
       "options": [
+        "The page loading time",
+        "The size of a page",
+        "The position of a website in SERPs",
+        "The number of pages in a site"
+      ],
+      "correctAnswer": "The position of a website in SERPs",
+      "explanation": "Correct answer is C) The position of a website in SERPs."
+    },
+    {
+      "questionText": "In the late 1990s, SEO was mostly done using:",
+      "options": [
+        "Podcasts",
+        "Influencer marketing",
+        "On-page activities",
+        "Mobile apps"
+      ],
+      "correctAnswer": "On-page activities",
+      "explanation": "Correct answer is C) On-page activities."
+    },
+    {
+      "questionText": "In the year 2000, Google introduced which algorithm?",
+      "options": [
+        "Hummingbird",
+        "PageRank",
+        "RankBrain",
+        "Panda"
+      ],
+      "correctAnswer": "PageRank",
+      "explanation": "Correct answer is B) PageRank."
+    },
+    {
+      "questionText": "Organic traffic refers to visitors who land on a website from:",
+      "options": [
+        "Email spam",
+        "Printed brochures",
+        "Paid ads",
+        "Unpaid sources such as search engines"
+      ],
+      "correctAnswer": "Unpaid sources such as search engines",
+      "explanation": "Correct answer is D) Unpaid sources such as search engines."
+    },
+    {
+      "questionText": "SEO helps increase which two aspects of website traffic?",
+      "options": [
+        "Quantity and quality",
+        "Price and tax",
+        "Colour and size",
+        "Cost and speed"
+      ],
+      "correctAnswer": "Quantity and quality",
+      "explanation": "Correct answer is A) Quantity and quality."
+    },
+    {
+      "questionText": "What are the basic techniques of SEO listed in the guide?",
+      "options": [
+        "Ads only",
+        "Printing, mailing, hosting and coding",
+        "Graphic design only",
+        "Keyword research, technical SEO, on-page SEO and link building"
+      ],
+      "correctAnswer": "Keyword research, technical SEO, on-page SEO and link building",
+      "explanation": "Correct answer is D) Keyword research, technical SEO, on-page SEO and link building."
+    },
+    {
+      "questionText": "Google's tool that estimates searches for keywords and helps find new keywords is:",
+      "options": [
+        "PageSpeed Insights",
+        "Keyword Planner",
+        "Squoosh",
+        "Site Speed Test"
+      ],
+      "correctAnswer": "Keyword Planner",
+      "explanation": "Correct answer is B) Keyword Planner."
+    },
+    {
+      "questionText": "Technical SEO is the process of:",
+      "options": [
+        "Buying backlinks",
+        "Optimizing a website's technical elements so that search engines can crawl and index it",
+        "Writing blog posts",
+        "Posting on social media"
+      ],
+      "correctAnswer": "Optimizing a website's technical elements so that search engines can crawl and index it",
+      "explanation": "Correct answer is B) Optimizing a website's technical elements so that search engines can crawl and index it."
+    },
+    {
+      "questionText": "Which free Google tool helps monitor, maintain and troubleshoot a site's presence in Google\n Search?",
+      "options": [
+        "Google Search Console",
+        "Google Docs",
+        "Google Photos",
+        "Google Meet"
+      ],
+      "correctAnswer": "Google Search Console",
+      "explanation": "Correct answer is A) Google Search Console."
+    },
+    {
+      "questionText": "The robots.txt file informs the search engine crawler about:",
+      "options": [
+        "Server hardware",
+        "The author's name",
+        "The URLs it can access",
+        "The colours of the site"
+      ],
+      "correctAnswer": "The URLs it can access",
+      "explanation": "Correct answer is C) The URLs it can access."
+    },
+    {
+      "questionText": "A sitemap is a file that:",
+      "options": [
+        "Contains only passwords",
+        "Blocks all crawlers",
+        "Provides information about pages and media files",
+        "Stores user comments"
+      ],
+      "correctAnswer": "Provides information about pages and media files",
+      "explanation": "Correct answer is C) Provides information about pages and media files."
+    },
+    {
+      "questionText": "On-page SEO refers to:",
+      "options": [
+        "Posting on forums only",
+        "Buying ads",
+        "Optimizing individual web pages with quality content and HTML source code",
+        "Building links from other sites"
+      ],
+      "correctAnswer": "Optimizing individual web pages with quality content and HTML source code",
+      "explanation": "Correct answer is C) Optimizing individual web pages with quality content and HTML source code."
+    },
+    {
+      "questionText": "Which SEO-friendly URL practice is recommended?",
+      "options": [
+        "Use lower-case letters and keep URLs short",
+        "Avoid all keywords",
+        "Use capital letters and long URLs",
+        "Use random numbers"
+      ],
+      "correctAnswer": "Use lower-case letters and keep URLs short",
+      "explanation": "Correct answer is A) Use lower-case letters and keep URLs short."
+    },
+    {
+      "questionText": "Titles of pages should be:",
+      "options": [
+        "Short, informative and unique",
+        "Left blank",
+        "Extremely long",
+        "Identical on all pages"
+      ],
+      "correctAnswer": "Short, informative and unique",
+      "explanation": "Correct answer is A) Short, informative and unique."
+    },
+    {
+      "questionText": "Too many heading tags on a webpage:",
+      "options": [
+        "Make it hard for users to determine where content starts and ends",
+        "Are required",
+        "Always improve ranking",
+        "Have no effect"
+      ],
+      "correctAnswer": "Make it hard for users to determine where content starts and ends",
+      "explanation": "Correct answer is A) Make it hard for users to determine where content starts and ends."
+    },
+    {
+      "questionText": "Backlinking is:",
+      "options": [
+        "Hiding links",
+        "Deleting links",
+        "Getting links from other websites to your own site",
+        "Linking to your own pages only"
+      ],
+      "correctAnswer": "Getting links from other websites to your own site",
+      "explanation": "Correct answer is C) Getting links from other websites to your own site."
+    },
+    {
+      "questionText": "Backlinks should be built from:",
+      "options": [
+        "Only competitor sites",
+        "Only spam sites",
+        "Any random site",
+        "Trustworthy sources"
+      ],
+      "correctAnswer": "Trustworthy sources",
+      "explanation": "Correct answer is D) Trustworthy sources."
+    },
+    {
+      "questionText": "Black hat SEO practices are those that:",
+      "options": [
+        "Are paid by Google",
+        "Go against search engine guidelines",
+        "Have no defined guidelines",
+        "Follow search guidelines"
+      ],
+      "correctAnswer": "Go against search engine guidelines",
+      "explanation": "Correct answer is B) Go against search engine guidelines."
+    },
+    {
+      "questionText": "Which is a black hat technique?",
+      "options": [
+        "Creating unique content",
+        "Using internal links",
+        "Using images and videos",
+        "Cloaking: showing different content to users and search engines"
+      ],
+      "correctAnswer": "Cloaking: showing different content to users and search engines",
+      "explanation": "Correct answer is D) Cloaking: showing different content to users and search engines."
+    },
+    {
+      "questionText": "Copying content from a different website and publishing it on one's own site is called:",
+      "options": [
+        "Link building",
+        "Guest posting",
+        "Cloaking",
+        "Content duplication"
+      ],
+      "correctAnswer": "Content duplication",
+      "explanation": "Correct answer is D) Content duplication."
+    },
+    {
+      "questionText": "Overusing keywords in a page is called:",
+      "options": [
+        "Link building",
+        "Content audit",
+        "Keyword research",
+        "Keyword stuffing"
+      ],
+      "correctAnswer": "Keyword stuffing",
+      "explanation": "Correct answer is D) Keyword stuffing."
+    },
+    {
+      "questionText": "White hat SEO practices:",
+      "options": [
+        "Are always paid",
+        "Follow search engine guidelines",
+        "Have no guidelines",
+        "Violate guidelines"
+      ],
+      "correctAnswer": "Follow search engine guidelines",
+      "explanation": "Correct answer is B) Follow search engine guidelines."
+    },
+    {
+      "questionText": "A feature of white hat content is:",
+      "options": [
+        "Bought links",
+        "Hidden keywords",
+        "A structured website with proper internal links",
+        "Cloaked pages"
+      ],
+      "correctAnswer": "A structured website with proper internal links",
+      "explanation": "Correct answer is C) A structured website with proper internal links."
+    },
+    {
+      "questionText": "Gray hat SEO refers to practices that:",
+      "options": [
+        "Are always legal and safe",
+        "Do not have well-defined guidelines",
+        "Are always banned",
+        "Are paid by search engines"
+      ],
+      "correctAnswer": "Do not have well-defined guidelines",
+      "explanation": "Correct answer is B) Do not have well-defined guidelines."
+    },
+    {
+      "questionText": "Which is an example of a gray hat practice?",
+      "options": [
+        "Compressing images",
+        "Using HTTPS",
+        "Link generation using microsites",
+        "Creating unique titles"
+      ],
+      "correctAnswer": "Link generation using microsites",
+      "explanation": "Correct answer is C) Link generation using microsites."
+    },
+    {
+      "questionText": "Buying Facebook likes is considered:",
+      "options": [
+        "Gray hat SEO",
+        "Technical SEO",
+        "On-page SEO",
+        "White hat SEO"
+      ],
+      "correctAnswer": "Gray hat SEO",
+      "explanation": "Correct answer is A) Gray hat SEO."
+    },
+    {
+      "questionText": "If content gets retweets and social shares organically, it becomes:",
+      "options": [
+        "Black hat SEO",
+        "White hat SEO",
+        "Spam",
+        "Cloaking"
+      ],
+      "correctAnswer": "White hat SEO",
+      "explanation": "Correct answer is B) White hat SEO."
+    },
+    {
+      "questionText": "Why should old blog posts be updated with new content?",
+      "options": [
+        "They already bring traffic and updating them with keywords engages visitors more",
+        "It is mandatory by law",
+        "It reduces traffic",
+        "Google deletes all old posts"
+      ],
+      "correctAnswer": "They already bring traffic and updating them with keywords engages visitors more",
+      "explanation": "Correct answer is A) They already bring traffic and updating them with keywords engages visitors more."
+    },
+    {
+      "questionText": "Google Search Console was earlier called:",
+      "options": [
+        "Google Webmaster Tools",
+        "Google Analytics",
         "Google Keyword Planner",
-        "Google My Business",
-        "TinyPNG",
+        "Google Ads"
+      ],
+      "correctAnswer": "Google Webmaster Tools",
+      "explanation": "Correct answer is A) Google Webmaster Tools."
+    },
+    {
+      "questionText": "Which of the following can Search Console show?",
+      "options": [
+        "The owner's bank details",
+        "How often the site appears in Google Search",
+        "Competitors' passwords",
+        "Phone numbers of visitors"
+      ],
+      "correctAnswer": "How often the site appears in Google Search",
+      "explanation": "Correct answer is B) How often the site appears in Google Search."
+    },
+    {
+      "questionText": "To set up Search Console, the first step is to:",
+      "options": [
+        "Sign in with a Google account",
+        "Buy a domain",
+        "Delete the sitemap",
+        "Install Analytics 360"
+      ],
+      "correctAnswer": "Sign in with a Google account",
+      "explanation": "Correct answer is A) Sign in with a Google account."
+    },
+    {
+      "questionText": "Why is site ownership verified in Search Console?",
+      "options": [
+        "To increase site speed",
+        "So only verified owners can access sensitive search data",
+        "To hide the site",
+        "To delete old pages"
+      ],
+      "correctAnswer": "So only verified owners can access sensitive search data",
+      "explanation": "Correct answer is B) So only verified owners can access sensitive search data."
+    },
+    {
+      "questionText": "A \"Domain\" property in Search Console connects to:",
+      "options": [
+        "Only the home page",
+        "Every aspect of the site, including all subdomains",
+        "Only images",
+        "Only one URL prefix"
+      ],
+      "correctAnswer": "Every aspect of the site, including all subdomains",
+      "explanation": "Correct answer is B) Every aspect of the site, including all subdomains."
+    },
+    {
+      "questionText": "A domain property can only be verified via:",
+      "options": [
+        "DNS record",
+        "Phone call",
+        "HTML file only",
+        "Email only"
+      ],
+      "correctAnswer": "DNS record",
+      "explanation": "Correct answer is A) DNS record."
+    },
+    {
+      "questionText": "A \"URL-prefix\" property applies to:",
+      "options": [
+        "All subdomains",
+        "Only a single URL prefix of the site",
+        "Only videos",
+        "Only emails"
+      ],
+      "correctAnswer": "Only a single URL prefix of the site",
+      "explanation": "Correct answer is B) Only a single URL prefix of the site."
+    },
+    {
+      "questionText": "Submitting a sitemap is recommended especially when:",
+      "options": [
+        "The site has one page",
+        "The site has a large number of URLs",
+        "The site is private",
+        "The site has no content"
+      ],
+      "correctAnswer": "The site has a large number of URLs",
+      "explanation": "Correct answer is B) The site has a large number of URLs."
+    },
+    {
+      "questionText": "The Search Console tool that can test whether a page can be indexed and request recrawl is:",
+      "options": [
+        "Keyword Planner",
+        "URL Inspection tool",
+        "Performance report only",
+        "Backlink tool"
+      ],
+      "correctAnswer": "URL Inspection tool",
+      "explanation": "Correct answer is B) URL Inspection tool."
+    },
+    {
+      "questionText": "If the URL Inspection live test finds no indexing issues, the page is:",
+      "options": [
+        "Blocked",
+        "Queued for indexing",
+        "Deleted",
+        "Penalized"
+      ],
+      "correctAnswer": "Queued for indexing",
+      "explanation": "Correct answer is B) Queued for indexing."
+    },
+    {
+      "questionText": "Grouping Performance report data by \"queries\" displays:",
+      "options": [
+        "Hosting plans",
+        "Metrics for keywords, such as clicks and impressions",
+        "Server logs",
+        "Colour themes"
+      ],
+      "correctAnswer": "Metrics for keywords, such as clicks and impressions",
+      "explanation": "Correct answer is B) Metrics for keywords, such as clicks and impressions."
+    },
+    {
+      "questionText": "The Sitemaps report is used to:",
+      "options": [
+        "Delete pages",
+        "Compress images",
+        "Write content",
+        "Inform Google about new sitemaps and view errors"
+      ],
+      "correctAnswer": "Inform Google about new sitemaps and view errors",
+      "explanation": "Correct answer is D) Inform Google about new sitemaps and view errors."
+    },
+    {
+      "questionText": "Page experience is a set of signals that measure:",
+      "options": [
+        "How users experience interacting with a page beyond content",
+        "The age of the domain",
+        "The number of pages",
+        "The number of ads only"
+      ],
+      "correctAnswer": "How users experience interacting with a page beyond content",
+      "explanation": "Correct answer is A) How users experience interacting with a page beyond content."
+    },
+    {
+      "questionText": "Page experience is currently evaluated only on:",
+      "options": [
+        "TV only",
+        "Desktop devices",
+        "Mobile devices",
+        "Printers"
+      ],
+      "correctAnswer": "Mobile devices",
+      "explanation": "Correct answer is C) Mobile devices."
+    },
+    {
+      "questionText": "Google's general guideline says images should have:",
+      "options": [
+        "A pop-up",
+        "A watermark only",
+        "An alt attribute",
+        "No file name"
+      ],
+      "correctAnswer": "An alt attribute",
+      "explanation": "Correct answer is C) An alt attribute."
+    },
+    {
+      "questionText": "Which tool can be used to test page performance?",
+      "options": [
+        "Search Console Links",
+        "Keyword Planner",
+        "PageSpeed Insights",
         "Squoosh"
       ],
-      "correctAnswer": "Google My Business",
-      "explanation": "Correct answer is B) Google My Business."
+      "correctAnswer": "PageSpeed Insights",
+      "explanation": "Correct answer is C) PageSpeed Insights."
     },
     {
-      "questionText": "Which of the following is an example of a local keyword?",
+      "questionText": "Which is a quality content guideline?",
       "options": [
-        "Bakery",
-        "Italian bakery in Agoura Hills, CA",
-        "Baking",
-        "Italian bakery"
+        "Create content only for search engines",
+        "Hide text in the page",
+        "Copy competitor content",
+        "Create content for users and not for search engines"
       ],
-      "correctAnswer": "Italian bakery in Agoura Hills, CA",
-      "explanation": "Correct answer is B) Italian bakery in Agoura Hills, CA."
+      "correctAnswer": "Create content for users and not for search engines",
+      "explanation": "Correct answer is D) Create content for users and not for search engines."
     },
     {
-      "questionText": "According to the guide, local searches lead to approximately what percentage of purchases in physical stores?",
+      "questionText": "Why should a site be secured with HTTPS?",
       "options": [
-        "70%",
-        "50%",
-        "10%",
-        "90%"
+        "It increases keyword count",
+        "It hides the site from Google",
+        "It removes all ads",
+        "Security is a ranking signal and protects data confidentiality"
       ],
-      "correctAnswer": "90%",
-      "explanation": "Correct answer is D) 90%."
+      "correctAnswer": "Security is a ranking signal and protects data confidentiality",
+      "explanation": "Correct answer is D) Security is a ranking signal and protects data confidentiality."
     },
     {
-      "questionText": "Approximately what percentage of users read online reviews before choosing local services?",
+      "questionText": "Structured data is:",
       "options": [
-        "40%",
-        "20%",
-        "90%",
-        "60%"
+        "A social media post",
+        "A DNS record",
+        "A standardized format to mark up information on a web page",
+        "A type of image"
       ],
-      "correctAnswer": "90%",
-      "explanation": "Correct answer is C) 90%."
+      "correctAnswer": "A standardized format to mark up information on a web page",
+      "explanation": "Correct answer is C) A standardized format to mark up information on a web page."
     },
     {
-      "questionText": "What percentage of users use Google Maps to explore local stores and businesses?",
+      "questionText": "An XML sitemap is:",
       "options": [
-        "46%",
-        "86%",
-        "16%",
-        "66%"
+        "An ad format",
+        "A list of user passwords",
+        "A style sheet",
+        "A list of URLs of a website that informs search engines about content"
       ],
-      "correctAnswer": "86%",
-      "explanation": "Correct answer is B) 86%."
+      "correctAnswer": "A list of URLs of a website that informs search engines about content",
+      "explanation": "Correct answer is D) A list of URLs of a website that informs search engines about content."
     },
     {
-      "questionText": "'Near me' and 'buy now' searches increased by how much in 2020 alone?",
+      "questionText": "Which attribute helps a site target different countries and avoids duplicate content problems?",
       "options": [
-        "50%",
-        "150%",
-        "5%",
-        "500%"
-      ],
-      "correctAnswer": "500%",
-      "explanation": "Correct answer is D) 500%."
-    },
-    {
-      "questionText": "Which link-building strategy supports local SEO?",
-      "options": [
-        "Removing all outbound links",
-        "Buying thousands of links",
-        "Sharing links with local businesses in exchange for links to their sites",
-        "Hiding links in white text"
-      ],
-      "correctAnswer": "Sharing links with local businesses in exchange for links to their sites",
-      "explanation": "Correct answer is C) Sharing links with local businesses in exchange for links to their sites."
-    },
-    {
-      "questionText": "What does NAP stand for in local SEO?",
-      "options": [
-        "Name, Address, Phone number",
-        "Name, Anchor, Permalink",
-        "Navigation, Alt text, Pages",
-        "Network, Algorithm, Page"
-      ],
-      "correctAnswer": "Name, Address, Phone number",
-      "explanation": "Correct answer is A) Name, Address, Phone number."
-    },
-    {
-      "questionText": "Local SEO is an essential part of which type of SEO, since more mobile users search for local businesses?",
-      "options": [
-        "Email marketing",
-        "Mobile SEO",
-        "Paid search",
-        "Black hat SEO"
-      ],
-      "correctAnswer": "Mobile SEO",
-      "explanation": "Correct answer is B) Mobile SEO."
-    },
-    {
-      "questionText": "Approximately how many searches does Google receive every day that include local searches?",
-      "options": [
-        "160 billion",
-        "1.6 billion",
-        "1.6 million",
-        "16 million"
-      ],
-      "correctAnswer": "1.6 billion",
-      "explanation": "Correct answer is B) 1.6 billion."
-    },
-    {
-      "questionText": "Positive online reviews mainly help a local business by:",
-      "options": [
-        "Making it look trustworthy",
-        "Blocking competitors",
-        "Increasing image size",
-        "Reducing hosting costs Section 2: Regional SEO (SEO Localization)"
-      ],
-      "correctAnswer": "Making it look trustworthy",
-      "explanation": "Correct answer is A) Making it look trustworthy."
-    },
-    {
-      "questionText": "SEO localization is the process of:",
-      "options": [
-        "Adapting website content to the cultural level of a new location",
-        "Hosting a site on several servers",
-        "Removing all local content",
-        "Translating a site word-for-word only"
-      ],
-      "correctAnswer": "Adapting website content to the cultural level of a new location",
-      "explanation": "Correct answer is A) Adapting website content to the cultural level of a new location."
-    },
-    {
-      "questionText": "Which domain extension is a country-code TLD (ccTLD) used to target Canada?",
-      "options": [
-        ".com",
-        ".ca",
-        ".net",
-        ".org"
-      ],
-      "correctAnswer": ".ca",
-      "explanation": "Correct answer is B) .ca."
-    },
-    {
-      "questionText": "Which ccTLD indicates a site for the United Kingdom?",
-      "options": [
-        ".co.uk",
-        ".info",
-        ".edu",
-        ".us"
-      ],
-      "correctAnswer": ".co.uk",
-      "explanation": "Correct answer is A) .co.uk."
-    },
-    {
-      "questionText": "Which attribute tells search engines that an alternate language version of a page exists?",
-      "options": [
-        "canonical-size",
+        "nofollow",
         "hreflang",
-        "noindex",
-        "nofollow"
+        "title",
+        "alt"
       ],
       "correctAnswer": "hreflang",
       "explanation": "Correct answer is B) hreflang."
     },
     {
-      "questionText": "Which URL structure is an example of a subdirectory?",
+      "questionText": "Off-page SEO refers to:",
       "options": [
-        "domainname.com/?lang=en-us",
-        "uk.domainname.com",
-        "domainnameuksite.com",
-        "domainname.com/uk"
-      ],
-      "correctAnswer": "domainname.com/uk",
-      "explanation": "Correct answer is D) domainname.com/uk."
-    },
-    {
-      "questionText": "Which URL is an example of a subdomain structure?",
-      "options": [
-        "domainname.com/uk",
-        "domainname.co.uk",
-        "domainname.com/?lang=es",
-        "uk.domainname.com"
-      ],
-      "correctAnswer": "uk.domainname.com",
-      "explanation": "Correct answer is D) uk.domainname.com."
-    },
-    {
-      "questionText": "Search engines understand that a site targets a specific country when:",
-      "options": [
-        "The site is hosted on a local IP",
-        "Links are built from local resources",
-        "Links point to local content",
-        "All of the above"
-      ],
-      "correctAnswer": "All of the above",
-      "explanation": "Correct answer is D) All of the above."
-    },
-    {
-      "questionText": "Which of the following is NOT an element that should be adapted for a target audience?",
-      "options": [
-        "Time zone and cultural differences",
-        "Server cabling colour",
-        "Local language",
-        "Currency"
-      ],
-      "correctAnswer": "Server cabling colour",
-      "explanation": "Correct answer is B) Server cabling colour."
-    },
-    {
-      "questionText": "While preparing source text for SEO localization, what must be avoided to prevent search engine penalties?",
-      "options": [
-        "Product keywords",
-        "Headings",
-        "Keyword stuffing",
-        "Short sentences"
-      ],
-      "correctAnswer": "Keyword stuffing",
-      "explanation": "Correct answer is C) Keyword stuffing."
-    },
-    {
-      "questionText": "Why should the native currency be displayed on a localized website?",
-      "options": [
-        "Buyers understand the price without conversion",
-        "It blocks other countries",
-        "It replaces the need for translation",
-        "It improves server speed"
-      ],
-      "correctAnswer": "Buyers understand the price without conversion",
-      "explanation": "Correct answer is A) Buyers understand the price without conversion."
-    },
-    {
-      "questionText": "Which of the following is a gTLD?",
-      "options": [
-        ".ca",
-        ".co.uk",
-        ".org",
-        ".jp"
-      ],
-      "correctAnswer": ".org",
-      "explanation": "Correct answer is C) .org."
-    },
-    {
-      "questionText": "In the guide's example, how do Amazon's Canadian and Japanese sites differ?",
-      "options": [
-        "Only by logo",
-        "By robots.txt",
-        "They are identical",
-        "By currency and language Section 3: Keyword Research"
-      ],
-      "correctAnswer": "By currency and language Section 3: Keyword Research",
-      "explanation": "Correct answer is D) By currency and language Section 3: Keyword Research."
-    },
-    {
-      "questionText": "Keyword research refers to:",
-      "options": [
-        "Identifying the words users search for so they can be used in content",
+        "SEO strategies implemented outside the website to increase its authority",
         "Compressing images",
-        "Buying backlinks",
-        "Writing meta tags only"
+        "Editing robots.txt",
+        "Optimizing HTML tags"
       ],
-      "correctAnswer": "Identifying the words users search for so they can be used in content",
-      "explanation": "Correct answer is A) Identifying the words users search for so they can be used in content."
+      "correctAnswer": "SEO strategies implemented outside the website to increase its authority",
+      "explanation": "Correct answer is A) SEO strategies implemented outside the website to increase its authority."
     },
     {
-      "questionText": "Which is a recommended first step in thorough keyword research?",
+      "questionText": "Which is a common off-page SEO strategy?",
       "options": [
-        "Buy ads",
-        "Gain good knowledge about the industry",
-        "Delete old pages",
-        "Submit a robots.txt"
+        "Optimizing URLs",
+        "Creating unique page titles",
+        "Link building",
+        "Editing meta descriptions"
       ],
-      "correctAnswer": "Gain good knowledge about the industry",
-      "explanation": "Correct answer is B) Gain good knowledge about the industry."
+      "correctAnswer": "Link building",
+      "explanation": "Correct answer is C) Link building."
     },
     {
-      "questionText": "Where can 'Related searches' be found to get more keyword ideas?",
+      "questionText": "In influencer marketing, a brand:",
       "options": [
-        "In image alt text",
-        "In the site footer only",
-        "In the robots.txt file",
-        "At the bottom of the Google search results page"
+        "Blocks social media",
+        "Buys links from spammers",
+        "Deletes backlinks",
+        "Collaborates with an online influencer to market its products"
       ],
-      "correctAnswer": "At the bottom of the Google search results page",
-      "explanation": "Correct answer is D) At the bottom of the Google search results page."
+      "correctAnswer": "Collaborates with an online influencer to market its products",
+      "explanation": "Correct answer is D) Collaborates with an online influencer to market its products."
     },
     {
-      "questionText": "Why is it important to think like your customers during keyword research?",
+      "questionText": "Publishing podcasts is an example of:",
       "options": [
-        "Different users use different search terms",
-        "It reduces page speed",
-        "Search engines ignore keywords",
-        "It is a legal requirement"
+        "An off-page strategy using audio content",
+        "Cloaking",
+        "A robots.txt rule",
+        "A technical SEO step"
       ],
-      "correctAnswer": "Different users use different search terms",
-      "explanation": "Correct answer is A) Different users use different search terms."
-    },
-    {
-      "questionText": "Search intent is also known as:",
-      "options": [
-        "Crawl budget",
-        "Page rank",
-        "User intent",
-        "Link equity"
-      ],
-      "correctAnswer": "User intent",
-      "explanation": "Correct answer is C) User intent."
-    },
-    {
-      "questionText": "Grouping keywords into themes means, for a site about exercise, using groups such as:",
-      "options": [
-        "Random unrelated words",
-        "'sitting exercise', 'standing exercise', 'wall exercise'",
-        "Only numbers",
-        "Only brand names"
-      ],
-      "correctAnswer": "'sitting exercise', 'standing exercise', 'wall exercise'",
-      "explanation": "Correct answer is B) 'sitting exercise', 'standing exercise', 'wall exercise'."
-    },
-    {
-      "questionText": "Which of the following is a method of keyword research mentioned in the guide?",
-      "options": [
-        "Guessing",
-        "Participating in forums and community groups",
-        "Copying competitors' code",
-        "Deleting analytics"
-      ],
-      "correctAnswer": "Participating in forums and community groups",
-      "explanation": "Correct answer is B) Participating in forums and community groups."
-    },
-    {
-      "questionText": "Using terms like 'Hardest Cardio Exercises' and 'Hard Cardio Workout' for the same topic shows:",
-      "options": [
-        "Duplicate content",
-        "Using several search terms for the same topic",
-        "Keyword stuffing",
-        "Cloaking"
-      ],
-      "correctAnswer": "Using several search terms for the same topic",
-      "explanation": "Correct answer is B) Using several search terms for the same topic."
-    },
-    {
-      "questionText": "A search for 'Healing backpain through exercise' shows which kind of intent?",
-      "options": [
-        "Buying a product",
-        "Looking for information",
-        "Downloading software",
-        "Navigating to a known site"
-      ],
-      "correctAnswer": "Looking for information",
-      "explanation": "Correct answer is B) Looking for information."
-    },
-    {
-      "questionText": "Keyword research helps a site primarily to:",
-      "options": [
-        "Attract the right visitors",
-        "Remove backlinks",
-        "Increase server load",
-        "Hide pages from users"
-      ],
-      "correctAnswer": "Attract the right visitors",
-      "explanation": "Correct answer is A) Attract the right visitors."
-    },
-    {
-      "questionText": "After listing important topics, what should be done next?",
-      "options": [
-        "Buy a domain",
-        "Publish without keywords",
-        "Rank the topics by importance",
-        "Delete the topics"
-      ],
-      "correctAnswer": "Rank the topics by importance",
-      "explanation": "Correct answer is C) Rank the topics by importance."
-    },
-    {
-      "questionText": "The guide recommends content matching which of the following?",
-      "options": [
-        "The search intent of the audience",
-        "Only competitor headings",
-        "Only the owner's preferences",
-        "Only the longest keywords Section 4: Keyword Matrix"
-      ],
-      "correctAnswer": "The search intent of the audience",
-      "explanation": "Correct answer is A) The search intent of the audience."
-    },
-    {
-      "questionText": "A keyword matrix is best described as:",
-      "options": [
-        "A sitemap format",
-        "A robots.txt directive",
-        "A table that organizes keywords with details such as topic, volume, intent and target page",
-        "A type of backlink"
-      ],
-      "correctAnswer": "A table that organizes keywords with details such as topic, volume, intent and target page",
-      "explanation": "Correct answer is C) A table that organizes keywords with details such as topic, volume, intent and target page."
-    },
-    {
-      "questionText": "Which column would typically be found in a keyword matrix?",
-      "options": [
-        "Image DPI",
-        "Search volume",
-        "Server temperature",
-        "Monitor size"
-      ],
-      "correctAnswer": "Search volume",
-      "explanation": "Correct answer is B) Search volume."
-    },
-    {
-      "questionText": "In a keyword matrix, short-tail keywords usually represent:",
-      "options": [
-        "Backlinks",
-        "Broad topics",
-        "Sub-topics",
-        "Error codes"
-      ],
-      "correctAnswer": "Broad topics",
-      "explanation": "Correct answer is B) Broad topics."
-    },
-    {
-      "questionText": "In a keyword matrix, long-tail keywords usually represent:",
-      "options": [
-        "Sub-topics under a broad topic",
-        "Domain names",
-        "Social profiles",
-        "HTTP status codes"
-      ],
-      "correctAnswer": "Sub-topics under a broad topic",
-      "explanation": "Correct answer is A) Sub-topics under a broad topic."
-    },
-    {
-      "questionText": "Keyword cannibalization occurs when:",
-      "options": [
-        "A site has no sitemap",
-        "Images are too large",
-        "A page has no keywords",
-        "Several pages target the same keyword and compete with each other"
-      ],
-      "correctAnswer": "Several pages target the same keyword and compete with each other",
-      "explanation": "Correct answer is D) Several pages target the same keyword and compete with each other."
-    },
-    {
-      "questionText": "Mapping keywords to pages in a matrix helps to:",
-      "options": [
-        "Increase image size",
-        "Remove titles",
-        "Avoid duplicate targeting and plan content",
-        "Block Googlebot"
-      ],
-      "correctAnswer": "Avoid duplicate targeting and plan content",
-      "explanation": "Correct answer is C) Avoid duplicate targeting and plan content."
-    },
-    {
-      "questionText": "The guide suggests ranking topics by:",
-      "options": [
-        "Alphabetical order",
-        "Monthly search volume",
-        "Word length",
-        "Domain age"
-      ],
-      "correctAnswer": "Monthly search volume",
-      "explanation": "Correct answer is B) Monthly search volume."
-    },
-    {
-      "questionText": "Approximately how many long-tail keywords does the guide suggest identifying for each short-tail keyword?",
-      "options": [
-        "About 12",
-        "None",
-        "About 100",
-        "About 2"
-      ],
-      "correctAnswer": "About 12",
-      "explanation": "Correct answer is A) About 12."
-    },
-    {
-      "questionText": "Which search intent type would be recorded for the keyword 'buy pull-up bar online'?",
-      "options": [
-        "Error",
-        "Informational",
-        "Navigational",
-        "Transactional"
-      ],
-      "correctAnswer": "Transactional",
-      "explanation": "Correct answer is D) Transactional."
-    },
-    {
-      "questionText": "What does a keyword difficulty column indicate?",
-      "options": [
-        "How hard it is to rank for the keyword",
-        "The page's load time",
-        "The number of images",
-        "How long the keyword is"
-      ],
-      "correctAnswer": "How hard it is to rank for the keyword",
-      "explanation": "Correct answer is A) How hard it is to rank for the keyword."
-    },
-    {
-      "questionText": "A matrix of topics (short-tail) against sub-topics (long-tail) is effectively:",
-      "options": [
-        "A server report",
-        "A content table of contents plan",
-        "A crawl log",
-        "An XML feed"
-      ],
-      "correctAnswer": "A content table of contents plan",
-      "explanation": "Correct answer is B) A content table of contents plan."
-    },
-    {
-      "questionText": "Which tool can supply data for filling in a keyword matrix?",
-      "options": [
-        "TinyPNG",
-        "Google Keyword Planner",
-        "Notepad only",
-        "Squoosh Section 5: Pages per Session (Page/Session Rate) and Bounce Rate"
-      ],
-      "correctAnswer": "Google Keyword Planner",
-      "explanation": "Correct answer is B) Google Keyword Planner."
-    },
-    {
-      "questionText": "Pages per session is calculated as:",
-      "options": [
-        "Total users ÷ total pageviews",
-        "Total pageviews ÷ total sessions",
-        "Total clicks ÷ total impressions",
-        "Total sessions ÷ total users"
-      ],
-      "correctAnswer": "Total pageviews ÷ total sessions",
-      "explanation": "Correct answer is B) Total pageviews ÷ total sessions."
-    },
-    {
-      "questionText": "If a site recorded 600 pageviews across 200 sessions, what is the pages per session?",
-      "options": [
-        "0.33",
-        "4",
-        "3",
-        "2"
-      ],
-      "correctAnswer": "3",
-      "explanation": "Correct answer is C) 3."
-    },
-    {
-      "questionText": "A higher pages-per-session figure generally suggests:",
-      "options": [
-        "Crawling is blocked",
-        "Visitors are more engaged and explore more pages",
-        "Visitors never left the home page",
-        "The site is down"
-      ],
-      "correctAnswer": "Visitors are more engaged and explore more pages",
-      "explanation": "Correct answer is B) Visitors are more engaged and explore more pages."
-    },
-    {
-      "questionText": "A pageview is:",
-      "options": [
-        "A backlink",
-        "A click in search results",
-        "A visit from a unique person",
-        "An instance of a page being loaded or reloaded in a browser"
-      ],
-      "correctAnswer": "An instance of a page being loaded or reloaded in a browser",
-      "explanation": "Correct answer is D) An instance of a page being loaded or reloaded in a browser."
-    },
-    {
-      "questionText": "Unique visitors are:",
-      "options": [
-        "The number of keywords",
-        "The number of individuals who visited a site in a given period",
-        "The total number of pageviews",
-        "The number of backlinks"
-      ],
-      "correctAnswer": "The number of individuals who visited a site in a given period",
-      "explanation": "Correct answer is B) The number of individuals who visited a site in a given period."
-    },
-    {
-      "questionText": "According to the guide, bounce rate represents:",
-      "options": [
-        "The percentage of visitors who enter the site and leave instead of viewing other pages",
-        "The speed of the server",
-        "The percentage of pages indexed",
-        "The percentage of clicks on ads"
-      ],
-      "correctAnswer": "The percentage of visitors who enter the site and leave instead of viewing other pages",
-      "explanation": "Correct answer is A) The percentage of visitors who enter the site and leave instead of viewing other pages."
-    },
-    {
-      "questionText": "A session in which the visitor views only one page and leaves is usually counted as:",
-      "options": [
-        "A conversion",
-        "A backlink",
-        "An indexed page",
-        "A bounce"
-      ],
-      "correctAnswer": "A bounce",
-      "explanation": "Correct answer is D) A bounce."
-    },
-    {
-      "questionText": "Which action can help increase pages per session?",
-      "options": [
-        "Removing navigation",
-        "Removing all content",
-        "Adding relevant internal links",
-        "Slowing page load"
-      ],
-      "correctAnswer": "Adding relevant internal links",
-      "explanation": "Correct answer is C) Adding relevant internal links."
-    },
-    {
-      "questionText": "An SEO-friendly, quality content strategy is expected to lead to:",
-      "options": [
-        "No visitors",
-        "A higher bounce rate",
-        "A minimal bounce rate",
-        "Blocked crawling"
-      ],
-      "correctAnswer": "A minimal bounce rate",
-      "explanation": "Correct answer is C) A minimal bounce rate."
-    },
-    {
-      "questionText": "Which is the difference between a session and a pageview?",
-      "options": [
-        "A pageview is a keyword",
-        "A session is a backlink",
-        "They are the same",
-        "A session is a group of visits/interactions by a user; a pageview is a single page load"
-      ],
-      "correctAnswer": "A session is a group of visits/interactions by a user; a pageview is a single page load",
-      "explanation": "Correct answer is D) A session is a group of visits/interactions by a user; a pageview is a single page load."
-    },
-    {
-      "questionText": "Which tool can report pages per session?",
-      "options": [
-        "robots.txt",
-        "Squoosh",
-        "hreflang",
-        "Google Analytics"
-      ],
-      "correctAnswer": "Google Analytics",
-      "explanation": "Correct answer is D) Google Analytics."
-    },
-    {
-      "questionText": "Very low pages per session combined with a high bounce rate may indicate:",
-      "options": [
-        "The site is perfectly optimized",
-        "Too many backlinks",
-        "Content or navigation does not engage visitors",
-        "The sitemap is excessive Section 6: Keyword Research Tools"
-      ],
-      "correctAnswer": "Content or navigation does not engage visitors",
-      "explanation": "Correct answer is C) Content or navigation does not engage visitors."
-    },
-    {
-      "questionText": "Which of the following is a keyword research tool?",
-      "options": [
-        "TinyPNG",
-        "Google Keyword Planner",
-        "robots.txt",
-        "Squoosh"
-      ],
-      "correctAnswer": "Google Keyword Planner",
-      "explanation": "Correct answer is B) Google Keyword Planner."
-    },
-    {
-      "questionText": "Which pair are both keyword research tools named in the guide?",
-      "options": [
-        "Squoosh and TinyPNG",
-        "Ahrefs and SEMrush",
-        "Zoom and Teams",
-        "Gmail and Drive"
-      ],
-      "correctAnswer": "Ahrefs and SEMrush",
-      "explanation": "Correct answer is B) Ahrefs and SEMrush."
-    },
-    {
-      "questionText": "Which question can a keyword research tool answer?",
-      "options": [
-        "Who owns the domain's server?",
-        "How many employees work at a company?",
-        "What colour is the logo?",
-        "What is the estimated monthly search volume for a keyword?"
-      ],
-      "correctAnswer": "What is the estimated monthly search volume for a keyword?",
-      "explanation": "Correct answer is D) What is the estimated monthly search volume for a keyword?."
-    },
-    {
-      "questionText": "Keyword Planner is a tool provided by:",
-      "options": [
-        "Amazon",
-        "Twitter",
-        "Google",
-        "Bing only"
-      ],
-      "correctAnswer": "Google",
-      "explanation": "Correct answer is C) Google."
-    },
-    {
-      "questionText": "Keyword research tools can suggest:",
-      "options": [
-        "Logo designs",
-        "Server upgrades",
-        "New keyword ideas",
-        "Ad budgets only"
-      ],
-      "correctAnswer": "New keyword ideas",
-      "explanation": "Correct answer is C) New keyword ideas."
-    },
-    {
-      "questionText": "A keyword tool can help identify:",
-      "options": [
-        "Relevant terms in the local area",
-        "Image formats only",
-        "HTTP versions",
-        "Employee salaries"
-      ],
-      "correctAnswer": "Relevant terms in the local area",
-      "explanation": "Correct answer is A) Relevant terms in the local area."
-    },
-    {
-      "questionText": "Which of these is used to compress images rather than research keywords?",
-      "options": [
-        "Keyword Planner",
-        "Ahrefs",
-        "Squoosh",
-        "SEMrush"
-      ],
-      "correctAnswer": "Squoosh",
-      "explanation": "Correct answer is C) Squoosh."
-    },
-    {
-      "questionText": "The guide suggests using SEO tools such as Google's Keyword Tool and Ahrefs to:",
-      "options": [
-        "Compress video",
-        "Write HTML",
-        "Identify search volume and variations of search terms",
-        "Block crawlers"
-      ],
-      "correctAnswer": "Identify search volume and variations of search terms",
-      "explanation": "Correct answer is C) Identify search volume and variations of search terms."
-    },
-    {
-      "questionText": "Which tool also offers a Backlink Analytics feature, as shown in the guide?",
-      "options": [
-        "SEMrush",
-        "Notepad",
-        "Squoosh",
-        "TinyPNG"
-      ],
-      "correctAnswer": "SEMrush",
-      "explanation": "Correct answer is A) SEMrush."
-    },
-    {
-      "questionText": "Why should keyword tool data be compared with search intent?",
-      "options": [
-        "Intent is never needed",
-        "Volume alone does not show whether the keyword matches the audience's purpose",
-        "Tools are always wrong",
-        "Volume is irrelevant"
-      ],
-      "correctAnswer": "Volume alone does not show whether the keyword matches the audience's purpose",
-      "explanation": "Correct answer is B) Volume alone does not show whether the keyword matches the audience's purpose."
-    },
-    {
-      "questionText": "Long-tail keyword ideas can be found using:",
-      "options": [
-        "An image editor",
-        "A robots.txt file only",
-        "A spreadsheet of colours",
-        "A keyword tool"
-      ],
-      "correctAnswer": "A keyword tool",
-      "explanation": "Correct answer is D) A keyword tool."
-    },
-    {
-      "questionText": "Which is true of keyword research tools?",
-      "options": [
-        "They guarantee rank #1",
-        "They estimate search volume and competition",
-        "They host the website",
-        "They replace content creation Section 7: Google Analytics"
-      ],
-      "correctAnswer": "They estimate search volume and competition",
-      "explanation": "Correct answer is B) They estimate search volume and competition."
-    },
-    {
-      "questionText": "Google Analytics is used to:",
-      "options": [
-        "Track and analyze the performance of a website or app",
-        "Compress images",
-        "Write robots.txt",
-        "Host a website"
-      ],
-      "correctAnswer": "Track and analyze the performance of a website or app",
-      "explanation": "Correct answer is A) Track and analyze the performance of a website or app."
-    },
-    {
-      "questionText": "Who can access Google Analytics?",
-      "options": [
-        "Only web developers",
-        "Only paid customers",
-        "Only Google employees",
-        "Anyone with a Google account"
-      ],
-      "correctAnswer": "Anyone with a Google account",
-      "explanation": "Correct answer is D) Anyone with a Google account."
-    },
-    {
-      "questionText": "What is the paid version of Google Analytics called?",
-      "options": [
-        "Google Analytics Pro Max",
-        "Search Console Premium",
-        "Google Analytics 360",
-        "Analytics Plus"
-      ],
-      "correctAnswer": "Google Analytics 360",
-      "explanation": "Correct answer is C) Google Analytics 360."
-    },
-    {
-      "questionText": "Where are the standard reports located in the Analytics dashboard?",
-      "options": [
-        "On the left side",
-        "On the right only",
-        "At the bottom",
-        "In the footer"
-      ],
-      "correctAnswer": "On the left side",
-      "explanation": "Correct answer is A) On the left side."
-    },
-    {
-      "questionText": "Which of the following metrics can Analytics report?",
-      "options": [
-        "Bounce rate, page views and unique visitors",
-        "Server temperature",
-        "Domain price",
-        "Employee count"
-      ],
-      "correctAnswer": "Bounce rate, page views and unique visitors",
-      "explanation": "Correct answer is A) Bounce rate, page views and unique visitors."
-    },
-    {
-      "questionText": "If a user does not want to browse reports, Analytics allows them to:",
-      "options": [
-        "Ask questions in plain English",
-        "Call support only",
-        "Delete data",
-        "Print the website"
-      ],
-      "correctAnswer": "Ask questions in plain English",
-      "explanation": "Correct answer is A) Ask questions in plain English."
-    },
-    {
-      "questionText": "Which resource helps users learn Analytics?",
-      "options": [
-        "Search Central only",
-        "Analytics Academy",
-        "Keyword Planner",
-        "Squoosh"
-      ],
-      "correctAnswer": "Analytics Academy",
-      "explanation": "Correct answer is B) Analytics Academy."
-    },
-    {
-      "questionText": "Which question can Analytics answer?",
-      "options": [
-        "What is the CEO's age?",
-        "Which colour is best?",
-        "How many users came from mobile last week?",
-        "Who wrote the robots.txt?"
-      ],
-      "correctAnswer": "How many users came from mobile last week?",
-      "explanation": "Correct answer is C) How many users came from mobile last week?."
-    },
-    {
-      "questionText": "What should be clicked on the Analytics welcome page after signing in?",
-      "options": [
-        "Export sitemap",
-        "Start crawling",
-        "Delete account",
-        "Start measuring"
-      ],
-      "correctAnswer": "Start measuring",
-      "explanation": "Correct answer is D) Start measuring."
-    },
-    {
-      "questionText": "Analytics data helps decide which blog content to:",
-      "options": [
-        "Buy",
-        "Block permanently",
-        "Retain, remove or improve",
-        "Rename randomly"
-      ],
-      "correctAnswer": "Retain, remove or improve",
-      "explanation": "Correct answer is C) Retain, remove or improve."
-    },
-    {
-      "questionText": "Google Analytics differs from Google Search Console in that Analytics mainly:",
-      "options": [
-        "Requests URL indexing",
-        "Reports visitor behaviour on the site",
-        "Tests robots.txt",
-        "Submits sitemaps"
-      ],
-      "correctAnswer": "Reports visitor behaviour on the site",
-      "explanation": "Correct answer is B) Reports visitor behaviour on the site."
-    },
-    {
-      "questionText": "Google Analytics can show which audience details?",
-      "options": [
-        "Phone brand price",
-        "Shoe size",
-        "Hair colour",
-        "Age group of visitors Section 8: Crawling"
-      ],
-      "correctAnswer": "Age group of visitors Section 8: Crawling",
-      "explanation": "Correct answer is D) Age group of visitors Section 8: Crawling."
-    },
-    {
-      "questionText": "Crawling is the process in which search engines:",
-      "options": [
-        "Discover and visit web pages",
-        "Write content",
-        "Sell advertising",
-        "Delete pages"
-      ],
-      "correctAnswer": "Discover and visit web pages",
-      "explanation": "Correct answer is A) Discover and visit web pages."
-    },
-    {
-      "questionText": "Search engine crawlers are also known as:",
-      "options": [
-        "Banners",
-        "Spiders",
-        "Cookies",
-        "Widgets"
-      ],
-      "correctAnswer": "Spiders",
-      "explanation": "Correct answer is B) Spiders."
-    },
-    {
-      "questionText": "Google can discover new pages through:",
-      "options": [
-        "Links from already visited pages",
-        "Sitemaps/lists submitted by site owners",
-        "Both of the above",
-        "None of the above"
-      ],
-      "correctAnswer": "Both of the above",
-      "explanation": "Correct answer is C) Both of the above."
-    },
-    {
-      "questionText": "Does Google accept payment to crawl a website more frequently?",
-      "options": [
-        "Only for stores",
-        "Yes, always",
-        "Only for blogs",
-        "No"
-      ],
-      "correctAnswer": "No",
-      "explanation": "Correct answer is D) No."
-    },
-    {
-      "questionText": "Which file tells crawlers which URLs they can access?",
-      "options": [
-        "readme.txt",
-        "style.css",
-        "robots.txt",
-        "index.php"
-      ],
-      "correctAnswer": "robots.txt",
-      "explanation": "Correct answer is C) robots.txt."
-    },
-    {
-      "questionText": "Which directive in robots.txt blocks a crawler from a path?",
-      "options": [
-        "Follow",
-        "Index",
-        "Disallow",
-        "Allow all"
-      ],
-      "correctAnswer": "Disallow",
-      "explanation": "Correct answer is C) Disallow."
-    },
-    {
-      "questionText": "Does a sitemap guarantee that a page will be crawled and indexed?",
-      "options": [
-        "Only for XML",
-        "No, it only improves crawling",
-        "Only for HTML",
-        "Yes"
-      ],
-      "correctAnswer": "No, it only improves crawling",
-      "explanation": "Correct answer is B) No, it only improves crawling."
-    },
-    {
-      "questionText": "Which Google tool can request a URL to be crawled or recrawled?",
-      "options": [
-        "TinyPNG",
-        "Analytics 360",
-        "Search Console URL Inspection tool",
-        "Squoosh"
-      ],
-      "correctAnswer": "Search Console URL Inspection tool",
-      "explanation": "Correct answer is C) Search Console URL Inspection tool."
-    },
-    {
-      "questionText": "What can prevent efficient crawling, according to the guide?",
-      "options": [
-        "Clean URLs",
-        "Session IDs or URL parameters",
-        "Sitemaps",
-        "Good navigation"
-      ],
-      "correctAnswer": "Session IDs or URL parameters",
-      "explanation": "Correct answer is B) Session IDs or URL parameters."
-    },
-    {
-      "questionText": "What is the main job of a web crawler?",
-      "options": [
-        "Charge users",
-        "Design the logo",
-        "Write ads",
-        "Find and fetch pages to be added to the index"
-      ],
-      "correctAnswer": "Find and fetch pages to be added to the index",
-      "explanation": "Correct answer is D) Find and fetch pages to be added to the index."
-    },
-    {
-      "questionText": "Crawl errors are:",
-      "options": [
-        "Errors in keyword spelling",
-        "Slow images only",
-        "Errors that do not allow search engines to crawl pages",
-        "Social media errors"
-      ],
-      "correctAnswer": "Errors that do not allow search engines to crawl pages",
-      "explanation": "Correct answer is C) Errors that do not allow search engines to crawl pages."
-    },
-    {
-      "questionText": "Which is the order of Google's process?",
-      "options": [
-        "Ranking, crawling, serving",
-        "Indexing, serving, crawling",
-        "Serving, crawling, indexing",
-        "Crawling, indexing, serving Section 9: Indexing"
-      ],
-      "correctAnswer": "Crawling, indexing, serving Section 9: Indexing",
-      "explanation": "Correct answer is D) Crawling, indexing, serving Section 9: Indexing."
-    },
-    {
-      "questionText": "Indexing is:",
-      "options": [
-        "Paying for a page",
-        "The process of understanding and storing information about a page",
-        "Writing a page",
-        "Deleting a page"
-      ],
-      "correctAnswer": "The process of understanding and storing information about a page",
-      "explanation": "Correct answer is B) The process of understanding and storing information about a page."
-    },
-    {
-      "questionText": "Where does Google store analysed page information?",
-      "options": [
-        "In the robots.txt",
-        "In the Google index (a large database)",
-        "In the browser cache",
-        "In a spreadsheet"
-      ],
-      "correctAnswer": "In the Google index (a large database)",
-      "explanation": "Correct answer is B) In the Google index (a large database)."
-    },
-    {
-      "questionText": "Which element helps Google index images and videos better?",
-      "options": [
-        "Hidden text",
-        "No title",
-        "Alternative text and relevant attributes",
-        "Large file size"
-      ],
-      "correctAnswer": "Alternative text and relevant attributes",
-      "explanation": "Correct answer is C) Alternative text and relevant attributes."
-    },
-    {
-      "questionText": "Which page titles does Google index well?",
-      "options": [
-        "Extremely long",
-        "Meaningful and short",
-        "Duplicated everywhere",
-        "Empty"
-      ],
-      "correctAnswer": "Meaningful and short",
-      "explanation": "Correct answer is B) Meaningful and short."
-    },
-    {
-      "questionText": "Mobile-first indexing means Google primarily uses which version of a page for indexing and ranking?",
-      "options": [
-        "Print version",
-        "Mobile (smartphone) version",
-        "Desktop only",
-        "PDF version"
-      ],
-      "correctAnswer": "Mobile (smartphone) version",
-      "explanation": "Correct answer is B) Mobile (smartphone) version."
-    },
-    {
-      "questionText": "In what year did Google enable mobile-first indexing by default for all new websites?",
-      "options": [
-        "2019",
-        "2012",
-        "2025",
-        "2005"
-      ],
-      "correctAnswer": "2019",
-      "explanation": "Correct answer is A) 2019."
-    },
-    {
-      "questionText": "How can indexing of a page be blocked, according to the guide's advice?",
-      "options": [
-        "Using hreflang",
-        "Using a longer title",
-        "Adding more images",
-        "Using noindex or password protection"
-      ],
-      "correctAnswer": "Using noindex or password protection",
-      "explanation": "Correct answer is D) Using noindex or password protection."
-    },
-    {
-      "questionText": "Which stage comes after indexing?",
-      "options": [
-        "Crawling",
-        "Hosting",
-        "Deleting",
-        "Serving search results"
-      ],
-      "correctAnswer": "Serving search results",
-      "explanation": "Correct answer is D) Serving search results."
-    },
-    {
-      "questionText": "The Google Search Console index report helps to:",
-      "options": [
-        "Buy domains",
-        "View and fix indexing problems",
-        "Design layouts",
-        "Compress images"
-      ],
-      "correctAnswer": "View and fix indexing problems",
-      "explanation": "Correct answer is B) View and fix indexing problems."
-    },
-    {
-      "questionText": "What happens if the Live URL test finds no indexing issues?",
-      "options": [
-        "The page is queued for indexing",
-        "The site is penalized",
-        "The page is deleted",
-        "The page is blocked"
-      ],
-      "correctAnswer": "The page is queued for indexing",
-      "explanation": "Correct answer is A) The page is queued for indexing."
-    },
-    {
-      "questionText": "Why should the same content be provided on mobile and desktop versions?",
-      "options": [
-        "Because indexing and ranking are based on the mobile version",
-        "To avoid sitemaps",
-        "To block crawlers",
-        "To increase file size"
-      ],
-      "correctAnswer": "Because indexing and ranking are based on the mobile version",
-      "explanation": "Correct answer is A) Because indexing and ranking are based on the mobile version."
-    },
-    {
-      "questionText": "Which statement is true?",
-      "options": [
-        "All crawled pages are always indexed",
-        "Crawling does not guarantee indexing",
-        "Indexing is the same as ranking",
-        "Indexing happens before crawling Section 10: Short-tail Keywords"
-      ],
-      "correctAnswer": "Crawling does not guarantee indexing",
-      "explanation": "Correct answer is B) Crawling does not guarantee indexing."
-    },
-    {
-      "questionText": "A short-tail keyword usually consists of:",
-      "options": [
-        "A full paragraph",
-        "A single URL",
-        "Two or three words",
-        "Ten words"
-      ],
-      "correctAnswer": "Two or three words",
-      "explanation": "Correct answer is C) Two or three words."
-    },
-    {
-      "questionText": "Short-tail keywords generally represent:",
-      "options": [
-        "Backlinks",
-        "Very specific sub-topics",
-        "Broad topics",
-        "Errors"
-      ],
-      "correctAnswer": "Broad topics",
-      "explanation": "Correct answer is C) Broad topics."
-    },
-    {
-      "questionText": "Which of the following is a short-tail keyword?",
-      "options": [
-        "How to install a pull up bar on a door",
-        "Where to buy a cheap pull up bar amazon",
-        "Pull-up bars",
-        "Pull up bar for home with parallel grips"
-      ],
-      "correctAnswer": "Pull-up bars",
-      "explanation": "Correct answer is C) Pull-up bars."
-    },
-    {
-      "questionText": "Long-tail keywords are described in the guide as:",
-      "options": [
-        "Header tags",
-        "The same as short-tail",
-        "Sub-topics of short-tail keywords",
-        "Meta tags"
-      ],
-      "correctAnswer": "Sub-topics of short-tail keywords",
-      "explanation": "Correct answer is C) Sub-topics of short-tail keywords."
-    },
-    {
-      "questionText": "Long-tail keywords usually contain:",
-      "options": [
-        "Only numbers",
-        "No words",
-        "One word",
-        "More than three words"
-      ],
-      "correctAnswer": "More than three words",
-      "explanation": "Correct answer is D) More than three words."
-    },
-    {
-      "questionText": "Short-tail keywords typically have:",
-      "options": [
-        "Higher search volume and higher competition",
-        "Zero search volume",
-        "No competition",
-        "Only local intent"
-      ],
-      "correctAnswer": "Higher search volume and higher competition",
-      "explanation": "Correct answer is A) Higher search volume and higher competition."
-    },
-    {
-      "questionText": "Which is a long-tail keyword for the topic 'pull up bar'?",
-      "options": [
-        "Bar",
-        "Pull-up bar for home",
-        "Gym",
-        "Equipment"
-      ],
-      "correctAnswer": "Pull-up bar for home",
-      "explanation": "Correct answer is B) Pull-up bar for home."
-    },
-    {
-      "questionText": "According to the guide, a long-tail keyword should be used how many times at maximum in a post?",
-      "options": [
-        "Four times",
-        "Twenty times",
-        "Zero times",
-        "One hundred times"
-      ],
-      "correctAnswer": "Four times",
-      "explanation": "Correct answer is A) Four times."
-    },
-    {
-      "questionText": "Why are short-tail keywords often harder to rank for?",
-      "options": [
-        "Search engines ignore them",
-        "They are broad and many sites compete",
-        "They are illegal",
-        "They contain no letters"
-      ],
-      "correctAnswer": "They are broad and many sites compete",
-      "explanation": "Correct answer is B) They are broad and many sites compete."
-    },
-    {
-      "questionText": "In John's gym-equipment example, short-tail keywords are used as:",
-      "options": [
-        "Topics for content",
-        "Passwords",
-        "Server names",
-        "Image names only"
-      ],
-      "correctAnswer": "Topics for content",
-      "explanation": "Correct answer is A) Topics for content."
-    },
-    {
-      "questionText": "Which statement is correct?",
-      "options": [
-        "They are identical",
-        "Short-tail keywords are always local",
-        "Long-tail keywords are always one word",
-        "Short-tail keywords capture broad interest; long-tail capture specific intent"
-      ],
-      "correctAnswer": "Short-tail keywords capture broad interest; long-tail capture specific intent",
-      "explanation": "Correct answer is D) Short-tail keywords capture broad interest; long-tail capture specific intent."
-    },
-    {
-      "questionText": "Which is a benefit of combining short-tail and long-tail keywords?",
-      "options": [
-        "It blocks crawlers",
-        "It increases file size",
-        "It removes the need for titles",
-        "Content caters to people with different interests Section 11: Meta Description"
-      ],
-      "correctAnswer": "Content caters to people with different interests Section 11: Meta Description",
-      "explanation": "Correct answer is D) Content caters to people with different interests Section 11: Meta Description."
-    },
-    {
-      "questionText": "Where is the meta description tag placed in an HTML page?",
-      "options": [
-        "In robots.txt",
-        "Inside the <head> section",
-        "Inside the footer only",
-        "In the image folder"
-      ],
-      "correctAnswer": "Inside the <head> section",
-      "explanation": "Correct answer is B) Inside the <head> section."
-    },
-    {
-      "questionText": "Which is the correct syntax of a meta description?",
-      "options": [
-        "<description meta=\"...\">",
-        "<meta link=\"description\">",
-        "<title name=\"description\">",
-        "<meta name=\"description\" content=\"...\"/>"
-      ],
-      "correctAnswer": "<meta name=\"description\" content=\"...\"/>",
-      "explanation": "Correct answer is D) <meta name=\"description\" content=\"...\"/>."
-    },
-    {
-      "questionText": "A meta description should:",
-      "options": [
-        "Briefly summarize the page content",
-        "Be left empty",
-        "Copy other sites",
-        "Include unrelated text"
-      ],
-      "correctAnswer": "Briefly summarize the page content",
-      "explanation": "Correct answer is A) Briefly summarize the page content."
-    },
-    {
-      "questionText": "Within how many characters should a meta description ideally be kept, as per the guide?",
-      "options": [
-        "30",
-        "1000",
-        "500",
-        "155"
-      ],
-      "correctAnswer": "155",
-      "explanation": "Correct answer is D) 155."
-    },
-    {
-      "questionText": "What happens to a meta description longer than the limit?",
-      "options": [
-        "It becomes the title",
-        "It is deleted from the page",
-        "It is truncated by Google",
-        "It improves ranking"
-      ],
-      "correctAnswer": "It is truncated by Google",
-      "explanation": "Correct answer is C) It is truncated by Google."
-    },
-    {
-      "questionText": "What is the typical maximum length of a title tag before truncation?",
-      "options": [
-        "500 characters",
-        "10 characters",
-        "60 characters",
-        "200 characters"
-      ],
-      "correctAnswer": "60 characters",
-      "explanation": "Correct answer is C) 60 characters."
-    },
-    {
-      "questionText": "Where does the meta description usually appear?",
-      "options": [
-        "In the footer of every page",
-        "Inside image files",
-        "Under the title in search results as a snippet",
-        "On the server console"
-      ],
-      "correctAnswer": "Under the title in search results as a snippet",
-      "explanation": "Correct answer is C) Under the title in search results as a snippet."
-    },
-    {
-      "questionText": "A good meta description is:",
-      "options": [
-        "Missing",
-        "Stuffed with keywords",
-        "Relevant, unique and compelling",
-        "Duplicated on all pages"
-      ],
-      "correctAnswer": "Relevant, unique and compelling",
-      "explanation": "Correct answer is C) Relevant, unique and compelling."
-    },
-    {
-      "questionText": "Which tag is the first thing visitors see in search results?",
-      "options": [
-        "Alt text",
-        "Meta description",
-        "Title",
-        "Footer"
-      ],
-      "correctAnswer": "Title",
-      "explanation": "Correct answer is C) Title."
-    },
-    {
-      "questionText": "Should desktop and mobile versions use the same meta descriptions?",
-      "options": [
-        "Yes, same titles and meta descriptions are recommended",
-        "Neither needs them",
-        "Only mobile needs them",
-        "No, they must be different"
-      ],
-      "correctAnswer": "Yes, same titles and meta descriptions are recommended",
-      "explanation": "Correct answer is A) Yes, same titles and meta descriptions are recommended."
-    },
-    {
-      "questionText": "An effective meta description may encourage users to:",
-      "options": [
-        "Leave the web",
-        "Block ads",
-        "Click the result",
-        "Clear cookies"
-      ],
-      "correctAnswer": "Click the result",
-      "explanation": "Correct answer is C) Click the result."
-    },
-    {
-      "questionText": "Meta descriptions and page titles are examples of:",
-      "options": [
-        "CSS variables",
-        "Database tables",
-        "HTML tags to optimize",
-        "Server logs"
-      ],
-      "correctAnswer": "HTML tags to optimize",
-      "explanation": "Correct answer is C) HTML tags to optimize."
+      "correctAnswer": "An off-page strategy using audio content",
+      "explanation": "Correct answer is A) An off-page strategy using audio content."
     }
   ]
 }

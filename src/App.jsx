@@ -78,6 +78,7 @@ function AppRoutes() {
                 <Route path="/technologies" element={<Technologies />} />
                 <Route path="/technologies/level" element={<Navigate to="/technologies" replace />} />
                 <Route path="/games" element={<GamesHub />} />
+                <Route path="/games/coding-memory-match" element={<Navigate to="/games/memory-match" replace />} />
                 <Route path="/games/:slug" element={<GamePlayer />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
@@ -88,14 +89,14 @@ function AppRoutes() {
                 <Route path="/certificate/view" element={<CertificateView />} />
                 <Route path="/leaderboard" element={<Leaderboard mode="top5" />} />
                 <Route path="/leaderboard/full" element={<Leaderboard mode="full" />} />
-                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/terms" element={<TermsOfService />} />
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/delete-account" element={<DeleteAccount />} />
-                <Route path="/account-deletion" element={<DeleteAccount />} />
-                <Route path="/data-deletion" element={<DeleteAccount />} />
+                <Route path="/account-deletion" element={<Navigate to="/delete-account" replace />} />
+                <Route path="/data-deletion" element={<Navigate to="/delete-account" replace />} />
                 <Route path="/seo" element={<Navigate to="/dashboard/seo" replace />} />
                 <Route path="/admin/seo" element={<Navigate to="/dashboard/seo" replace />} />
                 <Route path="/certificates" element={<Navigate to="/dashboard/certificates" replace />} />

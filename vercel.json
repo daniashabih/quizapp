@@ -1,5 +1,5 @@
 {
-  "buildCommand": "prisma generate && vite build",
+  "buildCommand": "prisma generate && node scripts/generateSitemap.js && vite build && node scripts/generateSitemap.js",
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "functions": {
@@ -7,6 +7,43 @@
       "includeFiles": "{node_modules/.prisma/client/**,node_modules/@prisma/client/**,prisma/**}"
     }
   },
+  "redirects": [
+    {
+      "source": "/privacy",
+      "destination": "/privacy-policy",
+      "permanent": true
+    },
+    {
+      "source": "/account-deletion",
+      "destination": "/delete-account",
+      "permanent": true
+    },
+    {
+      "source": "/data-deletion",
+      "destination": "/delete-account",
+      "permanent": true
+    },
+    {
+      "source": "/quizzes",
+      "destination": "/technologies",
+      "permanent": true
+    },
+    {
+      "source": "/games/coding-memory-match",
+      "destination": "/games/memory-match",
+      "permanent": true
+    },
+    {
+      "source": "/seo",
+      "destination": "/dashboard/seo",
+      "permanent": true
+    },
+    {
+      "source": "/admin/seo",
+      "destination": "/dashboard/seo",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/robots.txt",

@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthContext';
+import usePageSeo from '../../hooks/usePageSeo';
 import gameService, { FALLBACK_TECHNOLOGIES } from '../../services/gameService';
 import TechIcon from './components/TechIcon';
 import gameAudio from '../../utils/gameAudio';
@@ -71,6 +72,25 @@ export const GamePlayer = () => {
     const [showInstructions, setShowInstructions] = useState(false);
     const [gameOverModal, setGameOverModal] = useState(null);
     const [playKey, setPlayKey] = useState(0);
+
+    // Canonical redirect for legacy / non-standard slugs
+    useEffect(() => {
+        if (slug === 'coding-memory-match') {
+            navigate('/games/memory-match', { replace: true });
+        }
+    }, [slug, navigate]);
+
+    // Technical SEO: Dynamic Title, Description, and Canonical URL for each game
+    usePageSeo({
+        title: game
+            ? `${game.title} — ${game.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | HangBug`
+            : 'Developer Game Challenge — HangBug Games',
+        description: game?.description
+            ? `${game.description} Practice interactive coding challenges on HangBug.`
+            : 'Play interactive coding and typing games on HangBug to sharpen programming logic and keyboard speed.',
+        canonicalPath: `/games/${game?.slug || slug || ''}`,
+        ogType: 'website'
+    });
 
     const playerContainerRef = useRef(null);
     const gameStartTimeRef = useRef(Date.now());
@@ -372,7 +392,7 @@ export const GamePlayer = () => {
                 isFullscreen ? 'fixed inset-0 z-50 p-4 sm:p-6 overflow-y-auto' : 'pt-20 pb-12 px-4 sm:px-6'
             }`}
         >
-            <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
+            <main className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
                 {/* Game Player Header */}
                 <div className="w-full flex items-center justify-between gap-3 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3 sm:p-4 mb-4 shadow-sm">
                     {/* Left: Exit & Title */}
@@ -542,16 +562,16 @@ export const GamePlayer = () => {
                 <div className="flex-1 flex flex-col justify-center items-center w-full">
                     {renderEngine()}
                 </div>
-            </div>
+            </main>
 
             {/* INSTRUCTIONS MODAL */}
             {showInstructions && (
                 <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
                     <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 max-w-md w-full shadow-2xl animate-in fade-in zoom-in-95 duration-200">
                         <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--card-border)]">
-                            <h3 className="text-base font-black flex items-center gap-2">
+                            <h2 className="text-base font-black flex items-center gap-2">
                                 <Info size={18} className="text-emerald-500" /> How to Play: {game.title}
-                            </h3>
+                            </h2>
                             <button
                                 onClick={() => setShowInstructions(false)}
                                 className="p-1 rounded-xl hover:bg-[var(--muted-bg)] text-[var(--foreground-muted)] transition-colors cursor-pointer"
@@ -562,12 +582,12 @@ export const GamePlayer = () => {
 
                         <div className="space-y-4 text-xs text-[var(--foreground-secondary)] leading-relaxed">
                             <div>
-                                <h4 className="font-bold text-[var(--foreground)] mb-1">Overview:</h4>
+                                <h3 className="font-bold text-[var(--foreground)] mb-1">Overview:</h3>
                                 <p>{game.description}</p>
                             </div>
 
                             <div>
-                                <h4 className="font-bold text-[var(--foreground)] mb-1">Instructions:</h4>
+                                <h3 className="font-bold text-[var(--foreground)] mb-1">Instructions:</h3>
                                 <p>{game.instructions}</p>
                             </div>
 
@@ -597,7 +617,7 @@ export const GamePlayer = () => {
                             <Trophy size={32} />
                         </div>
 
-                        <h3 className="text-xl font-black mb-1">Challenge Complete!</h3>
+                        <h2 className="text-xl font-black mb-1">Challenge Complete!</h2>
                         <p className="text-xs text-[var(--foreground-muted)] mb-5">
                             Great job solving this challenge in <strong>{game.title}</strong>
                         </p>

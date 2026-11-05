@@ -1,0 +1,58 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+SEO,1,What is a search engine?,A type of web browser plugin,A tool that only stores passwords,A software system that executes web searches based on a user's query,A programming language,A software system that executes web searches based on a user's query
+SEO,1,The results displayed by a search engine are called:,Search Engine Results Pages (SERPs),Server Response Pages,Search Engine Ranking Packets,Site Entry Result Points,Search Engine Results Pages (SERPs)
+SEO,1,"In Google results, listings marked with the word ""Ad"" are:",Organic results,Paid search results,Broken links,Spam pages,Paid search results
+SEO,1,"How does Google charge for a Google Ads search campaign, according to the guide?",A small amount on the clicks made on the link,A fee on every search,A fixed fee per page,Nothing; it is free,A small amount on the clicks made on the link
+SEO,1,Search engines use algorithms to rank results from:,Most relevant to least relevant,Shortest to longest,Alphabetical order,Newest to oldest only,Most relevant to least relevant
+SEO,1,Where are the most relevant pages displayed in the results?,At the bottom,Only in the Maps tab,On the last page,On the top,On the top
+SEO,1,The query or search terms typed by users are called:,Backlinks,Keywords,Spiders,Tags,Keywords
+SEO,1,Search suggestions appear:,Only on mobile,As the user starts typing,Only after sign-in,After the results load,As the user starts typing
+SEO,1,Automated programs that search the Internet for information are called:,Spiders or crawlers,Cookies,Widgets,Banners,Spiders or crawlers
+SEO,1,What is the search index?,A list of paid advertisements,A browser history file,A huge database where crawled content is categorized and stored,A social media feed,A huge database where crawled content is categorized and stored
+SEO,1,Information that is NOT in the search index will:,Not be displayed to the user,Be displayed as an ad,Be displayed first,Be displayed with a warning,Not be displayed to the user
+SEO,1,Which of the following is a ranking factor mentioned in the guide?,Server brand,Number of images only,Content freshness,Domain colour,Content freshness
+SEO,1,Which are the three basic components of a search engine?,"Web crawler, database and search interface","Index, ad and cookie","Browser, router and modem","Spider, widget and banner","Web crawler, database and search interface"
+SEO,1,Another name for a web crawler is:,Router,Spider or bot,Server,Browser,Spider or bot
+SEO,1,The search interface is:,The ad server,The program that crawls pages,Where a user places a query and sees the results,The database of indexed pages,Where a user places a query and sees the results
+SEO,1,A search engine database is:,Stored only on the user's computer,Used only for ads,Never updated,Frequently updated to maintain the latest information,Frequently updated to maintain the latest information
+SEO,1,A web address is also known as:,Universal Result Link,Uniform Resource Locator (URL),User Request Line,Unified Route Locator,Uniform Resource Locator (URL)
+SEO,1,Which three parts form the basic structure of a web address?,"Title, header and footer","Protocol, domain and path","Name, phone and email","Spider, index and rank","Protocol, domain and path"
+SEO,1,"In https://www.aptechlearning.com/, what is ""https""?",The protocol,The path,The index,The domain,The protocol
+SEO,1,Which protocol is described as secure and the most used?,smtp,telnet,https,ftp,https
+SEO,1,"In a web address, the domain is:",The exact location of a file,The name of a website,The data transfer protocol,The search query,The name of a website
+SEO,1,"In a web address, the path is:","The exact location of a file or web page, separated by a forward slash",The browser name,The name of the website,The protocol,"The exact location of a file or web page, separated by a forward slash"
+SEO,1,A web page is usually written in:,HTML,Python only,C++ only,SQL,HTML
+SEO,1,A website is:,A browser setting,A collection of web pages that share a single domain name,A type of search engine only,A single image file,A collection of web pages that share a single domain name
+SEO,1,All publicly accessible websites make up the:,Local Area Network,Intranet only,World Wide Web,Dark index,World Wide Web
+SEO,1,"Which early search tool crawled an index of downloadable files, making only listings available?",Google,Bing,AskJeeves,Archie,Archie
+SEO,1,Yahoo! Search was created by David Filo and Jerry Yang as:,A social network,A directory of other websites,An email client,An image editor,A directory of other websites
+SEO,1,"Which search engine is described as the first where human editors responded to search
+ queries?",Bing,Archie,AskJeeves,Google,AskJeeves
+SEO,1,"In October 2020, Microsoft renamed its search engine to:",Live Search,Microsoft Bing,Edge Search,MSN Search,Microsoft Bing
+SEO,1,Which search engine is described as the dominant leader in Internet searches today?,Google,Archie,AskJeeves,Yahoo,Google
+SEO,1,Which is a tip for the perfect Google search mentioned in the guide?,Use voice search with the microphone icon,Always type in capital letters,Avoid adding any location,Use only one word,Use voice search with the microphone icon
+SEO,1,"Searching ""Fitness studios, Seattle"" returns results that:",Include only global results,Show no addresses,Include fitness studios in the Seattle area,Show only videos,Include fitness studios in the Seattle area
+SEO,1,How does Google treat spelling errors and casing in searches?,It ignores casing and uses the most used spelling,It deletes the query,It rejects the search,It treats every letter case as different,It ignores casing and uses the most used spelling
+SEO,1,"Google considers ""american express"" the same as ""American Express"". This shows that:",Casing is not important in Google search,Google supports only lower case,Google ignores all words,Casing must always match,Casing is not important in Google search
+SEO,1,"Instead of ""help as I am unable to digest food"", a better search term is:",I cannot eat,Stomach,Food help me please now,Digestive issues,Digestive issues
+SEO,1,Which symbol/format is used to find an exact match in Google?,The $ symbol,"Quotation marks, such as ""plank position""",The # symbol,The @ symbol,"Quotation marks, such as ""plank position"""
+SEO,1,"To search social media for a name, you place which symbol before the word?",@,$,..,#,@
+SEO,1,"To look for hashtags, you place which symbol before a word?",%,@,$,#,#
+SEO,1,"To search for a price, you place which symbol before a number?",@,#,&,$,$
+SEO,1,"To search within a range of numbers, you use:",A hyphen only,A slash,A plus sign,Two dots (..) between the numbers,Two dots (..) between the numbers
+SEO,1,"To open Google's advanced search for web pages, you click the file format and then:",Menu > Share,Settings > Advanced Search,Help > About,Tools > Delete,Settings > Advanced Search
+SEO,1,"Which section of Advanced Search lets you search for all words, an exact word, any word or
+ none of the words?",Search Settings,Safe results,Find pages with...,Then narrow your results by...,Find pages with...
+SEO,1,"In Advanced Search, results can be narrowed by options such as:",Browser version,Phone brand,"Language, region and last update",Colour and size only,"Language, region and last update"
+SEO,1,Which URL is for Google's advanced image search?,google.com/advanced_search,google.com/advanced_image_search,google.com/advanced_book_search,google.com/advanced_video_search,google.com/advanced_image_search
+SEO,1,Which Google setting avoids the display of unwanted content?,Auto-complete,Search history,Voice answers,SafeSearch,SafeSearch
+SEO,1,Which of the following is a Google search setting mentioned in the guide?,Saving search history for a personalized experience,Buying keywords,Editing robots.txt,Changing the domain name,Saving search history for a personalized experience
+SEO,1,Which three processes does Google use to generate search results?,"Hosting, coding and testing","Writing, editing and printing","Buying, selling and sharing","Crawling, indexing and serving","Crawling, indexing and serving"
+SEO,1,Which of the following is a way Google finds new pages?,Paid crawl requests,Random guessing,Social media likes,Links from an already visited page,Links from an already visited page
+SEO,1,Does Google accept payment to crawl a website more frequently?,Yes,Only for blogs,Only for large sites,No,No
+SEO,1,The process of understanding a page is called:,Hosting,Indexing,Billing,Serving,Indexing
+SEO,1,The database in which Google stores page information is called:,Page Index,Google DB,Google index,Google Indexer,Google index
+SEO,1,Which of the following helps Google index a page meaningfully?,Page headings that communicate the subject,Blank titles,Hidden text,Random numbers,Page headings that communicate the subject
+SEO,1,"During serving, the search ""bakery shops nearby"" shows different results for Belgium and
+ Norway because Google considers:",Only the site's age,Language and location,Only paid ads,The browser colour,Language and location
+SEO,1,"Which of the following affects ranking of web pages in Google, according to the guide?",Faster page loading,Number of pages in the website only,Font colour,The owner's age,Faster page loading

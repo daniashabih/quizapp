@@ -13,6 +13,7 @@ import {
 import attemptService from '../../services/attemptService';
 import { useSettings } from '../../context/SettingsContext';
 import ThemeToggle from '../../components/ThemeToggle';
+import usePageSeo from '../../hooks/usePageSeo';
 import { trackQuizStart, trackQuizCompletion, trackCertificateGeneration } from '../../utils/analytics';
 
 // Format relative time helper for resume dialog
@@ -30,6 +31,10 @@ function formatTimeAgo(dateStr) {
 }
 
 const Quiz = () => {
+    usePageSeo({
+        title: 'Quiz Assessment in Progress — HangBug',
+        noindex: true
+    });
     const location = useLocation();
     const navigate = useNavigate();
     const { settings } = useSettings();
