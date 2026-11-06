@@ -1,4 +1,4 @@
-﻿const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../_models/userModel');
@@ -530,7 +530,7 @@ const getGoogleClient = () => {
 const googleLogin = async (req, res) => {
     try {
         const credential = req.body?.credential;
-        const expectedClientId = process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID;
+        const expectedClientId = process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID || '540959878402-4c2pda5555glmat0ajj11filc43ueedk.apps.googleusercontent.com';
 
         if (!expectedClientId) {
             console.error('[Google Auth Error] GOOGLE_CLIENT_ID is not configured on the server.');

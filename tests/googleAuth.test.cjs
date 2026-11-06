@@ -1,4 +1,4 @@
-﻿const test = require('node:test');
+const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -7,7 +7,7 @@ const { OAuth2Client } = require('google-auth-library');
 const { googleLogin } = require('../api/_controllers/authController');
 const User = require('../api/_models/userModel');
 
-const EXPECTED_CLIENT_ID = '540959878402-4c2pda5555glmat0aj11f1lc43ueedk.apps.googleusercontent.com';
+const EXPECTED_CLIENT_ID = '540959878402-4c2pda5555glmat0ajj11filc43ueedk.apps.googleusercontent.com';
 
 test('Google Auth Config: .env and .env.example contain the correct Web Client ID and Origin notes', () => {
     const envPath = path.join(__dirname, '..', '.env');

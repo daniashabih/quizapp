@@ -1,4 +1,4 @@
-﻿import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, Check, X, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -45,7 +45,7 @@ const loadGoogleGsiScript = () => {
     });
 };
 
-const DEFAULT_GOOGLE_CLIENT_ID = '540959878402-4c2pda5555glmat0aj11f1lc43ueedk.apps.googleusercontent.com';
+const DEFAULT_GOOGLE_CLIENT_ID = '540959878402-4c2pda5555glmat0ajj11filc43ueedk.apps.googleusercontent.com';
 
 export default function Auth({ initialMode = 'login' }) {
     const [isSignUp, setIsSignUp] = useState(initialMode === 'signup');
