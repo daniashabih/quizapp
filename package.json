@@ -53,6 +53,7 @@
     "express": "^5.2.1",
     "express-rate-limit": "^8.6.2",
     "express-validator": "^7.3.1",
+    "google-auth-library": "^11.3.3",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.562.0",
@@ -90,4 +91,3 @@
     "vite": "^7.2.4"
   }
 }
-

@@ -1,8 +1,7 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
+﻿import { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, Check, X, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { toast } from 'react-toastify';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
@@ -46,13 +45,13 @@ const loadGoogleGsiScript = () => {
     });
 };
 
-const DEFAULT_GOOGLE_CLIENT_ID = '540959878402-dm79psv3n2jtungji4cvm4s8j9eoes3o.apps.googleusercontent.com';
+const DEFAULT_GOOGLE_CLIENT_ID = '540959878402-4c2pda5555glmat0aj11f1lc43ueedk.apps.googleusercontent.com';
 
 export default function Auth({ initialMode = 'login' }) {
     const [isSignUp, setIsSignUp] = useState(initialMode === 'signup');
 
     usePageSeo({
-        title: isSignUp ? 'Create an Account — HangBug' : 'Sign In to Your Account — HangBug',
+        title: isSignUp ? 'Create an Account â€” HangBug' : 'Sign In to Your Account â€” HangBug',
         description: isSignUp
             ? 'Create your HangBug account to test your programming skills and earn verified certificates.'
             : 'Sign in to HangBug to practice web development quizzes, track your progress, and view certificates.',
@@ -70,9 +69,12 @@ export default function Auth({ initialMode = 'login' }) {
     const [googleLoading, setGoogleLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const tokenClientRef = useRef(null);
+    const googleBtnRef = useRef(null);
+    const googleInFlightRef = useRef(false);
+    const [googleReady, setGoogleReady] = useState(false);
+    const [googleUnavailable, setGoogleUnavailable] = useState(false);
     const isSignUpRef = useRef(isSignUp);
-    isSignUpRef.current = isSignUp;
+    useEffect(() => { isSignUpRef.current = isSignUp; }, [isSignUp]);
 
     const { login, signup, loginWithGoogle } = useAuth();
     const navigate = useNavigate();
@@ -101,176 +103,38 @@ export default function Auth({ initialMode = 'login' }) {
 
     const isPasswordValid = passwordChecks.hasLength && passwordChecks.hasUpper && passwordChecks.hasNumber;
 
-    // Initialize Google One Tap & Token Client if client ID is configured
+    // Initialize Google Identity Services (ID-token flow) and render the official button
     useEffect(() => {
         const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID;
-        if (!googleClientId || googleClientId.includes('your_google_client_id')) return;
-
-        loadGoogleGsiScript().then((google) => {
-            if (!google?.accounts) return;
-
-            // 1. Initialize Token Client for custom button click (OAuth 2.0 popup)
-            if (google.accounts.oauth2) {
-                try {
-                    tokenClientRef.current = google.accounts.oauth2.initTokenClient({
-                        client_id: googleClientId,
-                        scope: 'email profile openid',
-                        prompt: 'select_account',
-                        callback: async (tokenResponse) => {
-                            if (tokenResponse?.error) {
-                                setGoogleLoading(false);
-                                if (tokenResponse.error === 'popup_closed_by_user') {
-                                    return;
-                                }
-                                if (tokenResponse.error === 'access_denied') {
-                                    setErrorMessage('Google Sign-In was cancelled.');
-                                    return;
-                                }
-                                const desc = tokenResponse.error_description || tokenResponse.error || 'Google authentication failed.';
-                                setErrorMessage(desc);
-                                toast.error(desc);
-                                return;
-                            }
-
-                            if (tokenResponse?.access_token) {
-                                try {
-                                    const user = await loginWithGoogle({ token: tokenResponse.access_token });
-                                    if (user) {
-                                        if (isSignUpRef.current) {
-                                            trackSignUp('google');
-                                        } else {
-                                            trackLogin('google');
-                                        }
-                                        navigate(getTargetDestination(user), { replace: true });
-                                    }
-                                } catch (err) {
-                                    setErrorMessage(err.message || 'Google Sign-In failed');
-                                } finally {
-                                    setGoogleLoading(false);
-                                }
-                            }
-                        },
-                        error_callback: (nonOAuthError) => {
-                            setGoogleLoading(false);
-                            console.error('[Google OAuth Error Callback]:', nonOAuthError);
-                            if (nonOAuthError?.type === 'popup_blocked') {
-                                const msg = 'Google Sign-In popup was blocked by your browser. Please allow popups for https://www.hangbug.com and try again.';
-                                setErrorMessage(msg);
-                                toast.error(msg);
-                            } else if (nonOAuthError?.type !== 'popup_closed') {
-                                setErrorMessage(nonOAuthError?.message || 'Google popup could not be opened.');
-                            }
-                        }
-                    });
-                } catch (clientErr) {
-                    console.warn('[Google Token Client Init Warning]:', clientErr);
-                }
-            }
-
-            // 2. Initialize Google One Tap
-            if (google.accounts.id) {
-                try {
-                    google.accounts.id.initialize({
-                        client_id: googleClientId,
-                        callback: async (response) => {
-                            if (response?.credential) {
-                                setGoogleLoading(true);
-                                try {
-                                    const user = await loginWithGoogle({ credential: response.credential });
-                                    if (user) {
-                                        if (isSignUpRef.current) {
-                                            trackSignUp('google_onetap');
-                                        } else {
-                                            trackLogin('google_onetap');
-                                        }
-                                        navigate(getTargetDestination(user), { replace: true });
-                                    }
-                                } catch (err) {
-                                    setErrorMessage(err.message || 'Google Sign-In failed');
-                                } finally {
-                                    setGoogleLoading(false);
-                                }
-                            }
-                        },
-                        auto_select: false,
-                        cancel_on_tap_outside: true,
-                    });
-                    google.accounts.id.prompt();
-                } catch (err) {
-                    console.warn('[Google One Tap Init Warning]:', err);
-                }
-            }
-        });
-    }, [from, loginWithGoogle, navigate]);
-
-    const handleGoogleAuth = async () => {
-        setErrorMessage('');
-        const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID;
-        const isConfigured = Boolean(
-            googleClientId && 
-            !googleClientId.includes('your_google_client_id') && 
-            googleClientId.trim() !== ''
-        );
-
-        if (!isConfigured) {
-            setGoogleLoading(true);
-            try {
-                const user = await loginWithGoogle({
-                    isDemo: true,
-                    name: name.trim() || undefined,
-                    email: email.trim() || undefined
-                });
-                if (user) {
-                    if (isSignUp) {
-                        trackSignUp('google_demo');
-                    } else {
-                        trackLogin('google_demo');
-                    }
-                    navigate(getTargetDestination(user), { replace: true });
-                }
-            } catch (err) {
-                setErrorMessage(err.message || 'Google Sign-In failed');
-            } finally {
-                setGoogleLoading(false);
-            }
+        if (!googleClientId || googleClientId.includes('your_google_client_id')) {
+            setGoogleUnavailable(true);
             return;
         }
 
-        setGoogleLoading(true);
-
-        try {
-            // Trigger pre-initialized token client directly for synchronous user-gesture handling
-            if (tokenClientRef.current) {
-                tokenClientRef.current.requestAccessToken();
+        let cancelled = false;
+        loadGoogleGsiScript().then((google) => {
+            if (cancelled) return;
+            if (!google?.accounts?.id) {
+                setGoogleUnavailable(true);
                 return;
             }
-
-            // Fallback if not initialized yet
-            const google = window.google?.accounts?.oauth2 ? window.google : await loadGoogleGsiScript();
-            if (!google?.accounts?.oauth2) {
-                throw new Error('Google Identity Services SDK could not be loaded. Please disable ad-blockers or check your connection.');
-            }
-
-            const tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: googleClientId,
-                scope: 'email profile openid',
-                prompt: 'select_account',
-                callback: async (tokenResponse) => {
-                    if (tokenResponse?.error) {
-                        setGoogleLoading(false);
-                        if (tokenResponse.error === 'popup_closed_by_user') return;
-                        if (tokenResponse.error === 'access_denied') {
-                            setErrorMessage('Google Sign-In was cancelled.');
+            try {
+                google.accounts.id.initialize({
+                    client_id: googleClientId,
+                    auto_select: false,
+                    cancel_on_tap_outside: true,
+                    callback: async (response) => {
+                        if (!response?.credential) {
+                            setErrorMessage('Google Sign-In was cancelled or returned no credential.');
                             return;
                         }
-                        const desc = tokenResponse.error_description || tokenResponse.error || 'Google authentication failed.';
-                        setErrorMessage(desc);
-                        toast.error(desc);
-                        return;
-                    }
-                    if (tokenResponse?.access_token) {
+                        // Prevent duplicate login requests
+                        if (googleInFlightRef.current) return;
+                        googleInFlightRef.current = true;
+                        setErrorMessage('');
+                        setGoogleLoading(true);
                         try {
-                            const user = await loginWithGoogle({ token: tokenResponse.access_token });
+                            const user = await loginWithGoogle({ credential: response.credential });
                             if (user) {
                                 if (isSignUpRef.current) {
                                     trackSignUp('google');
@@ -282,31 +146,37 @@ export default function Auth({ initialMode = 'login' }) {
                         } catch (err) {
                             setErrorMessage(err.message || 'Google Sign-In failed');
                         } finally {
+                            googleInFlightRef.current = false;
                             setGoogleLoading(false);
                         }
                     }
-                },
-                error_callback: (nonOAuthError) => {
-                    setGoogleLoading(false);
-                    console.error('[Google OAuth Error Callback]:', nonOAuthError);
-                    if (nonOAuthError?.type === 'popup_blocked') {
-                        const msg = 'Google Sign-In popup was blocked by your browser. Please allow popups for https://www.hangbug.com and try again.';
-                        setErrorMessage(msg);
-                        toast.error(msg);
-                    } else if (nonOAuthError?.type !== 'popup_closed') {
-                        setErrorMessage(nonOAuthError?.message || 'Google popup could not be opened.');
-                    }
-                }
-            });
+                });
+                setGoogleReady(true);
+            } catch (err) {
+                console.warn('[Google Identity Init Warning]:', err);
+                setGoogleUnavailable(true);
+            }
+        });
+        return () => { cancelled = true; };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-            tokenClientRef.current = tokenClient;
-            tokenClient.requestAccessToken();
-        } catch (err) {
-            console.error('[Google Sign-In Error]:', err);
-            setErrorMessage(err.message || 'Google Sign-In failed');
-            setGoogleLoading(false);
-        }
-    };
+    // (Re)render the official Google button when ready or when mode toggles
+    useEffect(() => {
+        if (!googleReady || !googleBtnRef.current || !window.google?.accounts?.id) return;
+        const el = googleBtnRef.current;
+        el.innerHTML = '';
+        const containerWidth = Math.min(400, Math.max(200, el.parentElement?.clientWidth || 320));
+        window.google.accounts.id.renderButton(el, {
+            type: 'standard',
+            theme: 'outline',
+            size: 'large',
+            shape: 'rectangular',
+            text: isSignUp ? 'signup_with' : 'continue_with',
+            logo_alignment: 'left',
+            width: containerWidth
+        });
+    }, [googleReady, isSignUp]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -396,20 +266,27 @@ export default function Auth({ initialMode = 'login' }) {
 
                     {/* Main Auth Card */}
                     <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 sm:p-6 shadow-lg">
-                        {/* Google OAuth Button */}
-                        <button
-                            type="button"
-                            onClick={handleGoogleAuth}
-                            disabled={loading || googleLoading}
-                            className="btn-social text-xs sm:text-sm mb-4 w-full flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                        >
-                            {googleLoading ? (
-                                <div className="w-4 h-4 border-2 border-[#163B34] border-t-transparent rounded-full animate-spin" />
-                            ) : (
-                                <GoogleIcon />
-                            )}
-                            <span>{googleLoading ? 'Connecting to Google...' : (isSignUp ? 'Sign up with Google' : 'Continue with Google')}</span>
-                        </button>
+                        {/* Google Identity Services official button (ID-token flow) */}
+                        <div className="mb-4">
+                            <div className="relative flex justify-center min-h-[44px]">
+                                <div
+                                    ref={googleBtnRef}
+                                    aria-busy={googleLoading}
+                                    className={`flex justify-center w-full transition-opacity ${googleLoading ? 'opacity-40 pointer-events-none' : ''}`}
+                                />
+                                {googleLoading && (
+                                    <div className="absolute inset-0 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-[var(--foreground-secondary)]">
+                                        <div className="w-4 h-4 border-2 border-[#163B34] border-t-transparent rounded-full animate-spin" />
+                                        <span>Connecting to Google...</span>
+                                    </div>
+                                )}
+                                {!googleReady && !googleLoading && (
+                                    <div className="absolute inset-0 flex items-center justify-center text-xs text-[var(--foreground-muted)]">
+                                        {googleUnavailable ? 'Google Sign-In unavailable. Use email below.' : 'Loading Google Sign-In...'}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
 
                         <div className="relative mb-4">
                             <div className="divider" />
@@ -545,7 +422,7 @@ export default function Auth({ initialMode = 'login' }) {
                                         required
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="••••••••"
+                                        placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                                         prefixIcon={<Lock size={16} />}
                                         autoComplete="current-password"
                                         suffix={

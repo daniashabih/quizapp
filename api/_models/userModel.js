@@ -43,6 +43,66 @@ const User = {
         };
     },
 
+    /**
+     * Find a user by their Google account subject ID (stored in googleId)
+     */
+    findByGoogleId: async (googleId) => {
+        if (!googleId) return null;
+        const user = await prisma.user.findFirst({
+            where: { googleId: String(googleId) }
+        });
+        if (!user) return null;
+        return {
+            ...user,
+            role: normalizeRole(user.role),
+            created_at: user.createdAt,
+            updated_at: user.updatedAt,
+            is_verified: user.isVerified
+        };
+    },
+
+    /**
+     * Link a Google account to an existing user (never touches password).
+     * Only fills googleId when it is not yet set; fills avatar only if empty.
+     */
+    linkGoogleAccount: async (id, googleId, avatar = '') => {
+        const existing = await prisma.user.findUnique({ where: { id: String(id) } });
+        if (!existing) return null;
+        const data = { isVerified: true };
+        if (!existing.googleId) data.googleId = String(googleId);
+        if (!existing.avatar && avatar) data.avatar = String(avatar);
+        const updated = await prisma.user.update({ where: { id: String(id) }, data });
+        return {
+            ...updated,
+            role: normalizeRole(updated.role),
+            created_at: updated.createdAt,
+            is_verified: updated.isVerified
+        };
+    },
+
+    /**
+     * Create a Google-authenticated user (random unusable password hash supplied by caller)
+     */
+    createFromGoogle: async ({ name, email, password, avatar = '', googleId }) => {
+        const result = await prisma.user.create({
+            data: {
+                name: String(name || '').trim(),
+                email: String(email || '').trim().toLowerCase(),
+                password,
+                role: 'user',
+                avatar: avatar || '',
+                isVerified: true,
+                googleId: String(googleId)
+            }
+        });
+        return {
+            ...result,
+            role: normalizeRole(result.role),
+            created_at: result.createdAt,
+            is_verified: true
+        };
+    },
+
     findById: async (id) => {
         const user = await prisma.user.findUnique({
             where: { id: String(id) },

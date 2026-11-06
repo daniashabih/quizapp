@@ -1,6 +1,6 @@
-const bcrypt = require('bcryptjs');
+﻿const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
-const axios = require('axios');
+const { OAuth2Client } = require('google-auth-library');
 const User = require('../_models/userModel');
 const { sendPasswordResetEmail, getAppBaseUrl } = require('../_services/emailService');
 const { generateTokenAndSetCookie, clearTokenCookie } = require('../_utils/generateToken');
@@ -514,183 +514,122 @@ const resetPassword = async (req, res) => {
 };
 
 /**
- * Google OAuth Login / Signup
- * POST /api/auth/google
+ * Google Sign-In / Sign-Up (Google Identity Services ID-token flow)
+ * POST /api/auth/google   body: { credential }
+ *
+ * The ID token is verified server-side with google-auth-library (signature,
+ * expiry, issuer and audience). Nothing sent by the browser other than the
+ * signed token is trusted.
  */
+let googleOAuthClient = null;
+const getGoogleClient = () => {
+    if (!googleOAuthClient) googleOAuthClient = new OAuth2Client();
+    return googleOAuthClient;
+};
+
 const googleLogin = async (req, res) => {
     try {
-        const { credential, token, isDemo, email: demoEmail, name: demoName, avatar: demoAvatar } = req.body;
+        const credential = req.body?.credential;
+        const expectedClientId = process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID;
 
-        const expectedClientId = process.env.GOOGLE_CLIENT_ID || 
-                                 process.env.VITE_GOOGLE_CLIENT_ID || 
-                                 '540959878402-dm79psv3n2jtungji4cvm4s8j9eoes3o.apps.googleusercontent.com';
-
-        let email = '';
-        let name = '';
-        let avatar = '';
-
-        if (credential) {
-            // Verify Google ID Token (JWT) with Google OAuth tokeninfo endpoint
-            try {
-                const googleRes = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(credential)}`);
-                const payload = googleRes.data;
-
-                if (!payload || !payload.email) {
-                    return res.status(400).json({
-                        success: false,
-                        message: 'Invalid Google authentication token'
-                    });
-                }
-
-                // Verify token audience matches Hangbug Web Client ID
-                if (payload.aud !== expectedClientId) {
-                    console.error(`[Google Auth Error] Token audience mismatch: received '${payload.aud}', expected '${expectedClientId}'`);
-                    return res.status(401).json({
-                        success: false,
-                        message: 'Google token verification failed: audience mismatch'
-                    });
-                }
-
-                // Verify email is verified by Google
-                const isEmailVerified = payload.email_verified === 'true' || payload.email_verified === true;
-                if (!isEmailVerified) {
-                    return res.status(401).json({
-                        success: false,
-                        message: 'Google authentication failed: Email address is not verified by Google.'
-                    });
-                }
-
-                email = payload.email;
-                name = payload.name || payload.given_name || email.split('@')[0];
-                avatar = payload.picture || '';
-            } catch (verifyErr) {
-                console.error('[Google Token Verification Error]:', verifyErr.response?.data || verifyErr.message);
-                return res.status(401).json({
-                    success: false,
-                    message: 'Google token verification failed. Please try signing in again.'
-                });
-            }
-        } else if (token) {
-            // Verify Google Access Token via Google tokeninfo & userinfo endpoints
-            try {
-                // 1. Verify audience/authorized party and email verification via tokeninfo
-                const tokenInfoRes = await axios.get(`https://oauth2.googleapis.com/tokeninfo?access_token=${encodeURIComponent(token)}`);
-                const tokenInfo = tokenInfoRes.data;
-
-                if (!tokenInfo || !tokenInfo.email) {
-                    return res.status(400).json({
-                        success: false,
-                        message: 'Invalid Google access token'
-                    });
-                }
-
-                const clientAudience = tokenInfo.aud || tokenInfo.azp;
-                if (clientAudience && clientAudience !== expectedClientId) {
-                    console.error(`[Google Auth Error] Access token audience mismatch: received '${clientAudience}', expected '${expectedClientId}'`);
-                    return res.status(401).json({
-                        success: false,
-                        message: 'Google access token verification failed: client mismatch'
-                    });
-                }
-
-                const isEmailVerified = tokenInfo.email_verified === 'true' || tokenInfo.email_verified === true;
-                if (!isEmailVerified) {
-                    return res.status(401).json({
-                        success: false,
-                        message: 'Google authentication failed: Email address is not verified by Google.'
-                    });
-                }
-
-                // 2. Fetch full profile details (name, avatar) from userinfo endpoint
-                let userProfile = {};
-                try {
-                    const profileRes = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-                        headers: { Authorization: `Bearer ${token}` }
-                    });
-                    userProfile = profileRes.data || {};
-                } catch (profileErr) {
-                    console.warn('[Google UserInfo Warning] Falling back to tokeninfo profile:', profileErr.message);
-                }
-
-                email = tokenInfo.email;
-                name = userProfile.name || userProfile.given_name || email.split('@')[0];
-                avatar = userProfile.picture || '';
-            } catch (tokenErr) {
-                console.error('[Google UserInfo Error]:', tokenErr.response?.data || tokenErr.message);
-                return res.status(401).json({
-                    success: false,
-                    message: 'Failed to retrieve Google profile. Please try again.'
-                });
-            }
-        } else if (isDemo) {
-            // Demo mode is disallowed in production for security
-            if (process.env.NODE_ENV === 'production') {
-                return res.status(403).json({
-                    success: false,
-                    message: 'Demo mode is not available in production'
-                });
-            }
-            email = demoEmail || 'google.demo@hangbug.com';
-            name = demoName || 'Jane Google (Demo)';
-            avatar = demoAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80';
-        } else {
-            return res.status(400).json({
+        if (!expectedClientId) {
+            console.error('[Google Auth Error] GOOGLE_CLIENT_ID is not configured on the server.');
+            return res.status(500).json({
                 success: false,
-                message: 'Google authentication credential or token is required'
+                message: 'Google Sign-In is not configured on the server.'
             });
         }
 
-        const cleanEmail = String(email).trim().toLowerCase();
-        const cleanName = String(name || cleanEmail.split('@')[0]).trim();
+        if (!credential || typeof credential !== 'string') {
+            return res.status(400).json({
+                success: false,
+                message: 'Google authentication credential is required'
+            });
+        }
 
-        // 1. Check if user already exists
-        let user = await User.findByEmail(cleanEmail);
+        // 1. Verify signature, expiry, issuer and audience
+        let payload;
+        try {
+            const ticket = await getGoogleClient().verifyIdToken({
+                idToken: credential,
+                audience: expectedClientId
+            });
+            payload = ticket.getPayload();
+        } catch (verifyErr) {
+            console.error('[Google Token Verification Error]:', verifyErr.message);
+            return res.status(401).json({
+                success: false,
+                message: 'Google token verification failed. Please try signing in again.'
+            });
+        }
+
+        if (!payload || !payload.sub || !payload.email) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid Google authentication token'
+            });
+        }
+
+        // 2. Require Google-verified email
+        if (payload.email_verified !== true) {
+            return res.status(401).json({
+                success: false,
+                message: 'Google authentication failed: Email address is not verified by Google.'
+            });
+        }
+
+        const googleId = String(payload.sub);
+        const cleanEmail = String(payload.email).trim().toLowerCase();
+        const cleanName = String(payload.name || payload.given_name || cleanEmail.split('@')[0]).trim();
+        const avatar = payload.picture || '';
+
+        // 3. Find existing user: by Google ID first, then by verified email
+        let user = await User.findByGoogleId(googleId);
+        if (!user) {
+            user = await User.findByEmail(cleanEmail);
+        }
 
         if (user) {
-            // Update avatar if not already set, and ensure verified status
-            const updateFields = {};
-            if (!user.avatar && avatar) {
-                updateFields.avatar = avatar;
+            // Safety: email account already linked to a different Google identity
+            if (user.googleId && user.googleId !== googleId) {
+                return res.status(409).json({
+                    success: false,
+                    message: 'This email is already linked to a different Google account.'
+                });
             }
-            if (!user.is_verified && !user.isVerified) {
-                updateFields.isVerified = true;
-            }
-
-            if (Object.keys(updateFields).length > 0) {
+            // Link Google ID (password is never modified); fill avatar only if empty
+            if (!user.googleId || !user.avatar || !user.is_verified) {
                 try {
-                    const updated = await User.update(user.id, updateFields);
-                    user = { ...user, ...updated };
-                } catch (updateErr) {
-                    console.warn('[Google Login Warning] Could not update user avatar:', updateErr.message);
+                    const linked = await User.linkGoogleAccount(user.id, googleId, avatar);
+                    if (linked) user = { ...user, ...linked };
+                } catch (linkErr) {
+                    console.warn('[Google Login Warning] Could not link Google account:', linkErr.message);
                 }
             }
         } else {
-            // 2. Create new user account with secure random password
+            // 4. Register new user with an unusable random password hash
             const randomPassword = crypto.randomBytes(32).toString('hex');
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(randomPassword, salt);
-
-            // Determine role: standard admin email fallback or user
-            const role = cleanEmail === 'admin@example.com' ? 'admin' : 'user';
-
-            const createdUser = await User.create(cleanName, cleanEmail, hashedPassword, role, avatar, true);
-            user = {
-                id: createdUser.id,
-                name: createdUser.name,
-                email: createdUser.email,
-                role: createdUser.role || 'user',
-                avatar: createdUser.avatar || avatar || '',
-                isVerified: true,
-                is_verified: true,
-                createdAt: createdUser.createdAt,
-                created_at: createdUser.createdAt
-            };
+            const hashedPassword = await bcrypt.hash(randomPassword, 10);
+            try {
+                user = await User.createFromGoogle({
+                    name: cleanName,
+                    email: cleanEmail,
+                    password: hashedPassword,
+                    avatar,
+                    googleId
+                });
+            } catch (createErr) {
+                // Concurrent request created the same account (unique email) - reuse it
+                if (createErr.code === 'P2002') {
+                    user = await User.findByEmail(cleanEmail);
+                }
+                if (!user) throw createErr;
+            }
         }
 
-        // 3. Generate JWT and set HttpOnly Cookie
+        // 5. Issue the same JWT + HttpOnly cookie as email/password login
         const jwtToken = generateTokenAndSetCookie(res, user);
 
-        // 4. Return user data (without password)
         return res.status(200).json({
             success: true,
             message: 'Signed in with Google successfully',
@@ -700,7 +639,7 @@ const googleLogin = async (req, res) => {
                 email: user.email,
                 role: user.role || 'user',
                 avatar: user.avatar || '',
-                isVerified: user.is_verified || user.isVerified || false,
+                isVerified: true,
                 createdAt: user.created_at || user.createdAt
             },
             token: jwtToken
