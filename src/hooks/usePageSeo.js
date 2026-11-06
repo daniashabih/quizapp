@@ -1,4 +1,8 @@
 import { useEffect } from 'react';
+import {
+    buildPageStructuredData,
+    injectStructuredData
+} from '../utils/structuredData';
 
 const BASE_URL = 'https://www.hangbug.com';
 const DEFAULT_IMAGE = 'https://www.hangbug.com/branding/hangbug-logo-full.png';
@@ -17,7 +21,7 @@ function setMetaTag(selector, attributeName, attributeValue, content) {
 
 /**
  * Custom hook to manage route-specific title, meta description, canonical URL,
- * Open Graph metadata, Twitter card metadata, and robots directives.
+ * Open Graph metadata, Twitter card metadata, robots directives, and Schema.org JSON-LD.
  * @param {{
  *   title: string,
  *   description?: string,
@@ -27,7 +31,18 @@ function setMetaTag(selector, attributeName, attributeValue, content) {
  *   ogImage?: string,
  *   ogImageAlt?: string,
  *   twitterCard?: string,
- *   twitterImage?: string
+ *   twitterImage?: string,
+ *   schemaType?: 'WebPage' | 'ProfilePage' | 'Article',
+ *   breadcrumbs?: Array<{ name: string, path?: string, url?: string }>,
+ *   includeApplicationSchema?: boolean,
+ *   softwareApplication?: object,
+ *   article?: object,
+ *   profile?: object,
+ *   itemList?: object,
+ *   credential?: object,
+ *   datePublished?: string,
+ *   dateModified?: string,
+ *   disableStructuredData?: boolean
  * }} config
  */
 export function usePageSeo({
@@ -39,8 +54,33 @@ export function usePageSeo({
     ogImage = DEFAULT_IMAGE,
     ogImageAlt = 'HangBug Developer Platform',
     twitterCard = 'summary_large_image',
-    twitterImage
+    twitterImage,
+    schemaType = 'WebPage',
+    breadcrumbs,
+    includeApplicationSchema = false,
+    softwareApplication = null,
+    article = null,
+    profile = null,
+    itemList = null,
+    credential = null,
+    datePublished,
+    dateModified,
+    disableStructuredData = false
 }) {
+    const serializedStructuredConfig = JSON.stringify({
+        schemaType,
+        breadcrumbs,
+        includeApplicationSchema,
+        softwareApplication,
+        article,
+        profile,
+        itemList,
+        credential,
+        datePublished,
+        dateModified,
+        disableStructuredData
+    });
+
     useEffect(() => {
         if (typeof document === 'undefined') return;
 
@@ -127,7 +167,46 @@ export function usePageSeo({
                 setMetaTag('meta[name="robots"]', 'name', 'robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
             }
         }
-    }, [title, description, canonicalPath, noindex, ogType, ogImage, ogImageAlt, twitterCard, twitterImage]);
+
+        // 7. Schema.org JSON-LD Structured Data
+        const shouldEmitSchema =
+            !disableStructuredData &&
+            (Boolean(canonicalPath) || schemaType === 'ProfilePage' || Boolean(article));
+
+        if (shouldEmitSchema) {
+            const jsonLd = buildPageStructuredData({
+                title,
+                description,
+                canonicalPath: canonicalPath || '/',
+                ogImage: imageToUse,
+                schemaType,
+                breadcrumbs,
+                includeApplicationSchema,
+                softwareApplication,
+                article,
+                profile,
+                itemList,
+                credential,
+                datePublished,
+                dateModified,
+                disableStructuredData
+            });
+            injectStructuredData(jsonLd);
+        } else {
+            injectStructuredData(null);
+        }
+    }, [
+        title,
+        description,
+        canonicalPath,
+        noindex,
+        ogType,
+        ogImage,
+        ogImageAlt,
+        twitterCard,
+        twitterImage,
+        serializedStructuredConfig
+    ]);
 }
 
 export default usePageSeo;

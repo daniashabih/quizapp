@@ -6,7 +6,9 @@ Allow: /
 
 # Disallow private user dashboards, admin pages, authentication endpoints and APIs
 Disallow: /api/
+Disallow: /admin
 Disallow: /admin/
+Disallow: /dashboard
 Disallow: /dashboard/
 Disallow: /login
 Disallow: /signup

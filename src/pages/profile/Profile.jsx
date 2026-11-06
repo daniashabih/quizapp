@@ -8,8 +8,13 @@ import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import dashboardService from '../../services/dashboardService';
+import usePageSeo from '../../hooks/usePageSeo';
 
 export default function Profile() {
+    usePageSeo({
+        title: 'Developer Profile — HangBug',
+        noindex: true
+    });
     const { user, updateUser } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [editData, setEditData] = useState({ name: user?.name || '', email: user?.email || '' });
@@ -220,7 +225,7 @@ export default function Profile() {
                                 <Sparkles size={24} className="text-[var(--foreground-muted)] mx-auto mb-2 opacity-40" />
                                 <p className="text-xs text-[var(--foreground-muted)] mb-3">No skills evaluated yet.</p>
                                 <Link to="/technologies" className="btn-primary text-xs py-2 px-4">
-                                    Take a Quiz Assessment
+                                    Take a Quiz Session
                                 </Link>
                             </div>
                         )}

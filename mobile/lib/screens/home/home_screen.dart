@@ -406,7 +406,7 @@ class HomeScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Recent Assessments',
+                        'Recent Sessions',
                         style: AppTextStyles.displaySmall.copyWith(fontSize: 16),
                       ),
                       if (recentAttempts.isNotEmpty)
@@ -446,7 +446,7 @@ class HomeScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Take your first assessment to start building your profile.',
+                            'Take your first session to start building your profile.',
                             style: AppTextStyles.bodySmall.copyWith(
                               fontSize: 11,
                               color: context.textSecondaryColor,

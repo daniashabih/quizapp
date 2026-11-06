@@ -1,7 +1,12 @@
 import { Sun, Moon, Monitor, Bell, Shield, Check } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import usePageSeo from '../../hooks/usePageSeo';
 
 const Settings = () => {
+    usePageSeo({
+        title: 'Account Settings & Preferences — HangBug',
+        noindex: true
+    });
     const { theme, resolvedTheme, setThemeMode } = useTheme();
 
     const themeOptions = [

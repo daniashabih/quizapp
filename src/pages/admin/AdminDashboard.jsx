@@ -14,6 +14,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import dashboardService from '../../services/dashboardService';
 import settingsService from '../../services/settingsService';
+import usePageSeo from '../../hooks/usePageSeo';
 
 const defaultQuizOptions = {
     appName: 'HangBug',
@@ -38,6 +39,10 @@ const defaultQuizOptions = {
 };
 
 const AdminDashboard = () => {
+    usePageSeo({
+        title: 'Administrator Console — HangBug',
+        noindex: true
+    });
     const { user } = useAuth();
     const navigate = useNavigate();
 

@@ -24,7 +24,7 @@ import {
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthContext';
 import usePageSeo from '../../hooks/usePageSeo';
-import gameService, { FALLBACK_TECHNOLOGIES } from '../../services/gameService';
+import gameService, { FALLBACK_GAMES, FALLBACK_TECHNOLOGIES } from '../../services/gameService';
 import TechIcon from './components/TechIcon';
 import gameAudio from '../../utils/gameAudio';
 import { trackGameStart, trackGameComplete } from '../../utils/analytics';
@@ -80,15 +80,18 @@ export const GamePlayer = () => {
         }
     }, [slug, navigate]);
 
+    const fallbackGame = useMemo(() => FALLBACK_GAMES.find(g => g.slug === slug) || null, [slug]);
+    const seoGame = game || fallbackGame;
+
     // Technical SEO: Dynamic Title, Description, and Canonical URL for each game
     usePageSeo({
-        title: game
-            ? `${game.title} — ${game.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | HangBug`
+        title: seoGame
+            ? `${seoGame.title} — ${seoGame.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | HangBug`
             : 'Developer Game Challenge — HangBug Games',
-        description: game?.description
-            ? `${game.description} Practice interactive coding challenges on HangBug.`
+        description: seoGame?.description
+            ? `${seoGame.description} Practice interactive coding challenges on HangBug.`
             : 'Play interactive coding and typing games on HangBug to sharpen programming logic and keyboard speed.',
-        canonicalPath: `/games/${game?.slug || slug || ''}`,
+        canonicalPath: `/games/${seoGame?.baseSlug || seoGame?.slug || slug || ''}`,
         ogType: 'website'
     });
 
@@ -394,7 +397,7 @@ export const GamePlayer = () => {
         >
             <main className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
                 {/* Game Player Header */}
-                <div className="w-full flex items-center justify-between gap-3 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3 sm:p-4 mb-4 shadow-sm">
+                <header className="w-full flex items-center justify-between gap-3 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3 sm:p-4 mb-4 shadow-sm">
                     {/* Left: Exit & Title */}
                     <div className="flex items-center gap-3">
                         <Link
@@ -497,7 +500,7 @@ export const GamePlayer = () => {
                             {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
                         </button>
                     </div>
-                </div>
+                </header>
 
                 {/* Technology & Difficulty Selector Bar */}
                 <div className="w-full flex flex-wrap items-center justify-between gap-3 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3 mb-4 shadow-xs">
@@ -559,9 +562,10 @@ export const GamePlayer = () => {
                 )}
 
                 {/* Active Game Engine Canvas/Viewport */}
-                <div className="flex-1 flex flex-col justify-center items-center w-full">
+                <section aria-label="Interactive Game Viewport" className="flex-1 flex flex-col justify-center items-center w-full">
+                    <h2 className="sr-only">{game.title} Interactive Challenge</h2>
                     {renderEngine()}
-                </div>
+                </section>
             </main>
 
             {/* INSTRUCTIONS MODAL */}

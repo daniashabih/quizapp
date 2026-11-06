@@ -415,7 +415,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           ],
         ),
         body: (state.isLoading || _isInitializing)
-            ? const LoadingStateWidget(message: 'Preparing your assessment...')
+            ? const LoadingStateWidget(message: 'Preparing your session...')
             : state.questions.isEmpty
                 ? EmptyStateWidget(
                     title: 'No questions available',

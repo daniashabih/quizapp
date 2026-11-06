@@ -83,13 +83,13 @@ export default function SelectLanguage() {
                 <div>
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-100 border border-zinc-300 text-black text-xs font-bold tracking-widest uppercase mb-6">
                         <Sparkles size={14} />
-                        Assessment Platform
+                        Session Platform
                     </div>
                     <h1 className="text-5xl md:text-6xl font-display font-extrabold text-[var(--foreground)] mb-4 tracking-tighter">
                         Choose your <span className="text-black underline underline-offset-4 decoration-black/20">track</span>
                     </h1>
                     <p className="text-[var(--foreground-muted)] max-w-xl text-base leading-relaxed font-medium">
-                        Select a programming language track to begin your assessment. Each challenge is crafted to test real-world proficiency.
+                        Select a programming language track to begin your session. Each challenge is crafted to test real-world proficiency.
                     </p>
                 </div>
 
@@ -134,7 +134,7 @@ export default function SelectLanguage() {
                                         {cat.name}
                                     </h3>
                                     <p className="text-[var(--foreground-muted)] text-sm leading-relaxed font-medium">
-                                        Comprehensive assessment covering core foundations and specialized edge cases.
+                                        Comprehensive session covering core foundations and specialized edge cases.
                                     </p>
                                 </div>
 

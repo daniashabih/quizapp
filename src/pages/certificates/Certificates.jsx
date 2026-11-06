@@ -4,8 +4,13 @@ import { Award, Download, ExternalLink, Linkedin, Search, FileText, Lock, CheckC
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import dashboardService from '../../services/dashboardService';
+import usePageSeo from '../../hooks/usePageSeo';
 
 export default function Certificates() {
+    usePageSeo({
+        title: 'My Certificates — HangBug',
+        noindex: true
+    });
     const [searchQuery, setSearchQuery] = useState('');
     const [earnedCerts, setEarnedCerts] = useState([]);
     const [allCategories, setAllCategories] = useState([]);

@@ -1,0 +1,270 @@
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+
+const ROOT_DIR = path.resolve(__dirname, '..');
+
+// Helper to read file
+function readFile(relPath) {
+    return fs.readFileSync(path.join(ROOT_DIR, relPath), 'utf8');
+}
+
+test('1. Technical SEO: Unique titles and meta descriptions for public pages', () => {
+    const publicPages = [
+        { file: 'src/pages/Landing.jsx', title: 'HangBug — Test & Master Web Development Skills' },
+        { file: 'src/pages/quiz/Technologies.jsx', title: 'Choose Your Tech Stack — Programming & Framework Quizzes' },
+        { file: 'src/pages/games/GamesHub.jsx', title: 'Coding & Typing Games for Developers — HangBug Games Hub' },
+        { file: 'src/pages/games/GamePlayer.jsx', title: 'Developer Typing Challenge' },
+        { file: 'src/pages/leaderboard/Leaderboard.jsx', title: 'Global Developer Leaderboard & Rankings — HangBug' },
+        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Us — HangBug Developer Skill Verification Platform' },
+        { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — HangBug' },
+        { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — HangBug Data Protection & Cookie Policy' },
+        { file: 'src/pages/legal/TermsOfService.jsx', title: 'Terms of Service — HangBug Platform Terms & Conditions' },
+        { file: 'src/pages/certificates/CertificateView.jsx', title: 'Verify Developer Certificate' }
+    ];
+
+    for (const page of publicPages) {
+        const content = readFile(page.file);
+        assert.ok(content.includes('usePageSeo'), `${page.file} must invoke usePageSeo`);
+        assert.ok(content.includes(page.title), `${page.file} must include expected title snippet: ${page.title}`);
+    }
+});
+
+test('2. Technical SEO: Canonical URLs use official .com domain', () => {
+    const hookCode = readFile('src/hooks/usePageSeo.js');
+    assert.ok(hookCode.includes("const BASE_URL = 'https://www.hangbug.com'"), 'usePageSeo must declare BASE_URL https://www.hangbug.com');
+    assert.ok(hookCode.includes('canonicalLink.setAttribute(\'href\', canonicalHref)'), 'usePageSeo must set canonical href');
+
+    const indexHtml = readFile('index.html');
+    assert.ok(!indexHtml.includes('<link rel="canonical"'), 'index.html must not hardcode canonical link (dynamic per-page)');
+});
+
+test('3. Technical SEO: robots.txt properly configured with User-agent, Allow, Disallow and Sitemap', () => {
+    const publicRobots = readFile('public/robots.txt');
+    const distRobots = readFile('dist/robots.txt');
+
+    assert.ok(publicRobots.includes('User-agent: *'), 'robots.txt must declare User-agent: *');
+    assert.ok(publicRobots.includes('Allow: /'), 'robots.txt must allow root');
+    assert.ok(publicRobots.includes('Disallow: /api/'), 'robots.txt must disallow /api/');
+    assert.ok(publicRobots.includes('Disallow: /admin/'), 'robots.txt must disallow /admin/');
+    assert.ok(publicRobots.includes('Disallow: /dashboard/'), 'robots.txt must disallow /dashboard/');
+    assert.ok(publicRobots.includes('Disallow: /login'), 'robots.txt must disallow /login');
+    assert.ok(publicRobots.includes('Disallow: /signup'), 'robots.txt must disallow /signup');
+    assert.ok(publicRobots.includes('Disallow: /register'), 'robots.txt must disallow /register');
+    assert.ok(publicRobots.includes('Disallow: /forgot-password'), 'robots.txt must disallow /forgot-password');
+    assert.ok(publicRobots.includes('Disallow: /reset-password'), 'robots.txt must disallow /reset-password');
+    assert.ok(publicRobots.includes('Sitemap: https://www.hangbug.com/sitemap.xml'), 'robots.txt must link to canonical sitemap');
+
+    assert.strictEqual(publicRobots, distRobots, 'public/robots.txt and dist/robots.txt must match');
+});
+
+test('4 & 5. Technical SEO: Dynamic sitemap.xml includes all public pages and 18 games, excludes private/auth routes', () => {
+    const sitemap = readFile('public/sitemap.xml');
+    const distSitemap = readFile('dist/sitemap.xml');
+
+    assert.ok(sitemap.startsWith('<?xml'), 'sitemap must be valid XML declaration');
+    assert.ok(sitemap.includes('<urlset'), 'sitemap must have urlset root');
+
+    // All 8 core public pages
+    const corePages = [
+        'https://www.hangbug.com/',
+        'https://www.hangbug.com/technologies',
+        'https://www.hangbug.com/games',
+        'https://www.hangbug.com/leaderboard',
+        'https://www.hangbug.com/about',
+        'https://www.hangbug.com/contact',
+        'https://www.hangbug.com/privacy-policy',
+        'https://www.hangbug.com/terms'
+    ];
+    for (const url of corePages) {
+        assert.ok(sitemap.includes(`<loc>${url}</loc>`), `sitemap must include core page: ${url}`);
+    }
+
+    // All 18 games
+    const all18Games = [
+        'code-puzzle', 'find-the-bug', 'output-predictor', 'code-scramble',
+        'missing-code', 'logic-builder', 'sql-challenge', 'memory-match',
+        'speed-typing', 'code-typing', 'sixty-second-challenge', 'error-free-typing',
+        'syntax-typing', 'word-rain', 'csharp-oop-challenge', 'csharp-collections-challenge',
+        'csharp-linq-challenge', 'csharp-exception-handling'
+    ];
+    for (const game of all18Games) {
+        assert.ok(sitemap.includes(`<loc>https://www.hangbug.com/games/${game}</loc>`), `sitemap must include game: ${game}`);
+    }
+
+    // Excluded pages
+    const excludedPages = [
+        '/login', '/signup', '/register', '/forgot-password', '/reset-password',
+        '/delete-account', '/account-deletion', '/data-deletion', '/dashboard',
+        '/admin', '/quiz/start', '/quiz/result', '/privacy'
+    ];
+    for (const page of excludedPages) {
+        assert.ok(!sitemap.includes(`<loc>https://www.hangbug.com${page}</loc>`), `sitemap must NOT include private/duplicate page: ${page}`);
+    }
+
+    assert.strictEqual(sitemap, distSitemap, 'public/sitemap.xml and dist/sitemap.xml must match');
+});
+
+test('6. Technical SEO: Appropriate robots meta directives (noindex) applied to private pages', () => {
+    const privatePages = [
+        'src/pages/NotFound.jsx',
+        'src/pages/auth/Auth.jsx',
+        'src/pages/auth/ForgotPassword.jsx',
+        'src/pages/auth/ResetPassword.jsx',
+        'src/pages/legal/DeleteAccount.jsx',
+        'src/pages/quiz/Quiz.jsx',
+        'src/pages/quiz/Result.jsx',
+        'src/pages/dashboard/UserDashboard.jsx',
+        'src/pages/certificates/Certificates.jsx',
+        'src/pages/profile/Profile.jsx',
+        'src/pages/settings/Settings.jsx',
+        'src/pages/admin/AdminDashboard.jsx',
+        'src/pages/seo/SeoDashboard.jsx',
+        'src/layouts/DashboardLayout.jsx'
+    ];
+
+    for (const file of privatePages) {
+        const content = readFile(file);
+        assert.ok(content.includes('noindex: true'), `${file} must specify noindex: true`);
+    }
+});
+
+test('7 & 8. Technical SEO: Open Graph and Twitter/X card metadata support', () => {
+    const hookCode = readFile('src/hooks/usePageSeo.js');
+    assert.ok(hookCode.includes('og:title'), 'usePageSeo must manage og:title');
+    assert.ok(hookCode.includes('og:description'), 'usePageSeo must manage og:description');
+    assert.ok(hookCode.includes('og:url'), 'usePageSeo must manage og:url');
+    assert.ok(hookCode.includes('og:type'), 'usePageSeo must manage og:type');
+    assert.ok(hookCode.includes('og:image'), 'usePageSeo must manage og:image');
+    assert.ok(hookCode.includes('og:image:alt'), 'usePageSeo must manage og:image:alt');
+    assert.ok(hookCode.includes('og:site_name'), 'usePageSeo must manage og:site_name');
+
+    assert.ok(hookCode.includes('twitter:card'), 'usePageSeo must manage twitter:card');
+    assert.ok(hookCode.includes('twitter:title'), 'usePageSeo must manage twitter:title');
+    assert.ok(hookCode.includes('twitter:description'), 'usePageSeo must manage twitter:description');
+    assert.ok(hookCode.includes('twitter:image'), 'usePageSeo must manage twitter:image');
+    assert.ok(hookCode.includes('twitter:image:alt'), 'usePageSeo must manage twitter:image:alt');
+
+    const indexHtml = readFile('index.html');
+    assert.ok(indexHtml.includes('property="og:image:alt"'), 'index.html must declare og:image:alt');
+    assert.ok(indexHtml.includes('name="twitter:image:alt"'), 'index.html must declare twitter:image:alt');
+    assert.ok(indexHtml.includes('name="robots"'), 'index.html must declare default robots directive');
+});
+
+test('9. Technical SEO: HTML lang, viewport and charset attributes', () => {
+    const indexHtml = readFile('index.html');
+    assert.ok(indexHtml.includes('<html lang="en">'), 'index.html must declare lang="en"');
+    assert.ok(indexHtml.includes('<meta charset="UTF-8" />') || indexHtml.includes('<meta charset="UTF-8">'), 'index.html must declare charset="UTF-8"');
+    assert.ok(indexHtml.includes('name="viewport" content="width=device-width, initial-scale=1.0"'), 'index.html must declare responsive viewport');
+});
+
+test('10. Technical SEO: Semantic HTML5 elements (<header>, <main>, <nav>, <footer>)', () => {
+    const navbar = readFile('src/components/Navbar.jsx');
+    assert.ok(navbar.includes('<header') && navbar.includes('</header>'), 'Navbar must use <header>');
+    assert.ok(navbar.includes('<nav') && navbar.includes('</nav>'), 'Navbar must use <nav>');
+
+    const footer = readFile('src/components/Footer.jsx');
+    assert.ok(footer.includes('<footer') && footer.includes('</footer>'), 'Footer must use <footer>');
+
+    const landing = readFile('src/pages/Landing.jsx');
+    assert.ok(landing.includes('<main') && landing.includes('</main>'), 'Landing must use <main>');
+
+    const tech = readFile('src/pages/quiz/Technologies.jsx');
+    assert.ok(tech.includes('<main') && tech.includes('</main>'), 'Technologies must use <main>');
+
+    const gamesHub = readFile('src/pages/games/GamesHub.jsx');
+    assert.ok(gamesHub.includes('<main') && gamesHub.includes('</main>'), 'GamesHub must use <main>');
+
+    const gamePlayer = readFile('src/pages/games/GamePlayer.jsx');
+    assert.ok(gamePlayer.includes('<main') && gamePlayer.includes('</main>'), 'GamePlayer must use <main>');
+
+    const aboutUs = readFile('src/pages/legal/AboutUs.jsx');
+    assert.ok(aboutUs.includes('<main') && aboutUs.includes('</main>'), 'AboutUs must use <main>');
+
+    const contactUs = readFile('src/pages/legal/ContactUs.jsx');
+    assert.ok(contactUs.includes('<main') && contactUs.includes('</main>'), 'ContactUs must use <main>');
+
+    const certView = readFile('src/pages/certificates/CertificateView.jsx');
+    assert.ok(certView.includes('<main') && certView.includes('</main>'), 'CertificateView must use <main>');
+});
+
+test('11. Technical SEO: Proper heading hierarchy', () => {
+    const splash = readFile('src/components/SplashScreen.jsx');
+    assert.ok(!splash.includes('<h1'), 'SplashScreen must not contain an <h1> tag');
+
+    const landing = readFile('src/pages/Landing.jsx');
+    assert.ok(landing.includes('<motion.h1') || landing.includes('<h1'), 'Landing must have an h1');
+    assert.ok(landing.includes('<h2'), 'Landing must have an h2 before h3');
+
+    const aboutUs = readFile('src/pages/legal/AboutUs.jsx');
+    assert.ok(aboutUs.includes('<h1'), 'AboutUs must have an h1');
+    assert.ok(aboutUs.includes('<h2'), 'AboutUs must have an h2');
+
+    const certView = readFile('src/pages/certificates/CertificateView.jsx');
+    assert.ok(certView.includes('<h1'), 'CertificateView must have an h1');
+    assert.ok(certView.includes('<h2'), 'CertificateView must have an h2');
+});
+
+test('12. Technical SEO: Descriptive image alt attributes', () => {
+    const brandLogo = readFile('src/components/BrandLogo.jsx');
+    assert.ok(brandLogo.includes('alt="HangBug developer platform logo icon"'), 'BrandLogo icon must have descriptive alt');
+    assert.ok(brandLogo.includes('alt="HangBug developer platform logo"'), 'BrandLogo compact must have descriptive alt');
+
+    const splash = readFile('src/components/SplashScreen.jsx');
+    assert.ok(splash.includes('alt="HangBug developer platform emblem"'), 'SplashScreen emblem must have descriptive alt');
+
+    const leaderboard = readFile('src/components/Leaderboard.jsx');
+    assert.ok(leaderboard.includes('profile avatar'), 'Leaderboard avatars must have descriptive alt');
+});
+
+test('13. Technical SEO: Important public pages have crawlable links', () => {
+    const navbar = readFile('src/components/Navbar.jsx');
+    assert.ok(navbar.includes("path: '/'"), 'Navbar must link to home');
+    assert.ok(navbar.includes("path: '/technologies'"), 'Navbar must link to /technologies');
+    assert.ok(navbar.includes("path: '/games'"), 'Navbar must link to /games');
+    assert.ok(navbar.includes("path: '/leaderboard'"), 'Navbar must link to /leaderboard');
+
+    const footer = readFile('src/components/Footer.jsx');
+    assert.ok(footer.includes('to="/games"'), 'Footer must link to /games');
+    assert.ok(footer.includes('to="/technologies"'), 'Footer must link to /technologies');
+    assert.ok(footer.includes('to="/leaderboard"'), 'Footer must link to /leaderboard');
+    assert.ok(footer.includes('to="/about"'), 'Footer must link to /about');
+    assert.ok(footer.includes('to="/contact"'), 'Footer must link to /contact');
+    assert.ok(footer.includes('to="/privacy-policy"'), 'Footer must link to /privacy-policy');
+    assert.ok(footer.includes('to="/terms"'), 'Footer must link to /terms');
+});
+
+test('14 & 15. Technical SEO: Permanent redirects and status codes in vercel.json & Express', () => {
+    const vercelConfig = JSON.parse(readFile('vercel.json'));
+    assert.ok(Array.isArray(vercelConfig.redirects), 'vercel.json must have redirects array');
+
+    const privacyRedirect = vercelConfig.redirects.find(r => r.source === '/privacy');
+    assert.ok(privacyRedirect && privacyRedirect.destination === '/privacy-policy' && privacyRedirect.permanent === true, 'vercel.json must permanently redirect /privacy to /privacy-policy');
+
+    const accountDeletionRedirect = vercelConfig.redirects.find(r => r.source === '/account-deletion');
+    assert.ok(accountDeletionRedirect && accountDeletionRedirect.destination === '/delete-account' && accountDeletionRedirect.permanent === true, 'vercel.json must permanently redirect /account-deletion to /delete-account');
+
+    const memoryMatchRedirect = vercelConfig.redirects.find(r => r.source === '/games/coding-memory-match');
+    assert.ok(memoryMatchRedirect && memoryMatchRedirect.destination === '/games/memory-match' && memoryMatchRedirect.permanent === true, 'vercel.json must permanently redirect /games/coding-memory-match to /games/memory-match');
+
+    const apiIndex = readFile('api/index.js');
+    assert.ok(apiIndex.includes("res.redirect(301, '/privacy-policy')"), 'Express must 301 redirect /privacy to /privacy-policy');
+    assert.ok(apiIndex.includes("res.redirect(301, '/games/memory-match')"), 'Express must 301 redirect /games/coding-memory-match to /games/memory-match');
+    assert.ok(apiIndex.includes("res.redirect(301, '/technologies')"), 'Express must 301 redirect legacy quiz routes to /technologies');
+    assert.ok(apiIndex.includes("app.get('/robots.txt', getRobotsTxt)"), 'Express must serve /robots.txt');
+    assert.ok(apiIndex.includes("app.get('/sitemap.xml', getDynamicSitemap)"), 'Express must serve /sitemap.xml');
+
+    const { getDynamicSitemap, getRobotsTxt } = require('../api/_controllers/seoController');
+
+    let robotsStatus = 0;
+    let robotsBody = '';
+    const robotsHeaders = {};
+    getRobotsTxt({}, {
+        setHeader: (k, v) => { robotsHeaders[k] = v; },
+        status: (code) => ({ send: (body) => { robotsStatus = code; robotsBody = body; } })
+    });
+    assert.strictEqual(robotsStatus, 200, 'getRobotsTxt must return HTTP 200');
+    assert.ok(robotsHeaders['Content-Type'].includes('text/plain'), 'getRobotsTxt must set Content-Type text/plain');
+    assert.ok(robotsBody.includes('Sitemap: https://www.hangbug.com/sitemap.xml'), 'getRobotsTxt must include Sitemap URL');
+});

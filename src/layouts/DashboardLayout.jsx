@@ -19,11 +19,19 @@ import {
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from '../components/BrandLogo';
 import ThemeToggle from '../components/ThemeToggle';
+import usePageSeo from '../hooks/usePageSeo';
 
 const DashboardLayout = ({ children }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const { user, logout, isAdmin } = useAuth();
     const location = useLocation();
+
+    usePageSeo({
+        title: location.pathname.startsWith('/admin')
+            ? 'Administrator Console — HangBug'
+            : 'Developer Dashboard — HangBug',
+        noindex: true
+    });
 
     const navItems = [
         { name: 'Overview', path: '/dashboard', matchPaths: ['/dashboard'], exact: true, icon: LayoutDashboard },
@@ -132,9 +140,9 @@ const DashboardLayout = ({ children }) => {
                             <Menu size={18} />
                         </button>
                         <div className="hidden sm:block">
-                            <h1 className="text-sm font-display font-bold text-[var(--foreground)]">
+                            <p className="text-sm font-display font-bold text-[var(--foreground)]">
                                 {navItems.find((i) => isActive(i))?.name || 'Workspace'}
-                            </h1>
+                            </p>
                         </div>
                     </div>
 

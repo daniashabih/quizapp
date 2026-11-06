@@ -27,7 +27,8 @@ const LeaderboardPage = ({ mode: propMode }) => {
         description: isFullMode
             ? 'Explore the complete directory of ranked software engineers and learners worldwide on HangBug.'
             : 'See top ranked software engineers and learners worldwide. Track XP, accuracy, quiz streaks, and verified certificates on HangBug.',
-        canonicalPath: isFullMode ? '/leaderboard/full' : '/leaderboard'
+        canonicalPath: '/leaderboard',
+        noindex: isDashboard || isFullMode
     });
 
     // Requirement 3: Full Leaderboard requires authentication.

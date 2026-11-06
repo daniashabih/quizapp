@@ -671,7 +671,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                       style: AppTextStyles.displaySmall.copyWith(fontSize: 18),
                     ),
                     Text(
-                      'Choose a session to begin assessment',
+                      'Select any session to start',
                       style: AppTextStyles.bodySmall.copyWith(
                         fontSize: 12,
                         color: context.textSecondaryColor,
@@ -698,7 +698,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
             )
           else ...[
             Text(
-              'Available Sessions',
+              'Sessions',
               style: AppTextStyles.labelBold.copyWith(
                 color: context.textSecondaryColor,
                 fontSize: 11,
@@ -731,7 +731,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'All Sessions Combined',
+                          'All Sessions (Complete Track)',
                           style: AppTextStyles.bodyMedium.copyWith(
                             fontWeight: FontWeight.w700,
                             color: _isAllSessions
@@ -792,12 +792,47 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
               }).toList(),
             ),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
+
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: isDark
+                    ? AppColors.darkPrimaryAccent.withValues(alpha: 0.12)
+                    : AppColors.accentLight.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: context.borderColor),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Selected Session:',
+                    style: AppTextStyles.bodySmall.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: context.textPrimaryColor,
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      '${widget.category.name} · ${_isAllSessions ? 'All Sessions (Complete Track)' : 'Session $_selectedSession'}',
+                      style: AppTextStyles.bodySmall.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: context.brandAccentColor,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 16),
 
             AppButton(
               text: _isAllSessions
-                  ? 'Start All Sessions Assessment'
-                  : 'Start Session $_selectedSession Quiz',
+                  ? 'Start All Sessions Quiz'
+                  : 'Start Session Quiz',
               onPressed: _startQuiz,
               icon: const Icon(
                 Icons.play_arrow_rounded,

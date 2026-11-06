@@ -29,6 +29,16 @@
       "permanent": true
     },
     {
+      "source": "/quiz",
+      "destination": "/technologies",
+      "permanent": true
+    },
+    {
+      "source": "/technologies/level",
+      "destination": "/technologies",
+      "permanent": true
+    },
+    {
       "source": "/games/coding-memory-match",
       "destination": "/games/memory-match",
       "permanent": true
@@ -41,6 +51,21 @@
     {
       "source": "/admin/seo",
       "destination": "/dashboard/seo",
+      "permanent": true
+    },
+    {
+      "source": "/certificates",
+      "destination": "/dashboard/certificates",
+      "permanent": true
+    },
+    {
+      "source": "/profile",
+      "destination": "/dashboard/profile",
+      "permanent": true
+    },
+    {
+      "source": "/settings",
+      "destination": "/dashboard/settings",
       "permanent": true
     }
   ],

@@ -5,8 +5,13 @@ import SeoOverviewCard from '../../components/seo/SeoOverviewCard';
 import { CreateProjectModal, FeedbackModal, SettingsModal } from '../../components/seo/SeoModals';
 import { RefreshCw, RotateCcw, AlertCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
+import usePageSeo from '../../hooks/usePageSeo';
 
 export default function SeoDashboard() {
+    usePageSeo({
+        title: 'SEO Management Console — HangBug',
+        noindex: true
+    });
     const [domain, setDomain] = useState("www.hangbug.com");
     const [card1Visible, setCard1Visible] = useState(true);
     const [card2Visible, setCard2Visible] = useState(true);

@@ -11,6 +11,7 @@ import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import dashboardService from '../../services/dashboardService';
 import attemptService from '../../services/attemptService';
+import usePageSeo from '../../hooks/usePageSeo';
 
 const achievementIconMap = {
     Zap: Zap,
@@ -39,6 +40,10 @@ function formatTimeAgo(date) {
 }
 
 export default function UserDashboard() {
+    usePageSeo({
+        title: 'Developer Overview — HangBug',
+        noindex: true
+    });
     const { user, updateUser } = useAuth();
     const navigate = useNavigate();
     const [dashboardData, setDashboardData] = useState(null);

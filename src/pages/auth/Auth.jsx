@@ -56,6 +56,7 @@ export default function Auth({ initialMode = 'login' }) {
         description: isSignUp
             ? 'Create your HangBug account to test your programming skills and earn verified certificates.'
             : 'Sign in to HangBug to practice web development quizzes, track your progress, and view certificates.',
+        canonicalPath: isSignUp ? '/register' : '/login',
         noindex: true
     });
     const [name, setName] = useState('');

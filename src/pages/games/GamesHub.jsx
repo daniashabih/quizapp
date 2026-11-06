@@ -401,7 +401,7 @@ export const GamesHub = () => {
                                 {user.name?.charAt(0).toUpperCase() || 'U'}
                             </div>
                             <div>
-                                <h4 className="text-xs font-bold text-[var(--foreground)]">{user.name}'s Dev Profile</h4>
+                                <h3 className="text-xs font-bold text-[var(--foreground)]">{user.name}'s Dev Profile</h3>
                                 <p className="text-[11px] text-[var(--foreground-muted)]">Code challenges solved and typing metrics saved to your account.</p>
                             </div>
                         </div>

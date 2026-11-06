@@ -34,14 +34,16 @@ function formatTimeAgo(date) {
 }
 
 export default function Technologies() {
-    usePageSeo({
-        title: 'Choose Your Tech Stack — Programming & Framework Quizzes | HangBug',
-        description: 'Explore interactive quiz tracks across modern web technologies including SQL Server, Express, Node.js, PHP, Agile, Azure, and more.',
-        canonicalPath: '/technologies'
-    });
     const navigate = useNavigate();
     const location = useLocation();
     const isDashboard = location.pathname.startsWith('/dashboard');
+
+    usePageSeo({
+        title: 'Choose Your Tech Stack — Programming & Framework Quizzes | HangBug',
+        description: 'Explore interactive quiz tracks across modern web technologies including SQL Server, Express, Node.js, PHP, Agile, Azure, and more.',
+        canonicalPath: '/technologies',
+        noindex: isDashboard
+    });
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -206,7 +208,7 @@ export default function Technologies() {
             <div className="text-center mb-8">
                 <div className="badge-emerald mx-auto mb-3"><Sparkles size={12} /> Technologies</div>
                 <h1 className="text-3xl lg:text-4xl font-display font-extrabold text-[var(--foreground)] mb-2">Choose Your <span className="text-black underline decoration-black/20 underline-offset-4">Stack</span></h1>
-                <p className="text-sm text-[var(--foreground-muted)] max-w-xl mx-auto">Select a technology to choose a session and start your assessment.</p>
+                <p className="text-sm text-[var(--foreground-muted)] max-w-xl mx-auto">Select a technology to choose a session and start your quiz.</p>
             </div>
 
             {/* ═══════════════════════════════════════════════════════════
@@ -331,40 +333,43 @@ export default function Technologies() {
                     <p className="text-sm text-[var(--foreground-muted)]">No technologies found.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                    {filtered.map((cat) => {
-                        const gradient = getGradient();
-                        const hasMultipleSessions = Array.isArray(cat.sessions) && cat.sessions.length > 1;
-                        return (
-                            <button key={cat.id || cat.name}
-                                onClick={() => handleCategoryClick(cat)}
-                                className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 text-left hover:border-black hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col justify-between">
-                                <div>
-                                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                                        <span className="text-white font-bold text-base">{(cat.name || 'T').charAt(0)}</span>
-                                    </div>
-                                    <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1 group-hover:text-black transition-colors">{cat.name}</h3>
-                                    <p className="text-xs text-[var(--foreground-muted)] mb-3">Session-wise assessment covering core to advanced concepts.</p>
-                                </div>
-                                
-                                <div>
-                                    <div className="flex items-center justify-between pt-2.5 border-t border-[var(--card-border)]">
-                                        <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
-                                            <BookOpen size={13} /> {cat.questionCount !== undefined ? `${cat.questionCount} Questions` : 'Questions Bank'}
+                <section aria-label="Technology Quiz Tracks">
+                    <h2 className="sr-only">Available Technology Quiz Tracks</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                        {filtered.map((cat) => {
+                            const gradient = getGradient();
+                            const hasMultipleSessions = Array.isArray(cat.sessions) && cat.sessions.length > 1;
+                            return (
+                                <button key={cat.id || cat.name}
+                                    onClick={() => handleCategoryClick(cat)}
+                                    className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 text-left hover:border-black hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col justify-between">
+                                    <div>
+                                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
+                                            <span className="text-white font-bold text-base">{(cat.name || 'T').charAt(0)}</span>
                                         </div>
-                                        <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
-                                            <Layers size={13} /> 
-                                            {hasMultipleSessions ? `Sessions: ${cat.sessions.join(', ')}` : 'Multi-Session'}
+                                        <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1 group-hover:text-black transition-colors">{cat.name}</h3>
+                                        <p className="text-xs text-[var(--foreground-muted)] mb-3">Session-wise practice covering core to advanced concepts.</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <div className="flex items-center justify-between pt-2.5 border-t border-[var(--card-border)]">
+                                            <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
+                                                <BookOpen size={13} /> {cat.questionCount !== undefined ? `${cat.questionCount} Questions` : 'Questions Bank'}
+                                            </div>
+                                            <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
+                                                <Layers size={13} /> 
+                                                {hasMultipleSessions ? `Sessions: ${cat.sessions.join(', ')}` : 'Multi-Session'}
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-1 pt-2.5 text-xs font-semibold text-black group-hover:gap-2 transition-all">
+                                            Select Session & Start <ArrowRight size={13} />
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-1 pt-2.5 text-xs font-semibold text-black group-hover:gap-2 transition-all">
-                                        Select Session & Start <ArrowRight size={13} />
-                                    </div>
-                                </div>
-                            </button>
-                        );
-                    })}
-                </div>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </section>
             )}
 
             {/* ═══════════════════════════════════════════════════════════
@@ -385,7 +390,7 @@ export default function Technologies() {
                                 <div>
                                     <div className="flex items-center gap-2">
                                         <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#193D35] bg-[#F3E5C5] px-2.5 py-0.5 rounded-full border border-[#E2D0A6]">
-                                            {selectedCatForSession?.name?.toLowerCase() === 'seo' ? 'Self Assessment' : 'Session Wise Assessment'}
+                                            Sessions
                                         </span>
                                         {totalQuestionsInTrack > 0 && (
                                             <span className="text-[10px] font-bold text-[var(--foreground-muted)]">
@@ -417,10 +422,10 @@ export default function Technologies() {
                                     <div className="flex items-center justify-between mb-2">
                                         <label className="text-xs font-bold text-[var(--foreground)] flex items-center gap-1.5">
                                             <ListChecks size={14} className="text-[#193D35]" />
-                                            <span>{selectedCatForSession?.name?.toLowerCase() === 'seo' ? 'Assessment' : 'Available Sessions'}</span>
+                                            <span>Sessions</span>
                                         </label>
                                         <span className="text-[10px] font-semibold text-[var(--foreground-muted)]">
-                                            {selectedCatForSession?.name?.toLowerCase() === 'seo' ? 'Start your assessment' : 'Select any session to start'}
+                                            Select any session to start
                                         </span>
                                     </div>
 
@@ -489,9 +494,7 @@ export default function Technologies() {
                                                         </div>
                                                     )}
                                                     <p className="text-xs font-black">
-                                                        {selectedCatForSession?.name?.toLowerCase() === 'seo'
-                                                            ? (s.session === 1 ? 'Self Assessment' : `Assessment ${s.session}`)
-                                                            : `Session ${s.session}`}
+                                                        {`Session ${s.session}`}
                                                     </p>
                                                     <p className={`text-[10px] mt-0.5 font-semibold ${isSelected ? 'text-white/90' : 'text-[#193D35]'}`}>
                                                         {s.count} {s.count === 1 ? 'Question' : 'Questions'}
@@ -545,7 +548,7 @@ export default function Technologies() {
                                                         </button>
                                                     </div>
                                                     <p className="text-[10px] text-[var(--foreground-muted)]">
-                                                        Enter any session number you want to take an assessment for.
+                                                        Enter any session number you want to practice.
                                                     </p>
                                                 </div>
                                             )}
@@ -555,17 +558,15 @@ export default function Technologies() {
 
                                 {/* Active Selection Live Summary */}
                                 <div className="p-3 rounded-xl bg-[#F3E5C5]/50 border border-[#E2D0A6] flex items-center justify-between text-xs">
-                                    <span className="font-semibold text-[var(--foreground)]">Selected Assessment:</span>
+                                    <span className="font-semibold text-[var(--foreground)]">Selected Session:</span>
                                     <span className="font-extrabold text-[#193D35] flex items-center gap-1.5">
                                         <CheckCircle2 size={13} className="text-[#193D35]" />
                                         {selectedCatForSession.name} · {
-                                            selectedCatForSession?.name?.toLowerCase() === 'seo'
-                                                ? (chosenSession === 'all' ? 'All Assessments (Full Track)' : 'Self Assessment')
-                                                : (isCustomMode
-                                                    ? `Session ${customSessionNo || chosenSession}`
-                                                    : chosenSession === 'all'
-                                                        ? 'All Sessions (Full Track)'
-                                                        : `Session ${chosenSession}`)
+                                            isCustomMode
+                                                ? `Session ${customSessionNo || chosenSession}`
+                                                : chosenSession === 'all'
+                                                    ? 'All Sessions (Complete Track)'
+                                                    : `Session ${chosenSession}`
                                         }
                                     </span>
                                 </div>
@@ -584,15 +585,11 @@ export default function Technologies() {
                                         onClick={() => handleStartQuiz()}
                                         className="btn-primary flex-1 justify-center text-xs py-2.5 shadow-md shadow-[#193D35]/20 cursor-pointer font-bold"
                                     >
-                                        <Play size={14} /> Start {
-                                            selectedCatForSession?.name?.toLowerCase() === 'seo'
-                                                ? (chosenSession === 'all' ? 'All Assessments' : 'Self Assessment')
-                                                : (isCustomMode
-                                                    ? `Session ${customSessionNo || chosenSession}`
-                                                    : chosenSession === 'all'
-                                                        ? 'All Sessions'
-                                                        : `Session ${chosenSession}`)
-                                        } Quiz
+                                        <Play size={14} /> {
+                                            !isCustomMode && chosenSession === 'all'
+                                                ? 'Start All Sessions Quiz'
+                                                : 'Start Session Quiz'
+                                        }
                                     </button>
                                 </div>
                             </div>

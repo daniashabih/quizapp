@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
 const BASE_URL = 'https://www.hangbug.com';
 
 const PUBLIC_ROUTES = [
@@ -35,10 +32,17 @@ const GAME_SLUGS = [
     'csharp-exception-handling'
 ];
 
-function buildSitemapXml() {
+function buildSitemapXml(extraSlugs = []) {
+    const mergedSlugs = Array.from(
+        new Set(
+            [...GAME_SLUGS, ...(Array.isArray(extraSlugs) ? extraSlugs : [])]
+                .filter(slug => slug && slug !== 'coding-memory-match')
+        )
+    );
+
     const urls = [
         ...PUBLIC_ROUTES.map(r => `  <url>\n    <loc>${BASE_URL}${r.loc}</loc>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`),
-        ...GAME_SLUGS.map(slug => `  <url>\n    <loc>${BASE_URL}/games/${slug}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`)
+        ...mergedSlugs.map(slug => `  <url>\n    <loc>${BASE_URL}/games/${slug}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`)
     ];
 
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
@@ -53,7 +57,9 @@ Allow: /
 
 # Disallow private user dashboards, admin pages, authentication endpoints and APIs
 Disallow: /api/
+Disallow: /admin
 Disallow: /admin/
+Disallow: /dashboard
 Disallow: /dashboard/
 Disallow: /login
 Disallow: /signup
@@ -72,8 +78,24 @@ Sitemap: ${BASE_URL}/sitemap.xml
 `;
 }
 
-function getDynamicSitemap(req, res) {
-    const xml = buildSitemapXml();
+async function getDynamicSitemap(req, res) {
+    let extraSlugs = [];
+    try {
+        const prisma = require('../_config/prisma');
+        if (prisma && prisma.game) {
+            const dbGames = await Promise.race([
+                prisma.game.findMany({ where: { isPublished: true }, select: { slug: true } }),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1500))
+            ]);
+            if (Array.isArray(dbGames)) {
+                extraSlugs = dbGames.map(g => g.slug).filter(Boolean);
+            }
+        }
+    } catch {
+        // Fallback to static GAME_SLUGS if DB is offline
+    }
+
+    const xml = buildSitemapXml(extraSlugs);
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=43200');
     return res.status(200).send(xml);

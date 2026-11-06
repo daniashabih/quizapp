@@ -32,7 +32,7 @@ function formatTimeAgo(dateStr) {
 
 const Quiz = () => {
     usePageSeo({
-        title: 'Quiz Assessment in Progress — HangBug',
+        title: 'Quiz Session in Progress — HangBug',
         noindex: true
     });
     const location = useLocation();
@@ -857,7 +857,7 @@ const Quiz = () => {
                     </div>
                 </div>
                 <div className="text-center space-y-1">
-                    <h3 className="text-base font-display font-bold text-[var(--foreground)]">Initializing Assessment</h3>
+                    <h3 className="text-base font-display font-bold text-[var(--foreground)]">Initializing Session</h3>
                     <p className="text-xs text-[var(--foreground-muted)]">Loading questions for {selectedCategory}...</p>
                 </div>
             </div>
@@ -1503,7 +1503,7 @@ const Quiz = () => {
                             <Send size={22} />
                         </div>
                         <div className="text-center space-y-1">
-                            <h3 className="text-base font-display font-bold text-[var(--foreground)]">Submit Assessment?</h3>
+                            <h3 className="text-base font-display font-bold text-[var(--foreground)]">Submit Session?</h3>
                             <p className="text-xs text-[var(--foreground-muted)]">
                                 You have answered <strong className="text-[var(--foreground)]">{answeredCount}</strong> of <strong className="text-[var(--foreground)]">{questions.length}</strong> questions.
                                 {questions.length - answeredCount > 0 && (

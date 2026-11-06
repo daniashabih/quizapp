@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,7 +10,12 @@ import { SettingsProvider, useSettings } from "./context/SettingsContext";
 import MaintenanceScreen from "./components/MaintenanceScreen";
 import SplashScreen from "./components/SplashScreen";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { trackPageView } from "./utils/analytics";
+import {
+    trackPageView,
+    trackOrganicLandingPage,
+    trackUserEngagement,
+    ensureSingleGoogleTag
+} from "./utils/analytics";
 
 // Auth Pages
 import Login from "./pages/auth/Login";
@@ -55,11 +60,74 @@ function AppRoutes() {
     const { user } = useAuth();
     const { settings, refreshSettings } = useSettings();
     const location = useLocation();
+    const hasTrackedLandingRef = useRef(false);
+
+    // Ensure single Google Tag and record initial organic landing page attribution once per mount
+    useEffect(() => {
+        ensureSingleGoogleTag();
+        if (!hasTrackedLandingRef.current) {
+            hasTrackedLandingRef.current = true;
+            trackOrganicLandingPage(location.pathname + location.search);
+        }
+    }, [location.pathname, location.search]);
 
     // Track SPA route changes in Google Analytics 4
     useEffect(() => {
         trackPageView(location.pathname + location.search);
     }, [location.pathname, location.search]);
+
+    // Track user engagement (scroll depth & engaged session time) per route
+    useEffect(() => {
+        const routePath = location.pathname;
+        let maxScrollPct = 0;
+        let tracked50 = false;
+        let tracked90 = false;
+
+        const handleScroll = () => {
+            const docEl = document.documentElement;
+            const scrollTop = window.scrollY || docEl.scrollTop || 0;
+            const scrollHeight = (docEl.scrollHeight || 0) - (window.innerHeight || 0);
+            if (scrollHeight <= 0) return;
+
+            const pct = Math.min(100, Math.round((scrollTop / scrollHeight) * 100));
+            if (pct > maxScrollPct) maxScrollPct = pct;
+
+            if (pct >= 50 && !tracked50) {
+                tracked50 = true;
+                trackUserEngagement({
+                    engagementType: 'scroll_depth',
+                    pagePath: routePath,
+                    scrollDepthPercent: 50
+                });
+            }
+            if (pct >= 90 && !tracked90) {
+                tracked90 = true;
+                trackUserEngagement({
+                    engagementType: 'scroll_depth',
+                    pagePath: routePath,
+                    scrollDepthPercent: 90
+                });
+            }
+        };
+
+        // 30-second engaged session milestone
+        const engagedTimer = setTimeout(() => {
+            if (document.visibilityState !== 'hidden') {
+                trackUserEngagement({
+                    engagementType: 'engaged_session',
+                    pagePath: routePath,
+                    engagementTimeSeconds: 30,
+                    scrollDepthPercent: maxScrollPct
+                });
+            }
+        }, 30000);
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            clearTimeout(engagedTimer);
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [location.pathname]);
 
     // If maintenance mode is active, show MaintenanceScreen to non-admin users
     // (allow /login so admins can sign in and manage settings)
@@ -103,6 +171,7 @@ function AppRoutes() {
                 <Route path="/profile" element={<Navigate to="/dashboard/profile" replace />} />
                 <Route path="/settings" element={<Navigate to="/dashboard/settings" replace />} />
                 <Route path="/quizzes" element={<Navigate to="/technologies" replace />} />
+                <Route path="/quiz" element={<Navigate to="/technologies" replace />} />
 
                 {/* Protected Quiz Routes */}
                 <Route element={<ProtectedRoute />}>

@@ -24,9 +24,9 @@ class AppStrings {
   static const String noTechnologies = 'No technologies found.';
 
   // Confirmation Prompts
-  static const String quitQuizTitle = 'Quit Assessment?';
+  static const String quitQuizTitle = 'Quit Session?';
   static const String quitQuizMessage = 'Your progress for this attempt will be discarded. Are you sure you want to exit?';
-  static const String submitQuizTitle = 'Submit Assessment?';
+  static const String submitQuizTitle = 'Submit Session?';
   static const String deleteAccountTitle = 'Delete Account Permanently?';
-  static const String deleteAccountMessage = 'This will permanently remove your profile, assessment history, and certificates from our database. This action cannot be undone.';
+  static const String deleteAccountMessage = 'This will permanently remove your profile, session history, and certificates from our database. This action cannot be undone.';
 }

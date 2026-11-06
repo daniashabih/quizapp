@@ -8,7 +8,7 @@ import { useSettings } from '../../context/SettingsContext';
 
 export default function Result() {
     usePageSeo({
-        title: 'Quiz Assessment Results — HangBug',
+        title: 'Quiz Session Results — HangBug',
         noindex: true
     });
     const location = useLocation();
@@ -28,8 +28,8 @@ export default function Result() {
 
     const effectivePassingScore = passingScoreFromState ?? settings?.passingScore ?? 70;
     const passed = passedFromState !== undefined ? passedFromState : (percentage >= effectivePassingScore);
-    const isSeo = String(category || '').toLowerCase() === 'seo';
-    const assessmentLabel = isSeo ? 'Self Assessment' : `Session ${session}`;
+    const isAllSessions = session === 'all' || session === 'All' || session === 0;
+    const assessmentLabel = isAllSessions ? 'All Sessions' : `Session ${session}`;
     const [animateScore, setAnimateScore] = useState(0);
     const [showConfetti, setShowConfetti] = useState(passed);
     const minutes = Math.floor(timeTaken / 60);
@@ -162,7 +162,7 @@ export default function Result() {
                                         <RotateCcw size={14} /> Retry {assessmentLabel}
                                     </Link>
                                     <Link to="/technologies" className="btn-secondary justify-center py-2.5 text-xs sm:text-sm">
-                                        <Home size={14} /> {isSeo ? 'Select Assessment' : 'Select Session'}
+                                        <Home size={14} /> Select Session
                                     </Link>
                                 </div>
                                 {passed && (

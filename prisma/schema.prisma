@@ -259,3 +259,39 @@ model GameChallenge {
   @@index([gameSlug, technology, difficulty])
   @@map("game_challenges")
 }
+
+model BlogPost {
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  slug                String   @unique
+  title               String
+  excerpt             String
+  content             String
+  category            String
+  tags                String[] @default([])
+  difficulty          String?  @default("All Levels")
+  readingTimeMinutes  Int      @default(8) @map("reading_time_minutes")
+  authorName          String   @default("HangBug Editorial Team") @map("author_name")
+  authorRole          String?  @default("Senior Software Engineer & Technical Educator") @map("author_role")
+  authorBio           String?  @default("") @map("author_bio")
+  authorAvatar        String?  @default("") @map("author_avatar")
+  coverGradient       String?  @default("gradient-emerald") @map("cover_gradient")
+  coverImage          String?  @default("") @map("cover_image")
+  seoTitle            String?  @default("") @map("seo_title")
+  seoDescription      String?  @default("") @map("seo_description")
+  seoKeywords         String[] @default([]) @map("seo_keywords")
+  canonicalUrl        String?  @default("") @map("canonical_url")
+  relatedQuizCategory String?  @default("") @map("related_quiz_category")
+  relatedGameSlug     String?  @default("") @map("related_game_slug")
+  keyTakeaways        String[] @default([]) @map("key_takeaways")
+  isPublished         Boolean  @default(true) @map("is_published")
+  isFeatured          Boolean  @default(false) @map("is_featured")
+  viewsCount          Int      @default(0) @map("views_count")
+  order               Int      @default(0)
+  publishedAt         DateTime @default(now()) @map("published_at")
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  @@index([category, isPublished])
+  @@index([isPublished, publishedAt])
+  @@map("blog_posts")
+}

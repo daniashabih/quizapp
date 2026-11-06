@@ -83,7 +83,14 @@ app.get('/privacy', (req, res) => res.redirect(301, '/privacy-policy'));
 app.get('/account-deletion', (req, res) => res.redirect(301, '/delete-account'));
 app.get('/data-deletion', (req, res) => res.redirect(301, '/delete-account'));
 app.get('/quizzes', (req, res) => res.redirect(301, '/technologies'));
+app.get('/quiz', (req, res) => res.redirect(301, '/technologies'));
+app.get('/technologies/level', (req, res) => res.redirect(301, '/technologies'));
 app.get('/games/coding-memory-match', (req, res) => res.redirect(301, '/games/memory-match'));
+app.get('/seo', (req, res) => res.redirect(301, '/dashboard/seo'));
+app.get('/admin/seo', (req, res) => res.redirect(301, '/dashboard/seo'));
+app.get('/certificates', (req, res) => res.redirect(301, '/dashboard/certificates'));
+app.get('/profile', (req, res) => res.redirect(301, '/dashboard/profile'));
+app.get('/settings', (req, res) => res.redirect(301, '/dashboard/settings'));
 
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' });

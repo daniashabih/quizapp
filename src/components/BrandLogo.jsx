@@ -74,7 +74,7 @@ export default function BrandLogo({
         <div className={`inline-flex items-center shrink-0 ${className}`}>
             <img
                 src={effectiveDark ? logoCompactDark : logoCompact}
-                alt="HangBug developer platform logo icon"
+                alt="HangBug developer platform logo"
                 className={`${heightClass} w-auto object-contain select-none ${imgClassName}`}
                 draggable={false}
             />

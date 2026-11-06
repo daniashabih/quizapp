@@ -84,7 +84,7 @@ export default function Home() {
                             Enter Dashboard <ArrowRight size={18} />
                         </Link>
                     ) : (
-                        <Link to="/quiz" className="btn-primary px-8 py-3.5 text-sm sm:text-base">
+                        <Link to="/technologies" className="btn-primary px-8 py-3.5 text-sm sm:text-base">
                             Start Training Protocol <ArrowRight size={18} />
                         </Link>
                     )}
