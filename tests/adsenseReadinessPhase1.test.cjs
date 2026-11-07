@@ -141,3 +141,29 @@ test('8. Empty category filtering verification: Technologies and Landing filter 
     const categoryControllerCode = fs.readFileSync(path.join(ROOT_DIR, 'api', '_controllers', 'categoryController.js'), 'utf8');
     assert.ok(categoryControllerCode.includes('hasQuestionsOnly'), 'categoryController must support filtering categories by active questions');
 });
+
+test('9. AdSense publisher ID verification: meta tag, script tag, ads.txt, and app-ads.txt use ca-pub-2412757543318629', () => {
+    const srcIndexHtml = fs.readFileSync(path.join(ROOT_DIR, 'index.html'), 'utf8');
+    const distIndexHtml = fs.readFileSync(path.join(ROOT_DIR, 'dist', 'index.html'), 'utf8');
+    const publicAdsTxt = fs.readFileSync(path.join(ROOT_DIR, 'public', 'ads.txt'), 'utf8');
+    const distAdsTxt = fs.readFileSync(path.join(ROOT_DIR, 'dist', 'ads.txt'), 'utf8');
+    const publicAppAdsTxt = fs.readFileSync(path.join(ROOT_DIR, 'public', 'app-ads.txt'), 'utf8');
+    const distAppAdsTxt = fs.readFileSync(path.join(ROOT_DIR, 'dist', 'app-ads.txt'), 'utf8');
+
+    const expectedMeta = '<meta name="google-adsense-account" content="ca-pub-2412757543318629">';
+    const expectedScript = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2412757543318629';
+    const expectedAdsTxt = 'google.com, pub-2412757543318629, DIRECT, f08c47fec0942fa0';
+
+    assert.ok(srcIndexHtml.includes(expectedMeta), 'index.html must contain the AdSense meta tag for ca-pub-2412757543318629');
+    assert.ok(srcIndexHtml.includes(expectedScript), 'index.html must load adsbygoogle.js with client=ca-pub-2412757543318629');
+    assert.ok(!srcIndexHtml.includes('6869652365081842'), 'index.html must not contain old publisher ID');
+
+    assert.ok(distIndexHtml.includes(expectedMeta), 'dist/index.html must contain the AdSense meta tag for ca-pub-2412757543318629');
+    assert.ok(distIndexHtml.includes(expectedScript), 'dist/index.html must load adsbygoogle.js with client=ca-pub-2412757543318629');
+
+    assert.ok(publicAdsTxt.includes(expectedAdsTxt), 'public/ads.txt must authorize pub-2412757543318629');
+    assert.strictEqual(publicAdsTxt.trim(), distAdsTxt.trim(), 'dist/ads.txt must match public/ads.txt');
+
+    assert.ok(publicAppAdsTxt.includes(expectedAdsTxt), 'public/app-ads.txt must authorize pub-2412757543318629');
+    assert.strictEqual(publicAppAdsTxt.trim(), distAppAdsTxt.trim(), 'dist/app-ads.txt must match public/app-ads.txt');
+});

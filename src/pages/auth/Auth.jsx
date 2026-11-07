@@ -25,12 +25,37 @@ const loadGoogleGsiScript = () => {
         if (typeof window === 'undefined') return resolve(null);
         if (window.google?.accounts) return resolve(window.google);
 
-        const existing = document.getElementById('google-gsi-client') || 
+        const existing = document.getElementById('google-gsi-client') ||
                          document.querySelector('script[src*="accounts.google.com/gsi/client"]');
         if (existing) {
             if (window.google?.accounts) return resolve(window.google);
-            existing.addEventListener('load', () => resolve(window.google));
-            existing.addEventListener('error', () => resolve(null));
+            let settled = false;
+            const finish = (val) => {
+                if (settled) return;
+                settled = true;
+                clearInterval(pollTimer);
+                clearTimeout(timeoutTimer);
+                resolve(val);
+            };
+            const pollTimer = setInterval(() => {
+                if (window.google?.accounts) {
+                    finish(window.google);
+                }
+            }, 100);
+            const timeoutTimer = setTimeout(() => {
+                if (window.google?.accounts) {
+                    finish(window.google);
+                } else {
+                    const retryScript = document.createElement('script');
+                    retryScript.src = 'https://accounts.google.com/gsi/client';
+                    retryScript.async = true;
+                    retryScript.onload = () => finish(window.google || null);
+                    retryScript.onerror = () => finish(null);
+                    document.head.appendChild(retryScript);
+                }
+            }, 2500);
+            existing.addEventListener('load', () => finish(window.google));
+            existing.addEventListener('error', () => finish(null));
             return;
         }
 
@@ -46,12 +71,29 @@ const loadGoogleGsiScript = () => {
 };
 
 const DEFAULT_GOOGLE_CLIENT_ID = '540959878402-4c2pda5555glmat0ajj11filc43ueedk.apps.googleusercontent.com';
+const RETIRED_OR_TYPO_GOOGLE_CLIENT_IDS = new Set([
+    '540959878402-4c2pda5555glmat0aj11f1lc43ueedk.apps.googleusercontent.com',
+    '540959878402-dm79psv3n2jtungji4cvm4s8j9eoes3o.apps.googleusercontent.com'
+]);
+
+const resolveGoogleClientId = (rawValue) => {
+    const cleaned = String(rawValue || '').trim().replace(/^["']+|["']+$/g, '').trim();
+    if (
+        !cleaned ||
+        cleaned.includes('your_google_client_id') ||
+        RETIRED_OR_TYPO_GOOGLE_CLIENT_IDS.has(cleaned) ||
+        !cleaned.endsWith('.apps.googleusercontent.com')
+    ) {
+        return DEFAULT_GOOGLE_CLIENT_ID;
+    }
+    return cleaned;
+};
 
 export default function Auth({ initialMode = 'login' }) {
     const [isSignUp, setIsSignUp] = useState(initialMode === 'signup');
 
     usePageSeo({
-        title: isSignUp ? 'Create an Account â€” HangBug' : 'Sign In to Your Account â€” HangBug',
+        title: isSignUp ? 'Create an Account — HangBug' : 'Sign In to Your Account — HangBug',
         description: isSignUp
             ? 'Create your HangBug account to test your programming skills and earn verified certificates.'
             : 'Sign in to HangBug to practice web development quizzes, track your progress, and view certificates.',
@@ -70,9 +112,9 @@ export default function Auth({ initialMode = 'login' }) {
     const [errorMessage, setErrorMessage] = useState('');
 
     const googleBtnRef = useRef(null);
+    const tokenClientRef = useRef(null);
     const googleInFlightRef = useRef(false);
     const [googleReady, setGoogleReady] = useState(false);
-    const [googleUnavailable, setGoogleUnavailable] = useState(false);
     const isSignUpRef = useRef(isSignUp);
     useEffect(() => { isSignUpRef.current = isSignUp; }, [isSignUp]);
 
@@ -103,67 +145,132 @@ export default function Auth({ initialMode = 'login' }) {
 
     const isPasswordValid = passwordChecks.hasLength && passwordChecks.hasUpper && passwordChecks.hasNumber;
 
-    // Initialize Google Identity Services (ID-token flow) and render the official button
+    const createOAuthTokenClient = (google, googleClientId) => {
+        if (!google?.accounts?.oauth2) return null;
+        return google.accounts.oauth2.initTokenClient({
+            client_id: googleClientId,
+            scope: 'email profile openid',
+            prompt: 'select_account',
+            callback: async (tokenResponse) => {
+                if (tokenResponse?.error) {
+                    googleInFlightRef.current = false;
+                    setGoogleLoading(false);
+                    if (tokenResponse.error === 'popup_closed_by_user') {
+                        return;
+                    }
+                    if (tokenResponse.error === 'access_denied') {
+                        setErrorMessage('Google Sign-In was cancelled.');
+                        return;
+                    }
+                    setErrorMessage(tokenResponse.error_description || tokenResponse.error || 'Google authentication failed.');
+                    return;
+                }
+
+                if (!tokenResponse?.access_token) {
+                    googleInFlightRef.current = false;
+                    setGoogleLoading(false);
+                    setErrorMessage('Google Sign-In returned no access token.');
+                    return;
+                }
+
+                if (googleInFlightRef.current) return;
+                googleInFlightRef.current = true;
+                setErrorMessage('');
+                setGoogleLoading(true);
+                try {
+                    const user = await loginWithGoogle({ accessToken: tokenResponse.access_token });
+                    if (user) {
+                        if (isSignUpRef.current) {
+                            trackSignUp('google');
+                        } else {
+                            trackLogin('google');
+                        }
+                        navigate(getTargetDestination(user), { replace: true });
+                    }
+                } catch (err) {
+                    setErrorMessage(err.message || 'Google Sign-In failed');
+                } finally {
+                    googleInFlightRef.current = false;
+                    setGoogleLoading(false);
+                }
+            },
+            error_callback: (nonOAuthError) => {
+                googleInFlightRef.current = false;
+                setGoogleLoading(false);
+                if (nonOAuthError?.type === 'popup_blocked') {
+                    setErrorMessage('Google Sign-In popup was blocked by your browser. Please allow popups for this site and try again.');
+                } else if (nonOAuthError?.type !== 'popup_closed') {
+                    setErrorMessage(nonOAuthError?.message || 'Google Sign-In window could not be opened.');
+                }
+            }
+        });
+    };
+
+    // Initialize Google Identity Services (ID-token flow & OAuth2 popup client)
     useEffect(() => {
-        const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || DEFAULT_GOOGLE_CLIENT_ID;
-        if (!googleClientId || googleClientId.includes('your_google_client_id')) {
-            setGoogleUnavailable(true);
-            return;
-        }
+        const googleClientId = resolveGoogleClientId(import.meta.env.VITE_GOOGLE_CLIENT_ID);
 
         let cancelled = false;
         loadGoogleGsiScript().then((google) => {
-            if (cancelled) return;
-            if (!google?.accounts?.id) {
-                setGoogleUnavailable(true);
-                return;
+            if (cancelled || !google?.accounts) return;
+
+            if (google.accounts.oauth2) {
+                try {
+                    tokenClientRef.current = createOAuthTokenClient(google, googleClientId);
+                } catch (err) {
+                    console.warn('[Google OAuth2 Init Warning]:', err);
+                }
             }
-            try {
-                google.accounts.id.initialize({
-                    client_id: googleClientId,
-                    auto_select: false,
-                    cancel_on_tap_outside: true,
-                    callback: async (response) => {
-                        if (!response?.credential) {
-                            setErrorMessage('Google Sign-In was cancelled or returned no credential.');
-                            return;
-                        }
-                        // Prevent duplicate login requests
-                        if (googleInFlightRef.current) return;
-                        googleInFlightRef.current = true;
-                        setErrorMessage('');
-                        setGoogleLoading(true);
-                        try {
-                            const user = await loginWithGoogle({ credential: response.credential });
-                            if (user) {
-                                if (isSignUpRef.current) {
-                                    trackSignUp('google');
-                                } else {
-                                    trackLogin('google');
-                                }
-                                navigate(getTargetDestination(user), { replace: true });
+
+            if (google.accounts.id) {
+                try {
+                    google.accounts.id.initialize({
+                        client_id: googleClientId,
+                        auto_select: false,
+                        cancel_on_tap_outside: true,
+                        callback: async (response) => {
+                            if (!response?.credential) {
+                                setErrorMessage('Google Sign-In was cancelled or returned no credential.');
+                                return;
                             }
-                        } catch (err) {
-                            setErrorMessage(err.message || 'Google Sign-In failed');
-                        } finally {
-                            googleInFlightRef.current = false;
-                            setGoogleLoading(false);
+                            // Prevent duplicate login requests
+                            if (googleInFlightRef.current) return;
+                            googleInFlightRef.current = true;
+                            setErrorMessage('');
+                            setGoogleLoading(true);
+                            try {
+                                const user = await loginWithGoogle({ credential: response.credential });
+                                if (user) {
+                                    if (isSignUpRef.current) {
+                                        trackSignUp('google');
+                                    } else {
+                                        trackLogin('google');
+                                    }
+                                    navigate(getTargetDestination(user), { replace: true });
+                                }
+                            } catch (err) {
+                                setErrorMessage(err.message || 'Google Sign-In failed');
+                            } finally {
+                                googleInFlightRef.current = false;
+                                setGoogleLoading(false);
+                            }
                         }
-                    }
-                });
-                setGoogleReady(true);
-            } catch (err) {
-                console.warn('[Google Identity Init Warning]:', err);
-                setGoogleUnavailable(true);
+                    });
+                    setGoogleReady(true);
+                } catch (err) {
+                    console.warn('[Google Identity Init Warning]:', err);
+                }
             }
         });
         return () => { cancelled = true; };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // (Re)render the official Google button when ready or when mode toggles
+    // Render the official Google button container when ready on HTTPS origins
     useEffect(() => {
         if (!googleReady || !googleBtnRef.current || !window.google?.accounts?.id) return;
+        const isLocalHttp = typeof window !== 'undefined' && window.location.protocol === 'http:';
+        if (isLocalHttp) return;
         const el = googleBtnRef.current;
         el.innerHTML = '';
         const containerWidth = Math.min(400, Math.max(200, el.parentElement?.clientWidth || 320));
@@ -177,6 +284,54 @@ export default function Auth({ initialMode = 'login' }) {
             width: containerWidth
         });
     }, [googleReady, isSignUp]);
+
+    const handleGoogleAuth = async () => {
+        if (googleInFlightRef.current || googleLoading) return;
+        setErrorMessage('');
+
+        // If user opened http://localhost:3000 locally, redirect to http://localhost:5173 (the registered Google JS origin)
+        if (
+            typeof window !== 'undefined' &&
+            (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') &&
+            window.location.port &&
+            window.location.port !== '5173'
+        ) {
+            try {
+                const probe = await fetch('http://localhost:5173/api/health', { mode: 'cors' });
+                if (probe.ok) {
+                    window.location.href = `http://localhost:5173${window.location.pathname}${window.location.search}`;
+                    return;
+                }
+            } catch {
+                // Continue if 5173 is not reachable
+            }
+        }
+
+        const googleClientId = resolveGoogleClientId(import.meta.env.VITE_GOOGLE_CLIENT_ID);
+        setGoogleLoading(true);
+
+        try {
+            if (tokenClientRef.current) {
+                tokenClientRef.current.requestAccessToken();
+                return;
+            }
+
+            const google = window.google?.accounts?.oauth2 ? window.google : await loadGoogleGsiScript();
+            if (!google?.accounts?.oauth2) {
+                throw new Error('Google Sign-In script could not be loaded. Please disable ad-blockers or check your internet connection.');
+            }
+
+            const client = createOAuthTokenClient(google, googleClientId);
+            if (!client) {
+                throw new Error('Could not initialize Google Sign-In client.');
+            }
+            tokenClientRef.current = client;
+            client.requestAccessToken();
+        } catch (err) {
+            setGoogleLoading(false);
+            setErrorMessage(err.message || 'Google Sign-In failed');
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -266,26 +421,27 @@ export default function Auth({ initialMode = 'login' }) {
 
                     {/* Main Auth Card */}
                     <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 sm:p-6 shadow-lg">
-                        {/* Google Identity Services official button (ID-token flow) */}
+                        {/* Google Sign-In Button */}
                         <div className="mb-4">
-                            <div className="relative flex justify-center min-h-[44px]">
-                                <div
-                                    ref={googleBtnRef}
-                                    aria-busy={googleLoading}
-                                    className={`flex justify-center w-full transition-opacity ${googleLoading ? 'opacity-40 pointer-events-none' : ''}`}
-                                />
-                                {googleLoading && (
-                                    <div className="absolute inset-0 flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-[var(--foreground-secondary)]">
+                            <button
+                                type="button"
+                                onClick={handleGoogleAuth}
+                                disabled={loading || googleLoading}
+                                className="btn-social text-xs sm:text-sm w-full flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] hover:bg-[var(--muted-bg)] text-[var(--foreground)] font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                            >
+                                {googleLoading ? (
+                                    <>
                                         <div className="w-4 h-4 border-2 border-[#163B34] border-t-transparent rounded-full animate-spin" />
                                         <span>Connecting to Google...</span>
-                                    </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <GoogleIcon />
+                                        <span>{isSignUp ? 'Sign up with Google' : 'Continue with Google'}</span>
+                                    </>
                                 )}
-                                {!googleReady && !googleLoading && (
-                                    <div className="absolute inset-0 flex items-center justify-center text-xs text-[var(--foreground-muted)]">
-                                        {googleUnavailable ? 'Google Sign-In unavailable. Use email below.' : 'Loading Google Sign-In...'}
-                                    </div>
-                                )}
-                            </div>
+                            </button>
+                            <div ref={googleBtnRef} className="hidden" aria-hidden="true" />
                         </div>
 
                         <div className="relative mb-4">
@@ -400,7 +556,7 @@ export default function Auth({ initialMode = 'login' }) {
                                             </div>
                                             <div className={`flex items-center gap-1.5 text-[11px] ${passwordChecks.hasUpper ? 'text-emerald-600 font-medium' : 'text-[var(--foreground-muted)]'}`}>
                                                 {passwordChecks.hasUpper ? <Check size={13} className="text-emerald-600 shrink-0" /> : <X size={13} className="text-gray-400 shrink-0" />}
-                                                <span>At least one uppercase letter (A-Z)</span>
+                                            <span>At least one uppercase letter (A-Z)</span>
                                             </div>
                                             <div className={`flex items-center gap-1.5 text-[11px] ${passwordChecks.hasNumber ? 'text-emerald-600 font-medium' : 'text-[var(--foreground-muted)]'}`}>
                                                 {passwordChecks.hasNumber ? <Check size={13} className="text-emerald-600 shrink-0" /> : <X size={13} className="text-gray-400 shrink-0" />}
@@ -422,7 +578,7 @@ export default function Auth({ initialMode = 'login' }) {
                                         required
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                                        placeholder="••••••••"
                                         prefixIcon={<Lock size={16} />}
                                         autoComplete="current-password"
                                         suffix={
@@ -508,4 +664,3 @@ export default function Auth({ initialMode = 'login' }) {
         </div>
     );
 }
-

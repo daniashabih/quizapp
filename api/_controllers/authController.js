@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const axios = require('axios');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../_models/userModel');
 const { sendPasswordResetEmail, getAppBaseUrl } = require('../_services/emailService');
@@ -514,13 +515,34 @@ const resetPassword = async (req, res) => {
 };
 
 /**
- * Google Sign-In / Sign-Up (Google Identity Services ID-token flow)
- * POST /api/auth/google   body: { credential }
+ * Google Sign-In / Sign-Up (Google Identity Services ID-token & OAuth2 popup flow)
+ * POST /api/auth/google   body: { credential } or { accessToken }
  *
- * The ID token is verified server-side with google-auth-library (signature,
+ * The token is verified server-side against Google (signature/tokeninfo,
  * expiry, issuer and audience). Nothing sent by the browser other than the
- * signed token is trusted.
+ * verified Google token is trusted.
  */
+const DEFAULT_GOOGLE_CLIENT_ID = '540959878402-4c2pda5555glmat0ajj11filc43ueedk.apps.googleusercontent.com';
+const RETIRED_OR_TYPO_GOOGLE_CLIENT_IDS = new Set([
+    '540959878402-4c2pda5555glmat0aj11f1lc43ueedk.apps.googleusercontent.com',
+    '540959878402-dm79psv3n2jtungji4cvm4s8j9eoes3o.apps.googleusercontent.com'
+]);
+
+const resolveGoogleClientId = (...candidates) => {
+    for (const raw of candidates) {
+        const cleaned = String(raw || '').trim().replace(/^["']+|["']+$/g, '').trim();
+        if (
+            cleaned &&
+            !cleaned.includes('your_google_client_id') &&
+            !RETIRED_OR_TYPO_GOOGLE_CLIENT_IDS.has(cleaned) &&
+            cleaned.endsWith('.apps.googleusercontent.com')
+        ) {
+            return cleaned;
+        }
+    }
+    return DEFAULT_GOOGLE_CLIENT_ID;
+};
+
 let googleOAuthClient = null;
 const getGoogleClient = () => {
     if (!googleOAuthClient) googleOAuthClient = new OAuth2Client();
@@ -529,8 +551,19 @@ const getGoogleClient = () => {
 
 const googleLogin = async (req, res) => {
     try {
-        const credential = req.body?.credential;
-        const expectedClientId = process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID || '540959878402-4c2pda5555glmat0ajj11filc43ueedk.apps.googleusercontent.com';
+        if (req.body?.isDemo) {
+            return res.status(400).json({
+                success: false,
+                message: 'Demo Google authentication is not supported'
+            });
+        }
+
+        const credential = typeof req.body?.credential === 'string' ? req.body.credential.trim() : '';
+        const accessToken = typeof req.body?.accessToken === 'string' ? req.body.accessToken.trim() : '';
+        const expectedClientId = resolveGoogleClientId(
+            process.env.GOOGLE_CLIENT_ID,
+            process.env.VITE_GOOGLE_CLIENT_ID
+        );
 
         if (!expectedClientId) {
             console.error('[Google Auth Error] GOOGLE_CLIENT_ID is not configured on the server.');
@@ -540,7 +573,7 @@ const googleLogin = async (req, res) => {
             });
         }
 
-        if (!credential || typeof credential !== 'string') {
+        if (!credential && !accessToken) {
             return res.status(400).json({
                 success: false,
                 message: 'Google authentication credential is required'
@@ -549,18 +582,68 @@ const googleLogin = async (req, res) => {
 
         // 1. Verify signature, expiry, issuer and audience
         let payload;
-        try {
-            const ticket = await getGoogleClient().verifyIdToken({
-                idToken: credential,
-                audience: expectedClientId
-            });
-            payload = ticket.getPayload();
-        } catch (verifyErr) {
-            console.error('[Google Token Verification Error]:', verifyErr.message);
-            return res.status(401).json({
-                success: false,
-                message: 'Google token verification failed. Please try signing in again.'
-            });
+        if (credential) {
+            try {
+                const ticket = await getGoogleClient().verifyIdToken({
+                    idToken: credential,
+                    audience: expectedClientId
+                });
+                payload = ticket.getPayload();
+            } catch (verifyErr) {
+                console.error('[Google Token Verification Error]:', verifyErr.message);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Google token verification failed. Please try signing in again.'
+                });
+            }
+        } else {
+            try {
+                const tokenInfoRes = await axios.get(
+                    `https://oauth2.googleapis.com/tokeninfo?access_token=${encodeURIComponent(accessToken)}`,
+                    { timeout: 10000 }
+                );
+                const tokenInfo = tokenInfoRes.data || {};
+                const tokenAudience = tokenInfo.aud || tokenInfo.azp;
+
+                if (!tokenAudience || tokenAudience !== expectedClientId) {
+                    console.error(`[Google Auth Error] Access token audience mismatch: received '${tokenAudience}', expected '${expectedClientId}'`);
+                    return res.status(401).json({
+                        success: false,
+                        message: 'Google token verification failed. Please try signing in again.'
+                    });
+                }
+
+                let userInfo = {};
+                try {
+                    const profileRes = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                        headers: { Authorization: `Bearer ${accessToken}` },
+                        timeout: 10000
+                    });
+                    userInfo = profileRes.data || {};
+                } catch (profileErr) {
+                    console.warn('[Google UserInfo Warning]:', profileErr.message);
+                }
+
+                const isVerified =
+                    tokenInfo.email_verified === true ||
+                    tokenInfo.email_verified === 'true' ||
+                    userInfo.email_verified === true;
+
+                payload = {
+                    sub: userInfo.sub || tokenInfo.sub,
+                    email: userInfo.email || tokenInfo.email,
+                    email_verified: isVerified,
+                    name: userInfo.name || userInfo.given_name,
+                    given_name: userInfo.given_name,
+                    picture: userInfo.picture || ''
+                };
+            } catch (verifyErr) {
+                console.error('[Google Access Token Verification Error]:', verifyErr.response?.data || verifyErr.message);
+                return res.status(401).json({
+                    success: false,
+                    message: 'Google token verification failed. Please try signing in again.'
+                });
+            }
         }
 
         if (!payload || !payload.sub || !payload.email) {
@@ -722,6 +805,7 @@ module.exports = {
     login,
     logout,
     googleLogin,
+     resolveGoogleClientId,
     getMe,
     getAllUsers,
     updateProfile,
@@ -731,5 +815,3 @@ module.exports = {
     verifyResetToken,
     resetPassword
 };
-
-

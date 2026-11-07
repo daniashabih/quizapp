@@ -139,6 +139,15 @@ async function startServer() {
     app.listen(PORT, '0.0.0.0', () => {
         console.log(`Server is running on http://0.0.0.0:${PORT}`);
     });
+
+    if (process.env.NODE_ENV !== 'production' && Number(PORT) !== 5173) {
+        const devMirror = app.listen(5173, '0.0.0.0', () => {
+            console.log('Dev server also listening on http://localhost:5173 (Google OAuth authorized origin)');
+        });
+        devMirror.on('error', () => {
+            // Port 5173 already in use (e.g. standalone Vite server running)
+        });
+    }
 }
 
 if (require.main === module) {

@@ -2,12 +2,15 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const axios = require('axios');
 const { OAuth2Client } = require('google-auth-library');
 
-const { googleLogin } = require('../api/_controllers/authController');
+const { googleLogin, resolveGoogleClientId } = require('../api/_controllers/authController');
 const User = require('../api/_models/userModel');
 
 const EXPECTED_CLIENT_ID = '540959878402-4c2pda5555glmat0ajj11filc43ueedk.apps.googleusercontent.com';
+const TYPO_CLIENT_ID = '540959878402-4c2pda5555glmat0aj11f1lc43ueedk.apps.googleusercontent.com';
+const RETIRED_CLIENT_ID = '540959878402-dm79psv3n2jtungji4cvm4s8j9eoes3o.apps.googleusercontent.com';
 
 test('Google Auth Config: .env and .env.example contain the correct Web Client ID and Origin notes', () => {
     const envPath = path.join(__dirname, '..', '.env');
@@ -22,6 +25,15 @@ test('Google Auth Config: .env and .env.example contain the correct Web Client I
     assert.ok(envExampleContent.includes('https://www.hangbug.com'), '.env.example must document official production origin');
     assert.ok(envExampleContent.includes('https://hangbug.com'), '.env.example must document apex domain origin');
     assert.ok(envExampleContent.includes('http://localhost:5173'), '.env.example must document local dev origin');
+});
+
+test('Google Auth Config: resolveGoogleClientId replaces stale/typo Vercel env vars with official Client ID', () => {
+    assert.equal(resolveGoogleClientId(TYPO_CLIENT_ID), EXPECTED_CLIENT_ID);
+    assert.equal(resolveGoogleClientId(RETIRED_CLIENT_ID), EXPECTED_CLIENT_ID);
+    assert.equal(resolveGoogleClientId(`"${TYPO_CLIENT_ID}"`), EXPECTED_CLIENT_ID);
+    assert.equal(resolveGoogleClientId('your_google_client_id'), EXPECTED_CLIENT_ID);
+    assert.equal(resolveGoogleClientId('', null, undefined), EXPECTED_CLIENT_ID);
+    assert.equal(resolveGoogleClientId(`"${EXPECTED_CLIENT_ID}"`), EXPECTED_CLIENT_ID);
 });
 
 test('Google Auth Frontend: index.html loads Google Identity Services without duplication', () => {
@@ -41,13 +53,16 @@ test('Google Auth Frontend: index.html loads Google Identity Services without du
     assert.equal(occurrences, 1, 'Google Identity Services must only be loaded once in index.html');
 });
 
-test('Google Auth Frontend: Auth.jsx uses GIS ID-token flow with renderButton, duplicate guard and same Client ID', () => {
+test('Google Auth Frontend: Auth.jsx uses GIS ID-token & OAuth2 popup flows with duplicate guard and Client ID sanitization', () => {
     const authPath = path.join(__dirname, '..', 'src', 'pages', 'auth', 'Auth.jsx');
     const authContent = fs.readFileSync(authPath, 'utf-8');
 
     assert.ok(authContent.includes(EXPECTED_CLIENT_ID), 'Auth.jsx must have DEFAULT_GOOGLE_CLIENT_ID matching official Client ID');
-    assert.ok(authContent.includes('renderButton'), 'Auth.jsx must render the official Google button');
+    assert.ok(authContent.includes('resolveGoogleClientId'), 'Auth.jsx must sanitize VITE_GOOGLE_CLIENT_ID');
+    assert.ok(authContent.includes('initTokenClient'), 'Auth.jsx must support OAuth2 token popup client');
+    assert.ok(authContent.includes('renderButton'), 'Auth.jsx must include GIS button support');
     assert.ok(authContent.includes('credential: response.credential'), 'Auth.jsx must send the Google ID token credential');
+    assert.ok(authContent.includes('accessToken: tokenResponse.access_token'), 'Auth.jsx must send the Google OAuth2 access token');
     assert.ok(authContent.includes('googleInFlightRef'), 'Auth.jsx must prevent duplicate Google requests');
     assert.ok(!authContent.includes('isDemo'), 'Auth.jsx must not use demo Google login');
     assert.ok(authContent.includes('loadGoogleGsiScript'), 'Auth.jsx must use safe script loader avoiding duplicates');
@@ -79,6 +94,7 @@ test('Google Auth Backend: api/index.js sets COOP to same-origin-allow-popups fo
 
 // ---------- Backend: googleLogin with stubbed Google verification ----------
 const ORIGINAL_VERIFY = OAuth2Client.prototype.verifyIdToken;
+const ORIGINAL_AXIOS_GET = axios.get;
 
 function makeRes() {
     const res = { statusCode: null, body: null, cookies: [] };
@@ -103,6 +119,7 @@ async function withUserStubs(stubs, fn) {
     try { await fn(); } finally {
         for (const k of Object.keys(originals)) User[k] = originals[k];
         OAuth2Client.prototype.verifyIdToken = ORIGINAL_VERIFY;
+        axios.get = ORIGINAL_AXIOS_GET;
     }
 }
 
@@ -157,6 +174,26 @@ test('Google Auth Backend: new Google user is registered once with googleId and 
         assert.equal(res.cookies.length, 1);
         assert.equal(created.googleId, 'g-123');
         assert.ok(created.password.startsWith('$2'), 'password must be a bcrypt hash of random secret');
+    });
+});
+
+test('Google Auth Backend: OAuth2 accessToken popup flow verifies audience and signs in user', async () => {
+    await withUserStubs({
+        findByGoogleId: async () => null,
+        findByEmail: async () => null,
+        createFromGoogle: async (d) => ({ id: 'oauth1', name: d.name, email: d.email, role: 'user', avatar: d.avatar, createdAt: new Date() })
+    }, async () => {
+        axios.get = async (url) => {
+            if (url.includes('tokeninfo')) {
+                return { data: { aud: EXPECTED_CLIENT_ID, sub: 'g-oauth-1', email: 'popup@hangbug.com', email_verified: 'true' } };
+            }
+            return { data: { sub: 'g-oauth-1', email: 'popup@hangbug.com', email_verified: true, name: 'Popup User', picture: 'https://x/p.png' } };
+        };
+        const res = makeRes();
+        await googleLogin({ body: { accessToken: 'ya29.valid_token' } }, res);
+        assert.equal(res.statusCode, 200);
+        assert.equal(res.body.user.email, 'popup@hangbug.com');
+        assert.equal(res.cookies.length, 1);
     });
 });
 

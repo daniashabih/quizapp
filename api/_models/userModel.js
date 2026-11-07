@@ -48,17 +48,21 @@ const User = {
      */
     findByGoogleId: async (googleId) => {
         if (!googleId) return null;
-        const user = await prisma.user.findFirst({
-            where: { googleId: String(googleId) }
-        });
-        if (!user) return null;
-        return {
-            ...user,
-            role: normalizeRole(user.role),
-            created_at: user.createdAt,
-            updated_at: user.updatedAt,
-            is_verified: user.isVerified
-        };
+        try {
+            const user = await prisma.user.findFirst({
+                where: { googleId: String(googleId) }
+            });
+            if (!user) return null;
+            return {
+                ...user,
+                role: normalizeRole(user.role),
+                created_at: user.createdAt,
+                updated_at: user.updatedAt,
+                is_verified: user.isVerified
+            };
+        } catch {
+            return null;
+        }
     },
 
     /**
@@ -71,7 +75,14 @@ const User = {
         const data = { isVerified: true };
         if (!existing.googleId) data.googleId = String(googleId);
         if (!existing.avatar && avatar) data.avatar = String(avatar);
-        const updated = await prisma.user.update({ where: { id: String(id) }, data });
+        let updated;
+        try {
+            updated = await prisma.user.update({ where: { id: String(id) }, data });
+        } catch {
+            const fallbackData = { isVerified: true };
+            if (!existing.avatar && avatar) fallbackData.avatar = String(avatar);
+            updated = await prisma.user.update({ where: { id: String(id) }, data: fallbackData });
+        }
         return {
             ...updated,
             role: normalizeRole(updated.role),
@@ -84,17 +95,34 @@ const User = {
      * Create a Google-authenticated user (random unusable password hash supplied by caller)
      */
     createFromGoogle: async ({ name, email, password, avatar = '', googleId }) => {
-        const result = await prisma.user.create({
-            data: {
-                name: String(name || '').trim(),
-                email: String(email || '').trim().toLowerCase(),
-                password,
-                role: 'user',
-                avatar: avatar || '',
-                isVerified: true,
-                googleId: String(googleId)
-            }
-        });
+        const cleanName = String(name || '').trim();
+        const cleanEmail = String(email || '').trim().toLowerCase();
+        let result;
+        try {
+            result = await prisma.user.create({
+                data: {
+                    name: cleanName,
+                    email: cleanEmail,
+                    password,
+                    role: 'user',
+                    avatar: avatar || '',
+                    isVerified: true,
+                    googleId: String(googleId)
+                }
+            });
+        } catch (err) {
+            if (err && err.code === 'P2002') throw err;
+            result = await prisma.user.create({
+                data: {
+                    name: cleanName,
+                    email: cleanEmail,
+                    password,
+                    role: 'user',
+                    avatar: avatar || '',
+                    isVerified: true
+                }
+            });
+        }
         return {
             ...result,
             role: normalizeRole(result.role),
