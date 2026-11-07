@@ -162,8 +162,19 @@ test('9. AdSense publisher ID verification: meta tag, script tag, ads.txt, and a
     assert.ok(distIndexHtml.includes(expectedScript), 'dist/index.html must load adsbygoogle.js with client=ca-pub-2412757543318629');
 
     assert.ok(publicAdsTxt.includes(expectedAdsTxt), 'public/ads.txt must authorize pub-2412757543318629');
+    assert.strictEqual(publicAdsTxt.trim(), expectedAdsTxt, 'public/ads.txt must contain only the single official publisher declaration');
     assert.strictEqual(publicAdsTxt.trim(), distAdsTxt.trim(), 'dist/ads.txt must match public/ads.txt');
 
     assert.ok(publicAppAdsTxt.includes(expectedAdsTxt), 'public/app-ads.txt must authorize pub-2412757543318629');
     assert.strictEqual(publicAppAdsTxt.trim(), distAppAdsTxt.trim(), 'dist/app-ads.txt must match public/app-ads.txt');
+
+    // Verify vercel.json headers and rewrites for /ads.txt
+    const vercelConfig = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'vercel.json'), 'utf8'));
+    const adsTxtHeader = vercelConfig.headers.find(h => h.source === '/ads.txt');
+    assert.ok(adsTxtHeader, 'vercel.json must configure explicit headers for /ads.txt');
+    const adsContentType = adsTxtHeader.headers.find(h => h.key === 'Content-Type');
+    assert.ok(adsContentType && adsContentType.value.includes('text/plain'), '/ads.txt header must specify text/plain');
+
+    const spaRewrite = vercelConfig.rewrites.find(r => r.destination === '/index.html');
+    assert.ok(spaRewrite.source.includes('ads\\.txt'), 'SPA rewrite must exclude ads.txt from being rewritten to /index.html');
 });
