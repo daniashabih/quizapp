@@ -5,6 +5,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/validators.dart';
 import '../../providers/core_providers.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 
@@ -30,7 +31,14 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   }
 
   Future<void> _handleForgotPassword() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      AppNotificationService.warning(
+        id: 'mobile-forgot-validation',
+        title: 'Action required',
+        message: 'Please enter a valid email address.',
+      );
+      return;
+    }
     FocusScope.of(context).unfocus();
 
     setState(() {
@@ -39,22 +47,41 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       _successMessage = null;
     });
 
+    final toastId = AppNotificationService.loading(
+      id: 'mobile-forgot-password',
+      title: 'Sending reset link...',
+      message: 'Dispatching password recovery instructions.',
+    );
+
     try {
       final repo = ref.read(authRepositoryProvider);
       final msg = await repo.forgotPassword(_emailController.text);
+      final resolvedMsg = msg.isNotEmpty
+          ? msg
+          : 'If an account exists for this email address, you will receive a password reset link shortly.';
+      AppNotificationService.update(
+        toastId,
+        type: HangbugNotificationType.success,
+        title: 'Reset link sent',
+        message: resolvedMsg,
+      );
       if (mounted) {
         setState(() {
-          _successMessage = msg.isNotEmpty
-              ? msg
-              : 'If an account exists for this email address, you will receive a password reset link shortly.';
+          _successMessage = resolvedMsg;
           _isLoading = false;
         });
       }
     } catch (e) {
+      final cleanErr = e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
+      AppNotificationService.update(
+        toastId,
+        type: HangbugNotificationType.error,
+        title: 'Reset request failed',
+        message: cleanErr,
+      );
       if (mounted) {
         setState(() {
-          _errorMessage =
-              e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
+          _errorMessage = cleanErr;
           _isLoading = false;
         });
       }

@@ -10,7 +10,7 @@ import {
     Settings, 
     Check
 } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from '../../services/notificationService';
 import ThemeToggle from '../ThemeToggle';
 
 export default function SeoHeader({

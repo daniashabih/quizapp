@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast } from '../../services/notificationService';
 import {
     X, ArrowRight, ArrowLeft,
     Flag, AlertCircle, HelpCircle, ChevronLeft, ChevronRight,

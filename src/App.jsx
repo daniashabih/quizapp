@@ -1,9 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { ToastContainer, Slide } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import './styles/custom-toast.css';
-import { CustomToastIcon, CustomCloseButton } from "./components/CustomToast";
+import { HangbugToastViewport } from "./components/CustomToast";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { SettingsProvider, useSettings } from "./context/SettingsContext";
@@ -28,6 +26,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 // Public Pages
 import Landing from "./pages/Landing";
 import Technologies from "./pages/quiz/Technologies";
+import TechnologyDetail from "./pages/quiz/TechnologyDetail";
 import GamesHub from "./pages/games/GamesHub";
 import GamePlayer from "./pages/games/GamePlayer";
 import Quiz from "./pages/quiz/Quiz";
@@ -145,6 +144,7 @@ function AppRoutes() {
                 <Route path="/" element={<Landing />} />
                 <Route path="/technologies" element={<Technologies />} />
                 <Route path="/technologies/level" element={<Navigate to="/technologies" replace />} />
+                <Route path="/technologies/:slug" element={<TechnologyDetail />} />
                 <Route path="/games" element={<GamesHub />} />
                 <Route path="/games/coding-memory-match" element={<Navigate to="/games/memory-match" replace />} />
                 <Route path="/games/:slug" element={<GamePlayer />} />
@@ -212,19 +212,7 @@ function AppContent() {
         <AuthProvider>
             <SettingsProvider>
                 <AppRoutes />
-                <ToastContainer
-                    position="top-right"
-                    autoClose={3500}
-                    hideProgressBar={false}
-                    newestOnTop
-                    closeOnClick
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    transition={Slide}
-                    icon={CustomToastIcon}
-                    closeButton={CustomCloseButton}
-                />
+                <HangbugToastViewport />
             </SettingsProvider>
         </AuthProvider>
     );

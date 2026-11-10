@@ -2,7 +2,7 @@ import { Code2, ArrowRight, Loader2, Sparkles, Binary, Cpu, Database, Globe, Lay
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast } from '../../services/notificationService';
 import { ACTIVITY_HEARTBEAT_INTERVAL_MS, getVisitorId } from '../../utils/activityPresence';
 
 export default function SelectLanguage() {

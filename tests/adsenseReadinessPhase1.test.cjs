@@ -97,14 +97,14 @@ test('5. usePageSeo hook verification: exists and handles title, meta descriptio
 
 test('6. Route-specific SEO metadata applied across all specified public pages', () => {
     const pages = [
-        { file: 'src/pages/Landing.jsx', title: 'HangBug — Test & Master Web Development Skills' },
-        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Us — HangBug Developer Skill Verification Platform' },
-        { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — HangBug' },
-        { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — HangBug Data Protection & Cookie Policy' },
-        { file: 'src/pages/legal/TermsOfService.jsx', title: 'Terms of Service — HangBug Platform Terms & Conditions' },
-        { file: 'src/pages/quiz/Technologies.jsx', title: 'Choose Your Tech Stack — Programming & Framework Quizzes' },
-        { file: 'src/pages/games/GamesHub.jsx', title: 'Coding & Typing Games for Developers — HangBug Games Hub' },
-        { file: 'src/pages/leaderboard/Leaderboard.jsx', title: 'Global Developer Leaderboard & Rankings — HangBug' }
+        { file: 'src/pages/Landing.jsx', title: 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates' },
+        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug – Technology Learning, Tech Quizzes & Skill Assessment Platform' },
+        { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — Hangbug' },
+        { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy' },
+        { file: 'src/pages/legal/TermsOfService.jsx', title: 'Terms of Service — Hangbug Platform Terms & Conditions' },
+        { file: 'src/pages/quiz/Technologies.jsx', title: 'Choose Your Tech Stack — Programming & Framework Quizzes | Hangbug' },
+        { file: 'src/pages/games/GamesHub.jsx', title: 'Coding & Typing Games for Developers — Hangbug Games Hub' },
+        { file: 'src/pages/leaderboard/Leaderboard.jsx', title: 'Global Developer Leaderboard & Rankings — Hangbug' }
     ];
 
     for (const page of pages) {

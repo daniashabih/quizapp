@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { notify } from '../../services/notificationService';
 import { Link } from 'react-router-dom';
 import { Mail, ArrowLeft, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import Navbar from '../../components/Navbar';
@@ -29,21 +29,34 @@ export default function ForgotPassword() {
 
         const cleanEmail = email.trim().toLowerCase();
         if (!cleanEmail) {
-            setErrorMessage('Please enter your email address.');
+            const msg = 'Please enter your email address.';
+            setErrorMessage(msg);
+            notify.warning({ title: 'Action required', description: msg });
             return;
         }
 
         if (!EMAIL_REGEX.test(cleanEmail)) {
-            setErrorMessage('Please enter a valid email address.');
+            const msg = 'Please enter a valid email address.';
+            setErrorMessage(msg);
+            notify.warning({ title: 'Invalid email', description: msg });
             return;
         }
 
         setLoading(true);
+        const toastId = notify.loading({
+            id: 'forgot-password',
+            title: 'Sending reset link...',
+            description: 'Dispatching password recovery instructions.'
+        });
 
         try {
             const res = await axios.post('/auth/forgot-password', { email: cleanEmail });
             const message = res.data?.message || 'If an account exists for this email address, you will receive a password reset link shortly.';
-            toast.success(message);
+            notify.update(toastId, {
+                type: 'success',
+                title: 'Reset link sent',
+                description: message
+            });
             setSubmitted(true);
             setResendCooldown(30);
 
@@ -60,7 +73,11 @@ export default function ForgotPassword() {
         } catch (error) {
             const msg = error.response?.data?.message || 'Failed to process password reset. Please try again.';
             setErrorMessage(msg);
-            toast.error(msg);
+            notify.update(toastId, {
+                type: 'error',
+                title: 'Reset request failed',
+                description: msg
+            });
         } finally {
             setLoading(false);
         }

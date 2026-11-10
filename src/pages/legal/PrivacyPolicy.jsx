@@ -28,8 +28,8 @@ export default function PrivacyPolicy() {
     const supportEmail = "support@hangbug.com";
 
     usePageSeo({
-        title: 'Privacy Policy — HangBug Data Protection & Cookie Policy',
-        description: 'Understand how HangBug collects, utilizes, stores, and protects user data, authentication credentials, and advertising cookie disclosures.',
+        title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy',
+        description: 'Understand how Hangbug collects, utilizes, stores, and protects user data, authentication credentials, and advertising cookie disclosures.',
         canonicalPath: '/privacy-policy'
     });
 

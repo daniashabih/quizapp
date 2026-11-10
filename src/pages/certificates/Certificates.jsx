@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Award, Download, ExternalLink, Linkedin, Search, FileText, Lock, CheckCircle2, RefreshCw, AlertCircle } from 'lucide-react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast } from '../../services/notificationService';
 import dashboardService from '../../services/dashboardService';
 import usePageSeo from '../../hooks/usePageSeo';
 

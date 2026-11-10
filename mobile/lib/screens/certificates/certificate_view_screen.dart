@@ -7,6 +7,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../models/certificate_model.dart';
 import '../../providers/auth_provider.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/certificate_card.dart';
 
@@ -88,14 +89,10 @@ class CertificateViewScreen extends ConsumerWidget {
                 Clipboard.setData(
                   ClipboardData(text: certificate.verificationUrl),
                 );
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text(
-                      'Verification link copied to clipboard!',
-                    ),
-                    backgroundColor: context.successColor,
-                    behavior: SnackBarBehavior.floating,
-                  ),
+                AppNotificationService.success(
+                  id: 'mobile-cert-copy',
+                  title: 'Copied to clipboard',
+                  message: 'Verification link copied to clipboard!',
                 );
               },
             ),

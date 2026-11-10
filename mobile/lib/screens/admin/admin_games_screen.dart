@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../providers/game_provider.dart';
+import '../../../services/notification_service.dart';
 import '../../../widgets/empty_state_widget.dart';
 import '../../../widgets/error_state_widget.dart';
 import '../../../widgets/loading_state_widget.dart';
@@ -206,6 +207,10 @@ class _AdminGamesScreenState extends ConsumerState<AdminGamesScreen> with Single
                                   onPressed: () async {
                                     await ref.read(gameRepositoryProvider).adminToggleFeature(game.id);
                                     ref.invalidate(adminGamesProvider);
+                                    AppNotificationService.success(
+                                      title: game.isFeatured ? 'Removed from featured' : 'Featured on hub',
+                                      message: '${game.title} featured status has been updated.',
+                                    );
                                   },
                                 ),
                                 IconButton(
@@ -218,6 +223,10 @@ class _AdminGamesScreenState extends ConsumerState<AdminGamesScreen> with Single
                                   onPressed: () async {
                                     await ref.read(gameRepositoryProvider).adminTogglePublish(game.id);
                                     ref.invalidate(adminGamesProvider);
+                                    AppNotificationService.success(
+                                      title: game.isPublished ? 'Moved to draft' : 'Game published',
+                                      message: '${game.title} visibility has been updated.',
+                                    );
                                   },
                                 ),
                               ],

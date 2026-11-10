@@ -4,7 +4,7 @@ import AiSearchCard from '../../components/seo/AiSearchCard';
 import SeoOverviewCard from '../../components/seo/SeoOverviewCard';
 import { CreateProjectModal, FeedbackModal, SettingsModal } from '../../components/seo/SeoModals';
 import { RefreshCw, RotateCcw, AlertCircle } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from '../../services/notificationService';
 import usePageSeo from '../../hooks/usePageSeo';
 
 export default function SeoDashboard() {

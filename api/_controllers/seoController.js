@@ -9,6 +9,18 @@ const PUBLIC_ROUTES = [
     { loc: '/contact', changefreq: 'monthly', priority: '0.7' },
     { loc: '/privacy-policy', changefreq: 'monthly', priority: '0.6' },
     { loc: '/terms', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/technologies/html', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/css', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/javascript', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/react', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/php', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/laravel', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/mysql', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/mongodb', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/flutter', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/dart', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/python', changefreq: 'weekly', priority: '0.8' },
+    { loc: '/technologies/programming-fundamentals', changefreq: 'weekly', priority: '0.8' }
 ];
 
 const GAME_SLUGS = [
@@ -49,11 +61,17 @@ function buildSitemapXml(extraSlugs = []) {
 }
 
 function buildRobotsTxt() {
-    return `# HangBug Robots Policy
+    return `# Hangbug Robots Policy
 # https://www.hangbug.com
 
 User-agent: *
 Allow: /
+Allow: /favicon.ico
+Allow: /favicon-32x32.png
+Allow: /favicon-48x48.png
+Allow: /favicon.png
+Allow: /apple-touch-icon.png
+Allow: /branding/
 
 # Disallow private user dashboards, admin pages, authentication endpoints and APIs
 Disallow: /api/
@@ -72,6 +90,14 @@ Disallow: /account-deletion
 Disallow: /data-deletion
 Disallow: /quiz/start
 Disallow: /quiz/result
+
+User-agent: Googlebot-Image
+Allow: /favicon.ico
+Allow: /favicon-32x32.png
+Allow: /favicon-48x48.png
+Allow: /favicon.png
+Allow: /apple-touch-icon.png
+Allow: /branding/
 
 # Canonical Sitemap
 Sitemap: ${BASE_URL}/sitemap.xml

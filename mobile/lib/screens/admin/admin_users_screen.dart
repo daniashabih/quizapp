@@ -6,6 +6,7 @@ import '../../core/utils/date_formatter.dart';
 import '../../models/user_model.dart';
 import '../../providers/admin_provider.dart';
 import '../../providers/auth_provider.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
@@ -183,12 +184,17 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
               Navigator.of(ctx).pop();
               final success = await ref.read(adminControllerProvider.notifier).deleteUser(user.id);
               if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(success ? 'User account deleted.' : 'Failed to delete user.'),
-                    backgroundColor: success ? AppColors.success : AppColors.error,
-                  ),
-                );
+                if (success) {
+                  AppNotificationService.success(
+                    title: 'User deleted',
+                    message: 'User account "${user.name}" has been removed.',
+                  );
+                } else {
+                  AppNotificationService.error(
+                    title: 'Deletion failed',
+                    message: 'Failed to delete user.',
+                  );
+                }
               }
             },
             child: const Text('Delete'),

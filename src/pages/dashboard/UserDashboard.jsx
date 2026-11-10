@@ -8,7 +8,7 @@ import {
     PlayCircle, Play, Trash2, BookmarkCheck
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { toast } from 'react-toastify';
+import { toast } from '../../services/notificationService';
 import dashboardService from '../../services/dashboardService';
 import attemptService from '../../services/attemptService';
 import usePageSeo from '../../hooks/usePageSeo';

@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast } from '../../services/notificationService';
 import dashboardService from '../../services/dashboardService';
 import usePageSeo from '../../hooks/usePageSeo';
 
@@ -53,10 +53,16 @@ export default function Profile() {
             if (res.data?.user) {
                 updateUser(res.data.user);
             }
-            toast.success("Profile updated");
+            toast.success({
+                title: 'Profile updated',
+                description: 'Your personal details have been saved.'
+            });
             setIsEditing(false);
         } catch (error) {
-            toast.error(error.response?.data?.message || "Failed to update");
+            toast.error({
+                title: 'Update failed',
+                description: error.response?.data?.message || 'Failed to update profile.'
+            });
         } finally {
             setIsSaving(false);
         }

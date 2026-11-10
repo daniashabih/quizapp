@@ -1,7 +1,7 @@
 class AppStrings {
   static const String appName = 'Hangbug';
   static const String appTagline = 'Learn - Test - Prove';
-  static const String appSubtitle = 'Web Development Quiz & Certification Platform';
+  static const String appSubtitle = 'Technology Learning, Programming Quizzes & Skill Assessment Platform';
   
   // Navigation
   static const String home = 'Home';

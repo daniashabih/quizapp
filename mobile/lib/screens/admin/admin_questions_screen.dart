@@ -5,6 +5,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../models/question_model.dart';
 import '../../providers/admin_provider.dart';
 import '../../providers/dashboard_provider.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/empty_state_widget.dart';
@@ -243,12 +244,17 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
               Navigator.of(ctx).pop();
               final success = await ref.read(adminControllerProvider.notifier).deleteQuestion(q.id);
               if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(success ? 'Question deleted successfully.' : 'Failed to delete question.'),
-                    backgroundColor: success ? AppColors.success : AppColors.error,
-                  ),
-                );
+                if (success) {
+                  AppNotificationService.success(
+                    title: 'Question deleted',
+                    message: 'Question deleted successfully.',
+                  );
+                } else {
+                  AppNotificationService.error(
+                    title: 'Deletion failed',
+                    message: 'Failed to delete question.',
+                  );
+                }
               }
             },
             child: const Text('Delete'),
@@ -344,8 +350,9 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
                         opt4Controller.text.trim(),
                       ];
                       if (options.any((o) => o.isEmpty)) {
-                        ScaffoldMessenger.of(sheetCtx).showSnackBar(
-                          const SnackBar(content: Text('All 4 options must be filled.')),
+                        AppNotificationService.warning(
+                          title: 'Action required',
+                          message: 'All 4 options must be filled.',
                         );
                         return;
                       }
@@ -359,12 +366,17 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
                             correctAnswer: options[correctIndex],
                           );
                       if (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(success ? 'Question saved to bank!' : 'Failed to save question.'),
-                            backgroundColor: success ? AppColors.success : AppColors.error,
-                          ),
-                        );
+                        if (success) {
+                          AppNotificationService.success(
+                            title: 'Question saved!',
+                            message: 'Added to ${catController.text.trim()} question bank.',
+                          );
+                        } else {
+                          AppNotificationService.error(
+                            title: 'Save failed',
+                            message: 'Failed to save question.',
+                          );
+                        }
                       }
                     },
                   ),

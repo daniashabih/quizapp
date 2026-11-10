@@ -5,6 +5,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../models/category_model.dart';
 import '../../providers/admin_provider.dart';
 import '../../providers/dashboard_provider.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
@@ -143,15 +144,17 @@ class AdminCategoriesScreen extends ConsumerWidget {
               onChanged: (val) async {
                 final success = await ref.read(adminControllerProvider.notifier).toggleCategoryStatus(cat.id, val);
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(success
-                          ? 'Category "${cat.name}" is now ${val ? "Enabled" : "Disabled"}.'
-                          : 'Failed to update category status.'),
-                      backgroundColor: success ? AppColors.success : AppColors.error,
-                      duration: const Duration(seconds: 2),
-                    ),
-                  );
+                  if (success) {
+                    AppNotificationService.success(
+                      title: 'Category updated',
+                      message: 'Category "${cat.name}" is now ${val ? "Enabled" : "Disabled"}.',
+                    );
+                  } else {
+                    AppNotificationService.error(
+                      title: 'Update failed',
+                      message: 'Failed to update category status.',
+                    );
+                  }
                 }
               },
             ),
@@ -183,12 +186,17 @@ class AdminCategoriesScreen extends ConsumerWidget {
               Navigator.of(ctx).pop();
               final success = await ref.read(adminControllerProvider.notifier).deleteCategory(cat.id);
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(success ? 'Category deleted.' : 'Failed to delete category.'),
-                    backgroundColor: success ? AppColors.success : AppColors.error,
-                  ),
-                );
+                if (success) {
+                  AppNotificationService.success(
+                    title: 'Category deleted',
+                    message: 'Category "${cat.name}" has been removed.',
+                  );
+                } else {
+                  AppNotificationService.error(
+                    title: 'Deletion failed',
+                    message: 'Failed to delete category.',
+                  );
+                }
               }
             },
             child: const Text('Delete'),
@@ -228,12 +236,17 @@ class AdminCategoriesScreen extends ConsumerWidget {
               Navigator.of(ctx).pop();
               final success = await ref.read(adminControllerProvider.notifier).createCategory(controller.text.trim());
               if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(success ? 'Category created.' : 'Failed to create category.'),
-                    backgroundColor: success ? AppColors.success : AppColors.error,
-                  ),
-                );
+                if (success) {
+                  AppNotificationService.success(
+                    title: 'Category created',
+                    message: 'New category has been added successfully.',
+                  );
+                } else {
+                  AppNotificationService.error(
+                    title: 'Creation failed',
+                    message: 'Failed to create category.',
+                  );
+                }
               }
             },
             child: const Text('Create'),

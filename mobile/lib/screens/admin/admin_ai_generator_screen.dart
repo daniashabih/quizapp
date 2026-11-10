@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../providers/admin_provider.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 
@@ -236,12 +237,16 @@ class _AdminAiGeneratorScreenState extends ConsumerState<AdminAiGeneratorScreen>
         _isGenerating = false;
         if (success) {
           _successMessage = 'Successfully generated and added $_questionCount questions for "$topic" Session $session!';
+          AppNotificationService.success(
+            id: 'mobile-admin-ai-success',
+            title: 'Questions generated!',
+            message: 'Added $_questionCount questions for "$topic" Session $session.',
+          );
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to generate AI questions. Check backend connectivity.'),
-              backgroundColor: AppColors.error,
-            ),
+          AppNotificationService.error(
+            id: 'mobile-admin-ai-error',
+            title: 'AI generation failed',
+            message: 'Failed to generate AI questions. Check backend connectivity.',
           );
         }
       });

@@ -1,5 +1,6 @@
 import { Sun, Moon, Monitor, Bell, Shield, Check } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import { notify } from '../../services/notificationService';
 import usePageSeo from '../../hooks/usePageSeo';
 
 const Settings = () => {
@@ -71,7 +72,14 @@ const Settings = () => {
                                     type="button"
                                     role="radio"
                                     aria-checked={active}
-                                    onClick={() => setThemeMode(opt.id)}
+                                    onClick={() => {
+                                        setThemeMode(opt.id);
+                                        notify.info({
+                                            id: 'hangbug-theme-switch',
+                                            title: 'Appearance updated',
+                                            description: `Switched interface theme to ${opt.label}.`
+                                        });
+                                    }}
                                     className={`p-4 rounded-xl border text-left transition-all relative cursor-pointer ${
                                         active
                                             ? 'border-[#193D35] dark:border-emerald-400 bg-[#F3E5C5]/60 dark:bg-emerald-500/15 ring-2 ring-[#193D35]/15 dark:ring-emerald-400/20'

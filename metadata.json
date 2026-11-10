@@ -1,6 +1,6 @@
 {
-  "name": "HangBug",
-  "description": "HangBug is a modern web development quiz & certification platform. Practice quizzes, earn verified certificates, and compete on global leaderboards.",
+  "name": "Hangbug",
+  "description": "Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

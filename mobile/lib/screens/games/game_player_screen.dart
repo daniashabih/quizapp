@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../models/game_model.dart';
 import '../../../providers/game_provider.dart';
+import '../../../services/notification_service.dart';
 
 // Engines
 import 'engines/flutter_code_puzzle.dart';
@@ -432,6 +433,17 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
                   .toggleFavorite(widget.slug);
               if (mounted) {
                 setState(() => _isFavorite = newFav);
+                if (newFav) {
+                  AppNotificationService.success(
+                    title: 'Added to favorites',
+                    message: 'Saved to your favorite games list.',
+                  );
+                } else {
+                  AppNotificationService.info(
+                    title: 'Removed from favorites',
+                    message: 'Game removed from your favorites list.',
+                  );
+                }
               }
             },
           ),

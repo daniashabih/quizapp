@@ -96,15 +96,15 @@ export default function TechnologyDetail() {
     const [loadingQuizzes, setLoadingQuizzes] = useState(true);
 
     usePageSeo({
-        title: seoConfig ? seoConfig.title : 'Technology Quizzes & Coding Practice | HangBug',
+        title: seoConfig ? seoConfig.title : 'Technology Quizzes & Coding Practice | Hangbug',
         description: seoConfig
             ? seoConfig.description
-            : 'Practice programming quizzes and interactive coding games on HangBug.',
+            : 'Practice programming quizzes and interactive coding games on Hangbug.',
         primaryKeyword: seoConfig?.primaryKeyword,
         secondaryKeywords: seoConfig?.secondaryKeywords,
         canonicalPath: seoConfig ? seoConfig.path : `/technologies/${slug || ''}`,
         noindex: !seoConfig,
-        ogImageAlt: seoConfig ? seoConfig.imageAlt : 'HangBug Technology Quiz & Practice Track'
+        ogImageAlt: seoConfig ? seoConfig.imageAlt : 'Hangbug Technology Quiz & Practice Track'
     });
 
     useEffect(() => {

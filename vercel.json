@@ -105,6 +105,53 @@
       ]
     },
     {
+      "source": "/favicon.ico",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/x-icon"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/(favicon-32x32\\.png|favicon-48x48\\.png|favicon\\.png|apple-touch-icon\\.png)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/png"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/branding/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
       "source": "/app-ads.txt",
       "headers": [
         {
@@ -162,7 +209,7 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/((?!api/|assets/|branding/|favicon|robots\\.txt|sitemap\\.xml|ads\\.txt|app-ads\\.txt|.*\\..*).*)",
+      "source": "/((?!api/|assets/|branding/|favicon|apple-touch-icon|robots\\.txt|sitemap\\.xml|ads\\.txt|app-ads\\.txt|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]

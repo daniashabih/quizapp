@@ -1,14 +1,14 @@
 /**
  * Centralized SEO Metadata, Keyword Strategy, Heading Hierarchy, Introductory Content,
- * Internal Linking, and Image Alt Text Configuration for HangBug Public Pages.
+ * Internal Linking, and Image Alt Text Configuration for Hangbug Public Pages.
  */
 
 export const SEO_PAGES_CONFIG = {
     home: {
         id: 'home',
         path: '/',
-        title: 'HangBug — Test & Master Web Development Skills | Coding Quizzes & Games',
-        description: 'Practice interactive coding quizzes, play developer typing and debugging games, track your programming accuracy, and earn verifiable completion certificates.',
+        title: 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates',
+        description: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
         primaryKeyword: 'coding quizzes',
         secondaryKeywords: [
             'programming practice online',
@@ -17,21 +17,23 @@ export const SEO_PAGES_CONFIG = {
             'programming skill assessment',
             'coding completion certificates'
         ],
-        h1: 'Test & Master Your Web Development & Programming Skills',
+        h1: 'Learn Programming, Practice Tech Quizzes & Earn Certificates',
         h2s: [
+            'What is Hangbug?',
             'Interactive Assessment & Platform Highlights',
-            'Explore Popular Programming & Technology Quiz Tracks',
-            'Practice With Interactive Coding & Typing Games',
-            'How HangBug Skill Verification Works'
+            'Technology Quiz Categories Covered',
+            'Interactive Coding & Typing Games',
+            'How Hangbug Works for Students & Developers',
+            'Score-Based Certificates & LinkedIn Sharing'
         ],
         h3s: [
-            'Session-Based Coding Quizzes',
-            'Verifiable Completion Certificates',
-            'Real-Time Performance Analytics',
-            'Global Developer Leaderboards'
+            'Interactive MCQ Tech Quizzes',
+            'Score-Based Completion Certificates',
+            'Progress & Accuracy Tracking',
+            'Coding & Typing Games'
         ],
-        introContent: 'HangBug is an interactive coding quiz and programming practice platform built for software developers, computer science students, and self-taught engineers. Benchmark your knowledge across frontend, backend, database, and mobile technologies through session-based quizzes and hands-on browser coding games.',
-        imageAlt: 'HangBug interactive coding quizzes, programming games, and developer skill assessment platform dashboard',
+        introContent: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
+        imageAlt: 'Hangbug interactive technology quizzes, coding games, and skill assessment platform dashboard',
         internalLinks: [
             { label: 'Explore All Technology Quizzes', to: '/technologies' },
             { label: 'Play Coding & Typing Games', to: '/games' },
@@ -39,7 +41,7 @@ export const SEO_PAGES_CONFIG = {
             { label: 'React.js Quizzes', to: '/technologies/react' },
             { label: 'Python Quizzes', to: '/technologies/python' },
             { label: 'Certificate Verification & Info', to: '/certificate/view' },
-            { label: 'Learning Resources & Study Guides', to: '/resources' },
+            { label: 'About Hangbug', to: '/about' },
             { label: 'Global Leaderboard', to: '/leaderboard' }
         ]
     },
@@ -47,8 +49,8 @@ export const SEO_PAGES_CONFIG = {
     technologies: {
         id: 'technologies',
         path: '/technologies',
-        title: 'Choose Your Tech Stack — Programming & Framework Quizzes | HangBug',
-        description: 'Browse HangBug technology quizzes and programming practice tracks across HTML, CSS, JavaScript, React.js, PHP, Laravel, Python, SQL, Flutter, and Dart.',
+        title: 'Choose Your Tech Stack — Programming & Framework Quizzes | Hangbug',
+        description: 'Browse Hangbug technology quizzes and programming practice tracks across HTML, CSS, JavaScript, React.js, PHP, Laravel, Python, SQL, Flutter, and Dart.',
         primaryKeyword: 'technology quizzes',
         secondaryKeywords: [
             'programming quizzes by topic',
@@ -71,7 +73,7 @@ export const SEO_PAGES_CONFIG = {
             'Mobile & Core Programming Fundamentals'
         ],
         introContent: 'Select a programming language, framework, or database track to begin practicing. Each active technology track organizes questions into focused sessions with instant answer verification, score tracking, and progress saving so you can practice at your own pace.',
-        imageAlt: 'Grid of programming language and web framework quiz tracks on HangBug',
+        imageAlt: 'Grid of programming language and web framework quiz tracks on Hangbug',
         internalLinks: [
             { label: 'HTML Quizzes', to: '/technologies/html' },
             { label: 'CSS Quizzes', to: '/technologies/css' },
@@ -97,8 +99,8 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend Development',
         categoryMatcher: ['HTML', 'HTML & CSS'],
         path: '/technologies/html',
-        title: 'HTML Quizzes & Markup Practice — Semantic Web & HTML5 Challenges | HangBug',
-        description: 'Practice HTML5 semantic elements, web forms, accessibility attributes, and document structure with interactive HTML quizzes and coding challenges on HangBug.',
+        title: 'HTML Quizzes & Markup Practice — Semantic Web & HTML5 Challenges | Hangbug',
+        description: 'Practice HTML5 semantic elements, web forms, accessibility attributes, and document structure with interactive HTML quizzes and coding challenges on Hangbug.',
         primaryKeyword: 'HTML quizzes',
         secondaryKeywords: [
             'HTML5 practice test',
@@ -119,8 +121,8 @@ export const SEO_PAGES_CONFIG = {
             'Accessible Forms, Inputs & Validation',
             'DOM Elements, Attributes & Media Tags'
         ],
-        introContent: 'Strengthen your foundation in modern web markup with HangBug HTML quizzes and interactive syntax challenges. Test your understanding of semantic HTML5 tags, accessible form controls, SEO-friendly heading hierarchies, and document structure through guided practice sessions and bug-spotting games.',
-        imageAlt: 'HTML5 semantic markup quiz and frontend coding practice emblem on HangBug',
+        introContent: 'Strengthen your foundation in modern web markup with Hangbug HTML quizzes and interactive syntax challenges. Test your understanding of semantic HTML5 tags, accessible form controls, SEO-friendly heading hierarchies, and document structure through guided practice sessions and bug-spotting games.',
+        imageAlt: 'HTML5 semantic markup quiz and frontend coding practice emblem on Hangbug',
         internalLinks: [
             { label: 'CSS Quizzes', to: '/technologies/css' },
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
@@ -138,8 +140,8 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend Development',
         categoryMatcher: ['CSS', 'HTML & CSS'],
         path: '/technologies/css',
-        title: 'CSS Quizzes & Styling Practice — Flexbox, Grid & Responsive Design | HangBug',
-        description: 'Test your CSS skills with interactive quizzes and coding games covering selector specificity, Flexbox, CSS Grid, positioning, and responsive layouts on HangBug.',
+        title: 'CSS Quizzes & Styling Practice — Flexbox, Grid & Responsive Design | Hangbug',
+        description: 'Test your CSS skills with interactive quizzes and coding games covering selector specificity, Flexbox, CSS Grid, positioning, and responsive layouts on Hangbug.',
         primaryKeyword: 'CSS quizzes',
         secondaryKeywords: [
             'CSS Flexbox and Grid quiz',
@@ -160,8 +162,8 @@ export const SEO_PAGES_CONFIG = {
             'Flexbox & CSS Grid Layout Systems',
             'Responsive Media Queries & Custom Properties'
         ],
-        introContent: 'Master stylesheet architecture and responsive layout engineering with HangBug CSS quizzes and interactive coding games. Practice evaluating selector specificity, aligning elements with Flexbox and CSS Grid, and debugging common box-model and positioning issues.',
-        imageAlt: 'CSS3 stylesheet layout, Flexbox, and Grid quiz badge on HangBug',
+        introContent: 'Master stylesheet architecture and responsive layout engineering with Hangbug CSS quizzes and interactive coding games. Practice evaluating selector specificity, aligning elements with Flexbox and CSS Grid, and debugging common box-model and positioning issues.',
+        imageAlt: 'CSS3 stylesheet layout, Flexbox, and Grid quiz badge on Hangbug',
         internalLinks: [
             { label: 'HTML Quizzes', to: '/technologies/html' },
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
@@ -178,7 +180,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend & Full-Stack Development',
         categoryMatcher: ['JavaScript', 'PHP, XML JSON, Laravel, MySQL, JavaScript'],
         path: '/technologies/javascript',
-        title: 'JavaScript Quizzes & ES6+ Coding Practice — Async, Closures & DOM | HangBug',
+        title: 'JavaScript Quizzes & ES6+ Coding Practice — Async, Closures & DOM | Hangbug',
         description: 'Sharpen your JavaScript skills with session-based ES6+ quizzes and interactive coding games covering closures, Promises, async/await, and event loop execution.',
         primaryKeyword: 'JavaScript quizzes',
         secondaryKeywords: [
@@ -200,8 +202,8 @@ export const SEO_PAGES_CONFIG = {
             'Asynchronous JavaScript, Promises & Event Loop',
             'Arrays, Objects, Type Coercion & ES6+ Syntax'
         ],
-        introContent: 'Evaluate and refine your core scripting expertise with HangBug JavaScript quizzes and browser-based coding games. Work through session-calibrated questions on variable scoping, lexical closures, Promise resolution, microtask queues, and modern ES6+ syntax.',
-        imageAlt: 'JavaScript ES6+ programming quiz and code output predictor icon on HangBug',
+        introContent: 'Evaluate and refine your core scripting expertise with Hangbug JavaScript quizzes and browser-based coding games. Work through session-calibrated questions on variable scoping, lexical closures, Promise resolution, microtask queues, and modern ES6+ syntax.',
+        imageAlt: 'JavaScript ES6+ programming quiz and code output predictor icon on Hangbug',
         internalLinks: [
             { label: 'React.js Quizzes', to: '/technologies/react' },
             { label: 'HTML Quizzes', to: '/technologies/html' },
@@ -219,7 +221,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend Development',
         categoryMatcher: ['React.js', 'React'],
         path: '/technologies/react',
-        title: 'React.js Quizzes & Component Practice — Hooks, State & Virtual DOM | HangBug',
+        title: 'React.js Quizzes & Component Practice — Hooks, State & Virtual DOM | Hangbug',
         description: 'Practice React.js with interactive quizzes and coding games covering useState, useEffect, custom hooks, component lifecycle, props, and rendering optimization.',
         primaryKeyword: 'React.js quizzes',
         secondaryKeywords: [
@@ -241,8 +243,8 @@ export const SEO_PAGES_CONFIG = {
             'State Management With useState, useEffect & useMemo',
             'Concurrent Rendering & Performance Optimization'
         ],
-        introContent: 'Test your practical knowledge of component-driven user interfaces with HangBug React.js quizzes and interactive code challenges. Practice identifying hook dependency pitfalls, tracing component re-renders, managing state immutably, and writing clean JSX.',
-        imageAlt: 'React.js component hooks and Virtual DOM quiz emblem on HangBug',
+        introContent: 'Test your practical knowledge of component-driven user interfaces with Hangbug React.js quizzes and interactive code challenges. Practice identifying hook dependency pitfalls, tracing component re-renders, managing state immutably, and writing clean JSX.',
+        imageAlt: 'React.js component hooks and Virtual DOM quiz emblem on Hangbug',
         internalLinks: [
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
             { label: 'HTML Quizzes', to: '/technologies/html' },
@@ -260,7 +262,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Backend Development',
         categoryMatcher: ['PHP', 'PHP, XML JSON, Laravel, MySQL, JavaScript'],
         path: '/technologies/php',
-        title: 'PHP Quizzes & Server-Side Coding Practice — Backend Web Development | HangBug',
+        title: 'PHP Quizzes & Server-Side Coding Practice — Backend Web Development | Hangbug',
         description: 'Practice server-side PHP programming with interactive quizzes and coding games covering arrays, OOP, superglobals, form handling, and PDO database security.',
         primaryKeyword: 'PHP quizzes',
         secondaryKeywords: [
@@ -282,8 +284,8 @@ export const SEO_PAGES_CONFIG = {
             'Object-Oriented PHP, Namespaces & Interfaces',
             'Secure Request Handling, Sessions & PDO'
         ],
-        introContent: 'Sharpen your backend web development skills with HangBug PHP quizzes and interactive debugging challenges. Practice core language syntax, associative array manipulation, session management, object-oriented PHP patterns, and secure database querying.',
-        imageAlt: 'PHP backend server-side scripting quiz and coding challenge icon on HangBug',
+        introContent: 'Sharpen your backend web development skills with Hangbug PHP quizzes and interactive debugging challenges. Practice core language syntax, associative array manipulation, session management, object-oriented PHP patterns, and secure database querying.',
+        imageAlt: 'PHP backend server-side scripting quiz and coding challenge icon on Hangbug',
         internalLinks: [
             { label: 'Laravel Quizzes', to: '/technologies/laravel' },
             { label: 'MySQL Quizzes', to: '/technologies/mysql' },
@@ -300,7 +302,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Backend Development',
         categoryMatcher: ['Laravel', 'PHP, XML JSON, Laravel, MySQL, JavaScript'],
         path: '/technologies/laravel',
-        title: 'Laravel Quizzes & MVC Framework Practice — Eloquent, Routing & Blade | HangBug',
+        title: 'Laravel Quizzes & MVC Framework Practice — Eloquent, Routing & Blade | Hangbug',
         description: 'Test your Laravel framework skills with interactive practice covering MVC routing, middleware, Eloquent ORM relationships, Blade templates, and Artisan CLI.',
         primaryKeyword: 'Laravel quizzes',
         secondaryKeywords: [
@@ -322,8 +324,8 @@ export const SEO_PAGES_CONFIG = {
             'Eloquent ORM Models, Migrations & Relationships',
             'Blade Templating, Validation & Service Container'
         ],
-        introContent: 'Build confidence with modern PHP application architecture through HangBug Laravel practice and interactive coding games. Explore routing conventions, controller validation, Eloquent ORM queries, database migrations, and Blade component structuring.',
-        imageAlt: 'Laravel MVC framework and Eloquent ORM quiz badge on HangBug',
+        introContent: 'Build confidence with modern PHP application architecture through Hangbug Laravel practice and interactive coding games. Explore routing conventions, controller validation, Eloquent ORM queries, database migrations, and Blade component structuring.',
+        imageAlt: 'Laravel MVC framework and Eloquent ORM quiz badge on Hangbug',
         internalLinks: [
             { label: 'PHP Quizzes', to: '/technologies/php' },
             { label: 'MySQL Quizzes', to: '/technologies/mysql' },
@@ -340,7 +342,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Database Engineering',
         categoryMatcher: ['MySQL', 'SQL', 'SQL Server', 'PHP, XML JSON, Laravel, MySQL, JavaScript'],
         path: '/technologies/mysql',
-        title: 'MySQL Quizzes & SQL Query Practice — Joins, Indexing & Relational DBs | HangBug',
+        title: 'MySQL Quizzes & SQL Query Practice — Joins, Indexing & Relational DBs | Hangbug',
         description: 'Practice MySQL and relational database queries with interactive quizzes and SQL coding challenges covering SELECT, JOINs, GROUP BY aggregations, and indexing.',
         primaryKeyword: 'MySQL quizzes',
         secondaryKeywords: [
@@ -362,8 +364,8 @@ export const SEO_PAGES_CONFIG = {
             'INNER, LEFT & Multi-Table JOIN Queries',
             'Primary Keys, Foreign Keys & Index Optimization'
         ],
-        introContent: 'Practice writing and analyzing relational database queries with HangBug MySQL quizzes and the interactive SQL Challenge game. Test your grasp of table schemas, relational joins, aggregate functions, constraints, and query execution order.',
-        imageAlt: 'MySQL relational database and SQL query challenge icon on HangBug',
+        introContent: 'Practice writing and analyzing relational database queries with Hangbug MySQL quizzes and the interactive SQL Challenge game. Test your grasp of table schemas, relational joins, aggregate functions, constraints, and query execution order.',
+        imageAlt: 'MySQL relational database and SQL query challenge icon on Hangbug',
         internalLinks: [
             { label: 'Play Interactive SQL Challenge', to: '/games/sql-challenge?tech=mysql' },
             { label: 'MongoDB Quizzes', to: '/technologies/mongodb' },
@@ -380,8 +382,8 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Database Engineering',
         categoryMatcher: ['MongoDB'],
         path: '/technologies/mongodb',
-        title: 'MongoDB Quizzes & NoSQL Practice — Document Schemas & Aggregations | HangBug',
-        description: 'Practice MongoDB and NoSQL database concepts on HangBug with interactive coding challenges covering BSON documents, CRUD queries, indexing, and aggregations.',
+        title: 'MongoDB Quizzes & NoSQL Practice — Document Schemas & Aggregations | Hangbug',
+        description: 'Practice MongoDB and NoSQL database concepts on Hangbug with interactive coding challenges covering BSON documents, CRUD queries, indexing, and aggregations.',
         primaryKeyword: 'MongoDB quizzes',
         secondaryKeywords: [
             'NoSQL database practice test',
@@ -402,8 +404,8 @@ export const SEO_PAGES_CONFIG = {
             'CRUD Operations & Query Comparison Operators',
             'Aggregation Pipelines ($match, $group, $project) & Indexes'
         ],
-        introContent: 'Explore document-oriented data modeling and NoSQL query patterns with HangBug MongoDB practice and interactive coding games. Sharpen your understanding of BSON document structures, filter operators, update modifiers, and multi-stage aggregation pipelines.',
-        imageAlt: 'MongoDB NoSQL document database and aggregation pipeline badge on HangBug',
+        introContent: 'Explore document-oriented data modeling and NoSQL query patterns with Hangbug MongoDB practice and interactive coding games. Sharpen your understanding of BSON document structures, filter operators, update modifiers, and multi-stage aggregation pipelines.',
+        imageAlt: 'MongoDB NoSQL document database and aggregation pipeline badge on Hangbug',
         internalLinks: [
             { label: 'MySQL Quizzes', to: '/technologies/mysql' },
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
@@ -420,8 +422,8 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Mobile Development',
         categoryMatcher: ['Flutter'],
         path: '/technologies/flutter',
-        title: 'Flutter Quizzes & Mobile UI Practice — Widgets, State & Layouts | HangBug',
-        description: 'Practice cross-platform mobile development with HangBug Flutter quizzes and coding games covering StatelessWidget, StatefulWidget, layout trees, and navigation.',
+        title: 'Flutter Quizzes & Mobile UI Practice — Widgets, State & Layouts | Hangbug',
+        description: 'Practice cross-platform mobile development with Hangbug Flutter quizzes and coding games covering StatelessWidget, StatefulWidget, layout trees, and navigation.',
         primaryKeyword: 'Flutter quizzes',
         secondaryKeywords: [
             'Flutter widget tree practice',
@@ -442,8 +444,8 @@ export const SEO_PAGES_CONFIG = {
             'Declarative UI Layouts (Row, Column, Stack & Flex)',
             'Navigation, Routing & Reactive State Updates'
         ],
-        introContent: 'Practice building declarative, cross-platform user interfaces with HangBug Flutter coding challenges and quiz tracks. Test your understanding of widget composition, build contexts, layout constraints, state lifecycle methods, and asynchronous UI rendering.',
-        imageAlt: 'Flutter cross-platform mobile widget tree practice icon on HangBug',
+        introContent: 'Practice building declarative, cross-platform user interfaces with Hangbug Flutter coding challenges and quiz tracks. Test your understanding of widget composition, build contexts, layout constraints, state lifecycle methods, and asynchronous UI rendering.',
+        imageAlt: 'Flutter cross-platform mobile widget tree practice icon on Hangbug',
         internalLinks: [
             { label: 'Dart Quizzes', to: '/technologies/dart' },
             { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' },
@@ -460,7 +462,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Mobile & Language Development',
         categoryMatcher: ['Dart'],
         path: '/technologies/dart',
-        title: 'Dart Quizzes & Programming Practice — Null Safety, Async & OOP | HangBug',
+        title: 'Dart Quizzes & Programming Practice — Null Safety, Async & OOP | Hangbug',
         description: 'Sharpen your Dart programming skills with interactive coding games and practice covering sound null safety, Futures, Streams, classes, mixins, and collections.',
         primaryKeyword: 'Dart quizzes',
         secondaryKeywords: [
@@ -482,8 +484,8 @@ export const SEO_PAGES_CONFIG = {
             'Asynchronous Programming With Futures & Streams',
             'Classes, Constructors, Mixins & Typed Collections'
         ],
-        introContent: 'Build fluency in the client-optimized language powering Flutter with HangBug Dart practice and interactive coding games. Work through real Dart snippets involving null-aware operators, Future and Stream pipelines, object-oriented mixins, and collection transformations.',
-        imageAlt: 'Dart programming language and null-safe async coding badge on HangBug',
+        introContent: 'Build fluency in the client-optimized language powering Flutter with Hangbug Dart practice and interactive coding games. Work through real Dart snippets involving null-aware operators, Future and Stream pipelines, object-oriented mixins, and collection transformations.',
+        imageAlt: 'Dart programming language and null-safe async coding badge on Hangbug',
         internalLinks: [
             { label: 'Flutter Quizzes', to: '/technologies/flutter' },
             { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' },
@@ -500,7 +502,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Backend & General Programming',
         categoryMatcher: ['Python'],
         path: '/technologies/python',
-        title: 'Python Quizzes & Coding Practice — Data Structures, OOP & Syntax | HangBug',
+        title: 'Python Quizzes & Coding Practice — Data Structures, OOP & Syntax | Hangbug',
         description: 'Test your Python programming skills with multi-session quizzes and interactive coding games covering lists, dictionaries, generators, OOP, and Pythonic logic.',
         primaryKeyword: 'Python quizzes',
         secondaryKeywords: [
@@ -522,8 +524,8 @@ export const SEO_PAGES_CONFIG = {
             'Functions, List Comprehensions, Generators & Decorators',
             'Object-Oriented Python, Concurrency & Runtime Internals'
         ],
-        introContent: 'Master clean, Pythonic problem-solving with HangBug Python quizzes and interactive coding challenges. Practice multi-session assessments covering mutable vs. immutable data types, generator functions, list comprehensions, object-oriented design, and execution behavior.',
-        imageAlt: 'Python programming quiz and algorithm practice emblem on HangBug',
+        introContent: 'Master clean, Pythonic problem-solving with Hangbug Python quizzes and interactive coding challenges. Practice multi-session assessments covering mutable vs. immutable data types, generator functions, list comprehensions, object-oriented design, and execution behavior.',
+        imageAlt: 'Python programming quiz and algorithm practice emblem on Hangbug',
         internalLinks: [
             { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' },
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
@@ -541,7 +543,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Computer Science Foundations',
         categoryMatcher: ['Programming Fundamentals', 'Programming Logic', 'OOP', 'DSA'],
         path: '/technologies/programming-fundamentals',
-        title: 'Programming Fundamentals Quizzes — Logic, OOP & Data Structures | HangBug',
+        title: 'Programming Fundamentals Quizzes — Logic, OOP & Data Structures | Hangbug',
         description: 'Build strong computer science foundations with interactive practice in programming logic, Object-Oriented Programming (OOP), and Data Structures & Algorithms.',
         primaryKeyword: 'programming fundamentals quiz',
         secondaryKeywords: [
@@ -553,7 +555,7 @@ export const SEO_PAGES_CONFIG = {
         ],
         h1: 'Programming Fundamentals: Logic, OOP & Algorithms Practice',
         h2s: [
-            'Three Pillars of Programming Fundamentals on HangBug',
+            'Three Pillars of Programming Fundamentals on Hangbug',
             'Core Computer Science Concepts You Will Practice',
             'Interactive Logic, OOP & Algorithm Coding Games',
             'Apply Your Fundamentals to Language Tracks'
@@ -563,8 +565,8 @@ export const SEO_PAGES_CONFIG = {
             'Object-Oriented Programming (Encapsulation, Inheritance & Polymorphism)',
             'Data Structures, Searching, Sorting & Big-O Complexity'
         ],
-        introContent: 'Every great software engineer relies on language-agnostic problem-solving skills. HangBug’s Programming Fundamentals track combines Programming Logic, Object-Oriented Programming (OOP), and Data Structures & Algorithms (DSA) into interactive browser challenges that sharpen how you trace code and design solutions.',
-        imageAlt: 'Programming fundamentals icon representing algorithmic logic, OOP, and data structures on HangBug',
+        introContent: 'Every great software engineer relies on language-agnostic problem-solving skills. Hangbug’s Programming Fundamentals track combines Programming Logic, Object-Oriented Programming (OOP), and Data Structures & Algorithms (DSA) into interactive browser challenges that sharpen how you trace code and design solutions.',
+        imageAlt: 'Programming fundamentals icon representing algorithmic logic, OOP, and data structures on Hangbug',
         internalLinks: [
             { label: 'Play Logic Builder Game', to: '/games/logic-builder?tech=programming-logic' },
             { label: 'Play Coding Memory Match', to: '/games/memory-match?tech=oop' },
@@ -578,7 +580,7 @@ export const SEO_PAGES_CONFIG = {
     games: {
         id: 'games',
         path: '/games',
-        title: 'Coding & Typing Games for Developers — HangBug Games Hub',
+        title: 'Coding & Typing Games for Developers — Hangbug Games Hub',
         description: 'Play 18 interactive coding and developer typing games in your browser. Solve Code Puzzles, Find the Bug, predict outputs, write SQL queries, and boost code WPM.',
         primaryKeyword: 'coding games',
         secondaryKeywords: [
@@ -600,8 +602,8 @@ export const SEO_PAGES_CONFIG = {
             'Interactive SQL & C# Specialty Challenges',
             'Real-Time Developer WPM & Syntax Typing Drills'
         ],
-        introContent: 'Turn daily programming practice into an engaging arcade challenge. HangBug’s Games Hub features browser-based coding games and developer typing drills across 24 technology tracks—helping you spot syntax bugs faster, trace program output accurately, and build muscle memory for brackets, operators, and keywords.',
-        imageAlt: 'HangBug Arcade coding games and developer typing challenge showcase banner',
+        introContent: 'Turn daily programming practice into an engaging arcade challenge. Hangbug’s Games Hub features browser-based coding games and developer typing drills across 24 technology tracks—helping you spot syntax bugs faster, trace program output accurately, and build muscle memory for brackets, operators, and keywords.',
+        imageAlt: 'Hangbug Arcade coding games and developer typing challenge showcase banner',
         internalLinks: [
             { label: 'Code Puzzle Game', to: '/games/code-puzzle' },
             { label: 'Find the Bug Game', to: '/games/find-the-bug' },
@@ -616,20 +618,20 @@ export const SEO_PAGES_CONFIG = {
     certificateInfo: {
         id: 'certificateInfo',
         path: '/certificate/view',
-        title: 'Verify Developer Certificate — HangBug Programming Certificates & Info',
-        description: 'Learn how to earn, view, and verify HangBug programming completion certificates. Score 80% or higher on technology quizzes to unlock shareable QR credentials.',
+        title: 'Verify Developer Certificate — Hangbug Programming Certificates & Info',
+        description: 'Learn how to earn, view, and verify Hangbug programming completion certificates. Score 80% or higher on technology quizzes to unlock shareable QR credentials.',
         primaryKeyword: 'programming certificates',
         secondaryKeywords: [
             'coding quiz certificate of completion',
             'verify developer skill certificate',
             'online programming assessment credential',
             'shareable coding certificate QR code',
-            'HangBug certificate verification'
+            'Hangbug certificate verification'
         ],
-        h1: 'HangBug Programming Certificates & Credential Verification',
+        h1: 'Hangbug Programming Certificates & Credential Verification',
         h2s: [
             'Sample & Verified Certificate of Completion',
-            'How to Earn a HangBug Certificate of Completion',
+            'How to Earn a Hangbug Certificate of Completion',
             'Online Certificate ID & QR Verification',
             'Important Transparency Note on Certificate Scope'
         ],
@@ -638,48 +640,48 @@ export const SEO_PAGES_CONFIG = {
             'Unique Verification ID & Instant Lookup',
             'Non-Accredited Platform Skill Assessment Credential'
         ],
-        introContent: 'HangBug awards digital Certificates of Completion to learners who pass technology quiz assessments with a score of 80% or higher. Each certificate includes your score percentage, completion date, and a unique verification ID so peers and hiring managers can confirm your quiz performance online. Note: HangBug certificates represent platform-based quiz completion and self-assessment milestones; they are not accredited academic degrees or government-accredited certifications.',
-        imageAlt: 'Official HangBug Certificate of Completion preview with QR verification code and score details',
+        introContent: 'Hangbug awards digital Certificates of Completion to learners who pass technology quiz assessments with a score of 80% or higher. Each certificate includes your score percentage, completion date, and a unique verification ID so peers and hiring managers can confirm your quiz performance online. Note: Hangbug certificates represent platform-based quiz completion and self-assessment milestones; they are not accredited academic degrees or government-accredited certifications.',
+        imageAlt: 'Official Hangbug Certificate of Completion preview with QR verification code and score details',
         internalLinks: [
             { label: 'Browse Technology Quizzes', to: '/technologies' },
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
             { label: 'React.js Quizzes', to: '/technologies/react' },
             { label: 'Python Quizzes', to: '/technologies/python' },
             { label: 'Practice Coding Games', to: '/games' },
-            { label: 'About HangBug', to: '/about' }
+            { label: 'About Hangbug', to: '/about' }
         ]
     },
 
     about: {
         id: 'about',
         path: '/about',
-        title: 'About Us — HangBug Developer Skill Verification Platform & Coding Quizzes',
-        description: 'Discover how HangBug helps developers and students practice coding quizzes, play interactive programming games, and earn verifiable completion certificates.',
+        title: 'About Us — Hangbug Developer Skill Verification Platform & Coding Quizzes',
+        description: 'Discover how Hangbug helps developers and students practice coding quizzes, play interactive programming games, and earn verifiable completion certificates.',
         primaryKeyword: 'interactive coding quiz platform',
         secondaryKeywords: [
-            'about HangBug developer platform',
+            'about Hangbug developer platform',
             'online programming practice platform',
             'software engineering self-assessment tool',
             'coding quiz and game learning platform'
         ],
-        h1: 'About HangBug — Interactive Coding Quizzes & Programming Practice',
+        h1: 'About Hangbug — Interactive Coding Quizzes & Programming Practice',
         h2s: [
             'Core Platform Pillars',
             'Our Mission for Developer Self-Assessment',
-            'What You Can Practice on HangBug'
+            'What You Can Practice on Hangbug'
         ],
         h3s: [
             'Comprehensive Stack Coverage',
             'Verifiable Completion Certificates',
             'Session-Based Progression & Coding Games'
         ],
-        introContent: 'HangBug is an interactive coding quiz and developer practice platform designed to make technical self-assessment active, measurable, and engaging. Whether you are preparing for software engineering interviews, reviewing university coursework, or learning a new stack, HangBug provides instant feedback across quizzes and coding games.',
-        imageAlt: 'HangBug developer skill verification and coding quiz platform brand emblem',
+        introContent: 'Hangbug is an interactive coding quiz and developer practice platform designed to make technical self-assessment active, measurable, and engaging. Whether you are preparing for software engineering interviews, reviewing university coursework, or learning a new stack, Hangbug provides instant feedback across quizzes and coding games.',
+        imageAlt: 'Hangbug developer skill verification and coding quiz platform brand emblem',
         internalLinks: [
             { label: 'Explore Technology Quizzes', to: '/technologies' },
             { label: 'Play Coding & Typing Games', to: '/games' },
             { label: 'Certificate Information', to: '/certificate/view' },
-            { label: 'Learning Resources', to: '/resources' },
+            { label: 'Global Leaderboard', to: '/leaderboard' },
             { label: 'Contact Support', to: '/contact' }
         ]
     },
@@ -687,16 +689,16 @@ export const SEO_PAGES_CONFIG = {
     contact: {
         id: 'contact',
         path: '/contact',
-        title: 'Contact Support & Inquiries — HangBug Coding Quiz Platform',
-        description: 'Contact the HangBug support team for help with coding quizzes, account access, certificate verification, bug reports, or educational partnership inquiries.',
-        primaryKeyword: 'contact HangBug support',
+        title: 'Contact Support & Inquiries — Hangbug Coding Quiz Platform',
+        description: 'Contact the Hangbug support team for help with coding quizzes, account access, certificate verification, bug reports, or educational partnership inquiries.',
+        primaryKeyword: 'contact Hangbug support',
         secondaryKeywords: [
-            'HangBug help and customer support',
+            'Hangbug help and customer support',
             'coding quiz feedback and bug report',
             'certificate verification assistance',
             'developer platform inquiries'
         ],
-        h1: 'Contact HangBug Support & Platform Inquiries',
+        h1: 'Contact Hangbug Support & Platform Inquiries',
         h2s: [
             'Direct Support Channels',
             'Send Us a Message',
@@ -707,13 +709,13 @@ export const SEO_PAGES_CONFIG = {
             'How Completion Certificates Work',
             'Retaking Quiz Sessions & Saving Progress'
         ],
-        introContent: 'Have a question about a quiz question, need help verifying a completion certificate, or want to report a technical issue? Reach out to the HangBug team using the contact form or direct support email below, or explore our quick answers to common platform questions.',
-        imageAlt: 'HangBug customer support and developer inquiry contact illustration',
+        introContent: 'Have a question about a quiz question, need help verifying a completion certificate, or want to report a technical issue? Reach out to the Hangbug team using the contact form or direct support email below, or explore our quick answers to common platform questions.',
+        imageAlt: 'Hangbug customer support and developer inquiry contact illustration',
         internalLinks: [
             { label: 'Browse Technology Quizzes', to: '/technologies' },
             { label: 'Play Coding Games', to: '/games' },
             { label: 'Verify a Certificate', to: '/certificate/view' },
-            { label: 'About HangBug', to: '/about' },
+            { label: 'About Hangbug', to: '/about' },
             { label: 'Privacy Policy', to: '/privacy-policy' }
         ]
     },
@@ -721,8 +723,8 @@ export const SEO_PAGES_CONFIG = {
     resources: {
         id: 'resources',
         path: '/resources',
-        title: 'Developer Blog & Learning Resources — Coding Practice Guides | HangBug',
-        description: 'Explore HangBug learning resources, structured programming study paths, interview preparation strategies, and direct links to coding quizzes and games.',
+        title: 'Developer Blog & Learning Resources — Coding Practice Guides | Hangbug',
+        description: 'Explore Hangbug learning resources, structured programming study paths, interview preparation strategies, and direct links to coding quizzes and games.',
         primaryKeyword: 'programming learning resources',
         secondaryKeywords: [
             'coding practice study guides',
@@ -736,15 +738,15 @@ export const SEO_PAGES_CONFIG = {
             'Structured Programming Study Roadmaps',
             'How to Combine Coding Quizzes With Interactive Games',
             'Practice Guides by Technology Domain',
-            'Understanding HangBug Completion Certificates'
+            'Understanding Hangbug Completion Certificates'
         ],
         h3s: [
             'Frontend Web Development Path (HTML, CSS, JavaScript & React.js)',
             'Backend & Database Engineering Path (PHP, Laravel, Python, MySQL & MongoDB)',
             'Mobile & Computer Science Foundations (Flutter, Dart & Programming Fundamentals)'
         ],
-        introContent: 'Welcome to the HangBug Learning Resources hub. Use these structured study roadmaps and practice guides to organize your coding review, pair conceptual quizzes with hands-on debugging games, and systematically strengthen your software engineering fundamentals.',
-        imageAlt: 'HangBug developer learning resources and structured coding study roadmap banner',
+        introContent: 'Welcome to the Hangbug Learning Resources hub. Use these structured study roadmaps and practice guides to organize your coding review, pair conceptual quizzes with hands-on debugging games, and systematically strengthen your software engineering fundamentals.',
+        imageAlt: 'Hangbug developer learning resources and structured coding study roadmap banner',
         internalLinks: [
             { label: 'All Technology Quizzes', to: '/technologies' },
             { label: 'HTML Quizzes', to: '/technologies/html' },

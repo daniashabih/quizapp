@@ -7,6 +7,7 @@ import 'core/theme/app_theme.dart';
 import 'providers/theme_provider.dart';
 import 'routes/app_router.dart';
 import 'services/ad_service.dart';
+import 'widgets/hangbug_toast.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,6 +63,7 @@ class HangbugApp extends ConsumerWidget {
         darkTheme: AppTheme.darkTheme,
         themeMode: themeMode,
         routerConfig: router,
+        builder: (context, child) => HangbugNotificationViewport(child: child),
       ),
     );
   }

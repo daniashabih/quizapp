@@ -40,8 +40,8 @@ const DIFFICULTIES = ['All Levels', 'Beginner', 'Intermediate', 'Advanced'];
 
 export const GamesHub = () => {
     usePageSeo({
-        title: 'Coding & Typing Games for Developers — HangBug Games Hub',
-        description: 'Sharpen your coding logic, syntax memory, and typing speed with interactive browser games including Code Puzzle, Find the Bug, and Speed Typing.',
+        title: 'Coding & Typing Games for Developers — Hangbug Games Hub',
+        description: 'Sharpen your coding logic, syntax memory, and typing speed on Hangbug with interactive browser games including Code Puzzle, Find the Bug, and Speed Typing.',
         canonicalPath: '/games'
     });
 

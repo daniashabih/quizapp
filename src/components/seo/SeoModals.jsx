@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Plus, MessageSquare, Settings, Check, Globe } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from '../../services/notificationService';
 
 // Create SEO Project Modal
 export function CreateProjectModal({ isOpen, onClose, onProjectCreated }) {

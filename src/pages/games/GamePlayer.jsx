@@ -21,7 +21,7 @@ import {
     Layers,
     ChevronDown
 } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from '../../services/notificationService';
 import { useAuth } from '../../context/AuthContext';
 import usePageSeo from '../../hooks/usePageSeo';
 import gameService, { FALLBACK_GAMES, FALLBACK_TECHNOLOGIES } from '../../services/gameService';
@@ -86,11 +86,11 @@ export const GamePlayer = () => {
     // Technical SEO: Dynamic Title, Description, and Canonical URL for each game
     usePageSeo({
         title: seoGame
-            ? `${seoGame.title} — ${seoGame.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | HangBug`
-            : 'Developer Game Challenge — HangBug Games',
+            ? `${seoGame.title} — ${seoGame.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | Hangbug`
+            : 'Developer Game Challenge — Hangbug Games',
         description: seoGame?.description
-            ? `${seoGame.description} Practice interactive coding challenges on HangBug.`
-            : 'Play interactive coding and typing games on HangBug to sharpen programming logic and keyboard speed.',
+            ? `${seoGame.description} Practice interactive coding challenges on Hangbug.`
+            : 'Play interactive coding and typing games on Hangbug to sharpen programming logic and keyboard speed.',
         canonicalPath: `/games/${seoGame?.baseSlug || seoGame?.slug || slug || ''}`,
         ogType: 'website'
     });

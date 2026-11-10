@@ -31,7 +31,7 @@ import {
     Check,
     AlertCircle
 } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from '../../../services/notificationService';
 import gameService, { FALLBACK_TECH_CATEGORIES, FALLBACK_TECHNOLOGIES } from '../../../services/gameService';
 import GameArtwork from '../../games/components/GameArtwork';
 import TechIcon from '../../games/components/TechIcon';

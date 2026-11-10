@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { notify } from '../../services/notificationService';
 import { useParams, useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { Lock, ArrowRight, Eye, EyeOff, ArrowLeft, Check, X, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import Navbar from '../../components/Navbar';
@@ -125,6 +125,11 @@ export default function ResetPassword() {
         }
 
         setSubmitting(true);
+        const toastId = notify.loading({
+            id: 'reset-password',
+            title: 'Updating password...',
+            description: 'Securing your Hangbug credentials.'
+        });
 
         try {
             const res = await axios.post('/auth/reset-password', {
@@ -134,7 +139,11 @@ export default function ResetPassword() {
             });
 
             setIsSuccess(true);
-            toast.success(res.data?.message || 'Password reset successfully! Please log in.');
+            notify.update(toastId, {
+                type: 'success',
+                title: 'Password updated!',
+                description: res.data?.message || 'Your password has been reset. Please sign in.'
+            });
 
             // Navigate back to login after short delay
             setTimeout(() => {
@@ -145,7 +154,11 @@ export default function ResetPassword() {
         } catch (error) {
             const msg = error.response?.data?.message || 'Failed to reset password. Please try again or request a new link.';
             setErrorMessage(msg);
-            toast.error(msg);
+            notify.update(toastId, {
+                type: 'error',
+                title: 'Password reset failed',
+                description: msg
+            });
         } finally {
             setSubmitting(false);
         }

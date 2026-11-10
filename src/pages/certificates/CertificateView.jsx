@@ -7,6 +7,7 @@ import BrandLogo from '../../components/BrandLogo';
 import usePageSeo from '../../hooks/usePageSeo';
 import { Download, Linkedin, ArrowLeft, Award, QrCode, Loader2, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { notify } from '../../services/notificationService';
 import { trackCertificateGeneration, trackCertificateDownload } from '../../utils/analytics';
 
 export default function CertificateView() {
@@ -24,8 +25,8 @@ export default function CertificateView() {
     const [certError, setCertError] = useState(null);
 
     usePageSeo({
-        title: 'Verify Developer Certificate — HangBug Skill Verification',
-        description: 'Verify the authentic developer credentials, test scores, and issue dates of HangBug skill assessment certificates.',
+        title: 'Verify Developer Certificate — Hangbug Skill Verification',
+        description: 'Verify the authentic developer credentials, test scores, and issue dates of Hangbug skill assessment certificates.',
         canonicalPath: '/certificate/view',
         noindex: true
     });
@@ -71,10 +72,20 @@ export default function CertificateView() {
     const handleDownload = () => {
         trackCertificateDownload({ category, certificateId: certId });
         setDownloaded(true);
+        notify.success({
+            id: `cert-download-${certId}`,
+            title: 'Certificate ready',
+            description: `Prepared your verified ${category} certificate (${certId}).`
+        });
         setTimeout(() => setDownloaded(false), 3000);
     };
 
     const shareLinkedIn = () => {
+        notify.info({
+            id: 'cert-share-linkedin',
+            title: 'Sharing credential',
+            description: 'Opening LinkedIn to share your verified Hangbug certificate.'
+        });
         window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank');
     };
 

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/user_model.dart';
+import '../services/notification_service.dart';
 import 'core_providers.dart';
 
 class AuthState {
@@ -49,6 +50,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
         clearUser: true,
         error: 'Your session has expired. Please sign in again.',
       );
+      AppNotificationService.warning(
+        id: 'mobile-session-expired',
+        title: 'Session expired',
+        message: 'Your session has expired. Please sign in again.',
+      );
     }
   }
 
@@ -74,13 +80,31 @@ class AuthNotifier extends StateNotifier<AuthState> {
   // Login
   Future<bool> login(String email, String password) async {
     state = state.copyWith(isLoading: true, clearError: true);
+    final toastId = AppNotificationService.loading(
+      id: 'mobile-auth-login',
+      title: 'Signing you in...',
+      message: 'Verifying your credentials with Hangbug.',
+    );
     try {
       final repository = _ref.read(authRepositoryProvider);
       final user = await repository.login(email: email, password: password);
       state = state.copyWith(user: user, isLoading: false);
+      AppNotificationService.update(
+        toastId,
+        type: HangbugNotificationType.success,
+        title: "You're all set!",
+        message: 'Welcome back to Hangbug.',
+      );
       return true;
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      final cleanError = e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
+      state = state.copyWith(isLoading: false, error: cleanError);
+      AppNotificationService.update(
+        toastId,
+        type: HangbugNotificationType.error,
+        title: 'Sign-in failed',
+        message: cleanError,
+      );
       return false;
     }
   }
@@ -88,6 +112,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
   // Signup
   Future<bool> signup(String name, String email, String password) async {
     state = state.copyWith(isLoading: true, clearError: true);
+    final toastId = AppNotificationService.loading(
+      id: 'mobile-auth-signup',
+      title: 'Creating your account...',
+      message: 'Setting up your Hangbug profile.',
+    );
     try {
       final repository = _ref.read(authRepositoryProvider);
       final user = await repository.signup(
@@ -96,9 +125,22 @@ class AuthNotifier extends StateNotifier<AuthState> {
         password: password,
       );
       state = state.copyWith(user: user, isLoading: false);
+      AppNotificationService.update(
+        toastId,
+        type: HangbugNotificationType.success,
+        title: 'Welcome to Hangbug!',
+        message: 'Your account has been created. Let’s start learning.',
+      );
       return true;
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      final cleanError = e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
+      state = state.copyWith(isLoading: false, error: cleanError);
+      AppNotificationService.update(
+        toastId,
+        type: HangbugNotificationType.error,
+        title: 'Registration failed',
+        message: cleanError,
+      );
       return false;
     }
   }
@@ -110,9 +152,20 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final repository = _ref.read(authRepositoryProvider);
       final updatedUser = await repository.updateProfile(name: name, email: email);
       state = state.copyWith(user: updatedUser, isLoading: false);
+      AppNotificationService.success(
+        id: 'mobile-profile-update',
+        title: 'Profile updated',
+        message: 'Your personal details have been saved.',
+      );
       return true;
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      final cleanError = e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
+      state = state.copyWith(isLoading: false, error: cleanError);
+      AppNotificationService.error(
+        id: 'mobile-profile-update',
+        title: 'Update failed',
+        message: cleanError,
+      );
       return false;
     }
   }
@@ -129,7 +182,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       );
       return true;
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      final cleanError = e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
+      state = state.copyWith(isLoading: false, error: cleanError);
       return false;
     }
   }
@@ -144,6 +198,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(
         clearUser: true,
         isLoading: false,
+      );
+      AppNotificationService.info(
+        id: 'mobile-auth-logout',
+        title: 'Signed out',
+        message: 'You have been safely signed out of Hangbug.',
       );
     }
   }

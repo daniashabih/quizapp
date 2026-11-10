@@ -5,6 +5,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/validators.dart';
 import '../../providers/core_providers.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 
@@ -84,7 +85,14 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   }
 
   Future<void> _handleResetPassword() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      AppNotificationService.warning(
+        id: 'mobile-reset-validation',
+        title: 'Action required',
+        message: 'Please complete all password requirements.',
+      );
+      return;
+    }
     FocusScope.of(context).unfocus();
 
     setState(() {
@@ -92,12 +100,25 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
       _errorMessage = null;
     });
 
+    final toastId = AppNotificationService.loading(
+      id: 'mobile-reset-password',
+      title: 'Updating password...',
+      message: 'Securing your Hangbug credentials.',
+    );
+
     try {
       final repo = ref.read(authRepositoryProvider);
       await repo.resetPassword(
         token: widget.token.trim(),
         password: _passwordController.text,
         confirmPassword: _confirmPasswordController.text,
+      );
+
+      AppNotificationService.update(
+        toastId,
+        type: HangbugNotificationType.success,
+        title: 'Password updated!',
+        message: 'Your password has been reset. Redirecting to sign in...',
       );
 
       if (mounted) {
@@ -113,11 +134,17 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
         });
       }
     } catch (e) {
+      final cleanErr = e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
+      AppNotificationService.update(
+        toastId,
+        type: HangbugNotificationType.error,
+        title: 'Password reset failed',
+        message: cleanErr,
+      );
       if (mounted) {
         setState(() {
           _isSubmitting = false;
-          _errorMessage =
-              e.toString().replaceFirst(RegExp(r'^Exception:\s*'), '');
+          _errorMessage = cleanErr;
         });
       }
     }

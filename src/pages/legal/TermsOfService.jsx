@@ -7,8 +7,8 @@ import usePageSeo from '../../hooks/usePageSeo';
 
 export default function TermsOfService() {
     usePageSeo({
-        title: 'Terms of Service — HangBug Platform Terms & Conditions',
-        description: 'Review the HangBug Terms of Service governing platform usage, credential verification, intellectual property, and community guidelines.',
+        title: 'Terms of Service — Hangbug Platform Terms & Conditions',
+        description: 'Review the Hangbug Terms of Service governing platform usage, score-based certificate verification, intellectual property, and community guidelines.',
         canonicalPath: '/terms'
     });
     useEffect(() => {
@@ -49,13 +49,13 @@ export default function TermsOfService() {
                             <FileText size={18} className="text-[#193D35]" /> 1. Agreement to Terms
                         </h2>
                         <p className="text-[var(--foreground-muted)]">
-                            By accessing or using HangBug, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not access or use the platform.
+                            By accessing or using Hangbug (<a href="https://www.hangbug.com/" className="text-[#193D35] font-semibold underline">https://www.hangbug.com/</a>), you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not access or use the platform.
                         </p>
                     </section>
 
                     <section className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 space-y-3">
                         <h2 className="text-lg font-display font-bold flex items-center gap-2 text-[var(--foreground)]">
-                            <CheckCircle2 size={18} className="text-[#193D35]" /> 2. User Accounts & Fair Play
+                            <CheckCircle2 size={18} className="text-[#193D35]" /> 2. User Accounts &amp; Fair Play
                         </h2>
                         <p className="text-[var(--foreground-muted)]">
                             Users must provide accurate information when creating an account. You are responsible for keeping your credentials confidential.
@@ -69,17 +69,17 @@ export default function TermsOfService() {
 
                     <section className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 space-y-3">
                         <h2 className="text-lg font-display font-bold flex items-center gap-2 text-[var(--foreground)]">
-                            <Award size={18} className="text-[#193D35]" /> 3. Quizzes & Certification Validity
+                            <Award size={18} className="text-[#193D35]" /> 3. Quizzes &amp; Score-Based Certificates
                         </h2>
                         <p className="text-[var(--foreground-muted)]">
-                            Certificates issued by HangBug represent completion and mastery of specific quiz modules based on the score achieved at the time of testing. Certificates include a verifiable unique credential ID and verification QR code.
+                            Certificates issued by Hangbug represent platform-based quiz completion and self-assessment based on the score achieved (80% or higher) at the time of testing. Certificates include a unique verification ID and QR verification link.
                         </p>
                     </section>
 
                     <section className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 space-y-3">
                         <h2 className="text-lg font-display font-bold text-[var(--foreground)]">4. Intellectual Property</h2>
                         <p className="text-[var(--foreground-muted)]">
-                            All platform designs, branding, quiz structures, question databases, and proprietary algorithms are the property of HangBug and protected under intellectual property laws.
+                            All platform designs, branding, quiz structures, coding games, and question databases are the property of Hangbug and protected under applicable intellectual property laws.
                         </p>
                     </section>
 
@@ -88,12 +88,12 @@ export default function TermsOfService() {
                             <AlertCircle size={18} className="text-[#193D35]" /> 5. Disclaimer of Warranties
                         </h2>
                         <p className="text-[var(--foreground-muted)]">
-                            HangBug is provided on an "AS IS" and "AS AVAILABLE" basis. While we strive for 100% accuracy across all quiz questions and system uptime, we do not guarantee uninterrupted access or error-free question banks.
+                            Hangbug is provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis. While we strive for accuracy across all quiz questions and system uptime, we do not guarantee uninterrupted access or error-free question banks.
                         </p>
                     </section>
 
                     <section className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 space-y-3">
-                        <h2 className="text-lg font-display font-bold text-[var(--foreground)]">6. Contact & Disputes</h2>
+                        <h2 className="text-lg font-display font-bold text-[var(--foreground)]">6. Contact &amp; Disputes</h2>
                         <p className="text-[var(--foreground-muted)]">
                             For legal inquiries or feedback regarding these terms, contact us at <a href="mailto:support@hangbug.com" className="text-[#193D35] font-semibold underline">support@hangbug.com</a>.
                         </p>

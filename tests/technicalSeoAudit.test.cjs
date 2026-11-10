@@ -12,16 +12,17 @@ function readFile(relPath) {
 
 test('1. Technical SEO: Unique titles and meta descriptions for public pages', () => {
     const publicPages = [
-        { file: 'src/pages/Landing.jsx', title: 'HangBug — Test & Master Web Development Skills' },
-        { file: 'src/pages/quiz/Technologies.jsx', title: 'Choose Your Tech Stack — Programming & Framework Quizzes' },
-        { file: 'src/pages/games/GamesHub.jsx', title: 'Coding & Typing Games for Developers — HangBug Games Hub' },
+        { file: 'src/pages/Landing.jsx', title: 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates' },
+        { file: 'src/pages/quiz/Technologies.jsx', title: 'Choose Your Tech Stack — Programming & Framework Quizzes | Hangbug' },
+        { file: 'src/pages/quiz/TechnologyDetail.jsx', title: 'Technology Quizzes & Coding Practice | Hangbug' },
+        { file: 'src/pages/games/GamesHub.jsx', title: 'Coding & Typing Games for Developers — Hangbug Games Hub' },
         { file: 'src/pages/games/GamePlayer.jsx', title: 'Developer Typing Challenge' },
-        { file: 'src/pages/leaderboard/Leaderboard.jsx', title: 'Global Developer Leaderboard & Rankings — HangBug' },
-        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Us — HangBug Developer Skill Verification Platform' },
-        { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — HangBug' },
-        { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — HangBug Data Protection & Cookie Policy' },
-        { file: 'src/pages/legal/TermsOfService.jsx', title: 'Terms of Service — HangBug Platform Terms & Conditions' },
-        { file: 'src/pages/certificates/CertificateView.jsx', title: 'Verify Developer Certificate' }
+        { file: 'src/pages/leaderboard/Leaderboard.jsx', title: 'Global Developer Leaderboard & Rankings — Hangbug' },
+        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug – Technology Learning, Tech Quizzes & Skill Assessment Platform' },
+        { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — Hangbug' },
+        { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy' },
+        { file: 'src/pages/legal/TermsOfService.jsx', title: 'Terms of Service — Hangbug Platform Terms & Conditions' },
+        { file: 'src/pages/certificates/CertificateView.jsx', title: 'Verify Developer Certificate — Hangbug Skill Verification' }
     ];
 
     for (const page of publicPages) {
@@ -46,6 +47,12 @@ test('3. Technical SEO: robots.txt properly configured with User-agent, Allow, D
 
     assert.ok(publicRobots.includes('User-agent: *'), 'robots.txt must declare User-agent: *');
     assert.ok(publicRobots.includes('Allow: /'), 'robots.txt must allow root');
+    assert.ok(publicRobots.includes('Allow: /favicon.ico'), 'robots.txt must explicitly allow /favicon.ico');
+    assert.ok(publicRobots.includes('Allow: /favicon-32x32.png'), 'robots.txt must explicitly allow /favicon-32x32.png');
+    assert.ok(publicRobots.includes('Allow: /favicon-48x48.png'), 'robots.txt must explicitly allow /favicon-48x48.png');
+    assert.ok(publicRobots.includes('Allow: /apple-touch-icon.png'), 'robots.txt must explicitly allow /apple-touch-icon.png');
+    assert.ok(publicRobots.includes('Allow: /branding/'), 'robots.txt must explicitly allow /branding/');
+    assert.ok(publicRobots.includes('User-agent: Googlebot-Image'), 'robots.txt must declare User-agent: Googlebot-Image');
     assert.ok(publicRobots.includes('Disallow: /api/'), 'robots.txt must disallow /api/');
     assert.ok(publicRobots.includes('Disallow: /admin/'), 'robots.txt must disallow /admin/');
     assert.ok(publicRobots.includes('Disallow: /dashboard/'), 'robots.txt must disallow /dashboard/');
@@ -59,14 +66,14 @@ test('3. Technical SEO: robots.txt properly configured with User-agent, Allow, D
     assert.strictEqual(publicRobots, distRobots, 'public/robots.txt and dist/robots.txt must match');
 });
 
-test('4 & 5. Technical SEO: Dynamic sitemap.xml includes all public pages and 18 games, excludes private/auth routes', () => {
+test('4 & 5. Technical SEO: Dynamic sitemap.xml includes all public pages, technology tracks, and 18 games, excludes private/auth routes', () => {
     const sitemap = readFile('public/sitemap.xml');
     const distSitemap = readFile('dist/sitemap.xml');
 
     assert.ok(sitemap.startsWith('<?xml'), 'sitemap must be valid XML declaration');
     assert.ok(sitemap.includes('<urlset'), 'sitemap must have urlset root');
 
-    // All 8 core public pages
+    // All core public pages
     const corePages = [
         'https://www.hangbug.com/',
         'https://www.hangbug.com/technologies',
@@ -75,7 +82,15 @@ test('4 & 5. Technical SEO: Dynamic sitemap.xml includes all public pages and 18
         'https://www.hangbug.com/about',
         'https://www.hangbug.com/contact',
         'https://www.hangbug.com/privacy-policy',
-        'https://www.hangbug.com/terms'
+        'https://www.hangbug.com/terms',
+        'https://www.hangbug.com/technologies/html',
+        'https://www.hangbug.com/technologies/css',
+        'https://www.hangbug.com/technologies/javascript',
+        'https://www.hangbug.com/technologies/php',
+        'https://www.hangbug.com/technologies/laravel',
+        'https://www.hangbug.com/technologies/mysql',
+        'https://www.hangbug.com/technologies/flutter',
+        'https://www.hangbug.com/technologies/dart'
     ];
     for (const url of corePages) {
         assert.ok(sitemap.includes(`<loc>${url}</loc>`), `sitemap must include core page: ${url}`);
@@ -218,7 +233,7 @@ test('12. Technical SEO: Descriptive image alt attributes', () => {
     assert.ok(leaderboard.includes('profile avatar'), 'Leaderboard avatars must have descriptive alt');
 });
 
-test('13. Technical SEO: Important public pages have crawlable links', () => {
+test('13. Technical SEO: Important public pages have crawlable links and valid routes', () => {
     const navbar = readFile('src/components/Navbar.jsx');
     assert.ok(navbar.includes("path: '/'"), 'Navbar must link to home');
     assert.ok(navbar.includes("path: '/technologies'"), 'Navbar must link to /technologies');
@@ -233,6 +248,9 @@ test('13. Technical SEO: Important public pages have crawlable links', () => {
     assert.ok(footer.includes('to="/contact"'), 'Footer must link to /contact');
     assert.ok(footer.includes('to="/privacy-policy"'), 'Footer must link to /privacy-policy');
     assert.ok(footer.includes('to="/terms"'), 'Footer must link to /terms');
+
+    const appJsx = readFile('src/App.jsx');
+    assert.ok(appJsx.includes('<Route path="/technologies/:slug" element={<TechnologyDetail />} />'), 'App.jsx must route /technologies/:slug to TechnologyDetail');
 });
 
 test('14 & 15. Technical SEO: Permanent redirects and status codes in vercel.json & Express', () => {
@@ -255,7 +273,7 @@ test('14 & 15. Technical SEO: Permanent redirects and status codes in vercel.jso
     assert.ok(apiIndex.includes("app.get('/robots.txt', getRobotsTxt)"), 'Express must serve /robots.txt');
     assert.ok(apiIndex.includes("app.get('/sitemap.xml', getDynamicSitemap)"), 'Express must serve /sitemap.xml');
 
-    const { getDynamicSitemap, getRobotsTxt } = require('../api/_controllers/seoController');
+    const { getRobotsTxt } = require('../api/_controllers/seoController');
 
     let robotsStatus = 0;
     let robotsBody = '';
@@ -267,4 +285,90 @@ test('14 & 15. Technical SEO: Permanent redirects and status codes in vercel.jso
     assert.strictEqual(robotsStatus, 200, 'getRobotsTxt must return HTTP 200');
     assert.ok(robotsHeaders['Content-Type'].includes('text/plain'), 'getRobotsTxt must set Content-Type text/plain');
     assert.ok(robotsBody.includes('Sitemap: https://www.hangbug.com/sitemap.xml'), 'getRobotsTxt must include Sitemap URL');
+});
+
+test('16. Google Search Logo & Favicon: Square favicon assets (32x32, 48x48, 180x180, 192x192, ico) exist and are linked in index.html', () => {
+    const requiredAssets = [
+        { rel: 'public/favicon.ico', dist: 'dist/favicon.ico' },
+        { rel: 'public/favicon-32x32.png', dist: 'dist/favicon-32x32.png', width: 32, height: 32 },
+        { rel: 'public/favicon-48x48.png', dist: 'dist/favicon-48x48.png', width: 48, height: 48 },
+        { rel: 'public/favicon.png', dist: 'dist/favicon.png', width: 192, height: 192 },
+        { rel: 'public/apple-touch-icon.png', dist: 'dist/apple-touch-icon.png', width: 180, height: 180 },
+        { rel: 'public/branding/hangbug-logo-full.png', dist: 'dist/branding/hangbug-logo-full.png', width: 1024, height: 1024 }
+    ];
+
+    for (const asset of requiredAssets) {
+        const pubPath = path.join(ROOT_DIR, asset.rel);
+        const distPath = path.join(ROOT_DIR, asset.dist);
+        assert.ok(fs.existsSync(pubPath), `${asset.rel} must exist`);
+        assert.ok(fs.existsSync(distPath), `${asset.dist} must exist in production dist`);
+
+        if (asset.width && asset.height) {
+            const buf = fs.readFileSync(pubPath);
+            const w = buf.readUInt32BE(16);
+            const h = buf.readUInt32BE(20);
+            assert.strictEqual(w, asset.width, `${asset.rel} width must be ${asset.width}px`);
+            assert.strictEqual(h, asset.height, `${asset.rel} height must be ${asset.height}px`);
+            assert.strictEqual(w, h, `${asset.rel} must be square`);
+        }
+    }
+
+    const indexHtml = readFile('index.html');
+    assert.ok(indexHtml.includes('href="/favicon.ico"'), 'index.html must reference /favicon.ico');
+    assert.ok(indexHtml.includes('href="/favicon-48x48.png"') && indexHtml.includes('sizes="48x48"'), 'index.html must reference /favicon-48x48.png with sizes="48x48"');
+    assert.ok(indexHtml.includes('href="/favicon-32x32.png"') && indexHtml.includes('sizes="32x32"'), 'index.html must reference /favicon-32x32.png with sizes="32x32"');
+    assert.ok(indexHtml.includes('href="/apple-touch-icon.png"'), 'index.html must reference /apple-touch-icon.png');
+});
+
+test('17. Structured Data (JSON-LD): Valid Organization, WebSite, SoftwareApplication, and BreadcrumbList schemas without fake ratings', () => {
+    const indexHtml = readFile('index.html');
+    const match = indexHtml.match(/<script id="hangbug-jsonld" type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    assert.ok(match && match[1], 'index.html must contain initial #hangbug-jsonld script');
+
+    const parsed = JSON.parse(match[1]);
+    assert.strictEqual(parsed['@context'], 'https://schema.org');
+    assert.ok(Array.isArray(parsed['@graph']), 'JSON-LD must contain @graph array');
+
+    const org = parsed['@graph'].find(n => n['@type'] === 'Organization');
+    assert.ok(org, 'JSON-LD must include Organization schema');
+    assert.strictEqual(org.name, 'Hangbug');
+    assert.strictEqual(org.url, 'https://www.hangbug.com/');
+    assert.strictEqual(org.logo?.url, 'https://www.hangbug.com/branding/hangbug-logo-full.png');
+
+    const site = parsed['@graph'].find(n => n['@type'] === 'WebSite');
+    assert.ok(site, 'JSON-LD must include WebSite schema');
+    assert.strictEqual(site.name, 'Hangbug');
+    assert.strictEqual(site.url, 'https://www.hangbug.com/');
+
+    const app = parsed['@graph'].find(n => n['@type'] === 'SoftwareApplication');
+    assert.ok(app, 'JSON-LD must include SoftwareApplication schema');
+    assert.strictEqual(app.name, 'Hangbug');
+    assert.strictEqual(app.applicationCategory, 'EducationalApplication');
+    assert.ok(!app.aggregateRating && !app.review, 'SoftwareApplication schema must NOT include fake ratings or reviews');
+
+    const breadcrumb = parsed['@graph'].find(n => n['@type'] === 'BreadcrumbList');
+    assert.ok(breadcrumb, 'JSON-LD must include BreadcrumbList schema');
+    assert.ok(Array.isArray(breadcrumb.itemListElement) && breadcrumb.itemListElement.length >= 1, 'BreadcrumbList must have itemListElement');
+});
+
+test('18. Brand Identity & AI Overview Accuracy: Official Hangbug title, meta description, and crawlable product explanations', () => {
+    const indexHtml = readFile('index.html');
+    const landing = readFile('src/pages/Landing.jsx');
+    const about = readFile('src/pages/legal/AboutUs.jsx');
+
+    const officialTitle = 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates';
+    const officialDesc = 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.';
+
+    assert.ok(indexHtml.includes(`<title>${officialTitle}</title>`), 'index.html must use official Hangbug title');
+    assert.ok(indexHtml.includes(`content="${officialDesc}"`), 'index.html must use official Hangbug meta description');
+    assert.ok(!indexHtml.includes('Debug Your Knowledge'), 'index.html must not use ambiguous Debug Your Knowledge tagline');
+    assert.ok(!landing.includes('Debug Your Knowledge'), 'Landing.jsx must not use ambiguous Debug Your Knowledge tagline');
+    assert.ok(!about.includes('Debug Your Knowledge'), 'AboutUs.jsx must not use ambiguous Debug Your Knowledge tagline');
+
+    // Verify crawlable HTML headings on Landing and About pages
+    assert.ok(landing.includes('What is Hangbug?'), 'Landing.jsx must include What is Hangbug? heading');
+    assert.ok(landing.includes('Technology Quiz Categories Covered'), 'Landing.jsx must include Technology Quiz Categories Covered heading');
+    assert.ok(landing.includes('How Hangbug Works for Students'), 'Landing.jsx must include How Hangbug Works heading');
+    assert.ok(about.includes('What is Hangbug?'), 'AboutUs.jsx must include What is Hangbug? heading');
+    assert.ok(about.includes('How Hangbug Works'), 'AboutUs.jsx must include How Hangbug Works heading');
 });

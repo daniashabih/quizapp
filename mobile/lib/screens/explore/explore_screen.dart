@@ -8,6 +8,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/core_providers.dart';
 import '../../providers/dashboard_provider.dart';
 import '../../providers/quiz_provider.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/empty_state_widget.dart';
@@ -88,11 +89,10 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
               if (success) {
                 ref.invalidate(inProgressAttemptsProvider);
                 if (mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Quiz progress discarded.'),
-                      behavior: SnackBarBehavior.floating,
-                    ),
+                  AppNotificationService.info(
+                    id: 'mobile-discard-attempt',
+                    title: 'Attempt discarded',
+                    message: 'Quiz progress discarded.',
                   );
                 }
               }

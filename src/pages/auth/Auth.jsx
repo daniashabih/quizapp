@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, UserPlus, User, Mail, Lock, Eye, EyeOff, Check, X, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { notify } from '../../services/notificationService';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
@@ -339,17 +340,28 @@ export default function Auth({ initialMode = 'login' }) {
 
         if (isSignUp) {
             if (!name.trim()) {
-                setErrorMessage('Please enter your full name');
+                const msg = 'Please enter your full name.';
+                setErrorMessage(msg);
+                notify.warning({ title: 'Action required', description: msg });
                 return;
             }
             if (!isPasswordValid) {
-                setErrorMessage('Password must satisfy all security requirements (8+ chars, uppercase, number)');
+                const msg = 'Password must satisfy all security requirements (8+ chars, uppercase, number).';
+                setErrorMessage(msg);
+                notify.warning({ title: 'Weak password', description: msg });
                 return;
             }
             if (password !== confirm) {
-                setErrorMessage('Passwords do not match');
+                const msg = 'Passwords do not match.';
+                setErrorMessage(msg);
+                notify.warning({ title: 'Passwords mismatch', description: msg });
                 return;
             }
+        } else if (!email.trim() || !password) {
+            const msg = 'Please complete all required fields.';
+            setErrorMessage(msg);
+            notify.warning({ title: 'Action required', description: msg });
+            return;
         }
 
         setLoading(true);

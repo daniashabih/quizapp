@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, MessageSquare, Clock, Send, CheckCircle2, ArrowLeft, HelpCircle } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { Mail, Clock, Send, CheckCircle2, ArrowLeft, HelpCircle } from 'lucide-react';
+import { notify } from '../../services/notificationService';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
 
 export default function ContactUs() {
     usePageSeo({
-        title: 'Contact Support & Inquiries — HangBug',
-        description: 'Get in touch with the HangBug team for questions regarding quizzes, verified certificates, developer partnerships, or technical support.',
+        title: 'Contact Support & Inquiries — Hangbug',
+        description: 'Get in touch with the Hangbug team for questions regarding technology quizzes, score-based certificates, coding games, or technical support.',
         canonicalPath: '/contact'
     });
     useEffect(() => {
@@ -27,11 +27,17 @@ export default function ContactUs() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!form.name || !form.email || !form.message) {
-            toast.error("Please fill in all required fields.");
+            notify.warning({
+                title: "Action required",
+                description: "Please complete all required fields."
+            });
             return;
         }
         setSubmitted(true);
-        toast.success("Thank you! Your message has been received.");
+        notify.success({
+            title: "Message received",
+            description: "Thank you! Your message has been sent to our support team."
+        });
     };
 
     return (
@@ -49,13 +55,13 @@ export default function ContactUs() {
                 {/* Header */}
                 <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 sm:p-10 mb-8 shadow-sm text-center">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F3E5C5] text-[#193D35] text-xs font-bold border border-[#E2D0A6] mb-4">
-                        <Mail size={14} /> Support & Inquiries
+                        <Mail size={14} /> Support &amp; Inquiries
                     </div>
                     <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--foreground)] tracking-tight mb-2">
-                        Get in Touch
+                        Get in Touch with Hangbug
                     </h1>
                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)] max-w-lg mx-auto">
-                        Have a question about HangBug quizzes, verified certificates, partnerships, or feedback? We'd love to hear from you.
+                        Have a question about Hangbug technology quizzes, coding games, score-based certificates, or platform feedback? We would love to hear from you.
                     </p>
                 </div>
 
@@ -97,7 +103,7 @@ export default function ContactUs() {
                             <div className="space-y-2 text-xs text-[var(--foreground-muted)]">
                                 <div>
                                     <p className="font-semibold text-[var(--foreground)]">How do certificates work?</p>
-                                    <p>Certificates are automatically awarded when you achieve 80% or higher on an assessment track.</p>
+                                    <p>Score-based certificates are awarded when you achieve 80% or higher on a technology quiz assessment track.</p>
                                 </div>
                                 <div className="pt-2 border-t border-[var(--card-border)]">
                                     <p className="font-semibold text-[var(--foreground)]">Can I retake quizzes?</p>
@@ -168,7 +174,7 @@ export default function ContactUs() {
                                         </label>
                                         <input
                                             type="text"
-                                            placeholder="Question regarding certificates, quiz bug, etc."
+                                            placeholder="Question regarding certificates, quiz session, etc."
                                             value={form.subject}
                                             onChange={(e) => setForm({ ...form, subject: e.target.value })}
                                             className="input-field text-xs py-2.5"

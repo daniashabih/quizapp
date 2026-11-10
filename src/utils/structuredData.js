@@ -15,14 +15,19 @@
 
 export const SITE_URL = 'https://www.hangbug.com';
 export const SITE_HOME_URL = 'https://www.hangbug.com/';
-export const SITE_NAME = 'HangBug';
-export const SITE_ALTERNATE_NAME = 'Hangbug';
+export const SITE_NAME = 'Hangbug';
+export const SITE_ALTERNATE_NAME = 'HangBug';
+export const OFFICIAL_TITLE = 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates';
+export const OFFICIAL_DESCRIPTION =
+    'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.';
 export const LOGO_URL = 'https://www.hangbug.com/branding/hangbug-logo-full.png';
 export const ICON_URL = 'https://www.hangbug.com/branding/hangbug-icon.png';
+export const FAVICON_48_URL = 'https://www.hangbug.com/favicon-48x48.png';
 export const SUPPORT_EMAIL = 'support@hangbug.com';
 export const ANDROID_PACKAGE_NAME = 'com.hangbug.app';
 export const APP_VERSION = '1.3.1';
 export const JSONLD_SCRIPT_ID = 'hangbug-jsonld';
+export const VERIFIED_SAME_AS_PROFILES = [];
 
 const FORBIDDEN_FABRICATED_KEYS = new Set([
     'aggregateRating',
@@ -79,10 +84,14 @@ export function normalizeCanonicalUrl(pathOrUrl = '/') {
 }
 
 /**
- * 1. Organization Schema for HangBug
+ * 1. Organization Schema for Hangbug
  */
-export function buildOrganizationSchema() {
-    return {
+export function buildOrganizationSchema(options = {}) {
+    const sameAsList = Array.isArray(options.sameAs)
+        ? options.sameAs.filter(u => typeof u === 'string' && u.startsWith('https://'))
+        : VERIFIED_SAME_AS_PROFILES;
+
+    const orgSchema = {
         '@type': 'Organization',
         '@id': `${SITE_URL}/#organization`,
         name: SITE_NAME,
@@ -93,11 +102,12 @@ export function buildOrganizationSchema() {
             '@id': `${SITE_URL}/#logo`,
             url: LOGO_URL,
             contentUrl: LOGO_URL,
-            caption: 'HangBug Developer Skill Verification Platform'
+            width: 1024,
+            height: 1024,
+            caption: 'Hangbug – Technology Learning, Programming Quizzes & Skill Assessment Platform'
         },
         image: LOGO_URL,
-        description:
-            'HangBug is a modern web development quiz & certification platform. Practice quizzes, earn verified certificates, and compete on global leaderboards.',
+        description: OFFICIAL_DESCRIPTION,
         email: SUPPORT_EMAIL,
         contactPoint: [
             {
@@ -109,10 +119,16 @@ export function buildOrganizationSchema() {
             }
         ]
     };
+
+    if (sameAsList.length > 0) {
+        orgSchema.sameAs = sameAsList;
+    }
+
+    return orgSchema;
 }
 
 /**
- * 2. WebSite Schema for the official HangBug website
+ * 2. WebSite Schema for the official Hangbug website
  */
 export function buildWebSiteSchema() {
     return {
@@ -120,9 +136,8 @@ export function buildWebSiteSchema() {
         '@id': `${SITE_URL}/#website`,
         url: SITE_HOME_URL,
         name: SITE_NAME,
-        alternateName: 'HangBug — Debug Your Knowledge. Build Your Future.',
-        description:
-            'HangBug is a modern web development quiz & certification platform. Practice quizzes, earn verified certificates, and compete on global leaderboards.',
+        alternateName: OFFICIAL_TITLE,
+        description: OFFICIAL_DESCRIPTION,
         inLanguage: 'en',
         publisher: {
             '@id': `${SITE_URL}/#organization`
@@ -194,8 +209,8 @@ export function buildBreadcrumbListSchema(breadcrumbs = [], pageUrl = SITE_HOME_
  */
 export function buildWebPageSchema({
     url = SITE_HOME_URL,
-    title = 'HangBug — Debug Your Knowledge. Build Your Future.',
-    description = 'HangBug is a modern web development quiz & certification platform. Practice quizzes, earn verified certificates, and compete on global leaderboards.',
+    title = OFFICIAL_TITLE,
+    description = OFFICIAL_DESCRIPTION,
     image = LOGO_URL,
     breadcrumbId,
     mainEntityId,
@@ -290,7 +305,7 @@ export function buildArticleSchema(article = {}) {
 }
 
 /**
- * 6. SoftwareApplication Schema for the HangBug application (or an individual HangBug game module),
+ * 6. SoftwareApplication Schema for the Hangbug application (or an individual Hangbug game module),
  * using only accurate, verifiable information and zero fabricated ratings, reviews, prices, or awards.
  */
 export function buildSoftwareApplicationSchema(options = {}) {
@@ -300,11 +315,11 @@ export function buildSoftwareApplicationSchema(options = {}) {
         return {
             '@type': 'SoftwareApplication',
             '@id': `${gameUrl}#application`,
-            name: `${gameTitle} — HangBug`,
+            name: `${gameTitle} – Hangbug`,
             url: gameUrl,
             description:
                 options.description ||
-                'Interactive browser-based coding and typing challenge for software developers on HangBug.',
+                'Interactive browser-based coding and typing challenge for software developers on Hangbug.',
             applicationCategory: 'EducationalApplication',
             applicationSubCategory: options.category || 'Coding & Typing Games',
             operatingSystem: options.operatingSystem || 'Web Browser',
@@ -328,21 +343,20 @@ export function buildSoftwareApplicationSchema(options = {}) {
         name: SITE_NAME,
         alternateName: SITE_ALTERNATE_NAME,
         url: SITE_HOME_URL,
-        description:
-            'HangBug is an interactive web development quiz, coding & typing games, and skill verification platform where software engineers practice quizzes, earn verified certificates, and compete on global leaderboards.',
+        description: OFFICIAL_DESCRIPTION,
         applicationCategory: 'EducationalApplication',
-        applicationSubCategory: 'Web Development Quiz & Skill Verification Platform',
-        operatingSystem: 'Web, Android, iOS',
+        applicationSubCategory: 'Technology Learning & Skill Assessment Platform',
+        operatingSystem: 'Web, Android',
         softwareVersion: APP_VERSION,
         identifier: ANDROID_PACKAGE_NAME,
         inLanguage: 'en',
         image: LOGO_URL,
         featureList: [
-            'Interactive web development quizzes across multiple technology tracks',
-            'Browser-based coding and typing games for developers',
-            'Verifiable completion certificates with unique ID and QR code',
-            'Session-based skill progression and performance analytics',
-            'Global developer leaderboards'
+            'Practice technology-related multiple-choice (MCQ) quizzes',
+            'Test programming and web development knowledge across HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, and more',
+            'Explore interactive browser-based coding and typing games',
+            'Track quiz performance, accuracy, and saved progress',
+            'Earn score-based certificates and share earned certificates on LinkedIn'
         ],
         author: {
             '@id': `${SITE_URL}/#organization`
@@ -475,10 +489,8 @@ export function buildPageStructuredData({
     }
 
     const pageUrl = normalizeCanonicalUrl(canonicalPath);
-    const resolvedTitle = title || 'HangBug — Debug Your Knowledge. Build Your Future.';
-    const resolvedDescription =
-        description ||
-        'HangBug is a modern web development quiz & certification platform. Practice quizzes, earn verified certificates, and compete on global leaderboards.';
+    const resolvedTitle = title || OFFICIAL_TITLE;
+    const resolvedDescription = description || OFFICIAL_DESCRIPTION;
 
     const graph = [];
 

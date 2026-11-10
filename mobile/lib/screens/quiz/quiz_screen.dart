@@ -7,6 +7,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_strings.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../providers/quiz_provider.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
 import '../../widgets/banner_ad_widget.dart';
@@ -118,13 +119,11 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
               if (mounted) {
                 ref.invalidate(inProgressAttemptsProvider);
                 context.go('/explore');
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
+                AppNotificationService.success(
+                  id: 'mobile-quiz-progress-saved',
+                  title: 'Progress saved',
+                  message:
                       'Your progress has been saved! You can continue your quiz anytime.',
-                    ),
-                    behavior: SnackBarBehavior.floating,
-                  ),
                 );
               }
             },

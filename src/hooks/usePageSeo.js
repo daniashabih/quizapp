@@ -6,7 +6,7 @@ import {
 
 const BASE_URL = 'https://www.hangbug.com';
 const DEFAULT_IMAGE = 'https://www.hangbug.com/branding/hangbug-logo-full.png';
-const DEFAULT_SITE_NAME = 'HangBug';
+const DEFAULT_SITE_NAME = 'Hangbug';
 
 function setMetaTag(selector, attributeName, attributeValue, content) {
     if (typeof document === 'undefined') return;
@@ -52,7 +52,7 @@ export function usePageSeo({
     noindex = false,
     ogType = 'website',
     ogImage = DEFAULT_IMAGE,
-    ogImageAlt = 'HangBug Developer Platform',
+    ogImageAlt = 'Hangbug – Technology Learning, Programming Quizzes & Skill Assessment Platform',
     twitterCard = 'summary_large_image',
     twitterImage,
     schemaType = 'WebPage',

@@ -6,6 +6,7 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/app_button.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -325,6 +326,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         borderRadius: BorderRadius.circular(14),
         onTap: () {
           ref.read(themeModeProvider.notifier).setThemeMode(mode);
+          AppNotificationService.info(
+            id: 'mobile-theme-switch',
+            title: 'Appearance updated',
+            message: 'Switched interface theme to $title.',
+          );
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
@@ -508,24 +514,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             .deleteAccount();
                         if (!mounted) return;
                         if (success) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
+                          AppNotificationService.success(
+                            id: 'mobile-account-deleted',
+                            title: 'Account deleted',
+                            message:
                                 'Your account and associated data have been permanently deleted.',
-                              ),
-                              backgroundColor: AppColors.primary,
-                            ),
                           );
                           context.go('/login');
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                ref.read(authProvider).error ??
-                                    'Failed to delete account. Please try again.',
-                              ),
-                              backgroundColor: context.errorColor,
-                            ),
+                          AppNotificationService.error(
+                            id: 'mobile-account-delete-error',
+                            title: 'Deletion failed',
+                            message: ref.read(authProvider).error ??
+                                'Failed to delete account. Please try again.',
                           );
                         }
                       }

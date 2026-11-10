@@ -7,7 +7,7 @@ import {
     Loader2, X, Play, Hash, CheckCircle2, Layers, Check,
     ListChecks, Zap, AlertCircle, RefreshCw, Clock, Trash2, BookmarkCheck, PlayCircle
 } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from '../../services/notificationService';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
@@ -39,8 +39,8 @@ export default function Technologies() {
     const isDashboard = location.pathname.startsWith('/dashboard');
 
     usePageSeo({
-        title: 'Choose Your Tech Stack — Programming & Framework Quizzes | HangBug',
-        description: 'Explore interactive quiz tracks across modern web technologies including SQL Server, Express, Node.js, PHP, Agile, Azure, and more.',
+        title: 'Choose Your Tech Stack — Programming & Framework Quizzes | Hangbug',
+        description: 'Practice interactive technology MCQ quizzes on Hangbug across HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Node.js, SQL Server, and Python.',
         canonicalPath: '/technologies',
         noindex: isDashboard
     });
@@ -192,23 +192,14 @@ export default function Technologies() {
 
     const totalQuestionsInTrack = sessionsList.reduce((sum, s) => sum + (s.count || 0), 0);
 
-    if (loading) return (
-        <div className={`min-h-screen bg-[var(--page-bg)] flex flex-col ${isDashboard ? 'p-6' : ''}`}>
-            {!isDashboard && <Navbar />}
-            <div className="flex-1 flex flex-col items-center justify-center py-20">
-                <Loader2 size={40} className="animate-spin text-[#193D35] dark:text-emerald-400 mx-auto mb-4" />
-                <p className="text-sm font-medium text-[var(--foreground-muted)] animate-pulse text-center">Loading technologies...</p>
-            </div>
-            {!isDashboard && <Footer />}
-        </div>
-    );
-
     const mainContent = (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
                 <div className="badge-emerald mx-auto mb-3"><Sparkles size={12} /> Technologies</div>
                 <h1 className="text-3xl lg:text-4xl font-display font-extrabold text-[var(--foreground)] mb-2">Choose Your <span className="text-black underline decoration-black/20 underline-offset-4">Stack</span></h1>
-                <p className="text-sm text-[var(--foreground-muted)] max-w-xl mx-auto">Select a technology to choose a session and start your quiz.</p>
+                <p className="text-sm text-[var(--foreground-muted)] max-w-2xl mx-auto">
+                    Practice interactive technology MCQ quizzes on Hangbug across HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Node.js, SQL Server, and Python. Select a technology below to choose a session and start your quiz.
+                </p>
             </div>
 
             {/* ═══════════════════════════════════════════════════════════
@@ -312,7 +303,12 @@ export default function Technologies() {
                     className="w-full bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl py-2.5 pl-10 pr-4 text-xs sm:text-sm text-[var(--foreground)] placeholder-[var(--foreground-muted)] focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black transition-all" />
             </div>
 
-            {error && safeCategories.length === 0 ? (
+            {loading ? (
+                <div className="flex flex-col items-center justify-center py-20">
+                    <Loader2 size={40} className="animate-spin text-[#193D35] dark:text-emerald-400 mx-auto mb-4" />
+                    <p className="text-sm font-medium text-[var(--foreground-muted)] animate-pulse text-center">Loading technologies...</p>
+                </div>
+            ) : error && safeCategories.length === 0 ? (
                 <div className="max-w-md mx-auto text-center py-14 card p-8 rounded-3xl space-y-4">
                     <div className="w-14 h-14 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
                         <AlertCircle size={28} />

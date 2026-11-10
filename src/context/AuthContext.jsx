@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useState, useContext, useEffect, useCallback } from 'react';
+import { createContext, useState, useContext, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { notify } from '../services/notificationService';
 import { trackLogin } from '../utils/analytics';
 
 // Configure Axios defaults for HttpOnly Cookie Authentication & sensible request timeout
@@ -22,6 +22,45 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const userRef = useRef(null);
+
+    useEffect(() => {
+        userRef.current = user;
+    }, [user]);
+
+    // Global 401 Session Expired interceptor for authenticated sessions
+    useEffect(() => {
+        const interceptorId = axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                const status = error?.response?.status;
+                const reqUrl = String(error?.config?.url || '');
+                const isAuthEndpoint =
+                    reqUrl.includes('/auth/login') ||
+                    reqUrl.includes('/auth/signup') ||
+                    reqUrl.includes('/auth/google') ||
+                    reqUrl.includes('/auth/me') ||
+                    reqUrl.includes('/auth/logout') ||
+                    reqUrl.includes('/auth/forgot-password') ||
+                    reqUrl.includes('/auth/reset-password') ||
+                    reqUrl.includes('/auth/verify-reset-token');
+
+                if (status === 401 && !isAuthEndpoint && userRef.current) {
+                    setUser(null);
+                    notify.warning({
+                        id: 'hangbug-session-expired',
+                        title: 'Session expired',
+                        description: 'Your session has expired. Please sign in again.'
+                    });
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        return () => {
+            axios.interceptors.response.eject(interceptorId);
+        };
+    }, []);
 
     const extractErrorMessage = (error, fallbackMessage) => {
         if (typeof error.response?.data?.message === 'string') {
@@ -87,15 +126,28 @@ export const AuthProvider = ({ children }) => {
      * User Signup
      */
     const signup = async (name, email, password) => {
+        const toastId = notify.loading({
+            id: 'auth-signup',
+            title: 'Creating your account...',
+            description: 'Setting up your Hangbug profile.'
+        });
         try {
             const res = await axios.post('/auth/signup', { name, email, password });
             const userData = res.data?.user || res.data;
             setUser(userData);
-            toast.success('Account created successfully! Welcome to HangBug.');
+            notify.update(toastId, {
+                type: 'success',
+                title: 'Welcome to Hangbug!',
+                description: 'Your account has been created. Let’s start learning.'
+            });
             return userData;
         } catch (error) {
             const msg = extractErrorMessage(error, 'Registration failed');
-            toast.error(msg);
+            notify.update(toastId, {
+                type: 'error',
+                title: 'Registration failed',
+                description: msg
+            });
             throw new Error(msg);
         }
     };
@@ -104,15 +156,28 @@ export const AuthProvider = ({ children }) => {
      * User Login
      */
     const login = async (email, password) => {
+        const toastId = notify.loading({
+            id: 'auth-login',
+            title: 'Signing you in...',
+            description: 'Verifying your credentials with Hangbug.'
+        });
         try {
             const res = await axios.post('/auth/login', { email, password });
             const userData = res.data?.user || res.data;
             setUser(userData);
-            toast.success('Signed in successfully!');
+            notify.update(toastId, {
+                type: 'success',
+                title: "You're all set!",
+                description: 'Welcome back to Hangbug.'
+            });
             return userData;
         } catch (error) {
             const msg = extractErrorMessage(error, 'Login failed');
-            toast.error(msg);
+            notify.update(toastId, {
+                type: 'error',
+                title: 'Sign-in failed',
+                description: msg
+            });
             throw new Error(msg);
         }
     };
@@ -127,7 +192,11 @@ export const AuthProvider = ({ children }) => {
             console.warn('[Logout]: error clearing cookie on server', err.message);
         } finally {
             setUser(null);
-            toast.info('Logged out successfully');
+            notify.info({
+                id: 'auth-logout',
+                title: 'Signed out',
+                description: 'You have been safely signed out of Hangbug.'
+            });
         }
     };
 
@@ -135,14 +204,27 @@ export const AuthProvider = ({ children }) => {
      * Delete Account & All Data
      */
     const deleteAccount = async () => {
+        const toastId = notify.loading({
+            id: 'auth-delete-account',
+            title: 'Deleting account...',
+            description: 'Removing your account and associated data.'
+        });
         try {
             const res = await axios.delete('/auth/delete-account');
             setUser(null);
-            toast.success(res.data?.message || 'Your account and data have been permanently deleted.');
+            notify.update(toastId, {
+                type: 'success',
+                title: 'Account deleted',
+                description: res.data?.message || 'Your account and data have been permanently deleted.'
+            });
             return true;
         } catch (error) {
             const msg = extractErrorMessage(error, 'Failed to delete account');
-            toast.error(msg);
+            notify.update(toastId, {
+                type: 'error',
+                title: 'Deletion failed',
+                description: msg
+            });
             throw new Error(msg);
         }
     };
@@ -153,13 +235,18 @@ export const AuthProvider = ({ children }) => {
     const loginAsGuest = async (role = 'user') => {
         const demoEmail = role === 'admin' ? 'admin@example.com' : 'user@example.com';
         const demoPass = role === 'admin' ? 'AdminPassword123!' : 'password';
+        const roleLabel = role === 'admin' ? 'Admin' : 'Candidate';
 
         try {
             const res = await axios.post('/auth/login', { email: demoEmail, password: demoPass });
             const userData = res.data?.user || res.data;
             setUser(userData);
             trackLogin('guest');
-            toast.success(`Signed in as Guest (${role === 'admin' ? 'Admin' : 'Candidate'})`);
+            notify.success({
+                id: 'auth-guest',
+                title: "You're all set!",
+                description: `Welcome to Hangbug (${roleLabel} access).`
+            });
             return userData;
         } catch {
             // Fallback client session for demo
@@ -173,7 +260,11 @@ export const AuthProvider = ({ children }) => {
             };
             setUser(guestUser);
             trackLogin('guest');
-            toast.success(`Signed in as Guest (${role === 'admin' ? 'Admin' : 'Candidate'})`);
+            notify.success({
+                id: 'auth-guest',
+                title: "You're all set!",
+                description: `Welcome to Hangbug (${roleLabel} access).`
+            });
             return guestUser;
         }
     };
@@ -182,15 +273,30 @@ export const AuthProvider = ({ children }) => {
      * Google Sign-In / Sign-Up
      */
     const loginWithGoogle = async (googleData = {}) => {
+        const toastId = notify.loading({
+            id: 'auth-google',
+            title: 'Signing you in...',
+            description: 'Authenticating with your Google account.'
+        });
         try {
             const res = await axios.post('/auth/google', googleData);
             const userData = res.data?.user || res.data;
             setUser(userData);
-            toast.success(`Welcome ${userData.name || ''}! Signed in with Google.`);
+            notify.update(toastId, {
+                type: 'success',
+                title: "You're all set!",
+                description: userData.name
+                    ? `Welcome to Hangbug, ${userData.name}! Signed in with Google.`
+                    : 'Signed in with Google. Welcome back to Hangbug.'
+            });
             return userData;
         } catch (error) {
             const msg = extractErrorMessage(error, 'Google Sign-In failed');
-            toast.error(msg);
+            notify.update(toastId, {
+                type: 'error',
+                title: 'Google sign-in failed',
+                description: msg
+            });
             throw new Error(msg);
         }
     };

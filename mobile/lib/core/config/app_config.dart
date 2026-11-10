@@ -15,7 +15,7 @@ class AppConfig {
   static const String apiBaseUrl = baseUrl;
 
   // Legal and Documentation URLs
-  static const String privacyPolicyUrl = 'https://www.hangbug.com/privacy';
+  static const String privacyPolicyUrl = 'https://www.hangbug.com/privacy-policy';
   static const String termsOfServiceUrl = 'https://www.hangbug.com/terms';
   static const String accountDeletionUrl = 'https://www.hangbug.com/delete-account';
   static const String supportEmail = 'support@hangbug.com';

@@ -7,6 +7,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/validators.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 
@@ -34,7 +35,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   Future<void> _handleRegister() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      AppNotificationService.warning(
+        id: 'mobile-register-validation',
+        title: 'Action required',
+        message: 'Please complete all required fields accurately.',
+      );
+      return;
+    }
     FocusScope.of(context).unfocus();
 
     final success = await ref.read(authProvider.notifier).signup(

@@ -4,17 +4,37 @@ import axios from 'axios';
 import { motion, AnimatePresence } from 'motion/react';
 import {
     Search, ArrowRight, ShieldCheck, Trophy, Sparkles, BrainCircuit,
-    Award, BarChart3, Users, QrCode, Linkedin, CheckCircle2, Zap
+    Award, BarChart3, Users, QrCode, Linkedin, CheckCircle2, Zap,
+    Code2, Gamepad2, Keyboard, BookOpen
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BrandLogo from '../components/BrandLogo';
 import usePageSeo from '../hooks/usePageSeo';
 
+const CORE_TECHNOLOGIES = [
+    { name: 'HTML', slug: 'html', category: 'Frontend Markup' },
+    { name: 'CSS', slug: 'css', category: 'Stylesheets & Layouts' },
+    { name: 'JavaScript', slug: 'javascript', category: 'Web Scripting & ES6+' },
+    { name: 'Bootstrap', slug: null, category: 'Responsive CSS Framework' },
+    { name: 'jQuery', slug: null, category: 'DOM & Event Library' },
+    { name: 'PHP', slug: 'php', category: 'Server-Side Scripting' },
+    { name: 'Laravel', slug: 'laravel', category: 'PHP MVC Framework' },
+    { name: 'MySQL', slug: 'mysql', category: 'Relational Database' },
+    { name: 'Flutter', slug: 'flutter', category: 'Cross-Platform UI' },
+    { name: 'Dart', slug: 'dart', category: 'Client-Optimized Language' },
+    { name: 'C#', slug: null, category: '.NET & OOP Programming' },
+    { name: 'React', slug: 'react', category: 'Component UI Library' },
+    { name: 'Python', slug: 'python', category: 'General Programming' },
+    { name: 'MongoDB', slug: 'mongodb', category: 'NoSQL Document DB' },
+    { name: 'SQL Server', slug: null, category: 'Enterprise RDBMS' },
+    { name: 'Node.js & Express.js', slug: null, category: 'Backend Runtime & API' },
+];
+
 export default function Landing() {
     usePageSeo({
-        title: 'HangBug — Test & Master Web Development Skills | Interactive Quizzes',
-        description: 'Evaluate your full-stack web development expertise with AI-calibrated quizzes. Practice React, Node.js, SQL, Python, earn verified certificates, and compete globally.',
+        title: 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates',
+        description: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
         canonicalPath: '/'
     });
     const [searchQuery, setSearchQuery] = useState('');
@@ -52,8 +72,8 @@ export default function Landing() {
             {/* Fixed Navbar at Top */}
             <Navbar />
 
-            {/* Main Center Hero Section */}
-            <main className="flex-1 pt-24 sm:pt-28 lg:pt-32 pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex flex-col justify-center relative z-10">
+            {/* Main Center Hero & Content Section */}
+            <main className="flex-1 pt-24 sm:pt-28 lg:pt-32 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full flex flex-col justify-center relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto w-full">
 
                     {/* Left Column: Headline, Search, CTA, Quick Stats */}
@@ -72,7 +92,7 @@ export default function Landing() {
                                 className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F3E5C5] text-[#193D35] text-xs font-semibold tracking-wide border border-[#E2D0A6] shadow-xs"
                             >
                                 <span className="w-2 h-2 rounded-full bg-[#D19A45] animate-pulse" />
-                                AI-Powered Web Quizzes — Now Live
+                                Technology Learning &amp; Skill Assessment Platform
                             </motion.div>
                         </div>
 
@@ -83,8 +103,8 @@ export default function Landing() {
                             transition={{ duration: 0.5, delay: 0.15 }}
                             className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[var(--foreground)] tracking-tight leading-[1.12]"
                         >
-                            Test & Master Your <br className="hidden sm:inline" />
-                            <span className="text-gradient">Web Development</span> Skills
+                            Learn Programming, <br className="hidden sm:inline" />
+                            Practice <span className="text-gradient">Tech Quizzes</span> &amp; Earn Certificates
                         </motion.h1>
 
                         {/* Subtitle */}
@@ -94,7 +114,7 @@ export default function Landing() {
                             transition={{ duration: 0.5, delay: 0.2 }}
                             className="text-sm sm:text-base text-[var(--foreground-muted)] max-w-xl font-normal leading-relaxed"
                         >
-                            Evaluate your full-stack expertise with interactive, AI-calibrated quizzes. Earn verified certificates, track performance analytics, and compete on global leaderboards.
+                            Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.
                         </motion.p>
 
                         {/* Technology Search Bar */}
@@ -110,7 +130,7 @@ export default function Landing() {
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="Search technology (e.g. React, JavaScript, Python)…"
+                                    placeholder="Search technology (e.g. HTML, JavaScript, PHP, C#)…"
                                     className="input-field pl-11 pr-32 py-3 text-sm rounded-2xl border-[var(--input-border)] focus:border-[#193D35] shadow-sm"
                                 />
                                 <button
@@ -183,7 +203,7 @@ export default function Landing() {
                             </div>
                             <div>
                                 <p className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">100%</p>
-                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Verified Evaluation</p>
+                                <p className="text-[11px] text-[var(--foreground-muted)] font-semibold">Score-Based Evaluation</p>
                             </div>
                         </motion.div>
                     </motion.div>
@@ -200,7 +220,7 @@ export default function Landing() {
                             {[
                                 { id: 'assessment', label: 'Live Quiz Demo', icon: Sparkles },
                                 { id: 'features', label: 'Key Features', icon: BrainCircuit },
-                                { id: 'certificate', label: 'Verified Certificate', icon: Award },
+                                { id: 'certificate', label: 'Score Certificate', icon: Award },
                                 { id: 'path', label: 'How It Works', icon: Trophy }
                             ].map(tab => {
                                 const Icon = tab.icon;
@@ -223,7 +243,7 @@ export default function Landing() {
                         </div>
 
                         {/* Interactive Tab Card Display */}
-                        <h2 className="sr-only">Interactive Assessment & Platform Highlights</h2>
+                        <h2 className="sr-only">Interactive Assessment &amp; Platform Highlights</h2>
                         <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-5 sm:p-6 shadow-xl relative overflow-hidden transition-all duration-300 min-h-[330px] flex flex-col justify-between">
                             <AnimatePresence mode="wait">
                                 {activeTab === 'assessment' && (
@@ -239,8 +259,8 @@ export default function Landing() {
                                             <div className="flex items-center gap-2.5">
                                                 <BrandLogo variant="mark" size="md" />
                                                 <div>
-                                                    <p className="text-xs font-bold text-[var(--foreground)]">HangBug Assessment</p>
-                                                    <p className="text-[10px] text-[var(--foreground-muted)]">Interactive Web Developer Quiz</p>
+                                                    <p className="text-xs font-bold text-[var(--foreground)]">Hangbug Assessment</p>
+                                                    <p className="text-[10px] text-[var(--foreground-muted)]">Interactive Technology MCQ Quiz</p>
                                                 </div>
                                             </div>
                                             <span className="badge-emerald text-[10px] font-bold">Live Simulation</span>
@@ -248,7 +268,7 @@ export default function Landing() {
 
                                         <div className="p-3.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                             <div className="flex items-center justify-between mb-2">
-                                                <span className="text-xs font-semibold text-[var(--foreground)]">React Component Lifecycle & Hooks</span>
+                                                <span className="text-xs font-semibold text-[var(--foreground)]">Web Development &amp; Programming Track</span>
                                                 <span className="text-[10px] font-bold text-[#193D35]">Question 12/15</span>
                                             </div>
                                             <div className="progress-bar overflow-hidden h-2 bg-[#F4EFE6] rounded-full">
@@ -266,7 +286,7 @@ export default function Landing() {
                                                 { label: 'Score Rate', value: '94%', color: 'text-[#193D35]' },
                                                 { label: 'Avg Speed', value: '18s / Q', color: 'text-[#193D35]' },
                                                 { label: 'Current Streak', value: '7 Days', color: 'text-[#D19A45]' },
-                                                { label: 'Global Rank', value: '#42 Top 1%', color: 'text-[#193D35]' },
+                                                { label: 'Certificate Target', value: '80%+ Pass', color: 'text-[#193D35]' },
                                             ].map((stat) => (
                                                 <div key={stat.label} className="p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                                     <p className="text-[9px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">{stat.label}</p>
@@ -277,7 +297,7 @@ export default function Landing() {
 
                                         <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F3E5C5] border border-[#E2D0A6]">
                                             <Zap size={14} className="text-[#D19A45] animate-bounce shrink-0" />
-                                            <p className="text-[11px] font-semibold text-[#193D35]">75 XP away from reaching Master Rank!</p>
+                                            <p className="text-[11px] font-semibold text-[#193D35]">Instant answer checking, progress saving &amp; score certificates!</p>
                                         </div>
                                     </motion.div>
                                 )}
@@ -292,10 +312,10 @@ export default function Landing() {
                                         className="grid grid-cols-2 gap-3 my-auto"
                                     >
                                         {[
-                                            { icon: BrainCircuit, title: "AI Questions", desc: "Adaptive questions tailored to your skill level.", color: "text-[#193D35]" },
-                                            { icon: ShieldCheck, title: "Verified Certs", desc: "Sharable certificates with unique ID & QR code.", color: "text-[#193D35]" },
-                                            { icon: BarChart3, title: "Deep Analytics", desc: "Detailed insights on strengths & weak spots.", color: "text-[#193D35]" },
-                                            { icon: Trophy, title: "Leaderboards", desc: "Compete globally with top web developers.", color: "text-[#D19A45]" },
+                                            { icon: BrainCircuit, title: "MCQ Tech Quizzes", desc: "Session-based multiple-choice quizzes across programming tracks.", color: "text-[#193D35]" },
+                                            { icon: ShieldCheck, title: "Score-Based Certs", desc: "Shareable certificates with verification ID, QR code & LinkedIn share.", color: "text-[#193D35]" },
+                                            { icon: BarChart3, title: "Progress Tracking", desc: "Track quiz scores, accuracy, and resume saved quizzes anytime.", color: "text-[#193D35]" },
+                                            { icon: Trophy, title: "Coding & Typing Games", desc: "Practice syntax, logic, and typing speed with interactive games.", color: "text-[#D19A45]" },
                                         ].map((feat, i) => {
                                             const Icon = feat.icon;
                                             return (
@@ -325,10 +345,10 @@ export default function Landing() {
                                         <div className="p-4 rounded-2xl bg-[#193D35] text-[#FCFAF4] shadow-md relative overflow-hidden border border-[#193D35]">
                                             <div className="flex items-center justify-between mb-3">
                                                 <BrandLogo variant="mark" size="sm" />
-                                                <span className="text-[10px] font-semibold tracking-wider uppercase bg-[#D19A45]/30 px-2 py-0.5 rounded-full text-white border border-[#D19A45]/40">Official Certificate</span>
+                                                <span className="text-[10px] font-semibold tracking-wider uppercase bg-[#D19A45]/30 px-2 py-0.5 rounded-full text-white border border-[#D19A45]/40">Score-Based Certificate</span>
                                             </div>
-                                            <p className="text-[10px] text-[#F3E5C5] uppercase tracking-widest font-semibold">Verified Developer</p>
-                                            <h3 className="text-lg font-display font-bold mb-1">React & Modern Web Stack</h3>
+                                            <p className="text-[10px] text-[#F3E5C5] uppercase tracking-widest font-semibold">Certificate of Completion</p>
+                                            <h3 className="text-lg font-display font-bold mb-1">JavaScript &amp; Modern Web Stack</h3>
                                             <div className="flex items-center justify-between pt-2 border-t border-white/20 text-xs">
                                                 <div>
                                                     <p className="text-[9px] text-[#F3E5C5]">Issued To</p>
@@ -351,7 +371,7 @@ export default function Landing() {
                                             </div>
                                             <div className="flex items-center gap-1.5">
                                                 <Linkedin size={14} className="text-[#193D35]" />
-                                                <span className="font-medium">Instant Verification</span>
+                                                <span className="font-medium">Online ID Verification</span>
                                             </div>
                                         </div>
                                     </motion.div>
@@ -367,10 +387,10 @@ export default function Landing() {
                                         className="my-auto space-y-2.5"
                                     >
                                         {[
-                                            { step: "01", title: "Select Technology", desc: "Choose from 18+ frameworks & languages." },
-                                            { step: "02", title: "Adaptive Quiz", desc: "Timed AI questions calibrated to your skill." },
-                                            { step: "03", title: "Review Analytics", desc: "Get detailed feedback on missed questions." },
-                                            { step: "04", title: "Earn Certificate", desc: "Unlock shareable badge on 80%+ score." },
+                                            { step: "01", title: "Select Technology", desc: "Choose from HTML, CSS, JavaScript, PHP, Laravel, MySQL, C#, and more." },
+                                            { step: "02", title: "Practice MCQ Quiz", desc: "Complete session-based multiple-choice questions with instant feedback." },
+                                            { step: "03", title: "Track Performance", desc: "Review your score, accuracy, and progress across sessions." },
+                                            { step: "04", title: "Earn Certificate", desc: "Unlock a shareable score-based certificate on 80%+ score." },
                                         ].map((item, i) => (
                                             <div key={i} className="flex items-center gap-3 p-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                                 <div className="w-7 h-7 rounded-lg bg-[#193D35] text-[#FCFAF4] flex items-center justify-center font-bold text-xs shrink-0 font-mono">
@@ -388,6 +408,215 @@ export default function Landing() {
                         </div>
                     </motion.div>
 
+                </div>
+
+                {/* Crawlable Platform Overview Sections for Search Engines, AI Overviews & Learners */}
+                <div className="mt-16 sm:mt-20 space-y-14 border-t border-[var(--card-border)] pt-12">
+
+                    {/* Section 1: What is Hangbug? */}
+                    <section aria-labelledby="what-is-hangbug" className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 sm:p-10 shadow-xs space-y-4">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F3E5C5] text-[#193D35] text-xs font-bold border border-[#E2D0A6]">
+                            <BookOpen size={13} /> Platform Overview
+                        </div>
+                        <h2 id="what-is-hangbug" className="text-2xl sm:text-3xl font-display font-extrabold text-[var(--foreground)] tracking-tight">
+                            What is Hangbug?
+                        </h2>
+                        <p className="text-sm sm:text-base text-[var(--foreground-muted)] leading-relaxed max-w-4xl">
+                            <strong>Hangbug</strong> is an online technology learning and skill assessment platform where students, programmers, and web developers practice technology-related multiple-choice question (MCQ) quizzes, test their programming and web development knowledge, learn technologies through interactive quizzes, explore coding and typing games, track their quiz performance and progress, earn score-based certificates, and share earned certificates on LinkedIn.
+                        </p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+                            <div className="p-4 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5">
+                                <h3 className="text-sm font-display font-bold text-[var(--foreground)] flex items-center gap-2">
+                                    <BookOpen size={15} className="text-[#193D35]" /> Technology MCQ Quizzes
+                                </h3>
+                                <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                    Practice structured, session-based multiple-choice quizzes with immediate answer checking, explanations, and saved progress resumption.
+                                </p>
+                            </div>
+                            <div className="p-4 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5">
+                                <h3 className="text-sm font-display font-bold text-[var(--foreground)] flex items-center gap-2">
+                                    <Gamepad2 size={15} className="text-[#193D35]" /> Coding &amp; Typing Games
+                                </h3>
+                                <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                    Reinforce programming syntax, code arrangement, output prediction, SQL queries, and typing speed through browser-based games.
+                                </p>
+                            </div>
+                            <div className="p-4 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5">
+                                <h3 className="text-sm font-display font-bold text-[var(--foreground)] flex items-center gap-2">
+                                    <BarChart3 size={15} className="text-[#193D35]" /> Performance &amp; Progress
+                                </h3>
+                                <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                    Track quiz scores, accuracy rates, completed sessions, typing speed (WPM), and rankings on the global developer leaderboard.
+                                </p>
+                            </div>
+                            <div className="p-4 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5">
+                                <h3 className="text-sm font-display font-bold text-[var(--foreground)] flex items-center gap-2">
+                                    <Award size={15} className="text-[#193D35]" /> Score-Based Certificates
+                                </h3>
+                                <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                    Earn downloadable score-based certificates upon achieving 80% or higher on quiz assessments and share them directly on LinkedIn.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Section 2: Technology Quiz Categories */}
+                    <section aria-labelledby="technology-quiz-categories" className="space-y-5">
+                        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                            <div>
+                                <h2 id="technology-quiz-categories" className="text-2xl sm:text-3xl font-display font-extrabold text-[var(--foreground)] tracking-tight">
+                                    Technology Quiz Categories Covered
+                                </h2>
+                                <p className="text-xs sm:text-sm text-[var(--foreground-muted)] mt-1 max-w-3xl">
+                                    Learn and test your knowledge across frontend, backend, database, mobile, and core programming technologies including HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, and more.
+                                </p>
+                            </div>
+                            <Link to="/technologies" className="text-xs font-bold text-[#193D35] hover:underline inline-flex items-center gap-1 shrink-0">
+                                View All Technology Quizzes <ArrowRight size={13} />
+                            </Link>
+                        </div>
+
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5">
+                            {CORE_TECHNOLOGIES.map((tech) => (
+                                <Link
+                                    key={tech.name}
+                                    to={tech.slug ? `/technologies/${tech.slug}` : '/technologies'}
+                                    className="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] transition-all flex flex-col justify-between gap-1.5 shadow-2xs group"
+                                >
+                                    <h3 className="text-sm font-display font-bold text-[var(--foreground)] group-hover:text-[#193D35] transition-colors">
+                                        {tech.name}
+                                    </h3>
+                                    <p className="text-[11px] text-[var(--foreground-muted)]">{tech.category}</p>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Section 3: Interactive Coding & Typing Games */}
+                    <section aria-labelledby="coding-and-typing-games" className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 sm:p-10 shadow-xs space-y-6">
+                        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                            <div>
+                                <h2 id="coding-and-typing-games" className="text-2xl sm:text-3xl font-display font-extrabold text-[var(--foreground)] tracking-tight">
+                                    Interactive Coding &amp; Typing Games
+                                </h2>
+                                <p className="text-xs sm:text-sm text-[var(--foreground-muted)] mt-1 max-w-3xl">
+                                    Alongside MCQ quizzes, Hangbug offers 18 browser-based coding and typing games to help developers practice programming logic, code comprehension, and keyboard fluency.
+                                </p>
+                            </div>
+                            <Link to="/games" className="btn-primary text-xs py-2.5 px-4 rounded-xl shrink-0">
+                                Explore Games Hub <ArrowRight size={13} />
+                            </Link>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div className="p-5 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-3">
+                                <h3 className="text-base font-display font-bold text-[var(--foreground)] flex items-center gap-2">
+                                    <Code2 size={18} className="text-[#193D35]" /> Coding Games for Problem Solving
+                                </h3>
+                                <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                    Practice arranging code blocks, identifying syntax mistakes in learning snippets, predicting program outputs, and writing relational database queries:
+                                </p>
+                                <div className="flex flex-wrap gap-2 pt-1">
+                                    {[
+                                        { name: 'Code Puzzle', to: '/games/code-puzzle' },
+                                        { name: 'Find the Bug', to: '/games/find-the-bug' },
+                                        { name: 'Output Predictor', to: '/games/output-predictor' },
+                                        { name: 'Code Scramble', to: '/games/code-scramble' },
+                                        { name: 'Missing Code', to: '/games/missing-code' },
+                                        { name: 'Logic Builder', to: '/games/logic-builder' },
+                                        { name: 'SQL Challenge', to: '/games/sql-challenge' },
+                                        { name: 'Memory Match', to: '/games/memory-match' },
+                                        { name: 'C# OOP & LINQ Challenges', to: '/games/csharp-oop-challenge' },
+                                    ].map(g => (
+                                        <Link key={g.name} to={g.to} className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] text-xs font-semibold text-[var(--foreground)] transition-colors">
+                                            {g.name}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="p-5 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-3">
+                                <h3 className="text-base font-display font-bold text-[var(--foreground)] flex items-center gap-2">
+                                    <Keyboard size={18} className="text-[#193D35]" /> Typing Games for Developer Speed
+                                </h3>
+                                <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                    Build typing accuracy and Words Per Minute (WPM) speed using real programming keywords, brackets, operators, and code snippets:
+                                </p>
+                                <div className="flex flex-wrap gap-2 pt-1">
+                                    {[
+                                        { name: 'Speed Typing', to: '/games/speed-typing' },
+                                        { name: 'Code Typing', to: '/games/code-typing' },
+                                        { name: '60-Second Challenge', to: '/games/sixty-second-challenge' },
+                                        { name: 'Error-Free Typing', to: '/games/error-free-typing' },
+                                        { name: 'Syntax Typing', to: '/games/syntax-typing' },
+                                        { name: 'Word Rain', to: '/games/word-rain' },
+                                    ].map(g => (
+                                        <Link key={g.name} to={g.to} className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] text-xs font-semibold text-[var(--foreground)] transition-colors">
+                                            {g.name}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Section 4: How Hangbug Works & Score-Based Certificates */}
+                    <section aria-labelledby="how-hangbug-works" className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                        <div className="lg:col-span-7 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 sm:p-8 space-y-4 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <h2 id="how-hangbug-works" className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">
+                                    How Hangbug Works for Students &amp; Developers
+                                </h2>
+                                <p className="text-xs sm:text-sm text-[var(--foreground-muted)] leading-relaxed">
+                                    Whether you are a computer science student reviewing coursework, a self-taught programmer learning web development, or a developer preparing for technical assessments, getting started takes only a few minutes:
+                                </p>
+                                <ol className="space-y-2.5 text-xs sm:text-sm text-[var(--foreground-muted)] pt-1">
+                                    <li className="flex items-start gap-2.5">
+                                        <span className="w-5 h-5 rounded-full bg-[#193D35] text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                                        <span><strong>Create Your Account or Explore Publicly:</strong> Browse available technology tracks and play interactive games, or sign in to save your quiz progress and scores.</span>
+                                    </li>
+                                    <li className="flex items-start gap-2.5">
+                                        <span className="w-5 h-5 rounded-full bg-[#193D35] text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                                        <span><strong>Practice Session-Based Quizzes:</strong> Select a technology session (or complete track), answer MCQ questions with instant verification, or pause and resume later.</span>
+                                    </li>
+                                    <li className="flex items-start gap-2.5">
+                                        <span className="w-5 h-5 rounded-full bg-[#193D35] text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                                        <span><strong>Earn &amp; Share Score-Based Certificates:</strong> Score 80% or higher on a quiz assessment to earn a score-based certificate with a verification ID and share it on LinkedIn.</span>
+                                    </li>
+                                </ol>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-[var(--card-border)]">
+                                <Link to="/register" className="btn-primary text-xs py-2.5 px-5 rounded-xl">
+                                    Create Free Account <ArrowRight size={13} />
+                                </Link>
+                                <Link to="/about" className="btn-secondary text-xs py-2.5 px-5 rounded-xl">
+                                    Learn More About Hangbug
+                                </Link>
+                            </div>
+                        </div>
+
+                        <div className="lg:col-span-5 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 sm:p-8 space-y-4 flex flex-col justify-between">
+                            <div className="space-y-3">
+                                <h2 className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">
+                                    Score-Based Certificates &amp; LinkedIn Sharing
+                                </h2>
+                                <p className="text-xs sm:text-sm text-[var(--foreground-muted)] leading-relaxed">
+                                    When you pass a technology quiz on Hangbug with a score of 80% or above, the platform generates a digital score-based Certificate of Completion recording your name, technology category, score percentage, issue date, and unique verification ID.
+                                </p>
+                                <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                    You can download your certificate or share its verification link directly on LinkedIn to showcase your technology quiz milestones.
+                                </p>
+                            </div>
+                            <div className="flex items-center justify-between pt-4 border-t border-[var(--card-border)] text-xs">
+                                <Link to="/technologies" className="font-bold text-[#193D35] hover:underline inline-flex items-center gap-1">
+                                    Start a Technology Quiz <ArrowRight size={13} />
+                                </Link>
+                                <Link to="/leaderboard" className="font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)]">
+                                    View Leaderboard →
+                                </Link>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </main>
 

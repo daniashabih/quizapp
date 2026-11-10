@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/config/app_config.dart';
 import '../../core/constants/app_colors.dart';
 import '../../providers/auth_provider.dart';
+import '../../services/notification_service.dart';
 import '../../widgets/network_status_banner.dart';
 
 class MainShellScreen extends ConsumerStatefulWidget {
@@ -26,12 +27,11 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
     if (_lastBackPressTime == null ||
         now.difference(_lastBackPressTime!) > const Duration(seconds: 2)) {
       _lastBackPressTime = now;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Press back again to exit ${AppConfig.appName}'),
-          duration: Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-        ),
+      AppNotificationService.info(
+        id: 'mobile-back-press-exit',
+        title: 'Confirm exit',
+        message: 'Press back again to exit ${AppConfig.appName}',
+        duration: const Duration(seconds: 2),
       );
       return false;
     }

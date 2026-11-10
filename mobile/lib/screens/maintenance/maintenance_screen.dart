@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/config/app_config.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../providers/settings_provider.dart';
+import '../../services/notification_service.dart';
 
 class MaintenanceScreen extends ConsumerWidget {
   const MaintenanceScreen({super.key});
@@ -111,12 +112,14 @@ class MaintenanceScreen extends ConsumerWidget {
                     ),
                     onPressed: () async {
                       ref.read(settingsProvider.notifier).refreshSettings();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Checking system status...'),
-                          duration: Duration(seconds: 1),
-                        ),
+                      AppNotificationService.loading(
+                        id: 'mobile-maintenance-check',
+                        title: 'Checking system status...',
+                        message: 'Connecting to Hangbug servers.',
                       );
+                      Future.delayed(const Duration(milliseconds: 1200), () {
+                        AppNotificationService.dismiss('mobile-maintenance-check');
+                      });
                     },
                   ),
                 ),
