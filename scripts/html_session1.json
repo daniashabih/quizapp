@@ -1,0 +1,580 @@
+{
+  "category": "HTML",
+  "session": 1,
+  "title": "Session 1: Introduction to the Web",
+  "totalQuestions": 52,
+  "questions": [
+    {
+      "questionText": "HTML was first introduced in which year?",
+      "options": [
+        "1995",
+        "1990",
+        "1999",
+        "1985"
+      ],
+      "correctAnswer": "1990",
+      "explanation": "Correct answer is B) 1990."
+    },
+    {
+      "questionText": "Which version of HTML was recommended as a standard by W3C in 1997?",
+      "options": [
+        "HTML5",
+        "HTML 4",
+        "HTML 2.0",
+        "HTML 3.0"
+      ],
+      "correctAnswer": "HTML 4",
+      "explanation": "Correct answer is B) HTML 4."
+    },
+    {
+      "questionText": "HTML 4.01 was released in which year?",
+      "options": [
+        "1997",
+        "2006",
+        "1999",
+        "1995"
+      ],
+      "correctAnswer": "1999",
+      "explanation": "Correct answer is C) 1999."
+    },
+    {
+      "questionText": "A network that covers a small geographical area such as an office, home, or school is called a:",
+      "options": [
+        "LAN",
+        "MAN",
+        "WAN",
+        "PAN"
+      ],
+      "correctAnswer": "LAN",
+      "explanation": "Correct answer is A) LAN."
+    },
+    {
+      "questionText": "A network that covers a city is known as a:",
+      "options": [
+        "MAN",
+        "WAN",
+        "VPN",
+        "LAN"
+      ],
+      "correctAnswer": "MAN",
+      "explanation": "Correct answer is A) MAN."
+    },
+    {
+      "questionText": "Which network connects LANs and MANs across geographical boundaries?",
+      "options": [
+        "LAN",
+        "SAN",
+        "PAN",
+        "WAN"
+      ],
+      "correctAnswer": "WAN",
+      "explanation": "Correct answer is D) WAN."
+    },
+    {
+      "questionText": "The Internet is known as the largest:",
+      "options": [
+        "WAN",
+        "MAN",
+        "LAN",
+        "Intranet"
+      ],
+      "correctAnswer": "WAN",
+      "explanation": "Correct answer is A) WAN."
+    },
+    {
+      "questionText": "The Internet is often described as a:",
+      "options": [
+        "Network of networks",
+        "Search engine",
+        "Single computer",
+        "Web browser"
+      ],
+      "correctAnswer": "Network of networks",
+      "explanation": "Correct answer is A) Network of networks."
+    },
+    {
+      "questionText": "A Web page is best described as:",
+      "options": [
+        "A computer with high processing speed",
+        "A protocol for sending e-mail",
+        "A file containing information and instructions to display information",
+        "A type of browser"
+      ],
+      "correctAnswer": "A file containing information and instructions to display information",
+      "explanation": "Correct answer is C) A file containing information and instructions to display information."
+    },
+    {
+      "questionText": "A computer with high processing speed connected to the Internet and used to host Web pages is a:",
+      "options": [
+        "Web browser",
+        "Router",
+        "Web client",
+        "Web server"
+      ],
+      "correctAnswer": "Web server",
+      "explanation": "Correct answer is D) Web server."
+    },
+    {
+      "questionText": "Which software interprets and displays Web pages to the user?",
+      "options": [
+        "Compiler",
+        "Web browser",
+        "Database",
+        "Web server"
+      ],
+      "correctAnswer": "Web browser",
+      "explanation": "Correct answer is B) Web browser."
+    },
+    {
+      "questionText": "Which protocol is the most popular for viewing Web pages?",
+      "options": [
+        "POP3",
+        "HTTP",
+        "SMTP",
+        "FTP"
+      ],
+      "correctAnswer": "HTTP",
+      "explanation": "Correct answer is B) HTTP."
+    },
+    {
+      "questionText": "Which is the correct form of a URL as described in the session?",
+      "options": [
+        "[protocol]/[path]://[server]",
+        "[protocol]://[Web server name]/[path of the file]",
+        "[path]://[protocol]/[server]",
+        "[server]://[path]/[protocol]"
+      ],
+      "correctAnswer": "[protocol]://[Web server name]/[path of the file]",
+      "explanation": "Correct answer is B) [protocol]://[Web server name]/[path of the file]."
+    },
+    {
+      "questionText": "In Web communication, the browser sends the URL request to the:",
+      "options": [
+        "Another browser",
+        "Rendering engine",
+        "Web server",
+        "Database"
+      ],
+      "correctAnswer": "Web server",
+      "explanation": "Correct answer is C) Web server."
+    },
+    {
+      "questionText": "A static Web page:",
+      "options": [
+        "Generates content on demand",
+        "Displays the same content to every user each time",
+        "Changes content based on user input",
+        "Interacts with a database"
+      ],
+      "correctAnswer": "Displays the same content to every user each time",
+      "explanation": "Correct answer is B) Displays the same content to every user each time."
+    },
+    {
+      "questionText": "The only way to update a static Web page is to:",
+      "options": [
+        "Reload the browser",
+        "Use a database",
+        "Change the content manually",
+        "Use JavaScript"
+      ],
+      "correctAnswer": "Change the content manually",
+      "explanation": "Correct answer is C) Change the content manually."
+    },
+    {
+      "questionText": "Which of the following is an advantage of static Web pages?",
+      "options": [
+        "They are simple to design with less programming effort",
+        "They update automatically",
+        "They interact with databases",
+        "They allow heavy user interaction"
+      ],
+      "correctAnswer": "They are simple to design with less programming effort",
+      "explanation": "Correct answer is A) They are simple to design with less programming effort."
+    },
+    {
+      "questionText": "Hypertext refers to:",
+      "options": [
+        "Content linked to another Web page",
+        "Text written in XML",
+        "Text with large fonts",
+        "Text stored in a database"
+      ],
+      "correctAnswer": "Content linked to another Web page",
+      "explanation": "Correct answer is A) Content linked to another Web page."
+    },
+    {
+      "questionText": "Which of the following is a limitation of static Web pages?",
+      "options": [
+        "They use HTML",
+        "They are simple to design",
+        "They do not allow user interaction",
+        "They are fast to load"
+      ],
+      "correctAnswer": "They do not allow user interaction",
+      "explanation": "Correct answer is C) They do not allow user interaction."
+    },
+    {
+      "questionText": "A dynamic Web page:",
+      "options": [
+        "Always shows identical content",
+        "Generates content on demand when the user provides inputs",
+        "Cannot use a database",
+        "Is written only in HTML"
+      ],
+      "correctAnswer": "Generates content on demand when the user provides inputs",
+      "explanation": "Correct answer is B) Generates content on demand when the user provides inputs."
+    },
+    {
+      "questionText": "Which Website would be a typical example of a dynamic Web page?",
+      "options": [
+        "A page with fixed company address",
+        "A plain text notice",
+        "A fixed photo gallery with no links",
+        "An online store displaying total cost based on selected products"
+      ],
+      "correctAnswer": "An online store displaying total cost based on selected products",
+      "explanation": "Correct answer is D) An online store displaying total cost based on selected products."
+    },
+    {
+      "questionText": "A dynamic Website interacts with a ______ to generate dynamic content.",
+      "options": [
+        "Compiler",
+        "Printer",
+        "Router",
+        "Database"
+      ],
+      "correctAnswer": "Database",
+      "explanation": "Correct answer is D) Database."
+    },
+    {
+      "questionText": "JavaScript was developed by:",
+      "options": [
+        "Netscape",
+        "WHATWG",
+        "W3C",
+        "Microsoft"
+      ],
+      "correctAnswer": "Netscape",
+      "explanation": "Correct answer is A) Netscape."
+    },
+    {
+      "questionText": "Which technology specifies the formatting of Web pages such as font, color, and spacing?",
+      "options": [
+        "SGML",
+        "HTTP",
+        "XML",
+        "CSS"
+      ],
+      "correctAnswer": "CSS",
+      "explanation": "Correct answer is D) CSS."
+    },
+    {
+      "questionText": "XHTML is a combination of HTML with:",
+      "options": [
+        "XML",
+        "CSS",
+        "JavaScript",
+        "jQuery"
+      ],
+      "correctAnswer": "XML",
+      "explanation": "Correct answer is A) XML."
+    },
+    {
+      "questionText": "Dynamic HTML (DHTML) uses which two technologies to make dynamic Web pages?",
+      "options": [
+        "JavaScript and CSS",
+        "Java and C++",
+        "XML and SGML",
+        "PHP and SQL"
+      ],
+      "correctAnswer": "JavaScript and CSS",
+      "explanation": "Correct answer is A) JavaScript and CSS."
+    },
+    {
+      "questionText": "HTML is derived from:",
+      "options": [
+        "XHTML",
+        "CSS",
+        "SGML",
+        "XML"
+      ],
+      "correctAnswer": "SGML",
+      "explanation": "Correct answer is C) SGML."
+    },
+    {
+      "questionText": "A markup language is:",
+      "options": [
+        "A set of notations that specifies how content should look in the browser",
+        "A server-side script",
+        "A programming language for databases",
+        "A style sheet language"
+      ],
+      "correctAnswer": "A set of notations that specifies how content should look in the browser",
+      "explanation": "Correct answer is A) A set of notations that specifies how content should look in the browser."
+    },
+    {
+      "questionText": "HTML 1.0 was introduced in:",
+      "options": [
+        "1997",
+        "1993",
+        "1990",
+        "1995"
+      ],
+      "correctAnswer": "1993",
+      "explanation": "Correct answer is B) 1993."
+    },
+    {
+      "questionText": "HTML 2.0 was introduced in:",
+      "options": [
+        "1993",
+        "1995",
+        "1997",
+        "1999"
+      ],
+      "correctAnswer": "1995",
+      "explanation": "Correct answer is B) 1995."
+    },
+    {
+      "questionText": "Which version was the first specification introduced by W3C in January 1997?",
+      "options": [
+        "HTML 4.0",
+        "HTML 2.0",
+        "HTML5",
+        "HTML 3.2"
+      ],
+      "correctAnswer": "HTML 3.2",
+      "explanation": "Correct answer is D) HTML 3.2."
+    },
+    {
+      "questionText": "HTML 4.0 was introduced by W3C in December 1997 to support:",
+      "options": [
+        "Flash, Java, and Silverlight",
+        "Canvas and audio",
+        "GPS and Web Sockets",
+        "CSS, DHTML, and JavaScript"
+      ],
+      "correctAnswer": "CSS, DHTML, and JavaScript",
+      "explanation": "Correct answer is D) CSS, DHTML, and JavaScript."
+    },
+    {
+      "questionText": "HTML5 is a cooperative project between W3C and:",
+      "options": [
+        "ISO",
+        "WHATWG",
+        "IEEE",
+        "ECMA"
+      ],
+      "correctAnswer": "WHATWG",
+      "explanation": "Correct answer is B) WHATWG."
+    },
+    {
+      "questionText": "In which year did W3C and WHATWG decide to work together on a new HTML version?",
+      "options": [
+        "2004",
+        "2010",
+        "2000",
+        "2006"
+      ],
+      "correctAnswer": "2006",
+      "explanation": "Correct answer is D) 2006."
+    },
+    {
+      "questionText": "Which of the following is a basic rule established for HTML5?",
+      "options": [
+        "Requirement for external plug-ins such as Flash should be reduced",
+        "HTML5 should be device dependent",
+        "More scripting should replace markup",
+        "Development should be private"
+      ],
+      "correctAnswer": "Requirement for external plug-ins such as Flash should be reduced",
+      "explanation": "Correct answer is A) Requirement for external plug-ins such as Flash should be reduced."
+    },
+    {
+      "questionText": "The <head> section of an HTML5 page contains:",
+      "options": [
+        "Unseen elements and links",
+        "Only images",
+        "Only the footer",
+        "The visible elements"
+      ],
+      "correctAnswer": "Unseen elements and links",
+      "explanation": "Correct answer is A) Unseen elements and links."
+    },
+    {
+      "questionText": "Which elements did not provide information about the sections of the body they represented?",
+      "options": [
+        "<div> and <table>",
+        "<header> and <footer>",
+        "<nav> and <aside>",
+        "<article> and <section>"
+      ],
+      "correctAnswer": "<div> and <table>",
+      "explanation": "Correct answer is A) <div> and <table>."
+    },
+    {
+      "questionText": "In a typical HTML5 page layout, the part that usually holds the logo, name, and subtitle is the:",
+      "options": [
+        "Footer",
+        "Side bar",
+        "Header",
+        "Main information"
+      ],
+      "correctAnswer": "Header",
+      "explanation": "Correct answer is C) Header."
+    },
+    {
+      "questionText": "The navigation bar of a Web page contains:",
+      "options": [
+        "A menu with links for navigation",
+        "Copyright information",
+        "Scripts",
+        "Advertisements only"
+      ],
+      "correctAnswer": "A menu with links for navigation",
+      "explanation": "Correct answer is A) A menu with links for navigation."
+    },
+    {
+      "questionText": "In the page layout, the footer typically represents:",
+      "options": [
+        "The most important content",
+        "General information such as author or company name and terms",
+        "Navigation menu",
+        "The logo of the site"
+      ],
+      "correctAnswer": "General information such as author or company name and terms",
+      "explanation": "Correct answer is B) General information such as author or company name and terms."
+    },
+    {
+      "questionText": "Canvas in HTML5 is:",
+      "options": [
+        "A server-side language",
+        "A rectangular area on a Web page controlled with JavaScript",
+        "A style sheet",
+        "A database"
+      ],
+      "correctAnswer": "A rectangular area on a Web page controlled with JavaScript",
+      "explanation": "Correct answer is B) A rectangular area on a Web page controlled with JavaScript."
+    },
+    {
+      "questionText": "Which HTML5 API runs background scripts without disturbing the main process?",
+      "options": [
+        "Geolocation",
+        "Web workers",
+        "Web Sockets",
+        "Canvas"
+      ],
+      "correctAnswer": "Web workers",
+      "explanation": "Correct answer is B) Web workers."
+    },
+    {
+      "questionText": "Which HTML5 feature provides a continuous connection between a server and a client?",
+      "options": [
+        "Application cache",
+        "Canvas",
+        "Web workers",
+        "Web Sockets API"
+      ],
+      "correctAnswer": "Web Sockets API",
+      "explanation": "Correct answer is D) Web Sockets API."
+    },
+    {
+      "questionText": "HTML5 supports offline Web applications by storing files in the:",
+      "options": [
+        "Server",
+        "Cookies",
+        "Registry",
+        "Application cache"
+      ],
+      "correctAnswer": "Application cache",
+      "explanation": "Correct answer is D) Application cache."
+    },
+    {
+      "questionText": "For a multimedia person, HTML5 provides:",
+      "options": [
+        "Native support for audio and video",
+        "Flash support",
+        "Java applets",
+        "Silverlight plug-ins"
+      ],
+      "correctAnswer": "Native support for audio and video",
+      "explanation": "Correct answer is A) Native support for audio and video."
+    },
+    {
+      "questionText": "Which of the following is NOT a new HTML5 element?",
+      "options": [
+        "<nav>",
+        "<canvas>",
+        "<marquee>",
+        "<article>"
+      ],
+      "correctAnswer": "<marquee>",
+      "explanation": "Correct answer is C) <marquee>."
+    },
+    {
+      "questionText": "Style sheets are saved with which extension?",
+      "options": [
+        ".xml",
+        ".css",
+        ".js",
+        ".html"
+      ],
+      "correctAnswer": ".css",
+      "explanation": "Correct answer is B) .css."
+    },
+    {
+      "questionText": "An important benefit of CSS is that it:",
+      "options": [
+        "Separates HTML content from its formatting",
+        "Replaces HTML",
+        "Increases formatting inconsistency",
+        "Removes the need for a browser"
+      ],
+      "correctAnswer": "Separates HTML content from its formatting",
+      "explanation": "Correct answer is A) Separates HTML content from its formatting."
+    },
+    {
+      "questionText": "The software that applies formatting instructions and displays the Web page is the:",
+      "options": [
+        "Database",
+        "Rendering engine",
+        "Web server",
+        "Compiler"
+      ],
+      "correctAnswer": "Rendering engine",
+      "explanation": "Correct answer is B) Rendering engine."
+    },
+    {
+      "questionText": "JavaScript is described as a:",
+      "options": [
+        "Light-weight scripting language supporting object-oriented style",
+        "Markup language",
+        "Style sheet language",
+        "Compiled language"
+      ],
+      "correctAnswer": "Light-weight scripting language supporting object-oriented style",
+      "explanation": "Correct answer is A) Light-weight scripting language supporting object-oriented style."
+    },
+    {
+      "questionText": "jQuery is a:",
+      "options": [
+        "Style sheet",
+        "Cross-browser JavaScript library",
+        "Web server",
+        "Database"
+      ],
+      "correctAnswer": "Cross-browser JavaScript library",
+      "explanation": "Correct answer is B) Cross-browser JavaScript library."
+    },
+    {
+      "questionText": "AJAX is a development technique used to create:",
+      "options": [
+        "Asynchronous Web applications",
+        "Databases",
+        "Print layouts",
+        "Static pages"
+      ],
+      "correctAnswer": "Asynchronous Web applications",
+      "explanation": "Correct answer is A) Asynchronous Web applications."
+    }
+  ]
+}

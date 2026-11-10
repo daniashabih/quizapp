@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,13,The <canvas> element is:,A drawing area for graphics drawn using JavaScript,A form,A table,A video player,A drawing area for graphics drawn using JavaScript
+HTML,13,The <canvas> element eliminates the need for:,HTML,CSS,JavaScript,Plug-ins for graphics,Plug-ins for graphics
+HTML,13,Canvas does not have drawing abilities of its own; drawing is done using:,XML,HTML,CSS,JavaScript,JavaScript
+HTML,13,The method that returns the drawing context of a canvas is:,getContext(),getCanvas(),drawContext(),setContext(),getContext()
+HTML,13,Which interface does the canvas element expose in the DOM?,HTMLCanvasElement,CanvasInterface,HTMLDrawElement,CanvasDOM,HTMLCanvasElement
+HTML,13,Which attributes define the size of a canvas?,size and length,x and y,width and height,top and left,width and height
+HTML,13,Which method begins a new path for drawing?,openPath(),startPath(),beginPath(),newPath(),beginPath()
+HTML,13,"moveTo(x, y) is used to:",Draw a line,Position the drawing cursor at a point,Clear the canvas,Fill a shape,Position the drawing cursor at a point
+HTML,13,"lineTo(x, y) is used to:",Draw text,Move the cursor,Fill an area,Draw a line from the current position to the given point,Draw a line from the current position to the given point
+HTML,13,stroke() is used to:,Fill a shape,Assign color to the line and display it,Create a path,Clear canvas,Assign color to the line and display it
+HTML,13,The strokeStyle property sets:,The color of the line,The font,The fill,The width,The color of the line
+HTML,13,Which method creates a rectangle on canvas?,rect(),square(),box(),drawRect only in CSS,rect()
+HTML,13,"rect(18, 50, 200, 100) takes parameters in order:","top, left, color, size","x, y, radius, angle","width, height, x, y","x, y, width, height","x, y, width, height"
+HTML,13,Which method draws a circle or arc?,round(),curve(),arc(),circle(),arc()
+HTML,13,fill() is used to:,Draw line outlines,Move,Fill the current path with the fill style,Clear,Fill the current path with the fill style
+HTML,13,Which method draws an image on a canvas?,putImage(),drawImage(),insertImage(),addImage(),drawImage()
+HTML,13,Which property sets the font for canvas text?,font,textFont,fontStyle,typeface,font
+HTML,13,Which method draws filled text on canvas?,drawText(),fillText(),printText(),writeText(),fillText()
+HTML,13,Which method draws outlined text on canvas?,strokeText(),outlineText(),borderText(),lineText(),strokeText()
+HTML,13,Which property sets transparency of canvas drawings?,transparency,alphaMode,globalAlpha,opacityLevel,globalAlpha
+HTML,13,A globalAlpha value of 0 means:,Half transparent,Fully transparent,Fully opaque,Black,Fully transparent
+HTML,13,The jQuery function that combines mouseenter and mouseleave is:,hover(),toggle(),click(),over(),hover()
+HTML,13,The jQuery toggle() event responds to:,Scrolling,Key presses,Page loads,Mouse clicks with multiple functions,Mouse clicks with multiple functions
+HTML,13,The <embed> tag in HTML5 is a container for:,Only images,Interactive content or an external application,Only tables,Only text,Interactive content or an external application
+HTML,13,The <eventsource> tag was introduced to:,Store data,Style pages,Push external content to a page,Draw graphics,Push external content to a page
+HTML,13,"Traditionally, Web applications stored small data on the client using:",Cookies,IndexedDB,WebSQL,Canvas,Cookies
+HTML,13,Web storage is a specification of:,W3C,ISO,ECMA,IEEE,W3C
+HTML,13,Some browsers refer to Web storage as:,Net Storage,File Storage,DOM Storage,Cookie Store,DOM Storage
+HTML,13,Web storage can store a maximum of about ______ per domain.,5 MB,4 KB,1 GB,100 KB,5 MB
+HTML,13,A cookie can store about:,5 MB,1 GB,50 MB,4 KB,4 KB
+HTML,13,Cookies are sent with each:,CSS file,Script,Image,HTTP request,HTTP request
+HTML,13,Web storage data is:,Stored only on the server,Shared across all browsers,Stored only on the client side,Sent with each request,Stored only on the client side
+HTML,13,The two types of Web storage are:,Cookie and cache,Disk and memory,Session storage and local storage,Temp and permanent,Session storage and local storage
+HTML,13,A property to check Web storage support is:,navigator.storage,document.storage,localStorage or sessionStorage on window,window.cookie,localStorage or sessionStorage on window
+HTML,13,"If Web storage is not supported, the property will be:",true,0,null,undefined,undefined
+HTML,13,Session storage data is:,Shared with all tabs,Discarded when the tab or window is closed,Permanent,Stored on the server,Discarded when the tab or window is closed
+HTML,13,Each browser window has its own:,Session storage object,Local storage shared,Cookie only,Index,Session storage object
+HTML,13,Session storage stores data as:,Images,XML,Tables,Named key/value pairs,Named key/value pairs
+HTML,13,"Regardless of the data type, Web storage stores values internally as:",Numbers,Objects,Booleans,Strings,Strings
+HTML,13,"To convert stored data back to an integer, use:",parseString(),toString(),stringInt(),parseInt(),parseInt()
+HTML,13,Which method stores data in session storage?,putItem(),setItem(),addItem(),storeItem(),setItem()
+HTML,13,Which method removes one item from storage?,clear(),deleteAll(),dropItem(),removeItem(),removeItem()
+HTML,13,Which method clears all items from storage?,reset(),deleteItem(),removeItem(),clear(),clear()
+HTML,13,The length attribute of storage returns:,The key name,The first value,The number of key/value pairs,The total bytes,The number of key/value pairs
+HTML,13,Local storage data is:,Persistent and retained after the browser is closed,Sent with each request,Discarded on tab close,Stored on the server,Persistent and retained after the browser is closed
+HTML,13,Local storage is useful for:,Video streaming,Counting the number of visits to a page,Temporary tab data only,Printing,Counting the number of visits to a page
+HTML,13,Local storage uses ______ methods as session storage.,The same,Only cookie,No,Different,The same
+HTML,13,IndexedDB is:,A cookie,A relational database server,A CSS module,An object store for client-side data,An object store for client-side data
+HTML,13,IndexedDB stores data as:,Images only,Objects in an object store,Plain text only,Rows in SQL tables,Objects in an object store
+HTML,13,IndexedDB is implemented using the:,document.db object,window.sqlDB object,navigator.db object,window.indexedDB object,window.indexedDB object
+HTML,13,IndexedDB supports which two types of APIs?,Synchronous and asynchronous,Local and remote,Public and private,Static and dynamic,Synchronous and asynchronous
+HTML,13,The synchronous IndexedDB API can be used with:,Canvas,CSS,Web Workers,Forms,Web Workers
+HTML,13,IndexedDB enables Web applications to work:,Only offline,Both online and offline,Only online,Only on servers,Both online and offline
+HTML,13,Browsers implement IndexedDB with vendor prefixes because:,It is proprietary,It is a plug-in,The specification was still evolving,It is deprecated,The specification was still evolving
+HTML,13,An advantage of native apps is:,No cost,Cross-browser runs,No installation,Better access to device features and performance,Better access to device features and performance

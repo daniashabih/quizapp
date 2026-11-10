@@ -360,6 +360,47 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
     }
   }
 
+  Widget _buildReorderIconButton({
+    required BuildContext context,
+    required IconData icon,
+    required String tooltip,
+    required VoidCallback? onPressed,
+  }) {
+    final enabled = onPressed != null;
+    return Tooltip(
+      message: tooltip,
+      child: Material(
+        color: enabled
+            ? context.cardBgColor
+            : context.mutedBgColor.withValues(alpha: 0.4),
+        borderRadius: BorderRadius.circular(8),
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(8),
+          child: Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: enabled
+                    ? context.borderColor
+                    : context.borderColor.withValues(alpha: 0.35),
+              ),
+            ),
+            child: Icon(
+              icon,
+              size: 18,
+              color: enabled
+                  ? context.textPrimaryColor
+                  : context.textMutedColor.withValues(alpha: 0.4),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -387,11 +428,11 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 720),
           child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+            margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(24),
+              color: context.cardBgColor,
+              borderRadius: BorderRadius.circular(22),
               border: Border.all(color: context.borderColor),
               boxShadow: [
                 BoxShadow(
@@ -405,89 +446,116 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Top Header Row
+                // Top Metadata Row (Language + Counter on left, Difficulty + Streak on right)
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                decoration: BoxDecoration(
-                                  color: context.gameBadgeBgColor,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: context.gameBadgeBorderColor),
-                                ),
-                                child: Text(
-                                  (puzzle['language'] ?? 'code').toString().toUpperCase(),
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'monospace',
-                                    color: context.gameBadgeTextColor,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Puzzle ${_puzzleIdx + 1} of ${_puzzles.length}',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey[500],
-                                ),
-                              ),
-                            ],
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: context.gameBadgeBgColor,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: context.gameBadgeBorderColor),
                           ),
-                          const SizedBox(height: 6),
-                          Text(
-                            puzzle['title'] ?? 'Code Challenge',
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+                          child: Text(
+                            (puzzle['language'] ?? 'code').toString().toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'monospace',
+                              color: context.gameBadgeTextColor,
+                            ),
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            puzzle['description'] ?? 'Arrange statements into correct logical sequence.',
-                            style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Puzzle ${_puzzleIdx + 1} of ${_puzzles.length}',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: context.textSecondaryColor,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            const Text('DIFFICULTY', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.grey)),
+                            Text(
+                              'DIFFICULTY',
+                              style: TextStyle(
+                                fontSize: 8.5,
+                                fontWeight: FontWeight.w800,
+                                color: context.textMutedColor,
+                              ),
+                            ),
                             Text(
                               puzzle['difficulty'] ?? 'Beginner',
-                              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.amber),
+                              style: const TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.amber,
+                              ),
                             ),
                           ],
                         ),
                         Container(
-                          height: 24,
+                          height: 22,
                           width: 1,
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          margin: const EdgeInsets.symmetric(horizontal: 8),
                           color: context.gameCodeBorderColor,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            const Text('STREAK', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.grey)),
+                            Text(
+                              'STREAK',
+                              style: TextStyle(
+                                fontSize: 8.5,
+                                fontWeight: FontWeight.w800,
+                                color: context.textMutedColor,
+                              ),
+                            ),
                             Text(
                               '$_streak🔥',
-                              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: Color(0xFF10B981)),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w900,
+                                color: Color(0xFF10B981),
+                              ),
                             ),
                           ],
                         ),
                       ],
                     ),
                   ],
+                ),
+
+                const SizedBox(height: 10),
+
+                // Full-width Title & Description
+                Text(
+                  puzzle['title'] ?? 'Code Challenge',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                    color: context.textPrimaryColor,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  puzzle['description'] ?? 'Arrange statements into correct logical sequence.',
+                  style: TextStyle(
+                    fontSize: 12,
+                    height: 1.35,
+                    color: context.textSecondaryColor,
+                  ),
                 ),
 
                 const SizedBox(height: 12),
@@ -505,19 +573,35 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                       Expanded(
                         child: Text(
                           'Use the arrows to rearrange statements in the correct logical sequence.',
-                          style: TextStyle(fontSize: 11, color: context.gameHintTextColor, fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                            fontSize: 11,
+                            height: 1.3,
+                            color: context.gameHintTextColor,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
+                      const SizedBox(width: 6),
                       TextButton.icon(
                         style: TextButton.styleFrom(
                           visualDensity: VisualDensity.compact,
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          minimumSize: Size.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () => setState(() => _showHint = !_showHint),
-                        icon: Icon(_showHint ? Icons.visibility_off : Icons.help_outline, size: 14, color: context.gameHintTextColor),
+                        icon: Icon(
+                          _showHint ? Icons.visibility_off_outlined : Icons.help_outline_rounded,
+                          size: 14,
+                          color: context.gameHintTextColor,
+                        ),
                         label: Text(
-                          _showHint ? 'Hide Hint' : 'Hint',
-                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: context.gameHintTextColor),
+                          _showHint ? 'Hide' : 'Hint',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w800,
+                            color: context.gameHintTextColor,
+                          ),
                         ),
                       ),
                     ],
@@ -529,20 +613,25 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.amber.withValues(alpha: 0.1),
+                      color: Colors.amber.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.amber.withValues(alpha: 0.3)),
+                      border: Border.all(color: Colors.amber.withValues(alpha: 0.35)),
                     ),
                     child: Text(
                       '💡 Hint: ${puzzle['hints'] ?? puzzle['explanation'] ?? 'Variables must be defined before use.'}',
-                      style: const TextStyle(fontSize: 11, color: Colors.amber),
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        height: 1.35,
+                        color: isDark ? Colors.amberAccent : const Color(0xFFB45309),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
 
-                const SizedBox(height: 14),
+                const SizedBox(height: 12),
 
-                // Reorderable Code Blocks
+                // Reorderable Code Blocks (Wrapped multi-line code + compact controls)
                 ...List.generate(_blocks.length, (idx) {
                   final line = _blocks[idx];
                   final isItemCorrect = _isCorrect == true;
@@ -550,7 +639,7 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
 
                   return Container(
                     margin: const EdgeInsets.only(bottom: 8),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     decoration: BoxDecoration(
                       color: isItemCorrect
                           ? Colors.green.withValues(alpha: 0.15)
@@ -560,57 +649,74 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
                         color: isItemCorrect
-                            ? Colors.green.withValues(alpha: 0.6)
+                            ? Colors.green.withValues(alpha: 0.65)
                             : isItemIncorrect
-                                ? Colors.red.withValues(alpha: 0.6)
-                                : Theme.of(context).dividerColor.withValues(alpha: 0.2),
+                                ? Colors.red.withValues(alpha: 0.65)
+                                : context.gameCodeBorderColor,
                       ),
                     ),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        Container(
                           width: 22,
+                          height: 22,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: context.mutedBgColor,
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: context.borderColor),
+                          ),
                           child: Text(
-                            '${idx + 1}.',
+                            '${idx + 1}',
                             style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[500],
+                              fontSize: 10.5,
+                              fontWeight: FontWeight.w800,
+                              fontFamily: 'monospace',
+                              color: context.textSecondaryColor,
                             ),
                           ),
                         ),
+                        const SizedBox(width: 10),
                         Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Text(
-                              line,
-                              style: TextStyle(
-                                fontFamily: 'monospace',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: context.textPrimaryColor,
-                              ),
+                          child: Text(
+                            line,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontFamily: 'monospace',
+                              fontSize: 12.5,
+                              height: 1.38,
+                              fontWeight: FontWeight.w600,
+                              color: context.textPrimaryColor,
                             ),
                           ),
                         ),
+                        const SizedBox(width: 8),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            IconButton(
-                              icon: const Icon(Icons.arrow_upward_rounded, size: 16),
+                            _buildReorderIconButton(
+                              context: context,
+                              icon: Icons.keyboard_arrow_up_rounded,
                               tooltip: 'Move Up',
-                              onPressed: (idx == 0 || widget.isPaused || _isCorrect == true || _isValidating)
+                              onPressed: (idx == 0 ||
+                                      widget.isPaused ||
+                                      _isCorrect == true ||
+                                      _isValidating)
                                   ? null
                                   : () => _moveBlock(idx, idx - 1),
-                              visualDensity: VisualDensity.compact,
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.arrow_downward_rounded, size: 16),
+                            const SizedBox(width: 4),
+                            _buildReorderIconButton(
+                              context: context,
+                              icon: Icons.keyboard_arrow_down_rounded,
                               tooltip: 'Move Down',
-                              onPressed: (idx == _blocks.length - 1 || widget.isPaused || _isCorrect == true || _isValidating)
+                              onPressed: (idx == _blocks.length - 1 ||
+                                      widget.isPaused ||
+                                      _isCorrect == true ||
+                                      _isValidating)
                                   ? null
                                   : () => _moveBlock(idx, idx + 1),
-                              visualDensity: VisualDensity.compact,
                             ),
                           ],
                         ),
@@ -621,7 +727,7 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
 
                 // Feedback Banner
                 if (_isCorrect == true) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
@@ -644,7 +750,10 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                               const SizedBox(height: 2),
                               Text(
                                 _feedbackExplanation,
-                                style: const TextStyle(fontSize: 11, color: Colors.greenAccent),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: isDark ? Colors.greenAccent : const Color(0xFF15803D),
+                                ),
                               ),
                             ],
                           ),
@@ -655,7 +764,7 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                 ],
 
                 if (_isCorrect == false) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
@@ -667,18 +776,21 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                       children: [
                         const Icon(Icons.cancel_rounded, color: Colors.red, size: 22),
                         const SizedBox(width: 10),
-                        const Expanded(
+                        Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Not quite right yet.',
                                 style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: Colors.red),
                               ),
-                              SizedBox(height: 2),
+                              const SizedBox(height: 2),
                               Text(
                                 'Check the logical execution flow and try again.',
-                                style: TextStyle(fontSize: 11, color: Colors.redAccent),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: isDark ? Colors.redAccent : const Color(0xFFC96155),
+                                ),
                               ),
                             ],
                           ),
@@ -688,10 +800,14 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                             onPressed: _handleRevealSolution,
                             style: TextButton.styleFrom(
                               backgroundColor: Colors.red.withValues(alpha: 0.2),
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              minimumSize: Size.zero,
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                             ),
-                            child: const Text('Reveal Solution', style: TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.bold)),
+                            child: const Text(
+                              'Reveal',
+                              style: TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.bold),
+                            ),
                           ),
                       ],
                     ),
@@ -699,7 +815,7 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                 ],
 
                 if (_isRevealed) ...[
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
@@ -722,11 +838,10 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                   ),
                 ],
 
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
 
-                // Bottom Actions Bar: Reset & Check Answer
+                // Bottom Actions Bar: Reset & Check Answer (Explicit minimumSize avoids Row infinite width constraint crash)
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     OutlinedButton.icon(
                       onPressed: (widget.isPaused || _isCorrect == true || _isValidating)
@@ -735,28 +850,36 @@ class _FlutterCodePuzzleState extends ConsumerState<FlutterCodePuzzle> {
                       icon: const Icon(Icons.replay_rounded, size: 16),
                       label: const Text('Reset'),
                       style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(0, 44),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
                       ),
                     ),
-                    FilledButton.icon(
-                      onPressed: (widget.isPaused || _isCorrect == true || _isValidating)
-                          ? null
-                          : _checkAnswer,
-                      icon: _isValidating
-                          ? const SizedBox(
-                              width: 14,
-                              height: 14,
-                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                            )
-                          : const Icon(Icons.auto_awesome_rounded, size: 16),
-                      label: Text(_isValidating ? 'Checking...' : 'Check Answer'),
-                      style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFF6366F1),
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
-                        elevation: 3,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: FilledButton.icon(
+                        onPressed: (widget.isPaused || _isCorrect == true || _isValidating)
+                            ? null
+                            : _checkAnswer,
+                        icon: _isValidating
+                            ? const SizedBox(
+                                width: 14,
+                                height: 14,
+                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                              )
+                            : const Icon(Icons.auto_awesome_rounded, size: 16),
+                        label: Text(
+                          _isValidating ? 'Checking...' : 'Check Answer',
+                          style: const TextStyle(fontWeight: FontWeight.w800),
+                        ),
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size(0, 44),
+                          backgroundColor: AppColors.gamePrimaryButton,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 11),
+                          elevation: 2,
+                        ),
                       ),
                     ),
                   ],

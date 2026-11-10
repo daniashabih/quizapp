@@ -87,211 +87,225 @@ class _FlutterFindTheBugState extends State<FlutterFindTheBug> {
     final challenge = _challenges[_challengeIdx];
     final isMatch = _selectedLine == challenge['bugLine'];
 
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 720),
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: context.cardBgColor,
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: context.borderColor),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: context.isDarkMode ? 0.3 : 0.05),
-                blurRadius: 16,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: context.gameBadgeBgColor,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: context.gameBadgeBorderColor),
-                    ),
-                    child: Text(
-                      challenge['language'].toString().toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'monospace',
-                        color: context.gameBadgeTextColor,
+    return SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: context.cardBgColor,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: context.borderColor),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: context.isDarkMode ? 0.3 : 0.05),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: context.gameBadgeBgColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: context.gameBadgeBorderColor),
+                      ),
+                      child: Text(
+                        challenge['language'].toString().toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'monospace',
+                          color: context.gameBadgeTextColor,
+                        ),
                       ),
                     ),
+                    Text(
+                      'Bug ${_challengeIdx + 1} of ${_challenges.length}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: context.textSecondaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  challenge['title'],
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                    color: context.textPrimaryColor,
                   ),
-                  Text(
-                    'Bug ${_challengeIdx + 1} of ${_challenges.length}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: context.textMutedColor,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Tap the line where the error or defect occurs:',
+                  style: TextStyle(fontSize: 12, color: context.textSecondaryColor),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  decoration: BoxDecoration(
+                    color: context.gameCodeBgColor,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: context.gameCodeBorderColor),
+                  ),
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: List.generate(
+                      (challenge['lines'] as List<String>).length,
+                      (idx) {
+                        final lineNum = idx + 1;
+                        final lineText = (challenge['lines'] as List<String>)[idx];
+                        final isSelected = _selectedLine == lineNum;
+                        final isTargetBug = _isSubmitted && lineNum == challenge['bugLine'];
+
+                        Color bg = Colors.transparent;
+                        if (isTargetBug) {
+                          bg = Colors.red.withValues(alpha: 0.2);
+                        } else if (isSelected) {
+                          bg = Colors.indigo.withValues(alpha: 0.2);
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: InkWell(
+                            onTap: _isSubmitted ? null : () => setState(() => _selectedLine = lineNum),
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                              decoration: BoxDecoration(
+                                color: bg,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: isTargetBug
+                                      ? Colors.red.withValues(alpha: 0.65)
+                                      : (isSelected
+                                          ? Colors.indigo.withValues(alpha: 0.65)
+                                          : Colors.transparent),
+                                ),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 24,
+                                    child: Text(
+                                      '$lineNum',
+                                      style: TextStyle(
+                                        color: context.textMutedColor,
+                                        fontFamily: 'monospace',
+                                        fontSize: 11.5,
+                                        height: 1.4,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      lineText.isEmpty ? ' ' : lineText,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        color: context.textPrimaryColor,
+                                        fontFamily: 'monospace',
+                                        fontSize: 12.5,
+                                        height: 1.4,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  if (isTargetBug) ...[
+                                    const SizedBox(width: 6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red.withValues(alpha: 0.15),
+                                        borderRadius: BorderRadius.circular(4),
+                                        border: Border.all(color: Colors.red.withValues(alpha: 0.5)),
+                                      ),
+                                      child: const Text(
+                                        'BUG',
+                                        style: TextStyle(color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                if (_isSubmitted) ...[
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: isMatch ? Colors.green.withValues(alpha: 0.12) : Colors.red.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: (isMatch ? Colors.green : Colors.red).withValues(alpha: 0.4)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          isMatch ? 'Correct Bug Spotted! (+250 pts)' : 'Wrong Line!',
+                          style: TextStyle(
+                            color: isMatch ? context.successColor : context.errorColor,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 13,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          challenge['explanation'],
+                          style: TextStyle(fontSize: 12, color: context.textSecondaryColor),
+                        ),
+                      ],
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: 10),
-              Text(
-                challenge['title'],
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w900,
-                  color: context.textPrimaryColor,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Tap the line where the error or defect occurs:',
-                style: TextStyle(fontSize: 12, color: context.textMutedColor),
-              ),
-              const SizedBox(height: 12),
-              Container(
-                decoration: BoxDecoration(
-                  color: context.gameCodeBgColor,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: context.gameCodeBorderColor),
-                ),
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: List.generate(
-                    (challenge['lines'] as List<String>).length,
-                    (idx) {
-                      final lineNum = idx + 1;
-                      final lineText = (challenge['lines'] as List<String>)[idx];
-                      final isSelected = _selectedLine == lineNum;
-                      final isTargetBug = _isSubmitted && lineNum == challenge['bugLine'];
-
-                      Color bg = Colors.transparent;
-                      if (isTargetBug) {
-                        bg = Colors.red.withValues(alpha: 0.2);
-                      } else if (isSelected) {
-                        bg = Colors.indigo.withValues(alpha: 0.2);
-                      }
-
-                      return InkWell(
-                        onTap: _isSubmitted ? null : () => setState(() => _selectedLine = lineNum),
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-                          decoration: BoxDecoration(
-                            color: bg,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: isTargetBug
-                                  ? Colors.red.withValues(alpha: 0.6)
-                                  : (isSelected
-                                      ? Colors.indigo.withValues(alpha: 0.6)
-                                      : Colors.transparent),
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 24,
-                                child: Text(
-                                  '$lineNum',
-                                  style: TextStyle(
-                                    color: context.textMutedColor,
-                                    fontFamily: 'monospace',
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  lineText,
-                                  style: TextStyle(
-                                    color: context.textPrimaryColor,
-                                    fontFamily: 'monospace',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                              if (isTargetBug)
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red.withValues(alpha: 0.15),
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Colors.red.withValues(alpha: 0.5)),
-                                  ),
-                                  child: const Text(
-                                    'BUG',
-                                    style: TextStyle(color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+                const SizedBox(height: 14),
+                if (!_isSubmitted)
+                  FilledButton(
+                    onPressed: _selectedLine != null ? _submitLine : null,
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 46),
+                      backgroundColor: AppColors.gamePrimaryButton,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: const Text('Submit Line', style: TextStyle(fontWeight: FontWeight.w900)),
+                  )
+                else
+                  FilledButton(
+                    onPressed: _nextChallenge,
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 46),
+                      backgroundColor: AppColors.gamePrimaryButton,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    child: const Text('Next Challenge', style: TextStyle(fontWeight: FontWeight.w900)),
                   ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              if (_isSubmitted)
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: isMatch ? Colors.green.withValues(alpha: 0.12) : Colors.red.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: (isMatch ? Colors.green : Colors.red).withValues(alpha: 0.4)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        isMatch ? 'Correct Bug Spotted! (+250 pts)' : 'Wrong Line!',
-                        style: TextStyle(
-                          color: isMatch ? const Color(0xFF15803D) : const Color(0xFFC96155),
-                          fontWeight: FontWeight.w900,
-                          fontSize: 13,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        challenge['explanation'],
-                        style: TextStyle(fontSize: 12, color: context.textSecondaryColor),
-                      ),
-                    ],
-                  ),
-                ),
-              const SizedBox(height: 14),
-              if (!_isSubmitted)
-                FilledButton(
-                  onPressed: _selectedLine != null ? _submitLine : null,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.gamePrimaryButton,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                  child: const Text('Submit Line', style: TextStyle(fontWeight: FontWeight.w900)),
-                )
-              else
-                FilledButton(
-                  onPressed: _nextChallenge,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.gamePrimaryButton,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                  child: const Text('Next Challenge', style: TextStyle(fontWeight: FontWeight.w900)),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

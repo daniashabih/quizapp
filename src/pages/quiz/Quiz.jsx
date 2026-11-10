@@ -706,7 +706,7 @@ const Quiz = () => {
         try {
             const submitRes = await axios.post('/quizzes/submit', {
                 category: selectedCategory,
-                session: isAllSessions ? 1 : selectedSession,
+                session: isAllSessions ? 0 : selectedSession,
                 answers: selectedAnswers,
                 attemptId: attemptIdRef.current,
                 timeTaken,

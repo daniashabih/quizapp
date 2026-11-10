@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,12,A function is:,A comment,A tag,An independent reusable block of code,A single variable,An independent reusable block of code
+HTML,12,A JavaScript function is created under which element?,<style>,<meta>,<script>,<head> only,<script>
+HTML,12,Which keyword is used to declare a function?,function,def,func,method,function
+HTML,12,The body of a function is enclosed in:,Curly braces { },Square brackets [ ],Parentheses ( ),Angle brackets,Curly braces { }
+HTML,12,A function that takes no parameters is declared with:,Empty braces only,No parentheses,Quotes,Empty parentheses,Empty parentheses
+HTML,12,The function that calls another function is the:,Called function,Parent function,Calling function,Main function,Calling function
+HTML,12,A function must be defined:,After it is invoked,Only in the head,Before it is invoked in the script,Only in the body,Before it is invoked in the script
+HTML,12,Which of the following is a benefit of functions?,Code reusability,No reuse,Slower code,More errors,Code reusability
+HTML,12,Parameters are:,Values passed during the call,Variables declared in the function declaration,Events,Return values,Variables declared in the function declaration
+HTML,12,Arguments are:,Function names,Keywords,Variables in the declaration,Values passed to the function,Values passed to the function
+HTML,12,Parameters of a function are accessible:,Only within the function,Anywhere in the script,Never,Only globally,Only within the function
+HTML,12,Variables declared outside functions in the script are:,Inaccessible,Accessible anywhere in the script,Accessible only inside functions,Read-only,Accessible anywhere in the script
+HTML,12,Which statement returns a value from a function?,give,output,return,send,return
+HTML,12,A function with no return statement returns:,undefined,0,An empty string,null,undefined
+HTML,12,JavaScript objects are categorized as:,Local and global,Static and dynamic,Primitive and composite,"Built-in, browser, and HTML objects","Built-in, browser, and HTML objects"
+HTML,12,Built-in objects include:,"window, history, navigator","String, Math, and Date","CSS, HTML","form, anchor","String, Math, and Date"
+HTML,12,Browser objects include:,Date only,form only,"window, history, and navigator",String and Math,"window, history, and navigator"
+HTML,12,HTML objects include:,form and anchor,Math,window,String,form and anchor
+HTML,12,The String object is instantiated using the:,make keyword,this keyword,new keyword,create keyword,new keyword
+HTML,12,Which String method retrieves a character at a given position?,indexOf(),substring(),split(),charAt(),charAt()
+HTML,12,Which String method merges two strings?,concat(),search(),replace(),split(),concat()
+HTML,12,Which String method returns the first position of a substring?,indexOf(),lastIndexOf(),charAt(),slice only,indexOf()
+HTML,12,Which String method divides a string into an array of substrings?,replace(),split(),concat(),substring(),split()
+HTML,12,Which String method returns a part of a string between two positions?,substring(),split(),charAt(),search(),substring()
+HTML,12,Which method converts a string to uppercase?,toUpperCase(),toUpper(),capitalize(),upper(),toUpperCase()
+HTML,12,The length property of a string returns:,The number of characters,The number of words,The position,The last character,The number of characters
+HTML,12,The Math object is:,An HTML object,A pre-defined object with static properties and methods,An object requiring instantiation,A browser object,A pre-defined object with static properties and methods
+HTML,12,Math.PI stores the value of:,One,Pi (approx. 3.142),Euler's number,Zero,Pi (approx. 3.142)
+HTML,12,"Math.pow(2, 3) returns:",8,6,5,9,8
+HTML,12,Math.floor() rounds a number to:,The decimal,The nearest integer up,The nearest 10,The largest integer less than or equal to it,The largest integer less than or equal to it
+HTML,12,Math.ceil() rounds a number:,Down,Up to the nearest integer,To two decimals,To zero,Up to the nearest integer
+HTML,12,"In the Date object, month numbers range from:",1 to 11,1 to 12,0 to 12,0 to 11,0 to 11
+HTML,12,"To represent March in the Date constructor, the month value is:",2,4,1,3,2
+HTML,12,getDay() returns a value between:,0 and 31,0 and 6,1 and 31,1 and 7,0 and 6
+HTML,12,getDate() returns a value between:,0 and 30,1 and 12,0 and 6,1 and 31,1 and 31
+HTML,12,getFullYear() returns:,The month,The day,A four-digit year,A two-digit year,A four-digit year
+HTML,12,The with statement is used to:,Throw an error,Remove repeated object references for a set of statements,Create a loop,Define a function,Remove repeated object references for a set of statements
+HTML,12,The top-level object in the JavaScript browser hierarchy is:,document,window,history,location,window
+HTML,12,The history object contains:,The URLs visited by the user in the window,The cookies,The images,The styles,The URLs visited by the user in the window
+HTML,12,history.back() retrieves:,The next URL,The first URL,The home page,The previous URL in the history list,The previous URL in the history list
+HTML,12,history.forward() retrieves:,The next URL in the history list,Nothing,The home page,The previous URL,The next URL in the history list
+HTML,12,location.reload() does what?,Reloads the current document,Replaces the URL,Goes back,Closes the window,Reloads the current document
+HTML,12,window.confirm() displays a dialog with:,No buttons,Only OK,OK and Cancel buttons,An input box,OK and Cancel buttons
+HTML,12,window.open() is used to:,Open a file in a new browser window,Close a window,Print the page,Reload the page,Open a file in a new browser window
+HTML,12,DOM stands for:,Document Object Model,Data Object Model,Dynamic Object Mapping,Document Order Mode,Document Object Model
+HTML,12,The DOM is:,A style sheet,A scripting language,An API that defines the object structure for accessing and manipulating HTML elements,A database,An API that defines the object structure for accessing and manipulating HTML elements
+HTML,12,"In the DOM, HTML elements are treated as:",Styles,Strings,Nodes,Numbers,Nodes
+HTML,12,The highest-level node in the DOM is the:,Text node,Document node,Attribute node,Element node,Document node
+HTML,12,The lowest-level nodes in the DOM are:,Text nodes,Element nodes,Document nodes,Window nodes,Text nodes
+HTML,12,An arrow function uses which symbol?,=>,->,<-,::,=>
+HTML,12,The for...of loop is used to:,Declare variables,Iterate over object keys only,Iterate over iterable values such as arrays,Create functions,Iterate over iterable values such as arrays
+HTML,12,JSON stands for:,JavaScript Oriented Network,JavaScript Object Notation,Java Standard Object Naming,Joint Script Object Notation,JavaScript Object Notation
+HTML,12,Converting a JSON string into a JavaScript object is called:,Stringification,Serialization,Deserialization,Compilation,Deserialization
+HTML,12,Which method converts an object to a JSON string?,JSON.toObject(),JSON.convert(),JSON.parse(),JSON.stringify(),JSON.stringify()
+HTML,12,Which method converts a JSON string to an object?,JSON.parse(),JSON.stringify(),JSON.read(),JSON.decode(),JSON.parse()

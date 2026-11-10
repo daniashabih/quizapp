@@ -1,0 +1,591 @@
+{
+  "category": "HTML",
+  "session": 8,
+  "title": "Session 8: Understanding Layouts in CSS3",
+  "totalQuestions": 53,
+  "questions": [
+    {
+      "questionText": "Which two popular layout modules are used in modern CSS?",
+      "options": [
+        "Frames and Div",
+        "Inline and Block",
+        "Float and Table",
+        "Flexbox and Grid"
+      ],
+      "correctAnswer": "Flexbox and Grid",
+      "explanation": "Correct answer is D) Flexbox and Grid."
+    },
+    {
+      "questionText": "The CSS Flexible Box Layout Module is also known as:",
+      "options": [
+        "Flexbox",
+        "Floatbox",
+        "Gridbox",
+        "Tablebox"
+      ],
+      "correctAnswer": "Flexbox",
+      "explanation": "Correct answer is A) Flexbox."
+    },
+    {
+      "questionText": "Flexbox takes care of:",
+      "options": [
+        "Alignment, layout, and space distribution",
+        "Database access",
+        "Server routing",
+        "Image compression"
+      ],
+      "correctAnswer": "Alignment, layout, and space distribution",
+      "explanation": "Correct answer is A) Alignment, layout, and space distribution."
+    },
+    {
+      "questionText": "All items in a flex container are called:",
+      "options": [
+        "Flex cells",
+        "Flex tracks",
+        "Flex lines",
+        "Flex items"
+      ],
+      "correctAnswer": "Flex items",
+      "explanation": "Correct answer is D) Flex items."
+    },
+    {
+      "questionText": "To make an element a flex container, the display property is set to:",
+      "options": [
+        "block-flex",
+        "grid",
+        "flex",
+        "inline"
+      ],
+      "correctAnswer": "flex",
+      "explanation": "Correct answer is C) flex."
+    },
+    {
+      "questionText": "The main axis in flexbox is determined by:",
+      "options": [
+        "The border",
+        "The direction of the flex items",
+        "The font size",
+        "The page width"
+      ],
+      "correctAnswer": "The direction of the flex items",
+      "explanation": "Correct answer is B) The direction of the flex items."
+    },
+    {
+      "questionText": "The cross axis is always:",
+      "options": [
+        "Perpendicular to the main axis",
+        "Parallel to the main axis",
+        "Diagonal",
+        "Hidden"
+      ],
+      "correctAnswer": "Perpendicular to the main axis",
+      "explanation": "Correct answer is A) Perpendicular to the main axis."
+    },
+    {
+      "questionText": "If the main axis is horizontal, the cross axis is:",
+      "options": [
+        "Horizontal",
+        "Diagonal",
+        "Vertical",
+        "Absent"
+      ],
+      "correctAnswer": "Vertical",
+      "explanation": "Correct answer is C) Vertical."
+    },
+    {
+      "questionText": "Which property defines how flex items are stacked?",
+      "options": [
+        "flex-flow",
+        "flex-wrap",
+        "flex-basis",
+        "flex-direction"
+      ],
+      "correctAnswer": "flex-direction",
+      "explanation": "Correct answer is D) flex-direction."
+    },
+    {
+      "questionText": "Which is NOT a valid flex-direction value?",
+      "options": [
+        "row",
+        "row-reverse",
+        "column-wrap",
+        "column-reverse"
+      ],
+      "correctAnswer": "column-wrap",
+      "explanation": "Correct answer is C) column-wrap."
+    },
+    {
+      "questionText": "flex-direction: column stacks items:",
+      "options": [
+        "In a circle",
+        "Vertically",
+        "Diagonally",
+        "Horizontally"
+      ],
+      "correctAnswer": "Vertically",
+      "explanation": "Correct answer is B) Vertically."
+    },
+    {
+      "questionText": "flex-direction: row-reverse arranges items:",
+      "options": [
+        "Right to left",
+        "Top to bottom",
+        "Left to right",
+        "Bottom to top"
+      ],
+      "correctAnswer": "Right to left",
+      "explanation": "Correct answer is A) Right to left."
+    },
+    {
+      "questionText": "Which property controls whether flex items wrap onto multiple lines?",
+      "options": [
+        "flex-flow",
+        "flex-wrap",
+        "flex-grow",
+        "flex-shrink"
+      ],
+      "correctAnswer": "flex-wrap",
+      "explanation": "Correct answer is B) flex-wrap."
+    },
+    {
+      "questionText": "Which property sets flex-direction and flex-wrap together?",
+      "options": [
+        "flex",
+        "flex-flow",
+        "flex-basis",
+        "flex-set"
+      ],
+      "correctAnswer": "flex-flow",
+      "explanation": "Correct answer is B) flex-flow."
+    },
+    {
+      "questionText": "flex-flow: row wrap sets:",
+      "options": [
+        "Direction row and wrapping enabled",
+        "Direction column and no wrap",
+        "Only wrapping",
+        "Only direction"
+      ],
+      "correctAnswer": "Direction row and wrapping enabled",
+      "explanation": "Correct answer is A) Direction row and wrapping enabled."
+    },
+    {
+      "questionText": "Which property aligns flex items along the main axis?",
+      "options": [
+        "align-content",
+        "align-items",
+        "justify-content",
+        "align-self"
+      ],
+      "correctAnswer": "justify-content",
+      "explanation": "Correct answer is C) justify-content."
+    },
+    {
+      "questionText": "Which justify-content value places items at the end of the container?",
+      "options": [
+        "flex-end",
+        "center",
+        "stretch",
+        "flex-start"
+      ],
+      "correctAnswer": "flex-end",
+      "explanation": "Correct answer is A) flex-end."
+    },
+    {
+      "questionText": "justify-content: space-between:",
+      "options": [
+        "Places items at the start",
+        "Places equal space between the items",
+        "Centers items",
+        "Places space only around"
+      ],
+      "correctAnswer": "Places equal space between the items",
+      "explanation": "Correct answer is B) Places equal space between the items."
+    },
+    {
+      "questionText": "justify-content: space-around:",
+      "options": [
+        "Distributes items with equal space around them",
+        "Puts items at the end",
+        "Wraps items",
+        "Stretches items"
+      ],
+      "correctAnswer": "Distributes items with equal space around them",
+      "explanation": "Correct answer is A) Distributes items with equal space around them."
+    },
+    {
+      "questionText": "justify-content: space-evenly:",
+      "options": [
+        "Reverses items",
+        "Aligns at the start",
+        "Centers items",
+        "Distributes items with equal spacing between and around them"
+      ],
+      "correctAnswer": "Distributes items with equal spacing between and around them",
+      "explanation": "Correct answer is D) Distributes items with equal spacing between and around them."
+    },
+    {
+      "questionText": "Which property aligns flex items along the cross axis?",
+      "options": [
+        "flex-flow",
+        "flex-wrap",
+        "align-items",
+        "justify-content"
+      ],
+      "correctAnswer": "align-items",
+      "explanation": "Correct answer is C) align-items."
+    },
+    {
+      "questionText": "Which is a valid align-items value?",
+      "options": [
+        "space-between",
+        "row",
+        "space-evenly",
+        "stretch"
+      ],
+      "correctAnswer": "stretch",
+      "explanation": "Correct answer is D) stretch."
+    },
+    {
+      "questionText": "The align-items value \"baseline\" aligns items:",
+      "options": [
+        "At the bottom only",
+        "At the top only",
+        "By stretching",
+        "By their text baselines"
+      ],
+      "correctAnswer": "By their text baselines",
+      "explanation": "Correct answer is D) By their text baselines."
+    },
+    {
+      "questionText": "align-content is used to:",
+      "options": [
+        "Align images",
+        "Align text",
+        "Align flex lines",
+        "Align one item"
+      ],
+      "correctAnswer": "Align flex lines",
+      "explanation": "Correct answer is C) Align flex lines."
+    },
+    {
+      "questionText": "align-content: stretch:",
+      "options": [
+        "Centers lines",
+        "Aligns lines at the end",
+        "Aligns lines at the start",
+        "Stretches flex lines to take the remaining space"
+      ],
+      "correctAnswer": "Stretches flex lines to take the remaining space",
+      "explanation": "Correct answer is D) Stretches flex lines to take the remaining space."
+    },
+    {
+      "questionText": "Which property helps a flex item grow relative to the others?",
+      "options": [
+        "flex-basis",
+        "flex-wrap",
+        "flex-grow",
+        "flex-shrink"
+      ],
+      "correctAnswer": "flex-grow",
+      "explanation": "Correct answer is C) flex-grow."
+    },
+    {
+      "questionText": "flex-grow takes a:",
+      "options": [
+        "String of text",
+        "Number value",
+        "Image",
+        "Color value"
+      ],
+      "correctAnswer": "Number value",
+      "explanation": "Correct answer is B) Number value."
+    },
+    {
+      "questionText": "Which property helps a flex item shrink?",
+      "options": [
+        "flex-grow",
+        "order",
+        "flex-shrink",
+        "flex-flow"
+      ],
+      "correctAnswer": "flex-shrink",
+      "explanation": "Correct answer is C) flex-shrink."
+    },
+    {
+      "questionText": "Setting flex-shrink to 0 means the item:",
+      "options": [
+        "Will shrink fully",
+        "Will hide",
+        "Will not shrink",
+        "Will grow"
+      ],
+      "correctAnswer": "Will not shrink",
+      "explanation": "Correct answer is C) Will not shrink."
+    },
+    {
+      "questionText": "The flex shorthand property specifies:",
+      "options": [
+        "Only flex-grow",
+        "Only direction",
+        "Only wrap",
+        "flex-grow, flex-shrink, and flex-basis"
+      ],
+      "correctAnswer": "flex-grow, flex-shrink, and flex-basis",
+      "explanation": "Correct answer is D) flex-grow, flex-shrink, and flex-basis."
+    },
+    {
+      "questionText": "Which property overrides align-items for an individual flex item?",
+      "options": [
+        "flex-flow",
+        "justify-self",
+        "align-self",
+        "align-content"
+      ],
+      "correctAnswer": "align-self",
+      "explanation": "Correct answer is C) align-self."
+    },
+    {
+      "questionText": "flex-basis specifies:",
+      "options": [
+        "The direction",
+        "The color",
+        "The border",
+        "The initial size of a flex item"
+      ],
+      "correctAnswer": "The initial size of a flex item",
+      "explanation": "Correct answer is D) The initial size of a flex item."
+    },
+    {
+      "questionText": "A CSS grid layout has:",
+      "options": [
+        "No parent",
+        "Two parents",
+        "Only inline elements",
+        "One parent element with one or more child elements"
+      ],
+      "correctAnswer": "One parent element with one or more child elements",
+      "explanation": "Correct answer is D) One parent element with one or more child elements."
+    },
+    {
+      "questionText": "Child elements of a grid container are called:",
+      "options": [
+        "Grid lines",
+        "Grid cells only",
+        "Grid tracks",
+        "Grid items"
+      ],
+      "correctAnswer": "Grid items",
+      "explanation": "Correct answer is D) Grid items."
+    },
+    {
+      "questionText": "To make an element a grid container, set display to:",
+      "options": [
+        "grid or inline-grid",
+        "block",
+        "flex",
+        "table"
+      ],
+      "correctAnswer": "grid or inline-grid",
+      "explanation": "Correct answer is A) grid or inline-grid."
+    },
+    {
+      "questionText": "Display: inline-grid generates:",
+      "options": [
+        "A table",
+        "A list",
+        "A block-level flex",
+        "An inline-level grid"
+      ],
+      "correctAnswer": "An inline-level grid",
+      "explanation": "Correct answer is D) An inline-level grid."
+    },
+    {
+      "questionText": "Grid lines are:",
+      "options": [
+        "The borders of images",
+        "The grid items",
+        "The container",
+        "The dividing lines that form the structure of the grid"
+      ],
+      "correctAnswer": "The dividing lines that form the structure of the grid",
+      "explanation": "Correct answer is D) The dividing lines that form the structure of the grid."
+    },
+    {
+      "questionText": "A grid cell is:",
+      "options": [
+        "A whole row",
+        "The single unit of a grid",
+        "A whole column",
+        "A container"
+      ],
+      "correctAnswer": "The single unit of a grid",
+      "explanation": "Correct answer is B) The single unit of a grid."
+    },
+    {
+      "questionText": "A grid track is a generic term for:",
+      "options": [
+        "A grid container",
+        "A grid cell",
+        "A grid item",
+        "A grid column or row"
+      ],
+      "correctAnswer": "A grid column or row",
+      "explanation": "Correct answer is D) A grid column or row."
+    },
+    {
+      "questionText": "The space between two adjacent vertical grid lines is a:",
+      "options": [
+        "Grid row",
+        "Grid column",
+        "Grid cell",
+        "Grid area"
+      ],
+      "correctAnswer": "Grid column",
+      "explanation": "Correct answer is B) Grid column."
+    },
+    {
+      "questionText": "The space between two adjacent horizontal grid lines is a:",
+      "options": [
+        "Grid row",
+        "Grid column",
+        "Grid item",
+        "Grid track only"
+      ],
+      "correctAnswer": "Grid row",
+      "explanation": "Correct answer is A) Grid row."
+    },
+    {
+      "questionText": "Which property defines the number and width of columns?",
+      "options": [
+        "grid-gap",
+        "grid-template-rows",
+        "grid-area",
+        "grid-template-columns"
+      ],
+      "correctAnswer": "grid-template-columns",
+      "explanation": "Correct answer is D) grid-template-columns."
+    },
+    {
+      "questionText": "Which property defines the height of rows?",
+      "options": [
+        "grid-gap",
+        "grid-column",
+        "grid-template-rows",
+        "grid-template-columns"
+      ],
+      "correctAnswer": "grid-template-rows",
+      "explanation": "Correct answer is C) grid-template-rows."
+    },
+    {
+      "questionText": "grid-column-gap defines:",
+      "options": [
+        "The size of the gap between columns",
+        "The row height",
+        "The font size",
+        "The border width"
+      ],
+      "correctAnswer": "The size of the gap between columns",
+      "explanation": "Correct answer is A) The size of the gap between columns."
+    },
+    {
+      "questionText": "grid-row-gap defines:",
+      "options": [
+        "The size of the gap between rows",
+        "The gap between columns",
+        "The cell size",
+        "The font size"
+      ],
+      "correctAnswer": "The size of the gap between rows",
+      "explanation": "Correct answer is A) The size of the gap between rows."
+    },
+    {
+      "questionText": "grid-gap is a shorthand for:",
+      "options": [
+        "grid-row-gap and grid-column-gap",
+        "grid-column and grid-row",
+        "grid-area",
+        "grid-template"
+      ],
+      "correctAnswer": "grid-row-gap and grid-column-gap",
+      "explanation": "Correct answer is A) grid-row-gap and grid-column-gap."
+    },
+    {
+      "questionText": "Which grid item property specifies where an item starts and ends in columns?",
+      "options": [
+        "grid-gap",
+        "grid-flow",
+        "grid-template",
+        "grid-column"
+      ],
+      "correctAnswer": "grid-column",
+      "explanation": "Correct answer is D) grid-column."
+    },
+    {
+      "questionText": "Which grid item property specifies where an item starts and ends in rows?",
+      "options": [
+        "grid-row",
+        "grid-gap",
+        "grid-line",
+        "grid-column"
+      ],
+      "correctAnswer": "grid-row",
+      "explanation": "Correct answer is A) grid-row."
+    },
+    {
+      "questionText": "grid-area can be used to:",
+      "options": [
+        "Specify start/end positions or assign names to grid items",
+        "Set the color",
+        "Set the border",
+        "Set the font"
+      ],
+      "correctAnswer": "Specify start/end positions or assign names to grid items",
+      "explanation": "Correct answer is A) Specify start/end positions or assign names to grid items."
+    },
+    {
+      "questionText": "The justify-content property in a grid aligns the grid:",
+      "options": [
+        "Horizontally inside the container",
+        "Diagonally",
+        "Vertically",
+        "Not at all"
+      ],
+      "correctAnswer": "Horizontally inside the container",
+      "explanation": "Correct answer is A) Horizontally inside the container."
+    },
+    {
+      "questionText": "The align-content property in a grid aligns the grid:",
+      "options": [
+        "Not at all",
+        "Diagonally",
+        "Horizontally",
+        "Vertically"
+      ],
+      "correctAnswer": "Vertically",
+      "explanation": "Correct answer is D) Vertically."
+    },
+    {
+      "questionText": "In a grid, \"space-around\" gives columns:",
+      "options": [
+        "Equal space around them",
+        "No space",
+        "Space only at the start",
+        "Space only at the end"
+      ],
+      "correctAnswer": "Equal space around them",
+      "explanation": "Correct answer is A) Equal space around them."
+    },
+    {
+      "questionText": "Which statement is true about Flexbox vs Grid?",
+      "options": [
+        "Grid needs floats",
+        "Grid is one-dimensional",
+        "Flexbox is mainly one-dimensional while Grid is two-dimensional",
+        "Flexbox needs tables"
+      ],
+      "correctAnswer": "Flexbox is mainly one-dimensional while Grid is two-dimensional",
+      "explanation": "Correct answer is C) Flexbox is mainly one-dimensional while Grid is two-dimensional."
+    }
+  ]
+}

@@ -1,0 +1,613 @@
+{
+  "category": "HTML",
+  "session": 9,
+  "title": "Session 9: HTML Layout, Forms, and Elements",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "HTML5 semantic tags are classified as:",
+      "options": [
+        "Block and table",
+        "Inline and meta",
+        "Text-level and structural",
+        "Form and script"
+      ],
+      "correctAnswer": "Text-level and structural",
+      "explanation": "Correct answer is C) Text-level and structural."
+    },
+    {
+      "questionText": "Structural semantic tags are:",
+      "options": [
+        "Block-level elements used to structure pages",
+        "Styles",
+        "Scripts",
+        "Inline elements"
+      ],
+      "correctAnswer": "Block-level elements used to structure pages",
+      "explanation": "Correct answer is A) Block-level elements used to structure pages."
+    },
+    {
+      "questionText": "Text-level semantic tags are currently:",
+      "options": [
+        "Block elements",
+        "Table elements",
+        "Script elements",
+        "Inline elements"
+      ],
+      "correctAnswer": "Inline elements",
+      "explanation": "Correct answer is D) Inline elements."
+    },
+    {
+      "questionText": "The <section> element represents:",
+      "options": [
+        "A random div",
+        "A comment",
+        "A page title",
+        "A group of related content different from other content groups"
+      ],
+      "correctAnswer": "A group of related content different from other content groups",
+      "explanation": "Correct answer is D) A group of related content different from other content groups."
+    },
+    {
+      "questionText": "The <header> element can be used:",
+      "options": [
+        "At the top of the document or the top of a section",
+        "Only in forms",
+        "Only once in a page",
+        "Only in the footer"
+      ],
+      "correctAnswer": "At the top of the document or the top of a section",
+      "explanation": "Correct answer is A) At the top of the document or the top of a section."
+    },
+    {
+      "questionText": "Can an HTML5 document have multiple <header> elements?",
+      "options": [
+        "Only with scripts",
+        "No",
+        "Yes",
+        "Only two"
+      ],
+      "correctAnswer": "Yes",
+      "explanation": "Correct answer is C) Yes."
+    },
+    {
+      "questionText": "The <footer> element contains:",
+      "options": [
+        "Information about the document or section",
+        "Navigation menus only",
+        "Images only",
+        "Scripts only"
+      ],
+      "correctAnswer": "Information about the document or section",
+      "explanation": "Correct answer is A) Information about the document or section."
+    },
+    {
+      "questionText": "The <aside> element represents content that is:",
+      "options": [
+        "Unrelated to anything",
+        "The page title",
+        "The document footer",
+        "Related to the main text, often as a sidebar"
+      ],
+      "correctAnswer": "Related to the main text, often as a sidebar",
+      "explanation": "Correct answer is D) Related to the main text, often as a sidebar."
+    },
+    {
+      "questionText": "The <nav> element is used for:",
+      "options": [
+        "Images",
+        "Major navigational links",
+        "Article text",
+        "Footer text"
+      ],
+      "correctAnswer": "Major navigational links",
+      "explanation": "Correct answer is B) Major navigational links."
+    },
+    {
+      "questionText": "Which could be a source for an <article> element?",
+      "options": [
+        "A style sheet",
+        "A script",
+        "Page title only",
+        "Blog entry, forum post, news story"
+      ],
+      "correctAnswer": "Blog entry, forum post, news story",
+      "explanation": "Correct answer is D) Blog entry, forum post, news story."
+    },
+    {
+      "questionText": "The <mark> tag is used for:",
+      "options": [
+        "Highlighting words in a page",
+        "Adding a comment",
+        "Marking deleted text",
+        "Creating a link"
+      ],
+      "correctAnswer": "Highlighting words in a page",
+      "explanation": "Correct answer is A) Highlighting words in a page."
+    },
+    {
+      "questionText": "The <meter> tag displays:",
+      "options": [
+        "A video",
+        "A scalar measurement within a known range",
+        "The progress of a task",
+        "A table"
+      ],
+      "correctAnswer": "A scalar measurement within a known range",
+      "explanation": "Correct answer is B) A scalar measurement within a known range."
+    },
+    {
+      "questionText": "Which attribute of <meter> specifies the maximum value of the range?",
+      "options": [
+        "optimum",
+        "low",
+        "min",
+        "max"
+      ],
+      "correctAnswer": "max",
+      "explanation": "Correct answer is D) max."
+    },
+    {
+      "questionText": "The <progress> tag is used to:",
+      "options": [
+        "Display a link",
+        "Display a date",
+        "Display a measurement",
+        "Display the progress of a task"
+      ],
+      "correctAnswer": "Display the progress of a task",
+      "explanation": "Correct answer is D) Display the progress of a task."
+    },
+    {
+      "questionText": "In <progress>, the value attribute specifies:",
+      "options": [
+        "The maximum",
+        "The name",
+        "How much of the task has been completed",
+        "The color"
+      ],
+      "correctAnswer": "How much of the task has been completed",
+      "explanation": "Correct answer is C) How much of the task has been completed."
+    },
+    {
+      "questionText": "The <header> tag differs from <head> because <header>:",
+      "options": [
+        "Contains metadata",
+        "Is used in the body for introductory content",
+        "Is the root",
+        "Contains the title only"
+      ],
+      "correctAnswer": "Is used in the body for introductory content",
+      "explanation": "Correct answer is B) Is used in the body for introductory content."
+    },
+    {
+      "questionText": "Navigation bars can be:",
+      "options": [
+        "Only vertical",
+        "Only horizontal",
+        "Only circular",
+        "Horizontal or vertical"
+      ],
+      "correctAnswer": "Horizontal or vertical",
+      "explanation": "Correct answer is D) Horizontal or vertical."
+    },
+    {
+      "questionText": "A text-based navigation bar has the advantage of:",
+      "options": [
+        "Better graphics",
+        "Needing images",
+        "Reduced loading time",
+        "Slow loading"
+      ],
+      "correctAnswer": "Reduced loading time",
+      "explanation": "Correct answer is C) Reduced loading time."
+    },
+    {
+      "questionText": "A graphical navigation bar:",
+      "options": [
+        "Needs no images",
+        "Uses icons and is visually appealing",
+        "Uses only text",
+        "Cannot have links"
+      ],
+      "correctAnswer": "Uses icons and is visually appealing",
+      "explanation": "Correct answer is B) Uses icons and is visually appealing."
+    },
+    {
+      "questionText": "A disadvantage of graphical navigation bars is:",
+      "options": [
+        "No icons",
+        "No links",
+        "Poor visuals",
+        "Longer page loading time"
+      ],
+      "correctAnswer": "Longer page loading time",
+      "explanation": "Correct answer is D) Longer page loading time."
+    },
+    {
+      "questionText": "A rollover effect in a navigation bar:",
+      "options": [
+        "Changes fonts only",
+        "Loads a new page",
+        "Swaps images when the mouse moves over them",
+        "Hides links"
+      ],
+      "correctAnswer": "Swaps images when the mouse moves over them",
+      "explanation": "Correct answer is C) Swaps images when the mouse moves over them."
+    },
+    {
+      "questionText": "Image maps are images with:",
+      "options": [
+        "Clickable areas",
+        "Sound",
+        "Transparent pixels",
+        "Animations"
+      ],
+      "correctAnswer": "Clickable areas",
+      "explanation": "Correct answer is A) Clickable areas."
+    },
+    {
+      "questionText": "Which tag defines an image map?",
+      "options": [
+        "<img>",
+        "<imagemap>",
+        "<area>",
+        "<map>"
+      ],
+      "correctAnswer": "<map>",
+      "explanation": "Correct answer is D) <map>."
+    },
+    {
+      "questionText": "Which tag defines the clickable areas in an image map?",
+      "options": [
+        "<link>",
+        "<map>",
+        "<area>",
+        "<zone>"
+      ],
+      "correctAnswer": "<area>",
+      "explanation": "Correct answer is C) <area>."
+    },
+    {
+      "questionText": "Which attribute of <img> links it to a map?",
+      "options": [
+        "area",
+        "href",
+        "map",
+        "usemap"
+      ],
+      "correctAnswer": "usemap",
+      "explanation": "Correct answer is D) usemap."
+    },
+    {
+      "questionText": "The <div> tag defines:",
+      "options": [
+        "A division in a Web page used to group block elements",
+        "An inline group",
+        "A table",
+        "A list"
+      ],
+      "correctAnswer": "A division in a Web page used to group block elements",
+      "explanation": "Correct answer is A) A division in a Web page used to group block elements."
+    },
+    {
+      "questionText": "Which position value is the default for a <div>?",
+      "options": [
+        "fixed",
+        "relative",
+        "static",
+        "absolute"
+      ],
+      "correctAnswer": "static",
+      "explanation": "Correct answer is C) static."
+    },
+    {
+      "questionText": "The top, bottom, left, and right properties work only if:",
+      "options": [
+        "An id is set",
+        "A class is set",
+        "The display is none",
+        "The position property is set"
+      ],
+      "correctAnswer": "The position property is set",
+      "explanation": "Correct answer is D) The position property is set."
+    },
+    {
+      "questionText": "Which HTML element is the container for form input elements?",
+      "options": [
+        "<form>",
+        "<input>",
+        "<fieldset>",
+        "<section>"
+      ],
+      "correctAnswer": "<form>",
+      "explanation": "Correct answer is A) <form>."
+    },
+    {
+      "questionText": "The action attribute of the form element defines:",
+      "options": [
+        "The form name",
+        "The layout",
+        "The form color",
+        "The action to be performed when the form is submitted"
+      ],
+      "correctAnswer": "The action to be performed when the form is submitted",
+      "explanation": "Correct answer is D) The action to be performed when the form is submitted."
+    },
+    {
+      "questionText": "Form controls include:",
+      "options": [
+        "Check boxes, radio buttons, and text boxes",
+        "Only buttons",
+        "Only images",
+        "Only text boxes"
+      ],
+      "correctAnswer": "Check boxes, radio buttons, and text boxes",
+      "explanation": "Correct answer is A) Check boxes, radio buttons, and text boxes."
+    },
+    {
+      "questionText": "HTML5 forms provide client-side validation:",
+      "options": [
+        "Not at all",
+        "Only on server",
+        "Only through plug-ins",
+        "Natively by the browser"
+      ],
+      "correctAnswer": "Natively by the browser",
+      "explanation": "Correct answer is D) Natively by the browser."
+    },
+    {
+      "questionText": "Which new input type accepts e-mail addresses?",
+      "options": [
+        "type=\"@\"",
+        "type=\"mail\"",
+        "type=\"email\"",
+        "type=\"text-email\""
+      ],
+      "correctAnswer": "type=\"email\"",
+      "explanation": "Correct answer is C) type=\"email\"."
+    },
+    {
+      "questionText": "To allow multiple e-mail addresses in an e-mail field, separate them with:",
+      "options": [
+        "Slashes",
+        "Spaces only",
+        "Commas",
+        "Semicolons only"
+      ],
+      "correctAnswer": "Commas",
+      "explanation": "Correct answer is C) Commas."
+    },
+    {
+      "questionText": "The for attribute of <label> must match the ______ of the element.",
+      "options": [
+        "id",
+        "class",
+        "type",
+        "name"
+      ],
+      "correctAnswer": "id",
+      "explanation": "Correct answer is A) id."
+    },
+    {
+      "questionText": "The id attribute value should be:",
+      "options": [
+        "A number",
+        "Empty",
+        "Unique within the document",
+        "Duplicated"
+      ],
+      "correctAnswer": "Unique within the document",
+      "explanation": "Correct answer is C) Unique within the document."
+    },
+    {
+      "questionText": "The name attribute is used to reference:",
+      "options": [
+        "Only classes",
+        "Form data after submission",
+        "Only titles",
+        "Only styles"
+      ],
+      "correctAnswer": "Form data after submission",
+      "explanation": "Correct answer is B) Form data after submission."
+    },
+    {
+      "questionText": "The input type for Web addresses is:",
+      "options": [
+        "href",
+        "url",
+        "web",
+        "link"
+      ],
+      "correctAnswer": "url",
+      "explanation": "Correct answer is B) url."
+    },
+    {
+      "questionText": "The input type for telephone numbers is:",
+      "options": [
+        "number",
+        "phone",
+        "call",
+        "tel"
+      ],
+      "correctAnswer": "tel",
+      "explanation": "Correct answer is D) tel."
+    },
+    {
+      "questionText": "The tel input type does not impose a pattern because:",
+      "options": [
+        "Phone formats vary across countries",
+        "It is unsupported",
+        "It is restricted",
+        "Phones have no format"
+      ],
+      "correctAnswer": "Phone formats vary across countries",
+      "explanation": "Correct answer is A) Phone formats vary across countries."
+    },
+    {
+      "questionText": "The input type that displays a slider control is:",
+      "options": [
+        "range",
+        "number",
+        "date",
+        "color"
+      ],
+      "correctAnswer": "range",
+      "explanation": "Correct answer is A) range."
+    },
+    {
+      "questionText": "The step attribute of range specifies:",
+      "options": [
+        "The max",
+        "The interval for incrementing the value",
+        "The min",
+        "The default value"
+      ],
+      "correctAnswer": "The interval for incrementing the value",
+      "explanation": "Correct answer is B) The interval for incrementing the value."
+    },
+    {
+      "questionText": "The default value of the step attribute is:",
+      "options": [
+        "1",
+        "10",
+        "0",
+        "100"
+      ],
+      "correctAnswer": "1",
+      "explanation": "Correct answer is A) 1."
+    },
+    {
+      "questionText": "The input type that selects only the year and month is:",
+      "options": [
+        "week",
+        "month",
+        "time",
+        "date"
+      ],
+      "correctAnswer": "month",
+      "explanation": "Correct answer is B) month."
+    },
+    {
+      "questionText": "The input type that displays time in hours and minutes is:",
+      "options": [
+        "date",
+        "time",
+        "week",
+        "month"
+      ],
+      "correctAnswer": "time",
+      "explanation": "Correct answer is B) time."
+    },
+    {
+      "questionText": "The input type that provides a color picker is:",
+      "options": [
+        "color",
+        "rgb",
+        "palette",
+        "colour"
+      ],
+      "correctAnswer": "color",
+      "explanation": "Correct answer is A) color."
+    },
+    {
+      "questionText": "The color input value is a:",
+      "options": [
+        "Binary",
+        "Decimal",
+        "Text name",
+        "Hexadecimal number"
+      ],
+      "correctAnswer": "Hexadecimal number",
+      "explanation": "Correct answer is D) Hexadecimal number."
+    },
+    {
+      "questionText": "The placeholder attribute:",
+      "options": [
+        "Validates data",
+        "Hides the field",
+        "Displays a hint to help users enter correct data",
+        "Stores data"
+      ],
+      "correctAnswer": "Displays a hint to help users enter correct data",
+      "explanation": "Correct answer is C) Displays a hint to help users enter correct data."
+    },
+    {
+      "questionText": "The pattern attribute uses:",
+      "options": [
+        "CSS",
+        "A regular expression for validation",
+        "SQL",
+        "A URL"
+      ],
+      "correctAnswer": "A regular expression for validation",
+      "explanation": "Correct answer is B) A regular expression for validation."
+    },
+    {
+      "questionText": "The multiple attribute:",
+      "options": [
+        "Allows only one value",
+        "Allows multiple values to be entered",
+        "Hides the field",
+        "Sets the color"
+      ],
+      "correctAnswer": "Allows multiple values to be entered",
+      "explanation": "Correct answer is B) Allows multiple values to be entered."
+    },
+    {
+      "questionText": "The <datalist> element is used with the ______ attribute to make a drop-down control.",
+      "options": [
+        "list",
+        "value",
+        "id only",
+        "for"
+      ],
+      "correctAnswer": "list",
+      "explanation": "Correct answer is A) list."
+    },
+    {
+      "questionText": "Which method sets a custom error message in the HTML5 Forms API?",
+      "options": [
+        "setError()",
+        "validate()",
+        "setCustomValidity()",
+        "checkValidity()"
+      ],
+      "correctAnswer": "setCustomValidity()",
+      "explanation": "Correct answer is C) setCustomValidity()."
+    },
+    {
+      "questionText": "Which method checks the validity of a field?",
+      "options": [
+        "validate()",
+        "isValid()",
+        "setCustomValidity()",
+        "checkValidity()"
+      ],
+      "correctAnswer": "checkValidity()",
+      "explanation": "Correct answer is D) checkValidity()."
+    },
+    {
+      "questionText": "Which pseudo-class styles an input that is invalid?",
+      "options": [
+        ":bad",
+        ":wrong",
+        ":invalid",
+        ":error"
+      ],
+      "correctAnswer": ":invalid",
+      "explanation": "Correct answer is C) :invalid."
+    },
+    {
+      "questionText": "Which pseudo-class styles an input that is valid?",
+      "options": [
+        ":true",
+        ":valid",
+        ":ok",
+        ":good"
+      ],
+      "correctAnswer": ":valid",
+      "explanation": "Correct answer is B) :valid."
+    }
+  ]
+}

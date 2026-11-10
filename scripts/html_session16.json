@@ -1,0 +1,580 @@
+{
+  "category": "HTML",
+  "session": 16,
+  "title": "Session 16: Mini Project",
+  "totalQuestions": 52,
+  "questions": [
+    {
+      "questionText": "The mini project in this session is a Website for:",
+      "options": [
+        "An e-Commerce bookstore",
+        "A hospital",
+        "A bank",
+        "A school timetable"
+      ],
+      "correctAnswer": "An e-Commerce bookstore",
+      "explanation": "Correct answer is A) An e-Commerce bookstore."
+    },
+    {
+      "questionText": "The name of the Website in the case study is:",
+      "options": [
+        "eBookStore",
+        "PageTurner",
+        "BookWorld",
+        "BookParadise"
+      ],
+      "correctAnswer": "BookParadise",
+      "explanation": "Correct answer is D) BookParadise."
+    },
+    {
+      "questionText": "The Website is built using:",
+      "options": [
+        "Java and JSP",
+        "PHP and MySQL",
+        "Python and Django",
+        "HTML5, CSS, and JavaScript"
+      ],
+      "correctAnswer": "HTML5, CSS, and JavaScript",
+      "explanation": "Correct answer is D) HTML5, CSS, and JavaScript."
+    },
+    {
+      "questionText": "The code editor used in the project is:",
+      "options": [
+        "NetBeans",
+        "CoffeeCup HTML Editor",
+        "Eclipse",
+        "Visual Studio"
+      ],
+      "correctAnswer": "CoffeeCup HTML Editor",
+      "explanation": "Correct answer is B) CoffeeCup HTML Editor."
+    },
+    {
+      "questionText": "The books sold on BookParadise relate to:",
+      "options": [
+        "Latest trends in Information Technology",
+        "Cookery",
+        "Fiction novels",
+        "History"
+      ],
+      "correctAnswer": "Latest trends in Information Technology",
+      "explanation": "Correct answer is A) Latest trends in Information Technology."
+    },
+    {
+      "questionText": "The target buyers of the books include:",
+      "options": [
+        "Only children",
+        "Only doctors",
+        "Only farmers",
+        "Students, teachers, professors, and self-paced learners"
+      ],
+      "correctAnswer": "Students, teachers, professors, and self-paced learners",
+      "explanation": "Correct answer is D) Students, teachers, professors, and self-paced learners."
+    },
+    {
+      "questionText": "How many pages does the Website include?",
+      "options": [
+        "Two",
+        "Eight",
+        "Four",
+        "Six"
+      ],
+      "correctAnswer": "Four",
+      "explanation": "Correct answer is C) Four."
+    },
+    {
+      "questionText": "Which of the following is NOT one of the four pages?",
+      "options": [
+        "Careers",
+        "Products",
+        "Home",
+        "Contact Us"
+      ],
+      "correctAnswer": "Careers",
+      "explanation": "Correct answer is A) Careers."
+    },
+    {
+      "questionText": "The Contact Us page includes a:",
+      "options": [
+        "Video player",
+        "Basic form",
+        "Shopping cart",
+        "Map only"
+      ],
+      "correctAnswer": "Basic form",
+      "explanation": "Correct answer is B) Basic form."
+    },
+    {
+      "questionText": "The Home page includes:",
+      "options": [
+        "Only a video",
+        "Only a form",
+        "A brief introduction, a categories section, and a Featured Products section",
+        "Only a table"
+      ],
+      "correctAnswer": "A brief introduction, a categories section, and a Featured Products section",
+      "explanation": "Correct answer is C) A brief introduction, a categories section, and a Featured Products section."
+    },
+    {
+      "questionText": "Clicking a featured product displays:",
+      "options": [
+        "An error",
+        "A video",
+        "A new page",
+        "A pop-up showing the price"
+      ],
+      "correctAnswer": "A pop-up showing the price",
+      "explanation": "Correct answer is D) A pop-up showing the price."
+    },
+    {
+      "questionText": "The project root folder is named:",
+      "options": [
+        "WebSite",
+        "Project",
+        "HTMLFiles",
+        "BookParadise"
+      ],
+      "correctAnswer": "BookParadise",
+      "explanation": "Correct answer is D) BookParadise."
+    },
+    {
+      "questionText": "The two sub folders created inside the project folder are:",
+      "options": [
+        "Images and Styles",
+        "Media and Docs",
+        "CSS and JS",
+        "Pages and Data"
+      ],
+      "correctAnswer": "Images and Styles",
+      "explanation": "Correct answer is A) Images and Styles."
+    },
+    {
+      "questionText": "The Images folder stores:",
+      "options": [
+        "JS files",
+        "CSS files",
+        "All images for the Website",
+        "HTML files"
+      ],
+      "correctAnswer": "All images for the Website",
+      "explanation": "Correct answer is C) All images for the Website."
+    },
+    {
+      "questionText": "The Styles folder stores:",
+      "options": [
+        "Databases",
+        "The CSS file",
+        "Images",
+        "Videos"
+      ],
+      "correctAnswer": "The CSS file",
+      "explanation": "Correct answer is B) The CSS file."
+    },
+    {
+      "questionText": "The main HTML file of the Website is:",
+      "options": [
+        "index.html",
+        "home.php",
+        "main.htm",
+        "default.asp"
+      ],
+      "correctAnswer": "index.html",
+      "explanation": "Correct answer is A) index.html."
+    },
+    {
+      "questionText": "The CSS file for the Website is saved as:",
+      "options": [
+        "site.js",
+        "main.css",
+        "style.css",
+        "index.css"
+      ],
+      "correctAnswer": "style.css",
+      "explanation": "Correct answer is C) style.css."
+    },
+    {
+      "questionText": "The CSS file is linked to the HTML using:",
+      "options": [
+        "<style src=\"style.css\">",
+        "<css>style.css</css>",
+        "<script src=\"style.css\">",
+        "<link rel=\"stylesheet\" href=\"Styles/style.css\">"
+      ],
+      "correctAnswer": "<link rel=\"stylesheet\" href=\"Styles/style.css\">",
+      "explanation": "Correct answer is D) <link rel=\"stylesheet\" href=\"Styles/style.css\">."
+    },
+    {
+      "questionText": "Extra fonts for the text are obtained from:",
+      "options": [
+        "Windows only",
+        "Printing",
+        "Local fonts only",
+        "Google Fonts (e.g., Raleway)"
+      ],
+      "correctAnswer": "Google Fonts (e.g., Raleway)",
+      "explanation": "Correct answer is D) Google Fonts (e.g., Raleway)."
+    },
+    {
+      "questionText": "The navigation bar includes:",
+      "options": [
+        "Only Contact Us",
+        "Logo, Home, Products, About Us, and Contact Us",
+        "Only Logo",
+        "Only Home"
+      ],
+      "correctAnswer": "Logo, Home, Products, About Us, and Contact Us",
+      "explanation": "Correct answer is B) Logo, Home, Products, About Us, and Contact Us."
+    },
+    {
+      "questionText": "The banner on the Home page has:",
+      "options": [
+        "Only a table",
+        "A description and an image",
+        "Only a form",
+        "Only a video"
+      ],
+      "correctAnswer": "A description and an image",
+      "explanation": "Correct answer is B) A description and an image."
+    },
+    {
+      "questionText": "The affiliate program of BookParadise pays a commission of:",
+      "options": [
+        "10% on every sale",
+        "5% on every sale",
+        "50% on every sale",
+        "25% on every sale"
+      ],
+      "correctAnswer": "10% on every sale",
+      "explanation": "Correct answer is A) 10% on every sale."
+    },
+    {
+      "questionText": "BookParadise gives away over ______ of its profit margin to stores and authors.",
+      "options": [
+        "25%",
+        "10%",
+        "65%",
+        "90%"
+      ],
+      "correctAnswer": "65%",
+      "explanation": "Correct answer is C) 65%."
+    },
+    {
+      "questionText": "The Featured Products section shows each product's:",
+      "options": [
+        "Only price",
+        "Only rating",
+        "Name, rating, and price",
+        "Only name"
+      ],
+      "correctAnswer": "Name, rating, and price",
+      "explanation": "Correct answer is C) Name, rating, and price."
+    },
+    {
+      "questionText": "The pop-up functionality in the Featured Products section is implemented using a:",
+      "options": [
+        "Frame",
+        "Applet",
+        "Modal",
+        "Table"
+      ],
+      "correctAnswer": "Modal",
+      "explanation": "Correct answer is C) Modal."
+    },
+    {
+      "questionText": "Which file holds the JavaScript code for the modals?",
+      "options": [
+        "main.js",
+        "style.css",
+        "index.html",
+        "about.js"
+      ],
+      "correctAnswer": "main.js",
+      "explanation": "Correct answer is A) main.js."
+    },
+    {
+      "questionText": "The JavaScript file is included in the HTML with:",
+      "options": [
+        "<link href=\"main.js\">",
+        "<js src=\"main.js\">",
+        "<script src=\"main.js\"></script>",
+        "<a href=\"main.js\">"
+      ],
+      "correctAnswer": "<script src=\"main.js\"></script>",
+      "explanation": "Correct answer is C) <script src=\"main.js\"></script>."
+    },
+    {
+      "questionText": "In the modal script, which method selects all elements matching a CSS selector?",
+      "options": [
+        "findAll",
+        "querySelectorAll",
+        "selectAll",
+        "getElement"
+      ],
+      "correctAnswer": "querySelectorAll",
+      "explanation": "Correct answer is B) querySelectorAll."
+    },
+    {
+      "questionText": "In the modal script, which property adds a CSS class to an element?",
+      "options": [
+        "class.add",
+        "style.add",
+        "addClass",
+        "classList.add"
+      ],
+      "correctAnswer": "classList.add",
+      "explanation": "Correct answer is D) classList.add."
+    },
+    {
+      "questionText": "The modal is shown by adding which class?",
+      "options": [
+        "display",
+        "active",
+        "open",
+        "show"
+      ],
+      "correctAnswer": "active",
+      "explanation": "Correct answer is B) active."
+    },
+    {
+      "questionText": "The attribute used to link a button with its modal target is:",
+      "options": [
+        "modal-id",
+        "href",
+        "data-target",
+        "target-modal"
+      ],
+      "correctAnswer": "data-target",
+      "explanation": "Correct answer is C) data-target."
+    },
+    {
+      "questionText": "Which JavaScript file part validates the Contact Us form?",
+      "options": [
+        "The code in main.js",
+        "style.css",
+        "about.html",
+        "index.html"
+      ],
+      "correctAnswer": "The code in main.js",
+      "explanation": "Correct answer is A) The code in main.js."
+    },
+    {
+      "questionText": "In the Contact Us form validation, the name must have at least:",
+      "options": [
+        "3 characters",
+        "1 character",
+        "10 characters",
+        "20 characters"
+      ],
+      "correctAnswer": "3 characters",
+      "explanation": "Correct answer is A) 3 characters."
+    },
+    {
+      "questionText": "In the Contact Us form validation, the subject must have at least:",
+      "options": [
+        "50 characters",
+        "1 character",
+        "3 characters",
+        "10 characters"
+      ],
+      "correctAnswer": "10 characters",
+      "explanation": "Correct answer is D) 10 characters."
+    },
+    {
+      "questionText": "A successful form submission displays:",
+      "options": [
+        "A new page",
+        "An alert thanking the user for contacting",
+        "A video",
+        "Nothing"
+      ],
+      "correctAnswer": "An alert thanking the user for contacting",
+      "explanation": "Correct answer is B) An alert thanking the user for contacting."
+    },
+    {
+      "questionText": "Which method is used to get an element by its id?",
+      "options": [
+        "document.getId()",
+        "document.getElementById()",
+        "document.find()",
+        "getElement()"
+      ],
+      "correctAnswer": "document.getElementById()",
+      "explanation": "Correct answer is B) document.getElementById()."
+    },
+    {
+      "questionText": "Where is the error message shown in the form validation?",
+      "options": [
+        "In the console only",
+        "In an element with id \"error_message\"",
+        "In a new tab",
+        "In the browser title"
+      ],
+      "correctAnswer": "In an element with id \"error_message\"",
+      "explanation": "Correct answer is B) In an element with id \"error_message\"."
+    },
+    {
+      "questionText": "The About Us page is created in the file:",
+      "options": [
+        "about.css",
+        "about.html",
+        "info.php",
+        "aboutus.js"
+      ],
+      "correctAnswer": "about.html",
+      "explanation": "Correct answer is B) about.html."
+    },
+    {
+      "questionText": "The Contact Us page is created in the file:",
+      "options": [
+        "form.php",
+        "contact.html",
+        "mail.html",
+        "contact.css"
+      ],
+      "correctAnswer": "contact.html",
+      "explanation": "Correct answer is B) contact.html."
+    },
+    {
+      "questionText": "The Products page is created in the file:",
+      "options": [
+        "shop.css",
+        "product.html",
+        "items.js",
+        "buy.php"
+      ],
+      "correctAnswer": "product.html",
+      "explanation": "Correct answer is B) product.html."
+    },
+    {
+      "questionText": "The Products page includes filters for:",
+      "options": [
+        "Drawing",
+        "Searching and sorting products",
+        "Playing music",
+        "Chatting"
+      ],
+      "correctAnswer": "Searching and sorting products",
+      "explanation": "Correct answer is B) Searching and sorting products."
+    },
+    {
+      "questionText": "Which layout approach could be used for the product listing?",
+      "options": [
+        "Frames",
+        "Flexbox or Grid",
+        "Marquee",
+        "Font tags"
+      ],
+      "correctAnswer": "Flexbox or Grid",
+      "explanation": "Correct answer is B) Flexbox or Grid."
+    },
+    {
+      "questionText": "Which section is added after the featured products?",
+      "options": [
+        "The footer",
+        "The head",
+        "The title",
+        "The doctype"
+      ],
+      "correctAnswer": "The footer",
+      "explanation": "Correct answer is A) The footer."
+    },
+    {
+      "questionText": "The footer typically includes:",
+      "options": [
+        "The modal",
+        "The product filter",
+        "Links and copyright information",
+        "The banner"
+      ],
+      "correctAnswer": "Links and copyright information",
+      "explanation": "Correct answer is C) Links and copyright information."
+    },
+    {
+      "questionText": "Overlay CSS is used to:",
+      "options": [
+        "Play audio",
+        "Dim the background behind the modal",
+        "Draw a line",
+        "Create a table"
+      ],
+      "correctAnswer": "Dim the background behind the modal",
+      "explanation": "Correct answer is B) Dim the background behind the modal."
+    },
+    {
+      "questionText": "The CSS for the modal and overlay is added to:",
+      "options": [
+        "about.html",
+        "main.js",
+        "styles/style.css",
+        "index.html only"
+      ],
+      "correctAnswer": "styles/style.css",
+      "explanation": "Correct answer is C) styles/style.css."
+    },
+    {
+      "questionText": "Which HTML5 semantic element is best suited for the navigation bar?",
+      "options": [
+        "<span>",
+        "<font>",
+        "<nav>",
+        "<div>"
+      ],
+      "correctAnswer": "<nav>",
+      "explanation": "Correct answer is C) <nav>."
+    },
+    {
+      "questionText": "Which HTML5 element could hold the banner introductory content?",
+      "options": [
+        "<header>",
+        "<aside>",
+        "<footer>",
+        "<table>"
+      ],
+      "correctAnswer": "<header>",
+      "explanation": "Correct answer is A) <header>."
+    },
+    {
+      "questionText": "The categories section on the Home page displays:",
+      "options": [
+        "Categories of books",
+        "Employee data",
+        "Videos",
+        "Maps"
+      ],
+      "correctAnswer": "Categories of books",
+      "explanation": "Correct answer is A) Categories of books."
+    },
+    {
+      "questionText": "The purpose of using external CSS and JS files in the project is:",
+      "options": [
+        "To slow loading",
+        "To hide code",
+        "Reusability and separation of content, style, and behavior",
+        "To avoid HTML"
+      ],
+      "correctAnswer": "Reusability and separation of content, style, and behavior",
+      "explanation": "Correct answer is C) Reusability and separation of content, style, and behavior."
+    },
+    {
+      "questionText": "The project demonstrates the integration of:",
+      "options": [
+        "Only CSS",
+        "Only HTML",
+        "Only JavaScript",
+        "HTML5, CSS, and JavaScript in a real-world application"
+      ],
+      "correctAnswer": "HTML5, CSS, and JavaScript in a real-world application",
+      "explanation": "Correct answer is D) HTML5, CSS, and JavaScript in a real-world application."
+    },
+    {
+      "questionText": "After completing the pages, the Website should be:",
+      "options": [
+        "Deleted",
+        "Printed only",
+        "Left untested",
+        "Tested in a browser for links, layout, and validation"
+      ],
+      "correctAnswer": "Tested in a browser for links, layout, and validation",
+      "explanation": "Correct answer is D) Tested in a browser for links, layout, and validation."
+    }
+  ]
+}

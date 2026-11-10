@@ -205,7 +205,7 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            const Icon(Icons.sports_esports_rounded, color: AppColors.primary, size: 24),
+            Icon(Icons.sports_esports_rounded, color: context.brandAccentColor, size: 24),
             const SizedBox(width: 8),
             const Text('Coding & Typing Games', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18)),
           ],
@@ -450,21 +450,21 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                       Container(
                                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                         decoration: BoxDecoration(
-                                          color: AppColors.primary.withValues(alpha: 0.12),
+                                          color: context.brandAccentColor.withValues(alpha: 0.14),
                                           borderRadius: BorderRadius.circular(8),
-                                          border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+                                          border: Border.all(color: context.brandAccentColor.withValues(alpha: 0.3)),
                                         ),
-                                        child: const Row(
+                                        child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Icon(Icons.layers_rounded, size: 12, color: AppColors.primary),
-                                            SizedBox(width: 4),
+                                            Icon(Icons.layers_rounded, size: 12, color: context.brandAccentColor),
+                                            const SizedBox(width: 4),
                                             Text(
                                               'TECHNOLOGY EXPLORER',
                                               style: TextStyle(
                                                 fontSize: 9,
                                                 fontWeight: FontWeight.w900,
-                                                color: AppColors.primary,
+                                                color: context.brandAccentColor,
                                                 letterSpacing: 0.5,
                                               ),
                                             ),
@@ -572,15 +572,15 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                           Container(
                                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                             decoration: BoxDecoration(
-                                              color: AppColors.primary.withValues(alpha: 0.1),
+                                              color: context.brandAccentColor.withValues(alpha: 0.12),
                                               borderRadius: BorderRadius.circular(8),
                                             ),
                                             child: Text(
                                               '$availableGamesCount Games',
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 10,
                                                 fontWeight: FontWeight.bold,
-                                                color: AppColors.primary,
+                                                color: context.brandAccentColor,
                                               ),
                                             ),
                                           ),
@@ -650,15 +650,15 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                                       Container(
                                                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                                         decoration: BoxDecoration(
-                                                          color: AppColors.primary.withValues(alpha: 0.12),
+                                                          color: context.brandAccentColor.withValues(alpha: 0.14),
                                                           borderRadius: BorderRadius.circular(6),
                                                         ),
                                                         child: Text(
                                                           activeCategory?.name ?? 'Full Catalog',
-                                                          style: const TextStyle(
+                                                          style: TextStyle(
                                                             fontSize: 9,
                                                             fontWeight: FontWeight.bold,
-                                                            color: AppColors.primary,
+                                                            color: context.brandAccentColor,
                                                           ),
                                                         ),
                                                       ),
@@ -690,15 +690,15 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                                 Container(
                                                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                                   decoration: BoxDecoration(
-                                                    color: AppColors.primary.withValues(alpha: 0.1),
+                                                    color: context.brandAccentColor.withValues(alpha: 0.12),
                                                     borderRadius: BorderRadius.circular(8),
                                                   ),
                                                   child: Text(
                                                     '$availableGamesCount Games Ready',
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                       fontSize: 10,
                                                       fontWeight: FontWeight.bold,
-                                                      color: AppColors.primary,
+                                                      color: context.brandAccentColor,
                                                     ),
                                                   ),
                                                 ),
@@ -925,7 +925,11 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                                 children: [
                                                   Text(
                                                     game.difficulty,
-                                                    style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.primary),
+                                                    style: TextStyle(
+                                                      fontSize: 10,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: context.brandAccentColor,
+                                                    ),
                                                   ),
                                                   if (game.userHighScore > 0)
                                                     Row(
@@ -1039,11 +1043,11 @@ class _TechnologyPickerSheetState extends State<_TechnologyPickerSheet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.layers_rounded, color: AppColors.primary, size: 20),
-                    SizedBox(width: 8),
-                    Text(
+                    Icon(Icons.layers_rounded, color: context.brandAccentColor, size: 20),
+                    const SizedBox(width: 8),
+                    const Text(
                       'Choose Your Technology',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                     ),
@@ -1269,12 +1273,16 @@ class _TechnologyPickerSheetState extends State<_TechnologyPickerSheet> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
-                                color: AppColors.primary.withValues(alpha: 0.1),
+                                color: context.brandAccentColor.withValues(alpha: 0.12),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: Text(
                                 '${tech.supportedGames.length}g',
-                                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppColors.primary),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: context.brandAccentColor,
+                                ),
                               ),
                             ),
                             if (isSelected) ...[

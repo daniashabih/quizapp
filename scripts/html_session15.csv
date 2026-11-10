@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,15,A mobile device is also known as a:,Server,Handheld device,Mainframe,Desktop,Handheld device
+HTML,15,Application software on mobile devices is also called:,Kernels,Apps,Firmware,Drivers,Apps
+HTML,15,Which mobile device category is low cost with basic features and a basic camera?,Tablets,Smartphones,Low-end devices,High-end devices,Low-end devices
+HTML,15,Mid-end mobile devices usually have:,A stylus,A proprietary OS that is not well known,No browser,A desktop-like OS,A proprietary OS that is not well known
+HTML,15,High-end devices typically include features like:,"Accelerometer, advanced camera, and Bluetooth",No camera,No browser,Only calling,"Accelerometer, advanced camera, and Bluetooth"
+HTML,15,Smartphones are characterized by:,Only voice calls,Multitasking and full browser support similar to desktop,No Web access,A tiny screen only,Multitasking and full browser support similar to desktop
+HTML,15,Tablets and notebooks are larger than mobile phones and have:,No browser,No screen,A physical keyboard only,A multi-touch display,A multi-touch display
+HTML,15,A mobile platform is responsible for:,Hosting Web servers,Printing,Compiling HTML,Interacting with device hardware and running software,Interacting with device hardware and running software
+HTML,15,Mobile platforms are categorized as:,Static and dynamic,Free and paid only,Proprietary and open source,Public and private,Proprietary and open source
+HTML,15,Proprietary platforms are:,Open to all,Designed and developed by device manufacturers,Freely editable by users,Community-owned,Designed and developed by device manufacturers
+HTML,15,Open source platforms are those:,Whose source code users can download and alter,That are manufacturer-only,That are closed,That are paid,Whose source code users can download and alter
+HTML,15,iOS was initially referred to as:,iPhone OS,Mac Mobile,iTouch OS,Apple OS,iPhone OS
+HTML,15,iOS is derived from:,Linux,Windows,Mac OS X,Symbian,Mac OS X
+HTML,15,Android is an open source OS developed by:,Nokia,Apple,Microsoft,Google,Google
+HTML,15,The primary concern in designing a mobile Website is:,Database type,Screen resolution,Server size,Font color,Screen resolution
+HTML,15,Screen resolution means:,Battery life,The CPU speed,The screen weight,The number of pixels (width and height) on the screen,The number of pixels (width and height) on the screen
+HTML,15,There is a defined standard for mobile screen resolution:,True; it is fixed,False; it varies by model and manufacturer,True; 800x600,True; 1024x768,False; it varies by model and manufacturer
+HTML,15,PPI/DPI represents the relation between:,Physical dimension and resolution,Battery and screen,Color and size,Memory and CPU,Physical dimension and resolution
+HTML,15,Higher DPI results in:,Poor graphics,Slower battery,No effect,Good print-quality graphics,Good print-quality graphics
+HTML,15,Vertical orientation of a device is called:,Portrait,Flat,Landscape,Wide,Portrait
+HTML,15,Horizontal orientation of a device is called:,Portrait,Square,Landscape,Tall,Landscape
+HTML,15,The ability to rotate the view between portrait and landscape is due to:,The server,CSS only,The ISP,Hardware accelerators in the phone,Hardware accelerators in the phone
+HTML,15,A mobile Website should:,Be aware of rotation and adjust properly,Ignore orientation,Support only portrait,Support only landscape,Be aware of rotation and adjust properly
+HTML,15,Navigation in a mobile site is:,The device screen,The CSS file,The server,The path a user follows through the site,The path a user follows through the site
+HTML,15,"Compared to a desktop site, how much of its information is typically not useful to mobile users?",10%,Almost 80%,0%,20%,Almost 80%
+HTML,15,The depth of a mobile page for a use case should be restricted to:,Fifteen clicks,Three clicks,Ten clicks,Seven clicks,Three clicks
+HTML,15,"For mobile Websites, a welcome screen should:",Be avoided,Be mandatory,Always be used,Be animated,Be avoided
+HTML,15,A user-centric design approach means:,Designing for the developer,Designing only for desktop,Designing for the server,Designing based on the mobile user's perspective and tasks,Designing based on the mobile user's perspective and tasks
+HTML,15,Progressive enhancement ensures:,Basic content is accessible on all browsers,No HTML is used,No CSS is used,Only high-end devices work,Basic content is accessible on all browsers
+HTML,15,"In progressive enhancement, enhanced layout and behavior are provided via:",Frames,Pop-ups,External style sheets and scripts,Inline tables,External style sheets and scripts
+HTML,15,"To support many devices, a mobile site should:",Use Web standards correctly and validate markup,Use only images,Use proprietary tags,Avoid HTML,Use Web standards correctly and validate markup
+HTML,15,Which should be avoided in mobile layouts?,Links,Lists,Tables for layout and pop-up windows,Headings,Tables for layout and pop-up windows
+HTML,15,Tables are avoided in mobile layouts because they:,Make scrolling difficult and slow page loading,Are too colorful,Are not HTML,Need plug-ins,Make scrolling difficult and slow page loading
+HTML,15,The document structure of a mobile page is represented by the:,<title> element,<body> element,<head> element,<meta> element,<body> element
+HTML,15,Image formats mostly supported by mobile browsers include:,RAW only,"GIF, JPEG, and PNG","PSD, TIFF",BMP only,"GIF, JPEG, and PNG"
+HTML,15,"On mobile, images should not be used for:",Photos,"Backgrounds, buttons, links, or titles",Illustrations,Logos only,"Backgrounds, buttons, links, or titles"
+HTML,15,"Specifying image width, height, and alt reduces:",The screen size,The battery,The rendering time of the image,The code,The rendering time of the image
+HTML,15,"On mobile pages, ordered lists are typically used for:",Tables,Key-value pairs,Navigational menus,Images,Navigational menus
+HTML,15,Definition lists on mobile pages present:,Key/value pairs,Menus,Videos,Images,Key/value pairs
+HTML,15,The accesskey attribute of <a> provides:,A keyboard shortcut,A script,A phone number,A style,A keyboard shortcut
+HTML,15,Which scheme makes a phone call from a link on mobile?,mailto:,tel:,call:,phone:,tel:
+HTML,15,The tel: scheme is useful for:,Images,Helpdesk and voicemail systems,E-mail,Maps,Helpdesk and voicemail systems
+HTML,15,Browser-specific CSS3 styles require:,Only JavaScript,Vendor prefixes,No prefixes,Only HTML,Vendor prefixes
+HTML,15,The -webkit- prefix is used by:,Chrome and Safari,Opera only,Firefox,Internet Explorer,Chrome and Safari
+HTML,15,The -moz- prefix is used by:,Chrome,Firefox,Safari,Opera,Firefox
+HTML,15,Media queries target features such as:,"Screen width, orientation, and resolution",Images only,Fonts only,Colors only,"Screen width, orientation, and resolution"
+HTML,15,Which media query serves a style sheet for portrait orientation?,"media=""orient=portrait""","media=""all and (orientation: portrait)""","media=""portrait only""","media=""turn(portrait)""","media=""all and (orientation: portrait)"""
+HTML,15,CSS2 allowed style sheets for media types such as:,Local and server,Screen and print,Audio and video,Mobile and tablet,Screen and print
+HTML,15,Optimizing a mobile site generally aims to:,Add more pop-ups,Increase page size,Add more plug-ins,Reduce load time and improve usability,Reduce load time and improve usability
+HTML,15,A viewport meta tag helps mobile pages to:,Scale to the device width,Store data,Link scripts,Play audio,Scale to the device width
+HTML,15,Which is a recommended practice for mobile images?,Use many images,Use only BMP,Use very large images,"Use small, optimized images","Use small, optimized images"
+HTML,15,The mobile browser's support for HTML5 markup is:,Strong in modern mobile browsers,Only for Windows,Only for Flash,Absent,Strong in modern mobile browsers
+HTML,15,Headings in mobile pages should be used to:,Add images,Provide a clear heading structure,Run scripts,Style text only,Provide a clear heading structure
+HTML,15,"For mobile Web apps, the developer needs to set up:",A DVD,An environment to develop and test the app,Only a printer,Nothing,An environment to develop and test the app
+HTML,15,Chrome's device mode can be used to:,Emulate mobile devices for testing,Edit images,Compile C code,Send e-mail,Emulate mobile devices for testing

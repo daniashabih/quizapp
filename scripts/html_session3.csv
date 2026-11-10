@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,3,HTML defines how many levels of headings?,Four,Eight,Six,Three,Six
+HTML,3,Which heading element is displayed with the largest size by default?,<head>,<h6>,<h1>,<h3>,<h1>
+HTML,3,Which heading element specifies the lowest-level heading?,<h7>,<h3>,<h1>,<h6>,<h6>
+HTML,3,The <hgroup> element is used to:,Group table rows,Group titles and their subtitles,Group list items,Group images,Group titles and their subtitles
+HTML,3,<hgroup> groups a set of:,<td> elements,<h1>–<h6> elements,<li> elements,<p> elements,<h1>–<h6> elements
+HTML,3,The main advantage of the <hgroup> tag is to:,Create a document outline,Format tables,Change font color,Add images,Create a document outline
+HTML,3,Formatting elements in HTML are:,Entities,Container elements,Standalone elements,Global attributes,Container elements
+HTML,3,Which element displays text in bold?,<b>,<sub>,<u>,<i>,<b>
+HTML,3,Which element displays text in italic?,<i>,<b>,<small>,<ins>,<i>
+HTML,3,Which element makes text appear smaller than surrounding text?,<sub>,<sup>,<del>,<small>,<small>
+HTML,3,Which element underlines text?,<i>,<del>,<b>,<u>,<u>
+HTML,3,Which element encloses text that has been deleted from the document?,<del>,<strong>,<ins>,<sub>,<del>
+HTML,3,Which element encloses text that has been inserted in a document?,<pre>,<del>,<ins>,<sub>,<ins>
+HTML,3,<ins> and <del> can be used together to:,Show deleted text replaced by new text,Add images,Create tables,Create lists,Show deleted text replaced by new text
+HTML,3,Which element emphasizes text compared to its surrounding text?,<pre>,<sub>,<small>,<strong>,<strong>
+HTML,3,Which element displays text as a subscript?,<ins>,<small>,<sup>,<sub>,<sub>
+HTML,3,Which element displays text as a superscript?,<b>,<sup>,<del>,<sub>,<sup>
+HTML,3,Which tags would you use to write H2O correctly?,<sup>,<ins>,<del>,<sub>,<sub>
+HTML,3,Which tags would you use to write X² correctly?,<sub>,<sup>,<small>,<u>,<sup>
+HTML,3,Monospaced fonts provide:,The same amount of horizontal space for each character,Italic text,Variable spacing between characters,Colored text,The same amount of horizontal space for each character
+HTML,3,Monospaced fonts are commonly used for:,Images,Headings only,"Programming code, instruction text, and ASCII characters",Links,"Programming code, instruction text, and ASCII characters"
+HTML,3,The <pre> tag is used to:,Create a list,Insert an image,Apply preformatted text that retains spaces and line breaks,Add a title,Apply preformatted text that retains spaces and line breaks
+HTML,3,The <pre> tag applies a ______ font width to the text.,Random,Variable,Fixed,Zero,Fixed
+HTML,3,Which tag defines a long (block) quotation?,<quote>,<cite>,<q>,<blockquote>,<blockquote>
+HTML,3,HTML supports how many types of lists?,Two,Four,Three,Five,Three
+HTML,3,An ordered list is used when:,Images are displayed,Terms and descriptions are shown,Order is not important,The order of items is important,The order of items is important
+HTML,3,Which tag creates an ordered list?,<ul>,<ol>,<dl>,<li>,<ol>
+HTML,3,Each item in an ordered or unordered list is defined by:,<dd>,<li>,<dt>,<item>,<li>
+HTML,3,Items in an ordered list are displayed using:,Numbered or alphabetic bullets,No markers,Only squares,Only discs,Numbered or alphabetic bullets
+HTML,3,The property used to specify a numbering style for a list is:,number-style,list-style-type,bullet-type,list-type,list-style-type
+HTML,3,Setting list-style-type to lower-roman displays items as:,"i, ii, iii","I, II, III","1, 2, 3","a, b, c","i, ii, iii"
+HTML,3,Which attribute value of list-style-type gives uppercase alphabetic bullets?,lower-alpha,upper-alpha,decimal,disc,upper-alpha
+HTML,3,An unordered list is created using the:,<ul> tag,<ol> tag,<dl> tag,<dt> tag,<ul> tag
+HTML,3,Unordered lists are used when:,Numbers are needed,A sequence is required,The order of items is not important,Terms need definitions,The order of items is not important
+HTML,3,The default bullet in an unordered list is:,Circle,Number,Disc,Square,Disc
+HTML,3,Which are the three bullet types for unordered lists?,"circle, line, dot","disc, square, circle","decimal, roman, alpha","disc, square, number","disc, square, circle"
+HTML,3,A definition list is created using:,<dl>,<ul>,<li>,<ol>,<dl>
+HTML,3,"In a definition list, the term is specified by:",<dl>,<dt>,<li>,<dd>,<dt>
+HTML,3,"In a definition list, the description is specified by:",<dt>,<dd>,<ul>,<li>,<dd>
+HTML,3,"By default, the description in a definition list appears:","On the next line, indented",Hidden,On the same line as the term,Above the term,"On the next line, indented"
+HTML,3,A definition list is suitable for creating:,A photo gallery,A form,A glossary,A numbered menu,A glossary
+HTML,3,A list in HTML can contain:,Only text,"Paragraphs, line breaks, images, links, and other lists",Only numbers,Only images,"Paragraphs, line breaks, images, links, and other lists"
+HTML,3,A list nested inside another list is called a:,Root list,Nested list,Broken list,Hidden list,Nested list
+HTML,3,Which CSS property is commonly used to change the background color of a page?,page-color,color,background-color,bgcolor-style,background-color
+HTML,3,Which of the following can be used to set the background color of a Web page in the body?,"style=""background-color:yellow""","style=""text-color:yellow""","style=""page:yellow""","style=""font:yellow""","style=""background-color:yellow"""
+HTML,3,Which element creates a line break?,<br>,<break>,<lb>,<hr>,<br>
+HTML,3,Which element inserts a horizontal rule?,<hr>,<rule>,<line>,<br>,<hr>
+HTML,3,Which tag defines a paragraph?,<ph>,<p>,<pg>,<para>,<p>
+HTML,3,Which of the following best describes the benefit of text formatting?,Makes pages readable and presentable,Makes pages slower,Hides text,Removes content,Makes pages readable and presentable
+HTML,3,Heading elements specify the ______ structure of a Web page.,Binary,Random,Linear only,Hierarchical,Hierarchical

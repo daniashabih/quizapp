@@ -1,0 +1,547 @@
+{
+  "category": "HTML",
+  "session": 5,
+  "title": "Session 5: Introduction to CSS3",
+  "totalQuestions": 49,
+  "questions": [
+    {
+      "questionText": "CSS is a style sheet language used to:",
+      "options": [
+        "Store data",
+        "Run server code",
+        "Create databases",
+        "Inform the browser how to present a document"
+      ],
+      "correctAnswer": "Inform the browser how to present a document",
+      "explanation": "Correct answer is D) Inform the browser how to present a document."
+    },
+    {
+      "questionText": "In a Web page, the HTML document defines the ______ while CSS defines ______.",
+      "options": [
+        "Style; content",
+        "Content; how elements are displayed",
+        "Server; client",
+        "Scripts; images"
+      ],
+      "correctAnswer": "Content; how elements are displayed",
+      "explanation": "Correct answer is B) Content; how elements are displayed."
+    },
+    {
+      "questionText": "CSS is a mechanism for adding style such as:",
+      "options": [
+        "Databases",
+        "E-mail",
+        "Server logic",
+        "Fonts, colors, and spacing"
+      ],
+      "correctAnswer": "Fonts, colors, and spacing",
+      "explanation": "Correct answer is D) Fonts, colors, and spacing."
+    },
+    {
+      "questionText": "CSS versions are denoted as:",
+      "options": [
+        "CSS-HTML",
+        "CSS-A, CSS-B",
+        "CSS 1.1 only",
+        "CSS1, CSS2, CSS3, CSS4"
+      ],
+      "correctAnswer": "CSS1, CSS2, CSS3, CSS4",
+      "explanation": "Correct answer is D) CSS1, CSS2, CSS3, CSS4."
+    },
+    {
+      "questionText": "CSS3 is divided into multiple documents called:",
+      "options": [
+        "Layers",
+        "Frames",
+        "Modes",
+        "Modules"
+      ],
+      "correctAnswer": "Modules",
+      "explanation": "Correct answer is D) Modules."
+    },
+    {
+      "questionText": "Drafting of the first CSS3 drafts started in:",
+      "options": [
+        "June 1999",
+        "June 2005",
+        "June 2015",
+        "June 2010"
+      ],
+      "correctAnswer": "June 1999",
+      "explanation": "Correct answer is A) June 1999."
+    },
+    {
+      "questionText": "The general syntax of CSS consists of selector, property, and:",
+      "options": [
+        "Script",
+        "Tag",
+        "Value",
+        "Entity"
+      ],
+      "correctAnswer": "Value",
+      "explanation": "Correct answer is C) Value."
+    },
+    {
+      "questionText": "In CSS, a selector is:",
+      "options": [
+        "A comment",
+        "The file name",
+        "The color value",
+        "The HTML element for which style is specified"
+      ],
+      "correctAnswer": "The HTML element for which style is specified",
+      "explanation": "Correct answer is D) The HTML element for which style is specified."
+    },
+    {
+      "questionText": "A property in CSS is:",
+      "options": [
+        "The file extension",
+        "The URL",
+        "The HTML tag",
+        "The type of style to be applied to the selector"
+      ],
+      "correctAnswer": "The type of style to be applied to the selector",
+      "explanation": "Correct answer is D) The type of style to be applied to the selector."
+    },
+    {
+      "questionText": "A property and its value are separated by a:",
+      "options": [
+        "Semicolon",
+        "Colon",
+        "Comma",
+        "Hyphen"
+      ],
+      "correctAnswer": "Colon",
+      "explanation": "Correct answer is B) Colon."
+    },
+    {
+      "questionText": "Multiple property-value pairs within a declaration block are separated by a:",
+      "options": [
+        "Comma",
+        "Colon",
+        "Semicolon",
+        "Dot"
+      ],
+      "correctAnswer": "Semicolon",
+      "explanation": "Correct answer is C) Semicolon."
+    },
+    {
+      "questionText": "The declaration block is enclosed within:",
+      "options": [
+        "Curly braces { }",
+        "Square brackets [ ]",
+        "Parentheses ( )",
+        "Angle brackets < >"
+      ],
+      "correctAnswer": "Curly braces { }",
+      "explanation": "Correct answer is A) Curly braces { }."
+    },
+    {
+      "questionText": "Multiple selectors sharing the same style are grouped using:",
+      "options": [
+        "Periods",
+        "Commas",
+        "Semicolons",
+        "Colons"
+      ],
+      "correctAnswer": "Commas",
+      "explanation": "Correct answer is B) Commas."
+    },
+    {
+      "questionText": "Which of the following is a relative unit in CSS?",
+      "options": [
+        "pc",
+        "pt",
+        "in",
+        "em"
+      ],
+      "correctAnswer": "em",
+      "explanation": "Correct answer is D) em."
+    },
+    {
+      "questionText": "The em unit is relative to:",
+      "options": [
+        "The font-size of the selector",
+        "The window height",
+        "The page width",
+        "The screen width"
+      ],
+      "correctAnswer": "The font-size of the selector",
+      "explanation": "Correct answer is A) The font-size of the selector."
+    },
+    {
+      "questionText": "The ex unit refers to:",
+      "options": [
+        "The line height",
+        "The page width",
+        "The x-height of a font",
+        "The full font size"
+      ],
+      "correctAnswer": "The x-height of a font",
+      "explanation": "Correct answer is C) The x-height of a font."
+    },
+    {
+      "questionText": "The px unit specifies:",
+      "options": [
+        "Size in picas",
+        "Size in inches",
+        "Size in pixels relative to the screen",
+        "Size in points"
+      ],
+      "correctAnswer": "Size in pixels relative to the screen",
+      "explanation": "Correct answer is C) Size in pixels relative to the screen."
+    },
+    {
+      "questionText": "1 inch equals how many centimeters?",
+      "options": [
+        "2.54",
+        "3.54",
+        "10",
+        "1.54"
+      ],
+      "correctAnswer": "2.54",
+      "explanation": "Correct answer is A) 2.54."
+    },
+    {
+      "questionText": "1 point (pt) equals:",
+      "options": [
+        "1/72 of an inch",
+        "1/100 of an inch",
+        "1/12 of an inch",
+        "1/36 of an inch"
+      ],
+      "correctAnswer": "1/72 of an inch",
+      "explanation": "Correct answer is A) 1/72 of an inch."
+    },
+    {
+      "questionText": "1 pica (pc) equals:",
+      "options": [
+        "6 points",
+        "72 points",
+        "24 points",
+        "12 points"
+      ],
+      "correctAnswer": "12 points",
+      "explanation": "Correct answer is D) 12 points."
+    },
+    {
+      "questionText": "If font-size is set to 120% for an h1 element, the size appears:",
+      "options": [
+        "Double",
+        "20% smaller",
+        "Unchanged",
+        "20% greater than the current size"
+      ],
+      "correctAnswer": "20% greater than the current size",
+      "explanation": "Correct answer is D) 20% greater than the current size."
+    },
+    {
+      "questionText": "line-height: 200% means the height of the line is:",
+      "options": [
+        "Half the normal height",
+        "Double the normal height",
+        "Equal to font size",
+        "Zero"
+      ],
+      "correctAnswer": "Double the normal height",
+      "explanation": "Correct answer is B) Double the normal height."
+    },
+    {
+      "questionText": "How many types of style sheets exist in CSS?",
+      "options": [
+        "Two",
+        "Three",
+        "Four",
+        "Five"
+      ],
+      "correctAnswer": "Three",
+      "explanation": "Correct answer is B) Three."
+    },
+    {
+      "questionText": "Which are the three types of style sheets?",
+      "options": [
+        "Local, global, inline",
+        "Static, dynamic, inline",
+        "Inline, internal, external",
+        "Block, inline, external"
+      ],
+      "correctAnswer": "Inline, internal, external",
+      "explanation": "Correct answer is C) Inline, internal, external."
+    },
+    {
+      "questionText": "An inline style is defined using the:",
+      "options": [
+        "<link> tag",
+        "<style> element in the head",
+        "style attribute within an HTML element",
+        "External .css file"
+      ],
+      "correctAnswer": "style attribute within an HTML element",
+      "explanation": "Correct answer is C) style attribute within an HTML element."
+    },
+    {
+      "questionText": "An internal style sheet is defined using the:",
+      "options": [
+        "<style> element",
+        "style attribute",
+        "<script> element",
+        "<link> element"
+      ],
+      "correctAnswer": "<style> element",
+      "explanation": "Correct answer is A) <style> element."
+    },
+    {
+      "questionText": "Internal styles are placed inside the:",
+      "options": [
+        "<head> section",
+        "<footer>",
+        "<body> only",
+        "<title>"
+      ],
+      "correctAnswer": "<head> section",
+      "explanation": "Correct answer is A) <head> section."
+    },
+    {
+      "questionText": "The type attribute of the <style> element is set to:",
+      "options": [
+        "text/css",
+        "text/html",
+        "text/javascript",
+        "application/css"
+      ],
+      "correctAnswer": "text/css",
+      "explanation": "Correct answer is A) text/css."
+    },
+    {
+      "questionText": "Internal style sheets are useful when:",
+      "options": [
+        "Styles apply to a specific Web page",
+        "Styles apply to a whole site",
+        "No styles are needed",
+        "Styles are needed in e-mail"
+      ],
+      "correctAnswer": "Styles apply to a specific Web page",
+      "explanation": "Correct answer is A) Styles apply to a specific Web page."
+    },
+    {
+      "questionText": "Inline styles:",
+      "options": [
+        "Cannot be reused elsewhere in the page",
+        "Apply to the whole site",
+        "Can be reused anywhere",
+        "Are stored in .css file"
+      ],
+      "correctAnswer": "Cannot be reused elsewhere in the page",
+      "explanation": "Correct answer is A) Cannot be reused elsewhere in the page."
+    },
+    {
+      "questionText": "An external style sheet is saved with the extension:",
+      "options": [
+        ".style",
+        ".js",
+        ".css",
+        ".html"
+      ],
+      "correctAnswer": ".css",
+      "explanation": "Correct answer is C) .css."
+    },
+    {
+      "questionText": "The main benefit of an external style sheet is:",
+      "options": [
+        "Faster server",
+        "Less HTML code only",
+        "Reusability and a consistent look across multiple pages",
+        "Smaller images"
+      ],
+      "correctAnswer": "Reusability and a consistent look across multiple pages",
+      "explanation": "Correct answer is C) Reusability and a consistent look across multiple pages."
+    },
+    {
+      "questionText": "An external style sheet is linked using:",
+      "options": [
+        "<css href=\"style.css\">",
+        "<a href=\"style.css\">",
+        "<link rel=\"stylesheet\" href=\"style.css\">",
+        "<style src=\"style.css\">"
+      ],
+      "correctAnswer": "<link rel=\"stylesheet\" href=\"style.css\">",
+      "explanation": "Correct answer is C) <link rel=\"stylesheet\" href=\"style.css\">."
+    },
+    {
+      "questionText": "The rel=\"stylesheet\" attribute specifies:",
+      "options": [
+        "The linked object is a style sheet",
+        "The language",
+        "The font",
+        "The color"
+      ],
+      "correctAnswer": "The linked object is a style sheet",
+      "explanation": "Correct answer is A) The linked object is a style sheet."
+    },
+    {
+      "questionText": "Which style sheet has the highest priority?",
+      "options": [
+        "External",
+        "Internal",
+        "Browser default",
+        "Inline"
+      ],
+      "correctAnswer": "Inline",
+      "explanation": "Correct answer is D) Inline."
+    },
+    {
+      "questionText": "A type selector applies styles to:",
+      "options": [
+        "Only classes",
+        "All occurrences of the specified element",
+        "Nothing",
+        "Only one element with an id"
+      ],
+      "correctAnswer": "All occurrences of the specified element",
+      "explanation": "Correct answer is B) All occurrences of the specified element."
+    },
+    {
+      "questionText": "A class selector matches elements whose ______ attribute is set.",
+      "options": [
+        "id",
+        "title",
+        "class",
+        "name"
+      ],
+      "correctAnswer": "class",
+      "explanation": "Correct answer is C) class."
+    },
+    {
+      "questionText": "A class selector is written with a prefix of:",
+      "options": [
+        "# (hash)",
+        "@",
+        ". (dot)",
+        "* (asterisk)"
+      ],
+      "correctAnswer": ". (dot)",
+      "explanation": "Correct answer is C) . (dot)."
+    },
+    {
+      "questionText": "An ID selector begins with the:",
+      "options": [
+        "Dot (.)",
+        "Hash (#) symbol",
+        "Colon (:)",
+        "Asterisk (*)"
+      ],
+      "correctAnswer": "Hash (#) symbol",
+      "explanation": "Correct answer is B) Hash (#) symbol."
+    },
+    {
+      "questionText": "The universal selector is represented by:",
+      "options": [
+        "# (hash)",
+        ". (dot)",
+        "* (asterisk)",
+        "& (ampersand)"
+      ],
+      "correctAnswer": "* (asterisk)",
+      "explanation": "Correct answer is C) * (asterisk)."
+    },
+    {
+      "questionText": "The universal selector applies styles to:",
+      "options": [
+        "All elements in the document",
+        "Only ids",
+        "Only the body",
+        "Only classes"
+      ],
+      "correctAnswer": "All elements in the document",
+      "explanation": "Correct answer is A) All elements in the document."
+    },
+    {
+      "questionText": "An id value should be:",
+      "options": [
+        "Left blank",
+        "Unique in a page",
+        "Repeated for all elements",
+        "Numeric only"
+      ],
+      "correctAnswer": "Unique in a page",
+      "explanation": "Correct answer is B) Unique in a page."
+    },
+    {
+      "questionText": "Which can be applied to multiple elements?",
+      "options": [
+        "Neither",
+        "Both are unique",
+        "ID",
+        "Class"
+      ],
+      "correctAnswer": "Class",
+      "explanation": "Correct answer is D) Class."
+    },
+    {
+      "questionText": "Comments in CSS are written between:",
+      "options": [
+        "// and //",
+        "<!-- and -->",
+        "# and #",
+        "/* and */"
+      ],
+      "correctAnswer": "/* and */",
+      "explanation": "Correct answer is D) /* and */."
+    },
+    {
+      "questionText": "In the cascade, rules determine which style is applied when:",
+      "options": [
+        "Only one style exists",
+        "Styles are absent",
+        "Multiple style sheets define styles for the same element",
+        "The page is blank"
+      ],
+      "correctAnswer": "Multiple style sheets define styles for the same element",
+      "explanation": "Correct answer is C) Multiple style sheets define styles for the same element."
+    },
+    {
+      "questionText": "Which of the following correctly styles all <p> elements red?",
+      "options": [
+        "#p { color: red; }",
+        "p = red",
+        "p { color: red; }",
+        ".p { color: red; }"
+      ],
+      "correctAnswer": "p { color: red; }",
+      "explanation": "Correct answer is C) p { color: red; }."
+    },
+    {
+      "questionText": "Which CSS rule applies bold to elements with class \"note\"?",
+      "options": [
+        "#note { font-weight: bold; }",
+        "note { bold: true; }",
+        "*note { font-weight: bold; }",
+        ".note { font-weight: bold; }"
+      ],
+      "correctAnswer": ".note { font-weight: bold; }",
+      "explanation": "Correct answer is D) .note { font-weight: bold; }."
+    },
+    {
+      "questionText": "The modules published by the CSS working group number about:",
+      "options": [
+        "Five",
+        "Fifty",
+        "Five hundred",
+        "Ten"
+      ],
+      "correctAnswer": "Fifty",
+      "explanation": "Correct answer is B) Fifty."
+    },
+    {
+      "questionText": "CSS4 drafting was started by W3C on:",
+      "options": [
+        "Sep 29, 2009",
+        "Jun 1999",
+        "Jan 1, 2000",
+        "Mar 2015"
+      ],
+      "correctAnswer": "Sep 29, 2009",
+      "explanation": "Correct answer is A) Sep 29, 2009."
+    }
+  ]
+}

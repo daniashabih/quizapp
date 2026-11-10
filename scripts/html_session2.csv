@@ -1,0 +1,53 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,2,All elements in HTML5 are organized using:,Tags,Cookies,Scripts,Styles,Tags
+HTML,2,Which of the following is a basic tag in HTML5?,<head>,<font>,<center>,<marquee>,<head>
+HTML,2,Tags in HTML are also referred to as:,Scripts,Markup,Entities,Attributes,Markup
+HTML,2,An HTML element consists of:,Only a start tag,Only content,"Tags, attributes, and content",Only attributes,"Tags, attributes, and content"
+HTML,2,A start tag begins with:,A closing angular bracket,An opening angular bracket followed by the element name,A slash,An ampersand,An opening angular bracket followed by the element name
+HTML,2,Attributes are:,Only end tags,Comments,Character entities,Name/value pairs that describe the element and its content format,Name/value pairs that describe the element and its content format
+HTML,2,An end tag is written exactly as the start tag except that it includes a:,Semicolon,Hyphen,Forward slash (/),Hash (#),Forward slash (/)
+HTML,2,The DOCTYPE declaration must appear:,Inside the <head>,At the end of the document,Inside the <body>,"First, before any other HTML code","First, before any other HTML code"
+HTML,2,The purpose of DOCTYPE is to:,Inform the browser of the HTML version of the document,Link a script,Add a title,Style the page,Inform the browser of the HTML version of the document
+HTML,2,Which is the correct HTML5 DOCTYPE?,<!HTML5>,<DOCTYPE html5>,"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN"">",<!DOCTYPE html>,<!DOCTYPE html>
+HTML,2,The HTML5 DOCTYPE is compatible with:,Older browsers and future versions of HTML,Only XHTML,Only HTML5,Only Chrome,Older browsers and future versions of HTML
+HTML,2,HTML is described as:,Only a presentational markup language,Both a structural and presentational markup language,A database language,Only a scripting language,Both a structural and presentational markup language
+HTML,2,Structural markup specifies:,The font size,The format of text,The color of text,The structure of the content,The structure of the content
+HTML,2,An HTML page is saved with which extension?,.txt,.html,.htm1,.xml,.html
+HTML,2,The root element of an HTML document is:,<body>,<html>,<head>,<title>,<html>
+HTML,2,The HEAD element contains information that is:,Only the footer,Not displayed on the Web page,Only images,Displayed on the Web page,Not displayed on the Web page
+HTML,2,Keywords in a Web page are used by:,Search engines to identify the page,Printers,Browsers to colour the page,Servers to compress the page,Search engines to identify the page
+HTML,2,The TITLE element specifies the title that appears in the:,Browser title bar or tab,Footer,Body,Status bar only,Browser title bar or tab
+HTML,2,The <meta> tag is used to display:,Images,Information about the data (metadata),Tables,Visible content,Information about the data (metadata)
+HTML,2,"In HTML5, the charset can be specified using:","<meta http-equiv=""charset"">","<link charset=""UTF-8"">","<meta charset=""UTF-8"">","<charset=""UTF-8"">","<meta charset=""UTF-8"">"
+HTML,2,UTF-8 is:,A browser,A style language,A scripting language,A commonly used character encoding supporting many alphabets,A commonly used character encoding supporting many alphabets
+HTML,2,"In HTML5, is it mandatory to self-close tags with a slash?",Only for <meta>,"Yes, always",Only for <br>,"No, it is not very important","No, it is not very important"
+HTML,2,The <link> tag is used to:,Add JavaScript,Define the association between a document and an external resource,Create hyperlinks in the body,Insert images,Define the association between a document and an external resource
+HTML,2,"In HTML5, the type attribute is not needed in <link> because:",It is deprecated for CSS,HTML is default,JavaScript is default,CSS is the default style language,CSS is the default style language
+HTML,2,"In HTML5, the type attribute can be omitted from <script> because:",VBScript is default,XML is default,CSS is default,JavaScript is the default scripting language,JavaScript is the default scripting language
+HTML,2,The BODY element is used to:,Declare the version,Link external scripts only,Store metadata,Add content visible on the Web page,Add content visible on the Web page
+HTML,2,A data type in HTML specifies:,The type of value assigned to attributes and content displayed,The server type,The browser type,The file size,The type of value assigned to attributes and content displayed
+HTML,2,Which data type specifies the color to be applied to content?,Length,Text,Content type,Color,Color
+HTML,2,Length values in HTML can be specified in:,Only seconds,Pixels or as a percentage,Only colors,Only bytes,Pixels or as a percentage
+HTML,2,A pixel refers to:,The smallest dot on the screen,A font style,A page title,A network,The smallest dot on the screen
+HTML,2,Which is an example of a content type (MIME type) for a video file?,text/css,audio/mp3 only,video/mpg,image/png,video/mpg
+HTML,2,Which global attribute specifies the direction of text?,dropzone,contextmenu,dir,draggable,dir
+HTML,2,Which global attribute specifies the context menu for an element?,hidden,draggable,dir,contextmenu,contextmenu
+HTML,2,The draggable attribute specifies:,The text direction,The length,Whether an element can be dragged,The color,Whether an element can be dragged
+HTML,2,The dropzone attribute specifies:,The text direction,"Whether dragged data is copied, moved, or linked when dropped",The language,The title,"Whether dragged data is copied, moved, or linked when dropped"
+HTML,2,HTML entities are:,Styles,Server programs,Scripts,Special reserved characters displayed using codes,Special reserved characters displayed using codes
+HTML,2,Entities in HTML begin with ______ and end with ______.,/ and *,# and ;,& and ;,< and >,& and ;
+HTML,2,Which entity represents the less-than sign (<)?,&amp;,&gt;,&nbsp;,&lt;,&lt;
+HTML,2,Which entity represents a non-breaking space?,&amp;,&nbsp;,&copy;,&lt;,&nbsp;
+HTML,2,Which entity displays the ampersand character?,&quot;,&lt;,&and;,&amp;,&amp;
+HTML,2,Which entity displays the copyright symbol?,&trade;,&cpr;,&copy;,&reg;,&copy;
+HTML,2,"Based on end tag usage, HTML tags are classified as:",Block and inline,Open and closed,Global and local,Container and standalone,Container and standalone
+HTML,2,A container element includes:,Only a start tag,Only content,Only attributes,"Start tag, contents, sub-elements, and end tag","Start tag, contents, sub-elements, and end tag"
+HTML,2,A standalone element consists of:,Only content,Start tag and attributes ending with />,Start and end tags with content,A script,Start tag and attributes ending with />
+HTML,2,Which of the following is a standalone tag?,<title>,<body>,<p>,<br>,<br>
+HTML,2,Which of the following is a container tag?,<hr>,<br>,<title>,<img>,<title>
+HTML,2,HTML5 is not supported by:,iOS,All smartphones,Older mobile devices,Android,Older mobile devices
+HTML,2,HTML5 helps mobile development by offering:,Flash support,Only text support,Silverlight support,"Drag-and-drop, video embedding, and offline capabilities","Drag-and-drop, video embedding, and offline capabilities"
+HTML,2,"By using HTML5, development cost for different operating systems can be saved by up to:",90%,30%,10%,60%,30%
+HTML,2,Which is a benefit of HTML5 for mobile development?,It is compatible with most operating system platforms,It runs only on Android,It is costly,It requires third-party plug-ins,It is compatible with most operating system platforms
+HTML,2,"In HTML5, media functions such as audio and video:",Have improved support without third-party programs,Need third-party programs,Work only offline,Are not supported,Have improved support without third-party programs
+HTML,2,Location-based and map applications in HTML5:,Need Flash,Have greater support,Work only on desktop,Are not supported,Have greater support

@@ -200,92 +200,99 @@ class _FlutterBrickBreakerState extends State<FlutterBrickBreaker> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Header
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: List.generate(
-                3,
-                (i) => Icon(
-                  Icons.favorite_rounded,
-                  size: 16,
-                  color: i < _lives ? Colors.red : Colors.grey,
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                Text(
-                  'SCORE: $_score',
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.blueAccent),
-                ),
-                const SizedBox(width: 4),
-                IconButton(
-                  onPressed: _resetGame,
-                  icon: const Icon(Icons.refresh_rounded, size: 18),
-                  visualDensity: VisualDensity.compact,
-                ),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-
-        // Game Canvas
-        GestureDetector(
-          onTap: _onTapLaunch,
-          onHorizontalDragUpdate: _onDragUpdate,
-          child: Container(
-            width: 280,
-            height: 280,
-            decoration: BoxDecoration(
-              color: const Color(0xFF090D16),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: Colors.white12),
-            ),
-            child: Stack(
-              children: [
-                CustomPaint(
-                  size: const Size(280, 280),
-                  painter: _BrickPainter(
-                    paddleX: _paddleX,
-                    paddleWidth: _paddleWidth,
-                    paddleHeight: _paddleHeight,
-                    ballX: _ballX,
-                    ballY: _ballY,
-                    ballRadius: _ballRadius,
-                    bricks: _bricks,
-                    rowColors: _rowColors,
-                    rows: _rows,
-                    cols: _cols,
-                  ),
-                ),
-                if (!_started && !_gameOver)
-                  const Center(
-                    child: Text(
-                      'Tap Screen to Launch 🚀',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.cyanAccent,
+    return SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: List.generate(
+                      3,
+                      (i) => Icon(
+                        Icons.favorite_rounded,
+                        size: 16,
+                        color: i < _lives ? Colors.red : Colors.grey,
                       ),
                     ),
                   ),
-              ],
-            ),
+                  Row(
+                    children: [
+                      Text(
+                        'SCORE: $_score',
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.blueAccent),
+                      ),
+                      const SizedBox(width: 4),
+                      IconButton(
+                        onPressed: _resetGame,
+                        icon: const Icon(Icons.refresh_rounded, size: 18),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+
+              // Game Canvas
+              GestureDetector(
+                onTap: _onTapLaunch,
+                onHorizontalDragUpdate: _onDragUpdate,
+                child: Container(
+                  width: 280,
+                  height: 280,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF090D16),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: Colors.white12),
+                  ),
+                  child: Stack(
+                    children: [
+                      CustomPaint(
+                        size: const Size(280, 280),
+                        painter: _BrickPainter(
+                          paddleX: _paddleX,
+                          paddleWidth: _paddleWidth,
+                          paddleHeight: _paddleHeight,
+                          ballX: _ballX,
+                          ballY: _ballY,
+                          ballRadius: _ballRadius,
+                          bricks: _bricks,
+                          rowColors: _rowColors,
+                          rows: _rows,
+                          cols: _cols,
+                        ),
+                      ),
+                      if (!_started && !_gameOver)
+                        const Center(
+                          child: Text(
+                            'Tap Screen to Launch 🚀',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.cyanAccent,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 12),
+              const Text(
+                'Drag finger left or right to move the paddle.',
+                style: TextStyle(fontSize: 11, color: Colors.grey),
+              ),
+            ],
           ),
         ),
-
-        const SizedBox(height: 12),
-        const Text(
-          'Drag finger left or right to move the paddle.',
-          style: TextStyle(fontSize: 11, color: Colors.grey),
-        ),
-      ],
+      ),
     );
   }
 }

@@ -1,0 +1,613 @@
+{
+  "category": "HTML",
+  "session": 12,
+  "title": "Session 12: JavaScript - II",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "A function is:",
+      "options": [
+        "A comment",
+        "A tag",
+        "An independent reusable block of code",
+        "A single variable"
+      ],
+      "correctAnswer": "An independent reusable block of code",
+      "explanation": "Correct answer is C) An independent reusable block of code."
+    },
+    {
+      "questionText": "A JavaScript function is created under which element?",
+      "options": [
+        "<style>",
+        "<meta>",
+        "<script>",
+        "<head> only"
+      ],
+      "correctAnswer": "<script>",
+      "explanation": "Correct answer is C) <script>."
+    },
+    {
+      "questionText": "Which keyword is used to declare a function?",
+      "options": [
+        "function",
+        "def",
+        "func",
+        "method"
+      ],
+      "correctAnswer": "function",
+      "explanation": "Correct answer is A) function."
+    },
+    {
+      "questionText": "The body of a function is enclosed in:",
+      "options": [
+        "Curly braces { }",
+        "Square brackets [ ]",
+        "Parentheses ( )",
+        "Angle brackets"
+      ],
+      "correctAnswer": "Curly braces { }",
+      "explanation": "Correct answer is A) Curly braces { }."
+    },
+    {
+      "questionText": "A function that takes no parameters is declared with:",
+      "options": [
+        "Empty braces only",
+        "No parentheses",
+        "Quotes",
+        "Empty parentheses"
+      ],
+      "correctAnswer": "Empty parentheses",
+      "explanation": "Correct answer is D) Empty parentheses."
+    },
+    {
+      "questionText": "The function that calls another function is the:",
+      "options": [
+        "Called function",
+        "Parent function",
+        "Calling function",
+        "Main function"
+      ],
+      "correctAnswer": "Calling function",
+      "explanation": "Correct answer is C) Calling function."
+    },
+    {
+      "questionText": "A function must be defined:",
+      "options": [
+        "After it is invoked",
+        "Only in the head",
+        "Before it is invoked in the script",
+        "Only in the body"
+      ],
+      "correctAnswer": "Before it is invoked in the script",
+      "explanation": "Correct answer is C) Before it is invoked in the script."
+    },
+    {
+      "questionText": "Which of the following is a benefit of functions?",
+      "options": [
+        "Code reusability",
+        "No reuse",
+        "Slower code",
+        "More errors"
+      ],
+      "correctAnswer": "Code reusability",
+      "explanation": "Correct answer is A) Code reusability."
+    },
+    {
+      "questionText": "Parameters are:",
+      "options": [
+        "Values passed during the call",
+        "Variables declared in the function declaration",
+        "Events",
+        "Return values"
+      ],
+      "correctAnswer": "Variables declared in the function declaration",
+      "explanation": "Correct answer is B) Variables declared in the function declaration."
+    },
+    {
+      "questionText": "Arguments are:",
+      "options": [
+        "Function names",
+        "Keywords",
+        "Variables in the declaration",
+        "Values passed to the function"
+      ],
+      "correctAnswer": "Values passed to the function",
+      "explanation": "Correct answer is D) Values passed to the function."
+    },
+    {
+      "questionText": "Parameters of a function are accessible:",
+      "options": [
+        "Only within the function",
+        "Anywhere in the script",
+        "Never",
+        "Only globally"
+      ],
+      "correctAnswer": "Only within the function",
+      "explanation": "Correct answer is A) Only within the function."
+    },
+    {
+      "questionText": "Variables declared outside functions in the script are:",
+      "options": [
+        "Inaccessible",
+        "Accessible anywhere in the script",
+        "Accessible only inside functions",
+        "Read-only"
+      ],
+      "correctAnswer": "Accessible anywhere in the script",
+      "explanation": "Correct answer is B) Accessible anywhere in the script."
+    },
+    {
+      "questionText": "Which statement returns a value from a function?",
+      "options": [
+        "give",
+        "output",
+        "return",
+        "send"
+      ],
+      "correctAnswer": "return",
+      "explanation": "Correct answer is C) return."
+    },
+    {
+      "questionText": "A function with no return statement returns:",
+      "options": [
+        "undefined",
+        "0",
+        "An empty string",
+        "null"
+      ],
+      "correctAnswer": "undefined",
+      "explanation": "Correct answer is A) undefined."
+    },
+    {
+      "questionText": "JavaScript objects are categorized as:",
+      "options": [
+        "Local and global",
+        "Static and dynamic",
+        "Primitive and composite",
+        "Built-in, browser, and HTML objects"
+      ],
+      "correctAnswer": "Built-in, browser, and HTML objects",
+      "explanation": "Correct answer is D) Built-in, browser, and HTML objects."
+    },
+    {
+      "questionText": "Built-in objects include:",
+      "options": [
+        "window, history, navigator",
+        "String, Math, and Date",
+        "CSS, HTML",
+        "form, anchor"
+      ],
+      "correctAnswer": "String, Math, and Date",
+      "explanation": "Correct answer is B) String, Math, and Date."
+    },
+    {
+      "questionText": "Browser objects include:",
+      "options": [
+        "Date only",
+        "form only",
+        "window, history, and navigator",
+        "String and Math"
+      ],
+      "correctAnswer": "window, history, and navigator",
+      "explanation": "Correct answer is C) window, history, and navigator."
+    },
+    {
+      "questionText": "HTML objects include:",
+      "options": [
+        "form and anchor",
+        "Math",
+        "window",
+        "String"
+      ],
+      "correctAnswer": "form and anchor",
+      "explanation": "Correct answer is A) form and anchor."
+    },
+    {
+      "questionText": "The String object is instantiated using the:",
+      "options": [
+        "make keyword",
+        "this keyword",
+        "new keyword",
+        "create keyword"
+      ],
+      "correctAnswer": "new keyword",
+      "explanation": "Correct answer is C) new keyword."
+    },
+    {
+      "questionText": "Which String method retrieves a character at a given position?",
+      "options": [
+        "indexOf()",
+        "substring()",
+        "split()",
+        "charAt()"
+      ],
+      "correctAnswer": "charAt()",
+      "explanation": "Correct answer is D) charAt()."
+    },
+    {
+      "questionText": "Which String method merges two strings?",
+      "options": [
+        "concat()",
+        "search()",
+        "replace()",
+        "split()"
+      ],
+      "correctAnswer": "concat()",
+      "explanation": "Correct answer is A) concat()."
+    },
+    {
+      "questionText": "Which String method returns the first position of a substring?",
+      "options": [
+        "indexOf()",
+        "lastIndexOf()",
+        "charAt()",
+        "slice only"
+      ],
+      "correctAnswer": "indexOf()",
+      "explanation": "Correct answer is A) indexOf()."
+    },
+    {
+      "questionText": "Which String method divides a string into an array of substrings?",
+      "options": [
+        "replace()",
+        "split()",
+        "concat()",
+        "substring()"
+      ],
+      "correctAnswer": "split()",
+      "explanation": "Correct answer is B) split()."
+    },
+    {
+      "questionText": "Which String method returns a part of a string between two positions?",
+      "options": [
+        "substring()",
+        "split()",
+        "charAt()",
+        "search()"
+      ],
+      "correctAnswer": "substring()",
+      "explanation": "Correct answer is A) substring()."
+    },
+    {
+      "questionText": "Which method converts a string to uppercase?",
+      "options": [
+        "toUpperCase()",
+        "toUpper()",
+        "capitalize()",
+        "upper()"
+      ],
+      "correctAnswer": "toUpperCase()",
+      "explanation": "Correct answer is A) toUpperCase()."
+    },
+    {
+      "questionText": "The length property of a string returns:",
+      "options": [
+        "The number of characters",
+        "The number of words",
+        "The position",
+        "The last character"
+      ],
+      "correctAnswer": "The number of characters",
+      "explanation": "Correct answer is A) The number of characters."
+    },
+    {
+      "questionText": "The Math object is:",
+      "options": [
+        "An HTML object",
+        "A pre-defined object with static properties and methods",
+        "An object requiring instantiation",
+        "A browser object"
+      ],
+      "correctAnswer": "A pre-defined object with static properties and methods",
+      "explanation": "Correct answer is B) A pre-defined object with static properties and methods."
+    },
+    {
+      "questionText": "Math.PI stores the value of:",
+      "options": [
+        "One",
+        "Pi (approx. 3.142)",
+        "Euler's number",
+        "Zero"
+      ],
+      "correctAnswer": "Pi (approx. 3.142)",
+      "explanation": "Correct answer is B) Pi (approx. 3.142)."
+    },
+    {
+      "questionText": "Math.pow(2, 3) returns:",
+      "options": [
+        "8",
+        "6",
+        "5",
+        "9"
+      ],
+      "correctAnswer": "8",
+      "explanation": "Correct answer is A) 8."
+    },
+    {
+      "questionText": "Math.floor() rounds a number to:",
+      "options": [
+        "The decimal",
+        "The nearest integer up",
+        "The nearest 10",
+        "The largest integer less than or equal to it"
+      ],
+      "correctAnswer": "The largest integer less than or equal to it",
+      "explanation": "Correct answer is D) The largest integer less than or equal to it."
+    },
+    {
+      "questionText": "Math.ceil() rounds a number:",
+      "options": [
+        "Down",
+        "Up to the nearest integer",
+        "To two decimals",
+        "To zero"
+      ],
+      "correctAnswer": "Up to the nearest integer",
+      "explanation": "Correct answer is B) Up to the nearest integer."
+    },
+    {
+      "questionText": "In the Date object, month numbers range from:",
+      "options": [
+        "1 to 11",
+        "1 to 12",
+        "0 to 12",
+        "0 to 11"
+      ],
+      "correctAnswer": "0 to 11",
+      "explanation": "Correct answer is D) 0 to 11."
+    },
+    {
+      "questionText": "To represent March in the Date constructor, the month value is:",
+      "options": [
+        "2",
+        "4",
+        "1",
+        "3"
+      ],
+      "correctAnswer": "2",
+      "explanation": "Correct answer is A) 2."
+    },
+    {
+      "questionText": "getDay() returns a value between:",
+      "options": [
+        "0 and 31",
+        "0 and 6",
+        "1 and 31",
+        "1 and 7"
+      ],
+      "correctAnswer": "0 and 6",
+      "explanation": "Correct answer is B) 0 and 6."
+    },
+    {
+      "questionText": "getDate() returns a value between:",
+      "options": [
+        "0 and 30",
+        "1 and 12",
+        "0 and 6",
+        "1 and 31"
+      ],
+      "correctAnswer": "1 and 31",
+      "explanation": "Correct answer is D) 1 and 31."
+    },
+    {
+      "questionText": "getFullYear() returns:",
+      "options": [
+        "The month",
+        "The day",
+        "A four-digit year",
+        "A two-digit year"
+      ],
+      "correctAnswer": "A four-digit year",
+      "explanation": "Correct answer is C) A four-digit year."
+    },
+    {
+      "questionText": "The with statement is used to:",
+      "options": [
+        "Throw an error",
+        "Remove repeated object references for a set of statements",
+        "Create a loop",
+        "Define a function"
+      ],
+      "correctAnswer": "Remove repeated object references for a set of statements",
+      "explanation": "Correct answer is B) Remove repeated object references for a set of statements."
+    },
+    {
+      "questionText": "The top-level object in the JavaScript browser hierarchy is:",
+      "options": [
+        "document",
+        "window",
+        "history",
+        "location"
+      ],
+      "correctAnswer": "window",
+      "explanation": "Correct answer is B) window."
+    },
+    {
+      "questionText": "The history object contains:",
+      "options": [
+        "The URLs visited by the user in the window",
+        "The cookies",
+        "The images",
+        "The styles"
+      ],
+      "correctAnswer": "The URLs visited by the user in the window",
+      "explanation": "Correct answer is A) The URLs visited by the user in the window."
+    },
+    {
+      "questionText": "history.back() retrieves:",
+      "options": [
+        "The next URL",
+        "The first URL",
+        "The home page",
+        "The previous URL in the history list"
+      ],
+      "correctAnswer": "The previous URL in the history list",
+      "explanation": "Correct answer is D) The previous URL in the history list."
+    },
+    {
+      "questionText": "history.forward() retrieves:",
+      "options": [
+        "The next URL in the history list",
+        "Nothing",
+        "The home page",
+        "The previous URL"
+      ],
+      "correctAnswer": "The next URL in the history list",
+      "explanation": "Correct answer is A) The next URL in the history list."
+    },
+    {
+      "questionText": "location.reload() does what?",
+      "options": [
+        "Reloads the current document",
+        "Replaces the URL",
+        "Goes back",
+        "Closes the window"
+      ],
+      "correctAnswer": "Reloads the current document",
+      "explanation": "Correct answer is A) Reloads the current document."
+    },
+    {
+      "questionText": "window.confirm() displays a dialog with:",
+      "options": [
+        "No buttons",
+        "Only OK",
+        "OK and Cancel buttons",
+        "An input box"
+      ],
+      "correctAnswer": "OK and Cancel buttons",
+      "explanation": "Correct answer is C) OK and Cancel buttons."
+    },
+    {
+      "questionText": "window.open() is used to:",
+      "options": [
+        "Open a file in a new browser window",
+        "Close a window",
+        "Print the page",
+        "Reload the page"
+      ],
+      "correctAnswer": "Open a file in a new browser window",
+      "explanation": "Correct answer is A) Open a file in a new browser window."
+    },
+    {
+      "questionText": "DOM stands for:",
+      "options": [
+        "Document Object Model",
+        "Data Object Model",
+        "Dynamic Object Mapping",
+        "Document Order Mode"
+      ],
+      "correctAnswer": "Document Object Model",
+      "explanation": "Correct answer is A) Document Object Model."
+    },
+    {
+      "questionText": "The DOM is:",
+      "options": [
+        "A style sheet",
+        "A scripting language",
+        "An API that defines the object structure for accessing and manipulating HTML elements",
+        "A database"
+      ],
+      "correctAnswer": "An API that defines the object structure for accessing and manipulating HTML elements",
+      "explanation": "Correct answer is C) An API that defines the object structure for accessing and manipulating HTML elements."
+    },
+    {
+      "questionText": "In the DOM, HTML elements are treated as:",
+      "options": [
+        "Styles",
+        "Strings",
+        "Nodes",
+        "Numbers"
+      ],
+      "correctAnswer": "Nodes",
+      "explanation": "Correct answer is C) Nodes."
+    },
+    {
+      "questionText": "The highest-level node in the DOM is the:",
+      "options": [
+        "Text node",
+        "Document node",
+        "Attribute node",
+        "Element node"
+      ],
+      "correctAnswer": "Document node",
+      "explanation": "Correct answer is B) Document node."
+    },
+    {
+      "questionText": "The lowest-level nodes in the DOM are:",
+      "options": [
+        "Text nodes",
+        "Element nodes",
+        "Document nodes",
+        "Window nodes"
+      ],
+      "correctAnswer": "Text nodes",
+      "explanation": "Correct answer is A) Text nodes."
+    },
+    {
+      "questionText": "An arrow function uses which symbol?",
+      "options": [
+        "=>",
+        "->",
+        "<-",
+        "::"
+      ],
+      "correctAnswer": "=>",
+      "explanation": "Correct answer is A) =>."
+    },
+    {
+      "questionText": "The for...of loop is used to:",
+      "options": [
+        "Declare variables",
+        "Iterate over object keys only",
+        "Iterate over iterable values such as arrays",
+        "Create functions"
+      ],
+      "correctAnswer": "Iterate over iterable values such as arrays",
+      "explanation": "Correct answer is C) Iterate over iterable values such as arrays."
+    },
+    {
+      "questionText": "JSON stands for:",
+      "options": [
+        "JavaScript Oriented Network",
+        "JavaScript Object Notation",
+        "Java Standard Object Naming",
+        "Joint Script Object Notation"
+      ],
+      "correctAnswer": "JavaScript Object Notation",
+      "explanation": "Correct answer is B) JavaScript Object Notation."
+    },
+    {
+      "questionText": "Converting a JSON string into a JavaScript object is called:",
+      "options": [
+        "Stringification",
+        "Serialization",
+        "Deserialization",
+        "Compilation"
+      ],
+      "correctAnswer": "Deserialization",
+      "explanation": "Correct answer is C) Deserialization."
+    },
+    {
+      "questionText": "Which method converts an object to a JSON string?",
+      "options": [
+        "JSON.toObject()",
+        "JSON.convert()",
+        "JSON.parse()",
+        "JSON.stringify()"
+      ],
+      "correctAnswer": "JSON.stringify()",
+      "explanation": "Correct answer is D) JSON.stringify()."
+    },
+    {
+      "questionText": "Which method converts a JSON string to an object?",
+      "options": [
+        "JSON.parse()",
+        "JSON.stringify()",
+        "JSON.read()",
+        "JSON.decode()"
+      ],
+      "correctAnswer": "JSON.parse()",
+      "explanation": "Correct answer is A) JSON.parse()."
+    }
+  ]
+}

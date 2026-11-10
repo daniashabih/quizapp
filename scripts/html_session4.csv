@@ -1,0 +1,50 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,4,A hyperlink is also referred to as a:,Entity,Frame,Link,Tag,Link
+HTML,4,A hyperlink can link to:,Only another Web site,Only images,Only e-mail,Another Web page or a section within the same page,Another Web page or a section within the same page
+HTML,4,Which element is used to create a hyperlink?,<link>,<a>,<href>,<url>,<a>
+HTML,4,The A in the <a> element stands for:,Address,Attribute,Anchor,Action,Anchor
+HTML,4,A hyperlink can be specified using:,Text or an image,Only an image,Only text,Only a button,Text or an image
+HTML,4,"When the mouse moves over a hyperlink, the cursor changes into a:",Arrow with question mark,Hourglass,Hand with a pointing index finger,Cross,Hand with a pointing index finger
+HTML,4,Which attribute of <a> specifies the URL of the linked page?,link,url,href,src,href
+HTML,4,Which attribute was used to specify a section (anchor) of a Web page to be linked?,name,rel,alt,title,name
+HTML,4,An <a> element cannot contain:,Images,A <span>,Another <a> element,Text,Another <a> element
+HTML,4,Which attribute specifies where the linked page will open?,src,rel,href,target,target
+HTML,4,"target=""_self"" loads the target URL:",In a new window,In the same window as the current page,In the parent frame,Nowhere,In the same window as the current page
+HTML,4,"target=""_blank"" loads the target URL:",In the same window,In a new window or tab,In the top frame,In a download,In a new window or tab
+HTML,4,"target=""_top"" loads the target URL:",In the same frame,In the complete area of the window,In a new tab,In a pop-up,In the complete area of the window
+HTML,4,"target=""_parent"" loads the URL in the:",Same window only,Parent frame,New window,Footer,Parent frame
+HTML,4,"By default (no target specified), a link opens in:",A new window,The same window,The parent frame,A pop-up,The same window
+HTML,4,Absolute paths are links that contain:,Only the file name,Only the folder name,No protocol,The complete address to reach a Web page,The complete address to reach a Web page
+HTML,4,Which path type is the best way to link to another Website?,Local,Relative,Partial,Absolute,Absolute
+HTML,4,Relative paths are used when:,Files are in the same folder or nearby folders on the same site,Linking to e-mail,Linking to a download only,Linking to an external site,Files are in the same folder or nearby folders on the same site
+HTML,4,"To link to a file in a sub folder named ""about-us"", the href should be:","href=""/file.html/about-us""","href=""about-us/file.html""","href=""file.html@about-us""","href=""about-us:file.html""","href=""about-us/file.html"""
+HTML,4,"To link to a file one level up in a folder, which prefix is used in a relative path?",~,//,./,../,../
+HTML,4,An example of an absolute path is:,page.html,http://www.example.com/page.html,about/page.html,../page.html,http://www.example.com/page.html
+HTML,4,Which keyword is used in href to link to an e-mail address?,mail:,send:,email:,mailto:,mailto:
+HTML,4,Which is the correct e-mail hyperlink?,"<a href=""mailto:info@example.com"">Mail</a>","<a mail=""info@example.com"">Mail</a>","<a href=""info@example.com"">Mail</a>","<a src=""mailto:info@example.com"">Mail</a>","<a href=""mailto:info@example.com"">Mail</a>"
+HTML,4,Clicking a mailto link usually:,Opens a new browser,Downloads a file,Starts the default e-mail client,Closes the browser,Starts the default e-mail client
+HTML,4,"To add a subject line automatically in an e-mail link, which is used after the address?",#subject,?subject=,&title=,/subject,?subject=
+HTML,4,Hyperlinks can also be used to link to:,Only e-mails,"Zipped files, executables, documents, and PDFs",Only HTML pages,Only images,"Zipped files, executables, documents, and PDFs"
+HTML,4,Which code downloads a zipped file?,"<a href=""Compressed.zip"">Click to download</a>",<zip>Compressed.zip</zip>,"<a src=""Compressed.zip"">Click</a>","<link href=""Compressed.zip"">","<a href=""Compressed.zip"">Click to download</a>"
+HTML,4,Hyperlinks can also be used to link graphical files such as:,.css only,.jpg and .gif,.js only,.xml only,.jpg and .gif
+HTML,4,Which of the following is true about a linked image?,Images require JavaScript to be links,Images can never be links,An image can serve as a hyperlink,Only text can be a link,An image can serve as a hyperlink
+HTML,4,A Website is a collection of:,Only databases,Web pages,Only images,Only servers,Web pages
+HTML,4,Navigating between pages of a Website is facilitated by:,Hyperlinks,Comments,Entities,Doctypes,Hyperlinks
+HTML,4,An anchor within the same page is typically referenced using the symbol:,$,#,%,@,#
+HTML,4,"To link to an element with id=""top"" in the same page, use:","href=""@top""","href=""!top""","href=""top#""","href=""#top""","href=""#top"""
+HTML,4,A link to a section on a different page uses:,page.html/section,page.html@section,page.html?section,page.html#section,page.html#section
+HTML,4,Which is the correct syntax to provide a hyperlink?,"<link a=""URL"">text</link>","<a href=""URL"">text</a>","<a>text href=""URL""</a>","<a url=""URL"">text</a>","<a href=""URL"">text</a>"
+HTML,4,The text between <a> and </a> is called the:,Entity,Doctype,Title,Link text,Link text
+HTML,4,Which attribute provides tooltip text when hovering over a link?,name,alt,title,tip,title
+HTML,4,A broken link usually results from:,An incorrect path or URL,Using <br>,Using CSS,Using HTML5,An incorrect path or URL
+HTML,4,"In a relative path, a file in the same folder is referenced by:",Only the file name,The IP address,The full URL,The drive letter,Only the file name
+HTML,4,Which element should be used for a hyperlink on an image?,<image href>,<link><img></link>,<img><a></img>,<a><img></a>,<a><img></a>
+HTML,4,"When linking an .exe file for download, the file name is placed in the:",name of <meta>,type of <link>,src of <img>,href attribute of <a>,href attribute of <a>
+HTML,4,A link to a PDF help file allows users to:,Only edit it,Convert it to HTML,Run it as a script,Download or view the document,Download or view the document
+HTML,4,The mailto link can also hold multiple recipients separated by:,Slashes,Hashes,Underscores,Commas,Commas
+HTML,4,Which of the following is NOT a valid value of the target attribute?,_blank,_middle,_parent,_self,_middle
+HTML,4,Which protocol does a typical Web page link begin with?,ftp:// only,file:// only,http://,mailto:,http://
+HTML,4,Hyperlinks improve a Website by:,Removing content,Hiding images,Blocking access,Enabling navigation between pages,Enabling navigation between pages
+HTML,4,An absolute link remains valid even if:,The linking page is moved to a different folder,The target site is removed,The URL is mistyped,The internet is disconnected,The linking page is moved to a different folder
+HTML,4,"In hyperlink terminology, ""anchor text"" refers to:",The server address,The folder name,The clickable text of the link,The page title,The clickable text of the link
+HTML,4,Hyperlinks to e-mail addresses can be used to:,Format text,Create a new message with the recipient filled in,Change the browser,Delete messages,Create a new message with the recipient filled in

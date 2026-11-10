@@ -1,0 +1,547 @@
+{
+  "category": "HTML",
+  "session": 4,
+  "title": "Session 4: Creating Hyperlinks and Anchors",
+  "totalQuestions": 49,
+  "questions": [
+    {
+      "questionText": "A hyperlink is also referred to as a:",
+      "options": [
+        "Entity",
+        "Frame",
+        "Link",
+        "Tag"
+      ],
+      "correctAnswer": "Link",
+      "explanation": "Correct answer is C) Link."
+    },
+    {
+      "questionText": "A hyperlink can link to:",
+      "options": [
+        "Only another Web site",
+        "Only images",
+        "Only e-mail",
+        "Another Web page or a section within the same page"
+      ],
+      "correctAnswer": "Another Web page or a section within the same page",
+      "explanation": "Correct answer is D) Another Web page or a section within the same page."
+    },
+    {
+      "questionText": "Which element is used to create a hyperlink?",
+      "options": [
+        "<link>",
+        "<a>",
+        "<href>",
+        "<url>"
+      ],
+      "correctAnswer": "<a>",
+      "explanation": "Correct answer is B) <a>."
+    },
+    {
+      "questionText": "The A in the <a> element stands for:",
+      "options": [
+        "Address",
+        "Attribute",
+        "Anchor",
+        "Action"
+      ],
+      "correctAnswer": "Anchor",
+      "explanation": "Correct answer is C) Anchor."
+    },
+    {
+      "questionText": "A hyperlink can be specified using:",
+      "options": [
+        "Text or an image",
+        "Only an image",
+        "Only text",
+        "Only a button"
+      ],
+      "correctAnswer": "Text or an image",
+      "explanation": "Correct answer is A) Text or an image."
+    },
+    {
+      "questionText": "When the mouse moves over a hyperlink, the cursor changes into a:",
+      "options": [
+        "Arrow with question mark",
+        "Hourglass",
+        "Hand with a pointing index finger",
+        "Cross"
+      ],
+      "correctAnswer": "Hand with a pointing index finger",
+      "explanation": "Correct answer is C) Hand with a pointing index finger."
+    },
+    {
+      "questionText": "Which attribute of <a> specifies the URL of the linked page?",
+      "options": [
+        "link",
+        "url",
+        "href",
+        "src"
+      ],
+      "correctAnswer": "href",
+      "explanation": "Correct answer is C) href."
+    },
+    {
+      "questionText": "Which attribute was used to specify a section (anchor) of a Web page to be linked?",
+      "options": [
+        "name",
+        "rel",
+        "alt",
+        "title"
+      ],
+      "correctAnswer": "name",
+      "explanation": "Correct answer is A) name."
+    },
+    {
+      "questionText": "An <a> element cannot contain:",
+      "options": [
+        "Images",
+        "A <span>",
+        "Another <a> element",
+        "Text"
+      ],
+      "correctAnswer": "Another <a> element",
+      "explanation": "Correct answer is C) Another <a> element."
+    },
+    {
+      "questionText": "Which attribute specifies where the linked page will open?",
+      "options": [
+        "src",
+        "rel",
+        "href",
+        "target"
+      ],
+      "correctAnswer": "target",
+      "explanation": "Correct answer is D) target."
+    },
+    {
+      "questionText": "target=\"_self\" loads the target URL:",
+      "options": [
+        "In a new window",
+        "In the same window as the current page",
+        "In the parent frame",
+        "Nowhere"
+      ],
+      "correctAnswer": "In the same window as the current page",
+      "explanation": "Correct answer is B) In the same window as the current page."
+    },
+    {
+      "questionText": "target=\"_blank\" loads the target URL:",
+      "options": [
+        "In the same window",
+        "In a new window or tab",
+        "In the top frame",
+        "In a download"
+      ],
+      "correctAnswer": "In a new window or tab",
+      "explanation": "Correct answer is B) In a new window or tab."
+    },
+    {
+      "questionText": "target=\"_top\" loads the target URL:",
+      "options": [
+        "In the same frame",
+        "In the complete area of the window",
+        "In a new tab",
+        "In a pop-up"
+      ],
+      "correctAnswer": "In the complete area of the window",
+      "explanation": "Correct answer is B) In the complete area of the window."
+    },
+    {
+      "questionText": "target=\"_parent\" loads the URL in the:",
+      "options": [
+        "Same window only",
+        "Parent frame",
+        "New window",
+        "Footer"
+      ],
+      "correctAnswer": "Parent frame",
+      "explanation": "Correct answer is B) Parent frame."
+    },
+    {
+      "questionText": "By default (no target specified), a link opens in:",
+      "options": [
+        "A new window",
+        "The same window",
+        "The parent frame",
+        "A pop-up"
+      ],
+      "correctAnswer": "The same window",
+      "explanation": "Correct answer is B) The same window."
+    },
+    {
+      "questionText": "Absolute paths are links that contain:",
+      "options": [
+        "Only the file name",
+        "Only the folder name",
+        "No protocol",
+        "The complete address to reach a Web page"
+      ],
+      "correctAnswer": "The complete address to reach a Web page",
+      "explanation": "Correct answer is D) The complete address to reach a Web page."
+    },
+    {
+      "questionText": "Which path type is the best way to link to another Website?",
+      "options": [
+        "Local",
+        "Relative",
+        "Partial",
+        "Absolute"
+      ],
+      "correctAnswer": "Absolute",
+      "explanation": "Correct answer is D) Absolute."
+    },
+    {
+      "questionText": "Relative paths are used when:",
+      "options": [
+        "Files are in the same folder or nearby folders on the same site",
+        "Linking to e-mail",
+        "Linking to a download only",
+        "Linking to an external site"
+      ],
+      "correctAnswer": "Files are in the same folder or nearby folders on the same site",
+      "explanation": "Correct answer is A) Files are in the same folder or nearby folders on the same site."
+    },
+    {
+      "questionText": "To link to a file in a sub folder named \"about-us\", the href should be:",
+      "options": [
+        "href=\"/file.html/about-us\"",
+        "href=\"about-us/file.html\"",
+        "href=\"file.html@about-us\"",
+        "href=\"about-us:file.html\""
+      ],
+      "correctAnswer": "href=\"about-us/file.html\"",
+      "explanation": "Correct answer is B) href=\"about-us/file.html\"."
+    },
+    {
+      "questionText": "To link to a file one level up in a folder, which prefix is used in a relative path?",
+      "options": [
+        "~",
+        "//",
+        "./",
+        "../"
+      ],
+      "correctAnswer": "../",
+      "explanation": "Correct answer is D) ../."
+    },
+    {
+      "questionText": "An example of an absolute path is:",
+      "options": [
+        "page.html",
+        "http://www.example.com/page.html",
+        "about/page.html",
+        "../page.html"
+      ],
+      "correctAnswer": "http://www.example.com/page.html",
+      "explanation": "Correct answer is B) http://www.example.com/page.html."
+    },
+    {
+      "questionText": "Which keyword is used in href to link to an e-mail address?",
+      "options": [
+        "mail:",
+        "send:",
+        "email:",
+        "mailto:"
+      ],
+      "correctAnswer": "mailto:",
+      "explanation": "Correct answer is D) mailto:."
+    },
+    {
+      "questionText": "Which is the correct e-mail hyperlink?",
+      "options": [
+        "<a href=\"mailto:info@example.com\">Mail</a>",
+        "<a mail=\"info@example.com\">Mail</a>",
+        "<a href=\"info@example.com\">Mail</a>",
+        "<a src=\"mailto:info@example.com\">Mail</a>"
+      ],
+      "correctAnswer": "<a href=\"mailto:info@example.com\">Mail</a>",
+      "explanation": "Correct answer is A) <a href=\"mailto:info@example.com\">Mail</a>."
+    },
+    {
+      "questionText": "Clicking a mailto link usually:",
+      "options": [
+        "Opens a new browser",
+        "Downloads a file",
+        "Starts the default e-mail client",
+        "Closes the browser"
+      ],
+      "correctAnswer": "Starts the default e-mail client",
+      "explanation": "Correct answer is C) Starts the default e-mail client."
+    },
+    {
+      "questionText": "To add a subject line automatically in an e-mail link, which is used after the address?",
+      "options": [
+        "#subject",
+        "?subject=",
+        "&title=",
+        "/subject"
+      ],
+      "correctAnswer": "?subject=",
+      "explanation": "Correct answer is B) ?subject=."
+    },
+    {
+      "questionText": "Hyperlinks can also be used to link to:",
+      "options": [
+        "Only e-mails",
+        "Zipped files, executables, documents, and PDFs",
+        "Only HTML pages",
+        "Only images"
+      ],
+      "correctAnswer": "Zipped files, executables, documents, and PDFs",
+      "explanation": "Correct answer is B) Zipped files, executables, documents, and PDFs."
+    },
+    {
+      "questionText": "Which code downloads a zipped file?",
+      "options": [
+        "<a href=\"Compressed.zip\">Click to download</a>",
+        "<zip>Compressed.zip</zip>",
+        "<a src=\"Compressed.zip\">Click</a>",
+        "<link href=\"Compressed.zip\">"
+      ],
+      "correctAnswer": "<a href=\"Compressed.zip\">Click to download</a>",
+      "explanation": "Correct answer is A) <a href=\"Compressed.zip\">Click to download</a>."
+    },
+    {
+      "questionText": "Hyperlinks can also be used to link graphical files such as:",
+      "options": [
+        ".css only",
+        ".jpg and .gif",
+        ".js only",
+        ".xml only"
+      ],
+      "correctAnswer": ".jpg and .gif",
+      "explanation": "Correct answer is B) .jpg and .gif."
+    },
+    {
+      "questionText": "Which of the following is true about a linked image?",
+      "options": [
+        "Images require JavaScript to be links",
+        "Images can never be links",
+        "An image can serve as a hyperlink",
+        "Only text can be a link"
+      ],
+      "correctAnswer": "An image can serve as a hyperlink",
+      "explanation": "Correct answer is C) An image can serve as a hyperlink."
+    },
+    {
+      "questionText": "A Website is a collection of:",
+      "options": [
+        "Only databases",
+        "Web pages",
+        "Only images",
+        "Only servers"
+      ],
+      "correctAnswer": "Web pages",
+      "explanation": "Correct answer is B) Web pages."
+    },
+    {
+      "questionText": "Navigating between pages of a Website is facilitated by:",
+      "options": [
+        "Hyperlinks",
+        "Comments",
+        "Entities",
+        "Doctypes"
+      ],
+      "correctAnswer": "Hyperlinks",
+      "explanation": "Correct answer is A) Hyperlinks."
+    },
+    {
+      "questionText": "An anchor within the same page is typically referenced using the symbol:",
+      "options": [
+        "$",
+        "#",
+        "%",
+        "@"
+      ],
+      "correctAnswer": "#",
+      "explanation": "Correct answer is B) #."
+    },
+    {
+      "questionText": "To link to an element with id=\"top\" in the same page, use:",
+      "options": [
+        "href=\"@top\"",
+        "href=\"!top\"",
+        "href=\"top#\"",
+        "href=\"#top\""
+      ],
+      "correctAnswer": "href=\"#top\"",
+      "explanation": "Correct answer is D) href=\"#top\"."
+    },
+    {
+      "questionText": "A link to a section on a different page uses:",
+      "options": [
+        "page.html/section",
+        "page.html@section",
+        "page.html?section",
+        "page.html#section"
+      ],
+      "correctAnswer": "page.html#section",
+      "explanation": "Correct answer is D) page.html#section."
+    },
+    {
+      "questionText": "Which is the correct syntax to provide a hyperlink?",
+      "options": [
+        "<link a=\"URL\">text</link>",
+        "<a href=\"URL\">text</a>",
+        "<a>text href=\"URL\"</a>",
+        "<a url=\"URL\">text</a>"
+      ],
+      "correctAnswer": "<a href=\"URL\">text</a>",
+      "explanation": "Correct answer is B) <a href=\"URL\">text</a>."
+    },
+    {
+      "questionText": "The text between <a> and </a> is called the:",
+      "options": [
+        "Entity",
+        "Doctype",
+        "Title",
+        "Link text"
+      ],
+      "correctAnswer": "Link text",
+      "explanation": "Correct answer is D) Link text."
+    },
+    {
+      "questionText": "Which attribute provides tooltip text when hovering over a link?",
+      "options": [
+        "name",
+        "alt",
+        "title",
+        "tip"
+      ],
+      "correctAnswer": "title",
+      "explanation": "Correct answer is C) title."
+    },
+    {
+      "questionText": "A broken link usually results from:",
+      "options": [
+        "An incorrect path or URL",
+        "Using <br>",
+        "Using CSS",
+        "Using HTML5"
+      ],
+      "correctAnswer": "An incorrect path or URL",
+      "explanation": "Correct answer is A) An incorrect path or URL."
+    },
+    {
+      "questionText": "In a relative path, a file in the same folder is referenced by:",
+      "options": [
+        "Only the file name",
+        "The IP address",
+        "The full URL",
+        "The drive letter"
+      ],
+      "correctAnswer": "Only the file name",
+      "explanation": "Correct answer is A) Only the file name."
+    },
+    {
+      "questionText": "Which element should be used for a hyperlink on an image?",
+      "options": [
+        "<image href>",
+        "<link><img></link>",
+        "<img><a></img>",
+        "<a><img></a>"
+      ],
+      "correctAnswer": "<a><img></a>",
+      "explanation": "Correct answer is D) <a><img></a>."
+    },
+    {
+      "questionText": "When linking an .exe file for download, the file name is placed in the:",
+      "options": [
+        "name of <meta>",
+        "type of <link>",
+        "src of <img>",
+        "href attribute of <a>"
+      ],
+      "correctAnswer": "href attribute of <a>",
+      "explanation": "Correct answer is D) href attribute of <a>."
+    },
+    {
+      "questionText": "A link to a PDF help file allows users to:",
+      "options": [
+        "Only edit it",
+        "Convert it to HTML",
+        "Run it as a script",
+        "Download or view the document"
+      ],
+      "correctAnswer": "Download or view the document",
+      "explanation": "Correct answer is D) Download or view the document."
+    },
+    {
+      "questionText": "The mailto link can also hold multiple recipients separated by:",
+      "options": [
+        "Slashes",
+        "Hashes",
+        "Underscores",
+        "Commas"
+      ],
+      "correctAnswer": "Commas",
+      "explanation": "Correct answer is D) Commas."
+    },
+    {
+      "questionText": "Which of the following is NOT a valid value of the target attribute?",
+      "options": [
+        "_blank",
+        "_middle",
+        "_parent",
+        "_self"
+      ],
+      "correctAnswer": "_middle",
+      "explanation": "Correct answer is B) _middle."
+    },
+    {
+      "questionText": "Which protocol does a typical Web page link begin with?",
+      "options": [
+        "ftp:// only",
+        "file:// only",
+        "http://",
+        "mailto:"
+      ],
+      "correctAnswer": "http://",
+      "explanation": "Correct answer is C) http://."
+    },
+    {
+      "questionText": "Hyperlinks improve a Website by:",
+      "options": [
+        "Removing content",
+        "Hiding images",
+        "Blocking access",
+        "Enabling navigation between pages"
+      ],
+      "correctAnswer": "Enabling navigation between pages",
+      "explanation": "Correct answer is D) Enabling navigation between pages."
+    },
+    {
+      "questionText": "An absolute link remains valid even if:",
+      "options": [
+        "The linking page is moved to a different folder",
+        "The target site is removed",
+        "The URL is mistyped",
+        "The internet is disconnected"
+      ],
+      "correctAnswer": "The linking page is moved to a different folder",
+      "explanation": "Correct answer is A) The linking page is moved to a different folder."
+    },
+    {
+      "questionText": "In hyperlink terminology, \"anchor text\" refers to:",
+      "options": [
+        "The server address",
+        "The folder name",
+        "The clickable text of the link",
+        "The page title"
+      ],
+      "correctAnswer": "The clickable text of the link",
+      "explanation": "Correct answer is C) The clickable text of the link."
+    },
+    {
+      "questionText": "Hyperlinks to e-mail addresses can be used to:",
+      "options": [
+        "Format text",
+        "Create a new message with the recipient filled in",
+        "Change the browser",
+        "Delete messages"
+      ],
+      "correctAnswer": "Create a new message with the recipient filled in",
+      "explanation": "Correct answer is B) Create a new message with the recipient filled in."
+    }
+  ]
+}

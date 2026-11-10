@@ -1,0 +1,613 @@
+{
+  "category": "HTML",
+  "session": 14,
+  "title": "Session 14: HTML5 Geolocation and APIs",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "Geolocation is used to identify:",
+      "options": [
+        "The browser type",
+        "The IP of a server",
+        "The geographic location of a person, place, or object",
+        "The screen size"
+      ],
+      "correctAnswer": "The geographic location of a person, place, or object",
+      "explanation": "Correct answer is C) The geographic location of a person, place, or object."
+    },
+    {
+      "questionText": "A user's location is represented as a single point made of:",
+      "options": [
+        "Altitude and speed",
+        "Height and width",
+        "Latitude and longitude",
+        "Street and city"
+      ],
+      "correctAnswer": "Latitude and longitude",
+      "explanation": "Correct answer is C) Latitude and longitude."
+    },
+    {
+      "questionText": "Which of the following can be a source of location information?",
+      "options": [
+        "Cookies only",
+        "Fonts",
+        "GPS, IP address, WiFi/Bluetooth MAC address",
+        "CSS, HTML, JS"
+      ],
+      "correctAnswer": "GPS, IP address, WiFi/Bluetooth MAC address",
+      "explanation": "Correct answer is C) GPS, IP address, WiFi/Bluetooth MAC address."
+    },
+    {
+      "questionText": "GPS is maintained by the government of:",
+      "options": [
+        "India",
+        "The United States",
+        "China",
+        "Russia"
+      ],
+      "correctAnswer": "The United States",
+      "explanation": "Correct answer is B) The United States."
+    },
+    {
+      "questionText": "The Geolocation API is a specification provided by:",
+      "options": [
+        "IEEE",
+        "W3C",
+        "ISO",
+        "ECMA"
+      ],
+      "correctAnswer": "W3C",
+      "explanation": "Correct answer is B) W3C."
+    },
+    {
+      "questionText": "The Geolocation API provides:",
+      "options": [
+        "A database",
+        "A map image",
+        "A high-level interface to retrieve location information",
+        "A style sheet"
+      ],
+      "correctAnswer": "A high-level interface to retrieve location information",
+      "explanation": "Correct answer is C) A high-level interface to retrieve location information."
+    },
+    {
+      "questionText": "The Geolocation object is a property of the:",
+      "options": [
+        "history object",
+        "navigator object",
+        "location object",
+        "document object"
+      ],
+      "correctAnswer": "navigator object",
+      "explanation": "Correct answer is B) navigator object."
+    },
+    {
+      "questionText": "Which code checks for geolocation support?",
+      "options": [
+        "if (document.geolocation)",
+        "if (navigator.geolocation)",
+        "if (window.geo)",
+        "if (location.geo)"
+      ],
+      "correctAnswer": "if (navigator.geolocation)",
+      "explanation": "Correct answer is B) if (navigator.geolocation)."
+    },
+    {
+      "questionText": "How many methods does the Geolocation object provide (as per session)?",
+      "options": [
+        "Five",
+        "Seven",
+        "Three",
+        "Two"
+      ],
+      "correctAnswer": "Three",
+      "explanation": "Correct answer is C) Three."
+    },
+    {
+      "questionText": "getCurrentPosition() is used to:",
+      "options": [
+        "Watch position changes",
+        "Retrieve the user's current position",
+        "Clear watching",
+        "Display a map"
+      ],
+      "correctAnswer": "Retrieve the user's current position",
+      "explanation": "Correct answer is B) Retrieve the user's current position."
+    },
+    {
+      "questionText": "watchPosition() is used to:",
+      "options": [
+        "Retrieve position once",
+        "Stop tracking",
+        "Display a map",
+        "Retrieve the position at regular intervals and notify changes"
+      ],
+      "correctAnswer": "Retrieve the position at regular intervals and notify changes",
+      "explanation": "Correct answer is D) Retrieve the position at regular intervals and notify changes."
+    },
+    {
+      "questionText": "Which method stops watching the position?",
+      "options": [
+        "endPosition()",
+        "stopWatch()",
+        "clearWatch()",
+        "removeWatch()"
+      ],
+      "correctAnswer": "clearWatch()",
+      "explanation": "Correct answer is C) clearWatch()."
+    },
+    {
+      "questionText": "getCurrentPosition() accepts how many parameters?",
+      "options": [
+        "One",
+        "Four",
+        "Three (success callback, error callback, options)",
+        "Two"
+      ],
+      "correctAnswer": "Three (success callback, error callback, options)",
+      "explanation": "Correct answer is C) Three (success callback, error callback, options)."
+    },
+    {
+      "questionText": "The first parameter of getCurrentPosition() is the:",
+      "options": [
+        "Latitude",
+        "Success callback function",
+        "Options",
+        "Error callback"
+      ],
+      "correctAnswer": "Success callback function",
+      "explanation": "Correct answer is B) Success callback function."
+    },
+    {
+      "questionText": "The second parameter of getCurrentPosition() is the:",
+      "options": [
+        "Success callback",
+        "Options",
+        "Error callback function",
+        "Longitude"
+      ],
+      "correctAnswer": "Error callback function",
+      "explanation": "Correct answer is C) Error callback function."
+    },
+    {
+      "questionText": "The third parameter of getCurrentPosition() is the:",
+      "options": [
+        "Latitude",
+        "Success callback",
+        "PositionOptions object",
+        "Map"
+      ],
+      "correctAnswer": "PositionOptions object",
+      "explanation": "Correct answer is C) PositionOptions object."
+    },
+    {
+      "questionText": "Latitude and longitude values are retrieved using:",
+      "options": [
+        "position.coords",
+        "position.page",
+        "position.map",
+        "position.url"
+      ],
+      "correctAnswer": "position.coords",
+      "explanation": "Correct answer is A) position.coords."
+    },
+    {
+      "questionText": "Latitude and longitude values are expressed in:",
+      "options": [
+        "Decimal degrees",
+        "Pixels",
+        "Radians",
+        "Meters"
+      ],
+      "correctAnswer": "Decimal degrees",
+      "explanation": "Correct answer is A) Decimal degrees."
+    },
+    {
+      "questionText": "Before sharing location, the browser asks for:",
+      "options": [
+        "The user's permission",
+        "The server's permission",
+        "No permission",
+        "The ISP's permission"
+      ],
+      "correctAnswer": "The user's permission",
+      "explanation": "Correct answer is A) The user's permission."
+    },
+    {
+      "questionText": "The error object passed to the error callback is of type:",
+      "options": [
+        "GeoError",
+        "LocationError",
+        "PositionError",
+        "CoordError"
+      ],
+      "correctAnswer": "PositionError",
+      "explanation": "Correct answer is C) PositionError."
+    },
+    {
+      "questionText": "PositionError code 1 stands for:",
+      "options": [
+        "UNKNOWN",
+        "POSITION_UNAVAILABLE",
+        "PERMISSION_DENIED",
+        "TIMEOUT"
+      ],
+      "correctAnswer": "PERMISSION_DENIED",
+      "explanation": "Correct answer is C) PERMISSION_DENIED."
+    },
+    {
+      "questionText": "POSITION_UNAVAILABLE means:",
+      "options": [
+        "Success",
+        "The position of the device could not be obtained",
+        "Permission denied",
+        "Timeout"
+      ],
+      "correctAnswer": "The position of the device could not be obtained",
+      "explanation": "Correct answer is B) The position of the device could not be obtained."
+    },
+    {
+      "questionText": "The message property of PositionError returns:",
+      "options": [
+        "The accuracy",
+        "A detailed message describing the error",
+        "The latitude",
+        "A numeric code"
+      ],
+      "correctAnswer": "A detailed message describing the error",
+      "explanation": "Correct answer is B) A detailed message describing the error."
+    },
+    {
+      "questionText": "The maximumAge option:",
+      "options": [
+        "Sets map type",
+        "Sets zoom",
+        "Sets accuracy",
+        "Allows using a cached position not older than the limit in milliseconds"
+      ],
+      "correctAnswer": "Allows using a cached position not older than the limit in milliseconds",
+      "explanation": "Correct answer is D) Allows using a cached position not older than the limit in milliseconds."
+    },
+    {
+      "questionText": "The timeout option specifies:",
+      "options": [
+        "The cache age",
+        "The zoom",
+        "The maximum time in milliseconds to get the position",
+        "The accuracy"
+      ],
+      "correctAnswer": "The maximum time in milliseconds to get the position",
+      "explanation": "Correct answer is C) The maximum time in milliseconds to get the position."
+    },
+    {
+      "questionText": "Which object is instantiated to display a Google Map?",
+      "options": [
+        "google.maps.View",
+        "google.maps.Page",
+        "google.maps.Map",
+        "google.maps.Canvas"
+      ],
+      "correctAnswer": "google.maps.Map",
+      "explanation": "Correct answer is C) google.maps.Map."
+    },
+    {
+      "questionText": "Which Google Maps option sets the initial resolution?",
+      "options": [
+        "zoom",
+        "mapTypeId",
+        "position",
+        "center"
+      ],
+      "correctAnswer": "zoom",
+      "explanation": "Correct answer is A) zoom."
+    },
+    {
+      "questionText": "A lower zoom value such as 0 displays:",
+      "options": [
+        "A full map of the Earth",
+        "A building",
+        "A street-level map",
+        "A satellite map only"
+      ],
+      "correctAnswer": "A full map of the Earth",
+      "explanation": "Correct answer is A) A full map of the Earth."
+    },
+    {
+      "questionText": "Which mapTypeId displays normal road map?",
+      "options": [
+        "HYBRID",
+        "SATELLITE",
+        "ROADMAP",
+        "TERRAIN"
+      ],
+      "correctAnswer": "ROADMAP",
+      "explanation": "Correct answer is C) ROADMAP."
+    },
+    {
+      "questionText": "Which mapTypeId displays roads and city names over photographic tiles?",
+      "options": [
+        "TERRAIN",
+        "SATELLITE",
+        "HYBRID",
+        "ROADMAP"
+      ],
+      "correctAnswer": "HYBRID",
+      "explanation": "Correct answer is C) HYBRID."
+    },
+    {
+      "questionText": "Which mapTypeId displays physical features like water?",
+      "options": [
+        "SATELLITE",
+        "TERRAIN",
+        "HYBRID",
+        "ROADMAP"
+      ],
+      "correctAnswer": "TERRAIN",
+      "explanation": "Correct answer is B) TERRAIN."
+    },
+    {
+      "questionText": "The Marker object is used to:",
+      "options": [
+        "Create the map",
+        "Zoom",
+        "Draw a line",
+        "Display an icon at a location on the map"
+      ],
+      "correctAnswer": "Display an icon at a location on the map",
+      "explanation": "Correct answer is D) Display an icon at a location on the map."
+    },
+    {
+      "questionText": "The \"sensor\" parameter in the Google Maps API URL indicates:",
+      "options": [
+        "The zoom",
+        "The title",
+        "The map type",
+        "Whether the application uses a sensor such as GPS"
+      ],
+      "correctAnswer": "Whether the application uses a sensor such as GPS",
+      "explanation": "Correct answer is D) Whether the application uses a sensor such as GPS."
+    },
+    {
+      "questionText": "Drag-and-drop in HTML5 is based on:",
+      "options": [
+        "Cookies",
+        "Tables",
+        "Events",
+        "Plug-ins"
+      ],
+      "correctAnswer": "Events",
+      "explanation": "Correct answer is C) Events."
+    },
+    {
+      "questionText": "To perform a drag, a ______ event is triggered followed by mousemove events.",
+      "options": [
+        "keydown",
+        "click",
+        "submit",
+        "mousedown"
+      ],
+      "correctAnswer": "mousedown",
+      "explanation": "Correct answer is D) mousedown."
+    },
+    {
+      "questionText": "To make an element draggable, set the attribute:",
+      "options": [
+        "dropzone=\"true\"",
+        "drag=\"yes\"",
+        "draggable=\"true\"",
+        "movable=\"true\""
+      ],
+      "correctAnswer": "draggable=\"true\"",
+      "explanation": "Correct answer is C) draggable=\"true\"."
+    },
+    {
+      "questionText": "Which event triggers when dragging of an element starts?",
+      "options": [
+        "drag",
+        "dragend",
+        "dragstart",
+        "dragenter"
+      ],
+      "correctAnswer": "dragstart",
+      "explanation": "Correct answer is C) dragstart."
+    },
+    {
+      "questionText": "Which event fires continuously while an element is being dragged?",
+      "options": [
+        "dragstart",
+        "drop",
+        "drag",
+        "dragenter"
+      ],
+      "correctAnswer": "drag",
+      "explanation": "Correct answer is C) drag."
+    },
+    {
+      "questionText": "Which event triggers when the drag operation ends?",
+      "options": [
+        "dragend",
+        "dragstart",
+        "drop",
+        "dragover"
+      ],
+      "correctAnswer": "dragend",
+      "explanation": "Correct answer is A) dragend."
+    },
+    {
+      "questionText": "The dataTransfer object is used to:",
+      "options": [
+        "Play media",
+        "Draw on canvas",
+        "Store cookies",
+        "Get and set the data being dragged"
+      ],
+      "correctAnswer": "Get and set the data being dragged",
+      "explanation": "Correct answer is D) Get and set the data being dragged."
+    },
+    {
+      "questionText": "The setData() method of dataTransfer:",
+      "options": [
+        "Drops data",
+        "Clears data",
+        "Stores data during a drag operation",
+        "Reads data"
+      ],
+      "correctAnswer": "Stores data during a drag operation",
+      "explanation": "Correct answer is C) Stores data during a drag operation."
+    },
+    {
+      "questionText": "By default, elements are:",
+      "options": [
+        "Hidden",
+        "Draggable",
+        "Not set up to receive dragged elements",
+        "Ready to receive drops"
+      ],
+      "correctAnswer": "Not set up to receive dragged elements",
+      "explanation": "Correct answer is C) Not set up to receive dragged elements."
+    },
+    {
+      "questionText": "The target on which an element is dropped is called the:",
+      "options": [
+        "Drop (target) element",
+        "Root element",
+        "Source element",
+        "Parent element"
+      ],
+      "correctAnswer": "Drop (target) element",
+      "explanation": "Correct answer is A) Drop (target) element."
+    },
+    {
+      "questionText": "Which event fires when a draggable element enters the target element?",
+      "options": [
+        "dragstart",
+        "dragleave",
+        "dragenter",
+        "dragend"
+      ],
+      "correctAnswer": "dragenter",
+      "explanation": "Correct answer is C) dragenter."
+    },
+    {
+      "questionText": "Which event fires when a draggable element leaves the target element?",
+      "options": [
+        "drop",
+        "dragleave",
+        "dragenter",
+        "drag"
+      ],
+      "correctAnswer": "dragleave",
+      "explanation": "Correct answer is B) dragleave."
+    },
+    {
+      "questionText": "Which event fires while an element is dragged over the target?",
+      "options": [
+        "dragend",
+        "dragover",
+        "drag",
+        "dragenter"
+      ],
+      "correctAnswer": "dragover",
+      "explanation": "Correct answer is B) dragover."
+    },
+    {
+      "questionText": "Which event fires when an element is dropped on the target?",
+      "options": [
+        "dragstart",
+        "dragover",
+        "dragend",
+        "drop"
+      ],
+      "correctAnswer": "drop",
+      "explanation": "Correct answer is D) drop."
+    },
+    {
+      "questionText": "Why is event.preventDefault() called in dragover?",
+      "options": [
+        "To allow dropping on the target element",
+        "To clear data",
+        "To stop dragging",
+        "To reload page"
+      ],
+      "correctAnswer": "To allow dropping on the target element",
+      "explanation": "Correct answer is A) To allow dropping on the target element."
+    },
+    {
+      "questionText": "The offline Web applications API uses:",
+      "options": [
+        "Cookies",
+        "Server sessions",
+        "Plug-ins",
+        "A manifest file and application cache"
+      ],
+      "correctAnswer": "A manifest file and application cache",
+      "explanation": "Correct answer is D) A manifest file and application cache."
+    },
+    {
+      "questionText": "The manifest file lists:",
+      "options": [
+        "Map data",
+        "Videos only",
+        "Resources to be cached for offline use",
+        "The user's cookies"
+      ],
+      "correctAnswer": "Resources to be cached for offline use",
+      "explanation": "Correct answer is C) Resources to be cached for offline use."
+    },
+    {
+      "questionText": "A manifest is declared using the ______ attribute of the <html> tag.",
+      "options": [
+        "manifest",
+        "cache",
+        "offline",
+        "store"
+      ],
+      "correctAnswer": "manifest",
+      "explanation": "Correct answer is A) manifest."
+    },
+    {
+      "questionText": "The manifest file must begin with:",
+      "options": [
+        "MANIFEST START",
+        "CACHE BEGIN",
+        "OFFLINE FILE",
+        "CACHE MANIFEST"
+      ],
+      "correctAnswer": "CACHE MANIFEST",
+      "explanation": "Correct answer is D) CACHE MANIFEST."
+    },
+    {
+      "questionText": "In the manifest file, resources that always need a network connection are listed under:",
+      "options": [
+        "CACHE",
+        "OFFLINE",
+        "NETWORK",
+        "FALLBACK"
+      ],
+      "correctAnswer": "NETWORK",
+      "explanation": "Correct answer is C) NETWORK."
+    },
+    {
+      "questionText": "The FALLBACK section of a manifest specifies:",
+      "options": [
+        "Pages to cache",
+        "Comments",
+        "Pages to display when a resource is unavailable offline",
+        "Network-only pages"
+      ],
+      "correctAnswer": "Pages to display when a resource is unavailable offline",
+      "explanation": "Correct answer is C) Pages to display when a resource is unavailable offline."
+    },
+    {
+      "questionText": "The manifest file extension is usually:",
+      "options": [
+        ".html",
+        ".appcache",
+        ".js",
+        ".css"
+      ],
+      "correctAnswer": ".appcache",
+      "explanation": "Correct answer is B) .appcache."
+    }
+  ]
+}

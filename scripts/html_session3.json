@@ -1,0 +1,558 @@
+{
+  "category": "HTML",
+  "session": 3,
+  "title": "Session 3: Formatting Text Using Tags",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "HTML defines how many levels of headings?",
+      "options": [
+        "Four",
+        "Eight",
+        "Six",
+        "Three"
+      ],
+      "correctAnswer": "Six",
+      "explanation": "Correct answer is C) Six."
+    },
+    {
+      "questionText": "Which heading element is displayed with the largest size by default?",
+      "options": [
+        "<head>",
+        "<h6>",
+        "<h1>",
+        "<h3>"
+      ],
+      "correctAnswer": "<h1>",
+      "explanation": "Correct answer is C) <h1>."
+    },
+    {
+      "questionText": "Which heading element specifies the lowest-level heading?",
+      "options": [
+        "<h7>",
+        "<h3>",
+        "<h1>",
+        "<h6>"
+      ],
+      "correctAnswer": "<h6>",
+      "explanation": "Correct answer is D) <h6>."
+    },
+    {
+      "questionText": "The <hgroup> element is used to:",
+      "options": [
+        "Group table rows",
+        "Group titles and their subtitles",
+        "Group list items",
+        "Group images"
+      ],
+      "correctAnswer": "Group titles and their subtitles",
+      "explanation": "Correct answer is B) Group titles and their subtitles."
+    },
+    {
+      "questionText": "<hgroup> groups a set of:",
+      "options": [
+        "<td> elements",
+        "<h1>–<h6> elements",
+        "<li> elements",
+        "<p> elements"
+      ],
+      "correctAnswer": "<h1>–<h6> elements",
+      "explanation": "Correct answer is B) <h1>–<h6> elements."
+    },
+    {
+      "questionText": "The main advantage of the <hgroup> tag is to:",
+      "options": [
+        "Create a document outline",
+        "Format tables",
+        "Change font color",
+        "Add images"
+      ],
+      "correctAnswer": "Create a document outline",
+      "explanation": "Correct answer is A) Create a document outline."
+    },
+    {
+      "questionText": "Formatting elements in HTML are:",
+      "options": [
+        "Entities",
+        "Container elements",
+        "Standalone elements",
+        "Global attributes"
+      ],
+      "correctAnswer": "Container elements",
+      "explanation": "Correct answer is B) Container elements."
+    },
+    {
+      "questionText": "Which element displays text in bold?",
+      "options": [
+        "<b>",
+        "<sub>",
+        "<u>",
+        "<i>"
+      ],
+      "correctAnswer": "<b>",
+      "explanation": "Correct answer is A) <b>."
+    },
+    {
+      "questionText": "Which element displays text in italic?",
+      "options": [
+        "<i>",
+        "<b>",
+        "<small>",
+        "<ins>"
+      ],
+      "correctAnswer": "<i>",
+      "explanation": "Correct answer is A) <i>."
+    },
+    {
+      "questionText": "Which element makes text appear smaller than surrounding text?",
+      "options": [
+        "<sub>",
+        "<sup>",
+        "<del>",
+        "<small>"
+      ],
+      "correctAnswer": "<small>",
+      "explanation": "Correct answer is D) <small>."
+    },
+    {
+      "questionText": "Which element underlines text?",
+      "options": [
+        "<i>",
+        "<del>",
+        "<b>",
+        "<u>"
+      ],
+      "correctAnswer": "<u>",
+      "explanation": "Correct answer is D) <u>."
+    },
+    {
+      "questionText": "Which element encloses text that has been deleted from the document?",
+      "options": [
+        "<del>",
+        "<strong>",
+        "<ins>",
+        "<sub>"
+      ],
+      "correctAnswer": "<del>",
+      "explanation": "Correct answer is A) <del>."
+    },
+    {
+      "questionText": "Which element encloses text that has been inserted in a document?",
+      "options": [
+        "<pre>",
+        "<del>",
+        "<ins>",
+        "<sub>"
+      ],
+      "correctAnswer": "<ins>",
+      "explanation": "Correct answer is C) <ins>."
+    },
+    {
+      "questionText": "<ins> and <del> can be used together to:",
+      "options": [
+        "Show deleted text replaced by new text",
+        "Add images",
+        "Create tables",
+        "Create lists"
+      ],
+      "correctAnswer": "Show deleted text replaced by new text",
+      "explanation": "Correct answer is A) Show deleted text replaced by new text."
+    },
+    {
+      "questionText": "Which element emphasizes text compared to its surrounding text?",
+      "options": [
+        "<pre>",
+        "<sub>",
+        "<small>",
+        "<strong>"
+      ],
+      "correctAnswer": "<strong>",
+      "explanation": "Correct answer is D) <strong>."
+    },
+    {
+      "questionText": "Which element displays text as a subscript?",
+      "options": [
+        "<ins>",
+        "<small>",
+        "<sup>",
+        "<sub>"
+      ],
+      "correctAnswer": "<sub>",
+      "explanation": "Correct answer is D) <sub>."
+    },
+    {
+      "questionText": "Which element displays text as a superscript?",
+      "options": [
+        "<b>",
+        "<sup>",
+        "<del>",
+        "<sub>"
+      ],
+      "correctAnswer": "<sup>",
+      "explanation": "Correct answer is B) <sup>."
+    },
+    {
+      "questionText": "Which tags would you use to write H2O correctly?",
+      "options": [
+        "<sup>",
+        "<ins>",
+        "<del>",
+        "<sub>"
+      ],
+      "correctAnswer": "<sub>",
+      "explanation": "Correct answer is D) <sub>."
+    },
+    {
+      "questionText": "Which tags would you use to write X² correctly?",
+      "options": [
+        "<sub>",
+        "<sup>",
+        "<small>",
+        "<u>"
+      ],
+      "correctAnswer": "<sup>",
+      "explanation": "Correct answer is B) <sup>."
+    },
+    {
+      "questionText": "Monospaced fonts provide:",
+      "options": [
+        "The same amount of horizontal space for each character",
+        "Italic text",
+        "Variable spacing between characters",
+        "Colored text"
+      ],
+      "correctAnswer": "The same amount of horizontal space for each character",
+      "explanation": "Correct answer is A) The same amount of horizontal space for each character."
+    },
+    {
+      "questionText": "Monospaced fonts are commonly used for:",
+      "options": [
+        "Images",
+        "Headings only",
+        "Programming code, instruction text, and ASCII characters",
+        "Links"
+      ],
+      "correctAnswer": "Programming code, instruction text, and ASCII characters",
+      "explanation": "Correct answer is C) Programming code, instruction text, and ASCII characters."
+    },
+    {
+      "questionText": "The <pre> tag is used to:",
+      "options": [
+        "Create a list",
+        "Insert an image",
+        "Apply preformatted text that retains spaces and line breaks",
+        "Add a title"
+      ],
+      "correctAnswer": "Apply preformatted text that retains spaces and line breaks",
+      "explanation": "Correct answer is C) Apply preformatted text that retains spaces and line breaks."
+    },
+    {
+      "questionText": "The <pre> tag applies a ______ font width to the text.",
+      "options": [
+        "Random",
+        "Variable",
+        "Fixed",
+        "Zero"
+      ],
+      "correctAnswer": "Fixed",
+      "explanation": "Correct answer is C) Fixed."
+    },
+    {
+      "questionText": "Which tag defines a long (block) quotation?",
+      "options": [
+        "<quote>",
+        "<cite>",
+        "<q>",
+        "<blockquote>"
+      ],
+      "correctAnswer": "<blockquote>",
+      "explanation": "Correct answer is D) <blockquote>."
+    },
+    {
+      "questionText": "HTML supports how many types of lists?",
+      "options": [
+        "Two",
+        "Four",
+        "Three",
+        "Five"
+      ],
+      "correctAnswer": "Three",
+      "explanation": "Correct answer is C) Three."
+    },
+    {
+      "questionText": "An ordered list is used when:",
+      "options": [
+        "Images are displayed",
+        "Terms and descriptions are shown",
+        "Order is not important",
+        "The order of items is important"
+      ],
+      "correctAnswer": "The order of items is important",
+      "explanation": "Correct answer is D) The order of items is important."
+    },
+    {
+      "questionText": "Which tag creates an ordered list?",
+      "options": [
+        "<ul>",
+        "<ol>",
+        "<dl>",
+        "<li>"
+      ],
+      "correctAnswer": "<ol>",
+      "explanation": "Correct answer is B) <ol>."
+    },
+    {
+      "questionText": "Each item in an ordered or unordered list is defined by:",
+      "options": [
+        "<dd>",
+        "<li>",
+        "<dt>",
+        "<item>"
+      ],
+      "correctAnswer": "<li>",
+      "explanation": "Correct answer is B) <li>."
+    },
+    {
+      "questionText": "Items in an ordered list are displayed using:",
+      "options": [
+        "Numbered or alphabetic bullets",
+        "No markers",
+        "Only squares",
+        "Only discs"
+      ],
+      "correctAnswer": "Numbered or alphabetic bullets",
+      "explanation": "Correct answer is A) Numbered or alphabetic bullets."
+    },
+    {
+      "questionText": "The property used to specify a numbering style for a list is:",
+      "options": [
+        "number-style",
+        "list-style-type",
+        "bullet-type",
+        "list-type"
+      ],
+      "correctAnswer": "list-style-type",
+      "explanation": "Correct answer is B) list-style-type."
+    },
+    {
+      "questionText": "Setting list-style-type to lower-roman displays items as:",
+      "options": [
+        "i, ii, iii",
+        "I, II, III",
+        "1, 2, 3",
+        "a, b, c"
+      ],
+      "correctAnswer": "i, ii, iii",
+      "explanation": "Correct answer is A) i, ii, iii."
+    },
+    {
+      "questionText": "Which attribute value of list-style-type gives uppercase alphabetic bullets?",
+      "options": [
+        "lower-alpha",
+        "upper-alpha",
+        "decimal",
+        "disc"
+      ],
+      "correctAnswer": "upper-alpha",
+      "explanation": "Correct answer is B) upper-alpha."
+    },
+    {
+      "questionText": "An unordered list is created using the:",
+      "options": [
+        "<ul> tag",
+        "<ol> tag",
+        "<dl> tag",
+        "<dt> tag"
+      ],
+      "correctAnswer": "<ul> tag",
+      "explanation": "Correct answer is A) <ul> tag."
+    },
+    {
+      "questionText": "Unordered lists are used when:",
+      "options": [
+        "Numbers are needed",
+        "A sequence is required",
+        "The order of items is not important",
+        "Terms need definitions"
+      ],
+      "correctAnswer": "The order of items is not important",
+      "explanation": "Correct answer is C) The order of items is not important."
+    },
+    {
+      "questionText": "The default bullet in an unordered list is:",
+      "options": [
+        "Circle",
+        "Number",
+        "Disc",
+        "Square"
+      ],
+      "correctAnswer": "Disc",
+      "explanation": "Correct answer is C) Disc."
+    },
+    {
+      "questionText": "Which are the three bullet types for unordered lists?",
+      "options": [
+        "circle, line, dot",
+        "disc, square, circle",
+        "decimal, roman, alpha",
+        "disc, square, number"
+      ],
+      "correctAnswer": "disc, square, circle",
+      "explanation": "Correct answer is B) disc, square, circle."
+    },
+    {
+      "questionText": "A definition list is created using:",
+      "options": [
+        "<dl>",
+        "<ul>",
+        "<li>",
+        "<ol>"
+      ],
+      "correctAnswer": "<dl>",
+      "explanation": "Correct answer is A) <dl>."
+    },
+    {
+      "questionText": "In a definition list, the term is specified by:",
+      "options": [
+        "<dl>",
+        "<dt>",
+        "<li>",
+        "<dd>"
+      ],
+      "correctAnswer": "<dt>",
+      "explanation": "Correct answer is B) <dt>."
+    },
+    {
+      "questionText": "In a definition list, the description is specified by:",
+      "options": [
+        "<dt>",
+        "<dd>",
+        "<ul>",
+        "<li>"
+      ],
+      "correctAnswer": "<dd>",
+      "explanation": "Correct answer is B) <dd>."
+    },
+    {
+      "questionText": "By default, the description in a definition list appears:",
+      "options": [
+        "On the next line, indented",
+        "Hidden",
+        "On the same line as the term",
+        "Above the term"
+      ],
+      "correctAnswer": "On the next line, indented",
+      "explanation": "Correct answer is A) On the next line, indented."
+    },
+    {
+      "questionText": "A definition list is suitable for creating:",
+      "options": [
+        "A photo gallery",
+        "A form",
+        "A glossary",
+        "A numbered menu"
+      ],
+      "correctAnswer": "A glossary",
+      "explanation": "Correct answer is C) A glossary."
+    },
+    {
+      "questionText": "A list in HTML can contain:",
+      "options": [
+        "Only text",
+        "Paragraphs, line breaks, images, links, and other lists",
+        "Only numbers",
+        "Only images"
+      ],
+      "correctAnswer": "Paragraphs, line breaks, images, links, and other lists",
+      "explanation": "Correct answer is B) Paragraphs, line breaks, images, links, and other lists."
+    },
+    {
+      "questionText": "A list nested inside another list is called a:",
+      "options": [
+        "Root list",
+        "Nested list",
+        "Broken list",
+        "Hidden list"
+      ],
+      "correctAnswer": "Nested list",
+      "explanation": "Correct answer is B) Nested list."
+    },
+    {
+      "questionText": "Which CSS property is commonly used to change the background color of a page?",
+      "options": [
+        "page-color",
+        "color",
+        "background-color",
+        "bgcolor-style"
+      ],
+      "correctAnswer": "background-color",
+      "explanation": "Correct answer is C) background-color."
+    },
+    {
+      "questionText": "Which of the following can be used to set the background color of a Web page in the body?",
+      "options": [
+        "style=\"background-color:yellow\"",
+        "style=\"text-color:yellow\"",
+        "style=\"page:yellow\"",
+        "style=\"font:yellow\""
+      ],
+      "correctAnswer": "style=\"background-color:yellow\"",
+      "explanation": "Correct answer is A) style=\"background-color:yellow\"."
+    },
+    {
+      "questionText": "Which element creates a line break?",
+      "options": [
+        "<br>",
+        "<break>",
+        "<lb>",
+        "<hr>"
+      ],
+      "correctAnswer": "<br>",
+      "explanation": "Correct answer is A) <br>."
+    },
+    {
+      "questionText": "Which element inserts a horizontal rule?",
+      "options": [
+        "<hr>",
+        "<rule>",
+        "<line>",
+        "<br>"
+      ],
+      "correctAnswer": "<hr>",
+      "explanation": "Correct answer is A) <hr>."
+    },
+    {
+      "questionText": "Which tag defines a paragraph?",
+      "options": [
+        "<ph>",
+        "<p>",
+        "<pg>",
+        "<para>"
+      ],
+      "correctAnswer": "<p>",
+      "explanation": "Correct answer is B) <p>."
+    },
+    {
+      "questionText": "Which of the following best describes the benefit of text formatting?",
+      "options": [
+        "Makes pages readable and presentable",
+        "Makes pages slower",
+        "Hides text",
+        "Removes content"
+      ],
+      "correctAnswer": "Makes pages readable and presentable",
+      "explanation": "Correct answer is A) Makes pages readable and presentable."
+    },
+    {
+      "questionText": "Heading elements specify the ______ structure of a Web page.",
+      "options": [
+        "Binary",
+        "Random",
+        "Linear only",
+        "Hierarchical"
+      ],
+      "correctAnswer": "Hierarchical",
+      "explanation": "Correct answer is D) Hierarchical."
+    }
+  ]
+}

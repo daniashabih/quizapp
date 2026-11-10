@@ -358,7 +358,7 @@ export default function Technologies() {
                                             </div>
                                             <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
                                                 <Layers size={13} /> 
-                                                {hasMultipleSessions ? `Sessions: ${cat.sessions.join(', ')}` : 'Multi-Session'}
+                                                {hasMultipleSessions ? (cat.sessions.length > 5 ? `${cat.sessions.length} Sessions` : `Sessions: ${cat.sessions.join(', ')}`) : 'Multi-Session'}
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-1 pt-2.5 text-xs font-semibold text-black group-hover:gap-2 transition-all">

@@ -1,0 +1,613 @@
+{
+  "category": "HTML",
+  "session": 15,
+  "title": "Session 15: Building Mobile Web Applications",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "A mobile device is also known as a:",
+      "options": [
+        "Server",
+        "Handheld device",
+        "Mainframe",
+        "Desktop"
+      ],
+      "correctAnswer": "Handheld device",
+      "explanation": "Correct answer is B) Handheld device."
+    },
+    {
+      "questionText": "Application software on mobile devices is also called:",
+      "options": [
+        "Kernels",
+        "Apps",
+        "Firmware",
+        "Drivers"
+      ],
+      "correctAnswer": "Apps",
+      "explanation": "Correct answer is B) Apps."
+    },
+    {
+      "questionText": "Which mobile device category is low cost with basic features and a basic camera?",
+      "options": [
+        "Tablets",
+        "Smartphones",
+        "Low-end devices",
+        "High-end devices"
+      ],
+      "correctAnswer": "Low-end devices",
+      "explanation": "Correct answer is C) Low-end devices."
+    },
+    {
+      "questionText": "Mid-end mobile devices usually have:",
+      "options": [
+        "A stylus",
+        "A proprietary OS that is not well known",
+        "No browser",
+        "A desktop-like OS"
+      ],
+      "correctAnswer": "A proprietary OS that is not well known",
+      "explanation": "Correct answer is B) A proprietary OS that is not well known."
+    },
+    {
+      "questionText": "High-end devices typically include features like:",
+      "options": [
+        "Accelerometer, advanced camera, and Bluetooth",
+        "No camera",
+        "No browser",
+        "Only calling"
+      ],
+      "correctAnswer": "Accelerometer, advanced camera, and Bluetooth",
+      "explanation": "Correct answer is A) Accelerometer, advanced camera, and Bluetooth."
+    },
+    {
+      "questionText": "Smartphones are characterized by:",
+      "options": [
+        "Only voice calls",
+        "Multitasking and full browser support similar to desktop",
+        "No Web access",
+        "A tiny screen only"
+      ],
+      "correctAnswer": "Multitasking and full browser support similar to desktop",
+      "explanation": "Correct answer is B) Multitasking and full browser support similar to desktop."
+    },
+    {
+      "questionText": "Tablets and notebooks are larger than mobile phones and have:",
+      "options": [
+        "No browser",
+        "No screen",
+        "A physical keyboard only",
+        "A multi-touch display"
+      ],
+      "correctAnswer": "A multi-touch display",
+      "explanation": "Correct answer is D) A multi-touch display."
+    },
+    {
+      "questionText": "A mobile platform is responsible for:",
+      "options": [
+        "Hosting Web servers",
+        "Printing",
+        "Compiling HTML",
+        "Interacting with device hardware and running software"
+      ],
+      "correctAnswer": "Interacting with device hardware and running software",
+      "explanation": "Correct answer is D) Interacting with device hardware and running software."
+    },
+    {
+      "questionText": "Mobile platforms are categorized as:",
+      "options": [
+        "Static and dynamic",
+        "Free and paid only",
+        "Proprietary and open source",
+        "Public and private"
+      ],
+      "correctAnswer": "Proprietary and open source",
+      "explanation": "Correct answer is C) Proprietary and open source."
+    },
+    {
+      "questionText": "Proprietary platforms are:",
+      "options": [
+        "Open to all",
+        "Designed and developed by device manufacturers",
+        "Freely editable by users",
+        "Community-owned"
+      ],
+      "correctAnswer": "Designed and developed by device manufacturers",
+      "explanation": "Correct answer is B) Designed and developed by device manufacturers."
+    },
+    {
+      "questionText": "Open source platforms are those:",
+      "options": [
+        "Whose source code users can download and alter",
+        "That are manufacturer-only",
+        "That are closed",
+        "That are paid"
+      ],
+      "correctAnswer": "Whose source code users can download and alter",
+      "explanation": "Correct answer is A) Whose source code users can download and alter."
+    },
+    {
+      "questionText": "iOS was initially referred to as:",
+      "options": [
+        "iPhone OS",
+        "Mac Mobile",
+        "iTouch OS",
+        "Apple OS"
+      ],
+      "correctAnswer": "iPhone OS",
+      "explanation": "Correct answer is A) iPhone OS."
+    },
+    {
+      "questionText": "iOS is derived from:",
+      "options": [
+        "Linux",
+        "Windows",
+        "Mac OS X",
+        "Symbian"
+      ],
+      "correctAnswer": "Mac OS X",
+      "explanation": "Correct answer is C) Mac OS X."
+    },
+    {
+      "questionText": "Android is an open source OS developed by:",
+      "options": [
+        "Nokia",
+        "Apple",
+        "Microsoft",
+        "Google"
+      ],
+      "correctAnswer": "Google",
+      "explanation": "Correct answer is D) Google."
+    },
+    {
+      "questionText": "The primary concern in designing a mobile Website is:",
+      "options": [
+        "Database type",
+        "Screen resolution",
+        "Server size",
+        "Font color"
+      ],
+      "correctAnswer": "Screen resolution",
+      "explanation": "Correct answer is B) Screen resolution."
+    },
+    {
+      "questionText": "Screen resolution means:",
+      "options": [
+        "Battery life",
+        "The CPU speed",
+        "The screen weight",
+        "The number of pixels (width and height) on the screen"
+      ],
+      "correctAnswer": "The number of pixels (width and height) on the screen",
+      "explanation": "Correct answer is D) The number of pixels (width and height) on the screen."
+    },
+    {
+      "questionText": "There is a defined standard for mobile screen resolution:",
+      "options": [
+        "True; it is fixed",
+        "False; it varies by model and manufacturer",
+        "True; 800x600",
+        "True; 1024x768"
+      ],
+      "correctAnswer": "False; it varies by model and manufacturer",
+      "explanation": "Correct answer is B) False; it varies by model and manufacturer."
+    },
+    {
+      "questionText": "PPI/DPI represents the relation between:",
+      "options": [
+        "Physical dimension and resolution",
+        "Battery and screen",
+        "Color and size",
+        "Memory and CPU"
+      ],
+      "correctAnswer": "Physical dimension and resolution",
+      "explanation": "Correct answer is A) Physical dimension and resolution."
+    },
+    {
+      "questionText": "Higher DPI results in:",
+      "options": [
+        "Poor graphics",
+        "Slower battery",
+        "No effect",
+        "Good print-quality graphics"
+      ],
+      "correctAnswer": "Good print-quality graphics",
+      "explanation": "Correct answer is D) Good print-quality graphics."
+    },
+    {
+      "questionText": "Vertical orientation of a device is called:",
+      "options": [
+        "Portrait",
+        "Flat",
+        "Landscape",
+        "Wide"
+      ],
+      "correctAnswer": "Portrait",
+      "explanation": "Correct answer is A) Portrait."
+    },
+    {
+      "questionText": "Horizontal orientation of a device is called:",
+      "options": [
+        "Portrait",
+        "Square",
+        "Landscape",
+        "Tall"
+      ],
+      "correctAnswer": "Landscape",
+      "explanation": "Correct answer is C) Landscape."
+    },
+    {
+      "questionText": "The ability to rotate the view between portrait and landscape is due to:",
+      "options": [
+        "The server",
+        "CSS only",
+        "The ISP",
+        "Hardware accelerators in the phone"
+      ],
+      "correctAnswer": "Hardware accelerators in the phone",
+      "explanation": "Correct answer is D) Hardware accelerators in the phone."
+    },
+    {
+      "questionText": "A mobile Website should:",
+      "options": [
+        "Be aware of rotation and adjust properly",
+        "Ignore orientation",
+        "Support only portrait",
+        "Support only landscape"
+      ],
+      "correctAnswer": "Be aware of rotation and adjust properly",
+      "explanation": "Correct answer is A) Be aware of rotation and adjust properly."
+    },
+    {
+      "questionText": "Navigation in a mobile site is:",
+      "options": [
+        "The device screen",
+        "The CSS file",
+        "The server",
+        "The path a user follows through the site"
+      ],
+      "correctAnswer": "The path a user follows through the site",
+      "explanation": "Correct answer is D) The path a user follows through the site."
+    },
+    {
+      "questionText": "Compared to a desktop site, how much of its information is typically not useful to mobile users?",
+      "options": [
+        "10%",
+        "Almost 80%",
+        "0%",
+        "20%"
+      ],
+      "correctAnswer": "Almost 80%",
+      "explanation": "Correct answer is B) Almost 80%."
+    },
+    {
+      "questionText": "The depth of a mobile page for a use case should be restricted to:",
+      "options": [
+        "Fifteen clicks",
+        "Three clicks",
+        "Ten clicks",
+        "Seven clicks"
+      ],
+      "correctAnswer": "Three clicks",
+      "explanation": "Correct answer is B) Three clicks."
+    },
+    {
+      "questionText": "For mobile Websites, a welcome screen should:",
+      "options": [
+        "Be avoided",
+        "Be mandatory",
+        "Always be used",
+        "Be animated"
+      ],
+      "correctAnswer": "Be avoided",
+      "explanation": "Correct answer is A) Be avoided."
+    },
+    {
+      "questionText": "A user-centric design approach means:",
+      "options": [
+        "Designing for the developer",
+        "Designing only for desktop",
+        "Designing for the server",
+        "Designing based on the mobile user's perspective and tasks"
+      ],
+      "correctAnswer": "Designing based on the mobile user's perspective and tasks",
+      "explanation": "Correct answer is D) Designing based on the mobile user's perspective and tasks."
+    },
+    {
+      "questionText": "Progressive enhancement ensures:",
+      "options": [
+        "Basic content is accessible on all browsers",
+        "No HTML is used",
+        "No CSS is used",
+        "Only high-end devices work"
+      ],
+      "correctAnswer": "Basic content is accessible on all browsers",
+      "explanation": "Correct answer is A) Basic content is accessible on all browsers."
+    },
+    {
+      "questionText": "In progressive enhancement, enhanced layout and behavior are provided via:",
+      "options": [
+        "Frames",
+        "Pop-ups",
+        "External style sheets and scripts",
+        "Inline tables"
+      ],
+      "correctAnswer": "External style sheets and scripts",
+      "explanation": "Correct answer is C) External style sheets and scripts."
+    },
+    {
+      "questionText": "To support many devices, a mobile site should:",
+      "options": [
+        "Use Web standards correctly and validate markup",
+        "Use only images",
+        "Use proprietary tags",
+        "Avoid HTML"
+      ],
+      "correctAnswer": "Use Web standards correctly and validate markup",
+      "explanation": "Correct answer is A) Use Web standards correctly and validate markup."
+    },
+    {
+      "questionText": "Which should be avoided in mobile layouts?",
+      "options": [
+        "Links",
+        "Lists",
+        "Tables for layout and pop-up windows",
+        "Headings"
+      ],
+      "correctAnswer": "Tables for layout and pop-up windows",
+      "explanation": "Correct answer is C) Tables for layout and pop-up windows."
+    },
+    {
+      "questionText": "Tables are avoided in mobile layouts because they:",
+      "options": [
+        "Make scrolling difficult and slow page loading",
+        "Are too colorful",
+        "Are not HTML",
+        "Need plug-ins"
+      ],
+      "correctAnswer": "Make scrolling difficult and slow page loading",
+      "explanation": "Correct answer is A) Make scrolling difficult and slow page loading."
+    },
+    {
+      "questionText": "The document structure of a mobile page is represented by the:",
+      "options": [
+        "<title> element",
+        "<body> element",
+        "<head> element",
+        "<meta> element"
+      ],
+      "correctAnswer": "<body> element",
+      "explanation": "Correct answer is B) <body> element."
+    },
+    {
+      "questionText": "Image formats mostly supported by mobile browsers include:",
+      "options": [
+        "RAW only",
+        "GIF, JPEG, and PNG",
+        "PSD, TIFF",
+        "BMP only"
+      ],
+      "correctAnswer": "GIF, JPEG, and PNG",
+      "explanation": "Correct answer is B) GIF, JPEG, and PNG."
+    },
+    {
+      "questionText": "On mobile, images should not be used for:",
+      "options": [
+        "Photos",
+        "Backgrounds, buttons, links, or titles",
+        "Illustrations",
+        "Logos only"
+      ],
+      "correctAnswer": "Backgrounds, buttons, links, or titles",
+      "explanation": "Correct answer is B) Backgrounds, buttons, links, or titles."
+    },
+    {
+      "questionText": "Specifying image width, height, and alt reduces:",
+      "options": [
+        "The screen size",
+        "The battery",
+        "The rendering time of the image",
+        "The code"
+      ],
+      "correctAnswer": "The rendering time of the image",
+      "explanation": "Correct answer is C) The rendering time of the image."
+    },
+    {
+      "questionText": "On mobile pages, ordered lists are typically used for:",
+      "options": [
+        "Tables",
+        "Key-value pairs",
+        "Navigational menus",
+        "Images"
+      ],
+      "correctAnswer": "Navigational menus",
+      "explanation": "Correct answer is C) Navigational menus."
+    },
+    {
+      "questionText": "Definition lists on mobile pages present:",
+      "options": [
+        "Key/value pairs",
+        "Menus",
+        "Videos",
+        "Images"
+      ],
+      "correctAnswer": "Key/value pairs",
+      "explanation": "Correct answer is A) Key/value pairs."
+    },
+    {
+      "questionText": "The accesskey attribute of <a> provides:",
+      "options": [
+        "A keyboard shortcut",
+        "A script",
+        "A phone number",
+        "A style"
+      ],
+      "correctAnswer": "A keyboard shortcut",
+      "explanation": "Correct answer is A) A keyboard shortcut."
+    },
+    {
+      "questionText": "Which scheme makes a phone call from a link on mobile?",
+      "options": [
+        "mailto:",
+        "tel:",
+        "call:",
+        "phone:"
+      ],
+      "correctAnswer": "tel:",
+      "explanation": "Correct answer is B) tel:."
+    },
+    {
+      "questionText": "The tel: scheme is useful for:",
+      "options": [
+        "Images",
+        "Helpdesk and voicemail systems",
+        "E-mail",
+        "Maps"
+      ],
+      "correctAnswer": "Helpdesk and voicemail systems",
+      "explanation": "Correct answer is B) Helpdesk and voicemail systems."
+    },
+    {
+      "questionText": "Browser-specific CSS3 styles require:",
+      "options": [
+        "Only JavaScript",
+        "Vendor prefixes",
+        "No prefixes",
+        "Only HTML"
+      ],
+      "correctAnswer": "Vendor prefixes",
+      "explanation": "Correct answer is B) Vendor prefixes."
+    },
+    {
+      "questionText": "The -webkit- prefix is used by:",
+      "options": [
+        "Chrome and Safari",
+        "Opera only",
+        "Firefox",
+        "Internet Explorer"
+      ],
+      "correctAnswer": "Chrome and Safari",
+      "explanation": "Correct answer is A) Chrome and Safari."
+    },
+    {
+      "questionText": "The -moz- prefix is used by:",
+      "options": [
+        "Chrome",
+        "Firefox",
+        "Safari",
+        "Opera"
+      ],
+      "correctAnswer": "Firefox",
+      "explanation": "Correct answer is B) Firefox."
+    },
+    {
+      "questionText": "Media queries target features such as:",
+      "options": [
+        "Screen width, orientation, and resolution",
+        "Images only",
+        "Fonts only",
+        "Colors only"
+      ],
+      "correctAnswer": "Screen width, orientation, and resolution",
+      "explanation": "Correct answer is A) Screen width, orientation, and resolution."
+    },
+    {
+      "questionText": "Which media query serves a style sheet for portrait orientation?",
+      "options": [
+        "media=\"orient=portrait\"",
+        "media=\"all and (orientation: portrait)\"",
+        "media=\"portrait only\"",
+        "media=\"turn(portrait)\""
+      ],
+      "correctAnswer": "media=\"all and (orientation: portrait)\"",
+      "explanation": "Correct answer is B) media=\"all and (orientation: portrait)\"."
+    },
+    {
+      "questionText": "CSS2 allowed style sheets for media types such as:",
+      "options": [
+        "Local and server",
+        "Screen and print",
+        "Audio and video",
+        "Mobile and tablet"
+      ],
+      "correctAnswer": "Screen and print",
+      "explanation": "Correct answer is B) Screen and print."
+    },
+    {
+      "questionText": "Optimizing a mobile site generally aims to:",
+      "options": [
+        "Add more pop-ups",
+        "Increase page size",
+        "Add more plug-ins",
+        "Reduce load time and improve usability"
+      ],
+      "correctAnswer": "Reduce load time and improve usability",
+      "explanation": "Correct answer is D) Reduce load time and improve usability."
+    },
+    {
+      "questionText": "A viewport meta tag helps mobile pages to:",
+      "options": [
+        "Scale to the device width",
+        "Store data",
+        "Link scripts",
+        "Play audio"
+      ],
+      "correctAnswer": "Scale to the device width",
+      "explanation": "Correct answer is A) Scale to the device width."
+    },
+    {
+      "questionText": "Which is a recommended practice for mobile images?",
+      "options": [
+        "Use many images",
+        "Use only BMP",
+        "Use very large images",
+        "Use small, optimized images"
+      ],
+      "correctAnswer": "Use small, optimized images",
+      "explanation": "Correct answer is D) Use small, optimized images."
+    },
+    {
+      "questionText": "The mobile browser's support for HTML5 markup is:",
+      "options": [
+        "Strong in modern mobile browsers",
+        "Only for Windows",
+        "Only for Flash",
+        "Absent"
+      ],
+      "correctAnswer": "Strong in modern mobile browsers",
+      "explanation": "Correct answer is A) Strong in modern mobile browsers."
+    },
+    {
+      "questionText": "Headings in mobile pages should be used to:",
+      "options": [
+        "Add images",
+        "Provide a clear heading structure",
+        "Run scripts",
+        "Style text only"
+      ],
+      "correctAnswer": "Provide a clear heading structure",
+      "explanation": "Correct answer is B) Provide a clear heading structure."
+    },
+    {
+      "questionText": "For mobile Web apps, the developer needs to set up:",
+      "options": [
+        "A DVD",
+        "An environment to develop and test the app",
+        "Only a printer",
+        "Nothing"
+      ],
+      "correctAnswer": "An environment to develop and test the app",
+      "explanation": "Correct answer is B) An environment to develop and test the app."
+    },
+    {
+      "questionText": "Chrome's device mode can be used to:",
+      "options": [
+        "Emulate mobile devices for testing",
+        "Edit images",
+        "Compile C code",
+        "Send e-mail"
+      ],
+      "correctAnswer": "Emulate mobile devices for testing",
+      "explanation": "Correct answer is A) Emulate mobile devices for testing."
+    }
+  ]
+}

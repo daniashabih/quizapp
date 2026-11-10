@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,14,Geolocation is used to identify:,The browser type,The IP of a server,"The geographic location of a person, place, or object",The screen size,"The geographic location of a person, place, or object"
+HTML,14,A user's location is represented as a single point made of:,Altitude and speed,Height and width,Latitude and longitude,Street and city,Latitude and longitude
+HTML,14,Which of the following can be a source of location information?,Cookies only,Fonts,"GPS, IP address, WiFi/Bluetooth MAC address","CSS, HTML, JS","GPS, IP address, WiFi/Bluetooth MAC address"
+HTML,14,GPS is maintained by the government of:,India,The United States,China,Russia,The United States
+HTML,14,The Geolocation API is a specification provided by:,IEEE,W3C,ISO,ECMA,W3C
+HTML,14,The Geolocation API provides:,A database,A map image,A high-level interface to retrieve location information,A style sheet,A high-level interface to retrieve location information
+HTML,14,The Geolocation object is a property of the:,history object,navigator object,location object,document object,navigator object
+HTML,14,Which code checks for geolocation support?,if (document.geolocation),if (navigator.geolocation),if (window.geo),if (location.geo),if (navigator.geolocation)
+HTML,14,How many methods does the Geolocation object provide (as per session)?,Five,Seven,Three,Two,Three
+HTML,14,getCurrentPosition() is used to:,Watch position changes,Retrieve the user's current position,Clear watching,Display a map,Retrieve the user's current position
+HTML,14,watchPosition() is used to:,Retrieve position once,Stop tracking,Display a map,Retrieve the position at regular intervals and notify changes,Retrieve the position at regular intervals and notify changes
+HTML,14,Which method stops watching the position?,endPosition(),stopWatch(),clearWatch(),removeWatch(),clearWatch()
+HTML,14,getCurrentPosition() accepts how many parameters?,One,Four,"Three (success callback, error callback, options)",Two,"Three (success callback, error callback, options)"
+HTML,14,The first parameter of getCurrentPosition() is the:,Latitude,Success callback function,Options,Error callback,Success callback function
+HTML,14,The second parameter of getCurrentPosition() is the:,Success callback,Options,Error callback function,Longitude,Error callback function
+HTML,14,The third parameter of getCurrentPosition() is the:,Latitude,Success callback,PositionOptions object,Map,PositionOptions object
+HTML,14,Latitude and longitude values are retrieved using:,position.coords,position.page,position.map,position.url,position.coords
+HTML,14,Latitude and longitude values are expressed in:,Decimal degrees,Pixels,Radians,Meters,Decimal degrees
+HTML,14,"Before sharing location, the browser asks for:",The user's permission,The server's permission,No permission,The ISP's permission,The user's permission
+HTML,14,The error object passed to the error callback is of type:,GeoError,LocationError,PositionError,CoordError,PositionError
+HTML,14,PositionError code 1 stands for:,UNKNOWN,POSITION_UNAVAILABLE,PERMISSION_DENIED,TIMEOUT,PERMISSION_DENIED
+HTML,14,POSITION_UNAVAILABLE means:,Success,The position of the device could not be obtained,Permission denied,Timeout,The position of the device could not be obtained
+HTML,14,The message property of PositionError returns:,The accuracy,A detailed message describing the error,The latitude,A numeric code,A detailed message describing the error
+HTML,14,The maximumAge option:,Sets map type,Sets zoom,Sets accuracy,Allows using a cached position not older than the limit in milliseconds,Allows using a cached position not older than the limit in milliseconds
+HTML,14,The timeout option specifies:,The cache age,The zoom,The maximum time in milliseconds to get the position,The accuracy,The maximum time in milliseconds to get the position
+HTML,14,Which object is instantiated to display a Google Map?,google.maps.View,google.maps.Page,google.maps.Map,google.maps.Canvas,google.maps.Map
+HTML,14,Which Google Maps option sets the initial resolution?,zoom,mapTypeId,position,center,zoom
+HTML,14,A lower zoom value such as 0 displays:,A full map of the Earth,A building,A street-level map,A satellite map only,A full map of the Earth
+HTML,14,Which mapTypeId displays normal road map?,HYBRID,SATELLITE,ROADMAP,TERRAIN,ROADMAP
+HTML,14,Which mapTypeId displays roads and city names over photographic tiles?,TERRAIN,SATELLITE,HYBRID,ROADMAP,HYBRID
+HTML,14,Which mapTypeId displays physical features like water?,SATELLITE,TERRAIN,HYBRID,ROADMAP,TERRAIN
+HTML,14,The Marker object is used to:,Create the map,Zoom,Draw a line,Display an icon at a location on the map,Display an icon at a location on the map
+HTML,14,"The ""sensor"" parameter in the Google Maps API URL indicates:",The zoom,The title,The map type,Whether the application uses a sensor such as GPS,Whether the application uses a sensor such as GPS
+HTML,14,Drag-and-drop in HTML5 is based on:,Cookies,Tables,Events,Plug-ins,Events
+HTML,14,"To perform a drag, a ______ event is triggered followed by mousemove events.",keydown,click,submit,mousedown,mousedown
+HTML,14,"To make an element draggable, set the attribute:","dropzone=""true""","drag=""yes""","draggable=""true""","movable=""true""","draggable=""true"""
+HTML,14,Which event triggers when dragging of an element starts?,drag,dragend,dragstart,dragenter,dragstart
+HTML,14,Which event fires continuously while an element is being dragged?,dragstart,drop,drag,dragenter,drag
+HTML,14,Which event triggers when the drag operation ends?,dragend,dragstart,drop,dragover,dragend
+HTML,14,The dataTransfer object is used to:,Play media,Draw on canvas,Store cookies,Get and set the data being dragged,Get and set the data being dragged
+HTML,14,The setData() method of dataTransfer:,Drops data,Clears data,Stores data during a drag operation,Reads data,Stores data during a drag operation
+HTML,14,"By default, elements are:",Hidden,Draggable,Not set up to receive dragged elements,Ready to receive drops,Not set up to receive dragged elements
+HTML,14,The target on which an element is dropped is called the:,Drop (target) element,Root element,Source element,Parent element,Drop (target) element
+HTML,14,Which event fires when a draggable element enters the target element?,dragstart,dragleave,dragenter,dragend,dragenter
+HTML,14,Which event fires when a draggable element leaves the target element?,drop,dragleave,dragenter,drag,dragleave
+HTML,14,Which event fires while an element is dragged over the target?,dragend,dragover,drag,dragenter,dragover
+HTML,14,Which event fires when an element is dropped on the target?,dragstart,dragover,dragend,drop,drop
+HTML,14,Why is event.preventDefault() called in dragover?,To allow dropping on the target element,To clear data,To stop dragging,To reload page,To allow dropping on the target element
+HTML,14,The offline Web applications API uses:,Cookies,Server sessions,Plug-ins,A manifest file and application cache,A manifest file and application cache
+HTML,14,The manifest file lists:,Map data,Videos only,Resources to be cached for offline use,The user's cookies,Resources to be cached for offline use
+HTML,14,A manifest is declared using the ______ attribute of the <html> tag.,manifest,cache,offline,store,manifest
+HTML,14,The manifest file must begin with:,MANIFEST START,CACHE BEGIN,OFFLINE FILE,CACHE MANIFEST,CACHE MANIFEST
+HTML,14,"In the manifest file, resources that always need a network connection are listed under:",CACHE,OFFLINE,NETWORK,FALLBACK,NETWORK
+HTML,14,The FALLBACK section of a manifest specifies:,Pages to cache,Comments,Pages to display when a resource is unavailable offline,Network-only pages,Pages to display when a resource is unavailable offline
+HTML,14,The manifest file extension is usually:,.html,.appcache,.js,.css,.appcache

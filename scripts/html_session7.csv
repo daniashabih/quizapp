@@ -1,0 +1,54 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,7,Color depth is defined by the number of:,Frames,Bytes per image,Bits per pixel,Colors in the CSS,Bits per pixel
+HTML,7,Another name for color depth is:,Bit depth,Pixel width,Frame depth,Image length,Bit depth
+HTML,7,A higher color depth indicates:,A higher range of colors,Fewer pixels,A lower range of colors,Smaller files always,A higher range of colors
+HTML,7,Image compression stores an image in:,HTML code,A reduced number of bytes,Pixel arrays only,An increased number of bytes,A reduced number of bytes
+HTML,7,Which compression type preserves exact image details after decompression?,Hybrid,Lossy,Lossless,Random,Lossless
+HTML,7,Which compression generally achieves smaller file sizes?,Uncompressed,None,Lossless,Lossy,Lossy
+HTML,7,JPEG stands for:,Joint Picture Encoding Graphics,Joint Photographic Experts Group,Java Photo Experts Group,Java Photographic Expression Group,Joint Photographic Experts Group
+HTML,7,"For photographs on Web pages, which format is recommended?",GIF,PNG,JPEG,BMP,JPEG
+HTML,7,"For screenshots and drawings, which format is recommended?",TIFF,JPEG,PNG,BMP,PNG
+HTML,7,PNG uses which type of compression?,Both,Lossy,None,Lossless,Lossless
+HTML,7,PNG does not support which color space?,RGB,Indexed,Grayscale,CMYK,CMYK
+HTML,7,JPEG is best suited for:,Line drawings,Continuous tone pictures such as photographs,Animated icons,Text logos,Continuous tone pictures such as photographs
+HTML,7,Which format supports animation using a series of frames?,PNG-24 only,BMP,JPEG,GIF,GIF
+HTML,7,"In a transparent image, how many colors can be hidden?",One and only one,Two,None,Any number,One and only one
+HTML,7,An interlaced GIF file:,Is animated,Is not compressed,Stores lines left to right only,Stores image lines in a different order,Stores image lines in a different order
+HTML,7,Designers can assume a minimum display resolution of:,800x600,320x240,640x480,1920x1080,800x600
+HTML,7,The <img> element is:,A container element,A script element,A style element,An empty element,An empty element
+HTML,7,The <img> tag:,Creates a link between the image and the HTML page,Converts the image,Compresses the image,Embeds the image data inside the HTML,Creates a link between the image and the HTML page
+HTML,7,Which attribute of <img> specifies the path of the image?,link,src,path,href,src
+HTML,7,Which attribute specifies alternative text for an image?,title,name,alt,text,alt
+HTML,7,Which attributes set the dimensions of an image?,x and y,size and length,width and height,top and left,width and height
+HTML,7,A pixel refers to:,A font,The page size,A color,The smallest dot on the monitor screen,The smallest dot on the monitor screen
+HTML,7,"If an image is in a subfolder named ""images"", the src is:",images@pic.jpg,/images:pic.jpg,pic.jpg/images,images/pic.jpg,images/pic.jpg
+HTML,7,Which CSS property aligns an image to the left or right with text wrapping?,clear only,float,align,position,float
+HTML,7,What is the default value of the float property?,none,inherit,right,left,none
+HTML,7,The <figure> element is:,A table,A list,A container for self-contained content such as illustrations and photos,A replacement for <img>,A container for self-contained content such as illustrations and photos
+HTML,7,<figcaption> is used to:,Add a table caption,Add a heading,Add a link,Add a caption to a figure,Add a caption to a figure
+HTML,7,An advantage of <figcaption> is that the caption:,Is optional only,Always appears along with the image even if it floats,Works only in tables,Is hidden,Always appears along with the image even if it floats
+HTML,7,A single caption can be assigned to:,A group of images in one <figure>,No images,Only background images,Only one image,A group of images in one <figure>
+HTML,7,The height and width properties do not include:,Image data,"Padding, borders, or margins",Content,Pixels,"Padding, borders, or margins"
+HTML,7,"The height value ""auto"" means:",Height is inherited,The browser calculates the height,Height is zero,Height is fixed,The browser calculates the height
+HTML,7,The padding property specifies:,Image size,Border width,Space outside the border,Space between the element border and its content,Space between the element border and its content
+HTML,7,"With padding: 25px 50px 75px 100px, the left padding is:",100px,25px,75px,50px,100px
+HTML,7,"With padding: 25px 50px 75px 100px, the top padding is:",25px,100px,50px,75px,25px
+HTML,7,"In the padding shorthand, values are applied in the order:","Top, right, bottom, left","Bottom, top, left, right","Right, left, top, bottom","Left, right, top, bottom","Top, right, bottom, left"
+HTML,7,A thumbnail is:,A video,A large image,A style sheet,A small image or part of a larger image,A small image or part of a larger image
+HTML,7,Thumbnails are used to:,Improve page load speed,Slow the page,Remove images,Add scripts,Improve page load speed
+HTML,7,Clicking a thumbnail typically:,Changes the font,Closes the page,Links to the larger original image,Deletes the image,Links to the larger original image
+HTML,7,CSS transitions were first introduced by:,Google,Adobe,Apple,IBM,Apple
+HTML,7,Which two specifications are required for a CSS3 transition?,Border and margin,The CSS property to add an effect to and the duration,Color and font,Height and src,The CSS property to add an effect to and the duration
+HTML,7,The transition-duration property defines:,The delay,The timing function,The duration of the transition,The property name,The duration of the transition
+HTML,7,The transition-delay property defines:,The duration,When the transition starts,The direction,The property,When the transition starts
+HTML,7,The transition-timing-function describes:,The color,The size,The property name,How the speed changes during a transition,How the speed changes during a transition
+HTML,7,The shorthand transition property sets:,Only name,Up to four transition properties,Only duration,Only delay,Up to four transition properties
+HTML,7,CSS3 animations animate transitions from:,HTML to JavaScript,One CSS style configuration to another,Image to video,Server to client,One CSS style configuration to another
+HTML,7,The @keyframes rule is used to:,Define a table,Define a link,Define a font,Define the appearance of the animation,Define the appearance of the animation
+HTML,7,Which property sets the duration of an animation cycle?,animation-delay,animation-name,animation-duration,animation-time,animation-duration
+HTML,7,The default value of animation-play-state is:,running,none,stopped,paused,running
+HTML,7,animation-iteration-count specifies:,The color,The delay,The number of times an animation runs,The direction,The number of times an animation runs
+HTML,7,animation-direction: alternate makes the animation:,Play in reverse on alternate cycles,Stop,Run once,Run faster,Play in reverse on alternate cycles
+HTML,7,Which is an advantage of CSS3 animations over script-based animations?,They need a server,They work only on desktops,They need plug-ins,Easy to use without JavaScript knowledge,Easy to use without JavaScript knowledge
+HTML,7,CSS3 media queries allow users to specify:,A font,A color,A conditional expression for media type,A database query,A conditional expression for media type
+HTML,7,A media query for mobile devices with max screen width 480px is written as:,"media=""max=480""","media=""mobile:480""","media=""screen and (max-width: 480px)""","media=""width<480""","media=""screen and (max-width: 480px)"""

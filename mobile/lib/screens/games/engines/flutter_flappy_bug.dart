@@ -123,76 +123,83 @@ class _FlutterFlappyBugState extends State<FlutterFlappyBug> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Header
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Flap to Fly', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
-            Row(
-              children: [
-                Text(
-                  'SCORE: $_score',
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.green),
-                ),
-                const SizedBox(width: 4),
-                IconButton(
-                  onPressed: _resetGame,
-                  icon: const Icon(Icons.refresh_rounded, size: 18),
-                  visualDensity: VisualDensity.compact,
-                ),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-
-        // Flappy Canvas Viewport
-        GestureDetector(
-          onTap: _flap,
-          child: Container(
-            width: 280,
-            height: 280,
-            decoration: BoxDecoration(
-              color: const Color(0xFF0284C7),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: Colors.white12),
-            ),
-            child: Stack(
-              children: [
-                CustomPaint(
-                  size: const Size(280, 280),
-                  painter: _FlappyPainter(
-                    bugY: _bugY,
-                    pipes: _pipes,
-                    pipeWidth: _pipeWidth,
-                    pipeGap: _pipeGap,
-                  ),
-                ),
-                if (!_started && !_gameOver)
-                  const Center(
-                    child: Text(
-                      'Tap Screen to Flap 🐞',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+    return SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Flap to Fly', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
+                  Row(
+                    children: [
+                      Text(
+                        'SCORE: $_score',
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.green),
                       ),
-                    ),
+                      const SizedBox(width: 4),
+                      IconButton(
+                        onPressed: _resetGame,
+                        icon: const Icon(Icons.refresh_rounded, size: 18),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                    ],
                   ),
-              ],
-            ),
+                ],
+              ),
+              const SizedBox(height: 10),
+
+              // Flappy Canvas Viewport
+              GestureDetector(
+                onTap: _flap,
+                child: Container(
+                  width: 280,
+                  height: 280,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0284C7),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: Colors.white12),
+                  ),
+                  child: Stack(
+                    children: [
+                      CustomPaint(
+                        size: const Size(280, 280),
+                        painter: _FlappyPainter(
+                          bugY: _bugY,
+                          pipes: _pipes,
+                          pipeWidth: _pipeWidth,
+                          pipeGap: _pipeGap,
+                        ),
+                      ),
+                      if (!_started && !_gameOver)
+                        const Center(
+                          child: Text(
+                            'Tap Screen to Flap 🐞',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 12),
+              const Text(
+                'Tap repeatedly to flap wings and avoid obstacles!',
+                style: TextStyle(fontSize: 11, color: Colors.grey),
+              ),
+            ],
           ),
         ),
-
-        const SizedBox(height: 12),
-        const Text(
-          'Tap repeatedly to flap wings and avoid obstacles!',
-          style: TextStyle(fontSize: 11, color: Colors.grey),
-        ),
-      ],
+      ),
     );
   }
 }

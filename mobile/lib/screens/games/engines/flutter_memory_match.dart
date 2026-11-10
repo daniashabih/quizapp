@@ -134,141 +134,148 @@ class _FlutterMemoryMatchState extends State<FlutterMemoryMatch> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 420),
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: context.cardBgColor,
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: context.borderColor),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: context.isDarkMode ? 0.3 : 0.05),
-                blurRadius: 16,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Stats
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '$_moves Moves',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: context.textPrimaryColor),
-                  ),
-                  Text(
-                    '${_seconds ~/ 60}:${(_seconds % 60).toString().padLeft(2, '0')}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'monospace',
-                      color: context.textPrimaryColor,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'SCORE: $_score',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.gameScore,
-                          fontFamily: 'monospace',
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      IconButton(
-                        onPressed: _initCards,
-                        icon: const Icon(Icons.refresh_rounded, size: 18),
-                        visualDensity: VisualDensity.compact,
-                        tooltip: 'Reset Board',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-
-              // 4x4 Grid
-              Container(
-                width: 320,
-                height: 320,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: context.gameCodeBgColor,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: context.gameCodeBorderColor),
+    return SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: context.cardBgColor,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: context.borderColor),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: context.isDarkMode ? 0.3 : 0.05),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
                 ),
-                child: GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                  ),
-                  itemCount: 16,
-                  itemBuilder: (context, index) {
-                    final isFlipped = _flippedIndices.contains(index) || _matchedIndices.contains(index);
-                    final isMatched = _matchedIndices.contains(index);
-
-                    Color cardBg = context.cardBgColor;
-                    Color cardBorder = context.borderColor;
-
-                    if (isMatched) {
-                      cardBg = AppColors.successBg;
-                      cardBorder = AppColors.success;
-                    } else if (isFlipped) {
-                      cardBg = context.gameBadgeBgColor;
-                      cardBorder = AppColors.gamePrimaryButton;
-                    }
-
-                    return InkWell(
-                      onTap: () => _onCardTap(index),
-                      borderRadius: BorderRadius.circular(12),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        decoration: BoxDecoration(
-                          color: cardBg,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: cardBorder, width: isFlipped || isMatched ? 1.5 : 1),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: context.isDarkMode ? 0.2 : 0.04),
-                              blurRadius: 4,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            isFlipped ? _cards[index]['symbol'] : '⚡',
-                            style: TextStyle(
-                              fontSize: isFlipped ? 22 : 14,
-                              fontWeight: FontWeight.bold,
-                              color: isFlipped
-                                  ? (isMatched ? AppColors.success : context.gameBadgeTextColor)
-                                  : context.textMutedColor.withValues(alpha: 0.5),
-                            ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Stats
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '$_moves Moves',
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: context.textPrimaryColor),
+                    ),
+                    Text(
+                      '${_seconds ~/ 60}:${(_seconds % 60).toString().padLeft(2, '0')}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'monospace',
+                        color: context.textPrimaryColor,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'SCORE: $_score',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.gameScore,
+                            fontFamily: 'monospace',
                           ),
                         ),
-                      ),
-                    );
-                  },
+                        const SizedBox(width: 4),
+                        IconButton(
+                          onPressed: _initCards,
+                          icon: const Icon(Icons.refresh_rounded, size: 18),
+                          visualDensity: VisualDensity.compact,
+                          tooltip: 'Reset Board',
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
+                const SizedBox(height: 12),
 
-              const SizedBox(height: 12),
-              Text(
-                'Tap cards to find matching pairs in minimal moves!',
-                style: TextStyle(fontSize: 11, color: context.textMutedColor),
-              ),
-            ],
+                // Responsive 4x4 Grid
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 310, maxHeight: 310),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: context.gameCodeBgColor,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: context.gameCodeBorderColor),
+                      ),
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                        ),
+                        itemCount: 16,
+                        itemBuilder: (context, index) {
+                          final isFlipped = _flippedIndices.contains(index) || _matchedIndices.contains(index);
+                          final isMatched = _matchedIndices.contains(index);
+
+                          Color cardBg = context.cardBgColor;
+                          Color cardBorder = context.borderColor;
+
+                          if (isMatched) {
+                            cardBg = context.successBgColor;
+                            cardBorder = context.successColor;
+                          } else if (isFlipped) {
+                            cardBg = context.gameBadgeBgColor;
+                            cardBorder = AppColors.gamePrimaryButton;
+                          }
+
+                          return InkWell(
+                            onTap: () => _onCardTap(index),
+                            borderRadius: BorderRadius.circular(12),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 250),
+                              decoration: BoxDecoration(
+                                color: cardBg,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: cardBorder, width: isFlipped || isMatched ? 1.5 : 1),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: context.isDarkMode ? 0.2 : 0.04),
+                                    blurRadius: 4,
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  isFlipped ? _cards[index]['symbol'] : '⚡',
+                                  style: TextStyle(
+                                    fontSize: isFlipped ? 22 : 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: isFlipped
+                                        ? (isMatched ? context.successColor : context.gameBadgeTextColor)
+                                        : context.textMutedColor.withValues(alpha: 0.5),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+                Text(
+                  'Tap cards to find matching pairs in minimal moves!',
+                  style: TextStyle(fontSize: 11, color: context.textSecondaryColor),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
       ),

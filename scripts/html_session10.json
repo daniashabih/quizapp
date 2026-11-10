@@ -1,0 +1,613 @@
+{
+  "category": "HTML",
+  "session": 10,
+  "title": "Session 10: HTML5 Tables, Audio, and Video",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "A table is made up of:",
+      "options": [
+        "Rows and columns",
+        "Only cells without structure",
+        "Only rows",
+        "Only columns"
+      ],
+      "correctAnswer": "Rows and columns",
+      "explanation": "Correct answer is A) Rows and columns."
+    },
+    {
+      "questionText": "The intersection of a row and a column is called a:",
+      "options": [
+        "Cell",
+        "Caption",
+        "Table",
+        "Span"
+      ],
+      "correctAnswer": "Cell",
+      "explanation": "Correct answer is A) Cell."
+    },
+    {
+      "questionText": "Which element creates a table?",
+      "options": [
+        "<grid>",
+        "<tab>",
+        "<tbl>",
+        "<table>"
+      ],
+      "correctAnswer": "<table>",
+      "explanation": "Correct answer is D) <table>."
+    },
+    {
+      "questionText": "Which element divides a table into rows?",
+      "options": [
+        "<th>",
+        "<tb>",
+        "<td>",
+        "<tr>"
+      ],
+      "correctAnswer": "<tr>",
+      "explanation": "Correct answer is D) <tr>."
+    },
+    {
+      "questionText": "Which element specifies a data cell (column entry) in a row?",
+      "options": [
+        "<td>",
+        "<th>",
+        "<tr>",
+        "<tc>"
+      ],
+      "correctAnswer": "<td>",
+      "explanation": "Correct answer is A) <td>."
+    },
+    {
+      "questionText": "By default, a table:",
+      "options": [
+        "Has a 2px border",
+        "Has no border",
+        "Has a colored border",
+        "Has a 1px border"
+      ],
+      "correctAnswer": "Has no border",
+      "explanation": "Correct answer is B) Has no border."
+    },
+    {
+      "questionText": "Which attribute of <table> specifies a border?",
+      "options": [
+        "border",
+        "outline",
+        "edge",
+        "line"
+      ],
+      "correctAnswer": "border",
+      "explanation": "Correct answer is A) border."
+    },
+    {
+      "questionText": "Which element specifies a column heading?",
+      "options": [
+        "<td>",
+        "<tr>",
+        "<th>",
+        "<thead only>"
+      ],
+      "correctAnswer": "<th>",
+      "explanation": "Correct answer is C) <th>."
+    },
+    {
+      "questionText": "Text in a <th> element appears:",
+      "options": [
+        "Bold",
+        "Italic",
+        "Hidden",
+        "Underlined"
+      ],
+      "correctAnswer": "Bold",
+      "explanation": "Correct answer is A) Bold."
+    },
+    {
+      "questionText": "Which attribute extends a cell across multiple columns?",
+      "options": [
+        "rowspan",
+        "merge",
+        "colspan",
+        "span"
+      ],
+      "correctAnswer": "colspan",
+      "explanation": "Correct answer is C) colspan."
+    },
+    {
+      "questionText": "Which attribute extends a cell across multiple rows?",
+      "options": [
+        "rowspan",
+        "colspan",
+        "span",
+        "merge"
+      ],
+      "correctAnswer": "rowspan",
+      "explanation": "Correct answer is A) rowspan."
+    },
+    {
+      "questionText": "colspan=\"2\" means the cell spans:",
+      "options": [
+        "Two pages",
+        "Two tables",
+        "Two rows",
+        "Two columns"
+      ],
+      "correctAnswer": "Two columns",
+      "explanation": "Correct answer is D) Two columns."
+    },
+    {
+      "questionText": "The rowspan attribute can be used within:",
+      "options": [
+        "<tr> only",
+        "<caption> only",
+        "<td> and <th>",
+        "<table> only"
+      ],
+      "correctAnswer": "<td> and <th>",
+      "explanation": "Correct answer is C) <td> and <th>."
+    },
+    {
+      "questionText": "Spanning refers to:",
+      "options": [
+        "Adding borders",
+        "Creating headers",
+        "Extending a cell across multiple rows or columns",
+        "Deleting cells"
+      ],
+      "correctAnswer": "Extending a cell across multiple rows or columns",
+      "explanation": "Correct answer is C) Extending a cell across multiple rows or columns."
+    },
+    {
+      "questionText": "By default, data within a table cell is aligned:",
+      "options": [
+        "Justified",
+        "To the right",
+        "To the left",
+        "To the center"
+      ],
+      "correctAnswer": "To the left",
+      "explanation": "Correct answer is C) To the left."
+    },
+    {
+      "questionText": "By default, table headings are aligned:",
+      "options": [
+        "To the left",
+        "Justified",
+        "To the center",
+        "To the right"
+      ],
+      "correctAnswer": "To the center",
+      "explanation": "Correct answer is C) To the center."
+    },
+    {
+      "questionText": "Which CSS property sets horizontal alignment in table cells?",
+      "options": [
+        "valign",
+        "text-align",
+        "float",
+        "vertical-align only"
+      ],
+      "correctAnswer": "text-align",
+      "explanation": "Correct answer is B) text-align."
+    },
+    {
+      "questionText": "Which attribute was used for vertical alignment but is deprecated in HTML5?",
+      "options": [
+        "align-vertical",
+        "vertical",
+        "valign",
+        "halign"
+      ],
+      "correctAnswer": "valign",
+      "explanation": "Correct answer is C) valign."
+    },
+    {
+      "questionText": "Which CSS property sets vertical alignment of table cell content?",
+      "options": [
+        "valign-style",
+        "vertical-align",
+        "v-align",
+        "text-vertical"
+      ],
+      "correctAnswer": "vertical-align",
+      "explanation": "Correct answer is B) vertical-align."
+    },
+    {
+      "questionText": "Cell padding is the space between:",
+      "options": [
+        "The table and the page",
+        "Two cells",
+        "The text and the cell border",
+        "The caption and the table"
+      ],
+      "correctAnswer": "The text and the cell border",
+      "explanation": "Correct answer is C) The text and the cell border."
+    },
+    {
+      "questionText": "Which element specifies the title of an entire table?",
+      "options": [
+        "<th>",
+        "<caption>",
+        "<head>",
+        "<title>"
+      ],
+      "correctAnswer": "<caption>",
+      "explanation": "Correct answer is B) <caption>."
+    },
+    {
+      "questionText": "How many captions can a table have?",
+      "options": [
+        "One",
+        "Two",
+        "Three",
+        "Unlimited"
+      ],
+      "correctAnswer": "One",
+      "explanation": "Correct answer is A) One."
+    },
+    {
+      "questionText": "To set a table's width to the full browser window, set width to:",
+      "options": [
+        "100px",
+        "1em",
+        "100%",
+        "auto only"
+      ],
+      "correctAnswer": "100%",
+      "explanation": "Correct answer is C) 100%."
+    },
+    {
+      "questionText": "A column width in pixels can be set by using the style attribute in the:",
+      "options": [
+        "<head> tag",
+        "<td> tag",
+        "<caption> tag",
+        "<body> tag"
+      ],
+      "correctAnswer": "<td> tag",
+      "explanation": "Correct answer is B) <td> tag."
+    },
+    {
+      "questionText": "Which CSS property sets all of width, color, and style of a border at once?",
+      "options": [
+        "border",
+        "border-all",
+        "borders",
+        "border-set"
+      ],
+      "correctAnswer": "border",
+      "explanation": "Correct answer is A) border."
+    },
+    {
+      "questionText": "To format only the bottom border, use:",
+      "options": [
+        "border-bottom",
+        "border-lower",
+        "bottom-border",
+        "border-down"
+      ],
+      "correctAnswer": "border-bottom",
+      "explanation": "Correct answer is A) border-bottom."
+    },
+    {
+      "questionText": "For layout, tables are used to:",
+      "options": [
+        "Run scripts",
+        "Compress images",
+        "Organize content in rows and columns",
+        "Play videos"
+      ],
+      "correctAnswer": "Organize content in rows and columns",
+      "explanation": "Correct answer is C) Organize content in rows and columns."
+    },
+    {
+      "questionText": "In current practice, CSS is preferred over tables for layout because it:",
+      "options": [
+        "Has no features",
+        "Is more flexible and reliable",
+        "Needs plug-ins",
+        "Is slower"
+      ],
+      "correctAnswer": "Is more flexible and reliable",
+      "explanation": "Correct answer is B) Is more flexible and reliable."
+    },
+    {
+      "questionText": "Earlier, playing video in a browser required:",
+      "options": [
+        "Only HTML",
+        "A plug-in or ActiveX control",
+        "Nothing",
+        "Only CSS"
+      ],
+      "correctAnswer": "A plug-in or ActiveX control",
+      "explanation": "Correct answer is B) A plug-in or ActiveX control."
+    },
+    {
+      "questionText": "HTML5 introduced which two media elements?",
+      "options": [
+        "<media> and <play>",
+        "<mp3> and <mp4>",
+        "<sound> and <movie>",
+        "<audio> and <video>"
+      ],
+      "correctAnswer": "<audio> and <video>",
+      "explanation": "Correct answer is D) <audio> and <video>."
+    },
+    {
+      "questionText": "HTML5 media elements remove the dependency on:",
+      "options": [
+        "Flash",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "correctAnswer": "Flash",
+      "explanation": "Correct answer is A) Flash."
+    },
+    {
+      "questionText": "Multimedia is a combination of:",
+      "options": [
+        "Only sound",
+        "Video, graphics, sound, and text",
+        "Only graphics",
+        "Only text"
+      ],
+      "correctAnswer": "Video, graphics, sound, and text",
+      "explanation": "Correct answer is B) Video, graphics, sound, and text."
+    },
+    {
+      "questionText": "A codec is:",
+      "options": [
+        "A device or program that encodes and decodes digital data streams",
+        "A font",
+        "A server",
+        "A style sheet"
+      ],
+      "correctAnswer": "A device or program that encodes and decodes digital data streams",
+      "explanation": "Correct answer is A) A device or program that encodes and decodes digital data streams."
+    },
+    {
+      "questionText": "A container format stores:",
+      "options": [
+        "Only images",
+        "Only styles",
+        "Only text",
+        "Coded video and audio together"
+      ],
+      "correctAnswer": "Coded video and audio together",
+      "explanation": "Correct answer is D) Coded video and audio together."
+    },
+    {
+      "questionText": "Which of the following is a container format?",
+      "options": [
+        "Ogg",
+        "CSS",
+        "HTML",
+        "JPEG"
+      ],
+      "correctAnswer": "Ogg",
+      "explanation": "Correct answer is A) Ogg."
+    },
+    {
+      "questionText": "The src attribute of <audio> specifies:",
+      "options": [
+        "The loop",
+        "The URL of the audio file",
+        "The controls",
+        "The volume"
+      ],
+      "correctAnswer": "The URL of the audio file",
+      "explanation": "Correct answer is B) The URL of the audio file."
+    },
+    {
+      "questionText": "Commonly used audio formats include:",
+      "options": [
+        "doc, pdf, txt",
+        "exe, zip, bat",
+        "wav, ogg, and mp3",
+        "css, js, html"
+      ],
+      "correctAnswer": "wav, ogg, and mp3",
+      "explanation": "Correct answer is C) wav, ogg, and mp3."
+    },
+    {
+      "questionText": "Which tag specifies multiple media sources for <audio> or <video>?",
+      "options": [
+        "<track>",
+        "<src>",
+        "<source>",
+        "<media>"
+      ],
+      "correctAnswer": "<source>",
+      "explanation": "Correct answer is C) <source>."
+    },
+    {
+      "questionText": "When there are multiple <source> elements, the browser uses:",
+      "options": [
+        "None",
+        "All formats",
+        "The first format it supports",
+        "The last format"
+      ],
+      "correctAnswer": "The first format it supports",
+      "explanation": "Correct answer is C) The first format it supports."
+    },
+    {
+      "questionText": "The controls attribute of <audio>:",
+      "options": [
+        "Mutes audio",
+        "Displays audio playback controls",
+        "Starts playback",
+        "Loops audio"
+      ],
+      "correctAnswer": "Displays audio playback controls",
+      "explanation": "Correct answer is B) Displays audio playback controls."
+    },
+    {
+      "questionText": "The autoplay attribute:",
+      "options": [
+        "Hides audio",
+        "Starts playback as soon as possible",
+        "Pauses audio",
+        "Mutes audio"
+      ],
+      "correctAnswer": "Starts playback as soon as possible",
+      "explanation": "Correct answer is B) Starts playback as soon as possible."
+    },
+    {
+      "questionText": "The loop attribute:",
+      "options": [
+        "Mutes",
+        "Stops after one play",
+        "Hides controls",
+        "Replays the audio once it stops"
+      ],
+      "correctAnswer": "Replays the audio once it stops",
+      "explanation": "Correct answer is D) Replays the audio once it stops."
+    },
+    {
+      "questionText": "The preload attribute is ignored if:",
+      "options": [
+        "loop exists",
+        "src exists",
+        "autoplay exists",
+        "controls exists"
+      ],
+      "correctAnswer": "autoplay exists",
+      "explanation": "Correct answer is C) autoplay exists."
+    },
+    {
+      "questionText": "The <embed> tag is used to play audio in:",
+      "options": [
+        "Mobile only",
+        "Print",
+        "New browsers only",
+        "Older browsers"
+      ],
+      "correctAnswer": "Older browsers",
+      "explanation": "Correct answer is D) Older browsers."
+    },
+    {
+      "questionText": "The <embed> attribute autostart=\"false\" means:",
+      "options": [
+        "Audio plays automatically",
+        "Audio is hidden",
+        "Audio will not play automatically",
+        "Audio loops"
+      ],
+      "correctAnswer": "Audio will not play automatically",
+      "explanation": "Correct answer is C) Audio will not play automatically."
+    },
+    {
+      "questionText": "Which element embeds video content in HTML5?",
+      "options": [
+        "<video>",
+        "<film>",
+        "<clip>",
+        "<movie>"
+      ],
+      "correctAnswer": "<video>",
+      "explanation": "Correct answer is A) <video>."
+    },
+    {
+      "questionText": "Content placed between <video> and </video> is displayed:",
+      "options": [
+        "Never",
+        "Always",
+        "During playback",
+        "If the browser does not support the video tag"
+      ],
+      "correctAnswer": "If the browser does not support the video tag",
+      "explanation": "Correct answer is D) If the browser does not support the video tag."
+    },
+    {
+      "questionText": "Which attribute starts the video as soon as it is ready?",
+      "options": [
+        "preload",
+        "muted",
+        "loop",
+        "autoplay"
+      ],
+      "correctAnswer": "autoplay",
+      "explanation": "Correct answer is D) autoplay."
+    },
+    {
+      "questionText": "The muted attribute:",
+      "options": [
+        "Mutes the video initially",
+        "Loops the video",
+        "Hides controls",
+        "Starts the video"
+      ],
+      "correctAnswer": "Mutes the video initially",
+      "explanation": "Correct answer is A) Mutes the video initially."
+    },
+    {
+      "questionText": "The preload=\"none\" value means the video:",
+      "options": [
+        "Autoplays",
+        "Is fully downloaded",
+        "Loads metadata only",
+        "Is not downloaded when the page loads"
+      ],
+      "correctAnswer": "Is not downloaded when the page loads",
+      "explanation": "Correct answer is D) Is not downloaded when the page loads."
+    },
+    {
+      "questionText": "The preload=\"metadata\" value:",
+      "options": [
+        "Loads only metadata when the page loads",
+        "Autoplays",
+        "Loads the full video",
+        "Loads nothing"
+      ],
+      "correctAnswer": "Loads only metadata when the page loads",
+      "explanation": "Correct answer is A) Loads only metadata when the page loads."
+    },
+    {
+      "questionText": "Which is a royalty-free, open-source video format?",
+      "options": [
+        "AVI",
+        "Ogg Theora",
+        "WMV",
+        "H.264 (licensed)"
+      ],
+      "correctAnswer": "Ogg Theora",
+      "explanation": "Correct answer is B) Ogg Theora."
+    },
+    {
+      "questionText": "H.264/MP4 is supported on:",
+      "options": [
+        "Only desktops",
+        "Only servers",
+        "iPhone and Android devices",
+        "Only printers"
+      ],
+      "correctAnswer": "iPhone and Android devices",
+      "explanation": "Correct answer is C) iPhone and Android devices."
+    },
+    {
+      "questionText": "Web Video Text Tracks (WebVTT) is a format used to:",
+      "options": [
+        "Format tables",
+        "Mark up external text tracks for video",
+        "Encode audio",
+        "Store images"
+      ],
+      "correctAnswer": "Mark up external text tracks for video",
+      "explanation": "Correct answer is B) Mark up external text tracks for video."
+    },
+    {
+      "questionText": "The <track> element is used to add:",
+      "options": [
+        "Captions, subtitles, and chapters to audio/video",
+        "Links",
+        "Images",
+        "Tables"
+      ],
+      "correctAnswer": "Captions, subtitles, and chapters to audio/video",
+      "explanation": "Correct answer is A) Captions, subtitles, and chapters to audio/video."
+    }
+  ]
+}

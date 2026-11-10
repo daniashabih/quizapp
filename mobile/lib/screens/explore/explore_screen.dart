@@ -527,7 +527,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                       const SizedBox(height: 3),
                       Text(
                         cat.questionCount > 0
-                            ? '${cat.questionCount} Questions in bank'
+                            ? '${cat.questionCount} Questions${cat.sessions.length > 1 ? ' · ${cat.sessions.length} Sessions' : ''}'
                             : 'Multi-session track',
                         style: AppTextStyles.bodySmall.copyWith(
                           color: context.textSecondaryColor,
@@ -754,42 +754,50 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
             ],
 
             // Individual Sessions
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: _sessions.map((sess) {
-                final isSelected = !_isAllSessions && _selectedSession == sess;
-                return ChoiceChip(
-                  label: Text('Session $sess'),
-                  selected: isSelected,
-                  selectedColor:
-                      isDark ? AppColors.primaryLight : AppColors.primary,
-                  backgroundColor: context.mutedBgColor,
-                  labelStyle: TextStyle(
-                    color: isSelected
-                        ? Colors.white
-                        : context.textPrimaryColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(
-                      color: isSelected
-                          ? context.brandAccentColor
-                          : context.borderColor,
-                    ),
-                  ),
-                  onSelected: (selected) {
-                    if (selected) {
-                      setState(() {
-                        _selectedSession = sess;
-                        _isAllSessions = false;
-                      });
-                    }
-                  },
-                );
-              }).toList(),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.35,
+              ),
+              child: SingleChildScrollView(
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: _sessions.map((sess) {
+                    final isSelected =
+                        !_isAllSessions && _selectedSession == sess;
+                    return ChoiceChip(
+                      label: Text('Session $sess'),
+                      selected: isSelected,
+                      selectedColor:
+                          isDark ? AppColors.primaryLight : AppColors.primary,
+                      backgroundColor: context.mutedBgColor,
+                      labelStyle: TextStyle(
+                        color: isSelected
+                            ? Colors.white
+                            : context.textPrimaryColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(
+                          color: isSelected
+                              ? context.brandAccentColor
+                              : context.borderColor,
+                        ),
+                      ),
+                      onSelected: (selected) {
+                        if (selected) {
+                          setState(() {
+                            _selectedSession = sess;
+                            _isAllSessions = false;
+                          });
+                        }
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
 
             const SizedBox(height: 16),

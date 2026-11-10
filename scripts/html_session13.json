@@ -1,0 +1,613 @@
+{
+  "category": "HTML",
+  "session": 13,
+  "title": "Session 13: Canvas and Web Storage in HTML5",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "The <canvas> element is:",
+      "options": [
+        "A drawing area for graphics drawn using JavaScript",
+        "A form",
+        "A table",
+        "A video player"
+      ],
+      "correctAnswer": "A drawing area for graphics drawn using JavaScript",
+      "explanation": "Correct answer is A) A drawing area for graphics drawn using JavaScript."
+    },
+    {
+      "questionText": "The <canvas> element eliminates the need for:",
+      "options": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Plug-ins for graphics"
+      ],
+      "correctAnswer": "Plug-ins for graphics",
+      "explanation": "Correct answer is D) Plug-ins for graphics."
+    },
+    {
+      "questionText": "Canvas does not have drawing abilities of its own; drawing is done using:",
+      "options": [
+        "XML",
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "correctAnswer": "JavaScript",
+      "explanation": "Correct answer is D) JavaScript."
+    },
+    {
+      "questionText": "The method that returns the drawing context of a canvas is:",
+      "options": [
+        "getContext()",
+        "getCanvas()",
+        "drawContext()",
+        "setContext()"
+      ],
+      "correctAnswer": "getContext()",
+      "explanation": "Correct answer is A) getContext()."
+    },
+    {
+      "questionText": "Which interface does the canvas element expose in the DOM?",
+      "options": [
+        "HTMLCanvasElement",
+        "CanvasInterface",
+        "HTMLDrawElement",
+        "CanvasDOM"
+      ],
+      "correctAnswer": "HTMLCanvasElement",
+      "explanation": "Correct answer is A) HTMLCanvasElement."
+    },
+    {
+      "questionText": "Which attributes define the size of a canvas?",
+      "options": [
+        "size and length",
+        "x and y",
+        "width and height",
+        "top and left"
+      ],
+      "correctAnswer": "width and height",
+      "explanation": "Correct answer is C) width and height."
+    },
+    {
+      "questionText": "Which method begins a new path for drawing?",
+      "options": [
+        "openPath()",
+        "startPath()",
+        "beginPath()",
+        "newPath()"
+      ],
+      "correctAnswer": "beginPath()",
+      "explanation": "Correct answer is C) beginPath()."
+    },
+    {
+      "questionText": "moveTo(x, y) is used to:",
+      "options": [
+        "Draw a line",
+        "Position the drawing cursor at a point",
+        "Clear the canvas",
+        "Fill a shape"
+      ],
+      "correctAnswer": "Position the drawing cursor at a point",
+      "explanation": "Correct answer is B) Position the drawing cursor at a point."
+    },
+    {
+      "questionText": "lineTo(x, y) is used to:",
+      "options": [
+        "Draw text",
+        "Move the cursor",
+        "Fill an area",
+        "Draw a line from the current position to the given point"
+      ],
+      "correctAnswer": "Draw a line from the current position to the given point",
+      "explanation": "Correct answer is D) Draw a line from the current position to the given point."
+    },
+    {
+      "questionText": "stroke() is used to:",
+      "options": [
+        "Fill a shape",
+        "Assign color to the line and display it",
+        "Create a path",
+        "Clear canvas"
+      ],
+      "correctAnswer": "Assign color to the line and display it",
+      "explanation": "Correct answer is B) Assign color to the line and display it."
+    },
+    {
+      "questionText": "The strokeStyle property sets:",
+      "options": [
+        "The color of the line",
+        "The font",
+        "The fill",
+        "The width"
+      ],
+      "correctAnswer": "The color of the line",
+      "explanation": "Correct answer is A) The color of the line."
+    },
+    {
+      "questionText": "Which method creates a rectangle on canvas?",
+      "options": [
+        "rect()",
+        "square()",
+        "box()",
+        "drawRect only in CSS"
+      ],
+      "correctAnswer": "rect()",
+      "explanation": "Correct answer is A) rect()."
+    },
+    {
+      "questionText": "rect(18, 50, 200, 100) takes parameters in order:",
+      "options": [
+        "top, left, color, size",
+        "x, y, radius, angle",
+        "width, height, x, y",
+        "x, y, width, height"
+      ],
+      "correctAnswer": "x, y, width, height",
+      "explanation": "Correct answer is D) x, y, width, height."
+    },
+    {
+      "questionText": "Which method draws a circle or arc?",
+      "options": [
+        "round()",
+        "curve()",
+        "arc()",
+        "circle()"
+      ],
+      "correctAnswer": "arc()",
+      "explanation": "Correct answer is C) arc()."
+    },
+    {
+      "questionText": "fill() is used to:",
+      "options": [
+        "Draw line outlines",
+        "Move",
+        "Fill the current path with the fill style",
+        "Clear"
+      ],
+      "correctAnswer": "Fill the current path with the fill style",
+      "explanation": "Correct answer is C) Fill the current path with the fill style."
+    },
+    {
+      "questionText": "Which method draws an image on a canvas?",
+      "options": [
+        "putImage()",
+        "drawImage()",
+        "insertImage()",
+        "addImage()"
+      ],
+      "correctAnswer": "drawImage()",
+      "explanation": "Correct answer is B) drawImage()."
+    },
+    {
+      "questionText": "Which property sets the font for canvas text?",
+      "options": [
+        "font",
+        "textFont",
+        "fontStyle",
+        "typeface"
+      ],
+      "correctAnswer": "font",
+      "explanation": "Correct answer is A) font."
+    },
+    {
+      "questionText": "Which method draws filled text on canvas?",
+      "options": [
+        "drawText()",
+        "fillText()",
+        "printText()",
+        "writeText()"
+      ],
+      "correctAnswer": "fillText()",
+      "explanation": "Correct answer is B) fillText()."
+    },
+    {
+      "questionText": "Which method draws outlined text on canvas?",
+      "options": [
+        "strokeText()",
+        "outlineText()",
+        "borderText()",
+        "lineText()"
+      ],
+      "correctAnswer": "strokeText()",
+      "explanation": "Correct answer is A) strokeText()."
+    },
+    {
+      "questionText": "Which property sets transparency of canvas drawings?",
+      "options": [
+        "transparency",
+        "alphaMode",
+        "globalAlpha",
+        "opacityLevel"
+      ],
+      "correctAnswer": "globalAlpha",
+      "explanation": "Correct answer is C) globalAlpha."
+    },
+    {
+      "questionText": "A globalAlpha value of 0 means:",
+      "options": [
+        "Half transparent",
+        "Fully transparent",
+        "Fully opaque",
+        "Black"
+      ],
+      "correctAnswer": "Fully transparent",
+      "explanation": "Correct answer is B) Fully transparent."
+    },
+    {
+      "questionText": "The jQuery function that combines mouseenter and mouseleave is:",
+      "options": [
+        "hover()",
+        "toggle()",
+        "click()",
+        "over()"
+      ],
+      "correctAnswer": "hover()",
+      "explanation": "Correct answer is A) hover()."
+    },
+    {
+      "questionText": "The jQuery toggle() event responds to:",
+      "options": [
+        "Scrolling",
+        "Key presses",
+        "Page loads",
+        "Mouse clicks with multiple functions"
+      ],
+      "correctAnswer": "Mouse clicks with multiple functions",
+      "explanation": "Correct answer is D) Mouse clicks with multiple functions."
+    },
+    {
+      "questionText": "The <embed> tag in HTML5 is a container for:",
+      "options": [
+        "Only images",
+        "Interactive content or an external application",
+        "Only tables",
+        "Only text"
+      ],
+      "correctAnswer": "Interactive content or an external application",
+      "explanation": "Correct answer is B) Interactive content or an external application."
+    },
+    {
+      "questionText": "The <eventsource> tag was introduced to:",
+      "options": [
+        "Store data",
+        "Style pages",
+        "Push external content to a page",
+        "Draw graphics"
+      ],
+      "correctAnswer": "Push external content to a page",
+      "explanation": "Correct answer is C) Push external content to a page."
+    },
+    {
+      "questionText": "Traditionally, Web applications stored small data on the client using:",
+      "options": [
+        "Cookies",
+        "IndexedDB",
+        "WebSQL",
+        "Canvas"
+      ],
+      "correctAnswer": "Cookies",
+      "explanation": "Correct answer is A) Cookies."
+    },
+    {
+      "questionText": "Web storage is a specification of:",
+      "options": [
+        "W3C",
+        "ISO",
+        "ECMA",
+        "IEEE"
+      ],
+      "correctAnswer": "W3C",
+      "explanation": "Correct answer is A) W3C."
+    },
+    {
+      "questionText": "Some browsers refer to Web storage as:",
+      "options": [
+        "Net Storage",
+        "File Storage",
+        "DOM Storage",
+        "Cookie Store"
+      ],
+      "correctAnswer": "DOM Storage",
+      "explanation": "Correct answer is C) DOM Storage."
+    },
+    {
+      "questionText": "Web storage can store a maximum of about ______ per domain.",
+      "options": [
+        "5 MB",
+        "4 KB",
+        "1 GB",
+        "100 KB"
+      ],
+      "correctAnswer": "5 MB",
+      "explanation": "Correct answer is A) 5 MB."
+    },
+    {
+      "questionText": "A cookie can store about:",
+      "options": [
+        "5 MB",
+        "1 GB",
+        "50 MB",
+        "4 KB"
+      ],
+      "correctAnswer": "4 KB",
+      "explanation": "Correct answer is D) 4 KB."
+    },
+    {
+      "questionText": "Cookies are sent with each:",
+      "options": [
+        "CSS file",
+        "Script",
+        "Image",
+        "HTTP request"
+      ],
+      "correctAnswer": "HTTP request",
+      "explanation": "Correct answer is D) HTTP request."
+    },
+    {
+      "questionText": "Web storage data is:",
+      "options": [
+        "Stored only on the server",
+        "Shared across all browsers",
+        "Stored only on the client side",
+        "Sent with each request"
+      ],
+      "correctAnswer": "Stored only on the client side",
+      "explanation": "Correct answer is C) Stored only on the client side."
+    },
+    {
+      "questionText": "The two types of Web storage are:",
+      "options": [
+        "Cookie and cache",
+        "Disk and memory",
+        "Session storage and local storage",
+        "Temp and permanent"
+      ],
+      "correctAnswer": "Session storage and local storage",
+      "explanation": "Correct answer is C) Session storage and local storage."
+    },
+    {
+      "questionText": "A property to check Web storage support is:",
+      "options": [
+        "navigator.storage",
+        "document.storage",
+        "localStorage or sessionStorage on window",
+        "window.cookie"
+      ],
+      "correctAnswer": "localStorage or sessionStorage on window",
+      "explanation": "Correct answer is C) localStorage or sessionStorage on window."
+    },
+    {
+      "questionText": "If Web storage is not supported, the property will be:",
+      "options": [
+        "true",
+        "0",
+        "null",
+        "undefined"
+      ],
+      "correctAnswer": "undefined",
+      "explanation": "Correct answer is D) undefined."
+    },
+    {
+      "questionText": "Session storage data is:",
+      "options": [
+        "Shared with all tabs",
+        "Discarded when the tab or window is closed",
+        "Permanent",
+        "Stored on the server"
+      ],
+      "correctAnswer": "Discarded when the tab or window is closed",
+      "explanation": "Correct answer is B) Discarded when the tab or window is closed."
+    },
+    {
+      "questionText": "Each browser window has its own:",
+      "options": [
+        "Session storage object",
+        "Local storage shared",
+        "Cookie only",
+        "Index"
+      ],
+      "correctAnswer": "Session storage object",
+      "explanation": "Correct answer is A) Session storage object."
+    },
+    {
+      "questionText": "Session storage stores data as:",
+      "options": [
+        "Images",
+        "XML",
+        "Tables",
+        "Named key/value pairs"
+      ],
+      "correctAnswer": "Named key/value pairs",
+      "explanation": "Correct answer is D) Named key/value pairs."
+    },
+    {
+      "questionText": "Regardless of the data type, Web storage stores values internally as:",
+      "options": [
+        "Numbers",
+        "Objects",
+        "Booleans",
+        "Strings"
+      ],
+      "correctAnswer": "Strings",
+      "explanation": "Correct answer is D) Strings."
+    },
+    {
+      "questionText": "To convert stored data back to an integer, use:",
+      "options": [
+        "parseString()",
+        "toString()",
+        "stringInt()",
+        "parseInt()"
+      ],
+      "correctAnswer": "parseInt()",
+      "explanation": "Correct answer is D) parseInt()."
+    },
+    {
+      "questionText": "Which method stores data in session storage?",
+      "options": [
+        "putItem()",
+        "setItem()",
+        "addItem()",
+        "storeItem()"
+      ],
+      "correctAnswer": "setItem()",
+      "explanation": "Correct answer is B) setItem()."
+    },
+    {
+      "questionText": "Which method removes one item from storage?",
+      "options": [
+        "clear()",
+        "deleteAll()",
+        "dropItem()",
+        "removeItem()"
+      ],
+      "correctAnswer": "removeItem()",
+      "explanation": "Correct answer is D) removeItem()."
+    },
+    {
+      "questionText": "Which method clears all items from storage?",
+      "options": [
+        "reset()",
+        "deleteItem()",
+        "removeItem()",
+        "clear()"
+      ],
+      "correctAnswer": "clear()",
+      "explanation": "Correct answer is D) clear()."
+    },
+    {
+      "questionText": "The length attribute of storage returns:",
+      "options": [
+        "The key name",
+        "The first value",
+        "The number of key/value pairs",
+        "The total bytes"
+      ],
+      "correctAnswer": "The number of key/value pairs",
+      "explanation": "Correct answer is C) The number of key/value pairs."
+    },
+    {
+      "questionText": "Local storage data is:",
+      "options": [
+        "Persistent and retained after the browser is closed",
+        "Sent with each request",
+        "Discarded on tab close",
+        "Stored on the server"
+      ],
+      "correctAnswer": "Persistent and retained after the browser is closed",
+      "explanation": "Correct answer is A) Persistent and retained after the browser is closed."
+    },
+    {
+      "questionText": "Local storage is useful for:",
+      "options": [
+        "Video streaming",
+        "Counting the number of visits to a page",
+        "Temporary tab data only",
+        "Printing"
+      ],
+      "correctAnswer": "Counting the number of visits to a page",
+      "explanation": "Correct answer is B) Counting the number of visits to a page."
+    },
+    {
+      "questionText": "Local storage uses ______ methods as session storage.",
+      "options": [
+        "The same",
+        "Only cookie",
+        "No",
+        "Different"
+      ],
+      "correctAnswer": "The same",
+      "explanation": "Correct answer is A) The same."
+    },
+    {
+      "questionText": "IndexedDB is:",
+      "options": [
+        "A cookie",
+        "A relational database server",
+        "A CSS module",
+        "An object store for client-side data"
+      ],
+      "correctAnswer": "An object store for client-side data",
+      "explanation": "Correct answer is D) An object store for client-side data."
+    },
+    {
+      "questionText": "IndexedDB stores data as:",
+      "options": [
+        "Images only",
+        "Objects in an object store",
+        "Plain text only",
+        "Rows in SQL tables"
+      ],
+      "correctAnswer": "Objects in an object store",
+      "explanation": "Correct answer is B) Objects in an object store."
+    },
+    {
+      "questionText": "IndexedDB is implemented using the:",
+      "options": [
+        "document.db object",
+        "window.sqlDB object",
+        "navigator.db object",
+        "window.indexedDB object"
+      ],
+      "correctAnswer": "window.indexedDB object",
+      "explanation": "Correct answer is D) window.indexedDB object."
+    },
+    {
+      "questionText": "IndexedDB supports which two types of APIs?",
+      "options": [
+        "Synchronous and asynchronous",
+        "Local and remote",
+        "Public and private",
+        "Static and dynamic"
+      ],
+      "correctAnswer": "Synchronous and asynchronous",
+      "explanation": "Correct answer is A) Synchronous and asynchronous."
+    },
+    {
+      "questionText": "The synchronous IndexedDB API can be used with:",
+      "options": [
+        "Canvas",
+        "CSS",
+        "Web Workers",
+        "Forms"
+      ],
+      "correctAnswer": "Web Workers",
+      "explanation": "Correct answer is C) Web Workers."
+    },
+    {
+      "questionText": "IndexedDB enables Web applications to work:",
+      "options": [
+        "Only offline",
+        "Both online and offline",
+        "Only online",
+        "Only on servers"
+      ],
+      "correctAnswer": "Both online and offline",
+      "explanation": "Correct answer is B) Both online and offline."
+    },
+    {
+      "questionText": "Browsers implement IndexedDB with vendor prefixes because:",
+      "options": [
+        "It is proprietary",
+        "It is a plug-in",
+        "The specification was still evolving",
+        "It is deprecated"
+      ],
+      "correctAnswer": "The specification was still evolving",
+      "explanation": "Correct answer is C) The specification was still evolving."
+    },
+    {
+      "questionText": "An advantage of native apps is:",
+      "options": [
+        "No cost",
+        "Cross-browser runs",
+        "No installation",
+        "Better access to device features and performance"
+      ],
+      "correctAnswer": "Better access to device features and performance",
+      "explanation": "Correct answer is D) Better access to device features and performance."
+    }
+  ]
+}

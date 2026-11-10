@@ -1,0 +1,53 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,16,The mini project in this session is a Website for:,An e-Commerce bookstore,A hospital,A bank,A school timetable,An e-Commerce bookstore
+HTML,16,The name of the Website in the case study is:,eBookStore,PageTurner,BookWorld,BookParadise,BookParadise
+HTML,16,The Website is built using:,Java and JSP,PHP and MySQL,Python and Django,"HTML5, CSS, and JavaScript","HTML5, CSS, and JavaScript"
+HTML,16,The code editor used in the project is:,NetBeans,CoffeeCup HTML Editor,Eclipse,Visual Studio,CoffeeCup HTML Editor
+HTML,16,The books sold on BookParadise relate to:,Latest trends in Information Technology,Cookery,Fiction novels,History,Latest trends in Information Technology
+HTML,16,The target buyers of the books include:,Only children,Only doctors,Only farmers,"Students, teachers, professors, and self-paced learners","Students, teachers, professors, and self-paced learners"
+HTML,16,How many pages does the Website include?,Two,Eight,Four,Six,Four
+HTML,16,Which of the following is NOT one of the four pages?,Careers,Products,Home,Contact Us,Careers
+HTML,16,The Contact Us page includes a:,Video player,Basic form,Shopping cart,Map only,Basic form
+HTML,16,The Home page includes:,Only a video,Only a form,"A brief introduction, a categories section, and a Featured Products section",Only a table,"A brief introduction, a categories section, and a Featured Products section"
+HTML,16,Clicking a featured product displays:,An error,A video,A new page,A pop-up showing the price,A pop-up showing the price
+HTML,16,The project root folder is named:,WebSite,Project,HTMLFiles,BookParadise,BookParadise
+HTML,16,The two sub folders created inside the project folder are:,Images and Styles,Media and Docs,CSS and JS,Pages and Data,Images and Styles
+HTML,16,The Images folder stores:,JS files,CSS files,All images for the Website,HTML files,All images for the Website
+HTML,16,The Styles folder stores:,Databases,The CSS file,Images,Videos,The CSS file
+HTML,16,The main HTML file of the Website is:,index.html,home.php,main.htm,default.asp,index.html
+HTML,16,The CSS file for the Website is saved as:,site.js,main.css,style.css,index.css,style.css
+HTML,16,The CSS file is linked to the HTML using:,"<style src=""style.css"">",<css>style.css</css>,"<script src=""style.css"">","<link rel=""stylesheet"" href=""Styles/style.css"">","<link rel=""stylesheet"" href=""Styles/style.css"">"
+HTML,16,Extra fonts for the text are obtained from:,Windows only,Printing,Local fonts only,"Google Fonts (e.g., Raleway)","Google Fonts (e.g., Raleway)"
+HTML,16,The navigation bar includes:,Only Contact Us,"Logo, Home, Products, About Us, and Contact Us",Only Logo,Only Home,"Logo, Home, Products, About Us, and Contact Us"
+HTML,16,The banner on the Home page has:,Only a table,A description and an image,Only a form,Only a video,A description and an image
+HTML,16,The affiliate program of BookParadise pays a commission of:,10% on every sale,5% on every sale,50% on every sale,25% on every sale,10% on every sale
+HTML,16,BookParadise gives away over ______ of its profit margin to stores and authors.,25%,10%,65%,90%,65%
+HTML,16,The Featured Products section shows each product's:,Only price,Only rating,"Name, rating, and price",Only name,"Name, rating, and price"
+HTML,16,The pop-up functionality in the Featured Products section is implemented using a:,Frame,Applet,Modal,Table,Modal
+HTML,16,Which file holds the JavaScript code for the modals?,main.js,style.css,index.html,about.js,main.js
+HTML,16,The JavaScript file is included in the HTML with:,"<link href=""main.js"">","<js src=""main.js"">","<script src=""main.js""></script>","<a href=""main.js"">","<script src=""main.js""></script>"
+HTML,16,"In the modal script, which method selects all elements matching a CSS selector?",findAll,querySelectorAll,selectAll,getElement,querySelectorAll
+HTML,16,"In the modal script, which property adds a CSS class to an element?",class.add,style.add,addClass,classList.add,classList.add
+HTML,16,The modal is shown by adding which class?,display,active,open,show,active
+HTML,16,The attribute used to link a button with its modal target is:,modal-id,href,data-target,target-modal,data-target
+HTML,16,Which JavaScript file part validates the Contact Us form?,The code in main.js,style.css,about.html,index.html,The code in main.js
+HTML,16,"In the Contact Us form validation, the name must have at least:",3 characters,1 character,10 characters,20 characters,3 characters
+HTML,16,"In the Contact Us form validation, the subject must have at least:",50 characters,1 character,3 characters,10 characters,10 characters
+HTML,16,A successful form submission displays:,A new page,An alert thanking the user for contacting,A video,Nothing,An alert thanking the user for contacting
+HTML,16,Which method is used to get an element by its id?,document.getId(),document.getElementById(),document.find(),getElement(),document.getElementById()
+HTML,16,Where is the error message shown in the form validation?,In the console only,"In an element with id ""error_message""",In a new tab,In the browser title,"In an element with id ""error_message"""
+HTML,16,The About Us page is created in the file:,about.css,about.html,info.php,aboutus.js,about.html
+HTML,16,The Contact Us page is created in the file:,form.php,contact.html,mail.html,contact.css,contact.html
+HTML,16,The Products page is created in the file:,shop.css,product.html,items.js,buy.php,product.html
+HTML,16,The Products page includes filters for:,Drawing,Searching and sorting products,Playing music,Chatting,Searching and sorting products
+HTML,16,Which layout approach could be used for the product listing?,Frames,Flexbox or Grid,Marquee,Font tags,Flexbox or Grid
+HTML,16,Which section is added after the featured products?,The footer,The head,The title,The doctype,The footer
+HTML,16,The footer typically includes:,The modal,The product filter,Links and copyright information,The banner,Links and copyright information
+HTML,16,Overlay CSS is used to:,Play audio,Dim the background behind the modal,Draw a line,Create a table,Dim the background behind the modal
+HTML,16,The CSS for the modal and overlay is added to:,about.html,main.js,styles/style.css,index.html only,styles/style.css
+HTML,16,Which HTML5 semantic element is best suited for the navigation bar?,<span>,<font>,<nav>,<div>,<nav>
+HTML,16,Which HTML5 element could hold the banner introductory content?,<header>,<aside>,<footer>,<table>,<header>
+HTML,16,The categories section on the Home page displays:,Categories of books,Employee data,Videos,Maps,Categories of books
+HTML,16,The purpose of using external CSS and JS files in the project is:,To slow loading,To hide code,"Reusability and separation of content, style, and behavior",To avoid HTML,"Reusability and separation of content, style, and behavior"
+HTML,16,The project demonstrates the integration of:,Only CSS,Only HTML,Only JavaScript,"HTML5, CSS, and JavaScript in a real-world application","HTML5, CSS, and JavaScript in a real-world application"
+HTML,16,"After completing the pages, the Website should be:",Deleted,Printed only,Left untested,"Tested in a browser for links, layout, and validation","Tested in a browser for links, layout, and validation"

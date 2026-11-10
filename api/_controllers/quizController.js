@@ -172,7 +172,10 @@ const quizController = {
                 return res.status(400).json({ success: false, message: 'Category is required' });
             }
 
-            const sessionNum = session === 'all' || session === 'All' ? 0 : (parseInt(session, 10) || 1);
+            const sessionNum =
+                session === 0 || session === '0' || session === 'all' || session === 'All'
+                    ? 0
+                    : (parseInt(session, 10) || 1);
 
             // 1. Fetch Central Settings from MongoDB Atlas
             const settings = await Setting.get();

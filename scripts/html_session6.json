@@ -1,0 +1,558 @@
+{
+  "category": "HTML",
+  "session": 6,
+  "title": "Session 6: Formatting Using Style Sheets",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "Before style sheets, which tag was used to change the color and typeface of text?",
+      "options": [
+        "<font>",
+        "<span>",
+        "<text>",
+        "<style>"
+      ],
+      "correctAnswer": "<font>",
+      "explanation": "Correct answer is A) <font>."
+    },
+    {
+      "questionText": "Which CSS property specifies the horizontal alignment of text?",
+      "options": [
+        "text-indent",
+        "text-align",
+        "text-position",
+        "vertical-align"
+      ],
+      "correctAnswer": "text-align",
+      "explanation": "Correct answer is B) text-align."
+    },
+    {
+      "questionText": "Which property specifies the decoration of text such as underline?",
+      "options": [
+        "text-style",
+        "text-effect",
+        "font-decor",
+        "text-decoration"
+      ],
+      "correctAnswer": "text-decoration",
+      "explanation": "Correct answer is D) text-decoration."
+    },
+    {
+      "questionText": "Which property specifies indentation of the first line of text?",
+      "options": [
+        "text-align",
+        "text-indent",
+        "line-indent",
+        "margin-left"
+      ],
+      "correctAnswer": "text-indent",
+      "explanation": "Correct answer is B) text-indent."
+    },
+    {
+      "questionText": "Which property changes the casing of text?",
+      "options": [
+        "font-variant only",
+        "text-case",
+        "text-transform",
+        "font-case"
+      ],
+      "correctAnswer": "text-transform",
+      "explanation": "Correct answer is C) text-transform."
+    },
+    {
+      "questionText": "Which property increases or decreases space between words?",
+      "options": [
+        "letter-gap",
+        "text-space",
+        "line-height",
+        "word-spacing"
+      ],
+      "correctAnswer": "word-spacing",
+      "explanation": "Correct answer is D) word-spacing."
+    },
+    {
+      "questionText": "Which property specifies the font or a generic family for text?",
+      "options": [
+        "font-family",
+        "font-name",
+        "font-style",
+        "text-font"
+      ],
+      "correctAnswer": "font-family",
+      "explanation": "Correct answer is A) font-family."
+    },
+    {
+      "questionText": "Which property specifies the size of the font?",
+      "options": [
+        "text-size",
+        "size",
+        "font-size",
+        "font-height"
+      ],
+      "correctAnswer": "font-size",
+      "explanation": "Correct answer is C) font-size."
+    },
+    {
+      "questionText": "Which property sets whether the font is normal, italic, or oblique?",
+      "options": [
+        "font-style",
+        "font-weight",
+        "font-type",
+        "font-variant"
+      ],
+      "correctAnswer": "font-style",
+      "explanation": "Correct answer is A) font-style."
+    },
+    {
+      "questionText": "Which property specifies whether text appears in small-caps?",
+      "options": [
+        "font-style",
+        "text-transform",
+        "font-variant",
+        "font-caps"
+      ],
+      "correctAnswer": "font-variant",
+      "explanation": "Correct answer is C) font-variant."
+    },
+    {
+      "questionText": "If a browser does not support the specified font, it will:",
+      "options": [
+        "Show an error",
+        "Display the default font of the browser",
+        "Crash",
+        "Hide the text"
+      ],
+      "correctAnswer": "Display the default font of the browser",
+      "explanation": "Correct answer is B) Display the default font of the browser."
+    },
+    {
+      "questionText": "Which text-align value justifies text on both sides?",
+      "options": [
+        "center",
+        "both",
+        "justify",
+        "full"
+      ],
+      "correctAnswer": "justify",
+      "explanation": "Correct answer is C) justify."
+    },
+    {
+      "questionText": "Which text-align value places text in the middle?",
+      "options": [
+        "justify",
+        "center",
+        "auto",
+        "middle"
+      ],
+      "correctAnswer": "center",
+      "explanation": "Correct answer is B) center."
+    },
+    {
+      "questionText": "The default value of text-indent is:",
+      "options": [
+        "10px",
+        "1em",
+        "auto",
+        "0"
+      ],
+      "correctAnswer": "0",
+      "explanation": "Correct answer is D) 0."
+    },
+    {
+      "questionText": "text-indent: 2em indents the first line with respect to:",
+      "options": [
+        "Font size",
+        "Page width",
+        "Image size",
+        "Screen size"
+      ],
+      "correctAnswer": "Font size",
+      "explanation": "Correct answer is A) Font size."
+    },
+    {
+      "questionText": "Which text-transform value makes the first letter of each word uppercase?",
+      "options": [
+        "lowercase",
+        "uppercase",
+        "capitalize",
+        "title"
+      ],
+      "correctAnswer": "capitalize",
+      "explanation": "Correct answer is C) capitalize."
+    },
+    {
+      "questionText": "text-transform: uppercase displays:",
+      "options": [
+        "Only capital letters",
+        "Only small letters",
+        "Normal text",
+        "First letters capital"
+      ],
+      "correctAnswer": "Only capital letters",
+      "explanation": "Correct answer is A) Only capital letters."
+    },
+    {
+      "questionText": "text-decoration: line-through displays:",
+      "options": [
+        "A line through the text",
+        "A line under the text",
+        "No line",
+        "A line over the text"
+      ],
+      "correctAnswer": "A line through the text",
+      "explanation": "Correct answer is A) A line through the text."
+    },
+    {
+      "questionText": "text-decoration: overline displays:",
+      "options": [
+        "A line under the text",
+        "A line through the text",
+        "A line over the text",
+        "No line"
+      ],
+      "correctAnswer": "A line over the text",
+      "explanation": "Correct answer is C) A line over the text."
+    },
+    {
+      "questionText": "text-decoration: none displays:",
+      "options": [
+        "Normal text without decoration",
+        "Underlined text",
+        "Crossed text",
+        "Hidden text"
+      ],
+      "correctAnswer": "Normal text without decoration",
+      "explanation": "Correct answer is A) Normal text without decoration."
+    },
+    {
+      "questionText": "Which value of word-spacing denotes normal spacing?",
+      "options": [
+        "none",
+        "auto-fit",
+        "normal",
+        "default-space"
+      ],
+      "correctAnswer": "normal",
+      "explanation": "Correct answer is C) normal."
+    },
+    {
+      "questionText": "word-spacing: 2px sets:",
+      "options": [
+        "Margin 2px",
+        "A fixed space of 2 pixels between words",
+        "Line height 2px",
+        "Letter spacing of 2px"
+      ],
+      "correctAnswer": "A fixed space of 2 pixels between words",
+      "explanation": "Correct answer is B) A fixed space of 2 pixels between words."
+    },
+    {
+      "questionText": "The <span> tag is used to:",
+      "options": [
+        "Group block elements",
+        "Group inline elements in a document",
+        "Create lists",
+        "Create tables"
+      ],
+      "correctAnswer": "Group inline elements in a document",
+      "explanation": "Correct answer is B) Group inline elements in a document."
+    },
+    {
+      "questionText": "The <span> tag is useful when you want to:",
+      "options": [
+        "Style part of a sentence without using <b>",
+        "Insert an image",
+        "Create a form",
+        "Create a new page"
+      ],
+      "correctAnswer": "Style part of a sentence without using <b>",
+      "explanation": "Correct answer is A) Style part of a sentence without using <b>."
+    },
+    {
+      "questionText": "Which attribute of <span> specifies a unique identifier?",
+      "options": [
+        "lang",
+        "dir",
+        "id",
+        "title"
+      ],
+      "correctAnswer": "id",
+      "explanation": "Correct answer is C) id."
+    },
+    {
+      "questionText": "Which attribute specifies extra information about an element?",
+      "options": [
+        "class",
+        "id",
+        "title",
+        "style"
+      ],
+      "correctAnswer": "title",
+      "explanation": "Correct answer is C) title."
+    },
+    {
+      "questionText": "Indenting is the process of:",
+      "options": [
+        "Setting off text from its normal position to left or right",
+        "Centering only",
+        "Changing font",
+        "Underlining"
+      ],
+      "correctAnswer": "Setting off text from its normal position to left or right",
+      "explanation": "Correct answer is A) Setting off text from its normal position to left or right."
+    },
+    {
+      "questionText": "Which property adds space between the border of an element and its contents?",
+      "options": [
+        "margin",
+        "padding",
+        "border-gap",
+        "spacing"
+      ],
+      "correctAnswer": "padding",
+      "explanation": "Correct answer is B) padding."
+    },
+    {
+      "questionText": "Which property adds whitespace around an element (outside its border)?",
+      "options": [
+        "margin",
+        "spacing",
+        "outline",
+        "padding"
+      ],
+      "correctAnswer": "margin",
+      "explanation": "Correct answer is A) margin."
+    },
+    {
+      "questionText": "Borders in CSS are:",
+      "options": [
+        "Rectangular outlines surrounding an element",
+        "Backgrounds",
+        "Fonts",
+        "Scripts"
+      ],
+      "correctAnswer": "Rectangular outlines surrounding an element",
+      "explanation": "Correct answer is A) Rectangular outlines surrounding an element."
+    },
+    {
+      "questionText": "Which CSS border properties are used?",
+      "options": [
+        "Only color",
+        "Only width",
+        "Only style",
+        "Style, color, and width"
+      ],
+      "correctAnswer": "Style, color, and width",
+      "explanation": "Correct answer is D) Style, color, and width."
+    },
+    {
+      "questionText": "Which property sets the style of all four borders?",
+      "options": [
+        "border-style",
+        "border-line",
+        "border-type",
+        "border-shape"
+      ],
+      "correctAnswer": "border-style",
+      "explanation": "Correct answer is A) border-style."
+    },
+    {
+      "questionText": "Which value of border-style gives a dotted line?",
+      "options": [
+        "dot",
+        "points",
+        "dash",
+        "dotted"
+      ],
+      "correctAnswer": "dotted",
+      "explanation": "Correct answer is D) dotted."
+    },
+    {
+      "questionText": "Which of the following is a valid border-style value?",
+      "options": [
+        "thick",
+        "solid",
+        "full",
+        "thin"
+      ],
+      "correctAnswer": "solid",
+      "explanation": "Correct answer is B) solid."
+    },
+    {
+      "questionText": "Which border-style value draws a 3D grooved border?",
+      "options": [
+        "groove",
+        "outset",
+        "inset",
+        "ridge"
+      ],
+      "correctAnswer": "groove",
+      "explanation": "Correct answer is A) groove."
+    },
+    {
+      "questionText": "Which border-style makes the border appear as a 3D inset?",
+      "options": [
+        "inset",
+        "outset",
+        "ridge",
+        "solid"
+      ],
+      "correctAnswer": "inset",
+      "explanation": "Correct answer is A) inset."
+    },
+    {
+      "questionText": "The border-color property applies colors to:",
+      "options": [
+        "Only left",
+        "Only top",
+        "None",
+        "All four borders"
+      ],
+      "correctAnswer": "All four borders",
+      "explanation": "Correct answer is D) All four borders."
+    },
+    {
+      "questionText": "Which property sets only the top border's color?",
+      "options": [
+        "border-top-color",
+        "top-border-color",
+        "color-top-border",
+        "border-color-top"
+      ],
+      "correctAnswer": "border-top-color",
+      "explanation": "Correct answer is A) border-top-color."
+    },
+    {
+      "questionText": "The border-color value \"transparent\" means:",
+      "options": [
+        "The border is black",
+        "The border is thick",
+        "The border is transparent",
+        "The border is dashed"
+      ],
+      "correctAnswer": "The border is transparent",
+      "explanation": "Correct answer is C) The border is transparent."
+    },
+    {
+      "questionText": "Which can be used to specify border colors?",
+      "options": [
+        "Only names",
+        "RGB, hexadecimal values, or color names",
+        "Only hex",
+        "Only RGB"
+      ],
+      "correctAnswer": "RGB, hexadecimal values, or color names",
+      "explanation": "Correct answer is B) RGB, hexadecimal values, or color names."
+    },
+    {
+      "questionText": "border-color: red blue green yellow displays:",
+      "options": [
+        "Top blue, right red",
+        "Top red, right blue, bottom green, left yellow",
+        "All yellow",
+        "All red"
+      ],
+      "correctAnswer": "Top red, right blue, bottom green, left yellow",
+      "explanation": "Correct answer is B) Top red, right blue, bottom green, left yellow."
+    },
+    {
+      "questionText": "The border-width property specifies:",
+      "options": [
+        "The color",
+        "The style",
+        "The thickness of borders",
+        "The margin"
+      ],
+      "correctAnswer": "The thickness of borders",
+      "explanation": "Correct answer is C) The thickness of borders."
+    },
+    {
+      "questionText": "Which property sets the width of only the bottom border?",
+      "options": [
+        "border-width-bottom",
+        "width-bottom",
+        "bottom-border-width",
+        "border-bottom-width"
+      ],
+      "correctAnswer": "border-bottom-width",
+      "explanation": "Correct answer is D) border-bottom-width."
+    },
+    {
+      "questionText": "Which border-width value can be an explicit length?",
+      "options": [
+        "length",
+        "size",
+        "wide",
+        "fixed"
+      ],
+      "correctAnswer": "length",
+      "explanation": "Correct answer is A) length."
+    },
+    {
+      "questionText": "Which of the following is a predefined border-width value?",
+      "options": [
+        "thin",
+        "wide",
+        "tiny",
+        "heavy"
+      ],
+      "correctAnswer": "thin",
+      "explanation": "Correct answer is A) thin."
+    },
+    {
+      "questionText": "The shorthand property border sets:",
+      "options": [
+        "Only color",
+        "Only style",
+        "Width, style, and color together",
+        "Only radius"
+      ],
+      "correctAnswer": "Width, style, and color together",
+      "explanation": "Correct answer is C) Width, style, and color together."
+    },
+    {
+      "questionText": "Which is the correct shorthand for a 2px solid red border?",
+      "options": [
+        "border-all: 2px solid red;",
+        "border: 2px solid red;",
+        "border: solid-2px-red;",
+        "border: red solid 2;"
+      ],
+      "correctAnswer": "border: 2px solid red;",
+      "explanation": "Correct answer is B) border: 2px solid red;."
+    },
+    {
+      "questionText": "The margin property is used to add:",
+      "options": [
+        "A background",
+        "A color",
+        "Whitespace around an element",
+        "Space between border and content"
+      ],
+      "correctAnswer": "Whitespace around an element",
+      "explanation": "Correct answer is C) Whitespace around an element."
+    },
+    {
+      "questionText": "Which property adds space inside the border around the content?",
+      "options": [
+        "padding",
+        "outline",
+        "margin",
+        "spacing"
+      ],
+      "correctAnswer": "padding",
+      "explanation": "Correct answer is A) padding."
+    },
+    {
+      "questionText": "Which of the following describes the effect of word-spacing?",
+      "options": [
+        "Changes margins",
+        "Changes line spacing",
+        "Changes the space between letters",
+        "Changes the space between words"
+      ],
+      "correctAnswer": "Changes the space between words",
+      "explanation": "Correct answer is D) Changes the space between words."
+    }
+  ]
+}

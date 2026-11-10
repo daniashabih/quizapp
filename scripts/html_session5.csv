@@ -1,0 +1,50 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,5,CSS is a style sheet language used to:,Store data,Run server code,Create databases,Inform the browser how to present a document,Inform the browser how to present a document
+HTML,5,"In a Web page, the HTML document defines the ______ while CSS defines ______.",Style; content,Content; how elements are displayed,Server; client,Scripts; images,Content; how elements are displayed
+HTML,5,CSS is a mechanism for adding style such as:,Databases,E-mail,Server logic,"Fonts, colors, and spacing","Fonts, colors, and spacing"
+HTML,5,CSS versions are denoted as:,CSS-HTML,"CSS-A, CSS-B",CSS 1.1 only,"CSS1, CSS2, CSS3, CSS4","CSS1, CSS2, CSS3, CSS4"
+HTML,5,CSS3 is divided into multiple documents called:,Layers,Frames,Modes,Modules,Modules
+HTML,5,Drafting of the first CSS3 drafts started in:,June 1999,June 2005,June 2015,June 2010,June 1999
+HTML,5,"The general syntax of CSS consists of selector, property, and:",Script,Tag,Value,Entity,Value
+HTML,5,"In CSS, a selector is:",A comment,The file name,The color value,The HTML element for which style is specified,The HTML element for which style is specified
+HTML,5,A property in CSS is:,The file extension,The URL,The HTML tag,The type of style to be applied to the selector,The type of style to be applied to the selector
+HTML,5,A property and its value are separated by a:,Semicolon,Colon,Comma,Hyphen,Colon
+HTML,5,Multiple property-value pairs within a declaration block are separated by a:,Comma,Colon,Semicolon,Dot,Semicolon
+HTML,5,The declaration block is enclosed within:,Curly braces { },Square brackets [ ],Parentheses ( ),Angle brackets < >,Curly braces { }
+HTML,5,Multiple selectors sharing the same style are grouped using:,Periods,Commas,Semicolons,Colons,Commas
+HTML,5,Which of the following is a relative unit in CSS?,pc,pt,in,em,em
+HTML,5,The em unit is relative to:,The font-size of the selector,The window height,The page width,The screen width,The font-size of the selector
+HTML,5,The ex unit refers to:,The line height,The page width,The x-height of a font,The full font size,The x-height of a font
+HTML,5,The px unit specifies:,Size in picas,Size in inches,Size in pixels relative to the screen,Size in points,Size in pixels relative to the screen
+HTML,5,1 inch equals how many centimeters?,2.54,3.54,10,1.54,2.54
+HTML,5,1 point (pt) equals:,1/72 of an inch,1/100 of an inch,1/12 of an inch,1/36 of an inch,1/72 of an inch
+HTML,5,1 pica (pc) equals:,6 points,72 points,24 points,12 points,12 points
+HTML,5,"If font-size is set to 120% for an h1 element, the size appears:",Double,20% smaller,Unchanged,20% greater than the current size,20% greater than the current size
+HTML,5,line-height: 200% means the height of the line is:,Half the normal height,Double the normal height,Equal to font size,Zero,Double the normal height
+HTML,5,How many types of style sheets exist in CSS?,Two,Three,Four,Five,Three
+HTML,5,Which are the three types of style sheets?,"Local, global, inline","Static, dynamic, inline","Inline, internal, external","Block, inline, external","Inline, internal, external"
+HTML,5,An inline style is defined using the:,<link> tag,<style> element in the head,style attribute within an HTML element,External .css file,style attribute within an HTML element
+HTML,5,An internal style sheet is defined using the:,<style> element,style attribute,<script> element,<link> element,<style> element
+HTML,5,Internal styles are placed inside the:,<head> section,<footer>,<body> only,<title>,<head> section
+HTML,5,The type attribute of the <style> element is set to:,text/css,text/html,text/javascript,application/css,text/css
+HTML,5,Internal style sheets are useful when:,Styles apply to a specific Web page,Styles apply to a whole site,No styles are needed,Styles are needed in e-mail,Styles apply to a specific Web page
+HTML,5,Inline styles:,Cannot be reused elsewhere in the page,Apply to the whole site,Can be reused anywhere,Are stored in .css file,Cannot be reused elsewhere in the page
+HTML,5,An external style sheet is saved with the extension:,.style,.js,.css,.html,.css
+HTML,5,The main benefit of an external style sheet is:,Faster server,Less HTML code only,Reusability and a consistent look across multiple pages,Smaller images,Reusability and a consistent look across multiple pages
+HTML,5,An external style sheet is linked using:,"<css href=""style.css"">","<a href=""style.css"">","<link rel=""stylesheet"" href=""style.css"">","<style src=""style.css"">","<link rel=""stylesheet"" href=""style.css"">"
+HTML,5,"The rel=""stylesheet"" attribute specifies:",The linked object is a style sheet,The language,The font,The color,The linked object is a style sheet
+HTML,5,Which style sheet has the highest priority?,External,Internal,Browser default,Inline,Inline
+HTML,5,A type selector applies styles to:,Only classes,All occurrences of the specified element,Nothing,Only one element with an id,All occurrences of the specified element
+HTML,5,A class selector matches elements whose ______ attribute is set.,id,title,class,name,class
+HTML,5,A class selector is written with a prefix of:,# (hash),@,. (dot),* (asterisk),. (dot)
+HTML,5,An ID selector begins with the:,Dot (.),Hash (#) symbol,Colon (:),Asterisk (*),Hash (#) symbol
+HTML,5,The universal selector is represented by:,# (hash),. (dot),* (asterisk),& (ampersand),* (asterisk)
+HTML,5,The universal selector applies styles to:,All elements in the document,Only ids,Only the body,Only classes,All elements in the document
+HTML,5,An id value should be:,Left blank,Unique in a page,Repeated for all elements,Numeric only,Unique in a page
+HTML,5,Which can be applied to multiple elements?,Neither,Both are unique,ID,Class,Class
+HTML,5,Comments in CSS are written between:,// and //,<!-- and -->,# and #,/* and */,/* and */
+HTML,5,"In the cascade, rules determine which style is applied when:",Only one style exists,Styles are absent,Multiple style sheets define styles for the same element,The page is blank,Multiple style sheets define styles for the same element
+HTML,5,Which of the following correctly styles all <p> elements red?,#p { color: red; },p = red,p { color: red; },.p { color: red; },p { color: red; }
+HTML,5,"Which CSS rule applies bold to elements with class ""note""?",#note { font-weight: bold; },note { bold: true; },*note { font-weight: bold; },.note { font-weight: bold; },.note { font-weight: bold; }
+HTML,5,The modules published by the CSS working group number about:,Five,Fifty,Five hundred,Ten,Fifty
+HTML,5,CSS4 drafting was started by W3C on:,"Sep 29, 2009",Jun 1999,"Jan 1, 2000",Mar 2015,"Sep 29, 2009"

@@ -75,142 +75,148 @@ class _FlutterSpeedTypingState extends State<FlutterSpeedTyping> {
   Widget build(BuildContext context) {
     final typedText = _controller.text;
 
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 720),
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: context.cardBgColor,
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: context.borderColor),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: context.isDarkMode ? 0.3 : 0.05),
-                blurRadius: 16,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: context.gameBadgeBgColor,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: context.gameBadgeBorderColor),
-                    ),
-                    child: Text(
-                      '$_wpm WPM',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                        fontFamily: 'monospace',
-                        color: context.gameBadgeTextColor,
+    return SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 720),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: context.cardBgColor,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: context.borderColor),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: context.isDarkMode ? 0.3 : 0.05),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: context.gameBadgeBgColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: context.gameBadgeBorderColor),
+                      ),
+                      child: Text(
+                        '$_wpm WPM',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          fontFamily: 'monospace',
+                          color: context.gameBadgeTextColor,
+                        ),
                       ),
                     ),
+                    Text(
+                      'Accuracy: $_accuracy%',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.gameBestScore,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  decoration: BoxDecoration(
+                    color: context.gameCodeBgColor,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: context.gameCodeBorderColor),
                   ),
-                  Text(
-                    'Accuracy: $_accuracy%',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.gameBestScore,
+                  padding: const EdgeInsets.all(14),
+                  child: RichText(
+                    text: TextSpan(
+                      children: List.generate(_passage.length, (i) {
+                        final char = _passage[i];
+                        Color col = context.textSecondaryColor;
+
+                        if (i < typedText.length) {
+                          col = typedText[i] == char
+                              ? context.successColor
+                              : context.errorColor;
+                        }
+
+                        return TextSpan(
+                          text: char,
+                          style: TextStyle(
+                            fontFamily: 'monospace',
+                            fontSize: 13,
+                            height: 1.45,
+                            color: col,
+                            fontWeight: i < typedText.length && typedText[i] != char
+                                ? FontWeight.bold
+                                : FontWeight.w500,
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _controller,
+                  focusNode: _focusNode,
+                  enabled: !_isFinished && !widget.isPaused,
+                  onChanged: _onTextChanged,
+                  style: TextStyle(
+                    color: context.textPrimaryColor,
+                    fontFamily: 'monospace',
+                    fontSize: 13,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: 'Start typing here...',
+                    hintStyle: TextStyle(color: context.textMutedColor),
+                    filled: true,
+                    fillColor: context.cardBgColor,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: context.borderColor),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: context.borderColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: AppColors.gamePrimaryButton, width: 2),
+                    ),
+                  ),
+                ),
+                if (_isFinished) ...[
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: Colors.green.withValues(alpha: 0.4)),
+                    ),
+                    child: Text(
+                      'Passage Finished! Final: $_wpm WPM with $_accuracy% accuracy.',
+                      style: TextStyle(
+                        color: context.successColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: 12),
-              Container(
-                decoration: BoxDecoration(
-                  color: context.gameCodeBgColor,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: context.gameCodeBorderColor),
-                ),
-                padding: const EdgeInsets.all(14),
-                child: RichText(
-                  text: TextSpan(
-                    children: List.generate(_passage.length, (i) {
-                      final char = _passage[i];
-                      Color col = context.textMutedColor;
-
-                      if (i < typedText.length) {
-                        col = typedText[i] == char ? AppColors.success : AppColors.error;
-                      }
-
-                      return TextSpan(
-                        text: char,
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 13,
-                          height: 1.4,
-                          color: col,
-                          fontWeight: i < typedText.length && typedText[i] != char ? FontWeight.bold : FontWeight.normal,
-                        ),
-                      );
-                    }),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: _controller,
-                focusNode: _focusNode,
-                enabled: !_isFinished && !widget.isPaused,
-                onChanged: _onTextChanged,
-                style: TextStyle(
-                  color: context.textPrimaryColor,
-                  fontFamily: 'monospace',
-                  fontSize: 13,
-                ),
-                decoration: InputDecoration(
-                  hintText: 'Start typing here...',
-                  hintStyle: TextStyle(color: context.textMutedColor),
-                  filled: true,
-                  fillColor: context.cardBgColor,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: context.borderColor),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: context.borderColor),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.gamePrimaryButton, width: 2),
-                  ),
-                ),
-              ),
-              if (_isFinished) ...[
-                const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: Colors.green.withValues(alpha: 0.4)),
-                  ),
-                  child: Text(
-                    'Passage Finished! Final: $_wpm WPM with $_accuracy% accuracy.',
-                    style: const TextStyle(
-                      color: Color(0xFF15803D),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
               ],
-            ],
+            ),
           ),
         ),
       ),

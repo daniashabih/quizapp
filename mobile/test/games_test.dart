@@ -4,10 +4,10 @@ import 'package:hangbug/repositories/game_repository.dart';
 
 void main() {
   group('Coding & Typing Games Feature Model & Repository Tests', () {
-    test('1. Fallback Games Collection contains all 14 coding & typing games', () {
+    test('1. Fallback Games Collection contains all 18 coding & typing games', () {
       final games = GameRepository.fallbackGames;
       expect(games, isNotEmpty);
-      expect(games.length, equals(14));
+      expect(games.length, equals(18));
 
       final slugs = games.map((g) => g.slug).toList();
       // 8 Coding Games

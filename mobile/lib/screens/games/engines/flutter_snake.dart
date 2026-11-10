@@ -169,148 +169,155 @@ class _FlutterSnakeState extends State<FlutterSnake> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Stats bar
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.circle, size: 10, color: Colors.red),
-                const SizedBox(width: 4),
-                Text('$_applesCount apples', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                if (_goldenFood != null) ...[
-                  const SizedBox(width: 8),
-                  const Text('⭐ Golden!', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.amber)),
+    return SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Stats bar
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.circle, size: 10, color: Colors.red),
+                      const SizedBox(width: 4),
+                      Text('$_applesCount apples', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                      if (_goldenFood != null) ...[
+                        const SizedBox(width: 8),
+                        const Text('⭐ Golden!', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.amber)),
+                      ],
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          'SCORE: $_score',
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.green),
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      IconButton(
+                        onPressed: _startGame,
+                        icon: const Icon(Icons.refresh_rounded, size: 18),
+                        tooltip: 'Restart',
+                        visualDensity: VisualDensity.compact,
+                      ),
+                    ],
+                  ),
                 ],
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    'SCORE: $_score',
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.green),
-                  ),
-                ),
-                const SizedBox(width: 6),
-                IconButton(
-                  onPressed: _startGame,
-                  icon: const Icon(Icons.refresh_rounded, size: 18),
-                  tooltip: 'Restart',
-                  visualDensity: VisualDensity.compact,
-                ),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-
-        // Custom Canvas Grid
-        GestureDetector(
-          onHorizontalDragEnd: (details) {
-            final vx = details.primaryVelocity ?? 0;
-            if (vx > 100) _changeDirection(const Point(1, 0));
-            if (vx < -100) _changeDirection(const Point(-1, 0));
-          },
-          onVerticalDragEnd: (details) {
-            final vy = details.primaryVelocity ?? 0;
-            if (vy > 100) _changeDirection(const Point(0, 1));
-            if (vy < -100) _changeDirection(const Point(0, -1));
-          },
-          child: Container(
-            width: 280,
-            height: 280,
-            decoration: BoxDecoration(
-              color: const Color(0xFF090D16),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: Colors.white12),
-            ),
-            child: CustomPaint(
-              painter: _SnakePainter(
-                snake: _snake,
-                food: _food,
-                goldenFood: _goldenFood,
-                gridSize: _gridSize,
               ),
-            ),
+              const SizedBox(height: 10),
+
+              // Custom Canvas Grid
+              GestureDetector(
+                onHorizontalDragEnd: (details) {
+                  final vx = details.primaryVelocity ?? 0;
+                  if (vx > 100) _changeDirection(const Point(1, 0));
+                  if (vx < -100) _changeDirection(const Point(-1, 0));
+                },
+                onVerticalDragEnd: (details) {
+                  final vy = details.primaryVelocity ?? 0;
+                  if (vy > 100) _changeDirection(const Point(0, 1));
+                  if (vy < -100) _changeDirection(const Point(0, -1));
+                },
+                child: Container(
+                  width: 280,
+                  height: 280,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF090D16),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: Colors.white12),
+                  ),
+                  child: CustomPaint(
+                    painter: _SnakePainter(
+                      snake: _snake,
+                      food: _food,
+                      goldenFood: _goldenFood,
+                      gridSize: _gridSize,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 12),
+              // Onscreen D-Pad for Mobile
+              Column(
+                children: [
+                  InkWell(
+                    onTap: () => _changeDirection(const Point(0, -1)),
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      width: 48,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(Icons.keyboard_arrow_up_rounded),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () => _changeDirection(const Point(-1, 0)),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: 48,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(Icons.keyboard_arrow_left_rounded),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      InkWell(
+                        onTap: () => _changeDirection(const Point(0, 1)),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: 48,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(Icons.keyboard_arrow_down_rounded),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      InkWell(
+                        onTap: () => _changeDirection(const Point(1, 0)),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: 48,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(Icons.keyboard_arrow_right_rounded),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-
-        const SizedBox(height: 12),
-        // Onscreen D-Pad for Mobile
-        Column(
-          children: [
-            InkWell(
-              onTap: () => _changeDirection(const Point(0, -1)),
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                width: 48,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(Icons.keyboard_arrow_up_rounded),
-              ),
-            ),
-            const SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () => _changeDirection(const Point(-1, 0)),
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    width: 48,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(Icons.keyboard_arrow_left_rounded),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                InkWell(
-                  onTap: () => _changeDirection(const Point(0, 1)),
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    width: 48,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(Icons.keyboard_arrow_down_rounded),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                InkWell(
-                  onTap: () => _changeDirection(const Point(1, 0)),
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    width: 48,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(Icons.keyboard_arrow_right_rounded),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
+      ),
     );
   }
 }

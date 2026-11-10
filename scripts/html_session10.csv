@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,10,A table is made up of:,Rows and columns,Only cells without structure,Only rows,Only columns,Rows and columns
+HTML,10,The intersection of a row and a column is called a:,Cell,Caption,Table,Span,Cell
+HTML,10,Which element creates a table?,<grid>,<tab>,<tbl>,<table>,<table>
+HTML,10,Which element divides a table into rows?,<th>,<tb>,<td>,<tr>,<tr>
+HTML,10,Which element specifies a data cell (column entry) in a row?,<td>,<th>,<tr>,<tc>,<td>
+HTML,10,"By default, a table:",Has a 2px border,Has no border,Has a colored border,Has a 1px border,Has no border
+HTML,10,Which attribute of <table> specifies a border?,border,outline,edge,line,border
+HTML,10,Which element specifies a column heading?,<td>,<tr>,<th>,<thead only>,<th>
+HTML,10,Text in a <th> element appears:,Bold,Italic,Hidden,Underlined,Bold
+HTML,10,Which attribute extends a cell across multiple columns?,rowspan,merge,colspan,span,colspan
+HTML,10,Which attribute extends a cell across multiple rows?,rowspan,colspan,span,merge,rowspan
+HTML,10,"colspan=""2"" means the cell spans:",Two pages,Two tables,Two rows,Two columns,Two columns
+HTML,10,The rowspan attribute can be used within:,<tr> only,<caption> only,<td> and <th>,<table> only,<td> and <th>
+HTML,10,Spanning refers to:,Adding borders,Creating headers,Extending a cell across multiple rows or columns,Deleting cells,Extending a cell across multiple rows or columns
+HTML,10,"By default, data within a table cell is aligned:",Justified,To the right,To the left,To the center,To the left
+HTML,10,"By default, table headings are aligned:",To the left,Justified,To the center,To the right,To the center
+HTML,10,Which CSS property sets horizontal alignment in table cells?,valign,text-align,float,vertical-align only,text-align
+HTML,10,Which attribute was used for vertical alignment but is deprecated in HTML5?,align-vertical,vertical,valign,halign,valign
+HTML,10,Which CSS property sets vertical alignment of table cell content?,valign-style,vertical-align,v-align,text-vertical,vertical-align
+HTML,10,Cell padding is the space between:,The table and the page,Two cells,The text and the cell border,The caption and the table,The text and the cell border
+HTML,10,Which element specifies the title of an entire table?,<th>,<caption>,<head>,<title>,<caption>
+HTML,10,How many captions can a table have?,One,Two,Three,Unlimited,One
+HTML,10,"To set a table's width to the full browser window, set width to:",100px,1em,100%,auto only,100%
+HTML,10,A column width in pixels can be set by using the style attribute in the:,<head> tag,<td> tag,<caption> tag,<body> tag,<td> tag
+HTML,10,"Which CSS property sets all of width, color, and style of a border at once?",border,border-all,borders,border-set,border
+HTML,10,"To format only the bottom border, use:",border-bottom,border-lower,bottom-border,border-down,border-bottom
+HTML,10,"For layout, tables are used to:",Run scripts,Compress images,Organize content in rows and columns,Play videos,Organize content in rows and columns
+HTML,10,"In current practice, CSS is preferred over tables for layout because it:",Has no features,Is more flexible and reliable,Needs plug-ins,Is slower,Is more flexible and reliable
+HTML,10,"Earlier, playing video in a browser required:",Only HTML,A plug-in or ActiveX control,Nothing,Only CSS,A plug-in or ActiveX control
+HTML,10,HTML5 introduced which two media elements?,<media> and <play>,<mp3> and <mp4>,<sound> and <movie>,<audio> and <video>,<audio> and <video>
+HTML,10,HTML5 media elements remove the dependency on:,Flash,JavaScript,HTML,CSS,Flash
+HTML,10,Multimedia is a combination of:,Only sound,"Video, graphics, sound, and text",Only graphics,Only text,"Video, graphics, sound, and text"
+HTML,10,A codec is:,A device or program that encodes and decodes digital data streams,A font,A server,A style sheet,A device or program that encodes and decodes digital data streams
+HTML,10,A container format stores:,Only images,Only styles,Only text,Coded video and audio together,Coded video and audio together
+HTML,10,Which of the following is a container format?,Ogg,CSS,HTML,JPEG,Ogg
+HTML,10,The src attribute of <audio> specifies:,The loop,The URL of the audio file,The controls,The volume,The URL of the audio file
+HTML,10,Commonly used audio formats include:,"doc, pdf, txt","exe, zip, bat","wav, ogg, and mp3","css, js, html","wav, ogg, and mp3"
+HTML,10,Which tag specifies multiple media sources for <audio> or <video>?,<track>,<src>,<source>,<media>,<source>
+HTML,10,"When there are multiple <source> elements, the browser uses:",None,All formats,The first format it supports,The last format,The first format it supports
+HTML,10,The controls attribute of <audio>:,Mutes audio,Displays audio playback controls,Starts playback,Loops audio,Displays audio playback controls
+HTML,10,The autoplay attribute:,Hides audio,Starts playback as soon as possible,Pauses audio,Mutes audio,Starts playback as soon as possible
+HTML,10,The loop attribute:,Mutes,Stops after one play,Hides controls,Replays the audio once it stops,Replays the audio once it stops
+HTML,10,The preload attribute is ignored if:,loop exists,src exists,autoplay exists,controls exists,autoplay exists
+HTML,10,The <embed> tag is used to play audio in:,Mobile only,Print,New browsers only,Older browsers,Older browsers
+HTML,10,"The <embed> attribute autostart=""false"" means:",Audio plays automatically,Audio is hidden,Audio will not play automatically,Audio loops,Audio will not play automatically
+HTML,10,Which element embeds video content in HTML5?,<video>,<film>,<clip>,<movie>,<video>
+HTML,10,Content placed between <video> and </video> is displayed:,Never,Always,During playback,If the browser does not support the video tag,If the browser does not support the video tag
+HTML,10,Which attribute starts the video as soon as it is ready?,preload,muted,loop,autoplay,autoplay
+HTML,10,The muted attribute:,Mutes the video initially,Loops the video,Hides controls,Starts the video,Mutes the video initially
+HTML,10,"The preload=""none"" value means the video:",Autoplays,Is fully downloaded,Loads metadata only,Is not downloaded when the page loads,Is not downloaded when the page loads
+HTML,10,"The preload=""metadata"" value:",Loads only metadata when the page loads,Autoplays,Loads the full video,Loads nothing,Loads only metadata when the page loads
+HTML,10,"Which is a royalty-free, open-source video format?",AVI,Ogg Theora,WMV,H.264 (licensed),Ogg Theora
+HTML,10,H.264/MP4 is supported on:,Only desktops,Only servers,iPhone and Android devices,Only printers,iPhone and Android devices
+HTML,10,Web Video Text Tracks (WebVTT) is a format used to:,Format tables,Mark up external text tracks for video,Encode audio,Store images,Mark up external text tracks for video
+HTML,10,The <track> element is used to add:,"Captions, subtitles, and chapters to audio/video",Links,Images,Tables,"Captions, subtitles, and chapters to audio/video"

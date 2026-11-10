@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,9,HTML5 semantic tags are classified as:,Block and table,Inline and meta,Text-level and structural,Form and script,Text-level and structural
+HTML,9,Structural semantic tags are:,Block-level elements used to structure pages,Styles,Scripts,Inline elements,Block-level elements used to structure pages
+HTML,9,Text-level semantic tags are currently:,Block elements,Table elements,Script elements,Inline elements,Inline elements
+HTML,9,The <section> element represents:,A random div,A comment,A page title,A group of related content different from other content groups,A group of related content different from other content groups
+HTML,9,The <header> element can be used:,At the top of the document or the top of a section,Only in forms,Only once in a page,Only in the footer,At the top of the document or the top of a section
+HTML,9,Can an HTML5 document have multiple <header> elements?,Only with scripts,No,Yes,Only two,Yes
+HTML,9,The <footer> element contains:,Information about the document or section,Navigation menus only,Images only,Scripts only,Information about the document or section
+HTML,9,The <aside> element represents content that is:,Unrelated to anything,The page title,The document footer,"Related to the main text, often as a sidebar","Related to the main text, often as a sidebar"
+HTML,9,The <nav> element is used for:,Images,Major navigational links,Article text,Footer text,Major navigational links
+HTML,9,Which could be a source for an <article> element?,A style sheet,A script,Page title only,"Blog entry, forum post, news story","Blog entry, forum post, news story"
+HTML,9,The <mark> tag is used for:,Highlighting words in a page,Adding a comment,Marking deleted text,Creating a link,Highlighting words in a page
+HTML,9,The <meter> tag displays:,A video,A scalar measurement within a known range,The progress of a task,A table,A scalar measurement within a known range
+HTML,9,Which attribute of <meter> specifies the maximum value of the range?,optimum,low,min,max,max
+HTML,9,The <progress> tag is used to:,Display a link,Display a date,Display a measurement,Display the progress of a task,Display the progress of a task
+HTML,9,"In <progress>, the value attribute specifies:",The maximum,The name,How much of the task has been completed,The color,How much of the task has been completed
+HTML,9,The <header> tag differs from <head> because <header>:,Contains metadata,Is used in the body for introductory content,Is the root,Contains the title only,Is used in the body for introductory content
+HTML,9,Navigation bars can be:,Only vertical,Only horizontal,Only circular,Horizontal or vertical,Horizontal or vertical
+HTML,9,A text-based navigation bar has the advantage of:,Better graphics,Needing images,Reduced loading time,Slow loading,Reduced loading time
+HTML,9,A graphical navigation bar:,Needs no images,Uses icons and is visually appealing,Uses only text,Cannot have links,Uses icons and is visually appealing
+HTML,9,A disadvantage of graphical navigation bars is:,No icons,No links,Poor visuals,Longer page loading time,Longer page loading time
+HTML,9,A rollover effect in a navigation bar:,Changes fonts only,Loads a new page,Swaps images when the mouse moves over them,Hides links,Swaps images when the mouse moves over them
+HTML,9,Image maps are images with:,Clickable areas,Sound,Transparent pixels,Animations,Clickable areas
+HTML,9,Which tag defines an image map?,<img>,<imagemap>,<area>,<map>,<map>
+HTML,9,Which tag defines the clickable areas in an image map?,<link>,<map>,<area>,<zone>,<area>
+HTML,9,Which attribute of <img> links it to a map?,area,href,map,usemap,usemap
+HTML,9,The <div> tag defines:,A division in a Web page used to group block elements,An inline group,A table,A list,A division in a Web page used to group block elements
+HTML,9,Which position value is the default for a <div>?,fixed,relative,static,absolute,static
+HTML,9,"The top, bottom, left, and right properties work only if:",An id is set,A class is set,The display is none,The position property is set,The position property is set
+HTML,9,Which HTML element is the container for form input elements?,<form>,<input>,<fieldset>,<section>,<form>
+HTML,9,The action attribute of the form element defines:,The form name,The layout,The form color,The action to be performed when the form is submitted,The action to be performed when the form is submitted
+HTML,9,Form controls include:,"Check boxes, radio buttons, and text boxes",Only buttons,Only images,Only text boxes,"Check boxes, radio buttons, and text boxes"
+HTML,9,HTML5 forms provide client-side validation:,Not at all,Only on server,Only through plug-ins,Natively by the browser,Natively by the browser
+HTML,9,Which new input type accepts e-mail addresses?,"type=""@""","type=""mail""","type=""email""","type=""text-email""","type=""email"""
+HTML,9,"To allow multiple e-mail addresses in an e-mail field, separate them with:",Slashes,Spaces only,Commas,Semicolons only,Commas
+HTML,9,The for attribute of <label> must match the ______ of the element.,id,class,type,name,id
+HTML,9,The id attribute value should be:,A number,Empty,Unique within the document,Duplicated,Unique within the document
+HTML,9,The name attribute is used to reference:,Only classes,Form data after submission,Only titles,Only styles,Form data after submission
+HTML,9,The input type for Web addresses is:,href,url,web,link,url
+HTML,9,The input type for telephone numbers is:,number,phone,call,tel,tel
+HTML,9,The tel input type does not impose a pattern because:,Phone formats vary across countries,It is unsupported,It is restricted,Phones have no format,Phone formats vary across countries
+HTML,9,The input type that displays a slider control is:,range,number,date,color,range
+HTML,9,The step attribute of range specifies:,The max,The interval for incrementing the value,The min,The default value,The interval for incrementing the value
+HTML,9,The default value of the step attribute is:,1,10,0,100,1
+HTML,9,The input type that selects only the year and month is:,week,month,time,date,month
+HTML,9,The input type that displays time in hours and minutes is:,date,time,week,month,time
+HTML,9,The input type that provides a color picker is:,color,rgb,palette,colour,color
+HTML,9,The color input value is a:,Binary,Decimal,Text name,Hexadecimal number,Hexadecimal number
+HTML,9,The placeholder attribute:,Validates data,Hides the field,Displays a hint to help users enter correct data,Stores data,Displays a hint to help users enter correct data
+HTML,9,The pattern attribute uses:,CSS,A regular expression for validation,SQL,A URL,A regular expression for validation
+HTML,9,The multiple attribute:,Allows only one value,Allows multiple values to be entered,Hides the field,Sets the color,Allows multiple values to be entered
+HTML,9,The <datalist> element is used with the ______ attribute to make a drop-down control.,list,value,id only,for,list
+HTML,9,Which method sets a custom error message in the HTML5 Forms API?,setError(),validate(),setCustomValidity(),checkValidity(),setCustomValidity()
+HTML,9,Which method checks the validity of a field?,validate(),isValid(),setCustomValidity(),checkValidity(),checkValidity()
+HTML,9,Which pseudo-class styles an input that is invalid?,:bad,:wrong,:invalid,:error,:invalid
+HTML,9,Which pseudo-class styles an input that is valid?,:true,:valid,:ok,:good,:valid

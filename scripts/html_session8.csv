@@ -1,0 +1,54 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,8,Which two popular layout modules are used in modern CSS?,Frames and Div,Inline and Block,Float and Table,Flexbox and Grid,Flexbox and Grid
+HTML,8,The CSS Flexible Box Layout Module is also known as:,Flexbox,Floatbox,Gridbox,Tablebox,Flexbox
+HTML,8,Flexbox takes care of:,"Alignment, layout, and space distribution",Database access,Server routing,Image compression,"Alignment, layout, and space distribution"
+HTML,8,All items in a flex container are called:,Flex cells,Flex tracks,Flex lines,Flex items,Flex items
+HTML,8,"To make an element a flex container, the display property is set to:",block-flex,grid,flex,inline,flex
+HTML,8,The main axis in flexbox is determined by:,The border,The direction of the flex items,The font size,The page width,The direction of the flex items
+HTML,8,The cross axis is always:,Perpendicular to the main axis,Parallel to the main axis,Diagonal,Hidden,Perpendicular to the main axis
+HTML,8,"If the main axis is horizontal, the cross axis is:",Horizontal,Diagonal,Vertical,Absent,Vertical
+HTML,8,Which property defines how flex items are stacked?,flex-flow,flex-wrap,flex-basis,flex-direction,flex-direction
+HTML,8,Which is NOT a valid flex-direction value?,row,row-reverse,column-wrap,column-reverse,column-wrap
+HTML,8,flex-direction: column stacks items:,In a circle,Vertically,Diagonally,Horizontally,Vertically
+HTML,8,flex-direction: row-reverse arranges items:,Right to left,Top to bottom,Left to right,Bottom to top,Right to left
+HTML,8,Which property controls whether flex items wrap onto multiple lines?,flex-flow,flex-wrap,flex-grow,flex-shrink,flex-wrap
+HTML,8,Which property sets flex-direction and flex-wrap together?,flex,flex-flow,flex-basis,flex-set,flex-flow
+HTML,8,flex-flow: row wrap sets:,Direction row and wrapping enabled,Direction column and no wrap,Only wrapping,Only direction,Direction row and wrapping enabled
+HTML,8,Which property aligns flex items along the main axis?,align-content,align-items,justify-content,align-self,justify-content
+HTML,8,Which justify-content value places items at the end of the container?,flex-end,center,stretch,flex-start,flex-end
+HTML,8,justify-content: space-between:,Places items at the start,Places equal space between the items,Centers items,Places space only around,Places equal space between the items
+HTML,8,justify-content: space-around:,Distributes items with equal space around them,Puts items at the end,Wraps items,Stretches items,Distributes items with equal space around them
+HTML,8,justify-content: space-evenly:,Reverses items,Aligns at the start,Centers items,Distributes items with equal spacing between and around them,Distributes items with equal spacing between and around them
+HTML,8,Which property aligns flex items along the cross axis?,flex-flow,flex-wrap,align-items,justify-content,align-items
+HTML,8,Which is a valid align-items value?,space-between,row,space-evenly,stretch,stretch
+HTML,8,"The align-items value ""baseline"" aligns items:",At the bottom only,At the top only,By stretching,By their text baselines,By their text baselines
+HTML,8,align-content is used to:,Align images,Align text,Align flex lines,Align one item,Align flex lines
+HTML,8,align-content: stretch:,Centers lines,Aligns lines at the end,Aligns lines at the start,Stretches flex lines to take the remaining space,Stretches flex lines to take the remaining space
+HTML,8,Which property helps a flex item grow relative to the others?,flex-basis,flex-wrap,flex-grow,flex-shrink,flex-grow
+HTML,8,flex-grow takes a:,String of text,Number value,Image,Color value,Number value
+HTML,8,Which property helps a flex item shrink?,flex-grow,order,flex-shrink,flex-flow,flex-shrink
+HTML,8,Setting flex-shrink to 0 means the item:,Will shrink fully,Will hide,Will not shrink,Will grow,Will not shrink
+HTML,8,The flex shorthand property specifies:,Only flex-grow,Only direction,Only wrap,"flex-grow, flex-shrink, and flex-basis","flex-grow, flex-shrink, and flex-basis"
+HTML,8,Which property overrides align-items for an individual flex item?,flex-flow,justify-self,align-self,align-content,align-self
+HTML,8,flex-basis specifies:,The direction,The color,The border,The initial size of a flex item,The initial size of a flex item
+HTML,8,A CSS grid layout has:,No parent,Two parents,Only inline elements,One parent element with one or more child elements,One parent element with one or more child elements
+HTML,8,Child elements of a grid container are called:,Grid lines,Grid cells only,Grid tracks,Grid items,Grid items
+HTML,8,"To make an element a grid container, set display to:",grid or inline-grid,block,flex,table,grid or inline-grid
+HTML,8,Display: inline-grid generates:,A table,A list,A block-level flex,An inline-level grid,An inline-level grid
+HTML,8,Grid lines are:,The borders of images,The grid items,The container,The dividing lines that form the structure of the grid,The dividing lines that form the structure of the grid
+HTML,8,A grid cell is:,A whole row,The single unit of a grid,A whole column,A container,The single unit of a grid
+HTML,8,A grid track is a generic term for:,A grid container,A grid cell,A grid item,A grid column or row,A grid column or row
+HTML,8,The space between two adjacent vertical grid lines is a:,Grid row,Grid column,Grid cell,Grid area,Grid column
+HTML,8,The space between two adjacent horizontal grid lines is a:,Grid row,Grid column,Grid item,Grid track only,Grid row
+HTML,8,Which property defines the number and width of columns?,grid-gap,grid-template-rows,grid-area,grid-template-columns,grid-template-columns
+HTML,8,Which property defines the height of rows?,grid-gap,grid-column,grid-template-rows,grid-template-columns,grid-template-rows
+HTML,8,grid-column-gap defines:,The size of the gap between columns,The row height,The font size,The border width,The size of the gap between columns
+HTML,8,grid-row-gap defines:,The size of the gap between rows,The gap between columns,The cell size,The font size,The size of the gap between rows
+HTML,8,grid-gap is a shorthand for:,grid-row-gap and grid-column-gap,grid-column and grid-row,grid-area,grid-template,grid-row-gap and grid-column-gap
+HTML,8,Which grid item property specifies where an item starts and ends in columns?,grid-gap,grid-flow,grid-template,grid-column,grid-column
+HTML,8,Which grid item property specifies where an item starts and ends in rows?,grid-row,grid-gap,grid-line,grid-column,grid-row
+HTML,8,grid-area can be used to:,Specify start/end positions or assign names to grid items,Set the color,Set the border,Set the font,Specify start/end positions or assign names to grid items
+HTML,8,The justify-content property in a grid aligns the grid:,Horizontally inside the container,Diagonally,Vertically,Not at all,Horizontally inside the container
+HTML,8,The align-content property in a grid aligns the grid:,Not at all,Diagonally,Horizontally,Vertically,Vertically
+HTML,8,"In a grid, ""space-around"" gives columns:",Equal space around them,No space,Space only at the start,Space only at the end,Equal space around them
+HTML,8,Which statement is true about Flexbox vs Grid?,Grid needs floats,Grid is one-dimensional,Flexbox is mainly one-dimensional while Grid is two-dimensional,Flexbox needs tables,Flexbox is mainly one-dimensional while Grid is two-dimensional

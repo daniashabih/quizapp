@@ -104,8 +104,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
         // Use standard (non-large) anchored adaptive banner size so the ad stays
         // sleek and compact (~50-60dp) instead of taking 100-120dp vertical space.
         // ignore: deprecated_member_use
-        final adaptiveSize = await AdSize
-            .getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        final adaptiveSize = await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
           availableAdWidth,
         );
         if (adaptiveSize != null &&

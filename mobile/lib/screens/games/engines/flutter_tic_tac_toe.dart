@@ -187,147 +187,154 @@ class _FlutterTicTacToeState extends State<FlutterTicTacToe> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Mode & Difficulty Bar
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SegmentedButton<String>(
-              segments: const [
-                ButtonSegment(value: 'ai', label: Text('vs AI', style: TextStyle(fontSize: 11))),
-                ButtonSegment(value: 'pvp', label: Text('2 Players', style: TextStyle(fontSize: 11))),
-              ],
-              selected: {_mode},
-              onSelectionChanged: (val) {
-                setState(() {
-                  _mode = val.first;
-                  _resetRound();
-                });
-              },
-              style: const ButtonStyle(visualDensity: VisualDensity.compact),
-            ),
-            if (_mode == 'ai')
-              DropdownButton<String>(
-                value: _difficulty,
-                underline: const SizedBox.shrink(),
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white : AppColors.primary,
-                ),
-                items: const [
-                  DropdownMenuItem(value: 'easy', child: Text('Easy AI')),
-                  DropdownMenuItem(value: 'medium', child: Text('Medium AI')),
-                  DropdownMenuItem(value: 'unbeatable', child: Text('Unbeatable AI')),
-                ],
-                onChanged: (val) {
-                  if (val != null) {
-                    setState(() {
-                      _difficulty = val;
-                      _resetRound();
-                    });
-                  }
-                },
-              ),
-          ],
-        ),
-        const SizedBox(height: 12),
-
-        // Turn & Streak Status
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              _winner != null
-                  ? (_winner == 'Tie' ? "It's a Draw!" : '$_winner Wins! 🎉')
-                  : 'Turn: ${_isXNext ? 'Player X' : (_mode == 'ai' ? 'AI Bot (O)' : 'Player O')}',
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-                color: _isXNext ? Colors.cyan : Colors.pinkAccent,
-              ),
-            ),
-            if (_winStreak > 0)
-              Text(
-                '🔥 $_winStreak Streak!',
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.amber),
-              ),
-          ],
-        ),
-        const SizedBox(height: 14),
-
-        // 3x3 Grid
-        Container(
-          width: 280,
-          height: 280,
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
-          ),
-          child: GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-            ),
-            itemCount: 9,
-            itemBuilder: (context, index) {
-              final cell = _board[index];
-              final isWin = _winningLine?.contains(index) == true;
-
-              return InkWell(
-                onTap: () => _handleCellTap(index),
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: isWin
-                        ? Colors.amber
-                        : (isDark ? const Color(0xFF0F172A) : Colors.white),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: isWin
-                          ? Colors.amberAccent
-                          : (cell == 'X'
-                              ? Colors.cyan.withValues(alpha: 0.5)
-                              : (cell == 'O'
-                                  ? Colors.pinkAccent.withValues(alpha: 0.5)
-                                  : Colors.transparent)),
-                    ),
+    return SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Mode & Difficulty Bar
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SegmentedButton<String>(
+                    segments: const [
+                      ButtonSegment(value: 'ai', label: Text('vs AI', style: TextStyle(fontSize: 11))),
+                      ButtonSegment(value: 'pvp', label: Text('2 Players', style: TextStyle(fontSize: 11))),
+                    ],
+                    selected: {_mode},
+                    onSelectionChanged: (val) {
+                      setState(() {
+                        _mode = val.first;
+                        _resetRound();
+                      });
+                    },
+                    style: const ButtonStyle(visualDensity: VisualDensity.compact),
                   ),
-                  child: Center(
-                    child: Text(
-                      cell ?? '',
+                  if (_mode == 'ai')
+                    DropdownButton<String>(
+                      value: _difficulty,
+                      underline: const SizedBox.shrink(),
                       style: TextStyle(
-                        fontSize: 38,
-                        fontWeight: FontWeight.w900,
-                        color: isWin
-                            ? Colors.black
-                            : (cell == 'X' ? Colors.cyan : Colors.pinkAccent),
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: isDark ? Colors.white : AppColors.primary,
                       ),
+                      items: const [
+                        DropdownMenuItem(value: 'easy', child: Text('Easy AI')),
+                        DropdownMenuItem(value: 'medium', child: Text('Medium AI')),
+                        DropdownMenuItem(value: 'unbeatable', child: Text('Unbeatable AI')),
+                      ],
+                      onChanged: (val) {
+                        if (val != null) {
+                          setState(() {
+                            _difficulty = val;
+                            _resetRound();
+                          });
+                        }
+                      },
+                    ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // Turn & Streak Status
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    _winner != null
+                        ? (_winner == 'Tie' ? "It's a Draw!" : '$_winner Wins! 🎉')
+                        : 'Turn: ${_isXNext ? 'Player X' : (_mode == 'ai' ? 'AI Bot (O)' : 'Player O')}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: _isXNext ? Colors.cyan : Colors.pinkAccent,
                     ),
                   ),
+                  if (_winStreak > 0)
+                    Text(
+                      '🔥 $_winStreak Streak!',
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.amber),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 14),
+
+              // 3x3 Grid
+              Container(
+                width: 280,
+                height: 280,
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
                 ),
-              );
-            },
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                  ),
+                  itemCount: 9,
+                  itemBuilder: (context, index) {
+                    final cell = _board[index];
+                    final isWin = _winningLine?.contains(index) == true;
+
+                    return InkWell(
+                      onTap: () => _handleCellTap(index),
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: isWin
+                              ? Colors.amber
+                              : (isDark ? const Color(0xFF0F172A) : Colors.white),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: isWin
+                                ? Colors.amberAccent
+                                : (cell == 'X'
+                                    ? Colors.cyan.withValues(alpha: 0.5)
+                                    : (cell == 'O'
+                                        ? Colors.pinkAccent.withValues(alpha: 0.5)
+                                        : Colors.transparent)),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            cell ?? '',
+                            style: TextStyle(
+                              fontSize: 38,
+                              fontWeight: FontWeight.w900,
+                              color: isWin
+                                  ? Colors.black
+                                  : (cell == 'X' ? Colors.cyan : Colors.pinkAccent),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 16),
+              // Scorecard
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildScoreItem('Player X', '$_xWins', Colors.cyan),
+                  _buildScoreItem('Ties', '$_ties', Colors.grey),
+                  _buildScoreItem(_mode == 'ai' ? 'AI Bot' : 'Player O', '$_oWins', Colors.pinkAccent),
+                ],
+              ),
+            ],
           ),
         ),
-
-        const SizedBox(height: 16),
-        // Scorecard
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildScoreItem('Player X', '$_xWins', Colors.cyan),
-            _buildScoreItem('Ties', '$_ties', Colors.grey),
-            _buildScoreItem(_mode == 'ai' ? 'AI Bot' : 'Player O', '$_oWins', Colors.pinkAccent),
-          ],
-        ),
-      ],
+      ),
     );
   }
 

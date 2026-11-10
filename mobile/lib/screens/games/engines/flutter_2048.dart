@@ -201,117 +201,126 @@ class _Flutter2048State extends State<Flutter2048> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Top Toolbar
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                OutlinedButton.icon(
-                  onPressed: _previousBoard != null && !_gameOver ? _undo : null,
-                  icon: const Icon(Icons.undo_rounded, size: 14),
-                  label: const Text('Undo', style: TextStyle(fontSize: 11)),
-                  style: OutlinedButton.styleFrom(
-                    visualDensity: VisualDensity.compact,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+    return SingleChildScrollView(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Top Toolbar
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      OutlinedButton.icon(
+                        onPressed: _previousBoard != null && !_gameOver ? _undo : null,
+                        icon: const Icon(Icons.undo_rounded, size: 14),
+                        label: const Text('Undo', style: TextStyle(fontSize: 11)),
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(0, 34),
+                          visualDensity: VisualDensity.compact,
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      FilledButton.icon(
+                        onPressed: _initGame,
+                        icon: const Icon(Icons.refresh_rounded, size: 14),
+                        label: const Text('Reset', style: TextStyle(fontSize: 11)),
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size(0, 34),
+                          visualDensity: VisualDensity.compact,
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(width: 8),
-                FilledButton.icon(
-                  onPressed: _initGame,
-                  icon: const Icon(Icons.refresh_rounded, size: 14),
-                  label: const Text('Reset', style: TextStyle(fontSize: 11)),
-                  style: FilledButton.styleFrom(
-                    visualDensity: VisualDensity.compact,
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      'SCORE: $_score',
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.amber),
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
-                borderRadius: BorderRadius.circular(12),
+                ],
               ),
-              child: Text(
-                'SCORE: $_score',
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.amber),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 14),
+              const SizedBox(height: 14),
 
-        // Gestures Swipe Container
-        GestureDetector(
-          onHorizontalDragEnd: (details) {
-            final vx = details.primaryVelocity ?? 0;
-            if (vx > 100) _move('right');
-            if (vx < -100) _move('left');
-          },
-          onVerticalDragEnd: (details) {
-            final vy = details.primaryVelocity ?? 0;
-            if (vy > 100) _move('down');
-            if (vy < -100) _move('up');
-          },
-          child: Container(
-            width: 290,
-            height: 290,
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF0F172A) : const Color(0xFFBBADA0),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
-            ),
-            child: GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                crossAxisSpacing: 6,
-                mainAxisSpacing: 6,
-              ),
-              itemCount: 16,
-              itemBuilder: (context, index) {
-                final r = index ~/ 4;
-                final c = index % 4;
-                final val = _board[r][c];
-                final hasValue = val > 0;
-                final color = _getTileColor(val, isDark);
-                final textColor = (val == 2 || val == 4) ? const Color(0xFF776E65) : Colors.white;
-
-                return Container(
+              // Gestures Swipe Container
+              GestureDetector(
+                onHorizontalDragEnd: (details) {
+                  final vx = details.primaryVelocity ?? 0;
+                  if (vx > 100) _move('right');
+                  if (vx < -100) _move('left');
+                },
+                onVerticalDragEnd: (details) {
+                  final vy = details.primaryVelocity ?? 0;
+                  if (vy > 100) _move('down');
+                  if (vy < -100) _move('up');
+                },
+                child: Container(
+                  width: 290,
+                  height: 290,
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(12),
+                    color: isDark ? const Color(0xFF0F172A) : const Color(0xFFBBADA0),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
                   ),
-                  child: Center(
-                    child: hasValue
-                        ? Text(
-                            '$val',
-                            style: TextStyle(
-                              fontSize: val > 512 ? 16 : 20,
-                              fontWeight: FontWeight.w900,
-                              color: textColor,
-                            ),
-                          )
-                        : null,
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 6,
+                      mainAxisSpacing: 6,
+                    ),
+                    itemCount: 16,
+                    itemBuilder: (context, index) {
+                      final r = index ~/ 4;
+                      final c = index % 4;
+                      final val = _board[r][c];
+                      final hasValue = val > 0;
+                      final color = _getTileColor(val, isDark);
+                      final textColor = (val == 2 || val == 4) ? const Color(0xFF776E65) : Colors.white;
+
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: color,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: hasValue
+                              ? Text(
+                                  '$val',
+                                  style: TextStyle(
+                                    fontSize: val > 512 ? 16 : 20,
+                                    fontWeight: FontWeight.w900,
+                                    color: textColor,
+                                  ),
+                                )
+                              : null,
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
+                ),
+              ),
+
+              const SizedBox(height: 14),
+              Text(
+                'Swipe left, right, up, or down to merge numbers!',
+                style: TextStyle(fontSize: 11, color: isDark ? Colors.grey : Colors.black54),
+              ),
+            ],
           ),
         ),
-
-        const SizedBox(height: 14),
-        Text(
-          'Swipe left, right, up, or down to merge numbers!',
-          style: TextStyle(fontSize: 11, color: isDark ? Colors.grey : Colors.black54),
-        ),
-      ],
+      ),
     );
   }
 }

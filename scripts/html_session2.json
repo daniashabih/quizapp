@@ -1,0 +1,580 @@
+{
+  "category": "HTML",
+  "session": 2,
+  "title": "Session 2: Introduction to HTML5",
+  "totalQuestions": 52,
+  "questions": [
+    {
+      "questionText": "All elements in HTML5 are organized using:",
+      "options": [
+        "Tags",
+        "Cookies",
+        "Scripts",
+        "Styles"
+      ],
+      "correctAnswer": "Tags",
+      "explanation": "Correct answer is A) Tags."
+    },
+    {
+      "questionText": "Which of the following is a basic tag in HTML5?",
+      "options": [
+        "<head>",
+        "<font>",
+        "<center>",
+        "<marquee>"
+      ],
+      "correctAnswer": "<head>",
+      "explanation": "Correct answer is A) <head>."
+    },
+    {
+      "questionText": "Tags in HTML are also referred to as:",
+      "options": [
+        "Scripts",
+        "Markup",
+        "Entities",
+        "Attributes"
+      ],
+      "correctAnswer": "Markup",
+      "explanation": "Correct answer is B) Markup."
+    },
+    {
+      "questionText": "An HTML element consists of:",
+      "options": [
+        "Only a start tag",
+        "Only content",
+        "Tags, attributes, and content",
+        "Only attributes"
+      ],
+      "correctAnswer": "Tags, attributes, and content",
+      "explanation": "Correct answer is C) Tags, attributes, and content."
+    },
+    {
+      "questionText": "A start tag begins with:",
+      "options": [
+        "A closing angular bracket",
+        "An opening angular bracket followed by the element name",
+        "A slash",
+        "An ampersand"
+      ],
+      "correctAnswer": "An opening angular bracket followed by the element name",
+      "explanation": "Correct answer is B) An opening angular bracket followed by the element name."
+    },
+    {
+      "questionText": "Attributes are:",
+      "options": [
+        "Only end tags",
+        "Comments",
+        "Character entities",
+        "Name/value pairs that describe the element and its content format"
+      ],
+      "correctAnswer": "Name/value pairs that describe the element and its content format",
+      "explanation": "Correct answer is D) Name/value pairs that describe the element and its content format."
+    },
+    {
+      "questionText": "An end tag is written exactly as the start tag except that it includes a:",
+      "options": [
+        "Semicolon",
+        "Hyphen",
+        "Forward slash (/)",
+        "Hash (#)"
+      ],
+      "correctAnswer": "Forward slash (/)",
+      "explanation": "Correct answer is C) Forward slash (/)."
+    },
+    {
+      "questionText": "The DOCTYPE declaration must appear:",
+      "options": [
+        "Inside the <head>",
+        "At the end of the document",
+        "Inside the <body>",
+        "First, before any other HTML code"
+      ],
+      "correctAnswer": "First, before any other HTML code",
+      "explanation": "Correct answer is D) First, before any other HTML code."
+    },
+    {
+      "questionText": "The purpose of DOCTYPE is to:",
+      "options": [
+        "Inform the browser of the HTML version of the document",
+        "Link a script",
+        "Add a title",
+        "Style the page"
+      ],
+      "correctAnswer": "Inform the browser of the HTML version of the document",
+      "explanation": "Correct answer is A) Inform the browser of the HTML version of the document."
+    },
+    {
+      "questionText": "Which is the correct HTML5 DOCTYPE?",
+      "options": [
+        "<!HTML5>",
+        "<DOCTYPE html5>",
+        "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\">",
+        "<!DOCTYPE html>"
+      ],
+      "correctAnswer": "<!DOCTYPE html>",
+      "explanation": "Correct answer is D) <!DOCTYPE html>."
+    },
+    {
+      "questionText": "The HTML5 DOCTYPE is compatible with:",
+      "options": [
+        "Older browsers and future versions of HTML",
+        "Only XHTML",
+        "Only HTML5",
+        "Only Chrome"
+      ],
+      "correctAnswer": "Older browsers and future versions of HTML",
+      "explanation": "Correct answer is A) Older browsers and future versions of HTML."
+    },
+    {
+      "questionText": "HTML is described as:",
+      "options": [
+        "Only a presentational markup language",
+        "Both a structural and presentational markup language",
+        "A database language",
+        "Only a scripting language"
+      ],
+      "correctAnswer": "Both a structural and presentational markup language",
+      "explanation": "Correct answer is B) Both a structural and presentational markup language."
+    },
+    {
+      "questionText": "Structural markup specifies:",
+      "options": [
+        "The font size",
+        "The format of text",
+        "The color of text",
+        "The structure of the content"
+      ],
+      "correctAnswer": "The structure of the content",
+      "explanation": "Correct answer is D) The structure of the content."
+    },
+    {
+      "questionText": "An HTML page is saved with which extension?",
+      "options": [
+        ".txt",
+        ".html",
+        ".htm1",
+        ".xml"
+      ],
+      "correctAnswer": ".html",
+      "explanation": "Correct answer is B) .html."
+    },
+    {
+      "questionText": "The root element of an HTML document is:",
+      "options": [
+        "<body>",
+        "<html>",
+        "<head>",
+        "<title>"
+      ],
+      "correctAnswer": "<html>",
+      "explanation": "Correct answer is B) <html>."
+    },
+    {
+      "questionText": "The HEAD element contains information that is:",
+      "options": [
+        "Only the footer",
+        "Not displayed on the Web page",
+        "Only images",
+        "Displayed on the Web page"
+      ],
+      "correctAnswer": "Not displayed on the Web page",
+      "explanation": "Correct answer is B) Not displayed on the Web page."
+    },
+    {
+      "questionText": "Keywords in a Web page are used by:",
+      "options": [
+        "Search engines to identify the page",
+        "Printers",
+        "Browsers to colour the page",
+        "Servers to compress the page"
+      ],
+      "correctAnswer": "Search engines to identify the page",
+      "explanation": "Correct answer is A) Search engines to identify the page."
+    },
+    {
+      "questionText": "The TITLE element specifies the title that appears in the:",
+      "options": [
+        "Browser title bar or tab",
+        "Footer",
+        "Body",
+        "Status bar only"
+      ],
+      "correctAnswer": "Browser title bar or tab",
+      "explanation": "Correct answer is A) Browser title bar or tab."
+    },
+    {
+      "questionText": "The <meta> tag is used to display:",
+      "options": [
+        "Images",
+        "Information about the data (metadata)",
+        "Tables",
+        "Visible content"
+      ],
+      "correctAnswer": "Information about the data (metadata)",
+      "explanation": "Correct answer is B) Information about the data (metadata)."
+    },
+    {
+      "questionText": "In HTML5, the charset can be specified using:",
+      "options": [
+        "<meta http-equiv=\"charset\">",
+        "<link charset=\"UTF-8\">",
+        "<meta charset=\"UTF-8\">",
+        "<charset=\"UTF-8\">"
+      ],
+      "correctAnswer": "<meta charset=\"UTF-8\">",
+      "explanation": "Correct answer is C) <meta charset=\"UTF-8\">."
+    },
+    {
+      "questionText": "UTF-8 is:",
+      "options": [
+        "A browser",
+        "A style language",
+        "A scripting language",
+        "A commonly used character encoding supporting many alphabets"
+      ],
+      "correctAnswer": "A commonly used character encoding supporting many alphabets",
+      "explanation": "Correct answer is D) A commonly used character encoding supporting many alphabets."
+    },
+    {
+      "questionText": "In HTML5, is it mandatory to self-close tags with a slash?",
+      "options": [
+        "Only for <meta>",
+        "Yes, always",
+        "Only for <br>",
+        "No, it is not very important"
+      ],
+      "correctAnswer": "No, it is not very important",
+      "explanation": "Correct answer is D) No, it is not very important."
+    },
+    {
+      "questionText": "The <link> tag is used to:",
+      "options": [
+        "Add JavaScript",
+        "Define the association between a document and an external resource",
+        "Create hyperlinks in the body",
+        "Insert images"
+      ],
+      "correctAnswer": "Define the association between a document and an external resource",
+      "explanation": "Correct answer is B) Define the association between a document and an external resource."
+    },
+    {
+      "questionText": "In HTML5, the type attribute is not needed in <link> because:",
+      "options": [
+        "It is deprecated for CSS",
+        "HTML is default",
+        "JavaScript is default",
+        "CSS is the default style language"
+      ],
+      "correctAnswer": "CSS is the default style language",
+      "explanation": "Correct answer is D) CSS is the default style language."
+    },
+    {
+      "questionText": "In HTML5, the type attribute can be omitted from <script> because:",
+      "options": [
+        "VBScript is default",
+        "XML is default",
+        "CSS is default",
+        "JavaScript is the default scripting language"
+      ],
+      "correctAnswer": "JavaScript is the default scripting language",
+      "explanation": "Correct answer is D) JavaScript is the default scripting language."
+    },
+    {
+      "questionText": "The BODY element is used to:",
+      "options": [
+        "Declare the version",
+        "Link external scripts only",
+        "Store metadata",
+        "Add content visible on the Web page"
+      ],
+      "correctAnswer": "Add content visible on the Web page",
+      "explanation": "Correct answer is D) Add content visible on the Web page."
+    },
+    {
+      "questionText": "A data type in HTML specifies:",
+      "options": [
+        "The type of value assigned to attributes and content displayed",
+        "The server type",
+        "The browser type",
+        "The file size"
+      ],
+      "correctAnswer": "The type of value assigned to attributes and content displayed",
+      "explanation": "Correct answer is A) The type of value assigned to attributes and content displayed."
+    },
+    {
+      "questionText": "Which data type specifies the color to be applied to content?",
+      "options": [
+        "Length",
+        "Text",
+        "Content type",
+        "Color"
+      ],
+      "correctAnswer": "Color",
+      "explanation": "Correct answer is D) Color."
+    },
+    {
+      "questionText": "Length values in HTML can be specified in:",
+      "options": [
+        "Only seconds",
+        "Pixels or as a percentage",
+        "Only colors",
+        "Only bytes"
+      ],
+      "correctAnswer": "Pixels or as a percentage",
+      "explanation": "Correct answer is B) Pixels or as a percentage."
+    },
+    {
+      "questionText": "A pixel refers to:",
+      "options": [
+        "The smallest dot on the screen",
+        "A font style",
+        "A page title",
+        "A network"
+      ],
+      "correctAnswer": "The smallest dot on the screen",
+      "explanation": "Correct answer is A) The smallest dot on the screen."
+    },
+    {
+      "questionText": "Which is an example of a content type (MIME type) for a video file?",
+      "options": [
+        "text/css",
+        "audio/mp3 only",
+        "video/mpg",
+        "image/png"
+      ],
+      "correctAnswer": "video/mpg",
+      "explanation": "Correct answer is C) video/mpg."
+    },
+    {
+      "questionText": "Which global attribute specifies the direction of text?",
+      "options": [
+        "dropzone",
+        "contextmenu",
+        "dir",
+        "draggable"
+      ],
+      "correctAnswer": "dir",
+      "explanation": "Correct answer is C) dir."
+    },
+    {
+      "questionText": "Which global attribute specifies the context menu for an element?",
+      "options": [
+        "hidden",
+        "draggable",
+        "dir",
+        "contextmenu"
+      ],
+      "correctAnswer": "contextmenu",
+      "explanation": "Correct answer is D) contextmenu."
+    },
+    {
+      "questionText": "The draggable attribute specifies:",
+      "options": [
+        "The text direction",
+        "The length",
+        "Whether an element can be dragged",
+        "The color"
+      ],
+      "correctAnswer": "Whether an element can be dragged",
+      "explanation": "Correct answer is C) Whether an element can be dragged."
+    },
+    {
+      "questionText": "The dropzone attribute specifies:",
+      "options": [
+        "The text direction",
+        "Whether dragged data is copied, moved, or linked when dropped",
+        "The language",
+        "The title"
+      ],
+      "correctAnswer": "Whether dragged data is copied, moved, or linked when dropped",
+      "explanation": "Correct answer is B) Whether dragged data is copied, moved, or linked when dropped."
+    },
+    {
+      "questionText": "HTML entities are:",
+      "options": [
+        "Styles",
+        "Server programs",
+        "Scripts",
+        "Special reserved characters displayed using codes"
+      ],
+      "correctAnswer": "Special reserved characters displayed using codes",
+      "explanation": "Correct answer is D) Special reserved characters displayed using codes."
+    },
+    {
+      "questionText": "Entities in HTML begin with ______ and end with ______.",
+      "options": [
+        "/ and *",
+        "# and ;",
+        "& and ;",
+        "< and >"
+      ],
+      "correctAnswer": "& and ;",
+      "explanation": "Correct answer is C) & and ;."
+    },
+    {
+      "questionText": "Which entity represents the less-than sign (<)?",
+      "options": [
+        "&amp;",
+        "&gt;",
+        "&nbsp;",
+        "&lt;"
+      ],
+      "correctAnswer": "&lt;",
+      "explanation": "Correct answer is D) &lt;."
+    },
+    {
+      "questionText": "Which entity represents a non-breaking space?",
+      "options": [
+        "&amp;",
+        "&nbsp;",
+        "&copy;",
+        "&lt;"
+      ],
+      "correctAnswer": "&nbsp;",
+      "explanation": "Correct answer is B) &nbsp;."
+    },
+    {
+      "questionText": "Which entity displays the ampersand character?",
+      "options": [
+        "&quot;",
+        "&lt;",
+        "&and;",
+        "&amp;"
+      ],
+      "correctAnswer": "&amp;",
+      "explanation": "Correct answer is D) &amp;."
+    },
+    {
+      "questionText": "Which entity displays the copyright symbol?",
+      "options": [
+        "&trade;",
+        "&cpr;",
+        "&copy;",
+        "&reg;"
+      ],
+      "correctAnswer": "&copy;",
+      "explanation": "Correct answer is C) &copy;."
+    },
+    {
+      "questionText": "Based on end tag usage, HTML tags are classified as:",
+      "options": [
+        "Block and inline",
+        "Open and closed",
+        "Global and local",
+        "Container and standalone"
+      ],
+      "correctAnswer": "Container and standalone",
+      "explanation": "Correct answer is D) Container and standalone."
+    },
+    {
+      "questionText": "A container element includes:",
+      "options": [
+        "Only a start tag",
+        "Only content",
+        "Only attributes",
+        "Start tag, contents, sub-elements, and end tag"
+      ],
+      "correctAnswer": "Start tag, contents, sub-elements, and end tag",
+      "explanation": "Correct answer is D) Start tag, contents, sub-elements, and end tag."
+    },
+    {
+      "questionText": "A standalone element consists of:",
+      "options": [
+        "Only content",
+        "Start tag and attributes ending with />",
+        "Start and end tags with content",
+        "A script"
+      ],
+      "correctAnswer": "Start tag and attributes ending with />",
+      "explanation": "Correct answer is B) Start tag and attributes ending with />."
+    },
+    {
+      "questionText": "Which of the following is a standalone tag?",
+      "options": [
+        "<title>",
+        "<body>",
+        "<p>",
+        "<br>"
+      ],
+      "correctAnswer": "<br>",
+      "explanation": "Correct answer is D) <br>."
+    },
+    {
+      "questionText": "Which of the following is a container tag?",
+      "options": [
+        "<hr>",
+        "<br>",
+        "<title>",
+        "<img>"
+      ],
+      "correctAnswer": "<title>",
+      "explanation": "Correct answer is C) <title>."
+    },
+    {
+      "questionText": "HTML5 is not supported by:",
+      "options": [
+        "iOS",
+        "All smartphones",
+        "Older mobile devices",
+        "Android"
+      ],
+      "correctAnswer": "Older mobile devices",
+      "explanation": "Correct answer is C) Older mobile devices."
+    },
+    {
+      "questionText": "HTML5 helps mobile development by offering:",
+      "options": [
+        "Flash support",
+        "Only text support",
+        "Silverlight support",
+        "Drag-and-drop, video embedding, and offline capabilities"
+      ],
+      "correctAnswer": "Drag-and-drop, video embedding, and offline capabilities",
+      "explanation": "Correct answer is D) Drag-and-drop, video embedding, and offline capabilities."
+    },
+    {
+      "questionText": "By using HTML5, development cost for different operating systems can be saved by up to:",
+      "options": [
+        "90%",
+        "30%",
+        "10%",
+        "60%"
+      ],
+      "correctAnswer": "30%",
+      "explanation": "Correct answer is B) 30%."
+    },
+    {
+      "questionText": "Which is a benefit of HTML5 for mobile development?",
+      "options": [
+        "It is compatible with most operating system platforms",
+        "It runs only on Android",
+        "It is costly",
+        "It requires third-party plug-ins"
+      ],
+      "correctAnswer": "It is compatible with most operating system platforms",
+      "explanation": "Correct answer is A) It is compatible with most operating system platforms."
+    },
+    {
+      "questionText": "In HTML5, media functions such as audio and video:",
+      "options": [
+        "Have improved support without third-party programs",
+        "Need third-party programs",
+        "Work only offline",
+        "Are not supported"
+      ],
+      "correctAnswer": "Have improved support without third-party programs",
+      "explanation": "Correct answer is A) Have improved support without third-party programs."
+    },
+    {
+      "questionText": "Location-based and map applications in HTML5:",
+      "options": [
+        "Need Flash",
+        "Have greater support",
+        "Work only on desktop",
+        "Are not supported"
+      ],
+      "correctAnswer": "Have greater support",
+      "explanation": "Correct answer is B) Have greater support."
+    }
+  ]
+}

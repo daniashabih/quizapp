@@ -1,0 +1,591 @@
+{
+  "category": "HTML",
+  "session": 7,
+  "title": "Session 7: Displaying Graphics and CSS3 Animation",
+  "totalQuestions": 53,
+  "questions": [
+    {
+      "questionText": "Color depth is defined by the number of:",
+      "options": [
+        "Frames",
+        "Bytes per image",
+        "Bits per pixel",
+        "Colors in the CSS"
+      ],
+      "correctAnswer": "Bits per pixel",
+      "explanation": "Correct answer is C) Bits per pixel."
+    },
+    {
+      "questionText": "Another name for color depth is:",
+      "options": [
+        "Bit depth",
+        "Pixel width",
+        "Frame depth",
+        "Image length"
+      ],
+      "correctAnswer": "Bit depth",
+      "explanation": "Correct answer is A) Bit depth."
+    },
+    {
+      "questionText": "A higher color depth indicates:",
+      "options": [
+        "A higher range of colors",
+        "Fewer pixels",
+        "A lower range of colors",
+        "Smaller files always"
+      ],
+      "correctAnswer": "A higher range of colors",
+      "explanation": "Correct answer is A) A higher range of colors."
+    },
+    {
+      "questionText": "Image compression stores an image in:",
+      "options": [
+        "HTML code",
+        "A reduced number of bytes",
+        "Pixel arrays only",
+        "An increased number of bytes"
+      ],
+      "correctAnswer": "A reduced number of bytes",
+      "explanation": "Correct answer is B) A reduced number of bytes."
+    },
+    {
+      "questionText": "Which compression type preserves exact image details after decompression?",
+      "options": [
+        "Hybrid",
+        "Lossy",
+        "Lossless",
+        "Random"
+      ],
+      "correctAnswer": "Lossless",
+      "explanation": "Correct answer is C) Lossless."
+    },
+    {
+      "questionText": "Which compression generally achieves smaller file sizes?",
+      "options": [
+        "Uncompressed",
+        "None",
+        "Lossless",
+        "Lossy"
+      ],
+      "correctAnswer": "Lossy",
+      "explanation": "Correct answer is D) Lossy."
+    },
+    {
+      "questionText": "JPEG stands for:",
+      "options": [
+        "Joint Picture Encoding Graphics",
+        "Joint Photographic Experts Group",
+        "Java Photo Experts Group",
+        "Java Photographic Expression Group"
+      ],
+      "correctAnswer": "Joint Photographic Experts Group",
+      "explanation": "Correct answer is B) Joint Photographic Experts Group."
+    },
+    {
+      "questionText": "For photographs on Web pages, which format is recommended?",
+      "options": [
+        "GIF",
+        "PNG",
+        "JPEG",
+        "BMP"
+      ],
+      "correctAnswer": "JPEG",
+      "explanation": "Correct answer is C) JPEG."
+    },
+    {
+      "questionText": "For screenshots and drawings, which format is recommended?",
+      "options": [
+        "TIFF",
+        "JPEG",
+        "PNG",
+        "BMP"
+      ],
+      "correctAnswer": "PNG",
+      "explanation": "Correct answer is C) PNG."
+    },
+    {
+      "questionText": "PNG uses which type of compression?",
+      "options": [
+        "Both",
+        "Lossy",
+        "None",
+        "Lossless"
+      ],
+      "correctAnswer": "Lossless",
+      "explanation": "Correct answer is D) Lossless."
+    },
+    {
+      "questionText": "PNG does not support which color space?",
+      "options": [
+        "RGB",
+        "Indexed",
+        "Grayscale",
+        "CMYK"
+      ],
+      "correctAnswer": "CMYK",
+      "explanation": "Correct answer is D) CMYK."
+    },
+    {
+      "questionText": "JPEG is best suited for:",
+      "options": [
+        "Line drawings",
+        "Continuous tone pictures such as photographs",
+        "Animated icons",
+        "Text logos"
+      ],
+      "correctAnswer": "Continuous tone pictures such as photographs",
+      "explanation": "Correct answer is B) Continuous tone pictures such as photographs."
+    },
+    {
+      "questionText": "Which format supports animation using a series of frames?",
+      "options": [
+        "PNG-24 only",
+        "BMP",
+        "JPEG",
+        "GIF"
+      ],
+      "correctAnswer": "GIF",
+      "explanation": "Correct answer is D) GIF."
+    },
+    {
+      "questionText": "In a transparent image, how many colors can be hidden?",
+      "options": [
+        "One and only one",
+        "Two",
+        "None",
+        "Any number"
+      ],
+      "correctAnswer": "One and only one",
+      "explanation": "Correct answer is A) One and only one."
+    },
+    {
+      "questionText": "An interlaced GIF file:",
+      "options": [
+        "Is animated",
+        "Is not compressed",
+        "Stores lines left to right only",
+        "Stores image lines in a different order"
+      ],
+      "correctAnswer": "Stores image lines in a different order",
+      "explanation": "Correct answer is D) Stores image lines in a different order."
+    },
+    {
+      "questionText": "Designers can assume a minimum display resolution of:",
+      "options": [
+        "800x600",
+        "320x240",
+        "640x480",
+        "1920x1080"
+      ],
+      "correctAnswer": "800x600",
+      "explanation": "Correct answer is A) 800x600."
+    },
+    {
+      "questionText": "The <img> element is:",
+      "options": [
+        "A container element",
+        "A script element",
+        "A style element",
+        "An empty element"
+      ],
+      "correctAnswer": "An empty element",
+      "explanation": "Correct answer is D) An empty element."
+    },
+    {
+      "questionText": "The <img> tag:",
+      "options": [
+        "Creates a link between the image and the HTML page",
+        "Converts the image",
+        "Compresses the image",
+        "Embeds the image data inside the HTML"
+      ],
+      "correctAnswer": "Creates a link between the image and the HTML page",
+      "explanation": "Correct answer is A) Creates a link between the image and the HTML page."
+    },
+    {
+      "questionText": "Which attribute of <img> specifies the path of the image?",
+      "options": [
+        "link",
+        "src",
+        "path",
+        "href"
+      ],
+      "correctAnswer": "src",
+      "explanation": "Correct answer is B) src."
+    },
+    {
+      "questionText": "Which attribute specifies alternative text for an image?",
+      "options": [
+        "title",
+        "name",
+        "alt",
+        "text"
+      ],
+      "correctAnswer": "alt",
+      "explanation": "Correct answer is C) alt."
+    },
+    {
+      "questionText": "Which attributes set the dimensions of an image?",
+      "options": [
+        "x and y",
+        "size and length",
+        "width and height",
+        "top and left"
+      ],
+      "correctAnswer": "width and height",
+      "explanation": "Correct answer is C) width and height."
+    },
+    {
+      "questionText": "A pixel refers to:",
+      "options": [
+        "A font",
+        "The page size",
+        "A color",
+        "The smallest dot on the monitor screen"
+      ],
+      "correctAnswer": "The smallest dot on the monitor screen",
+      "explanation": "Correct answer is D) The smallest dot on the monitor screen."
+    },
+    {
+      "questionText": "If an image is in a subfolder named \"images\", the src is:",
+      "options": [
+        "images@pic.jpg",
+        "/images:pic.jpg",
+        "pic.jpg/images",
+        "images/pic.jpg"
+      ],
+      "correctAnswer": "images/pic.jpg",
+      "explanation": "Correct answer is D) images/pic.jpg."
+    },
+    {
+      "questionText": "Which CSS property aligns an image to the left or right with text wrapping?",
+      "options": [
+        "clear only",
+        "float",
+        "align",
+        "position"
+      ],
+      "correctAnswer": "float",
+      "explanation": "Correct answer is B) float."
+    },
+    {
+      "questionText": "What is the default value of the float property?",
+      "options": [
+        "none",
+        "inherit",
+        "right",
+        "left"
+      ],
+      "correctAnswer": "none",
+      "explanation": "Correct answer is A) none."
+    },
+    {
+      "questionText": "The <figure> element is:",
+      "options": [
+        "A table",
+        "A list",
+        "A container for self-contained content such as illustrations and photos",
+        "A replacement for <img>"
+      ],
+      "correctAnswer": "A container for self-contained content such as illustrations and photos",
+      "explanation": "Correct answer is C) A container for self-contained content such as illustrations and photos."
+    },
+    {
+      "questionText": "<figcaption> is used to:",
+      "options": [
+        "Add a table caption",
+        "Add a heading",
+        "Add a link",
+        "Add a caption to a figure"
+      ],
+      "correctAnswer": "Add a caption to a figure",
+      "explanation": "Correct answer is D) Add a caption to a figure."
+    },
+    {
+      "questionText": "An advantage of <figcaption> is that the caption:",
+      "options": [
+        "Is optional only",
+        "Always appears along with the image even if it floats",
+        "Works only in tables",
+        "Is hidden"
+      ],
+      "correctAnswer": "Always appears along with the image even if it floats",
+      "explanation": "Correct answer is B) Always appears along with the image even if it floats."
+    },
+    {
+      "questionText": "A single caption can be assigned to:",
+      "options": [
+        "A group of images in one <figure>",
+        "No images",
+        "Only background images",
+        "Only one image"
+      ],
+      "correctAnswer": "A group of images in one <figure>",
+      "explanation": "Correct answer is A) A group of images in one <figure>."
+    },
+    {
+      "questionText": "The height and width properties do not include:",
+      "options": [
+        "Image data",
+        "Padding, borders, or margins",
+        "Content",
+        "Pixels"
+      ],
+      "correctAnswer": "Padding, borders, or margins",
+      "explanation": "Correct answer is B) Padding, borders, or margins."
+    },
+    {
+      "questionText": "The height value \"auto\" means:",
+      "options": [
+        "Height is inherited",
+        "The browser calculates the height",
+        "Height is zero",
+        "Height is fixed"
+      ],
+      "correctAnswer": "The browser calculates the height",
+      "explanation": "Correct answer is B) The browser calculates the height."
+    },
+    {
+      "questionText": "The padding property specifies:",
+      "options": [
+        "Image size",
+        "Border width",
+        "Space outside the border",
+        "Space between the element border and its content"
+      ],
+      "correctAnswer": "Space between the element border and its content",
+      "explanation": "Correct answer is D) Space between the element border and its content."
+    },
+    {
+      "questionText": "With padding: 25px 50px 75px 100px, the left padding is:",
+      "options": [
+        "100px",
+        "25px",
+        "75px",
+        "50px"
+      ],
+      "correctAnswer": "100px",
+      "explanation": "Correct answer is A) 100px."
+    },
+    {
+      "questionText": "With padding: 25px 50px 75px 100px, the top padding is:",
+      "options": [
+        "25px",
+        "100px",
+        "50px",
+        "75px"
+      ],
+      "correctAnswer": "25px",
+      "explanation": "Correct answer is A) 25px."
+    },
+    {
+      "questionText": "In the padding shorthand, values are applied in the order:",
+      "options": [
+        "Top, right, bottom, left",
+        "Bottom, top, left, right",
+        "Right, left, top, bottom",
+        "Left, right, top, bottom"
+      ],
+      "correctAnswer": "Top, right, bottom, left",
+      "explanation": "Correct answer is A) Top, right, bottom, left."
+    },
+    {
+      "questionText": "A thumbnail is:",
+      "options": [
+        "A video",
+        "A large image",
+        "A style sheet",
+        "A small image or part of a larger image"
+      ],
+      "correctAnswer": "A small image or part of a larger image",
+      "explanation": "Correct answer is D) A small image or part of a larger image."
+    },
+    {
+      "questionText": "Thumbnails are used to:",
+      "options": [
+        "Improve page load speed",
+        "Slow the page",
+        "Remove images",
+        "Add scripts"
+      ],
+      "correctAnswer": "Improve page load speed",
+      "explanation": "Correct answer is A) Improve page load speed."
+    },
+    {
+      "questionText": "Clicking a thumbnail typically:",
+      "options": [
+        "Changes the font",
+        "Closes the page",
+        "Links to the larger original image",
+        "Deletes the image"
+      ],
+      "correctAnswer": "Links to the larger original image",
+      "explanation": "Correct answer is C) Links to the larger original image."
+    },
+    {
+      "questionText": "CSS transitions were first introduced by:",
+      "options": [
+        "Google",
+        "Adobe",
+        "Apple",
+        "IBM"
+      ],
+      "correctAnswer": "Apple",
+      "explanation": "Correct answer is C) Apple."
+    },
+    {
+      "questionText": "Which two specifications are required for a CSS3 transition?",
+      "options": [
+        "Border and margin",
+        "The CSS property to add an effect to and the duration",
+        "Color and font",
+        "Height and src"
+      ],
+      "correctAnswer": "The CSS property to add an effect to and the duration",
+      "explanation": "Correct answer is B) The CSS property to add an effect to and the duration."
+    },
+    {
+      "questionText": "The transition-duration property defines:",
+      "options": [
+        "The delay",
+        "The timing function",
+        "The duration of the transition",
+        "The property name"
+      ],
+      "correctAnswer": "The duration of the transition",
+      "explanation": "Correct answer is C) The duration of the transition."
+    },
+    {
+      "questionText": "The transition-delay property defines:",
+      "options": [
+        "The duration",
+        "When the transition starts",
+        "The direction",
+        "The property"
+      ],
+      "correctAnswer": "When the transition starts",
+      "explanation": "Correct answer is B) When the transition starts."
+    },
+    {
+      "questionText": "The transition-timing-function describes:",
+      "options": [
+        "The color",
+        "The size",
+        "The property name",
+        "How the speed changes during a transition"
+      ],
+      "correctAnswer": "How the speed changes during a transition",
+      "explanation": "Correct answer is D) How the speed changes during a transition."
+    },
+    {
+      "questionText": "The shorthand transition property sets:",
+      "options": [
+        "Only name",
+        "Up to four transition properties",
+        "Only duration",
+        "Only delay"
+      ],
+      "correctAnswer": "Up to four transition properties",
+      "explanation": "Correct answer is B) Up to four transition properties."
+    },
+    {
+      "questionText": "CSS3 animations animate transitions from:",
+      "options": [
+        "HTML to JavaScript",
+        "One CSS style configuration to another",
+        "Image to video",
+        "Server to client"
+      ],
+      "correctAnswer": "One CSS style configuration to another",
+      "explanation": "Correct answer is B) One CSS style configuration to another."
+    },
+    {
+      "questionText": "The @keyframes rule is used to:",
+      "options": [
+        "Define a table",
+        "Define a link",
+        "Define a font",
+        "Define the appearance of the animation"
+      ],
+      "correctAnswer": "Define the appearance of the animation",
+      "explanation": "Correct answer is D) Define the appearance of the animation."
+    },
+    {
+      "questionText": "Which property sets the duration of an animation cycle?",
+      "options": [
+        "animation-delay",
+        "animation-name",
+        "animation-duration",
+        "animation-time"
+      ],
+      "correctAnswer": "animation-duration",
+      "explanation": "Correct answer is C) animation-duration."
+    },
+    {
+      "questionText": "The default value of animation-play-state is:",
+      "options": [
+        "running",
+        "none",
+        "stopped",
+        "paused"
+      ],
+      "correctAnswer": "running",
+      "explanation": "Correct answer is A) running."
+    },
+    {
+      "questionText": "animation-iteration-count specifies:",
+      "options": [
+        "The color",
+        "The delay",
+        "The number of times an animation runs",
+        "The direction"
+      ],
+      "correctAnswer": "The number of times an animation runs",
+      "explanation": "Correct answer is C) The number of times an animation runs."
+    },
+    {
+      "questionText": "animation-direction: alternate makes the animation:",
+      "options": [
+        "Play in reverse on alternate cycles",
+        "Stop",
+        "Run once",
+        "Run faster"
+      ],
+      "correctAnswer": "Play in reverse on alternate cycles",
+      "explanation": "Correct answer is A) Play in reverse on alternate cycles."
+    },
+    {
+      "questionText": "Which is an advantage of CSS3 animations over script-based animations?",
+      "options": [
+        "They need a server",
+        "They work only on desktops",
+        "They need plug-ins",
+        "Easy to use without JavaScript knowledge"
+      ],
+      "correctAnswer": "Easy to use without JavaScript knowledge",
+      "explanation": "Correct answer is D) Easy to use without JavaScript knowledge."
+    },
+    {
+      "questionText": "CSS3 media queries allow users to specify:",
+      "options": [
+        "A font",
+        "A color",
+        "A conditional expression for media type",
+        "A database query"
+      ],
+      "correctAnswer": "A conditional expression for media type",
+      "explanation": "Correct answer is C) A conditional expression for media type."
+    },
+    {
+      "questionText": "A media query for mobile devices with max screen width 480px is written as:",
+      "options": [
+        "media=\"max=480\"",
+        "media=\"mobile:480\"",
+        "media=\"screen and (max-width: 480px)\"",
+        "media=\"width<480\""
+      ],
+      "correctAnswer": "media=\"screen and (max-width: 480px)\"",
+      "explanation": "Correct answer is C) media=\"screen and (max-width: 480px)\"."
+    }
+  ]
+}

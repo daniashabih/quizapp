@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,6,"Before style sheets, which tag was used to change the color and typeface of text?",<font>,<span>,<text>,<style>,<font>
+HTML,6,Which CSS property specifies the horizontal alignment of text?,text-indent,text-align,text-position,vertical-align,text-align
+HTML,6,Which property specifies the decoration of text such as underline?,text-style,text-effect,font-decor,text-decoration,text-decoration
+HTML,6,Which property specifies indentation of the first line of text?,text-align,text-indent,line-indent,margin-left,text-indent
+HTML,6,Which property changes the casing of text?,font-variant only,text-case,text-transform,font-case,text-transform
+HTML,6,Which property increases or decreases space between words?,letter-gap,text-space,line-height,word-spacing,word-spacing
+HTML,6,Which property specifies the font or a generic family for text?,font-family,font-name,font-style,text-font,font-family
+HTML,6,Which property specifies the size of the font?,text-size,size,font-size,font-height,font-size
+HTML,6,"Which property sets whether the font is normal, italic, or oblique?",font-style,font-weight,font-type,font-variant,font-style
+HTML,6,Which property specifies whether text appears in small-caps?,font-style,text-transform,font-variant,font-caps,font-variant
+HTML,6,"If a browser does not support the specified font, it will:",Show an error,Display the default font of the browser,Crash,Hide the text,Display the default font of the browser
+HTML,6,Which text-align value justifies text on both sides?,center,both,justify,full,justify
+HTML,6,Which text-align value places text in the middle?,justify,center,auto,middle,center
+HTML,6,The default value of text-indent is:,10px,1em,auto,0,0
+HTML,6,text-indent: 2em indents the first line with respect to:,Font size,Page width,Image size,Screen size,Font size
+HTML,6,Which text-transform value makes the first letter of each word uppercase?,lowercase,uppercase,capitalize,title,capitalize
+HTML,6,text-transform: uppercase displays:,Only capital letters,Only small letters,Normal text,First letters capital,Only capital letters
+HTML,6,text-decoration: line-through displays:,A line through the text,A line under the text,No line,A line over the text,A line through the text
+HTML,6,text-decoration: overline displays:,A line under the text,A line through the text,A line over the text,No line,A line over the text
+HTML,6,text-decoration: none displays:,Normal text without decoration,Underlined text,Crossed text,Hidden text,Normal text without decoration
+HTML,6,Which value of word-spacing denotes normal spacing?,none,auto-fit,normal,default-space,normal
+HTML,6,word-spacing: 2px sets:,Margin 2px,A fixed space of 2 pixels between words,Line height 2px,Letter spacing of 2px,A fixed space of 2 pixels between words
+HTML,6,The <span> tag is used to:,Group block elements,Group inline elements in a document,Create lists,Create tables,Group inline elements in a document
+HTML,6,The <span> tag is useful when you want to:,Style part of a sentence without using <b>,Insert an image,Create a form,Create a new page,Style part of a sentence without using <b>
+HTML,6,Which attribute of <span> specifies a unique identifier?,lang,dir,id,title,id
+HTML,6,Which attribute specifies extra information about an element?,class,id,title,style,title
+HTML,6,Indenting is the process of:,Setting off text from its normal position to left or right,Centering only,Changing font,Underlining,Setting off text from its normal position to left or right
+HTML,6,Which property adds space between the border of an element and its contents?,margin,padding,border-gap,spacing,padding
+HTML,6,Which property adds whitespace around an element (outside its border)?,margin,spacing,outline,padding,margin
+HTML,6,Borders in CSS are:,Rectangular outlines surrounding an element,Backgrounds,Fonts,Scripts,Rectangular outlines surrounding an element
+HTML,6,Which CSS border properties are used?,Only color,Only width,Only style,"Style, color, and width","Style, color, and width"
+HTML,6,Which property sets the style of all four borders?,border-style,border-line,border-type,border-shape,border-style
+HTML,6,Which value of border-style gives a dotted line?,dot,points,dash,dotted,dotted
+HTML,6,Which of the following is a valid border-style value?,thick,solid,full,thin,solid
+HTML,6,Which border-style value draws a 3D grooved border?,groove,outset,inset,ridge,groove
+HTML,6,Which border-style makes the border appear as a 3D inset?,inset,outset,ridge,solid,inset
+HTML,6,The border-color property applies colors to:,Only left,Only top,None,All four borders,All four borders
+HTML,6,Which property sets only the top border's color?,border-top-color,top-border-color,color-top-border,border-color-top,border-top-color
+HTML,6,"The border-color value ""transparent"" means:",The border is black,The border is thick,The border is transparent,The border is dashed,The border is transparent
+HTML,6,Which can be used to specify border colors?,Only names,"RGB, hexadecimal values, or color names",Only hex,Only RGB,"RGB, hexadecimal values, or color names"
+HTML,6,border-color: red blue green yellow displays:,"Top blue, right red","Top red, right blue, bottom green, left yellow",All yellow,All red,"Top red, right blue, bottom green, left yellow"
+HTML,6,The border-width property specifies:,The color,The style,The thickness of borders,The margin,The thickness of borders
+HTML,6,Which property sets the width of only the bottom border?,border-width-bottom,width-bottom,bottom-border-width,border-bottom-width,border-bottom-width
+HTML,6,Which border-width value can be an explicit length?,length,size,wide,fixed,length
+HTML,6,Which of the following is a predefined border-width value?,thin,wide,tiny,heavy,thin
+HTML,6,The shorthand property border sets:,Only color,Only style,"Width, style, and color together",Only radius,"Width, style, and color together"
+HTML,6,Which is the correct shorthand for a 2px solid red border?,border-all: 2px solid red;,border: 2px solid red;,border: solid-2px-red;,border: red solid 2;,border: 2px solid red;
+HTML,6,The margin property is used to add:,A background,A color,Whitespace around an element,Space between border and content,Whitespace around an element
+HTML,6,Which property adds space inside the border around the content?,padding,outline,margin,spacing,padding
+HTML,6,Which of the following describes the effect of word-spacing?,Changes margins,Changes line spacing,Changes the space between letters,Changes the space between words,Changes the space between words

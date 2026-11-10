@@ -1,0 +1,53 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+HTML,1,HTML was first introduced in which year?,1995,1990,1999,1985,1990
+HTML,1,Which version of HTML was recommended as a standard by W3C in 1997?,HTML5,HTML 4,HTML 2.0,HTML 3.0,HTML 4
+HTML,1,HTML 4.01 was released in which year?,1997,2006,1999,1995,1999
+HTML,1,"A network that covers a small geographical area such as an office, home, or school is called a:",LAN,MAN,WAN,PAN,LAN
+HTML,1,A network that covers a city is known as a:,MAN,WAN,VPN,LAN,MAN
+HTML,1,Which network connects LANs and MANs across geographical boundaries?,LAN,SAN,PAN,WAN,WAN
+HTML,1,The Internet is known as the largest:,WAN,MAN,LAN,Intranet,WAN
+HTML,1,The Internet is often described as a:,Network of networks,Search engine,Single computer,Web browser,Network of networks
+HTML,1,A Web page is best described as:,A computer with high processing speed,A protocol for sending e-mail,A file containing information and instructions to display information,A type of browser,A file containing information and instructions to display information
+HTML,1,A computer with high processing speed connected to the Internet and used to host Web pages is a:,Web browser,Router,Web client,Web server,Web server
+HTML,1,Which software interprets and displays Web pages to the user?,Compiler,Web browser,Database,Web server,Web browser
+HTML,1,Which protocol is the most popular for viewing Web pages?,POP3,HTTP,SMTP,FTP,HTTP
+HTML,1,Which is the correct form of a URL as described in the session?,[protocol]/[path]://[server],[protocol]://[Web server name]/[path of the file],[path]://[protocol]/[server],[server]://[path]/[protocol],[protocol]://[Web server name]/[path of the file]
+HTML,1,"In Web communication, the browser sends the URL request to the:",Another browser,Rendering engine,Web server,Database,Web server
+HTML,1,A static Web page:,Generates content on demand,Displays the same content to every user each time,Changes content based on user input,Interacts with a database,Displays the same content to every user each time
+HTML,1,The only way to update a static Web page is to:,Reload the browser,Use a database,Change the content manually,Use JavaScript,Change the content manually
+HTML,1,Which of the following is an advantage of static Web pages?,They are simple to design with less programming effort,They update automatically,They interact with databases,They allow heavy user interaction,They are simple to design with less programming effort
+HTML,1,Hypertext refers to:,Content linked to another Web page,Text written in XML,Text with large fonts,Text stored in a database,Content linked to another Web page
+HTML,1,Which of the following is a limitation of static Web pages?,They use HTML,They are simple to design,They do not allow user interaction,They are fast to load,They do not allow user interaction
+HTML,1,A dynamic Web page:,Always shows identical content,Generates content on demand when the user provides inputs,Cannot use a database,Is written only in HTML,Generates content on demand when the user provides inputs
+HTML,1,Which Website would be a typical example of a dynamic Web page?,A page with fixed company address,A plain text notice,A fixed photo gallery with no links,An online store displaying total cost based on selected products,An online store displaying total cost based on selected products
+HTML,1,A dynamic Website interacts with a ______ to generate dynamic content.,Compiler,Printer,Router,Database,Database
+HTML,1,JavaScript was developed by:,Netscape,WHATWG,W3C,Microsoft,Netscape
+HTML,1,"Which technology specifies the formatting of Web pages such as font, color, and spacing?",SGML,HTTP,XML,CSS,CSS
+HTML,1,XHTML is a combination of HTML with:,XML,CSS,JavaScript,jQuery,XML
+HTML,1,Dynamic HTML (DHTML) uses which two technologies to make dynamic Web pages?,JavaScript and CSS,Java and C++,XML and SGML,PHP and SQL,JavaScript and CSS
+HTML,1,HTML is derived from:,XHTML,CSS,SGML,XML,SGML
+HTML,1,A markup language is:,A set of notations that specifies how content should look in the browser,A server-side script,A programming language for databases,A style sheet language,A set of notations that specifies how content should look in the browser
+HTML,1,HTML 1.0 was introduced in:,1997,1993,1990,1995,1993
+HTML,1,HTML 2.0 was introduced in:,1993,1995,1997,1999,1995
+HTML,1,Which version was the first specification introduced by W3C in January 1997?,HTML 4.0,HTML 2.0,HTML5,HTML 3.2,HTML 3.2
+HTML,1,HTML 4.0 was introduced by W3C in December 1997 to support:,"Flash, Java, and Silverlight",Canvas and audio,GPS and Web Sockets,"CSS, DHTML, and JavaScript","CSS, DHTML, and JavaScript"
+HTML,1,HTML5 is a cooperative project between W3C and:,ISO,WHATWG,IEEE,ECMA,WHATWG
+HTML,1,In which year did W3C and WHATWG decide to work together on a new HTML version?,2004,2010,2000,2006,2006
+HTML,1,Which of the following is a basic rule established for HTML5?,Requirement for external plug-ins such as Flash should be reduced,HTML5 should be device dependent,More scripting should replace markup,Development should be private,Requirement for external plug-ins such as Flash should be reduced
+HTML,1,The <head> section of an HTML5 page contains:,Unseen elements and links,Only images,Only the footer,The visible elements,Unseen elements and links
+HTML,1,Which elements did not provide information about the sections of the body they represented?,<div> and <table>,<header> and <footer>,<nav> and <aside>,<article> and <section>,<div> and <table>
+HTML,1,"In a typical HTML5 page layout, the part that usually holds the logo, name, and subtitle is the:",Footer,Side bar,Header,Main information,Header
+HTML,1,The navigation bar of a Web page contains:,A menu with links for navigation,Copyright information,Scripts,Advertisements only,A menu with links for navigation
+HTML,1,"In the page layout, the footer typically represents:",The most important content,General information such as author or company name and terms,Navigation menu,The logo of the site,General information such as author or company name and terms
+HTML,1,Canvas in HTML5 is:,A server-side language,A rectangular area on a Web page controlled with JavaScript,A style sheet,A database,A rectangular area on a Web page controlled with JavaScript
+HTML,1,Which HTML5 API runs background scripts without disturbing the main process?,Geolocation,Web workers,Web Sockets,Canvas,Web workers
+HTML,1,Which HTML5 feature provides a continuous connection between a server and a client?,Application cache,Canvas,Web workers,Web Sockets API,Web Sockets API
+HTML,1,HTML5 supports offline Web applications by storing files in the:,Server,Cookies,Registry,Application cache,Application cache
+HTML,1,"For a multimedia person, HTML5 provides:",Native support for audio and video,Flash support,Java applets,Silverlight plug-ins,Native support for audio and video
+HTML,1,Which of the following is NOT a new HTML5 element?,<nav>,<canvas>,<marquee>,<article>,<marquee>
+HTML,1,Style sheets are saved with which extension?,.xml,.css,.js,.html,.css
+HTML,1,An important benefit of CSS is that it:,Separates HTML content from its formatting,Replaces HTML,Increases formatting inconsistency,Removes the need for a browser,Separates HTML content from its formatting
+HTML,1,The software that applies formatting instructions and displays the Web page is the:,Database,Rendering engine,Web server,Compiler,Rendering engine
+HTML,1,JavaScript is described as a:,Light-weight scripting language supporting object-oriented style,Markup language,Style sheet language,Compiled language,Light-weight scripting language supporting object-oriented style
+HTML,1,jQuery is a:,Style sheet,Cross-browser JavaScript library,Web server,Database,Cross-browser JavaScript library
+HTML,1,AJAX is a development technique used to create:,Asynchronous Web applications,Databases,Print layouts,Static pages,Asynchronous Web applications
