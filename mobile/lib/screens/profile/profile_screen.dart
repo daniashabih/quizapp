@@ -40,7 +40,7 @@ class ProfileScreen extends ConsumerWidget {
           Container(
             width: 36,
             height: 36,
-            margin: const EdgeInsets.only(right: 14),
+            margin: const EdgeInsets.only(right: 16),
             decoration: BoxDecoration(
               color: context.cardBgColor,
               shape: BoxShape.circle,
@@ -56,20 +56,21 @@ class ProfileScreen extends ConsumerWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // 1. Reference Mockup 3 Signature Horizontal Pill Profile Header Banner
+            // 1. Profile Header Banner Card
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(6, 6, 16, 6),
+              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [AppColors.primary, AppColors.secondary],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(48),
+                borderRadius: BorderRadius.circular(26),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.primary.withValues(
@@ -80,150 +81,226 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              child: Row(
+              child: Stack(
                 children: [
-                  // Large Circular Left-Anchored Avatar with Ring (Reference Mockup 3)
-                  Container(
-                    width: 72,
-                    height: 72,
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: 0.22),
-                      border: Border.all(
-                        color: AppColors.accent,
-                        width: 2.2,
-                      ),
-                    ),
+                  Positioned(
+                    right: -20,
+                    top: -20,
                     child: Container(
+                      width: 96,
+                      height: 96,
                       decoration: BoxDecoration(
-                        color: context.cardBgColor,
                         shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        user?.name.isNotEmpty == true
-                            ? user!.name[0].toUpperCase()
-                            : 'U',
-                        style: AppTextStyles.displaySmall.copyWith(
-                          color: isDark ? AppColors.accent : AppColors.primary,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 28,
-                        ),
+                        color: Colors.white.withValues(alpha: 0.06),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 14),
-
-                  // Name, Email & Role
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Text(
-                                  user?.name ?? 'User',
-                                  style: AppTextStyles.displaySmall.copyWith(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.white,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Circular Avatar with Gold Ring
+                        Container(
+                          width: 64,
+                          height: 64,
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white.withValues(alpha: 0.2),
+                            border: Border.all(
+                              color: AppColors.accent,
+                              width: 2.2,
+                            ),
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: context.cardBgColor,
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              user?.name.isNotEmpty == true
+                                  ? user!.name[0].toUpperCase()
+                                  : 'U',
+                              style: AppTextStyles.displaySmall.copyWith(
+                                color: isDark
+                                    ? AppColors.accent
+                                    : AppColors.primary,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 25,
                               ),
-                              const SizedBox(width: 6),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+
+                        // Name, Email & Role
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
                               Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: List.generate(
-                                  4,
-                                  (idx) => const Icon(
-                                    Icons.star_rounded,
-                                    size: 13,
-                                    color: AppColors.accent,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      user?.name ?? 'User',
+                                      style: AppTextStyles.displaySmall.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.white,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  if (dashboardAsync.asData?.value != null) ...[
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 3,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.accent.withValues(
+                                          alpha: 0.22,
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: AppColors.accent.withValues(
+                                            alpha: 0.55,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Icon(
+                                            Icons.stars_rounded,
+                                            size: 12,
+                                            color: AppColors.accentLight,
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            'Lv. ${dashboardAsync.asData!.value.stats.level}',
+                                            style: AppTextStyles.mono.copyWith(
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w800,
+                                              color: AppColors.accentLight,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                              const SizedBox(height: 3),
+                              Text(
+                                user?.email ?? '',
+                                style: AppTextStyles.bodySmall.copyWith(
+                                  color: Colors.white.withValues(alpha: 0.82),
+                                  fontSize: 12,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 3.5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withValues(alpha: 0.22),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: AppColors.accent.withValues(
+                                      alpha: 0.55,
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  isAdmin
+                                      ? 'ADMINISTRATOR'
+                                      : 'CERTIFIED LEARNER',
+                                  style: AppTextStyles.mono.copyWith(
+                                    fontSize: 9.5,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 0.6,
+                                    color: AppColors.accentLight,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            user?.email ?? '',
-                            style: AppTextStyles.bodySmall.copyWith(
-                              color: Colors.white.withValues(alpha: 0.82),
-                              fontSize: 11.5,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 6),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 3,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.22),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: AppColors.accent.withValues(alpha: 0.55),
-                              ),
-                            ),
-                            child: Text(
-                              isAdmin ? 'ADMINISTRATOR' : 'CERTIFIED LEARNER',
-                              style: AppTextStyles.mono.copyWith(
-                                fontSize: 9.5,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.accentLight,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 14),
 
-            // 2. Reference Mockup 3 Quick Navigation Strip
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+            // 2. Full-Width Segmented Quick Navigation Bar
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: context.cardBgColor,
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(
+                  color: context.borderColor.withValues(alpha: 0.75),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(
+                      alpha: isDark ? 0.2 : 0.04,
+                    ),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
               child: Row(
                 children: [
-                  _buildQuickTabChip(
-                    context: context,
-                    label: 'About Me',
-                    isSelected: true,
-                    onTap: () {},
+                  Expanded(
+                    child: _buildQuickTabChip(
+                      context: context,
+                      label: 'About Me',
+                      isSelected: true,
+                      onTap: () {},
+                    ),
                   ),
-                  const SizedBox(width: 8),
-                  _buildQuickTabChip(
-                    context: context,
-                    label: 'Achievements',
-                    isSelected: false,
-                    onTap: () => context.push('/certificates'),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: _buildQuickTabChip(
+                      context: context,
+                      label: 'Achievements',
+                      isSelected: false,
+                      onTap: () => context.push('/certificates'),
+                    ),
                   ),
-                  const SizedBox(width: 8),
-                  _buildQuickTabChip(
-                    context: context,
-                    label: 'My Games',
-                    isSelected: false,
-                    onTap: () => context.go('/games'),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: _buildQuickTabChip(
+                      context: context,
+                      label: 'My Games',
+                      isSelected: false,
+                      onTap: () => context.go('/games'),
+                    ),
                   ),
-                  const SizedBox(width: 8),
-                  _buildQuickTabChip(
-                    context: context,
-                    label: 'Settings',
-                    isSelected: false,
-                    onTap: () => context.push('/settings'),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: _buildQuickTabChip(
+                      context: context,
+                      label: 'Settings',
+                      isSelected: false,
+                      onTap: () => context.push('/settings'),
+                    ),
                   ),
                 ],
               ),
@@ -450,14 +527,17 @@ class ProfileScreen extends ConsumerWidget {
             ),
 
             const SizedBox(height: 22),
-            Image.asset(
-              context.brandCompactLogoAsset,
-              height: 24,
-              fit: BoxFit.contain,
+            Center(
+              child: Image.asset(
+                context.brandCompactLogoAsset,
+                height: 24,
+                fit: BoxFit.contain,
+              ),
             ),
             const SizedBox(height: 8),
             Text(
               '${AppConfig.appName} v${AppConfig.appVersion} (Build ${AppConfig.appBuildNumber}) • Production',
+              textAlign: TextAlign.center,
               style: AppTextStyles.bodySmall.copyWith(
                 color: context.textMutedColor,
               ),
@@ -476,25 +556,28 @@ class ProfileScreen extends ConsumerWidget {
     required VoidCallback onTap,
   }) {
     final isDark = context.isDark;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? (isDark ? AppColors.primaryLight : AppColors.primary)
-              : context.cardBgColor,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(
-            color: isSelected ? Colors.transparent : context.borderColor,
-          ),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 11.5,
-            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-            color: isSelected ? Colors.white : context.textSecondaryColor,
+    return Material(
+      color: isSelected
+          ? (isDark ? AppColors.primaryLight : AppColors.primary)
+          : Colors.transparent,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(18),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 9),
+          alignment: Alignment.center,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              label,
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: 11.5,
+                fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                color: isSelected ? Colors.white : context.textSecondaryColor,
+              ),
+            ),
           ),
         ),
       ),
