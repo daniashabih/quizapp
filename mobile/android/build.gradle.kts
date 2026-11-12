@@ -3,6 +3,11 @@ allprojects {
         google()
         mavenCentral()
     }
+    tasks.configureEach {
+        if (name.contains("extractDeepLinks", ignoreCase = true)) {
+            doNotTrackState("Avoid missing navigation.json hash validation in Gradle 8.14")
+        }
+    }
 }
 
 val newBuildDir: Directory =
