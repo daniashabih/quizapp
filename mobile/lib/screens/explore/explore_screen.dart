@@ -68,7 +68,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
     showDialog(
       context: context,
       builder: (dialogCtx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: const Text('Discard Saved Progress?'),
         content: Text(
           'Discard saved progress for $category (Session $session)? This specific quiz attempt will be deleted.',
@@ -82,10 +82,15 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
             style: ElevatedButton.styleFrom(
               backgroundColor: context.errorColor,
               foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
             onPressed: () async {
               Navigator.of(dialogCtx).pop();
-              final success = await ref.read(quizRepositoryProvider).discardAttempt(id);
+              final success = await ref
+                  .read(quizRepositoryProvider)
+                  .discardAttempt(id);
               if (success) {
                 ref.invalidate(inProgressAttemptsProvider);
                 if (mounted) {
@@ -109,9 +114,10 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
     List<Map<String, dynamic>> attempts,
   ) {
     if (attempts.isEmpty) return const SizedBox.shrink();
+    final isDark = context.isDark;
 
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 10.0),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -119,67 +125,78 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
             children: [
               Icon(
                 Icons.bookmark_added_rounded,
-                size: 16,
+                size: 17,
                 color: context.brandAccentColor,
               ),
               const SizedBox(width: 6),
               Text(
                 'Saved In-Progress Quizzes',
                 style: AppTextStyles.bodyMedium.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 13.5,
                 ),
               ),
               const SizedBox(width: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
                 decoration: BoxDecoration(
-                  color: context.brandAccentColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
+                  color: context.brandAccentColor.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
                   '${attempts.length} Saved',
                   style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w800,
                     color: context.brandAccentColor,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           SizedBox(
-            height: 155,
+            height: 168,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: attempts.length,
               separatorBuilder: (context, index) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final quiz = attempts[index];
-                final category = (quiz['category'] ?? quiz['technology'] ?? 'Quiz').toString();
-                final session = int.tryParse(quiz['session']?.toString() ?? '1') ?? 1;
-                final answered = int.tryParse(quiz['answeredCount']?.toString() ?? '0') ?? 0;
-                final total = int.tryParse(quiz['totalQuestions']?.toString() ?? '0') ?? 0;
-                final pct = (total > 0 ? (answered / total) : 0.0).clamp(0.0, 1.0);
+                final category =
+                    (quiz['category'] ?? quiz['technology'] ?? 'Quiz')
+                        .toString();
+                final session =
+                    int.tryParse(quiz['session']?.toString() ?? '1') ?? 1;
+                final answered =
+                    int.tryParse(quiz['answeredCount']?.toString() ?? '0') ?? 0;
+                final total =
+                    int.tryParse(quiz['totalQuestions']?.toString() ?? '0') ??
+                    0;
+                final pct = (total > 0 ? (answered / total) : 0.0).clamp(
+                  0.0,
+                  1.0,
+                );
                 final pctInt = (pct * 100).round();
                 final lastSaved = quiz['lastSavedAt'] ?? quiz['updatedAt'];
 
                 return Container(
-                  width: 290,
-                  padding: const EdgeInsets.all(12),
+                  width: 296,
+                  padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
                     color: context.cardBgColor,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(22),
                     border: Border.all(
                       color: context.brandAccentColor.withValues(alpha: 0.35),
-                      width: 1.5,
+                      width: 1.4,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.04),
-                        blurRadius: 6,
-                        offset: const Offset(0, 2),
+                        color: Colors.black.withValues(
+                          alpha: isDark ? 0.25 : 0.05,
+                        ),
+                        blurRadius: 14,
+                        offset: const Offset(0, 5),
                       ),
                     ],
                   ),
@@ -198,29 +215,32 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                                 Text(
                                   category,
                                   style: AppTextStyles.bodyMedium.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 14.5,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(height: 3),
+                                const SizedBox(height: 4),
                                 Row(
                                   children: [
                                     Container(
                                       padding: const EdgeInsets.symmetric(
-                                        horizontal: 6,
-                                        vertical: 1.5,
+                                        horizontal: 8,
+                                        vertical: 2,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: context.brandAccentColor.withValues(alpha: 0.12),
-                                        borderRadius: BorderRadius.circular(6),
+                                        color: context.brandAccentColor
+                                            .withValues(alpha: 0.12),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Text(
-                                        session == 0 ? 'All Sessions' : 'Session $session',
+                                        session == 0
+                                            ? 'All Sessions'
+                                            : 'Session $session',
                                         style: TextStyle(
                                           fontSize: 10,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.w800,
                                           color: context.brandAccentColor,
                                         ),
                                       ),
@@ -245,21 +265,28 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                             ),
                           ),
                           // Discard Button
-                          IconButton(
-                            icon: Icon(
-                              Icons.delete_outline_rounded,
-                              size: 18,
-                              color: context.errorColor,
+                          Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              color: context.errorBgColor,
+                              shape: BoxShape.circle,
                             ),
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-                            tooltip: 'Discard progress',
-                            onPressed: () => _showDiscardConfirmation(quiz),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.delete_outline_rounded,
+                                size: 16,
+                                color: context.errorColor,
+                              ),
+                              padding: EdgeInsets.zero,
+                              tooltip: 'Discard progress',
+                              onPressed: () => _showDiscardConfirmation(quiz),
+                            ),
                           ),
                         ],
                       ),
 
-                      // Progress Bar & Stats
+                      // Thick Pill Progress Bar & Stats (Reference Mockup 1 & 2)
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -278,21 +305,33 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                                 '$pctInt%',
                                 style: TextStyle(
                                   fontSize: 11,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w800,
                                   color: context.brandAccentColor,
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 5),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
-                            child: LinearProgressIndicator(
-                              value: pct,
-                              minHeight: 5,
-                              backgroundColor: context.borderColor,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                context.brandAccentColor,
+                          const SizedBox(height: 6),
+                          Container(
+                            height: 10,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: context.borderColor.withValues(alpha: 0.7),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: FractionallySizedBox(
+                              alignment: Alignment.centerLeft,
+                              widthFactor: pct.clamp(0.06, 1.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      AppColors.accent,
+                                      Color(0xFFE0B15E),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
                             ),
                           ),
@@ -302,40 +341,182 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                       // Resume Button
                       SizedBox(
                         width: double.infinity,
-                        height: 34,
+                        height: 36,
                         child: ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: context.brandAccentColor,
+                            backgroundColor: isDark
+                                ? AppColors.primaryLight
+                                : AppColors.primary,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(18),
                             ),
                             elevation: 0,
                           ),
-                          icon: const Icon(Icons.play_arrow_rounded, size: 16),
+                          icon: const Icon(Icons.play_arrow_rounded, size: 17),
                           label: const Text(
                             'Resume Quiz',
                             style: TextStyle(
                               fontSize: 12,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                           onPressed: () {
-                            context.push(
-                              '/quiz',
-                              extra: {
-                                'category': category,
-                                'session': session,
-                                'attemptId': quiz['id'],
-                              },
-                            ).then((_) {
-                              ref.invalidate(inProgressAttemptsProvider);
-                            });
+                            context
+                                .push(
+                                  '/quiz',
+                                  extra: {
+                                    'category': category,
+                                    'session': session,
+                                    'attemptId': quiz['id'],
+                                  },
+                                )
+                                .then((_) {
+                                  ref.invalidate(inProgressAttemptsProvider);
+                                });
                           },
                         ),
                       ),
                     ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFeaturedCategoriesRow(
+    BuildContext context,
+    List<CategoryModel> categories,
+  ) {
+    final isDark = context.isDark;
+    final showcase = categories.take(6).toList();
+    if (showcase.isEmpty) return const SizedBox.shrink();
+
+    final badgeColors = <Color>[
+      AppColors.primary,
+      AppColors.accent,
+      AppColors.secondary,
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Featured Tracks',
+                  style: AppTextStyles.displaySmall.copyWith(
+                    fontSize: 15.5,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                Text(
+                  '${categories.length} Tracks',
+                  style: AppTextStyles.labelBold.copyWith(
+                    fontSize: 11.5,
+                    color: context.brandAccentColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 132,
+            child: ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              scrollDirection: Axis.horizontal,
+              itemCount: showcase.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 12),
+              itemBuilder: (context, index) {
+                final cat = showcase[index];
+                final tint = badgeColors[index % badgeColors.length];
+                return GestureDetector(
+                  onTap: () => _showSessionSelector(cat),
+                  child: Container(
+                    width: 112,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 14,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isDark
+                          ? context.cardBgColor
+                          : tint.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(22),
+                      border: Border.all(
+                        color: tint.withValues(alpha: isDark ? 0.35 : 0.2),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(
+                            alpha: isDark ? 0.2 : 0.03,
+                          ),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            color: tint.withValues(alpha: isDark ? 0.22 : 0.16),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Center(
+                            child: Text(
+                              cat.name.isNotEmpty
+                                  ? cat.name[0].toUpperCase()
+                                  : 'T',
+                              style: AppTextStyles.displaySmall.copyWith(
+                                color: isDark && tint == AppColors.primary
+                                    ? AppColors.accentLight
+                                    : tint,
+                                fontSize: 19,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          cat.name,
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 12.5,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          cat.questionCount > 0
+                              ? '${cat.questionCount} Qs'
+                              : 'Multi-track',
+                          style: AppTextStyles.bodySmall.copyWith(
+                            fontSize: 10.5,
+                            color: context.textSecondaryColor,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -357,118 +538,143 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
     return Scaffold(
       backgroundColor: context.scaffoldBgColor,
       appBar: AppBar(
+        titleSpacing: 16,
         title: Text(
           'Explore Technologies',
-          style: AppTextStyles.displaySmall.copyWith(fontSize: 18),
+          style: AppTextStyles.displaySmall.copyWith(
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh_rounded, size: 20),
-            onPressed: () {
-              ref.invalidate(categoriesProvider);
-              if (authState.isAuthenticated) {
-                ref.invalidate(inProgressAttemptsProvider);
-              }
-            },
-            tooltip: 'Refresh Categories',
+          Container(
+            width: 36,
+            height: 36,
+            margin: const EdgeInsets.only(right: 14),
+            decoration: BoxDecoration(
+              color: context.cardBgColor,
+              shape: BoxShape.circle,
+              border: Border.all(color: context.borderColor),
+            ),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              icon: const Icon(Icons.refresh_rounded, size: 18),
+              onPressed: () {
+                ref.invalidate(categoriesProvider);
+                if (authState.isAuthenticated) {
+                  ref.invalidate(inProgressAttemptsProvider);
+                }
+              },
+              tooltip: 'Refresh Categories',
+            ),
           ),
-          const SizedBox(width: 8),
         ],
       ),
       body: Column(
         children: [
           Expanded(
             child: categoriesAsync.when(
-        loading: () =>
-            const LoadingStateWidget(message: 'Loading technologies...'),
-        error: (err, _) => ErrorStateWidget(
-          message: err.toString(),
-          onRetry: () => ref.refresh(categoriesProvider),
-        ),
-        data: (categories) {
-          final filtered = categories
-              .where((c) => c.isEnabled != false)
-              .where(
-                (c) =>
-                    c.name.toLowerCase().contains(_searchQuery.toLowerCase()),
-              )
-              .toList();
+              loading: () => const LoadingStateWidget(
+                message: 'Loading technologies...',
+              ),
+              error: (err, _) => ErrorStateWidget(
+                message: err.toString(),
+                onRetry: () => ref.refresh(categoriesProvider),
+              ),
+              data: (categories) {
+                final filtered = categories
+                    .where((c) => c.isEnabled != false)
+                    .where(
+                      (c) => c.name.toLowerCase().contains(
+                        _searchQuery.toLowerCase(),
+                      ),
+                    )
+                    .toList();
 
-          return RefreshIndicator(
-            color: context.brandAccentColor,
-            onRefresh: () async {
-              ref.invalidate(categoriesProvider);
-              if (authState.isAuthenticated) {
-                ref.invalidate(inProgressAttemptsProvider);
-              }
-              await ref.read(categoriesProvider.future);
-            },
-            child: Column(
-              children: [
-                // Search Bar
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 8.0,
-                  ),
-                  child: AppTextField(
-                    hint: 'Search technologies (e.g. React, PHP, Python)...',
-                    controller: _searchController,
-                    prefixIcon: Icon(
-                      Icons.search_rounded,
-                      size: 20,
-                      color: context.textSecondaryColor,
-                    ),
-                    suffixIcon: _searchQuery.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(Icons.clear_rounded, size: 18),
-                            onPressed: () {
-                              _searchController.clear();
-                              setState(() => _searchQuery = '');
-                            },
-                          )
-                        : null,
-                    onChanged: (v) => setState(() => _searchQuery = v),
-                  ),
-                ),
-
-                // Saved In-Progress Quizzes Section
-                if (inProgressAsync != null)
-                  inProgressAsync.when(
-                    data: (attempts) => _buildSavedQuizzesSection(context, attempts),
-                    loading: () => const SizedBox.shrink(),
-                    error: (error, stack) => const SizedBox.shrink(),
-                  ),
-
-                // Grid / List of technologies
-                Expanded(
-                  child: filtered.isEmpty
-                      ? EmptyStateWidget(
-                          title: 'No technologies found',
-                          subtitle: _searchQuery.isEmpty
-                              ? 'No technology tracks available.'
-                              : 'No matches found for "$_searchQuery".',
-                          icon: Icons.search_off_rounded,
-                        )
-                      : ListView.separated(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0,
-                            vertical: 8.0,
-                          ),
-                          itemCount: filtered.length,
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 10),
-                          itemBuilder: (context, index) {
-                            final cat = filtered[index];
-                            return _buildTechCard(cat);
-                          },
+                return RefreshIndicator(
+                  color: context.brandAccentColor,
+                  onRefresh: () async {
+                    ref.invalidate(categoriesProvider);
+                    if (authState.isAuthenticated) {
+                      ref.invalidate(inProgressAttemptsProvider);
+                    }
+                    await ref.read(categoriesProvider.future);
+                  },
+                  child: Column(
+                    children: [
+                      // Search Bar
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 8.0,
                         ),
-                ),
-              ],
+                        child: AppTextField(
+                          hint:
+                              'Search technologies (e.g. React, PHP, Python)...',
+                          controller: _searchController,
+                          prefixIcon: Icon(
+                            Icons.search_rounded,
+                            size: 20,
+                            color: context.textSecondaryColor,
+                          ),
+                          suffixIcon: _searchQuery.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(
+                                    Icons.clear_rounded,
+                                    size: 18,
+                                  ),
+                                  onPressed: () {
+                                    _searchController.clear();
+                                    setState(() => _searchQuery = '');
+                                  },
+                                )
+                              : null,
+                          onChanged: (v) => setState(() => _searchQuery = v),
+                        ),
+                      ),
+
+                      // Saved In-Progress Quizzes Section
+                      if (inProgressAsync != null)
+                        inProgressAsync.when(
+                          data: (attempts) =>
+                              _buildSavedQuizzesSection(context, attempts),
+                          loading: () => const SizedBox.shrink(),
+                          error: (error, stack) => const SizedBox.shrink(),
+                        ),
+
+                      // Featured Horizontal Categories (Reference Mockup 1) when not searching
+                      if (_searchQuery.isEmpty && filtered.length > 2)
+                        _buildFeaturedCategoriesRow(context, filtered),
+
+                      // Grid / List of technologies (Reference Mockup 2 Levels Style)
+                      Expanded(
+                        child: filtered.isEmpty
+                            ? EmptyStateWidget(
+                                title: 'No technologies found',
+                                subtitle: _searchQuery.isEmpty
+                                    ? 'No technology tracks available.'
+                                    : 'No matches found for "$_searchQuery".',
+                                icon: Icons.search_off_rounded,
+                              )
+                            : ListView.separated(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0,
+                                  vertical: 8.0,
+                                ),
+                                itemCount: filtered.length,
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 10),
+                                itemBuilder: (context, index) {
+                                  final cat = filtered[index];
+                                  return _buildTechCard(cat);
+                                },
+                              ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
           ),
           const BannerAdWidget(),
         ],
@@ -477,29 +683,38 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   }
 
   Widget _buildTechCard(CategoryModel cat) {
+    final isDark = context.isDark;
     return Container(
       decoration: BoxDecoration(
         color: context.cardBgColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.borderColor),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: context.borderColor.withValues(alpha: 0.7),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.22 : 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Material(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         child: InkWell(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
           onTap: () => _showSessionSelector(cat),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(14.0),
             child: Row(
               children: [
                 Container(
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: context.mutedBgColor,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: context.borderColor),
+                    color: context.brandAccentColor.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   child: Center(
                     child: Text(
@@ -520,7 +735,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                       Text(
                         cat.name,
                         style: AppTextStyles.bodyLarge.copyWith(
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                           fontSize: 15,
                         ),
                       ),
@@ -537,10 +752,36 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 14,
-                  color: context.textSecondaryColor,
+                // Reference Mockup 2 Right Pill Badge
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 11,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isDark ? AppColors.primaryLight : AppColors.primary,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.stars_rounded,
+                        size: 13,
+                        color: AppColors.accent,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        cat.sessions.length > 1
+                            ? '${cat.sessions.length} Lvls'
+                            : 'Start',
+                        style: AppTextStyles.labelBold.copyWith(
+                          color: Colors.white,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -615,7 +856,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
     return Container(
       decoration: BoxDecoration(
         color: context.cardBgColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
         border: Border(
           top: BorderSide(color: context.borderColor),
         ),
@@ -628,7 +869,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
           // Drag handle
           Center(
             child: Container(
-              width: 36,
+              width: 40,
               height: 4,
               decoration: BoxDecoration(
                 color: context.borderColor,
@@ -636,18 +877,19 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 18),
 
+          // Reference Mockup 2 Detail Header with Stars + Circular Play
           Row(
             children: [
               Container(
-                width: 40,
-                height: 40,
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
                   color: isDark
                       ? AppColors.accent.withValues(alpha: 0.2)
                       : AppColors.accentLight,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(15),
                 ),
                 child: Center(
                   child: Text(
@@ -656,26 +898,49 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                         : 'T',
                     style: AppTextStyles.displaySmall.copyWith(
                       color: isDark ? AppColors.accentLight : AppColors.primary,
-                      fontSize: 18,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       widget.category.name,
-                      style: AppTextStyles.displaySmall.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      'Select any session to start',
-                      style: AppTextStyles.bodySmall.copyWith(
-                        fontSize: 12,
-                        color: context.textSecondaryColor,
+                      style: AppTextStyles.displaySmall.copyWith(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w800,
                       ),
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        ...List.generate(
+                          5,
+                          (i) => Icon(
+                            Icons.star_rounded,
+                            size: 14,
+                            color: i < 4
+                                ? AppColors.accent
+                                : context.borderColor,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Flexible(
+                          child: Text(
+                            'Select any session to start',
+                            style: AppTextStyles.bodySmall.copyWith(
+                              fontSize: 11.5,
+                              color: context.textSecondaryColor,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -701,7 +966,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
               'Sessions',
               style: AppTextStyles.labelBold.copyWith(
                 color: context.textSecondaryColor,
-                fontSize: 11,
+                fontSize: 11.5,
               ),
             ),
             const SizedBox(height: 10),
@@ -711,12 +976,12 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
               Material(
                 color: _isAllSessions
                     ? (isDark
-                        ? AppColors.darkPrimaryAccent.withValues(alpha: 0.16)
-                        : AppColors.accentLight)
+                          ? AppColors.darkPrimaryAccent.withValues(alpha: 0.16)
+                          : AppColors.accentLight)
                     : context.mutedBgColor,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(16),
                   onTap: () {
                     setState(() {
                       _isAllSessions = true;
@@ -725,7 +990,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 12,
+                      vertical: 13,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -750,7 +1015,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
             ],
 
             // Individual Sessions
@@ -768,18 +1033,19 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                     return ChoiceChip(
                       label: Text('Session $sess'),
                       selected: isSelected,
-                      selectedColor:
-                          isDark ? AppColors.primaryLight : AppColors.primary,
+                      selectedColor: isDark
+                          ? AppColors.primaryLight
+                          : AppColors.primary,
                       backgroundColor: context.mutedBgColor,
                       labelStyle: TextStyle(
                         color: isSelected
                             ? Colors.white
                             : context.textPrimaryColor,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         fontSize: 13,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(14),
                         side: BorderSide(
                           color: isSelected
                               ? context.brandAccentColor
@@ -803,12 +1069,12 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
             const SizedBox(height: 16),
 
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
               decoration: BoxDecoration(
                 color: isDark
                     ? AppColors.darkPrimaryAccent.withValues(alpha: 0.12)
                     : AppColors.accentLight.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: context.borderColor),
               ),
               child: Row(
@@ -835,7 +1101,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
               ),
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 18),
 
             AppButton(
               text: _isAllSessions

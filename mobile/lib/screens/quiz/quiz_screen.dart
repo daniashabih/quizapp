@@ -459,23 +459,39 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                                         Flexible(
                                           child: Container(
                                             padding: const EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                              vertical: 4,
+                                              horizontal: 12,
+                                              vertical: 6,
                                             ),
                                             decoration: BoxDecoration(
-                                              color: context.mutedBgColor,
+                                              color: isDark
+                                                  ? AppColors.primaryLight
+                                                  : AppColors.primary,
                                               borderRadius:
-                                                  BorderRadius.circular(8),
+                                                  BorderRadius.circular(18),
                                             ),
-                                            child: Text(
-                                              'Question ${state.currentIndex + 1} of ${state.totalQuestions}',
-                                              style: AppTextStyles.labelBold
-                                                  .copyWith(
-                                                color:
-                                                    context.textSecondaryColor,
-                                                fontSize: 11,
-                                              ),
-                                              overflow: TextOverflow.ellipsis,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Icon(
+                                                  Icons.stars_rounded,
+                                                  size: 13,
+                                                  color: AppColors.accent,
+                                                ),
+                                                const SizedBox(width: 5),
+                                                Flexible(
+                                                  child: Text(
+                                                    'Question ${state.currentIndex + 1} of ${state.totalQuestions}',
+                                                    style: AppTextStyles
+                                                        .labelBold
+                                                        .copyWith(
+                                                      color: Colors.white,
+                                                      fontSize: 11,
+                                                    ),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
@@ -509,14 +525,25 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                                       key: const ValueKey('quiz_question_card'),
                                       margin: const EdgeInsets.only(bottom: 16),
                                       padding: EdgeInsets.all(
-                                        isCompactScreen ? 14 : 18,
+                                        isCompactScreen ? 16 : 20,
                                       ),
                                       decoration: BoxDecoration(
                                         color: context.cardBgColor,
-                                        borderRadius: BorderRadius.circular(18),
+                                        borderRadius: BorderRadius.circular(24),
                                         border: Border.all(
-                                          color: context.borderColor,
+                                          color: context.borderColor.withValues(
+                                            alpha: 0.75,
+                                          ),
                                         ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withValues(
+                                              alpha: isDark ? 0.24 : 0.05,
+                                            ),
+                                            blurRadius: 16,
+                                            offset: const Offset(0, 6),
+                                          ),
+                                        ],
                                       ),
                                       child: Text(
                                         currentQuestion?.questionText ?? '',
@@ -733,12 +760,24 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                           ),
                           decoration: BoxDecoration(
                             color: context.cardBgColor,
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(24),
+                            ),
                             border: Border(
                               top: BorderSide(
                                 color: context.borderColor,
                                 width: 1,
                               ),
                             ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(
+                                  alpha: isDark ? 0.25 : 0.05,
+                                ),
+                                blurRadius: 16,
+                                offset: const Offset(0, -4),
+                              ),
+                            ],
                           ),
                           child: Center(
                             child: ConstrainedBox(
@@ -752,11 +791,14 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                                         : null,
                                     style: OutlinedButton.styleFrom(
                                       minimumSize: Size(
-                                        isCompactScreen ? 68 : 80,
+                                        isCompactScreen ? 68 : 84,
                                         44,
                                       ),
                                       padding: EdgeInsets.symmetric(
-                                        horizontal: isCompactScreen ? 10 : 14,
+                                        horizontal: isCompactScreen ? 10 : 16,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(22),
                                       ),
                                     ),
                                     child: const Text('Prev'),
@@ -792,15 +834,15 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                                         disabledForegroundColor:
                                             Colors.white.withValues(alpha: 0.7),
                                         minimumSize: Size(
-                                          isCompactScreen ? 84 : 100,
+                                          isCompactScreen ? 84 : 104,
                                           44,
                                         ),
                                         padding: EdgeInsets.symmetric(
-                                          horizontal: isCompactScreen ? 12 : 16,
+                                          horizontal: isCompactScreen ? 12 : 18,
                                         ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(12),
+                                              BorderRadius.circular(22),
                                         ),
                                       ),
                                       child: _isSubmitting || state.isSubmitting
@@ -829,15 +871,15 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                                         disabledForegroundColor:
                                             Colors.white.withValues(alpha: 0.7),
                                         minimumSize: Size(
-                                          isCompactScreen ? 68 : 80,
+                                          isCompactScreen ? 68 : 84,
                                           44,
                                         ),
                                         padding: EdgeInsets.symmetric(
-                                          horizontal: isCompactScreen ? 10 : 14,
+                                          horizontal: isCompactScreen ? 10 : 16,
                                         ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(12),
+                                              BorderRadius.circular(22),
                                         ),
                                       ),
                                       child: const Text('Next'),

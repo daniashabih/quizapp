@@ -409,36 +409,36 @@ class _LeaderboardFullScreenState extends ConsumerState<LeaderboardFullScreen> {
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: context.cardBgColor,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: borderColor ?? context.borderColor,
+          color: borderColor ?? context.borderColor.withValues(alpha: 0.75),
           width: (isGold || isSilver || isBronze) ? 1.5 : 1.0,
         ),
-        boxShadow: (isGold || isSilver || isBronze)
-            ? [
-                BoxShadow(
-                  color: badgeColor!.withValues(alpha: isDark ? 0.2 : 0.08),
-                  blurRadius: 8,
-                  offset: const Offset(0, 3),
-                ),
-              ]
-            : null,
+        boxShadow: [
+          BoxShadow(
+            color: (isGold || isSilver || isBronze)
+                ? badgeColor!.withValues(alpha: isDark ? 0.2 : 0.08)
+                : Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
           // Rank Badge
           Container(
-            width: 36,
-            height: 36,
+            width: 38,
+            height: 38,
             decoration: BoxDecoration(
               color: badgeColor != null
                   ? badgeColor.withValues(alpha: 0.18)
                   : context.mutedBgColor,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: badgeColor ?? context.borderColor,
                 width: badgeColor != null ? 1.5 : 1.0,
@@ -455,7 +455,7 @@ class _LeaderboardFullScreenState extends ConsumerState<LeaderboardFullScreen> {
                               '#$rank',
                               style: TextStyle(
                                 color: context.textSecondaryColor,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w800,
                                 fontSize: 12,
                               ),
                             ),
@@ -476,7 +476,7 @@ class _LeaderboardFullScreenState extends ConsumerState<LeaderboardFullScreen> {
                     style: TextStyle(
                       color: context.brandAccentColor,
                       fontSize: 12,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w800,
                     ),
                   )
                 : null,
@@ -494,8 +494,8 @@ class _LeaderboardFullScreenState extends ConsumerState<LeaderboardFullScreen> {
                       child: Text(
                         entry.name,
                         style: AppTextStyles.bodyMedium.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 13.5,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -503,16 +503,16 @@ class _LeaderboardFullScreenState extends ConsumerState<LeaderboardFullScreen> {
                     ),
                     if (isGold || isSilver || isBronze) ...[
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
                         decoration: BoxDecoration(
                           color: badgeColor!.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(6),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           isGold ? 'GOLD' : isSilver ? 'SILVER' : 'BRONZE',
                           style: TextStyle(
                             color: badgeColor,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w800,
                             fontSize: 9,
                           ),
                         ),
@@ -535,29 +535,28 @@ class _LeaderboardFullScreenState extends ConsumerState<LeaderboardFullScreen> {
           ),
           const SizedBox(width: 8),
 
-          // XP Pill
+          // Reference Mockup 2 Pill XP Badge
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-              color: isDark
-                  ? const Color(0xFF065F46).withValues(alpha: 0.25)
-                  : const Color(0xFFE3EFEA),
-              borderRadius: BorderRadius.circular(8),
+              color: isDark ? AppColors.primaryLight : AppColors.primary,
+              borderRadius: BorderRadius.circular(18),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(
-                  Icons.bolt_rounded,
+                  Icons.stars_rounded,
                   size: 13,
-                  color: Color(0xFF10B981),
+                  color: AppColors.accent,
                 ),
+                const SizedBox(width: 4),
                 Text(
                   '${entry.xp}',
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w800,
                     fontSize: 12,
-                    color: Color(0xFF10B981),
+                    color: Colors.white,
                   ),
                 ),
               ],

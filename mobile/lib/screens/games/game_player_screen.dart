@@ -186,9 +186,9 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
             icon: const Icon(Icons.replay_rounded, size: 16),
             label: const Text('Play Again', style: TextStyle(fontWeight: FontWeight.w900)),
             style: FilledButton.styleFrom(
-              backgroundColor: AppColors.gamePrimaryButton,
+              backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             ),
           ),
         ],
@@ -238,8 +238,9 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
               child: FilledButton(
                 onPressed: () => Navigator.pop(ctx),
                 style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.gamePrimaryButton,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                 ),
                 child: const Text('Got It!'),
               ),

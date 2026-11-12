@@ -71,13 +71,30 @@ class AppButton extends StatelessWidget {
       }
     }
 
-    return SizedBox(
+    final radius = BorderRadius.circular(24);
+    final showShadow = isInteractive &&
+        (type == AppButtonType.primary || type == AppButtonType.danger);
+
+    return Container(
       width: width ?? double.infinity,
       height: height,
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        boxShadow: showShadow
+            ? [
+                BoxShadow(
+                  color: bgColor.withValues(alpha: isDark ? 0.35 : 0.24),
+                  blurRadius: 16,
+                  spreadRadius: -2,
+                  offset: const Offset(0, 6),
+                ),
+              ]
+            : null,
+      ),
       child: Material(
         color: isInteractive ? bgColor : bgColor.withValues(alpha: 0.6),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: radius,
           side: borderSide,
         ),
         clipBehavior: Clip.antiAlias,
@@ -93,22 +110,30 @@ class AppButton extends StatelessWidget {
                       color: fgColor,
                     ),
                   )
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (iconWidget != null) ...[
-                        iconWidget,
-                        const SizedBox(width: 8),
-                      ],
-                      Text(
-                        text,
-                        style: AppTextStyles.labelBold.copyWith(
-                          color: fgColor,
-                          fontSize: 15,
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (iconWidget != null) ...[
+                          iconWidget,
+                          const SizedBox(width: 8),
+                        ],
+                        Flexible(
+                          child: Text(
+                            text,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.labelBold.copyWith(
+                              color: fgColor,
+                              fontSize: 15,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
           ),
         ),

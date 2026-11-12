@@ -247,116 +247,306 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // 1. Featured Spotlight Banner
+                        // 1. Featured Spotlight Banner (Reference Mockup 1 Hero Card)
                         if (featuredGame != null)
                           Container(
-                            margin: const EdgeInsets.only(bottom: 16.0),
-                            padding: const EdgeInsets.all(16.0),
+                            margin: const EdgeInsets.only(bottom: 18.0),
+                            padding: const EdgeInsets.all(12.0),
                             decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFF0F2B24), Color(0xFF193D35), Color(0xFF0A1B16)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
+                              color: context.cardBgColor,
+                              borderRadius: BorderRadius.circular(26.0),
+                              border: Border.all(
+                                color: context.borderColor.withValues(alpha: 0.7),
                               ),
-                              borderRadius: BorderRadius.circular(24.0),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.25),
-                                  blurRadius: 10,
-                                  offset: const Offset(0, 4),
+                                  color: Colors.black.withValues(
+                                    alpha: isDark ? 0.3 : 0.06,
+                                  ),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 8),
                                 ),
                               ],
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: Colors.amber.withValues(alpha: 0.25),
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(color: Colors.amber.withValues(alpha: 0.4)),
-                                      ),
-                                      child: const Row(
-                                        mainAxisSize: MainAxisSize.min,
+                                // Inner Rounded Visual Showcase Container
+                                Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(18.0),
+                                  decoration: BoxDecoration(
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        AppColors.primary,
+                                        AppColors.secondary,
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
                                         children: [
-                                          Icon(Icons.local_fire_department_rounded, color: Colors.amber, size: 14),
-                                          SizedBox(width: 4),
-                                          Text(
-                                            'DAILY QUEST',
-                                            style: TextStyle(
-                                              color: Colors.amber,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w900,
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 4,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: AppColors.accent.withValues(
+                                                alpha: 0.25,
+                                              ),
+                                              borderRadius: BorderRadius.circular(14),
+                                              border: Border.all(
+                                                color: AppColors.accent.withValues(
+                                                  alpha: 0.5,
+                                                ),
+                                              ),
+                                            ),
+                                            child: const Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  Icons.local_fire_department_rounded,
+                                                  color: AppColors.accentLight,
+                                                  size: 14,
+                                                ),
+                                                SizedBox(width: 4),
+                                                Text(
+                                                  'DAILY QUEST',
+                                                  style: TextStyle(
+                                                    color: AppColors.accentLight,
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 9,
+                                              vertical: 4,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.black.withValues(alpha: 0.2),
+                                              borderRadius: BorderRadius.circular(14),
+                                            ),
+                                            child: Text(
+                                              '⭐ ${featuredGame.rating}',
+                                              style: const TextStyle(
+                                                color: AppColors.accentLight,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 11.5,
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      '⭐ ${featuredGame.rating}',
-                                      style: const TextStyle(color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 44,
-                                      height: 44,
-                                      decoration: BoxDecoration(
-                                        gradient: _getCardGradient(featuredGame.slug),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Center(
-                                        child: Text(_getGameIcon(featuredGame.slug), style: const TextStyle(fontSize: 22)),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                      const SizedBox(height: 14),
+                                      Row(
                                         children: [
-                                          Text(
-                                            featuredGame.title,
-                                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white),
+                                          Container(
+                                            width: 52,
+                                            height: 52,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white.withValues(alpha: 0.14),
+                                              borderRadius: BorderRadius.circular(16),
+                                              border: Border.all(
+                                                color: Colors.white.withValues(alpha: 0.2),
+                                              ),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                _getGameIcon(featuredGame.slug),
+                                                style: const TextStyle(fontSize: 26),
+                                              ),
+                                            ),
                                           ),
-                                          const SizedBox(height: 2),
-                                          Text(
-                                            '${featuredGame.category} • ${featuredGame.difficulty}',
-                                            style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.7)),
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  featuredGame.title,
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w900,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 2),
+                                                Text(
+                                                  '${featuredGame.category} • ${featuredGame.difficulty}',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.white.withValues(
+                                                      alpha: 0.78,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                                Text(
-                                  featuredGame.description,
-                                  style: TextStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.8), height: 1.4),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        featuredGame.description,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white.withValues(alpha: 0.85),
+                                          height: 1.4,
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 const SizedBox(height: 14),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: FilledButton.icon(
-                                    onPressed: () {
-                                      final techParam = selectedTech != 'all' ? '?tech=$selectedTech' : '';
-                                      context.push('/games/${featuredGame.slug}$techParam');
-                                    },
-                                    icon: const Icon(Icons.play_arrow_rounded, size: 18),
-                                    label: const Text('PLAY DAILY QUEST', style: TextStyle(fontWeight: FontWeight.w900)),
-                                    style: FilledButton.styleFrom(
-                                      backgroundColor: AppColors.gamePrimaryButton,
-                                      foregroundColor: Colors.white,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                                    ),
+                                // Bottom Hero Bar (Reference Mockup 1 Title + Thick Progress Pill + Circular Play Button)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 4,
+                                    vertical: 2,
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              featuredGame.title,
+                                              style: const TextStyle(
+                                                fontSize: 14.5,
+                                                fontWeight: FontWeight.w800,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Container(
+                                              height: 18,
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                color: isDark
+                                                    ? AppColors.primary.withValues(
+                                                        alpha: 0.45,
+                                                      )
+                                                    : AppColors.primary.withValues(
+                                                        alpha: 0.14,
+                                                      ),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: Stack(
+                                                children: [
+                                                  FractionallySizedBox(
+                                                    widthFactor:
+                                                        ((featuredGame.rating / 5.0)
+                                                            .clamp(0.2, 1.0)),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        gradient:
+                                                            const LinearGradient(
+                                                          colors: [
+                                                            AppColors.accent,
+                                                            Color(0xFFE0B15E),
+                                                          ],
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              12,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Positioned.fill(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        horizontal: 10,
+                                                      ),
+                                                      child: Align(
+                                                        alignment:
+                                                            Alignment.centerRight,
+                                                        child: Text(
+                                                          '${((featuredGame.rating / 5.0) * 100).round()}%',
+                                                          style: TextStyle(
+                                                            fontSize: 10,
+                                                            fontWeight:
+                                                                FontWeight.w800,
+                                                            color: isDark
+                                                                ? Colors.white
+                                                                : AppColors.primary,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 14),
+                                      Semantics(
+                                        button: true,
+                                        label: 'PLAY DAILY QUEST',
+                                        child: InkWell(
+                                          onTap: () {
+                                            final techParam =
+                                                selectedTech != 'all'
+                                                    ? '?tech=$selectedTech'
+                                                    : '';
+                                            context.push(
+                                              '/games/${featuredGame.slug}$techParam',
+                                            );
+                                          },
+                                          borderRadius: BorderRadius.circular(28),
+                                          child: Container(
+                                            width: 52,
+                                            height: 52,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              gradient: const LinearGradient(
+                                                colors: [
+                                                  AppColors.primary,
+                                                  AppColors.primaryLight,
+                                                ],
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomRight,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: AppColors.primary
+                                                      .withValues(alpha: 0.3),
+                                                  blurRadius: 12,
+                                                  offset: const Offset(0, 5),
+                                                ),
+                                              ],
+                                            ),
+                                            child: const Icon(
+                                              Icons.play_arrow_rounded,
+                                              color: Colors.white,
+                                              size: 28,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -370,58 +560,194 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                             hintText: 'Search coding & typing games...',
                             prefixIcon: const Icon(Icons.search_rounded, size: 20),
                             filled: true,
-                            fillColor: Theme.of(context).cardColor,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            fillColor: context.cardBgColor,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 13,
+                            ),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: isDark ? Colors.white12 : Colors.black12),
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(color: context.borderColor),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: isDark ? Colors.white12 : Colors.black12),
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(color: context.borderColor),
                             ),
                           ),
                           onChanged: (val) {
                             ref.read(gameSearchQueryProvider.notifier).state = val;
                           },
                         ),
-                        const SizedBox(height: 14),
+                        const SizedBox(height: 18),
 
-                        // 3. Category Filter Chips (All Games / Coding / Typing)
-                        SizedBox(
-                          height: 38,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: _categories.length,
-                            separatorBuilder: (_, _) => const SizedBox(width: 8),
-                            itemBuilder: (context, idx) {
-                              final cat = _categories[idx];
-                              final isSelected = selectedCategory == cat['name'];
-
-                              return FilterChip(
-                                selected: isSelected,
-                                label: Text('${cat['icon']} ${cat['name']}'),
-                                labelStyle: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  color: isSelected
-                                      ? Colors.white
-                                      : (isDark ? Colors.white70 : Colors.black87),
+                        // 3. Categories Section (Reference Mockup 1 Vertical Cards + Dots)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Categories',
+                              style: TextStyle(
+                                fontSize: 16.5,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                ref
+                                    .read(selectedGameCategoryProvider.notifier)
+                                    .state = 'All Games';
+                              },
+                              child: Text(
+                                'See All',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  color: context.brandAccentColor,
                                 ),
-                                backgroundColor: Theme.of(context).cardColor,
-                                selectedColor: AppColors.primary,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                                side: BorderSide(
-                                  color: isSelected ? AppColors.primary : (isDark ? Colors.white12 : Colors.black12),
-                                ),
-                                onSelected: (_) {
-                                  ref.read(selectedGameCategoryProvider.notifier).state = cat['name']!;
-                                },
-                              );
-                            },
-                          ),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: List.generate(_categories.length, (idx) {
+                            final cat = _categories[idx];
+                            final name = cat['name']!;
+                            final isSelected = selectedCategory == name;
+                            final colors = <Color>[
+                              AppColors.primary,
+                              AppColors.accent,
+                              AppColors.secondary,
+                            ];
+                            final tint = colors[idx % colors.length];
+
+                            return Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  right: idx < _categories.length - 1 ? 10 : 0,
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    ref
+                                        .read(
+                                          selectedGameCategoryProvider.notifier,
+                                        )
+                                        .state = name;
+                                  },
+                                  child: AnimatedContainer(
+                                    duration: const Duration(milliseconds: 200),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 14,
+                                      horizontal: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? (isDark
+                                              ? AppColors.primaryLight
+                                              : AppColors.primary)
+                                          : (isDark
+                                              ? context.cardBgColor
+                                              : tint.withValues(alpha: 0.09)),
+                                      borderRadius: BorderRadius.circular(22),
+                                      border: Border.all(
+                                        color: isSelected
+                                            ? AppColors.accent
+                                            : tint.withValues(
+                                                alpha: isDark ? 0.35 : 0.22,
+                                              ),
+                                        width: isSelected ? 1.8 : 1,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withValues(
+                                            alpha: isDark ? 0.22 : 0.04,
+                                          ),
+                                          blurRadius: 10,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: isSelected
+                                                ? Colors.white.withValues(
+                                                    alpha: 0.18,
+                                                  )
+                                                : tint.withValues(alpha: 0.16),
+                                            borderRadius:
+                                                BorderRadius.circular(14),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              cat['icon']!,
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          name,
+                                          style: TextStyle(
+                                            fontSize: 11.5,
+                                            fontWeight: FontWeight.w800,
+                                            color: isSelected
+                                                ? Colors.white
+                                                : context.textPrimaryColor,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          idx == 0
+                                              ? '${games.length} Games'
+                                              : 'Interactive',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: isSelected
+                                                ? Colors.white.withValues(
+                                                    alpha: 0.8,
+                                                  )
+                                                : context.textSecondaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: List.generate(_categories.length, (idx) {
+                            final isSelected =
+                                selectedCategory == _categories[idx]['name'];
+                            return AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              margin: const EdgeInsets.only(right: 6),
+                              width: isSelected ? 18 : 6,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? context.brandAccentColor
+                                    : context.borderColor,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            );
+                          }),
+                        ),
+                        const SizedBox(height: 18),
 
                         // 4. Technology Categories & Selection Section (Modern Technology Explorer)
                         techCategoriesAsync.when(
@@ -812,29 +1138,32 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                   final techParam = selectedTech != 'all' ? '?tech=$selectedTech' : '';
                                   context.push('/games/${game.slug}$techParam');
                                 },
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(24),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).cardColor,
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: isDark ? Colors.white12 : Colors.black12),
+                                    color: context.cardBgColor,
+                                    borderRadius: BorderRadius.circular(24),
+                                    border: Border.all(
+                                      color: context.borderColor.withValues(alpha: 0.7),
+                                    ),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 3),
+                                        color: Colors.black.withValues(alpha: isDark ? 0.24 : 0.05),
+                                        blurRadius: 14,
+                                        offset: const Offset(0, 5),
                                       ),
                                     ],
                                   ),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.stretch,
                                     children: [
-                                      // Top Gradient Banner with Icon
+                                      // Inner Rounded Gradient Thumbnail with Icon
                                       Container(
-                                        height: 76,
+                                        height: 78,
+                                        margin: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                                         decoration: BoxDecoration(
                                           gradient: _getCardGradient(game.slug),
-                                          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                                          borderRadius: BorderRadius.circular(18),
                                         ),
                                         child: Stack(
                                           children: [
@@ -849,10 +1178,10 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                                 top: 8,
                                                 left: 8,
                                                 child: Container(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
                                                   decoration: BoxDecoration(
-                                                    color: Colors.black45,
-                                                    borderRadius: BorderRadius.circular(6),
+                                                    color: Colors.black.withValues(alpha: 0.42),
+                                                    borderRadius: BorderRadius.circular(8),
                                                   ),
                                                   child: Text(
                                                     game.badge,
@@ -868,19 +1197,19 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                               top: 8,
                                               right: 8,
                                               child: Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2.5),
                                                 decoration: BoxDecoration(
-                                                  color: Colors.black45,
-                                                  borderRadius: BorderRadius.circular(6),
+                                                  color: Colors.black.withValues(alpha: 0.42),
+                                                  borderRadius: BorderRadius.circular(8),
                                                 ),
                                                 child: Row(
                                                   mainAxisSize: MainAxisSize.min,
                                                   children: [
-                                                    const Icon(Icons.star, color: Colors.amber, size: 10),
+                                                    const Icon(Icons.star_rounded, color: AppColors.accent, size: 11),
                                                     const SizedBox(width: 2),
                                                     Text(
                                                       '${game.rating}',
-                                                      style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
+                                                      style: const TextStyle(color: Colors.white, fontSize: 9.5, fontWeight: FontWeight.bold),
                                                     ),
                                                   ],
                                                 ),
@@ -893,7 +1222,7 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                       // Bottom Details
                                       Expanded(
                                         child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
+                                          padding: const EdgeInsets.fromLTRB(12, 8, 12, 10),
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -903,17 +1232,17 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                                 children: [
                                                   Text(
                                                     game.title,
-                                                    style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
+                                                    style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
                                                     maxLines: 1,
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
-                                                  const SizedBox(height: 4),
+                                                  const SizedBox(height: 3),
                                                   Text(
                                                     game.description,
                                                     style: TextStyle(
                                                       fontSize: 10,
-                                                      color: isDark ? Colors.white60 : Colors.black54,
-                                                      height: 1.3,
+                                                      color: context.textSecondaryColor,
+                                                      height: 1.25,
                                                     ),
                                                     maxLines: 2,
                                                     overflow: TextOverflow.ellipsis,
@@ -923,24 +1252,45 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                               Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Text(
-                                                    game.difficulty,
-                                                    style: TextStyle(
-                                                      fontSize: 10,
-                                                      fontWeight: FontWeight.bold,
-                                                      color: context.brandAccentColor,
+                                                  Container(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                                    decoration: BoxDecoration(
+                                                      color: context.brandAccentColor.withValues(alpha: 0.12),
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    child: Text(
+                                                      game.difficulty,
+                                                      style: TextStyle(
+                                                        fontSize: 9.5,
+                                                        fontWeight: FontWeight.w800,
+                                                        color: context.brandAccentColor,
+                                                      ),
                                                     ),
                                                   ),
                                                   if (game.userHighScore > 0)
                                                     Row(
                                                       children: [
-                                                        const Icon(Icons.emoji_events_rounded, size: 11, color: Colors.amber),
+                                                        const Icon(Icons.emoji_events_rounded, size: 12, color: AppColors.accent),
                                                         const SizedBox(width: 2),
                                                         Text(
                                                           '${game.userHighScore}',
-                                                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                                                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800),
                                                         ),
                                                       ],
+                                                    )
+                                                  else
+                                                    Container(
+                                                      width: 24,
+                                                      height: 24,
+                                                      decoration: BoxDecoration(
+                                                        color: isDark ? AppColors.primaryLight : AppColors.primary,
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: const Icon(
+                                                        Icons.play_arrow_rounded,
+                                                        size: 15,
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
                                                 ],
                                               ),

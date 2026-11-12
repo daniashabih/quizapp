@@ -101,92 +101,101 @@ class LeaderboardScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Banner Header
+                  // Reference Hero Banner Card
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(18),
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: isDark
-                            ? [const Color(0xFF161B22), const Color(0xFF1E2633)]
-                            : [AppColors.primary, AppColors.secondary],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                      color: context.cardBgColor,
+                      borderRadius: BorderRadius.circular(26),
+                      border: Border.all(
+                        color: context.borderColor.withValues(alpha: 0.7),
                       ),
-                      borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(
-                            alpha: isDark ? 0.35 : 0.15,
+                            alpha: isDark ? 0.3 : 0.06,
                           ),
-                          blurRadius: 14,
-                          offset: const Offset(0, 6),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
                         ),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFD97706),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.military_tech_rounded,
-                                    size: 14,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    'Top 5 Standings',
-                                    style: TextStyle(
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [AppColors.primary, AppColors.secondary],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 11,
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.accent,
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.military_tech_rounded,
+                                      size: 14,
                                       color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'Top 5 Standings',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Text(
-                              'Live from MongoDB',
-                              style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.8),
-                                fontSize: 11,
-                                fontWeight: FontWeight.w500,
+                              Text(
+                                'Live from MongoDB',
+                                style: TextStyle(
+                                  color: Colors.white.withValues(alpha: 0.85),
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
+                            ],
+                          ),
+                          const SizedBox(height: 14),
+                          const Text(
+                            'Top 5 Performers',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        const Text(
-                          'Top 5 Performers',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          'Live scores and XP ranked from completed quizzes and verified accuracy.',
-                          style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.85),
-                            fontSize: 12,
+                          const SizedBox(height: 4),
+                          Text(
+                            'Live scores and XP ranked from completed quizzes and verified accuracy.',
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.88),
+                              fontSize: 12,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
 
@@ -342,16 +351,16 @@ class LeaderboardScreen extends ConsumerWidget {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: context.cardBgColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(color: borderColor, width: isGold ? 1.8 : 1.2),
         boxShadow: [
           BoxShadow(
-            color: badgeColor.withValues(alpha: isDark ? 0.25 : 0.12),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            color: badgeColor.withValues(alpha: isDark ? 0.22 : 0.1),
+            blurRadius: 14,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -359,11 +368,11 @@ class LeaderboardScreen extends ConsumerWidget {
         children: [
           // Rank Badge
           Container(
-            width: 44,
-            height: 44,
+            width: 46,
+            height: 46,
             decoration: BoxDecoration(
-              color: badgeColor.withValues(alpha: 0.18),
-              borderRadius: BorderRadius.circular(12),
+              color: badgeColor.withValues(alpha: 0.16),
+              borderRadius: BorderRadius.circular(15),
               border: Border.all(color: badgeColor, width: 1.5),
             ),
             child: Center(
@@ -387,26 +396,31 @@ class LeaderboardScreen extends ConsumerWidget {
                       '#$rank $rankTitle',
                       style: TextStyle(
                         color: badgeColor,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                         fontSize: 11,
                       ),
                     ),
                     const SizedBox(width: 6),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                      decoration: BoxDecoration(
-                        color: context.mutedBgColor,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        entry.category,
-                        style: TextStyle(
-                          color: context.textSecondaryColor,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 7,
+                          vertical: 1.5,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        decoration: BoxDecoration(
+                          color: context.mutedBgColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          entry.category,
+                          style: TextStyle(
+                            color: context.textSecondaryColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ),
                   ],
@@ -415,8 +429,8 @@ class LeaderboardScreen extends ConsumerWidget {
                 Text(
                   entry.name,
                   style: AppTextStyles.bodyMedium.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 14.5,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -433,35 +447,28 @@ class LeaderboardScreen extends ConsumerWidget {
             ),
           ),
 
-          // Total Points / XP Pill
+          // Total Points / XP Pill (Reference Mockup 2 Pill Badge)
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
             decoration: BoxDecoration(
-              color: isDark
-                  ? const Color(0xFF065F46).withValues(alpha: 0.3)
-                  : const Color(0xFFE3EFEA),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: isDark
-                    ? const Color(0xFF10B981).withValues(alpha: 0.3)
-                    : const Color(0xFF285A4D).withValues(alpha: 0.2),
-              ),
+              color: isDark ? AppColors.primaryLight : AppColors.primary,
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(
-                  Icons.bolt_rounded,
+                  Icons.stars_rounded,
                   size: 14,
-                  color: Color(0xFF10B981),
+                  color: AppColors.accent,
                 ),
-                const SizedBox(width: 2),
+                const SizedBox(width: 4),
                 Text(
                   '${entry.xp}',
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    color: Color(0xFF10B981),
+                    fontWeight: FontWeight.w800,
+                    fontSize: 12.5,
+                    color: Colors.white,
                   ),
                 ),
               ],
@@ -479,22 +486,31 @@ class LeaderboardScreen extends ConsumerWidget {
     bool isDark,
   ) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
         color: context.cardBgColor,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: context.borderColor),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: context.borderColor.withValues(alpha: 0.75),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
           // Rank Number
           Container(
-            width: 34,
-            height: 34,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: context.mutedBgColor,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(color: context.borderColor),
             ),
             child: Center(
@@ -502,7 +518,7 @@ class LeaderboardScreen extends ConsumerWidget {
                 '#${entry.rank}',
                 style: TextStyle(
                   color: context.textSecondaryColor,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                   fontSize: 12,
                 ),
               ),
@@ -514,16 +530,17 @@ class LeaderboardScreen extends ConsumerWidget {
           CircleAvatar(
             radius: 17,
             backgroundColor: context.mutedBgColor,
-            backgroundImage: entry.avatar.isNotEmpty && entry.avatar.startsWith('http')
-                ? NetworkImage(entry.avatar)
-                : null,
+            backgroundImage:
+                entry.avatar.isNotEmpty && entry.avatar.startsWith('http')
+                    ? NetworkImage(entry.avatar)
+                    : null,
             child: entry.avatar.isEmpty || !entry.avatar.startsWith('http')
                 ? Text(
                     entry.initials,
                     style: TextStyle(
                       color: context.brandAccentColor,
                       fontSize: 12,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w800,
                     ),
                   )
                 : null,
@@ -538,8 +555,8 @@ class LeaderboardScreen extends ConsumerWidget {
                 Text(
                   entry.name,
                   style: AppTextStyles.bodyMedium.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13.5,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -557,13 +574,31 @@ class LeaderboardScreen extends ConsumerWidget {
             ),
           ),
 
-          // Points
-          Text(
-            '${entry.xp} XP',
-            style: AppTextStyles.bodySmall.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-              color: isDark ? const Color(0xFF6EE7B7) : AppColors.primary,
+          // Points Pill
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: isDark ? AppColors.primaryLight : AppColors.primary,
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.stars_rounded,
+                  size: 13,
+                  color: AppColors.accent,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  '${entry.xp} XP',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 11.5,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

@@ -72,7 +72,7 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(22),
           side: const BorderSide(color: AppColors.border, width: 1),
         ),
         margin: EdgeInsets.zero,
@@ -82,7 +82,7 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         elevation: 8,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
+          borderRadius: BorderRadius.circular(24),
           side: const BorderSide(color: AppColors.border, width: 1),
         ),
         titleTextStyle: GoogleFonts.poppins(
@@ -105,28 +105,28 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.textLight,
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(50),
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(24),
           ),
           textStyle: GoogleFonts.inter(
             fontSize: 14,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(50),
           side: const BorderSide(color: AppColors.border, width: 1.5),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(24),
           ),
           textStyle: GoogleFonts.inter(
             fontSize: 14,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -142,31 +142,31 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.card,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
         hintStyle: GoogleFonts.inter(fontSize: 14, color: AppColors.textSecondary),
         labelStyle: GoogleFonts.inter(
           fontSize: 14,
           color: AppColors.textPrimary,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: AppColors.border, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: AppColors.border, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: AppColors.primary, width: 1.8),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: AppColors.error, width: 1.2),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: AppColors.error, width: 1.8),
         ),
       ),
@@ -249,7 +249,7 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(22),
           side: const BorderSide(color: AppColors.darkBorder, width: 1),
         ),
         margin: EdgeInsets.zero,
@@ -259,7 +259,7 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         elevation: 8,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
+          borderRadius: BorderRadius.circular(24),
           side: const BorderSide(color: AppColors.darkBorder, width: 1),
         ),
         titleTextStyle: GoogleFonts.poppins(
@@ -282,28 +282,28 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryLight,
           foregroundColor: AppColors.darkTextPrimary,
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(50),
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(24),
           ),
           textStyle: GoogleFonts.inter(
             fontSize: 14,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.darkPrimaryAccent,
-          minimumSize: const Size.fromHeight(48),
+          minimumSize: const Size.fromHeight(50),
           side: const BorderSide(color: AppColors.darkBorder, width: 1.5),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(24),
           ),
           textStyle: GoogleFonts.inter(
             fontSize: 14,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -319,7 +319,7 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.darkMutedBg,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
         hintStyle: GoogleFonts.inter(
           fontSize: 14,
           color: AppColors.darkTextSecondary,
@@ -327,29 +327,29 @@ class AppTheme {
         labelStyle: GoogleFonts.inter(
           fontSize: 14,
           color: AppColors.darkTextPrimary,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: AppColors.darkBorder, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: AppColors.darkBorder, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(
             color: AppColors.darkPrimaryAccent,
             width: 1.8,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: AppColors.darkError, width: 1.2),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(18),
           borderSide: const BorderSide(color: AppColors.darkError, width: 1.8),
         ),
       ),
