@@ -33,7 +33,7 @@ class CertificatesScreen extends ConsumerWidget {
           Container(
             width: 36,
             height: 36,
-            margin: const EdgeInsets.only(right: 14),
+            margin: const EdgeInsets.only(right: 16),
             decoration: BoxDecoration(
               color: context.cardBgColor,
               shape: BoxShape.circle,
@@ -113,14 +113,14 @@ class CertificatesScreen extends ConsumerWidget {
   ) {
     final isDark = context.isDarkMode;
     return Container(
-      padding: const EdgeInsets.fromLTRB(6, 6, 18, 6),
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [AppColors.primary, AppColors.secondary],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(46),
+        borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
             color: AppColors.primary.withValues(
@@ -131,77 +131,105 @@ class CertificatesScreen extends ConsumerWidget {
           ),
         ],
       ),
-      child: Row(
+      child: Stack(
         children: [
-          Container(
-            width: 68,
-            height: 68,
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: AppColors.accent,
-                width: 2,
-              ),
-            ),
+          Positioned(
+            right: -18,
+            top: -18,
             child: Container(
+              width: 88,
+              height: 88,
               decoration: BoxDecoration(
-                color: context.cardBgColor,
                 shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.verified_rounded,
-                color: AppColors.accent,
-                size: 32,
+                color: Colors.white.withValues(alpha: 0.06),
               ),
             ),
           ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.accent,
+                      width: 2,
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: context.cardBgColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.verified_rounded,
+                      color: AppColors.accent,
+                      size: 28,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Flexible(
-                        child: Text(
-                          '$count Certified ${count == 1 ? "Credential" : "Credentials"}',
-                          style: AppTextStyles.displaySmall.copyWith(
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w800,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
                       Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: List.generate(
-                          4,
-                          (_) => const Icon(
-                            Icons.star_rounded,
-                            size: 13,
-                            color: AppColors.accent,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '$count Certified ${count == 1 ? "Credential" : "Credentials"}',
+                              style: AppTextStyles.displaySmall.copyWith(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w800,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.accent.withValues(alpha: 0.22),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: AppColors.accent.withValues(alpha: 0.55),
+                              ),
+                            ),
+                            child: Text(
+                              'VERIFIED',
+                              style: AppTextStyles.mono.copyWith(
+                                fontSize: 9.5,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.accentLight,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Verifiable through ${AppConfig.appName} QR verification portal.',
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: Colors.white.withValues(alpha: 0.85),
+                          fontSize: 11.5,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    'Verifiable through ${AppConfig.appName} QR verification portal.',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: Colors.white.withValues(alpha: 0.85),
-                      fontSize: 11.5,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
