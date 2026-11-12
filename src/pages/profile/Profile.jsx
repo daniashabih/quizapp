@@ -118,9 +118,25 @@ export default function Profile() {
     return (
         <div className="max-w-5xl mx-auto space-y-6 animate-fade-up">
             {/* Header */}
-            <div>
-                <h1 className="text-2xl lg:text-3xl font-display font-bold text-[var(--foreground)]">Profile</h1>
-                <p className="text-sm text-[var(--foreground-muted)]">Manage your personal information and view your activity.</p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h1 className="text-2xl lg:text-3xl font-display font-bold text-[var(--foreground)]">My Profile</h1>
+                    <p className="text-sm text-[var(--foreground-muted)]">Manage your personal information and view your activity.</p>
+                </div>
+                <div className="inline-flex items-center gap-1 p-1 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-sm self-start sm:self-auto">
+                    <span className="px-3.5 py-1.5 rounded-xl bg-[#193D35] text-white text-xs font-bold">
+                        About Me
+                    </span>
+                    <Link to="/certificates" className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors">
+                        Achievements
+                    </Link>
+                    <Link to="/games" className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors">
+                        My Games
+                    </Link>
+                    <Link to="/settings" className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors">
+                        Settings
+                    </Link>
+                </div>
             </div>
 
             <div className="grid lg:grid-cols-3 gap-6">
@@ -129,17 +145,24 @@ export default function Profile() {
                     {/* Profile Card */}
                     <div className="card p-6 rounded-2xl text-center">
                         <div className="relative inline-block mb-4">
-                            <div className="w-24 h-24 rounded-2xl bg-black flex items-center justify-center text-white font-display font-extrabold text-4xl shadow-xl">
+                            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#193D35] to-[#42665B] ring-2 ring-[#D19A45]/75 ring-offset-2 ring-offset-[var(--card-bg)] flex items-center justify-center text-white font-display font-extrabold text-4xl shadow-xl">
                                 {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                             </div>
-                            <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-black border-2 border-[var(--card-bg)]" />
+                            <div className="absolute bottom-0.5 right-0.5 w-5 h-5 rounded-full bg-[#10B981] border-2 border-[var(--card-bg)]" />
                         </div>
                         {!isEditing ? (
                             <>
                                 <h2 className="text-xl font-bold text-[var(--foreground)]">{user?.name}</h2>
                                 <p className="text-sm text-[var(--foreground-muted)]">{user?.email}</p>
-                                <div className="flex items-center justify-center gap-2 mt-3">
-                                    <span className="badge-emerald text-[10px] capitalize">{user?.role || 'user'}</span>
+                                <div className="flex flex-wrap items-center justify-center gap-2 mt-3">
+                                    <span className="badge text-[10px] uppercase tracking-wider bg-[#193D35] text-[#F3E5C5] border border-[#D19A45]/50 font-bold">
+                                        {user?.role === 'admin' ? 'Administrator' : 'Certified Learner'}
+                                    </span>
+                                    {dashboardData?.stats?.level && (
+                                        <span className="badge text-[10px] bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] font-bold">
+                                            Lv. {dashboardData.stats.level}
+                                        </span>
+                                    )}
                                     {dashboardData?.stats?.rank && (
                                         <span className="badge text-[10px] bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] font-bold">
                                             Rank #{dashboardData.stats.rank}
@@ -199,7 +222,7 @@ export default function Profile() {
                     <div className="card p-6 rounded-2xl">
                         <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center gap-2">
-                                <Layers size={18} className="text-[#193D35]" />
+                                <Layers size={18} className="text-[#193D35] dark:text-[#34D399]" />
                                 <h3 className="text-sm font-bold text-[var(--foreground)]">Skills & Expertise</h3>
                             </div>
                             <span className="text-xs text-[var(--foreground-muted)] font-medium">
@@ -216,7 +239,7 @@ export default function Profile() {
                                             <span className="text-xs font-bold text-[var(--foreground-muted)]">{skill.bestScore}% Mastery</span>
                                         </div>
                                         <div className="progress-bar">
-                                            <div className="h-full rounded-full bg-black transition-all duration-1000"
+                                            <div className="h-full rounded-full bg-gradient-to-r from-[#193D35] to-[#42665B] dark:from-[#34D399] dark:to-[#10B981] transition-all duration-1000"
                                                 style={{ width: `${skill.bestScore}%` }} />
                                         </div>
                                         <div className="flex items-center justify-between text-[10px] text-[var(--foreground-muted)] mt-1">
@@ -256,7 +279,7 @@ export default function Profile() {
                                                 {item.score && (
                                                     <>
                                                         <span className="w-1 h-1 rounded-full bg-[var(--card-border)]" />
-                                                        <span className={`text-xs font-medium ${item.score.includes('%') ? 'text-black font-bold' : 'text-[var(--foreground-muted)]'}`}>{item.score}</span>
+                                                        <span className={`text-xs font-medium ${item.score.includes('%') ? 'text-[#193D35] dark:text-[#34D399] font-bold' : 'text-[var(--foreground-muted)]'}`}>{item.score}</span>
                                                     </>
                                                 )}
                                             </div>
@@ -283,7 +306,7 @@ function InfoRow({ icon: Icon, label, value, isLink }) {
             <div>
                 <p className="text-[10px] font-semibold text-[var(--foreground-muted)] uppercase tracking-wider">{label}</p>
                 {isLink ? (
-                    <a href={value} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-black hover:underline">{value}</a>
+                    <a href={value} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[#193D35] dark:text-[#34D399] hover:underline">{value}</a>
                 ) : (
                     <p className="text-sm font-medium text-[var(--foreground)]">{value}</p>
                 )}
@@ -295,7 +318,7 @@ function InfoRow({ icon: Icon, label, value, isLink }) {
 function SocialLink({ icon: Icon, label, href }) {
     return (
         <a href={href} target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] hover:border-black hover:text-black transition-all text-sm font-medium text-[var(--foreground)] group">
+            className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] hover:border-[#193D35] dark:hover:border-[#34D399] hover:text-[#193D35] dark:hover:text-[#34D399] transition-all text-sm font-medium text-[var(--foreground)] group">
             <Icon size={16} className="group-hover:scale-110 transition-transform" />
             {label}
             <ChevronRight size={14} className="ml-auto text-[var(--foreground-muted)]" />
