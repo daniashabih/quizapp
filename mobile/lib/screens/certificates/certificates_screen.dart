@@ -379,7 +379,7 @@ class CertificatesScreen extends ConsumerWidget {
                     Expanded(
                       child: _buildMiniBadgeTile(
                         context: context,
-                        icon: Icons.qr_code_verified_rounded,
+                        icon: Icons.qr_code_rounded,
                         label: 'QR Valid',
                         tint: AppColors.primary,
                         unlocked: true,

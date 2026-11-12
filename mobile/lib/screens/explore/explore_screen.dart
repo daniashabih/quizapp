@@ -437,7 +437,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               scrollDirection: Axis.horizontal,
               itemCount: showcase.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
+              separatorBuilder: (context, index) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final cat = showcase[index];
                 final tint = badgeColors[index % badgeColors.length];

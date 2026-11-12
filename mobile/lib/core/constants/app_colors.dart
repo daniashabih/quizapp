@@ -90,6 +90,7 @@ class AppColors {
 
 extension AppThemeContext on BuildContext {
   bool get isDarkMode => Theme.of(this).brightness == Brightness.dark;
+  bool get isDark => isDarkMode;
 
   Color get scaffoldBgColor =>
       isDarkMode ? AppColors.darkBackground : AppColors.background;
