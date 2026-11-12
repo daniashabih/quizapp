@@ -39,11 +39,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             // Appearance & Theme Section
             _buildSectionHeader('Appearance & Theme'),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 color: context.cardBgColor,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: context.borderColor),
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(
+                  color: context.borderColor.withValues(alpha: 0.75),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: isDark ? 0.22 : 0.04),
+                    blurRadius: 14,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +63,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       Text(
                         'Interface Theme',
                         style: AppTextStyles.labelBold.copyWith(
-                          fontSize: 13,
+                          fontSize: 13.5,
                           color: context.textPrimaryColor,
                         ),
                       ),
@@ -131,11 +140,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             // Account Information Section
             _buildSectionHeader('Account Details'),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 color: context.cardBgColor,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: context.borderColor),
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(
+                  color: context.borderColor.withValues(alpha: 0.75),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: isDark ? 0.22 : 0.04),
+                    blurRadius: 14,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
               child: Column(
                 children: [
@@ -162,8 +180,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             Container(
               decoration: BoxDecoration(
                 color: context.cardBgColor,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: context.borderColor),
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(
+                  color: context.borderColor.withValues(alpha: 0.75),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: isDark ? 0.22 : 0.04),
+                    blurRadius: 14,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
               child: Column(
                 children: [
@@ -203,15 +230,32 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             Container(
               decoration: BoxDecoration(
                 color: context.cardBgColor,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: context.borderColor),
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(
+                  color: context.borderColor.withValues(alpha: 0.75),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: isDark ? 0.22 : 0.04),
+                    blurRadius: 14,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
               ),
               child: Column(
                 children: [
                   ListTile(
-                    leading: Icon(
-                      Icons.privacy_tip_outlined,
-                      color: context.brandAccentColor,
+                    leading: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: context.brandAccentColor.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(11),
+                      ),
+                      child: Icon(
+                        Icons.privacy_tip_outlined,
+                        size: 20,
+                        color: context.brandAccentColor,
+                      ),
                     ),
                     title: Text('Privacy Policy', style: AppTextStyles.labelBold),
                     subtitle: Text(
@@ -228,9 +272,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   ),
                   const Divider(height: 1),
                   ListTile(
-                    leading: Icon(
-                      Icons.description_outlined,
-                      color: context.brandAccentColor,
+                    leading: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: context.brandAccentColor.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(11),
+                      ),
+                      child: Icon(
+                        Icons.description_outlined,
+                        size: 20,
+                        color: context.brandAccentColor,
+                      ),
                     ),
                     title: Text('Terms of Service', style: AppTextStyles.labelBold),
                     subtitle: Text(
@@ -254,10 +306,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             // Danger Zone - Account Deletion (Google Play Store Mandatory Policy)
             _buildSectionHeader('Danger Zone', color: context.errorColor),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 color: context.errorColor.withValues(alpha: 0.06),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(22),
                 border: Border.all(
                   color: context.errorColor.withValues(alpha: 0.35),
                 ),
