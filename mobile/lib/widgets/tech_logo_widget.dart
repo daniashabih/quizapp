@@ -77,6 +77,7 @@ class TechLogoWidget extends StatelessWidget {
         ),
         child: Center(
           child: _buildSvgIcon(
+            context,
             asset,
             iconSize: size * 0.58,
             isDark: isDark,
@@ -103,7 +104,7 @@ class TechLogoWidget extends StatelessWidget {
           children: [
             for (var i = 0; i < logos.length; i++) ...[
               if (i > 0) SizedBox(width: spacing),
-              _buildSvgIcon(logos[i], iconSize: iconSize, isDark: isDark),
+              _buildSvgIcon(context, logos[i], iconSize: iconSize, isDark: isDark),
             ],
           ],
         ),
@@ -131,10 +132,10 @@ class TechLogoWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildIconRow(topRow, iconSize: iconSize, gap: hGap, isDark: isDark),
+          _buildIconRow(context, topRow, iconSize: iconSize, gap: hGap, isDark: isDark),
           if (bottomRow.isNotEmpty) ...[
             const SizedBox(height: vGap),
-            _buildIconRow(bottomRow, iconSize: iconSize, gap: hGap, isDark: isDark),
+            _buildIconRow(context, bottomRow, iconSize: iconSize, gap: hGap, isDark: isDark),
           ],
         ],
       ),
@@ -142,6 +143,7 @@ class TechLogoWidget extends StatelessWidget {
   }
 
   Widget _buildIconRow(
+    BuildContext context,
     List<TechLogoAsset> rowAssets, {
     required double iconSize,
     required double gap,
@@ -153,13 +155,19 @@ class TechLogoWidget extends StatelessWidget {
       children: [
         for (var i = 0; i < rowAssets.length; i++) ...[
           if (i > 0) SizedBox(width: gap),
-          _buildSvgIcon(rowAssets[i], iconSize: iconSize, isDark: isDark),
+          _buildSvgIcon(
+            context,
+            rowAssets[i],
+            iconSize: iconSize,
+            isDark: isDark,
+          ),
         ],
       ],
     );
   }
 
   Widget _buildSvgIcon(
+    BuildContext context,
     TechLogoAsset asset, {
     required double iconSize,
     required bool isDark,
@@ -176,6 +184,11 @@ class TechLogoWidget extends StatelessWidget {
       colorFilter: colorFilter,
       semanticsLabel: asset.label,
       placeholderBuilder: (_) => SizedBox(width: iconSize, height: iconSize),
+      errorBuilder: (_, _, _) => Icon(
+        Icons.code_rounded,
+        size: iconSize * 0.85,
+        color: fallbackIconColor ?? context.brandAccentColor,
+      ),
     );
 
     if (isDark && asset.lightBacking) {
