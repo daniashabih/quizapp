@@ -26,6 +26,13 @@ function getQuestionCorrectIndex(question) {
     }
     if (!Array.isArray(opts) || opts.length === 0) return -1;
 
+    // 0. Exact case-sensitive trimmed text match first (prevents e.g. 'string' vs 'String' collisions)
+    for (let i = 0; i < opts.length; i++) {
+        if (String(opts[i] || '').trim() === rawCorrect) {
+            return i;
+        }
+    }
+
     // 1. Direct normalized text match
     for (let i = 0; i < opts.length; i++) {
         if (normalizeAnswer(opts[i]) === normalizeAnswer(rawCorrect)) {
@@ -97,7 +104,10 @@ function evaluateAnswerCorrectness(userSelection, question) {
     }
 
     if (userIdx === -1 && userText) {
-        userIdx = opts.findIndex(o => normalizeAnswer(o) === normalizeAnswer(userText));
+        userIdx = opts.findIndex(o => String(o || '').trim() === userText.trim());
+        if (userIdx === -1) {
+            userIdx = opts.findIndex(o => normalizeAnswer(o) === normalizeAnswer(userText));
+        }
     }
 
     const correctIdx = getQuestionCorrectIndex(question);
@@ -105,8 +115,8 @@ function evaluateAnswerCorrectness(userSelection, question) {
         return false;
     }
 
-    if (userIdx !== -1 && userIdx === correctIdx) {
-        return true;
+    if (userIdx !== -1) {
+        return userIdx === correctIdx;
     }
 
     if (userText && normalizeAnswer(userText) === normalizeAnswer(opts[correctIdx])) {

@@ -174,6 +174,8 @@ class _LeaderboardFullScreenState extends ConsumerState<LeaderboardFullScreen> {
                       const SizedBox(width: 12),
                       _buildCategoryChip('All', 'All Tech'),
                       const SizedBox(width: 8),
+                      _buildCategoryChip('Dart', 'Dart'),
+                      const SizedBox(width: 8),
                       _buildCategoryChip('React', 'React'),
                       const SizedBox(width: 8),
                       _buildCategoryChip('JavaScript', 'JavaScript'),

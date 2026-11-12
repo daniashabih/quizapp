@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Dart,4,Object-Oriented Programming is a programming approach where:,Only logic is used,Only functions are used,Objects are used instead of logic alone,Only data files are used,Objects are used instead of logic alone
+Dart,4,Which are the four pillars of OOP mentioned in the guide?,"Inheritance, Polymorphism, Abstraction, Encapsulation","Loops, Operators, Variables, Classes","Packages, Libraries, Modules, Files","Compile, Link, Load, Run","Inheritance, Polymorphism, Abstraction, Encapsulation"
+Dart,4,The aim of OOP is to:,Increase complexity,Remove all classes,Avoid reuse,Reduce the complexity of programming,Reduce the complexity of programming
+Dart,4,A class in Dart is:,A built-in loop,A user-defined data type describing the behaviour and characteristics of an entity,A kind of comment,A file extension,A user-defined data type describing the behaviour and characteristics of an entity
+Dart,4,A class comprises:,Only variables,Only comments,Data members and member functions,Only constructors,Data members and member functions
+Dart,4,Which keyword is used to create a class in Dart?,class,object,struct,define,class
+Dart,4,"When an instance of a class is created, it is called a(n):",Method,Object,Interface,Package,Object
+Dart,4,"In Dart, the new keyword for creating objects is:",Mandatory,Illegal,Optional and can be omitted,Used only for abstract classes,Optional and can be omitted
+Dart,4,Which is the correct syntax for creating an object?,ObjectName ClassName();,new = ClassName;,create ClassName;,ClassName ObjectName = ClassName();,ClassName ObjectName = ClassName();
+Dart,4,An instance variable:,Can have a different value for each object,Is shared by all objects,Is always static,Is declared with const only,Can have a different value for each object
+Dart,4,A class variable is declared using which keyword?,final,static,var,dynamic,static
+Dart,4,A class variable has:,A different value for every object,No value at all,Only one value shared among all objects,A value that is deleted after each call,Only one value shared among all objects
+Dart,4,The value of a class (static) variable is retained until:,The object is deleted,The method ends,The file is saved,The program terminates,The program terminates
+Dart,4,Methods in Dart help to:,Divide large programs into smaller parts and increase code reusability,Make code longer,Prevent any reuse,Replace classes,Divide large programs into smaller parts and increase code reusability
+Dart,4,A static (class) method is called:,Only through an object,"Directly using the class name, without creating an object",Only inside constructors,Only from another package,"Directly using the class name, without creating an object"
+Dart,4,Which keyword declares a class method?,this,super,static,get,static
+Dart,4,Instance methods can be accessed:,Without any object,Only through the class name,Only in main(),Using an object of the class,Using an object of the class
+Dart,4,The signature of an instance method consists of:,"Its name, return type and parameter list",Only its body,Only its call,Only comments,"Its name, return type and parameter list"
+Dart,4,"What is printed by Student.printName(""Eliza""); when printName is a static method that prints its argument?",Adelina,Eliza,Student,Nothing,Eliza
+Dart,4,Which keyword defines a getter in Dart?,get,set,read,fetch,get
+Dart,4,Which keyword defines a setter in Dart?,put,write,assign,set,set
+Dart,4,A getter method is used to:,Set or initialize class fields,"Get, read or retrieve class fields",Delete objects,Create constructors,"Get, read or retrieve class fields"
+Dart,4,A setter method is used to:,Read a field only,Create a class,"Set, write or initialize class fields",Import a library,"Set, write or initialize class fields"
+Dart,4,The keyword used to inherit properties from a parent class is:,implements,extends,inherits,super,extends
+Dart,4,The class that inherits from another class is called the:,Parent class,Abstract class,Static class,Child class,Child class
+Dart,4,Which two types of inheritance are described in the guide?,Single-level and multi-level,Static and dynamic,Public and private,Local and global,Single-level and multi-level
+Dart,4,In multi-level inheritance:,No class inherits another,Only abstract classes are used,A class is inherited from another child class,Objects inherit from objects,A class is inherited from another child class
+Dart,4,Polymorphism refers to:,One object having many forms,Hiding information,Creating a constructor,Importing code,One object having many forms
+Dart,4,Dart supports polymorphism through:,Operator overloading only,Method overriding,Macro expansion,Pointer casting,Method overriding
+Dart,4,Which annotation is used when a child class overrides a parent method?,@parent,@inherit,@override,@new,@override
+Dart,4,An interface is:,A loop statement,A type of variable,A data type for numbers,A blueprint of a class,A blueprint of a class
+Dart,4,"In Dart, interfaces are defined:",Using an interface keyword,Implicitly – every class defines an interface,Only with abstract methods in packages,Only through JSON,Implicitly – every class defines an interface
+Dart,4,Which keyword forces a class to redefine all methods of the class it uses as an interface?,extends,with,implements,super,implements
+Dart,4,Abstraction in OOP means:,Showing all internal details,Hiding unnecessary information and showing only important information,Copying a class,Deleting objects,Hiding unnecessary information and showing only important information
+Dart,4,Which keyword creates an abstract class in Dart?,abstract,virtual,interface,hidden,abstract
+Dart,4,A class declared as abstract cannot be:,Extended,Named,Instantiated (initialized),Documented,Instantiated (initialized)
+Dart,4,A constructor has:,A different name than the class,The same name as the class,A void return type,An int return type,The same name as the class
+Dart,4,A constructor is called:,Only manually,Never,Only at program end,Automatically when an object is created,Automatically when an object is created
+Dart,4,Constructors must not have:,Parameters,A name,A return type,A body,A return type
+Dart,4,Which are the three types of constructors in Dart?,"Default, parameterized and named","Static, final and const","Public, private and protected","Abstract, interface and mixin","Default, parameterized and named"
+Dart,4,A default constructor is one that:,Has many parameters,Has no parameters,Has a return type,Has a different name,Has no parameters
+Dart,4,A parameterized constructor:,Takes no arguments,Cannot be called,Takes arguments used to initialize the object,Is always static,Takes arguments used to initialize the object
+Dart,4,Which constructor allows multiple constructors with different names in the same class?,Default constructor,Named constructor,Abstract constructor,Factory-only constructor,Named constructor
+Dart,4,"If a user creates their own constructor, the default constructor:",Is ignored,Is still used,Is merged with it,Is deleted from the SDK,Is ignored
+Dart,4,The this keyword refers to:,The parent class object,A static method,A library,The current class object,The current class object
+Dart,4,The this keyword is used to:,Remove ambiguity between parameters and attributes with the same name,Create a new class,Import packages,End a loop,Remove ambiguity between parameters and attributes with the same name
+Dart,4,The super keyword is used to:,Refer to the current object,Declare a static variable,"Refer to the parent class object, its methods and properties",Create a list,"Refer to the parent class object, its methods and properties"
+Dart,4,"In the super keyword example, print(super.subject); prints:",Science,Subject,Nothing,Example of Super Keyword,Example of Super Keyword
+Dart,4,Which of the following is NOT true about Dart?,Dart supports multi-level inheritance,An abstract class cannot be instantiated,Dart supports method overloading,A child class inherits properties and methods of the parent class,Dart supports method overloading
+Dart,4,"In the code where class Student extends Human overrides the say() method with @override, which OOP concept is demonstrated?",Abstraction,Encapsulation,Polymorphism,Interfaces only,Polymorphism

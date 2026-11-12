@@ -1,0 +1,556 @@
+{
+  "category": "Dart",
+  "session": 1,
+  "title": "Session 1: Introduction to Dart",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "Dart is an open-source programming language developed by which company?",
+      "options": [
+        "Microsoft",
+        "Apple",
+        "Google",
+        "IBM"
+      ],
+      "correctAnswer": "Google",
+      "explanation": "Correct answer is C) Google."
+    },
+    {
+      "questionText": "Dart is best described as a language that is:",
+      "options": [
+        "Closed-source and server-only",
+        "Client-centric and open source",
+        "A hardware description language",
+        "A database query language"
+      ],
+      "correctAnswer": "Client-centric and open source",
+      "explanation": "Correct answer is B) Client-centric and open source."
+    },
+    {
+      "questionText": "The dart2js utility generates:",
+      "options": [
+        "Java bytecode",
+        "JavaScript",
+        "C++ code",
+        "Python scripts"
+      ],
+      "correctAnswer": "JavaScript",
+      "explanation": "Correct answer is B) JavaScript."
+    },
+    {
+      "questionText": "“Platform independent” means Dart can:",
+      "options": [
+        "Run only on Windows",
+        "Need separate code for every OS",
+        "Run on Windows, Linux, macOS and other operating systems",
+        "Run only inside browsers"
+      ],
+      "correctAnswer": "Run on Windows, Linux, macOS and other operating systems",
+      "explanation": "Correct answer is C) Run on Windows, Linux, macOS and other operating systems."
+    },
+    {
+      "questionText": "Which of the following is NOT an OOP feature supported by Dart?",
+      "options": [
+        "Classes",
+        "Interfaces",
+        "Abstraction",
+        "Pointer arithmetic"
+      ],
+      "correctAnswer": "Pointer arithmetic",
+      "explanation": "Correct answer is D) Pointer arithmetic."
+    },
+    {
+      "questionText": "The syntax of Dart follows which style?",
+      "options": [
+        "C-style syntax",
+        "Lisp-style syntax",
+        "Assembly syntax",
+        "COBOL syntax"
+      ],
+      "correctAnswer": "C-style syntax",
+      "explanation": "Correct answer is A) C-style syntax."
+    },
+    {
+      "questionText": "The Dart project was started by:",
+      "options": [
+        "James Gosling",
+        "Guido van Rossum",
+        "Anders Hejlsberg",
+        "Lars Bak"
+      ],
+      "correctAnswer": "Lars Bak",
+      "explanation": "Correct answer is D) Lars Bak."
+    },
+    {
+      "questionText": "Lars Bak, who started the Dart project, is known for his work on:",
+      "options": [
+        "Operating systems",
+        "Virtual machines",
+        "Databases",
+        "Graphics cards"
+      ],
+      "correctAnswer": "Virtual machines",
+      "explanation": "Correct answer is B) Virtual machines."
+    },
+    {
+      "questionText": "Dart was first introduced at the GOTO conference held in:",
+      "options": [
+        "Aarhus, Denmark",
+        "London, UK",
+        "Seattle, USA",
+        "Mumbai, India"
+      ],
+      "correctAnswer": "Aarhus, Denmark",
+      "explanation": "Correct answer is A) Aarhus, Denmark."
+    },
+    {
+      "questionText": "Which Ecma International technical board regulates the Dart language?",
+      "options": [
+        "TC39",
+        "TC10",
+        "TC52",
+        "TC45"
+      ],
+      "correctAnswer": "TC52",
+      "explanation": "Correct answer is C) TC52."
+    },
+    {
+      "questionText": "The first edition of the Dart language specification was standardized in:",
+      "options": [
+        "January 2012",
+        "March 2010",
+        "December 2016",
+        "July 2014"
+      ],
+      "correctAnswer": "July 2014",
+      "explanation": "Correct answer is D) July 2014."
+    },
+    {
+      "questionText": "The second edition of the Dart specification was approved by Ecma International:",
+      "options": [
+        "One year later",
+        "Six months later",
+        "Two years later",
+        "On the same day"
+      ],
+      "correctAnswer": "Six months later",
+      "explanation": "Correct answer is B) Six months later."
+    },
+    {
+      "questionText": "Which was the initial compiler used for Dart?",
+      "options": [
+        "dartc",
+        "Frog",
+        "dart2js",
+        "DVM"
+      ],
+      "correctAnswer": "dartc",
+      "explanation": "Correct answer is A) dartc."
+    },
+    {
+      "questionText": "The Frog compiler was discarded because of:",
+      "options": [
+        "Licensing problems",
+        "Lack of JavaScript output",
+        "Being too fast",
+        "Inefficiency in compiling the code"
+      ],
+      "correctAnswer": "Inefficiency in compiling the code",
+      "explanation": "Correct answer is D) Inefficiency in compiling the code."
+    },
+    {
+      "questionText": "Which compiler is still used in Dart today?",
+      "options": [
+        "dartc",
+        "Frog",
+        "dart2js",
+        "gcc"
+      ],
+      "correctAnswer": "dart2js",
+      "explanation": "Correct answer is C) dart2js."
+    },
+    {
+      "questionText": "What is the correct order of compiler evolution in Dart?",
+      "options": [
+        "dart2js → Frog → dartc",
+        "dartc → Frog → dart2js",
+        "Frog → dartc → dart2js",
+        "dartc → dart2js → Frog"
+      ],
+      "correctAnswer": "dartc → Frog → dart2js",
+      "explanation": "Correct answer is B) dartc → Frog → dart2js."
+    },
+    {
+      "questionText": "Which of the following is an inbuilt Dart library?",
+      "options": [
+        "dart:camera",
+        "dart:music",
+        "dart:photo",
+        "dart:core"
+      ],
+      "correctAnswer": "dart:core",
+      "explanation": "Correct answer is D) dart:core."
+    },
+    {
+      "questionText": "Which statement is used to bring exported Dart code into another application?",
+      "options": [
+        "include",
+        "import",
+        "using",
+        "require"
+      ],
+      "correctAnswer": "import",
+      "explanation": "Correct answer is B) import."
+    },
+    {
+      "questionText": "The Dart Virtual Machine makes Dart:",
+      "options": [
+        "Windows-only",
+        "Browser-only",
+        "Platform independent",
+        "Slower than other languages"
+      ],
+      "correctAnswer": "Platform independent",
+      "explanation": "Correct answer is C) Platform independent."
+    },
+    {
+      "questionText": "The syntax of Dart is similar to which languages?",
+      "options": [
+        "C#, Java and JavaScript",
+        "Prolog and Lisp",
+        "Fortran and COBOL",
+        "Swift only"
+      ],
+      "correctAnswer": "C#, Java and JavaScript",
+      "explanation": "Correct answer is A) C#, Java and JavaScript."
+    },
+    {
+      "questionText": "Dart is called open source because it is:",
+      "options": [
+        "Sold with a paid licence",
+        "Available only to Google staff",
+        "Available at no cost and free for anyone to use",
+        "Available by subscription only"
+      ],
+      "correctAnswer": "Available at no cost and free for anyone to use",
+      "explanation": "Correct answer is C) Available at no cost and free for anyone to use."
+    },
+    {
+      "questionText": "What makes it possible for Dart to run on all browsers?",
+      "options": [
+        "Native Dart VM in every browser",
+        "Compilation to optimized JavaScript by dart2js",
+        "Java applets",
+        "Browser plugins"
+      ],
+      "correctAnswer": "Compilation to optimized JavaScript by dart2js",
+      "explanation": "Correct answer is B) Compilation to optimized JavaScript by dart2js."
+    },
+    {
+      "questionText": "Dart supports multithreading-style concurrency by using:",
+      "options": [
+        "Isolates",
+        "Shared-memory threads",
+        "Semaphores",
+        "Fibers"
+      ],
+      "correctAnswer": "Isolates",
+      "explanation": "Correct answer is A) Isolates."
+    },
+    {
+      "questionText": "Which statement about Dart Isolates is true?",
+      "options": [
+        "They share memory",
+        "They need locks",
+        "They run only on the GPU",
+        "They are independent workers that do not share memory"
+      ],
+      "correctAnswer": "They are independent workers that do not share memory",
+      "explanation": "Correct answer is D) They are independent workers that do not share memory."
+    },
+    {
+      "questionText": "Isolates communicate with each other by:",
+      "options": [
+        "Shared global variables",
+        "Passing serialized messages",
+        "Pointers",
+        "Static fields"
+      ],
+      "correctAnswer": "Passing serialized messages",
+      "explanation": "Correct answer is B) Passing serialized messages."
+    },
+    {
+      "questionText": "Which advanced OOP concept is mentioned as supported by Dart?",
+      "options": [
+        "Macros",
+        "Templates",
+        "Mixin",
+        "Pointers"
+      ],
+      "correctAnswer": "Mixin",
+      "explanation": "Correct answer is C) Mixin."
+    },
+    {
+      "questionText": "The “Type Safe” feature of Dart means:",
+      "options": [
+        "No type checking is done",
+        "Both static and runtime type checking are performed",
+        "Only runtime checks happen",
+        "Only syntax is checked"
+      ],
+      "correctAnswer": "Both static and runtime type checking are performed",
+      "explanation": "Correct answer is B) Both static and runtime type checking are performed."
+    },
+    {
+      "questionText": "Dart offers which two kinds of compilation?",
+      "options": [
+        "JIT and AOT",
+        "JIT and PIT",
+        "AOT and BOT",
+        "Static and dynamic"
+      ],
+      "correctAnswer": "JIT and AOT",
+      "explanation": "Correct answer is A) JIT and AOT."
+    },
+    {
+      "questionText": "A JIT compiler converts source code into native machine code:",
+      "options": [
+        "Months before deployment",
+        "Never",
+        "Only for JavaScript",
+        "Just before the program executes"
+      ],
+      "correctAnswer": "Just before the program executes",
+      "explanation": "Correct answer is D) Just before the program executes."
+    },
+    {
+      "questionText": "AOT compilation is typically used when:",
+      "options": [
+        "The application is ready for deployment (server, App Store, Play Store)",
+        "Debugging only",
+        "Writing comments",
+        "Installing the SDK"
+      ],
+      "correctAnswer": "The application is ready for deployment (server, App Store, Play Store)",
+      "explanation": "Correct answer is A) The application is ready for deployment (server, App Store, Play Store)."
+    },
+    {
+      "questionText": "Dart used together with Flutter can build:",
+      "options": [
+        "Only Android apps",
+        "Only web pages",
+        "Mobile, desktop and web applications",
+        "Only server scripts"
+      ],
+      "correctAnswer": "Mobile, desktop and web applications",
+      "explanation": "Correct answer is C) Mobile, desktop and web applications."
+    },
+    {
+      "questionText": "The biggest benefit of building apps with Dart and Flutter is:",
+      "options": [
+        "A separate app per device is needed",
+        "A single code base works across platforms",
+        "No UI is required",
+        "Apps run without an OS"
+      ],
+      "correctAnswer": "A single code base works across platforms",
+      "explanation": "Correct answer is B) A single code base works across platforms."
+    },
+    {
+      "questionText": "Dart can be used on the back end as a server-side language.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Correct answer is A) True."
+    },
+    {
+      "questionText": "Which Android Studio version is used in the installation steps?",
+      "options": [
+        "Arctic Fox",
+        "Chipmunk",
+        "Dolphin",
+        "Bumblebee | 2021.1.1 Patch 3"
+      ],
+      "correctAnswer": "Bumblebee | 2021.1.1 Patch 3",
+      "explanation": "Correct answer is D) Bumblebee | 2021.1.1 Patch 3."
+    },
+    {
+      "questionText": "Which Dart SDK version is shown in the installation steps?",
+      "options": [
+        "1.24.3",
+        "2.16.2",
+        "3.0.0",
+        "2.2.0"
+      ],
+      "correctAnswer": "2.16.2",
+      "explanation": "Correct answer is B) 2.16.2."
+    },
+    {
+      "questionText": "After starting the IDE, what must be installed to work with Dart?",
+      "options": [
+        "Java plugin",
+        "Python plugin",
+        "Kotlin plugin",
+        "Dart plugin"
+      ],
+      "correctAnswer": "Dart plugin",
+      "explanation": "Correct answer is D) Dart plugin."
+    },
+    {
+      "questionText": "After the Dart plugin is installed, you should:",
+      "options": [
+        "Restart Android Studio",
+        "Reboot the OS",
+        "Uninstall the SDK",
+        "Do nothing"
+      ],
+      "correctAnswer": "Restart Android Studio",
+      "explanation": "Correct answer is A) Restart Android Studio."
+    },
+    {
+      "questionText": "If the Dart SDK path value is not visible in the new-project dialog, you should:",
+      "options": [
+        "Reinstall Android Studio",
+        "Ignore it",
+        "Enter the path manually",
+        "Use the Java path"
+      ],
+      "correctAnswer": "Enter the path manually",
+      "explanation": "Correct answer is C) Enter the path manually."
+    },
+    {
+      "questionText": "Which command-line package manager can also be used to install Dart?",
+      "options": [
+        "npm",
+        "Chocolatey",
+        "pip",
+        "apt-get"
+      ],
+      "correctAnswer": "Chocolatey",
+      "explanation": "Correct answer is B) Chocolatey."
+    },
+    {
+      "questionText": "Basic Dart syntax comprises:",
+      "options": [
+        "Only variables",
+        "Only classes",
+        "Only functions",
+        "Keywords, data types, variables, constants, string literals and symbols"
+      ],
+      "correctAnswer": "Keywords, data types, variables, constants, string literals and symbols",
+      "explanation": "Correct answer is D) Keywords, data types, variables, constants, string literals and symbols."
+    },
+    {
+      "questionText": "Which function is the entry point of a Dart application?",
+      "options": [
+        "start()",
+        "main()",
+        "run()",
+        "init()"
+      ],
+      "correctAnswer": "main()",
+      "explanation": "Correct answer is B) main()."
+    },
+    {
+      "questionText": "In void main(), the word void means the function:",
+      "options": [
+        "Returns an int",
+        "Returns a String",
+        "Returns nothing",
+        "Returns a bool"
+      ],
+      "correctAnswer": "Returns nothing",
+      "explanation": "Correct answer is C) Returns nothing."
+    },
+    {
+      "questionText": "Which symbol starts a single-line comment in Dart?",
+      "options": [
+        "//",
+        "#",
+        "--",
+        "<!--"
+      ],
+      "correctAnswer": "//",
+      "explanation": "Correct answer is A) //."
+    },
+    {
+      "questionText": "A comment in Dart is:",
+      "options": [
+        "Executed by the compiler",
+        "A keyword",
+        "A function",
+        "Code that is not read by the compiler"
+      ],
+      "correctAnswer": "Code that is not read by the compiler",
+      "explanation": "Correct answer is D) Code that is not read by the compiler."
+    },
+    {
+      "questionText": "Which function prints a string to the console in Dart?",
+      "options": [
+        "echo()",
+        "print()",
+        "write()",
+        "console()"
+      ],
+      "correctAnswer": "print()",
+      "explanation": "Correct answer is B) print()."
+    },
+    {
+      "questionText": "Dart is designed to prioritize which development feature?",
+      "options": [
+        "Sub-second stateful hot reload",
+        "Manual memory management",
+        "Assembly-level coding",
+        "Offline-only builds"
+      ],
+      "correctAnswer": "Sub-second stateful hot reload",
+      "explanation": "Correct answer is A) Sub-second stateful hot reload."
+    },
+    {
+      "questionText": "Which of these is a valid identifier?",
+      "options": [
+        "last name",
+        "last-name",
+        "1name",
+        "_name"
+      ],
+      "correctAnswer": "_name",
+      "explanation": "Correct answer is D) _name."
+    },
+    {
+      "questionText": "Which of these is an invalid identifier?",
+      "options": [
+        "lastName",
+        "sum1",
+        "1name",
+        "_name"
+      ],
+      "correctAnswer": "1name",
+      "explanation": "Correct answer is C) 1name."
+    },
+    {
+      "questionText": "Which special characters can an identifier contain?",
+      "options": [
+        "$ and _",
+        "@ and #",
+        "% and &",
+        "! and ?"
+      ],
+      "correctAnswer": "$ and _",
+      "explanation": "Correct answer is A) $ and _."
+    },
+    {
+      "questionText": "Keywords in Dart are:",
+      "options": [
+        "Optional words",
+        "Case-insensitive",
+        "Usable as variable names",
+        "Reserved, case-sensitive words that cannot be used as names"
+      ],
+      "correctAnswer": "Reserved, case-sensitive words that cannot be used as names",
+      "explanation": "Correct answer is D) Reserved, case-sensitive words that cannot be used as names."
+    }
+  ]
+}

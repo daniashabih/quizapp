@@ -35,12 +35,14 @@ const TIMEFRAMES = [
 
 const DEFAULT_CATEGORIES = [
     'All',
+    'Dart',
     'SQL Server',
     'Node.js',
     'Express JS and Node JS',
     'Agile & DevOps',
     'Azure',
     'PHP',
+    'HTML',
     'HTML & CSS',
     'Power BI',
     'Excel',

@@ -42,16 +42,23 @@ class QuestionModel {
     final rawCorrect = correctAnswer.trim();
     if (rawCorrect.isEmpty || options.isEmpty) return -1;
 
+    // 1. Exact case-sensitive trimmed match first (prevents e.g. 'string' vs 'String' collisions)
+    for (int i = 0; i < options.length; i++) {
+      if (options[i].trim() == rawCorrect) {
+        return i;
+      }
+    }
+
     final trimmedLowerCorrect = rawCorrect.toLowerCase();
 
-    // 1. Exact or case-insensitive match on option text
+    // 2. Case-insensitive match on option text
     for (int i = 0; i < options.length; i++) {
       if (options[i].trim().toLowerCase() == trimmedLowerCorrect) {
         return i;
       }
     }
 
-    // 2. Letter match: 'A', 'B', 'C', 'D' (or lowercase)
+    // 3. Letter match: 'A', 'B', 'C', 'D' (or lowercase)
     if (rawCorrect.length == 1) {
       final code = rawCorrect.toUpperCase().codeUnitAt(0);
       final idx = code - 65; // 'A' -> 0, 'B' -> 1, etc.
@@ -60,7 +67,7 @@ class QuestionModel {
       }
     }
 
-    // 3. Cleaned text match (handles options or answers formatted like "A) Option" or "Option [CORRECT]")
+    // 4. Cleaned text match (handles options or answers formatted like "A) Option" or "Option [CORRECT]")
     final cleanCorrect = _cleanText(rawCorrect);
     if (cleanCorrect.isNotEmpty) {
       for (int i = 0; i < options.length; i++) {
@@ -70,7 +77,7 @@ class QuestionModel {
       }
     }
 
-    // 4. Digit match: '0', '1', '2', '3'
+    // 5. Digit match: '0', '1', '2', '3'
     final digit = int.tryParse(rawCorrect);
     if (digit != null && digit >= 0 && digit < options.length) {
       return digit;

@@ -1,0 +1,556 @@
+{
+  "category": "Dart",
+  "session": 8,
+  "title": "Session 8: JSON in Dart",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "JSON stands for JavaScript ___ Notation.",
+      "options": [
+        "Online",
+        "Orientation",
+        "Object",
+        "Operator"
+      ],
+      "correctAnswer": "Object",
+      "explanation": "Correct answer is C) Object."
+    },
+    {
+      "questionText": "JSON is:",
+      "options": [
+        "A heavy binary format",
+        "A programming language",
+        "A database engine",
+        "A lightweight, text-based open standard for human-readable data interchange"
+      ],
+      "correctAnswer": "A lightweight, text-based open standard for human-readable data interchange",
+      "explanation": "Correct answer is D) A lightweight, text-based open standard for human-readable data interchange."
+    },
+    {
+      "questionText": "The JSON format was specified by:",
+      "options": [
+        "Douglas Crockford",
+        "Lars Bak",
+        "Dennis Ritchie",
+        "Bjarne Stroustrup"
+      ],
+      "correctAnswer": "Douglas Crockford",
+      "explanation": "Correct answer is A) Douglas Crockford."
+    },
+    {
+      "questionText": "JSON is described in which RFC?",
+      "options": [
+        "RFC 1000",
+        "RFC 2616",
+        "RFC 4627",
+        "RFC 7230"
+      ],
+      "correctAnswer": "RFC 4627",
+      "explanation": "Correct answer is C) RFC 4627."
+    },
+    {
+      "questionText": "The official Internet media type for JSON is:",
+      "options": [
+        "text/html",
+        "application/json",
+        "image/json",
+        "application/xml"
+      ],
+      "correctAnswer": "application/json",
+      "explanation": "Correct answer is B) application/json."
+    },
+    {
+      "questionText": "The file extension for JSON files is:",
+      "options": [
+        ".js",
+        ".jsn",
+        ".dat",
+        ".json"
+      ],
+      "correctAnswer": ".json",
+      "explanation": "Correct answer is D) .json."
+    },
+    {
+      "questionText": "JSON is a language-independent data format derived from:",
+      "options": [
+        "JavaScript",
+        "Python",
+        "C++",
+        "Ruby"
+      ],
+      "correctAnswer": "JavaScript",
+      "explanation": "Correct answer is A) JavaScript."
+    },
+    {
+      "questionText": "JSON parsing is commonly used in applications to:",
+      "options": [
+        "Draw graphics",
+        "Fetch data from the Internet",
+        "Compile code",
+        "Format disks"
+      ],
+      "correctAnswer": "Fetch data from the Internet",
+      "explanation": "Correct answer is B) Fetch data from the Internet."
+    },
+    {
+      "questionText": "Writing all JSON parsing code manually can be:",
+      "options": [
+        "Always faster",
+        "Impossible",
+        "Time-consuming and error-prone with many model classes",
+        "Unnecessary for any app"
+      ],
+      "correctAnswer": "Time-consuming and error-prone with many model classes",
+      "explanation": "Correct answer is C) Time-consuming and error-prone with many model classes."
+    },
+    {
+      "questionText": "Which tools can be used to generate JSON parsing code?",
+      "options": [
+        "Freezed and json_serializable",
+        "Only Notepad",
+        "Only print()",
+        "Chocolatey and Git"
+      ],
+      "correctAnswer": "Freezed and json_serializable",
+      "explanation": "Correct answer is A) Freezed and json_serializable."
+    },
+    {
+      "questionText": "Which of these is a step in manual JSON parsing?",
+      "options": [
+        "Installing Android Studio",
+        "Writing comments only",
+        "Defining a type-safe model class",
+        "Deleting JSON files"
+      ],
+      "correctAnswer": "Defining a type-safe model class",
+      "explanation": "Correct answer is C) Defining a type-safe model class."
+    },
+    {
+      "questionText": "A JSON document represents:",
+      "options": [
+        "A map of key–value pairs",
+        "A single number",
+        "A class",
+        "A function"
+      ],
+      "correctAnswer": "A map of key–value pairs",
+      "explanation": "Correct answer is A) A map of key–value pairs."
+    },
+    {
+      "questionText": "In JSON, maps of key–value pairs use:",
+      "options": [
+        "Square brackets [ ]",
+        "Parentheses ( )",
+        "Angle brackets < >",
+        "Curly braces { }"
+      ],
+      "correctAnswer": "Curly braces { }",
+      "explanation": "Correct answer is D) Curly braces { }."
+    },
+    {
+      "questionText": "In JSON, lists use:",
+      "options": [
+        "Curly braces { }",
+        "Square brackets [ ]",
+        "Parentheses ( )",
+        "Quotes"
+      ],
+      "correctAnswer": "Square brackets [ ]",
+      "explanation": "Correct answer is B) Square brackets [ ]."
+    },
+    {
+      "questionText": "A key and its value are separated by a:",
+      "options": [
+        "Comma",
+        "Semicolon",
+        "Colon",
+        "Dot"
+      ],
+      "correctAnswer": "Colon",
+      "explanation": "Correct answer is C) Colon."
+    },
+    {
+      "questionText": "Individual key–value pairs are separated by a:",
+      "options": [
+        "Colon",
+        "Comma",
+        "Semicolon",
+        "Space"
+      ],
+      "correctAnswer": "Comma",
+      "explanation": "Correct answer is B) Comma."
+    },
+    {
+      "questionText": "The key in a JSON key–value pair is a:",
+      "options": [
+        "Number",
+        "Boolean",
+        "List",
+        "String"
+      ],
+      "correctAnswer": "String",
+      "explanation": "Correct answer is D) String."
+    },
+    {
+      "questionText": "The value in a JSON key–value pair can be:",
+      "options": [
+        "Any of the valid JSON data types",
+        "Only a String",
+        "Only a number",
+        "Only null"
+      ],
+      "correctAnswer": "Any of the valid JSON data types",
+      "explanation": "Correct answer is A) Any of the valid JSON data types."
+    },
+    {
+      "questionText": "Complex JSON structures are formed by:",
+      "options": [
+        "Comments",
+        "Nested combinations of maps and lists",
+        "Constructors",
+        "Loops"
+      ],
+      "correctAnswer": "Nested combinations of maps and lists",
+      "explanation": "Correct answer is B) Nested combinations of maps and lists."
+    },
+    {
+      "questionText": "In the product_data.json example, reviews is:",
+      "options": [
+        "A String",
+        "A number",
+        "A list containing objects with rating and review keys",
+        "A boolean"
+      ],
+      "correctAnswer": "A list containing objects with rating and review keys",
+      "explanation": "Correct answer is C) A list containing objects with rating and review keys."
+    },
+    {
+      "questionText": "When a JSON response is sent over the network, the entire payload is:",
+      "options": [
+        "Compressed to an int",
+        "Encoded as a String",
+        "Stored as a List",
+        "Converted to a class"
+      ],
+      "correctAnswer": "Encoded as a String",
+      "explanation": "Correct answer is B) Encoded as a String."
+    },
+    {
+      "questionText": "Encoding JSON means:",
+      "options": [
+        "Converting a string into a data structure",
+        "Deleting the data",
+        "Manipulating a data structure into a string (serializing it)",
+        "Importing a library"
+      ],
+      "correctAnswer": "Manipulating a data structure into a string (serializing it)",
+      "explanation": "Correct answer is C) Manipulating a data structure into a string (serializing it)."
+    },
+    {
+      "questionText": "Decoding JSON means:",
+      "options": [
+        "Deserializing a string into a data structure",
+        "Serializing a map into a string",
+        "Encrypting data",
+        "Compiling data"
+      ],
+      "correctAnswer": "Deserializing a string into a data structure",
+      "explanation": "Correct answer is A) Deserializing a string into a data structure."
+    },
+    {
+      "questionText": "When JSON data is received as a string from the network, it must be:",
+      "options": [
+        "Encoded",
+        "Deleted",
+        "Printed only",
+        "Decoded (deserialized)"
+      ],
+      "correctAnswer": "Decoded (deserialized)",
+      "explanation": "Correct answer is D) Decoded (deserialized)."
+    },
+    {
+      "questionText": "Before JSON data is sent over the network, it must be:",
+      "options": [
+        "Decoded",
+        "Encoded (serialized)",
+        "Deleted",
+        "Hidden"
+      ],
+      "correctAnswer": "Encoded (serialized)",
+      "explanation": "Correct answer is B) Encoded (serialized)."
+    },
+    {
+      "questionText": "Which Dart library is used to encode and decode JSON?",
+      "options": [
+        "dart:math",
+        "dart:io",
+        "dart:convert",
+        "dart:async"
+      ],
+      "correctAnswer": "dart:convert",
+      "explanation": "Correct answer is C) dart:convert."
+    },
+    {
+      "questionText": "Which function is used to decode a JSON string in Dart?",
+      "options": [
+        "jsonDecode()",
+        "jsonParseNow()",
+        "decodeJsonOnly()",
+        "json.read()"
+      ],
+      "correctAnswer": "jsonDecode()",
+      "explanation": "Correct answer is A) jsonDecode()."
+    },
+    {
+      "questionText": "Which function is used to encode a Dart map into a JSON string?",
+      "options": [
+        "jsonWrite()",
+        "jsonEncode()",
+        "jsonString()",
+        "encodeMap()"
+      ],
+      "correctAnswer": "jsonEncode()",
+      "explanation": "Correct answer is B) jsonEncode()."
+    },
+    {
+      "questionText": "In the guide’s example, parsedJson.runtimeType for a decoded JSON object shows:",
+      "options": [
+        "int",
+        "String",
+        "_InternalLinkedHashMap<String, dynamic>",
+        "List<int>"
+      ],
+      "correctAnswer": "_InternalLinkedHashMap<String, dynamic>",
+      "explanation": "Correct answer is C) _InternalLinkedHashMap<String, dynamic>."
+    },
+    {
+      "questionText": "Because Dart is statically typed, JSON data should be converted into:",
+      "options": [
+        "Comments",
+        "Loops",
+        "Packages only",
+        "Model classes"
+      ],
+      "correctAnswer": "Model classes",
+      "explanation": "Correct answer is D) Model classes."
+    },
+    {
+      "questionText": "Model classes in JSON parsing represent:",
+      "options": [
+        "Real-world objects and make use of the type system",
+        "Only exceptions",
+        "Only packages",
+        "Only operators"
+      ],
+      "correctAnswer": "Real-world objects and make use of the type system",
+      "explanation": "Correct answer is A) Real-world objects and make use of the type system."
+    },
+    {
+      "questionText": "In the Products model class example, which fields are defined?",
+      "options": [
+        "id and price",
+        "title and author",
+        "productName and brand",
+        "name and age"
+      ],
+      "correctAnswer": "productName and brand",
+      "explanation": "Correct answer is C) productName and brand."
+    },
+    {
+      "questionText": "With a model class, the value can be read as:",
+      "options": [
+        "products.productName",
+        "parsedJson.productName only",
+        "json[productName]",
+        "productName.products"
+      ],
+      "correctAnswer": "products.productName",
+      "explanation": "Correct answer is A) products.productName."
+    },
+    {
+      "questionText": "A factory constructor allows users to:",
+      "options": [
+        "Delete objects",
+        "Create variables and perform validations before the result is returned",
+        "Declare constants",
+        "Import packages"
+      ],
+      "correctAnswer": "Create variables and perform validations before the result is returned",
+      "explanation": "Correct answer is B) Create variables and perform validations before the result is returned."
+    },
+    {
+      "questionText": "A factory constructor can return:",
+      "options": [
+        "Only void",
+        "Nothing",
+        "An already created object, improving memory and performance",
+        "Only a String"
+      ],
+      "correctAnswer": "An already created object, improving memory and performance",
+      "explanation": "Correct answer is C) An already created object, improving memory and performance."
+    },
+    {
+      "questionText": "A normal constructor, in contrast to a factory constructor:",
+      "options": [
+        "Never creates objects",
+        "Returns existing objects",
+        "Is always static",
+        "Creates a new instance each time"
+      ],
+      "correctAnswer": "Creates a new instance each time",
+      "explanation": "Correct answer is D) Creates a new instance each time."
+    },
+    {
+      "questionText": "What is the name of the factory constructor used in the Products example?",
+      "options": [
+        "Products.fromJson",
+        "Products.toJson",
+        "Products.build",
+        "Products.decode"
+      ],
+      "correctAnswer": "Products.fromJson",
+      "explanation": "Correct answer is A) Products.fromJson."
+    },
+    {
+      "questionText": "The fromJson factory takes a parameter of type:",
+      "options": [
+        "int",
+        "Map<String, dynamic>",
+        "List<int>",
+        "bool"
+      ],
+      "correctAnswer": "Map<String, dynamic>",
+      "explanation": "Correct answer is B) Map<String, dynamic>."
+    },
+    {
+      "questionText": "In final brand = data['brand'] as String;, the as keyword:",
+      "options": [
+        "Declares a class",
+        "Starts a loop",
+        "Casts the value to String",
+        "Imports a library"
+      ],
+      "correctAnswer": "Casts the value to String",
+      "explanation": "Correct answer is C) Casts the value to String."
+    },
+    {
+      "questionText": "What does the guide’s fromJson example print for productName and brand?",
+      "options": [
+        "Suit and Armani",
+        "Armani and Suit",
+        "null and null",
+        "An error"
+      ],
+      "correctAnswer": "Suit and Armani",
+      "explanation": "Correct answer is A) Suit and Armani."
+    },
+    {
+      "questionText": "In Dart 2.x with null safety errors, the guide suggests declaring fields as:",
+      "options": [
+        "final String productName; only",
+        "var productName;",
+        "Removing the fields",
+        "final String? productName; (with a ?)"
+      ],
+      "correctAnswer": "final String? productName; (with a ?)",
+      "explanation": "Correct answer is D) final String? productName; (with a ?)."
+    },
+    {
+      "questionText": "The toJson() method is used to:",
+      "options": [
+        "Convert a model object back into a map that can be encoded as JSON",
+        "Decode a string",
+        "Create a class",
+        "Delete a map"
+      ],
+      "correctAnswer": "Convert a model object back into a map that can be encoded as JSON",
+      "explanation": "Correct answer is A) Convert a model object back into a map that can be encoded as JSON."
+    },
+    {
+      "questionText": "The toJson() method in the example returns:",
+      "options": [
+        "A String",
+        "An int",
+        "A Map<String, dynamic>",
+        "A bool"
+      ],
+      "correctAnswer": "A Map<String, dynamic>",
+      "explanation": "Correct answer is C) A Map<String, dynamic>."
+    },
+    {
+      "questionText": "What does jsonEncode(jsonMap) produce?",
+      "options": [
+        "A Dart class",
+        "A JSON string",
+        "A Future",
+        "A Set"
+      ],
+      "correctAnswer": "A JSON string",
+      "explanation": "Correct answer is B) A JSON string."
+    },
+    {
+      "questionText": "In the toJson example, what is printed for a product with productName Suit and brand Versache?",
+      "options": [
+        "{Suit: Versache}",
+        "Suit Versache",
+        "[Suit, Versache]",
+        "{\"productName\": \"Suit\", \"brand\": \"Versache\"}"
+      ],
+      "correctAnswer": "{\"productName\": \"Suit\", \"brand\": \"Versache\"}",
+      "explanation": "Correct answer is D) {\"productName\": \"Suit\", \"brand\": \"Versache\"}."
+    },
+    {
+      "questionText": "Serialization with toJson() is needed when:",
+      "options": [
+        "A model object has to be converted back to JSON to send over the network",
+        "A file is read",
+        "A loop is written",
+        "A constant is created"
+      ],
+      "correctAnswer": "A model object has to be converted back to JSON to send over the network",
+      "explanation": "Correct answer is A) A model object has to be converted back to JSON to send over the network."
+    },
+    {
+      "questionText": "Which statement is TRUE about JSON in Dart?",
+      "options": [
+        "Decoding turns a Dart object into a string",
+        "JSON keys must be numbers",
+        "JSON cannot contain lists",
+        "Decoding turns a JSON string into Dart data such as a Map"
+      ],
+      "correctAnswer": "Decoding turns a JSON string into Dart data such as a Map",
+      "explanation": "Correct answer is D) Decoding turns a JSON string into Dart data such as a Map."
+    },
+    {
+      "questionText": "JSON data can contain both maps and lists, using:",
+      "options": [
+        "{} for maps and [] for lists",
+        "[] for maps and {} for lists",
+        "() for both",
+        "<> for both"
+      ],
+      "correctAnswer": "{} for maps and [] for lists",
+      "explanation": "Correct answer is A) {} for maps and [] for lists."
+    },
+    {
+      "questionText": "True or False: When JSON data is received from the network as a string, it must be encoded.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "Correct answer is B) False."
+    },
+    {
+      "questionText": "In a JSON key–value pair, the key is always a:",
+      "options": [
+        "Boolean",
+        "List",
+        "String",
+        "Number"
+      ],
+      "correctAnswer": "String",
+      "explanation": "Correct answer is C) String."
+    }
+  ]
+}

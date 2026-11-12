@@ -123,13 +123,14 @@ const Question = {
     },
 
     update: async (id, data) => {
-        const { category, session, question_text, options, correct_answer } = data;
+        const { category, session, question_text, options, correct_answer, explanation } = data;
         const serializedOptions = typeof options === 'string' ? options : JSON.stringify(Array.isArray(options) ? options : []);
         const updateData = {
             category,
             questionText: question_text,
             options: serializedOptions,
-            correctAnswer: correct_answer
+            correctAnswer: correct_answer,
+            ...(explanation !== undefined ? { explanation: explanation || '' } : {})
         };
         if (session !== undefined && session !== null && !isNaN(parseInt(session, 10))) {
             updateData.session = parseInt(session, 10);

@@ -201,7 +201,27 @@ const AdminDashboard = () => {
                 try { parsedOptions = JSON.parse(parsedOptions); } catch { parsedOptions = ['', '', '', '']; }
             }
             setOptions(Array.isArray(parsedOptions) && parsedOptions.length >= 2 ? parsedOptions : ['', '', '', '']);
-            setCorrectAnswer(question.correct_answer || '');
+            const safeOptions = Array.isArray(parsedOptions) && parsedOptions.length >= 2 ? parsedOptions : ['', '', '', ''];
+            setOptions(safeOptions);
+            const rawCorrect = String(question.correct_answer || '').trim();
+            let resolvedCorrect = rawCorrect;
+            if (rawCorrect && !safeOptions.includes(rawCorrect)) {
+                const exactIdx = safeOptions.findIndex(o => String(o || '').trim() === rawCorrect);
+                if (exactIdx !== -1) {
+                    resolvedCorrect = safeOptions[exactIdx];
+                } else if (/^[a-d]$/i.test(rawCorrect)) {
+                    const letterIdx = rawCorrect.toUpperCase().charCodeAt(0) - 65;
+                    if (letterIdx >= 0 && letterIdx < safeOptions.length) {
+                        resolvedCorrect = safeOptions[letterIdx];
+                    }
+                } else if (/^\d+$/.test(rawCorrect)) {
+                    const digitIdx = parseInt(rawCorrect, 10);
+                    if (digitIdx >= 0 && digitIdx < safeOptions.length) {
+                        resolvedCorrect = safeOptions[digitIdx];
+                    }
+                }
+            }
+            setCorrectAnswer(resolvedCorrect);
             setExplanation(question.explanation || '');
         } else {
             setEditingQuestionId(null);

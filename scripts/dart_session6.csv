@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Dart,6,In which programming style does the execution of one process depend on another process?,Asynchronous,Synchronous,Object-oriented,Client-side,Synchronous
+Dart,6,"In the phone-call analogy, synchronous programming is like:",Making another call while on a call,Sending a text during a call,Being unable to start the next call until the present one ends,Never calling anyone,Being unable to start the next call until the present one ends
+Dart,6,The biggest disadvantage of synchronous programming is that:,It blocks the code until the previous process has finished,It cannot print,It has no loops,It needs no threads,It blocks the code until the previous process has finished
+Dart,6,In a web server using synchronous processing:,All requests are handled at once,Requests are never blocked,Servers never wait,A new user’s request is blocked until the previous request completes,A new user’s request is blocked until the previous request completes
+Dart,6,Which function takes user input synchronously after importing dart:io?,stdin.readLineSync(),readAsString(),accept(),input(),stdin.readLineSync()
+Dart,6,Which library must be imported to use stdin?,dart:math,dart:async,dart:convert,dart:io,dart:io
+Dart,6,An asynchronous method executes:,Only on the main thread,In a thread that is not the main application thread,Only before main(),Only after the program ends,In a thread that is not the main application thread
+Dart,6,"In asynchronous programming, the user can:",Do nothing until completion,Only run one task,Move on to another task before the current one is completed,Not use functions,Move on to another task before the current one is completed
+Dart,6,In which library is the Future class available?,dart:async,dart:core only,dart:ui,dart:html,dart:async
+Dart,6,What does file.readAsString() return?,A String immediately,An int,A bool,A Future<String>,A Future<String>
+Dart,6,"In the file-reading example, which line prints first?",The file contents,main ends here,Both together,Neither,main ends here
+Dart,6,"In f.then((data) => print(data));, the then() function runs:",Before the file is opened,Never,After the asynchronous task completes with data,At compile time,After the asynchronous task completes with data
+Dart,6,The Future keyword is used for:,Declaring constants,Getting a value at some time in the future,Creating classes,Writing comments,Getting a value at some time in the future
+Dart,6,Future objects represent:,Values from an expression whose execution completes at a later point in time,Values that are available immediately,Only Strings,Only errors,Values from an expression whose execution completes at a later point in time
+Dart,6,Which are the three states of a Future?,"Start, middle, end","Open, closed, locked","Running, paused, stopped","Uncompleted, completed with a value, completed with an error","Uncompleted, completed with a value, completed with an error"
+Dart,6,Which of the following is a state of a Future?,Finished,Delayed,Completed with value,Unknown,Completed with value
+Dart,6,Future.value() creates:,A future that always errors,A future that completes with a value,A delayed future,A thread,A future that completes with a value
+Dart,6,What is printed by var myfutureval = Future.value(14); print(myfutureval);?,14,null,Instance of 'Future<int>',An error,Instance of 'Future<int>'
+Dart,6,Why does the above code print an instance of Future instead of 14?,14 is invalid,await was not used to get the value,Futures cannot hold ints,print() is asynchronous,await was not used to get the value
+Dart,6,Future.error() creates a future that:,Completes with an error,Completes with a value,Never completes,Runs after a delay,Completes with an error
+Dart,6,Future.delayed() creates a future that:,Completes at once,Always errors,Cannot take a duration,Runs its computation after a delay,Runs its computation after a delay
+Dart,6,Duration(milliseconds: 10000) equals a delay of:,1 second,100 seconds,10 seconds,10 milliseconds,10 seconds
+Dart,6,The async keyword is used to:,Import a library,Declare a function as asynchronous,Declare a constant,End a loop,Declare a function as asynchronous
+Dart,6,"When an async function is called, it returns:",A Future,An int,A String,Nothing at all,A Future
+Dart,6,The await keyword can be used only:,In any function,In class definitions,On/inside asynchronous functions,Outside main(),On/inside asynchronous functions
+Dart,6,The await keyword:,Ends the program,Skips the next line,Declares a Future,Holds the currently running function until the result is ready,Holds the currently running function until the result is ready
+Dart,6,"In the await example, what is the console output?","Good Morning, then Have a great day!",Have a great day! only,Good Morning only,An error,"Good Morning, then Have a great day!"
+Dart,6,"To use await inside main(), main() must be declared with:",static,async,final,const,async
+Dart,6,Which is an advantage of synchronous programming?,It never blocks,It uses fewer resources,It is supported in all programming languages,It always loads faster,It is supported in all programming languages
+Dart,6,Synchronous programs are generally:,Harder to write,Easier to write,Impossible to debug,Unreliable,Easier to write
+Dart,6,Synchronous programs are considered reliable because:,They run in parallel,They never fail,Errors can be detected and handled before they cause significant damage,They use callbacks,Errors can be detected and handled before they cause significant damage
+Dart,6,A disadvantage of synchronous programming is:,Slower program loading time,Faster response,Fewer threads needed,Simple syntax,Slower program loading time
+Dart,6,"In synchronous programming, when a thread is locked:",The queued threads continue,The threads in the queue get blocked as well,The program restarts,Nothing changes,The threads in the queue get blocked as well
+Dart,6,Synchronous programs require more threads to:,Print output,Declare variables,Handle more requests,Import libraries,Handle more requests
+Dart,6,An advantage of asynchronous programming is that:,The application can continue executing while an asynchronous function performs its task,It is always simpler,It blocks the thread,It needs no callbacks,The application can continue executing while an asynchronous function performs its task
+Dart,6,Asynchronous programming helps by:,Increasing page load delays,Removing all errors,Blocking users,Decreasing page load delays,Decreasing page load delays
+Dart,6,Callback functions in asynchronous programs help to:,Execute the next line of code if an error occurs,Stop the program,Declare variables,Create classes,Execute the next line of code if an error occurs
+Dart,6,The async and await keywords have a well-known syntax that lets asynchronous functions work with:,Constants,Promises,Packages,Comments,Promises
+Dart,6,A disadvantage of asynchronous programming is that it is:,Always slower,Not supported by Dart,Complex to write,Unable to read files,Complex to write
+Dart,6,Developers using asynchronous programming should have knowledge of:,Only variables,Callback and recursive functions,Only comments,Only classes,Callback and recursive functions
+Dart,6,Too many asynchronous requests can:,Make the program faster,Reduce memory use,Overload the server and slow program execution,Remove all delays,Overload the server and slow program execution
+Dart,6,The guide concludes that choosing between synchronous and asynchronous programming should depend on:,The programmer’s mood,"The requirements of the software activity, as no style is universally better",The file name,The IDE,"The requirements of the software activity, as no style is universally better"
+Dart,6,Asynchronous programming is said to:,Fix the chain of events in a programming cycle,Execute everything in order,Block every thread,Require no keywords,Fix the chain of events in a programming cycle
+Dart,6,In which style is program loading time slower?,Asynchronous,Synchronous,Both equally,Neither,Synchronous
+Dart,6,Which statement about asynchronous processes is correct per the summary?,Execution of one process does not depend on any other process,Execution always depends on another process,They cannot use Future,They block all code,Execution of one process does not depend on any other process
+Dart,6,"Future.value, Future.error and Future.delayed are all:",Ways of creating a Future,Types of loops,Types of operators,Types of exceptions only,Ways of creating a Future
+Dart,6,Which of the following is NOT a state of a Future?,Uncompleted,Completed with value,Completed with an error,Finished,Finished
+Dart,6,True or False: Synchronous programs require more threads to handle more requests.,True,False,,,True
+Dart,6,True or False: await can be used on any ordinary non-async function.,True,False,,,False
+Dart,6,Which statement best describes a synchronous process?,It runs on a separate thread without waiting,It never blocks,It returns a Future,It waits for an operation to complete before starting another,It waits for an operation to complete before starting another

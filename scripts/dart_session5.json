@@ -1,0 +1,558 @@
+{
+  "category": "Dart",
+  "session": 5,
+  "title": "Session 5: Collections and Exceptions in Dart",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "A collection in Dart is:",
+      "options": [
+        "A single variable",
+        "A loop statement",
+        "An entity that represents a group of objects called elements",
+        "A type of comment"
+      ],
+      "correctAnswer": "An entity that represents a group of objects called elements",
+      "explanation": "Correct answer is C) An entity that represents a group of objects called elements."
+    },
+    {
+      "questionText": "Which library provides support for collections in Dart?",
+      "options": [
+        "dart:core",
+        "dart:ui",
+        "dart:camera",
+        "dart:music"
+      ],
+      "correctAnswer": "dart:core",
+      "explanation": "Correct answer is A) dart:core."
+    },
+    {
+      "questionText": "Collections are used to:",
+      "options": [
+        "Draw graphics only",
+        "Store, retrieve and communicate mass data",
+        "Compile code",
+        "Rename files"
+      ],
+      "correctAnswer": "Store, retrieve and communicate mass data",
+      "explanation": "Correct answer is B) Store, retrieve and communicate mass data."
+    },
+    {
+      "questionText": "A List is:",
+      "options": [
+        "An unordered group of unique values",
+        "A key–value structure",
+        "A single number",
+        "An ordered group of objects"
+      ],
+      "correctAnswer": "An ordered group of objects",
+      "explanation": "Correct answer is D) An ordered group of objects."
+    },
+    {
+      "questionText": "In a fixed-length List, the size:",
+      "options": [
+        "Is specified at initialization and cannot be modified later",
+        "Can grow freely",
+        "Is always zero",
+        "Is chosen at runtime"
+      ],
+      "correctAnswer": "Is specified at initialization and cannot be modified later",
+      "explanation": "Correct answer is A) Is specified at initialization and cannot be modified later."
+    },
+    {
+      "questionText": "Which method creates a fixed-length List with initial values?",
+      "options": [
+        "List.add",
+        "List.generate only",
+        "List.filled",
+        "List.remove"
+      ],
+      "correctAnswer": "List.filled",
+      "explanation": "Correct answer is C) List.filled."
+    },
+    {
+      "questionText": "Which method adds an element to a growable List?",
+      "options": [
+        "put()",
+        "add()",
+        "insertOnly()",
+        "push()"
+      ],
+      "correctAnswer": "add()",
+      "explanation": "Correct answer is B) add()."
+    },
+    {
+      "questionText": "What is printed by var newlist = [10,20,30,40,50]; newlist.add(60); print(newlist);?",
+      "options": [
+        "[10, 20, 30, 40, 50]",
+        "[60]",
+        "[10, 20, 30, 40, 50, 60]",
+        "An error"
+      ],
+      "correctAnswer": "[10, 20, 30, 40, 50, 60]",
+      "explanation": "Correct answer is C) [10, 20, 30, 40, 50, 60]."
+    },
+    {
+      "questionText": "A Set is:",
+      "options": [
+        "An ordered list with duplicates",
+        "A unique, unordered collection of values of the same data type",
+        "A key–value collection",
+        "A fixed-size array"
+      ],
+      "correctAnswer": "A unique, unordered collection of values of the same data type",
+      "explanation": "Correct answer is B) A unique, unordered collection of values of the same data type."
+    },
+    {
+      "questionText": "What is printed after adding 10, 20, 30, 40 and 40 again to a Set?",
+      "options": [
+        "{10, 20, 30, 40, 40}",
+        "{40}",
+        "{10, 20, 30}",
+        "{10, 20, 30, 40}"
+      ],
+      "correctAnswer": "{10, 20, 30, 40}",
+      "explanation": "Correct answer is D) {10, 20, 30, 40}."
+    },
+    {
+      "questionText": "A Map stores data as:",
+      "options": [
+        "Key–value pairs where keys must be unique",
+        "Only numbers",
+        "Sorted lists only",
+        "Plain text"
+      ],
+      "correctAnswer": "Key–value pairs where keys must be unique",
+      "explanation": "Correct answer is A) Key–value pairs where keys must be unique."
+    },
+    {
+      "questionText": "A Map can be declared using:",
+      "options": [
+        "Only literals",
+        "Only constructors",
+        "Only the dynamic keyword",
+        "Map literals or the Map constructor"
+      ],
+      "correctAnswer": "Map literals or the Map constructor",
+      "explanation": "Correct answer is D) Map literals or the Map constructor."
+    },
+    {
+      "questionText": "A Map literal encloses key–value pairs inside:",
+      "options": [
+        "Square brackets",
+        "Curly braces { }",
+        "Parentheses",
+        "Quotes only"
+      ],
+      "correctAnswer": "Curly braces { }",
+      "explanation": "Correct answer is B) Curly braces { }."
+    },
+    {
+      "questionText": "What is printed by var userdetails = {'email': 'jack@gmail.com', 'Password': 12345}; print(userdetails);?",
+      "options": [
+        "{email: jack@gmail.com, Password: 12345}",
+        "[email, Password]",
+        "jack@gmail.com",
+        "An error"
+      ],
+      "correctAnswer": "{email: jack@gmail.com, Password: 12345}",
+      "explanation": "Correct answer is A) {email: jack@gmail.com, Password: 12345}."
+    },
+    {
+      "questionText": "A HashSet is:",
+      "options": [
+        "An ordered list",
+        "A fixed-length list",
+        "A hash table based, unordered Set implementation",
+        "A key–value store"
+      ],
+      "correctAnswer": "A hash table based, unordered Set implementation",
+      "explanation": "Correct answer is C) A hash table based, unordered Set implementation."
+    },
+    {
+      "questionText": "HashSet is provided by which library?",
+      "options": [
+        "dart:math",
+        "dart:collection",
+        "dart:convert",
+        "dart:html only"
+      ],
+      "correctAnswer": "dart:collection",
+      "explanation": "Correct answer is B) dart:collection."
+    },
+    {
+      "questionText": "The order of HashSet elements when printed is determined by:",
+      "options": [
+        "Insertion order",
+        "Alphabetical order",
+        "Size",
+        "hashCode"
+      ],
+      "correctAnswer": "hashCode",
+      "explanation": "Correct answer is D) hashCode."
+    },
+    {
+      "questionText": "A HashMap is:",
+      "options": [
+        "A hash-table Map implementation that is unordered",
+        "An ordered Set",
+        "A fixed-length list",
+        "A kind of loop"
+      ],
+      "correctAnswer": "A hash-table Map implementation that is unordered",
+      "explanation": "Correct answer is A) A hash-table Map implementation that is unordered."
+    },
+    {
+      "questionText": "Elements put in a LinkedList must extend which class?",
+      "options": [
+        "List",
+        "Set",
+        "Map",
+        "LinkedListEntry"
+      ],
+      "correctAnswer": "LinkedListEntry",
+      "explanation": "Correct answer is D) LinkedListEntry."
+    },
+    {
+      "questionText": "The Dart LinkedList class does NOT implement which interface?",
+      "options": [
+        "The List interface",
+        "The Map interface",
+        "The Set interface",
+        "The Iterable interface"
+      ],
+      "correctAnswer": "The List interface",
+      "explanation": "Correct answer is A) The List interface."
+    },
+    {
+      "questionText": "Which is an advantage of LinkedList compared with a List?",
+      "options": [
+        "Contiguous storage",
+        "Non-contiguous storage with faster insertions and removals",
+        "Fixed length",
+        "Duplicate-free values"
+      ],
+      "correctAnswer": "Non-contiguous storage with faster insertions and removals",
+      "explanation": "Correct answer is B) Non-contiguous storage with faster insertions and removals."
+    },
+    {
+      "questionText": "LinkedHashMap iterates data in:",
+      "options": [
+        "Random order",
+        "Hash order",
+        "Insertion order",
+        "Reverse order"
+      ],
+      "correctAnswer": "Insertion order",
+      "explanation": "Correct answer is C) Insertion order."
+    },
+    {
+      "questionText": "A LinkedHashMap can store:",
+      "options": [
+        "No null values",
+        "Many null keys",
+        "Only null values",
+        "One null key and multiple null values"
+      ],
+      "correctAnswer": "One null key and multiple null values",
+      "explanation": "Correct answer is D) One null key and multiple null values."
+    },
+    {
+      "questionText": "A LinkedHashSet can store:",
+      "options": [
+        "Only one null value",
+        "Many null values",
+        "No values",
+        "Only numbers"
+      ],
+      "correctAnswer": "Only one null value",
+      "explanation": "Correct answer is A) Only one null value."
+    },
+    {
+      "questionText": "LinkedHashSet returns elements:",
+      "options": [
+        "In hash order",
+        "In the order they were inserted",
+        "In reverse order",
+        "Sorted by size"
+      ],
+      "correctAnswer": "In the order they were inserted",
+      "explanation": "Correct answer is B) In the order they were inserted."
+    },
+    {
+      "questionText": "A nested collection is:",
+      "options": [
+        "A collection that is empty",
+        "A Set with duplicates",
+        "A collection of collections, like a multi-dimensional array",
+        "A collection of numbers only"
+      ],
+      "correctAnswer": "A collection of collections, like a multi-dimensional array",
+      "explanation": "Correct answer is C) A collection of collections, like a multi-dimensional array."
+    },
+    {
+      "questionText": "What does List.generate(2, (_) => List.generate(2, (_) => 0)) produce?",
+      "options": [
+        "[0, 0]",
+        "[[0, 0], [0, 0]]",
+        "[[0, 0, 0]]",
+        "{0, 0}"
+      ],
+      "correctAnswer": "[[0, 0], [0, 0]]",
+      "explanation": "Correct answer is B) [[0, 0], [0, 0]]."
+    },
+    {
+      "questionText": "Nested collections are useful for creating:",
+      "options": [
+        "Comments",
+        "Constants",
+        "Exceptions",
+        "Matrices"
+      ],
+      "correctAnswer": "Matrices",
+      "explanation": "Correct answer is D) Matrices."
+    },
+    {
+      "questionText": "Collection-if is used to:",
+      "options": [
+        "Check and manipulate collection values based on conditions",
+        "Delete the collection",
+        "Import a library",
+        "Create a class"
+      ],
+      "correctAnswer": "Check and manipulate collection values based on conditions",
+      "explanation": "Correct answer is A) Check and manipulate collection values based on conditions."
+    },
+    {
+      "questionText": "Collection-for is used to:",
+      "options": [
+        "Declare constants",
+        "Compare Sets",
+        "Loop over the elements of a collection such as a list or map",
+        "Throw errors"
+      ],
+      "correctAnswer": "Loop over the elements of a collection such as a list or map",
+      "explanation": "Correct answer is C) Loop over the elements of a collection such as a list or map."
+    },
+    {
+      "questionText": "An exception is:",
+      "options": [
+        "A comment",
+        "An abnormal condition that disrupts the normal flow of execution at runtime",
+        "A data type",
+        "A kind of loop"
+      ],
+      "correctAnswer": "An abnormal condition that disrupts the normal flow of execution at runtime",
+      "explanation": "Correct answer is B) An abnormal condition that disrupts the normal flow of execution at runtime."
+    },
+    {
+      "questionText": "Exception handlers are written to:",
+      "options": [
+        "Slow down the program",
+        "Create objects",
+        "Declare variables",
+        "Prevent the program from stopping abruptly"
+      ],
+      "correctAnswer": "Prevent the program from stopping abruptly",
+      "explanation": "Correct answer is D) Prevent the program from stopping abruptly."
+    },
+    {
+      "questionText": "Every exception in Dart is a sub-type of which class?",
+      "options": [
+        "Exception",
+        "Object only",
+        "Map",
+        "Future"
+      ],
+      "correctAnswer": "Exception",
+      "explanation": "Correct answer is A) Exception."
+    },
+    {
+      "questionText": "The try block:",
+      "options": [
+        "Always runs last",
+        "Is optional in exception handling",
+        "Encloses the code that may cause an exception",
+        "Declares variables"
+      ],
+      "correctAnswer": "Encloses the code that may cause an exception",
+      "explanation": "Correct answer is C) Encloses the code that may cause an exception."
+    },
+    {
+      "questionText": "The on block is used to:",
+      "options": [
+        "End a loop",
+        "Mention the specific exception to be handled",
+        "Import a package",
+        "Create a constructor"
+      ],
+      "correctAnswer": "Mention the specific exception to be handled",
+      "explanation": "Correct answer is B) Mention the specific exception to be handled."
+    },
+    {
+      "questionText": "The catch block is used when a handler requires:",
+      "options": [
+        "A class name",
+        "A package",
+        "A list",
+        "The generic Exception object"
+      ],
+      "correctAnswer": "The generic Exception object",
+      "explanation": "Correct answer is D) The generic Exception object."
+    },
+    {
+      "questionText": "The finally block contains code that:",
+      "options": [
+        "Executes irrespective of whether an exception occurred",
+        "Runs only on error",
+        "Runs only without errors",
+        "Never runs"
+      ],
+      "correctAnswer": "Executes irrespective of whether an exception occurred",
+      "explanation": "Correct answer is A) Executes irrespective of whether an exception occurred."
+    },
+    {
+      "questionText": "Where is the finally block placed?",
+      "options": [
+        "Before try",
+        "Inside the on block",
+        "After the try/on/catch block",
+        "In a separate file"
+      ],
+      "correctAnswer": "After the try/on/catch block",
+      "explanation": "Correct answer is C) After the try/on/catch block."
+    },
+    {
+      "questionText": "Which keyword raises an exception explicitly?",
+      "options": [
+        "raise",
+        "throw",
+        "error",
+        "catch"
+      ],
+      "correctAnswer": "throw",
+      "explanation": "Correct answer is B) throw."
+    },
+    {
+      "questionText": "What is printed when a ~/ b with a = 5, b = 0 is handled by on IntegerDivisionByZeroException { print('Cannot divide by zero'); }?",
+      "options": [
+        "0",
+        "5",
+        "null",
+        "Cannot divide by zero"
+      ],
+      "correctAnswer": "Cannot divide by zero",
+      "explanation": "Correct answer is D) Cannot divide by zero."
+    },
+    {
+      "questionText": "If the same code also has finally { print('Finally block executed'); }, what is printed?",
+      "options": [
+        "Cannot divide by zero, then Finally block executed",
+        "Only Finally block executed",
+        "Only Cannot divide by zero",
+        "Nothing"
+      ],
+      "correctAnswer": "Cannot divide by zero, then Finally block executed",
+      "explanation": "Correct answer is A) Cannot divide by zero, then Finally block executed."
+    },
+    {
+      "questionText": "In checkAge(-10) where a FormatException is thrown for negative ages and caught with catch(e), what is printed?",
+      "options": [
+        "-10",
+        "FormatException",
+        "Age cannot be negative",
+        "Nothing"
+      ],
+      "correctAnswer": "Age cannot be negative",
+      "explanation": "Correct answer is C) Age cannot be negative."
+    },
+    {
+      "questionText": "The built-in exception raised when a deferred library fails to load is:",
+      "options": [
+        "LoadFailedException",
+        "DeferredLoadException",
+        "DeferException",
+        "LibraryException"
+      ],
+      "correctAnswer": "DeferredLoadException",
+      "explanation": "Correct answer is B) DeferredLoadException."
+    },
+    {
+      "questionText": "FormatException is raised when:",
+      "options": [
+        "A file is missing",
+        "A request times out",
+        "An expected data format is not present, e.g. parsing John123 as a number",
+        "A list is empty"
+      ],
+      "correctAnswer": "An expected data format is not present, e.g. parsing John123 as a number",
+      "explanation": "Correct answer is C) An expected data format is not present, e.g. parsing John123 as a number."
+    },
+    {
+      "questionText": "Which exception is raised when a division by zero is attempted (as in the guide)?",
+      "options": [
+        "FormatException",
+        "TimeoutException",
+        "IOException",
+        "IntegerDivisionByZeroException"
+      ],
+      "correctAnswer": "IntegerDivisionByZeroException",
+      "explanation": "Correct answer is D) IntegerDivisionByZeroException."
+    },
+    {
+      "questionText": "TimeoutException is thrown when:",
+      "options": [
+        "An asynchronous operation takes longer than the expected time",
+        "A file is found",
+        "A list is full",
+        "A map is empty"
+      ],
+      "correctAnswer": "An asynchronous operation takes longer than the expected time",
+      "explanation": "Correct answer is A) An asynchronous operation takes longer than the expected time."
+    },
+    {
+      "questionText": "An IOException typically occurs when:",
+      "options": [
+        "A number is divided by zero",
+        "A variable is final",
+        "A loop ends",
+        "A file such as names.txt cannot be read because it is not found"
+      ],
+      "correctAnswer": "A file such as names.txt cannot be read because it is not found",
+      "explanation": "Correct answer is D) A file such as names.txt cannot be read because it is not found."
+    },
+    {
+      "questionText": "Which statement about Errors is correct?",
+      "options": [
+        "They are always checked",
+        "They are caused by application code",
+        "They are unchecked and may be caused by lack of system resources",
+        "They can always be handled by the compiler"
+      ],
+      "correctAnswer": "They are unchecked and may be caused by lack of system resources",
+      "explanation": "Correct answer is C) They are unchecked and may be caused by lack of system resources."
+    },
+    {
+      "questionText": "Errors in Dart should generally be:",
+      "options": [
+        "Caught and ignored",
+        "Addressed by the programmer rather than caught",
+        "Thrown deliberately",
+        "Hidden from developers"
+      ],
+      "correctAnswer": "Addressed by the programmer rather than caught",
+      "explanation": "Correct answer is B) Addressed by the programmer rather than caught."
+    },
+    {
+      "questionText": "Which collection allows multiple null values (as per the guide’s test)?",
+      "options": [
+        "LinkedHashMap",
+        "List",
+        "LinkedHashSet",
+        "Set"
+      ],
+      "correctAnswer": "LinkedHashMap",
+      "explanation": "Correct answer is A) LinkedHashMap."
+    }
+  ]
+}

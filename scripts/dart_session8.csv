@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Dart,8,JSON stands for JavaScript ___ Notation.,Online,Orientation,Object,Operator,Object
+Dart,8,JSON is:,A heavy binary format,A programming language,A database engine,"A lightweight, text-based open standard for human-readable data interchange","A lightweight, text-based open standard for human-readable data interchange"
+Dart,8,The JSON format was specified by:,Douglas Crockford,Lars Bak,Dennis Ritchie,Bjarne Stroustrup,Douglas Crockford
+Dart,8,JSON is described in which RFC?,RFC 1000,RFC 2616,RFC 4627,RFC 7230,RFC 4627
+Dart,8,The official Internet media type for JSON is:,text/html,application/json,image/json,application/xml,application/json
+Dart,8,The file extension for JSON files is:,.js,.jsn,.dat,.json,.json
+Dart,8,JSON is a language-independent data format derived from:,JavaScript,Python,C++,Ruby,JavaScript
+Dart,8,JSON parsing is commonly used in applications to:,Draw graphics,Fetch data from the Internet,Compile code,Format disks,Fetch data from the Internet
+Dart,8,Writing all JSON parsing code manually can be:,Always faster,Impossible,Time-consuming and error-prone with many model classes,Unnecessary for any app,Time-consuming and error-prone with many model classes
+Dart,8,Which tools can be used to generate JSON parsing code?,Freezed and json_serializable,Only Notepad,Only print(),Chocolatey and Git,Freezed and json_serializable
+Dart,8,Which of these is a step in manual JSON parsing?,Installing Android Studio,Writing comments only,Defining a type-safe model class,Deleting JSON files,Defining a type-safe model class
+Dart,8,A JSON document represents:,A map of key–value pairs,A single number,A class,A function,A map of key–value pairs
+Dart,8,"In JSON, maps of key–value pairs use:",Square brackets [ ],Parentheses ( ),Angle brackets < >,Curly braces { },Curly braces { }
+Dart,8,"In JSON, lists use:",Curly braces { },Square brackets [ ],Parentheses ( ),Quotes,Square brackets [ ]
+Dart,8,A key and its value are separated by a:,Comma,Semicolon,Colon,Dot,Colon
+Dart,8,Individual key–value pairs are separated by a:,Colon,Comma,Semicolon,Space,Comma
+Dart,8,The key in a JSON key–value pair is a:,Number,Boolean,List,String,String
+Dart,8,The value in a JSON key–value pair can be:,Any of the valid JSON data types,Only a String,Only a number,Only null,Any of the valid JSON data types
+Dart,8,Complex JSON structures are formed by:,Comments,Nested combinations of maps and lists,Constructors,Loops,Nested combinations of maps and lists
+Dart,8,"In the product_data.json example, reviews is:",A String,A number,A list containing objects with rating and review keys,A boolean,A list containing objects with rating and review keys
+Dart,8,"When a JSON response is sent over the network, the entire payload is:",Compressed to an int,Encoded as a String,Stored as a List,Converted to a class,Encoded as a String
+Dart,8,Encoding JSON means:,Converting a string into a data structure,Deleting the data,Manipulating a data structure into a string (serializing it),Importing a library,Manipulating a data structure into a string (serializing it)
+Dart,8,Decoding JSON means:,Deserializing a string into a data structure,Serializing a map into a string,Encrypting data,Compiling data,Deserializing a string into a data structure
+Dart,8,"When JSON data is received as a string from the network, it must be:",Encoded,Deleted,Printed only,Decoded (deserialized),Decoded (deserialized)
+Dart,8,"Before JSON data is sent over the network, it must be:",Decoded,Encoded (serialized),Deleted,Hidden,Encoded (serialized)
+Dart,8,Which Dart library is used to encode and decode JSON?,dart:math,dart:io,dart:convert,dart:async,dart:convert
+Dart,8,Which function is used to decode a JSON string in Dart?,jsonDecode(),jsonParseNow(),decodeJsonOnly(),json.read(),jsonDecode()
+Dart,8,Which function is used to encode a Dart map into a JSON string?,jsonWrite(),jsonEncode(),jsonString(),encodeMap(),jsonEncode()
+Dart,8,"In the guide’s example, parsedJson.runtimeType for a decoded JSON object shows:",int,String,"_InternalLinkedHashMap<String, dynamic>",List<int>,"_InternalLinkedHashMap<String, dynamic>"
+Dart,8,"Because Dart is statically typed, JSON data should be converted into:",Comments,Loops,Packages only,Model classes,Model classes
+Dart,8,Model classes in JSON parsing represent:,Real-world objects and make use of the type system,Only exceptions,Only packages,Only operators,Real-world objects and make use of the type system
+Dart,8,"In the Products model class example, which fields are defined?",id and price,title and author,productName and brand,name and age,productName and brand
+Dart,8,"With a model class, the value can be read as:",products.productName,parsedJson.productName only,json[productName],productName.products,products.productName
+Dart,8,A factory constructor allows users to:,Delete objects,Create variables and perform validations before the result is returned,Declare constants,Import packages,Create variables and perform validations before the result is returned
+Dart,8,A factory constructor can return:,Only void,Nothing,"An already created object, improving memory and performance",Only a String,"An already created object, improving memory and performance"
+Dart,8,"A normal constructor, in contrast to a factory constructor:",Never creates objects,Returns existing objects,Is always static,Creates a new instance each time,Creates a new instance each time
+Dart,8,What is the name of the factory constructor used in the Products example?,Products.fromJson,Products.toJson,Products.build,Products.decode,Products.fromJson
+Dart,8,The fromJson factory takes a parameter of type:,int,"Map<String, dynamic>",List<int>,bool,"Map<String, dynamic>"
+Dart,8,"In final brand = data['brand'] as String;, the as keyword:",Declares a class,Starts a loop,Casts the value to String,Imports a library,Casts the value to String
+Dart,8,What does the guide’s fromJson example print for productName and brand?,Suit and Armani,Armani and Suit,null and null,An error,Suit and Armani
+Dart,8,"In Dart 2.x with null safety errors, the guide suggests declaring fields as:",final String productName; only,var productName;,Removing the fields,final String? productName; (with a ?),final String? productName; (with a ?)
+Dart,8,The toJson() method is used to:,Convert a model object back into a map that can be encoded as JSON,Decode a string,Create a class,Delete a map,Convert a model object back into a map that can be encoded as JSON
+Dart,8,The toJson() method in the example returns:,A String,An int,"A Map<String, dynamic>",A bool,"A Map<String, dynamic>"
+Dart,8,What does jsonEncode(jsonMap) produce?,A Dart class,A JSON string,A Future,A Set,A JSON string
+Dart,8,"In the toJson example, what is printed for a product with productName Suit and brand Versache?",{Suit: Versache},Suit Versache,"[Suit, Versache]","{""productName"": ""Suit"", ""brand"": ""Versache""}","{""productName"": ""Suit"", ""brand"": ""Versache""}"
+Dart,8,Serialization with toJson() is needed when:,A model object has to be converted back to JSON to send over the network,A file is read,A loop is written,A constant is created,A model object has to be converted back to JSON to send over the network
+Dart,8,Which statement is TRUE about JSON in Dart?,Decoding turns a Dart object into a string,JSON keys must be numbers,JSON cannot contain lists,Decoding turns a JSON string into Dart data such as a Map,Decoding turns a JSON string into Dart data such as a Map
+Dart,8,"JSON data can contain both maps and lists, using:",{} for maps and [] for lists,[] for maps and {} for lists,() for both,<> for both,{} for maps and [] for lists
+Dart,8,"True or False: When JSON data is received from the network as a string, it must be encoded.",True,False,,,False
+Dart,8,"In a JSON key–value pair, the key is always a:",Boolean,List,String,Number,String

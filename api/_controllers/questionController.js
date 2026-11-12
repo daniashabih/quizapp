@@ -128,7 +128,7 @@ function parseQuestionsFromHtml(html) {
 
 const createQuestion = async (req, res) => {
     try {
-        const { category, session, question_text, options, correct_answer } = req.body;
+        const { category, session, question_text, options, correct_answer, explanation } = req.body;
 
         // Basic validation
         if (!category || !question_text || !options || !correct_answer) {
@@ -138,7 +138,7 @@ const createQuestion = async (req, res) => {
         await ensureCategoryExists(category);
 
         const sessionNum = parseInt(session, 10) || 1;
-        const id = await Question.create({ category, session: sessionNum, question_text, options, correct_answer });
+        const id = await Question.create({ category, session: sessionNum, question_text, options, correct_answer, explanation });
         res.status(201).json({ message: 'Question created', id });
     } catch (error) {
         console.error('Create Question Error:', error);

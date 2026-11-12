@@ -1,0 +1,558 @@
+{
+  "category": "Dart",
+  "session": 4,
+  "title": "Session 4: Object-Oriented Programming in Dart",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "Object-Oriented Programming is a programming approach where:",
+      "options": [
+        "Only logic is used",
+        "Only functions are used",
+        "Objects are used instead of logic alone",
+        "Only data files are used"
+      ],
+      "correctAnswer": "Objects are used instead of logic alone",
+      "explanation": "Correct answer is C) Objects are used instead of logic alone."
+    },
+    {
+      "questionText": "Which are the four pillars of OOP mentioned in the guide?",
+      "options": [
+        "Inheritance, Polymorphism, Abstraction, Encapsulation",
+        "Loops, Operators, Variables, Classes",
+        "Packages, Libraries, Modules, Files",
+        "Compile, Link, Load, Run"
+      ],
+      "correctAnswer": "Inheritance, Polymorphism, Abstraction, Encapsulation",
+      "explanation": "Correct answer is A) Inheritance, Polymorphism, Abstraction, Encapsulation."
+    },
+    {
+      "questionText": "The aim of OOP is to:",
+      "options": [
+        "Increase complexity",
+        "Remove all classes",
+        "Avoid reuse",
+        "Reduce the complexity of programming"
+      ],
+      "correctAnswer": "Reduce the complexity of programming",
+      "explanation": "Correct answer is D) Reduce the complexity of programming."
+    },
+    {
+      "questionText": "A class in Dart is:",
+      "options": [
+        "A built-in loop",
+        "A user-defined data type describing the behaviour and characteristics of an entity",
+        "A kind of comment",
+        "A file extension"
+      ],
+      "correctAnswer": "A user-defined data type describing the behaviour and characteristics of an entity",
+      "explanation": "Correct answer is B) A user-defined data type describing the behaviour and characteristics of an entity."
+    },
+    {
+      "questionText": "A class comprises:",
+      "options": [
+        "Only variables",
+        "Only comments",
+        "Data members and member functions",
+        "Only constructors"
+      ],
+      "correctAnswer": "Data members and member functions",
+      "explanation": "Correct answer is C) Data members and member functions."
+    },
+    {
+      "questionText": "Which keyword is used to create a class in Dart?",
+      "options": [
+        "class",
+        "object",
+        "struct",
+        "define"
+      ],
+      "correctAnswer": "class",
+      "explanation": "Correct answer is A) class."
+    },
+    {
+      "questionText": "When an instance of a class is created, it is called a(n):",
+      "options": [
+        "Method",
+        "Object",
+        "Interface",
+        "Package"
+      ],
+      "correctAnswer": "Object",
+      "explanation": "Correct answer is B) Object."
+    },
+    {
+      "questionText": "In Dart, the new keyword for creating objects is:",
+      "options": [
+        "Mandatory",
+        "Illegal",
+        "Optional and can be omitted",
+        "Used only for abstract classes"
+      ],
+      "correctAnswer": "Optional and can be omitted",
+      "explanation": "Correct answer is C) Optional and can be omitted."
+    },
+    {
+      "questionText": "Which is the correct syntax for creating an object?",
+      "options": [
+        "ObjectName ClassName();",
+        "new = ClassName;",
+        "create ClassName;",
+        "ClassName ObjectName = ClassName();"
+      ],
+      "correctAnswer": "ClassName ObjectName = ClassName();",
+      "explanation": "Correct answer is D) ClassName ObjectName = ClassName();."
+    },
+    {
+      "questionText": "An instance variable:",
+      "options": [
+        "Can have a different value for each object",
+        "Is shared by all objects",
+        "Is always static",
+        "Is declared with const only"
+      ],
+      "correctAnswer": "Can have a different value for each object",
+      "explanation": "Correct answer is A) Can have a different value for each object."
+    },
+    {
+      "questionText": "A class variable is declared using which keyword?",
+      "options": [
+        "final",
+        "static",
+        "var",
+        "dynamic"
+      ],
+      "correctAnswer": "static",
+      "explanation": "Correct answer is B) static."
+    },
+    {
+      "questionText": "A class variable has:",
+      "options": [
+        "A different value for every object",
+        "No value at all",
+        "Only one value shared among all objects",
+        "A value that is deleted after each call"
+      ],
+      "correctAnswer": "Only one value shared among all objects",
+      "explanation": "Correct answer is C) Only one value shared among all objects."
+    },
+    {
+      "questionText": "The value of a class (static) variable is retained until:",
+      "options": [
+        "The object is deleted",
+        "The method ends",
+        "The file is saved",
+        "The program terminates"
+      ],
+      "correctAnswer": "The program terminates",
+      "explanation": "Correct answer is D) The program terminates."
+    },
+    {
+      "questionText": "Methods in Dart help to:",
+      "options": [
+        "Divide large programs into smaller parts and increase code reusability",
+        "Make code longer",
+        "Prevent any reuse",
+        "Replace classes"
+      ],
+      "correctAnswer": "Divide large programs into smaller parts and increase code reusability",
+      "explanation": "Correct answer is A) Divide large programs into smaller parts and increase code reusability."
+    },
+    {
+      "questionText": "A static (class) method is called:",
+      "options": [
+        "Only through an object",
+        "Directly using the class name, without creating an object",
+        "Only inside constructors",
+        "Only from another package"
+      ],
+      "correctAnswer": "Directly using the class name, without creating an object",
+      "explanation": "Correct answer is B) Directly using the class name, without creating an object."
+    },
+    {
+      "questionText": "Which keyword declares a class method?",
+      "options": [
+        "this",
+        "super",
+        "static",
+        "get"
+      ],
+      "correctAnswer": "static",
+      "explanation": "Correct answer is C) static."
+    },
+    {
+      "questionText": "Instance methods can be accessed:",
+      "options": [
+        "Without any object",
+        "Only through the class name",
+        "Only in main()",
+        "Using an object of the class"
+      ],
+      "correctAnswer": "Using an object of the class",
+      "explanation": "Correct answer is D) Using an object of the class."
+    },
+    {
+      "questionText": "The signature of an instance method consists of:",
+      "options": [
+        "Its name, return type and parameter list",
+        "Only its body",
+        "Only its call",
+        "Only comments"
+      ],
+      "correctAnswer": "Its name, return type and parameter list",
+      "explanation": "Correct answer is A) Its name, return type and parameter list."
+    },
+    {
+      "questionText": "What is printed by Student.printName(\"Eliza\"); when printName is a static method that prints its argument?",
+      "options": [
+        "Adelina",
+        "Eliza",
+        "Student",
+        "Nothing"
+      ],
+      "correctAnswer": "Eliza",
+      "explanation": "Correct answer is B) Eliza."
+    },
+    {
+      "questionText": "Which keyword defines a getter in Dart?",
+      "options": [
+        "get",
+        "set",
+        "read",
+        "fetch"
+      ],
+      "correctAnswer": "get",
+      "explanation": "Correct answer is A) get."
+    },
+    {
+      "questionText": "Which keyword defines a setter in Dart?",
+      "options": [
+        "put",
+        "write",
+        "assign",
+        "set"
+      ],
+      "correctAnswer": "set",
+      "explanation": "Correct answer is D) set."
+    },
+    {
+      "questionText": "A getter method is used to:",
+      "options": [
+        "Set or initialize class fields",
+        "Get, read or retrieve class fields",
+        "Delete objects",
+        "Create constructors"
+      ],
+      "correctAnswer": "Get, read or retrieve class fields",
+      "explanation": "Correct answer is B) Get, read or retrieve class fields."
+    },
+    {
+      "questionText": "A setter method is used to:",
+      "options": [
+        "Read a field only",
+        "Create a class",
+        "Set, write or initialize class fields",
+        "Import a library"
+      ],
+      "correctAnswer": "Set, write or initialize class fields",
+      "explanation": "Correct answer is C) Set, write or initialize class fields."
+    },
+    {
+      "questionText": "The keyword used to inherit properties from a parent class is:",
+      "options": [
+        "implements",
+        "extends",
+        "inherits",
+        "super"
+      ],
+      "correctAnswer": "extends",
+      "explanation": "Correct answer is B) extends."
+    },
+    {
+      "questionText": "The class that inherits from another class is called the:",
+      "options": [
+        "Parent class",
+        "Abstract class",
+        "Static class",
+        "Child class"
+      ],
+      "correctAnswer": "Child class",
+      "explanation": "Correct answer is D) Child class."
+    },
+    {
+      "questionText": "Which two types of inheritance are described in the guide?",
+      "options": [
+        "Single-level and multi-level",
+        "Static and dynamic",
+        "Public and private",
+        "Local and global"
+      ],
+      "correctAnswer": "Single-level and multi-level",
+      "explanation": "Correct answer is A) Single-level and multi-level."
+    },
+    {
+      "questionText": "In multi-level inheritance:",
+      "options": [
+        "No class inherits another",
+        "Only abstract classes are used",
+        "A class is inherited from another child class",
+        "Objects inherit from objects"
+      ],
+      "correctAnswer": "A class is inherited from another child class",
+      "explanation": "Correct answer is C) A class is inherited from another child class."
+    },
+    {
+      "questionText": "Polymorphism refers to:",
+      "options": [
+        "One object having many forms",
+        "Hiding information",
+        "Creating a constructor",
+        "Importing code"
+      ],
+      "correctAnswer": "One object having many forms",
+      "explanation": "Correct answer is A) One object having many forms."
+    },
+    {
+      "questionText": "Dart supports polymorphism through:",
+      "options": [
+        "Operator overloading only",
+        "Method overriding",
+        "Macro expansion",
+        "Pointer casting"
+      ],
+      "correctAnswer": "Method overriding",
+      "explanation": "Correct answer is B) Method overriding."
+    },
+    {
+      "questionText": "Which annotation is used when a child class overrides a parent method?",
+      "options": [
+        "@parent",
+        "@inherit",
+        "@override",
+        "@new"
+      ],
+      "correctAnswer": "@override",
+      "explanation": "Correct answer is C) @override."
+    },
+    {
+      "questionText": "An interface is:",
+      "options": [
+        "A loop statement",
+        "A type of variable",
+        "A data type for numbers",
+        "A blueprint of a class"
+      ],
+      "correctAnswer": "A blueprint of a class",
+      "explanation": "Correct answer is D) A blueprint of a class."
+    },
+    {
+      "questionText": "In Dart, interfaces are defined:",
+      "options": [
+        "Using an interface keyword",
+        "Implicitly – every class defines an interface",
+        "Only with abstract methods in packages",
+        "Only through JSON"
+      ],
+      "correctAnswer": "Implicitly – every class defines an interface",
+      "explanation": "Correct answer is B) Implicitly – every class defines an interface."
+    },
+    {
+      "questionText": "Which keyword forces a class to redefine all methods of the class it uses as an interface?",
+      "options": [
+        "extends",
+        "with",
+        "implements",
+        "super"
+      ],
+      "correctAnswer": "implements",
+      "explanation": "Correct answer is C) implements."
+    },
+    {
+      "questionText": "Abstraction in OOP means:",
+      "options": [
+        "Showing all internal details",
+        "Hiding unnecessary information and showing only important information",
+        "Copying a class",
+        "Deleting objects"
+      ],
+      "correctAnswer": "Hiding unnecessary information and showing only important information",
+      "explanation": "Correct answer is B) Hiding unnecessary information and showing only important information."
+    },
+    {
+      "questionText": "Which keyword creates an abstract class in Dart?",
+      "options": [
+        "abstract",
+        "virtual",
+        "interface",
+        "hidden"
+      ],
+      "correctAnswer": "abstract",
+      "explanation": "Correct answer is A) abstract."
+    },
+    {
+      "questionText": "A class declared as abstract cannot be:",
+      "options": [
+        "Extended",
+        "Named",
+        "Instantiated (initialized)",
+        "Documented"
+      ],
+      "correctAnswer": "Instantiated (initialized)",
+      "explanation": "Correct answer is C) Instantiated (initialized)."
+    },
+    {
+      "questionText": "A constructor has:",
+      "options": [
+        "A different name than the class",
+        "The same name as the class",
+        "A void return type",
+        "An int return type"
+      ],
+      "correctAnswer": "The same name as the class",
+      "explanation": "Correct answer is B) The same name as the class."
+    },
+    {
+      "questionText": "A constructor is called:",
+      "options": [
+        "Only manually",
+        "Never",
+        "Only at program end",
+        "Automatically when an object is created"
+      ],
+      "correctAnswer": "Automatically when an object is created",
+      "explanation": "Correct answer is D) Automatically when an object is created."
+    },
+    {
+      "questionText": "Constructors must not have:",
+      "options": [
+        "Parameters",
+        "A name",
+        "A return type",
+        "A body"
+      ],
+      "correctAnswer": "A return type",
+      "explanation": "Correct answer is C) A return type."
+    },
+    {
+      "questionText": "Which are the three types of constructors in Dart?",
+      "options": [
+        "Default, parameterized and named",
+        "Static, final and const",
+        "Public, private and protected",
+        "Abstract, interface and mixin"
+      ],
+      "correctAnswer": "Default, parameterized and named",
+      "explanation": "Correct answer is A) Default, parameterized and named."
+    },
+    {
+      "questionText": "A default constructor is one that:",
+      "options": [
+        "Has many parameters",
+        "Has no parameters",
+        "Has a return type",
+        "Has a different name"
+      ],
+      "correctAnswer": "Has no parameters",
+      "explanation": "Correct answer is B) Has no parameters."
+    },
+    {
+      "questionText": "A parameterized constructor:",
+      "options": [
+        "Takes no arguments",
+        "Cannot be called",
+        "Takes arguments used to initialize the object",
+        "Is always static"
+      ],
+      "correctAnswer": "Takes arguments used to initialize the object",
+      "explanation": "Correct answer is C) Takes arguments used to initialize the object."
+    },
+    {
+      "questionText": "Which constructor allows multiple constructors with different names in the same class?",
+      "options": [
+        "Default constructor",
+        "Named constructor",
+        "Abstract constructor",
+        "Factory-only constructor"
+      ],
+      "correctAnswer": "Named constructor",
+      "explanation": "Correct answer is B) Named constructor."
+    },
+    {
+      "questionText": "If a user creates their own constructor, the default constructor:",
+      "options": [
+        "Is ignored",
+        "Is still used",
+        "Is merged with it",
+        "Is deleted from the SDK"
+      ],
+      "correctAnswer": "Is ignored",
+      "explanation": "Correct answer is A) Is ignored."
+    },
+    {
+      "questionText": "The this keyword refers to:",
+      "options": [
+        "The parent class object",
+        "A static method",
+        "A library",
+        "The current class object"
+      ],
+      "correctAnswer": "The current class object",
+      "explanation": "Correct answer is D) The current class object."
+    },
+    {
+      "questionText": "The this keyword is used to:",
+      "options": [
+        "Remove ambiguity between parameters and attributes with the same name",
+        "Create a new class",
+        "Import packages",
+        "End a loop"
+      ],
+      "correctAnswer": "Remove ambiguity between parameters and attributes with the same name",
+      "explanation": "Correct answer is A) Remove ambiguity between parameters and attributes with the same name."
+    },
+    {
+      "questionText": "The super keyword is used to:",
+      "options": [
+        "Refer to the current object",
+        "Declare a static variable",
+        "Refer to the parent class object, its methods and properties",
+        "Create a list"
+      ],
+      "correctAnswer": "Refer to the parent class object, its methods and properties",
+      "explanation": "Correct answer is C) Refer to the parent class object, its methods and properties."
+    },
+    {
+      "questionText": "In the super keyword example, print(super.subject); prints:",
+      "options": [
+        "Science",
+        "Subject",
+        "Nothing",
+        "Example of Super Keyword"
+      ],
+      "correctAnswer": "Example of Super Keyword",
+      "explanation": "Correct answer is D) Example of Super Keyword."
+    },
+    {
+      "questionText": "Which of the following is NOT true about Dart?",
+      "options": [
+        "Dart supports multi-level inheritance",
+        "An abstract class cannot be instantiated",
+        "Dart supports method overloading",
+        "A child class inherits properties and methods of the parent class"
+      ],
+      "correctAnswer": "Dart supports method overloading",
+      "explanation": "Correct answer is C) Dart supports method overloading."
+    },
+    {
+      "questionText": "In the code where class Student extends Human overrides the say() method with @override, which OOP concept is demonstrated?",
+      "options": [
+        "Abstraction",
+        "Encapsulation",
+        "Polymorphism",
+        "Interfaces only"
+      ],
+      "correctAnswer": "Polymorphism",
+      "explanation": "Correct answer is C) Polymorphism."
+    }
+  ]
+}

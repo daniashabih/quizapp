@@ -1,0 +1,558 @@
+{
+  "category": "Dart",
+  "session": 7,
+  "title": "Session 7: Dart Packages",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "A package in Dart is:",
+      "options": [
+        "A single variable",
+        "A set of organized files that can be used to build software",
+        "A loop statement",
+        "A kind of comment"
+      ],
+      "correctAnswer": "A set of organized files that can be used to build software",
+      "explanation": "Correct answer is B) A set of organized files that can be used to build software."
+    },
+    {
+      "questionText": "Which of these is a default Dart package loaded automatically?",
+      "options": [
+        "math",
+        "video_player",
+        "camera",
+        "firebase"
+      ],
+      "correctAnswer": "math",
+      "explanation": "Correct answer is A) math."
+    },
+    {
+      "questionText": "Besides default packages, Dart also allows:",
+      "options": [
+        "Nothing else",
+        "Only Google-made packages",
+        "Creation of user-defined packages",
+        "Only paid packages"
+      ],
+      "correctAnswer": "Creation of user-defined packages",
+      "explanation": "Correct answer is C) Creation of user-defined packages."
+    },
+    {
+      "questionText": "Why are packages needed?",
+      "options": [
+        "To avoid using functions",
+        "To make code longer",
+        "To remove classes",
+        "To solve problems or add features without writing code from scratch"
+      ],
+      "correctAnswer": "To solve problems or add features without writing code from scratch",
+      "explanation": "Correct answer is D) To solve problems or add features without writing code from scratch."
+    },
+    {
+      "questionText": "For a video-conferencing feature, the guide suggests:",
+      "options": [
+        "Using an existing package that already handles it",
+        "Writing everything yourself",
+        "Dropping the feature",
+        "Using only comments"
+      ],
+      "correctAnswer": "Using an existing package that already handles it",
+      "explanation": "Correct answer is A) Using an existing package that already handles it."
+    },
+    {
+      "questionText": "Packages generally contain:",
+      "options": [
+        "Only images",
+        "Only comments",
+        "Reusable code usable across several applications and platforms",
+        "Only configuration"
+      ],
+      "correctAnswer": "Reusable code usable across several applications and platforms",
+      "explanation": "Correct answer is C) Reusable code usable across several applications and platforms."
+    },
+    {
+      "questionText": "Dart package dependencies are published to and pulled from:",
+      "options": [
+        "github.io only",
+        "pub.dev",
+        "dart.exe",
+        "npmjs.com"
+      ],
+      "correctAnswer": "pub.dev",
+      "explanation": "Correct answer is B) pub.dev."
+    },
+    {
+      "questionText": "Packages other than the default ones must be:",
+      "options": [
+        "Ignored",
+        "Typed by hand",
+        "Deleted",
+        "Installed and explicitly loaded before use"
+      ],
+      "correctAnswer": "Installed and explicitly loaded before use",
+      "explanation": "Correct answer is D) Installed and explicitly loaded before use."
+    },
+    {
+      "questionText": "The pub get command is used to:",
+      "options": [
+        "Get all the packages the application depends on",
+        "Delete packages",
+        "Publish the app",
+        "Run the app"
+      ],
+      "correctAnswer": "Get all the packages the application depends on",
+      "explanation": "Correct answer is A) Get all the packages the application depends on."
+    },
+    {
+      "questionText": "The pub upgrade command is used to:",
+      "options": [
+        "Remove all packages",
+        "Rename packages",
+        "Upgrade all the packages the application depends on",
+        "Show help only"
+      ],
+      "correctAnswer": "Upgrade all the packages the application depends on",
+      "explanation": "Correct answer is C) Upgrade all the packages the application depends on."
+    },
+    {
+      "questionText": "The pub help command:",
+      "options": [
+        "Lists the available pub commands",
+        "Runs the code",
+        "Installs Dart",
+        "Deletes files"
+      ],
+      "correctAnswer": "Lists the available pub commands",
+      "explanation": "Correct answer is A) Lists the available pub commands."
+    },
+    {
+      "questionText": "Dart packages are categorized by their:",
+      "options": [
+        "File size",
+        "Author",
+        "Colour",
+        "Functionality"
+      ],
+      "correctAnswer": "Functionality",
+      "explanation": "Correct answer is D) Functionality."
+    },
+    {
+      "questionText": "General-purpose packages are:",
+      "options": [
+        "Rarely used",
+        "Used in almost all projects, e.g. handling JSON and making API calls",
+        "Only for games",
+        "Only for hardware"
+      ],
+      "correctAnswer": "Used in almost all projects, e.g. handling JSON and making API calls",
+      "explanation": "Correct answer is B) Used in almost all projects, e.g. handling JSON and making API calls."
+    },
+    {
+      "questionText": "The characters package is used for:",
+      "options": [
+        "HTTP calls",
+        "Path handling",
+        "Manipulating Strings",
+        "Stack traces"
+      ],
+      "correctAnswer": "Manipulating Strings",
+      "explanation": "Correct answer is C) Manipulating Strings."
+    },
+    {
+      "questionText": "The http package is used for:",
+      "options": [
+        "Consuming HTTP resources",
+        "Localization",
+        "String handling",
+        "Path manipulation"
+      ],
+      "correctAnswer": "Consuming HTTP resources",
+      "explanation": "Correct answer is A) Consuming HTTP resources."
+    },
+    {
+      "questionText": "The intl package is used for:",
+      "options": [
+        "Making HTTP requests",
+        "Parsing stack traces",
+        "Manipulating paths",
+        "Internationalization and localization"
+      ],
+      "correctAnswer": "Internationalization and localization",
+      "explanation": "Correct answer is D) Internationalization and localization."
+    },
+    {
+      "questionText": "The json_serializable package:",
+      "options": [
+        "Draws charts",
+        "Makes it easier to use code generation for JSON",
+        "Plays audio",
+        "Handles sockets"
+      ],
+      "correctAnswer": "Makes it easier to use code generation for JSON",
+      "explanation": "Correct answer is B) Makes it easier to use code generation for JSON."
+    },
+    {
+      "questionText": "The path package is used to:",
+      "options": [
+        "Manipulate path types",
+        "Handle HTTP",
+        "Format dates",
+        "Create classes"
+      ],
+      "correctAnswer": "Manipulate path types",
+      "explanation": "Correct answer is A) Manipulate path types."
+    },
+    {
+      "questionText": "The stack_trace package:",
+      "options": [
+        "Compresses files",
+        "Draws UI",
+        "Parses and manipulates stack traces produced by Dart",
+        "Manages images"
+      ],
+      "correctAnswer": "Parses and manipulates stack traces produced by Dart",
+      "explanation": "Correct answer is C) Parses and manipulates stack traces produced by Dart."
+    },
+    {
+      "questionText": "Which packages expand on core Dart libraries?",
+      "options": [
+        "camera, video, audio",
+        "collection, io and async",
+        "charts, maps, games",
+        "flutter, android, ios"
+      ],
+      "correctAnswer": "collection, io and async",
+      "explanation": "Correct answer is B) collection, io and async."
+    },
+    {
+      "questionText": "The collection package expands which library?",
+      "options": [
+        "dart:collection",
+        "dart:io",
+        "dart:async",
+        "dart:math"
+      ],
+      "correctAnswer": "dart:collection",
+      "explanation": "Correct answer is A) dart:collection."
+    },
+    {
+      "questionText": "The io package is used to work with:",
+      "options": [
+        "Colours",
+        "Fonts",
+        "Files, sockets and other I/O support for server apps",
+        "Animations"
+      ],
+      "correctAnswer": "Files, sockets and other I/O support for server apps",
+      "explanation": "Correct answer is C) Files, sockets and other I/O support for server apps."
+    },
+    {
+      "questionText": "The async package adds:",
+      "options": [
+        "Utility classes to make asynchronous computations easier",
+        "Sorting only",
+        "String handling",
+        "Drawing tools"
+      ],
+      "correctAnswer": "Utility classes to make asynchronous computations easier",
+      "explanation": "Correct answer is A) Utility classes to make asynchronous computations easier."
+    },
+    {
+      "questionText": "Specialized packages are meant for:",
+      "options": [
+        "Command-line tools only",
+        "Databases only",
+        "Spreadsheets",
+        "Mobile (Flutter) and Web development"
+      ],
+      "correctAnswer": "Mobile (Flutter) and Web development",
+      "explanation": "Correct answer is D) Mobile (Flutter) and Web development."
+    },
+    {
+      "questionText": "Plugin packages are:",
+      "options": [
+        "Packages with an API written in Dart plus one or more platform-specific implementations",
+        "Packages with no code",
+        "Only for Windows",
+        "Written only in JavaScript"
+      ],
+      "correctAnswer": "Packages with an API written in Dart plus one or more platform-specific implementations",
+      "explanation": "Correct answer is A) Packages with an API written in Dart plus one or more platform-specific implementations."
+    },
+    {
+      "questionText": "Plugin packages can be written for:",
+      "options": [
+        "Only Android",
+        "Only iOS",
+        "iOS, Android, macOS, Windows, Linux and the Web",
+        "No platform"
+      ],
+      "correctAnswer": "iOS, Android, macOS, Windows, Linux and the Web",
+      "explanation": "Correct answer is C) iOS, Android, macOS, Windows, Linux and the Web."
+    },
+    {
+      "questionText": "The Dart core library is:",
+      "options": [
+        "A library that must always be installed manually",
+        "A built-in, automatically imported library providing List, Set, Map, DateTime and errors",
+        "A third-party package",
+        "A paid library"
+      ],
+      "correctAnswer": "A built-in, automatically imported library providing List, Set, Map, DateTime and errors",
+      "explanation": "Correct answer is B) A built-in, automatically imported library providing List, Set, Map, DateTime and errors."
+    },
+    {
+      "questionText": "Reading and writing a File is made available through which library?",
+      "options": [
+        "dart:math",
+        "dart:convert",
+        "dart:io",
+        "dart:async only"
+      ],
+      "correctAnswer": "dart:io",
+      "explanation": "Correct answer is C) dart:io."
+    },
+    {
+      "questionText": "Mathematical operations such as rounding off digits are available through:",
+      "options": [
+        "dart:io",
+        "dart:html",
+        "dart:async",
+        "dart:math"
+      ],
+      "correctAnswer": "dart:math",
+      "explanation": "Correct answer is D) dart:math."
+    },
+    {
+      "questionText": "Which command creates a simple Dart package named mypackage?",
+      "options": [
+        "dart new mypackage",
+        "dart create --template=package-simple mypackage",
+        "dart make package",
+        "pub init mypackage"
+      ],
+      "correctAnswer": "dart create --template=package-simple mypackage",
+      "explanation": "Correct answer is B) dart create --template=package-simple mypackage."
+    },
+    {
+      "questionText": "When the create command is used, the directory structure of the package is:",
+      "options": [
+        "Created automatically",
+        "Not created",
+        "Created only manually",
+        "Created only on GitHub"
+      ],
+      "correctAnswer": "Created automatically",
+      "explanation": "Correct answer is A) Created automatically."
+    },
+    {
+      "questionText": "Which of these files is NOT created along with a new package?",
+      "options": [
+        "pubspec.yaml",
+        "README.md",
+        "CHANGELOG.md",
+        "database.sql"
+      ],
+      "correctAnswer": "database.sql",
+      "explanation": "Correct answer is D) database.sql."
+    },
+    {
+      "questionText": "The pubspec.yaml file contains:",
+      "options": [
+        "Only source code",
+        "Only images",
+        "Metadata such as the package name, version and description",
+        "Compiled binaries"
+      ],
+      "correctAnswer": "Metadata such as the package name, version and description",
+      "explanation": "Correct answer is C) Metadata such as the package name, version and description."
+    },
+    {
+      "questionText": "pubspec.yaml is also used to:",
+      "options": [
+        "Download the libraries required by the application",
+        "Print output",
+        "Run loops",
+        "Format text"
+      ],
+      "correctAnswer": "Download the libraries required by the application",
+      "explanation": "Correct answer is A) Download the libraries required by the application."
+    },
+    {
+      "questionText": "The name field in pubspec.yaml specifies:",
+      "options": [
+        "The author’s age",
+        "The package name and how to import files inside the project",
+        "The file size",
+        "The operating system"
+      ],
+      "correctAnswer": "The package name and how to import files inside the project",
+      "explanation": "Correct answer is B) The package name and how to import files inside the project."
+    },
+    {
+      "questionText": "Which statement imports a file from within a package project?",
+      "options": [
+        "include 'mypackage/main.dart';",
+        "using 'mypackage';",
+        "import 'package:mypackage/main.dart';",
+        "require('mypackage');"
+      ],
+      "correctAnswer": "import 'package:mypackage/main.dart';",
+      "explanation": "Correct answer is C) import 'package:mypackage/main.dart';."
+    },
+    {
+      "questionText": "The description field in pubspec.yaml is:",
+      "options": [
+        "Mandatory",
+        "Optional and shown publicly when published on pub.dev",
+        "Used to run code",
+        "Used for the version"
+      ],
+      "correctAnswer": "Optional and shown publicly when published on pub.dev",
+      "explanation": "Correct answer is B) Optional and shown publicly when published on pub.dev."
+    },
+    {
+      "questionText": "The version field is used to:",
+      "options": [
+        "Name the project",
+        "List dependencies",
+        "Hide the package",
+        "Give a version to the application or library"
+      ],
+      "correctAnswer": "Give a version to the application or library",
+      "explanation": "Correct answer is D) Give a version to the application or library."
+    },
+    {
+      "questionText": "The environment field in pubspec.yaml:",
+      "options": [
+        "Adds constraints on the Dart SDK version",
+        "Defines colours",
+        "Declares classes",
+        "Lists README text"
+      ],
+      "correctAnswer": "Adds constraints on the Dart SDK version",
+      "explanation": "Correct answer is A) Adds constraints on the Dart SDK version."
+    },
+    {
+      "questionText": "sdk: '>=2.16.1 <3.0.0' means the application runs on:",
+      "options": [
+        "Any SDK version",
+        "Only 3.0.0",
+        "SDK versions from 2.16.1 up to but not including 3.0.0",
+        "Only 2.16.1 exactly"
+      ],
+      "correctAnswer": "SDK versions from 2.16.1 up to but not including 3.0.0",
+      "explanation": "Correct answer is C) SDK versions from 2.16.1 up to but not including 3.0.0."
+    },
+    {
+      "questionText": "If the SDK version is incompatible with the packages used, the code:",
+      "options": [
+        "Runs normally",
+        "Fails to compile with a version solving failed error",
+        "Deletes the package",
+        "Updates automatically"
+      ],
+      "correctAnswer": "Fails to compile with a version solving failed error",
+      "explanation": "Correct answer is B) Fails to compile with a version solving failed error."
+    },
+    {
+      "questionText": "The dev_dependencies field specifies:",
+      "options": [
+        "Dependencies needed only during development",
+        "The author name",
+        "The package icon",
+        "Runtime colours"
+      ],
+      "correctAnswer": "Dependencies needed only during development",
+      "explanation": "Correct answer is A) Dependencies needed only during development."
+    },
+    {
+      "questionText": "The .gitignore file tells Git:",
+      "options": [
+        "Which files to include in the app",
+        "How to compile",
+        "Which Dart version to use",
+        "Which files to ignore when the project is committed"
+      ],
+      "correctAnswer": "Which files to ignore when the project is committed",
+      "explanation": "Correct answer is D) Which files to ignore when the project is committed."
+    },
+    {
+      "questionText": "The README.md file:",
+      "options": [
+        "Describes the package and appears on its landing page on pub.dev",
+        "Holds compiled code",
+        "Lists SDK versions",
+        "Is hidden from users"
+      ],
+      "correctAnswer": "Describes the package and appears on its landing page on pub.dev",
+      "explanation": "Correct answer is A) Describes the package and appears on its landing page on pub.dev."
+    },
+    {
+      "questionText": "The CHANGELOG.md file:",
+      "options": [
+        "Holds passwords",
+        "Defines classes",
+        "Tracks changes made to the project, organized by date and version",
+        "Stores images"
+      ],
+      "correctAnswer": "Tracks changes made to the project, organized by date and version",
+      "explanation": "Correct answer is C) Tracks changes made to the project, organized by date and version."
+    },
+    {
+      "questionText": "A locally available user-defined package is added to another project by:",
+      "options": [
+        "Copying it by hand into main()",
+        "Adding a path dependency in pubspec.yaml",
+        "Renaming it",
+        "Compiling it to JavaScript"
+      ],
+      "correctAnswer": "Adding a path dependency in pubspec.yaml",
+      "explanation": "Correct answer is B) Adding a path dependency in pubspec.yaml."
+    },
+    {
+      "questionText": "Which command updates the dependencies of a project?",
+      "options": [
+        "dart delete",
+        "dart clean",
+        "dart pub get",
+        "dart stop"
+      ],
+      "correctAnswer": "dart pub get",
+      "explanation": "Correct answer is C) dart pub get."
+    },
+    {
+      "questionText": "Which line imports the user-defined package in the sample project?",
+      "options": [
+        "import 'package:mypackage/mypackage.dart';",
+        "include mypackage;",
+        "load 'mypackage';",
+        "use mypackage.dart;"
+      ],
+      "correctAnswer": "import 'package:mypackage/mypackage.dart';",
+      "explanation": "Correct answer is A) import 'package:mypackage/mypackage.dart';."
+    },
+    {
+      "questionText": "Which command runs the sample project file?",
+      "options": [
+        "dart start sample",
+        "run sample",
+        "dart exec project",
+        "dart run lib/sample_dart_project.dart"
+      ],
+      "correctAnswer": "dart run lib/sample_dart_project.dart",
+      "explanation": "Correct answer is D) dart run lib/sample_dart_project.dart."
+    },
+    {
+      "questionText": "If Arithmetic.divide(int a, int b) returns a / b with a = 10 and b = 6, the printed result is:",
+      "options": [
+        "1",
+        "1.6666666666666667",
+        "4",
+        "16"
+      ],
+      "correctAnswer": "1.6666666666666667",
+      "explanation": "Correct answer is B) 1.6666666666666667."
+    }
+  ]
+}

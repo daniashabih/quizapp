@@ -237,3 +237,44 @@ test('8. React Quiz Layout & Answer Feedback UI: Strict vertical flow without ov
     assert.ok(source.includes('Correct Answer'), 'Must display "Correct Answer" label');
     assert.ok(source.includes('Incorrect Answer'), 'Must display "Incorrect Answer" label');
 });
+
+test('9. Case-sensitive option grading prevents string vs String collisions (Attempt, QuizController, and Quiz.jsx)', () => {
+    const qExact = {
+        id: 'q_dart_case_exact',
+        category: 'Dart',
+        session: 2,
+        options: JSON.stringify(['string', 'str', 'String', 'char']),
+        correctAnswer: 'String'
+    };
+
+    assert.equal(Attempt.getQuestionCorrectIndex(qExact), 2);
+    assert.equal(Attempt.evaluateAnswerCorrectness(2, qExact), true);
+    assert.equal(Attempt.evaluateAnswerCorrectness(0, qExact), false);
+    assert.equal(Attempt.evaluateAnswerCorrectness({ selectedIndex: 0, text: 'string' }, qExact), false);
+    assert.equal(Attempt.evaluateAnswerCorrectness('String', qExact), true);
+    assert.equal(Attempt.evaluateAnswerCorrectness('string', qExact), false);
+    assert.equal(quizController.evaluateAnswerCorrectness(2, qExact), true);
+    assert.equal(quizController.evaluateAnswerCorrectness(0, qExact), false);
+
+    const qLetter = {
+        id: 'q_dart_case_letter',
+        category: 'Dart',
+        session: 2,
+        options: JSON.stringify(['string', 'str', 'String', 'char']),
+        correctAnswer: 'C'
+    };
+
+    assert.equal(Attempt.getQuestionCorrectIndex(qLetter), 2);
+    assert.equal(Attempt.evaluateAnswerCorrectness(2, qLetter), true);
+    assert.equal(Attempt.evaluateAnswerCorrectness(0, qLetter), false);
+    assert.equal(Attempt.evaluateAnswerCorrectness({ selectedIndex: 0, text: 'string' }, qLetter), false);
+    assert.equal(quizController.evaluateAnswerCorrectness(2, qLetter), true);
+    assert.equal(quizController.evaluateAnswerCorrectness(0, qLetter), false);
+
+    const quizFilePath = path.join(__dirname, '..', 'src', 'pages', 'quiz', 'Quiz.jsx');
+    const source = fs.readFileSync(quizFilePath, 'utf8');
+    const exactMatchIdx = source.indexOf('String(o || \'\').trim() === trimmed');
+    const normMatchIdx = source.indexOf('normalizeQuizValue(o) === normCorrect');
+    assert.ok(source.includes('resolveCorrectOptionIndex('), 'Quiz.jsx must use resolveCorrectOptionIndex helper');
+    assert.ok(exactMatchIdx !== -1 && normMatchIdx !== -1 && exactMatchIdx < normMatchIdx, 'Quiz.jsx must check exact case-sensitive match before normalized match');
+});

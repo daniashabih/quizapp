@@ -718,5 +718,31 @@ void main() {
         expect(bannerRect.bottom, lessThanOrEqualTo(firstOptionRect.top));
       },
     );
+
+    test('QuestionModel resolves case-sensitive exact options and letter answers correctly', () {
+      final qExact = QuestionModel(
+        id: 'dart_case_1',
+        category: 'Dart',
+        session: 2,
+        questionText: 'Which data type represents text in Dart?',
+        options: ['string', 'str', 'String', 'char'],
+        correctAnswer: 'String',
+      );
+      expect(qExact.correctOptionIndex, 2);
+      expect(qExact.isOptionCorrect(2), isTrue);
+      expect(qExact.isOptionCorrect(0), isFalse);
+
+      final qLetter = QuestionModel(
+        id: 'dart_case_2',
+        category: 'Dart',
+        session: 2,
+        questionText: 'Which data type represents text in Dart?',
+        options: ['string', 'str', 'String', 'char'],
+        correctAnswer: 'C',
+      );
+      expect(qLetter.correctOptionIndex, 2);
+      expect(qLetter.isOptionCorrect(2), isTrue);
+      expect(qLetter.isOptionCorrect(0), isFalse);
+    });
   });
 }

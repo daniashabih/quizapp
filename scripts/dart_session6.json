@@ -1,0 +1,554 @@
+{
+  "category": "Dart",
+  "session": 6,
+  "title": "Session 6: Synchronous and Asynchronous Programming in Dart",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "In which programming style does the execution of one process depend on another process?",
+      "options": [
+        "Asynchronous",
+        "Synchronous",
+        "Object-oriented",
+        "Client-side"
+      ],
+      "correctAnswer": "Synchronous",
+      "explanation": "Correct answer is B) Synchronous."
+    },
+    {
+      "questionText": "In the phone-call analogy, synchronous programming is like:",
+      "options": [
+        "Making another call while on a call",
+        "Sending a text during a call",
+        "Being unable to start the next call until the present one ends",
+        "Never calling anyone"
+      ],
+      "correctAnswer": "Being unable to start the next call until the present one ends",
+      "explanation": "Correct answer is C) Being unable to start the next call until the present one ends."
+    },
+    {
+      "questionText": "The biggest disadvantage of synchronous programming is that:",
+      "options": [
+        "It blocks the code until the previous process has finished",
+        "It cannot print",
+        "It has no loops",
+        "It needs no threads"
+      ],
+      "correctAnswer": "It blocks the code until the previous process has finished",
+      "explanation": "Correct answer is A) It blocks the code until the previous process has finished."
+    },
+    {
+      "questionText": "In a web server using synchronous processing:",
+      "options": [
+        "All requests are handled at once",
+        "Requests are never blocked",
+        "Servers never wait",
+        "A new user’s request is blocked until the previous request completes"
+      ],
+      "correctAnswer": "A new user’s request is blocked until the previous request completes",
+      "explanation": "Correct answer is D) A new user’s request is blocked until the previous request completes."
+    },
+    {
+      "questionText": "Which function takes user input synchronously after importing dart:io?",
+      "options": [
+        "stdin.readLineSync()",
+        "readAsString()",
+        "accept()",
+        "input()"
+      ],
+      "correctAnswer": "stdin.readLineSync()",
+      "explanation": "Correct answer is A) stdin.readLineSync()."
+    },
+    {
+      "questionText": "Which library must be imported to use stdin?",
+      "options": [
+        "dart:math",
+        "dart:async",
+        "dart:convert",
+        "dart:io"
+      ],
+      "correctAnswer": "dart:io",
+      "explanation": "Correct answer is D) dart:io."
+    },
+    {
+      "questionText": "An asynchronous method executes:",
+      "options": [
+        "Only on the main thread",
+        "In a thread that is not the main application thread",
+        "Only before main()",
+        "Only after the program ends"
+      ],
+      "correctAnswer": "In a thread that is not the main application thread",
+      "explanation": "Correct answer is B) In a thread that is not the main application thread."
+    },
+    {
+      "questionText": "In asynchronous programming, the user can:",
+      "options": [
+        "Do nothing until completion",
+        "Only run one task",
+        "Move on to another task before the current one is completed",
+        "Not use functions"
+      ],
+      "correctAnswer": "Move on to another task before the current one is completed",
+      "explanation": "Correct answer is C) Move on to another task before the current one is completed."
+    },
+    {
+      "questionText": "In which library is the Future class available?",
+      "options": [
+        "dart:async",
+        "dart:core only",
+        "dart:ui",
+        "dart:html"
+      ],
+      "correctAnswer": "dart:async",
+      "explanation": "Correct answer is A) dart:async."
+    },
+    {
+      "questionText": "What does file.readAsString() return?",
+      "options": [
+        "A String immediately",
+        "An int",
+        "A bool",
+        "A Future<String>"
+      ],
+      "correctAnswer": "A Future<String>",
+      "explanation": "Correct answer is D) A Future<String>."
+    },
+    {
+      "questionText": "In the file-reading example, which line prints first?",
+      "options": [
+        "The file contents",
+        "main ends here",
+        "Both together",
+        "Neither"
+      ],
+      "correctAnswer": "main ends here",
+      "explanation": "Correct answer is B) main ends here."
+    },
+    {
+      "questionText": "In f.then((data) => print(data));, the then() function runs:",
+      "options": [
+        "Before the file is opened",
+        "Never",
+        "After the asynchronous task completes with data",
+        "At compile time"
+      ],
+      "correctAnswer": "After the asynchronous task completes with data",
+      "explanation": "Correct answer is C) After the asynchronous task completes with data."
+    },
+    {
+      "questionText": "The Future keyword is used for:",
+      "options": [
+        "Declaring constants",
+        "Getting a value at some time in the future",
+        "Creating classes",
+        "Writing comments"
+      ],
+      "correctAnswer": "Getting a value at some time in the future",
+      "explanation": "Correct answer is B) Getting a value at some time in the future."
+    },
+    {
+      "questionText": "Future objects represent:",
+      "options": [
+        "Values from an expression whose execution completes at a later point in time",
+        "Values that are available immediately",
+        "Only Strings",
+        "Only errors"
+      ],
+      "correctAnswer": "Values from an expression whose execution completes at a later point in time",
+      "explanation": "Correct answer is A) Values from an expression whose execution completes at a later point in time."
+    },
+    {
+      "questionText": "Which are the three states of a Future?",
+      "options": [
+        "Start, middle, end",
+        "Open, closed, locked",
+        "Running, paused, stopped",
+        "Uncompleted, completed with a value, completed with an error"
+      ],
+      "correctAnswer": "Uncompleted, completed with a value, completed with an error",
+      "explanation": "Correct answer is D) Uncompleted, completed with a value, completed with an error."
+    },
+    {
+      "questionText": "Which of the following is a state of a Future?",
+      "options": [
+        "Finished",
+        "Delayed",
+        "Completed with value",
+        "Unknown"
+      ],
+      "correctAnswer": "Completed with value",
+      "explanation": "Correct answer is C) Completed with value."
+    },
+    {
+      "questionText": "Future.value() creates:",
+      "options": [
+        "A future that always errors",
+        "A future that completes with a value",
+        "A delayed future",
+        "A thread"
+      ],
+      "correctAnswer": "A future that completes with a value",
+      "explanation": "Correct answer is B) A future that completes with a value."
+    },
+    {
+      "questionText": "What is printed by var myfutureval = Future.value(14); print(myfutureval);?",
+      "options": [
+        "14",
+        "null",
+        "Instance of 'Future<int>'",
+        "An error"
+      ],
+      "correctAnswer": "Instance of 'Future<int>'",
+      "explanation": "Correct answer is C) Instance of 'Future<int>'."
+    },
+    {
+      "questionText": "Why does the above code print an instance of Future instead of 14?",
+      "options": [
+        "14 is invalid",
+        "await was not used to get the value",
+        "Futures cannot hold ints",
+        "print() is asynchronous"
+      ],
+      "correctAnswer": "await was not used to get the value",
+      "explanation": "Correct answer is B) await was not used to get the value."
+    },
+    {
+      "questionText": "Future.error() creates a future that:",
+      "options": [
+        "Completes with an error",
+        "Completes with a value",
+        "Never completes",
+        "Runs after a delay"
+      ],
+      "correctAnswer": "Completes with an error",
+      "explanation": "Correct answer is A) Completes with an error."
+    },
+    {
+      "questionText": "Future.delayed() creates a future that:",
+      "options": [
+        "Completes at once",
+        "Always errors",
+        "Cannot take a duration",
+        "Runs its computation after a delay"
+      ],
+      "correctAnswer": "Runs its computation after a delay",
+      "explanation": "Correct answer is D) Runs its computation after a delay."
+    },
+    {
+      "questionText": "Duration(milliseconds: 10000) equals a delay of:",
+      "options": [
+        "1 second",
+        "100 seconds",
+        "10 seconds",
+        "10 milliseconds"
+      ],
+      "correctAnswer": "10 seconds",
+      "explanation": "Correct answer is C) 10 seconds."
+    },
+    {
+      "questionText": "The async keyword is used to:",
+      "options": [
+        "Import a library",
+        "Declare a function as asynchronous",
+        "Declare a constant",
+        "End a loop"
+      ],
+      "correctAnswer": "Declare a function as asynchronous",
+      "explanation": "Correct answer is B) Declare a function as asynchronous."
+    },
+    {
+      "questionText": "When an async function is called, it returns:",
+      "options": [
+        "A Future",
+        "An int",
+        "A String",
+        "Nothing at all"
+      ],
+      "correctAnswer": "A Future",
+      "explanation": "Correct answer is A) A Future."
+    },
+    {
+      "questionText": "The await keyword can be used only:",
+      "options": [
+        "In any function",
+        "In class definitions",
+        "On/inside asynchronous functions",
+        "Outside main()"
+      ],
+      "correctAnswer": "On/inside asynchronous functions",
+      "explanation": "Correct answer is C) On/inside asynchronous functions."
+    },
+    {
+      "questionText": "The await keyword:",
+      "options": [
+        "Ends the program",
+        "Skips the next line",
+        "Declares a Future",
+        "Holds the currently running function until the result is ready"
+      ],
+      "correctAnswer": "Holds the currently running function until the result is ready",
+      "explanation": "Correct answer is D) Holds the currently running function until the result is ready."
+    },
+    {
+      "questionText": "In the await example, what is the console output?",
+      "options": [
+        "Good Morning, then Have a great day!",
+        "Have a great day! only",
+        "Good Morning only",
+        "An error"
+      ],
+      "correctAnswer": "Good Morning, then Have a great day!",
+      "explanation": "Correct answer is A) Good Morning, then Have a great day!."
+    },
+    {
+      "questionText": "To use await inside main(), main() must be declared with:",
+      "options": [
+        "static",
+        "async",
+        "final",
+        "const"
+      ],
+      "correctAnswer": "async",
+      "explanation": "Correct answer is B) async."
+    },
+    {
+      "questionText": "Which is an advantage of synchronous programming?",
+      "options": [
+        "It never blocks",
+        "It uses fewer resources",
+        "It is supported in all programming languages",
+        "It always loads faster"
+      ],
+      "correctAnswer": "It is supported in all programming languages",
+      "explanation": "Correct answer is C) It is supported in all programming languages."
+    },
+    {
+      "questionText": "Synchronous programs are generally:",
+      "options": [
+        "Harder to write",
+        "Easier to write",
+        "Impossible to debug",
+        "Unreliable"
+      ],
+      "correctAnswer": "Easier to write",
+      "explanation": "Correct answer is B) Easier to write."
+    },
+    {
+      "questionText": "Synchronous programs are considered reliable because:",
+      "options": [
+        "They run in parallel",
+        "They never fail",
+        "Errors can be detected and handled before they cause significant damage",
+        "They use callbacks"
+      ],
+      "correctAnswer": "Errors can be detected and handled before they cause significant damage",
+      "explanation": "Correct answer is C) Errors can be detected and handled before they cause significant damage."
+    },
+    {
+      "questionText": "A disadvantage of synchronous programming is:",
+      "options": [
+        "Slower program loading time",
+        "Faster response",
+        "Fewer threads needed",
+        "Simple syntax"
+      ],
+      "correctAnswer": "Slower program loading time",
+      "explanation": "Correct answer is A) Slower program loading time."
+    },
+    {
+      "questionText": "In synchronous programming, when a thread is locked:",
+      "options": [
+        "The queued threads continue",
+        "The threads in the queue get blocked as well",
+        "The program restarts",
+        "Nothing changes"
+      ],
+      "correctAnswer": "The threads in the queue get blocked as well",
+      "explanation": "Correct answer is B) The threads in the queue get blocked as well."
+    },
+    {
+      "questionText": "Synchronous programs require more threads to:",
+      "options": [
+        "Print output",
+        "Declare variables",
+        "Handle more requests",
+        "Import libraries"
+      ],
+      "correctAnswer": "Handle more requests",
+      "explanation": "Correct answer is C) Handle more requests."
+    },
+    {
+      "questionText": "An advantage of asynchronous programming is that:",
+      "options": [
+        "The application can continue executing while an asynchronous function performs its task",
+        "It is always simpler",
+        "It blocks the thread",
+        "It needs no callbacks"
+      ],
+      "correctAnswer": "The application can continue executing while an asynchronous function performs its task",
+      "explanation": "Correct answer is A) The application can continue executing while an asynchronous function performs its task."
+    },
+    {
+      "questionText": "Asynchronous programming helps by:",
+      "options": [
+        "Increasing page load delays",
+        "Removing all errors",
+        "Blocking users",
+        "Decreasing page load delays"
+      ],
+      "correctAnswer": "Decreasing page load delays",
+      "explanation": "Correct answer is D) Decreasing page load delays."
+    },
+    {
+      "questionText": "Callback functions in asynchronous programs help to:",
+      "options": [
+        "Execute the next line of code if an error occurs",
+        "Stop the program",
+        "Declare variables",
+        "Create classes"
+      ],
+      "correctAnswer": "Execute the next line of code if an error occurs",
+      "explanation": "Correct answer is A) Execute the next line of code if an error occurs."
+    },
+    {
+      "questionText": "The async and await keywords have a well-known syntax that lets asynchronous functions work with:",
+      "options": [
+        "Constants",
+        "Promises",
+        "Packages",
+        "Comments"
+      ],
+      "correctAnswer": "Promises",
+      "explanation": "Correct answer is B) Promises."
+    },
+    {
+      "questionText": "A disadvantage of asynchronous programming is that it is:",
+      "options": [
+        "Always slower",
+        "Not supported by Dart",
+        "Complex to write",
+        "Unable to read files"
+      ],
+      "correctAnswer": "Complex to write",
+      "explanation": "Correct answer is C) Complex to write."
+    },
+    {
+      "questionText": "Developers using asynchronous programming should have knowledge of:",
+      "options": [
+        "Only variables",
+        "Callback and recursive functions",
+        "Only comments",
+        "Only classes"
+      ],
+      "correctAnswer": "Callback and recursive functions",
+      "explanation": "Correct answer is B) Callback and recursive functions."
+    },
+    {
+      "questionText": "Too many asynchronous requests can:",
+      "options": [
+        "Make the program faster",
+        "Reduce memory use",
+        "Overload the server and slow program execution",
+        "Remove all delays"
+      ],
+      "correctAnswer": "Overload the server and slow program execution",
+      "explanation": "Correct answer is C) Overload the server and slow program execution."
+    },
+    {
+      "questionText": "The guide concludes that choosing between synchronous and asynchronous programming should depend on:",
+      "options": [
+        "The programmer’s mood",
+        "The requirements of the software activity, as no style is universally better",
+        "The file name",
+        "The IDE"
+      ],
+      "correctAnswer": "The requirements of the software activity, as no style is universally better",
+      "explanation": "Correct answer is B) The requirements of the software activity, as no style is universally better."
+    },
+    {
+      "questionText": "Asynchronous programming is said to:",
+      "options": [
+        "Fix the chain of events in a programming cycle",
+        "Execute everything in order",
+        "Block every thread",
+        "Require no keywords"
+      ],
+      "correctAnswer": "Fix the chain of events in a programming cycle",
+      "explanation": "Correct answer is A) Fix the chain of events in a programming cycle."
+    },
+    {
+      "questionText": "In which style is program loading time slower?",
+      "options": [
+        "Asynchronous",
+        "Synchronous",
+        "Both equally",
+        "Neither"
+      ],
+      "correctAnswer": "Synchronous",
+      "explanation": "Correct answer is B) Synchronous."
+    },
+    {
+      "questionText": "Which statement about asynchronous processes is correct per the summary?",
+      "options": [
+        "Execution of one process does not depend on any other process",
+        "Execution always depends on another process",
+        "They cannot use Future",
+        "They block all code"
+      ],
+      "correctAnswer": "Execution of one process does not depend on any other process",
+      "explanation": "Correct answer is A) Execution of one process does not depend on any other process."
+    },
+    {
+      "questionText": "Future.value, Future.error and Future.delayed are all:",
+      "options": [
+        "Ways of creating a Future",
+        "Types of loops",
+        "Types of operators",
+        "Types of exceptions only"
+      ],
+      "correctAnswer": "Ways of creating a Future",
+      "explanation": "Correct answer is A) Ways of creating a Future."
+    },
+    {
+      "questionText": "Which of the following is NOT a state of a Future?",
+      "options": [
+        "Uncompleted",
+        "Completed with value",
+        "Completed with an error",
+        "Finished"
+      ],
+      "correctAnswer": "Finished",
+      "explanation": "Correct answer is D) Finished."
+    },
+    {
+      "questionText": "True or False: Synchronous programs require more threads to handle more requests.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Correct answer is A) True."
+    },
+    {
+      "questionText": "True or False: await can be used on any ordinary non-async function.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "Correct answer is B) False."
+    },
+    {
+      "questionText": "Which statement best describes a synchronous process?",
+      "options": [
+        "It runs on a separate thread without waiting",
+        "It never blocks",
+        "It returns a Future",
+        "It waits for an operation to complete before starting another"
+      ],
+      "correctAnswer": "It waits for an operation to complete before starting another",
+      "explanation": "Correct answer is D) It waits for an operation to complete before starting another."
+    }
+  ]
+}

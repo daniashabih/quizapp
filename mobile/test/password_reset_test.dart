@@ -5,6 +5,7 @@ import 'package:hangbug/models/user_model.dart';
 import 'package:hangbug/repositories/auth_repository.dart';
 import 'package:hangbug/screens/auth/forgot_password_screen.dart';
 import 'package:hangbug/screens/auth/reset_password_screen.dart';
+import 'package:hangbug/services/notification_service.dart';
 import 'package:hangbug/providers/core_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -124,6 +125,7 @@ void main() {
 
   group('Widget Tests: ForgotPasswordScreen & ResetPasswordScreen', () {
     testWidgets('ForgotPasswordScreen renders branding, fields, and calls repo on submit', (tester) async {
+      addTearDown(AppNotificationService.clear);
       final fakeRepo = FakeAuthRepository();
 
       await tester.pumpWidget(
@@ -152,6 +154,10 @@ void main() {
       expect(fakeRepo.forgotPasswordCalled, isTrue);
       expect(fakeRepo.lastForgotEmail, 'student@hangbug.com');
       expect(find.text('If an account exists for this email address, you will receive a password reset link shortly.'), findsOneWidget);
+
+      // Drain AppNotificationService auto-dismiss and exit timers cleanly
+      await tester.pump(const Duration(seconds: 4));
+      await tester.pumpAndSettle();
     });
 
     testWidgets('ResetPasswordScreen shows invalid state when token is empty', (tester) async {

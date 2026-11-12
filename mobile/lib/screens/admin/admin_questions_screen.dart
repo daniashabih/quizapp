@@ -196,8 +196,9 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
           const SizedBox(height: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: q.options.map((opt) {
-              final isCorrect = opt.trim().toLowerCase() == q.correctAnswer.trim().toLowerCase();
+            children: q.options.asMap().entries.map((entry) {
+              final opt = entry.value;
+              final isCorrect = q.isOptionCorrect(entry.key);
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2.0),
                 child: Row(

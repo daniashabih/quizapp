@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Dart,1,Dart is an open-source programming language developed by which company?,Microsoft,Apple,Google,IBM,Google
+Dart,1,Dart is best described as a language that is:,Closed-source and server-only,Client-centric and open source,A hardware description language,A database query language,Client-centric and open source
+Dart,1,The dart2js utility generates:,Java bytecode,JavaScript,C++ code,Python scripts,JavaScript
+Dart,1,“Platform independent” means Dart can:,Run only on Windows,Need separate code for every OS,"Run on Windows, Linux, macOS and other operating systems",Run only inside browsers,"Run on Windows, Linux, macOS and other operating systems"
+Dart,1,Which of the following is NOT an OOP feature supported by Dart?,Classes,Interfaces,Abstraction,Pointer arithmetic,Pointer arithmetic
+Dart,1,The syntax of Dart follows which style?,C-style syntax,Lisp-style syntax,Assembly syntax,COBOL syntax,C-style syntax
+Dart,1,The Dart project was started by:,James Gosling,Guido van Rossum,Anders Hejlsberg,Lars Bak,Lars Bak
+Dart,1,"Lars Bak, who started the Dart project, is known for his work on:",Operating systems,Virtual machines,Databases,Graphics cards,Virtual machines
+Dart,1,Dart was first introduced at the GOTO conference held in:,"Aarhus, Denmark","London, UK","Seattle, USA","Mumbai, India","Aarhus, Denmark"
+Dart,1,Which Ecma International technical board regulates the Dart language?,TC39,TC10,TC52,TC45,TC52
+Dart,1,The first edition of the Dart language specification was standardized in:,January 2012,March 2010,December 2016,July 2014,July 2014
+Dart,1,The second edition of the Dart specification was approved by Ecma International:,One year later,Six months later,Two years later,On the same day,Six months later
+Dart,1,Which was the initial compiler used for Dart?,dartc,Frog,dart2js,DVM,dartc
+Dart,1,The Frog compiler was discarded because of:,Licensing problems,Lack of JavaScript output,Being too fast,Inefficiency in compiling the code,Inefficiency in compiling the code
+Dart,1,Which compiler is still used in Dart today?,dartc,Frog,dart2js,gcc,dart2js
+Dart,1,What is the correct order of compiler evolution in Dart?,dart2js → Frog → dartc,dartc → Frog → dart2js,Frog → dartc → dart2js,dartc → dart2js → Frog,dartc → Frog → dart2js
+Dart,1,Which of the following is an inbuilt Dart library?,dart:camera,dart:music,dart:photo,dart:core,dart:core
+Dart,1,Which statement is used to bring exported Dart code into another application?,include,import,using,require,import
+Dart,1,The Dart Virtual Machine makes Dart:,Windows-only,Browser-only,Platform independent,Slower than other languages,Platform independent
+Dart,1,The syntax of Dart is similar to which languages?,"C#, Java and JavaScript",Prolog and Lisp,Fortran and COBOL,Swift only,"C#, Java and JavaScript"
+Dart,1,Dart is called open source because it is:,Sold with a paid licence,Available only to Google staff,Available at no cost and free for anyone to use,Available by subscription only,Available at no cost and free for anyone to use
+Dart,1,What makes it possible for Dart to run on all browsers?,Native Dart VM in every browser,Compilation to optimized JavaScript by dart2js,Java applets,Browser plugins,Compilation to optimized JavaScript by dart2js
+Dart,1,Dart supports multithreading-style concurrency by using:,Isolates,Shared-memory threads,Semaphores,Fibers,Isolates
+Dart,1,Which statement about Dart Isolates is true?,They share memory,They need locks,They run only on the GPU,They are independent workers that do not share memory,They are independent workers that do not share memory
+Dart,1,Isolates communicate with each other by:,Shared global variables,Passing serialized messages,Pointers,Static fields,Passing serialized messages
+Dart,1,Which advanced OOP concept is mentioned as supported by Dart?,Macros,Templates,Mixin,Pointers,Mixin
+Dart,1,The “Type Safe” feature of Dart means:,No type checking is done,Both static and runtime type checking are performed,Only runtime checks happen,Only syntax is checked,Both static and runtime type checking are performed
+Dart,1,Dart offers which two kinds of compilation?,JIT and AOT,JIT and PIT,AOT and BOT,Static and dynamic,JIT and AOT
+Dart,1,A JIT compiler converts source code into native machine code:,Months before deployment,Never,Only for JavaScript,Just before the program executes,Just before the program executes
+Dart,1,AOT compilation is typically used when:,"The application is ready for deployment (server, App Store, Play Store)",Debugging only,Writing comments,Installing the SDK,"The application is ready for deployment (server, App Store, Play Store)"
+Dart,1,Dart used together with Flutter can build:,Only Android apps,Only web pages,"Mobile, desktop and web applications",Only server scripts,"Mobile, desktop and web applications"
+Dart,1,The biggest benefit of building apps with Dart and Flutter is:,A separate app per device is needed,A single code base works across platforms,No UI is required,Apps run without an OS,A single code base works across platforms
+Dart,1,Dart can be used on the back end as a server-side language.,True,False,,,True
+Dart,1,Which Android Studio version is used in the installation steps?,Arctic Fox,Chipmunk,Dolphin,Bumblebee | 2021.1.1 Patch 3,Bumblebee | 2021.1.1 Patch 3
+Dart,1,Which Dart SDK version is shown in the installation steps?,1.24.3,2.16.2,3.0.0,2.2.0,2.16.2
+Dart,1,"After starting the IDE, what must be installed to work with Dart?",Java plugin,Python plugin,Kotlin plugin,Dart plugin,Dart plugin
+Dart,1,"After the Dart plugin is installed, you should:",Restart Android Studio,Reboot the OS,Uninstall the SDK,Do nothing,Restart Android Studio
+Dart,1,"If the Dart SDK path value is not visible in the new-project dialog, you should:",Reinstall Android Studio,Ignore it,Enter the path manually,Use the Java path,Enter the path manually
+Dart,1,Which command-line package manager can also be used to install Dart?,npm,Chocolatey,pip,apt-get,Chocolatey
+Dart,1,Basic Dart syntax comprises:,Only variables,Only classes,Only functions,"Keywords, data types, variables, constants, string literals and symbols","Keywords, data types, variables, constants, string literals and symbols"
+Dart,1,Which function is the entry point of a Dart application?,start(),main(),run(),init(),main()
+Dart,1,"In void main(), the word void means the function:",Returns an int,Returns a String,Returns nothing,Returns a bool,Returns nothing
+Dart,1,Which symbol starts a single-line comment in Dart?,//,#,--,<!--,//
+Dart,1,A comment in Dart is:,Executed by the compiler,A keyword,A function,Code that is not read by the compiler,Code that is not read by the compiler
+Dart,1,Which function prints a string to the console in Dart?,echo(),print(),write(),console(),print()
+Dart,1,Dart is designed to prioritize which development feature?,Sub-second stateful hot reload,Manual memory management,Assembly-level coding,Offline-only builds,Sub-second stateful hot reload
+Dart,1,Which of these is a valid identifier?,last name,last-name,1name,_name,_name
+Dart,1,Which of these is an invalid identifier?,lastName,sum1,1name,_name,1name
+Dart,1,Which special characters can an identifier contain?,$ and _,@ and #,% and &,! and ?,$ and _
+Dart,1,Keywords in Dart are:,Optional words,Case-insensitive,Usable as variable names,"Reserved, case-sensitive words that cannot be used as names","Reserved, case-sensitive words that cannot be used as names"

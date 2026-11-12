@@ -1,0 +1,554 @@
+{
+  "category": "Dart",
+  "session": 2,
+  "title": "Session 2: Variables and Data Types",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "A data type in Dart determines:",
+      "options": [
+        "The speed of the compiler",
+        "The type of value a variable can hold",
+        "The name of the file",
+        "The IDE used"
+      ],
+      "correctAnswer": "The type of value a variable can hold",
+      "explanation": "Correct answer is B) The type of value a variable can hold."
+    },
+    {
+      "questionText": "Which keywords belong to the Number data type?",
+      "options": [
+        "int, double, num",
+        "int, String, bool",
+        "List, Map, Set",
+        "var, dynamic, const"
+      ],
+      "correctAnswer": "int, double, num",
+      "explanation": "Correct answer is A) int, double, num."
+    },
+    {
+      "questionText": "The int data type represents:",
+      "options": [
+        "Decimal numbers",
+        "Text",
+        "True/false values",
+        "Whole numbers"
+      ],
+      "correctAnswer": "Whole numbers",
+      "explanation": "Correct answer is D) Whole numbers."
+    },
+    {
+      "questionText": "The double data type represents:",
+      "options": [
+        "8-bit integers",
+        "64-bit floating-point numbers",
+        "16-bit characters",
+        "Boolean values"
+      ],
+      "correctAnswer": "64-bit floating-point numbers",
+      "explanation": "Correct answer is B) 64-bit floating-point numbers."
+    },
+    {
+      "questionText": "How many bytes are allocated for each double variable?",
+      "options": [
+        "4",
+        "16",
+        "8",
+        "32"
+      ],
+      "correctAnswer": "8",
+      "explanation": "Correct answer is C) 8."
+    },
+    {
+      "questionText": "If a double variable is assigned an integer value, the value is:",
+      "options": [
+        "Rejected with an error",
+        "Type-casted into a double",
+        "Converted to a String",
+        "Set to null"
+      ],
+      "correctAnswer": "Type-casted into a double",
+      "explanation": "Correct answer is B) Type-casted into a double."
+    },
+    {
+      "questionText": "Which keyword declares a variable of the String type?",
+      "options": [
+        "string",
+        "str",
+        "String",
+        "char"
+      ],
+      "correctAnswer": "C",
+      "explanation": "Correct answer is C) String."
+    },
+    {
+      "questionText": "A String value can be enclosed in:",
+      "options": [
+        "Single or double quotes",
+        "Only square brackets",
+        "Only curly braces",
+        "Only angle brackets"
+      ],
+      "correctAnswer": "Single or double quotes",
+      "explanation": "Correct answer is A) Single or double quotes."
+    },
+    {
+      "questionText": "Dart Strings follow which encoding?",
+      "options": [
+        "ASCII",
+        "UTF-8 only",
+        "UTF-32",
+        "UTF-16"
+      ],
+      "correctAnswer": "UTF-16",
+      "explanation": "Correct answer is D) UTF-16."
+    },
+    {
+      "questionText": "The bool data type can hold:",
+      "options": [
+        "Any number",
+        "Only true or false",
+        "Any text",
+        "Only null"
+      ],
+      "correctAnswer": "Only true or false",
+      "explanation": "Correct answer is B) Only true or false."
+    },
+    {
+      "questionText": "Boolean variables are mostly used in:",
+      "options": [
+        "Decision-making statements",
+        "Comments",
+        "File naming",
+        "Package creation"
+      ],
+      "correctAnswer": "Decision-making statements",
+      "explanation": "Correct answer is A) Decision-making statements."
+    },
+    {
+      "questionText": "The List data type represents:",
+      "options": [
+        "An unordered set of unique values",
+        "A single number",
+        "An ordered group of items",
+        "Key–value pairs"
+      ],
+      "correctAnswer": "An ordered group of items",
+      "explanation": "Correct answer is C) An ordered group of items."
+    },
+    {
+      "questionText": "A List is enclosed within:",
+      "options": [
+        "Curly braces { }",
+        "Square brackets [ ]",
+        "Parentheses ( )",
+        "Angle brackets < >"
+      ],
+      "correctAnswer": "Square brackets [ ]",
+      "explanation": "Correct answer is B) Square brackets [ ]."
+    },
+    {
+      "questionText": "A Fixed Length List:",
+      "options": [
+        "Can grow at runtime",
+        "Cannot hold numbers",
+        "Always has 10 items",
+        "Cannot be changed in size at runtime"
+      ],
+      "correctAnswer": "Cannot be changed in size at runtime",
+      "explanation": "Correct answer is D) Cannot be changed in size at runtime."
+    },
+    {
+      "questionText": "A Growable List:",
+      "options": [
+        "Can be altered or modified at runtime",
+        "Cannot use add()",
+        "Must have a fixed size",
+        "Holds only Strings"
+      ],
+      "correctAnswer": "Can be altered or modified at runtime",
+      "explanation": "Correct answer is A) Can be altered or modified at runtime."
+    },
+    {
+      "questionText": "What does List.filled(2, 0) create?",
+      "options": [
+        "A growable list of 0 items",
+        "A Map with 2 keys",
+        "A fixed-length list of 2 elements, each 0",
+        "A Set"
+      ],
+      "correctAnswer": "A fixed-length list of 2 elements, each 0",
+      "explanation": "Correct answer is C) A fixed-length list of 2 elements, each 0."
+    },
+    {
+      "questionText": "The Map data type stores data as:",
+      "options": [
+        "Key and value pairs",
+        "Ordered indexes only",
+        "A single value",
+        "Characters only"
+      ],
+      "correctAnswer": "Key and value pairs",
+      "explanation": "Correct answer is A) Key and value pairs."
+    },
+    {
+      "questionText": "A Map’s key–value pairs are placed inside:",
+      "options": [
+        "Square brackets",
+        "Curly braces { }",
+        "Parentheses",
+        "Quotes"
+      ],
+      "correctAnswer": "Curly braces { }",
+      "explanation": "Correct answer is B) Curly braces { }."
+    },
+    {
+      "questionText": "Items in a Map can be accessed using:",
+      "options": [
+        "Their associated key",
+        "Only a loop",
+        "Their memory address",
+        "A random number"
+      ],
+      "correctAnswer": "Their associated key",
+      "explanation": "Correct answer is A) Their associated key."
+    },
+    {
+      "questionText": "In Dart, a Map can be declared using:",
+      "options": [
+        "Only literals",
+        "Only constructors",
+        "Map constructors or Map literals",
+        "Only the var keyword"
+      ],
+      "correctAnswer": "Map constructors or Map literals",
+      "explanation": "Correct answer is C) Map constructors or Map literals."
+    },
+    {
+      "questionText": "A variable declared with dynamic can:",
+      "options": [
+        "Store data of any type",
+        "Store only int",
+        "Store only String",
+        "Never change its value"
+      ],
+      "correctAnswer": "Store data of any type",
+      "explanation": "Correct answer is A) Store data of any type."
+    },
+    {
+      "questionText": "The value of a dynamic variable:",
+      "options": [
+        "Can never be changed",
+        "Is always null",
+        "Must be a number",
+        "Can be modified at any point"
+      ],
+      "correctAnswer": "Can be modified at any point",
+      "explanation": "Correct answer is D) Can be modified at any point."
+    },
+    {
+      "questionText": "Dart constants are:",
+      "options": [
+        "Immutable objects whose values cannot change during execution",
+        "Variables that change often",
+        "Lists only",
+        "Functions"
+      ],
+      "correctAnswer": "Immutable objects whose values cannot change during execution",
+      "explanation": "Correct answer is A) Immutable objects whose values cannot change during execution."
+    },
+    {
+      "questionText": "A constant must be:",
+      "options": [
+        "Declared without a value",
+        "Initialized when it is declared",
+        "Reassigned later",
+        "Always a String"
+      ],
+      "correctAnswer": "Initialized when it is declared",
+      "explanation": "Correct answer is B) Initialized when it is declared."
+    },
+    {
+      "questionText": "Which keywords are used to create constants in Dart?",
+      "options": [
+        "var and dynamic",
+        "int and double",
+        "final and const",
+        "static and abstract"
+      ],
+      "correctAnswer": "final and const",
+      "explanation": "Correct answer is C) final and const."
+    },
+    {
+      "questionText": "What is the main difference between final and const?",
+      "options": [
+        "const is a compile-time constant while final is assigned at runtime",
+        "final is compile-time while const is runtime",
+        "There is no difference at all",
+        "const is only for Strings"
+      ],
+      "correctAnswer": "const is a compile-time constant while final is assigned at runtime",
+      "explanation": "Correct answer is A) const is a compile-time constant while final is assigned at runtime."
+    },
+    {
+      "questionText": "In Dart, arrays are represented using:",
+      "options": [
+        "Set",
+        "Map",
+        "Tuple",
+        "List"
+      ],
+      "correctAnswer": "List",
+      "explanation": "Correct answer is D) List."
+    },
+    {
+      "questionText": "The index of the first element of a List is:",
+      "options": [
+        "0",
+        "1",
+        "-1",
+        "n"
+      ],
+      "correctAnswer": "0",
+      "explanation": "Correct answer is A) 0."
+    },
+    {
+      "questionText": "For an array of size 5, the index range is:",
+      "options": [
+        "1 to 5",
+        "0 to 5",
+        "0 to 4",
+        "1 to 4"
+      ],
+      "correctAnswer": "0 to 4",
+      "explanation": "Correct answer is C) 0 to 4."
+    },
+    {
+      "questionText": "For an array of n elements, the last index is:",
+      "options": [
+        "n",
+        "n+1",
+        "0",
+        "n-1"
+      ],
+      "correctAnswer": "n-1",
+      "explanation": "Correct answer is D) n-1."
+    },
+    {
+      "questionText": "When using var, the Dart compiler:",
+      "options": [
+        "Infers the data type from the assigned value",
+        "Always uses String",
+        "Requires a type annotation",
+        "Treats it as a constant"
+      ],
+      "correctAnswer": "Infers the data type from the assigned value",
+      "explanation": "Correct answer is A) Infers the data type from the assigned value."
+    },
+    {
+      "questionText": "After a var variable is initialized with a value, its type:",
+      "options": [
+        "Can change freely",
+        "Becomes dynamic",
+        "Cannot be changed later",
+        "Becomes const"
+      ],
+      "correctAnswer": "Cannot be changed later",
+      "explanation": "Correct answer is C) Cannot be changed later."
+    },
+    {
+      "questionText": "What happens with var tocheckerror = 'alexa'; tocheckerror = 5;?",
+      "options": [
+        "It prints 5",
+        "An error: an int cannot be assigned to a String variable",
+        "It prints alexa",
+        "The variable becomes a double"
+      ],
+      "correctAnswer": "An error: an int cannot be assigned to a String variable",
+      "explanation": "Correct answer is B) An error: an int cannot be assigned to a String variable."
+    },
+    {
+      "questionText": "What happens with int num2 = 5.5;?",
+      "options": [
+        "num2 becomes 5",
+        "num2 becomes 6",
+        "num2 becomes 5.5",
+        "An error: a double cannot be assigned to an int"
+      ],
+      "correctAnswer": "An error: a double cannot be assigned to an int",
+      "explanation": "Correct answer is D) An error: a double cannot be assigned to an int."
+    },
+    {
+      "questionText": "What type does Dart infer for var number2 = 5.5;?",
+      "options": [
+        "int",
+        "double",
+        "String",
+        "bool"
+      ],
+      "correctAnswer": "double",
+      "explanation": "Correct answer is B) double."
+    },
+    {
+      "questionText": "What is printed by: String name = 'shannon'; print(name); name = 'julian'; print(name);?",
+      "options": [
+        "shannon, shannon",
+        "julian, julian",
+        "shannon, julian",
+        "An error"
+      ],
+      "correctAnswer": "shannon, julian",
+      "explanation": "Correct answer is C) shannon, julian."
+    },
+    {
+      "questionText": "What is printed by: int num1 = 5; print(num1); num1 = 10; print(num1);?",
+      "options": [
+        "5 then 10",
+        "10 then 5",
+        "5 then 5",
+        "An error"
+      ],
+      "correctAnswer": "5 then 10",
+      "explanation": "Correct answer is A) 5 then 10."
+    },
+    {
+      "questionText": "Given dynamic d = 5.5; d = 'jimmy'; the program:",
+      "options": [
+        "Gives an error",
+        "Prints nothing",
+        "Is valid because a dynamic variable can change type",
+        "Converts jimmy to a number"
+      ],
+      "correctAnswer": "Is valid because a dynamic variable can change type",
+      "explanation": "Correct answer is C) Is valid because a dynamic variable can change type."
+    },
+    {
+      "questionText": "What happens with final name = 'david'; name = 'sam';?",
+      "options": [
+        "name becomes sam",
+        "Error: can’t assign to the final variable",
+        "name stays david silently",
+        "name becomes null"
+      ],
+      "correctAnswer": "Error: can’t assign to the final variable",
+      "explanation": "Correct answer is B) Error: can’t assign to the final variable."
+    },
+    {
+      "questionText": "What happens with const name = 'Sylvia'; name = 'sam';?",
+      "options": [
+        "Error: can’t assign to the const variable",
+        "name becomes sam",
+        "It prints Sylvia",
+        "It compiles with a warning"
+      ],
+      "correctAnswer": "Error: can’t assign to the const variable",
+      "explanation": "Correct answer is A) Error: can’t assign to the const variable."
+    },
+    {
+      "questionText": "When the value is known at compile time, which keyword is preferred?",
+      "options": [
+        "var",
+        "dynamic",
+        "final",
+        "const"
+      ],
+      "correctAnswer": "const",
+      "explanation": "Correct answer is D) const."
+    },
+    {
+      "questionText": "final is best described as a:",
+      "options": [
+        "Compile-time constant",
+        "Runtime constant",
+        "Data type for numbers",
+        "Loop keyword"
+      ],
+      "correctAnswer": "Runtime constant",
+      "explanation": "Correct answer is B) Runtime constant."
+    },
+    {
+      "questionText": "According to the Try It Yourself note, the order of preference is:",
+      "options": [
+        "var over final over const",
+        "final over var over const",
+        "const over final over var",
+        "dynamic over var over final"
+      ],
+      "correctAnswer": "const over final over var",
+      "explanation": "Correct answer is C) const over final over var."
+    },
+    {
+      "questionText": "When a variable is declared in Dart, what is assigned for it?",
+      "options": [
+        "A data type only",
+        "Memory",
+        "A keyword",
+        "A comment"
+      ],
+      "correctAnswer": "Memory",
+      "explanation": "Correct answer is B) Memory."
+    },
+    {
+      "questionText": "The data type of a variable dictates:",
+      "options": [
+        "Its memory size, space allocation and the value it holds",
+        "Only its name",
+        "Only its colour",
+        "Nothing"
+      ],
+      "correctAnswer": "Its memory size, space allocation and the value it holds",
+      "explanation": "Correct answer is A) Its memory size, space allocation and the value it holds."
+    },
+    {
+      "questionText": "Type annotation in Dart means:",
+      "options": [
+        "Adding comments",
+        "Removing the type",
+        "Adding the data type before the variable name",
+        "Adding a loop"
+      ],
+      "correctAnswer": "Adding the data type before the variable name",
+      "explanation": "Correct answer is C) Adding the data type before the variable name."
+    },
+    {
+      "questionText": "Which declaration is correct for a String variable?",
+      "options": [
+        "string s = 'a';",
+        "String s = 'a';",
+        "str s = 'a';",
+        "text s = 'a';"
+      ],
+      "correctAnswer": "B",
+      "explanation": "Correct answer is B) String s = 'a';."
+    },
+    {
+      "questionText": "The keyword var in Dart is used to create a variable whose type is inferred.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Correct answer is A) True."
+    },
+    {
+      "questionText": "The const keyword makes a variable a runtime constant.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": "False",
+      "explanation": "Correct answer is B) False."
+    },
+    {
+      "questionText": "Which of the following is NOT a Dart data type keyword listed in the guide?",
+      "options": [
+        "int",
+        "bool",
+        "String",
+        "char"
+      ],
+      "correctAnswer": "char",
+      "explanation": "Correct answer is D) char."
+    }
+  ]
+}

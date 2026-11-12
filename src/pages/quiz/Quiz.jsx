@@ -30,6 +30,46 @@ function formatTimeAgo(dateStr) {
     return `${diffDays}d ago`;
 }
 
+function normalizeQuizValue(val) {
+    return String(val || '')
+        .trim()
+        .toLowerCase()
+        .replace(/^[a-d\d][).:-]\s*/i, '')
+        .replace(/\[\s*correct\s*\]|\(\s*correct\s*\)|\*+$/i, '')
+        .replace(/\band\b/gi, '&')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function resolveCorrectOptionIndex(opts, rawCorrect) {
+    if (!Array.isArray(opts) || opts.length === 0) return -1;
+    const trimmed = String(rawCorrect || '').trim();
+    if (!trimmed) return -1;
+
+    // 1. Exact case-sensitive trimmed match first (prevents e.g. 'string' vs 'String' collisions)
+    const exactIdx = opts.findIndex(o => String(o || '').trim() === trimmed);
+    if (exactIdx !== -1) return exactIdx;
+
+    // 2. Normalized case-insensitive text match
+    const normCorrect = normalizeQuizValue(trimmed);
+    const normIdx = opts.findIndex(o => normalizeQuizValue(o) === normCorrect);
+    if (normIdx !== -1) return normIdx;
+
+    // 3. Letter match ('A' - 'D')
+    if (/^[a-d]$/i.test(trimmed)) {
+        const letterIdx = trimmed.toUpperCase().charCodeAt(0) - 65;
+        if (letterIdx >= 0 && letterIdx < opts.length) return letterIdx;
+    }
+
+    // 4. Digit index match ('0', '1', '2', '3')
+    if (/^\d+$/.test(trimmed)) {
+        const digitIdx = parseInt(trimmed, 10);
+        if (digitIdx >= 0 && digitIdx < opts.length) return digitIdx;
+    }
+
+    return -1;
+}
+
 const Quiz = () => {
     usePageSeo({
         title: 'Quiz Session in Progress — HangBug',
@@ -125,16 +165,7 @@ const Quiz = () => {
         }
     }, [currentIndex]);
 
-    const normalizeValue = useCallback((val) => {
-        return String(val || '')
-            .trim()
-            .toLowerCase()
-            .replace(/^[a-d\d][).:-]\s*/i, '')
-            .replace(/\[\s*correct\s*\]|\(\s*correct\s*\)|\*+$/i, '')
-            .replace(/\band\b/gi, '&')
-            .replace(/\s+/g, ' ')
-            .trim();
-    }, []);
+    const normalizeValue = useCallback((val) => normalizeQuizValue(val), []);
 
     // Save current progress to MongoDB Atlas via attemptService
     const saveCurrentProgress = useCallback(async (overrides = {}) => {
@@ -158,7 +189,8 @@ const Quiz = () => {
                     let opts = q.options;
                     if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
                     const rawCorrect = String(q.correct_answer || q.correctAnswer || '').trim();
-                    if (rawCorrect && normalizeValue(opts[idx]) === normalizeValue(rawCorrect)) curScore++;
+                    const correctIdx = resolveCorrectOptionIndex(opts, rawCorrect);
+                    if (correctIdx !== -1 && idx === correctIdx) curScore++;
                 }
             }
         });
@@ -182,7 +214,7 @@ const Quiz = () => {
             console.error('Error auto-saving quiz attempt:', err);
             setSaveStatus('error');
         }
-    }, [normalizeValue]);
+    }, []);
 
     // Handle selecting an answer with immediate evaluation, strict answer locking, and authoritative backend persistence
     const handleAnswerSelect = useCallback(async (questionId, optionIndex) => {
@@ -206,16 +238,7 @@ const Quiz = () => {
 
         // Resolve correct option index from question if available
         const rawCorrect = String(targetQ.correct_answer || targetQ.correctAnswer || '').trim();
-        let correctIdx = -1;
-        if (rawCorrect) {
-            correctIdx = opts.findIndex(o => normalizeValue(o) === normalizeValue(rawCorrect));
-            if (correctIdx === -1 && /^[a-d]$/i.test(rawCorrect)) {
-                correctIdx = rawCorrect.toUpperCase().charCodeAt(0) - 65;
-            }
-            if (correctIdx === -1 && /^\d+$/.test(rawCorrect)) {
-                correctIdx = parseInt(rawCorrect, 10);
-            }
-        }
+        const correctIdx = resolveCorrectOptionIndex(opts, rawCorrect);
 
         const isCorrectOptimistic = (correctIdx !== -1) && (optionIndex === correctIdx);
         const correctAnswerText = (correctIdx >= 0 && opts[correctIdx]) ? opts[correctIdx] : rawCorrect;
@@ -341,7 +364,7 @@ const Quiz = () => {
             }
             setSaveStatus('saved');
         }
-    }, [selectedAnswers, evaluatedAnswers, questions, normalizeValue, saveCurrentProgress]);
+    }, [selectedAnswers, evaluatedAnswers, questions, saveCurrentProgress]);
 
     // Manual Save & Exit handler
     const handleSaveAndExit = async () => {
@@ -512,16 +535,7 @@ const Quiz = () => {
                     if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
 
                     const rawCorrect = String(q.correct_answer || q.correctAnswer || '').trim();
-                    let correctIdx = -1;
-                    if (rawCorrect) {
-                        correctIdx = opts.findIndex(o => normalizeValue(o) === normalizeValue(rawCorrect));
-                        if (correctIdx === -1 && /^[a-d]$/i.test(rawCorrect)) {
-                            correctIdx = rawCorrect.toUpperCase().charCodeAt(0) - 65;
-                        }
-                        if (correctIdx === -1 && /^\d+$/.test(rawCorrect)) {
-                            correctIdx = parseInt(rawCorrect, 10);
-                        }
-                    }
+                    const correctIdx = resolveCorrectOptionIndex(opts, rawCorrect);
 
                     const isCorrect = (correctIdx !== -1) && (chosenIdx === correctIdx);
                     restoredEvaluated[qId] = {
@@ -731,7 +745,8 @@ const Quiz = () => {
                     let opts = q.options;
                     if (typeof opts === 'string') { try { opts = JSON.parse(opts); } catch { opts = []; } }
                     const rawCorrect = String(q.correct_answer || q.correctAnswer || '').trim();
-                    if (rawCorrect && normalizeValue(opts[idx]) === normalizeValue(rawCorrect)) fallbackScore++;
+                    const correctIdx = resolveCorrectOptionIndex(opts, rawCorrect);
+                    if (correctIdx !== -1 && idx === correctIdx) fallbackScore++;
                 }
             }
         });
@@ -792,7 +807,7 @@ const Quiz = () => {
                 timeTaken,
             }
         });
-    }, [questions, selectedAnswers, evaluatedAnswers, startTime, selectedCategory, selectedSession, isAllSessions, navigate, normalizeValue, settings]);
+    }, [questions, selectedAnswers, evaluatedAnswers, startTime, selectedCategory, selectedSession, isAllSessions, navigate, settings]);
 
     // Keyboard Shortcuts Support
     useEffect(() => {

@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Dart,3,An operator in Dart is:,A symbol used to perform specific operations on operands,A block that repeats code,A type of loop,A way to name variables,A symbol used to perform specific operations on operands
+Dart,3,"In the expression 5 + 7, the operands are:",+ only,5 + 7,5 and 7,There are none,5 and 7
+Dart,3,"In the expression 5 + 7, the operator is:",5,+,7,=,+
+Dart,3,Which of the following is NOT a type of operator listed in the guide?,Arithmetic,Relational,Logical,Compiler,Compiler
+Dart,3,"If a = 7 and b = 4, what is a + b?",3,28,11,1.75,11
+Dart,3,"If a = 7 and b = 4, what is a - b?",3,11,28,1,3
+Dart,3,"If a = 7 and b = 4, what is a * b?",11,3,1.75,28,28
+Dart,3,"If a = 7 and b = 4, what is a / b?",1,1.75,3,28,1.75
+Dart,3,"If a = 7 and b = 4, what is a ~/ b?",1.75,3,1,11,1
+Dart,3,"If a = 7 and b = 4, what is a % b?",3,1,11,28,3
+Dart,3,Relational operators return which type of value?,int,String,double,bool,bool
+Dart,3,What is the result of 2 >= 3?,true,false,2,3,false
+Dart,3,"Assuming a = 30 and b = 5, what is the value of a after a += b?",25,150,35,6,35
+Dart,3,"Assuming a = 30 and b = 5, what is the value of a after a -= b?",25,35,150,6,25
+Dart,3,"Assuming a = 30 and b = 5, what is the value of a after a *= b?",35,25,6,150,150
+Dart,3,"Assuming a = 30 and b = 5, what is the value of a after a /= b?",6.0,25,35,150,6.0
+Dart,3,"Assuming a = 30 and b = 5, what is the value of a after a ~/= b (integer divide and assign)?",0,6,35,150,6
+Dart,3,"Assuming a = 30 and b = 5, what is the value of a after a %= b?",5,6,0,30,0
+Dart,3,The conditional (ternary) operator is a shorthand for which statement?,while loop,switch,for loop,if-else,if-else
+Dart,3,"In condition ? expression1 : expression2, when the condition is true:",expression1 is executed,expression2 is executed,Both are executed,Neither is executed,expression1 is executed
+Dart,3,The expression1 ?? expression2 operator returns:,Always expression2,"expression1 if it is non-null, otherwise expression2",true or false,null always,"expression1 if it is non-null, otherwise expression2"
+Dart,3,What is printed by var n1 = null; var n2 = 15; var result = n1 ?? n2; print(result);?,null,0,15,An error,15
+Dart,3,Logical operators are used to:,Combine two or more conditions,Declare variables,Create classes,Import libraries,Combine two or more conditions
+Dart,3,The && (AND) operator returns true when:,Either condition is true,Both conditions are true,Both conditions are false,The first condition is false,Both conditions are true
+Dart,3,The || (OR) operator returns true when:,Both conditions are false,Neither condition is true,At least one condition is true,Only the first is true,At least one condition is true
+Dart,3,The ! (NOT) operator:,Adds two values,Compares two values,Combines two conditions,Reverses the result,Reverses the result
+Dart,3,"With a = 5 and b = 7, what is the result of a > 10 && b < 10?",false,true,5,7,false
+Dart,3,"With a = 5 and b = 7, what is the result of a > 10 || b < 10?",false,7,true,5,true
+Dart,3,"With a = 5, what is the result of !(a > 10)?",false,true,5,10,true
+Dart,3,"By default, statements in a Dart program are executed:",Randomly,From bottom to top,Sequentially from top to bottom,Only once per file,Sequentially from top to bottom
+Dart,3,Control flow statements are used to:,Change the flow of the program as required,Declare variables,Comment code,Install packages,Change the flow of the program as required
+Dart,3,Which are the three categories of control flow statements in Dart?,"Static, dynamic, final","Input, process, output","Class, object, method","Decision-making, looping and jump","Decision-making, looping and jump"
+Dart,3,Decision-making statements are also called:,Conditional or selection statements,Iteration statements,Jump statements,Assignment statements,Conditional or selection statements
+Dart,3,An if statement executes its block only when:,The program starts,The condition is false,The specified condition is true,A loop ends,The specified condition is true
+Dart,3,An else block:,Can exist independently,Is always associated with an if block,Must come before if,Is used only in loops,Is always associated with an if block
+Dart,3,The if-else-if statement is used when:,Only one condition exists,A loop is needed,A decision must be made from more than two possibilities,A variable must be declared,A decision must be made from more than two possibilities
+Dart,3,"With int b = 10; if (b < 9) {...} else if (b >= 10) {print('Condition 2 is true');} else {...}, the output is:",Condition 1 is true,All the conditions are false,Nothing,Condition 2 is true,Condition 2 is true
+Dart,3,The switch case statement is used to:,Avoid a long chain of if-else statements,Declare constants,Create classes,Handle exceptions,Avoid a long chain of if-else statements
+Dart,3,"With var grade = 'B'; in a switch with cases A (Excellent), B (Good), C (Fair), D (Poor), the output is:",Excellent,Fair,Good,Invalid choice,Good
+Dart,3,"If break is omitted in a switch case, the program:",Stops immediately,Continues to the next case statement,Throws a compile error always,Restarts the switch,Continues to the next case statement
+Dart,3,A for loop is used when a block of code must be executed:,Only once,Never,A specific number of times,Only if an error occurs,A specific number of times
+Dart,3,The for...in loop:,Iterates through the elements of a collection one at a time,Runs forever by default,Is used only for Maps,Cannot use lists,Iterates through the elements of a collection one at a time
+Dart,3,A while loop executes a block of statements:,Once only,Until the condition becomes false,Before the program starts,Only if the list is empty,Until the condition becomes false
+Dart,3,In which loop are the statements executed before the condition is evaluated?,for,while,for...in,do-while,do-while
+Dart,3,What does for(num; num<=10; num++) { print(num); } print when num starts at 1?,Numbers 1 to 10,Numbers 0 to 10,Numbers 1 to 9,Only 10,Numbers 1 to 10
+Dart,3,Jump statements are used to:,Declare variables,Transfer execution from one statement to another,Define classes,Import packages,Transfer execution from one statement to another
+Dart,3,The break statement inside a loop:,Skips to the next iteration,Restarts the loop,Terminates the loop and moves to the next statement after it,Declares a variable,Terminates the loop and moves to the next statement after it
+Dart,3,"The continue statement, when encountered in a loop:",Ends the loop,Skips the current iteration and jumps to the next one,Exits the program,Restarts the program,Skips the current iteration and jumps to the next one
+Dart,3,"In the break example (count increments up to 10, break when count == 5), which lines are printed inside the loop?",Inside loop 1 to 5,Inside loop 1 to 10,Inside loop 5 only,Inside loop 1 to 4,Inside loop 1 to 4
+Dart,3,What is the output of: int num = 10; while(num > 0) { num--; if(num == 5) { break; } else { print(num); } }?,10 9 8 7 6,9 8 7 6,9 8 7 6 4 3 2 1,5,9 8 7 6

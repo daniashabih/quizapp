@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Dart,5,A collection in Dart is:,A single variable,A loop statement,An entity that represents a group of objects called elements,A type of comment,An entity that represents a group of objects called elements
+Dart,5,Which library provides support for collections in Dart?,dart:core,dart:ui,dart:camera,dart:music,dart:core
+Dart,5,Collections are used to:,Draw graphics only,"Store, retrieve and communicate mass data",Compile code,Rename files,"Store, retrieve and communicate mass data"
+Dart,5,A List is:,An unordered group of unique values,A key–value structure,A single number,An ordered group of objects,An ordered group of objects
+Dart,5,"In a fixed-length List, the size:",Is specified at initialization and cannot be modified later,Can grow freely,Is always zero,Is chosen at runtime,Is specified at initialization and cannot be modified later
+Dart,5,Which method creates a fixed-length List with initial values?,List.add,List.generate only,List.filled,List.remove,List.filled
+Dart,5,Which method adds an element to a growable List?,put(),add(),insertOnly(),push(),add()
+Dart,5,"What is printed by var newlist = [10,20,30,40,50]; newlist.add(60); print(newlist);?","[10, 20, 30, 40, 50]",[60],"[10, 20, 30, 40, 50, 60]",An error,"[10, 20, 30, 40, 50, 60]"
+Dart,5,A Set is:,An ordered list with duplicates,"A unique, unordered collection of values of the same data type",A key–value collection,A fixed-size array,"A unique, unordered collection of values of the same data type"
+Dart,5,"What is printed after adding 10, 20, 30, 40 and 40 again to a Set?","{10, 20, 30, 40, 40}",{40},"{10, 20, 30}","{10, 20, 30, 40}","{10, 20, 30, 40}"
+Dart,5,A Map stores data as:,Key–value pairs where keys must be unique,Only numbers,Sorted lists only,Plain text,Key–value pairs where keys must be unique
+Dart,5,A Map can be declared using:,Only literals,Only constructors,Only the dynamic keyword,Map literals or the Map constructor,Map literals or the Map constructor
+Dart,5,A Map literal encloses key–value pairs inside:,Square brackets,Curly braces { },Parentheses,Quotes only,Curly braces { }
+Dart,5,"What is printed by var userdetails = {'email': 'jack@gmail.com', 'Password': 12345}; print(userdetails);?","{email: jack@gmail.com, Password: 12345}","[email, Password]",jack@gmail.com,An error,"{email: jack@gmail.com, Password: 12345}"
+Dart,5,A HashSet is:,An ordered list,A fixed-length list,"A hash table based, unordered Set implementation",A key–value store,"A hash table based, unordered Set implementation"
+Dart,5,HashSet is provided by which library?,dart:math,dart:collection,dart:convert,dart:html only,dart:collection
+Dart,5,The order of HashSet elements when printed is determined by:,Insertion order,Alphabetical order,Size,hashCode,hashCode
+Dart,5,A HashMap is:,A hash-table Map implementation that is unordered,An ordered Set,A fixed-length list,A kind of loop,A hash-table Map implementation that is unordered
+Dart,5,Elements put in a LinkedList must extend which class?,List,Set,Map,LinkedListEntry,LinkedListEntry
+Dart,5,The Dart LinkedList class does NOT implement which interface?,The List interface,The Map interface,The Set interface,The Iterable interface,The List interface
+Dart,5,Which is an advantage of LinkedList compared with a List?,Contiguous storage,Non-contiguous storage with faster insertions and removals,Fixed length,Duplicate-free values,Non-contiguous storage with faster insertions and removals
+Dart,5,LinkedHashMap iterates data in:,Random order,Hash order,Insertion order,Reverse order,Insertion order
+Dart,5,A LinkedHashMap can store:,No null values,Many null keys,Only null values,One null key and multiple null values,One null key and multiple null values
+Dart,5,A LinkedHashSet can store:,Only one null value,Many null values,No values,Only numbers,Only one null value
+Dart,5,LinkedHashSet returns elements:,In hash order,In the order they were inserted,In reverse order,Sorted by size,In the order they were inserted
+Dart,5,A nested collection is:,A collection that is empty,A Set with duplicates,"A collection of collections, like a multi-dimensional array",A collection of numbers only,"A collection of collections, like a multi-dimensional array"
+Dart,5,"What does List.generate(2, (_) => List.generate(2, (_) => 0)) produce?","[0, 0]","[[0, 0], [0, 0]]","[[0, 0, 0]]","{0, 0}","[[0, 0], [0, 0]]"
+Dart,5,Nested collections are useful for creating:,Comments,Constants,Exceptions,Matrices,Matrices
+Dart,5,Collection-if is used to:,Check and manipulate collection values based on conditions,Delete the collection,Import a library,Create a class,Check and manipulate collection values based on conditions
+Dart,5,Collection-for is used to:,Declare constants,Compare Sets,Loop over the elements of a collection such as a list or map,Throw errors,Loop over the elements of a collection such as a list or map
+Dart,5,An exception is:,A comment,An abnormal condition that disrupts the normal flow of execution at runtime,A data type,A kind of loop,An abnormal condition that disrupts the normal flow of execution at runtime
+Dart,5,Exception handlers are written to:,Slow down the program,Create objects,Declare variables,Prevent the program from stopping abruptly,Prevent the program from stopping abruptly
+Dart,5,Every exception in Dart is a sub-type of which class?,Exception,Object only,Map,Future,Exception
+Dart,5,The try block:,Always runs last,Is optional in exception handling,Encloses the code that may cause an exception,Declares variables,Encloses the code that may cause an exception
+Dart,5,The on block is used to:,End a loop,Mention the specific exception to be handled,Import a package,Create a constructor,Mention the specific exception to be handled
+Dart,5,The catch block is used when a handler requires:,A class name,A package,A list,The generic Exception object,The generic Exception object
+Dart,5,The finally block contains code that:,Executes irrespective of whether an exception occurred,Runs only on error,Runs only without errors,Never runs,Executes irrespective of whether an exception occurred
+Dart,5,Where is the finally block placed?,Before try,Inside the on block,After the try/on/catch block,In a separate file,After the try/on/catch block
+Dart,5,Which keyword raises an exception explicitly?,raise,throw,error,catch,throw
+Dart,5,"What is printed when a ~/ b with a = 5, b = 0 is handled by on IntegerDivisionByZeroException { print('Cannot divide by zero'); }?",0,5,null,Cannot divide by zero,Cannot divide by zero
+Dart,5,"If the same code also has finally { print('Finally block executed'); }, what is printed?","Cannot divide by zero, then Finally block executed",Only Finally block executed,Only Cannot divide by zero,Nothing,"Cannot divide by zero, then Finally block executed"
+Dart,5,"In checkAge(-10) where a FormatException is thrown for negative ages and caught with catch(e), what is printed?",-10,FormatException,Age cannot be negative,Nothing,Age cannot be negative
+Dart,5,The built-in exception raised when a deferred library fails to load is:,LoadFailedException,DeferredLoadException,DeferException,LibraryException,DeferredLoadException
+Dart,5,FormatException is raised when:,A file is missing,A request times out,"An expected data format is not present, e.g. parsing John123 as a number",A list is empty,"An expected data format is not present, e.g. parsing John123 as a number"
+Dart,5,Which exception is raised when a division by zero is attempted (as in the guide)?,FormatException,TimeoutException,IOException,IntegerDivisionByZeroException,IntegerDivisionByZeroException
+Dart,5,TimeoutException is thrown when:,An asynchronous operation takes longer than the expected time,A file is found,A list is full,A map is empty,An asynchronous operation takes longer than the expected time
+Dart,5,An IOException typically occurs when:,A number is divided by zero,A variable is final,A loop ends,A file such as names.txt cannot be read because it is not found,A file such as names.txt cannot be read because it is not found
+Dart,5,Which statement about Errors is correct?,They are always checked,They are caused by application code,They are unchecked and may be caused by lack of system resources,They can always be handled by the compiler,They are unchecked and may be caused by lack of system resources
+Dart,5,Errors in Dart should generally be:,Caught and ignored,Addressed by the programmer rather than caught,Thrown deliberately,Hidden from developers,Addressed by the programmer rather than caught
+Dart,5,Which collection allows multiple null values (as per the guide’s test)?,LinkedHashMap,List,LinkedHashSet,Set,LinkedHashMap
