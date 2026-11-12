@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hangbug/widgets/tech_logo_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/constants/app_colors.dart';
@@ -470,27 +471,14 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: tint.withValues(alpha: isDark ? 0.22 : 0.16),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Center(
-                            child: Text(
-                              cat.name.isNotEmpty
-                                  ? cat.name[0].toUpperCase()
-                                  : 'T',
-                              style: AppTextStyles.displaySmall.copyWith(
-                                color: isDark && tint == AppColors.primary
-                                    ? AppColors.accentLight
-                                    : tint,
-                                fontSize: 19,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ),
+                        TechLogoWidget(
+                          name: cat.name,
+                          size: 44,
+                          borderRadius: 15,
+                          fallbackIconColor:
+                              isDark && tint == AppColors.primary
+                                  ? AppColors.accentLight
+                                  : tint,
                         ),
                         const SizedBox(height: 10),
                         Text(
@@ -709,23 +697,10 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
             padding: const EdgeInsets.all(14.0),
             child: Row(
               children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: context.brandAccentColor.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Center(
-                    child: Text(
-                      cat.name.isNotEmpty ? cat.name[0].toUpperCase() : 'T',
-                      style: AppTextStyles.displaySmall.copyWith(
-                        color: context.brandAccentColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
+                TechLogoWidget(
+                  name: cat.name,
+                  size: 48,
+                  borderRadius: 15,
                 ),
                 const SizedBox(width: 14),
                 Expanded(
@@ -882,27 +857,12 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
           // Reference Mockup 2 Detail Header with Stars + Circular Play
           Row(
             children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: isDark
-                      ? AppColors.accent.withValues(alpha: 0.2)
-                      : AppColors.accentLight,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Center(
-                  child: Text(
-                    widget.category.name.isNotEmpty
-                        ? widget.category.name[0]
-                        : 'T',
-                    style: AppTextStyles.displaySmall.copyWith(
-                      color: isDark ? AppColors.accentLight : AppColors.primary,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
+              TechLogoWidget(
+                name: widget.category.name,
+                size: 48,
+                borderRadius: 15,
+                fallbackIconColor:
+                    isDark ? AppColors.accentLight : AppColors.primary,
               ),
               const SizedBox(width: 14),
               Expanded(

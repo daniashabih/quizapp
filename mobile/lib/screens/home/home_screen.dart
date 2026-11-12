@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hangbug/widgets/tech_logo_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/constants/app_colors.dart';
@@ -631,27 +632,10 @@ class HomeScreen extends ConsumerWidget {
                                 ),
                                 child: Row(
                                   children: [
-                                    Container(
-                                      width: 44,
-                                      height: 44,
-                                      decoration: BoxDecoration(
-                                        color: context.brandAccentColor
-                                            .withValues(alpha: 0.12),
-                                        borderRadius: BorderRadius.circular(14),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          tech.category.isNotEmpty
-                                              ? tech.category[0]
-                                              : 'T',
-                                          style: AppTextStyles.displaySmall
-                                              .copyWith(
-                                                color: context.brandAccentColor,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w800,
-                                              ),
-                                        ),
-                                      ),
+                                    TechLogoWidget(
+                                      name: tech.category,
+                                      size: 44,
+                                      borderRadius: 14,
                                     ),
                                     const SizedBox(width: 12),
                                     Expanded(

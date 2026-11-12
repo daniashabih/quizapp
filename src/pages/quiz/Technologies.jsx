@@ -13,8 +13,7 @@ import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
 import { useAuth } from '../../context/AuthContext';
 import attemptService from '../../services/attemptService';
-
-const techIcons = { default: 'from-black to-zinc-800' };
+import TechLogo from '../../components/TechLogo';
 
 function formatTimeAgo(date) {
     if (!date) return 'Recently';
@@ -188,7 +187,6 @@ export default function Technologies() {
     const filtered = safeCategories
         .filter(c => c && c.isEnabled !== false && Number(c.questionCount || 0) > 0)
         .filter(c => (c.name || '').toLowerCase().includes(searchQuery.toLowerCase()));
-    const getGradient = () => techIcons.default;
 
     const totalQuestionsInTrack = sessionsList.reduce((sum, s) => sum + (s.count || 0), 0);
 
@@ -333,15 +331,17 @@ export default function Technologies() {
                     <h2 className="sr-only">Available Technology Quiz Tracks</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                         {filtered.map((cat) => {
-                            const gradient = getGradient();
                             const hasMultipleSessions = Array.isArray(cat.sessions) && cat.sessions.length > 1;
                             return (
                                 <button key={cat.id || cat.name}
                                     onClick={() => handleCategoryClick(cat)}
                                     className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-5 text-left hover:border-black hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col justify-between">
                                     <div>
-                                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
-                                            <span className="text-white font-bold text-base">{(cat.name || 'T').charAt(0)}</span>
+                                        <div className="mb-3">
+                                            <TechLogo
+                                                name={cat.name}
+                                                className="group-hover:scale-105 transition-transform duration-500"
+                                            />
                                         </div>
                                         <h3 className="text-lg font-display font-bold text-[var(--foreground)] mb-1 group-hover:text-black transition-colors">{cat.name}</h3>
                                         <p className="text-xs text-[var(--foreground-muted)] mb-3">Session-wise practice covering core to advanced concepts.</p>
@@ -380,9 +380,7 @@ export default function Technologies() {
                         {/* Modal Header */}
                         <div className="flex items-start justify-between">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center font-bold text-lg shadow-md">
-                                    {(selectedCatForSession.name || 'T').charAt(0)}
-                                </div>
+                                <TechLogo name={selectedCatForSession.name} />
                                 <div>
                                     <div className="flex items-center gap-2">
                                         <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#193D35] bg-[#F3E5C5] px-2.5 py-0.5 rounded-full border border-[#E2D0A6]">

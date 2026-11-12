@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hangbug/widgets/tech_logo_widget.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../providers/game_provider.dart';
 import '../../../services/notification_service.dart';
@@ -399,20 +400,14 @@ class _AdminGamesScreenState extends ConsumerState<AdminGamesScreen> with Single
                             padding: const EdgeInsets.all(14.0),
                             child: Row(
                               children: [
-                                Container(
-                                  width: 44,
-                                  height: 44,
-                                  decoration: BoxDecoration(
-                                    color: techColor.withValues(alpha: 0.15),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(color: techColor.withValues(alpha: 0.3)),
+                                TechLogoWidget(
+                                  name: tech.name,
+                                  size: 44,
+                                  borderRadius: 12,
+                                  border: Border.all(
+                                    color: techColor.withValues(alpha: 0.35),
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      tech.name.substring(0, 1).toUpperCase(),
-                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: techColor),
-                                    ),
-                                  ),
+                                  fallbackIconColor: techColor,
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(

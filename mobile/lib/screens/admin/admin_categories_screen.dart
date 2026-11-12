@@ -10,6 +10,7 @@ import '../../widgets/app_text_field.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
+import '../../widgets/tech_logo_widget.dart';
 
 class AdminCategoriesScreen extends ConsumerWidget {
   const AdminCategoriesScreen({super.key});
@@ -81,23 +82,14 @@ class AdminCategoriesScreen extends ConsumerWidget {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        leading: Container(
-          width: 48,
-          height: 48,
-          decoration: BoxDecoration(
-            color: cat.isEnabled
-                ? context.brandAccentColor.withValues(alpha: 0.12)
-                : context.textMutedColor.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            cat.name.isNotEmpty ? cat.name.substring(0, 1).toUpperCase() : 'C',
-            style: AppTextStyles.displaySmall.copyWith(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: cat.isEnabled ? context.brandAccentColor : context.textMutedColor,
-            ),
+        leading: Opacity(
+          opacity: cat.isEnabled ? 1.0 : 0.5,
+          child: TechLogoWidget(
+            name: cat.name,
+            size: 48,
+            borderRadius: 12,
+            fallbackIconColor:
+                cat.isEnabled ? context.brandAccentColor : context.textMutedColor,
           ),
         ),
         title: Row(
