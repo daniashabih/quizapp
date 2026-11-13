@@ -381,10 +381,13 @@ test('19. Technical SEO: XML sitemap lastmod timestamps and complete public URL 
     assert.ok(sitemap.includes('<loc>https://www.hangbug.com/games/csharp-quiz-challenge</loc>'), 'sitemap.xml must include csharp-quiz-challenge game');
 });
 
-test('20. Technical SEO: Vercel Clean URLs, trailing slash normalization, and alias 301 redirects', () => {
+test('20. Technical SEO: Vercel routing configuration, API protections, and alias 301 redirects', () => {
     const vercelConfig = JSON.parse(readFile('vercel.json'));
-    assert.strictEqual(vercelConfig.cleanUrls, true, 'vercel.json must enable cleanUrls');
-    assert.strictEqual(vercelConfig.trailingSlash, false, 'vercel.json must set trailingSlash to false');
+    assert.ok(vercelConfig.functions && vercelConfig.functions['api/index.js'], 'vercel.json must configure api/index.js function');
+    assert.ok(vercelConfig.functions['api/index.js'].includeFiles.includes('api/**'), 'includeFiles must bundle api/**');
+
+    const apiRewrite = vercelConfig.rewrites.find(r => r.source === '/api/(.*)');
+    assert.ok(apiRewrite && apiRewrite.destination === '/api/index.js', 'vercel.json must rewrite /api/(.*) to /api/index.js');
 
     const sitemapRedirect = vercelConfig.redirects.find(r => r.source === '/sitemap');
     assert.ok(sitemapRedirect && sitemapRedirect.destination === '/sitemap.xml' && sitemapRedirect.permanent === true, 'vercel.json must 301 redirect /sitemap to /sitemap.xml');

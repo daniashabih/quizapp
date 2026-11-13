@@ -2,11 +2,9 @@
   "buildCommand": "prisma generate && node scripts/generateSitemap.js && vite build && node scripts/generateSitemap.js",
   "outputDirectory": "dist",
   "installCommand": "npm install",
-  "cleanUrls": true,
-  "trailingSlash": false,
   "functions": {
     "api/index.js": {
-      "includeFiles": "{node_modules/.prisma/client/**,node_modules/@prisma/client/**,prisma/**}"
+      "includeFiles": "{api/**,node_modules/.prisma/client/**,node_modules/@prisma/client/**,prisma/**}"
     }
   },
   "redirects": [
@@ -283,7 +281,11 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/((?!api/|assets/|branding/|favicon|apple-touch-icon|robots\\.txt|sitemap\\.xml|ads\\.txt|app-ads\\.txt|manifest\\.json|.*\\..*).*)",
+      "source": "/api",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/((?!api(?:/|$)|assets/|branding/|favicon|apple-touch-icon|robots\\.txt|sitemap\\.xml|ads\\.txt|app-ads\\.txt|manifest\\.json|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]

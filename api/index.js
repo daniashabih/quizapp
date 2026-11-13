@@ -36,7 +36,7 @@ app.use((req, res, next) => {
     if (host === 'hangbug.com') {
         return res.redirect(301, `https://www.hangbug.com${req.originalUrl}`);
     }
-    if (req.path.length > 1 && req.path.endsWith('/')) {
+    if (!req.path.startsWith('/api') && req.path.length > 1 && req.path.endsWith('/')) {
         const query = req.url.slice(req.path.length);
         const safePath = req.path.slice(0, -1);
         return res.redirect(301, safePath + query);
