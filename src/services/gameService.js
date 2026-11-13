@@ -871,6 +871,8 @@ export const FALLBACK_TECHNOLOGIES = [
         icon: 'csharp',
         badge: 'Modern .NET',
         supportedGames: [
+            'complete-the-code',
+            'csharp-complete-the-code',
             'code-puzzle',
             'find-the-bug',
             'output-predictor',
