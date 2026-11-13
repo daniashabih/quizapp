@@ -1,4 +1,5 @@
 const prisma = require('../_config/prisma');
+const { AGILE_DEVOPS_QUESTIONS, AGILE_DEVOPS_SESSIONS } = require('./agileDevopsQuestionsData');
 
 const parseOptions = (opts) => {
     if (Array.isArray(opts)) return opts;
@@ -35,10 +36,17 @@ const Question = {
     },
 
     getAll: async () => {
-        const rows = await prisma.question.findMany({
-            orderBy: { createdAt: 'desc' }
-        });
-        return rows.map(r => ({
+        let rows = [];
+        try {
+            rows = await prisma.question.findMany({
+                orderBy: { createdAt: 'desc' }
+            });
+        } catch {
+            // DB fallback
+        }
+
+        const existingIds = new Set(rows.map(r => r.id));
+        const merged = rows.map(r => ({
             ...r,
             session: r.session || 1,
             options: parseOptions(r.options),
@@ -47,27 +55,76 @@ const Question = {
             explanation: r.explanation || '',
             created_at: r.createdAt
         }));
+
+        for (const q of AGILE_DEVOPS_QUESTIONS) {
+            if (!existingIds.has(q.id)) {
+                merged.push({
+                    id: q.id,
+                    category: q.category,
+                    session: q.session,
+                    sessionTitle: q.sessionTitle,
+                    options: parseOptions(q.options),
+                    question_text: q.questionText,
+                    correct_answer: q.correctAnswer,
+                    explanation: q.explanation || '',
+                    created_at: new Date()
+                });
+            }
+        }
+
+        return merged;
     },
 
     getFiltered: async ({ category, session } = {}) => {
-        const where = {};
-        if (category) {
-            const variations = getCategoryVariations(category);
-            if (variations.length > 1) {
-                where.OR = variations.map(v => ({ category: { equals: v, mode: 'insensitive' } }));
-            } else {
-                where.category = { equals: category, mode: 'insensitive' };
+        let rows = [];
+        try {
+            const where = {};
+            if (category) {
+                const variations = getCategoryVariations(category);
+                if (variations.length > 1) {
+                    where.OR = variations.map(v => ({ category: { equals: v, mode: 'insensitive' } }));
+                } else {
+                    where.category = { equals: category, mode: 'insensitive' };
+                }
             }
-        }
-        if (session !== undefined && session !== null && session !== '' && session !== 'all' && !isNaN(parseInt(session, 10)) && parseInt(session, 10) > 0) {
-            where.session = parseInt(session, 10);
+            if (session !== undefined && session !== null && session !== '' && session !== 'all' && !isNaN(parseInt(session, 10)) && parseInt(session, 10) > 0) {
+                where.session = parseInt(session, 10);
+            }
+
+            rows = await prisma.question.findMany({
+                where,
+                orderBy: { createdAt: 'desc' }
+            });
+        } catch {
+            // DB fallback
         }
 
-        const rows = await prisma.question.findMany({
-            where,
-            orderBy: { createdAt: 'desc' }
-        });
-        
+        const isAgileDevOps = category && (
+            category.toLowerCase().includes('agile') ||
+            category.toLowerCase().includes('devops')
+        );
+
+        if (rows.length === 0 && (isAgileDevOps || !category)) {
+            let filtered = AGILE_DEVOPS_QUESTIONS;
+            if (session !== undefined && session !== null && session !== '' && session !== 'all' && !isNaN(parseInt(session, 10)) && parseInt(session, 10) > 0) {
+                const sNum = parseInt(session, 10);
+                filtered = filtered.filter(q => q.session === sNum);
+            }
+            if (isAgileDevOps) {
+                return filtered.map(q => ({
+                    id: q.id,
+                    category: q.category,
+                    session: q.session,
+                    sessionTitle: q.sessionTitle,
+                    options: parseOptions(q.options),
+                    question_text: q.questionText,
+                    correct_answer: q.correctAnswer,
+                    explanation: q.explanation || '',
+                    created_at: new Date()
+                }));
+            }
+        }
+
         return rows.map(r => ({
             ...r,
             session: r.session || 1,
@@ -79,20 +136,30 @@ const Question = {
     },
 
     getSessionsByCategory: async (category) => {
-        const where = {};
-        if (category) {
-            const variations = getCategoryVariations(category);
-            if (variations.length > 1) {
-                where.OR = variations.map(v => ({ category: { equals: v, mode: 'insensitive' } }));
-            } else {
-                where.category = { equals: category, mode: 'insensitive' };
-            }
-        }
+        const isAgileDevOps = category && (
+            category.toLowerCase().includes('agile') ||
+            category.toLowerCase().includes('devops')
+        );
 
-        const rows = await prisma.question.findMany({
-            where,
-            select: { session: true }
-        });
+        let rows = [];
+        try {
+            const where = {};
+            if (category) {
+                const variations = getCategoryVariations(category);
+                if (variations.length > 1) {
+                    where.OR = variations.map(v => ({ category: { equals: v, mode: 'insensitive' } }));
+                } else {
+                    where.category = { equals: category, mode: 'insensitive' };
+                }
+            }
+
+            rows = await prisma.question.findMany({
+                where,
+                select: { session: true }
+            });
+        } catch {
+            // DB fallback
+        }
 
         const sessionCountMap = {};
         rows.forEach(r => {
@@ -100,11 +167,22 @@ const Question = {
             sessionCountMap[s] = (sessionCountMap[s] || 0) + 1;
         });
 
+        if (isAgileDevOps && Object.keys(sessionCountMap).length < 16) {
+            for (let s = 1; s <= 16; s++) {
+                const count = AGILE_DEVOPS_QUESTIONS.filter(q => q.session === s).length;
+                sessionCountMap[s] = Math.max(sessionCountMap[s] || 0, count);
+            }
+        }
+
         const sessions = Object.keys(sessionCountMap)
-            .map(s => ({
-                session: parseInt(s, 10),
-                count: sessionCountMap[s]
-            }))
+            .map(s => {
+                const sNum = parseInt(s, 10);
+                return {
+                    session: sNum,
+                    title: (isAgileDevOps && AGILE_DEVOPS_SESSIONS[sNum]) ? AGILE_DEVOPS_SESSIONS[sNum] : `Session ${sNum}`,
+                    count: sessionCountMap[s]
+                };
+            })
             .sort((a, b) => a.session - b.session);
 
         // If no sessions found yet, return default Session 1 with 0 questions
@@ -144,16 +222,20 @@ const Question = {
     },
 
     getRecentCount: async (days = 3) => {
-        const date = new Date();
-        date.setDate(date.getDate() - days);
-        const count = await prisma.question.count({
-            where: {
-                createdAt: {
-                    gte: date
+        try {
+            const date = new Date();
+            date.setDate(date.getDate() - days);
+            const count = await prisma.question.count({
+                where: {
+                    createdAt: {
+                        gte: date
+                    }
                 }
-            }
-        });
-        return count;
+            });
+            return count;
+        } catch {
+            return AGILE_DEVOPS_QUESTIONS.length;
+        }
     }
 };
 

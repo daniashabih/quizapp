@@ -1,4 +1,31 @@
 const prisma = require('../_config/prisma');
+const { AGILE_DEVOPS_QUESTIONS } = require('./agileDevopsQuestionsData');
+
+async function findQuestionById(questionId) {
+    let question = null;
+    try {
+        question = await prisma.question.findUnique({
+            where: { id: String(questionId) }
+        });
+    } catch {
+        // DB fallback
+    }
+    if (!question) {
+        const memQ = AGILE_DEVOPS_QUESTIONS.find(q => q.id === String(questionId));
+        if (memQ) {
+            question = {
+                id: memQ.id,
+                category: memQ.category,
+                session: memQ.session,
+                questionText: memQ.questionText,
+                options: memQ.options,
+                correctAnswer: memQ.correctAnswer,
+                explanation: memQ.explanation || ''
+            };
+        }
+    }
+    return question;
+}
 
 function normalizeAnswer(val) {
     return String(val || '')

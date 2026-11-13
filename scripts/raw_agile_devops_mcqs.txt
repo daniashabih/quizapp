@@ -1,0 +1,5666 @@
+Session 1: Software Characteristics
+59 questions
+Q1. In which decade did electronic computers evolve?
+A) 1950s
+B) 1940s
+C) 1960s
+D) 1930s
+Answer: B) 1940s
+Q2. In the early days of computing, which area posed the major challenge?
+A) Networking
+B) Software
+C) Databases
+D) Hardware
+Answer: D) Hardware
+Q3. The term "software engineering" was coined at conferences sponsored by which body?
+A) IEEE Computer Society
+B) NATO Science Committee
+C) ISO
+D) ACM
+Answer: B) NATO Science Committee
+Q4. The term software engineering was coined in Europe in which year?
+A) 1968
+B) 1960
+C) 1950
+D) 1975
+Answer: B) 1960
+Q5. The 'software crisis' arose because:
+A) Programmers refused to document
+B) Techniques for simple programs could not scale to large software systems
+C) Hardware became too costly
+D) Languages were too high-level
+Answer: B) Techniques for simple programs could not scale to large software systems
+Q6. According to IEEE, software engineering is the application of a ______ approach to development, operation and maintenance of software.
+A) random, flexible
+B) informal, creative
+C) manual, sequential
+D) systematic, disciplined, quantifiable
+Answer: D) systematic, disciplined, quantifiable
+Q7. Which discipline's goal is to deal with the software crisis?
+A) Hardware engineering
+B) Data mining
+C) Software engineering
+D) Network engineering
+Answer: C) Software engineering
+Q8. Software takes on a dual role. It is:
+A) A plan and a budget
+B) A product and a vehicle to deliver a product
+C) A tool and a toy
+D) Hardware and firmware
+Answer: B) A product and a vehicle to deliver a product
+Q9. As a product, software is best described as an:
+A) Information transformer
+B) Physical entity
+C) Manufacturing line
+D) Energy source
+Answer: A) Information transformer
+Q10. Operating systems, networks and software tools are examples of software acting as:
+A) Hardware
+B) The vehicle used to deliver a product
+C) A manual process
+D) A product only
+Answer: B) The vehicle used to deliver a product
+Q11. IEEE defines software as a collection of:
+A) Hardware and drivers
+B) Only source code and compilers
+C) Only computer programs
+D) Programs, procedures, rules, and associated documentation and data
+Answer: D) Programs, procedures, rules, and associated documentation and data
+Q12. Which of the following is NOT a component of software?
+A) Instructions or computer programs
+B) Documentation
+C) Hardware circuits
+D) Data structures
+Answer: C) Hardware circuits
+Q13. Data structures in software are used to:
+A) Store information required by programs to work upon
+B) Test the code
+C) Provide the desired features
+D) Describe the use of programs
+Answer: A) Store information required by programs to work upon
+Q14. Documentation in software describes:
+A) The hardware layout
+B) The compiler options
+C) The data types only
+D) The operation and use of programs
+Answer: D) The operation and use of programs
+Q15. Unlike a simple program, a programming system product is generally used by:
+A) Only the author
+B) Only hardware vendors
+C) People other than the developers
+D) Only testers
+Answer: C) People other than the developers
+Q16. Software falls under the category of:
+A) Manufactured good
+B) Programming system product
+C) Hardware product
+D) Program
+Answer: B) Programming system product
+Q17. Why is software generally provided with a proper user interface?
+A) To avoid testing
+B) Users have different backgrounds
+C) Because of hardware limits
+D) To increase file size
+Answer: B) Users have different backgrounds
+Q18. A software process is defined as:
+A) A framework for the tasks required to build high-quality software
+B) A programming language
+C) A set of hardware components
+D) A user manual
+Answer: A) A framework for the tasks required to build high-quality software
+Q19. The desired result of a software process is:
+A) Complex code
+B) Large documentation only
+C) Fast but poor software
+D) High-quality software at low cost
+Answer: D) High-quality software at low cost
+Q20. The fundamental objectives of a software process are:
+A) Speed and secrecy
+B) Simplicity and beauty
+C) Optimality and scalability
+D) Portability and security
+Answer: C) Optimality and scalability
+Q21. "Optimality" of a process means that it should:
+A) Be applicable for large projects
+B) Support change
+C) Be predictable
+D) Produce high-quality software at low cost
+Answer: D) Produce high-quality software at low cost
+Q22. "Scalability" of a process means that it should:
+A) Be applicable for large software projects
+B) Remove documentation
+C) Reduce testing
+D) Produce software at low cost
+Answer: A) Be applicable for large software projects
+Q23. A process that cannot handle large software projects is said to lack:
+A) Optimality
+B) Portability
+C) Maintainability
+D) Scalability
+Answer: D) Scalability
+Q24. Which property determines how accurately the outcome of a project can be predicted before completion?
+A) Predictability
+B) Maintainability
+C) Portability
+D) Testability
+Answer: A) Predictability
+Q25. A predictable process is also said to be under:
+A) Manual control
+B) Statistical control
+C) Hardware control
+D) Legal control
+Answer: B) Statistical control
+Q26. Which cost generally exceeds the development cost during the life of software?
+A) Licensing cost
+B) Training cost
+C) Maintenance cost
+D) Hardware cost
+Answer: C) Maintenance cost
+Q27. Which should be the goal of a process, according to the Bell Labs survey discussed?
+A) Reduce effort of design and coding
+B) Eliminate all testing
+C) Reduce the cost of testing and maintenance
+D) Reduce documentation
+Answer: C) Reduce the cost of testing and maintenance
+Q28. Errors should ideally be detected:
+A) In the phase in which they originated
+B) During maintenance
+C) Only during acceptance testing
+D) After deployment
+Answer: A) In the phase in which they originated
+Q29. The cost of correcting an error depends on:
+A) When the error is detected and corrected
+B) The programming language
+C) The hardware used
+D) The size of the team
+Answer: A) When the error is detected and corrected
+Q30. If an error is corrected after coding, then:
+A) Only the code changes
+B) Both design and code have to be changed
+C) Nothing changes
+D) Only requirements change
+Answer: B) Both design and code have to be changed
+Q31. A process that learns from previous projects and improves itself exhibits:
+A) Process improvement
+B) Predictability
+C) Scalability
+D) Testability
+Answer: A) Process improvement
+Q32. Why should a software process not be a static entity?
+A) Because languages change yearly
+B) Because it must improve to satisfy goals such as quality improvement and cost reduction
+C) Because hardware changes
+D) Because users demand it
+Answer: B) Because it must improve to satisfy goals such as quality improvement and cost reduction
+Q33. The product of software engineering is a:
+A) Circuit
+B) Dam
+C) Plane
+D) Software system
+Answer: D) Software system
+Q34. Software, unlike other engineered products, is:
+A) A physical entity
+B) Tangible
+C) Always manufactured
+D) A logical entity
+Answer: D) A logical entity
+Q35. Software is developed or engineered; it is:
+A) Always automated
+B) Cheap to manufacture
+C) Manufactured on an assembly line
+D) Not manufactured
+Answer: D) Not manufactured
+Q36. For software, "manufacturing" is a trivial process of:
+A) Design
+B) Testing
+C) Duplication
+D) Assembly
+Answer: C) Duplication
+Q37. Software production primarily deals with:
+A) Hardware integration
+B) Design and implementation
+C) Manufacturing and packaging
+D) Assembly and sales
+Answer: B) Design and implementation
+Q38. The characteristic that sets software apart from other engineering products, because it can be modified easily, is:
+A) Tangibility
+B) Rigidity
+C) Malleability
+D) Durability
+Answer: C) Malleability
+Q39. A change in software should be viewed as a change in:
+A) Hardware
+B) Code only
+C) Design rather than code
+D) Documentation only
+Answer: C) Design rather than code
+Q40. The hardware failure rate curve is commonly known as the:
+A) Bell curve
+B) Bathtub curve
+C) Learning curve
+D) S-curve
+Answer: B) Bathtub curve
+Q41. Hardware shows a high failure rate in its early life because of:
+A) Dust
+B) Heat
+C) Manufacturing or design defects
+D) Wear and tear
+Answer: C) Manufacturing or design defects
+Q42. Hardware failure rate rises again over time because of:
+A) Software bugs
+B) Better usage
+C) Cumulative environmental effects like dust, vibration and temperature
+D) Design defects
+Answer: C) Cumulative environmental effects like dust, vibration and temperature
+Q43. Software is not susceptible to:
+A) Environmental maladies
+B) Design defects
+C) Errors
+D) Changes
+Answer: A) Environmental maladies
+Q44. In the actual software failure curve, spikes appear because:
+A) Hardware wears out
+B) Power failures occur
+C) Users misuse it
+D) Changes made during maintenance introduce new defects
+Answer: D) Changes made during maintenance introduce new defects
+Q45. Software is said to deteriorate because of:
+A) Overheating
+B) Continuous change requests
+C) Dust
+D) Environmental wear
+Answer: B) Continuous change requests
+Q46. When a hardware component wears out, it is replaced by a spare part. For software:
+A) Spare parts are readily available
+B) Patches are called spare parts
+C) Spare parts are free
+D) No such spare parts exist
+Answer: D) No such spare parts exist
+Q47. Maintenance of software compared to hardware is:
+A) The same
+B) Easier
+C) Much more difficult
+D) Not required
+Answer: C) Much more difficult
+Q48. Most software is:
+A) Always off the shelf
+B) Assembled from existing components
+C) Hardware-based
+D) Custom-built
+Answer: D) Custom-built
+Q49. The concept of building software from existing components is known as:
+A) Software deterioration
+B) Software reusability
+C) Software duplication
+D) Software piracy
+Answer: B) Software reusability
+Q50. Which technology has helped create software engineering components?
+A) Batch processing
+B) Assembly language
+C) Object-oriented technology
+D) Procedural technology
+Answer: C) Object-oriented technology
+Q51. Software can be classified into which two categories?
+A) Hardware and firmware
+B) Free and paid
+C) Custom and packaged
+D) Application and system software
+Answer: D) Application and system software
+Q52. Which of the following is application software?
+A) Linker
+B) Device driver
+C) Web browser
+D) Operating system
+Answer: C) Web browser
+Q53. Which is an example of system software?
+A) Web browser
+B) Games
+C) Office software
+D) Debugger
+Answer: D) Debugger
+Q54. Copyrighted software distributed free for a trial period is called:
+A) Freeware
+B) Custom software
+C) Shareware
+D) Public-domain software
+Answer: C) Shareware
+Q55. Tailor-made software developed at a user's request is:
+A) Custom software
+B) Freeware
+C) Shareware
+D) Packaged software
+Answer: A) Custom software
+Q56. Software donated for public use with no copyright restrictions is:
+A) Shareware
+B) Custom software
+C) Public-domain software
+D) Packaged software
+Answer: C) Public-domain software
+Q57. Copyrighted software provided at no cost is called:
+A) Custom software
+B) Freeware
+C) Shareware
+D) Packaged software
+Answer: B) Freeware
+Q58. Software that serves as the interface between user, application software and hardware is:
+A) Browser
+B) Compiler
+C) Operating system
+D) Utility software
+Answer: C) Operating system
+Q59. Anti-virus software, firewalls and disk defragmenters are examples of:
+A) Utility software
+B) Custom software
+C) Shareware
+D) Application software
+Answer: A) Utility software
+Session 2: Software Development Life Cycle
+59 questions
+Q1. SDLC stands for:
+A) Software Development Life Cycle
+B) System Development Logic Cycle
+C) Software Design Life Cycle
+D) Software Deployment Life Chain
+Answer: A) Software Development Life Cycle
+Q2. SDLC is a process that consists of:
+A) Only coding tasks
+B) A single activity
+C) Only testing tasks
+D) A sequence of activities or phases governing the entire life cycle of software development
+Answer: D) A sequence of activities or phases governing the entire life cycle of software development
+Q3. SDLC is applied to:
+A) Only new software projects
+B) Only existing software
+C) Both building new software and enhancing existing software
+D) Hardware design only
+Answer: C) Both building new software and enhancing existing software
+Q4. Which of the following is a business requirement that SDLC has to meet?
+A) High-quality software systems
+B) Strong management control
+C) Increased productivity
+D) All of the above
+Answer: D) All of the above
+Q5. The cost vs. benefit ratio of a system is a measure of:
+A) Hardware speed
+B) Project success
+C) Team size
+D) Code size
+Answer: B) Project success
+Q6. Strong management control in SDLC requires developers to:
+A) Skip regular checks
+B) Ignore requirement changes
+C) Accurately estimate the time and resources needed for each project
+D) Avoid estimating
+Answer: C) Accurately estimate the time and resources needed for each project
+Q7. In the 1940s and 50s, coding shifted from scientific applications to:
+A) Web applications
+B) Games
+C) Military applications only
+D) Business applications
+Answer: D) Business applications
+Q8. Which decade saw the need for analysis and design in addition to implementation?
+A) 1960s
+B) 1950s
+C) 1940s
+D) 1980s
+Answer: A) 1960s
+Q9. Early analysis techniques mentioned in the text include:
+A) UML and SysML
+B) DFD and ERD
+C) CASE and RAD
+D) ADS and TAG
+Answer: D) ADS and TAG
+Q10. ADS stands for:
+A) Advanced Delivery Systems
+B) Automated Design Standards
+C) Accurately Defined Systems
+D) Applied Data Structures
+Answer: C) Accurately Defined Systems
+Q11. TAG stands for:
+A) Time Automated Grid
+B) Task Allocation Graph
+C) Technical Analysis Group
+D) Test Automation Guide
+Answer: A) Time Automated Grid
+Q12. Which new principle was incorporated into early analysis techniques?
+A) Working backwards from desired output to determine necessary input
+B) Skipping formal records
+C) Avoiding graphical representation
+D) Coding before analysis
+Answer: A) Working backwards from desired output to determine necessary input
+Q13. The top-down approach in early SDLC helped eliminate:
+A) Design
+B) Testing
+C) Maintenance
+D) Premature coding
+Answer: D) Premature coding
+Q14. The top-down approach focused first on analysis, then design, and finally on:
+A) Maintenance
+B) Coding
+C) Deployment
+D) Testing
+Answer: B) Coding
+Q15. Capturing requirements refers to:
+A) Identifying and understanding the exact purpose and scope of the project
+B) Writing code
+C) Creating test cases
+D) Installing hardware
+Answer: A) Identifying and understanding the exact purpose and scope of the project
+Q16. Which is a reason why SDLC has become increasingly important?
+A) Increasing need for automation of everyday services
+B) Software never fails
+C) Decrease in software use
+D) Businesses never change
+Answer: A) Increasing need for automation of everyday services
+Q17. For sensitive purposes such as updating medical records, software must:
+A) Allow occasional errors
+B) Skip testing
+C) Be run only once
+D) Have no errors no matter how often it is run
+Answer: D) Have no errors no matter how often it is run
+Q18. Which is the first phase of a typical SDLC?
+A) Planning and Requirement Analysis
+B) Maintenance
+C) Testing
+D) Deployment
+Answer: A) Planning and Requirement Analysis
+Q19. The SDLC starts with which phase, in which the client's problem is identified?
+A) Design
+B) Testing
+C) Problem Definition
+D) Coding
+Answer: C) Problem Definition
+Q20. The basic goal of requirement analysis is to:
+A) Write the code
+B) Gather requirements and get a clear idea of the client's needs
+C) Install the system
+D) Test the system
+Answer: B) Gather requirements and get a clear idea of the client's needs
+Q21. Which technique uses context-free questions to gain a basic understanding of the problem?
+A) Questionnaire
+B) Interviewing
+C) Record review
+D) Observation
+Answer: B) Interviewing
+Q22. Which technique is ideal when a wide spectrum of responses is required from a large group such as factory workers?
+A) Prototyping
+B) Interviewing
+C) Record reviews
+D) Questionnaires
+Answer: D) Questionnaires
+Q23. Which technique helps the analyst understand data, its movement and usage within an organization by examining existing documents?
+A) Observation
+B) Questionnaires
+C) Interviewing
+D) Record reviews
+Answer: D) Record reviews
+Q24. Which technique helps detect problems that users are unaware of or hesitant to talk about?
+A) Record reviews
+B) Interviewing
+C) Questionnaires
+D) Observation
+Answer: D) Observation
+Q25. After gathering requirements, the team needs to:
+A) Ignore them
+B) Examine, categorize and prioritize them
+C) Discard them
+D) Only document them
+Answer: B) Examine, categorize and prioritize them
+Q26. "A system is a collection of interrelated components that work together to achieve some common objective." This describes:
+A) A module
+B) A system
+C) A process
+D) A product
+Answer: B) A system
+Q27. System analysis is the specification of:
+A) Where the system is deployed
+B) Who will test the system
+C) What the system is required to do
+D) How the system will be coded
+Answer: C) What the system is required to do
+Q28. Which is an objective of system analysis?
+A) Establishing cost and schedule constraints
+B) Installing hardware
+C) Training users only
+D) Writing test scripts
+Answer: A) Establishing cost and schedule constraints
+Q29. Which step is the first and foremost check in the software engineering practice to temper over-enthusiastic automation?
+A) Deployment
+B) Feasibility study
+C) Testing
+D) Coding
+Answer: B) Feasibility study
+Q30. A feasibility study checks whether the proposed system is possible, affordable and:
+A) Complex
+B) Acceptable
+C) Portable
+D) Profitable
+Answer: B) Acceptable
+Q31. Which of these is NOT one of the aspects checked in a feasibility study?
+A) Obsolete
+B) Affordable
+C) Possible
+D) Acceptable
+Answer: A) Obsolete
+Q32. Determining the need for change within an organization is called:
+A) Legal analysis
+B) Technical feasibility
+C) Need analysis
+D) Cost-benefit analysis
+Answer: C) Need analysis
+Q33. Studying the effect of the change on the organization's economics is:
+A) Technical feasibility
+B) Cost-benefit analysis
+C) Evaluating alternatives
+D) Need analysis
+Answer: B) Cost-benefit analysis
+Q34. Evaluating technologies to implement the change within cost and resource limits is:
+A) Need analysis
+B) Legal evaluation
+C) Cost-benefit analysis
+D) Technical feasibility
+Answer: D) Technical feasibility
+Q35. The document in which requirements are specified is the:
+A) Test Plan
+B) Requirement Specification Document (RSD)
+C) Design Specification
+D) User Manual
+Answer: B) Requirement Specification Document (RSD)
+Q36. Requirement analysis helps to bridge the communication gap between:
+A) Tester and user
+B) Customer and developer
+C) Manager and tester
+D) Developer and tester
+Answer: B) Customer and developer
+Q37. Functional analysis relates to the precise definition of:
+A) Functions and sub-functions to be performed by the system
+B) Test cases
+C) Hardware components
+D) User training
+Answer: A) Functions and sub-functions to be performed by the system
+Q38. In the car example, "fuel-efficient engine giving x miles per gallon" is a:
+A) Business rule
+B) Design constraint
+C) Performance requirement
+D) Function
+Answer: C) Performance requirement
+Q39. In the car example, "size of the chassis" is a:
+A) Test case
+B) Function
+C) Design constraint
+D) Performance requirement
+Answer: C) Design constraint
+Q40. In the car example, "power brakes" is a:
+A) Design constraint
+B) Function
+C) Performance requirement
+D) Risk
+Answer: B) Function
+Q41. Which stage's final goal is to produce a model or prototype of the system?
+A) Requirement gathering
+B) Maintenance
+C) Design
+D) Testing
+Answer: C) Design
+Q42. Design is best described as:
+A) Only a coding activity
+B) A one-time activity
+C) Only testing
+D) An iterative process in which requirements are translated into an outline for constructing software
+Answer: D) An iterative process in which requirements are translated into an outline for constructing software
+Q43. The design model comprises data design, architectural design, interface design and:
+A) Test design
+B) Procedural design
+C) Hardware design
+D) Network design
+Answer: B) Procedural design
+Q44. ER diagrams and data dictionary act as a source of information for:
+A) Interface design
+B) Architectural design
+C) Testing
+D) Data design
+Answer: D) Data design
+Q45. Which design defines the relationships among the major structural elements of the program?
+A) Component-level design
+B) Architectural design
+C) Interface design
+D) Data design
+Answer: B) Architectural design
+Q46. Which design describes how software communicates with other systems and with people who use it?
+A) Architectural design
+B) Procedural design
+C) Interface design
+D) Data design
+Answer: C) Interface design
+Q47. Component-level design transforms structural elements of architecture into:
+A) User interfaces
+B) A procedural description of software components
+C) Test cases
+D) Data structures
+Answer: B) A procedural description of software components
+Q48. A good design should be modular, which means:
+A) It is logically partitioned into elements performing specific functions
+B) It avoids abstractions
+C) It has no structure
+D) It is a single block
+Answer: A) It is logically partitioned into elements performing specific functions
+Q49. It is estimated that more than what percentage of software development problems arise at the building/implementation stage?
+A) 20%
+B) 80%
+C) 10%
+D) 50%
+Answer: B) 80%
+Q50. Which of the following is a standard implementation activity?
+A) Requirements interviewing
+B) Creation of an installation plan
+C) Prototyping
+D) Feasibility study
+Answer: B) Creation of an installation plan
+Q51. Physical procedures in implementation refer to:
+A) Unit tests
+B) Backup tapes
+C) Hardware wiring only
+D) Procedures the organization follows alongside the automated system that complement its functioning
+Answer: D) Procedures the organization follows alongside the automated system that complement its functioning
+Q52. The best way to deal with user reluctance to a new system is to:
+A) Remove the old system overnight
+B) Make users aware and provide training before implementation
+C) Ignore it
+D) Hire new users
+Answer: B) Make users aware and provide training before implementation
+Q53. Unit testing is done by:
+A) The manager
+B) The customer
+C) Professional testers
+D) The developer after coding a component
+Answer: D) The developer after coding a component
+Q54. Which testing checks if all components compile and agree with each other?
+A) Acceptance testing
+B) Functional testing
+C) Sanity testing
+D) Unit testing
+Answer: C) Sanity testing
+Q55. Functional testing is performed by:
+A) Managers
+B) End users only
+C) Professional testers
+D) Developers
+Answer: C) Professional testers
+Q56. Maintenance activities may account for what share of total project costs?
+A) 5-10%
+B) 20-30%
+C) 60-70%
+D) 90-95%
+Answer: C) 60-70%
+Q57. Which is NOT a maintenance activity?
+A) Correcting problems
+B) Enhancing the product
+C) Adapting to new environments
+D) Gathering initial requirements
+Answer: D) Gathering initial requirements
+Q58. In the ABC Insurance case study, testing was proposed to be:
+A) Skipped
+B) Done by marketing
+C) Done by the customer
+D) Outsourced to third-party vendors
+Answer: D) Outsourced to third-party vendors
+Q59. In the ABC Insurance case, existing customer data was migrated:
+A) By the vendors
+B) Automatically in real time
+C) Manually as a one-time activity
+D) Never
+Answer: C) Manually as a one-time activity
+Session 3: Linear Process Models
+58 questions
+Q1. Software is different from other products mainly because it is:
+A) A physical entity
+B) Manufactured on assembly lines
+C) A logical entity
+D) Tangible
+Answer: C) A logical entity
+Q2. Software engineering essentially consists of a set of steps comprising:
+A) Only hardware
+B) Only languages
+C) Only tools
+D) Methods, tools and procedures
+Answer: D) Methods, tools and procedures
+Q3. A software process is a standardized approach to:
+A) Sell software
+B) Write manuals only
+C) Design hardware
+D) Plan, organize and execute a software development project
+Answer: D) Plan, organize and execute a software development project
+Q4. Software process models help to:
+A) Avoid documentation
+B) Predict the budget and review progress at each stage
+C) Eliminate testing
+D) Remove the customer
+Answer: B) Predict the budget and review progress at each stage
+Q5. The process model chosen depends on:
+A) Only the budget
+B) The OS used
+C) Only the programmer's choice
+D) The software being built
+Answer: D) The software being built
+Q6. The process models in the industry are broadly categorized as:
+A) Linear and Evolutionary
+B) Agile and Waterfall only
+C) Simple and Complex
+D) Manual and Automated
+Answer: A) Linear and Evolutionary
+Q7. Linear process models are also referred to as:
+A) Traditional models
+B) Iterative models
+C) Agile models
+D) Evolutionary models
+Answer: A) Traditional models
+Q8. In a linear process model, each phase must be:
+A) Done in parallel
+B) Completed before moving to the next phase
+C) Skipped
+D) Repeated forever
+Answer: B) Completed before moving to the next phase
+Q9. The linear model begins at the:
+A) Maintenance level
+B) System level
+C) Coding level
+D) Test level
+Answer: B) System level
+Q10. Linear models are built on the assumption that software can be:
+A) Changed any time freely
+B) Built without design
+C) Understood and described completely before a solution is designed
+D) Developed without requirements
+Answer: C) Understood and described completely before a solution is designed
+Q11. Tight control in linear models is maintained through:
+A) Prototypes
+B) Pair programming
+C) Extensive written documentation, formal reviews and sign-offs
+D) Daily meetings
+Answer: C) Extensive written documentation, formal reviews and sign-offs
+Q12. Which is an advantage of linear process models?
+A) Customer feedback each week
+B) Highly flexible to change
+C) Easy to understand and implement
+D) No documentation
+Answer: C) Easy to understand and implement
+Q13. Which advantage relates to clear hand-off between phases?
+A) Clear demarcation between two phases
+B) Dynamic scope
+C) Continuous feedback
+D) Early prototype
+Answer: A) Clear demarcation between two phases
+Q14. Milestone reviews in linear models encourage scrutiny of:
+A) Coding style
+B) Hardware
+C) Phase exit and entry criteria
+D) Marketing
+Answer: C) Phase exit and entry criteria
+Q15. Another name for the waterfall model is:
+A) Spiral model
+B) Agile model
+C) Linear sequential model / classic life cycle
+D) Prototype model
+Answer: C) Linear sequential model / classic life cycle
+Q16. The waterfall model begins with:
+A) Testing
+B) Coding
+C) System/information engineering and modeling
+D) Maintenance
+Answer: C) System/information engineering and modeling
+Q17. System view is essential in waterfall because software must interface with:
+A) Hardware, people and databases
+B) Only code
+C) Only testers
+D) Only users
+Answer: A) Hardware, people and databases
+Q18. The feasibility of the proposed system is assessed during:
+A) Maintenance
+B) Coding
+C) System engineering and modeling
+D) Testing
+Answer: C) System engineering and modeling
+Q19. In software requirements analysis, the analyst must understand the information domain and the required:
+A) Training plan
+B) Function, behavior, performance and interfacing
+C) Hardware prices
+D) Test scripts
+Answer: B) Function, behavior, performance and interfacing
+Q20. Which is NOT one of the four attributes the design phase focuses on?
+A) Marketing strategy
+B) Interface representations
+C) Software architecture
+D) Data structure
+Answer: A) Marketing strategy
+Q21. The design process translates requirements into a representation that can be assessed for quality:
+A) During maintenance
+B) Before code generation begins
+C) After testing
+D) After deployment
+Answer: B) Before code generation begins
+Q22. PDL is used in detailed design and stands for:
+A) Program Design Language
+B) Process Development Logic
+C) Procedural Data Layer
+D) Project Delivery List
+Answer: A) Program Design Language
+Q23. The logic of a module in detailed design is usually specified in a language that is:
+A) Tied to the target language
+B) Assembly only
+C) Binary only
+D) Independent of the target implementation language
+Answer: D) Independent of the target implementation language
+Q24. The coding phase translates:
+A) Code into test cases
+B) Requirements into design
+C) Design into code in a programming language
+D) Test cases into design
+Answer: C) Design into code in a programming language
+Q25. The coding phase affects which later phases?
+A) Feasibility
+B) None
+C) Requirements
+D) Testing and maintenance
+Answer: D) Testing and maintenance
+Q26. In top-down implementation:
+A) Bottom modules are first
+B) Only test modules
+C) The main module is implemented first, then subordinates
+D) All modules together
+Answer: C) The main module is implemented first, then subordinates
+Q27. In bottom-up implementation:
+A) Tests are first
+B) Modules at the bottom of the hierarchy are implemented first
+C) The main module is first
+D) Interface is first
+Answer: B) Modules at the bottom of the hierarchy are implemented first
+Q28. Building parts of a system and testing them before integration is preferred because:
+A) It is not feasible to build the whole system in one go
+B) It needs no design
+C) It is cheaper in all cases
+D) It avoids coding
+Answer: A) It is not feasible to build the whole system in one go
+Q29. Testing focuses on logical internals and:
+A) Pricing
+B) Functional externals
+C) Marketing
+D) Documentation
+Answer: B) Functional externals
+Q30. The testing activity is carried out in two phases:
+A) Design and code
+B) Components before integration, then the integrated product
+C) Unit and deployment
+D) Alpha and beta only
+Answer: B) Components before integration, then the integrated product
+Q31. Software maintenance reapplies each of the preceding phases to:
+A) Documents only
+B) Hardware
+C) A new program
+D) An existing program rather than a new one
+Answer: D) An existing program rather than a new one
+Q32. Change after delivery may be required because of:
+A) Errors, environment changes or customer enhancements
+B) Only hardware cost
+C) Only licences
+D) Only errors
+Answer: A) Errors, environment changes or customer enhancements
+Q33. Each phase of waterfall ends in:
+A) A prototype
+B) A holiday
+C) A verification and validation activity
+D) A new requirement
+Answer: C) A verification and validation activity
+Q34. The waterfall model is the ______ and most widely used paradigm.
+A) Oldest
+B) Smallest
+C) Newest
+D) Fastest
+Answer: A) Oldest
+Q35. Waterfall is most appropriate when requirements are:
+A) Unknown
+B) Rapidly changing
+C) Unclear
+D) Clear, fixed and well documented
+Answer: D) Clear, fixed and well documented
+Q36. Which is a disadvantage of waterfall?
+A) Users can judge quality only at the end of the life cycle
+B) Easy to arrange tasks
+C) Well-defined milestones
+D) Clear stages
+Answer: A) Users can judge quality only at the end of the life cycle
+Q37. Waterfall follows the "Big-bang" approach, which means:
+A) The entire product is integrated at the end
+B) Frequent small releases
+C) Customer integrates
+D) Parallel releases
+Answer: A) The entire product is integrated at the end
+Q38. In waterfall, changes required at any phase:
+A) May end the project development
+B) Are welcomed
+C) Cost nothing
+D) Are always easy
+Answer: A) May end the project development
+Q39. Waterfall involves a ______ level of risk and uncertainty.
+A) High
+B) Zero
+C) Low
+D) No
+Answer: A) High
+Q40. The V-model is an extension of the:
+A) Scrum
+B) Spiral model
+C) Waterfall model
+D) XP
+Answer: C) Waterfall model
+Q41. The V-model is also known as the:
+A) Variable model
+B) Vision model
+C) Verification and Validation model
+D) Version model
+Answer: C) Verification and Validation model
+Q42. "Are you building the right thing?" expresses:
+A) Validation
+B) Verification
+C) Maintenance
+D) Design
+Answer: A) Validation
+Q43. "Are you building the thing right?" expresses:
+A) Verification
+B) Validation
+C) Planning
+D) Release
+Answer: A) Verification
+Q44. Verification is often an:
+A) Marketing process
+B) Internal process
+C) Legal process
+D) External process
+Answer: B) Internal process
+Q45. Validation ensures the product meets the needs of:
+A) Only testers
+B) Customer and other stakeholders
+C) Only managers
+D) Only developers
+Answer: B) Customer and other stakeholders
+Q46. The left side of the V represents:
+A) Validation
+B) Integration
+C) Decomposition of requirements and creation of specifications
+D) Maintenance
+Answer: C) Decomposition of requirements and creation of specifications
+Q47. The right side of the V represents:
+A) Requirement decomposition
+B) Planning
+C) Design
+D) Integration of parts and validation
+Answer: D) Integration of parts and validation
+Q48. In the V-model, the user acceptance tests are designed in the:
+A) Coding phase
+B) Deployment
+C) Requirements analysis phase
+D) Module design phase
+Answer: C) Requirements analysis phase
+Q49. In the V-model, the system test plan is created during:
+A) Maintenance
+B) System design
+C) Unit testing
+D) Coding
+Answer: B) System design
+Q50. The integration test plan is created in the:
+A) Maintenance
+B) Coding phase
+C) High-level design phase
+D) Unit test phase
+Answer: C) High-level design phase
+Q51. The unit test design is developed during:
+A) Requirement analysis
+B) Architecture design
+C) Acceptance
+D) Module design (low-level design)
+Answer: D) Module design (low-level design)
+Q52. Another name for module design is:
+A) Low-level design
+B) System design
+C) High-level design
+D) Architecture
+Answer: A) Low-level design
+Q53. Unit testing verifies the internal logic of code by testing every possible branch; this is known as:
+A) Stress testing
+B) Regression
+C) Test coverage
+D) Smoke testing
+Answer: C) Test coverage
+Q54. Black box testing is usually done at which stage of the V-model?
+A) Maintenance
+B) Coding
+C) System and architecture design
+D) Module design
+Answer: C) System and architecture design
+Q55. Which is a disadvantage of the V-model?
+A) Higher chance of success
+B) Easy to understand
+C) Very rigid, like waterfall
+D) Specific deliverables
+Answer: C) Very rigid, like waterfall
+Q56. A V-model advantage over waterfall is that:
+A) It allows scope changes easily
+B) Test plans are developed early
+C) It supports prototypes
+D) It is more flexible
+Answer: B) Test plans are developed early
+Q57. In the V-model, no early prototypes are available because:
+A) Testing is skipped
+B) Users reject prototypes
+C) It's too costly
+D) Software is developed in the implementation phase
+Answer: D) Software is developed in the implementation phase
+Q58. A drawback of linear models noted in the text is that:
+A) They are too flexible
+B) An initial design is likely flawed, and late discovery of design defects causes costly over-runs
+C) Defects are found early
+D) They never need documents
+Answer: B) An initial design is likely flawed, and late discovery of design defects causes costly over-runs
+Session 4: Iterative Process Models
+60 questions
+Q1. Prototyping was developed to overcome the limitations of the:
+A) Scrum
+B) Spiral model
+C) XP
+D) Waterfall model
+Answer: D) Waterfall model
+Q2. A prototype is best described as:
+A) A model or simulation of the real thing
+B) The final product
+C) A test plan
+D) A contract
+Answer: A) A model or simulation of the real thing
+Q3. A prototype may display functionality but may not actually hold:
+A) The actual logic/ full internals of the final product
+B) A user interface
+C) Any screens
+D) Any users
+Answer: A) The actual logic/ full internals of the final product
+Q4. Software prototyping helps to know customer requirements at:
+A) Deployment
+B) An initial stage
+C) Only the end
+D) Maintenance
+Answer: B) An initial stage
+Q5. Which organizations are mentioned as following prototyping?
+A) Microsoft, Disney and Boeing
+B) Google, Apple and Intel
+C) Toyota, Ford and GM
+D) Oracle, SAP and IBM
+Answer: A) Microsoft, Disney and Boeing
+Q6. In the first step of designing a prototype, which requirements are identified?
+A) Performance and security details
+B) Very basic requirements, especially user interface
+C) Maintenance needs
+D) Internal design details
+Answer: B) Very basic requirements, especially user interface
+Q7. Which aspects are NOT considered in the basic requirements identification step?
+A) Basic features
+B) User interface
+C) Internal design, performance and security
+D) Screens
+Answer: C) Internal design, performance and security
+Q8. The initial prototype illustrates:
+A) Very basic requirements and user interfaces
+B) Final database
+C) Deployment scripts
+D) Marketing plans
+Answer: A) Very basic requirements and user interfaces
+Q9. In the review step of prototyping, the prototype is presented to:
+A) Only developers
+B) Customer and other stakeholders
+C) Only testers
+D) Only managers
+Answer: B) Customer and other stakeholders
+Q10. In the revision and enhancement step, factors negotiated with the customer include:
+A) Colors only
+B) Time, budget constraints and technical feasibility
+C) Logo only
+D) Staff holidays
+Answer: B) Time, budget constraints and technical feasibility
+Q11. The prototype cycle repeats until:
+A) Budget ends
+B) Customer is satisfied
+C) Testing completes
+D) Developers get bored
+Answer: B) Customer is satisfied
+Q12. A vertical prototype is:
+A) A sales demo
+B) A UI-level view of the entire system
+C) A detailed explanation of a specific function or sub-system
+D) A paper sketch
+Answer: C) A detailed explanation of a specific function or sub-system
+Q13. Vertical prototypes are:
+A) Technical in nature
+B) Only visual
+C) Non-technical
+D) Used for sales
+Answer: A) Technical in nature
+Q14. A horizontal prototype displays:
+A) Test cases
+B) Internal functions in depth
+C) The user interface giving a wider view of the entire system
+D) Database structure
+Answer: C) The user interface giving a wider view of the entire system
+Q15. Horizontal prototypes may be used in:
+A) Unit testing
+B) Deployment
+C) Sales demos
+D) Code review
+Answer: C) Sales demos
+Q16. The prototype model is best suited for projects that:
+A) Do heavy data processing with little UI
+B) Need a lot of interaction with end users
+C) Are embedded firmware
+D) Have no users
+Answer: B) Need a lot of interaction with end users
+Q17. Which projects typically do NOT benefit from prototyping?
+A) Online systems
+B) Heavy data processing with very little user interface
+C) Web interfaces
+D) HCI systems
+Answer: B) Heavy data processing with very little user interface
+Q18. Prototyping is useful when users are:
+A) Hostile
+B) Unwilling
+C) Never available
+D) Uncomfortable with hypothetical models
+Answer: D) Uncomfortable with hypothetical models
+Q19. Prototyping is considered when requirements are:
+A) Uncertain
+B) Fixed
+C) Frozen
+D) Complete
+Answer: A) Uncertain
+Q20. Prototyping is beneficial when the project has:
+A) A long development time
+B) A fixed design
+C) No users
+D) Zero risk
+Answer: A) A long development time
+Q21. A critical system needed immediately is a good case for prototyping because:
+A) It removes users
+B) It avoids testing
+C) It is cheaper
+D) Prototyping tools are designed for quick implementation
+Answer: D) Prototyping tools are designed for quick implementation
+Q22. Which is an advantage of prototyping?
+A) No customer feedback
+B) Active involvement of users
+C) No iteration
+D) Zero change requests
+Answer: B) Active involvement of users
+Q23. Prototyping helps detect problems:
+A) Later
+B) Earlier
+C) Only after delivery
+D) Never
+Answer: B) Earlier
+Q24. The major disadvantage of prototyping is:
+A) Lack of user involvement
+B) Excessive change requests
+C) No early view
+D) No feedback
+Answer: B) Excessive change requests
+Q25. Why do users request repeated changes in prototyping?
+A) They dislike prototypes
+B) They re-examine the prototype at each stage and think of new features
+C) The team asks for it
+D) It is required by law
+Answer: B) They re-examine the prototype at each stage and think of new features
+Q26. Evolutionary models are:
+A) Iterative
+B) One-shot
+C) Linear
+D) Sequential
+Answer: A) Iterative
+Q27. Evolutionary models enable engineers to develop:
+A) Hardware
+B) One version only
+C) Only documents
+D) Increasingly more complete versions of software
+Answer: D) Increasingly more complete versions of software
+Q28. In the Waterfall model, tasks are contained:
+A) Randomly
+B) Time-based
+C) Functionally
+D) Per user
+Answer: C) Functionally
+Q29. In the iterative model, tasks are contained:
+A) Time-based
+B) By user
+C) Functionally
+D) By document
+Answer: A) Time-based
+Q30. Unlike Waterfall, the iterative model does not start with:
+A) All requirements upfront
+B) A part of the software
+C) Implementation
+D) Review
+Answer: A) All requirements upfront
+Q31. In an iterative process, a new version of software is created:
+A) Once per year
+B) For each cycle
+C) Only at the end
+D) Never
+Answer: B) For each cycle
+Q32. Every iteration acts like a:
+A) Maintenance task
+B) Unit test
+C) Mini waterfall model
+D) Release
+Answer: C) Mini waterfall model
+Q33. At the end of each iteration, what is delivered?
+A) Nothing
+B) Working software
+C) Only plans
+D) Only documents
+Answer: B) Working software
+Q34. The key to successful iterative development is correct validation of requirements, verification and:
+A) Coding standards
+B) Testing of each version against requirements
+C) Team size
+D) Budget cuts
+Answer: B) Testing of each version against requirements
+Q35. Which is a benefit of the iterative approach?
+A) It tolerates changing requirements
+B) It is slower always
+C) It forbids change
+D) It has big-bang integration
+Answer: A) It tolerates changing requirements
+Q36. In the iterative approach, integration is:
+A) Progressive
+B) Done by customer
+C) One big bang at the end
+D) Never done
+Answer: A) Progressive
+Q37. Integration in non-iterative projects may take up to what portion of total effort?
+A) 90%
+B) 40%
+C) 5%
+D) 10%
+Answer: B) 40%
+Q38. Iterative integration is broken into how many smaller integrations (per the text)?
+A) One
+B) Two to three
+C) Six to nine
+D) Ten to twenty
+Answer: C) Six to nine
+Q39. In iterative development, risks are:
+A) Mitigated earlier
+B) Ignored
+C) Increased
+D) Discovered at the end
+Answer: A) Mitigated earlier
+Q40. In iterative development, testers start testing:
+A) Never
+B) After release
+C) Early
+D) Late
+Answer: C) Early
+Q41. Iterative approach facilitates:
+A) Late testing
+B) Reuse
+C) Duplication
+D) Rigid designs
+Answer: B) Reuse
+Q42. Iterative development results in a more:
+A) Fragile product
+B) Robust product
+C) Costly product always
+D) Undocumented product
+Answer: B) Robust product
+Q43. COTS stands for:
+A) Custom Off-The-Shelf
+B) Common Open Technology Standard
+C) Commercial-Off-the-Shelf
+D) Cost of Time Savings
+Answer: C) Commercial-Off-the-Shelf
+Q44. A problem of the initial release in evolutionary development is that it may be:
+A) Too secure
+B) Optimized for demonstration, so architecture does not scale
+C) Too detailed
+D) Fully tested
+Answer: B) Optimized for demonstration, so architecture does not scale
+Q45. Initial releases often defer considerations such as:
+A) User interface
+B) Screens
+C) Security, fault-tolerance and distributed processing
+D) Logos
+Answer: C) Security, fault-tolerance and distributed processing
+Q46. Which model was proposed by Boehm in 1988?
+A) Waterfall model
+B) Prototype model
+C) V-model
+D) Spiral model
+Answer: D) Spiral model
+Q47. The spiral model couples the iterative nature of prototyping with:
+A) Controlled, systematic aspects of the linear sequential model
+B) Scrum events
+C) Kanban
+D) Pair programming
+Answer: A) Controlled, systematic aspects of the linear sequential model
+Q48. A key feature that determines the next step in spiral model is:
+A) Risk assessment
+B) Team size
+C) Brand
+D) Colour scheme
+Answer: A) Risk assessment
+Q49. In the spiral model, inner cycles represent:
+A) Final testing
+B) Deployment
+C) Maintenance
+D) Early phases such as requirements analysis and prototyping
+Answer: D) Early phases such as requirements analysis and prototyping
+Q50. The spiral model is divided into framework activities also called:
+A) Task regions
+B) Sprints
+C) Epics
+D) Stories
+Answer: A) Task regions
+Q51. How many task regions does the spiral model in the text contain?
+A) Six
+B) Five
+C) Four
+D) Three
+Answer: A) Six
+Q52. In the spiral model, which task region defines resources and timelines?
+A) Planning
+B) Customer evaluation
+C) Engineering
+D) Risk analysis
+Answer: A) Planning
+Q53. Which task region assesses technical and management risks?
+A) Risk analysis
+B) Planning
+C) Context
+D) Construction
+Answer: A) Risk analysis
+Q54. Which task region builds representations of the application?
+A) Risk analysis
+B) Engineering
+C) Evaluation
+D) Planning
+Answer: B) Engineering
+Q55. Which task region constructs, tests, installs and provides user support?
+A) Construction and release
+B) Understanding the context
+C) Risk analysis
+D) Planning
+Answer: A) Construction and release
+Q56. Which task region obtains customer feedback?
+A) Customer evaluation
+B) Planning
+C) Engineering
+D) Risk analysis
+Answer: A) Customer evaluation
+Q57. In the spiral model, the team moves around the spiral in which direction?
+A) Top to bottom
+B) Randomly
+C) Counter-clockwise
+D) Clockwise, beginning at the core
+Answer: D) Clockwise, beginning at the core
+Q58. The spiral model uses prototyping as a:
+A) Final product
+B) Test tool
+C) Marketing tool
+D) Risk reduction mechanism
+Answer: D) Risk reduction mechanism
+Q59. A disadvantage of the spiral model is that it:
+A) Demands considerable risk assessment expertise
+B) Is too simple
+C) Needs no expertise
+D) Ignores risk
+Answer: A) Demands considerable risk assessment expertise
+Q60. Spiral model is suitable when the customer:
+A) Has fixed requirements
+B) Is not sure of requirements
+C) Has no requirements
+D) Doesn't pay
+Answer: B) Is not sure of requirements
+Session 5: Specialized Process Models
+60 questions
+Q1. Traditional software engineering methods are considered:
+A) Obsolete
+B) Informal
+C) Process-heavy and cumbersome
+D) Light and fast
+Answer: C) Process-heavy and cumbersome
+Q2. RAD stands for:
+A) Rapid Application Development
+B) Random Application Design
+C) Real-time Application Delivery
+D) Rapid Algorithm Deployment
+Answer: A) Rapid Application Development
+Q3. RAD uses very little:
+A) Coding
+B) Testing
+C) Planning
+D) Prototyping
+Answer: C) Planning
+Q4. RAD relies on the concept of:
+A) Waterfall
+B) Spiral
+C) Sequential only
+D) Parallelism
+Answer: D) Parallelism
+Q5. In RAD, several prototypes representing functional modules are:
+A) Discarded
+B) Never combined
+C) Developed one at a time
+D) Developed in parallel and later combined
+Answer: D) Developed in parallel and later combined
+Q6. RAD employs which development strategies?
+A) Big-bang
+B) Random
+C) Linear only
+D) Iterative and incremental
+Answer: D) Iterative and incremental
+Q7. RAD uses small dedicated teams working on:
+A) Only documentation
+B) One shared module
+C) Their own modules progressively
+D) Only testing
+Answer: C) Their own modules progressively
+Q8. How many main objectives does the RAD process meet in the text?
+A) Five
+B) Two
+C) Four
+D) Three
+Answer: D) Three
+Q9. Which is a RAD objective?
+A) Timely and speedy delivery of a working application
+B) Long delivery cycle
+C) Maximum documentation
+D) Zero user interaction
+Answer: A) Timely and speedy delivery of a working application
+Q10. How many phases are there in the RAD model discussed?
+A) Five
+B) Six
+C) Three
+D) Four
+Answer: A) Five
+Q11. The first phase of RAD is:
+A) Data modeling
+B) Process modeling
+C) Application generation
+D) Business modeling
+Answer: D) Business modeling
+Q12. In RAD, which phase identifies the flow of information between business functions?
+A) Data modeling
+B) Process modeling
+C) Business modeling
+D) Testing and turnover
+Answer: C) Business modeling
+Q13. In RAD, which phase reviews gathered information in terms of data objects?
+A) Process modeling
+B) Business modeling
+C) Application generation
+D) Data modeling
+Answer: D) Data modeling
+Q14. In a banking app, data objects such as customers and accounts are identified in:
+A) Testing
+B) Data modeling
+C) Business modeling
+D) Application generation
+Answer: B) Data modeling
+Q15. In RAD, which phase describes how insertion, deletion or update is performed on a data object?
+A) Turnover
+B) Business modeling
+C) Process modeling
+D) Data modeling
+Answer: C) Process modeling
+Q16. Prototypes of actual systems are built in which RAD phase?
+A) Application generation
+B) Business modeling
+C) Data modeling
+D) Process modeling
+Answer: A) Application generation
+Q17. In RAD, testing time is reduced because:
+A) Only the final product is tested
+B) Testing is skipped
+C) Users test everything
+D) Each prototype is tested independently
+Answer: D) Each prototype is tested independently
+Q18. RAD is suitable when:
+A) Skilled staff are unavailable
+B) A system needs to be delivered as working modules in short time
+C) Requirements are unknown with no tools
+D) Budget is very low
+Answer: B) A system needs to be delivered as working modules in short time
+Q19. RAD requires resources such as:
+A) Unskilled staff
+B) Only a low budget
+C) No tools
+D) Modeling designers, high budget and automated code-generating tools
+Answer: D) Modeling designers, high budget and automated code-generating tools
+Q20. An advantage of RAD is that:
+A) It ignores customers
+B) It is cheapest for tiny projects
+C) It requires no skills
+D) Reusability of prototypes saves cost and time
+Answer: D) Reusability of prototypes saves cost and time
+Q21. A disadvantage of RAD is:
+A) No customer feedback
+B) Too slow
+C) No prototypes
+D) Higher dependency on technical skills
+Answer: D) Higher dependency on technical skills
+Q22. RAD is not suitable for low-cost projects because:
+A) It lacks prototypes
+B) It is too slow
+C) Automated code generation cost is high
+D) It lacks users
+Answer: C) Automated code generation cost is high
+Q23. Rapid development in RAD may compromise:
+A) Speed
+B) Standardization, reliability and consistency
+C) Customer involvement
+D) Modularity
+Answer: B) Standardization, reliability and consistency
+Q24. In component-based development, an application is built from:
+A) Only databases
+B) Discrete executable components developed relatively independently
+C) Only objects
+D) One monolithic block
+Answer: B) Discrete executable components developed relatively independently
+Q25. Component-based development allows upgrading by:
+A) Reinstalling OS
+B) Recompiling everything
+C) Replacing the whole application
+D) Upgrading only some of the components
+Answer: D) Upgrading only some of the components
+Q26. Sharing components between applications creates opportunities for reuse but also:
+A) Higher cost always
+B) Inter-project dependencies
+C) No benefit
+D) Lower quality
+Answer: B) Inter-project dependencies
+Q27. The paradigm that models the real world as a series of objects is:
+A) Object-oriented
+B) Logic
+C) Procedural
+D) Functional
+Answer: A) Object-oriented
+Q28. Object-oriented classes encapsulate:
+A) Only data
+B) Data and the algorithms that manipulate them
+C) Only UI
+D) Only algorithms
+Answer: B) Data and the algorithms that manipulate them
+Q29. The component assembly model incorporates many characteristics of the:
+A) V-model
+B) Waterfall model
+C) Spiral model
+D) RAD model
+Answer: C) Spiral model
+Q30. The component assembly model builds applications from:
+A) Hand-written code only
+B) Prepackaged software components (classes)
+C) Documents
+D) Hardware
+Answer: B) Prepackaged software components (classes)
+Q31. The engineering activity in component assembly begins with:
+A) Identification of candidate classes
+B) Testing
+C) Coding
+D) Deployment
+Answer: A) Identification of candidate classes
+Q32. The component assembly model leads to:
+A) Software reuse
+B) Less productivity
+C) Code duplication
+D) Longer cycles
+Answer: A) Software reuse
+Q33. Reusability studies reported component assembly leads to what reduction in development cycle time?
+A) 70%
+B) 20%
+C) 50%
+D) 5%
+Answer: A) 70%
+Q34. Which is an architecture commonly used in component-based development?
+A) CORBA
+B) DFD
+C) UML
+D) ODBC
+Answer: A) CORBA
+Q35. CORBA stands for:
+A) Common Open Resource Bus Architecture
+B) Central Object Remote Binding API
+C) Common Object Request Broker Architecture
+D) Component Object Reuse Base Application
+Answer: C) Common Object Request Broker Architecture
+Q36. RMI stands for:
+A) Relay Message Interface
+B) Remote Memory Interface
+C) Remote Method Invocation
+D) Rapid Module Integration
+Answer: C) Remote Method Invocation
+Q37. SOAP stands for:
+A) Service Oriented Access Pattern
+B) System Operation Access Protocol
+C) Simple Object Access Protocol
+D) Standard Object Application Process
+Answer: C) Simple Object Access Protocol
+Q38. Which is an advantage of component-based development?
+A) Reusable and easy to maintain
+B) Hard to test
+C) Not portable
+D) Expensive
+Answer: A) Reusable and easy to maintain
+Q39. Which way of reconfiguring component-based software removes unnecessary and redundant steps?
+A) Duplication
+B) Integration
+C) Simplification
+D) Transformation
+Answer: C) Simplification
+Q40. Combining unconnected processes into a larger coordinated process is:
+A) Transformation
+B) Simplification
+C) Reduction
+D) Integration
+Answer: D) Integration
+Q41. A disadvantage of component-based development is:
+A) Too much reuse
+B) High cost of testing
+C) Not enough standards governing middleware
+D) Low flexibility only
+Answer: C) Not enough standards governing middleware
+Q42. AOSD stands for:
+A) Automated Object Software Design
+B) Agile Object Software Development
+C) Aspect-Oriented Software Development
+D) Application-Oriented System Design
+Answer: C) Aspect-Oriented Software Development
+Q43. AOSD originated from research at:
+A) IBM Labs
+B) Bell Labs
+C) MIT
+D) Xerox Palo Alto Research Center
+Answer: D) Xerox Palo Alto Research Center
+Q44. AOSD separates secondary functions from the main program's:
+A) Database
+B) Hardware
+C) Business logic
+D) User interface
+Answer: C) Business logic
+Q45. Cross-cutting concerns are changes that:
+A) Are isolated in one class
+B) Are only in UI
+C) Are only in database
+D) Cannot be isolated in a particular class and appear at many places
+Answer: D) Cannot be isolated in a particular class and appear at many places
+Q46. Any demand, requirement or expectation on a software system by a stakeholder is a:
+A) Aspect
+B) Concern
+C) Join point
+D) Weaver
+Answer: B) Concern
+Q47. A module that contains a concern is called:
+A) A weaver
+B) A pointcut
+C) A join point
+D) An aspect
+Answer: D) An aspect
+Q48. A well-defined point in program execution where an aspect is applied is a:
+A) Weaver
+B) Advice body
+C) Join point
+D) Pointcut
+Answer: C) Join point
+Q49. A specifically defined subset of join points is a:
+A) Aspect
+B) Pointcut
+C) Concern
+D) Weaver
+Answer: B) Pointcut
+Q50. Code executed when a join point is reached is the:
+A) Aspect
+B) Pointcut
+C) Weaver
+D) Advice body
+Answer: D) Advice body
+Q51. Weavers are special compilers that:
+A) Test code
+B) Compose the aspect's implementation with the main program
+C) Compress code
+D) Debug code
+Answer: B) Compose the aspect's implementation with the main program
+Q52. Which is an advantage of AOSD?
+A) Overhead
+B) Security risks
+C) Increased modularity
+D) Lack of UML support
+Answer: C) Increased modularity
+Q53. Which is a disadvantage of AOSD?
+A) Increased reusability
+B) Increased maintainability
+C) Lack of systematic methods of testing
+D) Reduced code size
+Answer: C) Lack of systematic methods of testing
+Q54. Standardized processes are essential for:
+A) Higher costs
+B) Predictability and good estimation
+C) Randomness
+D) Avoiding quality
+Answer: B) Predictability and good estimation
+Q55. Tailoring is:
+A) Hiring staff
+B) Testing
+C) Adjusting an organization's standard process to suit a particular project
+D) Writing code
+Answer: C) Adjusting an organization's standard process to suit a particular project
+Q56. Process may be tailored with respect to scope, formality, frequency and:
+A) Granularity
+B) Language
+C) Region
+D) Colour
+Answer: A) Granularity
+Q57. Which factor may need to be considered for tailoring a process?
+A) Only brand
+B) Only colour
+C) Skill level of the team, peak team size, and criticality of the application
+D) Only location
+Answer: C) Skill level of the team, peak team size, and criticality of the application
+Q58. Web Engineering is an ______ process.
+A) Rigid linear
+B) Adaptable and incremental (evolutionary)
+C) Manual
+D) One-shot
+Answer: B) Adaptable and incremental (evolutionary)
+Q59. In Web engineering, which framework activity identifies goals and scope of the WebApp?
+A) Formulation
+B) Planning
+C) Page generation
+D) Modeling
+Answer: A) Formulation
+Q60. In Web engineering, the Modeling activity incorporates two parallel tasks: content design and:
+A) Database design
+B) Cost design
+C) Test design
+D) User interface design
+Answer: D) User interface design
+Session 6: Agile Software Development - I
+60 questions
+Q1. Traditional models such as waterfall assume that:
+A) Every requirement must be identified before design and implementation begins
+B) Customers are always involved
+C) Design is skipped
+D) Requirements evolve throughout
+Answer: A) Every requirement must be identified before design and implementation begins
+Q2. Agile is a solution for businesses wanting development processes that are:
+A) Slow and detailed
+B) Heavy and bureaucratic
+C) Lightweight, fast and easy to understand
+D) Document-driven
+Answer: C) Lightweight, fast and easy to understand
+Q3. Which industries benefit most from Agile due to rapidly changing needs?
+A) Civil construction
+B) Heavy manufacturing
+C) Mobile app development and Web-based applications
+D) Aerospace hardware
+Answer: C) Mobile app development and Web-based applications
+Q4. Goldman (1995) defined agility as:
+A) Dynamic, context-specific, aggressively change-embracing and growth-oriented
+B) Static and predictable
+C) Document-focused
+D) Cost-cutting and efficiency
+Answer: A) Dynamic, context-specific, aggressively change-embracing and growth-oriented
+Q5. Agile in software development is a style of adapting a process model that combines:
+A) Only contracts
+B) Philosophy and a set of development guidelines
+C) Only tools
+D) Only documents
+Answer: B) Philosophy and a set of development guidelines
+Q6. In an Agile paradigm, each aspect of development is:
+A) Ignored
+B) Done once
+C) Frozen early
+D) Continually revisited throughout the life cycle
+Answer: D) Continually revisited throughout the life cycle
+Q7. The "analysis paralysis" phenomenon is less likely in Agile because:
+A) Documents are mandatory
+B) Plans are fixed
+C) Teams skip analysis entirely
+D) Teams develop software and gather requirements simultaneously
+Answer: D) Teams develop software and gather requirements simultaneously
+Q8. In the text, the work cycle in Agile is limited to about:
+A) Two months
+B) Two weeks
+C) Two years
+D) Two days
+Answer: B) Two weeks
+Q9. Agile SDLC follows the principle of:
+A) Increments and iterations
+B) Prototype discard
+C) One big release
+D) Waterfall phases
+Answer: A) Increments and iterations
+Q10. Short fixed-duration iterations in Agile are known as:
+A) Time-boxes
+B) Epics
+C) Phases
+D) Releases
+Answer: A) Time-boxes
+Q11. Which key feature states each iteration is a mini-increment built on top of the previous one?
+A) Adaptive
+B) Discipline
+C) Fixed time
+D) Iterative
+Answer: D) Iterative
+Q12. Which feature involves a lot of client involvement and face-to-face interaction?
+A) Discipline
+B) Fixed time
+C) Active customer involvement
+D) Simplicity
+Answer: C) Active customer involvement
+Q13. The 80/20 rule in Agile is used to decide:
+A) The 20% of features used 80% of the time
+B) Hardware
+C) Budget
+D) Team size
+Answer: A) The 20% of features used 80% of the time
+Q14. In Agile, high priority features are:
+A) Developed first
+B) Developed last
+C) Dropped
+D) Not planned
+Answer: A) Developed first
+Q15. In Agile, because the whole team is empowered to take decisions:
+A) A manager must approve everything
+B) There is no separate team to manage the project
+C) A separate PMO is needed
+D) Decisions are delayed
+Answer: B) There is no separate team to manage the project
+Q16. "People centric" in Agile means more emphasis on:
+A) Processes
+B) Tools
+C) Contracts
+D) Suitably skilled people than following processes
+Answer: D) Suitably skilled people than following processes
+Q17. Agile is based on ______ whereas traditional models are based on ______.
+A) Fixed; fixed
+B) Linear; spiral
+C) Predictive approach; adaptive methods
+D) Adaptive methods; predictive approach
+Answer: D) Adaptive methods; predictive approach
+Q18. Predictive teams depend entirely on:
+A) Planning and requirement analysis done at the beginning
+B) Prototypes
+C) Customer input
+D) Daily feedback
+Answer: A) Planning and requirement analysis done at the beginning
+Q19. In traditional models, changes in later stages go through:
+A) Strict prioritization and change control management
+B) Immediate approval
+C) No process
+D) Free acceptance
+Answer: A) Strict prioritization and change control management
+Q20. Agile teams typically are:
+A) Large and siloed
+B) Separate by function
+C) Co-located and collaborative
+D) Always remote
+Answer: C) Co-located and collaborative
+Q21. In traditional development, requirements are:
+A) Unknown
+B) Evolving
+C) Fixed initially
+D) Ignored
+Answer: C) Fixed initially
+Q22. In Agile, requirements:
+A) Are fixed initially
+B) Evolve during the life cycle
+C) Are never written
+D) Never change
+Answer: B) Evolve during the life cycle
+Q23. The Agile manifesto emerged in which year?
+A) 2001
+B) 2005
+C) 1995
+D) 1999
+Answer: A) 2001
+Q24. The Agile manifesto emerged at a ski lodge in:
+A) Switzerland
+B) Utah
+C) Oregon
+D) Colorado
+Answer: B) Utah
+Q25. How many principles does the Agile manifesto consist of?
+A) Eight
+B) Ten
+C) Twelve
+D) Four
+Answer: C) Twelve
+Q26. "Individuals and interactions" are valued over:
+A) Contracts
+B) Documentation
+C) Processes and tools
+D) Plans
+Answer: C) Processes and tools
+Q27. "Working software" is valued over:
+A) Customer collaboration
+B) Individuals
+C) Comprehensive documentation
+D) Planning
+Answer: C) Comprehensive documentation
+Q28. "Customer collaboration" is valued over:
+A) Plans
+B) Processes
+C) Working software
+D) Contract negotiation
+Answer: D) Contract negotiation
+Q29. In the manifesto, the items on the right have value, but the items on the left are valued:
+A) More
+B) Equally
+C) Not at all
+D) Less
+Answer: A) More
+Q30. Which is the first core value of the Agile manifesto?
+A) Working software over documentation
+B) Customer collaboration over contracts
+C) Individuals and interactions over processes and tools
+D) Responding to change over plans
+Answer: C) Individuals and interactions over processes and tools
+Q31. Inspect-and-adapt cycles work only when team members exhibit respect, transparency, trust and:
+A) Competition
+B) Isolation
+C) Secrecy
+D) Engagement
+Answer: D) Engagement
+Q32. Positive conflict in teams leads to:
+A) Lower productivity
+B) Innovation and resolution of conflicting agendas
+C) Chaos
+D) Delay
+Answer: B) Innovation and resolution of conflicting agendas
+Q33. Agile promotes self-organization by encouraging members to:
+A) Wait for orders
+B) Avoid planning
+C) Select items from a prioritized work list and manage their own work
+D) Skip reviews
+Answer: C) Select items from a prioritized work list and manage their own work
+Q34. Industry data suggests Agile projects have about what success rate versus traditional projects?
+A) Ten times
+B) Half
+C) Twice as much
+D) Same
+Answer: C) Twice as much
+Q35. Industry reports predict more than what percent of product requirements change during development?
+A) 60
+B) 90
+C) 30
+D) 10
+Answer: A) 60
+Q36. "Humphrey's Law" states that:
+A) More programmers speed delivery
+B) Customers never know what they want until they see working software
+C) A system's value grows as the square of users
+D) Software reflects org structure
+Answer: B) Customers never know what they want until they see working software
+Q37. Which law states that a system's value grows as approximately the square of the number of users?
+A) Humphrey's Law
+B) Metcalfe's Law
+C) Brooks's Law
+D) Conway's Law
+Answer: B) Metcalfe's Law
+Q38. In Agile, 20% of features are said to hold ______ of the value.
+A) 100%
+B) 80%
+C) 20%
+D) 50%
+Answer: B) 80%
+Q39. Approximately what percentage of developers use Agile today according to the text?
+A) 95-100%
+B) 10-20%
+C) 30-40%
+D) 60-80%
+Answer: D) 60-80%
+Q40. Which Agile principle uses working software to measure progress?
+A) Principle 7
+B) Principle 12
+C) Principle 1
+D) Principle 4
+Answer: A) Principle 7
+Q41. Which Agile principle advocates sustainable development at a constant pace?
+A) Principle 9
+B) Principle 5
+C) Principle 3
+D) Principle 8
+Answer: D) Principle 8
+Q42. The best architectures, requirements and designs arise from:
+A) Customers only
+B) Self-organizing teams
+C) Managers
+D) Senior architects only
+Answer: B) Self-organizing teams
+Q43. Extreme Programming derives its name from taking successful traditional practices to:
+A) Minimal levels
+B) Extreme levels
+C) Fewer levels
+D) Standard levels
+Answer: B) Extreme levels
+Q44. Scrum is described as:
+A) A modeling language
+B) A testing tool
+C) An iterative and incremental Agile framework for managing software projects
+D) A linear model
+Answer: C) An iterative and incremental Agile framework for managing software projects
+Q45. Scrum follows an ______ approach.
+A) Formal
+B) Linear
+C) Empirical
+D) Predictive
+Answer: C) Empirical
+Q46. ASD stands for:
+A) Agile Standard Delivery
+B) Adaptive Software Development
+C) Automated Software Design
+D) Applied System Development
+Answer: B) Adaptive Software Development
+Q47. ASD is used in business transactions involving:
+A) Simple tasks
+B) No risk
+C) Low value
+D) Considerable risks
+Answer: D) Considerable risks
+Q48. Lean advises making decisions:
+A) Never
+B) Randomly
+C) As late as possible
+D) As early as possible
+Answer: C) As late as possible
+Q49. AUP is a simplified version of:
+A) XP
+B) Scrum
+C) RAD
+D) Rational Unified Process (RUP)
+Answer: D) Rational Unified Process (RUP)
+Q50. Crystal methodologies are mainly applied to teams of about:
+A) 6-8 members
+B) 200+ members
+C) 50-100 members
+D) 1 member
+Answer: A) 6-8 members
+Q51. Crystal is suitable for systems that are:
+A) Life-critical
+B) Military only
+C) Not life-critical
+D) Safety-critical only
+Answer: C) Not life-critical
+Q52. DSDM is mainly used for projects with:
+A) No requirements
+B) A rigid schedule and budget
+C) No schedule
+D) Unlimited budget
+Answer: B) A rigid schedule and budget
+Q53. DSDM's Pareto principle states that:
+A) 20% from 80%
+B) 50% from 50%
+C) 100% from 100%
+D) 80% of business benefit comes from 20% of requirements
+Answer: D) 80% of business benefit comes from 20% of requirements
+Q54. DSDM stands for:
+A) Dynamic Systems Development Method
+B) Dynamic Software Design Method
+C) Distributed System Development Method
+D) Digital Software Delivery Model
+Answer: A) Dynamic Systems Development Method
+Q55. Agile methods are NOT appropriate for projects that:
+A) Involve active customers
+B) Need fast delivery
+C) Have changing requirements
+D) Have ample time for development
+Answer: D) Have ample time for development
+Q56. Agile is not used for projects where documents must be:
+A) Visual
+B) Informal
+C) Short
+D) Prepared and signed off at each stage
+Answer: D) Prepared and signed off at each stage
+Q57. In the case study, Company B decided to:
+A) Use open source only
+B) Outsource
+C) Hire a chief software architect to come up with the design
+D) Use whiteboarding
+Answer: C) Hire a chief software architect to come up with the design
+Q58. RUP was developed by:
+A) Oracle
+B) Microsoft
+C) Google
+D) IBM
+Answer: D) IBM
+Q59. Which is NOT a RUP phase?
+A) Inception
+B) Deployment
+C) Transition
+D) Elaboration
+Answer: B) Deployment
+Q60. In RUP, the project idea is defined and feasibility decided during:
+A) Construction
+B) Transition
+C) Inception
+D) Elaboration
+Answer: C) Inception
+Session 7: Agile Software Development - II
+60 questions
+Q1. The key difference between Agile phases and waterfall phases is that Agile phases incorporate:
+A) Collaboration, iteration and an incremental approach
+B) Single big release
+C) Strict sign-offs
+D) Heavy documentation
+Answer: A) Collaboration, iteration and an incremental approach
+Q2. In Agile, new features identified during the life cycle are planned across:
+A) Sprints
+B) Waterfalls
+C) Spirals
+D) Gates
+Answer: A) Sprints
+Q3. A sprint is:
+A) A document
+B) A meeting only
+C) A testing tool
+D) The most basic unit of development, a fixed period of time in which a task is completed and ready for review
+Answer: D) The most basic unit of development, a fixed period of time in which a task is completed and ready for review
+Q4. The duration of each sprint depends on:
+A) The manager's mood
+B) The OS
+C) The budget only
+D) The feature to be developed
+Answer: D) The feature to be developed
+Q5. The Requirements Analysis phase may consist of which three sub-stages?
+A) Design, Build, Deploy
+B) Vision, Roadmap, Backlog
+C) Planning, Coding, Testing
+D) Conception, Initiation and Analysis
+Answer: D) Conception, Initiation and Analysis
+Q6. The Conception phase is sometimes called:
+A) Iteration 0
+B) Iteration -1
+C) Iteration 2
+D) Iteration 1
+Answer: B) Iteration -1
+Q7. The Initiation phase is sometimes called:
+A) Iteration 5
+B) Iteration 0
+C) Iteration 1
+D) Iteration -1
+Answer: B) Iteration 0
+Q8. The Conception phase helps to:
+A) Test code
+B) Deploy software
+C) Write release notes
+D) Define the problem or business opportunity and identify a feasible strategy
+Answer: D) Define the problem or business opportunity and identify a feasible strategy
+Q9. The Initiation phase takes place during roughly the first:
+A) One year
+B) One quarter
+C) One day
+D) One week
+Answer: D) One week
+Q10. In the Initiation phase, the project is initiated through:
+A) Coding
+B) Deployment
+C) Retrospective
+D) A feasibility study and working with stakeholders to determine initial requirements
+Answer: D) A feasibility study and working with stakeholders to determine initial requirements
+Q11. Which phase involves creating design strategies to model the system?
+A) Testing
+B) Analysis
+C) Deployment
+D) Design
+Answer: D) Design
+Q12. Which is the final stage of Agile development?
+A) Design
+B) Testing
+C) Conception
+D) Deployment
+Answer: D) Deployment
+Q13. In traditional approaches, stakeholder sign-off is needed:
+A) Never
+B) Only at start
+C) Only at the end
+D) After completion of each phase
+Answer: D) After completion of each phase
+Q14. In Agile, to push development to the next phase, what is needed?
+A) Manager's approval only
+B) Approval from stakeholders for each requirement
+C) No approval
+D) Sign-off of all requirements
+Answer: B) Approval from stakeholders for each requirement
+Q15. In software engineering, an artifact is:
+A) Only a user
+B) Any form of portrayal denoting an intermediate or end product of the development process
+C) Only hardware
+D) Only code
+Answer: B) Any form of portrayal denoting an intermediate or end product of the development process
+Q16. Which is an example of an artifact?
+A) A meeting room
+B) Requirements specification
+C) A holiday
+D) A coffee machine
+Answer: B) Requirements specification
+Q17. Which Agile artifact is a short overview statement showing how a product supports the organization's strategies?
+A) Product vision statement
+B) Release plan
+C) Increment
+D) Product backlog
+Answer: A) Product vision statement
+Q18. The Product backlog comprises:
+A) Only bugs
+B) Only completed tasks
+C) A prioritized list of tasks for the project
+D) A list of users
+Answer: C) A prioritized list of tasks for the project
+Q19. The Product roadmap comprises:
+A) Meeting notes
+B) Test results
+C) Current sprint tasks
+D) Product requirements with approximate time frames
+Answer: D) Product requirements with approximate time frames
+Q20. The Release plan comprises:
+A) Bugs
+B) Defects
+C) Daily tasks
+D) An evolving timetable describing features to be delivered in upcoming releases
+Answer: D) An evolving timetable describing features to be delivered in upcoming releases
+Q21. The Sprint backlog comprises:
+A) Release notes
+B) Completed tasks
+C) Tasks to be completed within the current sprint
+D) All project tasks
+Answer: C) Tasks to be completed within the current sprint
+Q22. Tasks in the sprint backlog must be ranked by:
+A) Desired order of implementation (urgency and dependencies)
+B) Cost
+C) Alphabetical order
+D) Developer age
+Answer: A) Desired order of implementation (urgency and dependencies)
+Q23. An Increment indicates:
+A) The backlog
+B) Budget
+C) Product functionality at the end of each sprint
+D) Start of the sprint
+Answer: C) Product functionality at the end of each sprint
+Q24. Which is an advantage of Agile?
+A) Needs heavy documentation
+B) Promotes teamwork and cross training
+C) Handles complex dependencies well
+D) Requires an overall rigid plan
+Answer: B) Promotes teamwork and cross training
+Q25. Which is a disadvantage of Agile?
+A) Minimum rules
+B) Very realistic in approach
+C) Not suitable for handling complex dependencies
+D) Easy to manage
+Answer: C) Not suitable for handling complex dependencies
+Q26. Which statement about Agile is an advantage?
+A) Needs large resource
+B) Delivers partial working solutions early in the cycle
+C) Requires no customer
+D) Needs lots of documents
+Answer: B) Delivers partial working solutions early in the cycle
+Q27. A disadvantage of Agile is that it:
+A) Needs minimal skills
+B) Has too many rules
+C) Requires skilled manpower
+D) Is too slow
+Answer: C) Requires skilled manpower
+Q28. Minimum documentation in Agile can lead to:
+A) Lower speed
+B) Better auditing
+C) Better planning
+D) Difficulty in knowledge transfer to new team members
+Answer: D) Difficulty in knowledge transfer to new team members
+Q29. Agile is heavily dependent on:
+A) Contracts
+B) Customer interaction
+C) Tools
+D) Documentation
+Answer: B) Customer interaction
+Q30. Agile requires a strong:
+A) Contract
+B) Change management system
+C) Hardware
+D) Procurement
+Answer: B) Change management system
+Q31. Velocity is measured by:
+A) The quantity of work the team members together accomplish in one iteration
+B) Lines of code
+C) Team size
+D) Cost
+Answer: A) The quantity of work the team members together accomplish in one iteration
+Q32. Velocity is used to measure:
+A) Customer satisfaction
+B) Server speed
+C) The time taken for a team to deliver upcoming outcomes based on past performance
+D) Defects
+Answer: C) The time taken for a team to deliver upcoming outcomes based on past performance
+Q33. In the first iteration, the team's velocity is:
+A) Known exactly
+B) Zero by definition forever
+C) Unknown, so an approximate assumption is made
+D) Always 100
+Answer: C) Unknown, so an approximate assumption is made
+Q34. Story points are used in which framework for estimating work?
+A) RUP
+B) XP
+C) Scrum
+D) Waterfall
+Answer: C) Scrum
+Q35. Which units are used in XP for estimating work?
+A) Function points
+B) Story points
+C) Hours
+D) Craft units
+Answer: D) Craft units
+Q36. If team size changes, the velocity must be:
+A) Recalculated
+B) Doubled
+C) Kept same
+D) Ignored
+Answer: A) Recalculated
+Q37. A team completes 20 stories in a sprint with 3 story points each. Its velocity is:
+A) 17
+B) 23
+C) 60
+D) 6
+Answer: C) 60
+Q38. A backlog has 400 story points and the team averages 40 points per sprint. Sprints required:
+A) 4
+B) 8
+C) 40
+D) 10
+Answer: D) 10
+Q39. Velocity data is depicted in:
+A) ER diagrams
+B) Org charts
+C) Gantt charts
+D) Burndown and burnup charts
+Answer: D) Burndown and burnup charts
+Q40. Big visible charts are charts:
+A) Placed near Agile team workspaces to convey progress
+B) Only for managers
+C) Hidden
+D) Only digital
+Answer: A) Placed near Agile team workspaces to convey progress
+Q41. Big visible charts implement which Agile values?
+A) Competition
+B) Transparency and communication
+C) Contracts
+D) Secrecy
+Answer: B) Transparency and communication
+Q42. A burndown chart tracks:
+A) Work done
+B) Work remaining on the project
+C) Costs
+D) Defects
+Answer: B) Work remaining on the project
+Q43. In a burndown chart, the vertical axis measures:
+A) Iterations
+B) Defects
+C) Work remaining
+D) Cost
+Answer: C) Work remaining
+Q44. In a burndown chart, the horizontal axis marks:
+A) Work remaining
+B) Iterations
+C) Time of day
+D) Team members
+Answer: B) Iterations
+Q45. Sprint burndowns are often tracked using:
+A) Story points
+B) Defects
+C) Effort remaining
+D) Velocity
+Answer: C) Effort remaining
+Q46. Release burndowns are often tracked using:
+A) Story points
+B) Effort remaining
+C) Hours
+D) Bugs
+Answer: A) Story points
+Q47. A burnup chart tracks:
+A) Defects
+B) Work remaining only
+C) Costs
+D) The amount of work done
+Answer: D) The amount of work done
+Q48. A burnup chart can show what that a burndown chart finds difficult to show?
+A) Team size
+B) Changing goal or scope of the project
+C) Defects
+D) Cost
+Answer: B) Changing goal or scope of the project
+Q49. In a burnup chart, the bottom line represents:
+A) Cost
+B) Total scope
+C) Time
+D) Work done
+Answer: D) Work done
+Q50. In a burnup chart, the top line represents:
+A) Work done
+B) Total scope
+C) Cost
+D) Defects
+Answer: B) Total scope
+Q51. Scope creep in a burnup chart is seen when:
+A) Team grows
+B) Defects rise
+C) The total scope line keeps increasing
+D) The work done line falls
+Answer: C) The total scope line keeps increasing
+Q52. Process improvement charts are used to:
+A) Track budget
+B) Measure specific issues the team would like to improve
+C) Track bugs
+D) Track attendance
+Answer: B) Measure specific issues the team would like to improve
+Q53. Process improvement charts stay:
+A) Forever
+B) Only as long as they are necessary
+C) Only in meetings
+D) Hidden
+Answer: B) Only as long as they are necessary
+Q54. Which is an example of a big visible chart apart from burndown?
+A) Iteration and release planning boards
+B) Test script
+C) Source code
+D) Contract
+Answer: A) Iteration and release planning boards
+Q55. An informative workspace is:
+A) A contract
+B) A meeting
+C) A practice with feedback mechanisms built into the workspace
+D) A software tool
+Answer: C) A practice with feedback mechanisms built into the workspace
+Q56. An important feature of an informative workspace is that it:
+A) Is only virtual
+B) Advertises information into the room
+C) Requires interruptions
+D) Hides information
+Answer: B) Advertises information into the room
+Q57. Why are hand-drawn charts a solution in informative workspaces?
+A) They look better
+B) They're mandatory
+C) They need no update
+D) Projectors/plasma screens everywhere are difficult and expensive
+Answer: D) Projectors/plasma screens everywhere are difficult and expensive
+Q58. A task board has at minimum these columns:
+A) To-do, in-progress, done
+B) Plan, Do, Check
+C) Open, Closed, Hold
+D) Backlog, Review, Release
+Answer: A) To-do, in-progress, done
+Q59. A task board mostly displays:
+A) The work to be performed during the current iteration
+B) Marketing tasks
+C) The entire product history
+D) Only completed tasks
+Answer: A) The work to be performed during the current iteration
+Q60. Ideally, a task board consists of:
+A) Only emails
+B) Only software
+C) Only spreadsheets
+D) Note cards or sticky notes affixed to a wall
+Answer: D) Note cards or sticky notes affixed to a wall
+Session 8: Extreme Programming
+60 questions
+Q1. XP concentrates mainly on:
+A) Project management only
+B) Hardware design
+C) Marketing
+D) Software development rather than project management
+Answer: D) Software development rather than project management
+Q2. The first XP project was started in:
+A) 1990
+B) 2010
+C) 1996
+D) 2001
+Answer: C) 1996
+Q3. XP was designed so that organizations could adopt:
+A) Only one practice
+B) The whole methodology or parts of it
+C) Nothing
+D) Only the whole
+Answer: B) The whole methodology or parts of it
+Q4. The main focus of XP is on:
+A) Documentation
+B) Tools
+C) Customer satisfaction
+D) Contracts
+Answer: C) Customer satisfaction
+Q5. An advantage of XP is that it empowers developers to handle changes in requirements:
+A) Confidently, even late in the life cycle
+B) Never
+C) With heavy approval
+D) Only early
+Answer: A) Confidently, even late in the life cycle
+Q6. In XP the customer:
+A) Is outside the project
+B) Only signs contracts
+C) Stays away
+D) Is an integral part of the team and sits with the team
+Answer: D) Is an integral part of the team and sits with the team
+Q7. The XP practice "Sit together" means:
+A) Developers work alone
+B) Managers sit separately
+C) The whole team works from one open space
+D) Everyone works remotely
+Answer: C) The whole team works from one open space
+Q8. The XP practice "Energized team" discourages:
+A) Overtime work
+B) Design
+C) Pair programming
+D) Testing
+Answer: A) Overtime work
+Q9. Pair programming refers to:
+A) Two teams on two projects
+B) Two programmers working together at one computer on the same design
+C) Two managers meeting
+D) One programmer and one tester on two computers
+Answer: B) Two programmers working together at one computer on the same design
+Q10. User stories in XP are:
+A) Short statements of customer-visible functionality
+B) Test scripts
+C) Design diagrams
+D) Long specification documents
+Answer: A) Short statements of customer-visible functionality
+Q11. In XP, who estimates the user stories?
+A) Developers
+B) Tracker
+C) Manager
+D) Customer
+Answer: A) Developers
+Q12. The XP "Weekly cycle" begins with:
+A) A deployment
+B) A retrospective
+C) A release
+D) A meeting to review progress and decide stories for the week
+Answer: D) A meeting to review progress and decide stories for the week
+Q13. In the Quarterly cycle, the team picks:
+A) A single bug
+B) A theme or themes for the quarter
+C) The hardware
+D) The tools
+Answer: B) A theme or themes for the quarter
+Q14. "Ten-minute build" promotes:
+A) Regular testing by running tests within ten minutes
+B) Manual testing
+C) Long builds
+D) Rare testing
+Answer: A) Regular testing by running tests within ten minutes
+Q15. In "Test-first programming", a user story is fulfilled when:
+A) It passes the acceptance test
+B) It is documented
+C) It is coded
+D) The manager approves
+Answer: A) It passes the acceptance test
+Q16. TDD stands for:
+A) Task-Driven Delivery
+B) Test-Deployment Design
+C) Test-Driven Development
+D) Time-Driven Design
+Answer: C) Test-Driven Development
+Q17. After a test passes in TDD, the developer:
+A) Deletes the test
+B) Refactors the new code to acceptable standards
+C) Ignores it
+D) Ships it
+Answer: B) Refactors the new code to acceptable standards
+Q18. In Continuous integration, programmers check in code:
+A) Several times a day, only if all unit tests pass
+B) Once a month
+C) Without tests
+D) Never
+Answer: A) Several times a day, only if all unit tests pass
+Q19. Incremental design means:
+A) Designing only at the end
+B) Never designing
+C) Designing the system every day using experience gained rather than all in advance
+D) Designing all upfront
+Answer: C) Designing the system every day using experience gained rather than all in advance
+Q20. In XP, short use cases (stories) can be put on:
+A) An index card
+B) A database
+C) An email
+D) A formal document
+Answer: A) An index card
+Q21. User stories must be:
+A) Long and detailed
+B) Technical only
+C) Unordered
+D) Testable, estimable and business-oriented
+Answer: D) Testable, estimable and business-oriented
+Q22. An iteration in XP is typically:
+A) One day
+B) One year
+C) One to two weeks long
+D) Three months
+Answer: C) One to two weeks long
+Q23. How many values is XP based on?
+A) Five
+B) Six
+C) Three
+D) Four
+Answer: A) Five
+Q24. The XP value "Simplicity" means:
+A) Ignore requirements
+B) Build everything upfront
+C) Add extras
+D) Design and code only what is in the current requirements
+Answer: D) Design and code only what is in the current requirements
+Q25. The XP value "Feedback" includes:
+A) Feedback after death phase
+B) Only manager feedback
+C) Customer feedback at the end of each iteration and release
+D) No feedback
+Answer: C) Customer feedback at the end of each iteration and release
+Q26. How many phases are in the XP life cycle described?
+A) Seven
+B) Five
+C) Six
+D) Four
+Answer: C) Six
+Q27. In the Exploration phase, customers write:
+A) Test cases
+B) Source code
+C) Release notes
+D) Story cards for the first release
+Answer: D) Story cards for the first release
+Q28. In Exploration, the team builds a prototype to check:
+A) User training
+B) Technology and architectural capabilities
+C) Marketing
+D) Pricing
+Answer: B) Technology and architectural capabilities
+Q29. The Planning phase usually takes:
+A) Two weeks
+B) One year
+C) A couple of days
+D) Several months
+Answer: C) A couple of days
+Q30. In the Iterations to Release phase, each iteration takes:
+A) Six months
+B) One day
+C) One to four weeks
+D) One year
+Answer: C) One to four weeks
+Q31. The first iteration in "Iterations to Release" creates:
+A) The final product
+B) Nothing
+C) A prototype of the whole system
+D) Only documents
+Answer: C) A prototype of the whole system
+Q32. In the Productionizing phase, the system goes through:
+A) Retirement
+B) Requirement writing
+C) Initial design
+D) Extra testing and performance checks
+Answer: D) Extra testing and performance checks
+Q33. In the Maintenance phase, development velocity:
+A) Is unchanged
+B) Increases
+C) Decreases
+D) Doubles
+Answer: C) Decreases
+Q34. In the Death phase:
+A) The project starts
+B) Planning starts
+C) Testing starts
+D) Customer requirements are met and no more stories exist; documentation is done
+Answer: D) Customer requirements are met and no more stories exist; documentation is done
+Q35. Which is NOT a reason for the Death phase?
+A) More stories are added
+B) The system doesn't deliver desired output
+C) The system becomes too expensive to develop further
+D) Customer needs are met
+Answer: A) More stories are added
+Q36. User story cards contain:
+A) Short requirement descriptions as a commitment to further conversation
+B) Test results
+C) Full requirement statements
+D) Source code
+Answer: A) Short requirement descriptions as a commitment to further conversation
+Q37. The task list represents:
+A) Defects
+B) Releases
+C) Meetings
+D) Tasks of user stories for an iteration
+Answer: D) Tasks of user stories for an iteration
+Q38. In XP, programmers are:
+A) Not assigned tasks but volunteer for them
+B) Assigned by the coach
+C) Assigned by tracker
+D) Assigned tasks by the manager
+Answer: A) Not assigned tasks but volunteer for them
+Q39. CRC cards are recorded during:
+A) A design brainstorming session
+B) Maintenance
+C) Deployment
+D) Testing
+Answer: A) A design brainstorming session
+Q40. Customer Acceptance Tests are developed by:
+A) The tracker
+B) The coach
+C) The customer
+D) The programmer
+Answer: C) The customer
+Q41. Successful conclusion of customer acceptance tests denotes:
+A) Completion of a user story
+B) A release delay
+C) A bug
+D) The start of a story
+Answer: A) Completion of a user story
+Q42. Visible wall graphs usually depict:
+A) Office timings
+B) Number of stories completed and test cases passed
+C) Salaries
+D) Hours worked
+Answer: B) Number of stories completed and test cases passed
+Q43. Which XP role teaches the team the XP process and monitors it?
+A) Coach
+B) Customer
+C) Manager
+D) Tester
+Answer: A) Coach
+Q44. The coach in XP is basically a:
+A) Customer
+B) Manager
+C) Tester
+D) Programmer, not a manager
+Answer: D) Programmer, not a manager
+Q45. Which XP role traces estimates and provides feedback to improve future ones?
+A) Tester
+B) Coach
+C) Tracker
+D) Manager
+Answer: C) Tracker
+Q46. Which XP role helps customers write tests, runs functional tests and broadcasts results?
+A) Manager
+B) Coach
+C) Tracker
+D) Tester
+Answer: D) Tester
+Q47. Which is an advantage of XP?
+A) Heavy planning
+B) High documentation
+C) Rigid process
+D) Robustness
+Answer: D) Robustness
+Q48. XP bases cost estimates on:
+A) Team size
+B) Number of meetings
+C) Developer hours
+D) Software features instead of developer activity
+Answer: D) Software features instead of developer activity
+Q49. In XP, resilience refers to:
+A) No changes
+B) Readily adopting changed requirements
+C) Rigid scope
+D) Fixed contracts
+Answer: B) Readily adopting changed requirements
+Q50. XP provides cost savings by:
+A) Longer cycles
+B) Cutting unproductive activities like unnecessary paperwork and meetings
+C) Adding more meetings
+D) More documents
+Answer: B) Cutting unproductive activities like unnecessary paperwork and meetings
+Q51. XP reduces risk by:
+A) Using a single coder
+B) Relying on one architect
+C) More documentation
+D) Distributing risk so there is less dependency on any one person
+Answer: D) Distributing risk so there is less dependency on any one person
+Q52. A disadvantage of XP is that it is:
+A) Design-centric
+B) Code-centric and not design-centric
+C) Too slow
+D) Too heavy
+Answer: B) Code-centric and not design-centric
+Q53. A disadvantage of XP is that:
+A) It measures quality too much
+B) It is too rigid
+C) It does not measure or plan the quality aspect
+D) It has too much documentation
+Answer: C) It does not measure or plan the quality aspect
+Q54. Too much refactoring in XP can be:
+A) A waste of time
+B) Highly productive always
+C) Free
+D) Required
+Answer: A) A waste of time
+Q55. In the case study, WDSGlobal formed regions in:
+A) Americas, Asia and Europe
+B) Asia only
+C) Africa, Asia and Europe
+D) Americas and Europe only
+Answer: A) Americas, Asia and Europe
+Q56. Which source control system had performance issues, taking up to 40 minutes to synchronize?
+A) Perforce
+B) Git
+C) CVS
+D) SVN
+Answer: C) CVS
+Q57. The new source control system chosen was:
+A) SVN
+B) CVS
+C) Perforce
+D) Mercurial
+Answer: C) Perforce
+Q58. The "Boot Camp" was meant to:
+A) Buy equipment
+B) Develop mutual trust by working together at the UK office
+C) Reduce staff
+D) Train managers
+Answer: B) Develop mutual trust by working together at the UK office
+Q59. "Rotating Guru" involved:
+A) Replacing the manager
+B) A senior XP team member visiting regions to help
+C) A guru from outside
+D) Closing the UK office
+Answer: B) A senior XP team member visiting regions to help
+Q60. Which user acceptance testing framework was adopted in the case study?
+A) QTP
+B) Cucumber
+C) Selenium
+D) JUnit
+Answer: C) Selenium
+Session 9: Scrum
+60 questions
+Q1. Scrum is best described as:
+A) A testing tool
+B) An Agile framework for developing complex products
+C) A programming language
+D) A rigid process
+Answer: B) An Agile framework for developing complex products
+Q2. Scrum has been used to manage complex product development since:
+A) The early 1990s
+B) The 1970s
+C) 2015
+D) 2005
+Answer: A) The early 1990s
+Q3. Scrum is not a process or technique but a:
+A) Framework within which various processes and techniques can be employed
+B) Language
+C) Contract
+D) Tool
+Answer: A) Framework within which various processes and techniques can be employed
+Q4. Each sprint delivers:
+A) Only documents
+B) A prototype to discard
+C) Only a plan
+D) A product increment
+Answer: D) A product increment
+Q5. Scrum includes how many essential artifacts?
+A) Four
+B) Two
+C) Three
+D) Five
+Answer: C) Three
+Q6. The product backlog is a:
+A) Finished product
+B) Detailed plan for the next sprint
+C) List of requirements in the order in which they are to be built
+D) Meeting
+Answer: C) List of requirements in the order in which they are to be built
+Q7. The sprint backlog is a:
+A) Detailed plan for development during the next sprint
+B) Release plan
+C) Risk register
+D) List of all product features
+Answer: A) Detailed plan for development during the next sprint
+Q8. Scrum is based on:
+A) Empirical process control theory (empiricism)
+B) Formal methods
+C) Waterfall
+D) Predictive planning
+Answer: A) Empirical process control theory (empiricism)
+Q9. Empiricism states that knowledge comes from:
+A) Theory only
+B) Documents
+C) Authority
+D) Experience derived from what is already known
+Answer: D) Experience derived from what is already known
+Q10. Transparency requires significant aspects of the process to be:
+A) Defined by a common standard
+B) Hidden
+C) Random
+D) Complex
+Answer: A) Defined by a common standard
+Q11. In Scrum, inspection should not be:
+A) Performed by skilled inspectors
+B) So frequent that it gets in the way of work
+C) Done on artifacts
+D) Done at point of work
+Answer: B) So frequent that it gets in the way of work
+Q12. Adaptation means that if a process deviates from acceptable limits, it is:
+A) Stopped
+B) Documented only
+C) Ignored
+D) Adjusted quickly
+Answer: D) Adjusted quickly
+Q13. Which is a rule/characteristic of Scrum?
+A) Freeze requirements
+B) Always have a product ready enough to be despatched
+C) Avoid a common language
+D) Skip testing
+Answer: B) Always have a product ready enough to be despatched
+Q14. Scrum breaks down large products into:
+A) One large block
+B) Smaller manageable chunks
+C) Only documents
+D) Only tasks
+Answer: B) Smaller manageable chunks
+Q15. The Scrum value "Focus" means:
+A) Focusing on documents
+B) Ignoring tasks
+C) Focusing on all tasks
+D) The team focuses on only a few things at a time
+Answer: D) The team focuses on only a few things at a time
+Q16. The Scrum value "Courage" arises because the team:
+A) Has no resources
+B) Feels supported with resources to undertake bigger challenges
+C) Is hidden
+D) Is micromanaged
+Answer: B) Feels supported with resources to undertake bigger challenges
+Q17. The Scrum value "Commitment" arises because the team:
+A) Has no goals
+B) Is controlled
+C) Avoids success
+D) Is in control of its own destiny
+Answer: D) Is in control of its own destiny
+Q18. The Scrum value "Respect" means members:
+A) Work alone
+B) Hide failures
+C) Respect each other and help each other become worthy of respect
+D) Compete
+Answer: C) Respect each other and help each other become worthy of respect
+Q19. Which phase includes system architecture modification and high-level design?
+A) Development sprint
+B) Closure
+C) Planning
+D) Architecture
+Answer: D) Architecture
+Q20. In which phase is a design review meeting held with each team putting forth strategies?
+A) Architecture
+B) Closure
+C) Sprint
+D) Planning
+Answer: A) Architecture
+Q21. In a Scrum development sprint, which step closes the packets and creates an executable version?
+A) Wrap
+B) Adjust
+C) Develop
+D) Review
+Answer: A) Wrap
+Q22. The "Review" step in a sprint involves:
+A) Only the manager
+B) Planning
+C) Coding
+D) All teams meeting to present progress, raise issues and update the backlog
+Answer: D) All teams meeting to present progress, raise issues and update the backlog
+Q23. The "Adjust" step in a sprint:
+A) Skips testing
+B) Starts new release
+C) Includes information from the review meeting into appropriate packets
+D) Ends project
+Answer: C) Includes information from the review meeting into appropriate packets
+Q24. Closure includes integration, system test, user documentation, training and:
+A) Prototyping
+B) Requirement gathering
+C) Coding
+D) Marketing material preparation
+Answer: D) Marketing material preparation
+Q25. Scrum uses time-boxed events so that:
+A) No more than a fixed amount of time is wasted in planning
+B) Meetings are random
+C) Time is unlimited
+D) Events are never-ending
+Answer: A) No more than a fixed amount of time is wasted in planning
+Q26. A sprint is a:
+A) Repeatable work cycle in which a usable, potentially shippable increment is created
+B) Meeting
+C) Release
+D) One-time event
+Answer: A) Repeatable work cycle in which a usable, potentially shippable increment is created
+Q27. The duration of a sprint is usually:
+A) One month or less
+B) One year
+C) Six months
+D) Three months
+Answer: A) One month or less
+Q28. Sprints limit risk to:
+A) Two years
+B) One week
+C) One year
+D) One calendar month
+Answer: D) One calendar month
+Q29. Only the ______ has the authority to cancel a sprint.
+A) Customer
+B) Product owner
+C) Scrum master
+D) Development team
+Answer: B) Product owner
+Q30. The Sprint Planning Meeting is time-boxed to what maximum for a one-month sprint?
+A) Eight hours
+B) Fifteen minutes
+C) Two hours
+D) Four hours
+Answer: A) Eight hours
+Q31. The Sprint Planning Meeting consists of how many parts?
+A) Four
+B) Three
+C) One
+D) Two
+Answer: D) Two
+Q32. Who selects items from the product backlog during sprint planning?
+A) The development team
+B) The stakeholders
+C) The product owner
+D) The Scrum master
+Answer: A) The development team
+Q33. The product backlog items selected for a sprint along with the plan form the:
+A) Roadmap
+B) Product backlog
+C) Release plan
+D) Sprint backlog
+Answer: D) Sprint backlog
+Q34. By the end of sprint planning, planned work is divided into units of:
+A) One day or less
+B) One month
+C) One week
+D) Two days
+Answer: A) One day or less
+Q35. The Daily Scrum is held:
+A) Weekly
+B) Monthly
+C) At random times
+D) At the same place and time each day
+Answer: D) At the same place and time each day
+Q36. The Daily Scrum is the responsibility of the:
+A) Stakeholders
+B) Development team
+C) Product owner
+D) Customer
+Answer: B) Development team
+Q37. The Sprint Review for a one-month sprint is time-boxed to:
+A) One hour
+B) Two hours
+C) Four hours
+D) Eight hours
+Answer: C) Four hours
+Q38. In the Sprint Review, the team presents:
+A) Salaries
+B) Contracts
+C) The budget
+D) The product increment to stakeholders for feedback
+Answer: D) The product increment to stakeholders for feedback
+Q39. The Sprint Retrospective for a one-month sprint is time-boxed to:
+A) Three hours
+B) Eight hours
+C) Four hours
+D) Fifteen minutes
+Answer: A) Three hours
+Q40. The purpose of the Sprint Retrospective is to:
+A) Review the previous sprint and plan process improvements
+B) Estimate cost
+C) Demonstrate product
+D) Plan the release
+Answer: A) Review the previous sprint and plan process improvements
+Q41. Who is the only person responsible for managing the product backlog?
+A) Development team
+B) Product owner
+C) Customer
+D) Scrum master
+Answer: B) Product owner
+Q42. The product owner is:
+A) A committee
+B) A single person, not a committee
+C) The whole team
+D) The customer organization
+Answer: B) A single person, not a committee
+Q43. The development team is responsible for:
+A) Handling funds
+B) Managing the backlog
+C) Delivering a potentially releasable increment at the end of each sprint
+D) Prioritizing the backlog
+Answer: C) Delivering a potentially releasable increment at the end of each sprint
+Q44. The ideal development team size excludes:
+A) Testers
+B) Developers
+C) Product owner and Scrum master
+D) Designers
+Answer: C) Product owner and Scrum master
+Q45. Fewer than how many team members decreases interaction and causes skill constraints?
+A) Seven
+B) Five
+C) Three
+D) Ten
+Answer: C) Three
+Q46. The Scrum Master's responsibility is to ensure:
+A) The code compiles
+B) The team follows Scrum practices and rules
+C) The product ships
+D) The budget is met
+Answer: B) The team follows Scrum practices and rules
+Q47. Removing obstacles that hinder team progress is a duty of the:
+A) Customer
+B) Product owner
+C) Tester
+D) Scrum master
+Answer: D) Scrum master
+Q48. The product backlog exists:
+A) For one sprint
+B) Until the first release
+C) Never
+D) As long as the product exists
+Answer: D) As long as the product exists
+Q49. A product backlog is called a "living artefact" because:
+A) It is hidden
+B) Requirements keep getting updated
+C) It never changes
+D) It is written in a book
+Answer: B) Requirements keep getting updated
+Q50. Who is responsible for all estimates in backlog grooming?
+A) The development team
+B) The customer
+C) The product owner
+D) The Scrum master
+Answer: A) The development team
+Q51. Who can change the sprint backlog during a sprint?
+A) Product owner
+B) Scrum master
+C) Only the development team
+D) Customer
+Answer: C) Only the development team
+Q52. The sprint burndown chart is a:
+A) Org chart
+B) Budget chart
+C) Leading indicator of whether the team will meet its goals
+D) Lagging indicator only
+Answer: C) Leading indicator of whether the team will meet its goals
+Q53. Story points are used to:
+A) Assign people
+B) Measure cost
+C) Compare the size of features
+D) Measure time
+Answer: C) Compare the size of features
+Q54. The impediment backlog is:
+A) A release plan
+B) A list of things that prevent the team from progressing or improving
+C) A test plan
+D) A feature list
+Answer: B) A list of things that prevent the team from progressing or improving
+Q55. In the Dutch Railways case, the first attempt to build the PUB system used:
+A) Scrum
+B) A traditional waterfall approach
+C) XP
+D) Prototyping
+Answer: B) A traditional waterfall approach
+Q56. The first vendor's project was cancelled after:
+A) One year
+B) Ten years
+C) Three years
+D) Six months
+Answer: C) Three years
+Q57. In the case study, who filled the product owner role?
+A) A vendor
+B) Two business analysts
+C) A single manager
+D) The CEO
+Answer: B) Two business analysts
+Q58. Which tool did the distributed Scrum teams use to track sprint progress?
+A) Trello
+B) MS Project
+C) Jira only
+D) ScrumWorks
+Answer: D) ScrumWorks
+Q59. In the case study, a separate team with architectural focus was created to:
+A) Test code
+B) Write code
+C) Handle payroll
+D) Gather non-functional requirements
+Answer: D) Gather non-functional requirements
+Q60. In the case study, extensive Dutch documentation was handled by:
+A) The product owner
+B) A hired technical writer
+C) The developers
+D) The testers
+Answer: B) A hired technical writer
+Session 10: Agile Process Models - I
+60 questions
+Q1. ASD focuses on:
+A) Rapid creation, application and evolution of software systems
+B) Heavy planning
+C) Documentation
+D) Hardware design
+Answer: A) Rapid creation, application and evolution of software systems
+Q2. ASD was derived from:
+A) Waterfall
+B) Rapid Application Development
+C) V-model
+D) Spiral
+Answer: B) Rapid Application Development
+Q3. Iterations in ASD are called:
+A) Sprints
+B) Adaptive cycles
+C) Phases
+D) Time-boxes
+Answer: B) Adaptive cycles
+Q4. The adaptive life cycle has how many main phases?
+A) Three
+B) Four
+C) Two
+D) Five
+Answer: A) Three
+Q5. The three phases of the ASD life cycle are:
+A) Speculate, Collaborate, Learn
+B) Plan, Do, Check
+C) Think, Build, Ship
+D) Explore, Plan, Release
+Answer: A) Speculate, Collaborate, Learn
+Q6. How many main steps are there in the Speculate phase?
+A) Four
+B) Three
+C) Five
+D) Six
+Answer: C) Five
+Q7. For a larger project, initiation takes about:
+A) One year
+B) Two to three weeks
+C) One hour
+D) Two days
+Answer: B) Two to three weeks
+Q8. In ASD, the project time-box is fixed based on:
+A) Scope, requirements, estimates and resource availability
+B) Team name
+C) Fixed budget only
+D) Colour
+Answer: A) Scope, requirements, estimates and resource availability
+Q9. ASD projects work best with:
+A) One-day iterations
+B) One-year iterations
+C) Six-month iterations
+D) Two-week iterations
+Answer: D) Two-week iterations
+Q10. Similar to the Sprint Goal in Scrum, in ASD the team develops:
+A) A contract
+B) A budget
+C) A theme for each iteration
+D) A defect list
+Answer: C) A theme for each iteration
+Q11. In ASD, who decides the priority of features?
+A) The tester
+B) The project manager
+C) The customer
+D) The vendor
+Answer: C) The customer
+Q12. In the Collaborate phase, collaboration is based on:
+A) Trust and respect
+B) Secrecy
+C) Hierarchy
+D) Contracts
+Answer: A) Trust and respect
+Q13. Who is included in collaboration in ASD?
+A) Only customers
+B) Customer, development team, consultants and vendors
+C) Only developers
+D) Only managers
+Answer: B) Customer, development team, consultants and vendors
+Q14. How many things are learned at the end of each ASD iteration?
+A) Four
+B) Three
+C) Two
+D) Five
+Answer: A) Four
+Q15. ASD recommends which group for customer feedback?
+A) Marketing group
+B) Customer focus group
+C) Vendor group
+D) Test group
+Answer: B) Customer focus group
+Q16. Second priority in ASD learning is:
+A) Technical quality
+B) People review
+C) Status
+D) Budget
+Answer: A) Technical quality
+Q17. In ASD, mini retrospectives help to review:
+A) Budget
+B) Hardware
+C) Contract
+D) People and process
+Answer: D) People and process
+Q18. The end of each iteration in ASD is marked by:
+A) Contracts
+B) Completed deliverables
+C) Documents
+D) Completed features
+Answer: D) Completed features
+Q19. A disadvantage of ASD is that it is:
+A) Not scalable
+B) Too cheap
+C) Too fast
+D) Too well documented
+Answer: A) Not scalable
+Q20. DSDM provides a framework for developing systems that meet:
+A) Unlimited time
+B) Only cost constraints
+C) No constraints
+D) Rigid time constraints through incremental prototyping
+Answer: D) Rigid time constraints through incremental prototyping
+Q21. DSDM is a ______ method.
+A) Waterfall
+B) Prototype
+C) Spiral
+D) RAD
+Answer: D) RAD
+Q22. A typical DSDM project delivers an operational system within:
+A) Six months
+B) Ten years
+C) Two weeks
+D) One day
+Answer: A) Six months
+Q23. According to DSDM, most projects fail because of:
+A) Languages
+B) Budget
+C) Technology
+D) People issues rather than technology
+Answer: D) People issues rather than technology
+Q24. How many underlying principles does DSDM have?
+A) Five
+B) Twelve
+C) Nine
+D) Seven
+Answer: C) Nine
+Q25. Which is a DSDM principle?
+A) Active user involvement is essential
+B) Testing at the end
+C) Documents first
+D) No changes allowed
+Answer: A) Active user involvement is essential
+Q26. In DSDM, the essential criterion for acceptance of deliverables is:
+A) Budget
+B) Time
+C) Compliance to business purpose
+D) Documentation
+Answer: C) Compliance to business purpose
+Q27. In DSDM, all changes during development are:
+A) Final
+B) Irreversible
+C) Forbidden
+D) Reversible
+Answer: D) Reversible
+Q28. In DSDM, testing is:
+A) Skipped
+B) Integrated throughout the life cycle
+C) Outsourced
+D) Done at the end
+Answer: B) Integrated throughout the life cycle
+Q29. In DSDM, what is fixed and what is allowed to change?
+A) Requirements fixed; time changes
+B) All change
+C) Time and resources fixed; requirements change
+D) All fixed
+Answer: C) Time and resources fixed; requirements change
+Q30. The most important technique used in the DSDM feasibility study phase is:
+A) Surveys
+B) Workshops
+C) Prototyping
+D) Contracts
+Answer: B) Workshops
+Q31. Deliverables of the Feasibility Study include the Feasibility Report, Feasibility Prototype, Global Outline Plan and:
+A) Risk Log
+B) Contract
+C) Test Plan
+D) Release Notes
+Answer: A) Risk Log
+Q32. In the Business Study phase, requirements are prioritized and grouped into:
+A) A feasibility report
+B) A contract
+C) A risk log
+D) A requirement list
+Answer: D) A requirement list
+Q33. In the Functional Model Iteration, requirements are converted into:
+A) Final product
+B) Test cases only
+C) Contracts
+D) A functional model and prototype
+Answer: D) A functional model and prototype
+Q34. The Design and Build Iteration integrates functional components and addresses:
+A) Business study
+B) Training
+C) Non-functional requirements
+D) Contracts
+Answer: C) Non-functional requirements
+Q35. Which DSDM role has the ultimate power to make decisions and is responsible for funds?
+A) Tester
+B) Scribe
+C) Visionary
+D) Executive Sponsor / Project Champion
+Answer: D) Executive Sponsor / Project Champion
+Q36. Which DSDM role possesses the most accurate perception of business objectives and initializes the project?
+A) Developer
+B) Scribe
+C) Ambassador user
+D) Visionary
+Answer: D) Visionary
+Q37. Which DSDM role is a representative of the user community who provides feedback to developers?
+A) Facilitator
+B) Ambassador user
+C) Tester
+D) Visionary
+Answer: B) Ambassador user
+Q38. Which DSDM role records requirements, agreements and decisions?
+A) Tester
+B) Scribe
+C) Facilitator
+D) Developer
+Answer: B) Scribe
+Q39. Which DSDM role manages the progress of workshops?
+A) Tester
+B) Visionary
+C) Facilitator
+D) Scribe
+Answer: C) Facilitator
+Q40. Which DSDM role ensures that the team works effectively as a whole?
+A) Developer
+B) Technical coordinator
+C) Scribe
+D) Team leader
+Answer: D) Team leader
+Q41. Which DSDM technique uses time-boxes where traditional methods use milestones?
+A) Workshop
+B) MoSCoW
+C) Prototyping
+D) Time-boxing
+Answer: D) Time-boxing
+Q42. MoSCoW rules are used to:
+A) Estimate cost
+B) Test code
+C) Assign roles
+D) Weigh the importance of requirements
+Answer: D) Weigh the importance of requirements
+Q43. In MoSCoW, features that are important but can be omitted if time is short are:
+A) Must have
+B) Could have
+C) Want to have
+D) Should have
+Answer: D) Should have
+Q44. In MoSCoW, features that add functional enhancements and can be reassigned to a later time-box are:
+A) Won't have
+B) Could have
+C) Must have
+D) Should have
+Answer: B) Could have
+Q45. Which MoSCoW category contains features of little value for a limited group of users?
+A) Should have
+B) Want to have
+C) Must have
+D) Could have
+Answer: B) Want to have
+Q46. Which DSDM prototype ensures the product's ability to perform under load?
+A) Performance prototype
+B) Capability prototype
+C) Business prototype
+D) Usability prototype
+Answer: A) Performance prototype
+Q47. A disadvantage of DSDM is:
+A) Slow delivery
+B) High cost of licensing
+C) Poor visibility
+D) No user involvement
+Answer: B) High cost of licensing
+Q48. Crystal methodologies are based on the belief that:
+A) Tools matter most
+B) Different projects call for different methodologies
+C) All projects need the same method
+D) Documentation matters most
+Answer: B) Different projects call for different methodologies
+Q49. Crystal methodologies categorize projects according to size and:
+A) Colour
+B) Location
+C) Criticality of the system
+D) Budget
+Answer: C) Criticality of the system
+Q50. Core Crystal philosophy is credited to:
+A) Jeff Sutherland
+B) Ken Schwaber
+C) Kent Beck
+D) Alistair Cockburn
+Answer: D) Alistair Cockburn
+Q51. Crystal requires incremental development with increments of:
+A) Two years
+B) Six months
+C) Four months or less
+D) One year
+Answer: C) Four months or less
+Q52. Crystal teams must hold:
+A) Only retrospectives at end
+B) Annual meetings
+C) No workshops
+D) Pre and post-increment reflection workshops
+Answer: D) Pre and post-increment reflection workshops
+Q53. Which Crystal technique converts a base methodology into a starter methodology?
+A) Time-boxing
+B) MoSCoW
+C) Reflection workshop
+D) Methodology tuning
+Answer: D) Methodology tuning
+Q54. Crystal Yellow is for teams of:
+A) 8 or fewer
+B) 20-50
+C) 50-100
+D) 10-20 people
+Answer: D) 10-20 people
+Q55. Crystal Orange is for teams of:
+A) 50-100
+B) 20-50 people
+C) 10-20
+D) Over 100
+Answer: B) 20-50 people
+Q56. Crystal Diamond and Sapphire are used for:
+A) Small projects
+B) Critical projects where human life could be at risk
+C) Prototype
+D) Hobby projects
+Answer: B) Critical projects where human life could be at risk
+Q57. How many common properties exist among members of the Crystal family?
+A) Eight
+B) Six
+C) Five
+D) Seven
+Answer: D) Seven
+Q58. Which is a Crystal property?
+A) Heavy documentation
+B) Strict hierarchy
+C) Manual builds
+D) Osmotic communication
+Answer: D) Osmotic communication
+Q59. In Crystal, "Focus" includes a two-hour uninterrupted period and assigning a developer to a project for a minimum of:
+A) Two weeks
+B) Two hours
+C) Two days
+D) Two months
+Answer: C) Two days
+Q60. "Easy access to expert users" in Crystal suggests a meeting with an expert user at least:
+A) Once a week for a minimum of two hours
+B) Once a month
+C) Once a year
+D) Never
+Answer: A) Once a week for a minimum of two hours
+Session 11: Agile Process Models - II
+60 questions
+Q1. FDD is ideal for use by:
+A) Hardware teams
+B) Single developers
+C) Non-IT teams
+D) Big teams working with object-oriented technology
+Answer: D) Big teams working with object-oriented technology
+Q2. FDD stands for:
+A) Fixed Date Development
+B) Fast Delivery Design
+C) Feature Driven Development
+D) Function Design Delivery
+Answer: C) Feature Driven Development
+Q3. After the overall model, FDD proceeds with a series of how long iterations of "design by feature, build by feature"?
+A) Two weeks
+B) Two months
+C) Two days
+D) One year
+Answer: A) Two weeks
+Q4. In Domain Object Modeling, the best technique is considered to be:
+A) ER modeling
+B) Modeling in Color
+C) Black-box modeling
+D) State modeling
+Answer: B) Modeling in Color
+Q5. In UML in Color, which color denotes the role assumed by a person in an organization?
+A) Blue
+B) Green
+C) Yellow
+D) Pink
+Answer: C) Yellow
+Q6. In UML in Color, which color stands for a party, place or thing?
+A) Yellow
+B) Pink
+C) Blue
+D) Green
+Answer: D) Green
+Q7. In UML in Color, auxiliary classes and interfaces are:
+A) Pink
+B) Yellow
+C) Not assigned any colors
+D) Green
+Answer: C) Not assigned any colors
+Q8. In FDD, a "feature" should be completable within:
+A) Two days
+B) Two weeks
+C) Two months
+D) One year
+Answer: B) Two weeks
+Q9. A Feature Set is:
+A) A class
+B) A group of business-related features
+C) A single feature
+D) A test
+Answer: B) A group of business-related features
+Q10. When a feature involves multiple classes, the ______ coordinates the efforts.
+A) Tester
+B) Customer
+C) Manager
+D) Feature owner
+Answer: D) Feature owner
+Q11. Which FDD best practice aims at publicizing good practices, conventions and culture?
+A) Regular builds
+B) Reporting
+C) Inspections
+D) Configuration management
+Answer: C) Inspections
+Q12. Configuration management in FDD helps to:
+A) Write stories
+B) Measure velocity
+C) Identify latest versions of completed source code files
+D) Plan sprints
+Answer: C) Identify latest versions of completed source code files
+Q13. The first FDD process is:
+A) Build a features list
+B) Design by feature
+C) Develop an overall model
+D) Plan by feature
+Answer: C) Develop an overall model
+Q14. The five FDD processes include: Develop overall model, Build features list, Plan by feature, Design by feature and:
+A) Test by feature
+B) Deploy by feature
+C) Release by feature
+D) Build by feature
+Answer: D) Build by feature
+Q15. Which FDD role is the administrative head of the project?
+A) Project Manager
+B) Chief Architect
+C) Release Manager
+D) Development Manager
+Answer: A) Project Manager
+Q16. Which FDD role manages day-to-day development activities?
+A) Release Manager
+B) Project Manager
+C) Language Guru
+D) Development Manager
+Answer: D) Development Manager
+Q17. Which FDD role leads small teams through design and development?
+A) Class Owner
+B) Tool Smith
+C) System Administrator
+D) Chief Programmer
+Answer: D) Chief Programmer
+Q18. Which FDD role represents the knowledge database (users, sponsors, business analysts)?
+A) Domain Expert
+B) Release Manager
+C) Tool Smith
+D) Class Owner
+Answer: A) Domain Expert
+Q19. Which FDD role sets up and runs the regular build process?
+A) Tool Smith
+B) Language Guru
+C) Release Manager
+D) Build Engineer
+Answer: D) Build Engineer
+Q20. Which FDD role creates small development tools for teams?
+A) Tool Smith
+B) Class Owner
+C) Language Guru
+D) Build Engineer
+Answer: A) Tool Smith
+Q21. LSD stands for:
+A) Large Scale Delivery
+B) Limited Scope Design
+C) Low Speed Design
+D) Lean Software Development
+Answer: D) Lean Software Development
+Q22. How many key principles form the backbone of LSD?
+A) Six
+B) Nine
+C) Seven
+D) Five
+Answer: C) Seven
+Q23. The first principle of Lean is:
+A) Deliver fast
+B) Eliminate waste
+C) Amplify learning
+D) Decide as late as possible
+Answer: B) Eliminate waste
+Q24. Seven types of waste in software development include partially done work, extra features, relearning, handoffs, delays, task switching and:
+A) Planning
+B) Defects
+C) Meetings
+D) Testing
+Answer: B) Defects
+Q25. Which Lean tool detects waste by focusing on value-to-client products?
+A) Value Stream Mapping
+B) Set-based development
+C) Pair positioning
+D) Queuing theory
+Answer: A) Value Stream Mapping
+Q26. Which Lean principle encourages feedback, iterations, synchronization and set-based development?
+A) Empower the team
+B) Amplify learning
+C) Eliminate waste
+D) See the whole
+Answer: B) Amplify learning
+Q27. In synchronization, each team member should integrate:
+A) Monthly
+B) Daily, with multiple teams synchronizing weekly
+C) Yearly
+D) Never
+Answer: B) Daily, with multiple teams synchronizing weekly
+Q28. Which Lean principle postpones decision-making as long as possible?
+A) Decide as late as possible
+B) See the whole
+C) Eliminate waste
+D) Deliver fast
+Answer: A) Decide as late as possible
+Q29. "Last Responsible Moment" is when:
+A) The project starts
+B) After release
+C) After testing
+D) The possibility of failing to make a decision eliminates an important alternative
+Answer: D) The possibility of failing to make a decision eliminates an important alternative
+Q30. The fundamental measurement of a queue is:
+A) Defects
+B) Velocity
+C) Cost
+D) Cycle time
+Answer: D) Cycle time
+Q31. "Cost of Delay" considers the effect of delays on:
+A) Profits and sales
+B) Code size
+C) Tools
+D) Team size
+Answer: A) Profits and sales
+Q32. Which quote is from William McKnight, a 3M leader?
+A) "Move fast."
+B) "Hire good people, and leave them alone."
+C) "Fail fast."
+D) "Plans are everything."
+Answer: B) "Hire good people, and leave them alone."
+Q33. "Master developers" in Lean leadership include chief programmers, architects and:
+A) Managers
+B) Testers only
+C) System engineers
+D) Salespeople
+Answer: C) System engineers
+Q34. Conceptual integrity means:
+A) All tests pass
+B) All code is documented
+C) A design is part of the same overall design wherever you look
+D) All components are the same
+Answer: C) A design is part of the same overall design wherever you look
+Q35. Domain models understood by both users and developers, used in joint modeling, is called:
+A) Feature-Driven Design
+B) Test-Driven Design
+C) Model-Driven Design
+D) Data-Driven Design
+Answer: C) Model-Driven Design
+Q36. Developer tests ensure that:
+A) The UI is nice
+B) Code does what the developer intended
+C) The system does what customers expect
+D) The budget is met
+Answer: B) Code does what the developer intended
+Q37. In Lean "See the Whole," it is not ideal to track defects per developer because less than ______ of defects are under the developer's control.
+A) 20%
+B) 50%
+C) 80%
+D) 90%
+Answer: A) 20%
+Q38. Per the Standish Group study mentioned, up to ______ of delivered features are not used.
+A) 45%
+B) 5%
+C) 80%
+D) 95%
+Answer: A) 45%
+Q39. Which model categorizes product attributes as must-be, performance and attractive factors?
+A) Spiral model
+B) Kano model
+C) V-model
+D) RACI
+Answer: B) Kano model
+Q40. The Kanban method emphasizes:
+A) Limiting work in progress
+B) Large batches
+C) Unlimited WIP
+D) Contracts
+Answer: A) Limiting work in progress
+Q41. AUP stands for:
+A) Agile Unified Process
+B) Advanced Unified Process
+C) Applied Unified Process
+D) Agile Universal Practice
+Answer: A) Agile Unified Process
+Q42. The AUP principle "Your staff knows what they are doing" means people:
+A) Respond better to training and high-level guidance than tedious documentation
+B) Need supervision
+C) Need heavy documentation
+D) Need no training
+Answer: A) Respond better to training and high-level guidance than tedious documentation
+Q43. The AUP overall development cycle consists of how many phases?
+A) Three
+B) Four
+C) Five
+D) Six
+Answer: B) Four
+Q44. The four AUP phases are:
+A) Plan, Do, Check, Act
+B) Speculate, Collaborate, Learn, Adapt
+C) Initiate, Execute, Monitor, Close
+D) Inception, Elaboration, Construction, Transition
+Answer: D) Inception, Elaboration, Construction, Transition
+Q45. The Construction phase in AUP aims to develop:
+A) Working software in a frequent, incremental manner
+B) Only documents
+C) Only plans
+D) Only prototypes
+Answer: A) Working software in a frequent, incremental manner
+Q46. How many disciplines are performed in each AUP iteration?
+A) Five
+B) Six
+C) Nine
+D) Seven
+Answer: D) Seven
+Q47. Which AUP discipline covers RUP's Business Modeling, Requirements, and Analysis and Design?
+A) Deployment
+B) Implementation
+C) Test
+D) Model
+Answer: D) Model
+Q48. Model storming sessions in AUP last a maximum of about:
+A) One week
+B) Four hours
+C) 15 minutes (sometimes up to 30)
+D) Two days
+Answer: C) 15 minutes (sometimes up to 30)
+Q49. Who coined the term "User Story" in 1996?
+A) Alistair Cockburn
+B) Kent Beck
+C) Martin Fowler
+D) Ken Schwaber
+Answer: B) Kent Beck
+Q50. The user story template is:
+A) Who-What-When
+B) As a <type of user>, I want <some goal> so that <some reason>
+C) Given-When-Then
+D) Input-Process-Output
+Answer: B) As a <type of user>, I want <some goal> so that <some reason>
+Q51. In user stories, "Conversations" mainly deal with:
+A) Tools
+B) Cost
+C) Release dates
+D) The details of the story
+Answer: D) The details of the story
+Q52. Who usually has the final word on product vision and requirements in story conversations?
+A) Product Owner
+B) Tester
+C) Developer
+D) Scrum Master
+Answer: A) Product Owner
+Q53. About what percentage of a sprint is assigned to preparation for the upcoming sprint (backlog refinement)?
+A) 50%
+B) 90%
+C) 25%
+D) 10%
+Answer: D) 10%
+Q54. Failure to settle acceptance criteria before the sprint leads to:
+A) Faster delivery
+B) Less work
+C) Over-commitment by the team
+D) Better planning
+Answer: C) Over-commitment by the team
+Q55. In the INVEST quality factors, "Independent" means:
+A) Stories are huge
+B) Reduce dependencies between stories
+C) Stories are hidden
+D) Stories depend on each other
+Answer: B) Reduce dependencies between stories
+Q56. "Negotiable" in user stories means:
+A) Stories are contracts
+B) Stories cannot change
+C) Finer details can be filled in later
+D) Stories are fixed
+Answer: C) Finer details can be filled in later
+Q57. Agile best practices recommend migration to Agile methodologies to be:
+A) Only by management order
+B) Forced overnight
+C) Never
+D) Steady and gradual
+Answer: D) Steady and gradual
+Q58. Under Agile best practices, the length of each iteration should be:
+A) The same
+B) Different each time
+C) Random
+D) Doubled
+Answer: A) The same
+Q59. Under Agile, project value is gauged by:
+A) Budget and schedule
+B) Lines of code
+C) Customer feedback and return on investment
+D) Team size
+Answer: C) Customer feedback and return on investment
+Q60. Agile jargon recommends replacing "requirements" with:
+A) Specifications
+B) Contracts
+C) User stories
+D) Documents
+Answer: C) User stories
+Session 12: Comparing Agile with Traditional Models
+51 questions
+Q1. One of the most critical factors for project success is:
+A) The office location
+B) The SDLC methodology used
+C) The programming font
+D) The team colour
+Answer: B) The SDLC methodology used
+Q2. Choosing an inappropriate SDLC can expose a project to the risk of:
+A) Damage to software quality, budget overruns and hampered PM best practices
+B) Faster delivery only
+C) No risk
+D) Better quality
+Answer: A) Damage to software quality, budget overruns and hampered PM best practices
+Q3. Because characteristics of more than one SDLC may suit a project, often:
+A) The oldest is used
+B) Only one is allowed
+C) A mix of two or more methodologies is chosen
+D) None is used
+Answer: C) A mix of two or more methodologies is chosen
+Q4. In the screwdriver toolkit analogy, the "screws" represent:
+A) Project requirements
+B) The customer
+C) The team
+D) The SDLC
+Answer: A) Project requirements
+Q5. In the screwdriver toolkit analogy, the "driver" remains the same, meaning:
+A) The team never changes
+B) The customer never changes
+C) The project never changes
+D) The base process/tooling stays while the choice changes by requirement
+Answer: D) The base process/tooling stays while the choice changes by requirement
+Q6. Which factor should be considered while selecting an SDLC?
+A) Brand colour
+B) Nature of the product (new product or new feature)
+C) Office furniture
+D) Parking space
+Answer: B) Nature of the product (new product or new feature)
+Q7. Which is NOT a listed parameter for selecting an SDLC?
+A) Size and resource availability
+B) Team composition and location
+C) Simplicity of the data in the project
+D) Complexity of functionalities
+Answer: C) Simplicity of the data in the project
+Q8. Team composition and location matters because teams may be:
+A) None
+B) In-house or geographically spread
+C) Always local
+D) Always remote
+Answer: B) In-house or geographically spread
+Q9. Work atmosphere and culture matters because Agile emphasizes:
+A) Documentation
+B) Contracts
+C) Silos
+D) Teamwork
+Answer: D) Teamwork
+Q10. SDLC models and practices should align with:
+A) Personal choices
+B) Competitors only
+C) Business objectives of the organization
+D) Market rumours
+Answer: C) Business objectives of the organization
+Q11. The Waterfall model follows a:
+A) Spiral path
+B) Random design
+C) Sequential design with a steady downward trend
+D) Iterative loop
+Answer: C) Sequential design with a steady downward trend
+Q12. The Waterfall model was adopted from which industries?
+A) Construction and manufacturing
+B) Healthcare
+C) Retail
+D) Aviation only
+Answer: A) Construction and manufacturing
+Q13. Agile methods propose alternatives to:
+A) Programming languages
+B) Hardware
+C) Databases
+D) Traditional project management
+Answer: D) Traditional project management
+Q14. Agile approaches are typically used to help businesses respond to:
+A) Stable markets
+B) Unpredictability
+C) Certainty
+D) Regulations
+Answer: B) Unpredictability
+Q15. In Agile, the important components are designed first so that the customer can:
+A) Never change
+B) Alter requirements without affecting progress
+C) Sign contracts
+D) Reject the project
+Answer: B) Alter requirements without affecting progress
+Q16. In Waterfall, a detailed plan is drawn up at the:
+A) Customer's request only
+B) End
+C) Middle
+D) Start accounting for every detail
+Answer: D) Start accounting for every detail
+Q17. In Agile, the customer's team is:
+A) Only at the end
+B) Involved and works hand-in-hand with the development team
+C) Only at start
+D) Absent
+Answer: B) Involved and works hand-in-hand with the development team
+Q18. In Waterfall, the development team works:
+A) Independently with barely any customer involvement
+B) With constant customer input
+C) In pairs
+D) In sprints
+Answer: A) Independently with barely any customer involvement
+Q19. In Agile, each iteration is executed in:
+A) Two to four days
+B) Two to four weeks
+C) Two to four months
+D) Two to four years
+Answer: B) Two to four weeks
+Q20. In Waterfall, development is divided into:
+A) Iterations
+B) Sprints
+C) Phases
+D) Cycles
+Answer: C) Phases
+Q21. In Agile, testing is:
+A) Incorporated into each iteration
+B) Done by customers
+C) Skipped
+D) A separate final phase
+Answer: A) Incorporated into each iteration
+Q22. In Waterfall, testing is:
+A) In each sprint
+B) Continuous
+C) Skipped
+D) A phase following development
+Answer: D) A phase following development
+Q23. In Agile, features are delivered:
+A) Each time an iteration ends
+B) All at once at the end
+C) Quarterly
+D) Never
+Answer: A) Each time an iteration ends
+Q24. In Waterfall, features are delivered:
+A) Weekly
+B) Every iteration
+C) Daily
+D) All at once to the client
+Answer: D) All at once to the client
+Q25. In Waterfall, changes require:
+A) No effort
+B) Small edits
+C) Only documentation
+D) Re-doing the entire implementation phase
+Answer: D) Re-doing the entire implementation phase
+Q26. Agile gives precedence to:
+A) Documentation
+B) Software development
+C) Contracts
+D) Planning
+Answer: B) Software development
+Q27. Documentation in Agile is more like:
+A) A handbook that is easy to understand
+B) A contract
+C) A dissertation
+D) A formal legal document
+Answer: A) A handbook that is easy to understand
+Q28. In Waterfall, documentation is:
+A) Informal
+B) A vital part of the process
+C) Skipped
+D) Optional
+Answer: B) A vital part of the process
+Q29. In Agile, calculating development time for large projects is:
+A) A challenge
+B) Not required
+C) Fixed
+D) Easy
+Answer: A) A challenge
+Q30. In Waterfall, the release date:
+A) Is flexible
+B) Can be calculated for all projects from the detailed plan
+C) Is random
+D) Can't be calculated
+Answer: B) Can be calculated for all projects from the detailed plan
+Q31. In the Prescient Software case study, the electric project used:
+A) The Waterfall approach
+B) RAD
+C) The Agile approach
+D) XP
+Answer: A) The Waterfall approach
+Q32. In the case study, the gas project used:
+A) The Waterfall approach
+B) An Agile approach
+C) V-model
+D) Spiral
+Answer: B) An Agile approach
+Q33. In the electric (Waterfall) project, the customer was involved only during:
+A) Requirements
+B) User Acceptance Test
+C) Design
+D) Coding
+Answer: B) User Acceptance Test
+Q34. A shortfall in the electric project was:
+A) High customer involvement
+B) Lower cost
+C) A huge gap between estimated and actual delivery date
+D) Early delivery
+Answer: C) A huge gap between estimated and actual delivery date
+Q35. In the gas project, the team hit rough spots because:
+A) The logic was complex and did not match test cases
+B) There was no team
+C) The customer disappeared
+D) There was no budget
+Answer: A) The logic was complex and did not match test cases
+Q36. Which iteration was chosen for in-depth study in the gas project?
+A) Tenth
+B) Third
+C) Seventh
+D) First
+Answer: C) Seventh
+Q37. The field engineers reduced the pseudo-code from 800 lines to:
+A) 100 lines
+B) 400 lines
+C) 200 lines
+D) 50 lines
+Answer: C) 200 lines
+Q38. In the gas project, developers were given:
+A) One month
+B) No break
+C) Two weeks' time off
+D) One day
+Answer: C) Two weeks' time off
+Q39. The gas project was finally delivered:
+A) Never
+B) Late
+C) Over budget
+D) Before the deadline and within estimated budget
+Answer: D) Before the deadline and within estimated budget
+Q40. The gas project's success was credited to:
+A) Hardware
+B) Luck
+C) The size of the team
+D) The Agile training team and the decision to regroup
+Answer: D) The Agile training team and the decision to regroup
+Q41. Which models in Table 12.2 are compared?
+A) Only RAD and DSDM
+B) Only Scrum and XP
+C) Waterfall, V-Model, Prototype, Incremental, Spiral, RAD
+D) Only Waterfall and Agile
+Answer: C) Waterfall, V-Model, Prototype, Incremental, Spiral, RAD
+Q42. In the comparison table, which model has requirements that are "not well understood" at the beginning?
+A) Prototype
+B) Spiral
+C) Waterfall
+D) V-Model
+Answer: A) Prototype
+Q43. In the comparison table, which model is characterized by low cost?
+A) Waterfall
+B) Spiral
+C) Prototype
+D) V-Model
+Answer: A) Waterfall
+Q44. Which model in the table has risk analysis performed?
+A) Waterfall
+B) Spiral
+C) RAD
+D) Prototype
+Answer: B) Spiral
+Q45. In Agile, the entire responsibility of the project lies with:
+A) Only the dev team
+B) Only the tester
+C) The whole team along with the customer
+D) Only the manager
+Answer: C) The whole team along with the customer
+Q46. In Waterfall, a problem can occur if:
+A) The customer participates
+B) The plan is flexible
+C) Testing is early
+D) Inaccurate or inadequate information was provided while drafting the plan
+Answer: D) Inaccurate or inadequate information was provided while drafting the plan
+Q47. In Agile, detection of incorrect documentation can be done:
+A) Never
+B) Later
+C) Only at the end
+D) Sooner
+Answer: D) Sooner
+Q48. According to Agile vs. Waterfall, regression testing before deployment is enabled by testing in:
+A) The maintenance phase
+B) The design phase
+C) The final phase
+D) Each iteration
+Answer: D) Each iteration
+Q49. Waterfall requires the entire software to be assembled before:
+A) Verification can be carried out
+B) Requirements
+C) Planning
+D) Design
+Answer: A) Verification can be carried out
+Q50. Agile focuses less on documentation and more on:
+A) Active participation and discussion among the team
+B) Heavy plans
+C) Phase gates
+D) Contracts
+Answer: A) Active participation and discussion among the team
+Q51. All SDLC methodologies:
+A) Are obsolete
+B) Have their advantages and disadvantages
+C) Are identical
+D) Are perfect
+Answer: B) Have their advantages and disadvantages
+Session 13: Introduction to DevOps and Configuration Management
+60 questions
+Q1. DevOps stands for:
+A) Design and Operations
+B) Deployment and Optimization
+C) Development and Operations
+D) Development and Orchestration
+Answer: C) Development and Operations
+Q2. DevOps refers to the common practices and rules followed by:
+A) Only users
+B) Only managers
+C) Software developers and IT professionals while communicating
+D) Only testers
+Answer: C) Software developers and IT professionals while communicating
+Q3. How many values does DevOps have?
+A) Six
+B) Five
+C) Four
+D) Three
+Answer: C) Four
+Q4. The four DevOps values are:
+A) Plan, Build, Test, Deploy
+B) Speed, Quality, Cost, Scope
+C) People, Process, Tools, Cost
+D) Culture, Automation, Measurement, Sharing
+Answer: D) Culture, Automation, Measurement, Sharing
+Q5. Which is a DevOps principle?
+A) Manual deployments
+B) Testing at the end only
+C) The entire product cycle should be automated
+D) Teams work in silos
+Answer: C) The entire product cycle should be automated
+Q6. In DevOps, software is developed and tested in:
+A) An isolated lab
+B) A developer laptop only
+C) A production-similar environment
+D) A sandbox only
+Answer: C) A production-similar environment
+Q7. In DevOps, each module is:
+A) Tested at the end
+B) Never tested
+C) Tested by customer
+D) Continuously tested for quality and output
+Answer: D) Continuously tested for quality and output
+Q8. In DevOps, developers are expected to:
+A) Try to fix issues on their own rather than depending on others
+B) Ignore issues
+C) Always wait for ops
+D) Hand off all issues
+Answer: A) Try to fix issues on their own rather than depending on others
+Q9. An effective way to reduce deployment errors is to:
+A) Perform smaller deployments frequently
+B) Skip deployments
+C) Perform large deployments rarely
+D) Deploy manually
+Answer: A) Perform smaller deployments frequently
+Q10. Without DevOps, manual deployment and lack of automated testing can lead to:
+A) Technical debt and loss of coordination
+B) Higher quality
+C) Faster delivery
+D) No issues
+Answer: A) Technical debt and loss of coordination
+Q11. Organizations using DevOps typically have:
+A) No change
+B) Great performance and profitability compared to those that do not
+C) Slower growth
+D) Lower profit
+Answer: B) Great performance and profitability compared to those that do not
+Q12. Moving toward DevOps is a:
+A) Impossible one
+B) Smooth and gradual process
+C) Instant
+D) Overnight switch
+Answer: B) Smooth and gradual process
+Q13. The "Culture" challenge in DevOps suggests DevOps should be treated as:
+A) A sudden change
+B) A revolution
+C) A trend
+D) An evolution rather than a revolution
+Answer: D) An evolution rather than a revolution
+Q14. To adopt DevOps gradually, organizations should:
+A) Replace all teams
+B) Apply to the entire model at once
+C) Remodel a small product of an existing application first
+D) Avoid pilots
+Answer: C) Remodel a small product of an existing application first
+Q15. The "Test Automation" practice in DevOps means testing:
+A) Continuously
+B) Once
+C) Only manually
+D) Rarely
+Answer: A) Continuously
+Q16. The "Legacy systems" challenge suggests moving toward:
+A) Newer microservices
+B) Older infrastructure
+C) Manual systems
+D) More mainframes
+Answer: A) Newer microservices
+Q17. The "App complexity" challenge arises because Dev and Ops use:
+A) Completely separate toolsets and metrics
+B) No tools
+C) Identical metrics
+D) The same tools
+Answer: A) Completely separate toolsets and metrics
+Q18. Organizations without a DevOps plan should first create:
+A) A clear plan with project milestones and well-defined deliverables
+B) A budget only
+C) A tool list
+D) Nothing
+Answer: A) A clear plan with project milestones and well-defined deliverables
+Q19. To manage environments for DevOps, organizations can use:
+A) Paper
+B) Only physical servers
+C) Cloud sandboxes and other tools
+D) Spreadsheets
+Answer: C) Cloud sandboxes and other tools
+Q20. The "Tools" challenge says to avoid:
+A) A fragmented toolset
+B) Cloud
+C) Open source
+D) Automation
+Answer: A) A fragmented toolset
+Q21. The "Executive support" challenge suggests:
+A) Ignoring management
+B) Reducing funds
+C) Avoiding meetings
+D) Seminars and presentations about DevOps benefits
+Answer: D) Seminars and presentations about DevOps benefits
+Q22. Handovers between teams cause:
+A) Expense and delay in the project timeline
+B) No effect
+C) Faster delivery
+D) Lower cost
+Answer: A) Expense and delay in the project timeline
+Q23. The implementation of different DevOps practices is known as a:
+A) Anti-pattern
+B) Protocol
+C) Template
+D) Pattern
+Answer: D) Pattern
+Q24. How many areas does the basic DevOps pattern have in the text?
+A) Two
+B) Three
+C) Five
+D) Four
+Answer: D) Four
+Q25. Which is a DevOps pattern area?
+A) Reduce testing
+B) Remove monitoring
+C) Extend delivery to production
+D) Delay releases
+Answer: C) Extend delivery to production
+Q26. Which is a DevOps pattern area?
+A) Hide ops data
+B) Skip planning
+C) Isolate ops
+D) Embed Operations knowledge into project
+Answer: D) Embed Operations knowledge into project
+Q27. Agile software development involves:
+A) Heavy documentation
+B) Collaborative discussion among business units and building the product simultaneously
+C) Isolated teams
+D) Sequential phases
+Answer: B) Collaborative discussion among business units and building the product simultaneously
+Q28. In Agile, each module is:
+A) Tested before it is finalized
+B) Tested only at the end
+C) Tested only in production
+D) Never tested
+Answer: A) Tested before it is finalized
+Q29. In the Agile methodology, interaction among teams to create product increments is termed:
+A) Release
+B) Sprint
+C) Kanban
+D) Scrum
+Answer: D) Scrum
+Q30. A series of iterations in Scrum are called:
+A) Sprints
+B) Epics
+C) Phases
+D) Releases
+Answer: A) Sprints
+Q31. A typical Scrum team consists of:
+A) 50+
+B) One to two people
+C) Five to nine people
+D) 20-30 people
+Answer: C) Five to nine people
+Q32. In a Scrum team, members are:
+A) Divided into BA, Dev, QA
+B) Introduced by hierarchy
+C) Not introduced by roles; no one is superior or inferior
+D) Ranked
+Answer: C) Not introduced by roles; no one is superior or inferior
+Q33. Who knows the exact output of the product as per end users and customers?
+A) Tester
+B) Scrum master
+C) Developer
+D) Product owner
+Answer: D) Product owner
+Q34. Who ensures that the Scrum team is productive and follows the process?
+A) Customer
+B) Product owner
+C) Tester
+D) Scrum master
+Answer: D) Scrum master
+Q35. The product backlog lists:
+A) Defects
+B) Costs
+C) Expected output and features of the product
+D) Tasks for a sprint
+Answer: C) Expected output and features of the product
+Q36. The sprint backlog lists:
+A) Tasks to be completed in a sprint
+B) Costs
+C) Bugs
+D) All product features
+Answer: A) Tasks to be completed in a sprint
+Q37. Who arranges the sprint planning meeting?
+A) Developers
+B) Product owner
+C) Customer
+D) Scrum master
+Answer: B) Product owner
+Q38. In sprint planning, the selected tasks are moved from:
+A) Release to backlog
+B) Sprint backlog to product backlog
+C) Defects to backlog
+D) Product backlog to sprint backlog
+Answer: D) Product backlog to sprint backlog
+Q39. In the daily scrum, members brief about:
+A) What they completed yesterday and what they will do today
+B) Contracts
+C) Marketing
+D) Cost
+Answer: A) What they completed yesterday and what they will do today
+Q40. The sprint review meeting is called informal because:
+A) It is optional
+B) It is online only
+C) No one attends
+D) Team members do not prepare a formal presentation
+Answer: D) Team members do not prepare a formal presentation
+Q41. In the sprint retrospective, the members discuss:
+A) Budget only
+B) Contracts
+C) Progress, issues faced and ideas to avoid them in future sprints
+D) Hiring
+Answer: C) Progress, issues faced and ideas to avoid them in future sprints
+Q42. Lean is a practice that focuses on:
+A) Delaying delivery
+B) Adding documents
+C) Value creation by removing waste and non-value-adding factors
+D) Increasing meetings
+Answer: C) Value creation by removing waste and non-value-adding factors
+Q43. Lean became popular after being implemented by:
+A) Honda
+B) Toyota
+C) Boeing
+D) Ford
+Answer: B) Toyota
+Q44. SCM stands for:
+A) Software Configuration Management
+B) Software Code Maintenance
+C) Source Control Monitor
+D) System Change Manager
+Answer: A) Software Configuration Management
+Q45. SCM is used to:
+A) Test code
+B) Write code
+C) Control software development changes
+D) Deploy code
+Answer: C) Control software development changes
+Q46. SCM can track:
+A) Only costs
+B) Who made changes and where
+C) Nothing
+D) Only dates
+Answer: B) Who made changes and where
+Q47. Which is a function of SCM?
+A) Identifies the software product components to be controlled
+B) Writes tests
+C) Deploys code
+D) Hires developers
+Answer: A) Identifies the software product components to be controlled
+Q48. SCM ensures developers use:
+A) Any version
+B) The most recent version of the software product
+C) The oldest version
+D) A random version
+Answer: B) The most recent version of the software product
+Q49. SCM's status accounting and audit feature gives:
+A) User manuals
+B) Management a clear view of the software product
+C) Budget estimates
+D) Test results only
+Answer: B) Management a clear view of the software product
+Q50. A version control system is:
+A) A web server
+B) A database of source code files with monitored access
+C) A tool for UI design
+D) A compiler
+Answer: B) A database of source code files with monitored access
+Q51. Version control systems enable developers to:
+A) Only write code
+B) Reverse changes and compare different versions
+C) Only plan
+D) Only deploy
+Answer: B) Reverse changes and compare different versions
+Q52. Version control ensures who can update source code?
+A) Only customers
+B) Nobody
+C) Only authorized users/committers
+D) Anyone
+Answer: C) Only authorized users/committers
+Q53. The "Coordinating Teams" benefit of version control means:
+A) Developers can't edit
+B) Developers share one copy
+C) No conflict handling
+D) Each developer works on a copy and conflicts are flagged
+Answer: D) Each developer works on a copy and conflicts are flagged
+Q54. "Due diligence" in version control provides information about:
+A) Tests
+B) Budget
+C) Ownership of a file and who changed it and when
+D) Defects
+Answer: C) Ownership of a file and who changed it and when
+Q55. Release management is used to:
+A) Hire teams
+B) Estimate cost
+C) Write code
+D) Plan and manage the release of builds
+Answer: D) Plan and manage the release of builds
+Q56. Agile adoption disrupts:
+A) Hardware
+B) Application release processes
+C) Naming rules
+D) Coding standards
+Answer: B) Application release processes
+Q57. Artifacts in software development are:
+A) Smaller products like use cases, models, design documents and builds
+B) Only meetings
+C) Only people
+D) Only code
+Answer: A) Smaller products like use cases, models, design documents and builds
+Q58. Artifacts help describe the function, architecture and:
+A) Marketing
+B) Design of software
+C) Hardware cost
+D) Licenses
+Answer: B) Design of software
+Q59. Symbolic artifacts are also called:
+A) Paper Models
+B) Golden Plans
+C) Silver Charts
+D) Illuminated Scrolls
+Answer: D) Illuminated Scrolls
+Q60. Practical artifacts are:
+A) Shown only to sponsors
+B) Maintained throughout the project
+C) Discarded at start
+D) Never used
+Answer: B) Maintained throughout the project
+Session 14: Continuous Integration and Delivery
+52 questions
+Q1. Continuous Integration (CI) is a practice that helps developers:
+A) Integrate their code into the repository multiple times a day
+B) Deploy manually
+C) Avoid committing
+D) Integrate code once a month
+Answer: A) Integrate their code into the repository multiple times a day
+Q2. In CI, if developer A works offline until the end and developer B commits earlier, then A will:
+A) Skip testing
+B) Always be up to date
+C) Be working on an old version while the repository has the latest
+D) Have no conflict
+Answer: C) Be working on an old version while the repository has the latest
+Q3. A key advantage of CI is that developers can:
+A) Skip commits
+B) Find out quickly where things went wrong and fix errors early
+C) Avoid testing
+D) Delay fixing errors
+Answer: B) Find out quickly where things went wrong and fix errors early
+Q4. CI can be described as:
+A) A deployment tool
+B) A one-time activity
+C) Continuous communication between team members
+D) A hardware setup
+Answer: C) Continuous communication between team members
+Q5. Which CI best practice suggests preferably a single mainline per project?
+A) Automate the build
+B) Fix broken builds
+C) Maintain a single source repository
+D) Keep the build fast
+Answer: C) Maintain a single source repository
+Q6. Which CI best practice automates tasks like compiling, moving files and loading schemas?
+A) Make build self-testing
+B) Keep build fast
+C) Automate the build
+D) Maintain a single repo
+Answer: C) Automate the build
+Q7. Which CI practice says that if the self-test fails, the build must fail?
+A) Automate deployment
+B) Make your build self-testing
+C) Everyone can see
+D) Keep the build fast
+Answer: B) Make your build self-testing
+Q8. "Everyone commits to the mainline every day" lets developers:
+A) Delay integration
+B) Avoid testing
+C) Know about the latest changes made to the product
+D) Hide changes
+Answer: C) Know about the latest changes made to the product
+Q9. Each commit should build the mainline on:
+A) A paper form
+B) An integration machine
+C) A phone
+D) A personal laptop
+Answer: B) An integration machine
+Q10. When a mainline build fails, the developer should:
+A) Ignore it
+B) Wait a week
+C) Fix it immediately
+D) Revert all changes
+Answer: C) Fix it immediately
+Q11. "Keep the build fast" means the build should take:
+A) As long as possible
+B) No time
+C) Exactly 1 hour
+D) As little time as possible
+Answer: D) As little time as possible
+Q12. "Test in a clone of the production environment" helps to:
+A) Get a feel for the correct output of the build
+B) Save cost
+C) Avoid testing
+D) Hide errors
+Answer: A) Get a feel for the correct output of the build
+Q13. "Make it easy for anyone to get the latest executable" means:
+A) Only testers get it
+B) Nothing should be hidden from the team
+C) Only managers get it
+D) Only customers get it
+Answer: B) Nothing should be hidden from the team
+Q14. "Everyone can see what is happening" means each team member should:
+A) See nothing
+B) Not see changes
+C) Have a clear picture of the system's state and review changes
+D) See only their work
+Answer: C) Have a clear picture of the system's state and review changes
+Q15. "Automate deployment" means developers get scripts that:
+A) Test code
+B) Delete builds
+C) Write code
+D) Easily deploy builds
+Answer: D) Easily deploy builds
+Q16. CD can be achieved with the help of:
+A) Documentation
+B) Continuous Integration
+C) Waterfall
+D) Manual deployment
+Answer: B) Continuous Integration
+Q17. In CI, developers must ensure the build is:
+A) Tested before uploading into the repository
+B) Deleted
+C) Rushed
+D) Untested
+Answer: A) Tested before uploading into the repository
+Q18. A risk of CI is that:
+A) It needs no testing
+B) It is too slow
+C) It removes the repository
+D) Faster speed may lead to insufficient testing
+Answer: D) Faster speed may lead to insufficient testing
+Q19. Automating integration tasks ensures:
+A) Developers commit fewer errors
+B) More errors
+C) No tests
+D) Slower delivery
+Answer: A) Developers commit fewer errors
+Q20. The most appealing advantage of CI is:
+A) Less back-tracking of errors and fixing errors early
+B) More errors
+C) Higher cost
+D) More manual work
+Answer: A) Less back-tracking of errors and fixing errors early
+Q21. Frequent integration in CI is:
+A) Needed only once
+B) Impossible
+C) Not at all expensive
+D) Very expensive
+Answer: C) Not at all expensive
+Q22. Without CI, the time between integrations is:
+A) Constant
+B) Shorter
+C) Longer, making errors harder to identify and fix
+D) Zero
+Answer: C) Longer, making errors harder to identify and fix
+Q23. Continuous Delivery is a software development practice where developers:
+A) Release only manually in bulk
+B) Develop software in short periods and ensure it can be reliably released at any time
+C) Release once per year
+D) Never release
+Answer: B) Develop software in short periods and ensure it can be reliably released at any time
+Q24. In CD, changes may include:
+A) Only bug fixes
+B) Only documentation
+C) Only new features
+D) New features, modified configuration or fixed errors
+Answer: D) New features, modified configuration or fixed errors
+Q25. While performing CD, developers must ensure that the source code:
+A) Is hidden
+B) Can always be deployed
+C) Is obsolete
+D) Never changes
+Answer: B) Can always be deployed
+Q26. Which is a benefit of Continuous Delivery?
+A) Slower releases
+B) Faster time to market
+C) Lower quality
+D) Higher cost
+Answer: B) Faster time to market
+Q27. Continuous Delivery ensures that software deployment is:
+A) Harder
+B) Costlier
+C) Easier and involves low risk
+D) Riskier
+Answer: C) Easier and involves low risk
+Q28. Tasks like deployment, environment provisioning and regression testing are automated in CD to:
+A) Increase errors
+B) Reduce delivery time
+C) Reduce quality
+D) Delay delivery
+Answer: B) Reduce delivery time
+Q29. Due to automation of important stages, developers can achieve:
+A) More bugs
+B) Lower quality
+C) Higher quality
+D) No difference
+Answer: C) Higher quality
+Q30. In CD, the cost of finding and fixing errors early is:
+A) Unknown
+B) Substantially reduced
+C) Unchanged
+D) Increased
+Answer: B) Substantially reduced
+Q31. Continuous Delivery results in "Better products" because:
+A) Users provide feedback while the product is still under development
+B) Users are excluded
+C) Fewer releases
+D) No feedback
+Answer: A) Users provide feedback while the product is still under development
+Q32. CD leads to "Happier teams" because:
+A) Developers gather user feedback and work to perfect the product
+B) No releases
+C) No users
+D) Teams work overtime
+Answer: A) Developers gather user feedback and work to perfect the product
+Q33. In Continuous Delivery, the deployment to production is:
+A) Not done
+B) Fully automated
+C) Done by customer
+D) A manual process
+Answer: D) A manual process
+Q34. Continuous Delivery doesn't complete the entire DevOps cycle because:
+A) It is too fast
+B) It follows a manual deployment process
+C) It has no code
+D) It has no tests
+Answer: B) It follows a manual deployment process
+Q35. In Continuous Testing, developers:
+A) Skip tests
+B) Execute automated tests before delivering the product
+C) Test after release
+D) Test manually only
+Answer: B) Execute automated tests before delivering the product
+Q36. The goal of Continuous Testing is:
+A) Evaluating business risk coverage and rapid feedback about business risk in the latest build
+B) Increasing cost
+C) Writing code
+D) Delaying release
+Answer: A) Evaluating business risk coverage and rapid feedback about business risk in the latest build
+Q37. Continuous Testing acts as a borderline between:
+A) Integration and delivery
+B) Design and test
+C) Planning and coding
+D) Release and retirement
+Answer: A) Integration and delivery
+Q38. Continuous Testing evaluates the system requirements with respect to:
+A) Naming
+B) Hardware
+C) Business goals
+D) Coding style
+Answer: C) Business goals
+Q39. Continuous Testing reduces delivery time by:
+A) Exposing and fixing risks early
+B) Adding meetings
+C) Adding steps
+D) Skipping tests
+Answer: A) Exposing and fixing risks early
+Q40. Because tests are automated, developers can concentrate on:
+A) Meetings
+B) Enhancing the quality of the product
+C) Manual reviews
+D) Documentation
+Answer: B) Enhancing the quality of the product
+Q41. The last step in CI is:
+A) Release
+B) Planning
+C) Deployment
+D) Integration of source code
+Answer: D) Integration of source code
+Q42. In Continuous Deployment, deployment is:
+A) Automated
+B) Manual
+C) Done by customers
+D) Skipped
+Answer: A) Automated
+Q43. In the SDLC, the correct order of CI, CD, and Continuous Deployment is:
+A) Continuous Deployment, CI, CD
+B) CI, then CD, then Continuous Deployment
+C) CI, Continuous Deployment, CD
+D) CD, CI, Continuous Deployment
+Answer: B) CI, then CD, then Continuous Deployment
+Q44. In Continuous Delivery, the lead time to deliver a change is:
+A) Zero
+B) Low
+C) High
+D) Undefined
+Answer: C) High
+Q45. Continuous Deployment involves ______ time to deliver a change.
+A) More
+B) Less
+C) Equal
+D) Infinite
+Answer: B) Less
+Q46. Which of the following is NOT a CI best practice?
+A) Commit once a month
+B) Fix broken builds immediately
+C) Automate the build
+D) Keep the build fast
+Answer: A) Commit once a month
+Q47. The CI rule "Fix broken builds immediately" aims at:
+A) Adding bugs
+B) Keeping the mainline healthy
+C) Stopping builds
+D) Delaying work
+Answer: B) Keeping the mainline healthy
+Q48. Frequent integration reduces:
+A) Collaboration
+B) Testing
+C) Integration problems and rework
+D) Code quality
+Answer: C) Integration problems and rework
+Q49. Version control flags a message when two developers:
+A) Save drafts
+B) Work on separate files
+C) Write different code
+D) Commit changes to the same code simultaneously
+Answer: D) Commit changes to the same code simultaneously
+Q50. CI helps ensure other team members can:
+A) Not see the changes
+B) See nothing
+C) Easily view the changes made
+D) See only old code
+Answer: C) Easily view the changes made
+Q51. Which provides immediate feedback on business risks in the build?
+A) Contracts
+B) Manual tests
+C) Automated tests
+D) User guides
+Answer: C) Automated tests
+Q52. Using CI, developers integrate:
+A) Only at release
+B) Several times a day
+C) Once a year
+D) Once a quarter
+Answer: B) Several times a day
+Session 15: Continuous Deployment and Monitoring
+60 questions
+Q1. In Continuous Deployment, source code is:
+A) Deployed manually in bulk
+B) Never deployed
+C) Deployed once a year
+D) Deployed into production as soon as it is ready
+Answer: D) Deployed into production as soon as it is ready
+Q2. In Continuous Deployment, automated testing is performed on code in:
+A) No environment
+B) Only dev laptops
+C) A production-similar environment before merging into the mainline
+D) The customer's site
+Answer: C) A production-similar environment before merging into the mainline
+Q3. After deployment, developers recheck:
+A) Budgets
+B) Emails
+C) Logs to see if key metrics are affected
+D) Contracts
+Answer: C) Logs to see if key metrics are affected
+Q4. Before Continuous Deployment, developers perform:
+A) Nothing
+B) Continuous Integration and Continuous Delivery
+C) Only manual testing
+D) Only planning
+Answer: B) Continuous Integration and Continuous Delivery
+Q5. In Continuous Deployment, each change goes through the pipeline and is:
+A) Deleted
+B) Held for manual approval
+C) Archived
+D) Automatically put into production
+Answer: D) Automatically put into production
+Q6. In Continuous Delivery, developers are able to deploy frequently but:
+A) Cannot deploy
+B) Might choose to skip it
+C) Deploy automatically
+D) Must always deploy
+Answer: B) Might choose to skip it
+Q7. Continuous Delivery is:
+A) Unrelated
+B) The first step before Continuous Deployment
+C) Same as monitoring
+D) The last step
+Answer: B) The first step before Continuous Deployment
+Q8. Not every organization performs Continuous Deployment, but they perform Continuous Delivery because:
+A) It is cheaper
+B) It is mandatory
+C) It brings confidence that changes are ready when "go" is pressed
+D) It needs no testing
+Answer: C) It brings confidence that changes are ready when "go" is pressed
+Q9. If a quality error is found during automated deployment:
+A) The release continues
+B) The deployment is aborted and the feature rolled back
+C) The error is ignored
+D) The team quits
+Answer: B) The deployment is aborted and the feature rolled back
+Q10. A benefit of Continuous Deployment is:
+A) Higher cost
+B) Longer lead time
+C) Reduced lead time and quick return on investment
+D) Less feedback
+Answer: C) Reduced lead time and quick return on investment
+Q11. ARA helps orchestrate:
+A) Only code writing
+B) Infrastructure and database updates, server configuration, rollback and packaging
+C) Only testing
+D) Only marketing
+Answer: B) Infrastructure and database updates, server configuration, rollback and packaging
+Q12. An ARA core activity that creates a collection of deployable files is:
+A) Mapping
+B) Compliance
+C) Packaging
+D) Promotion
+Answer: C) Packaging
+Q13. ARA activity that helps in delivery of tested builds to the next environment:
+A) Packaging
+B) Dependency mapping
+C) Compliance
+D) Promotion
+Answer: D) Promotion
+Q14. ARA activity that documents audit trails:
+A) Promotion
+B) Packaging
+C) Compliance
+D) Deployment
+Answer: C) Compliance
+Q15. ARA tools provide Role-Based Access Control, abbreviated as:
+A) RPAC
+B) ABAC
+C) RACI
+D) RBAC
+Answer: D) RBAC
+Q16. ARA tools support authentication so that:
+A) No approvals
+B) Only authorized personnel can approve changes
+C) Anyone can approve
+D) Only customers approve
+Answer: B) Only authorized personnel can approve changes
+Q17. ARA tools also provide:
+A) Encryption and security features
+B) Only logs
+C) No security
+D) Only UI
+Answer: A) Encryption and security features
+Q18. A typical CD pipeline stage that creates binaries and performs unit testing is:
+A) Deployment automation
+B) Monitoring
+C) Build automation and continuous integration
+D) Test automation
+Answer: C) Build automation and continuous integration
+Q19. In the Test Automation stage, developers check functionality, security, performance and:
+A) Hiring
+B) Budget
+C) Colour
+D) Compliance
+Answer: D) Compliance
+Q20. In Deployment Automation, the new version is first tested in:
+A) A paper model
+B) The customer's mailbox
+C) A subset of the production environment
+D) The developer's PC
+Answer: C) A subset of the production environment
+Q21. Automated platform provisioning simplifies:
+A) Paper workflow
+B) Manual setup
+C) Code reviews
+D) Horizontal scalability
+Answer: D) Horizontal scalability
+Q22. Cloud orchestration is:
+A) A programming language
+B) A manual process
+C) A self-service interface to manage and coordinate applications
+D) A database
+Answer: C) A self-service interface to manage and coordinate applications
+Q23. The term "orchestration" is derived from:
+A) A song
+B) A band
+C) A conductor who keeps instruments in tune
+D) A concert hall
+Answer: C) A conductor who keeps instruments in tune
+Q24. Cloud orchestration arranges and coordinates automated tasks following:
+A) No workflow
+B) A manual list
+C) A consolidated workflow
+D) Random steps
+Answer: C) A consolidated workflow
+Q25. Cloud orchestration results in:
+A) More manual steps
+B) Higher cost
+C) Slower delivery
+D) Reduced overall IT costs and reduced delivery time
+Answer: D) Reduced overall IT costs and reduced delivery time
+Q26. Cloud orchestration is delivered by:
+A) A Cloud Management Platform (CMP)
+B) A debugger
+C) A compiler
+D) An IDE
+Answer: A) A Cloud Management Platform (CMP)
+Q27. CMP stands for:
+A) Cloud Management Platform
+B) Central Management Process
+C) Cloud Migration Plan
+D) Cloud Monitoring Protocol
+Answer: A) Cloud Management Platform
+Q28. DevOps orchestration refers to:
+A) Meetings
+B) Paper charts
+C) Automated tools and services that teams use to coordinate and achieve faster results
+D) Manual handovers
+Answer: C) Automated tools and services that teams use to coordinate and achieve faster results
+Q29. DevOps teams need cloud infrastructure connected to access multiple:
+A) Paper files
+B) Phones
+C) Virtual Machines (VMs)
+D) Printers
+Answer: C) Virtual Machines (VMs)
+Q30. Continuous monitoring is the process by which:
+A) Developers write code
+B) Testers write tests
+C) Customers pay
+D) The Ops team checks the operation of the application and ensures the test environment is stable
+Answer: D) The Ops team checks the operation of the application and ensures the test environment is stable
+Q31. APM is used to implement:
+A) Hiring
+B) Continuous Monitoring of applications in production
+C) Waterfall
+D) Planning
+Answer: B) Continuous Monitoring of applications in production
+Q32. APM monitors, analyzes and manages:
+A) Only on-premise
+B) Cloud, on-premise and hybrid applications and IT infrastructure
+C) Only cloud
+D) Only mobile
+Answer: B) Cloud, on-premise and hybrid applications and IT infrastructure
+Q33. APM helps to quickly identify:
+A) Only design issues
+B) Only costs
+C) The root cause of issues and prevent outages
+D) Only hiring needs
+Answer: C) The root cause of issues and prevent outages
+Q34. A good practice is to start using APM solutions:
+A) Right from the development cycle
+B) Only after retirement
+C) Never
+D) Only after production
+Answer: A) Right from the development cycle
+Q35. Which APM feature measures performance of each web request and transaction?
+A) Performance of each Web request and transaction
+B) Application log data
+C) Server monitoring
+D) RUM
+Answer: A) Performance of each Web request and transaction
+Q36. Which APM feature lets developers get down to the code level to understand slow performance and errors?
+A) Server monitoring
+B) Code-level performance profiling
+C) Application log data
+D) RUM
+Answer: B) Code-level performance profiling
+Q37. Which APM feature identifies problems related to server CPU and memory?
+A) Traces
+B) RUM
+C) Application errors
+D) Basic server monitoring and metrics
+Answer: D) Basic server monitoring and metrics
+Q38. Which APM feature monitors browser load and render time for web pages?
+A) Log data
+B) Custom metrics
+C) Real User Monitoring (RUM)
+D) Application errors
+Answer: C) Real User Monitoring (RUM)
+Q39. RUM stands for:
+A) Rapid User Management
+B) Remote Usage Metrics
+C) Real Utility Monitor
+D) Real User Monitoring
+Answer: D) Real User Monitoring
+Q40. APM tools can track errors:
+A) Before customers tell them
+B) Never
+C) After customers complain
+D) Only after release
+Answer: A) Before customers tell them
+Q41. Which is NOT an aspect of DevOps APM?
+A) Continuous security
+B) Continuous delivery
+C) Continuous documentation
+D) Continuous availability
+Answer: C) Continuous documentation
+Q42. "Continuous availability" ensures that applications:
+A) Are sometimes available
+B) Are updated yearly
+C) Are always available and never face downtime
+D) Have no users
+Answer: C) Are always available and never face downtime
+Q43. "Continuous security" ensures:
+A) Only firewall
+B) Only passwords
+C) End-to-end code scanning and runtime event monitoring
+D) No security
+Answer: C) End-to-end code scanning and runtime event monitoring
+Q44. "Continuous insights" signify:
+A) Dynamic changes made to the application with changing customer needs
+B) Static design
+C) No change
+D) Fixed features
+Answer: A) Dynamic changes made to the application with changing customer needs
+Q45. In Traditional vs. Continuous Monitoring, continuous monitoring is required:
+A) Never
+B) Only at the end
+C) At each step of the software development life cycle
+D) Only at start
+Answer: C) At each step of the software development life cycle
+Q46. Monitoring development milestones helps to find out:
+A) Whether teams are following the process and the DevOps strategy is working
+B) Customer names
+C) Colours
+D) Salaries
+Answer: A) Whether teams are following the process and the DevOps strategy is working
+Q47. Known vulnerabilities are listed in the:
+A) Network Version Directory
+B) National Vulnerability Database (NVD)
+C) National Virtual Domain
+D) National Version Database
+Answer: B) National Vulnerability Database (NVD)
+Q48. Deployment monitoring involves configuring build servers to:
+A) Delete builds
+B) Hide errors
+C) Notify the team when something goes wrong
+D) Skip deployments
+Answer: C) Notify the team when something goes wrong
+Q49. Server health monitoring ensures:
+A) Only logs
+B) Uptime and performance of the server
+C) Only emails
+D) Only costs
+Answer: B) Uptime and performance of the server
+Q50. Activity monitoring tracks:
+A) Employee attendance
+B) Budget
+C) User activity with the application
+D) Contracts
+Answer: C) User activity with the application
+Q51. TTD stands for:
+A) Time To Design
+B) Time To Deploy
+C) Time To Debug
+D) Time To Detect
+Answer: D) Time To Detect
+Q52. TTM stands for:
+A) Time To Market
+B) Time To Measure
+C) Time To Mitigate
+D) Time To Monitor
+Answer: C) Time To Mitigate
+Q53. The time taken to find the root cause and ensure the issue does not reappear is:
+A) TTL
+B) TTR
+C) TTM
+D) TTD
+Answer: B) TTR
+Q54. "Validated learning" means:
+A) Testing in labs
+B) Tracking usage and differences between versions to assess the impact of change
+C) Learning from books
+D) Learning without data
+Answer: B) Tracking usage and differences between versions to assess the impact of change
+Q55. "Telemetry" is:
+A) A language
+B) A test
+C) A deployment tool
+D) The process of collecting monitoring data
+Answer: D) The process of collecting monitoring data
+Q56. Telemetry can use agents installed in deployment environments or:
+A) Paper forms
+B) Manual counts
+C) Phone calls
+D) An SDK based on markers inserted into source code
+Answer: D) An SDK based on markers inserted into source code
+Q57. Synthetic monitoring provides:
+A) Random data
+B) No data
+C) Real user data only
+D) Repeatable measurements over time
+Answer: D) Repeatable measurements over time
+Q58. Which of these is a continuous monitoring tool mentioned?
+A) Word
+B) Paint
+C) New Relic
+D) Excel
+Answer: C) New Relic
+Q59. Which is also mentioned as a continuous monitoring/alerting tool?
+A) Calculator
+B) PagerDuty
+C) Notepad
+D) Photoshop
+Answer: B) PagerDuty
+Q60. Continuous monitoring with a Continuous Deployment release pipeline lets developers:
+A) Avoid deployments
+B) Detect differences in application performance after releases
+C) Remove users
+D) Hide errors
+Answer: B) Detect differences in application performance after releases
+Session 16: DevOps Tools
+60 questions
+Q1. DevOps requires which two teams to work in collaboration?
+A) Dev and Sales
+B) Ops and HR
+C) QA and Finance
+D) Dev and Ops
+Answer: D) Dev and Ops
+Q2. Automation in DevOps is:
+A) A replacement for collaboration
+B) A strategy used to achieve DevOps goals, not DevOps itself
+C) Not needed
+D) The same as DevOps
+Answer: B) A strategy used to achieve DevOps goals, not DevOps itself
+Q3. Which of the following is NOT a listed phase of the DevOps life cycle?
+A) Plan
+B) Operate
+C) Retire
+D) Build
+Answer: C) Retire
+Q4. The DevOps life cycle phases are Plan, Build, Continuous Integration, Deploy, Operate and:
+A) Continuous feedback
+B) Sell
+C) Archive
+D) Retire
+Answer: A) Continuous feedback
+Q5. Tools used in the Plan phase should provide:
+A) Only compilers
+B) Sprint planning features and support sharing and commenting
+C) Only monitoring
+D) Only deployment
+Answer: B) Sprint planning features and support sharing and commenting
+Q6. Which is a common tool used in the Plan phase?
+A) Puppet
+B) Nagios
+C) Confluence
+D) Jenkins
+Answer: C) Confluence
+Q7. Which tools are used in the Build phase for provisioning?
+A) Excel and Word
+B) Skype
+C) Puppet and Chef
+D) Photoshop
+Answer: C) Puppet and Chef
+Q8. Which tool helps provision individual development environments?
+A) Docker
+B) Pendo
+C) Nagios
+D) Splunk
+Answer: A) Docker
+Q9. Infrastructure as code means developers:
+A) Use the same software development tools and processes to manage infrastructure as for source code
+B) Write only hardware drivers
+C) Avoid version control
+D) Configure servers manually
+Answer: A) Use the same software development tools and processes to manage infrastructure as for source code
+Q10. With infrastructure as code, provisioning code is stored in:
+A) Emails
+B) Paper files
+C) Spreadsheets
+D) Version control
+Answer: D) Version control
+Q11. Infrastructure as code reduces the need for:
+A) Developers
+B) Tests
+C) Run books and internal documentation
+D) Servers
+Answer: C) Run books and internal documentation
+Q12. Pull requests are:
+A) Changes pushed to a development branch for review
+B) Customer complaints
+C) Server requests
+D) Deployment commands
+Answer: A) Changes pushed to a development branch for review
+Q13. Which tools are popular in the Continuous Integration phase?
+A) GetFeedback and Survey
+B) Bamboo and Jenkins
+C) Pendo and Hootsuite
+D) Splunk and Nagios
+Answer: B) Bamboo and Jenkins
+Q14. CI tools should automatically apply tests to development branches and allow push to master when:
+A) Never
+B) Always
+C) At random
+D) Branch builds are successful
+Answer: D) Branch builds are successful
+Q15. Automated testing helps the operations team to:
+A) Hire testers
+B) Ignore builds
+C) Have a clear view of build changes and testing output
+D) Skip handover
+Answer: C) Have a clear view of build changes and testing output
+Q16. Which tool is mentioned for automated testing in the DevOps cycle?
+A) Chef
+B) Nagios
+C) Splunk
+D) Capture for JIRA
+Answer: D) Capture for JIRA
+Q17. In the Deploy phase, tools should have:
+A) Only emails
+B) Only logs
+C) A release dashboard to review changes, test results and deployment information
+D) No dashboard
+Answer: C) A release dashboard to review changes, test results and deployment information
+Q18. Developers automate deploys to the ______ environment first.
+A) Production
+B) Highest
+C) Customer
+D) Lowest-level
+Answer: D) Lowest-level
+Q19. Which tools are used for automated deployment, along with HipChat to control deployments from chat rooms?
+A) Pendo and Survey
+B) Splunk and Nagios
+C) Puppet and Chef
+D) Excel and Word
+Answer: C) Puppet and Chef
+Q20. In the Operate phase, developers monitor:
+A) HR records
+B) Customer billing
+C) Sales
+D) Application and server performance
+Answer: D) Application and server performance
+Q21. Which tools are popular in the Operate phase?
+A) SurveyMonkey
+B) Chef and Puppet
+C) Confluence and Rally
+D) New Relic, Splunk and Nagios
+Answer: D) New Relic, Splunk and Nagios
+Q22. Which tool is used for incident, change and problem tracking?
+A) Chef
+B) Docker
+C) JIRA Service Desk
+D) Puppet
+Answer: C) JIRA Service Desk
+Q23. A deployment pipeline:
+A) Deploys manually
+B) Skips testing
+C) Breaks up the build into stages so issues can be tracked and fixed early
+D) Combines all steps
+Answer: C) Breaks up the build into stages so issues can be tracked and fixed early
+Q24. A deployment pipeline provides:
+A) Only logs
+B) No visibility
+C) Only dashboards
+D) Clear visibility into production changes and a thorough audit trail
+Answer: D) Clear visibility into production changes and a thorough audit trail
+Q25. Which tool is an open source version control system that keeps versions of source code, webpages and documents?
+A) Chef
+B) Apache Subversion (SVN)
+C) Jenkins
+D) Puppet
+Answer: B) Apache Subversion (SVN)
+Q26. SVN stands for:
+A) Source Version Number
+B) Software Version Notes
+C) Standard Version Network
+D) Subversion
+Answer: D) Subversion
+Q27. When two people change the same file simultaneously in Subversion:
+A) The system crashes
+B) The first change is lost
+C) They receive a message and collaborate before committing
+D) The change is auto-merged blindly
+Answer: C) They receive a message and collaborate before committing
+Q28. Apache Ant is a ______-based tool for automating software build processes.
+A) Ruby
+B) C#
+C) Python
+D) Java
+Answer: D) Java
+Q29. In Apache Ant, build files are scripted in:
+A) XML
+B) JSON
+C) YAML
+D) HTML
+Answer: A) XML
+Q30. Apache Ant can be used to build:
+A) Only C
+B) Only Python
+C) Only Java
+D) Java and non-Java applications such as C/C++
+Answer: D) Java and non-Java applications such as C/C++
+Q31. Jenkins is:
+A) Open source automation software written in Java
+B) A database
+C) A language
+D) A closed-source tool
+Answer: A) Open source automation software written in Java
+Q32. Jenkins automates tasks such as:
+A) CI, continuous testing, continuous deployment and technical aspects of continuous delivery
+B) Only monitoring
+C) Only planning
+D) Only coding
+Answer: A) CI, continuous testing, continuous deployment and technical aspects of continuous delivery
+Q33. Jenkins supports version control tools such as:
+A) Only SVN
+B) None
+C) Subversion, Git, CVS, Mercurial, Perforce
+D) Only Git
+Answer: C) Subversion, Git, CVS, Mercurial, Perforce
+Q34. A Jenkinsfile is:
+A) A plugin
+B) A text file where users define a Jenkins Pipeline
+C) A binary
+D) A log
+Answer: B) A text file where users define a Jenkins Pipeline
+Q35. The Jenkinsfile should be:
+A) Defined only in the UI
+B) Deleted after use
+C) Checked into source control
+D) Kept private only
+Answer: C) Checked into source control
+Q36. Jenkinsfile helps to:
+A) Stop builds
+B) Delete branches
+C) Automatically create pipelines for all branches and pull requests
+D) Reduce testing
+Answer: C) Automatically create pipelines for all branches and pull requests
+Q37. To create a Jenkins job, click:
+A) New Item
+B) Update
+C) Exit
+D) Delete Item
+Answer: A) New Item
+Q38. In the Jenkins job example, the project type selected is:
+A) Folder
+B) Freestyle project
+C) Pipeline
+D) Maven project
+Answer: B) Freestyle project
+Q39. In Jenkins, the "Poll SCM" option is selected under:
+A) Source code management
+B) Post-build actions
+C) Build Triggers
+D) Repository browser
+Answer: C) Build Triggers
+Q40. Plugins can be downloaded from:
+A) The Jenkins plugins website
+B) Email
+C) Any random site
+D) A DVD
+Answer: A) The Jenkins plugins website
+Q41. Puppet is:
+A) A language
+B) A closed-source database
+C) A compiler
+D) An open-source automation tool running on Unix and Windows
+Answer: D) An open-source automation tool running on Unix and Windows
+Q42. Puppet information is stored in files named:
+A) Puppet scripts
+B) Puppet recipes
+C) Puppet cookbooks
+D) Puppet manifests
+Answer: D) Puppet manifests
+Q43. In Puppet, system information is identified via the ______ utility.
+A) Knife
+B) Hiera
+C) Facter
+D) Foodcritic
+Answer: C) Facter
+Q44. Puppet manifests are compiled into a:
+A) Cookbook
+B) Binary
+C) Recipe
+D) System-specific catalog
+Answer: D) System-specific catalog
+Q45. Puppet in a client-server environment has the server acting as the:
+A) Puppet node
+B) Puppet chef
+C) Puppet client
+D) Puppet master
+Answer: D) Puppet master
+Q46. The Puppet agent first collects:
+A) Recipes
+B) Cookbooks
+C) Facts such as hardware, OS and package versions
+D) Reports
+Answer: C) Facts such as hardware, OS and package versions
+Q47. In the Puppet workflow, the master creates a custom configuration called:
+A) Catalog
+B) Manifest
+C) Recipe
+D) Fact
+Answer: A) Catalog
+Q48. Puppet Enterprise can automatically detect and correct:
+A) Network speed
+B) Configuration drift
+C) Hardware failures
+D) Billing errors
+Answer: B) Configuration drift
+Q49. Puppet has four use cases: infrastructure, configuration management, failover and:
+A) Billing
+B) Hiring
+C) Testing
+D) Deploys
+Answer: D) Deploys
+Q50. Puppet allows developers to use standardized modules from the:
+A) Puppet Store
+B) Puppet Market
+C) Puppet Forge
+D) Puppet Hub
+Answer: C) Puppet Forge
+Q51. Chef is a:
+A) Monitoring tool
+B) Version control tool
+C) Chat tool
+D) Configuration management tool
+Answer: D) Configuration management tool
+Q52. Chef converts infrastructure into code that is:
+A) Binary
+B) Flexible, versionable, human-readable and testable
+C) Hidden
+D) Manual
+Answer: B) Flexible, versionable, human-readable and testable
+Q53. In Chef, machine setup is described in a:
+A) Fact
+B) Recipe
+C) Manifest
+D) Catalog
+Answer: B) Recipe
+Q54. A cookbook in Chef is:
+A) A collection of recipes
+B) A server
+C) A single file
+D) A node
+Answer: A) A collection of recipes
+Q55. Cookbooks are stored on the:
+A) Chef node
+B) Chef server
+C) Chef client only
+D) Chef workstation only
+Answer: B) Chef server
+Q56. Which Chef component interacts with nodes on the Chef server?
+A) Chef-client
+B) Recipe
+C) Knife
+D) Cookbook
+Answer: C) Knife
+Q57. Which tool is used to test cookbooks?
+A) Facter
+B) Puppet Forge
+C) Test Kitchen
+D) Knife
+Answer: C) Test Kitchen
+Q58. Chef-client is installed on:
+A) Nodes
+B) Nobody
+C) Only the Chef server
+D) Only workstations
+Answer: A) Nodes
+Q59. Chef Automate is:
+A) A compiler
+B) A continuous automation platform for speedy deployment and transparent code base
+C) A source control tool
+D) A language
+Answer: B) A continuous automation platform for speedy deployment and transparent code base
+Q60. Chef Automate can be used to publish new cookbooks to:
+A) Puppet Forge
+B) Jenkins
+C) Chef Supermarket
+D) SVN
+Answer: C) Chef Supermarket
