@@ -9,6 +9,7 @@ const PUBLIC_ROUTES = [
     { loc: '/contact', changefreq: 'monthly', priority: '0.7' },
     { loc: '/privacy-policy', changefreq: 'monthly', priority: '0.6' },
     { loc: '/terms', changefreq: 'monthly', priority: '0.6' },
+    { loc: '/certificate/view', changefreq: 'monthly', priority: '0.7' },
     { loc: '/technologies/html', changefreq: 'weekly', priority: '0.8' },
     { loc: '/technologies/css', changefreq: 'weekly', priority: '0.8' },
     { loc: '/technologies/javascript', changefreq: 'weekly', priority: '0.8' },
@@ -41,10 +42,13 @@ const GAME_SLUGS = [
     'csharp-oop-challenge',
     'csharp-collections-challenge',
     'csharp-linq-challenge',
-    'csharp-exception-handling'
+    'csharp-exception-handling',
+    'complete-the-code',
+    'csharp-quiz-challenge'
 ];
 
 function buildSitemapXml(extraSlugs = []) {
+    const today = new Date().toISOString().split('T')[0];
     const mergedSlugs = Array.from(
         new Set(
             [...GAME_SLUGS, ...(Array.isArray(extraSlugs) ? extraSlugs : [])]
@@ -53,8 +57,8 @@ function buildSitemapXml(extraSlugs = []) {
     );
 
     const urls = [
-        ...PUBLIC_ROUTES.map(r => `  <url>\n    <loc>${BASE_URL}${r.loc}</loc>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`),
-        ...mergedSlugs.map(slug => `  <url>\n    <loc>${BASE_URL}/games/${slug}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`)
+        ...PUBLIC_ROUTES.map(r => `  <url>\n    <loc>${BASE_URL}${r.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`),
+        ...mergedSlugs.map(slug => `  <url>\n    <loc>${BASE_URL}/games/${slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`)
     ];
 
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
@@ -134,6 +138,76 @@ function getRobotsTxt(req, res) {
     return res.status(200).send(robots);
 }
 
+const STATIC_PREFIXES = [
+    '/assets',
+    '/branding',
+    '/.well-known',
+    '/favicon',
+    '/apple-touch-icon',
+    '/robots.txt',
+    '/sitemap.xml',
+    '/ads.txt',
+    '/app-ads.txt',
+    '/manifest.json'
+];
+
+const KNOWN_EXACT_ROUTES = new Set([
+    '/',
+    '/technologies',
+    '/games',
+    '/leaderboard',
+    '/leaderboard/full',
+    '/about',
+    '/contact',
+    '/privacy-policy',
+    '/terms',
+    '/delete-account',
+    '/certificate/view',
+    '/login',
+    '/register',
+    '/signup',
+    '/forgot-password',
+    '/reset-password',
+    '/admin',
+    '/dashboard',
+    '/dashboard/technologies',
+    '/dashboard/quizzes',
+    '/dashboard/certificates',
+    '/dashboard/leaderboard',
+    '/dashboard/leaderboard/full',
+    '/dashboard/profile',
+    '/dashboard/settings',
+    '/dashboard/seo',
+    '/dashboard/admin',
+    '/quiz/start',
+    '/quiz/result'
+]);
+
+const TECH_SLUGS = new Set([
+    'html', 'css', 'javascript', 'react', 'php', 'laravel',
+    'mysql', 'mongodb', 'flutter', 'dart', 'python', 'programming-fundamentals',
+    // Aliases
+    'reactjs', 'react.js', 'js', 'html5', 'css3', 'fundamentals', 'programming-logic'
+]);
+
+function isKnownAppRoute(pathname) {
+    if (!pathname || typeof pathname !== 'string') return false;
+    const clean = pathname.split('?')[0].replace(/\/+$/, '') || '/';
+    if (KNOWN_EXACT_ROUTES.has(clean)) return true;
+    if (clean.startsWith('/technologies/')) {
+        const sub = clean.slice('/technologies/'.length);
+        return TECH_SLUGS.has(sub);
+    }
+    if (clean.startsWith('/games/')) {
+        const sub = clean.slice('/games/'.length);
+        return GAME_SLUGS.includes(sub) || sub === 'coding-memory-match' || sub === 'csharp-complete-the-code' || sub === 'complete-the-code-csharp';
+    }
+    if (clean.startsWith('/reset-password/')) return true;
+    if (clean.startsWith('/api/')) return true;
+    if (STATIC_PREFIXES.some(prefix => clean.startsWith(prefix))) return true;
+    return false;
+}
+
 module.exports = {
     BASE_URL,
     PUBLIC_ROUTES,
@@ -141,5 +215,6 @@ module.exports = {
     buildSitemapXml,
     buildRobotsTxt,
     getDynamicSitemap,
-    getRobotsTxt
+    getRobotsTxt,
+    isKnownAppRoute
 };

@@ -127,13 +127,13 @@ export default function Profile() {
                     <span className="px-3.5 py-1.5 rounded-xl bg-[#193D35] text-white text-xs font-bold">
                         About Me
                     </span>
-                    <Link to="/certificates" className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors">
+                    <Link to="/dashboard/certificates" className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors">
                         Achievements
                     </Link>
                     <Link to="/games" className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors">
                         My Games
                     </Link>
-                    <Link to="/settings" className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors">
+                    <Link to="/dashboard/settings" className="px-3.5 py-1.5 rounded-xl text-xs font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors">
                         Settings
                     </Link>
                 </div>

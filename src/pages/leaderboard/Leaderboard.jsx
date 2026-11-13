@@ -118,7 +118,7 @@ const LeaderboardPage = ({ mode: propMode }) => {
                     <div className="w-12 h-12 rounded-full bg-emerald-500/15 text-emerald-500 flex items-center justify-center mx-auto">
                         <Lock className="w-6 h-6" />
                     </div>
-                    <h2 className="text-xl font-bold">Sign In Required</h2>
+                    <h1 className="text-xl font-bold">Sign In Required</h1>
                     <p className="text-sm text-[var(--foreground-secondary)]">
                         Redirecting you to sign in to access the complete developer leaderboard...
                     </p>

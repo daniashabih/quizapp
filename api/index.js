@@ -22,13 +22,27 @@ const quizRoutes = require('./_routes/quizRoutes');
 const certificateRoutes = require('./_routes/certificateRoutes');
 const userRoutes = require('./_routes/userRoutes');
 const gameRoutes = require('./_routes/gameRoutes');
-const { getDynamicSitemap, getRobotsTxt } = require('./_controllers/seoController');
+const { getDynamicSitemap, getRobotsTxt, isKnownAppRoute } = require('./_controllers/seoController');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Trust reverse proxies (e.g. Vercel, Render)
 app.set('trust proxy', 1);
+
+// SEO: Canonical Domain Redirection (non-www -> www) & Trailing Slash Normalization
+app.use((req, res, next) => {
+    const host = (req.headers.host || '').toLowerCase();
+    if (host === 'hangbug.com') {
+        return res.redirect(301, `https://www.hangbug.com${req.originalUrl}`);
+    }
+    if (req.path.length > 1 && req.path.endsWith('/')) {
+        const query = req.url.slice(req.path.length);
+        const safePath = req.path.slice(0, -1);
+        return res.redirect(301, safePath + query);
+    }
+    next();
+});
 
 app.use(cors({
     origin: true,
@@ -77,6 +91,8 @@ app.use('/api/api/games', gameRoutes); // Defensive alias for clients with redun
 app.get('/robots.txt', getRobotsTxt);
 app.get('/sitemap.xml', getDynamicSitemap);
 app.get('/api/sitemap.xml', getDynamicSitemap);
+app.get('/sitemap', (req, res) => res.redirect(301, '/sitemap.xml'));
+app.get('/robots', (req, res) => res.redirect(301, '/robots.txt'));
 
 // Technical SEO 301 Canonical Redirects
 app.get('/privacy', (req, res) => res.redirect(301, '/privacy-policy'));
@@ -85,7 +101,16 @@ app.get('/data-deletion', (req, res) => res.redirect(301, '/delete-account'));
 app.get('/quizzes', (req, res) => res.redirect(301, '/technologies'));
 app.get('/quiz', (req, res) => res.redirect(301, '/technologies'));
 app.get('/technologies/level', (req, res) => res.redirect(301, '/technologies'));
+app.get('/technologies/reactjs', (req, res) => res.redirect(301, '/technologies/react'));
+app.get('/technologies/react.js', (req, res) => res.redirect(301, '/technologies/react'));
+app.get('/technologies/js', (req, res) => res.redirect(301, '/technologies/javascript'));
+app.get('/technologies/html5', (req, res) => res.redirect(301, '/technologies/html'));
+app.get('/technologies/css3', (req, res) => res.redirect(301, '/technologies/css'));
+app.get('/technologies/fundamentals', (req, res) => res.redirect(301, '/technologies/programming-fundamentals'));
+app.get('/technologies/programming-logic', (req, res) => res.redirect(301, '/technologies/programming-fundamentals'));
 app.get('/games/coding-memory-match', (req, res) => res.redirect(301, '/games/memory-match'));
+app.get('/games/csharp-complete-the-code', (req, res) => res.redirect(301, '/games/complete-the-code'));
+app.get('/games/complete-the-code-csharp', (req, res) => res.redirect(301, '/games/complete-the-code'));
 app.get('/seo', (req, res) => res.redirect(301, '/dashboard/seo'));
 app.get('/admin/seo', (req, res) => res.redirect(301, '/dashboard/seo'));
 app.get('/certificates', (req, res) => res.redirect(301, '/dashboard/certificates'));
@@ -132,7 +157,11 @@ async function startServer() {
         const distPath = path.join(process.cwd(), 'dist');
         app.use(express.static(distPath));
         app.use((req, res) => {
-            res.sendFile(path.join(distPath, 'index.html'));
+            if (isKnownAppRoute(req.path)) {
+                res.status(200).sendFile(path.join(distPath, 'index.html'));
+            } else {
+                res.status(404).sendFile(path.join(distPath, 'index.html'));
+            }
         });
     }
 

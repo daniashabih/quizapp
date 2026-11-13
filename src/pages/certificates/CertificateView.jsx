@@ -109,7 +109,7 @@ export default function CertificateView() {
                 <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
                     <div className="p-8 rounded-3xl card border border-red-500/20 max-w-md w-full space-y-4">
                         <AlertCircle size={40} className="text-red-500 mx-auto" />
-                        <h2 className="text-xl font-display font-bold text-[var(--foreground)]">Invalid Certificate</h2>
+                        <h1 className="text-xl font-display font-bold text-[var(--foreground)]">Invalid Certificate</h1>
                         <p className="text-xs text-[var(--foreground-muted)]">{certError}</p>
                         <Link to="/" className="btn-primary text-xs py-2.5 justify-center">Return to Home</Link>
                     </div>

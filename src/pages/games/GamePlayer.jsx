@@ -28,6 +28,7 @@ import gameService, { FALLBACK_GAMES, FALLBACK_TECHNOLOGIES } from '../../servic
 import TechIcon from './components/TechIcon';
 import gameAudio from '../../utils/gameAudio';
 import { trackGameStart, trackGameComplete } from '../../utils/analytics';
+import NotFound from '../NotFound';
 
 // Coding Games Engines
 import CodePuzzleEngine from './engines/CodePuzzleEngine';
@@ -78,6 +79,8 @@ export const GamePlayer = () => {
     useEffect(() => {
         if (slug === 'coding-memory-match') {
             navigate('/games/memory-match', { replace: true });
+        } else if (slug === 'csharp-complete-the-code' || slug === 'complete-the-code-csharp') {
+            navigate('/games/complete-the-code', { replace: true });
         }
     }, [slug, navigate]);
 
@@ -93,6 +96,7 @@ export const GamePlayer = () => {
             ? `${seoGame.description} Practice interactive coding challenges on Hangbug.`
             : 'Play interactive coding and typing games on Hangbug to sharpen programming logic and keyboard speed.',
         canonicalPath: `/games/${seoGame?.baseSlug || seoGame?.slug || slug || ''}`,
+        noindex: !seoGame,
         ogType: 'website'
     });
 
@@ -163,19 +167,21 @@ export const GamePlayer = () => {
                         category: res.data.category || 'Educational'
                     });
                 }
+            } else if (fallbackGame) {
+                // Rely on static fallback game definition
             } else {
-                toast.error('Game not found.');
-                navigate('/games');
+                setGame(null);
             }
         } catch (err) {
             console.error('Error fetching game:', err);
-            toast.error('Failed to load game.');
-            navigate('/games');
+            if (!fallbackGame) {
+                setGame(null);
+            }
         } finally {
             setLoading(false);
             gameStartTimeRef.current = Date.now();
         }
-    }, [slug, navigate]);
+    }, [slug, fallbackGame]);
 
     useEffect(() => {
         fetchGame();
@@ -395,9 +401,10 @@ export const GamePlayer = () => {
         );
     }
 
-    if (!game) return null;
+    const activeGame = game || fallbackGame;
+    if (!activeGame) return <NotFound />;
 
-    const isTyping = game.category === 'Typing Games';
+    const isTyping = activeGame.category === 'Typing Games';
 
     return (
         <div
@@ -421,16 +428,16 @@ export const GamePlayer = () => {
                         </Link>
                         <div>
                             <div className="flex items-center gap-2">
-                                <h1 className="text-base sm:text-lg font-black tracking-tight">{game.title}</h1>
-                                {game.badge && (
+                                <h1 className="text-base sm:text-lg font-black tracking-tight">{activeGame.title}</h1>
+                                {activeGame.badge && (
                                     <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                                        {game.badge}
+                                        {activeGame.badge}
                                     </span>
                                 )}
                             </div>
                             <p className="text-[11px] text-[var(--foreground-muted)] hidden sm:flex items-center gap-1">
                                 {isTyping ? <Keyboard size={12} /> : <Code2 size={12} />}
-                                <span>{game.category} &bull; {game.difficulty || 'All Levels'}</span>
+                                <span>{activeGame.category} &bull; {activeGame.difficulty || 'All Levels'}</span>
                             </p>
                         </div>
                     </div>
@@ -574,7 +581,7 @@ export const GamePlayer = () => {
 
                 {/* Active Game Engine Canvas/Viewport */}
                 <section aria-label="Interactive Game Viewport" className="flex-1 flex flex-col justify-center items-center w-full">
-                    <h2 className="sr-only">{game.title} Interactive Challenge</h2>
+                    <h2 className="sr-only">{activeGame.title} Interactive Challenge</h2>
                     {renderEngine()}
                 </section>
             </main>
@@ -585,7 +592,7 @@ export const GamePlayer = () => {
                     <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 max-w-md w-full shadow-2xl animate-in fade-in zoom-in-95 duration-200">
                         <div className="flex items-center justify-between pb-3 mb-4 border-b border-[var(--card-border)]">
                             <h2 className="text-base font-black flex items-center gap-2">
-                                <Info size={18} className="text-emerald-500" /> How to Play: {game.title}
+                                <Info size={18} className="text-emerald-500" /> How to Play: {activeGame.title}
                             </h2>
                             <button
                                 onClick={() => setShowInstructions(false)}
@@ -598,17 +605,17 @@ export const GamePlayer = () => {
                         <div className="space-y-4 text-xs text-[var(--foreground-secondary)] leading-relaxed">
                             <div>
                                 <h3 className="font-bold text-[var(--foreground)] mb-1">Overview:</h3>
-                                <p>{game.description}</p>
+                                <p>{activeGame.description}</p>
                             </div>
 
                             <div>
                                 <h3 className="font-bold text-[var(--foreground)] mb-1">Instructions:</h3>
-                                <p>{game.instructions}</p>
+                                <p>{activeGame.instructions}</p>
                             </div>
 
                             <div className="p-3 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                                 <span className="font-bold text-[var(--foreground)] block mb-1">Category & Difficulty:</span>
-                                <p>{game.category} &bull; {game.difficulty || 'All Levels'}</p>
+                                <p>{activeGame.category} &bull; {activeGame.difficulty || 'All Levels'}</p>
                             </div>
                         </div>
 
@@ -634,7 +641,7 @@ export const GamePlayer = () => {
 
                         <h2 className="text-xl font-black mb-1">Challenge Complete!</h2>
                         <p className="text-xs text-[var(--foreground-muted)] mb-5">
-                            Great job solving this challenge in <strong>{game.title}</strong>
+                            Great job solving this challenge in <strong>{activeGame.title}</strong>
                         </p>
 
                         {/* Score Box */}

@@ -2,12 +2,24 @@
   "buildCommand": "prisma generate && node scripts/generateSitemap.js && vite build && node scripts/generateSitemap.js",
   "outputDirectory": "dist",
   "installCommand": "npm install",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "functions": {
     "api/index.js": {
       "includeFiles": "{node_modules/.prisma/client/**,node_modules/@prisma/client/**,prisma/**}"
     }
   },
   "redirects": [
+    {
+      "source": "/sitemap",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/robots",
+      "destination": "/robots.txt",
+      "permanent": true
+    },
     {
       "source": "/privacy",
       "destination": "/privacy-policy",
@@ -39,8 +51,53 @@
       "permanent": true
     },
     {
+      "source": "/technologies/reactjs",
+      "destination": "/technologies/react",
+      "permanent": true
+    },
+    {
+      "source": "/technologies/react.js",
+      "destination": "/technologies/react",
+      "permanent": true
+    },
+    {
+      "source": "/technologies/js",
+      "destination": "/technologies/javascript",
+      "permanent": true
+    },
+    {
+      "source": "/technologies/html5",
+      "destination": "/technologies/html",
+      "permanent": true
+    },
+    {
+      "source": "/technologies/css3",
+      "destination": "/technologies/css",
+      "permanent": true
+    },
+    {
+      "source": "/technologies/fundamentals",
+      "destination": "/technologies/programming-fundamentals",
+      "permanent": true
+    },
+    {
+      "source": "/technologies/programming-logic",
+      "destination": "/technologies/programming-fundamentals",
+      "permanent": true
+    },
+    {
       "source": "/games/coding-memory-match",
       "destination": "/games/memory-match",
+      "permanent": true
+    },
+    {
+      "source": "/games/csharp-complete-the-code",
+      "destination": "/games/complete-the-code",
+      "permanent": true
+    },
+    {
+      "source": "/games/complete-the-code-csharp",
+      "destination": "/games/complete-the-code",
       "permanent": true
     },
     {
@@ -186,6 +243,23 @@
       ]
     },
     {
+      "source": "/manifest.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json; charset=utf-8"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
       "source": "/.well-known/assetlinks.json",
       "headers": [
         {
@@ -209,7 +283,7 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/((?!api/|assets/|branding/|favicon|apple-touch-icon|robots\\.txt|sitemap\\.xml|ads\\.txt|app-ads\\.txt|.*\\..*).*)",
+      "source": "/((?!api/|assets/|branding/|favicon|apple-touch-icon|robots\\.txt|sitemap\\.xml|ads\\.txt|app-ads\\.txt|manifest\\.json|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]

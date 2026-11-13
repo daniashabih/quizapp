@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import {
     Code2, ArrowRight, Search, Sparkles, BookOpen,
@@ -375,6 +375,43 @@ export default function Technologies() {
                     </div>
                 </section>
             )}
+
+            {/* Semantic Crawlable Technology Guides Section for Search Engine Spiders */}
+            <section aria-label="Technology Learning & Assessment Tracks" className="mt-12 pt-8 border-t border-[var(--card-border)]">
+                <div className="text-center max-w-2xl mx-auto mb-6">
+                    <h2 className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)] mb-2">
+                        Explore Technology Guides &amp; Assessment Tracks
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">
+                        Deep dive into topic-specific questions, coding challenges, and key learning objectives across our supported programming stacks.
+                    </p>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-4xl mx-auto">
+                    {[
+                        { name: 'HTML', slug: 'html' },
+                        { name: 'CSS', slug: 'css' },
+                        { name: 'JavaScript', slug: 'javascript' },
+                        { name: 'React.js', slug: 'react' },
+                        { name: 'PHP', slug: 'php' },
+                        { name: 'Laravel', slug: 'laravel' },
+                        { name: 'MySQL', slug: 'mysql' },
+                        { name: 'MongoDB', slug: 'mongodb' },
+                        { name: 'Flutter', slug: 'flutter' },
+                        { name: 'Dart', slug: 'dart' },
+                        { name: 'Python', slug: 'python' },
+                        { name: 'Programming Fundamentals', slug: 'programming-fundamentals' }
+                    ].map(t => (
+                        <Link
+                            key={t.slug}
+                            to={`/technologies/${t.slug}`}
+                            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground)] hover:border-[#193D35] hover:text-[#193D35] dark:hover:text-emerald-400 transition-all shadow-xs"
+                        >
+                            <span>{t.name} Quizzes &amp; Practice</span>
+                            <ArrowRight size={12} className="opacity-60" />
+                        </Link>
+                    ))}
+                </div>
+            </section>
 
             {/* ═══════════════════════════════════════════════════════════
                  SESSION SELECTION & ADD SESSION NO MODAL

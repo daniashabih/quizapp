@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import {
     ArrowLeft,
@@ -178,6 +178,11 @@ export default function TechnologyDetail() {
         return <NotFound />;
     }
 
+    // Canonical redirect for legacy / alias technology slugs (e.g. /technologies/reactjs -> /technologies/react)
+    if (slug !== seoConfig.slug) {
+        return <Navigate to={seoConfig.path} replace />;
+    }
+
     const techGameEntries =
         seoConfig.slug === 'programming-fundamentals'
             ? FALLBACK_TECHNOLOGIES.filter(t => t.categorySlug === 'programming-fundamentals')
@@ -265,7 +270,10 @@ export default function TechnologyDetail() {
                                 src="/favicon.png"
                                 alt={seoConfig.imageAlt}
                                 className="w-8 h-8 object-contain opacity-90"
+                                width="32"
+                                height="32"
                                 loading="lazy"
+                                decoding="async"
                             />
                             <p className="text-xs font-bold text-[var(--foreground)]">
                                 {seoConfig.name} Skill Practice

@@ -98,15 +98,15 @@ export default function ContactUs() {
                         <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 space-y-3">
                             <div className="flex items-center gap-2 text-sm font-display font-bold text-[var(--foreground)]">
                                 <HelpCircle size={16} className="text-[#193D35]" />
-                                <h3>Frequently Asked Questions</h3>
+                                <h2 className="text-base font-display font-bold text-[var(--foreground)]">Frequently Asked Questions</h2>
                             </div>
                             <div className="space-y-2 text-xs text-[var(--foreground-muted)]">
                                 <div>
-                                    <p className="font-semibold text-[var(--foreground)]">How do certificates work?</p>
+                                    <h3 className="font-semibold text-[var(--foreground)]">How do certificates work?</h3>
                                     <p>Score-based certificates are awarded when you achieve 80% or higher on a technology quiz assessment track.</p>
                                 </div>
                                 <div className="pt-2 border-t border-[var(--card-border)]">
-                                    <p className="font-semibold text-[var(--foreground)]">Can I retake quizzes?</p>
+                                    <h3 className="font-semibold text-[var(--foreground)]">Can I retake quizzes?</h3>
                                     <p>Yes, you can retake sessions at any time to improve your accuracy and leaderboard score.</p>
                                 </div>
                             </div>

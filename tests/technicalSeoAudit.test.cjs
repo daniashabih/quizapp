@@ -372,3 +372,50 @@ test('18. Brand Identity & AI Overview Accuracy: Official Hangbug title, meta de
     assert.ok(about.includes('What is Hangbug?'), 'AboutUs.jsx must include What is Hangbug? heading');
     assert.ok(about.includes('How Hangbug Works'), 'AboutUs.jsx must include How Hangbug Works heading');
 });
+
+test('19. Technical SEO: XML sitemap lastmod timestamps and complete public URL coverage', () => {
+    const sitemap = readFile('public/sitemap.xml');
+    assert.ok(sitemap.includes('<lastmod>'), 'sitemap.xml must declare <lastmod> timestamps');
+    assert.ok(sitemap.includes('<loc>https://www.hangbug.com/certificate/view</loc>'), 'sitemap.xml must include /certificate/view');
+    assert.ok(sitemap.includes('<loc>https://www.hangbug.com/games/complete-the-code</loc>'), 'sitemap.xml must include complete-the-code game');
+    assert.ok(sitemap.includes('<loc>https://www.hangbug.com/games/csharp-quiz-challenge</loc>'), 'sitemap.xml must include csharp-quiz-challenge game');
+});
+
+test('20. Technical SEO: Vercel Clean URLs, trailing slash normalization, and alias 301 redirects', () => {
+    const vercelConfig = JSON.parse(readFile('vercel.json'));
+    assert.strictEqual(vercelConfig.cleanUrls, true, 'vercel.json must enable cleanUrls');
+    assert.strictEqual(vercelConfig.trailingSlash, false, 'vercel.json must set trailingSlash to false');
+
+    const sitemapRedirect = vercelConfig.redirects.find(r => r.source === '/sitemap');
+    assert.ok(sitemapRedirect && sitemapRedirect.destination === '/sitemap.xml' && sitemapRedirect.permanent === true, 'vercel.json must 301 redirect /sitemap to /sitemap.xml');
+
+    const robotsRedirect = vercelConfig.redirects.find(r => r.source === '/robots');
+    assert.ok(robotsRedirect && robotsRedirect.destination === '/robots.txt' && robotsRedirect.permanent === true, 'vercel.json must 301 redirect /robots to /robots.txt');
+
+    const reactjsRedirect = vercelConfig.redirects.find(r => r.source === '/technologies/reactjs');
+    assert.ok(reactjsRedirect && reactjsRedirect.destination === '/technologies/react' && reactjsRedirect.permanent === true, 'vercel.json must 301 redirect /technologies/reactjs to /technologies/react');
+});
+
+test('21. Technical SEO: Web App Manifest and Icon Configuration', () => {
+    const manifestPath = path.join(ROOT_DIR, 'public/manifest.json');
+    assert.ok(fs.existsSync(manifestPath), 'public/manifest.json must exist');
+
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+    assert.strictEqual(manifest.short_name, 'Hangbug');
+    assert.ok(Array.isArray(manifest.icons) && manifest.icons.length >= 4, 'manifest must declare icons array');
+
+    const indexHtml = readFile('index.html');
+    assert.ok(indexHtml.includes('rel="manifest" href="/manifest.json"'), 'index.html must reference manifest.json');
+});
+
+test('22. Technical SEO: Route Validation for Soft 404 Prevention', () => {
+    const { isKnownAppRoute } = require('../api/_controllers/seoController');
+    assert.strictEqual(isKnownAppRoute('/'), true, 'Home route must be valid');
+    assert.strictEqual(isKnownAppRoute('/technologies'), true, 'Technologies route must be valid');
+    assert.strictEqual(isKnownAppRoute('/technologies/react'), true, 'Technology slug must be valid');
+    assert.strictEqual(isKnownAppRoute('/games/memory-match'), true, 'Game slug must be valid');
+    assert.strictEqual(isKnownAppRoute('/about'), true, 'About page must be valid');
+    assert.strictEqual(isKnownAppRoute('/contact'), true, 'Contact page must be valid');
+    assert.strictEqual(isKnownAppRoute('/unknown-random-404-path'), false, 'Unknown path must not be a known route');
+    assert.strictEqual(isKnownAppRoute('/technologies/fake-language'), false, 'Fake technology slug must not be a known route');
+});

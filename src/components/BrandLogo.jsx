@@ -47,6 +47,8 @@ export default function BrandLogo({
                 <img
                     src={logoIcon}
                     alt="HangBug developer platform logo icon"
+                    loading="eager"
+                    decoding="async"
                     className={`w-full h-full object-contain select-none ${imgClassName}`}
                     draggable={false}
                 />
@@ -61,6 +63,8 @@ export default function BrandLogo({
                 <img
                     src={effectiveDark ? logoDark : logoFull}
                     alt="HangBug — Learn · Test · Prove"
+                    loading="eager"
+                    decoding="async"
                     className={`${heightClass} w-auto object-contain select-none ${imgClassName}`}
                     draggable={false}
                 />
@@ -75,6 +79,8 @@ export default function BrandLogo({
             <img
                 src={effectiveDark ? logoCompactDark : logoCompact}
                 alt="HangBug developer platform logo"
+                loading="eager"
+                decoding="async"
                 className={`${heightClass} w-auto object-contain select-none ${imgClassName}`}
                 draggable={false}
             />

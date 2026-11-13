@@ -7,7 +7,7 @@ void main() {
     test('1. Fallback Games Collection contains all 18 coding & typing games', () {
       final games = GameRepository.fallbackGames;
       expect(games, isNotEmpty);
-      expect(games.length, equals(18));
+      expect(games.length, equals(20));
 
       final slugs = games.map((g) => g.slug).toList();
       // 8 Coding Games
