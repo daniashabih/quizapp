@@ -410,6 +410,25 @@ const INITIAL_TECHNOLOGIES = [
         ],
         isEnabled: true,
         order: 24
+    },
+    {
+        id: 'tech_devops',
+        categorySlug: 'programming-fundamentals',
+        name: 'Agile & DevOps',
+        slug: 'agile-devops',
+        description: 'Software development lifecycle, Agile methodologies (Scrum, XP, ASD, DSDM, FDD, Lean), CI/CD pipelines, automated testing, and DevOps tools.',
+        icon: 'devops',
+        color: '#007ACC',
+        badge: 'Agile & DevOps',
+        supportedGames: [
+            'speed-typing',
+            'syntax-typing',
+            'code-typing',
+            'error-free-typing',
+            'sixty-second-challenge'
+        ],
+        isEnabled: true,
+        order: 25
     }
 ];
 

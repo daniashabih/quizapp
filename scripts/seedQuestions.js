@@ -1,4 +1,5 @@
 const prisma = require('../api/_config/prisma');
+const { AGILE_DEVOPS_QUESTIONS } = require('../api/_models/agileDevopsQuestionsData.js');
 
 const sampleQuestions = [
     // --- REACT.JS (Session 1: Core Fundamentals) ---
@@ -454,7 +455,8 @@ async function seedQuestions() {
         console.log('       SEEDING CATEGORIES & QUESTION BANK          ');
         console.log('====================================================\n');
 
-        const uniqueCategories = [...new Set(sampleQuestions.map(q => q.category))];
+        const allQuestions = [...sampleQuestions, ...AGILE_DEVOPS_QUESTIONS];
+        const uniqueCategories = [...new Set(allQuestions.map(q => q.category))];
 
         console.log(`Ensuring ${uniqueCategories.length} categories exist...`);
         for (const catName of uniqueCategories) {
@@ -469,14 +471,14 @@ async function seedQuestions() {
             }
         }
 
-        console.log(`\nChecking and inserting/updating ${sampleQuestions.length} session-wise questions...`);
+        console.log(`\nChecking and inserting/updating ${allQuestions.length} session-wise questions...`);
         let insertedCount = 0;
         let updatedCount = 0;
 
-        for (const q of sampleQuestions) {
+        for (const q of allQuestions) {
             const existing = await prisma.question.findFirst({
                 where: {
-                    category: { equals: q.category },
+                    category: { in: [q.category, q.category.replace('&', 'and'), q.category.replace('and', '&')] },
                     questionText: { equals: q.questionText }
                 }
             });

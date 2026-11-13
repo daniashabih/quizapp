@@ -1,6 +1,7 @@
 const prisma = require('../_config/prisma');
 const Setting = require('../_models/settingModel');
 const Attempt = require('../_models/attemptModel');
+const { AGILE_DEVOPS_QUESTIONS } = require('../_models/agileDevopsQuestionsData');
 
 const evaluateAnswerCorrectness = Attempt.evaluateAnswerCorrectness;
 
@@ -16,9 +17,29 @@ const quizController = {
                 return res.status(400).json({ success: false, message: 'questionId and selectedOptionIndex are required.' });
             }
 
-            const question = await prisma.question.findUnique({
-                where: { id: String(questionId) }
-            });
+            let question = null;
+            try {
+                question = await prisma.question.findUnique({
+                    where: { id: String(questionId) }
+                });
+            } catch {
+                // DB fallback
+            }
+
+            if (!question) {
+                const memQ = AGILE_DEVOPS_QUESTIONS.find(q => q.id === String(questionId));
+                if (memQ) {
+                    question = {
+                        id: memQ.id,
+                        category: memQ.category,
+                        session: memQ.session,
+                        questionText: memQ.questionText,
+                        options: memQ.options,
+                        correctAnswer: memQ.correctAnswer,
+                        explanation: memQ.explanation || null
+                    };
+                }
+            }
 
             if (!question) {
                 return res.status(404).json({ success: false, message: 'Question not found.' });

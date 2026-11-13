@@ -258,10 +258,8 @@ const Attempt = {
 
         const existingAnswers = parseSafeJson(attempt.answers, {});
 
-        // Fetch question authoritatively from MongoDB
-        const question = await prisma.question.findUnique({
-            where: { id: String(questionId) }
-        });
+        // Fetch question authoritatively from MongoDB or in-memory fallback
+        const question = await findQuestionById(questionId);
         if (!question) {
             throw new Error(`Question ${questionId} not found`);
         }
@@ -332,7 +330,7 @@ const Attempt = {
         for (const [k, v] of Object.entries(updatedAnswers)) {
             let qObj = questionsMap.get(k);
             if (!qObj) {
-                qObj = await prisma.question.findUnique({ where: { id: String(k) } });
+                qObj = await findQuestionById(k);
                 if (qObj) questionsMap.set(k, qObj);
             }
             if (qObj && evaluateAnswerCorrectness(v, qObj)) {
@@ -426,7 +424,7 @@ const Attempt = {
         for (const [k, v] of Object.entries(mergedAnswers)) {
             let qObj = questionsMap.get(k);
             if (!qObj) {
-                qObj = await prisma.question.findUnique({ where: { id: String(k) } });
+                qObj = await findQuestionById(k);
                 if (qObj) questionsMap.set(k, qObj);
             }
             if (qObj && evaluateAnswerCorrectness(v, qObj)) {
@@ -503,7 +501,7 @@ const Attempt = {
         for (const [k, v] of Object.entries(mergedAnswers)) {
             let qObj = questionsMap.get(k);
             if (!qObj) {
-                qObj = await prisma.question.findUnique({ where: { id: String(k) } });
+                qObj = await findQuestionById(k);
                 if (qObj) questionsMap.set(k, qObj);
             }
             if (qObj && evaluateAnswerCorrectness(v, qObj)) {
