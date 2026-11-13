@@ -8,6 +8,7 @@ import '../../../widgets/empty_state_widget.dart';
 import '../../../widgets/error_state_widget.dart';
 import '../../../widgets/loading_state_widget.dart';
 import '../../../widgets/banner_ad_widget.dart';
+import '../../../widgets/tech_logo_widget.dart';
 
 class GamesHubScreen extends ConsumerStatefulWidget {
   const GamesHubScreen({super.key});
@@ -132,6 +133,9 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
         return const LinearGradient(colors: [Color(0xFFF59E0B), Color(0xFFD97706)]);
       case 'code-scramble':
         return const LinearGradient(colors: [Color(0xFF06B6D4), Color(0xFF0369A1)]);
+      case 'complete-the-code':
+      case 'csharp-complete-the-code':
+        return const LinearGradient(colors: [Color(0xFF9B4993), Color(0xFF6D28D9)]);
       case 'missing-code':
         return const LinearGradient(colors: [Color(0xFF10B981), Color(0xFF047857)]);
       case 'logic-builder':
@@ -167,6 +171,9 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
         return '💻';
       case 'code-scramble':
         return '🔀';
+      case 'complete-the-code':
+      case 'csharp-complete-the-code':
+        return '🧩';
       case 'missing-code':
         return '❓';
       case 'logic-builder':
@@ -845,26 +852,23 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                       child: Row(
                                         children: [
                                           // Tech squircle icon
-                                          Container(
-                                            width: 34,
-                                            height: 34,
-                                            decoration: BoxDecoration(
-                                              color: activeColor.withValues(alpha: 0.16),
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            child: Center(
-                                              child: activeTech == null
-                                                  ? const Icon(Icons.sports_esports_rounded, size: 18, color: AppColors.primary)
-                                                  : Text(
-                                                      _getTechGlyph(activeTech.slug, activeTech.name),
-                                                      style: TextStyle(
-                                                        color: activeColor,
-                                                        fontSize: 11,
-                                                        fontWeight: FontWeight.w900,
-                                                      ),
-                                                    ),
-                                            ),
-                                          ),
+                                          activeTech == null
+                                              ? Container(
+                                                  width: 34,
+                                                  height: 34,
+                                                  decoration: BoxDecoration(
+                                                    color: activeColor.withValues(alpha: 0.16),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                  ),
+                                                  child: const Center(
+                                                    child: Icon(Icons.sports_esports_rounded, size: 18, color: AppColors.primary),
+                                                  ),
+                                                )
+                                              : TechLogoWidget(
+                                                  name: activeTech.slug,
+                                                  size: 34,
+                                                  borderRadius: 10,
+                                                ),
                                           const SizedBox(width: 10),
 
                                           // Track text
@@ -934,26 +938,23 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                         Row(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Container(
-                                              width: 36,
-                                              height: 36,
-                                              decoration: BoxDecoration(
-                                                color: activeColor.withValues(alpha: 0.18),
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                              child: Center(
-                                                child: activeTech == null
-                                                    ? const Icon(Icons.gamepad_rounded, size: 18, color: AppColors.primary)
-                                                    : Text(
-                                                        _getTechGlyph(activeTech.slug, activeTech.name),
-                                                        style: TextStyle(
-                                                          color: activeColor,
-                                                          fontSize: 12,
-                                                          fontWeight: FontWeight.w900,
-                                                        ),
-                                                      ),
-                                              ),
-                                            ),
+                                            activeTech == null
+                                                ? Container(
+                                                    width: 36,
+                                                    height: 36,
+                                                    decoration: BoxDecoration(
+                                                      color: activeColor.withValues(alpha: 0.18),
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    child: const Center(
+                                                      child: Icon(Icons.gamepad_rounded, size: 18, color: AppColors.primary),
+                                                    ),
+                                                  )
+                                                : TechLogoWidget(
+                                                    name: activeTech.slug,
+                                                    size: 36,
+                                                    borderRadius: 10,
+                                                  ),
                                             const SizedBox(width: 10),
                                             Expanded(
                                               child: Column(
@@ -1086,6 +1087,88 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
                                       ],
                                     ),
                                   ),
+                                  if (selectedTech == 'csharp') ...[
+                                    const SizedBox(height: 14),
+                                    Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        gradient: const LinearGradient(
+                                          colors: [Color(0xFF2E1065), Color(0xFF1E1B4B)],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(color: const Color(0xFF9B4993).withValues(alpha: 0.4)),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: const Color(0xFF9B4993).withValues(alpha: 0.2),
+                                            blurRadius: 16,
+                                            offset: const Offset(0, 4),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const TechLogoWidget(name: 'csharp', size: 36, borderRadius: 10),
+                                              const SizedBox(width: 10),
+                                              const Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      'DEDICATED C# GAMES SECTION',
+                                                      style: TextStyle(
+                                                        color: Color(0xFFC084FC),
+                                                        fontSize: 10,
+                                                        fontWeight: FontWeight.w900,
+                                                        letterSpacing: 0.5,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'C# Complete the Code',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.w900,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 10),
+                                          const Text(
+                                            'Master C# syntax and OOP through 100+ code completion challenges across Beginner, Intermediate, and Advanced levels.',
+                                            style: TextStyle(color: Color(0xFFE9D5FF), fontSize: 12, height: 1.4),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          SizedBox(
+                                            width: double.infinity,
+                                            child: FilledButton.icon(
+                                              onPressed: () {
+                                                context.push('/games/complete-the-code?tech=csharp');
+                                              },
+                                              icon: const Icon(Icons.play_arrow_rounded, size: 18),
+                                              label: const Text(
+                                                'Play Complete the Code Game',
+                                                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
+                                              ),
+                                              style: FilledButton.styleFrom(
+                                                backgroundColor: const Color(0xFF9B4993),
+                                                foregroundColor: Colors.white,
+                                                padding: const EdgeInsets.symmetric(vertical: 12),
+                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ],
                               );
                             },
@@ -1582,23 +1665,10 @@ class _TechnologyPickerSheetState extends State<_TechnologyPickerSheet> {
                         ),
                         child: Row(
                           children: [
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: techColor.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  widget.getTechGlyph(tech.slug, tech.name),
-                                  style: TextStyle(
-                                    color: techColor,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                                ),
-                              ),
+                            TechLogoWidget(
+                              name: tech.slug,
+                              size: 30,
+                              borderRadius: 8,
                             ),
                             const SizedBox(width: 10),
                             Expanded(

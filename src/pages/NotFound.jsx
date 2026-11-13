@@ -13,7 +13,7 @@ export default function NotFound() {
     });
 
     return (
-        <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between transition-colors duration-300">
+        <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col transition-colors duration-300">
             <Navbar />
 
             <main className="flex-1 pt-24 sm:pt-28 pb-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full flex flex-col items-center justify-center text-center">

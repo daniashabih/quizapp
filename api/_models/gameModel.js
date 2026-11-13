@@ -1467,11 +1467,11 @@ const GameModel = {
             };
         }
 
-        const expected = String(challenge.solution || '').trim();
+        const expected = String(challenge.solution || challenge.blank || '').trim();
         let userSub = '';
 
-        if (typeof submission === 'object') {
-            userSub = JSON.stringify(submission);
+        if (typeof submission === 'object' && submission !== null) {
+            userSub = String(submission.answer !== undefined ? submission.answer : (submission.solution !== undefined ? submission.solution : (submission.submission !== undefined ? submission.submission : JSON.stringify(submission)))).trim();
         } else {
             userSub = String(submission || '').trim();
         }

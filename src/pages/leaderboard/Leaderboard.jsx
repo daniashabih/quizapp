@@ -235,7 +235,7 @@ const LeaderboardPage = ({ mode: propMode }) => {
     return (
         <div className={`min-h-screen flex flex-col transition-colors ${isDark ? 'bg-[#0D1117]' : 'bg-[#FAF8F5]'}`}>
             <Navbar />
-            <main className="flex-grow">{content}</main>
+            <main className="flex-1">{content}</main>
             <Footer />
         </div>
     );

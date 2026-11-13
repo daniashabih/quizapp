@@ -62,11 +62,11 @@ export default function Landing() {
     const totalQuestions = activeTechs.reduce((sum, t) => sum + (t.questionCount || 0), 0);
 
     return (
-        <div className="min-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col justify-between overflow-x-hidden relative transition-colors duration-300">
+        <div className="min-h-screen w-full bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col overflow-x-hidden relative transition-colors duration-300">
             {/* Background ambient glowing gradients */}
-            <div className="absolute inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] bg-[#193D35]/5 rounded-full blur-[140px]" />
-                <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-[#D19A45]/5 rounded-full blur-[140px]" />
+            <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                <div className="absolute top-0 left-[-5%] w-[500px] h-[500px] bg-[#193D35]/5 rounded-full blur-[140px]" />
+                <div className="absolute bottom-0 right-[-5%] w-[450px] h-[450px] bg-[#D19A45]/5 rounded-full blur-[140px]" />
             </div>
 
             {/* Fixed Navbar at Top */}

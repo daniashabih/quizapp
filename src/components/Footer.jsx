@@ -6,7 +6,7 @@ export default function Footer() {
     const year = new Date().getFullYear();
 
     return (
-        <footer className="border-t border-[var(--card-border)] bg-[var(--card-bg)] pt-8 pb-6 px-4 sm:px-6 lg:px-8 shrink-0 transition-colors duration-300">
+        <footer className="w-full border-t border-[var(--card-border)] bg-[var(--card-bg)] pt-8 pb-6 px-4 sm:px-6 lg:px-8 shrink-0 mt-auto transition-colors duration-300">
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Main Links Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
