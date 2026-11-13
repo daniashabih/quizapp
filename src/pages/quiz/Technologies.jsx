@@ -186,7 +186,15 @@ export default function Technologies() {
     const safeCategories = Array.isArray(categories) ? categories : [];
     const filtered = safeCategories
         .filter(c => c && c.isEnabled !== false && Number(c.questionCount || 0) > 0)
-        .filter(c => (c.name || '').toLowerCase().includes(searchQuery.toLowerCase()));
+        .filter(c => {
+            const q = searchQuery.toLowerCase().trim();
+            if (!q) return true;
+            const name = (c.name || '').toLowerCase();
+            const slug = (c.slug || '').toLowerCase();
+            const isCSharpQuery = q === 'c#' || q === 'csharp' || q === 'c sharp';
+            if (isCSharpQuery && (name === 'c#' || slug === 'csharp')) return true;
+            return name.includes(q) || slug.includes(q);
+        });
 
     const totalQuestionsInTrack = sessionsList.reduce((sum, s) => sum + (s.count || 0), 0);
 

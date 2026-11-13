@@ -329,14 +329,37 @@ const INITIAL_GAMES = [
         isPublished: true,
         isFeatured: true,
         thumbnail: 'gradient-emerald',
+        supportedTechnologies: ['csharp'],
         description: 'Complete missing C# statements, keywords, and expressions across beginner, intermediate, and advanced levels.',
         instructions: 'Examine the incomplete C# program. Fill in the blank by choosing from multiple-choice options or typing the exact missing code token. Click Submit Answer to test your solution and view explanations.'
+    },
+    {
+        id: 'game_csharp_quiz_challenge',
+        slug: 'csharp-quiz-challenge',
+        title: 'C# Quiz Challenge',
+        category: 'Coding Games',
+        badge: 'C# Assessment',
+        cardSize: 'medium',
+        difficulty: 'All Levels',
+        rating: 4.9,
+        playsCount: 3820,
+        order: 20,
+        isPublished: true,
+        isFeatured: true,
+        thumbnail: 'gradient-purple',
+        supportedTechnologies: ['csharp'],
+        tags: ['csharp', '.NET', 'OOP', 'LINQ', 'C# Quiz', 'Knowledge'],
+        description: 'Test your comprehensive knowledge of C# syntax, runtime, LINQ, generics, and object-oriented architecture.',
+        instructions: 'Read each C# conceptual and technical question carefully. Select the correct answer to score points and build streaks.'
     }
 ];
 
 const GAME_ALIASES = {
     'csharp-complete-the-code': { baseSlug: 'complete-the-code', title: 'C# Complete the Code', defaultTech: 'csharp', category: 'Coding Games', description: 'Complete incomplete C# programs by selecting or entering missing code.' },
     'complete-the-code-csharp': { baseSlug: 'complete-the-code', title: 'C# Complete the Code', defaultTech: 'csharp', category: 'Coding Games', description: 'Complete incomplete C# programs by selecting or entering missing code.' },
+    'csharp-quiz-challenge': { baseSlug: 'csharp-quiz-challenge', title: 'C# Quiz Challenge', defaultTech: 'csharp', category: 'Coding Games', description: 'Test your understanding of C#.' },
+    'quiz-challenge-csharp': { baseSlug: 'csharp-quiz-challenge', title: 'C# Quiz Challenge', defaultTech: 'csharp', category: 'Coding Games', description: 'Test your understanding of C#.' },
+    'csharp-quiz': { baseSlug: 'csharp-quiz-challenge', title: 'C# Quiz Challenge', defaultTech: 'csharp', category: 'Coding Games', description: 'Test your understanding of C#.' },
     'csharp-code-puzzle': { baseSlug: 'code-puzzle', title: 'C# Code Puzzle', defaultTech: 'csharp', category: 'Coding Games', description: 'Arrange C# statements in the correct execution order.' },
     'code-puzzle-csharp': { baseSlug: 'code-puzzle', title: 'C# Code Puzzle', defaultTech: 'csharp', category: 'Coding Games', description: 'Arrange C# statements in the correct execution order.' },
     'find-the-bug-csharp': { baseSlug: 'find-the-bug', title: 'Find the Bug – C#', defaultTech: 'csharp', category: 'Coding Games', description: 'Identify syntax, logical, and runtime errors in C# code.' },
@@ -1118,11 +1141,18 @@ const GameModel = {
                 }
 
                 if (search) {
-                    const q = search.toLowerCase();
+                    const q = search.toLowerCase().trim();
+                    const isCSharpSearch = q === 'c#' || q === 'csharp' || q === 'c sharp';
+                    const csharpSupported = TechnologyModel.INITIAL_TECHNOLOGIES.find(t => t.slug === 'csharp')?.supportedGames || [];
                     games = games.filter(g =>
                         g.title.toLowerCase().includes(q) ||
                         g.description.toLowerCase().includes(q) ||
-                        g.category.toLowerCase().includes(q)
+                        g.category.toLowerCase().includes(q) ||
+                        (isCSharpSearch && (
+                            (Array.isArray(g.supportedTechnologies) && g.supportedTechnologies.includes('csharp')) ||
+                            (g.slug && g.slug.includes('csharp')) ||
+                            csharpSupported.includes(g.slug)
+                        ))
                     );
                 }
 
@@ -1155,11 +1185,18 @@ const GameModel = {
             }
         }
         if (search) {
-            const q = search.toLowerCase();
+            const q = search.toLowerCase().trim();
+            const isCSharpSearch = q === 'c#' || q === 'csharp' || q === 'c sharp';
+            const csharpSupported = TechnologyModel.INITIAL_TECHNOLOGIES.find(t => t.slug === 'csharp')?.supportedGames || [];
             games = games.filter(g =>
                 g.title.toLowerCase().includes(q) ||
                 g.description.toLowerCase().includes(q) ||
-                g.category.toLowerCase().includes(q)
+                g.category.toLowerCase().includes(q) ||
+                (isCSharpSearch && (
+                    (Array.isArray(g.supportedTechnologies) && g.supportedTechnologies.includes('csharp')) ||
+                    (g.slug && g.slug.includes('csharp')) ||
+                    csharpSupported.includes(g.slug)
+                ))
             );
         }
 

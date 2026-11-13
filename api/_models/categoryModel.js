@@ -1,5 +1,6 @@
 const prisma = require('../_config/prisma');
 const { AGILE_DEVOPS_QUESTIONS } = require('./agileDevopsQuestionsData');
+const { CSHARP_QUIZ_QUESTIONS } = require('./csharpQuizQuestionsData');
 
 const normalizeCategory = (name) => {
     return String(name || '')
@@ -40,7 +41,7 @@ const DEFAULT_CATEGORIES = [
     { name: 'SEO', sessions: [1, 2, 3] },
     { name: 'Power BI', sessions: [1, 2, 3] },
     { name: 'Excel', sessions: [1, 2, 3] },
-    { name: 'C#', sessions: [1, 2, 3] }
+    { name: 'C#', sessions: [1, 2, 3], questionCount: CSHARP_QUIZ_QUESTIONS.length }
 ];
 
 const Category = {
@@ -117,14 +118,30 @@ const Category = {
                 sessionMap[agileNorm].add(s);
             }
 
+            // Ensure C# is fully populated in countMap & sessionMap
+            const csharpNorm = normalizeCategory('C#');
+            const csharpAliasNorm = normalizeCategory('csharp');
+            const csharpCount = Math.max(countMap[csharpNorm] || 0, countMap[csharpAliasNorm] || 0, CSHARP_QUIZ_QUESTIONS.length);
+            countMap[csharpNorm] = csharpCount;
+            countMap[csharpAliasNorm] = csharpCount;
+            if (!sessionMap[csharpNorm]) sessionMap[csharpNorm] = new Set([1, 2, 3]);
+            if (!sessionMap[csharpAliasNorm]) sessionMap[csharpAliasNorm] = new Set([1, 2, 3]);
+            for (let s = 1; s <= 3; s++) {
+                sessionMap[csharpNorm].add(s);
+                sessionMap[csharpAliasNorm].add(s);
+            }
+
             const list = categories.map(cat => {
                 const norm = normalizeCategory(cat.name);
-                const sessions = sessionMap[norm] ? Array.from(sessionMap[norm]).sort((a, b) => a - b) : [];
+                const isCatCSharp = norm === csharpNorm || norm === csharpAliasNorm;
+                const sessions = isCatCSharp
+                    ? [1, 2, 3]
+                    : (sessionMap[norm] ? Array.from(sessionMap[norm]).sort((a, b) => a - b) : []);
                 return {
                     id: cat.id,
                     name: cat.name,
                     isEnabled: cat.isEnabled !== false,
-                    questionCount: countMap[norm] || 0,
+                    questionCount: isCatCSharp ? csharpCount : (countMap[norm] || 0),
                     sessions: sessions.length > 0 ? sessions : [1]
                 };
             });
@@ -141,6 +158,18 @@ const Category = {
                 });
             }
 
+            // If C# was not in categories, append it
+            const hasCSharp = list.some(c => normalizeCategory(c.name) === csharpNorm || normalizeCategory(c.name) === csharpAliasNorm);
+            if (!hasCSharp) {
+                list.push({
+                    id: 'cat_csharp',
+                    name: 'C#',
+                    isEnabled: true,
+                    questionCount: csharpCount,
+                    sessions: [1, 2, 3]
+                });
+            }
+
             return list;
         } catch (err) {
             console.error('[Category Model Fallback]:', err.message);
@@ -148,7 +177,7 @@ const Category = {
                 id: `mem_cat_${idx + 1}`,
                 name: cat.name,
                 isEnabled: true,
-                questionCount: cat.questionCount !== undefined ? cat.questionCount : (cat.name.includes('Agile') ? AGILE_DEVOPS_QUESTIONS.length : 25),
+                questionCount: cat.questionCount !== undefined ? cat.questionCount : (cat.name.includes('Agile') ? AGILE_DEVOPS_QUESTIONS.length : (cat.name === 'C#' ? CSHARP_QUIZ_QUESTIONS.length : 25)),
                 sessions: cat.sessions
             }));
         }

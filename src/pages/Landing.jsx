@@ -58,7 +58,15 @@ export default function Landing() {
 
     // Filter only categories with active questions (> 0) and enabled
     const activeTechs = technologies.filter(t => t && t.isEnabled !== false && Number(t.questionCount || 0) > 0);
-    const filteredTechs = activeTechs.filter(t => (t.name || '').toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredTechs = activeTechs.filter(t => {
+        const q = searchQuery.toLowerCase().trim();
+        if (!q) return true;
+        const name = (t.name || '').toLowerCase();
+        const slug = (t.slug || '').toLowerCase();
+        const isCSharpQuery = q === 'c#' || q === 'csharp' || q === 'c sharp';
+        if (isCSharpQuery && (name === 'c#' || slug === 'csharp')) return true;
+        return name.includes(q) || slug.includes(q);
+    });
     const totalQuestions = activeTechs.reduce((sum, t) => sum + (t.questionCount || 0), 0);
 
     return (

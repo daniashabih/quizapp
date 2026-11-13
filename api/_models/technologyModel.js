@@ -380,36 +380,26 @@ const INITIAL_TECHNOLOGIES = [
         order: 23
     },
 
-    // Programming Languages (1)
     {
         id: 'tech_csharp',
-        categorySlug: 'programming-languages',
+        categorySlug: 'backend-development',
         name: 'C#',
         slug: 'csharp',
-        description: 'Practice C# programming through interactive coding games and challenges.',
+        description: 'Modern, object-oriented language for high-performance backend APIs, cloud microservices, and enterprise applications.',
         icon: 'csharp',
         color: '#9B4993',
-        badge: 'Modern .NET',
+        badge: 'Backend & .NET',
         supportedGames: [
             'complete-the-code',
-            'csharp-complete-the-code',
-            'code-puzzle',
             'find-the-bug',
             'output-predictor',
             'code-scramble',
             'missing-code',
             'logic-builder',
-            'csharp-oop-challenge',
-            'csharp-collections-challenge',
-            'csharp-linq-challenge',
-            'csharp-exception-handling',
-            'speed-typing',
-            'syntax-typing',
-            'code-typing',
-            'error-free-typing'
+            'csharp-quiz-challenge'
         ],
         isEnabled: true,
-        order: 24
+        order: 12
     },
     {
         id: 'tech_devops',

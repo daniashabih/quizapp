@@ -146,6 +146,34 @@ export const GameArtwork = ({ slug, className = "w-full h-full object-cover", ti
                 </div>
             );
 
+        case 'csharp-quiz-challenge':
+        case 'quiz-challenge-csharp':
+        case 'csharp-quiz':
+            return (
+                <div className={`relative overflow-hidden bg-gradient-to-br from-purple-800 via-fuchsia-900 to-slate-950 flex items-center justify-center ${className}`}>
+                    <div className="absolute -top-10 -right-10 w-36 h-36 bg-fuchsia-400/20 rounded-full blur-xl" />
+                    <div className="relative z-10 flex flex-col gap-2 p-3.5 bg-black/60 backdrop-blur-md rounded-2xl border border-fuchsia-400/30 shadow-2xl group-hover:scale-105 transition-transform duration-300 w-4/5 max-w-[220px]">
+                        <div className="flex items-center justify-between pb-1 border-b border-white/10">
+                            <span className="text-[10px] font-mono text-fuchsia-300 flex items-center gap-1">
+                                <Sparkles className="w-3 h-3 text-fuchsia-400" /> C# Quiz
+                            </span>
+                            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-400/30">.NET</span>
+                        </div>
+                        <div className="font-mono text-[11px] text-fuchsia-100 leading-relaxed">
+                            C# Knowledge &amp; Syntax Mastery
+                        </div>
+                        <div className="flex gap-1.5 pt-1">
+                            <span className="text-[10px] bg-fuchsia-950 border border-fuchsia-500/50 text-fuchsia-200 px-2 py-0.5 rounded font-mono font-bold">OOP</span>
+                            <span className="text-[10px] bg-purple-950 border border-purple-700 text-purple-300 px-2 py-0.5 rounded font-mono">LINQ</span>
+                            <span className="text-[10px] bg-slate-900 border border-slate-700 text-slate-400 px-2 py-0.5 rounded font-mono">Async</span>
+                        </div>
+                    </div>
+                    <span className="absolute bottom-2.5 right-3 text-[10px] font-black uppercase tracking-wider text-fuchsia-200 bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm border border-fuchsia-500/30">
+                        Quiz Challenge
+                    </span>
+                </div>
+            );
+
         case 'missing-code':
             return (
                 <div className={`relative overflow-hidden bg-gradient-to-br from-emerald-600 via-green-700 to-teal-900 flex items-center justify-center ${className}`}>

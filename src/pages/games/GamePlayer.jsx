@@ -332,7 +332,10 @@ export const GamePlayer = () => {
             case 'csharp-collections-challenge':
             case 'csharp-linq-challenge':
             case 'csharp-exception-handling':
-                return <OutputPredictorEngine {...commonProps} />;
+            case 'csharp-quiz-challenge':
+            case 'quiz-challenge-csharp':
+            case 'csharp-quiz':
+                return <OutputPredictorEngine {...commonProps} gameSlug={slug} />;
             case 'code-scramble':
             case 'csharp-code-scramble':
                 return <CodeScrambleEngine {...commonProps} />;

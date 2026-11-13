@@ -5,12 +5,16 @@ class FlutterOutputPredictor extends StatefulWidget {
   final void Function(int score, Map<String, dynamic> metadata) onGameOver;
   final void Function(int score) onScoreUpdate;
   final bool isPaused;
+  final String? technology;
+  final String? gameSlug;
 
   const FlutterOutputPredictor({
     super.key,
     required this.onGameOver,
     required this.onScoreUpdate,
     required this.isPaused,
+    this.technology,
+    this.gameSlug,
   });
 
   @override
@@ -23,7 +27,7 @@ class _FlutterOutputPredictorState extends State<FlutterOutputPredictor> {
   bool _isSubmitted = false;
   int _score = 0;
 
-  static const List<Map<String, dynamic>> _challenges = [
+  static const List<Map<String, dynamic>> _defaultChallenges = [
     {
       'title': 'Type Coercion Arithmetic',
       'language': 'JavaScript',
@@ -41,6 +45,55 @@ class _FlutterOutputPredictorState extends State<FlutterOutputPredictor> {
       'explanation': 'b = a assigns list reference. Calling b.append mutates the shared underlying object, so len(a) is 4.',
     },
   ];
+
+  static const List<Map<String, dynamic>> _csharpChallenges = [
+    {
+      'title': 'C# Entry Point Signature',
+      'language': 'C#',
+      'code': 'class Program\n{\n    ___ void Main(string[] args)\n    {\n        Console.WriteLine("Hangbug C#");\n    }\n}',
+      'options': ['static', 'public virtual', 'async override', 'sealed'],
+      'solution': 'static',
+      'explanation': 'In C#, the application entry point method Main must be marked static so the CLR can execute it without creating an object instance.',
+    },
+    {
+      'title': 'Polymorphism with Virtual and Override',
+      'language': 'C#',
+      'code': 'class Base {\n    public virtual void Speak() => Console.Write("Base ");\n}\nclass Derived : Base {\n    public override void Speak() => Console.Write("Derived ");\n}\nBase obj = new Derived();\nobj.Speak();',
+      'options': ['Derived ', 'Base ', 'Base Derived ', 'Compilation Error'],
+      'solution': 'Derived ',
+      'explanation': 'Virtual dispatch resolves the method based on the actual runtime object type Derived, printing "Derived ".',
+    },
+    {
+      'title': 'LINQ Deferred Execution with SelectMany',
+      'language': 'C#',
+      'code': 'var matrix = new int[][] {\n    new int[] { 1, 2 },\n    new int[] { 3, 4, 5 }\n};\nvar flat = matrix.SelectMany(row => row).Where(n => n % 2 != 0);\nConsole.WriteLine(flat.Count());',
+      'options': ['3', '2', '5', '1'],
+      'solution': '3',
+      'explanation': 'SelectMany flattens the arrays into [1, 2, 3, 4, 5]. The odd numbers (1, 3, 5) give a count of 3.',
+    },
+    {
+      'title': 'Finally Block Execution Guarantee',
+      'language': 'C#',
+      'code': 'int Compute() {\n    try {\n        return 10;\n    }\n    finally {\n        Console.Write("Cleanup ");\n    }\n}\nint result = Compute();\nConsole.Write(result);',
+      'options': ['Cleanup 10', '10 Cleanup', '10', 'Cleanup'],
+      'solution': 'Cleanup 10',
+      'explanation': 'The finally block executes before control returns from Compute(), so "Cleanup " is written first, followed by "10".',
+    },
+    {
+      'title': 'Record Value Equality',
+      'language': 'C#',
+      'code': 'record User(string Name, int Age);\nvar u1 = new User("Alex", 30);\nvar u2 = u1 with { Age = 30 };\nConsole.WriteLine(u1 == u2);',
+      'options': ['True', 'False', 'Compilation Error', 'Null'],
+      'solution': 'True',
+      'explanation': 'Records synthesize value-based equality. All properties of u1 and u2 match, returning True.',
+    },
+  ];
+
+  List<Map<String, dynamic>> get _challenges {
+    final isCSharp = widget.technology == 'csharp' ||
+        (widget.gameSlug != null && widget.gameSlug!.contains('csharp'));
+    return isCSharp ? _csharpChallenges : _defaultChallenges;
+  }
 
   void _submitAnswer() {
     if (_selectedOption == null || _isSubmitted || widget.isPaused) return;

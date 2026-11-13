@@ -340,8 +340,28 @@ export const FALLBACK_GAMES = [
         isPublished: true,
         isFeatured: true,
         thumbnail: 'gradient-emerald',
+        supportedTechnologies: ['csharp'],
         description: 'Complete missing C# statements, keywords, and expressions across beginner, intermediate, and advanced levels.',
         instructions: 'Examine the incomplete C# program. Fill in the blank by choosing from multiple-choice options or typing the exact missing code token. Click Submit Answer to test your solution and view explanations.'
+    },
+    {
+        id: 'game_csharp_quiz_challenge',
+        slug: 'csharp-quiz-challenge',
+        title: 'C# Quiz Challenge',
+        category: 'Coding Games',
+        badge: 'C# Assessment',
+        cardSize: 'medium',
+        difficulty: 'All Levels',
+        rating: 4.9,
+        playsCount: 3820,
+        order: 20,
+        isPublished: true,
+        isFeatured: true,
+        thumbnail: 'gradient-purple',
+        supportedTechnologies: ['csharp'],
+        tags: ['csharp', '.NET', 'OOP', 'LINQ', 'C# Quiz', 'Knowledge'],
+        description: 'Test your comprehensive knowledge of C# syntax, runtime, LINQ, generics, and object-oriented architecture.',
+        instructions: 'Read each C# conceptual and technical question carefully. Select the correct answer to score points and build streaks.'
     }
 ];
 
@@ -860,36 +880,26 @@ export const FALLBACK_TECHNOLOGIES = [
     { id: 'tech_fullstack', categorySlug: 'web-development', name: 'Full Stack Development', slug: 'full-stack', color: '#10B981', icon: 'layers', supportedGames: ['logic-builder', 'code-puzzle', 'find-the-bug', 'output-predictor', 'code-typing'], isEnabled: true },
     { id: 'tech_web_fundamentals', categorySlug: 'web-development', name: 'Web Development Fundamentals', slug: 'web-fundamentals', color: '#06B6D4', icon: 'compass', supportedGames: ['memory-match', 'speed-typing', 'output-predictor', 'find-the-bug', 'code-puzzle'], isEnabled: true },
 
-    // Programming Languages (1)
     {
         id: 'tech_csharp',
-        categorySlug: 'programming-languages',
+        categorySlug: 'backend-development',
         name: 'C#',
         slug: 'csharp',
-        description: 'Practice C# programming through interactive coding games and challenges.',
+        description: 'Modern, object-oriented language for high-performance backend APIs, cloud microservices, and enterprise applications.',
         color: '#9B4993',
         icon: 'csharp',
-        badge: 'Modern .NET',
+        badge: 'Backend & .NET',
         supportedGames: [
             'complete-the-code',
-            'csharp-complete-the-code',
-            'code-puzzle',
             'find-the-bug',
             'output-predictor',
             'code-scramble',
             'missing-code',
             'logic-builder',
-            'csharp-oop-challenge',
-            'csharp-collections-challenge',
-            'csharp-linq-challenge',
-            'csharp-exception-handling',
-            'speed-typing',
-            'syntax-typing',
-            'code-typing',
-            'error-free-typing'
+            'csharp-quiz-challenge'
         ],
         isEnabled: true,
-        order: 24
+        order: 12
     }
 ];
 

@@ -82,7 +82,7 @@ LEFT JOIN orders o ON u.id = o.user_id;`,
     }
 ];
 
-export const OutputPredictorEngine = ({ onGameOver, onScoreUpdate, isPaused, technology, difficulty }) => {
+export const OutputPredictorEngine = ({ onGameOver, onScoreUpdate, isPaused, technology, difficulty, gameSlug = 'output-predictor' }) => {
     const [challenges, setChallenges] = useState(FALLBACK_PREDICTOR_CHALLENGES);
     const [challengeIdx, setChallengeIdx] = useState(0);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -99,7 +99,8 @@ export const OutputPredictorEngine = ({ onGameOver, onScoreUpdate, isPaused, tec
         async function loadChallenges() {
             setLoading(true);
             try {
-                const res = await gameService.getChallenges('output-predictor', {
+                const targetSlug = gameSlug || 'output-predictor';
+                const res = await gameService.getChallenges(targetSlug, {
                     technology: technology && technology !== 'all' ? technology : undefined,
                     difficulty: difficulty && difficulty !== 'All Levels' ? difficulty : undefined
                 });

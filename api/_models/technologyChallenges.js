@@ -1717,6 +1717,295 @@ const TECHNOLOGY_CHALLENGES = [
         explanation: '`throw;` re-throws the existing exception and maintains the full original call stack trace. `throw ex;` resets the stack trace origin to the current catch line.',
         points: 200,
         order: 3
+    },
+
+    // ═══════════════════════════════════════════════════════════
+    // --- C# Quiz Challenge (15 Technical & Code MCQs) ---
+    // ═══════════════════════════════════════════════════════════
+    {
+        id: 'csharp_qc_beg_1',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'C# Entry Point Signature',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Identify the canonical entry point signature of a C# console program.',
+        content: JSON.stringify({
+            code: 'class Program\n{\n    // Which declaration represents the standard entry point?\n    ___ void Main(string[] args)\n    {\n        Console.WriteLine("Hangbug C#");\n    }\n}',
+            options: ['static', 'public virtual', 'async override', 'sealed']
+        }),
+        solution: 'static',
+        hints: 'The CLR calls Main without instantiating an instance of the enclosing class.',
+        explanation: 'In C#, the standard application entry point method `Main` must be marked `static` so the CLR can execute it without creating an object instance.',
+        points: 100,
+        order: 1
+    },
+    {
+        id: 'csharp_qc_beg_2',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Null-Coalescing Assignment Operator',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Assign a value only when the variable is currently null.',
+        content: JSON.stringify({
+            code: 'List<int> numbers = null;\n// Assign a new list only if numbers is null:\nnumbers ??= new List<int>();',
+            options: ['numbers ??= new List<int>();', 'numbers ?= new List<int>();', 'numbers =? new List<int>();', 'numbers ||= new List<int>();']
+        }),
+        solution: 'numbers ??= new List<int>();',
+        hints: 'The null-coalescing assignment operator is ??= in C# 8+.',
+        explanation: 'The `??=` operator assigns the value of its right-hand operand to its left-hand operand only if the left-hand operand evaluates to null.',
+        points: 100,
+        order: 2
+    },
+    {
+        id: 'csharp_qc_beg_3',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'C# Value vs Reference Type Assignment',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Understand value copying behavior of structs.',
+        content: JSON.stringify({
+            code: 'struct Point { public int X; }\nPoint p1 = new Point { X = 10 };\nPoint p2 = p1;\np2.X = 20;\nConsole.WriteLine(p1.X);',
+            options: ['10', '20', '0', 'NullReferenceException']
+        }),
+        solution: '10',
+        hints: 'Structs are value types in C#, so assignment creates an independent copy of the fields.',
+        explanation: 'Because `Point` is a struct (value type), assigning `p2 = p1` copies the values. Mutating `p2.X` does not affect `p1.X`, so `p1.X` remains 10.',
+        points: 100,
+        order: 3
+    },
+    {
+        id: 'csharp_qc_beg_4',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'String Immutability and Concatenation',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Predict behavior when strings are modified.',
+        content: JSON.stringify({
+            code: 'string str = "Hang";\nstr.Concat("bug");\nConsole.WriteLine(str);',
+            options: ['Hang', 'Hangbug', 'bug', 'Compilation Error']
+        }),
+        solution: 'Hang',
+        hints: 'Strings are immutable in C#. Calling Concat returns a new string without mutating the original variable.',
+        explanation: 'Strings in C# are immutable. The expression `str.Concat("bug")` returns an `IEnumerable<char>`, but does not reassign or modify `str`. Therefore `str` remains "Hang".',
+        points: 100,
+        order: 4
+    },
+    {
+        id: 'csharp_qc_beg_5',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Ternary Conditional Expression',
+        difficulty: 'Beginner',
+        language: 'csharp',
+        description: 'Evaluate ternary conditional operator in C#.',
+        content: JSON.stringify({
+            code: 'int score = 85;\nstring grade = score >= 90 ? "A" : score >= 80 ? "B" : "C";\nConsole.WriteLine(grade);',
+            options: ['B', 'A', 'C', '85']
+        }),
+        solution: 'B',
+        hints: 'Evaluate the conditions from left to right: 85 >= 90 is false, so it evaluates the second condition.',
+        explanation: 'Since `score >= 90` is false, evaluation falls through to `score >= 80 ? "B" : "C"`. Since 85 >= 80 is true, the result is "B".',
+        points: 100,
+        order: 5
+    },
+    {
+        id: 'csharp_qc_int_1',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Polymorphism with Virtual and Override',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Determine method resolution with virtual dispatch.',
+        content: JSON.stringify({
+            code: 'class Base {\n    public virtual void Speak() => Console.Write("Base ");\n}\nclass Derived : Base {\n    public override void Speak() => Console.Write("Derived ");\n}\nBase obj = new Derived();\nobj.Speak();',
+            options: ['Derived ', 'Base ', 'Base Derived ', 'Compilation Error']
+        }),
+        solution: 'Derived ',
+        hints: 'Virtual dispatch resolves the method based on the actual runtime object type, not the variable declaration type.',
+        explanation: 'Because `Speak()` is marked `virtual` in `Base` and `override` in `Derived`, the runtime invokes `Derived.Speak()`, printing "Derived ".',
+        points: 200,
+        order: 6
+    },
+    {
+        id: 'csharp_qc_int_2',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Dictionary.TryGetValue Efficiency',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Safely read dictionary values without duplicate hash lookups.',
+        content: JSON.stringify({
+            code: 'var counts = new Dictionary<string, int> { ["A"] = 1 };\nif (counts.TryGetValue("A", out int val)) {\n    Console.WriteLine(val + 5);\n}',
+            options: ['6', '1', '5', 'KeyNotFoundException']
+        }),
+        solution: '6',
+        hints: 'TryGetValue retrieves the value and assigns it to out val in a single lookup.',
+        explanation: '`TryGetValue` looks up the key in the internal hash buckets once. Since "A" exists with value 1, `val` becomes 1, and `1 + 5 = 6` is printed.',
+        points: 200,
+        order: 7
+    },
+    {
+        id: 'csharp_qc_int_3',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Generic Type Constraints with where',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Enforce that generic type parameters have a parameterless constructor.',
+        content: JSON.stringify({
+            code: 'public class Repository<T> where T : class, ___ \n{\n    public T Create() => new T();\n}',
+            options: ['new()', 'struct', 'IDisposable', 'default']
+        }),
+        solution: 'new()',
+        hints: 'The constructor constraint requires the new() keyword at the end of the constraint clause.',
+        explanation: 'The `new()` constraint tells the C# compiler that any type argument supplied for `T` must have a public parameterless constructor, allowing `new T()`.',
+        points: 200,
+        order: 8
+    },
+    {
+        id: 'csharp_qc_int_4',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Interface Default Implementation',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Understand default interface methods in C# 8+.',
+        content: JSON.stringify({
+            code: 'interface ILogger {\n    void Log(string msg) => Console.WriteLine($"Log: {msg}");\n}\nclass ConsoleLogger : ILogger { }\nILogger logger = new ConsoleLogger();\nlogger.Log("Ready");',
+            options: ['Log: Ready', 'Compilation Error: missing Log method', 'Ready', 'NullReferenceException']
+        }),
+        solution: 'Log: Ready',
+        hints: 'C# 8 introduced default interface methods, which are accessible through an interface reference.',
+        explanation: 'C# 8+ allows interfaces to provide default implementations for members. When accessed via the `ILogger` interface reference, the default body executes, outputting "Log: Ready".',
+        points: 200,
+        order: 9
+    },
+    {
+        id: 'csharp_qc_int_5',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Finally Block Return Guarantee',
+        difficulty: 'Intermediate',
+        language: 'csharp',
+        description: 'Trace return value flow through try and finally blocks.',
+        content: JSON.stringify({
+            code: 'int Test() {\n    int x = 10;\n    try {\n        return x;\n    }\n    finally {\n        x = 20;\n    }\n}\nConsole.WriteLine(Test());',
+            options: ['10', '20', 'Compilation Error', '0']
+        }),
+        solution: '10',
+        hints: 'The return value x is evaluated and cached before the finally block executes.',
+        explanation: 'When `return x;` is reached, the value `10` is loaded onto the evaluation stack. Even though the `finally` block assigns `x = 20`, it does not change the already evaluated return value `10`.',
+        points: 200,
+        order: 10
+    },
+    {
+        id: 'csharp_qc_adv_1',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'LINQ SelectMany with Deferred Execution',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Flatten arrays and count elements after deferred evaluation.',
+        content: JSON.stringify({
+            code: 'var matrix = new int[][] {\n    new int[] { 1, 2 },\n    new int[] { 3, 4, 5 }\n};\nvar flat = matrix.SelectMany(row => row).Where(n => n % 2 != 0);\nConsole.WriteLine(flat.Count());',
+            options: ['3', '2', '5', '1']
+        }),
+        solution: '3',
+        hints: 'SelectMany flattens the arrays into [1, 2, 3, 4, 5]. Then find the count of odd numbers (1, 3, 5).',
+        explanation: '`SelectMany` flattens the jagged array into `[1, 2, 3, 4, 5]`. The `Where` condition filters odd numbers (`1`, `3`, `5`), giving a total count of 3.',
+        points: 300,
+        order: 11
+    },
+    {
+        id: 'csharp_qc_adv_2',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Record Value-Based Equality with with Expression',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Understand non-destructive mutation and equality in C# records.',
+        content: JSON.stringify({
+            code: 'record User(string Name, int Age);\nvar u1 = new User("Alex", 30);\nvar u2 = u1 with { Age = 30 };\nConsole.WriteLine(u1 == u2);',
+            options: ['True', 'False', 'Compilation Error', 'Null']
+        }),
+        solution: 'True',
+        hints: 'Records use value-based equality. If all properties match, u1 == u2 is true.',
+        explanation: 'Records synthesize value-based equality. Even though `with` creates a new instance, all property values of `u1` and `u2` are identical, so `u1 == u2` evaluates to `True`.',
+        points: 300,
+        order: 12
+    },
+    {
+        id: 'csharp_qc_adv_3',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Asynchronous Task.WhenAll Output',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Predict order of results returned by Task.WhenAll.',
+        content: JSON.stringify({
+            code: 'async Task Run() {\n    var t1 = Task.Run(async () => { await Task.Delay(50); return 1; });\n    var t2 = Task.Run(async () => { await Task.Delay(10); return 2; });\n    int[] results = await Task.WhenAll(t1, t2);\n    Console.WriteLine($"{results[0]},{results[1]}");\n}',
+            options: ['1,2', '2,1', '1', '2']
+        }),
+        solution: '1,2',
+        hints: 'Task.WhenAll preserves the positional order in which tasks were passed to it, regardless of completion order.',
+        explanation: '`Task.WhenAll` guarantees that the returned array preserves the exact argument order (`t1` then `t2`), regardless of which background task finishes first.',
+        points: 300,
+        order: 13
+    },
+    {
+        id: 'csharp_qc_adv_4',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Pattern Matching with Relational and Logical Patterns',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Test modern C# 9+ switch expressions.',
+        content: JSON.stringify({
+            code: 'int temp = 25;\nstring status = temp switch {\n    < 0 => "Freezing",\n    >= 0 and <= 20 => "Cold",\n    > 20 and <= 30 => "Comfortable",\n    _ => "Hot"\n};\nConsole.WriteLine(status);',
+            options: ['Comfortable', 'Cold', 'Hot', 'Freezing']
+        }),
+        solution: 'Comfortable',
+        hints: '25 falls strictly into > 20 and <= 30.',
+        explanation: 'C# switch expressions evaluate pattern arms sequentially. 25 matches the `> 20 and <= 30` relational pattern arm, producing "Comfortable".',
+        points: 300,
+        order: 14
+    },
+    {
+        id: 'csharp_qc_adv_5',
+        gameSlug: 'csharp-quiz-challenge',
+        technology: 'csharp',
+        technologyName: 'C#',
+        title: 'Span<T> vs Substring Memory Allocation',
+        difficulty: 'Advanced',
+        language: 'csharp',
+        description: 'Understand zero-allocation slicing using ReadOnlySpan<char>.',
+        content: JSON.stringify({
+            code: 'string data = "Hangbug_Platform";\nReadOnlySpan<char> span = data.AsSpan(0, 7);\n// How many heap memory allocations occur for this span slice?\n// Option A: 0 (zero allocation)\n// Option B: 1 string allocation',
+            options: ['0 (zero allocation)', '1 string allocation', '2 allocations', 'Throws OutOfMemoryException']
+        }),
+        solution: '0 (zero allocation)',
+        hints: 'Span<T> is a ref struct representing a contiguous region of arbitrary memory without allocating heap objects.',
+        explanation: '`Span<T>` and `ReadOnlySpan<T>` are ref structs allocated on the stack. Creating a span slice over an existing string creates a pointer/length view into memory with 0 heap allocations.',
+        points: 300,
+        order: 15
     }
 ];
 

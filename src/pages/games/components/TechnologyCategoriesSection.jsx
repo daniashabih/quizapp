@@ -80,12 +80,14 @@ export const TechnologyCategoriesSection = ({
                 return false;
             }
             if (searchQuery.trim()) {
-                const q = searchQuery.toLowerCase();
+                const q = searchQuery.toLowerCase().trim();
+                const isCSharpQuery = q === 'c#' || q === 'csharp' || q === 'c sharp';
                 const matchName = (tech.name || '').toLowerCase().includes(q);
                 const matchSlug = (tech.slug || '').toLowerCase().includes(q);
                 const matchDesc = (tech.description || '').toLowerCase().includes(q);
                 const matchBadge = (tech.badge || '').toLowerCase().includes(q);
-                if (!matchName && !matchSlug && !matchDesc && !matchBadge) return false;
+                const matchCSharp = isCSharpQuery && ((tech.slug || '').toLowerCase() === 'csharp' || (tech.name || '').toLowerCase() === 'c#');
+                if (!matchName && !matchSlug && !matchDesc && !matchBadge && !matchCSharp) return false;
             }
             return true;
         });

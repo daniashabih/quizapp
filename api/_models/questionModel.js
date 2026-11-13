@@ -1,5 +1,6 @@
 const prisma = require('../_config/prisma');
 const { AGILE_DEVOPS_QUESTIONS, AGILE_DEVOPS_SESSIONS } = require('./agileDevopsQuestionsData');
+const { CSHARP_QUIZ_QUESTIONS, CSHARP_QUIZ_SESSIONS } = require('./csharpQuizQuestionsData');
 
 const parseOptions = (opts) => {
     if (Array.isArray(opts)) return opts;
@@ -12,6 +13,10 @@ const parseOptions = (opts) => {
 const getCategoryVariations = (category) => {
     if (!category) return [];
     const clean = String(category).trim();
+    const lower = clean.toLowerCase();
+    if (lower === 'c#' || lower === 'csharp' || lower === 'c sharp') {
+        return ['C#', 'csharp', 'c sharp', 'CSharp'];
+    }
     const withAnd = clean.replace(/&/g, 'and');
     const withAmp = clean.replace(/\band\b/gi, '&');
     return Array.from(new Set([clean, withAnd, withAmp]));
@@ -72,6 +77,22 @@ const Question = {
             }
         }
 
+        for (const q of CSHARP_QUIZ_QUESTIONS) {
+            if (!existingIds.has(q.id)) {
+                merged.push({
+                    id: q.id,
+                    category: q.category,
+                    session: q.session,
+                    sessionTitle: CSHARP_QUIZ_SESSIONS[q.session] || `Session ${q.session}`,
+                    options: parseOptions(q.options),
+                    question_text: q.questionText,
+                    correct_answer: q.correctAnswer,
+                    explanation: q.explanation || '',
+                    created_at: new Date()
+                });
+            }
+        }
+
         return merged;
     },
 
@@ -104,18 +125,24 @@ const Question = {
             category.toLowerCase().includes('devops')
         );
 
-        if (rows.length === 0 && (isAgileDevOps || !category)) {
-            let filtered = AGILE_DEVOPS_QUESTIONS;
+        const isCSharp = category && (
+            category.toLowerCase() === 'c#' ||
+            category.toLowerCase() === 'csharp' ||
+            category.toLowerCase() === 'c sharp'
+        );
+
+        if (rows.length === 0 && (isAgileDevOps || isCSharp || !category)) {
+            let filtered = isCSharp ? CSHARP_QUIZ_QUESTIONS : AGILE_DEVOPS_QUESTIONS;
             if (session !== undefined && session !== null && session !== '' && session !== 'all' && !isNaN(parseInt(session, 10)) && parseInt(session, 10) > 0) {
                 const sNum = parseInt(session, 10);
                 filtered = filtered.filter(q => q.session === sNum);
             }
-            if (isAgileDevOps) {
+            if (isAgileDevOps || isCSharp) {
                 return filtered.map(q => ({
                     id: q.id,
                     category: q.category,
                     session: q.session,
-                    sessionTitle: q.sessionTitle,
+                    sessionTitle: isCSharp ? (CSHARP_QUIZ_SESSIONS[q.session] || `Session ${q.session}`) : q.sessionTitle,
                     options: parseOptions(q.options),
                     question_text: q.questionText,
                     correct_answer: q.correctAnswer,
@@ -139,6 +166,12 @@ const Question = {
         const isAgileDevOps = category && (
             category.toLowerCase().includes('agile') ||
             category.toLowerCase().includes('devops')
+        );
+
+        const isCSharp = category && (
+            category.toLowerCase() === 'c#' ||
+            category.toLowerCase() === 'csharp' ||
+            category.toLowerCase() === 'c sharp'
         );
 
         let rows = [];
@@ -174,12 +207,25 @@ const Question = {
             }
         }
 
+        if (isCSharp && Object.keys(sessionCountMap).length < 3) {
+            for (let s = 1; s <= 3; s++) {
+                const count = CSHARP_QUIZ_QUESTIONS.filter(q => q.session === s).length;
+                sessionCountMap[s] = Math.max(sessionCountMap[s] || 0, count);
+            }
+        }
+
         const sessions = Object.keys(sessionCountMap)
             .map(s => {
                 const sNum = parseInt(s, 10);
+                let title = `Session ${sNum}`;
+                if (isAgileDevOps && AGILE_DEVOPS_SESSIONS[sNum]) {
+                    title = AGILE_DEVOPS_SESSIONS[sNum];
+                } else if (isCSharp && CSHARP_QUIZ_SESSIONS[sNum]) {
+                    title = CSHARP_QUIZ_SESSIONS[sNum];
+                }
                 return {
                     session: sNum,
-                    title: (isAgileDevOps && AGILE_DEVOPS_SESSIONS[sNum]) ? AGILE_DEVOPS_SESSIONS[sNum] : `Session ${sNum}`,
+                    title,
                     count: sessionCountMap[s]
                 };
             })

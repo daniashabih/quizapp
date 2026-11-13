@@ -304,6 +304,22 @@ class GameRepository {
       isFeatured: true,
       supportedTechnologies: ['csharp'],
     ),
+    const GameModel(
+      id: 'csharp-quiz-challenge',
+      slug: 'csharp-quiz-challenge',
+      title: 'C# Quiz Challenge',
+      description: 'Test your comprehensive knowledge of C# syntax, runtime, LINQ, generics, and object-oriented architecture.',
+      instructions: 'Read each C# conceptual and technical question carefully. Select the correct answer to score points and build streaks.',
+      category: 'Coding Games',
+      difficulty: 'All Levels',
+      badge: 'C# Assessment',
+      cardSize: 'medium',
+      rating: 4.9,
+      playsCount: 3820,
+      isPublished: true,
+      isFeatured: true,
+      supportedTechnologies: ['csharp'],
+    ),
   ];
 
   static final List<TechnologyCategoryModel> fallbackCategories = [
@@ -342,32 +358,23 @@ class GameRepository {
     const TechnologyModel(id: 'tech_web_fundamentals', categorySlug: 'web-development', name: 'Web Development Fundamentals', slug: 'web-fundamentals', color: '#06B6D4', icon: 'compass', supportedGames: ['memory-match', 'speed-typing', 'output-predictor', 'find-the-bug', 'code-puzzle'], isEnabled: true),
     const TechnologyModel(
       id: 'tech_csharp',
-      categorySlug: 'programming-languages',
+      categorySlug: 'backend-development',
       name: 'C#',
       slug: 'csharp',
       color: '#9B4993',
       icon: 'csharp',
-      badge: 'Modern .NET',
+      badge: 'Backend & .NET',
       supportedGames: [
         'complete-the-code',
-        'csharp-complete-the-code',
-        'code-puzzle',
         'find-the-bug',
         'output-predictor',
         'code-scramble',
         'missing-code',
         'logic-builder',
-        'csharp-oop-challenge',
-        'csharp-collections-challenge',
-        'csharp-linq-challenge',
-        'csharp-exception-handling',
-        'speed-typing',
-        'syntax-typing',
-        'code-typing',
-        'error-free-typing',
+        'csharp-quiz-challenge',
       ],
       isEnabled: true,
-      order: 24,
+      order: 12,
     ),
   ];
 
@@ -554,8 +561,13 @@ class GameRepository {
       }
     }
     if (search != null && search.isNotEmpty) {
-      final q = search.toLowerCase();
-      list = list.where((g) => g.title.toLowerCase().contains(q) || g.description.toLowerCase().contains(q)).toList();
+      final q = search.toLowerCase().trim();
+      final isCSharp = q == 'c#' || q == 'csharp' || q == 'c sharp';
+      list = list.where((g) {
+        if (g.title.toLowerCase().contains(q) || g.description.toLowerCase().contains(q)) return true;
+        if (isCSharp && (g.supportedTechnologies.contains('csharp') || g.slug.contains('csharp'))) return true;
+        return false;
+      }).toList();
     }
     if (featured != null) {
       list = list.where((g) => g.isFeatured == featured).toList();

@@ -135,6 +135,7 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
         return const LinearGradient(colors: [Color(0xFF06B6D4), Color(0xFF0369A1)]);
       case 'complete-the-code':
       case 'csharp-complete-the-code':
+      case 'csharp-quiz-challenge':
         return const LinearGradient(colors: [Color(0xFF9B4993), Color(0xFF6D28D9)]);
       case 'missing-code':
         return const LinearGradient(colors: [Color(0xFF10B981), Color(0xFF047857)]);
@@ -174,6 +175,8 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
       case 'complete-the-code':
       case 'csharp-complete-the-code':
         return '🧩';
+      case 'csharp-quiz-challenge':
+        return '🎯';
       case 'missing-code':
         return '❓';
       case 'logic-builder':
@@ -1443,10 +1446,12 @@ class _TechnologyPickerSheetState extends State<_TechnologyPickerSheet> {
         return false;
       }
       if (query.isNotEmpty) {
+        final isCSharp = query == 'c#' || query == 'csharp' || query == 'c sharp';
         final matchName = tech.name.toLowerCase().contains(query);
         final matchSlug = tech.slug.toLowerCase().contains(query);
         final matchDesc = tech.description.toLowerCase().contains(query);
-        if (!matchName && !matchSlug && !matchDesc) return false;
+        final matchCSharp = isCSharp && (tech.slug == 'csharp' || tech.name.toLowerCase() == 'c#');
+        if (!matchName && !matchSlug && !matchDesc && !matchCSharp) return false;
       }
       return true;
     }).toList();

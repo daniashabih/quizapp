@@ -211,11 +211,16 @@ export const GamesHub = () => {
 
             // Search query
             if (searchQuery.trim()) {
-                const q = searchQuery.toLowerCase();
+                const q = searchQuery.toLowerCase().trim();
+                const isCSharpQuery = q === 'c#' || q === 'csharp' || q === 'c sharp';
                 const matchTitle = (game.title || '').toLowerCase().includes(q);
                 const matchDesc = (game.description || '').toLowerCase().includes(q);
                 const matchCat = (game.category || '').toLowerCase().includes(q);
-                if (!matchTitle && !matchDesc && !matchCat) return false;
+                const matchCSharp = isCSharpQuery && (
+                    (Array.isArray(game.supportedTechnologies) && game.supportedTechnologies.includes('csharp')) ||
+                    (game.slug || '').includes('csharp')
+                );
+                if (!matchTitle && !matchDesc && !matchCat && !matchCSharp) return false;
             }
 
             return true;

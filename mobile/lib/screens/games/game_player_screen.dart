@@ -291,11 +291,16 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
       case 'csharp-collections-challenge':
       case 'csharp-linq-challenge':
       case 'csharp-exception-handling':
+      case 'csharp-quiz-challenge':
+      case 'quiz-challenge-csharp':
+      case 'csharp-quiz':
         return FlutterOutputPredictor(
           key: key,
           onGameOver: commonProps.onGameOver,
           onScoreUpdate: commonProps.onScoreUpdate,
           isPaused: commonProps.isPaused,
+          technology: _selectedTechnology,
+          gameSlug: widget.slug,
         );
       case 'complete-the-code':
       case 'csharp-complete-the-code':
