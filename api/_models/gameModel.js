@@ -1,6 +1,7 @@
 const prisma = require('../_config/prisma');
 const TechnologyModel = require('./technologyModel');
 const { TECHNOLOGY_CHALLENGES } = require('./technologyChallenges');
+const { CSHARP_COMPLETE_THE_CODE_QUESTIONS } = require('./csharpQuestionsData');
 
 const INITIAL_GAMES = [
     // --- 8 CODING GAMES ---
@@ -313,10 +314,29 @@ const INITIAL_GAMES = [
         thumbnail: 'gradient-rose',
         description: 'Identify and implement try, catch, finally, when filters, throw preservation, and custom exceptions.',
         instructions: 'Inspect robust error handling code snippets. Identify exception bugs, ensure clean finally execution, and catch filtered errors.'
+    },
+    {
+        id: 'game_complete_the_code',
+        slug: 'complete-the-code',
+        title: 'Complete the Code',
+        category: 'Coding Games',
+        badge: 'Interactive',
+        cardSize: 'large',
+        difficulty: 'All Levels',
+        rating: 4.9,
+        playsCount: 4620,
+        order: 19,
+        isPublished: true,
+        isFeatured: true,
+        thumbnail: 'gradient-emerald',
+        description: 'Complete missing C# statements, keywords, and expressions across beginner, intermediate, and advanced levels.',
+        instructions: 'Examine the incomplete C# program. Fill in the blank by choosing from multiple-choice options or typing the exact missing code token. Click Submit Answer to test your solution and view explanations.'
     }
 ];
 
 const GAME_ALIASES = {
+    'csharp-complete-the-code': { baseSlug: 'complete-the-code', title: 'C# Complete the Code', defaultTech: 'csharp', category: 'Coding Games', description: 'Complete incomplete C# programs by selecting or entering missing code.' },
+    'complete-the-code-csharp': { baseSlug: 'complete-the-code', title: 'C# Complete the Code', defaultTech: 'csharp', category: 'Coding Games', description: 'Complete incomplete C# programs by selecting or entering missing code.' },
     'csharp-code-puzzle': { baseSlug: 'code-puzzle', title: 'C# Code Puzzle', defaultTech: 'csharp', category: 'Coding Games', description: 'Arrange C# statements in the correct execution order.' },
     'code-puzzle-csharp': { baseSlug: 'code-puzzle', title: 'C# Code Puzzle', defaultTech: 'csharp', category: 'Coding Games', description: 'Arrange C# statements in the correct execution order.' },
     'find-the-bug-csharp': { baseSlug: 'find-the-bug', title: 'Find the Bug – C#', defaultTech: 'csharp', category: 'Coding Games', description: 'Identify syntax, logical, and runtime errors in C# code.' },
@@ -631,6 +651,8 @@ print(len(a))`,
             order: 2
         }
     ],
+
+    'complete-the-code': CSHARP_COMPLETE_THE_CODE_QUESTIONS,
 
     'missing-code': [
         {
@@ -1344,7 +1366,11 @@ const GameModel = {
 
         // Memory fallback: check TECHNOLOGY_CHALLENGES first if tech was requested
         let list = [];
-        if (resolvedTech) {
+        if (targetGameSlug === 'complete-the-code' || gameSlug === 'complete-the-code' || gameSlug === 'csharp-complete-the-code' || (resolvedTech === 'csharp' && (targetGameSlug === 'missing-code' || gameSlug === 'missing-code'))) {
+            list = CSHARP_COMPLETE_THE_CODE_QUESTIONS.filter(c =>
+                (!difficulty || difficulty === 'All Levels' || c.difficulty.toLowerCase() === difficulty.toLowerCase())
+            );
+        } else if (resolvedTech) {
             list = TECHNOLOGY_CHALLENGES.filter(c =>
                 (c.gameSlug === targetGameSlug || c.gameSlug === gameSlug) &&
                 c.technology === resolvedTech &&
@@ -1427,6 +1453,10 @@ const GameModel = {
 
         if (!challenge) {
             challenge = TECHNOLOGY_CHALLENGES.find(c => c.id === challengeId);
+        }
+
+        if (!challenge) {
+            challenge = CSHARP_COMPLETE_THE_CODE_QUESTIONS.find(c => c.id === challengeId);
         }
 
         if (!challenge) {

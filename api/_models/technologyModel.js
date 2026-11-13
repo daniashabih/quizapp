@@ -391,6 +391,8 @@ const INITIAL_TECHNOLOGIES = [
         color: '#9B4993',
         badge: 'Modern .NET',
         supportedGames: [
+            'complete-the-code',
+            'csharp-complete-the-code',
             'code-puzzle',
             'find-the-bug',
             'output-predictor',
