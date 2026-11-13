@@ -325,6 +325,23 @@ export const FALLBACK_GAMES = [
         thumbnail: 'gradient-rose',
         description: 'Identify and implement try, catch, finally, when filters, throw preservation, and custom exceptions.',
         instructions: 'Inspect robust error handling code snippets. Identify exception bugs, ensure clean finally execution, and catch filtered errors.'
+    },
+    {
+        id: 'game_complete_the_code',
+        slug: 'complete-the-code',
+        title: 'Complete the Code',
+        category: 'Coding Games',
+        badge: 'Interactive',
+        cardSize: 'large',
+        difficulty: 'All Levels',
+        rating: 4.9,
+        playsCount: 4620,
+        order: 19,
+        isPublished: true,
+        isFeatured: true,
+        thumbnail: 'gradient-emerald',
+        description: 'Complete missing C# statements, keywords, and expressions across beginner, intermediate, and advanced levels.',
+        instructions: 'Examine the incomplete C# program. Fill in the blank by choosing from multiple-choice options or typing the exact missing code token. Click Submit Answer to test your solution and view explanations.'
     }
 ];
 
