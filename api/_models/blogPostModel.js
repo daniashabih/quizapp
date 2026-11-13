@@ -93,7 +93,7 @@ const BlogPostModel = {
                     })
                 ]);
 
-                if (total > 0 || !category) {
+                if (total > 0) {
                     return {
                         articles,
                         total,
@@ -101,6 +101,11 @@ const BlogPostModel = {
                         limit: limitNum,
                         totalPages: Math.ceil(total / limitNum) || 1
                     };
+                }
+
+                // If DB collection is empty, trigger background seeding
+                if (!category && !search && !tag) {
+                    BlogPostModel.seedArticles().catch(() => {});
                 }
             }
         } catch {
