@@ -474,7 +474,7 @@ export default function PrivacyPolicy() {
                                 </p>
                                 <ol className="list-decimal list-inside space-y-1 text-xs text-[var(--foreground-muted)]">
                                     <li>Log in to your Hangbug account.</li>
-                                    <li>Navigate to <strong>Dashboard &gt; Settings</strong> (<Link to="/dashboard/settings" className="text-[#193D35] font-semibold underline">Settings</Link>).</li>
+                                    <li>Navigate to <strong>Settings</strong> or use our direct <Link to="/delete-account" className="text-[#193D35] font-semibold underline">Account Deletion Page</Link>.</li>
                                     <li>Scroll to the <strong>"Delete Account"</strong> danger zone.</li>
                                     <li>Click <strong>"Delete My Account"</strong> and confirm your choice.</li>
                                 </ol>

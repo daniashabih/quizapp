@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Mail } from 'lucide-react';
 import BrandLogo from './BrandLogo';
+import { useAuth } from '../context/AuthContext';
 
 export default function Footer() {
     const year = new Date().getFullYear();
+    const { user } = useAuth();
 
     return (
         <footer className="w-full border-t border-[var(--card-border)] bg-[var(--card-bg)] pt-8 pb-6 px-4 sm:px-6 lg:px-8 shrink-0 mt-auto transition-colors duration-300">
@@ -28,7 +30,12 @@ export default function Footer() {
                             <li><Link to="/games" className="hover:text-[var(--foreground)] transition-colors">Coding &amp; Typing Games</Link></li>
                             <li><Link to="/leaderboard" className="hover:text-[var(--foreground)] transition-colors">Global Leaderboard</Link></li>
                             <li><Link to="/certificate/view" className="hover:text-[var(--foreground)] transition-colors">Verify Certificate</Link></li>
-                            <li><Link to="/dashboard" className="hover:text-[var(--foreground)] transition-colors">Developer Dashboard</Link></li>
+                            <li><Link to="/resources" className="hover:text-[var(--foreground)] transition-colors">Learning Resources</Link></li>
+                            {user ? (
+                                <li><Link to="/dashboard" className="hover:text-[var(--foreground)] transition-colors">Developer Dashboard</Link></li>
+                            ) : (
+                                <li><Link to="/login" className="hover:text-[var(--foreground)] transition-colors">Account Sign In</Link></li>
+                            )}
                         </ul>
                     </div>
 
