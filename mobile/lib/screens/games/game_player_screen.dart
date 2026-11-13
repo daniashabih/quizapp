@@ -12,6 +12,7 @@ import '../../../services/notification_service.dart';
 import 'engines/flutter_code_puzzle.dart';
 import 'engines/flutter_find_the_bug.dart';
 import 'engines/flutter_output_predictor.dart';
+import 'engines/flutter_complete_the_code.dart';
 import 'engines/flutter_speed_typing.dart';
 import 'engines/flutter_word_rain.dart';
 import 'engines/flutter_memory_match.dart';
@@ -283,15 +284,44 @@ class _GamePlayerScreenState extends ConsumerState<GamePlayerScreen> {
           isPaused: commonProps.isPaused,
         );
       case 'output-predictor':
-      case 'missing-code':
       case 'logic-builder':
       case 'csharp-output-predictor':
-      case 'csharp-missing-code':
       case 'csharp-logic-builder':
       case 'csharp-oop-challenge':
       case 'csharp-collections-challenge':
       case 'csharp-linq-challenge':
       case 'csharp-exception-handling':
+        return FlutterOutputPredictor(
+          key: key,
+          onGameOver: commonProps.onGameOver,
+          onScoreUpdate: commonProps.onScoreUpdate,
+          isPaused: commonProps.isPaused,
+        );
+      case 'complete-the-code':
+      case 'csharp-complete-the-code':
+      case 'complete-the-code-csharp':
+        return FlutterCompleteTheCode(
+          key: key,
+          onGameOver: commonProps.onGameOver,
+          onScoreUpdate: commonProps.onScoreUpdate,
+          isPaused: commonProps.isPaused,
+          isMuted: _isMuted,
+          technology: _selectedTechnology,
+          difficulty: _selectedDifficulty,
+        );
+      case 'missing-code':
+      case 'csharp-missing-code':
+        if (_selectedTechnology == 'csharp' || widget.slug == 'csharp-missing-code') {
+          return FlutterCompleteTheCode(
+            key: key,
+            onGameOver: commonProps.onGameOver,
+            onScoreUpdate: commonProps.onScoreUpdate,
+            isPaused: commonProps.isPaused,
+            isMuted: _isMuted,
+            technology: _selectedTechnology,
+            difficulty: _selectedDifficulty,
+          );
+        }
         return FlutterOutputPredictor(
           key: key,
           onGameOver: commonProps.onGameOver,

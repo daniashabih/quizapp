@@ -288,6 +288,22 @@ class GameRepository {
       isFeatured: false,
       supportedTechnologies: ['csharp'],
     ),
+    const GameModel(
+      id: 'complete-the-code',
+      slug: 'complete-the-code',
+      title: 'Complete the Code',
+      description: 'Complete missing C# statements, keywords, and expressions across beginner, intermediate, and advanced levels.',
+      instructions: 'Examine the incomplete C# program. Fill in the blank by choosing from multiple-choice options or typing the exact missing code token. Click Submit Answer to test your solution and view explanations.',
+      category: 'Coding Games',
+      difficulty: 'All Levels',
+      badge: 'Interactive',
+      cardSize: 'large',
+      rating: 4.9,
+      playsCount: 4620,
+      isPublished: true,
+      isFeatured: true,
+      supportedTechnologies: ['csharp'],
+    ),
   ];
 
   static final List<TechnologyCategoryModel> fallbackCategories = [
@@ -333,6 +349,8 @@ class GameRepository {
       icon: 'csharp',
       badge: 'Modern .NET',
       supportedGames: [
+        'complete-the-code',
+        'csharp-complete-the-code',
         'code-puzzle',
         'find-the-bug',
         'output-predictor',

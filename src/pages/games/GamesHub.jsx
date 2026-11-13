@@ -436,6 +436,44 @@ export const GamesHub = () => {
                     totalGamesCount={games.length}
                 />
 
+                {/* 5B. DEDICATED C# GAMES SECTION HERO */}
+                {selectedTechnology === 'csharp' && (
+                    <div className="mb-8 rounded-3xl overflow-hidden bg-gradient-to-r from-purple-950 via-indigo-950 to-slate-950 border border-purple-500/30 p-6 sm:p-8 text-white shadow-2xl relative animate-in fade-in slide-in-from-top-4 duration-300">
+                        <div className="absolute top-0 right-10 w-72 h-72 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
+                        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                            <div className="space-y-3 max-w-2xl">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-xs font-bold tracking-wide">
+                                    <TechIcon slug="csharp" className="w-4 h-4" />
+                                    <span>DEDICATED C# (.NET) GAMES TRACK</span>
+                                </div>
+                                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                                    C# Interactive Coding & Complete the Code Game
+                                </h2>
+                                <p className="text-xs sm:text-sm text-purple-200/90 leading-relaxed">
+                                    Test your C# mastery across 100+ challenges from beginner variables to advanced LINQ, collections, delegates, and modern OOP. Play our flagship Complete the Code game with interactive blanks!
+                                </p>
+                                <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
+                                    <span className="px-2.5 py-1 rounded-lg bg-white/10 text-purple-200 border border-white/10">
+                                        105+ Unique Challenges
+                                    </span>
+                                    <span className="px-2.5 py-1 rounded-lg bg-white/10 text-purple-200 border border-white/10">
+                                        Beginner • Intermediate • Advanced
+                                    </span>
+                                    <span className="px-2.5 py-1 rounded-lg bg-white/10 text-purple-200 border border-white/10">
+                                        Dual Choice & Type-In Modes
+                                    </span>
+                                </div>
+                            </div>
+                            <Link
+                                to="/games/complete-the-code?tech=csharp"
+                                className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 text-white font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-purple-500/30 active:scale-98 transition-all shrink-0"
+                            >
+                                <Play size={16} className="fill-white" /> Play Complete the Code
+                            </Link>
+                        </div>
+                    </div>
+                )}
+
                 {/* 6. SEARCH & QUICK FILTER TABS */}
                 <div id="games-catalog" className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 scroll-mt-24">
                     {/* Filter Tabs */}

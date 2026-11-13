@@ -35,6 +35,7 @@ import FindTheBugEngine from './engines/FindTheBugEngine';
 import OutputPredictorEngine from './engines/OutputPredictorEngine';
 import CodeScrambleEngine from './engines/CodeScrambleEngine';
 import MissingCodeEngine from './engines/MissingCodeEngine';
+import CompleteTheCodeEngine from './engines/CompleteTheCodeEngine';
 import LogicBuilderEngine from './engines/LogicBuilderEngine';
 import SqlChallengeEngine from './engines/SqlChallengeEngine';
 import CodingMemoryMatchEngine from './engines/CodingMemoryMatchEngine';
@@ -335,8 +336,15 @@ export const GamePlayer = () => {
             case 'code-scramble':
             case 'csharp-code-scramble':
                 return <CodeScrambleEngine {...commonProps} />;
+            case 'complete-the-code':
+            case 'csharp-complete-the-code':
+            case 'complete-the-code-csharp':
+                return <CompleteTheCodeEngine {...commonProps} />;
             case 'missing-code':
             case 'csharp-missing-code':
+                if (selectedTechnology === 'csharp' || slug === 'csharp-missing-code') {
+                    return <CompleteTheCodeEngine {...commonProps} />;
+                }
                 return <MissingCodeEngine {...commonProps} />;
             case 'logic-builder':
             case 'csharp-logic-builder':
