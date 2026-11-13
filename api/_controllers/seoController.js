@@ -10,6 +10,8 @@ const PUBLIC_ROUTES = [
     { loc: '/privacy-policy', changefreq: 'monthly', priority: '0.6' },
     { loc: '/terms', changefreq: 'monthly', priority: '0.6' },
     { loc: '/certificate/view', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/blog', changefreq: 'daily', priority: '0.9' },
+    { loc: '/resources', changefreq: 'monthly', priority: '0.7' },
     { loc: '/technologies/html', changefreq: 'weekly', priority: '0.8' },
     { loc: '/technologies/css', changefreq: 'weekly', priority: '0.8' },
     { loc: '/technologies/javascript', changefreq: 'weekly', priority: '0.8' },
@@ -47,7 +49,20 @@ const GAME_SLUGS = [
     'csharp-quiz-challenge'
 ];
 
-function buildSitemapXml(extraSlugs = []) {
+const BLOG_SLUGS = [
+    'html-tutorial-for-beginners',
+    'css-basics-beginners-guide',
+    'javascript-fundamentals-beginners-guide',
+    'php-programming-beginners-guide',
+    'laravel-basics-mvc-architecture',
+    'flutter-dart-mobile-app-development',
+    'csharp-programming-beginners-guide',
+    'mysql-database-tutorial-beginners',
+    'programming-interview-questions-beginners',
+    'improve-programming-skills-coding-practice'
+];
+
+function buildSitemapXml(extraSlugs = [], extraBlogSlugs = []) {
     const today = new Date().toISOString().split('T')[0];
     const mergedSlugs = Array.from(
         new Set(
@@ -55,10 +70,17 @@ function buildSitemapXml(extraSlugs = []) {
                 .filter(slug => slug && slug !== 'coding-memory-match')
         )
     );
+    const mergedBlogSlugs = Array.from(
+        new Set(
+            [...BLOG_SLUGS, ...(Array.isArray(extraBlogSlugs) ? extraBlogSlugs : [])]
+                .filter(Boolean)
+        )
+    );
 
     const urls = [
         ...PUBLIC_ROUTES.map(r => `  <url>\n    <loc>${BASE_URL}${r.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`),
-        ...mergedSlugs.map(slug => `  <url>\n    <loc>${BASE_URL}/games/${slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`)
+        ...mergedSlugs.map(slug => `  <url>\n    <loc>${BASE_URL}/games/${slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`),
+        ...mergedBlogSlugs.map(slug => `  <url>\n    <loc>${BASE_URL}/blog/${slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`)
     ];
 
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
@@ -110,22 +132,34 @@ Sitemap: ${BASE_URL}/sitemap.xml
 
 async function getDynamicSitemap(req, res) {
     let extraSlugs = [];
+    let extraBlogSlugs = [];
     try {
         const prisma = require('../_config/prisma');
-        if (prisma && prisma.game) {
-            const dbGames = await Promise.race([
-                prisma.game.findMany({ where: { isPublished: true }, select: { slug: true } }),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1500))
-            ]);
-            if (Array.isArray(dbGames)) {
-                extraSlugs = dbGames.map(g => g.slug).filter(Boolean);
+        if (prisma) {
+            if (prisma.game) {
+                const dbGames = await Promise.race([
+                    prisma.game.findMany({ where: { isPublished: true }, select: { slug: true } }),
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1500))
+                ]);
+                if (Array.isArray(dbGames)) {
+                    extraSlugs = dbGames.map(g => g.slug).filter(Boolean);
+                }
+            }
+            if (prisma.blogPost) {
+                const dbBlogPosts = await Promise.race([
+                    prisma.blogPost.findMany({ where: { isPublished: true }, select: { slug: true } }),
+                    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1500))
+                ]);
+                if (Array.isArray(dbBlogPosts)) {
+                    extraBlogSlugs = dbBlogPosts.map(b => b.slug).filter(Boolean);
+                }
             }
         }
     } catch {
-        // Fallback to static GAME_SLUGS if DB is offline
+        // Fallback to static GAME_SLUGS and BLOG_SLUGS if DB is offline
     }
 
-    const xml = buildSitemapXml(extraSlugs);
+    const xml = buildSitemapXml(extraSlugs, extraBlogSlugs);
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=43200');
     return res.status(200).send(xml);
@@ -155,6 +189,8 @@ const KNOWN_EXACT_ROUTES = new Set([
     '/',
     '/technologies',
     '/games',
+    '/blog',
+    '/resources',
     '/leaderboard',
     '/leaderboard/full',
     '/about',
@@ -202,6 +238,10 @@ function isKnownAppRoute(pathname) {
         const sub = clean.slice('/games/'.length);
         return GAME_SLUGS.includes(sub) || sub === 'coding-memory-match' || sub === 'csharp-complete-the-code' || sub === 'complete-the-code-csharp';
     }
+    if (clean.startsWith('/blog/')) {
+        const sub = clean.slice('/blog/'.length);
+        return BLOG_SLUGS.includes(sub) || /^[a-z0-9-]+$/.test(sub);
+    }
     if (clean.startsWith('/reset-password/')) return true;
     if (clean.startsWith('/api/')) return true;
     if (STATIC_PREFIXES.some(prefix => clean.startsWith(prefix))) return true;
@@ -212,6 +252,7 @@ module.exports = {
     BASE_URL,
     PUBLIC_ROUTES,
     GAME_SLUGS,
+    BLOG_SLUGS,
     buildSitemapXml,
     buildRobotsTxt,
     getDynamicSitemap,

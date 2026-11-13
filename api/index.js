@@ -22,6 +22,7 @@ const quizRoutes = require('./_routes/quizRoutes');
 const certificateRoutes = require('./_routes/certificateRoutes');
 const userRoutes = require('./_routes/userRoutes');
 const gameRoutes = require('./_routes/gameRoutes');
+const blogRoutes = require('./_routes/blogRoutes');
 const { getDynamicSitemap, getRobotsTxt, isKnownAppRoute } = require('./_controllers/seoController');
 
 const app = express();
@@ -86,6 +87,7 @@ app.use('/api/settings', settingRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/games', gameRoutes);
 app.use('/api/api/games', gameRoutes); // Defensive alias for clients with redundant base URL
+app.use('/api/blog', blogRoutes);
 
 // Canonical Technical SEO Directives & Dynamic XML Sitemap
 app.get('/robots.txt', getRobotsTxt);

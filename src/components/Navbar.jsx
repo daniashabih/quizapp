@@ -14,7 +14,8 @@ import {
     Home,
     ShieldCheck,
     Globe,
-    Gamepad2
+    Gamepad2,
+    Newspaper
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from './BrandLogo';
@@ -45,6 +46,7 @@ const Navbar = () => {
         { name: 'Home', path: '/', icon: Home },
         { name: 'Quizzes', path: '/technologies', icon: BookOpen },
         { name: 'Games', path: '/games', icon: Gamepad2 },
+        { name: 'Blog', path: '/blog', icon: Newspaper },
         { name: 'Leaderboard', path: '/leaderboard', icon: Trophy },
         ...(user ? [
             { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },

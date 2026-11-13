@@ -29,6 +29,8 @@ import Technologies from "./pages/quiz/Technologies";
 import TechnologyDetail from "./pages/quiz/TechnologyDetail";
 import GamesHub from "./pages/games/GamesHub";
 import GamePlayer from "./pages/games/GamePlayer";
+import BlogList from "./pages/blog/BlogList";
+import BlogDetail from "./pages/blog/BlogDetail";
 import Quiz from "./pages/quiz/Quiz";
 import Result from "./pages/quiz/Result";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
@@ -148,6 +150,9 @@ function AppRoutes() {
                 <Route path="/games" element={<GamesHub />} />
                 <Route path="/games/coding-memory-match" element={<Navigate to="/games/memory-match" replace />} />
                 <Route path="/games/:slug" element={<GamePlayer />} />
+                <Route path="/blog" element={<BlogList />} />
+                <Route path="/blog/:slug" element={<BlogDetail />} />
+                <Route path="/resources" element={<Navigate to="/blog" replace />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/signup" element={<Signup />} />

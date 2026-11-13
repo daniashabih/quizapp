@@ -48,6 +48,8 @@ const DEFAULT_BREADCRUMB_LABELS = {
     '/': 'Home',
     '/technologies': 'Technologies',
     '/games': 'Games',
+    '/blog': 'Blog & Tutorials',
+    '/resources': 'Learning Resources',
     '/leaderboard': 'Leaderboard',
     '/leaderboard/full': 'Full Global Leaderboard',
     '/about': 'About Us',

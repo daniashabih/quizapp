@@ -55,6 +55,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.hangbug.com/blog</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/resources</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.hangbug.com/technologies/html</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -242,6 +254,66 @@
   </url>
   <url>
     <loc>https://www.hangbug.com/games/csharp-quiz-challenge</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/blog/html-tutorial-for-beginners</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/blog/css-basics-beginners-guide</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/blog/javascript-fundamentals-beginners-guide</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/blog/php-programming-beginners-guide</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/blog/laravel-basics-mvc-architecture</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/blog/flutter-dart-mobile-app-development</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/blog/csharp-programming-beginners-guide</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/blog/mysql-database-tutorial-beginners</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/blog/programming-interview-questions-beginners</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.hangbug.com/blog/improve-programming-skills-coding-practice</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

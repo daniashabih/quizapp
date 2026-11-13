@@ -7,6 +7,7 @@ const { getCategories, createCategory, updateCategory, deleteCategory } = requir
 const { getQuestions, createQuestion, updateQuestion, deleteQuestion } = require('../_controllers/questionController');
 const { getSettings, updateSettings } = require('../_controllers/settingController');
 const gameController = require('../_controllers/gameController');
+const blogController = require('../_controllers/blogController');
 const Setting = require('../_models/settingModel');
 const prisma = require('../_config/prisma');
 
@@ -190,5 +191,13 @@ router.delete('/games/:id', gameController.adminDeleteGame);
 router.patch('/games/:id/toggle-publish', gameController.adminTogglePublish);
 router.patch('/games/:id/toggle-feature', gameController.adminToggleFeature);
 router.post('/games/seed', gameController.adminSeedGames);
+
+// 8. /api/admin/blog
+router.get('/blog', blogController.adminGetArticles);
+router.post('/blog', blogController.adminCreateArticle);
+router.put('/blog/:id', blogController.adminUpdateArticle);
+router.delete('/blog/:id', blogController.adminDeleteArticle);
+router.patch('/blog/:id/toggle-publish', blogController.adminTogglePublish);
+router.post('/blog/seed', blogController.adminSeedArticles);
 
 module.exports = router;
