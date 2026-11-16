@@ -37,9 +37,6 @@ const FORBIDDEN_FABRICATED_KEYS = new Set([
     'reviewCount',
     'bestRating',
     'worstRating',
-    'price',
-    'priceCurrency',
-    'offers',
     'award',
     'awards'
 ]);
@@ -325,6 +322,11 @@ export function buildSoftwareApplicationSchema(options = {}) {
             applicationCategory: 'EducationalApplication',
             applicationSubCategory: options.category || 'Coding & Typing Games',
             operatingSystem: options.operatingSystem || 'Web Browser',
+            offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'USD'
+            },
             inLanguage: 'en',
             image: LOGO_URL,
             isPartOf: {
@@ -351,6 +353,11 @@ export function buildSoftwareApplicationSchema(options = {}) {
         operatingSystem: 'Web, Android',
         softwareVersion: APP_VERSION,
         identifier: ANDROID_PACKAGE_NAME,
+        offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD'
+        },
         inLanguage: 'en',
         image: LOGO_URL,
         featureList: [

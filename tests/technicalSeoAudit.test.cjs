@@ -422,3 +422,135 @@ test('22. Technical SEO: Route Validation for Soft 404 Prevention', () => {
     assert.strictEqual(isKnownAppRoute('/unknown-random-404-path'), false, 'Unknown path must not be a known route');
     assert.strictEqual(isKnownAppRoute('/technologies/fake-language'), false, 'Fake technology slug must not be a known route');
 });
+
+test('23. Technical SEO Audit: Pre-rendered static pages exist with unique titles and meta descriptions', () => {
+    const publicRoutes = [
+        'dist/index.html',
+        'dist/technologies/index.html',
+        'dist/games/index.html',
+        'dist/leaderboard/index.html',
+        'dist/about/index.html',
+        'dist/contact/index.html',
+        'dist/privacy-policy/index.html',
+        'dist/terms/index.html',
+        'dist/certificate/view/index.html',
+        'dist/blog/index.html',
+        'dist/resources/index.html',
+        'dist/technologies/html/index.html',
+        'dist/technologies/javascript/index.html',
+        'dist/technologies/react/index.html',
+        'dist/games/code-puzzle/index.html'
+    ];
+
+    const titles = new Set();
+    const descriptions = new Set();
+
+    for (const file of publicRoutes) {
+        assert.ok(fs.existsSync(path.join(ROOT_DIR, file)), `${file} must exist in production build`);
+        const content = readFile(file);
+
+        const titleMatch = content.match(/<title>([\s\S]*?)<\/title>/);
+        assert.ok(titleMatch && titleMatch[1], `${file} must have a non-empty <title> tag`);
+        const title = titleMatch[1].trim();
+        assert.ok(!titles.has(title), `Duplicate title found: "${title}" in ${file}`);
+        titles.add(title);
+
+        const descMatch = content.match(/<meta\s+name="description"\s+content="([\s\S]*?)"\s*\/?>/);
+        assert.ok(descMatch && descMatch[1], `${file} must have a non-empty <meta name="description"> tag`);
+        const desc = descMatch[1].trim();
+        assert.ok(!descriptions.has(desc), `Duplicate meta description found: "${desc}" in ${file}`);
+        descriptions.add(desc);
+    }
+});
+
+test('24. Technical SEO Audit: Pages have <h1> headings that are distinct from their <title> tags', () => {
+    const samplePages = [
+        'dist/index.html',
+        'dist/about/index.html',
+        'dist/technologies/index.html',
+        'dist/games/index.html',
+        'dist/leaderboard/index.html',
+        'dist/contact/index.html',
+        'dist/privacy-policy/index.html',
+        'dist/terms/index.html'
+    ];
+
+    for (const file of samplePages) {
+        const content = readFile(file);
+        const titleMatch = content.match(/<title>([\s\S]*?)<\/title>/);
+        const h1Match = content.match(/<h1[^>]*>([\s\S]*?)<\/h1>/);
+
+        assert.ok(titleMatch, `${file} must contain a title tag`);
+        assert.ok(h1Match, `${file} must contain an h1 tag`);
+
+        const title = titleMatch[1].replace(/&amp;/g, '&').trim();
+        const h1 = h1Match[1].replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim();
+
+        assert.notStrictEqual(h1.toLowerCase(), title.toLowerCase(), `${file} <h1> must NOT duplicate its <title>`);
+    }
+});
+
+test('25. Technical SEO Audit: Word count exceeds 200 words on all pre-rendered public pages', () => {
+    const samplePages = [
+        'dist/index.html',
+        'dist/about/index.html',
+        'dist/technologies/index.html',
+        'dist/games/index.html',
+        'dist/leaderboard/index.html',
+        'dist/contact/index.html',
+        'dist/privacy-policy/index.html',
+        'dist/terms/index.html'
+    ];
+
+    for (const file of samplePages) {
+        const content = readFile(file);
+        const rootMatch = content.match(/<div id="root">([\s\S]*?)<\/div>/);
+        assert.ok(rootMatch, `${file} must contain #root with static content`);
+        const plainText = rootMatch[1].replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        const wordCount = plainText.split(' ').filter(Boolean).length;
+        assert.ok(wordCount >= 200, `${file} must contain at least 200 words of crawlable content, got ${wordCount}`);
+    }
+});
+
+test('26. Technical SEO Audit: Schema.org structured data contains valid Google-compliant offers for SoftwareApplication', () => {
+    const filesWithAppSchema = ['dist/index.html', 'dist/games/code-puzzle/index.html'];
+
+    for (const file of filesWithAppSchema) {
+        const content = readFile(file);
+        const match = content.match(/<script id="hangbug-jsonld" type="application\/ld\+json">([\s\S]*?)<\/script>/);
+        assert.ok(match, `${file} must contain JSON-LD script`);
+
+        const parsed = JSON.parse(match[1]);
+        const app = parsed['@graph'].find(n => n['@type'] === 'SoftwareApplication');
+        assert.ok(app, `${file} must include SoftwareApplication in @graph`);
+        assert.ok(app.offers, 'SoftwareApplication must include offers object for Google rich snippet compliance');
+        assert.strictEqual(app.offers['@type'], 'Offer');
+        assert.strictEqual(app.offers.price, '0');
+        assert.strictEqual(app.offers.priceCurrency, 'USD');
+    }
+});
+
+test('27. Technical SEO Audit: llms.txt and llms-full.txt exist and are properly configured', () => {
+    const publicLlms = path.join(ROOT_DIR, 'public/llms.txt');
+    const distLlms = path.join(ROOT_DIR, 'dist/llms.txt');
+    const publicLlmsFull = path.join(ROOT_DIR, 'public/llms-full.txt');
+    const distLlmsFull = path.join(ROOT_DIR, 'dist/llms-full.txt');
+
+    assert.ok(fs.existsSync(publicLlms), 'public/llms.txt must exist');
+    assert.ok(fs.existsSync(distLlms), 'dist/llms.txt must exist');
+    assert.ok(fs.existsSync(publicLlmsFull), 'public/llms-full.txt must exist');
+    assert.ok(fs.existsSync(distLlmsFull), 'dist/llms-full.txt must exist');
+
+    const content = fs.readFileSync(publicLlms, 'utf8');
+    assert.ok(content.startsWith('# Hangbug'), 'llms.txt must start with H1 project name');
+    assert.ok(content.includes('https://www.hangbug.com'), 'llms.txt must reference official URLs');
+    assert.ok(content.includes('## Technology Quiz Tracks'), 'llms.txt must include quiz tracks');
+    assert.ok(content.includes('## Developer Games'), 'llms.txt must include developer games');
+
+    // Verify vercel.json headers for llms.txt
+    const vercelConfig = JSON.parse(readFile('vercel.json'));
+    const llmsHeader = vercelConfig.headers.find(h => h.source === '/llms.txt');
+    assert.ok(llmsHeader, 'vercel.json must have headers configuration for /llms.txt');
+    const contentType = llmsHeader.headers.find(h => h.key === 'Content-Type');
+    assert.ok(contentType && contentType.value.includes('text/markdown'), 'vercel.json must serve /llms.txt as text/markdown');
+});

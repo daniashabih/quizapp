@@ -180,6 +180,8 @@ const STATIC_PREFIXES = [
     '/apple-touch-icon',
     '/robots.txt',
     '/sitemap.xml',
+    '/llms.txt',
+    '/llms-full.txt',
     '/ads.txt',
     '/app-ads.txt',
     '/manifest.json'

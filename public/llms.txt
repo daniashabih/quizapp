@@ -1,0 +1,48 @@
+# Hangbug
+
+> Hangbug is a free interactive technology learning and skill assessment platform where students and developers practice technology-related multiple-choice (MCQ) quizzes, test programming and web development knowledge, play coding and typing games, track quiz performance and progress, earn score-based certificates, and share earned certificates on LinkedIn.
+
+## Core Platform
+
+- [Home](https://www.hangbug.com/): Interactive programming quizzes, coding games, and developer skill assessment.
+- [Technology Quizzes](https://www.hangbug.com/technologies): Browse technology quiz tracks across frontend, backend, databases, and mobile.
+- [Coding Games](https://www.hangbug.com/games): Interactive browser-based developer coding and typing challenges.
+- [Leaderboard](https://www.hangbug.com/leaderboard): Global developer rankings and quiz achievements.
+- [Verify Certificates](https://www.hangbug.com/certificate/view): Verify developer completion certificates by certificate ID.
+- [Learning Resources](https://www.hangbug.com/resources): Study roadmaps and guides for web and mobile developers.
+- [Blog & Tutorials](https://www.hangbug.com/blog): Software engineering tutorials, interview preparation, and best practices.
+
+## Technology Quiz Tracks
+
+- [HTML](https://www.hangbug.com/technologies/html): Semantic markup, modern HTML5 elements, and accessibility.
+- [CSS](https://www.hangbug.com/technologies/css): Flexbox, Grid, animations, responsive design, and CSS3 styling.
+- [JavaScript](https://www.hangbug.com/technologies/javascript): ES6+ syntax, asynchronous programming, DOM, and prototypes.
+- [React](https://www.hangbug.com/technologies/react): Component lifecycle, hooks, state management, and JSX.
+- [PHP](https://www.hangbug.com/technologies/php): Server-side scripting, object-oriented PHP, and web development.
+- [Laravel](https://www.hangbug.com/technologies/laravel): MVC architecture, routing, Eloquent ORM, and Blade templates.
+- [MySQL](https://www.hangbug.com/technologies/mysql): Relational database queries, joins, indexes, and schema design.
+- [MongoDB](https://www.hangbug.com/technologies/mongodb): NoSQL document modeling, CRUD operations, and aggregation pipelines.
+- [Flutter](https://www.hangbug.com/technologies/flutter): Cross-platform UI, widget composition, state, and routing.
+- [Dart](https://www.hangbug.com/technologies/dart): Object-oriented programming, null safety, async/await, and collections.
+- [Python](https://www.hangbug.com/technologies/python): Syntax, data structures, OOP, modules, and algorithm challenges.
+- [Programming Fundamentals](https://www.hangbug.com/technologies/programming-fundamentals): Algorithms, data structures, and computer science basics.
+
+## Developer Games
+
+- [Code Puzzle](https://www.hangbug.com/games/code-puzzle): Arrange jumbled code blocks into functional algorithms.
+- [Find The Bug](https://www.hangbug.com/games/find-the-bug): Inspect source snippets and locate logic and syntax errors.
+- [Output Predictor](https://www.hangbug.com/games/output-predictor): Trace code execution and predict exact program output.
+- [SQL Challenge](https://www.hangbug.com/games/sql-challenge): Write and debug relational SQL queries under time constraints.
+- [Speed Typing](https://www.hangbug.com/games/speed-typing): Benchmark coding and technical typing speed in WPM.
+- [Code Typing](https://www.hangbug.com/games/code-typing): Practice real-world programming syntax and symbols.
+
+## Documentation & Legal
+
+- [About Us](https://www.hangbug.com/about): Mission, technology stack, and platform background.
+- [Contact Support](https://www.hangbug.com/contact): Customer support, feedback, and technical inquiries.
+- [Privacy Policy](https://www.hangbug.com/privacy-policy): User privacy, cookies, data storage, and compliance.
+- [Terms of Service](https://www.hangbug.com/terms): Platform usage terms, quiz integrity, and certificate validity.
+
+## Optional
+
+- [Full LLM Context](https://www.hangbug.com/llms-full.txt): Complete platform architecture, scoring rules, and comprehensive API details.

@@ -6,6 +6,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
+const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 
@@ -89,12 +90,26 @@ app.use('/api/games', gameRoutes);
 app.use('/api/api/games', gameRoutes); // Defensive alias for clients with redundant base URL
 app.use('/api/blog', blogRoutes);
 
-// Canonical Technical SEO Directives & Dynamic XML Sitemap
+// Canonical Technical SEO Directives, AI Crawlers & Dynamic XML Sitemap
 app.get('/robots.txt', getRobotsTxt);
 app.get('/sitemap.xml', getDynamicSitemap);
 app.get('/api/sitemap.xml', getDynamicSitemap);
 app.get('/sitemap', (req, res) => res.redirect(301, '/sitemap.xml'));
 app.get('/robots', (req, res) => res.redirect(301, '/robots.txt'));
+app.get('/llms.txt', (req, res) => {
+    res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    const p = path.join(process.cwd(), 'public', 'llms.txt');
+    if (fs.existsSync(p)) return res.sendFile(p);
+    return res.status(404).send('# Not Found');
+});
+app.get('/llms-full.txt', (req, res) => {
+    res.setHeader('Content-Type', 'text/markdown; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    const p = path.join(process.cwd(), 'public', 'llms-full.txt');
+    if (fs.existsSync(p)) return res.sendFile(p);
+    return res.status(404).send('# Not Found');
+});
 
 // Technical SEO 301 Canonical Redirects
 app.get('/privacy', (req, res) => res.redirect(301, '/privacy-policy'));

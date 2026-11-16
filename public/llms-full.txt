@@ -1,0 +1,56 @@
+# Hangbug — Full Platform Documentation for Language Models
+
+## Platform Overview
+Hangbug (https://www.hangbug.com) is an online technology learning and technical skill assessment platform. It serves developers, university students, and technology learners who want to practice multiple-choice (MCQ) programming quizzes, improve typing and code debugging speed, monitor ongoing accuracy, and earn verifiable, score-based completion certificates.
+
+Hangbug is accessible on both Web (https://www.hangbug.com) and Android mobile devices (via the official Hangbug mobile app, package `com.hangbug.app`).
+
+## System Architecture
+- **Web Frontend:** React 19 single-page application built with Vite and Tailwind CSS, hosted on Vercel Edge.
+- **Mobile Application:** Flutter/Dart Android native app with Material 3 design, full session persistence, and Google Authentication.
+- **Backend API:** Node.js Express service running on Vercel Serverless Functions with Prisma ORM connecting to MongoDB Atlas.
+- **SEO & Search Standards:** Canonical trailing slash normalization, dynamic sitemap XML generation, structured Schema.org JSON-LD (Organization, WebSite, WebPage, SoftwareApplication, BreadcrumbList), Open Graph and Twitter Card tags.
+
+## Core Features
+1. **Interactive MCQ Quizzes:** Questions organized into sequential 10-15 question practice sessions with immediate feedback, explanations, and progress saving.
+2. **Score-Based Developer Certificates:** Automatically generated upon scoring passing thresholds (Pass: 60-74%, Merit: 75-89%, Distinction: 90%+), verifiable publicly at `/certificate/view?id=<UUID>`.
+3. **Coding & Typing Games:** 20 interactive mini-games including Code Puzzle, Find The Bug, Output Predictor, SQL Challenge, Speed Typing, and Code Typing.
+4. **Global Leaderboard:** Real-time scoring and rank tracking across quizzes and games.
+5. **Session Progress Persistence:** Authenticated users resume in-progress quiz sessions without losing answered questions.
+
+## Technology Quiz Directory
+- **HTML:** Semantic tags, forms, media, accessibility, and HTML5 APIs. URL: https://www.hangbug.com/technologies/html
+- **CSS:** Selectors, specificity, Flexbox, CSS Grid, transforms, transitions, and media queries. URL: https://www.hangbug.com/technologies/css
+- **JavaScript:** ES6+, scoping, closures, promises, async/await, DOM manipulation, event loop. URL: https://www.hangbug.com/technologies/javascript
+- **React:** Components, props, state, useEffect, custom hooks, context, memoization. URL: https://www.hangbug.com/technologies/react
+- **PHP:** Syntax, arrays, functions, OOP, exceptions, sessions, PDO. URL: https://www.hangbug.com/technologies/php
+- **Laravel:** MVC, routing, Eloquent ORM, Blade, middleware, service providers, migrations. URL: https://www.hangbug.com/technologies/laravel
+- **MySQL:** SELECT, JOINs, GROUP BY, aggregations, foreign keys, indexes, transactions. URL: https://www.hangbug.com/technologies/mysql
+- **MongoDB:** Collections, BSON documents, CRUD queries, indexes, aggregation pipeline. URL: https://www.hangbug.com/technologies/mongodb
+- **Flutter:** Widgets (Stateless & Stateful), BuildContext, layout constraints, Navigator, state management. URL: https://www.hangbug.com/technologies/flutter
+- **Dart:** Type system, null safety, collections, async streams, mixins, isolates. URL: https://www.hangbug.com/technologies/dart
+- **Python:** Data types, list comprehensions, OOP, decorators, generators, file I/O. URL: https://www.hangbug.com/technologies/python
+- **Programming Fundamentals:** Binary arithmetic, Big-O complexity, algorithms, data structures (linked lists, trees, stacks, queues). URL: https://www.hangbug.com/technologies/programming-fundamentals
+
+## Developer Games Directory
+- **Code Puzzle:** https://www.hangbug.com/games/code-puzzle
+- **Find The Bug:** https://www.hangbug.com/games/find-the-bug
+- **Output Predictor:** https://www.hangbug.com/games/output-predictor
+- **SQL Challenge:** https://www.hangbug.com/games/sql-challenge
+- **Speed Typing:** https://www.hangbug.com/games/speed-typing
+- **Code Typing:** https://www.hangbug.com/games/code-typing
+- **Code Scramble:** https://www.hangbug.com/games/code-scramble
+- **Missing Code:** https://www.hangbug.com/games/missing-code
+- **Logic Builder:** https://www.hangbug.com/games/logic-builder
+- **Memory Match:** https://www.hangbug.com/games/memory-match
+- **60-Second Challenge:** https://www.hangbug.com/games/sixty-second-challenge
+- **Error-Free Typing:** https://www.hangbug.com/games/error-free-typing
+- **Syntax Typing:** https://www.hangbug.com/games/syntax-typing
+- **Word Rain:** https://www.hangbug.com/games/word-rain
+- **Complete The Code:** https://www.hangbug.com/games/complete-the-code
+
+## Contact & Policies
+- **Customer Support:** support@hangbug.com
+- **Contact Page:** https://www.hangbug.com/contact
+- **Privacy Policy:** https://www.hangbug.com/privacy-policy
+- **Terms of Service:** https://www.hangbug.com/terms
