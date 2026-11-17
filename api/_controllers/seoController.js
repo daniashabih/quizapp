@@ -1,4 +1,8 @@
+const fs = require('fs');
+const path = require('path');
+
 const BASE_URL = 'https://www.hangbug.com';
+const ROOT_DIR = path.resolve(__dirname, '../..');
 
 const PUBLIC_ROUTES = [
     { loc: '/', changefreq: 'daily', priority: '1.0' },
