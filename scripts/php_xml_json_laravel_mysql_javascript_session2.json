@@ -1,8 +1,8 @@
 {
   "category": "PHP, XML JSON, Laravel, MySQL, JavaScript",
   "session": 2,
-  "title": "Session 2: PHP Fundamentals, Variables, Form Handling, Environment & Laravel MVC",
-  "totalQuestions": 17,
+  "title": "Session 2: PHP, Laravel, XML/HTML & Environment Fundamentals",
+  "totalQuestions": 26,
   "questions": [
     {
       "questionText": "PHP variables must start with a _____.",
@@ -190,6 +190,105 @@
       ],
       "correctAnswer": "Controllers",
       "explanation": "In Laravel's MVC architecture, Controllers organize application code by grouping related HTTP request handlers into a single class instead of keeping all logic in route closures."
+    },
+    {
+      "questionText": "In Laravel convention, ________ are the preferred way to create records, not tables.",
+      "options": [
+        "keys",
+        "functions",
+        "routes",
+        "models"
+      ],
+      "correctAnswer": "models",
+      "explanation": "In Laravel's Eloquent ORM convention, models represent database records (for example, Model::create(...) or $model->save()) and are the preferred way to create and manipulate records, whereas database migrations are used to create and alter tables."
+    },
+    {
+      "questionText": "Which of the following enables the user to add elements to the project that follow the Laravel convention?",
+      "options": [
+        "Artisan Tool",
+        "PHP Code",
+        "Laravel Components",
+        "Composer"
+      ],
+      "correctAnswer": "Artisan Tool",
+      "explanation": "Laravel's Artisan CLI (for example, php artisan make:model, make:controller, or make:migration) scaffolds classes and project elements that follow Laravel's built-in naming and structure conventions."
+    },
+    {
+      "questionText": "Which keyword does PHP use to check if an object belongs to a particular class?",
+      "options": [
+        "get_name()",
+        "__construct",
+        "instanceof",
+        "var_dump()"
+      ],
+      "correctAnswer": "instanceof",
+      "explanation": "In PHP, the instanceof type operator checks whether an object is an instance of a specific class, inherits from a parent class, or implements an interface."
+    },
+    {
+      "questionText": "_______ automatically assigns routes to all functions that have been declared in the Resource Controller.",
+      "options": [
+        "Requests",
+        "Paginations",
+        "Laravel",
+        "Resource Routing"
+      ],
+      "correctAnswer": "Resource Routing",
+      "explanation": "Laravel Resource Routing (Route::resource()) automatically assigns RESTful HTTP routes to standard CRUD actions (index, create, store, show, edit, update, and destroy) declared in a Resource Controller."
+    },
+    {
+      "questionText": "When creating a record, it is necessary to include the _______ keyword array to prevent any malicious attempt.",
+      "options": [
+        "$fillable",
+        "$rows",
+        "$columns",
+        "$fields"
+      ],
+      "correctAnswer": "$fillable",
+      "explanation": "In Laravel Eloquent models, the $fillable array acts as an allow-list for mass assignment (such as Model::create($request->all())), preventing attackers from injecting unauthorized column values."
+    },
+    {
+      "questionText": "The GNU License information appears when you install ______.",
+      "options": [
+        "Composer",
+        "Vagrant",
+        "Homestead",
+        "GitBash"
+      ],
+      "correctAnswer": "GitBash",
+      "explanation": "Git for Windows (which provides GitBash) is distributed under the GNU General Public License (GPL) and displays the GNU License information screen during setup."
+    },
+    {
+      "questionText": "Using which of the following methods can you select a column name?",
+      "options": [
+        "big Increments",
+        "get",
+        "where",
+        "find"
+      ],
+      "correctAnswer": "get",
+      "explanation": "In Laravel's Query Builder and Eloquent ORM, get(['column_name']) accepts an array of column names to select when executing the query (alongside the dedicated select() clause). By contrast, where() filters rows by condition, find() retrieves a single record by primary key, and bigIncrements() defines an auto-incrementing migration column."
+    },
+    {
+      "questionText": "The code 'vagrant@homestead:~$ composer -V' verifies:",
+      "options": [
+        "Homestead version",
+        "SQLite version",
+        "Laravel version",
+        "Composer version"
+      ],
+      "correctAnswer": "Composer version",
+      "explanation": "Running 'composer -V' (or 'composer --version') inside the Homestead virtual machine outputs the installed version of Composer."
+    },
+    {
+      "questionText": "What are the major differences between HTML and XML?",
+      "options": [
+        "HTML defines a certain set of tags to be used compulsorily whereas XML does not.",
+        "XML is strict about document structure, how it is stored, and transferred, but HTML does not follow these rules.",
+        "None of these",
+        "All of these"
+      ],
+      "correctAnswer": "All of these",
+      "explanation": "HTML uses a fixed set of predefined tags for displaying content and tolerates lenient markup, whereas XML supports custom user-defined tags and enforces strict structural well-formedness for storing and transporting data."
     }
   ]
 }
