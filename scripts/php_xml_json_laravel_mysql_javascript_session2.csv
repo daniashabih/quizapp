@@ -1,0 +1,14 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+"PHP, XML JSON, Laravel, MySQL, JavaScript",2,"PHP variables must start with a _____.","Underscore sign","Dollar sign","Alpha-numeric character","Asterisk sign","Dollar sign"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",2,"Which of the following features are true about PHP?
+a) Relatively easy for a fresher.
+b) Has advanced features for professional programming.
+c) Works only on Windows.","a and b","a and c","b and c","All of these","a and b"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",2,"What allows users to compile a program into machine code just before it can be executed?","Block blob","JIT compiler","Google Cloud RealStore","CSV","JIT compiler"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",2,"PHP provides __________ function to access the value of all the environment variables.","getenv()","getenvi()","goenv()","goenvi()","getenv()"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",2,"What are used for storing data such as numeric and character values, strings, and memory addresses?","Variables","Texts","Arrows","Modes","Variables"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",2,"Which PHP function accepts a variable name as an argument and displays the argument details passed to it?","gettype()","var_dump()","array()","posttype()","var_dump()"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",2,"What is the full form of SMTP?","Simple Mail Transfer Protocol","Sample Mail Transfer Protocol","Simple Mail Transferring Protocol","Section Mail Transfer Protocol","Simple Mail Transfer Protocol"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",2,"In which year was PHP version 8.0 released?","2015","2018","2020","2022","2020"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",2,"What are the methods by which the data can be submitted to the server for processing? (Select all that apply)","PHP DESK Method","PHP SET Method","PHP GET Method only","Both PHP GET Method and PHP POST Method","Both PHP GET Method and PHP POST Method"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",2,"Which of these are the superglobal variables used to retrieve data from submitted HTML form that have used GET or POST methods? (Select all that apply)","$_GET and $_POST only","$_REQUEST only","$_GETPOST","$_REQUEST, $_GET, and $_POST","$_REQUEST, $_GET, and $_POST"

@@ -31,6 +31,7 @@
     "seed:dart": "node scripts/uploadDartQuiz.js",
     "seed:csharp": "node scripts/seedCSharpComplete.js",
     "seed:php-xml-json-laravel-mysql-js": "node scripts/uploadCombinedSemester2Quiz.js",
+    "seed:php-xml-json-laravel-mysql-js-session2": "node scripts/uploadCombinedSemester2Session2Quiz.js",
     "sync:sql-server-live": "node scripts/syncSqlServerToLive.js",
     "sync:sql-server-session2-live": "node scripts/syncSqlServerSession2ToLive.js",
     "sync:sql-server-session3-live": "node scripts/syncSqlServerSession3ToLive.js",
@@ -43,6 +44,7 @@
     "sync:dart-live": "node scripts/syncAllDartSessionsToLive.js",
     "sync:csharp-live": "node scripts/syncAllCSharpSessionsToLive.js",
     "sync:php-xml-json-laravel-mysql-js-live": "node scripts/syncCombinedSemester2ToLive.js",
+    "sync:php-xml-json-laravel-mysql-js-session2-live": "node scripts/syncCombinedSemester2Session2ToLive.js",
     "seed": "node scripts/seedTechnologies.js && node scripts/seedAdmin.js && node scripts/seedQuestions.js && node scripts/uploadAgileDevOpsQuiz.js && node scripts/uploadAgileCharacteristicsQuiz.js && node scripts/uploadPhpSession1Quiz.js && node scripts/uploadAzureQuiz.js && node scripts/uploadSeoQuiz.js && node scripts/uploadSqlServerSession1Quiz.js && node scripts/uploadSqlServerSession2Quiz.js && node scripts/uploadSqlServerSession3Quiz.js && node scripts/uploadSqlServerSession4Quiz.js && node scripts/uploadSqlServerSession5Quiz.js && node scripts/uploadPowerBiQuiz.js && node scripts/uploadExcelQuiz.js && node scripts/uploadHtmlQuiz.js && node scripts/uploadCombinedSemester2Quiz.js && node scripts/uploadDartQuiz.js"
   },
   "dependencies": {

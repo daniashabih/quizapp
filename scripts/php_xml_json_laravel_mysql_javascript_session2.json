@@ -1,0 +1,118 @@
+{
+  "category": "PHP, XML JSON, Laravel, MySQL, JavaScript",
+  "session": 2,
+  "title": "Session 2: PHP Fundamentals, Variables, Form Handling & Environment",
+  "totalQuestions": 10,
+  "questions": [
+    {
+      "questionText": "PHP variables must start with a _____.",
+      "options": [
+        "Underscore sign",
+        "Dollar sign",
+        "Alpha-numeric character",
+        "Asterisk sign"
+      ],
+      "correctAnswer": "Dollar sign",
+      "explanation": "In PHP, all variable names must begin with a dollar sign ($), followed by a letter or an underscore (for example, $name or $_count)."
+    },
+    {
+      "questionText": "Which of the following features are true about PHP?\na) Relatively easy for a fresher.\nb) Has advanced features for professional programming.\nc) Works only on Windows.",
+      "options": [
+        "a and b",
+        "a and c",
+        "b and c",
+        "All of these"
+      ],
+      "correctAnswer": "a and b",
+      "explanation": "PHP is beginner-friendly (a) and provides advanced object-oriented and server-side features for professional development (b). It is cross-platform and does not work only on Windows."
+    },
+    {
+      "questionText": "What allows users to compile a program into machine code just before it can be executed?",
+      "options": [
+        "Block blob",
+        "JIT compiler",
+        "Google Cloud RealStore",
+        "CSV"
+      ],
+      "correctAnswer": "JIT compiler",
+      "explanation": "A JIT (Just-In-Time) compiler compiles program bytecode into native machine code right before execution to improve runtime performance."
+    },
+    {
+      "questionText": "PHP provides __________ function to access the value of all the environment variables.",
+      "options": [
+        "getenv()",
+        "getenvi()",
+        "goenv()",
+        "goenvi()"
+      ],
+      "correctAnswer": "getenv()",
+      "explanation": "PHP's built-in getenv() function returns the value of a specified environment variable or an associative array of all environment variables when called without arguments."
+    },
+    {
+      "questionText": "What are used for storing data such as numeric and character values, strings, and memory addresses?",
+      "options": [
+        "Variables",
+        "Texts",
+        "Arrows",
+        "Modes"
+      ],
+      "correctAnswer": "Variables",
+      "explanation": "Variables are named storage containers used in programming to hold numeric values, characters, strings, and references or memory addresses."
+    },
+    {
+      "questionText": "Which PHP function accepts a variable name as an argument and displays the argument details passed to it?",
+      "options": [
+        "gettype()",
+        "var_dump()",
+        "array()",
+        "posttype()"
+      ],
+      "correctAnswer": "var_dump()",
+      "explanation": "var_dump() accepts one or more variables or expressions and outputs structured details including data type, size/length, and value."
+    },
+    {
+      "questionText": "What is the full form of SMTP?",
+      "options": [
+        "Simple Mail Transfer Protocol",
+        "Sample Mail Transfer Protocol",
+        "Simple Mail Transferring Protocol",
+        "Section Mail Transfer Protocol"
+      ],
+      "correctAnswer": "Simple Mail Transfer Protocol",
+      "explanation": "SMTP stands for Simple Mail Transfer Protocol, the standard protocol used for sending emails across networks."
+    },
+    {
+      "questionText": "In which year was PHP version 8.0 released?",
+      "options": [
+        "2015",
+        "2018",
+        "2020",
+        "2022"
+      ],
+      "correctAnswer": "2020",
+      "explanation": "PHP version 8.0 was officially released in November 2020, introducing the JIT compiler, named arguments, union types, attributes, and match expressions."
+    },
+    {
+      "questionText": "What are the methods by which the data can be submitted to the server for processing? (Select all that apply)",
+      "options": [
+        "PHP DESK Method",
+        "PHP SET Method",
+        "PHP GET Method only",
+        "Both PHP GET Method and PHP POST Method"
+      ],
+      "correctAnswer": "Both PHP GET Method and PHP POST Method",
+      "explanation": "HTML forms and PHP scripts submit data to the server for processing using both the HTTP GET method ($_GET) and the HTTP POST method ($_POST). PHP DESK and PHP SET are not valid submission methods."
+    },
+    {
+      "questionText": "Which of these are the superglobal variables used to retrieve data from submitted HTML form that have used GET or POST methods? (Select all that apply)",
+      "options": [
+        "$_GET and $_POST only",
+        "$_REQUEST only",
+        "$_GETPOST",
+        "$_REQUEST, $_GET, and $_POST"
+      ],
+      "correctAnswer": "$_REQUEST, $_GET, and $_POST",
+      "explanation": "In PHP, $_GET retrieves GET form data, $_POST retrieves POST form data, and $_REQUEST aggregates GET, POST, and cookie inputs. $_GETPOST does not exist."
+    }
+  ]
+}
