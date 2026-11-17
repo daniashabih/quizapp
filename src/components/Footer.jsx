@@ -15,7 +15,7 @@ export default function Footer() {
                     {/* Brand & Description */}
                     <div className="md:col-span-2 space-y-3">
                         <Link to="/" className="inline-block">
-                            <BrandLogo size="md" />
+                            <BrandLogo size="md" loading="lazy" />
                         </Link>
                         <p className="text-xs text-[var(--foreground-muted)] max-w-sm leading-relaxed">
                             Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.

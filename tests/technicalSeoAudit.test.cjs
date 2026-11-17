@@ -12,7 +12,7 @@ function readFile(relPath) {
 
 test('1. Technical SEO: Unique titles and meta descriptions for public pages', () => {
     const publicPages = [
-        { file: 'src/pages/Landing.jsx', title: 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates' },
+        { file: 'src/pages/Landing.jsx', title: 'Learn Programming & Practice Tech Quizzes Online | Hangbug' },
         { file: 'src/pages/quiz/Technologies.jsx', title: 'Choose Your Tech Stack — Programming & Framework Quizzes | Hangbug' },
         { file: 'src/pages/quiz/TechnologyDetail.jsx', title: 'Technology Quizzes & Coding Practice | Hangbug' },
         { file: 'src/pages/games/GamesHub.jsx', title: 'Coding & Typing Games for Developers — Hangbug Games Hub' },
@@ -356,8 +356,8 @@ test('18. Brand Identity & AI Overview Accuracy: Official Hangbug title, meta de
     const landing = readFile('src/pages/Landing.jsx');
     const about = readFile('src/pages/legal/AboutUs.jsx');
 
-    const officialTitle = 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates';
-    const officialDesc = 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.';
+    const officialTitle = 'Learn Programming & Practice Tech Quizzes Online | Hangbug';
+    const officialDesc = 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.';
 
     assert.ok(indexHtml.includes(`<title>${officialTitle}</title>`), 'index.html must use official Hangbug title');
     assert.ok(indexHtml.includes(`content="${officialDesc}"`), 'index.html must use official Hangbug meta description');
@@ -553,4 +553,90 @@ test('27. Technical SEO Audit: llms.txt and llms-full.txt exist and are properly
     assert.ok(llmsHeader, 'vercel.json must have headers configuration for /llms.txt');
     const contentType = llmsHeader.headers.find(h => h.key === 'Content-Type');
     assert.ok(contentType && contentType.value.includes('text/markdown'), 'vercel.json must serve /llms.txt as text/markdown');
+});
+
+test('28. Homepage SEO Verification: Metadata, H1 hierarchy, canonical, Open Graph, JSON-LD, internal links, and image SEO', async () => {
+    const { validateStructuredData } = await import(
+        require('node:url').pathToFileURL(path.join(ROOT_DIR, 'src', 'utils', 'structuredData.js')).href
+    );
+
+    const expectedTitle = 'Learn Programming & Practice Tech Quizzes Online | Hangbug';
+    const expectedDesc = 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.';
+    const expectedH1 = 'Learn Programming, Practice Tech Quizzes & Earn Certificates';
+
+    const distHome = readFile('dist/index.html');
+    const landing = readFile('src/pages/Landing.jsx');
+    const footer = readFile('src/components/Footer.jsx');
+    const navbar = readFile('src/components/Navbar.jsx');
+    const brandLogo = readFile('src/components/BrandLogo.jsx');
+    const techLogo = readFile('src/components/TechLogo.jsx');
+    const splashScreen = readFile('src/components/SplashScreen.jsx');
+
+    // 1. Homepage title, meta description, canonical, and Open Graph
+    assert.ok(distHome.includes(`<title>${expectedTitle}</title>`), 'dist/index.html must have updated title');
+    assert.ok(distHome.includes(`name="description" content="${expectedDesc}"`), 'dist/index.html must have updated meta description');
+    assert.ok(distHome.includes('<link rel="canonical" href="https://www.hangbug.com/" />'), 'dist/index.html must have homepage canonical');
+    assert.ok(distHome.includes(`<meta property="og:title" content="${expectedTitle}" />`), 'dist/index.html must have matching og:title');
+    assert.ok(distHome.includes(`<meta property="og:description" content="${expectedDesc}" />`), 'dist/index.html must have matching og:description');
+    assert.ok(distHome.includes('<meta property="og:url" content="https://www.hangbug.com/" />'), 'dist/index.html must have homepage og:url');
+
+    // 2. Single H1 hierarchy
+    const h1Matches = distHome.match(/<h1\b[^>]*>[\s\S]*?<\/h1>/g) || [];
+    assert.strictEqual(h1Matches.length, 1, 'dist/index.html must have exactly one <h1>');
+    assert.strictEqual(h1Matches[0].replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').trim(), expectedH1);
+    const landingH1Count = (landing.match(/<(?:motion\.)?h1\b/g) || []).length;
+    assert.strictEqual(landingH1Count, 1, 'Landing.jsx must have exactly one <h1>');
+
+    // 3. Balanced root container (no orphaned </div> from prerendering)
+    const bodyMatch = distHome.match(/<body[^>]*>([\s\S]*)<\/body>/);
+    assert.ok(bodyMatch, 'dist/index.html must contain body');
+    const openDivs = (bodyMatch[1].match(/<div\b/g) || []).length;
+    const closeDivs = (bodyMatch[1].match(/<\/div>/g) || []).length;
+    assert.strictEqual(openDivs, closeDivs, 'dist/index.html body must have balanced <div> tags');
+
+    // 4. Crawlable internal SEO links in static HTML and React homepage
+    const requiredLinks = [
+        '/technologies',
+        '/technologies/html',
+        '/technologies/css',
+        '/technologies/javascript',
+        '/technologies/react',
+        '/technologies/php',
+        '/technologies/laravel',
+        '/technologies/mysql',
+        '/technologies/mongodb',
+        '/technologies/flutter',
+        '/technologies/dart',
+        '/technologies/python',
+        '/technologies/programming-fundamentals',
+        '/games',
+        '/about',
+        '/contact',
+        '/blog'
+    ];
+    for (const href of requiredLinks) {
+        assert.ok(distHome.includes(`href="${href}"`), `dist/index.html must include crawlable link to ${href}`);
+        const combinedHomepageReact = landing + navbar + footer;
+        assert.ok(
+            combinedHomepageReact.includes(`"${href}"`) || combinedHomepageReact.includes(`/technologies/\${tech.slug}`),
+            `Homepage React components must link to ${href}`
+        );
+    }
+
+    // 5. Image SEO: descriptive alt, dimensions, loading attributes
+    assert.ok(brandLogo.includes('width={512}') && brandLogo.includes('height={512}'), 'BrandLogo mark must define explicit dimensions');
+    assert.ok(brandLogo.includes('width={615}') && brandLogo.includes('height={212}'), 'BrandLogo compact must define explicit dimensions');
+    assert.ok(brandLogo.includes('loading={loading}') && brandLogo.includes('decoding="async"'), 'BrandLogo must manage loading and async decoding');
+    assert.ok(splashScreen.includes('width={512}') && splashScreen.includes('height={512}'), 'SplashScreen logo must define explicit dimensions');
+    assert.ok(techLogo.includes('technology icon') && techLogo.includes('width={') && techLogo.includes('height={'), 'TechLogo must define descriptive alt and explicit dimensions');
+
+    // 6. Structured data validation for Organization & WebSite without fake ratings/reviews
+    const jsonLdMatch = distHome.match(/<script id="hangbug-jsonld" type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    assert.ok(jsonLdMatch && jsonLdMatch[1], 'dist/index.html must contain JSON-LD');
+    const jsonLd = JSON.parse(jsonLdMatch[1]);
+    const validation = validateStructuredData(jsonLd);
+    assert.strictEqual(validation.valid, true, `Homepage JSON-LD validation failed: ${validation.errors.join('; ')}`);
+
+    const websiteNode = jsonLd['@graph'].find(n => n['@type'] === 'WebSite');
+    assert.ok(websiteNode && websiteNode.alternateName === 'HangBug', 'WebSite alternateName must be concise brand name HangBug');
 });

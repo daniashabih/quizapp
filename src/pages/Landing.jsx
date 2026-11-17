@@ -33,8 +33,8 @@ const CORE_TECHNOLOGIES = [
 
 export default function Landing() {
     usePageSeo({
-        title: 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates',
-        description: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
+        title: 'Learn Programming & Practice Tech Quizzes Online | Hangbug',
+        description: 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.',
         canonicalPath: '/'
     });
     const [searchQuery, setSearchQuery] = useState('');
@@ -122,7 +122,7 @@ export default function Landing() {
                             transition={{ duration: 0.5, delay: 0.2 }}
                             className="text-sm sm:text-base text-[var(--foreground-muted)] max-w-xl font-normal leading-relaxed"
                         >
-                            Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.
+                            Learn programming with online coding practice, interactive programming quizzes, and coding games. Track your progress and earn score-based certificates with Hangbug.
                         </motion.p>
 
                         {/* Technology Search Bar */}
@@ -138,10 +138,12 @@ export default function Landing() {
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
+                                    aria-label="Search technology quizzes"
                                     placeholder="Search technology (e.g. HTML, JavaScript, PHP, C#)…"
                                     className="input-field pl-11 pr-32 py-3 text-sm rounded-2xl border-[var(--input-border)] focus:border-[#193D35] shadow-sm"
                                 />
                                 <button
+                                    type="button"
                                     onClick={() => navigate('/technologies')}
                                     className="absolute right-2 top-1/2 -translate-y-1/2 btn-primary text-xs py-2 px-4 rounded-xl shadow-xs"
                                 >
@@ -430,7 +432,7 @@ export default function Landing() {
                             What is Hangbug?
                         </h2>
                         <p className="text-sm sm:text-base text-[var(--foreground-muted)] leading-relaxed max-w-4xl">
-                            <strong>Hangbug</strong> is an online technology learning and skill assessment platform where students, programmers, and web developers practice technology-related multiple-choice question (MCQ) quizzes, test their programming and web development knowledge, learn technologies through interactive quizzes, explore coding and typing games, track their quiz performance and progress, earn score-based certificates, and share earned certificates on LinkedIn.
+                            <strong>Hangbug</strong> is an interactive technology learning and online coding practice platform where students and developers take programming quizzes, explore web development quizzes, tackle programming challenges, play coding games, track their progress, and earn score-based certificates shareable on LinkedIn.
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
                             <div className="p-4 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5">
@@ -438,7 +440,7 @@ export default function Landing() {
                                     <BookOpen size={15} className="text-[#193D35]" /> Technology MCQ Quizzes
                                 </h3>
                                 <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
-                                    Practice structured, session-based multiple-choice quizzes with immediate answer checking, explanations, and saved progress resumption.
+                                    Practice structured, session-based programming quizzes and web development quizzes with immediate answer checking, explanations, and saved progress resumption.
                                 </p>
                             </div>
                             <div className="p-4 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5">
@@ -446,7 +448,7 @@ export default function Landing() {
                                     <Gamepad2 size={15} className="text-[#193D35]" /> Coding &amp; Typing Games
                                 </h3>
                                 <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
-                                    Reinforce programming syntax, code arrangement, output prediction, SQL queries, and typing speed through browser-based games.
+                                    Reinforce syntax and logic with interactive programming challenges, code arrangement, output prediction, SQL queries, and typing speed coding games.
                                 </p>
                             </div>
                             <div className="p-4 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] space-y-1.5">
@@ -476,7 +478,10 @@ export default function Landing() {
                                     Technology Quiz Categories Covered
                                 </h2>
                                 <p className="text-xs sm:text-sm text-[var(--foreground-muted)] mt-1 max-w-3xl">
-                                    Learn and test your knowledge across frontend, backend, database, mobile, and core programming technologies including HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, and more.
+                                    Start online coding practice across frontend, backend, database, and mobile stacks—including HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Python, and{' '}
+                                    <Link to="/technologies/programming-fundamentals" className="font-semibold text-[#193D35] dark:text-emerald-400 hover:underline">
+                                        Programming Fundamentals
+                                    </Link>.
                                 </p>
                             </div>
                             <Link to="/technologies" className="text-xs font-bold text-[#193D35] hover:underline inline-flex items-center gap-1 shrink-0">
@@ -508,7 +513,7 @@ export default function Landing() {
                                     Interactive Coding &amp; Typing Games
                                 </h2>
                                 <p className="text-xs sm:text-sm text-[var(--foreground-muted)] mt-1 max-w-3xl">
-                                    Alongside MCQ quizzes, Hangbug offers 18 browser-based coding and typing games to help developers practice programming logic, code comprehension, and keyboard fluency.
+                                    Alongside programming quizzes, Hangbug offers 20 browser-based coding games and programming challenges to help developers practice programming logic, code comprehension, and keyboard fluency.
                                 </p>
                             </div>
                             <Link to="/games" className="btn-primary text-xs py-2.5 px-4 rounded-xl shrink-0">
@@ -612,7 +617,14 @@ export default function Landing() {
                                     When you pass a technology quiz on Hangbug with a score of 80% or above, the platform generates a digital score-based Certificate of Completion recording your name, technology category, score percentage, issue date, and unique verification ID.
                                 </p>
                                 <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
-                                    You can download your certificate or share its verification link directly on LinkedIn to showcase your technology quiz milestones.
+                                    You can download your certificate, share its verification link directly on LinkedIn, read step-by-step developer guides on the{' '}
+                                    <Link to="/blog" className="font-semibold text-[#193D35] dark:text-emerald-400 hover:underline">
+                                        Hangbug Blog
+                                    </Link>, or{' '}
+                                    <Link to="/contact" className="font-semibold text-[#193D35] dark:text-emerald-400 hover:underline">
+                                        contact support
+                                    </Link>{' '}
+                                    with any questions.
                                 </p>
                             </div>
                             <div className="flex items-center justify-between pt-4 border-t border-[var(--card-border)] text-xs">

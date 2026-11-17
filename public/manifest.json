@@ -1,7 +1,7 @@
 {
   "short_name": "Hangbug",
   "name": "Hangbug – Learn Programming & Practice Tech Quizzes",
-  "description": "Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.",
+  "description": "Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.",
   "icons": [
     {
       "src": "/favicon-32x32.png",

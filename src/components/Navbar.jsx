@@ -75,7 +75,7 @@ const Navbar = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                     {/* Brand Logo */}
                     <Link to="/" className="flex items-center group">
-                        <BrandLogo variant="compact" size="md" />
+                        <BrandLogo variant="compact" size="md" loading="eager" fetchPriority="high" />
                     </Link>
 
                     {/* Desktop Links */}

@@ -74,6 +74,10 @@ export default function SplashScreen({ onFinish, message = 'HangBug' }) {
                     <img
                         src={logoIcon}
                         alt="HangBug developer platform emblem"
+                        width={512}
+                        height={512}
+                        loading="eager"
+                        decoding="async"
                         className="w-full h-full object-contain"
                         draggable={false}
                     />

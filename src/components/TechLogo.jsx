@@ -11,6 +11,7 @@ import { resolveTechLogos } from '../utils/techLogos';
 export default function TechLogo({
     name,
     maxLogos = 6,
+    loading = 'lazy',
     className = '',
 }) {
     const logos = resolveTechLogos(name).slice(0, maxLogos);
@@ -45,8 +46,10 @@ export default function TechLogo({
                 >
                     <img
                         src={logo.src}
-                        alt={logo.label}
-                        loading="eager"
+                        alt={`${logo.label} technology icon`}
+                        width={28}
+                        height={28}
+                        loading={loading}
                         decoding="async"
                         onError={() => setFailedIds((prev) => ({ ...prev, [logo.id]: true }))}
                         className={`w-full h-full object-contain select-none ${
@@ -60,6 +63,7 @@ export default function TechLogo({
 
     // Compact horizontal cluster for combined technologies (2–6 logos)
     const iconSizeClass = visibleLogos.length <= 3 ? 'w-6 h-6' : 'w-5 h-5';
+    const iconDimension = visibleLogos.length <= 3 ? 24 : 20;
     const gapClass = visibleLogos.length <= 3 ? 'gap-1.5 px-2.5' : 'gap-1.5 px-2.5';
 
     return (
@@ -76,8 +80,10 @@ export default function TechLogo({
                 >
                     <img
                         src={logo.src}
-                        alt={logo.label}
-                        loading="eager"
+                        alt={`${logo.label} technology icon`}
+                        width={iconDimension}
+                        height={iconDimension}
+                        loading={loading}
                         decoding="async"
                         onError={() => setFailedIds((prev) => ({ ...prev, [logo.id]: true }))}
                         className={`w-full h-full object-contain select-none ${

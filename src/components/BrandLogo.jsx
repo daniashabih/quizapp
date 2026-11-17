@@ -32,11 +32,14 @@ export default function BrandLogo({
     variant = 'compact', // 'mark' | 'compact' | 'full'
     size = 'md',
     dark,
+    loading = 'eager',
+    fetchPriority,
     className = '',
     imgClassName = '',
 }) {
     const { isDark } = useTheme();
     const effectiveDark = dark !== undefined ? dark : isDark;
+    const priorityProps = fetchPriority ? { fetchPriority } : {};
 
     if (variant === 'mark') {
         const boxSize = MARK_SIZE_MAP[size] || MARK_SIZE_MAP.md;
@@ -47,8 +50,11 @@ export default function BrandLogo({
                 <img
                     src={logoIcon}
                     alt="HangBug developer platform logo icon"
-                    loading="eager"
+                    width={512}
+                    height={512}
+                    loading={loading}
                     decoding="async"
+                    {...priorityProps}
                     className={`w-full h-full object-contain select-none ${imgClassName}`}
                     draggable={false}
                 />
@@ -63,8 +69,11 @@ export default function BrandLogo({
                 <img
                     src={effectiveDark ? logoDark : logoFull}
                     alt="HangBug — Learn · Test · Prove"
-                    loading="eager"
+                    width={1024}
+                    height={1024}
+                    loading={loading}
                     decoding="async"
+                    {...priorityProps}
                     className={`${heightClass} w-auto object-contain select-none ${imgClassName}`}
                     draggable={false}
                 />
@@ -79,8 +88,11 @@ export default function BrandLogo({
             <img
                 src={effectiveDark ? logoCompactDark : logoCompact}
                 alt="HangBug developer platform logo"
-                loading="eager"
+                width={615}
+                height={212}
+                loading={loading}
                 decoding="async"
+                {...priorityProps}
                 className={`${heightClass} w-auto object-contain select-none ${imgClassName}`}
                 draggable={false}
             />

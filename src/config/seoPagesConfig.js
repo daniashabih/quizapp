@@ -7,15 +7,16 @@ export const SEO_PAGES_CONFIG = {
     home: {
         id: 'home',
         path: '/',
-        title: 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates',
-        description: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
-        primaryKeyword: 'coding quizzes',
+        title: 'Learn Programming & Practice Tech Quizzes Online | Hangbug',
+        description: 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.',
+        primaryKeyword: 'programming quizzes',
         secondaryKeywords: [
-            'programming practice online',
+            'online coding practice',
+            'technology learning',
             'web development quizzes',
-            'developer coding games',
-            'programming skill assessment',
-            'coding completion certificates'
+            'programming challenges',
+            'coding games',
+            'score-based certificates'
         ],
         h1: 'Learn Programming, Practice Tech Quizzes & Earn Certificates',
         h2s: [
@@ -32,16 +33,27 @@ export const SEO_PAGES_CONFIG = {
             'Progress & Accuracy Tracking',
             'Coding & Typing Games'
         ],
-        introContent: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
+        introContent: 'Learn programming with online coding practice, interactive programming quizzes, and coding games. Track your progress and earn score-based certificates with Hangbug.',
         imageAlt: 'Hangbug interactive technology quizzes, coding games, and skill assessment platform dashboard',
         internalLinks: [
             { label: 'Explore All Technology Quizzes', to: '/technologies' },
-            { label: 'Play Coding & Typing Games', to: '/games' },
+            { label: 'HTML Quizzes', to: '/technologies/html' },
+            { label: 'CSS Quizzes', to: '/technologies/css' },
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
             { label: 'React.js Quizzes', to: '/technologies/react' },
+            { label: 'PHP Quizzes', to: '/technologies/php' },
+            { label: 'Laravel Quizzes', to: '/technologies/laravel' },
+            { label: 'MySQL Quizzes', to: '/technologies/mysql' },
+            { label: 'MongoDB Quizzes', to: '/technologies/mongodb' },
+            { label: 'Flutter Quizzes', to: '/technologies/flutter' },
+            { label: 'Dart Quizzes', to: '/technologies/dart' },
             { label: 'Python Quizzes', to: '/technologies/python' },
-            { label: 'Certificate Verification & Info', to: '/certificate/view' },
+            { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' },
+            { label: 'Play Coding & Typing Games', to: '/games' },
+            { label: 'Blog & Tutorials', to: '/blog' },
             { label: 'About Hangbug', to: '/about' },
+            { label: 'Contact Support', to: '/contact' },
+            { label: 'Certificate Verification & Info', to: '/certificate/view' },
             { label: 'Global Leaderboard', to: '/leaderboard' }
         ]
     },

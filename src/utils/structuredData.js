@@ -17,9 +17,9 @@ export const SITE_URL = 'https://www.hangbug.com';
 export const SITE_HOME_URL = 'https://www.hangbug.com/';
 export const SITE_NAME = 'Hangbug';
 export const SITE_ALTERNATE_NAME = 'HangBug';
-export const OFFICIAL_TITLE = 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates';
+export const OFFICIAL_TITLE = 'Learn Programming & Practice Tech Quizzes Online | Hangbug';
 export const OFFICIAL_DESCRIPTION =
-    'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.';
+    'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.';
 export const LOGO_URL = 'https://www.hangbug.com/branding/hangbug-logo-full.png';
 export const ICON_URL = 'https://www.hangbug.com/branding/hangbug-icon.png';
 export const FAVICON_48_URL = 'https://www.hangbug.com/favicon-48x48.png';
@@ -135,7 +135,7 @@ export function buildWebSiteSchema() {
         '@id': `${SITE_URL}/#website`,
         url: SITE_HOME_URL,
         name: SITE_NAME,
-        alternateName: OFFICIAL_TITLE,
+        alternateName: SITE_ALTERNATE_NAME,
         description: OFFICIAL_DESCRIPTION,
         inLanguage: 'en',
         publisher: {
@@ -704,6 +704,9 @@ export function validateStructuredData(jsonLd) {
         }
 
         if (node['@type'] === 'Organization') {
+            if (!node.name || typeof node.name !== 'string') {
+                errors.push('Organization schema must include a valid name.');
+            }
             if (node.url !== SITE_HOME_URL) {
                 errors.push(`Organization url must be ${SITE_HOME_URL}`);
             }
@@ -711,11 +714,20 @@ export function validateStructuredData(jsonLd) {
             if (logoUrl !== LOGO_URL) {
                 errors.push(`Organization logo url must be ${LOGO_URL}`);
             }
+            if (!node.description || typeof node.description !== 'string') {
+                errors.push('Organization schema must include a description.');
+            }
         }
 
         if (node['@type'] === 'WebSite') {
+            if (!node.name || typeof node.name !== 'string') {
+                errors.push('WebSite schema must include a valid name.');
+            }
             if (node.url !== SITE_HOME_URL) {
                 errors.push(`WebSite url must be ${SITE_HOME_URL}`);
+            }
+            if (!node.publisher || node.publisher['@id'] !== `${SITE_URL}/#organization`) {
+                errors.push(`WebSite publisher must reference ${SITE_URL}/#organization`);
             }
         }
 

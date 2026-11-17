@@ -78,12 +78,14 @@ test('3. vercel.json verification: headers and rewrites protect static files', (
     assert.notStrictEqual(spaRewrite.source, '/(.*)', 'SPA rewrite must not be unconstrained /(.*) that overrides static files');
 });
 
-test('4. Canonical tag verification: removed from index.html head', () => {
+test('4. Canonical tag verification: removed from source index.html and unique per pre-rendered route', () => {
     const srcIndexHtml = fs.readFileSync(path.join(ROOT_DIR, 'index.html'), 'utf8');
     const distIndexHtml = fs.readFileSync(path.join(ROOT_DIR, 'dist', 'index.html'), 'utf8');
+    const distAboutHtml = fs.readFileSync(path.join(ROOT_DIR, 'dist', 'about', 'index.html'), 'utf8');
 
     assert.ok(!srcIndexHtml.includes('<link rel="canonical"'), 'index.html must not contain hardcoded canonical');
-    assert.ok(!distIndexHtml.includes('<link rel="canonical"'), 'dist/index.html must not contain hardcoded canonical');
+    assert.ok(distIndexHtml.includes('<link rel="canonical" href="https://www.hangbug.com/" />'), 'dist/index.html must contain homepage canonical');
+    assert.ok(distAboutHtml.includes('<link rel="canonical" href="https://www.hangbug.com/about" />'), 'dist/about/index.html must have its own route-specific canonical');
 });
 
 test('5. usePageSeo hook verification: exists and handles title, meta description, and canonical', () => {
@@ -97,7 +99,7 @@ test('5. usePageSeo hook verification: exists and handles title, meta descriptio
 
 test('6. Route-specific SEO metadata applied across all specified public pages', () => {
     const pages = [
-        { file: 'src/pages/Landing.jsx', title: 'Hangbug – Learn Programming, Practice Tech Quizzes & Earn Certificates' },
+        { file: 'src/pages/Landing.jsx', title: 'Learn Programming & Practice Tech Quizzes Online | Hangbug' },
         { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug – Technology Learning, Tech Quizzes & Skill Assessment Platform' },
         { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — Hangbug' },
         { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy' },

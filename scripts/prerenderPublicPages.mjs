@@ -288,6 +288,77 @@ function generateBodyHtml(pageConfig) {
     `;
 }
 
+// Generate dedicated, accurate static crawlable HTML block for the homepage (/)
+function generateHomeBodyHtml(pageConfig) {
+    const { h1, introContent, internalLinks = [] } = pageConfig;
+    const gameLinks = GAMES_LIST.slice(0, 14);
+
+    return `
+      <main id="seo-static-content" class="sr-only">
+        <header>
+          <h1>${h1}</h1>
+          <p>${introContent}</p>
+        </header>
+
+        <section>
+          <h2>What is Hangbug?</h2>
+          <p>
+            Hangbug is an interactive technology learning and online coding practice platform where students and developers take programming quizzes, explore web development quizzes, tackle programming challenges, play coding games, track their progress, and earn score-based certificates shareable on LinkedIn.
+          </p>
+          <ul>
+            <li><strong>Technology MCQ Quizzes:</strong> Practice structured, session-based programming quizzes and web development quizzes with immediate answer checking, explanations, and saved progress resumption.</li>
+            <li><strong>Coding &amp; Typing Games:</strong> Reinforce syntax and logic with interactive programming challenges, code arrangement, output prediction, SQL queries, and typing speed coding games.</li>
+            <li><strong>Performance &amp; Progress Tracking:</strong> Monitor quiz scores, accuracy rates, completed sessions, typing speed (WPM), and rankings on the global developer leaderboard.</li>
+            <li><strong>Score-Based Certificates:</strong> Earn downloadable score-based certificates upon achieving 80% or higher on quiz assessments and share verification links directly on LinkedIn.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Technology Quiz Categories Covered</h2>
+          <p>
+            Start online coding practice across frontend, backend, database, and mobile stacks including HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Python, MongoDB, SQL Server, Node.js, and Programming Fundamentals.
+          </p>
+          <nav aria-label="Technology Quiz Guides">
+            <a href="/technologies">Browse All Technology Quizzes</a>
+            ${internalLinks.filter(l => l.to.startsWith('/technologies/')).map(l => `<a href="${l.to}">${l.label}</a>`).join('\n            ')}
+          </nav>
+        </section>
+
+        <section>
+          <h2>Interactive Coding &amp; Typing Games</h2>
+          <p>
+            Alongside programming quizzes, Hangbug offers 20 browser-based coding games and programming challenges to help developers practice programming logic, code comprehension, and keyboard fluency.
+          </p>
+          <nav aria-label="Coding and Typing Games">
+            <a href="/games">Explore Games Hub</a>
+            ${gameLinks.map(g => `<a href="/games/${g.slug}">${g.name}</a>`).join('\n            ')}
+          </nav>
+        </section>
+
+        <section>
+          <h2>How Hangbug Works &amp; Score-Based Certificates</h2>
+          <p>
+            Select a technology track, practice session-based multiple-choice quizzes with instant verification, track accuracy across sessions, and pass with 80% or higher to earn a shareable score-based certificate with a unique verification ID.
+          </p>
+        </section>
+
+        <nav aria-label="Primary Public Pages">
+          <h2>Explore Hangbug</h2>
+          <a href="/">Home</a>
+          <a href="/technologies">Technologies</a>
+          <a href="/games">Coding Games</a>
+          <a href="/blog">Blog &amp; Tutorials</a>
+          <a href="/about">About Us</a>
+          <a href="/contact">Contact Us</a>
+          <a href="/leaderboard">Leaderboard</a>
+          <a href="/certificate/view">Verify Certificates</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+        </nav>
+      </main>
+    `;
+}
+
 // Generate pre-rendered HTML for a given page definition
 function renderPage(page) {
     const {
@@ -348,9 +419,9 @@ function renderPage(page) {
         `<script id="hangbug-jsonld" type="application/ld+json">\n${jsonLdString}\n    </script>`
     );
 
-    // 6. Replace body inside <div id="root">
+    // 6. Replace entire <div id="root">...</div> container cleanly up to </body> (or trailing <script>)
     html = html.replace(
-        /<div id="root">[\s\S]*?<\/div>/,
+        /<div id="root">[\s\S]*<\/div>(?=\s*(?:<script|<\/body>))/,
         `<div id="root">\n${bodyHtml}\n    </div>`
     );
 
@@ -406,7 +477,10 @@ for (const key of corePageKeys) {
         description: config.description,
         h1: distinctH1,
         includeApplicationSchema: config.path === '/',
-        bodyHtml: generateBodyHtml({ ...config, h1: distinctH1 })
+        bodyHtml:
+            config.path === '/'
+                ? generateHomeBodyHtml({ ...config, h1: distinctH1 })
+                : generateBodyHtml({ ...config, h1: distinctH1 })
     };
 
     const renderedHtml = renderPage(pageDef);
