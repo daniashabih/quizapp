@@ -133,7 +133,7 @@ export default function Landing() {
                             className="w-full max-w-lg space-y-2 pt-1"
                         >
                             <div className="relative flex items-center">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" size={18} />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)] pointer-events-none" size={18} aria-hidden="true" />
                                 <input
                                     type="text"
                                     value={searchQuery}

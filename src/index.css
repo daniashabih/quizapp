@@ -481,17 +481,19 @@
 }
 
 /* ---- Input Styles ---- */
-.input-field {
-  width: 100%;
-  background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: 10px;
-  padding-block: 0.625rem;
-  padding-inline: 0.875rem;
-  font-size: 0.875rem;
-  color: var(--foreground);
-  transition: all 0.2s ease;
-  outline: none;
+@layer components {
+  .input-field {
+    width: 100%;
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    padding-block: 0.625rem;
+    padding-inline: 0.875rem;
+    font-size: 0.875rem;
+    color: var(--foreground);
+    transition: all 0.2s ease;
+    outline: none;
+  }
 }
 
 /* ---- Input Group Layout (Prefix & Suffix Flexbox Architecture) ---- */

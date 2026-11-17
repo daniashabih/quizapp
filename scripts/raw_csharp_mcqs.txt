@@ -1,0 +1,2711 @@
+Session 1: Getting Started with C#
+Choose the one correct option for each question.
+Q1. The .NET Framework is primarily an infrastructure used to
+A) compile only C++ programs
+B) design hardware circuits
+C) build, deploy, and run applications and services using .NET technologies
+D) manage only database servers
+Q2. Which two basic technologies is the .NET Framework platform based on for communication of data?
+A) XML and the suite of Internet protocols
+B) JSON and FTP only
+C) HTML and CSS
+D) SQL and ODBC
+Q3. Which of the following is a key feature of XML?
+A) It replaces HTTP
+B) It is a compiled language
+C) It can only be used on Windows
+D) It separates actual data from presentation
+Q4. In the .NET Framework, source code is first compiled into
+A) native code directly
+B) CIL (formerly MSIL) stored in an assembly
+C) HTML
+D) Java bytecode
+Q5. The former name of CIL was
+A) JIT
+B) CLS
+C) MSIL
+D) DLR
+Q6. CIL code is converted into native code at run time by the
+A) Visual Studio IDE
+B) Class Library
+C) Windows Registry
+D) Common Language Runtime (CLR)
+Q7. The two core components of the .NET Framework are
+A) the CLS and the DLR
+B) the CLR and the .NET Framework class library
+C) ASP.NET and ADO.NET
+D) WPF and WCF
+Q8. Applications that run under the control of the CLR are called
+A) script code
+B) managed code
+C) native code
+D) unmanaged code
+Q9. Which of the following is NOT a function of the CLR?
+A) Designing the user interface layout
+B) Code safety verification
+C) Garbage collection
+D) Memory management
+Q10. The .NET Framework Class Library (FCL) is
+A) a text editor
+B) a comprehensive object-oriented collection of reusable types
+C) a database engine
+D) a hardware driver set
+Q11. A major goal of the .NET Framework is to promote
+A) platform dependence
+B) manual memory management
+C) code reusability
+D) vendor lock-in of data formats
+Q12. The same Console.WriteLine() method is available across all .NET languages because
+A) the FCL is a common class library for all .NET languages
+B) it is a keyword in all languages
+C) the OS provides it
+D) every language has its own copy
+Q13. The CLS (Common Language Specification) is
+A) a set of rules that any .NET language should follow to create applications
+B) a debugging tool
+C) a type of assembly
+D) a garbage collector
+Q14. Which .NET Framework version was the first to be released with Visual Studio .NET 2002?
+A) .NET Framework 4.0
+B) .NET Framework 3.5
+C) .NET Framework 2.0
+D) .NET Framework 1.0
+Q15. Support for generic data structures and 64-bit hardware platforms was introduced in
+A) .NET Framework 1.1
+B) .NET Framework 1.0
+C) .NET Framework 2.0
+D) .NET Framework 4.8
+Q16. WPF, WCF, WF, and Windows CardSpace were introduced in
+A) .NET Framework 1.1
+B) .NET Framework 3.0
+C) .NET Framework 2.0
+D) .NET Framework 4.5
+Q17. LINQ (Language Integrated Query) was introduced with
+A) .NET Framework 3.0
+B) .NET Framework 2.0
+C) .NET Framework 3.5
+D) .NET Framework 1.1
+Q18. The Dynamic Language Runtime (DLR) was a key feature of
+A) .NET Framework 1.1
+B) .NET Framework 4.0
+C) .NET Framework 3.0
+D) .NET Framework 2.0
+Q19. The DLR enables .NET programmers to create applications using dynamic languages such as
+A) COBOL and Fortran
+B) Python and Ruby
+C) SQL and XML
+D) C and Pascal
+Q20. The async and await keywords for asynchronous programming came with
+A) .NET Framework 2.0
+B) .NET Framework 4.5
+C) .NET Framework 3.5
+D) .NET Framework 1.0
+Q21. Which is the last version of the .NET Framework?
+A) .NET Framework 5.0
+B) .NET Framework 4.0
+C) .NET Framework 4.8
+D) .NET Framework 4.5
+Q22. For new development, Microsoft recommends using
+A) .NET Framework 1.1
+B) .NET Framework 2.0
+C) .NET Compact Framework
+D) .NET 5.0 or later
+Q23. .NET 5.0 was introduced by Microsoft in
+A) November 2015
+B) November 2010
+C) November 2020
+D) November 2002
+Q24. .NET 5.0 combines
+A) .NET Core with .NET Framework into a unified platform
+B) Mono with Xamarin only
+C) C++ with Python
+D) Java with C#
+Q25. Code Access Security (CAS) is
+A) a database feature
+B) a security mechanism ensuring only trusted code performs critical actions
+C) a network protocol
+D) an IDE debugging tool
+Q26. The .NET Compact Framework provides components for
+A) applications on mobile phones and PDAs
+B) supercomputers
+C) mainframe computers
+D) web servers only
+Q27. C# is an object-oriented language derived from
+A) Pascal and Fortran
+B) Assembly and COBOL
+C) C and C++
+D) Python and Perl
+Q28. C# is best described as a
+A) query language
+B) markup language
+C) type-safe, object-oriented programming language
+D) scripting-only language
+Q29. Which feature of C# automatically allocates and releases memory?
+A) Manual free()
+B) Automatic memory management (garbage collection)
+C) Pointers
+D) Macros
+Q30. Garbage collection in the CLR is used to
+A) format the screen
+B) reclaim memory occupied by objects no longer in use
+C) compile source code
+D) encrypt data
+Q31. Which of the following is an advantage of C#?
+A) It requires manual memory deallocation
+B) It is simple and modern with built-in garbage collection
+C) It cannot be used for web apps
+D) It does not support OOP
+Q32. The version of C# covered in this book is
+A) C# 1.0
+B) C# 9.0
+C) C# 3.0
+D) C# 12.0
+Q33. The IDE used in this book for C# development is
+A) Xcode
+B) NetBeans
+C) Eclipse
+D) Visual Studio 2019
+Q34. Which of the following is NOT an edition of Visual Studio 2019?
+A) Ultimate
+B) Professional
+C) Community
+D) Enterprise
+Q35. Which Visual Studio 2019 edition is free for students and individual developers?
+A) Enterprise
+B) Team
+C) Professional
+D) Community
+Q36. Which of these languages can be used in Visual Studio 2019?
+A) Only Python
+B) Only Java
+C) Only C#
+D) C#, Visual Basic, and C++
+Q37. In Visual Studio, which window displays the files and projects of a solution?
+A) Error List
+B) Solution Explorer
+C) Toolbox
+D) Output window
+Q38. Which window in Visual Studio is used to view and change properties of selected items?
+A) Output window
+B) Properties window
+C) Solution Explorer
+D) Start page
+Q39. Which Visual Studio window shows build messages?
+A) Properties window
+B) Toolbox
+C) Class View
+D) Output window
+Q40. The Toolbox in Visual Studio is mainly used to
+A) drag and drop controls onto a form
+B) view build output
+C) manage NuGet only
+D) show memory usage
+Q41. Which feature of the IDE provides code completion suggestions while typing?
+A) Debugger
+B) IntelliSense
+C) Object Browser
+D) Profiler
+Q42. Which shortcut key builds the solution in Visual Studio?
+A) Alt+F4
+B) F1
+C) Ctrl+Z
+D) Ctrl+Shift+B
+Q43. Which shortcut key runs the application with debugging in Visual Studio?
+A) F5
+B) F1
+C) Ctrl+S
+D) F12
+Q44. Which shortcut runs the application without debugging?
+A) Ctrl+F5
+B) Shift+F5
+C) F9
+D) F5
+Q45. Which type of project would you choose for a basic text-based C# program?
+A) WPF only
+B) Windows Forms only
+C) Console App
+D) Class Library only
+Q46. The file extension of a C# source file is
+A) .cpp
+B) .java
+C) .vb
+D) .cs
+Q47. The entry point of a C# console application is the
+A) Run() method
+B) Main() method
+C) Init() method
+D) Start() method
+Q48. Which statement displays text in a console application?
+A) System.out.println("Hello");
+B) echo "Hello";
+C) Console.WriteLine("Hello");
+D) print("Hello");
+Q49. Console.ReadLine() returns data of type
+A) object
+B) char
+C) int
+D) string
+Q50. The Microsoft intermediate-language code and metadata of a .NET application are stored in a file called
+A) an assembly
+B) a manifest-free script
+C) a header
+D) a DLL registry
+
+Session 1 Answer Key
+Q	Answer	Q	Answer
+1	C) build, deploy, and run applications and services using .NET technologies	26	A) applications on mobile phones and PDAs
+2	A) XML and the suite of Internet protocols	27	C) C and C++
+3	D) It separates actual data from presentation	28	C) type-safe, object-oriented programming language
+4	B) CIL (formerly MSIL) stored in an assembly	29	B) Automatic memory management (garbage collection)
+5	C) MSIL	30	B) reclaim memory occupied by objects no longer in use
+6	D) Common Language Runtime (CLR)	31	B) It is simple and modern with built-in garbage collection
+7	B) the CLR and the .NET Framework class library	32	B) C# 9.0
+8	B) managed code	33	D) Visual Studio 2019
+9	A) Designing the user interface layout	34	A) Ultimate
+10	B) a comprehensive object-oriented collection of reusable types	35	D) Community
+11	C) code reusability	36	D) C#, Visual Basic, and C++
+12	A) the FCL is a common class library for all .NET languages	37	B) Solution Explorer
+13	A) a set of rules that any .NET language should follow to create applications	38	B) Properties window
+14	D) .NET Framework 1.0	39	D) Output window
+15	C) .NET Framework 2.0	40	A) drag and drop controls onto a form
+16	B) .NET Framework 3.0	41	B) IntelliSense
+17	C) .NET Framework 3.5	42	D) Ctrl+Shift+B
+18	B) .NET Framework 4.0	43	A) F5
+19	B) Python and Ruby	44	A) Ctrl+F5
+20	B) .NET Framework 4.5	45	C) Console App
+21	C) .NET Framework 4.8	46	D) .cs
+22	D) .NET 5.0 or later	47	B) Main() method
+23	C) November 2020	48	C) Console.WriteLine("Hello");
+24	A) .NET Core with .NET Framework into a unified platform	49	D) string
+25	B) a security mechanism ensuring only trusted code performs critical actions	50	A) an assembly
+
+Session 2: Variables and Data Types
+Choose the one correct option for each question.
+Q1. A variable in C# is
+A) a fixed constant
+B) a keyword
+C) a named memory location that stores a value
+D) a type of loop
+Q2. Which of the following is a valid C# variable name?
+A) my-var
+B) class
+C) _count
+D) 2count
+Q3. Which of these is NOT a valid identifier?
+A) _value
+B) Value
+C) 1stValue
+D) value1
+Q4. C# is a case-sensitive language, so
+A) only lowercase is allowed
+B) only uppercase is allowed
+C) Total and total are different identifiers
+D) Total and total are the same
+Q5. The size of an int in C# is
+A) 64 bits
+B) 16 bits
+C) 8 bits
+D) 32 bits
+Q6. Which data type stores a single Unicode character?
+A) string
+B) char
+C) sbyte
+D) byte
+Q7. The size of a char in C# is
+A) 64 bits
+B) 32 bits
+C) 8 bits
+D) 16 bits
+Q8. Which data type is best for money-related calculations needing high precision?
+A) int
+B) byte
+C) decimal
+D) float
+Q9. Which suffix is used for a float literal?
+A) l
+B) f
+C) m
+D) d
+Q10. Which suffix denotes a long literal?
+A) S
+B) M
+C) F
+D) L
+Q11. The byte data type holds values in the range
+A) -255 to 255
+B) 0 to 255
+C) 0 to 65535
+D) -128 to 127
+Q12. The sbyte data type holds values in the range
+A) -256 to 255
+B) 0 to 255
+C) -128 to 127
+D) 0 to 127
+Q13. The bool data type can hold
+A) true or false
+B) yes or no
+C) 0 or 1 only
+D) any integer
+Q14. Value types in C# are stored in
+A) always the heap
+B) a database
+C) the stack (typically)
+D) the registry
+Q15. Reference types store
+A) the actual value on the stack
+B) only constants
+C) a reference to the object located on the heap
+D) only integers
+Q16. Which of the following is a reference type?
+A) bool
+B) string
+C) double
+D) int
+Q17. Which of the following is a value type?
+A) struct
+B) object
+C) class
+D) string
+Q18. The keyword var is used for
+A) dynamic typing at run time
+B) implicitly typed local variables
+C) global variables
+D) constants
+Q19. Which declaration using var is INVALID?
+A) var d = 3.5;
+B) var x = 10;
+C) var x;
+D) var s = "text";
+Q20. Implicitly typed variables using var must
+A) be of type object
+B) be initialized at the time of declaration
+C) be declared as fields
+D) be assigned null
+Q21. What is the type of var n = 5.5;?
+A) float
+B) decimal
+C) double
+D) int
+Q22. A multi-line comment is enclosed in
+A) /* and */
+B) <!-- and -->
+C) {# and #}
+D) // and //
+Q23. XML documentation comments begin with
+A) //
+B) /*
+C) ///
+D) ##
+Q24. Which XML documentation tag describes a method's parameter?
+A) <returns>
+B) <remarks>
+C) <param>
+D) <summary>
+Q25. Which XML tag provides a summary of a type or member?
+A) <summary>
+B) <see>
+C) <value>
+D) <param>
+Q26. The const keyword is used to
+A) declare a loop
+B) declare a value that cannot change after declaration
+C) declare a class
+D) create an object
+Q27. A const field must
+A) be assigned in a constructor
+B) be initialized at the time of declaration
+C) be declared without a value
+D) be changed at run time
+Q28. Which declaration of a constant is correct?
+A) const double PI = 3.14;
+B) constant double PI = 3.14;
+C) const double PI;
+D) double const PI = 3.14;
+Q29. A literal is
+A) a keyword
+B) a variable name
+C) a fixed value written directly in code
+D) a method
+Q30. In the statement int x = 10;, the value 10 is a
+A) operator
+B) keyword
+C) literal
+D) identifier
+Q31. To use a keyword as an identifier you can prefix it with
+A) @
+B) &
+C) $
+D) #
+Q32. The escape sequence for a new line is
+A) \n
+B) \r\n only
+C) \t
+D) \b
+Q33. The escape sequence for a horizontal tab is
+A) \n
+B) \h
+C) \s
+D) \t
+Q34. To print a backslash in a string you write
+A) \/
+B) \\
+C) \b
+D) //
+Q35. A verbatim string literal is prefixed with
+A) @
+B) %
+C) #
+D) $
+Q36. Which method outputs text and moves to a new line?
+A) Console.Write()
+B) Console.WriteLine()
+C) Console.Clear()
+D) Console.Read()
+Q37. Which method outputs text without adding a newline?
+A) Console.Write()
+B) Console.WriteLine()
+C) Console.ReadLine()
+D) Console.Beep()
+Q38. In Console.WriteLine("{0} {1}", a, b); the {0} and {1} are
+A) comments
+B) escape sequences
+C) keywords
+D) placeholders
+Q39. Which method reads a whole line of text?
+A) Console.ReadAll()
+B) Console.Input()
+C) Console.Read()
+D) Console.ReadLine()
+Q40. To convert a string "25" to an int you can use
+A) Convert.Str("25")
+B) Int.Make("25")
+C) Convert.ToInt32("25")
+D) (int)"25"
+Q41. The standard numeric format specifier for currency is
+A) D
+B) C
+C) P
+D) E
+Q42. The standard numeric format specifier for percentage is
+A) N
+B) C
+C) F
+D) P
+Q43. The numeric format specifier for hexadecimal is
+A) X
+B) D
+C) N
+D) H
+Q44. The format specifier "F2" displays a number with
+A) two digits before the decimal point
+B) a two-character prefix
+C) two significant bytes
+D) two digits after the decimal point
+Q45. In custom numeric formatting, which character is a digit placeholder that shows a digit or zero?
+A) %
+B) 0
+C) #
+D) ,
+Q46. In custom numeric formats, the # character
+A) shows percent
+B) shows exponent
+C) shows a currency symbol
+D) is a digit placeholder that shows no leading/trailing zero
+Q47. The standard date format specifier "D" displays
+A) the time only
+B) the long date pattern
+C) the short date pattern
+D) the month/day only
+Q48. In custom DateTime format strings, "yyyy" represents
+A) the four-digit year
+B) the two-digit year
+C) the month
+D) the day
+Q49. In custom DateTime format strings, "MM" represents
+A) the second
+B) the minute
+C) the day
+D) the month as two digits
+Q50. In custom DateTime format strings, "mm" represents
+A) the millisecond
+B) the minute
+C) the month
+D) the day
+
+Session 2 Answer Key
+Q	Answer	Q	Answer
+1	C) a named memory location that stores a value	26	B) declare a value that cannot change after declaration
+2	C) _count	27	B) be initialized at the time of declaration
+3	C) 1stValue	28	A) const double PI = 3.14;
+4	C) Total and total are different identifiers	29	C) a fixed value written directly in code
+5	D) 32 bits	30	C) literal
+6	B) char	31	A) @
+7	D) 16 bits	32	A) \n
+8	C) decimal	33	D) \t
+9	B) f	34	B) \\
+10	D) L	35	A) @
+11	B) 0 to 255	36	B) Console.WriteLine()
+12	C) -128 to 127	37	A) Console.Write()
+13	A) true or false	38	D) placeholders
+14	C) the stack (typically)	39	D) Console.ReadLine()
+15	C) a reference to the object located on the heap	40	C) Convert.ToInt32("25")
+16	B) string	41	B) C
+17	A) struct	42	D) P
+18	B) implicitly typed local variables	43	A) X
+19	C) var x;	44	D) two digits after the decimal point
+20	B) be initialized at the time of declaration	45	B) 0
+21	C) double	46	D) is a digit placeholder that shows no leading/trailing zero
+22	A) /* and */	47	B) the long date pattern
+23	C) ///	48	A) the four-digit year
+24	C) <param>	49	D) the month as two digits
+25	A) <summary>	50	B) the minute
+
+Session 3: Statements and Operators
+Choose the one correct option for each question.
+Q1. A statement in C# is
+A) only a comment
+B) a complete instruction that performs an action
+C) a variable name
+D) a namespace
+Q2. Every simple statement in C# ends with
+A) a semicolon
+B) a comma
+C) a colon
+D) a period
+Q3. A group of statements enclosed in { } is called
+A) an array
+B) a block
+C) a literal
+D) an expression
+Q4. Which is a declaration statement?
+A) return;
+B) if (x > 0)
+C) int total = 0;
+D) total++;
+Q5. Which of the following is an expression statement?
+A) break;
+B) x = y + 5;
+C) int x;
+D) namespace A;
+Q6. An expression in C# is
+A) a comment
+B) a block of statements
+C) a class definition
+D) a combination of operands and operators that evaluates to a value
+Q7. The key difference between a statement and an expression is that an expression
+A) produces a value, while a statement performs an action
+B) can't contain operators
+C) never produces a value
+D) is always a loop
+Q8. The checked keyword is used to
+A) enable overflow checking for arithmetic operations
+B) disable the compiler
+C) create constants
+D) declare arrays
+Q9. When a checked block overflows, C# throws
+A) OverflowException
+B) NullReferenceException
+C) FormatException
+D) IndexOutOfRangeException
+Q10. The unchecked keyword
+A) throws on overflow
+B) deletes the variable
+C) converts to double
+D) suppresses overflow checking and wraps the value
+Q11. Top-level statements in C# 9.0 allow you to
+A) write a program without an explicit Main method and class
+B) declare multiple Main methods
+C) skip using the Console class
+D) avoid compiling
+Q12. Which operator is the modulus operator?
+A) *
+B) ^
+C) %
+D) /
+Q13. The result of 17 % 5 is
+A) 4
+B) 3
+C) 1
+D) 2
+Q14. The result of 17 / 5 when both are int is
+A) 4
+B) 3
+C) 2
+D) 3.4
+Q15. The result of 17 / 5.0 is
+A) 3.4
+B) 2
+C) 3
+D) 3.5
+Q16. Which are relational operators?
+A) ==, !=, <, >
+B) &&, ||, !
+C) +, -, *, /
+D) =, +=, -=
+Q17. The result of the expression 5 == 5 is
+A) 5
+B) null
+C) true
+D) false
+Q18. Which operator is the logical AND?
+A) ||
+B) & only for bitwise
+C) !
+D) &&
+Q19. Which operator is the logical OR?
+A) ||
+B) ^^
+C) !
+D) &&
+Q20. Which operator is the logical NOT?
+A) &
+B) !=
+C) !
+D) ~
+Q21. The result of true && false is
+A) false
+B) 1
+C) true
+D) null
+Q22. The result of true || false is
+A) false
+B) null
+C) 0
+D) true
+Q23. The && operator is short-circuiting, meaning
+A) both operands are always evaluated
+B) it evaluates right to left
+C) it returns an int
+D) the right operand is not evaluated if the left is false
+Q24. The & operator on booleans
+A) returns a string
+B) always evaluates both operands
+C) is invalid
+D) short-circuits
+Q25. What is the value of x after int x = 5; x++;?
+A) 7
+B) 6
+C) 4
+D) 5
+Q26. What is the value of y after int x = 5; int y = x++;?
+A) 6
+B) 5
+C) 7
+D) 4
+Q27. What is the value of y after int x = 5; int y = ++x;?
+A) 5
+B) 4
+C) 7
+D) 6
+Q28. What is the value of x after int x = 5; x--;?
+A) 4
+B) 5
+C) 3
+D) 6
+Q29. The statement x += 3; is equivalent to
+A) x = x * 3;
+B) x + 3 = x;
+C) x = 3;
+D) x = x + 3;
+Q30. The statement x *= 2; is equivalent to
+A) x = x + 2;
+B) x = 2;
+C) x = x * 2;
+D) x = x ^ 2;
+Q31. The statement x %= 4; is equivalent to
+A) x = 4 % x;
+B) x = x % 4;
+C) x = x - 4;
+D) x = x / 4;
+Q32. Which operator has the highest precedence among these?
+A) ||
+B) =
+C) *
+D) +
+Q33. What is the result of 2 + 3 * 4?
+A) 24
+B) 20
+C) 14
+D) 9
+Q34. What is the result of (2 + 3) * 4?
+A) 14
+B) 20
+C) 24
+D) 11
+Q35. Associativity of the assignment operator = is
+A) none
+B) left-to-right
+C) undefined
+D) right-to-left
+Q36. Arithmetic operators such as + and - are
+A) left-to-right associative
+B) non-associative
+C) right-to-left associative
+D) unordered
+Q37. The left-shift operator is
+A) =<
+B) <>
+C) <<
+D) >>
+Q38. The result of 1 << 3 is
+A) 6
+B) 8
+C) 3
+D) 4
+Q39. The result of 16 >> 2 is
+A) 4
+B) 2
+C) 64
+D) 8
+Q40. The + operator used with strings performs
+A) comparison
+B) multiplication
+C) subtraction
+D) concatenation
+Q41. The ternary operator syntax is
+A) condition : value1 ? value2
+B) condition ? value1 : value2
+C) value1 ? condition : value2
+D) condition ?: value1, value2
+Q42. What is the result of int r = (5 > 3) ? 10 : 20;?
+A) 5
+B) 3
+C) 10
+D) 20
+Q43. Converting one data type to another is called
+A) type conversion (casting)
+B) boxing only
+C) inheritance
+D) overloading
+Q44. Which conversion is done automatically by the compiler when no data loss occurs?
+A) Implicit conversion
+B) Manual parsing
+C) Reflection
+D) Explicit conversion
+Q45. Which conversion is implicit?
+A) double to int
+B) int to long
+C) long to int
+D) decimal to float
+Q46. Which conversion requires an explicit cast?
+A) double to int
+B) byte to int
+C) int to long
+D) int to double
+Q47. The correct syntax for an explicit cast is
+A) int x = (int)3.7;
+B) int x = int(3.7);
+C) int x = 3.7 as int;
+D) int x = <int>3.7;
+Q48. What is the value of (int)3.99?
+A) 0
+B) 3.99
+C) 4
+D) 3
+Q49. Which method class provides conversions between base types, such as Convert.ToInt32()?
+A) Parser
+B) Convert
+C) Transform
+D) Cast
+
+Session 3 Answer Key
+Q	Answer	Q	Answer
+1	B) a complete instruction that performs an action	26	B) 5
+2	A) a semicolon	27	D) 6
+3	B) a block	28	A) 4
+4	C) int total = 0;	29	D) x = x + 3;
+5	B) x = y + 5;	30	C) x = x * 2;
+6	D) a combination of operands and operators that evaluates to a value	31	B) x = x % 4;
+7	A) produces a value, while a statement performs an action	32	C) *
+8	A) enable overflow checking for arithmetic operations	33	C) 14
+9	A) OverflowException	34	B) 20
+10	D) suppresses overflow checking and wraps the value	35	D) right-to-left
+11	A) write a program without an explicit Main method and class	36	A) left-to-right associative
+12	C) %	37	C) <<
+13	D) 2	38	B) 8
+14	B) 3	39	A) 4
+15	A) 3.4	40	D) concatenation
+16	A) ==, !=, <, >	41	B) condition ? value1 : value2
+17	C) true	42	C) 10
+18	D) &&	43	A) type conversion (casting)
+19	A) ||	44	A) Implicit conversion
+20	C) !	45	B) int to long
+21	A) false	46	A) double to int
+22	D) true	47	A) int x = (int)3.7;
+23	D) the right operand is not evaluated if the left is false	48	D) 3
+24	B) always evaluates both operands	49	B) Convert
+25	B) 6		
+
+Session 4: Programming Constructs and Arrays
+Choose the one correct option for each question.
+Q1. Which statement executes a block only if a condition is true?
+A) for
+B) switch only
+C) if
+D) foreach
+Q2. In an if...else construct, the else block executes when
+A) the if condition is true
+B) never
+C) always
+D) the if condition is false
+Q3. The if...else if construct is used to
+A) repeat a block
+B) exit the program
+C) declare variables
+D) test multiple conditions in sequence
+Q4. A nested if is
+A) an if with no braces
+B) an if without a condition
+C) an if statement placed inside another if
+D) a loop
+Q5. The condition in an if statement must evaluate to
+A) char
+B) string
+C) bool
+D) int
+Q6. Which is INVALID in C#?
+A) if (x != 5)
+B) if (x > 5)
+C) if (x == 5)
+D) if (x = 5) when x is int
+Q7. The switch statement is used to
+A) select one of many code blocks based on a value
+B) handle exceptions
+C) define a class
+D) repeat code
+Q8. Which keyword in a switch handles values not matched by any case?
+A) default
+B) else
+C) other
+D) otherwise
+Q9. Which keyword ends a case section in a switch statement?
+A) exit
+B) break
+C) stop
+D) end
+Q10. C# does not allow a case section to continue into the next one. This is called the
+A) fall-through rule
+B) loop rule
+C) no-fall-through rule
+D) jump rule
+Q11. Which of these can be used as a switch expression type?
+A) object only
+B) double only
+C) float only
+D) int, char, string, enum
+Q12. A nested switch is
+A) a switch with no cases
+B) a switch inside another switch
+C) a switch with two defaults
+D) a switch inside a loop only
+Q13. Which loop checks its condition before executing the body?
+A) none
+B) while
+C) do-while
+D) both for and do-while always run once
+Q14. Which loop executes the body at least once?
+A) while
+B) for
+C) do-while
+D) foreach
+Q15. The do-while loop ends with
+A) nothing
+B) a semicolon after the condition
+C) a comma
+D) a colon
+Q16. How many times does for (int i = 0; i < 5; i++) execute its body?
+A) 5
+B) 6
+C) 0
+D) 4
+Q17. How many times does for (int i = 1; i <= 5; i++) execute its body?
+A) 6
+B) 5
+C) 4
+D) 1
+Q18. The three parts of a for loop are
+A) input, process, output
+B) declaration, class, method
+C) initialization, condition, iteration
+D) try, catch, finally
+Q19. Which for loop creates an infinite loop?
+A) for (int i=5; i>0; i--) { }
+B) for (int i=0; i<10; i+=2) { }
+C) for (int i=0; i<1; i++) { }
+D) for (;;) { }
+Q20. Which loop is an infinite loop?
+A) while (false) { }
+B) do { } while (false);
+C) for (int i=0;i<0;i++){}
+D) while (true) { }
+Q21. A for loop with multiple loop control variables is written as
+A) for (int i = 0, j = 10; i < j; i++, j--)
+B) for (i = 0 and j = 10; ...)
+C) for (int i, j; ...) with no init
+D) for (int i = 0; int j = 10; ...)
+Q22. The scope of a variable declared inside the for loop initialization is
+A) global
+B) the for loop only
+C) the entire namespace
+D) the entire class
+Q23. Which statement exits a loop immediately?
+A) skip
+B) break
+C) continue
+D) pass
+Q24. Which statement skips the rest of the current iteration and proceeds to the next one?
+A) continue
+B) exit
+C) return
+D) break
+Q25. The goto statement
+A) begins a loop
+B) transfers control to a labeled statement
+C) declares a label only
+D) exits the program
+Q26. The return statement
+A) exits a method and optionally returns a value
+B) restarts the method
+C) only ends loops
+D) declares a method
+Q27. What does this print? for(int i=1;i<=5;i++){ if(i==3) continue; Console.Write(i);}
+A) 12
+B) 12345
+C) 45
+D) 1245
+Q28. What does this print? for(int i=1;i<=5;i++){ if(i==3) break; Console.Write(i);}
+A) 1245
+B) 123
+C) 12
+D) 345
+Q29. What is the value of sum after: int sum=0; for(int i=1;i<=4;i++) sum+=i;
+A) 10
+B) 4
+C) 6
+D) 24
+Q30. An array is
+A) a collection of mixed types always
+B) a collection of elements of the same type stored contiguously
+C) a loop
+D) a single value
+Q31. Array elements are accessed using
+A) a label
+B) a key string
+C) an index
+D) a pointer
+Q32. The index of the first element of a C# array is
+A) -1
+B) 1
+C) 0
+D) depends on the type
+Q33. Which declares an integer array of size 5?
+A) int[] a = new int[5];
+B) array int a = 5;
+C) int a = new int(5);
+D) int a[5];
+Q34. Which correctly initializes an array?
+A) int a = {1, 2, 3};
+B) int[] a = [1,2,3,];
+C) int[] a = (1, 2, 3);
+D) int[] a = {1, 2, 3};
+Q35. What is the default value of elements in a new int array?
+A) 0
+B) -1
+C) null
+D) undefined
+Q36. What is the default value of elements in a new string array?
+A) "null"
+B) ""
+C) null
+D) 0
+Q37. Which property returns the number of elements in a one-dimensional array?
+A) Size
+B) Length
+C) Count
+D) Items
+Q38. Accessing a[5] when the array has 5 elements throws
+A) NullReferenceException
+B) FormatException
+C) ArgumentException
+D) IndexOutOfRangeException
+Q39. Which declares a two-dimensional (rectangular) array?
+A) int[3,4] m;
+B) int[,] m = new int[3,4];
+C) int m[3][4];
+D) int[][] m = new int[3,4];
+Q40. A jagged array is
+A) a rectangular array
+B) a string array
+C) an array of arrays with possibly different lengths
+D) a one-dimensional array
+Q41. Which declares a jagged array with 3 rows?
+A) int[3][] j;
+B) int[][] j = new int[3][];
+C) int[,] j = new int[3][];
+D) int j[3][];
+Q42. For a rectangular array int[,] m = new int[3,4], m.Length returns
+A) 3
+B) 12
+C) 4
+D) 7
+Q43. Which method returns the number of dimensions of an array?
+A) Rank
+B) Depth
+C) GetRows
+D) Dimensions
+Q44. The foreach loop is used to
+A) jump to labels
+B) declare arrays
+C) iterate over each element of a collection or array
+D) modify array size
+Q45. Within a foreach loop, the iteration variable is
+A) read-only
+B) static
+C) read-write
+D) a pointer
+Q46. Which is an implicitly typed array?
+A) var a = {1,2,3};
+B) var[] a = 3;
+C) var a = new[3];
+D) var a = new[] {1, 2, 3};
+Q47. Which class provides static methods such as Sort() and Reverse() for arrays?
+A) System.Array
+B) System.List
+C) System.Collections
+D) System.Math
+Q48. Which statement sorts array a in ascending order?
+A) a.Order();
+B) Array.Order(a);
+C) Sort.Array(a);
+D) Array.Sort(a);
+Q49. Which method reverses the order of elements in an array?
+A) Array.Reverse(a);
+B) Array.Back(a);
+C) a.Invert();
+D) Array.Flip(a);
+
+Session 4 Answer Key
+Q	Answer	Q	Answer
+1	C) if	26	A) exits a method and optionally returns a value
+2	D) the if condition is false	27	D) 1245
+3	D) test multiple conditions in sequence	28	C) 12
+4	C) an if statement placed inside another if	29	A) 10
+5	C) bool	30	B) a collection of elements of the same type stored contiguously
+6	D) if (x = 5) when x is int	31	C) an index
+7	A) select one of many code blocks based on a value	32	C) 0
+8	A) default	33	A) int[] a = new int[5];
+9	B) break	34	D) int[] a = {1, 2, 3};
+10	C) no-fall-through rule	35	A) 0
+11	D) int, char, string, enum	36	C) null
+12	B) a switch inside another switch	37	B) Length
+13	B) while	38	D) IndexOutOfRangeException
+14	C) do-while	39	B) int[,] m = new int[3,4];
+15	B) a semicolon after the condition	40	C) an array of arrays with possibly different lengths
+16	A) 5	41	B) int[][] j = new int[3][];
+17	B) 5	42	B) 12
+18	C) initialization, condition, iteration	43	A) Rank
+19	D) for (;;) { }	44	C) iterate over each element of a collection or array
+20	D) while (true) { }	45	A) read-only
+21	A) for (int i = 0, j = 10; i < j; i++, j--)	46	D) var a = new[] {1, 2, 3};
+22	B) the for loop only	47	A) System.Array
+23	B) break	48	D) Array.Sort(a);
+24	A) continue	49	A) Array.Reverse(a);
+25	B) transfers control to a labeled statement		
+
+Session 5: Classes and Methods
+Choose the one correct option for each question.
+Q1. OOP stands for
+A) Open Object Protocol
+B) Object-Order Processing
+C) Object-Oriented Programming
+D) Ordered Operation Program
+Q2. Which of the following is a feature of OOP?
+A) Parsing
+B) Debugging
+C) Compilation
+D) Encapsulation
+Q3. Combining data and methods into one unit and hiding internal details is
+A) inheritance
+B) encapsulation
+C) polymorphism
+D) abstraction only
+Q4. Which of these is NOT a core OOP principle?
+A) Compilation
+B) Encapsulation
+C) Polymorphism
+D) Inheritance
+Q5. An object is
+A) a blueprint
+B) an instance of a class
+C) a method signature
+D) a namespace
+Q6. A class is
+A) a blueprint or template for creating objects
+B) an object instance
+C) a loop
+D) a variable
+Q7. Which keyword creates an object in C#?
+A) alloc
+B) new
+C) create
+D) make
+Q8. Which keyword is used to declare a class?
+A) class
+B) Class
+C) struct only
+D) object
+Q9. By convention, class names in C# use
+A) UPPERCASE only
+B) camelCase
+C) PascalCase
+D) snake_case
+Q10. The data members of a class are also called
+A) labels
+B) fields
+C) signatures
+D) headers
+Q11. A method is
+A) a class
+B) a variable
+C) a namespace
+D) a block of code that performs an action on an object
+Q12. The declaration of a method includes
+A) only a return type
+B) only a name
+C) return type, name, and parameters
+D) only parameters
+Q13. A method that returns no value has the return type
+A) null
+B) none
+C) void
+D) empty
+Q14. Values passed to a method when calling it are called
+A) attributes
+B) arguments
+C) parameters
+D) properties
+Q15. Variables declared in the method definition to receive values are called
+A) literals
+B) fields
+C) arguments
+D) parameters
+Q16. Named arguments allow you to
+A) skip the method
+B) create new parameters
+C) pass arguments by specifying parameter names
+D) pass only strings
+Q17. Optional parameters must
+A) appear first
+B) always be null
+C) have a default value
+D) be of type object
+Q18. Which method declaration has an optional parameter?
+A) void Show(int a, optional int b)
+B) void Show(int a = 10, int b)
+C) void Show(int a, int b = 10)
+D) void Show(int a, int? b = )
+Q19. A static method is called using
+A) the class name
+B) an object instance only
+C) the this keyword
+D) the base keyword
+Q20. A static method can directly access
+A) only private members
+B) only static members of its class
+C) nothing
+D) all instance members
+Q21. A static class
+A) cannot be instantiated
+B) must be inherited
+C) can contain only instance members
+D) must have constructors
+Q22. A static variable is
+A) unique to each object
+B) always private
+C) always constant
+D) shared among all instances of the class
+Q23. Which access modifier allows access from anywhere?
+A) public
+B) private
+C) protected
+D) internal
+Q24. Which access modifier restricts access to within the same class?
+A) private
+B) protected
+C) public
+D) internal
+Q25. Which access modifier allows access within the class and derived classes?
+A) internal
+B) protected
+C) private
+D) public
+Q26. Which access modifier allows access within the same assembly?
+A) private
+B) protected
+C) public
+D) internal
+Q27. The default access modifier for class members is
+A) internal
+B) public
+C) private
+D) protected
+Q28. The default access modifier for a top-level class is
+A) private
+B) internal
+C) protected
+D) public
+Q29. The ref keyword passes an argument
+A) by reference and requires prior initialization
+B) as a copy only
+C) by value
+D) as a constant
+Q30. The out keyword
+A) makes the parameter read-only
+B) copies the value
+C) requires initialization before the call
+D) passes by reference and the method must assign it before returning
+Q31. Which statement is TRUE about ref and out?
+A) Neither changes the original
+B) Both require initialization before the call
+C) Both are used only for strings
+D) Both pass arguments by reference
+Q32. Method overloading means
+A) same name and same signature
+B) multiple methods with the same name but different signatures
+C) overriding in derived classes
+D) different names, same signature
+Q33. Which pair is a valid overload?
+A) void F(int a) and void F(string a)
+B) void F(int a) and int F(int a)
+C) void F(int a) and void F(int b)
+D) void F() and void F()
+Q34. Method overloading cannot be done by changing only
+A) the return type
+B) the order of parameter types
+C) the number of parameters
+D) the parameter types
+Q35. The this keyword refers to
+A) the current instance of the class
+B) the base class
+C) a namespace
+D) a static member
+Q36. this is often used to
+A) create static fields
+B) declare constants
+C) exit a method
+D) distinguish fields from parameters with the same name
+Q37. A constructor is
+A) a static field
+B) an operator
+C) a special method that initializes an object
+D) a destroyer
+Q38. A constructor has
+A) a void return type
+B) any name and a return type
+C) the name Main
+D) the same name as the class and no return type
+Q39. When a class defines no constructor, the compiler provides
+A) a destructor
+B) a default parameterless constructor
+C) a static constructor
+D) no constructor
+Q40. A static constructor is used to
+A) destroy objects
+B) initialize static members once
+C) create objects
+D) overload methods
+Q41. A static constructor
+A) is called manually
+B) cannot have access modifiers or parameters
+C) can be public
+D) can take parameters
+Q42. Constructor overloading means
+A) constructors are inherited
+B) constructors are static
+C) a constructor returns values
+D) a class has multiple constructors with different parameters
+Q43. A destructor in C# is declared using
+A) ~ClassName()
+B) destroy ClassName()
+C) ClassName.Dispose
+D) delete ClassName()
+Q44. A destructor is called
+A) when the program starts
+B) by the programmer explicitly
+C) only for static classes
+D) by the garbage collector before reclaiming the object
+Q45. A class can have
+A) parameters in the destructor
+B) only one destructor
+C) multiple destructors
+D) no more than two destructors
+Q46. Which statement correctly creates an object of class Car?
+A) new Car c;
+B) Car c = create Car;
+C) Car c = new Car();
+D) Car c = Car();
+
+Session 5 Answer Key
+Q	Answer	Q	Answer
+1	C) Object-Oriented Programming	24	A) private
+2	D) Encapsulation	25	B) protected
+3	B) encapsulation	26	D) internal
+4	A) Compilation	27	C) private
+5	B) an instance of a class	28	B) internal
+6	A) a blueprint or template for creating objects	29	A) by reference and requires prior initialization
+7	B) new	30	D) passes by reference and the method must assign it before returning
+8	A) class	31	D) Both pass arguments by reference
+9	C) PascalCase	32	B) multiple methods with the same name but different signatures
+10	B) fields	33	A) void F(int a) and void F(string a)
+11	D) a block of code that performs an action on an object	34	A) the return type
+12	C) return type, name, and parameters	35	A) the current instance of the class
+13	C) void	36	D) distinguish fields from parameters with the same name
+14	B) arguments	37	C) a special method that initializes an object
+15	D) parameters	38	D) the same name as the class and no return type
+16	C) pass arguments by specifying parameter names	39	B) a default parameterless constructor
+17	C) have a default value	40	B) initialize static members once
+18	C) void Show(int a, int b = 10)	41	B) cannot have access modifiers or parameters
+19	A) the class name	42	D) a class has multiple constructors with different parameters
+20	B) only static members of its class	43	A) ~ClassName()
+21	A) cannot be instantiated	44	D) by the garbage collector before reclaiming the object
+22	D) shared among all instances of the class	45	B) only one destructor
+23	A) public	46	C) Car c = new Car();
+
+Session 6: Inheritance and Polymorphism
+Choose the one correct option for each question.
+Q1. Inheritance is
+A) hiding data
+B) creating an object
+C) a mechanism where a class acquires members of another class
+D) overloading methods
+Q2. The class being inherited from is called the
+A) base (parent) class
+B) sealed class
+C) derived class
+D) static class
+Q3. The class that inherits from another is called the
+A) abstract class
+B) partial class
+C) base class
+D) derived (child) class
+Q4. Which symbol is used to implement inheritance in C#?
+A) extends
+B) ::
+C) :
+D) ->
+Q5. Which declaration makes Dog inherit from Animal?
+A) class Dog extends Animal
+B) class Animal : Dog
+C) class Dog inherits Animal
+D) class Dog : Animal
+Q6. The main purpose of inheritance is
+A) hiding all code
+B) code reusability
+C) reducing memory to zero
+D) faster compilation
+Q7. C# supports multiple inheritance of classes.
+A) True
+B) False
+C) Only for static classes
+D) Only for abstract classes
+Q8. Multi-level inheritance means
+A) a class has many constructors
+B) a class is derived from a derived class
+C) two classes share a name
+D) a class has many methods
+Q9. The root class of all classes in C# is
+A) System.Root
+B) System.Object
+C) System.Class
+D) System.Base
+Q10. A member declared protected is accessible in
+A) the declaring class and its derived classes
+B) only the same method
+C) any class
+D) only the same file
+Q11. Private members of a base class are
+A) accessible in the derived class
+B) deleted
+C) not accessible in the derived class
+D) accessible only via new
+Q12. The base keyword is used to
+A) define interfaces
+B) access members of the base class from a derived class
+C) seal a class
+D) create a new object
+Q13. Which syntax calls a base class parameterized constructor?
+A) public Dog(string n) : base(n)
+B) public Dog(string n) : this(base)
+C) public Dog(string n) = base(n)
+D) public Dog(string n) { super(n); }
+Q14. When a derived class object is created, constructors execute in the order
+A) base class first, then derived class
+B) derived class first, then base
+C) only the derived
+D) random
+Q15. Constructors are
+A) inherited only if static
+B) always inherited
+C) not inherited by derived classes
+D) inherited only if public
+Q16. When a base constructor has parameters and the derived class doesn't call it explicitly
+A) the program runs fine
+B) the base is skipped
+C) null is passed
+D) a compile-time error occurs
+Q17. The new keyword used in a derived class member declaration
+A) overrides the base member
+B) makes the member static
+C) hides a base class member with the same name
+D) creates an object
+Q18. Method overriding allows a derived class to
+A) add a constructor
+B) create a new class
+C) delete a method
+D) provide a new implementation of a base class method
+Q19. To allow a method to be overridden, the base method must be declared
+A) sealed
+B) const
+C) static
+D) virtual
+Q20. In the derived class, an overriding method uses the keyword
+A) overload
+B) override
+C) new only
+D) virtual
+Q21. What is required for overriding?
+A) Different return type
+B) Static modifier
+C) Same signature and return type as the virtual method
+D) Different name
+Q22. An overriding method can call the base version using
+A) this.MethodName()
+B) parent.MethodName()
+C) base.MethodName()
+D) super.MethodName()
+Q23. A sealed class
+A) has only static members
+B) cannot be instantiated
+C) must be abstract
+D) cannot be inherited
+Q24. Which keyword prevents a class from being inherited?
+A) final
+B) abstract
+C) sealed
+D) static only
+Q25. Which declaration is valid?
+A) abstract sealed method A() { }
+B) sealed class A { }
+C) sealed static virtual class A { }
+D) sealed abstract class A { }
+Q26. A sealed method
+A) is private
+B) must be static
+C) cannot be called
+D) prevents further overriding in derived classes
+Q27. Sealed methods are declared using
+A) sealed override
+B) override final
+C) sealed virtual
+D) static override
+Q28. The string class in C# is
+A) static
+B) sealed
+C) partial
+D) abstract
+Q29. Polymorphism means
+A) one object, one type
+B) no inheritance
+C) many classes, one object
+D) one interface, many forms
+Q30. Compile-time polymorphism is achieved through
+A) interfaces only
+B) method overriding
+C) virtual methods
+D) method overloading
+Q31. Run-time polymorphism is achieved through
+A) method overriding with virtual methods
+B) constants
+C) static methods
+D) method overloading
+Q32. Early binding is also known as
+A) dynamic polymorphism
+B) late polymorphism
+C) compile-time polymorphism
+D) run-time polymorphism
+Q33. Late binding is resolved
+A) at design time
+B) at install time
+C) at compile time
+D) at run time
+Q34. A base class reference can refer to
+A) nothing
+B) only base class objects
+C) a derived class object
+D) only static objects
+Q35. Given Animal a = new Dog(); a.Speak(); where Speak is virtual and overridden in Dog, which version runs?
+A) Animal's Speak
+B) Both
+C) Dog's Speak
+D) Neither
+Q36. Given the same scenario but Speak in Dog is hidden using new (not override), a.Speak() calls
+A) Both
+B) compile error
+C) Dog's Speak
+D) Animal's Speak
+Q37. What happens if you call an abstract or virtual method via base reference and derived overrides it?
+A) The overridden version executes
+B) The base version executes
+C) Error
+D) Nothing runs
+Q38. Which statement about virtual methods is true?
+A) They are always private
+B) They cannot have a body
+C) Their implementation can be overridden by derived classes
+D) They must be static
+Q39. The is-a relationship is best described by
+A) inheritance
+B) composition
+C) aggregation
+D) overloading
+Q40. What type is Dog derived from Animal implicitly convertible to?
+A) Dog[]
+B) int
+C) Animal
+D) string
+Q41. An upcast from Dog to Animal is
+A) implicit and always safe
+B) unsafe
+C) invalid
+D) always explicit
+Q42. A downcast from Animal to Dog requires
+A) the sealed keyword
+B) the new keyword
+C) no cast
+D) an explicit cast
+Q43. The ToString() method is originally defined in
+A) System.Object
+B) System.Type
+C) System.String only
+D) System.Console
+Q44. Overriding ToString() requires the method to be declared
+A) private string ToString()
+B) static string ToString()
+C) public override string ToString()
+D) public new void ToString()
+Q45. A derived class can access base members using
+A) this only
+B) parent
+C) super
+D) base
+Q46. Which relationship exists between class Vehicle and class Car : Vehicle?
+A) Vehicle is base, Car is derived
+B) They are unrelated
+C) Car is base, Vehicle is derived
+D) They are siblings
+Q47. Which is true for hiding with new?
+A) It changes the base class
+B) It produces a warning if new is omitted
+C) It is mandatory for overriding
+D) It is used with abstract
+Q48. In multi-level inheritance A -> B -> C, class C can access
+A) only members of B
+B) only members of A
+C) none
+D) public and protected members of both B and A
+
+Session 6 Answer Key
+Q	Answer	Q	Answer
+1	C) a mechanism where a class acquires members of another class	25	B) sealed class A { }
+2	A) base (parent) class	26	D) prevents further overriding in derived classes
+3	D) derived (child) class	27	A) sealed override
+4	C) :	28	B) sealed
+5	D) class Dog : Animal	29	D) one interface, many forms
+6	B) code reusability	30	D) method overloading
+7	B) False	31	A) method overriding with virtual methods
+8	B) a class is derived from a derived class	32	C) compile-time polymorphism
+9	B) System.Object	33	D) at run time
+10	A) the declaring class and its derived classes	34	C) a derived class object
+11	C) not accessible in the derived class	35	C) Dog's Speak
+12	B) access members of the base class from a derived class	36	D) Animal's Speak
+13	A) public Dog(string n) : base(n)	37	A) The overridden version executes
+14	A) base class first, then derived class	38	C) Their implementation can be overridden by derived classes
+15	C) not inherited by derived classes	39	A) inheritance
+16	D) a compile-time error occurs	40	C) Animal
+17	C) hides a base class member with the same name	41	A) implicit and always safe
+18	D) provide a new implementation of a base class method	42	D) an explicit cast
+19	D) virtual	43	A) System.Object
+20	B) override	44	C) public override string ToString()
+21	C) Same signature and return type as the virtual method	45	D) base
+22	C) base.MethodName()	46	A) Vehicle is base, Car is derived
+23	D) cannot be inherited	47	B) It produces a warning if new is omitted
+24	C) sealed	48	D) public and protected members of both B and A
+
+Session 7: Abstract Classes and Interfaces
+Choose the one correct option for each question.
+Q1. An abstract class is
+A) a sealed class
+B) a static class
+C) a class that can be instantiated freely
+D) an incomplete base class that cannot be instantiated
+Q2. Which keyword declares an abstract class?
+A) interface
+B) abstract
+C) sealed
+D) virtual
+Q3. Can you create an object of an abstract class directly using new?
+A) Only in the same file
+B) No
+C) Yes
+D) Only with constructors
+Q4. An abstract method
+A) is always static
+B) has a body
+C) is always private
+D) has no body and must be overridden in derived classes
+Q5. An abstract method can be declared in
+A) a non-abstract class
+B) a static class
+C) a sealed class
+D) an abstract class
+Q6. Which is a valid abstract method declaration?
+A) public abstract void Draw() { }
+B) abstract void Draw() { return; }
+C) public abstract void Draw();
+D) public abstract static void Draw();
+Q7. The derived class of an abstract class must
+A) be sealed
+B) implement all abstract members, unless it is abstract itself
+C) implement none
+D) be static
+Q8. Can an abstract class contain non-abstract methods?
+A) Yes
+B) Only properties
+C) Only static
+D) No
+Q9. Can an abstract class have constructors?
+A) Yes
+B) No
+C) Only static
+D) Only private
+Q10. Which modifier is used in the derived class to implement an abstract method?
+A) override
+B) virtual
+C) abstract
+D) new
+Q11. Visual Studio IntelliSense can help implement an abstract base class by
+A) deleting members
+B) compiling the code
+C) generating stubs for abstract members
+D) making classes sealed
+Q12. An interface
+A) is a sealed class
+B) declares a contract of members with no implementation (traditionally)
+C) holds only fields
+D) can be instantiated
+Q13. Interface names conventionally begin with
+A) T
+B) A
+C) I
+D) X
+Q14. Which keyword declares an interface?
+A) implements
+B) contract
+C) abstract
+D) interface
+Q15. Members of an interface are by default
+A) public
+B) private
+C) internal
+D) protected
+Q16. Can an interface contain fields?
+A) Only static
+B) No
+C) Only const
+D) Yes
+Q17. Can you instantiate an interface directly?
+A) No
+B) Only in Main
+C) Yes
+D) Only with new
+Q18. How does a class implement an interface?
+A) class A extends IShape
+B) class A : IShape
+C) class A implements IShape
+D) class A uses IShape
+Q19. When a class implements an interface it must
+A) implement only one
+B) implement all the interface's members
+C) be abstract
+D) implement none
+Q20. C# achieves multiple inheritance through
+A) sealed classes
+B) abstract classes
+C) interfaces
+D) static classes
+Q21. A class can implement
+A) no interfaces
+B) multiple interfaces
+C) only one interface
+D) interfaces only if sealed
+Q22. Which declaration is correct for a class inheriting a base class and two interfaces?
+A) class A : I1, I2, B
+B) class A : B, I1, I2
+C) class A extends B implements I1, I2
+D) class A : B & I1 & I2
+Q23. In an inheritance list the base class must
+A) appear first, followed by interfaces
+B) appear in the middle
+C) appear last
+D) not appear
+Q24. Explicit interface implementation is used when
+A) two interfaces have methods with identical names
+B) the class is static
+C) the method is virtual
+D) you want faster code
+Q25. An explicitly implemented interface member is accessed through
+A) the class object directly
+B) a static call
+C) the base keyword
+D) an interface reference
+Q26. In explicit implementation, the method is declared as
+A) private void Draw() { }
+B) public void IShape.Draw() { }
+C) void IShape.Draw() { } with no access modifier
+D) static void IShape.Draw() { }
+Q27. Interface inheritance means
+A) an interface derives from another interface
+B) a class derives from an interface only
+C) a struct derives from a class
+D) an interface derives from a class
+Q28. Interface re-implementation occurs when
+A) a derived class implements the same interface again
+B) a method is static
+C) an interface has no members
+D) a class is sealed
+Q29. The is operator is used to
+A) compare strings
+B) create an object
+C) cast and throw
+D) check whether an object is compatible with a type
+Q30. The as operator
+A) returns null if the types are not compatible
+B) returns false if not compatible
+C) always converts
+D) throws an exception if not compatible
+Q31. The result of obj is string when obj is an int boxed to object
+A) false
+B) error
+C) true
+D) null
+Q32. The as operator can be used with
+A) only value types
+B) only int
+C) only enums
+D) reference types and nullable types
+Q33. Which is a similarity between abstract classes and interfaces?
+A) Both support multiple inheritance
+B) Neither can be instantiated
+C) Both can contain fields
+D) Both have constructors
+Q34. Which is a difference between abstract classes and interfaces?
+A) Interfaces can be instantiated
+B) Interfaces can have constructors
+C) A class can inherit only one abstract class but many interfaces
+D) Abstract classes cannot have methods
+Q35. Which can contain constructors?
+A) Interface
+B) Abstract class
+C) Both
+D) Neither
+Q36. Which should you use to define common behavior and share code among related classes?
+A) Static class
+B) Interface
+C) Sealed class
+D) Abstract class
+Q37. Which should you use when unrelated classes need to share a capability?
+A) Interface
+B) Partial class
+C) Abstract class
+D) Sealed class
+Q38. Which of these CANNOT be marked abstract?
+A) A field
+B) A property
+C) A class
+D) A method
+Q39. Can an abstract class implement an interface without implementing all its members?
+A) Only if sealed
+B) Yes, by marking those members abstract
+C) No, never
+D) Only if static
+Q40. An abstract class may inherit from
+A) only interfaces
+B) only structs
+C) nothing
+D) another class and interfaces
+Q41. Which of these is an example of a typical interface?
+A) String
+B) Math
+C) Console
+D) IComparable
+Q42. Interface methods in a class implementing them are typically declared
+A) protected
+B) static
+C) private
+D) public
+Q43. If a class doesn't implement an interface method, the compiler
+A) makes the class abstract automatically
+B) reports an error
+C) issues no warning
+D) auto-implements it
+Q44. Which is TRUE of an interface reference?
+A) It can hold an object of any class implementing the interface
+B) It can hold only abstract objects
+C) It can't call methods
+D) It can hold only strings
+Q45. An abstract property
+A) has no implementation and must be overridden
+B) is static
+C) has a body
+D) is sealed
+Q46. Which of the following correctly declares an interface with a method?
+A) interface IA { void M() = 0; }
+B) interface IA { abstract void M(); } required
+C) interface IA { void M(); }
+D) interface IA = { M(); }
+
+Session 7 Answer Key
+Q	Answer	Q	Answer
+1	D) an incomplete base class that cannot be instantiated	24	A) two interfaces have methods with identical names
+2	B) abstract	25	D) an interface reference
+3	B) No	26	C) void IShape.Draw() { } with no access modifier
+4	D) has no body and must be overridden in derived classes	27	A) an interface derives from another interface
+5	D) an abstract class	28	A) a derived class implements the same interface again
+6	C) public abstract void Draw();	29	D) check whether an object is compatible with a type
+7	B) implement all abstract members, unless it is abstract itself	30	A) returns null if the types are not compatible
+8	A) Yes	31	A) false
+9	A) Yes	32	D) reference types and nullable types
+10	A) override	33	B) Neither can be instantiated
+11	C) generating stubs for abstract members	34	C) A class can inherit only one abstract class but many interfaces
+12	B) declares a contract of members with no implementation (traditionally)	35	B) Abstract class
+13	C) I	36	D) Abstract class
+14	D) interface	37	A) Interface
+15	A) public	38	A) A field
+16	B) No	39	B) Yes, by marking those members abstract
+17	A) No	40	D) another class and interfaces
+18	B) class A : IShape	41	D) IComparable
+19	B) implement all the interface's members	42	D) public
+20	C) interfaces	43	B) reports an error
+21	B) multiple interfaces	44	A) It can hold an object of any class implementing the interface
+22	B) class A : B, I1, I2	45	A) has no implementation and must be overridden
+23	A) appear first, followed by interfaces	46	C) interface IA { void M(); }
+
+Session 8: Properties, Indexers, and Record Types
+Choose the one correct option for each question.
+Q1. Properties in C# are
+A) namespaces
+B) loops
+C) methods that return void
+D) members that provide a flexible way to read, write, or compute a private field
+Q2. Properties are typically used to
+A) replace constructors
+B) create arrays
+C) expose private fields in a controlled manner
+D) declare classes
+Q3. Which accessor retrieves the value of a property?
+A) set
+B) value
+C) get
+D) init
+Q4. Which accessor assigns a value to a property?
+A) set
+B) return
+C) get
+D) put
+Q5. Inside a set accessor, the implicit parameter is named
+A) this
+B) value
+C) input
+D) arg
+Q6. A property with only a get accessor is
+A) read-only
+B) write-only
+C) invalid
+D) read-write
+Q7. A property with only a set accessor is
+A) static
+B) write-only
+C) read-only
+D) invalid
+Q8. Which is a correct property declaration?
+A) public int Age { get; set; }
+B) public Age int { get; set; }
+C) public int Age() { get; set; }
+D) public int Age => { get set }
+Q9. An auto-implemented property
+A) requires a backing field
+B) is always read-only
+C) lets the compiler create a hidden backing field
+D) cannot have accessors
+Q10. Which is an auto-implemented property?
+A) public string name;
+B) public string Name() { return n; }
+C) string Name = get;
+D) public string Name { get; set; }
+Q11. To make an auto-implemented property read-only from outside, you can use
+A) { private; }
+B) { get; private set; }
+C) { get; get; }
+D) { set; }
+Q12. A static property is accessed through
+A) this
+B) the class name
+C) an object
+D) base
+Q13. Which is a Boolean property convention?
+A) Use int type
+B) Use void type
+C) Always name Flag
+D) Name it IsXxx or HasXxx such as IsActive
+Q14. An abstract property
+A) must be static
+B) cannot have get
+C) is declared in an abstract class without implementation
+D) has a body
+Q15. A virtual property in a base class
+A) can be overridden in a derived class
+B) cannot have get
+C) must be static
+D) must be abstract
+Q16. Object initializer syntax is
+A) new Person[Name = "Ali"]
+B) new Person { Name = "Ali", Age = 20 }
+C) Person.init(Name="Ali")
+D) new Person(Name: Ali)
+Q17. Object initializers let you
+A) define constructors
+B) set properties at object creation without calling a parameterized constructor
+C) delete objects
+D) define classes
+Q18. Which is true about properties vs. fields?
+A) Fields can include logic in accessors
+B) Properties can include validation logic in accessors
+C) Properties can't be private
+D) Fields can't be public
+Q19. A key difference between a property and a method is
+A) a property cannot return a value
+B) a method has no parameters
+C) a property is accessed like a field without parentheses
+D) a property requires parentheses
+Q20. Which is generally recommended for exposing data?
+A) Static fields only
+B) Global variables
+C) Public fields instead of properties
+D) Properties instead of public fields
+Q21. Indexers allow
+A) classes to be static
+B) methods to be sealed
+C) objects to be indexed like arrays
+D) variables to be constants
+Q22. Which keyword is used in indexer declarations?
+A) base
+B) this
+C) index
+D) new
+Q23. Which is a correct indexer declaration?
+A) public int index[int i] { }
+B) public int this[int i] { get { return arr[i]; } set { arr[i] = value; } }
+C) public int[] this { }
+D) public int Indexer(int i) { }
+Q24. Indexers are accessed using
+A) square brackets [ ]
+B) parentheses ( )
+C) angle brackets < >
+D) curly braces { }
+Q25. Indexers can have
+A) only one parameter ever
+B) multiple parameters
+C) no parameters
+D) only string parameters
+Q26. Indexer parameters can be of
+A) only char
+B) only string
+C) only int
+D) any type, not just int
+Q27. Can an interface declare an indexer?
+A) Yes
+B) Only read-only
+C) Only static
+D) No
+Q28. Which is TRUE about indexers?
+A) They have names like methods
+B) They are declared with the void keyword
+C) They can be static
+D) They can be overloaded by parameter lists
+Q29. A difference between properties and indexers is that
+A) an indexer has parameters and is accessed with [ ]
+B) properties are accessed with [ ]
+C) indexers can be static
+D) properties must have parameters
+Q30. Init only setters were introduced in
+A) C# 5.0
+B) C# 7.0
+C) C# 2.0
+D) C# 9.0
+Q31. An init accessor allows a property to be set
+A) only during object initialization
+B) never
+C) only in static methods
+D) any time
+Q32. Init-only properties are useful for creating
+A) sealed methods
+B) immutable objects
+C) static classes
+D) abstract classes
+Q33. Which is the correct init declaration?
+A) public string Name { get; init; }
+B) public init string Name;
+C) public string Name { set init; }
+D) public string Name { init; get set; }
+Q34. Record types were introduced in
+A) C# 7.0
+B) C# 9.0
+C) C# 3.0
+D) C# 8.0
+Q35. Which keyword declares a record?
+A) struct only
+B) data
+C) recordset
+D) record
+Q36. A record provides built-in
+A) no equality
+B) value-based equality
+C) only reference equality
+D) no ToString
+Q37. Two record instances with the same property values are considered
+A) equal using ==
+B) never equal
+C) invalid
+D) equal only by reference
+Q38. Records are by default
+A) reference types
+B) sealed always but not copyable
+C) static
+D) value types
+Q39. Which expression creates a modified copy of a record?
+A) copy keyword
+B) new copy
+C) with expression
+D) clone()
+Q40. Which is a valid positional record?
+A) public record = Person(string Name);
+B) public record Person(string Name, int Age);
+C) record Person(Name, Age) { };
+D) public record Person { Name; Age; };
+Q41. A with expression such as p2 = p1 with { Age = 30 };
+A) creates a reference only
+B) throws an error
+C) modifies p1
+D) copies p1 and changes Age in the copy
+Q42. Records are best suited for
+A) immutable data models
+B) low-level pointers
+C) static utilities
+D) GUI controls
+Q43. Properties in a derived class can be overridden if the base property is
+A) sealed
+B) virtual or abstract
+C) static
+D) const
+Q44. Which of the following can have get and set with different access levels?
+A) Namespaces
+B) Fields
+C) Property accessors
+D) Constants
+
+Session 8 Answer Key
+Q	Answer	Q	Answer
+1	D) members that provide a flexible way to read, write, or compute a private field	23	B) public int this[int i] { get { return arr[i]; } set { arr[i] = value; } }
+2	C) expose private fields in a controlled manner	24	A) square brackets [ ]
+3	C) get	25	B) multiple parameters
+4	A) set	26	D) any type, not just int
+5	B) value	27	A) Yes
+6	A) read-only	28	D) They can be overloaded by parameter lists
+7	B) write-only	29	A) an indexer has parameters and is accessed with [ ]
+8	A) public int Age { get; set; }	30	D) C# 9.0
+9	C) lets the compiler create a hidden backing field	31	A) only during object initialization
+10	D) public string Name { get; set; }	32	B) immutable objects
+11	B) { get; private set; }	33	A) public string Name { get; init; }
+12	B) the class name	34	B) C# 9.0
+13	D) Name it IsXxx or HasXxx such as IsActive	35	D) record
+14	C) is declared in an abstract class without implementation	36	B) value-based equality
+15	A) can be overridden in a derived class	37	A) equal using ==
+16	B) new Person { Name = "Ali", Age = 20 }	38	A) reference types
+17	B) set properties at object creation without calling a parameterized constructor	39	C) with expression
+18	B) Properties can include validation logic in accessors	40	B) public record Person(string Name, int Age);
+19	C) a property is accessed like a field without parentheses	41	D) copies p1 and changes Age in the copy
+20	D) Properties instead of public fields	42	A) immutable data models
+21	C) objects to be indexed like arrays	43	B) virtual or abstract
+22	B) this	44	C) Property accessors
+
+Session 9: Namespaces and Exception Handling
+Choose the one correct option for each question.
+Q1. A namespace in C# is used to
+A) organize classes and avoid naming conflicts
+B) store data
+C) create objects
+D) handle exceptions
+Q2. Which keyword declares a namespace?
+A) package
+B) module
+C) library
+D) namespace
+Q3. Which keyword imports a namespace?
+A) import
+B) include
+C) require
+D) using
+Q4. The most commonly used built-in namespace is
+A) Core
+B) Main
+C) System
+D) Base
+Q5. Console belongs to the
+A) System.Linq
+B) System.Text
+C) System.IO only
+D) System namespace
+Q6. Which namespace contains the File and Directory classes?
+A) System.Data
+B) System.IO
+C) System.Text
+D) System.Net
+Q7. Which namespace contains LINQ types?
+A) System.Collections only
+B) System.Data.Linq only
+C) System.Query
+D) System.Linq
+Q8. Which namespace contains generic collections such as List<T>?
+A) System.Collections
+B) System.Collections.Generic
+C) System.Lists
+D) System.Generic
+Q9. A custom namespace is
+A) one built into the CLR
+B) a keyword
+C) one defined by the programmer
+D) one from the .NET library
+Q10. Namespaces can be nested using
+A) commas only
+B) semicolons
+C) dot notation or nested declarations
+D) colons
+Q11. Types in a namespace are by default
+A) public
+B) private
+C) protected
+D) internal
+Q12. Can namespace members be declared private?
+A) Only in nested namespaces
+B) No
+C) Only static
+D) Yes
+Q13. Allowed access modifiers for types directly in a namespace are
+A) protected and internal
+B) only private
+C) private and protected
+D) public and internal
+Q14. Qualified naming means
+A) using a hash
+B) using only the type name
+C) using the full namespace path with the type name
+D) using a keyword
+Q15. Which is a fully qualified name?
+A) Console
+B) WriteLine
+C) System.Console.WriteLine
+D) using System
+Q16. A recommended namespace naming convention is
+A) a single letter
+B) numbers only
+C) lower-case only with underscores
+D) CompanyName.ProductName.Feature
+Q17. Namespace names should use
+A) snake_case
+B) lowercase only
+C) PascalCase
+D) all caps
+Q18. A namespace alias is created using
+A) alias Alias = Namespace;
+B) import Namespace as Alias;
+C) using Alias = Namespace;
+D) namespace Alias;
+Q19. The namespace alias qualifier is
+A) =>
+B) :
+C) ::
+D) ->
+Q20. Why use aliases?
+A) To resolve naming conflicts or shorten long names
+B) To define methods
+C) To create objects
+D) To speed up the program
+Q21. An exception is
+A) a compile-time warning
+B) a run-time error condition that disrupts normal program flow
+C) a keyword
+D) a comment
+Q22. The base class of all exceptions is
+A) System.Exception
+B) System.Throwable
+C) System.Fault
+D) System.Error
+Q23. Which block contains code that may throw an exception?
+A) try
+B) throw
+C) finally
+D) catch
+Q24. Which block handles an exception?
+A) finally
+B) catch
+C) try
+D) using
+Q25. Which block always executes whether or not an exception occurs?
+A) try
+B) throw
+C) finally
+D) catch
+Q26. A general catch block
+A) catches nothing
+B) catches any exception without specifying a type
+C) is invalid
+D) runs before try
+Q27. When using multiple catch blocks, the order should be
+A) from most general to most specific
+B) any order
+C) from most specific to most general
+D) alphabetical
+Q28. Placing catch (Exception) before catch (DivideByZeroException) causes
+A) a compile-time error
+B) no problem
+C) a warning only
+D) run-time success
+Q29. Which exception occurs on dividing an integer by zero?
+A) DivideByZeroException
+B) FormatException
+C) ArithmeticOverflow
+D) InvalidOperationException
+Q30. Which exception occurs when accessing an invalid array index?
+A) ArgumentNullException
+B) FormatException
+C) InvalidCastException
+D) IndexOutOfRangeException
+Q31. Which exception occurs when converting "abc" to int using int.Parse?
+A) InvalidCastException
+B) OverflowException
+C) NullReferenceException
+D) FormatException
+Q32. Which exception occurs when using a null reference to access a member?
+A) InvalidCastException
+B) IndexOutOfRangeException
+C) NullReferenceException
+D) FormatException
+Q33. Which exception occurs on an invalid explicit type cast?
+A) ArgumentNullException
+B) FormatException
+C) DivideByZeroException
+D) InvalidCastException
+Q34. Which property of Exception provides the error description?
+A) Info
+B) Description
+C) Text
+D) Message
+Q35. Which property of Exception contains the call stack trace?
+A) Trace
+B) Stack
+C) CallStack
+D) StackTrace
+Q36. Which property of Exception gets the inner exception that caused the current one?
+A) Cause
+B) Previous
+C) Parent
+D) InnerException
+Q37. Which property gets the name of the application or object that caused the error?
+A) Target only
+B) Source
+C) Origin
+D) Name
+Q38. The throw statement is used to
+A) handle an exception
+B) end a program
+C) explicitly raise an exception
+D) catch an exception
+Q39. Which statement correctly throws an exception?
+A) raise new Exception("Error");
+B) throw Exception("Error");
+C) throws new Exception("Error");
+D) throw new Exception("Error");
+Q40. Throw expressions were introduced to allow
+A) throw inside expressions such as ?? or the ternary operator
+B) throw only in catch
+C) throw in constants
+D) throw in namespaces
+Q41. Which uses a throw expression correctly?
+A) throw string s;
+B) string s = name ?? throw new ArgumentNullException();
+C) string s = ?? throw;
+D) string s = throw name;
+Q42. Within a catch block, rethrowing the same exception while preserving the stack trace is done using
+A) throw ex;
+B) raise;
+C) throw;
+D) return ex;
+Q43. A finally block is typically used to
+A) define classes
+B) release resources like files and connections
+C) create threads
+D) declare variables
+Q44. Nested try blocks are
+A) try with two finally blocks
+B) invalid in C#
+C) try blocks with no catch
+D) try blocks inside another try block
+Q45. Can a single try have multiple catch blocks?
+A) Only with finally
+B) Only two
+C) No
+D) Yes
+Q46. Only one catch block executes for a thrown exception
+A) False
+B) Only in nested try
+C) Only if general
+D) True
+Q47. What happens to an unhandled exception?
+A) It is ignored
+B) The program terminates abnormally
+C) It is automatically fixed
+D) It restarts the program
+Q48. The Exception Assistant in Visual Studio
+A) creates classes
+B) compiles code
+C) provides information and tips when an exception occurs while debugging
+D) formats code
+Q49. Which keyword can be used to define a user-defined exception class base?
+A) struct
+B) interface
+C) static
+D) Exception (inherit from it)
+Q50. Custom exception classes are by convention named with the suffix
+A) Exception
+B) Fault
+C) Error
+D) Problem
+
+Session 9 Answer Key
+Q	Answer	Q	Answer
+1	A) organize classes and avoid naming conflicts	26	B) catches any exception without specifying a type
+2	D) namespace	27	C) from most specific to most general
+3	D) using	28	A) a compile-time error
+4	C) System	29	A) DivideByZeroException
+5	D) System namespace	30	D) IndexOutOfRangeException
+6	B) System.IO	31	D) FormatException
+7	D) System.Linq	32	C) NullReferenceException
+8	B) System.Collections.Generic	33	D) InvalidCastException
+9	C) one defined by the programmer	34	D) Message
+10	C) dot notation or nested declarations	35	D) StackTrace
+11	D) internal	36	D) InnerException
+12	B) No	37	B) Source
+13	D) public and internal	38	C) explicitly raise an exception
+14	C) using the full namespace path with the type name	39	D) throw new Exception("Error");
+15	C) System.Console.WriteLine	40	A) throw inside expressions such as ?? or the ternary operator
+16	D) CompanyName.ProductName.Feature	41	B) string s = name ?? throw new ArgumentNullException();
+17	C) PascalCase	42	C) throw;
+18	C) using Alias = Namespace;	43	B) release resources like files and connections
+19	C) ::	44	D) try blocks inside another try block
+20	A) To resolve naming conflicts or shorten long names	45	D) Yes
+21	B) a run-time error condition that disrupts normal program flow	46	D) True
+22	A) System.Exception	47	B) The program terminates abnormally
+23	A) try	48	C) provides information and tips when an exception occurs while debugging
+24	B) catch	49	D) Exception (inherit from it)
+25	C) finally	50	A) Exception
+
+Session 10: Events, Delegates, and Collections
+Choose the one correct option for each question.
+Q1. A delegate in C# is
+A) a namespace
+B) a type-safe reference to a method
+C) a loop
+D) a data type for text
+Q2. Delegates are similar to
+A) constants
+B) arrays
+C) classes with no members
+D) function pointers in C/C++
+Q3. Which keyword declares a delegate?
+A) method
+B) func
+C) delegate
+D) event
+Q4. Which is a valid delegate declaration?
+A) delegate public int(int a, int b);
+B) public delegate = int Calc(int a);
+C) public delegate int Calc(int a, int b);
+D) public delegate Calc(int a, int b);
+Q5. A delegate can reference a method only if
+A) the method has a matching signature and return type
+B) the method is static
+C) the method is private
+D) the method is void
+Q6. Which step instantiates a delegate?
+A) Calc c = Add();
+B) Calc c = new Calc(Add);
+C) Calc c = typeof(Add);
+D) delegate c = Add;
+Q7. Invoking a delegate is done by
+A) exec c
+B) c(2, 3) or c.Invoke(2, 3)
+C) call c(2,3)
+D) c.Run(2,3)
+Q8. In the opening snippet of this book, CalculateValue calc = t.GetValue; calc("Test") returns
+A) 0
+B) an error
+C) 4
+D) "Test"
+Q9. A multicast delegate
+A) can't be invoked
+B) holds only static methods
+C) holds references to more than one method
+D) holds only one method
+Q10. Which operator adds a method to a multicast delegate?
+A) -= only removes
+B) ==
+C) *=
+D) +=
+Q11. Which operator removes a method from a delegate's invocation list?
+A) !=
+B) -=
+C) +=
+D) /=
+Q12. A multicast delegate invokes methods in
+A) the order they were added
+B) alphabetical order
+C) reverse order
+D) random order
+Q13. A multicast delegate with a non-void return type returns
+A) null
+B) a sum of all values
+C) the value of the last method invoked
+D) the first method's value
+Q14. All delegates in C# are derived from
+A) System.Delegate
+B) System.Action
+C) System.Func
+D) System.Object only without Delegate
+Q15. The delegate-event model uses
+A) abstract classes
+B) only inheritance
+C) static classes
+D) publishers that raise events and subscribers that handle them
+Q16. An event in C# is
+A) a method body
+B) a message sent by an object to signal that something happened
+C) a class
+D) a loop
+Q17. Which keyword declares an event?
+A) delegate
+B) signal
+C) trigger
+D) event
+Q18. Events are based on
+A) arrays
+B) namespaces
+C) interfaces only
+D) delegates
+Q19. The class that raises an event is the
+A) publisher
+B) consumer
+C) observer
+D) subscriber
+Q20. The class that responds to an event is the
+A) publisher
+B) creator
+C) sender only
+D) subscriber
+Q21. Which operator subscribes a handler to an event?
+A) ::
+B) ->
+C) =
+D) +=
+Q22. Which is the standard event handler delegate in .NET?
+A) ActionHandler
+B) EventHandler
+C) SignalHandler
+D) MethodHandler
+Q23. An event can be raised
+A) from Main only
+B) from any class
+C) only from within the class that declares it
+D) from namespaces
+Q24. Before raising an event, a good practice is to check
+A) whether it is static
+B) whether it is null (has subscribers)
+C) its name
+D) its type
+Q25. Which syntax safely raises an event?
+A) raise MyEvent;
+B) MyEvent.Fire();
+C) MyEvent?.Invoke(this, EventArgs.Empty);
+D) MyEvent.Raise();
+Q26. Collections are
+A) only arrays
+B) only numbers
+C) only strings
+D) classes that store and manage groups of related objects
+Q27. The non-generic collection classes are in
+A) System.Collections
+B) System.Text
+C) System.Collections.Generic
+D) System.Linq
+Q28. The generic collection classes are in
+A) System.Collections.Generic
+B) System.Generics
+C) System.Linq only
+D) System.Collections
+Q29. ArrayList is
+A) a dynamically resizable collection that stores objects
+B) a fixed-size array
+C) a key-value collection
+D) a generic collection
+Q30. Which ArrayList method adds an element?
+A) Append()
+B) Add()
+C) Insert() only
+D) Push()
+Q31. Which ArrayList property gets the number of elements?
+A) Length
+B) Total
+C) Count
+D) Size
+Q32. Which ArrayList method removes the first occurrence of a value?
+A) Remove()
+B) Delete()
+C) Clear() only
+D) Pop()
+Q33. Which ArrayList method removes all elements?
+A) Clear()
+B) Empty()
+C) Remove()
+D) RemoveAt()
+Q34. Which ArrayList method sorts its elements?
+A) Sort()
+B) Arrange()
+C) SortAll()
+D) Order()
+Q35. ArrayList elements are stored as
+A) object
+B) the exact type
+C) string only
+D) int only
+Q36. Hashtable stores data as
+A) key-value pairs
+B) a queue
+C) a stack
+D) single values
+Q37. In a Hashtable, keys must be
+A) null
+B) unique
+C) duplicate
+D) integers only
+Q38. Hashtable stores each entry as a
+A) KeyValuePair always
+B) Node
+C) Tuple
+D) DictionaryEntry
+Q39. SortedList stores key-value pairs
+A) sorted by keys
+B) sorted by values only
+C) in random order
+D) in insertion order always
+Q40. Which method adds a key-value pair to a Hashtable or SortedList?
+A) Push(key)
+B) Insert(value)
+C) Put(key, value)
+D) Add(key, value)
+Q41. Which property retrieves all keys in a Hashtable?
+A) Names
+B) Keys
+C) AllKeys
+D) KeyList
+Q42. Dictionary<TKey, TValue> is
+A) a generic collection of key-value pairs
+B) a stack
+C) a sorted array
+D) a non-generic collection
+Q43. Compared with Hashtable, Dictionary<TKey,TValue> is
+A) unable to store keys
+B) type-safe and generic
+C) slower always
+D) non-generic
+Q44. Which method checks if a Dictionary contains a key?
+A) KeyExists()
+B) FindKey()
+C) ContainsKey()
+D) HasKey()
+Q45. Which is a valid collection initializer?
+A) var list = List<int>[1,2,3];
+B) var list = new List<int> = (1,2,3);
+C) var list = new List<int>(1, 2, 3);
+D) var list = new List<int> { 1, 2, 3 };
+Q46. Which is a valid dictionary initializer?
+A) new Dictionary<int,string> { {1,"a"}, {2,"b"} }
+B) Dictionary { 1:"a" }
+C) new Dictionary(1,"a")
+D) new Dictionary<int,string> = (1,"a")
+Q47. Accessing a missing key in a Dictionary using the indexer throws
+A) NullReferenceException
+B) KeyNotFoundException
+C) FormatException
+D) IndexOutOfRangeException
+Q48. Adding a duplicate key to a Dictionary using Add() throws
+A) KeyNotFoundException
+B) ArgumentException
+C) OverflowException
+D) FormatException
+Q49. Which collection is best for a first-in, first-out order?
+A) SortedList
+B) Hashtable
+C) Queue
+D) Stack
+Q50. Which collection is best for last-in, first-out order?
+A) ArrayList
+B) Stack
+C) Queue
+D) Dictionary
+
+Session 10 Answer Key
+Q	Answer	Q	Answer
+1	B) a type-safe reference to a method	26	D) classes that store and manage groups of related objects
+2	D) function pointers in C/C++	27	A) System.Collections
+3	C) delegate	28	A) System.Collections.Generic
+4	C) public delegate int Calc(int a, int b);	29	A) a dynamically resizable collection that stores objects
+5	A) the method has a matching signature and return type	30	B) Add()
+6	B) Calc c = new Calc(Add);	31	C) Count
+7	B) c(2, 3) or c.Invoke(2, 3)	32	A) Remove()
+8	C) 4	33	A) Clear()
+9	C) holds references to more than one method	34	A) Sort()
+10	D) +=	35	A) object
+11	B) -=	36	A) key-value pairs
+12	A) the order they were added	37	B) unique
+13	C) the value of the last method invoked	38	D) DictionaryEntry
+14	A) System.Delegate	39	A) sorted by keys
+15	D) publishers that raise events and subscribers that handle them	40	D) Add(key, value)
+16	B) a message sent by an object to signal that something happened	41	B) Keys
+17	D) event	42	A) a generic collection of key-value pairs
+18	D) delegates	43	B) type-safe and generic
+19	A) publisher	44	C) ContainsKey()
+20	D) subscriber	45	D) var list = new List<int> { 1, 2, 3 };
+21	D) +=	46	A) new Dictionary<int,string> { {1,"a"}, {2,"b"} }
+22	B) EventHandler	47	B) KeyNotFoundException
+23	C) only from within the class that declares it	48	B) ArgumentException
+24	B) whether it is null (has subscribers)	49	C) Queue
+25	C) MyEvent?.Invoke(this, EventArgs.Empty);	50	B) Stack
