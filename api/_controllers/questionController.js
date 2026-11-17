@@ -135,6 +135,16 @@ const createQuestion = async (req, res) => {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
+        const existingDuplicate = await Question.findDuplicate({ category, question_text });
+        if (existingDuplicate) {
+            return res.status(409).json({
+                message: `Duplicate question already exists in "${existingDuplicate.category || category}" (Session ${existingDuplicate.session || 1}).`,
+                duplicate: true,
+                existingId: existingDuplicate.id,
+                existingSession: existingDuplicate.session || 1
+            });
+        }
+
         await ensureCategoryExists(category);
 
         const sessionNum = parseInt(session, 10) || 1;
@@ -195,9 +205,10 @@ const importQuestions = async (req, res) => {
             return res.status(400).json({ message: 'Unsupported file format' });
         }
 
-        // Process questions
-        const results = { success: 0, failed: 0, errors: [] };
-        
+        // Process questions (with cross-session duplicate prevention)
+        const results = { success: 0, skipped: 0, failed: 0, errors: [] };
+        const seenByCategory = new Map();
+
         for (const q of questions) {
             try {
                 // Map fields (handle variations in column names)
@@ -216,6 +227,23 @@ const importQuestions = async (req, res) => {
                 ].filter(opt => opt !== undefined && opt !== null && opt !== '');
 
                 if (category && question_text && options.length >= 2 && correct_answer) {
+                    const catKey = String(category).trim().toLowerCase();
+                    if (!seenByCategory.has(catKey)) {
+                        const existingInCat = await Question.getFiltered({ category });
+                        seenByCategory.set(
+                            catKey,
+                            new Set(existingInCat.map(item => Question.normalizeQuestionText(item.question_text || item.questionText)))
+                        );
+                    }
+
+                    const seenSet = seenByCategory.get(catKey);
+                    const normText = Question.normalizeQuestionText(question_text);
+                    if (seenSet.has(normText)) {
+                        results.skipped++;
+                        results.errors.push(`Skipped duplicate in "${category}": ${String(question_text).substring(0, 60)}`);
+                        continue;
+                    }
+
                     await ensureCategoryExists(category);
 
                     await Question.create({ 
@@ -225,6 +253,7 @@ const importQuestions = async (req, res) => {
                         options, 
                         correct_answer
                     });
+                    seenSet.add(normText);
                     results.success++;
                 } else {
                     results.failed++;
@@ -242,7 +271,10 @@ const importQuestions = async (req, res) => {
         }
 
         res.json({
-            message: `Import completed. Success: ${results.success}, Failed: ${results.failed}`,
+            message: `Import completed. Success: ${results.success}, Skipped duplicates: ${results.skipped}, Failed: ${results.failed}`,
+            success: results.success,
+            skipped: results.skipped,
+            failed: results.failed,
             details: results.errors
         });
     } catch (error) {
@@ -295,6 +327,22 @@ const deleteQuestion = async (req, res) => {
 const updateQuestion = async (req, res) => {
     try {
         const { id } = req.params;
+        const { category, question_text } = req.body || {};
+        if (category && question_text) {
+            const existingDuplicate = await Question.findDuplicate({
+                category,
+                question_text,
+                excludeId: id
+            });
+            if (existingDuplicate) {
+                return res.status(409).json({
+                    message: `Duplicate question already exists in "${existingDuplicate.category || category}" (Session ${existingDuplicate.session || 1}).`,
+                    duplicate: true,
+                    existingId: existingDuplicate.id,
+                    existingSession: existingDuplicate.session || 1
+                });
+            }
+        }
         await Question.update(id, req.body);
         res.json({ message: 'Question updated' });
     } catch (error) {

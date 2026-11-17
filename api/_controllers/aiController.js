@@ -70,18 +70,43 @@ const generateQuestions = async (req, res) => {
 
         console.log(`Parsed ${questions.length} questions. Saving to DB...`);
 
-        // Save to database
+        // Save to database (skipping duplicates across the category)
         const savedIds = [];
+        const seenNorm = new Set();
+        let skippedDuplicates = 0;
+
         for (const q of questions) {
+            const targetCategory = q.category || topic;
+            const normText = Question.normalizeQuestionText(q.question_text);
+            if (!normText || seenNorm.has(normText)) {
+                skippedDuplicates++;
+                continue;
+            }
+            const existingDuplicate = await Question.findDuplicate({
+                category: targetCategory,
+                question_text: q.question_text
+            });
+            if (existingDuplicate) {
+                skippedDuplicates++;
+                continue;
+            }
             const id = await Question.create({
                 ...q,
+                category: targetCategory,
                 session: sessionNum
             });
+            seenNorm.add(normText);
             savedIds.push(id);
         }
 
-        console.log('All questions saved successfully.');
-        res.json({ message: `Successfully generated ${savedIds.length} questions`, count: savedIds.length });
+        console.log('All non-duplicate questions saved successfully.');
+        res.json({
+            message: skippedDuplicates > 0
+                ? `Successfully generated ${savedIds.length} questions (${skippedDuplicates} duplicate(s) skipped)`
+                : `Successfully generated ${savedIds.length} questions`,
+            count: savedIds.length,
+            skipped: skippedDuplicates
+        });
 
     } catch (error) {
         console.error('AI Generation Error:', error);

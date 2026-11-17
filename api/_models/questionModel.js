@@ -15,6 +15,14 @@ const parseOptions = (opts) => {
     return [];
 };
 
+const normalizeQuestionText = (text) => {
+    return String(text || '')
+        .trim()
+        .toLowerCase()
+        .replace(/_+/g, '_')
+        .replace(/\s+/g, ' ');
+};
+
 const getCategoryVariations = (category) => {
     if (!category) return [];
     const clean = String(category).trim();
@@ -28,6 +36,57 @@ const getCategoryVariations = (category) => {
 };
 
 const Question = {
+    normalizeQuestionText,
+
+    findDuplicate: async ({ category, question_text, excludeId } = {}) => {
+        const target = normalizeQuestionText(question_text);
+        if (!category || !target) return null;
+
+        let rows = [];
+        try {
+            const variations = getCategoryVariations(category);
+            const where = variations.length > 1
+                ? { OR: variations.map(v => ({ category: { equals: v, mode: 'insensitive' } })) }
+                : { category: { equals: String(category).trim(), mode: 'insensitive' } };
+
+            rows = await prisma.question.findMany({
+                where,
+                select: {
+                    id: true,
+                    category: true,
+                    session: true,
+                    questionText: true
+                }
+            });
+        } catch {
+            // DB fallback
+        }
+
+        const excludeStr = excludeId ? String(excludeId) : null;
+        for (const r of rows) {
+            if (excludeStr && String(r.id) === excludeStr) continue;
+            if (normalizeQuestionText(r.questionText) === target) {
+                return r;
+            }
+        }
+
+        const catLower = String(category).trim().toLowerCase();
+        const fallbackList = (catLower.includes('agile') || catLower.includes('devops'))
+            ? AGILE_DEVOPS_QUESTIONS
+            : (catLower === 'c#' || catLower === 'csharp' || catLower === 'c sharp')
+                ? CSHARP_QUIZ_QUESTIONS
+                : [];
+
+        for (const q of fallbackList) {
+            if (excludeStr && String(q.id) === excludeStr) continue;
+            if (normalizeQuestionText(q.questionText) === target) {
+                return q;
+            }
+        }
+
+        return null;
+    },
+
     create: async (data) => {
         const { category, session, question_text, options, correct_answer, explanation } = data;
         const serializedOptions = typeof options === 'string' ? options : JSON.stringify(Array.isArray(options) ? options : []);
