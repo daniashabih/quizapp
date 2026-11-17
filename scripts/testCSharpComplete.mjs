@@ -3,10 +3,11 @@
  */
 import Category from '../api/_models/categoryModel.js';
 import Question from '../api/_models/questionModel.js';
+import Attempt from '../api/_models/attemptModel.js';
 import TechnologyModel from '../api/_models/technologyModel.js';
 import GameModel from '../api/_models/gameModel.js';
 import { CSHARP_COMPLETE_THE_CODE_QUESTIONS } from '../api/_models/csharpQuestionsData.js';
-import { CSHARP_QUIZ_QUESTIONS } from '../api/_models/csharpQuizQuestionsData.js';
+import { CSHARP_QUIZ_QUESTIONS, CSHARP_QUIZ_SESSIONS } from '../api/_models/csharpQuizQuestionsData.js';
 import { TECHNOLOGY_CHALLENGES } from '../api/_models/technologyChallenges.js';
 
 let passed = 0;
@@ -33,24 +34,38 @@ async function runTests() {
     const csharpCat = categories.find(c => c.name === 'C#' || c.id === 'cat_csharp');
     assert(!!csharpCat, 'C# category exists in Category.getAll()');
     assert(csharpCat?.isEnabled === true, 'C# category is enabled (isEnabled: true)');
-    assert(Number(csharpCat?.questionCount || 0) >= 45, `C# has active questions (Count: ${csharpCat?.questionCount})`);
-    assert(Array.isArray(csharpCat?.sessions) && csharpCat.sessions.length === 3, `C# has 3 sessions (Sessions: ${JSON.stringify(csharpCat?.sessions)})`);
+    assert(Number(csharpCat?.questionCount || 0) >= 713, `C# has active questions (Count: ${csharpCat?.questionCount})`);
+    assert(Array.isArray(csharpCat?.sessions) && csharpCat.sessions.length === 15, `C# has 15 sessions (Sessions: ${JSON.stringify(csharpCat?.sessions)})`);
 
-    // TEST 2: C# Questions by Session
-    console.log('\nTEST 2: Question Model - C# Questions Retrieval');
-    const s1Questions = await Question.getFiltered({ category: 'C#', session: 1 });
-    const s2Questions = await Question.getFiltered({ category: 'C#', session: 2 });
-    const s3Questions = await Question.getFiltered({ category: 'C#', session: 3 });
+    // TEST 2: C# Questions by Session (All 15 Sessions = 713 Questions)
+    console.log('\nTEST 2: Question Model - C# Questions Retrieval (15 Sessions)');
+    const expectedSessionCounts = {
+        1: 50, 2: 50, 3: 49, 4: 49, 5: 46,
+        6: 48, 7: 46, 8: 44, 9: 50, 10: 50,
+        11: 49, 12: 50, 13: 45, 14: 37, 15: 50
+    };
+    for (let s = 1; s <= 15; s++) {
+        const sQuestions = await Question.getFiltered({ category: 'C#', session: s });
+        assert(
+            sQuestions.length === expectedSessionCounts[s],
+            `Session ${s} (${CSHARP_QUIZ_SESSIONS[s]}) has ${expectedSessionCounts[s]} questions (Found: ${sQuestions.length})`
+        );
+    }
+
     const csharpSlugQuestions = await Question.getFiltered({ category: 'csharp' });
-
-    assert(s1Questions.length === 15, `Session 1 has 15 questions (Found: ${s1Questions.length})`);
-    assert(s2Questions.length === 15, `Session 2 has 15 questions (Found: ${s2Questions.length})`);
-    assert(s3Questions.length === 15, `Session 3 has 15 questions (Found: ${s3Questions.length})`);
-    assert(csharpSlugQuestions.length >= 45, `Category query with 'csharp' resolves C# questions (Found: ${csharpSlugQuestions.length})`);
+    assert(csharpSlugQuestions.length >= 713, `Category query with 'csharp' resolves all 713 C# questions (Found: ${csharpSlugQuestions.length})`);
 
     const sessions = await Question.getSessionsByCategory('C#');
-    assert(sessions.length === 3, `getSessionsByCategory('C#') returns 3 sessions (Found: ${sessions.length})`);
-    assert(sessions[0]?.title === 'C# Fundamentals & Syntax', `Session 1 title: ${sessions[0]?.title}`);
+    assert(sessions.length === 15, `getSessionsByCategory('C#') returns 15 sessions (Found: ${sessions.length})`);
+    assert(sessions[0]?.title === 'Getting Started with C#', `Session 1 title: ${sessions[0]?.title}`);
+    assert(sessions[14]?.title === 'GUI/Desktop Apps with C#', `Session 15 title: ${sessions[14]?.title}`);
+
+    // Verify Attempt grading on in-memory C# questions
+    const s1FirstQ = csharpSlugQuestions[0];
+    const correctIdx = Attempt.getQuestionCorrectIndex(s1FirstQ);
+    assert(correctIdx === 2, `Session 1 Q1 correct index is 2 (Found: ${correctIdx})`);
+    assert(Attempt.evaluateAnswerCorrectness(correctIdx, s1FirstQ) === true, 'Correct C# option evaluates to true');
+    assert(Attempt.evaluateAnswerCorrectness((correctIdx + 1) % 4, s1FirstQ) === false, 'Wrong C# option evaluates to false');
 
     // TEST 3: C# Technology Registration
     console.log('\nTEST 3: Technology Model - C# Technology Definition');

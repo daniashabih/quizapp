@@ -570,13 +570,17 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                 onRetry: () => ref.refresh(categoriesProvider),
               ),
               data: (categories) {
+                final q = _searchQuery.toLowerCase().trim();
                 final filtered = categories
                     .where((c) => c.isEnabled != false)
-                    .where(
-                      (c) => c.name.toLowerCase().contains(
-                        _searchQuery.toLowerCase(),
-                      ),
-                    )
+                    .where((c) {
+                      if (q.isEmpty) return true;
+                      final name = c.name.toLowerCase();
+                      final isCSharpQuery =
+                          q == 'c#' || q == 'csharp' || q == 'c sharp';
+                      if (isCSharpQuery && name == 'c#') return true;
+                      return name.contains(q);
+                    })
                     .toList();
 
                 return RefreshIndicator(
@@ -780,7 +784,7 @@ class _SessionSelectorSheet extends ConsumerStatefulWidget {
 class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
   int _selectedSession = 1;
   bool _isAllSessions = false;
-  List<int> _sessions = [];
+  List<CategorySessionInfo> _sessions = [];
   bool _isLoading = true;
 
   @override
@@ -792,34 +796,49 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
   Future<void> _fetchSessions() async {
     try {
       final repo = ref.read(quizRepositoryProvider);
-      final list = await repo.getCategorySessions(widget.category.name);
+      final list = await repo.getCategorySessionDetails(widget.category.name);
       if (mounted) {
         setState(() {
           _sessions = list;
-          _selectedSession = list.isNotEmpty ? list.first : 1;
+          _selectedSession = list.isNotEmpty ? list.first.session : 1;
           _isLoading = false;
         });
       }
     } catch (_) {
       if (mounted) {
+        final fallbackList = (widget.category.sessions.isNotEmpty
+                ? widget.category.sessions
+                : [1])
+            .map((s) => CategorySessionInfo(session: s, title: 'Session $s'))
+            .toList();
         setState(() {
-          _sessions = widget.category.sessions.isNotEmpty
-              ? widget.category.sessions
-              : [1];
-          _selectedSession = _sessions.first;
+          _sessions = fallbackList;
+          _selectedSession = _sessions.first.session;
           _isLoading = false;
         });
       }
     }
   }
 
+  CategorySessionInfo? get _selectedSessionInfo {
+    for (final s in _sessions) {
+      if (s.session == _selectedSession) return s;
+    }
+    return null;
+  }
+
   void _startQuiz() {
+    final selectedInfo = _selectedSessionInfo;
     Navigator.of(context).pop();
     context.push(
       '/quiz/play',
       extra: {
         'category': widget.category.name,
         'session': _isAllSessions ? 0 : _selectedSession,
+        if (!_isAllSessions &&
+            selectedInfo != null &&
+            selectedInfo.hasCustomTitle)
+          'sessionTitle': selectedInfo.title,
       },
     );
   }
@@ -827,6 +846,15 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDarkMode;
+    final hasCustomTitles = _sessions.any((s) => s.hasCustomTitle);
+    final totalQuestionsCount = _sessions.fold<int>(
+      0,
+      (sum, s) => sum + s.count,
+    );
+    final displayTotalQuestions = totalQuestionsCount > 0
+        ? totalQuestionsCount
+        : widget.category.questionCount;
+    final selectedInfo = _selectedSessionInfo;
 
     return Container(
       decoration: BoxDecoration(
@@ -854,7 +882,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
           ),
           const SizedBox(height: 18),
 
-          // Reference Mockup 2 Detail Header with Stars + Circular Play
+          // Reference Mockup 2 Detail Header with Stars + Total Count
           Row(
             children: [
               TechLogoWidget(
@@ -892,7 +920,9 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                         const SizedBox(width: 6),
                         Flexible(
                           child: Text(
-                            'Select any session to start',
+                            displayTotalQuestions > 0
+                                ? '${_sessions.length} Sessions · $displayTotalQuestions Qs'
+                                : 'Select any session to start',
                             style: AppTextStyles.bodySmall.copyWith(
                               fontSize: 11.5,
                               color: context.textSecondaryColor,
@@ -955,13 +985,17 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'All Sessions (Complete Track)',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: _isAllSessions
-                                ? context.brandAccentColor
-                                : context.textPrimaryColor,
+                        Expanded(
+                          child: Text(
+                            displayTotalQuestions > 0
+                                ? 'All Sessions ($displayTotalQuestions Questions)'
+                                : 'All Sessions (Complete Track)',
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: _isAllSessions
+                                  ? context.brandAccentColor
+                                  : context.textPrimaryColor,
+                            ),
                           ),
                         ),
                         if (_isAllSessions)
@@ -981,49 +1015,169 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
             // Individual Sessions
             ConstrainedBox(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.35,
+                maxHeight: MediaQuery.of(context).size.height * 0.4,
               ),
-              child: SingleChildScrollView(
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: _sessions.map((sess) {
-                    final isSelected =
-                        !_isAllSessions && _selectedSession == sess;
-                    return ChoiceChip(
-                      label: Text('Session $sess'),
-                      selected: isSelected,
-                      selectedColor: isDark
-                          ? AppColors.primaryLight
-                          : AppColors.primary,
-                      backgroundColor: context.mutedBgColor,
-                      labelStyle: TextStyle(
-                        color: isSelected
-                            ? Colors.white
-                            : context.textPrimaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 13,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        side: BorderSide(
+              child: hasCustomTitles
+                  ? ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: _sessions.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 8),
+                      itemBuilder: (context, index) {
+                        final sess = _sessions[index];
+                        final isSelected =
+                            !_isAllSessions && _selectedSession == sess.session;
+                        return Material(
                           color: isSelected
-                              ? context.brandAccentColor
-                              : context.borderColor,
-                        ),
-                      ),
-                      onSelected: (selected) {
-                        if (selected) {
-                          setState(() {
-                            _selectedSession = sess;
-                            _isAllSessions = false;
-                          });
-                        }
+                              ? (isDark
+                                    ? AppColors.primaryLight
+                                    : AppColors.primary)
+                              : context.mutedBgColor,
+                          borderRadius: BorderRadius.circular(16),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(16),
+                            onTap: () {
+                              setState(() {
+                                _selectedSession = sess.session;
+                                _isAllSessions = false;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 11,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? context.brandAccentColor
+                                      : context.borderColor,
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 34,
+                                    height: 34,
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? Colors.white.withValues(alpha: 0.18)
+                                          : context.cardBgColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'S${sess.session}',
+                                        style: AppTextStyles.mono.copyWith(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                          color: isSelected
+                                              ? Colors.white
+                                              : context.brandAccentColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          sess.hasCustomTitle
+                                              ? sess.title
+                                              : 'Session ${sess.session}',
+                                          style: AppTextStyles.bodyMedium
+                                              .copyWith(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 13.5,
+                                                color: isSelected
+                                                    ? Colors.white
+                                                    : context.textPrimaryColor,
+                                              ),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        if (sess.count > 0) ...[
+                                          const SizedBox(height: 2),
+                                          Text(
+                                            'Session ${sess.session} · ${sess.count} Questions',
+                                            style: AppTextStyles.bodySmall
+                                                .copyWith(
+                                                  fontSize: 11,
+                                                  color: isSelected
+                                                      ? Colors.white.withValues(
+                                                          alpha: 0.85,
+                                                        )
+                                                      : context
+                                                            .textSecondaryColor,
+                                                ),
+                                          ),
+                                        ],
+                                      ],
+                                    ),
+                                  ),
+                                  if (isSelected)
+                                    const Icon(
+                                      Icons.check_circle_rounded,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
                       },
-                    );
-                  }).toList(),
-                ),
-              ),
+                    )
+                  : SingleChildScrollView(
+                      child: Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: _sessions.map((sess) {
+                          final isSelected =
+                              !_isAllSessions &&
+                              _selectedSession == sess.session;
+                          return ChoiceChip(
+                            label: Text(
+                              sess.count > 0
+                                  ? 'Session ${sess.session} (${sess.count})'
+                                  : 'Session ${sess.session}',
+                            ),
+                            selected: isSelected,
+                            selectedColor: isDark
+                                ? AppColors.primaryLight
+                                : AppColors.primary,
+                            backgroundColor: context.mutedBgColor,
+                            labelStyle: TextStyle(
+                              color: isSelected
+                                  ? Colors.white
+                                  : context.textPrimaryColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 13,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              side: BorderSide(
+                                color: isSelected
+                                    ? context.brandAccentColor
+                                    : context.borderColor,
+                              ),
+                            ),
+                            onSelected: (selected) {
+                              if (selected) {
+                                setState(() {
+                                  _selectedSession = sess.session;
+                                  _isAllSessions = false;
+                                });
+                              }
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ),
             ),
 
             const SizedBox(height: 16),
@@ -1047,14 +1201,16 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                       color: context.textPrimaryColor,
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Flexible(
                     child: Text(
-                      '${widget.category.name} · ${_isAllSessions ? 'All Sessions (Complete Track)' : 'Session $_selectedSession'}',
+                      '${widget.category.name} · ${_isAllSessions ? 'All Sessions (Complete Track)' : (selectedInfo != null && selectedInfo.hasCustomTitle ? 'S$_selectedSession: ${selectedInfo.title}' : 'Session $_selectedSession')}',
                       style: AppTextStyles.bodySmall.copyWith(
                         fontWeight: FontWeight.w800,
                         color: context.brandAccentColor,
                       ),
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.right,
                     ),
                   ),
                 ],

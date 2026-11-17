@@ -16,12 +16,14 @@ class QuizScreen extends ConsumerStatefulWidget {
   final String category;
   final int session;
   final String? attemptId;
+  final String? sessionTitle;
 
   const QuizScreen({
     super.key,
     required this.category,
     required this.session,
     this.attemptId,
+    this.sessionTitle,
   });
 
   @override
@@ -392,7 +394,12 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                state.session == 0 ? 'All Sessions' : 'Session ${state.session}',
+                state.session == 0
+                    ? 'All Sessions'
+                    : (widget.sessionTitle != null &&
+                              widget.sessionTitle!.trim().isNotEmpty
+                          ? 'Session ${state.session} · ${widget.sessionTitle}'
+                          : 'Session ${state.session}'),
                 style: AppTextStyles.bodySmall.copyWith(
                   fontSize: 11,
                   color: context.textSecondaryColor,

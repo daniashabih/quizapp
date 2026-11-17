@@ -368,13 +368,16 @@ export default function TechnologyDetail() {
                                                     key={`${cat.name}-s-${s.session}`}
                                                     type="button"
                                                     onClick={() => handleStartSession(cat.name, s.session)}
-                                                    className="p-3 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] text-left transition-all cursor-pointer flex items-center justify-between"
+                                                    className="p-3 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] text-left transition-all cursor-pointer flex items-center justify-between gap-2"
                                                 >
-                                                    <div>
+                                                    <div className="min-w-0">
                                                         <p className="text-xs font-bold text-[var(--foreground)]">Session {s.session}</p>
+                                                        {s.title && s.title !== `Session ${s.session}` && (
+                                                            <p className="text-[10px] text-[var(--foreground)] font-medium truncate">{s.title}</p>
+                                                        )}
                                                         <p className="text-[10px] text-[var(--foreground-muted)]">{s.count} Questions</p>
                                                     </div>
-                                                    <Play size={12} className="text-[#193D35]" />
+                                                    <Play size={12} className="text-[#193D35] shrink-0" />
                                                 </button>
                                             ))}
                                         </div>

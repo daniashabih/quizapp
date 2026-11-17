@@ -52,3 +52,31 @@ class CategoryModel {
     };
   }
 }
+
+class CategorySessionInfo {
+  final int session;
+  final String title;
+  final int count;
+
+  const CategorySessionInfo({
+    required this.session,
+    required this.title,
+    this.count = 0,
+  });
+
+  bool get hasCustomTitle =>
+      title.trim().isNotEmpty && title.trim() != 'Session $session';
+
+  factory CategorySessionInfo.fromJson(Map<String, dynamic> json) {
+    final sess = int.tryParse(json['session']?.toString() ?? '1') ?? 1;
+    final rawTitle = json['title']?.toString().trim() ?? '';
+    final countVal = json['count'] is int
+        ? json['count'] as int
+        : (int.tryParse(json['count']?.toString() ?? '0') ?? 0);
+    return CategorySessionInfo(
+      session: sess,
+      title: rawTitle.isNotEmpty ? rawTitle : 'Session $sess',
+      count: countVal,
+    );
+  }
+}

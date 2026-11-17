@@ -16,6 +16,12 @@ class QuizRepository {
     return await quizService.getCategorySessions(categoryName);
   }
 
+  Future<List<CategorySessionInfo>> getCategorySessionDetails(
+    String categoryName,
+  ) async {
+    return await quizService.getCategorySessionDetails(categoryName);
+  }
+
   Future<List<QuestionModel>> getQuestions({
     required String category,
     int? session,

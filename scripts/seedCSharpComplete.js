@@ -45,16 +45,29 @@ async function seedCSharp() {
             console.log(`✓ Created C# Category with ID: ${newCat.id}`);
         }
 
-        // 2. Seed 45 C# Quiz MCQs in Prisma Question model
-        console.log('\n--- 2. SEEDING C# QUIZ QUESTIONS ---');
+        // 2. Seed C# Session-Wise Quiz MCQs (15 Sessions, 713 Questions) in Prisma Question model
+        console.log(`\n--- 2. SEEDING ${CSHARP_QUIZ_QUESTIONS.length} C# QUIZ QUESTIONS ACROSS 15 SESSIONS ---`);
+        const validKeys = new Set(
+            CSHARP_QUIZ_QUESTIONS.map(q => `${q.session}|${q.questionText.trim().toLowerCase()}`)
+        );
+        const existingCSharpRows = await prisma.question.findMany({
+            where: { category: { equals: 'C#', mode: 'insensitive' } }
+        });
+        const existingMap = new Map();
+        for (const row of existingCSharpRows) {
+            const key = `${row.session || 1}|${(row.questionText || '').trim().toLowerCase()}`;
+            if (!validKeys.has(key)) {
+                await prisma.question.delete({ where: { id: row.id } });
+            } else {
+                existingMap.set(key, row);
+            }
+        }
+
         let questionsInserted = 0;
+        let questionsUpdated = 0;
         for (const q of CSHARP_QUIZ_QUESTIONS) {
-            const existingQ = await prisma.question.findFirst({
-                where: {
-                    category: { equals: 'C#', mode: 'insensitive' },
-                    questionText: q.questionText
-                }
-            });
+            const key = `${q.session}|${q.questionText.trim().toLowerCase()}`;
+            const existingQ = existingMap.get(key);
 
             if (!existingQ) {
                 await prisma.question.create({
@@ -68,9 +81,21 @@ async function seedCSharp() {
                     }
                 });
                 questionsInserted++;
+            } else {
+                await prisma.question.update({
+                    where: { id: existingQ.id },
+                    data: {
+                        category: 'C#',
+                        session: q.session,
+                        options: JSON.stringify(q.options),
+                        correctAnswer: q.correctAnswer,
+                        explanation: q.explanation || ''
+                    }
+                });
+                questionsUpdated++;
             }
         }
-        console.log(`✓ Seeded ${questionsInserted} new C# Quiz questions (Total pool: ${CSHARP_QUIZ_QUESTIONS.length})`);
+        console.log(`✓ Seeded ${questionsInserted} new, updated ${questionsUpdated} existing C# Quiz questions (Total pool: ${CSHARP_QUIZ_QUESTIONS.length})`);
 
         // 3. Seed Backend Development Game Category & C# Technology
         console.log('\n--- 3. SEEDING C# GAME TECHNOLOGY ---');

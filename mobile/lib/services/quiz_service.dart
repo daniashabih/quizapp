@@ -20,22 +20,37 @@ class QuizService {
 
   // Get sessions list for a specific category
   Future<List<int>> getCategorySessions(String categoryName) async {
+    final details = await getCategorySessionDetails(categoryName);
+    final sessions = details.map((d) => d.session).toSet().toList()..sort();
+    return sessions.isEmpty ? [1] : sessions;
+  }
+
+  // Get detailed sessions (number, title, question count) for a specific category
+  Future<List<CategorySessionInfo>> getCategorySessionDetails(
+    String categoryName,
+  ) async {
     final response = await apiClient.get(
       ApiEndpoints.questionSessions,
       queryParameters: {'category': categoryName},
     );
     final list = response.data as List;
-    final Set<int> sessions = {};
+    final Map<int, CategorySessionInfo> bySession = {};
     for (final item in list) {
-      if (item is Map && item.containsKey('session')) {
-        final val = int.tryParse(item['session'].toString());
-        if (val != null) sessions.add(val);
+      if (item is Map) {
+        final info = CategorySessionInfo.fromJson(
+          Map<String, dynamic>.from(item),
+        );
+        bySession[info.session] = info;
       } else if (item is num) {
-        sessions.add(item.toInt());
+        final s = item.toInt();
+        bySession[s] = CategorySessionInfo(session: s, title: 'Session $s');
       }
     }
-    final sorted = sessions.toList()..sort();
-    return sorted.isEmpty ? [1] : sorted;
+    final sorted = bySession.values.toList()
+      ..sort((a, b) => a.session.compareTo(b.session));
+    return sorted.isEmpty
+        ? const [CategorySessionInfo(session: 1, title: 'Session 1')]
+        : sorted;
   }
 
   // Fetch questions for assessment

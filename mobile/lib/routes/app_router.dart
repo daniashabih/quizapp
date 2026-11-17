@@ -365,6 +365,7 @@ Widget _buildQuizScreen(GoRouterState state) {
   String? category;
   int? session;
   String? attemptId;
+  String? sessionTitle;
 
   if (state.extra is Map) {
     final map = state.extra as Map;
@@ -377,16 +378,21 @@ Widget _buildQuizScreen(GoRouterState state) {
     if (map['attemptId'] != null) {
       attemptId = map['attemptId'].toString();
     }
+    if (map['sessionTitle'] != null) {
+      sessionTitle = map['sessionTitle'].toString();
+    }
   }
 
   category ??= state.uri.queryParameters['category'] ?? 'JavaScript';
   session ??= int.tryParse(state.uri.queryParameters['session'] ?? '1') ?? 1;
   attemptId ??= state.uri.queryParameters['attemptId'];
+  sessionTitle ??= state.uri.queryParameters['sessionTitle'];
 
   return QuizScreen(
     category: category,
     session: session,
     attemptId: attemptId,
+    sessionTitle: sessionTitle,
   );
 }
 

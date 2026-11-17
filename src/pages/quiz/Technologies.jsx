@@ -173,11 +173,17 @@ export default function Technologies() {
             finalSession = parsed;
         }
 
+        const matchedMeta = sessionsList.find(s => s.session === finalSession);
+        const sessionTitle = (matchedMeta?.title && matchedMeta.title !== `Session ${finalSession}`)
+            ? matchedMeta.title
+            : undefined;
+
         navigate('/quiz/start', {
             state: {
                 category: selectedCatForSession.name,
                 language: selectedCatForSession.name,
-                session: finalSession
+                session: finalSession,
+                ...(sessionTitle ? { sessionTitle } : {})
             }
         });
         setSelectedCatForSession(null);
@@ -197,6 +203,11 @@ export default function Technologies() {
         });
 
     const totalQuestionsInTrack = sessionsList.reduce((sum, s) => sum + (s.count || 0), 0);
+    const hasSessionTitles = sessionsList.some(s => s.title && s.title !== `Session ${s.session}`);
+    const selectedSessionMeta = sessionsList.find(s => s.session === chosenSession);
+    const selectedSessionTitle = !isCustomMode && chosenSession !== 'all' && selectedSessionMeta?.title && selectedSessionMeta.title !== `Session ${chosenSession}`
+        ? selectedSessionMeta.title
+        : '';
 
     const mainContent = (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -510,9 +521,10 @@ export default function Technologies() {
                                     )}
 
                                     {/* Option 2: Individual Sessions Grid */}
-                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-3">
+                                    <div className={`${hasSessionTitles ? 'grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-72 overflow-y-auto pr-1' : 'grid grid-cols-2 sm:grid-cols-3 gap-2.5'} mb-3`}>
                                         {sessionsList.map(s => {
                                             const isSelected = !isCustomMode && chosenSession === s.session;
+                                            const customTitle = s.title && s.title !== `Session ${s.session}` ? s.title : null;
                                             return (
                                                 <button
                                                     key={s.session}
@@ -521,7 +533,9 @@ export default function Technologies() {
                                                         setIsCustomMode(false);
                                                         setChosenSession(s.session);
                                                     }}
-                                                    className={`p-3 rounded-2xl border text-center transition-all cursor-pointer relative ${
+                                                    className={`p-3 rounded-2xl border transition-all cursor-pointer relative ${
+                                                        hasSessionTitles ? 'text-left' : 'text-center'
+                                                    } ${
                                                         isSelected
                                                             ? 'bg-[#193D35] text-white border-[#193D35] shadow-md ring-2 ring-[#193D35]/30'
                                                             : 'bg-[var(--muted-bg)] border-[var(--card-border)] hover:border-[#193D35] text-[var(--foreground)]'
@@ -532,12 +546,19 @@ export default function Technologies() {
                                                             <Check size={10} strokeWidth={3} />
                                                         </div>
                                                     )}
-                                                    <p className="text-xs font-black">
-                                                        {`Session ${s.session}`}
-                                                    </p>
-                                                    <p className={`text-[10px] mt-0.5 font-semibold ${isSelected ? 'text-white/90' : 'text-[#193D35]'}`}>
-                                                        {s.count} {s.count === 1 ? 'Question' : 'Questions'}
-                                                    </p>
+                                                    <div className={hasSessionTitles ? 'pr-5' : ''}>
+                                                        <p className="text-xs font-black">
+                                                            {`Session ${s.session}`}
+                                                        </p>
+                                                        {customTitle && (
+                                                            <p className={`text-[11px] mt-0.5 font-semibold line-clamp-2 leading-snug ${isSelected ? 'text-white/95' : 'text-[var(--foreground)]'}`}>
+                                                                {customTitle}
+                                                            </p>
+                                                        )}
+                                                        <p className={`text-[10px] mt-0.5 font-semibold ${isSelected ? 'text-white/80' : 'text-[#193D35]'}`}>
+                                                            {s.count} {s.count === 1 ? 'Question' : 'Questions'}
+                                                        </p>
+                                                    </div>
                                                 </button>
                                             );
                                         })}
@@ -596,17 +617,21 @@ export default function Technologies() {
                                 </div>
 
                                 {/* Active Selection Live Summary */}
-                                <div className="p-3 rounded-xl bg-[#F3E5C5]/50 border border-[#E2D0A6] flex items-center justify-between text-xs">
-                                    <span className="font-semibold text-[var(--foreground)]">Selected Session:</span>
-                                    <span className="font-extrabold text-[#193D35] flex items-center gap-1.5">
-                                        <CheckCircle2 size={13} className="text-[#193D35]" />
-                                        {selectedCatForSession.name} · {
-                                            isCustomMode
-                                                ? `Session ${customSessionNo || chosenSession}`
-                                                : chosenSession === 'all'
-                                                    ? 'All Sessions (Complete Track)'
-                                                    : `Session ${chosenSession}`
-                                        }
+                                <div className="p-3 rounded-xl bg-[#F3E5C5]/50 border border-[#E2D0A6] flex items-center justify-between gap-3 text-xs">
+                                    <span className="font-semibold text-[var(--foreground)] shrink-0">Selected Session:</span>
+                                    <span className="font-extrabold text-[#193D35] flex items-center gap-1.5 text-right min-w-0">
+                                        <CheckCircle2 size={13} className="text-[#193D35] shrink-0" />
+                                        <span className="truncate">
+                                            {selectedCatForSession.name} · {
+                                                isCustomMode
+                                                    ? `Session ${customSessionNo || chosenSession}`
+                                                    : chosenSession === 'all'
+                                                        ? 'All Sessions (Complete Track)'
+                                                        : selectedSessionTitle
+                                                            ? `Session ${chosenSession}: ${selectedSessionTitle}`
+                                                            : `Session ${chosenSession}`
+                                            }
+                                        </span>
                                     </span>
                                 </div>
 

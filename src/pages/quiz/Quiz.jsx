@@ -82,6 +82,7 @@ const Quiz = () => {
     const rawSession = location.state?.session;
     const isAllSessions = rawSession === 'all' || rawSession === 'All' || rawSession === 0;
     const selectedSession = isAllSessions ? 'all' : (parseInt(rawSession, 10) || 1);
+    const selectedSessionTitle = location.state?.sessionTitle || '';
     
     const quizOpts = {
         passingScore: settings?.passingScore || 70,
@@ -960,9 +961,17 @@ const Quiz = () => {
                             <BookOpen size={15} className="text-[#193D35] shrink-0" />
                             <span className="truncate max-w-[90px] xs:max-w-[140px] sm:max-w-none">{selectedCategory}</span>
                         </span>
-                        <span className="inline-flex px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-wider shrink-0">
+                        <span
+                            className="inline-flex px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-wider shrink-0"
+                            title={selectedSessionTitle || undefined}
+                        >
                             {isAllSessions ? 'All' : `S${selectedSession}`}
                         </span>
+                        {selectedSessionTitle && !isAllSessions && (
+                            <span className="hidden lg:inline-block text-[11px] font-semibold text-[var(--foreground-muted)] truncate max-w-[200px]" title={selectedSessionTitle}>
+                                {selectedSessionTitle}
+                            </span>
+                        )}
                         <span className="hidden md:inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)] uppercase tracking-wider shrink-0">
                             {currentQ?.difficulty || 'Standard'}
                         </span>
