@@ -138,7 +138,7 @@
     background-color: var(--page-bg);
     color: var(--foreground);
     font-family: var(--font-sans);
-    transition: background-color 0.25s ease, color 0.25s ease;
+    transition: background-color 0.58s cubic-bezier(0.22, 1, 0.36, 1), color 0.58s cubic-bezier(0.22, 1, 0.36, 1);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;

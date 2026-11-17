@@ -289,8 +289,11 @@ const AdminDashboard = () => {
             }
             setIsFormOpen(false);
             fetchQuestions();
+            fetchCategories();
             fetchAnalytics();
-        } catch { toast.error("Failed to save question."); }
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to save question.");
+        }
     };
 
     const handleDeleteQuestion = async (id) => {
@@ -433,6 +436,7 @@ const AdminDashboard = () => {
             setIsImportModalOpen(false);
             setImportFile(null);
             fetchQuestions();
+            fetchCategories();
             fetchAnalytics();
         } catch (error) {
             toast.error(error.response?.data?.message || "Import failed.");
