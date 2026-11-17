@@ -1,8 +1,8 @@
 {
   "category": "PHP, XML JSON, Laravel, MySQL, JavaScript",
   "session": 2,
-  "title": "Session 2: PHP Fundamentals, Variables, Form Handling & Environment",
-  "totalQuestions": 10,
+  "title": "Session 2: PHP Fundamentals, Variables, Form Handling, Environment & Laravel MVC",
+  "totalQuestions": 11,
   "questions": [
     {
       "questionText": "PHP variables must start with a _____.",
@@ -113,6 +113,17 @@
       ],
       "correctAnswer": "$_REQUEST, $_GET, and $_POST",
       "explanation": "In PHP, $_GET retrieves GET form data, $_POST retrieves POST form data, and $_REQUEST aggregates GET, POST, and cookie inputs. $_GETPOST does not exist."
+    },
+    {
+      "questionText": "______ help in organizing codes by grouping requests that handle the codes in a single route and class.",
+      "options": [
+        "Models",
+        "Controllers",
+        "Views",
+        "Applications"
+      ],
+      "correctAnswer": "Controllers",
+      "explanation": "In Laravel's MVC architecture, Controllers organize application code by grouping related HTTP request handlers into a single class instead of keeping all logic in route closures."
     }
   ]
 }

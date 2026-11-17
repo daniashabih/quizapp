@@ -20,6 +20,14 @@ const CATEGORY_NAME = quizData.category || 'PHP, XML JSON, Laravel, MySQL, JavaS
 const SESSION_NUMBER = quizData.session || 2;
 const questions = quizData.questions;
 
+function normalizeQuestionKey(text) {
+    return String(text || '')
+        .trim()
+        .toLowerCase()
+        .replace(/_+/g, '_')
+        .replace(/\s+/g, ' ');
+}
+
 async function seed() {
     if (!prisma) {
         console.error('Prisma client unavailable. Use sync script to sync to live server.');
@@ -47,21 +55,28 @@ async function seed() {
         }
 
         const effectiveCategoryName = category.name;
+        const allExisting = await prisma.question.findMany({
+            where: { category: effectiveCategoryName }
+        });
+        const existingByKey = new Map();
+        for (const row of allExisting) {
+            const key = normalizeQuestionKey(row.questionText);
+            if (!existingByKey.has(key)) {
+                existingByKey.set(key, row);
+            }
+        }
+
         let inserted = 0;
         let updated = 0;
+        let skippedCrossSession = 0;
 
         for (let i = 0; i < questions.length; i++) {
             const q = questions[i];
-            const existing = await prisma.question.findFirst({
-                where: {
-                    category: effectiveCategoryName,
-                    session: SESSION_NUMBER,
-                    questionText: q.questionText
-                }
-            });
+            const key = normalizeQuestionKey(q.questionText);
+            const existing = existingByKey.get(key);
 
             if (!existing) {
-                await prisma.question.create({
+                const created = await prisma.question.create({
                     data: {
                         category: effectiveCategoryName,
                         session: SESSION_NUMBER,
@@ -71,9 +86,10 @@ async function seed() {
                         explanation: q.explanation || ''
                     }
                 });
+                existingByKey.set(key, created);
                 console.log(`  [${i + 1}/${questions.length}] ➕ Inserted: "${q.questionText.substring(0, 50)}..."`);
                 inserted++;
-            } else {
+            } else if ((existing.session || 1) === SESSION_NUMBER) {
                 await prisma.question.update({
                     where: { id: existing.id },
                     data: {
@@ -85,6 +101,9 @@ async function seed() {
                 });
                 console.log(`  [${i + 1}/${questions.length}] 🔄 Updated: "${q.questionText.substring(0, 50)}..."`);
                 updated++;
+            } else {
+                console.log(`  [${i + 1}/${questions.length}] ⏭ Skipped (already exists in Session ${existing.session || 1}): "${q.questionText.substring(0, 50)}..."`);
+                skippedCrossSession++;
             }
         }
 
@@ -101,6 +120,7 @@ async function seed() {
         console.log(`   - Session: ${SESSION_NUMBER}`);
         console.log(`   - Newly Inserted: ${inserted}`);
         console.log(`   - Updated Existing: ${updated}`);
+        console.log(`   - Skipped Cross-Session Duplicates: ${skippedCrossSession}`);
         console.log(`   - Total Session ${SESSION_NUMBER} Questions in DB: ${totalCount}`);
         console.log('================================================================\n');
     } catch (err) {

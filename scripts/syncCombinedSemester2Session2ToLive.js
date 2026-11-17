@@ -51,19 +51,21 @@ async function syncToLive() {
     }
 
     const encodedCategory = encodeURIComponent(CATEGORY_NAME);
-    const existingRes = await fetch(`${BASE_URL}/api/questions?category=${encodedCategory}&session=${SESSION_NUMBER}`);
+    const existingRes = await fetch(`${BASE_URL}/api/questions?category=${encodedCategory}`);
     const existingQuestions = existingRes.ok ? await existingRes.json() : [];
 
     const getKey = (q) => {
-        const text = (q.question_text || q.questionText || '').trim().toLowerCase();
-        const ans = (q.correct_answer || q.correctAnswer || '').trim().toLowerCase();
-        return `${text}:::${ans}`;
+        return String(q.question_text || q.questionText || '')
+            .trim()
+            .toLowerCase()
+            .replace(/_+/g, '_')
+            .replace(/\s+/g, ' ');
     };
 
     const existingKeys = new Set(
         (Array.isArray(existingQuestions) ? existingQuestions : []).map(getKey)
     );
-    console.log(`Found ${existingKeys.size} existing question(s) already on server for Session ${SESSION_NUMBER}.`);
+    console.log(`Found ${existingKeys.size} existing question(s) already on server across all sessions of "${CATEGORY_NAME}".`);
 
     let inserted = 0;
     let skipped = 0;
