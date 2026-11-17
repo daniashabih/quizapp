@@ -102,8 +102,9 @@ export default function TechnologyDetail() {
             : 'Practice programming quizzes and interactive coding games on Hangbug.',
         primaryKeyword: seoConfig?.primaryKeyword,
         secondaryKeywords: seoConfig?.secondaryKeywords,
-        canonicalPath: seoConfig ? seoConfig.path : `/technologies/${slug || ''}`,
+        canonicalPath: seoConfig ? seoConfig.path : undefined,
         noindex: !seoConfig,
+        disableStructuredData: !seoConfig,
         ogImageAlt: seoConfig ? seoConfig.imageAlt : 'Hangbug Technology Quiz & Practice Track'
     });
 

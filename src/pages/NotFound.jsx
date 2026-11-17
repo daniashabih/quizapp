@@ -9,7 +9,8 @@ export default function NotFound() {
     usePageSeo({
         title: '404: Page Not Found — HangBug',
         description: "The page you are looking for doesn't exist, has been removed, or was moved to another URL.",
-        noindex: true
+        noindex: true,
+        disableStructuredData: true
     });
 
     return (

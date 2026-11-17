@@ -72,13 +72,16 @@ const Settings = () => {
                                     type="button"
                                     role="radio"
                                     aria-checked={active}
-                                    onClick={() => {
-                                        setThemeMode(opt.id);
-                                        notify.info({
-                                            id: 'hangbug-theme-switch',
-                                            title: 'Appearance updated',
-                                            description: `Switched interface theme to ${opt.label}.`
-                                        });
+                                    onClick={(e) => {
+                                        if (opt.id === theme) return;
+                                        const applied = setThemeMode(opt.id, e);
+                                        if (applied) {
+                                            notify.info({
+                                                id: 'hangbug-theme-switch',
+                                                title: 'Appearance updated',
+                                                description: `Switched interface theme to ${opt.label}.`
+                                            });
+                                        }
                                     }}
                                     className={`p-4 rounded-xl border text-left transition-all relative cursor-pointer ${
                                         active

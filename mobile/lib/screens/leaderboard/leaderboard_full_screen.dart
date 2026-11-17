@@ -6,7 +6,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../models/dashboard_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/dashboard_provider.dart';
-import '../../providers/theme_provider.dart';
+import '../../widgets/animated_theme_toggle.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
@@ -97,19 +97,7 @@ class _LeaderboardFullScreenState extends ConsumerState<LeaderboardFullScreen> {
               }
             },
           ),
-          IconButton(
-            tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
-            icon: Icon(
-              isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-              size: 20,
-              color: context.textSecondaryColor,
-            ),
-            onPressed: () {
-              ref
-                  .read(themeModeProvider.notifier)
-                  .toggleTheme(MediaQuery.platformBrightnessOf(context));
-            },
-          ),
+          const AnimatedThemeToggleButton(iconSize: 20),
           IconButton(
             icon: const Icon(Icons.refresh_rounded, size: 20),
             onPressed: () => ref.refresh(leaderboardProvider(filter)),

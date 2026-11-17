@@ -7,7 +7,9 @@ import '../../core/constants/app_text_styles.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../services/notification_service.dart';
+import '../../widgets/animated_theme_toggle.dart';
 import '../../widgets/app_button.dart';
+import '../../widgets/theme_transition_overlay.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -80,12 +82,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
-                              isDark
-                                  ? Icons.dark_mode_rounded
-                                  : Icons.light_mode_rounded,
+                            AnimatedThemeIcon(
+                              isDark: isDark,
                               size: 13,
-                              color: context.brandAccentColor,
+                              lightColor: context.brandAccentColor,
+                              darkColor: context.brandAccentColor,
                             ),
                             const SizedBox(width: 4),
                             Text(
@@ -374,85 +375,108 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       button: true,
       selected: isSelected,
       label: '$title theme option',
-      child: InkWell(
-        borderRadius: BorderRadius.circular(14),
-        onTap: () {
-          ref.read(themeModeProvider.notifier).setThemeMode(mode);
-          AppNotificationService.info(
-            id: 'mobile-theme-switch',
-            title: 'Appearance updated',
-            message: 'Switched interface theme to $title.',
-          );
-        },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 180),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          decoration: BoxDecoration(
-            color: isSelected
-                ? (isDark
-                    ? AppColors.darkPrimaryAccent.withValues(alpha: 0.12)
-                    : AppColors.accentLight.withValues(alpha: 0.55))
-                : context.mutedBgColor.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: isSelected ? activeColor : context.borderColor,
-              width: isSelected ? 1.8 : 1.0,
+      child: Builder(
+        builder: (tileContext) => InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: () {
+            if (isSelected) return;
+            final platformBrightness =
+                MediaQuery.platformBrightnessOf(tileContext);
+            final targetIsDark = mode == ThemeMode.dark ||
+                (mode == ThemeMode.system &&
+                    platformBrightness == Brightness.dark);
+            final viewport = ThemeTransitionViewport.maybeOf(tileContext);
+
+            Future<void> apply() async {
+              await ref.read(themeModeProvider.notifier).setThemeMode(mode);
+              AppNotificationService.info(
+                id: 'mobile-theme-switch',
+                title: 'Appearance updated',
+                message: 'Switched interface theme to $title.',
+              );
+            }
+
+            if (viewport != null && targetIsDark != isDark) {
+              viewport.switchTheme(
+                originContext: tileContext,
+                targetIsDark: targetIsDark,
+                applyTheme: apply,
+              );
+            } else {
+              apply();
+            }
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 240),
+            curve: Curves.easeInOutCubic,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? (isDark
+                      ? AppColors.darkPrimaryAccent.withValues(alpha: 0.12)
+                      : AppColors.accentLight.withValues(alpha: 0.55))
+                  : context.mutedBgColor.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: isSelected ? activeColor : context.borderColor,
+                width: isSelected ? 1.8 : 1.0,
+              ),
             ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? (isDark ? AppColors.primaryLight : AppColors.primary)
-                      : context.cardBgColor,
-                  borderRadius: BorderRadius.circular(11),
-                  border: Border.all(
-                    color: isSelected ? activeColor : context.borderColor,
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? (isDark ? AppColors.primaryLight : AppColors.primary)
+                        : context.cardBgColor,
+                    borderRadius: BorderRadius.circular(11),
+                    border: Border.all(
+                      color: isSelected ? activeColor : context.borderColor,
+                    ),
+                  ),
+                  child: Icon(
+                    icon,
+                    size: 20,
+                    color: isSelected
+                        ? Colors.white
+                        : context.textSecondaryColor,
                   ),
                 ),
-                child: Icon(
-                  icon,
-                  size: 20,
-                  color: isSelected
-                      ? Colors.white
-                      : context.textSecondaryColor,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: AppTextStyles.labelBold.copyWith(
-                        fontSize: 14,
-                        color: context.textPrimaryColor,
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: AppTextStyles.labelBold.copyWith(
+                          fontSize: 14,
+                          color: context.textPrimaryColor,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: AppTextStyles.bodySmall.copyWith(
-                        fontSize: 12,
-                        color: context.textSecondaryColor,
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: AppTextStyles.bodySmall.copyWith(
+                          fontSize: 12,
+                          color: context.textSecondaryColor,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Icon(
-                isSelected
-                    ? Icons.check_circle_rounded
-                    : Icons.radio_button_unchecked_rounded,
-                color: isSelected ? activeColor : context.textMutedColor,
-                size: 22,
-              ),
-            ],
+                const SizedBox(width: 8),
+                Icon(
+                  isSelected
+                      ? Icons.check_circle_rounded
+                      : Icons.radio_button_unchecked_rounded,
+                  color: isSelected ? activeColor : context.textMutedColor,
+                  size: 22,
+                ),
+              ],
+            ),
           ),
         ),
       ),

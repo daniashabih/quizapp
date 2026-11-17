@@ -1013,6 +1013,173 @@
   background-color: var(--muted-bg) !important;
 }
 
+/* ===================================================
+   Premium Light & Dark Theme Switching Animations
+   =================================================== */
+
+/* View Transitions API Circular Reveal */
+html.theme-vt-active::view-transition-group(root) {
+  animation-duration: 600ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.theme-vt-active::view-transition-old(root),
+html.theme-vt-active::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.theme-vt-active::view-transition-old(root) {
+  z-index: 1;
+}
+
+html.theme-vt-active::view-transition-new(root) {
+  z-index: 2;
+  animation: hangbug-theme-reveal 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes hangbug-theme-reveal {
+  from {
+    clip-path: circle(0px at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 50%));
+  }
+  to {
+    clip-path: circle(var(--theme-reveal-r, 150vmax) at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 50%));
+  }
+}
+
+/* Suspend slow surface transitions during VT capture so the reveal stays crisp with zero flash */
+html.theme-vt-active *,
+html.theme-vt-active *::before,
+html.theme-vt-active *::after {
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+/* Keep the Sun & Moon icon morph smoothly animated inside the circular reveal */
+.theme-toggle-motion,
+.theme-toggle-motion *,
+html.theme-vt-active .theme-toggle-motion,
+html.theme-vt-active .theme-toggle-motion *,
+html.theme-css-transition .theme-toggle-motion,
+html.theme-css-transition .theme-toggle-motion * {
+  transition-property: transform, opacity, color !important;
+  transition-duration: 450ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-delay: 0ms !important;
+  will-change: transform, opacity;
+}
+
+/* Graceful CSS Fallback for browsers without View Transitions API */
+html.theme-css-transition body,
+html.theme-css-transition header,
+html.theme-css-transition nav,
+html.theme-css-transition main,
+html.theme-css-transition aside,
+html.theme-css-transition section,
+html.theme-css-transition article,
+html.theme-css-transition footer,
+html.theme-css-transition .card,
+html.theme-css-transition .card-hover,
+html.theme-css-transition .glass,
+html.theme-css-transition .glass-nav,
+html.theme-css-transition .glass-sidebar,
+html.theme-css-transition .btn-primary,
+html.theme-css-transition .btn-secondary,
+html.theme-css-transition .btn-ghost,
+html.theme-css-transition .btn-social,
+html.theme-css-transition .input-field,
+html.theme-css-transition .input-group,
+html.theme-css-transition .quiz-option,
+html.theme-css-transition .badge,
+html.theme-css-transition .badge-emerald,
+html.theme-css-transition .badge-success,
+html.theme-css-transition .badge-error,
+html.theme-css-transition .badge-accent,
+html.theme-css-transition div:not(.skeleton),
+html.theme-css-transition button,
+html.theme-css-transition a,
+html.theme-css-transition input,
+html.theme-css-transition select,
+html.theme-css-transition textarea,
+html.theme-css-transition span:not(.theme-toggle-motion):not(.theme-toggle-motion *),
+html.theme-css-transition p,
+html.theme-css-transition h1,
+html.theme-css-transition h2,
+html.theme-css-transition h3,
+html.theme-css-transition h4,
+html.theme-css-transition h5,
+html.theme-css-transition h6,
+html.theme-css-transition li,
+html.theme-css-transition td,
+html.theme-css-transition th,
+html.theme-css-transition svg:not(.theme-toggle-motion svg) {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow !important;
+  transition-duration: 600ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+.hangbug-theme-reveal-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99998;
+  will-change: clip-path, opacity;
+  animation: hangbug-theme-fallback-wave 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hangbug-theme-reveal-overlay[data-direction="to-dark"] {
+  background: radial-gradient(
+    circle at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 50%),
+    rgba(52, 211, 153, 0.16) 0%,
+    rgba(15, 21, 19, 0.24) 55%,
+    rgba(52, 211, 153, 0.08) 88%,
+    transparent 100%
+  );
+}
+
+.hangbug-theme-reveal-overlay[data-direction="to-light"] {
+  background: radial-gradient(
+    circle at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 50%),
+    rgba(209, 154, 69, 0.2) 0%,
+    rgba(252, 250, 244, 0.24) 55%,
+    rgba(243, 229, 197, 0.12) 88%,
+    transparent 100%
+  );
+}
+
+@keyframes hangbug-theme-fallback-wave {
+  0% {
+    clip-path: circle(0px at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 50%));
+    opacity: 0.92;
+  }
+  70% {
+    opacity: 0.52;
+  }
+  100% {
+    clip-path: circle(var(--theme-reveal-r, 150vmax) at var(--theme-reveal-x, 50%) var(--theme-reveal-y, 50%));
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-vt-active::view-transition-group(root),
+  html.theme-vt-active::view-transition-old(root),
+  html.theme-vt-active::view-transition-new(root),
+  .hangbug-theme-reveal-overlay {
+    animation: none !important;
+  }
+
+  .theme-toggle-motion,
+  .theme-toggle-motion *,
+  html.theme-vt-active .theme-toggle-motion,
+  html.theme-vt-active .theme-toggle-motion *,
+  html.theme-css-transition .theme-toggle-motion,
+  html.theme-css-transition .theme-toggle-motion *,
+  html.theme-css-transition * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* ---- Print Styles for Certificate ---- */
 @media print {
   .no-print {

@@ -89,14 +89,16 @@ export const GamePlayer = () => {
 
     // Technical SEO: Dynamic Title, Description, and Canonical URL for each game
     usePageSeo({
+        skip: loading && !seoGame,
         title: seoGame
             ? `${seoGame.title} — ${seoGame.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | Hangbug`
             : 'Developer Game Challenge — Hangbug Games',
         description: seoGame?.description
             ? `${seoGame.description} Practice interactive coding challenges on Hangbug.`
             : 'Play interactive coding and typing games on Hangbug to sharpen programming logic and keyboard speed.',
-        canonicalPath: `/games/${seoGame?.baseSlug || seoGame?.slug || slug || ''}`,
+        canonicalPath: seoGame ? `/games/${seoGame.baseSlug || seoGame.slug || slug || ''}` : undefined,
         noindex: !seoGame,
+        disableStructuredData: !seoGame,
         ogType: 'website'
     });
 

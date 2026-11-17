@@ -6,8 +6,8 @@ import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 import '../../core/utils/validators.dart';
 import '../../providers/auth_provider.dart';
-import '../../providers/theme_provider.dart';
 import '../../services/notification_service.dart';
+import '../../widgets/animated_theme_toggle.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 
@@ -69,20 +69,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
-          IconButton(
-            tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
-            icon: Icon(
-              isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-              color: context.textSecondaryColor,
-            ),
-            onPressed: () {
-              ref
-                  .read(themeModeProvider.notifier)
-                  .toggleTheme(MediaQuery.platformBrightnessOf(context));
-            },
-          ),
-          const SizedBox(width: 8),
+        actions: const [
+          AnimatedThemeToggleButton(iconSize: 22),
+          SizedBox(width: 8),
         ],
       ),
       body: SafeArea(

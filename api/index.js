@@ -24,7 +24,14 @@ const certificateRoutes = require('./_routes/certificateRoutes');
 const userRoutes = require('./_routes/userRoutes');
 const gameRoutes = require('./_routes/gameRoutes');
 const blogRoutes = require('./_routes/blogRoutes');
-const { getDynamicSitemap, getRobotsTxt, isKnownAppRoute } = require('./_controllers/seoController');
+const {
+    getDynamicSitemap,
+    getRobotsTxt,
+    isKnownAppRoute,
+    resolveAppRoute,
+    findPrerenderedFile,
+    renderStatusHtml
+} = require('./_controllers/seoController');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,16 +39,40 @@ const PORT = process.env.PORT || 3000;
 // Trust reverse proxies (e.g. Vercel, Render)
 app.set('trust proxy', 1);
 
-// SEO: Canonical Domain Redirection (non-www -> www) & Trailing Slash Normalization
+// Restore original requested path when invoked via Vercel catch-all rewrite (?__hangbug_route=...)
+app.use((req, _res, next) => {
+    try {
+        const parsed = new URL(req.url, 'https://www.hangbug.com');
+        const rewrittenRoute = parsed.searchParams.get('__hangbug_route');
+        if (typeof rewrittenRoute === 'string' && rewrittenRoute.length > 0) {
+            const safeRoute = '/' + rewrittenRoute.replace(/^\/+/, '');
+            if (!safeRoute.startsWith('/api/') && safeRoute !== '/api') {
+                parsed.searchParams.delete('__hangbug_route');
+                const remainingQs = parsed.searchParams.toString();
+                req.url = safeRoute + (remainingQs ? `?${remainingQs}` : '');
+            }
+        }
+    } catch {
+        // Ignore malformed URLs and allow normal Express routing
+    }
+    next();
+});
+
+// SEO: Canonical Domain Redirection (non-www -> www) & Trailing Slash Normalization for known routes
 app.use((req, res, next) => {
     const host = (req.headers.host || '').toLowerCase();
     if (host === 'hangbug.com') {
-        return res.redirect(301, `https://www.hangbug.com${req.originalUrl}`);
+        const safeOriginal = req.originalUrl && req.originalUrl.startsWith('/')
+            ? '/' + req.originalUrl.replace(/^\/+/, '')
+            : '/';
+        return res.redirect(301, `https://www.hangbug.com${safeOriginal}`);
     }
     if (!req.path.startsWith('/api') && req.path.length > 1 && req.path.endsWith('/')) {
         const query = req.url.slice(req.path.length);
-        const safePath = req.path.slice(0, -1);
-        return res.redirect(301, safePath + query);
+        const safePath = '/' + req.path.slice(0, -1).replace(/^\/+/, '');
+        if (isKnownAppRoute(safePath)) {
+            return res.redirect(301, safePath + query);
+        }
     }
     next();
 });
@@ -146,40 +177,107 @@ app.use('/api', (req, res) => {
     });
 });
 
-// Global Error Handler
-app.use((err, req, res, _next) => {
-    console.error('=== ERROR ===');
-    console.error('Message:', err.message);
-    
-    // Log Prisma-specific errors with more detail
-    if (err.code && err.code.startsWith('P')) {
-        console.error('Prisma Error Code:', err.code);
-    }
+async function handlePageRequest(req, res, next) {
+    try {
+        if (req.method !== 'GET' && req.method !== 'HEAD') {
+            res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+            res.setHeader('Cache-Control', 'no-store');
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            return res.status(404).send(renderStatusHtml({ statusCode: 404, noindex: true }));
+        }
 
-    res.status(err.status || 500).json({ 
-        message: err.message || 'Something went wrong!',
-        ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+        const resolution = await resolveAppRoute(req.path);
+
+        if (resolution.statusCode === 404) {
+            res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+            res.setHeader('Cache-Control', 'no-store');
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            return res.status(404).send(renderStatusHtml(resolution));
+        }
+
+        if (req.path.length > 1 && req.path.endsWith('/')) {
+            const query = req.url.slice(req.path.length);
+            return res.redirect(301, resolution.cleanPath + query);
+        }
+
+        if (resolution.noindex) {
+            res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+        }
+
+        const prerenderedFile = findPrerenderedFile(resolution.cleanPath);
+        if (prerenderedFile) {
+            return res.status(200).sendFile(prerenderedFile);
+        }
+
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.status(200).send(renderStatusHtml(resolution));
+    } catch (err) {
+        return next(err);
+    }
+}
+
+function registerStaticAndPageFallback() {
+    const distPath = path.join(process.cwd(), 'dist');
+    if (fs.existsSync(distPath)) {
+        app.use(express.static(distPath, { redirect: false }));
+    }
+    app.use(handlePageRequest);
+}
+
+function registerErrorHandler() {
+    app.use((err, req, res, _next) => {
+        console.error('=== ERROR ===');
+        console.error('Message:', err.message);
+
+        // Log Prisma-specific errors with more detail
+        if (err.code && err.code.startsWith('P')) {
+            console.error('Prisma Error Code:', err.code);
+        }
+
+        res.status(err.status || 500).json({
+            message: err.message || 'Something went wrong!',
+            ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+        });
     });
-});
+}
+
+// Mount static/page resolution immediately for Vercel Serverless, production runs, and imported app tests
+if (require.main !== module || process.env.NODE_ENV === 'production') {
+    registerStaticAndPageFallback();
+    registerErrorHandler();
+}
 
 async function startServer() {
     if (process.env.NODE_ENV !== 'production') {
         const { createServer: createViteServer } = await import('vite');
         const vite = await createViteServer({
             server: { middlewareMode: true },
-            appType: 'spa',
+            appType: 'custom',
         });
         app.use(vite.middlewares);
-    } else {
-        const distPath = path.join(process.cwd(), 'dist');
-        app.use(express.static(distPath));
-        app.use((req, res) => {
-            if (isKnownAppRoute(req.path)) {
-                res.status(200).sendFile(path.join(distPath, 'index.html'));
-            } else {
-                res.status(404).sendFile(path.join(distPath, 'index.html'));
+        app.use(async (req, res, next) => {
+            try {
+                if (req.method !== 'GET' && req.method !== 'HEAD') {
+                    return handlePageRequest(req, res, next);
+                }
+                const resolution = await resolveAppRoute(req.path);
+                if (resolution.statusCode === 200 && req.path.length > 1 && req.path.endsWith('/')) {
+                    const query = req.url.slice(req.path.length);
+                    return res.redirect(301, resolution.cleanPath + query);
+                }
+                if (resolution.noindex || resolution.statusCode === 404) {
+                    res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+                }
+                const rawHtml = renderStatusHtml(resolution);
+                const transformed = await vite.transformIndexHtml(req.originalUrl, rawHtml);
+                res.setHeader('Content-Type', 'text/html; charset=utf-8');
+                return res.status(resolution.statusCode).end(transformed);
+            } catch (e) {
+                vite.ssrFixStacktrace(e);
+                return next(e);
             }
         });
+        registerErrorHandler();
     }
 
     app.listen(PORT, '0.0.0.0', () => {

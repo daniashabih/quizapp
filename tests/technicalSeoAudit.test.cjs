@@ -417,10 +417,15 @@ test('22. Technical SEO: Route Validation for Soft 404 Prevention', () => {
     assert.strictEqual(isKnownAppRoute('/technologies'), true, 'Technologies route must be valid');
     assert.strictEqual(isKnownAppRoute('/technologies/react'), true, 'Technology slug must be valid');
     assert.strictEqual(isKnownAppRoute('/games/memory-match'), true, 'Game slug must be valid');
+    assert.strictEqual(isKnownAppRoute('/games/csharp-code-puzzle'), true, 'Valid C# game alias slug must be valid');
+    assert.strictEqual(isKnownAppRoute('/blog/html-tutorial-for-beginners'), true, 'Valid blog slug must be valid');
     assert.strictEqual(isKnownAppRoute('/about'), true, 'About page must be valid');
     assert.strictEqual(isKnownAppRoute('/contact'), true, 'Contact page must be valid');
     assert.strictEqual(isKnownAppRoute('/unknown-random-404-path'), false, 'Unknown path must not be a known route');
     assert.strictEqual(isKnownAppRoute('/technologies/fake-language'), false, 'Fake technology slug must not be a known route');
+    assert.strictEqual(isKnownAppRoute('/technologies/html/extra'), false, 'Nested unknown tech subpath must not be a known route');
+    assert.strictEqual(isKnownAppRoute('/blog/fake-nonexistent-article'), false, 'Fake blog slug must not be a known route');
+    assert.strictEqual(isKnownAppRoute('/games/fake-nonexistent-game'), false, 'Fake game slug must not be a known route');
 });
 
 test('23. Technical SEO Audit: Pre-rendered static pages exist with unique titles and meta descriptions', () => {
@@ -639,4 +644,82 @@ test('28. Homepage SEO Verification: Metadata, H1 hierarchy, canonical, Open Gra
 
     const websiteNode = jsonLd['@graph'].find(n => n['@type'] === 'WebSite');
     assert.ok(websiteNode && websiteNode.alternateName === 'HangBug', 'WebSite alternateName must be concise brand name HangBug');
+});
+
+test('29. Soft 404 Prevention: Vercel rewrites, pre-rendered blog/404 artifacts, NotFound UI, and Express HTTP status codes', async () => {
+    const http = require('node:http');
+    const vercelConfig = JSON.parse(readFile('vercel.json'));
+    const spaRewrite = vercelConfig.rewrites.find(r => r.destination && r.destination.includes('__hangbug_route'));
+    assert.ok(spaRewrite, 'vercel.json catch-all rewrite must route unmatched paths through /api/index.js?__hangbug_route=/$1');
+    assert.ok(!vercelConfig.rewrites.some(r => r.destination === '/index.html'), 'vercel.json must NOT blindly rewrite unmatched URLs to /index.html with HTTP 200');
+    assert.ok(vercelConfig.functions['api/index.js'].includeFiles.includes('dist/404.html'), 'vercel.json must include dist/404.html for serverless fallback');
+
+    assert.ok(fs.existsSync(path.join(ROOT_DIR, 'dist/404.html')), 'dist/404.html must exist');
+    const static404 = readFile('dist/404.html');
+    assert.ok(static404.includes('noindex, nofollow'), 'dist/404.html must include noindex, nofollow');
+    assert.ok(!static404.includes('<link rel="canonical"'), 'dist/404.html must NOT contain a homepage canonical link');
+
+    assert.ok(fs.existsSync(path.join(ROOT_DIR, 'dist/blog/html-tutorial-for-beginners/index.html')), 'Pre-rendered blog post must exist');
+    const blogHtml = readFile('dist/blog/html-tutorial-for-beginners/index.html');
+    assert.ok(blogHtml.includes('HTML Tutorial for Beginners'), 'Pre-rendered blog post must contain article title');
+
+    const notFoundComponent = readFile('src/pages/NotFound.jsx');
+    assert.ok(notFoundComponent.includes('Oops! Lost in the Code?') && notFoundComponent.includes('noindex: true'), 'NotFound component must preserve UI and set noindex: true');
+
+    const blogDetailComponent = readFile('src/pages/blog/BlogDetail.jsx');
+    assert.ok(blogDetailComponent.includes('return <NotFound />;'), 'BlogDetail must render NotFound when article is missing');
+
+    const app = require('../api/index.js');
+    const server = await new Promise((resolve) => {
+        const s = app.listen(0, '127.0.0.1', () => resolve(s));
+    });
+
+    try {
+        const { port } = server.address();
+        const requestRoute = (reqPath) => new Promise((resolve, reject) => {
+            const req = http.get(`http://127.0.0.1:${port}${reqPath}`, (res) => {
+                let body = '';
+                res.on('data', (chunk) => { body += chunk; });
+                res.on('end', () => resolve({ status: res.statusCode, headers: res.headers, body }));
+            });
+            req.on('error', reject);
+        });
+
+        const okRoutes = [
+            '/',
+            '/technologies',
+            '/technologies/html',
+            '/blog',
+            '/blog/html-tutorial-for-beginners',
+            '/games',
+            '/games/code-puzzle',
+            '/games/csharp-code-puzzle',
+            '/api/index.js?__hangbug_route=/login'
+        ];
+        for (const r of okRoutes) {
+            const res = await requestRoute(r);
+            assert.strictEqual(res.status, 200, `${r} must return HTTP 200, got ${res.status}`);
+        }
+
+        const notFoundRoutes = [
+            '/technologies/invalid-tech-slug',
+            '/blog/invalid-blog-slug',
+            '/games/invalid-game-slug',
+            '/this-page-does-not-exist-404',
+            '/api/index.js?__hangbug_route=/technologies/invalid-tech-slug',
+            '/api/index.js?__hangbug_route=/blog/invalid-blog-slug',
+            '/api/index.js?__hangbug_route=/games/invalid-game-slug',
+            '/api/index.js?__hangbug_route=/unknown-url-check'
+        ];
+        for (const r of notFoundRoutes) {
+            const res = await requestRoute(r);
+            assert.strictEqual(res.status, 404, `${r} must return HTTP 404, got ${res.status}`);
+            assert.strictEqual(res.headers.location, undefined, `${r} must NOT redirect`);
+            assert.strictEqual(res.headers['x-robots-tag'], 'noindex, nofollow', `${r} must emit X-Robots-Tag: noindex, nofollow`);
+            assert.ok(res.body.includes('noindex, nofollow'), `${r} HTML must declare noindex, nofollow`);
+            assert.ok(!res.body.includes('<link rel="canonical" href="https://www.hangbug.com/"'), `${r} HTML must NOT contain homepage canonical`);
+        }
+    } finally {
+        await new Promise((resolve) => server.close(resolve));
+    }
 });

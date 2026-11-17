@@ -50,6 +50,7 @@ export function usePageSeo({
     description,
     canonicalPath,
     noindex = false,
+    skip = false,
     ogType = 'website',
     ogImage = DEFAULT_IMAGE,
     ogImageAlt = 'Hangbug – Technology Learning, Programming Quizzes & Skill Assessment Platform',
@@ -82,7 +83,7 @@ export function usePageSeo({
     });
 
     useEffect(() => {
-        if (typeof document === 'undefined') return;
+        if (typeof document === 'undefined' || skip) return;
 
         // 1. Document Title
         if (title) {
@@ -116,7 +117,7 @@ export function usePageSeo({
             else setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', description);
         }
 
-        // 3. Route-specific Canonical URL
+        // 3. Route-specific Canonical URL (remove stale canonical on noindex error pages)
         if (canonicalPath !== undefined && canonicalPath !== null) {
             const cleanPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
             const canonicalHref = `${BASE_URL}${cleanPath === '/' ? '/' : cleanPath.replace(/\/$/, '')}`;
@@ -136,6 +137,10 @@ export function usePageSeo({
             let twitterUrl = document.querySelector('meta[name="twitter:url"]');
             if (twitterUrl) twitterUrl.setAttribute('content', canonicalHref);
             else setMetaTag('meta[name="twitter:url"]', 'name', 'twitter:url', canonicalHref);
+        } else if (noindex) {
+            document.querySelector('link[rel="canonical"]')?.remove();
+            document.querySelector('meta[property="og:url"]')?.remove();
+            document.querySelector('meta[name="twitter:url"]')?.remove();
         }
 
         // 4. Open Graph Type & Site Name
@@ -196,6 +201,7 @@ export function usePageSeo({
             injectStructuredData(null);
         }
     }, [
+        skip,
         title,
         description,
         canonicalPath,

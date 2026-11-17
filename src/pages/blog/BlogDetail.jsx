@@ -25,6 +25,7 @@ import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
 import blogService from '../../services/blogService';
 import { INITIAL_BLOG_ARTICLES } from '../../services/blogArticles';
+import NotFound from '../NotFound';
 
 const CATEGORY_COLORS = {
     HTML: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30',
@@ -272,24 +273,35 @@ export default function BlogDetail() {
         return () => { isMounted = false; };
     }, [slug]);
 
+    const fallbackArticle = INITIAL_BLOG_ARTICLES.find(a => a.slug === slug) || null;
+    const activeArticle = article || fallbackArticle;
+
     // Dynamic SEO Configuration
     usePageSeo({
-        title: article?.seoTitle || (article?.title ? `${article.title} | Hangbug` : 'Tutorial Not Found | Hangbug'),
-        description: article?.seoDescription || article?.excerpt || 'Read programming guides and tutorials on Hangbug.',
-        canonicalPath: `/blog/${slug}`,
+        skip: loading && !activeArticle,
+        title: activeArticle
+            ? (activeArticle.seoTitle || `${activeArticle.title} | Hangbug`)
+            : '404: Page Not Found — HangBug',
+        description: activeArticle
+            ? (activeArticle.seoDescription || activeArticle.excerpt || 'Read programming guides and tutorials on Hangbug.')
+            : "The page you are looking for doesn't exist, has been removed, or was moved to another URL.",
+        canonicalPath: activeArticle ? `/blog/${slug}` : undefined,
+        noindex: !loading && !activeArticle,
+        disableStructuredData: !activeArticle,
         schemaType: 'Article',
         breadcrumbs: [
             { name: 'Home', path: '/' },
             { name: 'Blog', path: '/blog' },
-            ...(article?.category ? [{ name: article.category, path: `/blog?category=${encodeURIComponent(article.category)}` }] : []),
-            ...(article?.title ? [{ name: article.title, path: `/blog/${slug}` }] : [])
+            ...(activeArticle?.category ? [{ name: activeArticle.category, path: `/blog?category=${encodeURIComponent(activeArticle.category)}` }] : []),
+            ...(activeArticle?.title ? [{ name: activeArticle.title, path: `/blog/${slug}` }] : [])
         ],
-        article: article ? {
-            headline: article.title,
-            description: article.excerpt,
-            authorName: article.authorName || 'Hangbug Editorial Team',
-            datePublished: article.publishedAt ? new Date(article.publishedAt).toISOString() : new Date().toISOString(),
-            dateModified: article.updatedAt ? new Date(article.updatedAt).toISOString() : new Date().toISOString(),
+        article: activeArticle ? {
+            headline: activeArticle.title,
+            description: activeArticle.excerpt,
+            authorName: activeArticle.authorName || 'Hangbug Editorial Team',
+            authorType: 'Organization',
+            datePublished: activeArticle.publishedAt ? new Date(activeArticle.publishedAt).toISOString() : new Date().toISOString(),
+            dateModified: activeArticle.updatedAt ? new Date(activeArticle.updatedAt).toISOString() : new Date().toISOString(),
             image: 'https://www.hangbug.com/branding/hangbug-logo-full.png'
         } : null
     });
@@ -316,32 +328,7 @@ export default function BlogDetail() {
     }
 
     if (!article) {
-        return (
-            <div className="min-h-screen bg-[var(--background)] flex flex-col font-sans">
-                <Navbar />
-                <main className="flex-grow pt-32 pb-16 px-4 max-w-2xl mx-auto w-full text-center space-y-6">
-                    <div className="w-16 h-16 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
-                        <BookOpen size={28} />
-                    </div>
-                    <h1 className="text-2xl sm:text-3xl font-black text-[var(--foreground)]">
-                        Article Not Found
-                    </h1>
-                    <p className="text-sm text-[var(--foreground-muted)] leading-relaxed">
-                        The tutorial or guide you are looking for may have been moved, renamed, or is temporarily unavailable.
-                    </p>
-                    <div className="pt-2">
-                        <Link
-                            to="/blog"
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#193D35] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#132e28] transition-all shadow"
-                        >
-                            <ArrowLeft size={14} />
-                            <span>Return to Blog Listing</span>
-                        </Link>
-                    </div>
-                </main>
-                <Footer />
-            </div>
-        );
+        return <NotFound />;
     }
 
     const categoryColor = CATEGORY_COLORS[article.category] || 'bg-primary/10 text-primary border-primary/20';

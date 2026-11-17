@@ -1,9 +1,20 @@
+import { useEffect } from 'react';
 import logoIcon from '../assets/branding/hangbug-icon.png';
 import logoCompact from '../assets/branding/hangbug-logo-compact.png';
 import logoCompactDark from '../assets/branding/hangbug-logo-compact-dark.png';
 import logoFull from '../assets/branding/hangbug-logo-full.png';
 import logoDark from '../assets/branding/hangbug-logo-dark.png';
 import { useTheme } from '../context/ThemeContext';
+
+let logosPreloaded = false;
+function preloadAlternateBrandLogos() {
+    if (logosPreloaded || typeof window === 'undefined' || typeof Image === 'undefined') return;
+    logosPreloaded = true;
+    [logoCompact, logoCompactDark, logoFull, logoDark].forEach((src) => {
+        const img = new Image();
+        img.src = src;
+    });
+}
 
 const MARK_SIZE_MAP = {
     xs: 'w-7 h-7',
@@ -40,6 +51,10 @@ export default function BrandLogo({
     const { isDark } = useTheme();
     const effectiveDark = dark !== undefined ? dark : isDark;
     const priorityProps = fetchPriority ? { fetchPriority } : {};
+
+    useEffect(() => {
+        preloadAlternateBrandLogos();
+    }, []);
 
     if (variant === 'mark') {
         const boxSize = MARK_SIZE_MAP[size] || MARK_SIZE_MAP.md;

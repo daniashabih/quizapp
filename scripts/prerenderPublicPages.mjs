@@ -1,8 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { SEO_PAGES_CONFIG, getTechnologySeoBySlug } from '../src/config/seoPagesConfig.js';
 import { buildPageStructuredData } from '../src/utils/structuredData.js';
+
+const require = createRequire(import.meta.url);
+const { INITIAL_BLOG_ARTICLES } = require('../api/_models/blogArticles/initialBlogArticles.js');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -359,70 +363,115 @@ function generateHomeBodyHtml(pageConfig) {
     `;
 }
 
+function escapeAttr(str) {
+    return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+function escapeText(str) {
+    return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+// Persist clean un-prerendered Vite SPA shell for Express / Vercel serverless fallback
+const generatedDir = path.join(ROOT_DIR, 'api', '_generated');
+fs.mkdirSync(generatedDir, { recursive: true });
+const cleanSpaShell = baseTemplate.replace(
+    /<div id="root">[\s\S]*<\/div>(?=\s*(?:<script|<\/body>))/,
+    '<div id="root"></div>'
+);
+fs.writeFileSync(path.join(generatedDir, 'spa-shell.html'), cleanSpaShell, 'utf8');
+
 // Generate pre-rendered HTML for a given page definition
 function renderPage(page) {
     const {
         path: routePath,
         title,
         description,
-        h1,
         schemaType = 'WebPage',
         includeApplicationSchema = false,
         softwareApplication = null,
+        article = null,
+        ogType = 'website',
+        robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+        omitCanonical = false,
+        omitJsonLd = false,
         bodyHtml
     } = page;
 
     const canonicalUrl = `${BASE_URL}${routePath === '/' ? '/' : routePath.replace(/\/+$/, '')}`;
-
-    // Build Schema.org structured data
-    const structuredData = buildPageStructuredData({
-        title,
-        description,
-        canonicalPath: routePath,
-        schemaType,
-        includeApplicationSchema,
-        softwareApplication
-    });
-
-    const jsonLdString = JSON.stringify(structuredData, null, 2);
+    const safeTitleText = escapeText(title);
+    const safeTitleAttr = escapeAttr(title);
+    const safeDescAttr = escapeAttr(description);
+    const safeCanonicalAttr = escapeAttr(canonicalUrl);
 
     let html = baseTemplate;
 
     // 1. Update <title>
-    html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`);
+    html = html.replace(/<title>[\s\S]*?<\/title>/, () => `<title>${safeTitleText}</title>`);
 
-    // 2. Update <meta name="description">
+    // 2. Update <meta name="description"> & <meta name="robots">
     html = html.replace(
-        /<meta\s+name="description"\s+content="[\s\S]*?"\s*\/?>/,
-        `<meta name="description" content="${description}" />`
+        /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/,
+        () => `<meta name="description" content="${safeDescAttr}" />`
+    );
+    html = html.replace(
+        /<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/,
+        () => `<meta name="robots" content="${escapeAttr(robots)}" />`
     );
 
-    // 3. Inject / Update canonical link
-    const canonicalTag = `<link rel="canonical" href="${canonicalUrl}" />`;
-    if (html.includes('<link rel="canonical"')) {
-        html = html.replace(/<link\s+rel="canonical"\s+href="[\s\S]*?"\s*\/?>/, canonicalTag);
+    // 3. Inject / Update / Remove canonical link
+    if (omitCanonical) {
+        html = html.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>\s*/g, '');
+        html = html.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>\s*/g, '');
+        html = html.replace(/<meta\s+name="twitter:url"\s+content="[^"]*"\s*\/?>\s*/g, '');
     } else {
-        html = html.replace(/(<meta\s+name="description"[\s\S]*?>)/, `$1\n    ${canonicalTag}`);
+        const canonicalTag = `<link rel="canonical" href="${safeCanonicalAttr}" />`;
+        if (html.includes('<link rel="canonical"')) {
+            html = html.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/, () => canonicalTag);
+        } else {
+            html = html.replace(/(<meta\s+name="description"[\s\S]*?>)/, (_, m) => `${m}\n    ${canonicalTag}`);
+        }
+        html = html.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/, () => `<meta property="og:url" content="${safeCanonicalAttr}" />`);
+        html = html.replace(/<meta\s+name="twitter:url"\s+content="[^"]*"\s*\/?>/, () => `<meta name="twitter:url" content="${safeCanonicalAttr}" />`);
     }
 
     // 4. Update Open Graph & Twitter metadata
-    html = html.replace(/<meta\s+property="og:title"\s+content="[\s\S]*?"\s*\/?>/, `<meta property="og:title" content="${title}" />`);
-    html = html.replace(/<meta\s+property="og:description"\s+content="[\s\S]*?"\s*\/?>/, `<meta property="og:description" content="${description}" />`);
-    html = html.replace(/<meta\s+property="og:url"\s+content="[\s\S]*?"\s*\/?>/, `<meta property="og:url" content="${canonicalUrl}" />`);
-    html = html.replace(/<meta\s+name="twitter:title"\s+content="[\s\S]*?"\s*\/?>/, `<meta name="twitter:title" content="${title}" />`);
-    html = html.replace(/<meta\s+name="twitter:description"\s+content="[\s\S]*?"\s*\/?>/, `<meta name="twitter:description" content="${description}" />`);
-    html = html.replace(/<meta\s+name="twitter:url"\s+content="[\s\S]*?"\s*\/?>/, `<meta name="twitter:url" content="${canonicalUrl}" />`);
+    html = html.replace(/<meta\s+property="og:type"\s+content="[^"]*"\s*\/?>/, () => `<meta property="og:type" content="${escapeAttr(ogType)}" />`);
+    html = html.replace(/<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/, () => `<meta property="og:title" content="${safeTitleAttr}" />`);
+    html = html.replace(/<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/, () => `<meta property="og:description" content="${safeDescAttr}" />`);
+    html = html.replace(/<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/?>/, () => `<meta name="twitter:title" content="${safeTitleAttr}" />`);
+    html = html.replace(/<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/?>/, () => `<meta name="twitter:description" content="${safeDescAttr}" />`);
 
-    // 5. Update JSON-LD structured data script
-    html = html.replace(
-        /<script id="hangbug-jsonld" type="application\/ld\+json">[\s\S]*?<\/script>/,
-        `<script id="hangbug-jsonld" type="application/ld+json">\n${jsonLdString}\n    </script>`
-    );
+    // 5. Update or remove JSON-LD structured data script
+    if (omitJsonLd) {
+        html = html.replace(/<script id="hangbug-jsonld" type="application\/ld\+json">[\s\S]*?<\/script>\s*/, '');
+    } else {
+        const structuredData = buildPageStructuredData({
+            title,
+            description,
+            canonicalPath: routePath,
+            schemaType,
+            includeApplicationSchema,
+            softwareApplication,
+            article
+        });
+        const jsonLdString = JSON.stringify(structuredData, null, 2);
+        html = html.replace(
+            /<script id="hangbug-jsonld" type="application\/ld\+json">[\s\S]*?<\/script>/,
+            () => `<script id="hangbug-jsonld" type="application/ld+json">\n${jsonLdString}\n    </script>`
+        );
+    }
 
     // 6. Replace entire <div id="root">...</div> container cleanly up to </body> (or trailing <script>)
     html = html.replace(
         /<div id="root">[\s\S]*<\/div>(?=\s*(?:<script|<\/body>))/,
-        `<div id="root">\n${bodyHtml}\n    </div>`
+        () => `<div id="root">\n${bodyHtml}\n    </div>`
     );
 
     return html;
@@ -738,7 +787,85 @@ for (const game of GAMES_LIST) {
     renderedCount++;
 }
 
-// 5. Copy llms.txt and llms-full.txt to dist/
+// 5. Pre-render all static Blog Articles (/blog/:slug) with genuine Article schema
+for (const article of INITIAL_BLOG_ARTICLES) {
+    if (!article || !article.slug) continue;
+    const articleTitle = article.seoTitle || `${article.title} | Hangbug`;
+    const articleDesc = article.seoDescription || article.excerpt || '';
+    const relatedTechSlug = (article.category || '').toLowerCase() === 'c#'
+        ? 'csharp'
+        : (article.category || '').toLowerCase().replace(/\s+/g, '-');
+
+    const pageDef = {
+        path: `/blog/${article.slug}`,
+        title: articleTitle,
+        description: articleDesc,
+        h1: article.title,
+        ogType: 'article',
+        schemaType: 'Article',
+        article: {
+            headline: article.title,
+            description: article.excerpt || articleDesc,
+            authorName: article.authorName || 'Hangbug Editorial Team',
+            authorType: 'Organization',
+            datePublished: article.publishedAt ? new Date(article.publishedAt).toISOString() : '2026-08-01T00:00:00.000Z',
+            dateModified: article.updatedAt ? new Date(article.updatedAt).toISOString() : (article.publishedAt ? new Date(article.publishedAt).toISOString() : '2026-08-01T00:00:00.000Z'),
+            articleSection: article.category
+        },
+        bodyHtml: generateBodyHtml({
+            title: articleTitle,
+            h1: article.title,
+            description: articleDesc,
+            primaryKeyword: article.category || 'programming tutorials',
+            introContent: article.excerpt || articleDesc,
+            h2s: [
+                `${article.category} Key Concepts & Takeaways`,
+                'Hands-On Code Practice & Application',
+                'Reinforce With Quizzes & Coding Challenges',
+                'Continue Learning on Hangbug'
+            ],
+            h3s: Array.isArray(article.keyTakeaways) && article.keyTakeaways.length > 0
+                ? article.keyTakeaways
+                : [article.title],
+            internalLinks: [
+                { label: 'All Blog Tutorials', to: '/blog' },
+                ...(relatedTechSlug && getTechnologySeoBySlug(relatedTechSlug)
+                    ? [{ label: `${article.category} Quizzes`, to: `/technologies/${relatedTechSlug}` }]
+                    : []),
+                ...(article.relatedGameSlug
+                    ? [{ label: 'Related Coding Challenge', to: `/games/${article.relatedGameSlug}` }]
+                    : []),
+                { label: 'Explore All Technologies', to: '/technologies' }
+            ]
+        })
+    };
+
+    const renderedHtml = renderPage(pageDef);
+    writeStaticPage(`/blog/${article.slug}`, renderedHtml);
+    const words = countWords(pageDef.bodyHtml);
+    console.log(`✓ Pre-rendered /blog/${article.slug.padEnd(28)} [Title & H1 unique | Word Count: ${words}]`);
+    renderedCount++;
+}
+
+// 6. Generate static 404.html error shell with noindex metadata for missing static files on Vercel
+const notFoundHtml = renderPage({
+    path: '/404',
+    title: '404: Page Not Found — HangBug',
+    description: "The page you are looking for doesn't exist, has been removed, or was moved to another URL.",
+    robots: 'noindex, nofollow',
+    omitCanonical: true,
+    omitJsonLd: true,
+    bodyHtml: `
+      <div id="seo-static-content" class="sr-only">
+        <h1>404 - Page Not Found</h1>
+        <p>The page or resource you are trying to access does not exist, has been moved, or is temporarily unavailable on Hangbug.</p>
+      </div>
+    `
+});
+fs.writeFileSync(path.join(DIST_DIR, '404.html'), notFoundHtml, 'utf8');
+console.log('✓ Generated dist/404.html with noindex, nofollow metadata');
+
+// 7. Copy llms.txt and llms-full.txt to dist/
 const publicDir = path.join(ROOT_DIR, 'public');
 for (const f of ['llms.txt', 'llms-full.txt']) {
     const src = path.join(publicDir, f);

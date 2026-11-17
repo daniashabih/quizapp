@@ -8,6 +8,7 @@ import 'providers/theme_provider.dart';
 import 'routes/app_router.dart';
 import 'services/ad_service.dart';
 import 'widgets/hangbug_toast.dart';
+import 'widgets/theme_transition_overlay.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,14 +37,28 @@ void main() async {
   );
 }
 
-class HangbugApp extends ConsumerWidget {
+class HangbugApp extends ConsumerStatefulWidget {
   const HangbugApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HangbugApp> createState() => _HangbugAppState();
+}
+
+class _HangbugAppState extends ConsumerState<HangbugApp> {
+  final ValueNotifier<bool> _snapshotRevealActive = ValueNotifier<bool>(false);
+
+  @override
+  void dispose() {
+    _snapshotRevealActive.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final router = ref.watch(routerProvider);
     final themeMode = ref.watch(themeModeProvider);
     final platformBrightness = MediaQuery.platformBrightnessOf(context);
+    final disableAnimations = MediaQuery.disableAnimationsOf(context);
     final bool isDarkEffective = themeMode == ThemeMode.dark ||
         (themeMode == ThemeMode.system &&
             platformBrightness == Brightness.dark);
@@ -56,14 +71,26 @@ class HangbugApp extends ConsumerWidget {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: overlayStyle,
-      child: MaterialApp.router(
-        title: AppStrings.appName,
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: themeMode,
-        routerConfig: router,
-        builder: (context, child) => HangbugNotificationViewport(child: child),
+      child: ValueListenableBuilder<bool>(
+        valueListenable: _snapshotRevealActive,
+        builder: (context, isSnapshotActive, _) {
+          return MaterialApp.router(
+            title: AppStrings.appName,
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeMode,
+            themeAnimationDuration: (disableAnimations || isSnapshotActive)
+                ? Duration.zero
+                : const Duration(milliseconds: 580),
+            themeAnimationCurve: Curves.easeInOutCubic,
+            routerConfig: router,
+            builder: (context, child) => ThemeTransitionViewport(
+              snapshotActiveNotifier: _snapshotRevealActive,
+              child: HangbugNotificationViewport(child: child),
+            ),
+          );
+        },
       ),
     );
   }

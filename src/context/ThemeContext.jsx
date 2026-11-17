@@ -1,14 +1,17 @@
-import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 
 const STORAGE_KEY = 'hangbug-theme';
 const VALID_MODES = ['light', 'dark', 'system'];
+const THEME_TRANSITION_DURATION_MS = 600;
+const THEME_CLEANUP_BUFFER_MS = 60;
 
 const ThemeContext = createContext({
     theme: 'system',
     resolvedTheme: 'light',
     isDark: false,
-    toggleTheme: () => {},
-    setThemeMode: () => {},
+    toggleTheme: () => false,
+    setThemeMode: () => false,
 });
 
 function getSystemTheme() {
@@ -31,6 +34,81 @@ function getStoredThemeMode() {
         // Ignore storage read failures (e.g. private browsing restrictions)
     }
     return 'system';
+}
+
+function prefersReducedMotion() {
+    if (typeof window === 'undefined' || !window.matchMedia) return false;
+    try {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch {
+        return false;
+    }
+}
+
+function normalizeTriggerOptions(eventOrOptions) {
+    if (!eventOrOptions || typeof eventOrOptions !== 'object') {
+        return {};
+    }
+    if ('currentTarget' in eventOrOptions || 'nativeEvent' in eventOrOptions || 'clientX' in eventOrOptions) {
+        return { event: eventOrOptions };
+    }
+    return eventOrOptions;
+}
+
+function getElementCenter(el) {
+    if (!el || typeof el.getBoundingClientRect !== 'function') return null;
+    const rect = el.getBoundingClientRect();
+    if (!rect || (rect.width === 0 && rect.height === 0)) return null;
+    return {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+    };
+}
+
+function getRevealCoordinates(options) {
+    if (typeof window === 'undefined') {
+        return { x: 0, y: 0, maxRadius: 0 };
+    }
+
+    let coords = null;
+    const { originEl, event, x, y } = options || {};
+
+    if (Number.isFinite(x) && Number.isFinite(y)) {
+        coords = { x, y };
+    }
+
+    if (!coords && originEl) {
+        coords = getElementCenter(originEl);
+    }
+
+    if (!coords && event) {
+        coords = getElementCenter(event.currentTarget);
+        if (!coords && Number.isFinite(event.clientX) && Number.isFinite(event.clientY) && (event.clientX > 0 || event.clientY > 0)) {
+            coords = { x: event.clientX, y: event.clientY };
+        }
+    }
+
+    if (!coords && typeof document !== 'undefined') {
+        const triggers = document.querySelectorAll('[data-theme-toggle-trigger="true"]');
+        for (const el of triggers) {
+            const center = getElementCenter(el);
+            if (center) {
+                coords = center;
+                break;
+            }
+        }
+    }
+
+    const originX = coords ? coords.x : window.innerWidth / 2;
+    const originY = coords ? coords.y : window.innerHeight / 2;
+    const maxRadius = Math.ceil(
+        Math.hypot(
+            Math.max(originX, window.innerWidth - originX),
+            Math.max(originY, window.innerHeight - originY)
+        )
+    );
+
+    return { x: originX, y: originY, maxRadius };
 }
 
 function applyThemeToDOM(mode, resolved) {
@@ -62,10 +140,38 @@ export const ThemeProvider = ({ children }) => {
     const resolvedTheme = theme === 'system' ? systemTheme : theme;
     const isDark = resolvedTheme === 'dark';
 
+    const themeRef = useRef(theme);
+    const resolvedThemeRef = useRef(resolvedTheme);
+    const isTransitioningRef = useRef(false);
+    const cleanupTimerRef = useRef(null);
+    const activeOverlayRef = useRef(null);
+
+    themeRef.current = theme;
+    resolvedThemeRef.current = resolvedTheme;
+
     // Immediately sync DOM classes and attributes when theme or systemTheme changes
     useIsomorphicLayoutEffect(() => {
         applyThemeToDOM(theme, resolvedTheme);
     }, [theme, resolvedTheme]);
+
+    // Cleanup any active transition classes/timers on unmount
+    useEffect(() => {
+        return () => {
+            if (cleanupTimerRef.current) {
+                window.clearTimeout(cleanupTimerRef.current);
+            }
+            if (activeOverlayRef.current) {
+                activeOverlayRef.current.remove();
+                activeOverlayRef.current = null;
+            }
+            if (typeof document !== 'undefined') {
+                const root = document.documentElement;
+                root.classList.remove('theme-vt-active', 'theme-css-transition');
+                root.removeAttribute('data-theme-transition');
+            }
+            isTransitioningRef.current = false;
+        };
+    }, []);
 
     // Listen to OS/browser prefers-color-scheme changes
     useEffect(() => {
@@ -102,22 +208,142 @@ export const ThemeProvider = ({ children }) => {
         return () => window.removeEventListener('storage', handleStorage);
     }, []);
 
-    const setThemeMode = useCallback((nextMode) => {
+    const setThemeMode = useCallback((nextMode, eventOrOptions) => {
+        const options = normalizeTriggerOptions(eventOrOptions);
         const normalized = VALID_MODES.includes(nextMode) ? nextMode : 'system';
-        setTheme(normalized);
+        const nextResolved = normalized === 'system' ? getSystemTheme() : normalized;
+
+        if (normalized === themeRef.current && nextResolved === resolvedThemeRef.current) {
+            options.onBeforeUpdate?.();
+            return false;
+        }
+
+        // Prevent multiple overlapping animations when users click repeatedly
+        if (isTransitioningRef.current) {
+            return false;
+        }
+
         try {
             localStorage.setItem(STORAGE_KEY, normalized);
         } catch {
             // Gracefully ignore storage write errors
         }
-        const nextResolved = normalized === 'system' ? getSystemTheme() : normalized;
-        applyThemeToDOM(normalized, nextResolved);
+
+        const commitThemeChange = () => {
+            options.onBeforeUpdate?.();
+            setTheme(normalized);
+            applyThemeToDOM(normalized, nextResolved);
+        };
+
+        const willChangeVisualTheme = nextResolved !== resolvedThemeRef.current;
+        const canAnimate =
+            willChangeVisualTheme &&
+            typeof document !== 'undefined' &&
+            typeof window !== 'undefined' &&
+            document.visibilityState === 'visible' &&
+            !prefersReducedMotion();
+
+        if (!canAnimate) {
+            commitThemeChange();
+            return true;
+        }
+
+        isTransitioningRef.current = true;
+        const root = document.documentElement;
+        const direction = nextResolved === 'dark' ? 'to-dark' : 'to-light';
+        const { x, y, maxRadius } = getRevealCoordinates(options);
+
+        root.style.setProperty('--theme-reveal-x', `${x}px`);
+        root.style.setProperty('--theme-reveal-y', `${y}px`);
+        root.style.setProperty('--theme-reveal-r', `${maxRadius}px`);
+        root.setAttribute('data-theme-transition', direction);
+
+        const runCssFallback = () => {
+            if (cleanupTimerRef.current) {
+                window.clearTimeout(cleanupTimerRef.current);
+            }
+            if (activeOverlayRef.current) {
+                activeOverlayRef.current.remove();
+                activeOverlayRef.current = null;
+            }
+
+            root.setAttribute('data-theme-transition', direction);
+            root.classList.add('theme-css-transition');
+
+            let overlay = null;
+            if (document.body) {
+                overlay = document.createElement('div');
+                overlay.className = 'hangbug-theme-reveal-overlay';
+                overlay.setAttribute('aria-hidden', 'true');
+                overlay.setAttribute('data-direction', direction);
+                document.body.appendChild(overlay);
+                activeOverlayRef.current = overlay;
+            }
+
+            flushSync(() => {
+                commitThemeChange();
+            });
+
+            cleanupTimerRef.current = window.setTimeout(() => {
+                root.classList.remove('theme-css-transition');
+                root.removeAttribute('data-theme-transition');
+                if (overlay) {
+                    overlay.remove();
+                    if (activeOverlayRef.current === overlay) {
+                        activeOverlayRef.current = null;
+                    }
+                }
+                isTransitioningRef.current = false;
+                cleanupTimerRef.current = null;
+            }, THEME_TRANSITION_DURATION_MS + THEME_CLEANUP_BUFFER_MS);
+        };
+
+        if (typeof document.startViewTransition === 'function') {
+            root.classList.add('theme-vt-active');
+            let cleaned = false;
+            const cleanupViewTransition = () => {
+                if (cleaned) return;
+                cleaned = true;
+                if (cleanupTimerRef.current) {
+                    window.clearTimeout(cleanupTimerRef.current);
+                    cleanupTimerRef.current = null;
+                }
+                root.classList.remove('theme-vt-active');
+                root.removeAttribute('data-theme-transition');
+                isTransitioningRef.current = false;
+            };
+
+            cleanupTimerRef.current = window.setTimeout(
+                cleanupViewTransition,
+                THEME_TRANSITION_DURATION_MS + 200
+            );
+
+            try {
+                const transition = document.startViewTransition(() => {
+                    flushSync(() => {
+                        commitThemeChange();
+                    });
+                });
+                Promise.resolve(transition.finished)
+                    .catch(() => {})
+                    .finally(cleanupViewTransition);
+                return true;
+            } catch {
+                cleanupViewTransition();
+                isTransitioningRef.current = true;
+                runCssFallback();
+                return true;
+            }
+        }
+
+        runCssFallback();
+        return true;
     }, []);
 
-    const toggleTheme = useCallback(() => {
-        const nextMode = isDark ? 'light' : 'dark';
-        setThemeMode(nextMode);
-    }, [isDark, setThemeMode]);
+    const toggleTheme = useCallback((eventOrOptions) => {
+        const nextMode = resolvedThemeRef.current === 'dark' ? 'light' : 'dark';
+        return setThemeMode(nextMode, eventOrOptions);
+    }, [setThemeMode]);
 
     const value = useMemo(
         () => ({

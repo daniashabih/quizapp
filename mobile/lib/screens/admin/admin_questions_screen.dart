@@ -275,6 +275,7 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
     final opt3Controller = TextEditingController();
     final opt4Controller = TextEditingController();
     int correctIndex = 0;
+    bool isSaving = false;
 
     showModalBottomSheet(
       context: context,
@@ -342,44 +343,55 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
                   const SizedBox(height: 20),
                   AppButton(
                     text: 'Save Question',
-                    onPressed: () async {
-                      if (!formKey.currentState!.validate()) return;
-                      final options = [
-                        opt1Controller.text.trim(),
-                        opt2Controller.text.trim(),
-                        opt3Controller.text.trim(),
-                        opt4Controller.text.trim(),
-                      ];
-                      if (options.any((o) => o.isEmpty)) {
-                        AppNotificationService.warning(
-                          title: 'Action required',
-                          message: 'All 4 options must be filled.',
-                        );
-                        return;
-                      }
+                    isLoading: isSaving,
+                    onPressed: isSaving
+                        ? null
+                        : () async {
+                            if (!formKey.currentState!.validate()) return;
+                            final options = [
+                              opt1Controller.text.trim(),
+                              opt2Controller.text.trim(),
+                              opt3Controller.text.trim(),
+                              opt4Controller.text.trim(),
+                            ];
+                            if (options.any((o) => o.isEmpty)) {
+                              AppNotificationService.warning(
+                                title: 'Action required',
+                                message: 'All 4 options must be filled.',
+                              );
+                              return;
+                            }
 
-                      Navigator.of(sheetCtx).pop();
-                      final success = await ref.read(adminControllerProvider.notifier).createQuestion(
-                            category: catController.text.trim(),
-                            session: int.tryParse(sessionController.text.trim()) ?? 1,
-                            questionText: qTextController.text.trim(),
-                            options: options,
-                            correctAnswer: options[correctIndex],
-                          );
-                      if (mounted) {
-                        if (success) {
-                          AppNotificationService.success(
-                            title: 'Question saved!',
-                            message: 'Added to ${catController.text.trim()} question bank.',
-                          );
-                        } else {
-                          AppNotificationService.error(
-                            title: 'Save failed',
-                            message: 'Failed to save question.',
-                          );
-                        }
-                      }
-                    },
+                            setSheetState(() => isSaving = true);
+                            final success = await ref.read(adminControllerProvider.notifier).createQuestion(
+                                  category: catController.text.trim(),
+                                  session: int.tryParse(sessionController.text.trim()) ?? 1,
+                                  questionText: qTextController.text.trim(),
+                                  options: options,
+                                  correctAnswer: options[correctIndex],
+                                );
+                            if (success) {
+                              if (sheetCtx.mounted) Navigator.of(sheetCtx).pop();
+                              if (mounted) {
+                                AppNotificationService.success(
+                                  title: 'Question saved!',
+                                  message: 'Added to ${catController.text.trim()} question bank.',
+                                );
+                              }
+                            } else {
+                              if (dialogCtx.mounted) {
+                                setSheetState(() => isSaving = false);
+                              }
+                              final errMsg = ref.read(adminControllerProvider.notifier).lastErrorMessage ??
+                                  'Failed to save question.';
+                              if (mounted) {
+                                AppNotificationService.error(
+                                  title: 'Save failed',
+                                  message: errMsg,
+                                );
+                              }
+                            }
+                          },
                   ),
                 ],
               ),

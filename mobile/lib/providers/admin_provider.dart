@@ -30,6 +30,7 @@ final adminQuestionsProvider = FutureProvider.autoDispose<List<QuestionModel>>((
 
 class AdminController extends StateNotifier<AsyncValue<void>> {
   final Ref ref;
+  String? lastErrorMessage;
   AdminController(this.ref) : super(const AsyncValue.data(null));
 
   Future<bool> deleteUser(String userId) async {
@@ -55,6 +56,7 @@ class AdminController extends StateNotifier<AsyncValue<void>> {
     required String correctAnswer,
     String difficulty = 'beginner',
   }) async {
+    lastErrorMessage = null;
     state = const AsyncValue.loading();
     try {
       final repo = ref.read(adminRepositoryProvider);
@@ -67,10 +69,12 @@ class AdminController extends StateNotifier<AsyncValue<void>> {
         difficulty: difficulty,
       );
       ref.invalidate(adminQuestionsProvider);
+      ref.invalidate(categoriesProvider);
       ref.invalidate(adminDashboardProvider);
       state = const AsyncValue.data(null);
       return true;
     } catch (e, st) {
+      lastErrorMessage = e.toString();
       state = AsyncValue.error(e, st);
       return false;
     }
@@ -142,6 +146,7 @@ class AdminController extends StateNotifier<AsyncValue<void>> {
     String difficulty = 'beginner',
     int count = 5,
   }) async {
+    lastErrorMessage = null;
     state = const AsyncValue.loading();
     try {
       final repo = ref.read(adminRepositoryProvider);
@@ -152,10 +157,12 @@ class AdminController extends StateNotifier<AsyncValue<void>> {
         count: count,
       );
       ref.invalidate(adminQuestionsProvider);
+      ref.invalidate(categoriesProvider);
       ref.invalidate(adminDashboardProvider);
       state = const AsyncValue.data(null);
       return true;
     } catch (e, st) {
+      lastErrorMessage = e.toString();
       state = AsyncValue.error(e, st);
       return false;
     }

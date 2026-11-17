@@ -4,7 +4,7 @@
   "installCommand": "npm install",
   "functions": {
     "api/index.js": {
-      "includeFiles": "{api/**,node_modules/.prisma/client/**,node_modules/@prisma/client/**,prisma/**}"
+      "includeFiles": "{api/**,dist/index.html,dist/404.html,node_modules/.prisma/client/**,node_modules/@prisma/client/**,prisma/**}"
     }
   },
   "redirects": [
@@ -307,6 +307,19 @@
           "value": "public, max-age=3600"
         }
       ]
+    },
+    {
+      "source": "/404.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     }
   ],
   "rewrites": [
@@ -319,8 +332,8 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/((?!api(?:/|$)|assets/|branding/|favicon|apple-touch-icon|robots\\.txt|sitemap\\.xml|llms\\.txt|llms-full\\.txt|ads\\.txt|app-ads\\.txt|manifest\\.json|.*\\..*).*)",
-      "destination": "/index.html"
+      "source": "/((?!api(?:/|$)|assets/|branding/|favicon|apple-touch-icon|robots\\.txt|sitemap\\.xml|llms\\.txt|llms-full\\.txt|ads\\.txt|app-ads\\.txt|manifest\\.json|404\\.html|.*\\..*).*)",
+      "destination": "/api/index.js?__hangbug_route=/$1"
     }
   ]
 }
