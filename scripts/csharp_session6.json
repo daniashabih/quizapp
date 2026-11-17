@@ -1,0 +1,585 @@
+{
+  "category": "C#",
+  "session": 6,
+  "title": "Session 6: Inheritance and Polymorphism",
+  "sessionTitle": "Inheritance and Polymorphism",
+  "totalQuestions": 48,
+  "questions": [
+    {
+      "id": "csharp_s06_q001",
+      "questionText": "Inheritance is",
+      "options": [
+        "hiding data",
+        "creating an object",
+        "a mechanism where a class acquires members of another class",
+        "overloading methods"
+      ],
+      "correctAnswer": "a mechanism where a class acquires members of another class",
+      "explanation": "The correct answer is C) a mechanism where a class acquires members of another class. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q002",
+      "questionText": "The class being inherited from is called the",
+      "options": [
+        "base (parent) class",
+        "sealed class",
+        "derived class",
+        "static class"
+      ],
+      "correctAnswer": "base (parent) class",
+      "explanation": "The correct answer is A) base (parent) class. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q003",
+      "questionText": "The class that inherits from another is called the",
+      "options": [
+        "abstract class",
+        "partial class",
+        "base class",
+        "derived (child) class"
+      ],
+      "correctAnswer": "derived (child) class",
+      "explanation": "The correct answer is D) derived (child) class. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q004",
+      "questionText": "Which symbol is used to implement inheritance in C#?",
+      "options": [
+        "extends",
+        "::",
+        ":",
+        "->"
+      ],
+      "correctAnswer": ":",
+      "explanation": "The correct answer is C) :. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q005",
+      "questionText": "Which declaration makes Dog inherit from Animal?",
+      "options": [
+        "class Dog extends Animal",
+        "class Animal : Dog",
+        "class Dog inherits Animal",
+        "class Dog : Animal"
+      ],
+      "correctAnswer": "class Dog : Animal",
+      "explanation": "The correct answer is D) class Dog : Animal. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q006",
+      "questionText": "The main purpose of inheritance is",
+      "options": [
+        "hiding all code",
+        "code reusability",
+        "reducing memory to zero",
+        "faster compilation"
+      ],
+      "correctAnswer": "code reusability",
+      "explanation": "The correct answer is B) code reusability. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q007",
+      "questionText": "C# supports multiple inheritance of classes.",
+      "options": [
+        "True",
+        "False",
+        "Only for static classes",
+        "Only for abstract classes"
+      ],
+      "correctAnswer": "False",
+      "explanation": "The correct answer is B) False. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q008",
+      "questionText": "Multi-level inheritance means",
+      "options": [
+        "a class has many constructors",
+        "a class is derived from a derived class",
+        "two classes share a name",
+        "a class has many methods"
+      ],
+      "correctAnswer": "a class is derived from a derived class",
+      "explanation": "The correct answer is B) a class is derived from a derived class. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q009",
+      "questionText": "The root class of all classes in C# is",
+      "options": [
+        "System.Root",
+        "System.Object",
+        "System.Class",
+        "System.Base"
+      ],
+      "correctAnswer": "System.Object",
+      "explanation": "The correct answer is B) System.Object. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q010",
+      "questionText": "A member declared protected is accessible in",
+      "options": [
+        "the declaring class and its derived classes",
+        "only the same method",
+        "any class",
+        "only the same file"
+      ],
+      "correctAnswer": "the declaring class and its derived classes",
+      "explanation": "The correct answer is A) the declaring class and its derived classes. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q011",
+      "questionText": "Private members of a base class are",
+      "options": [
+        "accessible in the derived class",
+        "deleted",
+        "not accessible in the derived class",
+        "accessible only via new"
+      ],
+      "correctAnswer": "not accessible in the derived class",
+      "explanation": "The correct answer is C) not accessible in the derived class. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q012",
+      "questionText": "The base keyword is used to",
+      "options": [
+        "define interfaces",
+        "access members of the base class from a derived class",
+        "seal a class",
+        "create a new object"
+      ],
+      "correctAnswer": "access members of the base class from a derived class",
+      "explanation": "The correct answer is B) access members of the base class from a derived class. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q013",
+      "questionText": "Which syntax calls a base class parameterized constructor?",
+      "options": [
+        "public Dog(string n) : base(n)",
+        "public Dog(string n) : this(base)",
+        "public Dog(string n) = base(n)",
+        "public Dog(string n) { super(n); }"
+      ],
+      "correctAnswer": "public Dog(string n) : base(n)",
+      "explanation": "The correct answer is A) public Dog(string n) : base(n). (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q014",
+      "questionText": "When a derived class object is created, constructors execute in the order",
+      "options": [
+        "base class first, then derived class",
+        "derived class first, then base",
+        "only the derived",
+        "random"
+      ],
+      "correctAnswer": "base class first, then derived class",
+      "explanation": "The correct answer is A) base class first, then derived class. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q015",
+      "questionText": "Constructors are",
+      "options": [
+        "inherited only if static",
+        "always inherited",
+        "not inherited by derived classes",
+        "inherited only if public"
+      ],
+      "correctAnswer": "not inherited by derived classes",
+      "explanation": "The correct answer is C) not inherited by derived classes. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q016",
+      "questionText": "When a base constructor has parameters and the derived class doesn't call it explicitly",
+      "options": [
+        "the program runs fine",
+        "the base is skipped",
+        "null is passed",
+        "a compile-time error occurs"
+      ],
+      "correctAnswer": "a compile-time error occurs",
+      "explanation": "The correct answer is D) a compile-time error occurs. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q017",
+      "questionText": "The new keyword used in a derived class member declaration",
+      "options": [
+        "overrides the base member",
+        "makes the member static",
+        "hides a base class member with the same name",
+        "creates an object"
+      ],
+      "correctAnswer": "hides a base class member with the same name",
+      "explanation": "The correct answer is C) hides a base class member with the same name. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q018",
+      "questionText": "Method overriding allows a derived class to",
+      "options": [
+        "add a constructor",
+        "create a new class",
+        "delete a method",
+        "provide a new implementation of a base class method"
+      ],
+      "correctAnswer": "provide a new implementation of a base class method",
+      "explanation": "The correct answer is D) provide a new implementation of a base class method. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q019",
+      "questionText": "To allow a method to be overridden, the base method must be declared",
+      "options": [
+        "sealed",
+        "const",
+        "static",
+        "virtual"
+      ],
+      "correctAnswer": "virtual",
+      "explanation": "The correct answer is D) virtual. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q020",
+      "questionText": "In the derived class, an overriding method uses the keyword",
+      "options": [
+        "overload",
+        "override",
+        "new only",
+        "virtual"
+      ],
+      "correctAnswer": "override",
+      "explanation": "The correct answer is B) override. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q021",
+      "questionText": "What is required for overriding?",
+      "options": [
+        "Different return type",
+        "Static modifier",
+        "Same signature and return type as the virtual method",
+        "Different name"
+      ],
+      "correctAnswer": "Same signature and return type as the virtual method",
+      "explanation": "The correct answer is C) Same signature and return type as the virtual method. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q022",
+      "questionText": "An overriding method can call the base version using",
+      "options": [
+        "this.MethodName()",
+        "parent.MethodName()",
+        "base.MethodName()",
+        "super.MethodName()"
+      ],
+      "correctAnswer": "base.MethodName()",
+      "explanation": "The correct answer is C) base.MethodName(). (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q023",
+      "questionText": "A sealed class",
+      "options": [
+        "has only static members",
+        "cannot be instantiated",
+        "must be abstract",
+        "cannot be inherited"
+      ],
+      "correctAnswer": "cannot be inherited",
+      "explanation": "The correct answer is D) cannot be inherited. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q024",
+      "questionText": "Which keyword prevents a class from being inherited?",
+      "options": [
+        "final",
+        "abstract",
+        "sealed",
+        "static only"
+      ],
+      "correctAnswer": "sealed",
+      "explanation": "The correct answer is C) sealed. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q025",
+      "questionText": "Which declaration is valid?",
+      "options": [
+        "abstract sealed method A() { }",
+        "sealed class A { }",
+        "sealed static virtual class A { }",
+        "sealed abstract class A { }"
+      ],
+      "correctAnswer": "sealed class A { }",
+      "explanation": "The correct answer is B) sealed class A { }. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q026",
+      "questionText": "A sealed method",
+      "options": [
+        "is private",
+        "must be static",
+        "cannot be called",
+        "prevents further overriding in derived classes"
+      ],
+      "correctAnswer": "prevents further overriding in derived classes",
+      "explanation": "The correct answer is D) prevents further overriding in derived classes. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q027",
+      "questionText": "Sealed methods are declared using",
+      "options": [
+        "sealed override",
+        "override final",
+        "sealed virtual",
+        "static override"
+      ],
+      "correctAnswer": "sealed override",
+      "explanation": "The correct answer is A) sealed override. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q028",
+      "questionText": "The string class in C# is",
+      "options": [
+        "static",
+        "sealed",
+        "partial",
+        "abstract"
+      ],
+      "correctAnswer": "sealed",
+      "explanation": "The correct answer is B) sealed. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q029",
+      "questionText": "Polymorphism means",
+      "options": [
+        "one object, one type",
+        "no inheritance",
+        "many classes, one object",
+        "one interface, many forms"
+      ],
+      "correctAnswer": "one interface, many forms",
+      "explanation": "The correct answer is D) one interface, many forms. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q030",
+      "questionText": "Compile-time polymorphism is achieved through",
+      "options": [
+        "interfaces only",
+        "method overriding",
+        "virtual methods",
+        "method overloading"
+      ],
+      "correctAnswer": "method overloading",
+      "explanation": "The correct answer is D) method overloading. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q031",
+      "questionText": "Run-time polymorphism is achieved through",
+      "options": [
+        "method overriding with virtual methods",
+        "constants",
+        "static methods",
+        "method overloading"
+      ],
+      "correctAnswer": "method overriding with virtual methods",
+      "explanation": "The correct answer is A) method overriding with virtual methods. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q032",
+      "questionText": "Early binding is also known as",
+      "options": [
+        "dynamic polymorphism",
+        "late polymorphism",
+        "compile-time polymorphism",
+        "run-time polymorphism"
+      ],
+      "correctAnswer": "compile-time polymorphism",
+      "explanation": "The correct answer is C) compile-time polymorphism. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q033",
+      "questionText": "Late binding is resolved",
+      "options": [
+        "at design time",
+        "at install time",
+        "at compile time",
+        "at run time"
+      ],
+      "correctAnswer": "at run time",
+      "explanation": "The correct answer is D) at run time. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q034",
+      "questionText": "A base class reference can refer to",
+      "options": [
+        "nothing",
+        "only base class objects",
+        "a derived class object",
+        "only static objects"
+      ],
+      "correctAnswer": "a derived class object",
+      "explanation": "The correct answer is C) a derived class object. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q035",
+      "questionText": "Given Animal a = new Dog(); a.Speak(); where Speak is virtual and overridden in Dog, which version runs?",
+      "options": [
+        "Animal's Speak",
+        "Both",
+        "Dog's Speak",
+        "Neither"
+      ],
+      "correctAnswer": "Dog's Speak",
+      "explanation": "The correct answer is C) Dog's Speak. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q036",
+      "questionText": "Given the same scenario but Speak in Dog is hidden using new (not override), a.Speak() calls",
+      "options": [
+        "Both",
+        "compile error",
+        "Dog's Speak",
+        "Animal's Speak"
+      ],
+      "correctAnswer": "Animal's Speak",
+      "explanation": "The correct answer is D) Animal's Speak. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q037",
+      "questionText": "What happens if you call an abstract or virtual method via base reference and derived overrides it?",
+      "options": [
+        "The overridden version executes",
+        "The base version executes",
+        "Error",
+        "Nothing runs"
+      ],
+      "correctAnswer": "The overridden version executes",
+      "explanation": "The correct answer is A) The overridden version executes. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q038",
+      "questionText": "Which statement about virtual methods is true?",
+      "options": [
+        "They are always private",
+        "They cannot have a body",
+        "Their implementation can be overridden by derived classes",
+        "They must be static"
+      ],
+      "correctAnswer": "Their implementation can be overridden by derived classes",
+      "explanation": "The correct answer is C) Their implementation can be overridden by derived classes. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q039",
+      "questionText": "The is-a relationship is best described by",
+      "options": [
+        "inheritance",
+        "composition",
+        "aggregation",
+        "overloading"
+      ],
+      "correctAnswer": "inheritance",
+      "explanation": "The correct answer is A) inheritance. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q040",
+      "questionText": "What type is Dog derived from Animal implicitly convertible to?",
+      "options": [
+        "Dog[]",
+        "int",
+        "Animal",
+        "string"
+      ],
+      "correctAnswer": "Animal",
+      "explanation": "The correct answer is C) Animal. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q041",
+      "questionText": "An upcast from Dog to Animal is",
+      "options": [
+        "implicit and always safe",
+        "unsafe",
+        "invalid",
+        "always explicit"
+      ],
+      "correctAnswer": "implicit and always safe",
+      "explanation": "The correct answer is A) implicit and always safe. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q042",
+      "questionText": "A downcast from Animal to Dog requires",
+      "options": [
+        "the sealed keyword",
+        "the new keyword",
+        "no cast",
+        "an explicit cast"
+      ],
+      "correctAnswer": "an explicit cast",
+      "explanation": "The correct answer is D) an explicit cast. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q043",
+      "questionText": "The ToString() method is originally defined in",
+      "options": [
+        "System.Object",
+        "System.Type",
+        "System.String only",
+        "System.Console"
+      ],
+      "correctAnswer": "System.Object",
+      "explanation": "The correct answer is A) System.Object. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q044",
+      "questionText": "Overriding ToString() requires the method to be declared",
+      "options": [
+        "private string ToString()",
+        "static string ToString()",
+        "public override string ToString()",
+        "public new void ToString()"
+      ],
+      "correctAnswer": "public override string ToString()",
+      "explanation": "The correct answer is C) public override string ToString(). (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q045",
+      "questionText": "A derived class can access base members using",
+      "options": [
+        "this only",
+        "parent",
+        "super",
+        "base"
+      ],
+      "correctAnswer": "base",
+      "explanation": "The correct answer is D) base. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q046",
+      "questionText": "Which relationship exists between class Vehicle and class Car : Vehicle?",
+      "options": [
+        "Vehicle is base, Car is derived",
+        "They are unrelated",
+        "Car is base, Vehicle is derived",
+        "They are siblings"
+      ],
+      "correctAnswer": "Vehicle is base, Car is derived",
+      "explanation": "The correct answer is A) Vehicle is base, Car is derived. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q047",
+      "questionText": "Which is true for hiding with new?",
+      "options": [
+        "It changes the base class",
+        "It produces a warning if new is omitted",
+        "It is mandatory for overriding",
+        "It is used with abstract"
+      ],
+      "correctAnswer": "It produces a warning if new is omitted",
+      "explanation": "The correct answer is B) It produces a warning if new is omitted. (Inheritance and Polymorphism)"
+    },
+    {
+      "id": "csharp_s06_q048",
+      "questionText": "In multi-level inheritance A -> B -> C, class C can access",
+      "options": [
+        "only members of B",
+        "only members of A",
+        "none",
+        "public and protected members of both B and A"
+      ],
+      "correctAnswer": "public and protected members of both B and A",
+      "explanation": "The correct answer is D) public and protected members of both B and A. (Inheritance and Polymorphism)"
+    }
+  ]
+}

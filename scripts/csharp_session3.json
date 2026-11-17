@@ -1,0 +1,597 @@
+{
+  "category": "C#",
+  "session": 3,
+  "title": "Session 3: Statements and Operators",
+  "sessionTitle": "Statements and Operators",
+  "totalQuestions": 49,
+  "questions": [
+    {
+      "id": "csharp_s03_q001",
+      "questionText": "A statement in C# is",
+      "options": [
+        "only a comment",
+        "a complete instruction that performs an action",
+        "a variable name",
+        "a namespace"
+      ],
+      "correctAnswer": "a complete instruction that performs an action",
+      "explanation": "The correct answer is B) a complete instruction that performs an action. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q002",
+      "questionText": "Every simple statement in C# ends with",
+      "options": [
+        "a semicolon",
+        "a comma",
+        "a colon",
+        "a period"
+      ],
+      "correctAnswer": "a semicolon",
+      "explanation": "The correct answer is A) a semicolon. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q003",
+      "questionText": "A group of statements enclosed in { } is called",
+      "options": [
+        "an array",
+        "a block",
+        "a literal",
+        "an expression"
+      ],
+      "correctAnswer": "a block",
+      "explanation": "The correct answer is B) a block. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q004",
+      "questionText": "Which is a declaration statement?",
+      "options": [
+        "return;",
+        "if (x > 0)",
+        "int total = 0;",
+        "total++;"
+      ],
+      "correctAnswer": "int total = 0;",
+      "explanation": "The correct answer is C) int total = 0;. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q005",
+      "questionText": "Which of the following is an expression statement?",
+      "options": [
+        "break;",
+        "x = y + 5;",
+        "int x;",
+        "namespace A;"
+      ],
+      "correctAnswer": "x = y + 5;",
+      "explanation": "The correct answer is B) x = y + 5;. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q006",
+      "questionText": "An expression in C# is",
+      "options": [
+        "a comment",
+        "a block of statements",
+        "a class definition",
+        "a combination of operands and operators that evaluates to a value"
+      ],
+      "correctAnswer": "a combination of operands and operators that evaluates to a value",
+      "explanation": "The correct answer is D) a combination of operands and operators that evaluates to a value. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q007",
+      "questionText": "The key difference between a statement and an expression is that an expression",
+      "options": [
+        "produces a value, while a statement performs an action",
+        "can't contain operators",
+        "never produces a value",
+        "is always a loop"
+      ],
+      "correctAnswer": "produces a value, while a statement performs an action",
+      "explanation": "The correct answer is A) produces a value, while a statement performs an action. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q008",
+      "questionText": "The checked keyword is used to",
+      "options": [
+        "enable overflow checking for arithmetic operations",
+        "disable the compiler",
+        "create constants",
+        "declare arrays"
+      ],
+      "correctAnswer": "enable overflow checking for arithmetic operations",
+      "explanation": "The correct answer is A) enable overflow checking for arithmetic operations. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q009",
+      "questionText": "When a checked block overflows, C# throws",
+      "options": [
+        "OverflowException",
+        "NullReferenceException",
+        "FormatException",
+        "IndexOutOfRangeException"
+      ],
+      "correctAnswer": "OverflowException",
+      "explanation": "The correct answer is A) OverflowException. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q010",
+      "questionText": "The unchecked keyword",
+      "options": [
+        "throws on overflow",
+        "deletes the variable",
+        "converts to double",
+        "suppresses overflow checking and wraps the value"
+      ],
+      "correctAnswer": "suppresses overflow checking and wraps the value",
+      "explanation": "The correct answer is D) suppresses overflow checking and wraps the value. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q011",
+      "questionText": "Top-level statements in C# 9.0 allow you to",
+      "options": [
+        "write a program without an explicit Main method and class",
+        "declare multiple Main methods",
+        "skip using the Console class",
+        "avoid compiling"
+      ],
+      "correctAnswer": "write a program without an explicit Main method and class",
+      "explanation": "The correct answer is A) write a program without an explicit Main method and class. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q012",
+      "questionText": "Which operator is the modulus operator?",
+      "options": [
+        "*",
+        "^",
+        "%",
+        "/"
+      ],
+      "correctAnswer": "%",
+      "explanation": "The correct answer is C) %. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q013",
+      "questionText": "The result of 17 % 5 is",
+      "options": [
+        "4",
+        "3",
+        "1",
+        "2"
+      ],
+      "correctAnswer": "2",
+      "explanation": "The correct answer is D) 2. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q014",
+      "questionText": "The result of 17 / 5 when both are int is",
+      "options": [
+        "4",
+        "3",
+        "2",
+        "3.4"
+      ],
+      "correctAnswer": "3",
+      "explanation": "The correct answer is B) 3. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q015",
+      "questionText": "The result of 17 / 5.0 is",
+      "options": [
+        "3.4",
+        "2",
+        "3",
+        "3.5"
+      ],
+      "correctAnswer": "3.4",
+      "explanation": "The correct answer is A) 3.4. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q016",
+      "questionText": "Which are relational operators?",
+      "options": [
+        "==, !=, <, >",
+        "&&, ||, !",
+        "+, -, *, /",
+        "=, +=, -="
+      ],
+      "correctAnswer": "==, !=, <, >",
+      "explanation": "The correct answer is A) ==, !=, <, >. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q017",
+      "questionText": "The result of the expression 5 == 5 is",
+      "options": [
+        "5",
+        "null",
+        "true",
+        "false"
+      ],
+      "correctAnswer": "true",
+      "explanation": "The correct answer is C) true. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q018",
+      "questionText": "Which operator is the logical AND?",
+      "options": [
+        "||",
+        "& only for bitwise",
+        "!",
+        "&&"
+      ],
+      "correctAnswer": "&&",
+      "explanation": "The correct answer is D) &&. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q019",
+      "questionText": "Which operator is the logical OR?",
+      "options": [
+        "||",
+        "^^",
+        "!",
+        "&&"
+      ],
+      "correctAnswer": "||",
+      "explanation": "The correct answer is A) ||. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q020",
+      "questionText": "Which operator is the logical NOT?",
+      "options": [
+        "&",
+        "!=",
+        "!",
+        "~"
+      ],
+      "correctAnswer": "!",
+      "explanation": "The correct answer is C) !. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q021",
+      "questionText": "The result of true && false is",
+      "options": [
+        "false",
+        "1",
+        "true",
+        "null"
+      ],
+      "correctAnswer": "false",
+      "explanation": "The correct answer is A) false. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q022",
+      "questionText": "The result of true || false is",
+      "options": [
+        "false",
+        "null",
+        "0",
+        "true"
+      ],
+      "correctAnswer": "true",
+      "explanation": "The correct answer is D) true. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q023",
+      "questionText": "The && operator is short-circuiting, meaning",
+      "options": [
+        "both operands are always evaluated",
+        "it evaluates right to left",
+        "it returns an int",
+        "the right operand is not evaluated if the left is false"
+      ],
+      "correctAnswer": "the right operand is not evaluated if the left is false",
+      "explanation": "The correct answer is D) the right operand is not evaluated if the left is false. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q024",
+      "questionText": "The & operator on booleans",
+      "options": [
+        "returns a string",
+        "always evaluates both operands",
+        "is invalid",
+        "short-circuits"
+      ],
+      "correctAnswer": "always evaluates both operands",
+      "explanation": "The correct answer is B) always evaluates both operands. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q025",
+      "questionText": "What is the value of x after int x = 5; x++;?",
+      "options": [
+        "7",
+        "6",
+        "4",
+        "5"
+      ],
+      "correctAnswer": "6",
+      "explanation": "The correct answer is B) 6. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q026",
+      "questionText": "What is the value of y after int x = 5; int y = x++;?",
+      "options": [
+        "6",
+        "5",
+        "7",
+        "4"
+      ],
+      "correctAnswer": "5",
+      "explanation": "The correct answer is B) 5. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q027",
+      "questionText": "What is the value of y after int x = 5; int y = ++x;?",
+      "options": [
+        "5",
+        "4",
+        "7",
+        "6"
+      ],
+      "correctAnswer": "6",
+      "explanation": "The correct answer is D) 6. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q028",
+      "questionText": "What is the value of x after int x = 5; x--;?",
+      "options": [
+        "4",
+        "5",
+        "3",
+        "6"
+      ],
+      "correctAnswer": "4",
+      "explanation": "The correct answer is A) 4. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q029",
+      "questionText": "The statement x += 3; is equivalent to",
+      "options": [
+        "x = x * 3;",
+        "x + 3 = x;",
+        "x = 3;",
+        "x = x + 3;"
+      ],
+      "correctAnswer": "x = x + 3;",
+      "explanation": "The correct answer is D) x = x + 3;. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q030",
+      "questionText": "The statement x *= 2; is equivalent to",
+      "options": [
+        "x = x + 2;",
+        "x = 2;",
+        "x = x * 2;",
+        "x = x ^ 2;"
+      ],
+      "correctAnswer": "x = x * 2;",
+      "explanation": "The correct answer is C) x = x * 2;. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q031",
+      "questionText": "The statement x %= 4; is equivalent to",
+      "options": [
+        "x = 4 % x;",
+        "x = x % 4;",
+        "x = x - 4;",
+        "x = x / 4;"
+      ],
+      "correctAnswer": "x = x % 4;",
+      "explanation": "The correct answer is B) x = x % 4;. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q032",
+      "questionText": "Which operator has the highest precedence among these?",
+      "options": [
+        "||",
+        "=",
+        "*",
+        "+"
+      ],
+      "correctAnswer": "*",
+      "explanation": "The correct answer is C) *. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q033",
+      "questionText": "What is the result of 2 + 3 * 4?",
+      "options": [
+        "24",
+        "20",
+        "14",
+        "9"
+      ],
+      "correctAnswer": "14",
+      "explanation": "The correct answer is C) 14. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q034",
+      "questionText": "What is the result of (2 + 3) * 4?",
+      "options": [
+        "14",
+        "20",
+        "24",
+        "11"
+      ],
+      "correctAnswer": "20",
+      "explanation": "The correct answer is B) 20. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q035",
+      "questionText": "Associativity of the assignment operator = is",
+      "options": [
+        "none",
+        "left-to-right",
+        "undefined",
+        "right-to-left"
+      ],
+      "correctAnswer": "right-to-left",
+      "explanation": "The correct answer is D) right-to-left. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q036",
+      "questionText": "Arithmetic operators such as + and - are",
+      "options": [
+        "left-to-right associative",
+        "non-associative",
+        "right-to-left associative",
+        "unordered"
+      ],
+      "correctAnswer": "left-to-right associative",
+      "explanation": "The correct answer is A) left-to-right associative. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q037",
+      "questionText": "The left-shift operator is",
+      "options": [
+        "=<",
+        "<>",
+        "<<",
+        ">>"
+      ],
+      "correctAnswer": "<<",
+      "explanation": "The correct answer is C) <<. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q038",
+      "questionText": "The result of 1 << 3 is",
+      "options": [
+        "6",
+        "8",
+        "3",
+        "4"
+      ],
+      "correctAnswer": "8",
+      "explanation": "The correct answer is B) 8. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q039",
+      "questionText": "The result of 16 >> 2 is",
+      "options": [
+        "4",
+        "2",
+        "64",
+        "8"
+      ],
+      "correctAnswer": "4",
+      "explanation": "The correct answer is A) 4. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q040",
+      "questionText": "The + operator used with strings performs",
+      "options": [
+        "comparison",
+        "multiplication",
+        "subtraction",
+        "concatenation"
+      ],
+      "correctAnswer": "concatenation",
+      "explanation": "The correct answer is D) concatenation. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q041",
+      "questionText": "The ternary operator syntax is",
+      "options": [
+        "condition : value1 ? value2",
+        "condition ? value1 : value2",
+        "value1 ? condition : value2",
+        "condition ?: value1, value2"
+      ],
+      "correctAnswer": "condition ? value1 : value2",
+      "explanation": "The correct answer is B) condition ? value1 : value2. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q042",
+      "questionText": "What is the result of int r = (5 > 3) ? 10 : 20;?",
+      "options": [
+        "5",
+        "3",
+        "10",
+        "20"
+      ],
+      "correctAnswer": "10",
+      "explanation": "The correct answer is C) 10. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q043",
+      "questionText": "Converting one data type to another is called",
+      "options": [
+        "type conversion (casting)",
+        "boxing only",
+        "inheritance",
+        "overloading"
+      ],
+      "correctAnswer": "type conversion (casting)",
+      "explanation": "The correct answer is A) type conversion (casting). (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q044",
+      "questionText": "Which conversion is done automatically by the compiler when no data loss occurs?",
+      "options": [
+        "Implicit conversion",
+        "Manual parsing",
+        "Reflection",
+        "Explicit conversion"
+      ],
+      "correctAnswer": "Implicit conversion",
+      "explanation": "The correct answer is A) Implicit conversion. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q045",
+      "questionText": "Which conversion is implicit?",
+      "options": [
+        "double to int",
+        "int to long",
+        "long to int",
+        "decimal to float"
+      ],
+      "correctAnswer": "int to long",
+      "explanation": "The correct answer is B) int to long. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q046",
+      "questionText": "Which conversion requires an explicit cast?",
+      "options": [
+        "double to int",
+        "byte to int",
+        "int to long",
+        "int to double"
+      ],
+      "correctAnswer": "double to int",
+      "explanation": "The correct answer is A) double to int. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q047",
+      "questionText": "The correct syntax for an explicit cast is",
+      "options": [
+        "int x = (int)3.7;",
+        "int x = int(3.7);",
+        "int x = 3.7 as int;",
+        "int x = <int>3.7;"
+      ],
+      "correctAnswer": "int x = (int)3.7;",
+      "explanation": "The correct answer is A) int x = (int)3.7;. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q048",
+      "questionText": "What is the value of (int)3.99?",
+      "options": [
+        "0",
+        "3.99",
+        "4",
+        "3"
+      ],
+      "correctAnswer": "3",
+      "explanation": "The correct answer is D) 3. (Statements and Operators)"
+    },
+    {
+      "id": "csharp_s03_q049",
+      "questionText": "Which method class provides conversions between base types, such as Convert.ToInt32()?",
+      "options": [
+        "Parser",
+        "Convert",
+        "Transform",
+        "Cast"
+      ],
+      "correctAnswer": "Convert",
+      "explanation": "The correct answer is B) Convert. (Statements and Operators)"
+    }
+  ]
+}

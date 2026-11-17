@@ -1,0 +1,561 @@
+{
+  "category": "C#",
+  "session": 5,
+  "title": "Session 5: Classes and Methods",
+  "sessionTitle": "Classes and Methods",
+  "totalQuestions": 46,
+  "questions": [
+    {
+      "id": "csharp_s05_q001",
+      "questionText": "OOP stands for",
+      "options": [
+        "Open Object Protocol",
+        "Object-Order Processing",
+        "Object-Oriented Programming",
+        "Ordered Operation Program"
+      ],
+      "correctAnswer": "Object-Oriented Programming",
+      "explanation": "The correct answer is C) Object-Oriented Programming. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q002",
+      "questionText": "Which of the following is a feature of OOP?",
+      "options": [
+        "Parsing",
+        "Debugging",
+        "Compilation",
+        "Encapsulation"
+      ],
+      "correctAnswer": "Encapsulation",
+      "explanation": "The correct answer is D) Encapsulation. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q003",
+      "questionText": "Combining data and methods into one unit and hiding internal details is",
+      "options": [
+        "inheritance",
+        "encapsulation",
+        "polymorphism",
+        "abstraction only"
+      ],
+      "correctAnswer": "encapsulation",
+      "explanation": "The correct answer is B) encapsulation. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q004",
+      "questionText": "Which of these is NOT a core OOP principle?",
+      "options": [
+        "Compilation",
+        "Encapsulation",
+        "Polymorphism",
+        "Inheritance"
+      ],
+      "correctAnswer": "Compilation",
+      "explanation": "The correct answer is A) Compilation. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q005",
+      "questionText": "An object is",
+      "options": [
+        "a blueprint",
+        "an instance of a class",
+        "a method signature",
+        "a namespace"
+      ],
+      "correctAnswer": "an instance of a class",
+      "explanation": "The correct answer is B) an instance of a class. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q006",
+      "questionText": "A class is",
+      "options": [
+        "a blueprint or template for creating objects",
+        "an object instance",
+        "a loop",
+        "a variable"
+      ],
+      "correctAnswer": "a blueprint or template for creating objects",
+      "explanation": "The correct answer is A) a blueprint or template for creating objects. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q007",
+      "questionText": "Which keyword creates an object in C#?",
+      "options": [
+        "alloc",
+        "new",
+        "create",
+        "make"
+      ],
+      "correctAnswer": "new",
+      "explanation": "The correct answer is B) new. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q008",
+      "questionText": "Which keyword is used to declare a class?",
+      "options": [
+        "class",
+        "Class",
+        "struct only",
+        "object"
+      ],
+      "correctAnswer": "class",
+      "explanation": "The correct answer is A) class. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q009",
+      "questionText": "By convention, class names in C# use",
+      "options": [
+        "UPPERCASE only",
+        "camelCase",
+        "PascalCase",
+        "snake_case"
+      ],
+      "correctAnswer": "PascalCase",
+      "explanation": "The correct answer is C) PascalCase. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q010",
+      "questionText": "The data members of a class are also called",
+      "options": [
+        "labels",
+        "fields",
+        "signatures",
+        "headers"
+      ],
+      "correctAnswer": "fields",
+      "explanation": "The correct answer is B) fields. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q011",
+      "questionText": "A method is",
+      "options": [
+        "a class",
+        "a variable",
+        "a namespace",
+        "a block of code that performs an action on an object"
+      ],
+      "correctAnswer": "a block of code that performs an action on an object",
+      "explanation": "The correct answer is D) a block of code that performs an action on an object. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q012",
+      "questionText": "The declaration of a method includes",
+      "options": [
+        "only a return type",
+        "only a name",
+        "return type, name, and parameters",
+        "only parameters"
+      ],
+      "correctAnswer": "return type, name, and parameters",
+      "explanation": "The correct answer is C) return type, name, and parameters. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q013",
+      "questionText": "A method that returns no value has the return type",
+      "options": [
+        "null",
+        "none",
+        "void",
+        "empty"
+      ],
+      "correctAnswer": "void",
+      "explanation": "The correct answer is C) void. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q014",
+      "questionText": "Values passed to a method when calling it are called",
+      "options": [
+        "attributes",
+        "arguments",
+        "parameters",
+        "properties"
+      ],
+      "correctAnswer": "arguments",
+      "explanation": "The correct answer is B) arguments. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q015",
+      "questionText": "Variables declared in the method definition to receive values are called",
+      "options": [
+        "literals",
+        "fields",
+        "arguments",
+        "parameters"
+      ],
+      "correctAnswer": "parameters",
+      "explanation": "The correct answer is D) parameters. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q016",
+      "questionText": "Named arguments allow you to",
+      "options": [
+        "skip the method",
+        "create new parameters",
+        "pass arguments by specifying parameter names",
+        "pass only strings"
+      ],
+      "correctAnswer": "pass arguments by specifying parameter names",
+      "explanation": "The correct answer is C) pass arguments by specifying parameter names. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q017",
+      "questionText": "Optional parameters must",
+      "options": [
+        "appear first",
+        "always be null",
+        "have a default value",
+        "be of type object"
+      ],
+      "correctAnswer": "have a default value",
+      "explanation": "The correct answer is C) have a default value. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q018",
+      "questionText": "Which method declaration has an optional parameter?",
+      "options": [
+        "void Show(int a, optional int b)",
+        "void Show(int a = 10, int b)",
+        "void Show(int a, int b = 10)",
+        "void Show(int a, int? b = )"
+      ],
+      "correctAnswer": "void Show(int a, int b = 10)",
+      "explanation": "The correct answer is C) void Show(int a, int b = 10). (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q019",
+      "questionText": "A static method is called using",
+      "options": [
+        "the class name",
+        "an object instance only",
+        "the this keyword",
+        "the base keyword"
+      ],
+      "correctAnswer": "the class name",
+      "explanation": "The correct answer is A) the class name. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q020",
+      "questionText": "A static method can directly access",
+      "options": [
+        "only private members",
+        "only static members of its class",
+        "nothing",
+        "all instance members"
+      ],
+      "correctAnswer": "only static members of its class",
+      "explanation": "The correct answer is B) only static members of its class. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q021",
+      "questionText": "A static class",
+      "options": [
+        "cannot be instantiated",
+        "must be inherited",
+        "can contain only instance members",
+        "must have constructors"
+      ],
+      "correctAnswer": "cannot be instantiated",
+      "explanation": "The correct answer is A) cannot be instantiated. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q022",
+      "questionText": "A static variable is",
+      "options": [
+        "unique to each object",
+        "always private",
+        "always constant",
+        "shared among all instances of the class"
+      ],
+      "correctAnswer": "shared among all instances of the class",
+      "explanation": "The correct answer is D) shared among all instances of the class. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q023",
+      "questionText": "Which access modifier allows access from anywhere?",
+      "options": [
+        "public",
+        "private",
+        "protected",
+        "internal"
+      ],
+      "correctAnswer": "public",
+      "explanation": "The correct answer is A) public. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q024",
+      "questionText": "Which access modifier restricts access to within the same class?",
+      "options": [
+        "private",
+        "protected",
+        "public",
+        "internal"
+      ],
+      "correctAnswer": "private",
+      "explanation": "The correct answer is A) private. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q025",
+      "questionText": "Which access modifier allows access within the class and derived classes?",
+      "options": [
+        "internal",
+        "protected",
+        "private",
+        "public"
+      ],
+      "correctAnswer": "protected",
+      "explanation": "The correct answer is B) protected. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q026",
+      "questionText": "Which access modifier allows access within the same assembly?",
+      "options": [
+        "private",
+        "protected",
+        "public",
+        "internal"
+      ],
+      "correctAnswer": "internal",
+      "explanation": "The correct answer is D) internal. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q027",
+      "questionText": "The default access modifier for class members is",
+      "options": [
+        "internal",
+        "public",
+        "private",
+        "protected"
+      ],
+      "correctAnswer": "private",
+      "explanation": "The correct answer is C) private. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q028",
+      "questionText": "The default access modifier for a top-level class is",
+      "options": [
+        "private",
+        "internal",
+        "protected",
+        "public"
+      ],
+      "correctAnswer": "internal",
+      "explanation": "The correct answer is B) internal. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q029",
+      "questionText": "The ref keyword passes an argument",
+      "options": [
+        "by reference and requires prior initialization",
+        "as a copy only",
+        "by value",
+        "as a constant"
+      ],
+      "correctAnswer": "by reference and requires prior initialization",
+      "explanation": "The correct answer is A) by reference and requires prior initialization. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q030",
+      "questionText": "The out keyword",
+      "options": [
+        "makes the parameter read-only",
+        "copies the value",
+        "requires initialization before the call",
+        "passes by reference and the method must assign it before returning"
+      ],
+      "correctAnswer": "passes by reference and the method must assign it before returning",
+      "explanation": "The correct answer is D) passes by reference and the method must assign it before returning. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q031",
+      "questionText": "Which statement is TRUE about ref and out?",
+      "options": [
+        "Neither changes the original",
+        "Both require initialization before the call",
+        "Both are used only for strings",
+        "Both pass arguments by reference"
+      ],
+      "correctAnswer": "Both pass arguments by reference",
+      "explanation": "The correct answer is D) Both pass arguments by reference. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q032",
+      "questionText": "Method overloading means",
+      "options": [
+        "same name and same signature",
+        "multiple methods with the same name but different signatures",
+        "overriding in derived classes",
+        "different names, same signature"
+      ],
+      "correctAnswer": "multiple methods with the same name but different signatures",
+      "explanation": "The correct answer is B) multiple methods with the same name but different signatures. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q033",
+      "questionText": "Which pair is a valid overload?",
+      "options": [
+        "void F(int a) and void F(string a)",
+        "void F(int a) and int F(int a)",
+        "void F(int a) and void F(int b)",
+        "void F() and void F()"
+      ],
+      "correctAnswer": "void F(int a) and void F(string a)",
+      "explanation": "The correct answer is A) void F(int a) and void F(string a). (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q034",
+      "questionText": "Method overloading cannot be done by changing only",
+      "options": [
+        "the return type",
+        "the order of parameter types",
+        "the number of parameters",
+        "the parameter types"
+      ],
+      "correctAnswer": "the return type",
+      "explanation": "The correct answer is A) the return type. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q035",
+      "questionText": "The this keyword refers to",
+      "options": [
+        "the current instance of the class",
+        "the base class",
+        "a namespace",
+        "a static member"
+      ],
+      "correctAnswer": "the current instance of the class",
+      "explanation": "The correct answer is A) the current instance of the class. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q036",
+      "questionText": "this is often used to",
+      "options": [
+        "create static fields",
+        "declare constants",
+        "exit a method",
+        "distinguish fields from parameters with the same name"
+      ],
+      "correctAnswer": "distinguish fields from parameters with the same name",
+      "explanation": "The correct answer is D) distinguish fields from parameters with the same name. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q037",
+      "questionText": "A constructor is",
+      "options": [
+        "a static field",
+        "an operator",
+        "a special method that initializes an object",
+        "a destroyer"
+      ],
+      "correctAnswer": "a special method that initializes an object",
+      "explanation": "The correct answer is C) a special method that initializes an object. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q038",
+      "questionText": "A constructor has",
+      "options": [
+        "a void return type",
+        "any name and a return type",
+        "the name Main",
+        "the same name as the class and no return type"
+      ],
+      "correctAnswer": "the same name as the class and no return type",
+      "explanation": "The correct answer is D) the same name as the class and no return type. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q039",
+      "questionText": "When a class defines no constructor, the compiler provides",
+      "options": [
+        "a destructor",
+        "a default parameterless constructor",
+        "a static constructor",
+        "no constructor"
+      ],
+      "correctAnswer": "a default parameterless constructor",
+      "explanation": "The correct answer is B) a default parameterless constructor. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q040",
+      "questionText": "A static constructor is used to",
+      "options": [
+        "destroy objects",
+        "initialize static members once",
+        "create objects",
+        "overload methods"
+      ],
+      "correctAnswer": "initialize static members once",
+      "explanation": "The correct answer is B) initialize static members once. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q041",
+      "questionText": "A static constructor",
+      "options": [
+        "is called manually",
+        "cannot have access modifiers or parameters",
+        "can be public",
+        "can take parameters"
+      ],
+      "correctAnswer": "cannot have access modifiers or parameters",
+      "explanation": "The correct answer is B) cannot have access modifiers or parameters. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q042",
+      "questionText": "Constructor overloading means",
+      "options": [
+        "constructors are inherited",
+        "constructors are static",
+        "a constructor returns values",
+        "a class has multiple constructors with different parameters"
+      ],
+      "correctAnswer": "a class has multiple constructors with different parameters",
+      "explanation": "The correct answer is D) a class has multiple constructors with different parameters. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q043",
+      "questionText": "A destructor in C# is declared using",
+      "options": [
+        "~ClassName()",
+        "destroy ClassName()",
+        "ClassName.Dispose",
+        "delete ClassName()"
+      ],
+      "correctAnswer": "~ClassName()",
+      "explanation": "The correct answer is A) ~ClassName(). (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q044",
+      "questionText": "A destructor is called",
+      "options": [
+        "when the program starts",
+        "by the programmer explicitly",
+        "only for static classes",
+        "by the garbage collector before reclaiming the object"
+      ],
+      "correctAnswer": "by the garbage collector before reclaiming the object",
+      "explanation": "The correct answer is D) by the garbage collector before reclaiming the object. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q045",
+      "questionText": "A class can have",
+      "options": [
+        "parameters in the destructor",
+        "only one destructor",
+        "multiple destructors",
+        "no more than two destructors"
+      ],
+      "correctAnswer": "only one destructor",
+      "explanation": "The correct answer is B) only one destructor. (Classes and Methods)"
+    },
+    {
+      "id": "csharp_s05_q046",
+      "questionText": "Which statement correctly creates an object of class Car?",
+      "options": [
+        "new Car c;",
+        "Car c = create Car;",
+        "Car c = new Car();",
+        "Car c = Car();"
+      ],
+      "correctAnswer": "Car c = new Car();",
+      "explanation": "The correct answer is C) Car c = new Car();. (Classes and Methods)"
+    }
+  ]
+}

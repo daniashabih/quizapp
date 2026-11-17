@@ -1,0 +1,609 @@
+{
+  "category": "C#",
+  "session": 1,
+  "title": "Session 1: Getting Started with C#",
+  "sessionTitle": "Getting Started with C#",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "id": "csharp_s01_q001",
+      "questionText": "The .NET Framework is primarily an infrastructure used to",
+      "options": [
+        "compile only C++ programs",
+        "design hardware circuits",
+        "build, deploy, and run applications and services using .NET technologies",
+        "manage only database servers"
+      ],
+      "correctAnswer": "build, deploy, and run applications and services using .NET technologies",
+      "explanation": "The correct answer is C) build, deploy, and run applications and services using .NET technologies. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q002",
+      "questionText": "Which two basic technologies is the .NET Framework platform based on for communication of data?",
+      "options": [
+        "XML and the suite of Internet protocols",
+        "JSON and FTP only",
+        "HTML and CSS",
+        "SQL and ODBC"
+      ],
+      "correctAnswer": "XML and the suite of Internet protocols",
+      "explanation": "The correct answer is A) XML and the suite of Internet protocols. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q003",
+      "questionText": "Which of the following is a key feature of XML?",
+      "options": [
+        "It replaces HTTP",
+        "It is a compiled language",
+        "It can only be used on Windows",
+        "It separates actual data from presentation"
+      ],
+      "correctAnswer": "It separates actual data from presentation",
+      "explanation": "The correct answer is D) It separates actual data from presentation. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q004",
+      "questionText": "In the .NET Framework, source code is first compiled into",
+      "options": [
+        "native code directly",
+        "CIL (formerly MSIL) stored in an assembly",
+        "HTML",
+        "Java bytecode"
+      ],
+      "correctAnswer": "CIL (formerly MSIL) stored in an assembly",
+      "explanation": "The correct answer is B) CIL (formerly MSIL) stored in an assembly. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q005",
+      "questionText": "The former name of CIL was",
+      "options": [
+        "JIT",
+        "CLS",
+        "MSIL",
+        "DLR"
+      ],
+      "correctAnswer": "MSIL",
+      "explanation": "The correct answer is C) MSIL. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q006",
+      "questionText": "CIL code is converted into native code at run time by the",
+      "options": [
+        "Visual Studio IDE",
+        "Class Library",
+        "Windows Registry",
+        "Common Language Runtime (CLR)"
+      ],
+      "correctAnswer": "Common Language Runtime (CLR)",
+      "explanation": "The correct answer is D) Common Language Runtime (CLR). (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q007",
+      "questionText": "The two core components of the .NET Framework are",
+      "options": [
+        "the CLS and the DLR",
+        "the CLR and the .NET Framework class library",
+        "ASP.NET and ADO.NET",
+        "WPF and WCF"
+      ],
+      "correctAnswer": "the CLR and the .NET Framework class library",
+      "explanation": "The correct answer is B) the CLR and the .NET Framework class library. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q008",
+      "questionText": "Applications that run under the control of the CLR are called",
+      "options": [
+        "script code",
+        "managed code",
+        "native code",
+        "unmanaged code"
+      ],
+      "correctAnswer": "managed code",
+      "explanation": "The correct answer is B) managed code. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q009",
+      "questionText": "Which of the following is NOT a function of the CLR?",
+      "options": [
+        "Designing the user interface layout",
+        "Code safety verification",
+        "Garbage collection",
+        "Memory management"
+      ],
+      "correctAnswer": "Designing the user interface layout",
+      "explanation": "The correct answer is A) Designing the user interface layout. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q010",
+      "questionText": "The .NET Framework Class Library (FCL) is",
+      "options": [
+        "a text editor",
+        "a comprehensive object-oriented collection of reusable types",
+        "a database engine",
+        "a hardware driver set"
+      ],
+      "correctAnswer": "a comprehensive object-oriented collection of reusable types",
+      "explanation": "The correct answer is B) a comprehensive object-oriented collection of reusable types. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q011",
+      "questionText": "A major goal of the .NET Framework is to promote",
+      "options": [
+        "platform dependence",
+        "manual memory management",
+        "code reusability",
+        "vendor lock-in of data formats"
+      ],
+      "correctAnswer": "code reusability",
+      "explanation": "The correct answer is C) code reusability. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q012",
+      "questionText": "The same Console.WriteLine() method is available across all .NET languages because",
+      "options": [
+        "the FCL is a common class library for all .NET languages",
+        "it is a keyword in all languages",
+        "the OS provides it",
+        "every language has its own copy"
+      ],
+      "correctAnswer": "the FCL is a common class library for all .NET languages",
+      "explanation": "The correct answer is A) the FCL is a common class library for all .NET languages. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q013",
+      "questionText": "The CLS (Common Language Specification) is",
+      "options": [
+        "a set of rules that any .NET language should follow to create applications",
+        "a debugging tool",
+        "a type of assembly",
+        "a garbage collector"
+      ],
+      "correctAnswer": "a set of rules that any .NET language should follow to create applications",
+      "explanation": "The correct answer is A) a set of rules that any .NET language should follow to create applications. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q014",
+      "questionText": "Which .NET Framework version was the first to be released with Visual Studio .NET 2002?",
+      "options": [
+        ".NET Framework 4.0",
+        ".NET Framework 3.5",
+        ".NET Framework 2.0",
+        ".NET Framework 1.0"
+      ],
+      "correctAnswer": ".NET Framework 1.0",
+      "explanation": "The correct answer is D) .NET Framework 1.0. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q015",
+      "questionText": "Support for generic data structures and 64-bit hardware platforms was introduced in",
+      "options": [
+        ".NET Framework 1.1",
+        ".NET Framework 1.0",
+        ".NET Framework 2.0",
+        ".NET Framework 4.8"
+      ],
+      "correctAnswer": ".NET Framework 2.0",
+      "explanation": "The correct answer is C) .NET Framework 2.0. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q016",
+      "questionText": "WPF, WCF, WF, and Windows CardSpace were introduced in",
+      "options": [
+        ".NET Framework 1.1",
+        ".NET Framework 3.0",
+        ".NET Framework 2.0",
+        ".NET Framework 4.5"
+      ],
+      "correctAnswer": ".NET Framework 3.0",
+      "explanation": "The correct answer is B) .NET Framework 3.0. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q017",
+      "questionText": "LINQ (Language Integrated Query) was introduced with",
+      "options": [
+        ".NET Framework 3.0",
+        ".NET Framework 2.0",
+        ".NET Framework 3.5",
+        ".NET Framework 1.1"
+      ],
+      "correctAnswer": ".NET Framework 3.5",
+      "explanation": "The correct answer is C) .NET Framework 3.5. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q018",
+      "questionText": "The Dynamic Language Runtime (DLR) was a key feature of",
+      "options": [
+        ".NET Framework 1.1",
+        ".NET Framework 4.0",
+        ".NET Framework 3.0",
+        ".NET Framework 2.0"
+      ],
+      "correctAnswer": ".NET Framework 4.0",
+      "explanation": "The correct answer is B) .NET Framework 4.0. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q019",
+      "questionText": "The DLR enables .NET programmers to create applications using dynamic languages such as",
+      "options": [
+        "COBOL and Fortran",
+        "Python and Ruby",
+        "SQL and XML",
+        "C and Pascal"
+      ],
+      "correctAnswer": "Python and Ruby",
+      "explanation": "The correct answer is B) Python and Ruby. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q020",
+      "questionText": "The async and await keywords for asynchronous programming came with",
+      "options": [
+        ".NET Framework 2.0",
+        ".NET Framework 4.5",
+        ".NET Framework 3.5",
+        ".NET Framework 1.0"
+      ],
+      "correctAnswer": ".NET Framework 4.5",
+      "explanation": "The correct answer is B) .NET Framework 4.5. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q021",
+      "questionText": "Which is the last version of the .NET Framework?",
+      "options": [
+        ".NET Framework 5.0",
+        ".NET Framework 4.0",
+        ".NET Framework 4.8",
+        ".NET Framework 4.5"
+      ],
+      "correctAnswer": ".NET Framework 4.8",
+      "explanation": "The correct answer is C) .NET Framework 4.8. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q022",
+      "questionText": "For new development, Microsoft recommends using",
+      "options": [
+        ".NET Framework 1.1",
+        ".NET Framework 2.0",
+        ".NET Compact Framework",
+        ".NET 5.0 or later"
+      ],
+      "correctAnswer": ".NET 5.0 or later",
+      "explanation": "The correct answer is D) .NET 5.0 or later. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q023",
+      "questionText": ".NET 5.0 was introduced by Microsoft in",
+      "options": [
+        "November 2015",
+        "November 2010",
+        "November 2020",
+        "November 2002"
+      ],
+      "correctAnswer": "November 2020",
+      "explanation": "The correct answer is C) November 2020. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q024",
+      "questionText": ".NET 5.0 combines",
+      "options": [
+        ".NET Core with .NET Framework into a unified platform",
+        "Mono with Xamarin only",
+        "C++ with Python",
+        "Java with C#"
+      ],
+      "correctAnswer": ".NET Core with .NET Framework into a unified platform",
+      "explanation": "The correct answer is A) .NET Core with .NET Framework into a unified platform. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q025",
+      "questionText": "Code Access Security (CAS) is",
+      "options": [
+        "a database feature",
+        "a security mechanism ensuring only trusted code performs critical actions",
+        "a network protocol",
+        "an IDE debugging tool"
+      ],
+      "correctAnswer": "a security mechanism ensuring only trusted code performs critical actions",
+      "explanation": "The correct answer is B) a security mechanism ensuring only trusted code performs critical actions. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q026",
+      "questionText": "The .NET Compact Framework provides components for",
+      "options": [
+        "applications on mobile phones and PDAs",
+        "supercomputers",
+        "mainframe computers",
+        "web servers only"
+      ],
+      "correctAnswer": "applications on mobile phones and PDAs",
+      "explanation": "The correct answer is A) applications on mobile phones and PDAs. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q027",
+      "questionText": "C# is an object-oriented language derived from",
+      "options": [
+        "Pascal and Fortran",
+        "Assembly and COBOL",
+        "C and C++",
+        "Python and Perl"
+      ],
+      "correctAnswer": "C and C++",
+      "explanation": "The correct answer is C) C and C++. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q028",
+      "questionText": "C# is best described as a",
+      "options": [
+        "query language",
+        "markup language",
+        "type-safe, object-oriented programming language",
+        "scripting-only language"
+      ],
+      "correctAnswer": "type-safe, object-oriented programming language",
+      "explanation": "The correct answer is C) type-safe, object-oriented programming language. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q029",
+      "questionText": "Which feature of C# automatically allocates and releases memory?",
+      "options": [
+        "Manual free()",
+        "Automatic memory management (garbage collection)",
+        "Pointers",
+        "Macros"
+      ],
+      "correctAnswer": "Automatic memory management (garbage collection)",
+      "explanation": "The correct answer is B) Automatic memory management (garbage collection). (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q030",
+      "questionText": "Garbage collection in the CLR is used to",
+      "options": [
+        "format the screen",
+        "reclaim memory occupied by objects no longer in use",
+        "compile source code",
+        "encrypt data"
+      ],
+      "correctAnswer": "reclaim memory occupied by objects no longer in use",
+      "explanation": "The correct answer is B) reclaim memory occupied by objects no longer in use. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q031",
+      "questionText": "Which of the following is an advantage of C#?",
+      "options": [
+        "It requires manual memory deallocation",
+        "It is simple and modern with built-in garbage collection",
+        "It cannot be used for web apps",
+        "It does not support OOP"
+      ],
+      "correctAnswer": "It is simple and modern with built-in garbage collection",
+      "explanation": "The correct answer is B) It is simple and modern with built-in garbage collection. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q032",
+      "questionText": "The version of C# covered in this book is",
+      "options": [
+        "C# 1.0",
+        "C# 9.0",
+        "C# 3.0",
+        "C# 12.0"
+      ],
+      "correctAnswer": "C# 9.0",
+      "explanation": "The correct answer is B) C# 9.0. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q033",
+      "questionText": "The IDE used in this book for C# development is",
+      "options": [
+        "Xcode",
+        "NetBeans",
+        "Eclipse",
+        "Visual Studio 2019"
+      ],
+      "correctAnswer": "Visual Studio 2019",
+      "explanation": "The correct answer is D) Visual Studio 2019. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q034",
+      "questionText": "Which of the following is NOT an edition of Visual Studio 2019?",
+      "options": [
+        "Ultimate",
+        "Professional",
+        "Community",
+        "Enterprise"
+      ],
+      "correctAnswer": "Ultimate",
+      "explanation": "The correct answer is A) Ultimate. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q035",
+      "questionText": "Which Visual Studio 2019 edition is free for students and individual developers?",
+      "options": [
+        "Enterprise",
+        "Team",
+        "Professional",
+        "Community"
+      ],
+      "correctAnswer": "Community",
+      "explanation": "The correct answer is D) Community. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q036",
+      "questionText": "Which of these languages can be used in Visual Studio 2019?",
+      "options": [
+        "Only Python",
+        "Only Java",
+        "Only C#",
+        "C#, Visual Basic, and C++"
+      ],
+      "correctAnswer": "C#, Visual Basic, and C++",
+      "explanation": "The correct answer is D) C#, Visual Basic, and C++. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q037",
+      "questionText": "In Visual Studio, which window displays the files and projects of a solution?",
+      "options": [
+        "Error List",
+        "Solution Explorer",
+        "Toolbox",
+        "Output window"
+      ],
+      "correctAnswer": "Solution Explorer",
+      "explanation": "The correct answer is B) Solution Explorer. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q038",
+      "questionText": "Which window in Visual Studio is used to view and change properties of selected items?",
+      "options": [
+        "Output window",
+        "Properties window",
+        "Solution Explorer",
+        "Start page"
+      ],
+      "correctAnswer": "Properties window",
+      "explanation": "The correct answer is B) Properties window. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q039",
+      "questionText": "Which Visual Studio window shows build messages?",
+      "options": [
+        "Properties window",
+        "Toolbox",
+        "Class View",
+        "Output window"
+      ],
+      "correctAnswer": "Output window",
+      "explanation": "The correct answer is D) Output window. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q040",
+      "questionText": "The Toolbox in Visual Studio is mainly used to",
+      "options": [
+        "drag and drop controls onto a form",
+        "view build output",
+        "manage NuGet only",
+        "show memory usage"
+      ],
+      "correctAnswer": "drag and drop controls onto a form",
+      "explanation": "The correct answer is A) drag and drop controls onto a form. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q041",
+      "questionText": "Which feature of the IDE provides code completion suggestions while typing?",
+      "options": [
+        "Debugger",
+        "IntelliSense",
+        "Object Browser",
+        "Profiler"
+      ],
+      "correctAnswer": "IntelliSense",
+      "explanation": "The correct answer is B) IntelliSense. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q042",
+      "questionText": "Which shortcut key builds the solution in Visual Studio?",
+      "options": [
+        "Alt+F4",
+        "F1",
+        "Ctrl+Z",
+        "Ctrl+Shift+B"
+      ],
+      "correctAnswer": "Ctrl+Shift+B",
+      "explanation": "The correct answer is D) Ctrl+Shift+B. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q043",
+      "questionText": "Which shortcut key runs the application with debugging in Visual Studio?",
+      "options": [
+        "F5",
+        "F1",
+        "Ctrl+S",
+        "F12"
+      ],
+      "correctAnswer": "F5",
+      "explanation": "The correct answer is A) F5. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q044",
+      "questionText": "Which shortcut runs the application without debugging?",
+      "options": [
+        "Ctrl+F5",
+        "Shift+F5",
+        "F9",
+        "F5"
+      ],
+      "correctAnswer": "Ctrl+F5",
+      "explanation": "The correct answer is A) Ctrl+F5. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q045",
+      "questionText": "Which type of project would you choose for a basic text-based C# program?",
+      "options": [
+        "WPF only",
+        "Windows Forms only",
+        "Console App",
+        "Class Library only"
+      ],
+      "correctAnswer": "Console App",
+      "explanation": "The correct answer is C) Console App. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q046",
+      "questionText": "The file extension of a C# source file is",
+      "options": [
+        ".cpp",
+        ".java",
+        ".vb",
+        ".cs"
+      ],
+      "correctAnswer": ".cs",
+      "explanation": "The correct answer is D) .cs. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q047",
+      "questionText": "The entry point of a C# console application is the",
+      "options": [
+        "Run() method",
+        "Main() method",
+        "Init() method",
+        "Start() method"
+      ],
+      "correctAnswer": "Main() method",
+      "explanation": "The correct answer is B) Main() method. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q048",
+      "questionText": "Which statement displays text in a console application?",
+      "options": [
+        "System.out.println(\"Hello\");",
+        "echo \"Hello\";",
+        "Console.WriteLine(\"Hello\");",
+        "print(\"Hello\");"
+      ],
+      "correctAnswer": "Console.WriteLine(\"Hello\");",
+      "explanation": "The correct answer is C) Console.WriteLine(\"Hello\");. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q049",
+      "questionText": "Console.ReadLine() returns data of type",
+      "options": [
+        "object",
+        "char",
+        "int",
+        "string"
+      ],
+      "correctAnswer": "string",
+      "explanation": "The correct answer is D) string. (Getting Started with C#)"
+    },
+    {
+      "id": "csharp_s01_q050",
+      "questionText": "The Microsoft intermediate-language code and metadata of a .NET application are stored in a file called",
+      "options": [
+        "an assembly",
+        "a manifest-free script",
+        "a header",
+        "a DLL registry"
+      ],
+      "correctAnswer": "an assembly",
+      "explanation": "The correct answer is A) an assembly. (Getting Started with C#)"
+    }
+  ]
+}

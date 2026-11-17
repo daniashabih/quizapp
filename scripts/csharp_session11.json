@@ -1,0 +1,597 @@
+{
+  "category": "C#",
+  "session": 11,
+  "title": "Session 11: Generics and Iterators",
+  "sessionTitle": "Generics and Iterators",
+  "totalQuestions": 49,
+  "questions": [
+    {
+      "id": "csharp_s11_q001",
+      "questionText": "Generics allow you to",
+      "options": [
+        "define classes and methods with placeholder type parameters",
+        "avoid compiling",
+        "create only int classes",
+        "remove type checking"
+      ],
+      "correctAnswer": "define classes and methods with placeholder type parameters",
+      "explanation": "The correct answer is A) define classes and methods with placeholder type parameters. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q002",
+      "questionText": "The type parameter in a generic class is written inside",
+      "options": [
+        "angle brackets < >",
+        "parentheses ( )",
+        "square brackets [ ]",
+        "braces { }"
+      ],
+      "correctAnswer": "angle brackets < >",
+      "explanation": "The correct answer is A) angle brackets < >. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q003",
+      "questionText": "By convention a single type parameter is named",
+      "options": [
+        "T",
+        "TypeOne only",
+        "X",
+        "Z"
+      ],
+      "correctAnswer": "T",
+      "explanation": "The correct answer is A) T. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q004",
+      "questionText": "Which is a benefit of generics?",
+      "options": [
+        "Runtime casting errors",
+        "Type safety and no boxing/unboxing for value types",
+        "Less reusable code",
+        "Slower performance"
+      ],
+      "correctAnswer": "Type safety and no boxing/unboxing for value types",
+      "explanation": "The correct answer is B) Type safety and no boxing/unboxing for value types. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q005",
+      "questionText": "Generics promote",
+      "options": [
+        "code reusability",
+        "code duplication",
+        "slower code",
+        "manual casting"
+      ],
+      "correctAnswer": "code reusability",
+      "explanation": "The correct answer is A) code reusability. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q006",
+      "questionText": "Which namespace contains generic collection types?",
+      "options": [
+        "System.Data",
+        "System.Reflection",
+        "System.Collections.Generic",
+        "System.Generic"
+      ],
+      "correctAnswer": "System.Collections.Generic",
+      "explanation": "The correct answer is C) System.Collections.Generic. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q007",
+      "questionText": "Which namespace contains Collection<T> and ReadOnlyCollection<T>?",
+      "options": [
+        "System.Collections.ObjectModel",
+        "System.Linq",
+        "System.Text",
+        "System.Collections.Specialized"
+      ],
+      "correctAnswer": "System.Collections.ObjectModel",
+      "explanation": "The correct answer is A) System.Collections.ObjectModel. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q008",
+      "questionText": "Which is a valid generic class declaration?",
+      "options": [
+        "class Box[T] { }",
+        "class Box<T> { }",
+        "class Box(T) { }",
+        "generic class Box<T> { }"
+      ],
+      "correctAnswer": "class Box<T> { }",
+      "explanation": "The correct answer is B) class Box<T> { }. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q009",
+      "questionText": "Given class Box<T>, which creates a Box of int?",
+      "options": [
+        "Box b = new Box<int>;",
+        "Box<> b = new Box();",
+        "new Box(int) b;",
+        "Box<int> b = new Box<int>();"
+      ],
+      "correctAnswer": "Box<int> b = new Box<int>();",
+      "explanation": "The correct answer is D) Box<int> b = new Box<int>();. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q010",
+      "questionText": "Constraints on type parameters are specified using",
+      "options": [
+        "the if keyword",
+        "the on keyword",
+        "the where keyword",
+        "the with keyword"
+      ],
+      "correctAnswer": "the where keyword",
+      "explanation": "The correct answer is C) the where keyword. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q011",
+      "questionText": "Which constraint requires T to be a reference type?",
+      "options": [
+        "where T : new()",
+        "where T : base",
+        "where T : class",
+        "where T : struct"
+      ],
+      "correctAnswer": "where T : class",
+      "explanation": "The correct answer is C) where T : class. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q012",
+      "questionText": "Which constraint requires T to be a value type?",
+      "options": [
+        "where T : value",
+        "where T : struct",
+        "where T : class",
+        "where T : new()"
+      ],
+      "correctAnswer": "where T : struct",
+      "explanation": "The correct answer is B) where T : struct. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q013",
+      "questionText": "Which constraint requires T to have a public parameterless constructor?",
+      "options": [
+        "where T : default",
+        "where T : new()",
+        "where T : ctor",
+        "where T : class"
+      ],
+      "correctAnswer": "where T : new()",
+      "explanation": "The correct answer is B) where T : new(). (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q014",
+      "questionText": "Which constraint requires T to derive from Animal?",
+      "options": [
+        "where T -> Animal",
+        "where T : Animal",
+        "where T : extends Animal",
+        "where T is Animal"
+      ],
+      "correctAnswer": "where T : Animal",
+      "explanation": "The correct answer is B) where T : Animal. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q015",
+      "questionText": "Which constraint requires T to implement IComparable?",
+      "options": [
+        "where T : IComparable",
+        "where T == IComparable",
+        "where T : implements IComparable",
+        "where T <- IComparable"
+      ],
+      "correctAnswer": "where T : IComparable",
+      "explanation": "The correct answer is A) where T : IComparable. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q016",
+      "questionText": "When multiple constraints are used, new() must",
+      "options": [
+        "appear first",
+        "appear in the middle",
+        "be omitted",
+        "appear last"
+      ],
+      "correctAnswer": "appear last",
+      "explanation": "The correct answer is D) appear last. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q017",
+      "questionText": "A generic class can be inherited by",
+      "options": [
+        "only structs",
+        "no class",
+        "a concrete class that specifies the type argument",
+        "only abstract classes"
+      ],
+      "correctAnswer": "a concrete class that specifies the type argument",
+      "explanation": "The correct answer is C) a concrete class that specifies the type argument. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q018",
+      "questionText": "Which is a generic method declaration?",
+      "options": [
+        "generic void Swap(T a)",
+        "void <T>Swap(T a)",
+        "void Swap<T>(ref T a, ref T b)",
+        "void Swap(T<>)"
+      ],
+      "correctAnswer": "void Swap<T>(ref T a, ref T b)",
+      "explanation": "The correct answer is C) void Swap<T>(ref T a, ref T b). (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q019",
+      "questionText": "How do you call generic method Swap<T> for ints x and y?",
+      "options": [
+        "Swap(int)(x, y);",
+        "Swap[int](x, y);",
+        "Swap.int(x,y);",
+        "Swap<int>(ref x, ref y);"
+      ],
+      "correctAnswer": "Swap<int>(ref x, ref y);",
+      "explanation": "The correct answer is D) Swap<int>(ref x, ref y);. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q020",
+      "questionText": "The compiler can often infer the type argument of a generic method",
+      "options": [
+        "never",
+        "from the arguments passed",
+        "only for strings",
+        "only from constraints"
+      ],
+      "correctAnswer": "from the arguments passed",
+      "explanation": "The correct answer is B) from the arguments passed. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q021",
+      "questionText": "A generic interface is declared as",
+      "options": [
+        "generic interface IRepo { }",
+        "interface IRepo<T> { }",
+        "interface IRepo(T) { }",
+        "interface<T> IRepo { }"
+      ],
+      "correctAnswer": "interface IRepo<T> { }",
+      "explanation": "The correct answer is B) interface IRepo<T> { }. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q022",
+      "questionText": "Which is a built-in generic delegate that returns a value?",
+      "options": [
+        "Handler<T>",
+        "Action<T>",
+        "Func<T, TResult>",
+        "Predicate<T> returns void"
+      ],
+      "correctAnswer": "Func<T, TResult>",
+      "explanation": "The correct answer is C) Func<T, TResult>. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q023",
+      "questionText": "Which built-in generic delegate returns void?",
+      "options": [
+        "Converter<T>",
+        "Predicate<T>",
+        "Action<T>",
+        "Func<T>"
+      ],
+      "correctAnswer": "Action<T>",
+      "explanation": "The correct answer is C) Action<T>. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q024",
+      "questionText": "Predicate<T> returns",
+      "options": [
+        "T",
+        "int",
+        "void",
+        "bool"
+      ],
+      "correctAnswer": "bool",
+      "explanation": "The correct answer is D) bool. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q025",
+      "questionText": "Methods can be overloaded using",
+      "options": [
+        "different names only",
+        "different access modifiers only",
+        "different return types only",
+        "different numbers of type parameters"
+      ],
+      "correctAnswer": "different numbers of type parameters",
+      "explanation": "The correct answer is D) different numbers of type parameters. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q026",
+      "questionText": "A virtual method in a generic class can be",
+      "options": [
+        "only private",
+        "only static",
+        "overridden in a derived class",
+        "never overridden"
+      ],
+      "correctAnswer": "overridden in a derived class",
+      "explanation": "The correct answer is C) overridden in a derived class. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q027",
+      "questionText": "List<T> is",
+      "options": [
+        "a fixed array",
+        "a non-generic list",
+        "a generic dynamic array",
+        "a dictionary"
+      ],
+      "correctAnswer": "a generic dynamic array",
+      "explanation": "The correct answer is C) a generic dynamic array. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q028",
+      "questionText": "Which statement creates a list of strings?",
+      "options": [
+        "list<string> l = [];",
+        "List l = new List<string>;",
+        "List<string> l = new List<string>();",
+        "List<> l = new string();"
+      ],
+      "correctAnswer": "List<string> l = new List<string>();",
+      "explanation": "The correct answer is C) List<string> l = new List<string>();. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q029",
+      "questionText": "Which List<T> method adds an element?",
+      "options": [
+        "Push()",
+        "Put()",
+        "Insert() only at end",
+        "Add()"
+      ],
+      "correctAnswer": "Add()",
+      "explanation": "The correct answer is D) Add(). (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q030",
+      "questionText": "Which property of List<T> returns the number of elements?",
+      "options": [
+        "Size",
+        "Total",
+        "Count",
+        "Length"
+      ],
+      "correctAnswer": "Count",
+      "explanation": "The correct answer is C) Count. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q031",
+      "questionText": "What does default(T) return for a value type like int?",
+      "options": [
+        "null",
+        "1",
+        "-1",
+        "0"
+      ],
+      "correctAnswer": "0",
+      "explanation": "The correct answer is D) 0. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q032",
+      "questionText": "What does default(T) return for a reference type?",
+      "options": [
+        "\"\"",
+        "0",
+        "undefined",
+        "null"
+      ],
+      "correctAnswer": "null",
+      "explanation": "The correct answer is D) null. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q033",
+      "questionText": "Iterators are used to",
+      "options": [
+        "define namespaces",
+        "step through a collection one element at a time",
+        "compile code",
+        "declare delegates"
+      ],
+      "correctAnswer": "step through a collection one element at a time",
+      "explanation": "The correct answer is B) step through a collection one element at a time. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q034",
+      "questionText": "Which keyword returns each element in an iterator method?",
+      "options": [
+        "return each",
+        "iterate",
+        "yield next",
+        "yield return"
+      ],
+      "correctAnswer": "yield return",
+      "explanation": "The correct answer is D) yield return. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q035",
+      "questionText": "Which keyword ends iteration early in an iterator?",
+      "options": [
+        "break only",
+        "return false",
+        "stop",
+        "yield break"
+      ],
+      "correctAnswer": "yield break",
+      "explanation": "The correct answer is D) yield break. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q036",
+      "questionText": "An iterator method must have a return type of",
+      "options": [
+        "void",
+        "int",
+        "IEnumerable, IEnumerable<T>, IEnumerator, or IEnumerator<T>",
+        "string"
+      ],
+      "correctAnswer": "IEnumerable, IEnumerable<T>, IEnumerator, or IEnumerator<T>",
+      "explanation": "The correct answer is C) IEnumerable, IEnumerable<T>, IEnumerator, or IEnumerator<T>. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q037",
+      "questionText": "Which interface do you implement to make a class usable in foreach?",
+      "options": [
+        "ICloneable",
+        "IEnumerable",
+        "IDisposable",
+        "IComparable"
+      ],
+      "correctAnswer": "IEnumerable",
+      "explanation": "The correct answer is B) IEnumerable. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q038",
+      "questionText": "Which method of IEnumerable returns an enumerator?",
+      "options": [
+        "Next()",
+        "GetEnumerator()",
+        "Current()",
+        "MoveNext()"
+      ],
+      "correctAnswer": "GetEnumerator()",
+      "explanation": "The correct answer is B) GetEnumerator(). (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q039",
+      "questionText": "Which IEnumerator method advances to the next element?",
+      "options": [
+        "Advance()",
+        "Next()",
+        "MoveNext()",
+        "GetNext()"
+      ],
+      "correctAnswer": "MoveNext()",
+      "explanation": "The correct answer is C) MoveNext(). (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q040",
+      "questionText": "Which IEnumerator property returns the current element?",
+      "options": [
+        "Element",
+        "Current",
+        "Value",
+        "Item"
+      ],
+      "correctAnswer": "Current",
+      "explanation": "The correct answer is B) Current. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q041",
+      "questionText": "Iterators produce values",
+      "options": [
+        "all at once",
+        "only once at compile time",
+        "lazily, one at a time",
+        "only in reverse"
+      ],
+      "correctAnswer": "lazily, one at a time",
+      "explanation": "The correct answer is C) lazily, one at a time. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q042",
+      "questionText": "A named iterator is",
+      "options": [
+        "an iterator without yield",
+        "an iterator method with a custom name that can be called in foreach",
+        "a delegate",
+        "a property"
+      ],
+      "correctAnswer": "an iterator method with a custom name that can be called in foreach",
+      "explanation": "The correct answer is B) an iterator method with a custom name that can be called in foreach. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q043",
+      "questionText": "A generic iterator returns",
+      "options": [
+        "IEnumerable only",
+        "void",
+        "object[]",
+        "IEnumerable<T>"
+      ],
+      "correctAnswer": "IEnumerable<T>",
+      "explanation": "The correct answer is D) IEnumerable<T>. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q044",
+      "questionText": "A benefit of iterators is",
+      "options": [
+        "they avoid memory entirely",
+        "they remove loops",
+        "they compile faster",
+        "simpler code than implementing IEnumerator manually"
+      ],
+      "correctAnswer": "simpler code than implementing IEnumerator manually",
+      "explanation": "The correct answer is D) simpler code than implementing IEnumerator manually. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q045",
+      "questionText": "Can a yield return statement appear in a try block that has a catch clause?",
+      "options": [
+        "Yes",
+        "Only in Main",
+        "No",
+        "Only in finally"
+      ],
+      "correctAnswer": "No",
+      "explanation": "The correct answer is C) No. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q046",
+      "questionText": "Which is TRUE of Dictionary<TKey,TValue> vs. Hashtable?",
+      "options": [
+        "Dictionary avoids boxing for value types",
+        "Dictionary is non-generic",
+        "Hashtable is generic",
+        "Dictionary stores object keys only"
+      ],
+      "correctAnswer": "Dictionary avoids boxing for value types",
+      "explanation": "The correct answer is A) Dictionary avoids boxing for value types. (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q047",
+      "questionText": "The Stack<T> method to add an item is",
+      "options": [
+        "Enqueue()",
+        "Add()",
+        "Push()",
+        "Insert()"
+      ],
+      "correctAnswer": "Push()",
+      "explanation": "The correct answer is C) Push(). (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q048",
+      "questionText": "The Queue<T> method to add an item is",
+      "options": [
+        "Enqueue()",
+        "Add()",
+        "Push()",
+        "Put()"
+      ],
+      "correctAnswer": "Enqueue()",
+      "explanation": "The correct answer is A) Enqueue(). (Generics and Iterators)"
+    },
+    {
+      "id": "csharp_s11_q049",
+      "questionText": "Generic constraints help the compiler",
+      "options": [
+        "know which members can be used on T",
+        "skip type checking",
+        "reduce file size",
+        "remove generics"
+      ],
+      "correctAnswer": "know which members can be used on T",
+      "explanation": "The correct answer is A) know which members can be used on T. (Generics and Iterators)"
+    }
+  ]
+}

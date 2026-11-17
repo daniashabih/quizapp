@@ -1,0 +1,609 @@
+{
+  "category": "C#",
+  "session": 12,
+  "title": "Session 12: Advanced Concepts in C#",
+  "sessionTitle": "Advanced Concepts in C#",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "id": "csharp_s12_q001",
+      "questionText": "An anonymous method",
+      "options": [
+        "has a name",
+        "is declared with the abstract keyword",
+        "is a class",
+        "passes a block of unnamed code as a delegate parameter"
+      ],
+      "correctAnswer": "passes a block of unnamed code as a delegate parameter",
+      "explanation": "The correct answer is D) passes a block of unnamed code as a delegate parameter. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q002",
+      "questionText": "Anonymous methods are created using the",
+      "options": [
+        "lambda keyword",
+        "delegate keyword",
+        "anon keyword",
+        "func keyword"
+      ],
+      "correctAnswer": "delegate keyword",
+      "explanation": "The correct answer is B) delegate keyword. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q003",
+      "questionText": "Which is a valid anonymous method?",
+      "options": [
+        "anonymous(int x) { }",
+        "delegate(int x) { return x * 2; }",
+        "delegate x => x * 2",
+        "def(int x) { }"
+      ],
+      "correctAnswer": "delegate(int x) { return x * 2; }",
+      "explanation": "The correct answer is B) delegate(int x) { return x * 2; }. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q004",
+      "questionText": "Anonymous methods were introduced in",
+      "options": [
+        "C# 2.0",
+        "C# 6.0",
+        "C# 9.0",
+        "C# 1.0"
+      ],
+      "correctAnswer": "C# 2.0",
+      "explanation": "The correct answer is A) C# 2.0. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q005",
+      "questionText": "Extension methods allow you to",
+      "options": [
+        "add methods to existing types without modifying them",
+        "create namespaces",
+        "delete methods",
+        "make classes sealed"
+      ],
+      "correctAnswer": "add methods to existing types without modifying them",
+      "explanation": "The correct answer is A) add methods to existing types without modifying them. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q006",
+      "questionText": "An extension method itself must be",
+      "options": [
+        "instance",
+        "abstract",
+        "static",
+        "private"
+      ],
+      "correctAnswer": "static",
+      "explanation": "The correct answer is C) static. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q007",
+      "questionText": "The first parameter of an extension method is preceded by",
+      "options": [
+        "params",
+        "base",
+        "ref",
+        "this"
+      ],
+      "correctAnswer": "this",
+      "explanation": "The correct answer is D) this. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q008",
+      "questionText": "Which is a valid extension method for string?",
+      "options": [
+        "public int WordCount(this string s)",
+        "public static int WordCount(this string s)",
+        "public static int WordCount(string this s)",
+        "public static int WordCount(string s)"
+      ],
+      "correctAnswer": "public static int WordCount(this string s)",
+      "explanation": "The correct answer is B) public static int WordCount(this string s). (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q009",
+      "questionText": "Anonymous types are created using",
+      "options": [
+        "struct keyword",
+        "class keyword",
+        "new { } with properties",
+        "the anonymous keyword"
+      ],
+      "correctAnswer": "new { } with properties",
+      "explanation": "The correct answer is C) new { } with properties. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q010",
+      "questionText": "Properties of anonymous types are",
+      "options": [
+        "read-write",
+        "read-only",
+        "static",
+        "private only"
+      ],
+      "correctAnswer": "read-only",
+      "explanation": "The correct answer is B) read-only. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q011",
+      "questionText": "Which creates an anonymous type?",
+      "options": [
+        "var p = new Person();",
+        "var p = { Name = \"Ali\" };",
+        "var p = new { Name = \"Ali\", Age = 25 };",
+        "anonymous p = new();"
+      ],
+      "correctAnswer": "var p = new { Name = \"Ali\", Age = 25 };",
+      "explanation": "The correct answer is C) var p = new { Name = \"Ali\", Age = 25 };. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q012",
+      "questionText": "Anonymous types derive directly from",
+      "options": [
+        "System.ValueType",
+        "System.Object",
+        "System.Anonymous",
+        "System.Delegate"
+      ],
+      "correctAnswer": "System.Object",
+      "explanation": "The correct answer is B) System.Object. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q013",
+      "questionText": "Partial types allow",
+      "options": [
+        "sealing members",
+        "static imports",
+        "hiding classes",
+        "splitting a class, struct, or interface across multiple files"
+      ],
+      "correctAnswer": "splitting a class, struct, or interface across multiple files",
+      "explanation": "The correct answer is D) splitting a class, struct, or interface across multiple files. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q014",
+      "questionText": "Which keyword defines partial types?",
+      "options": [
+        "split",
+        "multiple",
+        "part",
+        "partial"
+      ],
+      "correctAnswer": "partial",
+      "explanation": "The correct answer is D) partial. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q015",
+      "questionText": "Partial type definitions must be in",
+      "options": [
+        "different namespaces",
+        "different assemblies",
+        "only different files in different projects",
+        "the same namespace and assembly"
+      ],
+      "correctAnswer": "the same namespace and assembly",
+      "explanation": "The correct answer is D) the same namespace and assembly. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q016",
+      "questionText": "If one part of a partial class is declared abstract",
+      "options": [
+        "it is an error",
+        "only that part is abstract",
+        "the entire class is considered abstract",
+        "nothing changes"
+      ],
+      "correctAnswer": "the entire class is considered abstract",
+      "explanation": "The correct answer is C) the entire class is considered abstract. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q017",
+      "questionText": "Partial methods",
+      "options": [
+        "must always be implemented",
+        "are static always",
+        "are public always",
+        "have a definition in one part and an optional implementation in another"
+      ],
+      "correctAnswer": "have a definition in one part and an optional implementation in another",
+      "explanation": "The correct answer is D) have a definition in one part and an optional implementation in another. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q018",
+      "questionText": "Traditionally, a partial method's return type must be",
+      "options": [
+        "void",
+        "bool",
+        "string",
+        "int"
+      ],
+      "correctAnswer": "void",
+      "explanation": "The correct answer is A) void. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q019",
+      "questionText": "Nullable types allow",
+      "options": [
+        "reference types to hold null only",
+        "arrays to resize",
+        "strings to be sealed",
+        "value types to hold null"
+      ],
+      "correctAnswer": "value types to hold null",
+      "explanation": "The correct answer is D) value types to hold null. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q020",
+      "questionText": "Which declares a nullable int?",
+      "options": [
+        "int! x = null;",
+        "int? x = null;",
+        "nullable int x;",
+        "int x = null;"
+      ],
+      "correctAnswer": "int? x = null;",
+      "explanation": "The correct answer is B) int? x = null;. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q021",
+      "questionText": "Which read-only property of a nullable type tells whether it has a value?",
+      "options": [
+        "Exists",
+        "IsNull",
+        "Present",
+        "HasValue"
+      ],
+      "correctAnswer": "HasValue",
+      "explanation": "The correct answer is D) HasValue. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q022",
+      "questionText": "Which property returns the underlying value of a nullable type?",
+      "options": [
+        "Underlying",
+        "Item",
+        "Value",
+        "Data"
+      ],
+      "correctAnswer": "Value",
+      "explanation": "The correct answer is C) Value. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q023",
+      "questionText": "Accessing Value when HasValue is false throws",
+      "options": [
+        "NullReferenceException",
+        "InvalidOperationException",
+        "ArgumentException",
+        "FormatException"
+      ],
+      "correctAnswer": "InvalidOperationException",
+      "explanation": "The correct answer is B) InvalidOperationException. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q024",
+      "questionText": "Which method returns the value or a default if null?",
+      "options": [
+        "ValueOrNone()",
+        "GetOrNull()",
+        "Default()",
+        "GetValueOrDefault()"
+      ],
+      "correctAnswer": "GetValueOrDefault()",
+      "explanation": "The correct answer is D) GetValueOrDefault(). (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q025",
+      "questionText": "The null-coalescing operator is",
+      "options": [
+        "?.",
+        "??",
+        "?:",
+        "!!"
+      ],
+      "correctAnswer": "??",
+      "explanation": "The correct answer is B) ??. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q026",
+      "questionText": "Which operator provides safe member access on a possibly null reference?",
+      "options": [
+        "::",
+        "?.",
+        "->",
+        "??"
+      ],
+      "correctAnswer": "?.",
+      "explanation": "The correct answer is B) ?.. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q027",
+      "questionText": "Assigning a nullable int to a non-nullable int requires",
+      "options": [
+        "the new keyword",
+        "nothing",
+        "an explicit cast or Value",
+        "the as keyword"
+      ],
+      "correctAnswer": "an explicit cast or Value",
+      "explanation": "The correct answer is C) an explicit cast or Value. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q028",
+      "questionText": "ADO.NET is",
+      "options": [
+        "a language",
+        "a .NET database technology to connect an application and a database server",
+        "a text editor",
+        "a UI toolkit"
+      ],
+      "correctAnswer": "a .NET database technology to connect an application and a database server",
+      "explanation": "The correct answer is B) a .NET database technology to connect an application and a database server. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q029",
+      "questionText": "Entity Framework is",
+      "options": [
+        "an open-source ORM framework for .NET applications",
+        "a cloud provider",
+        "a scripting language",
+        "a UI framework"
+      ],
+      "correctAnswer": "an open-source ORM framework for .NET applications",
+      "explanation": "The correct answer is A) an open-source ORM framework for .NET applications. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q030",
+      "questionText": "ORM stands for",
+      "options": [
+        "Object Run-time Model",
+        "Object-Relational Mapping",
+        "Object Reference Mapping",
+        "Open Resource Manager"
+      ],
+      "correctAnswer": "Object-Relational Mapping",
+      "explanation": "The correct answer is B) Object-Relational Mapping. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q031",
+      "questionText": "A lambda expression uses the operator",
+      "options": [
+        "=>",
+        "->",
+        "==>",
+        "::"
+      ],
+      "correctAnswer": "=>",
+      "explanation": "The correct answer is A) =>. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q032",
+      "questionText": "Which is a valid expression lambda?",
+      "options": [
+        "x => x * x",
+        "(x) { x * x }",
+        "x -> x * x",
+        "lambda x: x*x"
+      ],
+      "correctAnswer": "x => x * x",
+      "explanation": "The correct answer is A) x => x * x. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q033",
+      "questionText": "A statement lambda has its body in",
+      "options": [
+        "braces { }",
+        "angle brackets",
+        "parentheses only",
+        "square brackets"
+      ],
+      "correctAnswer": "braces { }",
+      "explanation": "The correct answer is A) braces { }. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q034",
+      "questionText": "Which lambda has two parameters?",
+      "options": [
+        "a, b => a + b",
+        "(a b) => a + b",
+        "(a, b) => a + b",
+        "[a, b] => a + b"
+      ],
+      "correctAnswer": "(a, b) => a + b",
+      "explanation": "The correct answer is C) (a, b) => a + b. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q035",
+      "questionText": "LINQ stands for",
+      "options": [
+        "Library Integrated Queries",
+        "Language Integrated Query",
+        "Logical Index Query",
+        "Linked Query"
+      ],
+      "correctAnswer": "Language Integrated Query",
+      "explanation": "The correct answer is B) Language Integrated Query. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q036",
+      "questionText": "Which LINQ clause filters data?",
+      "options": [
+        "select",
+        "where",
+        "group",
+        "orderby"
+      ],
+      "correctAnswer": "where",
+      "explanation": "The correct answer is B) where. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q037",
+      "questionText": "Which LINQ clause sorts data?",
+      "options": [
+        "sort",
+        "order",
+        "arrange",
+        "orderby"
+      ],
+      "correctAnswer": "orderby",
+      "explanation": "The correct answer is D) orderby. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q038",
+      "questionText": "Which LINQ clause projects the result?",
+      "options": [
+        "from",
+        "select",
+        "project",
+        "into only"
+      ],
+      "correctAnswer": "select",
+      "explanation": "The correct answer is B) select. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q039",
+      "questionText": "Which LINQ method-based query filters items?",
+      "options": [
+        "Filter()",
+        "Where()",
+        "Pick()",
+        "Find() only"
+      ],
+      "correctAnswer": "Where()",
+      "explanation": "The correct answer is B) Where(). (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q040",
+      "questionText": "In Entity Framework, the Entity Data Model (EDM)",
+      "options": [
+        "defines threads",
+        "defines the conceptual model of the data",
+        "creates windows",
+        "handles files"
+      ],
+      "correctAnswer": "defines the conceptual model of the data",
+      "explanation": "The correct answer is B) defines the conceptual model of the data. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q041",
+      "questionText": "Which approach starts by writing classes and then creates the database?",
+      "options": [
+        "Model Only",
+        "Code First",
+        "Database First",
+        "Table First"
+      ],
+      "correctAnswer": "Code First",
+      "explanation": "The correct answer is B) Code First. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q042",
+      "questionText": "In EF, DbContext represents",
+      "options": [
+        "a session with the database",
+        "a table",
+        "a file",
+        "a column"
+      ],
+      "correctAnswer": "a session with the database",
+      "explanation": "The correct answer is A) a session with the database. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q043",
+      "questionText": "Which class is used to create a basic thread?",
+      "options": [
+        "Task only",
+        "Process",
+        "Worker",
+        "Thread"
+      ],
+      "correctAnswer": "Thread",
+      "explanation": "The correct answer is D) Thread. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q044",
+      "questionText": "Which class provides a pool of reusable worker threads?",
+      "options": [
+        "ThreadGroup",
+        "WorkerPool",
+        "ThreadPool",
+        "ThreadManager"
+      ],
+      "correctAnswer": "ThreadPool",
+      "explanation": "The correct answer is C) ThreadPool. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q045",
+      "questionText": "The lock statement is used to",
+      "options": [
+        "end threads",
+        "create threads",
+        "synchronize access to shared resources",
+        "sleep"
+      ],
+      "correctAnswer": "synchronize access to shared resources",
+      "explanation": "The correct answer is C) synchronize access to shared resources. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q046",
+      "questionText": "Which class represents an asynchronous operation?",
+      "options": [
+        "Timer",
+        "Thread",
+        "Task",
+        "Process"
+      ],
+      "correctAnswer": "Task",
+      "explanation": "The correct answer is C) Task. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q047",
+      "questionText": "Which method runs loops in parallel?",
+      "options": [
+        "Parallel.For",
+        "Thread.For",
+        "Task.Loop",
+        "Loop.Parallel"
+      ],
+      "correctAnswer": "Parallel.For",
+      "explanation": "The correct answer is A) Parallel.For. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q048",
+      "questionText": "PLINQ is",
+      "options": [
+        "Planned LINQ",
+        "Process LINQ",
+        "Parallel LINQ",
+        "Partial LINQ"
+      ],
+      "correctAnswer": "Parallel LINQ",
+      "explanation": "The correct answer is C) Parallel LINQ. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q049",
+      "questionText": "Which keyword marks a method as asynchronous?",
+      "options": [
+        "parallel",
+        "async",
+        "task",
+        "await only"
+      ],
+      "correctAnswer": "async",
+      "explanation": "The correct answer is B) async. (Advanced Concepts in C#)"
+    },
+    {
+      "id": "csharp_s12_q050",
+      "questionText": "Which keyword waits for an asynchronous operation without blocking?",
+      "options": [
+        "await",
+        "hold",
+        "sync",
+        "wait"
+      ],
+      "correctAnswer": "await",
+      "explanation": "The correct answer is A) await. (Advanced Concepts in C#)"
+    }
+  ]
+}

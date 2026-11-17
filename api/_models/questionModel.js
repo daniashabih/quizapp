@@ -2,6 +2,11 @@ const prisma = require('../_config/prisma');
 const { AGILE_DEVOPS_QUESTIONS, AGILE_DEVOPS_SESSIONS } = require('./agileDevopsQuestionsData');
 const { CSHARP_QUIZ_QUESTIONS, CSHARP_QUIZ_SESSIONS } = require('./csharpQuizQuestionsData');
 
+const CSHARP_SESSION_NUMBERS = Object.keys(CSHARP_QUIZ_SESSIONS)
+    .map(s => parseInt(s, 10))
+    .filter(n => !isNaN(n))
+    .sort((a, b) => a - b);
+
 const parseOptions = (opts) => {
     if (Array.isArray(opts)) return opts;
     if (typeof opts === 'string') {
@@ -51,6 +56,9 @@ const Question = {
         }
 
         const existingIds = new Set(rows.map(r => r.id));
+        const existingTextKeys = new Set(
+            rows.map(r => `${String(r.category || '').trim().toLowerCase()}|${r.session || 1}|${String(r.questionText || '').trim().toLowerCase()}`)
+        );
         const merged = rows.map(r => ({
             ...r,
             session: r.session || 1,
@@ -62,7 +70,8 @@ const Question = {
         }));
 
         for (const q of AGILE_DEVOPS_QUESTIONS) {
-            if (!existingIds.has(q.id)) {
+            const key = `${String(q.category || '').trim().toLowerCase()}|${q.session || 1}|${String(q.questionText || '').trim().toLowerCase()}`;
+            if (!existingIds.has(q.id) && !existingTextKeys.has(key)) {
                 merged.push({
                     id: q.id,
                     category: q.category,
@@ -78,7 +87,8 @@ const Question = {
         }
 
         for (const q of CSHARP_QUIZ_QUESTIONS) {
-            if (!existingIds.has(q.id)) {
+            const key = `${String(q.category || '').trim().toLowerCase()}|${q.session || 1}|${String(q.questionText || '').trim().toLowerCase()}`;
+            if (!existingIds.has(q.id) && !existingTextKeys.has(key)) {
                 merged.push({
                     id: q.id,
                     category: q.category,
@@ -207,8 +217,8 @@ const Question = {
             }
         }
 
-        if (isCSharp && Object.keys(sessionCountMap).length < 3) {
-            for (let s = 1; s <= 3; s++) {
+        if (isCSharp && Object.keys(sessionCountMap).length < CSHARP_SESSION_NUMBERS.length) {
+            for (const s of CSHARP_SESSION_NUMBERS) {
                 const count = CSHARP_QUIZ_QUESTIONS.filter(q => q.session === s).length;
                 sessionCountMap[s] = Math.max(sessionCountMap[s] || 0, count);
             }

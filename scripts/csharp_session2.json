@@ -1,0 +1,609 @@
+{
+  "category": "C#",
+  "session": 2,
+  "title": "Session 2: Variables and Data Types",
+  "sessionTitle": "Variables and Data Types",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "id": "csharp_s02_q001",
+      "questionText": "A variable in C# is",
+      "options": [
+        "a fixed constant",
+        "a keyword",
+        "a named memory location that stores a value",
+        "a type of loop"
+      ],
+      "correctAnswer": "a named memory location that stores a value",
+      "explanation": "The correct answer is C) a named memory location that stores a value. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q002",
+      "questionText": "Which of the following is a valid C# variable name?",
+      "options": [
+        "my-var",
+        "class",
+        "_count",
+        "2count"
+      ],
+      "correctAnswer": "_count",
+      "explanation": "The correct answer is C) _count. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q003",
+      "questionText": "Which of these is NOT a valid identifier?",
+      "options": [
+        "_value",
+        "Value",
+        "1stValue",
+        "value1"
+      ],
+      "correctAnswer": "1stValue",
+      "explanation": "The correct answer is C) 1stValue. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q004",
+      "questionText": "C# is a case-sensitive language, so",
+      "options": [
+        "only lowercase is allowed",
+        "only uppercase is allowed",
+        "Total and total are different identifiers",
+        "Total and total are the same"
+      ],
+      "correctAnswer": "Total and total are different identifiers",
+      "explanation": "The correct answer is C) Total and total are different identifiers. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q005",
+      "questionText": "The size of an int in C# is",
+      "options": [
+        "64 bits",
+        "16 bits",
+        "8 bits",
+        "32 bits"
+      ],
+      "correctAnswer": "32 bits",
+      "explanation": "The correct answer is D) 32 bits. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q006",
+      "questionText": "Which data type stores a single Unicode character?",
+      "options": [
+        "string",
+        "char",
+        "sbyte",
+        "byte"
+      ],
+      "correctAnswer": "char",
+      "explanation": "The correct answer is B) char. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q007",
+      "questionText": "The size of a char in C# is",
+      "options": [
+        "64 bits",
+        "32 bits",
+        "8 bits",
+        "16 bits"
+      ],
+      "correctAnswer": "16 bits",
+      "explanation": "The correct answer is D) 16 bits. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q008",
+      "questionText": "Which data type is best for money-related calculations needing high precision?",
+      "options": [
+        "int",
+        "byte",
+        "decimal",
+        "float"
+      ],
+      "correctAnswer": "decimal",
+      "explanation": "The correct answer is C) decimal. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q009",
+      "questionText": "Which suffix is used for a float literal?",
+      "options": [
+        "l",
+        "f",
+        "m",
+        "d"
+      ],
+      "correctAnswer": "f",
+      "explanation": "The correct answer is B) f. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q010",
+      "questionText": "Which suffix denotes a long literal?",
+      "options": [
+        "S",
+        "M",
+        "F",
+        "L"
+      ],
+      "correctAnswer": "L",
+      "explanation": "The correct answer is D) L. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q011",
+      "questionText": "The byte data type holds values in the range",
+      "options": [
+        "-255 to 255",
+        "0 to 255",
+        "0 to 65535",
+        "-128 to 127"
+      ],
+      "correctAnswer": "0 to 255",
+      "explanation": "The correct answer is B) 0 to 255. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q012",
+      "questionText": "The sbyte data type holds values in the range",
+      "options": [
+        "-256 to 255",
+        "0 to 255",
+        "-128 to 127",
+        "0 to 127"
+      ],
+      "correctAnswer": "-128 to 127",
+      "explanation": "The correct answer is C) -128 to 127. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q013",
+      "questionText": "The bool data type can hold",
+      "options": [
+        "true or false",
+        "yes or no",
+        "0 or 1 only",
+        "any integer"
+      ],
+      "correctAnswer": "true or false",
+      "explanation": "The correct answer is A) true or false. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q014",
+      "questionText": "Value types in C# are stored in",
+      "options": [
+        "always the heap",
+        "a database",
+        "the stack (typically)",
+        "the registry"
+      ],
+      "correctAnswer": "the stack (typically)",
+      "explanation": "The correct answer is C) the stack (typically). (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q015",
+      "questionText": "Reference types store",
+      "options": [
+        "the actual value on the stack",
+        "only constants",
+        "a reference to the object located on the heap",
+        "only integers"
+      ],
+      "correctAnswer": "a reference to the object located on the heap",
+      "explanation": "The correct answer is C) a reference to the object located on the heap. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q016",
+      "questionText": "Which of the following is a reference type?",
+      "options": [
+        "bool",
+        "string",
+        "double",
+        "int"
+      ],
+      "correctAnswer": "string",
+      "explanation": "The correct answer is B) string. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q017",
+      "questionText": "Which of the following is a value type?",
+      "options": [
+        "struct",
+        "object",
+        "class",
+        "string"
+      ],
+      "correctAnswer": "struct",
+      "explanation": "The correct answer is A) struct. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q018",
+      "questionText": "The keyword var is used for",
+      "options": [
+        "dynamic typing at run time",
+        "implicitly typed local variables",
+        "global variables",
+        "constants"
+      ],
+      "correctAnswer": "implicitly typed local variables",
+      "explanation": "The correct answer is B) implicitly typed local variables. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q019",
+      "questionText": "Which declaration using var is INVALID?",
+      "options": [
+        "var d = 3.5;",
+        "var x = 10;",
+        "var x;",
+        "var s = \"text\";"
+      ],
+      "correctAnswer": "var x;",
+      "explanation": "The correct answer is C) var x;. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q020",
+      "questionText": "Implicitly typed variables using var must",
+      "options": [
+        "be of type object",
+        "be initialized at the time of declaration",
+        "be declared as fields",
+        "be assigned null"
+      ],
+      "correctAnswer": "be initialized at the time of declaration",
+      "explanation": "The correct answer is B) be initialized at the time of declaration. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q021",
+      "questionText": "What is the type of var n = 5.5;?",
+      "options": [
+        "float",
+        "decimal",
+        "double",
+        "int"
+      ],
+      "correctAnswer": "double",
+      "explanation": "The correct answer is C) double. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q022",
+      "questionText": "A multi-line comment is enclosed in",
+      "options": [
+        "/* and */",
+        "<!-- and -->",
+        "{# and #}",
+        "// and //"
+      ],
+      "correctAnswer": "/* and */",
+      "explanation": "The correct answer is A) /* and */. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q023",
+      "questionText": "XML documentation comments begin with",
+      "options": [
+        "//",
+        "/*",
+        "///",
+        "##"
+      ],
+      "correctAnswer": "///",
+      "explanation": "The correct answer is C) ///. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q024",
+      "questionText": "Which XML documentation tag describes a method's parameter?",
+      "options": [
+        "<returns>",
+        "<remarks>",
+        "<param>",
+        "<summary>"
+      ],
+      "correctAnswer": "<param>",
+      "explanation": "The correct answer is C) <param>. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q025",
+      "questionText": "Which XML tag provides a summary of a type or member?",
+      "options": [
+        "<summary>",
+        "<see>",
+        "<value>",
+        "<param>"
+      ],
+      "correctAnswer": "<summary>",
+      "explanation": "The correct answer is A) <summary>. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q026",
+      "questionText": "The const keyword is used to",
+      "options": [
+        "declare a loop",
+        "declare a value that cannot change after declaration",
+        "declare a class",
+        "create an object"
+      ],
+      "correctAnswer": "declare a value that cannot change after declaration",
+      "explanation": "The correct answer is B) declare a value that cannot change after declaration. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q027",
+      "questionText": "A const field must",
+      "options": [
+        "be assigned in a constructor",
+        "be initialized at the time of declaration",
+        "be declared without a value",
+        "be changed at run time"
+      ],
+      "correctAnswer": "be initialized at the time of declaration",
+      "explanation": "The correct answer is B) be initialized at the time of declaration. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q028",
+      "questionText": "Which declaration of a constant is correct?",
+      "options": [
+        "const double PI = 3.14;",
+        "constant double PI = 3.14;",
+        "const double PI;",
+        "double const PI = 3.14;"
+      ],
+      "correctAnswer": "const double PI = 3.14;",
+      "explanation": "The correct answer is A) const double PI = 3.14;. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q029",
+      "questionText": "A literal is",
+      "options": [
+        "a keyword",
+        "a variable name",
+        "a fixed value written directly in code",
+        "a method"
+      ],
+      "correctAnswer": "a fixed value written directly in code",
+      "explanation": "The correct answer is C) a fixed value written directly in code. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q030",
+      "questionText": "In the statement int x = 10;, the value 10 is a",
+      "options": [
+        "operator",
+        "keyword",
+        "literal",
+        "identifier"
+      ],
+      "correctAnswer": "literal",
+      "explanation": "The correct answer is C) literal. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q031",
+      "questionText": "To use a keyword as an identifier you can prefix it with",
+      "options": [
+        "@",
+        "&",
+        "$",
+        "#"
+      ],
+      "correctAnswer": "@",
+      "explanation": "The correct answer is A) @. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q032",
+      "questionText": "The escape sequence for a new line is",
+      "options": [
+        "\\n",
+        "\\r\\n only",
+        "\\t",
+        "\\b"
+      ],
+      "correctAnswer": "\\n",
+      "explanation": "The correct answer is A) \\n. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q033",
+      "questionText": "The escape sequence for a horizontal tab is",
+      "options": [
+        "\\n",
+        "\\h",
+        "\\s",
+        "\\t"
+      ],
+      "correctAnswer": "\\t",
+      "explanation": "The correct answer is D) \\t. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q034",
+      "questionText": "To print a backslash in a string you write",
+      "options": [
+        "\\/",
+        "\\\\",
+        "\\b",
+        "//"
+      ],
+      "correctAnswer": "\\\\",
+      "explanation": "The correct answer is B) \\\\. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q035",
+      "questionText": "A verbatim string literal is prefixed with",
+      "options": [
+        "@",
+        "%",
+        "#",
+        "$"
+      ],
+      "correctAnswer": "@",
+      "explanation": "The correct answer is A) @. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q036",
+      "questionText": "Which method outputs text and moves to a new line?",
+      "options": [
+        "Console.Write()",
+        "Console.WriteLine()",
+        "Console.Clear()",
+        "Console.Read()"
+      ],
+      "correctAnswer": "Console.WriteLine()",
+      "explanation": "The correct answer is B) Console.WriteLine(). (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q037",
+      "questionText": "Which method outputs text without adding a newline?",
+      "options": [
+        "Console.Write()",
+        "Console.WriteLine()",
+        "Console.ReadLine()",
+        "Console.Beep()"
+      ],
+      "correctAnswer": "Console.Write()",
+      "explanation": "The correct answer is A) Console.Write(). (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q038",
+      "questionText": "In Console.WriteLine(\"{0} {1}\", a, b); the {0} and {1} are",
+      "options": [
+        "comments",
+        "escape sequences",
+        "keywords",
+        "placeholders"
+      ],
+      "correctAnswer": "placeholders",
+      "explanation": "The correct answer is D) placeholders. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q039",
+      "questionText": "Which method reads a whole line of text?",
+      "options": [
+        "Console.ReadAll()",
+        "Console.Input()",
+        "Console.Read()",
+        "Console.ReadLine()"
+      ],
+      "correctAnswer": "Console.ReadLine()",
+      "explanation": "The correct answer is D) Console.ReadLine(). (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q040",
+      "questionText": "To convert a string \"25\" to an int you can use",
+      "options": [
+        "Convert.Str(\"25\")",
+        "Int.Make(\"25\")",
+        "Convert.ToInt32(\"25\")",
+        "(int)\"25\""
+      ],
+      "correctAnswer": "Convert.ToInt32(\"25\")",
+      "explanation": "The correct answer is C) Convert.ToInt32(\"25\"). (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q041",
+      "questionText": "The standard numeric format specifier for currency is",
+      "options": [
+        "D",
+        "C",
+        "P",
+        "E"
+      ],
+      "correctAnswer": "C",
+      "explanation": "The correct answer is B) C. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q042",
+      "questionText": "The standard numeric format specifier for percentage is",
+      "options": [
+        "N",
+        "C",
+        "F",
+        "P"
+      ],
+      "correctAnswer": "P",
+      "explanation": "The correct answer is D) P. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q043",
+      "questionText": "The numeric format specifier for hexadecimal is",
+      "options": [
+        "X",
+        "D",
+        "N",
+        "H"
+      ],
+      "correctAnswer": "X",
+      "explanation": "The correct answer is A) X. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q044",
+      "questionText": "The format specifier \"F2\" displays a number with",
+      "options": [
+        "two digits before the decimal point",
+        "a two-character prefix",
+        "two significant bytes",
+        "two digits after the decimal point"
+      ],
+      "correctAnswer": "two digits after the decimal point",
+      "explanation": "The correct answer is D) two digits after the decimal point. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q045",
+      "questionText": "In custom numeric formatting, which character is a digit placeholder that shows a digit or zero?",
+      "options": [
+        "%",
+        "0",
+        "#",
+        ","
+      ],
+      "correctAnswer": "0",
+      "explanation": "The correct answer is B) 0. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q046",
+      "questionText": "In custom numeric formats, the # character",
+      "options": [
+        "shows percent",
+        "shows exponent",
+        "shows a currency symbol",
+        "is a digit placeholder that shows no leading/trailing zero"
+      ],
+      "correctAnswer": "is a digit placeholder that shows no leading/trailing zero",
+      "explanation": "The correct answer is D) is a digit placeholder that shows no leading/trailing zero. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q047",
+      "questionText": "The standard date format specifier \"D\" displays",
+      "options": [
+        "the time only",
+        "the long date pattern",
+        "the short date pattern",
+        "the month/day only"
+      ],
+      "correctAnswer": "the long date pattern",
+      "explanation": "The correct answer is B) the long date pattern. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q048",
+      "questionText": "In custom DateTime format strings, \"yyyy\" represents",
+      "options": [
+        "the four-digit year",
+        "the two-digit year",
+        "the month",
+        "the day"
+      ],
+      "correctAnswer": "the four-digit year",
+      "explanation": "The correct answer is A) the four-digit year. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q049",
+      "questionText": "In custom DateTime format strings, \"MM\" represents",
+      "options": [
+        "the second",
+        "the minute",
+        "the day",
+        "the month as two digits"
+      ],
+      "correctAnswer": "the month as two digits",
+      "explanation": "The correct answer is D) the month as two digits. (Variables and Data Types)"
+    },
+    {
+      "id": "csharp_s02_q050",
+      "questionText": "In custom DateTime format strings, \"mm\" represents",
+      "options": [
+        "the millisecond",
+        "the minute",
+        "the month",
+        "the day"
+      ],
+      "correctAnswer": "the minute",
+      "explanation": "The correct answer is B) the minute. (Variables and Data Types)"
+    }
+  ]
+}

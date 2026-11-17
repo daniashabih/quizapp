@@ -1,0 +1,549 @@
+{
+  "category": "C#",
+  "session": 13,
+  "title": "Session 13: New Features of C# 9.0",
+  "sessionTitle": "New Features of C# 9.0",
+  "totalQuestions": 45,
+  "questions": [
+    {
+      "id": "csharp_s13_q001",
+      "questionText": "The book covers new features of which C# version in this session?",
+      "options": [
+        "C# 9.0",
+        "C# 5.0",
+        "C# 2.0",
+        "C# 3.0"
+      ],
+      "correctAnswer": "C# 9.0",
+      "explanation": "The correct answer is A) C# 9.0. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q002",
+      "questionText": "In Visual Studio, the language version of a project can be changed using",
+      "options": [
+        "Solution Explorer rename",
+        "Task Manager",
+        "the Output window",
+        "the project's Advanced Build settings"
+      ],
+      "correctAnswer": "the project's Advanced Build settings",
+      "explanation": "The correct answer is D) the project's Advanced Build settings. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q003",
+      "questionText": "The language version can also be selected by",
+      "options": [
+        "editing the registry only",
+        "reinstalling .NET",
+        "editing the .exe",
+        "editing the .csproj file"
+      ],
+      "correctAnswer": "editing the .csproj file",
+      "explanation": "The correct answer is D) editing the .csproj file. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q004",
+      "questionText": "Which element in the .csproj file specifies the language version?",
+      "options": [
+        "<LangVersion>",
+        "<Version>",
+        "<Language>",
+        "<CSharpVersion>"
+      ],
+      "correctAnswer": "<LangVersion>",
+      "explanation": "The correct answer is A) <LangVersion>. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q005",
+      "questionText": "Which <LangVersion> value selects the latest major version?",
+      "options": [
+        "max",
+        "current",
+        "newest",
+        "latest"
+      ],
+      "correctAnswer": "latest",
+      "explanation": "The correct answer is D) latest. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q006",
+      "questionText": "Which value selects the latest minor version, including previews?",
+      "options": [
+        "beta",
+        "alpha",
+        "next",
+        "preview"
+      ],
+      "correctAnswer": "preview",
+      "explanation": "The correct answer is D) preview. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q007",
+      "questionText": "A .props file can be used to",
+      "options": [
+        "store images",
+        "compile code",
+        "set properties like LangVersion for multiple projects",
+        "debug code"
+      ],
+      "correctAnswer": "set properties like LangVersion for multiple projects",
+      "explanation": "The correct answer is C) set properties like LangVersion for multiple projects. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q008",
+      "questionText": "The Light Bulb icon in Visual Studio is used to",
+      "options": [
+        "show quick actions and suggestions, including upgrading language version",
+        "open the toolbox",
+        "save files",
+        "run the program"
+      ],
+      "correctAnswer": "show quick actions and suggestions, including upgrading language version",
+      "explanation": "The correct answer is A) show quick actions and suggestions, including upgrading language version. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q009",
+      "questionText": "A ref return allows a method to",
+      "options": [
+        "return a reference to a variable",
+        "return nothing",
+        "return two values",
+        "return void"
+      ],
+      "correctAnswer": "return a reference to a variable",
+      "explanation": "The correct answer is A) return a reference to a variable. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q010",
+      "questionText": "Which keyword combination declares a ref return method?",
+      "options": [
+        "public ref Find int(...)",
+        "ref public int Find(...)",
+        "public ref int Find(...)",
+        "public int ref Find(...)"
+      ],
+      "correctAnswer": "public ref int Find(...)",
+      "explanation": "The correct answer is C) public ref int Find(...). (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q011",
+      "questionText": "A ref local is declared using",
+      "options": [
+        "int ref x = arr[0];",
+        "int x = ref(arr[0]);",
+        "ref int x = ref arr[0];",
+        "ref x = arr[0];"
+      ],
+      "correctAnswer": "ref int x = ref arr[0];",
+      "explanation": "The correct answer is C) ref int x = ref arr[0];. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q012",
+      "questionText": "Modifying a ref local",
+      "options": [
+        "throws an error",
+        "does nothing",
+        "changes a copy",
+        "changes the original variable"
+      ],
+      "correctAnswer": "changes the original variable",
+      "explanation": "The correct answer is D) changes the original variable. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q013",
+      "questionText": "Improved out variables allow",
+      "options": [
+        "out only for strings",
+        "declaring out variables inline in the call",
+        "no out at all",
+        "out with no assignment"
+      ],
+      "correctAnswer": "declaring out variables inline in the call",
+      "explanation": "The correct answer is B) declaring out variables inline in the call. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q014",
+      "questionText": "Which correctly uses an inline out variable declaration?",
+      "options": [
+        "int.TryParse(s, out n int)",
+        "int.TryParse(s, int out n)",
+        "int.TryParse(s, n out)",
+        "int.TryParse(s, out int n)"
+      ],
+      "correctAnswer": "int.TryParse(s, out int n)",
+      "explanation": "The correct answer is D) int.TryParse(s, out int n). (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q015",
+      "questionText": "A discard is represented by",
+      "options": [
+        "#",
+        "~",
+        "_",
+        "$"
+      ],
+      "correctAnswer": "_",
+      "explanation": "The correct answer is C) _. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q016",
+      "questionText": "Discards are used to",
+      "options": [
+        "store values",
+        "ignore values you don't need",
+        "create arrays",
+        "declare constants"
+      ],
+      "correctAnswer": "ignore values you don't need",
+      "explanation": "The correct answer is B) ignore values you don't need. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q017",
+      "questionText": "Tuples allow you to",
+      "options": [
+        "replace classes in all cases",
+        "group multiple values into a single object",
+        "define namespaces",
+        "create loops"
+      ],
+      "correctAnswer": "group multiple values into a single object",
+      "explanation": "The correct answer is B) group multiple values into a single object. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q018",
+      "questionText": "Which is a valid tuple declaration?",
+      "options": [
+        "(int, string) t = (1, \"a\");",
+        "[int, string] t = [1, \"a\"];",
+        "int, string t = (1,\"a\");",
+        "tuple t = (1, \"a\");"
+      ],
+      "correctAnswer": "(int, string) t = (1, \"a\");",
+      "explanation": "The correct answer is A) (int, string) t = (1, \"a\");. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q019",
+      "questionText": "A tuple with named elements is declared as",
+      "options": [
+        "(int Id, string Name) t = (1, \"a\");",
+        "(Id: int, Name: string)",
+        "{int Id, string Name}",
+        "<int Id, string Name>"
+      ],
+      "correctAnswer": "(int Id, string Name) t = (1, \"a\");",
+      "explanation": "The correct answer is A) (int Id, string Name) t = (1, \"a\");. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q020",
+      "questionText": "Tuple deconstruction looks like",
+      "options": [
+        "var <id, name> = t;",
+        "var {id, name} = t;",
+        "var (id, name) = t;",
+        "var [id, name] = t;"
+      ],
+      "correctAnswer": "var (id, name) = t;",
+      "explanation": "The correct answer is C) var (id, name) = t;. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q021",
+      "questionText": "Tuple types in C# 7+ are based on",
+      "options": [
+        "System.Tuple only",
+        "System.Pair",
+        "System.ValueTuple",
+        "System.Group"
+      ],
+      "correctAnswer": "System.ValueTuple",
+      "explanation": "The correct answer is C) System.ValueTuple. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q022",
+      "questionText": "Async Main allows",
+      "options": [
+        "Main to be declared async Task",
+        "Main to be recursive",
+        "Main in a namespace only",
+        "multiple Main methods"
+      ],
+      "correctAnswer": "Main to be declared async Task",
+      "explanation": "The correct answer is A) Main to be declared async Task. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q023",
+      "questionText": "Which is a valid async Main signature?",
+      "options": [
+        "async int Main",
+        "static async Task Main(string[] args)",
+        "static Task async Main()",
+        "static async void Main(string[] a)"
+      ],
+      "correctAnswer": "static async Task Main(string[] args)",
+      "explanation": "The correct answer is B) static async Task Main(string[] args). (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q024",
+      "questionText": "Throw expressions can be used in",
+      "options": [
+        "null-coalescing and ternary expressions and expression-bodied members",
+        "only in catch blocks",
+        "only in loops",
+        "only in constructors"
+      ],
+      "correctAnswer": "null-coalescing and ternary expressions and expression-bodied members",
+      "explanation": "The correct answer is A) null-coalescing and ternary expressions and expression-bodied members. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q025",
+      "questionText": "Expression-bodied members use the operator",
+      "options": [
+        "::",
+        "->",
+        "=>",
+        "=="
+      ],
+      "correctAnswer": "=>",
+      "explanation": "The correct answer is C) =>. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q026",
+      "questionText": "Which is an expression-bodied property?",
+      "options": [
+        "public int Double { return value * 2; }",
+        "public int Double => value * 2;",
+        "public int Double => { };",
+        "public int Double() => ;"
+      ],
+      "correctAnswer": "public int Double => value * 2;",
+      "explanation": "The correct answer is B) public int Double => value * 2;. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q027",
+      "questionText": "Expression-bodied members were extended to include",
+      "options": [
+        "constructors, finalizers, and accessors",
+        "only classes",
+        "only namespaces",
+        "only methods"
+      ],
+      "correctAnswer": "constructors, finalizers, and accessors",
+      "explanation": "The correct answer is A) constructors, finalizers, and accessors. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q028",
+      "questionText": "Pattern matching is used with",
+      "options": [
+        "the is operator and switch",
+        "the new keyword",
+        "only strings",
+        "the sealed keyword"
+      ],
+      "correctAnswer": "the is operator and switch",
+      "explanation": "The correct answer is A) the is operator and switch. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q029",
+      "questionText": "Which is a type pattern?",
+      "options": [
+        "if (obj == string)",
+        "if (obj as string == s)",
+        "if (typeof obj)",
+        "if (obj is string s)"
+      ],
+      "correctAnswer": "if (obj is string s)",
+      "explanation": "The correct answer is D) if (obj is string s). (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q030",
+      "questionText": "In C# 9 which keyword is used in relational patterns?",
+      "options": [
+        "< > <= >= in switch expressions",
+        "case when only",
+        "match",
+        "compare"
+      ],
+      "correctAnswer": "< > <= >= in switch expressions",
+      "explanation": "The correct answer is A) < > <= >= in switch expressions. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q031",
+      "questionText": "Which logical pattern combinators were added in C# 9?",
+      "options": [
+        "and, but, nor",
+        "also, either, neither",
+        "and, or, not",
+        "plus, minus"
+      ],
+      "correctAnswer": "and, or, not",
+      "explanation": "The correct answer is C) and, or, not. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q032",
+      "questionText": "Which is a valid pattern using not?",
+      "options": [
+        "if (!obj is)",
+        "if (obj not is null)",
+        "if (obj isnot null)",
+        "if (obj is not null)"
+      ],
+      "correctAnswer": "if (obj is not null)",
+      "explanation": "The correct answer is D) if (obj is not null). (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q033",
+      "questionText": "A switch expression returns",
+      "options": [
+        "a value",
+        "only bool",
+        "nothing",
+        "void"
+      ],
+      "correctAnswer": "a value",
+      "explanation": "The correct answer is A) a value. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q034",
+      "questionText": "Which is a valid switch expression?",
+      "options": [
+        "var r = x switch (1 => \"one\");",
+        "var r = x switch { 1 => \"one\", _ => \"other\" };",
+        "var r = switch x { 1: \"one\" };",
+        "var r = switch(x) { case 1 => \"one\" };"
+      ],
+      "correctAnswer": "var r = x switch { 1 => \"one\", _ => \"other\" };",
+      "explanation": "The correct answer is B) var r = x switch { 1 => \"one\", _ => \"other\" };. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q035",
+      "questionText": "In a switch expression, _ represents",
+      "options": [
+        "an error",
+        "a variable name",
+        "the discard/default pattern",
+        "a string"
+      ],
+      "correctAnswer": "the discard/default pattern",
+      "explanation": "The correct answer is C) the discard/default pattern. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q036",
+      "questionText": "Target-typed new expressions let you write",
+      "options": [
+        "Person p = Person.new;",
+        "Person p = new();",
+        "new Person p;",
+        "Person p = new[]();"
+      ],
+      "correctAnswer": "Person p = new();",
+      "explanation": "The correct answer is B) Person p = new();. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q037",
+      "questionText": "Which is a target-typed new expression for a List<int>?",
+      "options": [
+        "List<int> l = new;",
+        "var l = new();",
+        "List l = new<int>();",
+        "List<int> l = new();"
+      ],
+      "correctAnswer": "List<int> l = new();",
+      "explanation": "The correct answer is D) List<int> l = new();. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q038",
+      "questionText": "Covariant return types in C# 9 allow",
+      "options": [
+        "changing parameters",
+        "an overriding method to return a more derived type",
+        "removing return types",
+        "returning void always"
+      ],
+      "correctAnswer": "an overriding method to return a more derived type",
+      "explanation": "The correct answer is B) an overriding method to return a more derived type. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q039",
+      "questionText": "Init-only setters and records belong to",
+      "options": [
+        "C# 9.0",
+        "C# 6.0",
+        "C# 4.0",
+        "C# 2.0"
+      ],
+      "correctAnswer": "C# 9.0",
+      "explanation": "The correct answer is A) C# 9.0. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q040",
+      "questionText": "Fit and finish features include",
+      "options": [
+        "new data types",
+        "new operators like @@",
+        "GUI controls",
+        "target-typed conditional and static anonymous functions"
+      ],
+      "correctAnswer": "target-typed conditional and static anonymous functions",
+      "explanation": "The correct answer is D) target-typed conditional and static anonymous functions. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q041",
+      "questionText": "Native-sized integers in C# 9 are",
+      "options": [
+        "word and dword",
+        "int8 and int16",
+        "nint and nuint",
+        "long and ulong"
+      ],
+      "correctAnswer": "nint and nuint",
+      "explanation": "The correct answer is C) nint and nuint. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q042",
+      "questionText": "Function pointers in C# 9 are declared using",
+      "options": [
+        "delegate*",
+        "ptr",
+        "pointer",
+        "func*"
+      ],
+      "correctAnswer": "delegate*",
+      "explanation": "The correct answer is A) delegate*. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q043",
+      "questionText": "Static anonymous functions are declared by adding",
+      "options": [
+        "static before the lambda",
+        "const before lambda",
+        "sealed before lambda",
+        "ref before lambda"
+      ],
+      "correctAnswer": "static before the lambda",
+      "explanation": "The correct answer is A) static before the lambda. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q044",
+      "questionText": "Top-level statements are allowed in how many files per project?",
+      "options": [
+        "Unlimited",
+        "None",
+        "Only one",
+        "Two"
+      ],
+      "correctAnswer": "Only one",
+      "explanation": "The correct answer is C) Only one. (New Features of C# 9.0)"
+    },
+    {
+      "id": "csharp_s13_q045",
+      "questionText": "Which version of C# is the default for .NET 5.0 projects?",
+      "options": [
+        "C# 8.0",
+        "C# 7.0",
+        "C# 9.0",
+        "C# 10.0"
+      ],
+      "correctAnswer": "C# 9.0",
+      "explanation": "The correct answer is C) C# 9.0. (New Features of C# 9.0)"
+    }
+  ]
+}

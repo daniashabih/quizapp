@@ -1,0 +1,609 @@
+{
+  "category": "C#",
+  "session": 15,
+  "title": "Session 15: GUI/Desktop Apps with C#",
+  "sessionTitle": "GUI/Desktop Apps with C#",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "id": "csharp_s15_q001",
+      "questionText": "Which technology can be used to build web apps with C# in .NET?",
+      "options": [
+        "UWP",
+        "WPF",
+        "ASP.NET Core",
+        "WinForms"
+      ],
+      "correctAnswer": "ASP.NET Core",
+      "explanation": "The correct answer is C) ASP.NET Core. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q002",
+      "questionText": "Which kind of app does Windows Forms create?",
+      "options": [
+        "Windows desktop apps",
+        "Android apps",
+        "Web apps only",
+        "iOS apps"
+      ],
+      "correctAnswer": "Windows desktop apps",
+      "explanation": "The correct answer is A) Windows desktop apps. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q003",
+      "questionText": "Which XAML-based technology creates rich desktop UIs on Windows?",
+      "options": [
+        "LINQ",
+        "ADO.NET",
+        "WPF",
+        "ASP.NET"
+      ],
+      "correctAnswer": "WPF",
+      "explanation": "The correct answer is C) WPF. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q004",
+      "questionText": "WPF stands for",
+      "options": [
+        "Windows Print Framework",
+        "Windows Program Framework",
+        "Windows Presentation Foundation",
+        "Web Page Format"
+      ],
+      "correctAnswer": "Windows Presentation Foundation",
+      "explanation": "The correct answer is C) Windows Presentation Foundation. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q005",
+      "questionText": "UWP stands for",
+      "options": [
+        "Unified Web Platform",
+        "Universal Web Pages",
+        "User Windows Program",
+        "Universal Windows Platform"
+      ],
+      "correctAnswer": "Universal Windows Platform",
+      "explanation": "The correct answer is D) Universal Windows Platform. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q006",
+      "questionText": "UWP apps can run on",
+      "options": [
+        "Linux only",
+        "Android only",
+        "multiple Windows 10 device families",
+        "macOS only"
+      ],
+      "correctAnswer": "multiple Windows 10 device families",
+      "explanation": "The correct answer is C) multiple Windows 10 device families. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q007",
+      "questionText": "WPF user interfaces are defined in",
+      "options": [
+        "JSON",
+        "HTML only",
+        "CSS only",
+        "XAML"
+      ],
+      "correctAnswer": "XAML",
+      "explanation": "The correct answer is D) XAML. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q008",
+      "questionText": "XAML stands for",
+      "options": [
+        "XML Active Module Language",
+        "Extended Access Markup Layer",
+        "XML Application Model Language",
+        "Extensible Application Markup Language"
+      ],
+      "correctAnswer": "Extensible Application Markup Language",
+      "explanation": "The correct answer is D) Extensible Application Markup Language. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q009",
+      "questionText": "Windows Forms apps are built with",
+      "options": [
+        "only code, no designer",
+        "CSS styles",
+        "drag-and-drop controls from the Toolbox",
+        "HTML pages"
+      ],
+      "correctAnswer": "drag-and-drop controls from the Toolbox",
+      "explanation": "The correct answer is C) drag-and-drop controls from the Toolbox. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q010",
+      "questionText": "In Windows Forms, the base class of a window is",
+      "options": [
+        "Page",
+        "Window",
+        "Frame",
+        "Form"
+      ],
+      "correctAnswer": "Form",
+      "explanation": "The correct answer is D) Form. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q011",
+      "questionText": "Which control displays text that a user can't edit?",
+      "options": [
+        "TextBox",
+        "ComboBox",
+        "Button",
+        "Label"
+      ],
+      "correctAnswer": "Label",
+      "explanation": "The correct answer is D) Label. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q012",
+      "questionText": "Which control accepts text input?",
+      "options": [
+        "Label",
+        "ProgressBar",
+        "TextBox",
+        "PictureBox"
+      ],
+      "correctAnswer": "TextBox",
+      "explanation": "The correct answer is C) TextBox. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q013",
+      "questionText": "Which control triggers an action when clicked?",
+      "options": [
+        "GroupBox",
+        "Button",
+        "Label",
+        "Panel"
+      ],
+      "correctAnswer": "Button",
+      "explanation": "The correct answer is B) Button. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q014",
+      "questionText": "Which event is raised when a button is clicked?",
+      "options": [
+        "Click",
+        "Paint",
+        "Close",
+        "Load"
+      ],
+      "correctAnswer": "Click",
+      "explanation": "The correct answer is A) Click. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q015",
+      "questionText": "Which event occurs when a form is first loaded?",
+      "options": [
+        "TextChanged",
+        "Load",
+        "Click",
+        "Leave"
+      ],
+      "correctAnswer": "Load",
+      "explanation": "The correct answer is B) Load. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q016",
+      "questionText": "Which event fires when text in a TextBox changes?",
+      "options": [
+        "Click",
+        "Enter",
+        "TextChanged",
+        "Shown"
+      ],
+      "correctAnswer": "TextChanged",
+      "explanation": "The correct answer is C) TextChanged. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q017",
+      "questionText": "Which control presents a drop-down list of choices?",
+      "options": [
+        "ComboBox",
+        "Button",
+        "Label",
+        "Panel"
+      ],
+      "correctAnswer": "ComboBox",
+      "explanation": "The correct answer is A) ComboBox. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q018",
+      "questionText": "Which control lets users select one or more options independently?",
+      "options": [
+        "RadioButton",
+        "Panel",
+        "Label",
+        "CheckBox"
+      ],
+      "correctAnswer": "CheckBox",
+      "explanation": "The correct answer is D) CheckBox. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q019",
+      "questionText": "Which control forces selection of exactly one option from a group?",
+      "options": [
+        "Label",
+        "RadioButton",
+        "TextBox",
+        "CheckBox"
+      ],
+      "correctAnswer": "RadioButton",
+      "explanation": "The correct answer is B) RadioButton. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q020",
+      "questionText": "Which method displays a message dialog in Windows Forms?",
+      "options": [
+        "MessageBox.Show()",
+        "Dialog.Open()",
+        "Console.WriteLine()",
+        "Alert()"
+      ],
+      "correctAnswer": "MessageBox.Show()",
+      "explanation": "The correct answer is A) MessageBox.Show(). (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q021",
+      "questionText": "Which property sets the text displayed on a Button?",
+      "options": [
+        "Label",
+        "Caption",
+        "Title",
+        "Text"
+      ],
+      "correctAnswer": "Text",
+      "explanation": "The correct answer is D) Text. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q022",
+      "questionText": "Which property sets the identifier name of a control in code?",
+      "options": [
+        "Text",
+        "Name",
+        "Tag",
+        "ID only"
+      ],
+      "correctAnswer": "Name",
+      "explanation": "The correct answer is B) Name. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q023",
+      "questionText": "Which window in Visual Studio lets you change a control's properties?",
+      "options": [
+        "Properties window",
+        "Output window",
+        "Test Explorer",
+        "Error List"
+      ],
+      "correctAnswer": "Properties window",
+      "explanation": "The correct answer is A) Properties window. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q024",
+      "questionText": "Which file in a Windows Forms project holds the designer-generated UI code?",
+      "options": [
+        "Form1.Designer.cs",
+        "Program.cs only",
+        "Form1.resx",
+        "App.config"
+      ],
+      "correctAnswer": "Form1.Designer.cs",
+      "explanation": "The correct answer is A) Form1.Designer.cs. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q025",
+      "questionText": "Which file contains the Main entry point in a WinForms project?",
+      "options": [
+        "Program.cs",
+        "App.xaml",
+        "Form1.cs",
+        "Form1.Designer.cs"
+      ],
+      "correctAnswer": "Program.cs",
+      "explanation": "The correct answer is A) Program.cs. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q026",
+      "questionText": "Which method starts the Windows Forms message loop?",
+      "options": [
+        "Main.Run()",
+        "Form.Launch()",
+        "Application.Run()",
+        "Application.Start()"
+      ],
+      "correctAnswer": "Application.Run()",
+      "explanation": "The correct answer is C) Application.Run(). (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q027",
+      "questionText": "Which call displays a Form as a modal dialog?",
+      "options": [
+        "ShowDialog()",
+        "Display()",
+        "Show()",
+        "Open()"
+      ],
+      "correctAnswer": "ShowDialog()",
+      "explanation": "The correct answer is A) ShowDialog(). (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q028",
+      "questionText": "Which is the correct way to show a non-modal form?",
+      "options": [
+        "form.ShowDialog()",
+        "form.Hide()",
+        "form.Open()",
+        "form.Show()"
+      ],
+      "correctAnswer": "form.Show()",
+      "explanation": "The correct answer is D) form.Show(). (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q029",
+      "questionText": "Which technique separates UI from logic commonly used in WPF?",
+      "options": [
+        "Spaghetti",
+        "MVC only in WPF",
+        "MVVM",
+        "ADO"
+      ],
+      "correctAnswer": "MVVM",
+      "explanation": "The correct answer is C) MVVM. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q030",
+      "questionText": "Which pattern is commonly used in ASP.NET Core web apps?",
+      "options": [
+        "MVC",
+        "MVP only",
+        "MVS",
+        "MVVM only"
+      ],
+      "correctAnswer": "MVC",
+      "explanation": "The correct answer is A) MVC. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q031",
+      "questionText": "In MVC the \"C\" stands for",
+      "options": [
+        "Class",
+        "Controller",
+        "Component",
+        "Control"
+      ],
+      "correctAnswer": "Controller",
+      "explanation": "The correct answer is B) Controller. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q032",
+      "questionText": "In MVC the \"V\" stands for",
+      "options": [
+        "Visual",
+        "Value",
+        "Variable",
+        "View"
+      ],
+      "correctAnswer": "View",
+      "explanation": "The correct answer is D) View. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q033",
+      "questionText": "In MVC the \"M\" stands for",
+      "options": [
+        "Module",
+        "Method",
+        "Main",
+        "Model"
+      ],
+      "correctAnswer": "Model",
+      "explanation": "The correct answer is D) Model. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q034",
+      "questionText": "Which file extension is used for Razor views in ASP.NET Core MVC?",
+      "options": [
+        ".php",
+        ".cshtml",
+        ".jsp",
+        ".aspx only"
+      ],
+      "correctAnswer": ".cshtml",
+      "explanation": "The correct answer is B) .cshtml. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q035",
+      "questionText": "Which command creates a new ASP.NET Core MVC app?",
+      "options": [
+        "dotnet new mvc",
+        "dotnet new php",
+        "dotnet new html",
+        "dotnet new web-form"
+      ],
+      "correctAnswer": "dotnet new mvc",
+      "explanation": "The correct answer is A) dotnet new mvc. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q036",
+      "questionText": "Which web server is built into ASP.NET Core projects for hosting?",
+      "options": [
+        "Kestrel",
+        "Apache",
+        "Tomcat",
+        "Nginx only"
+      ],
+      "correctAnswer": "Kestrel",
+      "explanation": "The correct answer is A) Kestrel. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q037",
+      "questionText": "Which file configures services and request pipeline in ASP.NET Core?",
+      "options": [
+        "global.asax only",
+        "web.xml",
+        "Startup.cs or Program.cs",
+        "httpd.conf"
+      ],
+      "correctAnswer": "Startup.cs or Program.cs",
+      "explanation": "The correct answer is C) Startup.cs or Program.cs. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q038",
+      "questionText": "Which XAML element is a basic button in WPF?",
+      "options": [
+        "<Click>",
+        "<Button>",
+        "<PushButton>",
+        "<Btn>"
+      ],
+      "correctAnswer": "<Button>",
+      "explanation": "The correct answer is B) <Button>. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q039",
+      "questionText": "Which WPF layout container arranges children in rows and columns?",
+      "options": [
+        "Grid",
+        "Canvas only",
+        "Frame",
+        "Table"
+      ],
+      "correctAnswer": "Grid",
+      "explanation": "The correct answer is A) Grid. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q040",
+      "questionText": "Which WPF container stacks children vertically or horizontally?",
+      "options": [
+        "StackPanel",
+        "Grid",
+        "Border",
+        "Canvas"
+      ],
+      "correctAnswer": "StackPanel",
+      "explanation": "The correct answer is A) StackPanel. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q041",
+      "questionText": "Which attribute binds a WPF control property to data?",
+      "options": [
+        "{Attach ...}",
+        "{Link ...}",
+        "{Binding ...}",
+        "{Source ...}"
+      ],
+      "correctAnswer": "{Binding ...}",
+      "explanation": "The correct answer is C) {Binding ...}. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q042",
+      "questionText": "Which is the code-behind file of MainWindow.xaml?",
+      "options": [
+        "Window.cs",
+        "Main.cs",
+        "MainWindow.cs.xaml",
+        "MainWindow.xaml.cs"
+      ],
+      "correctAnswer": "MainWindow.xaml.cs",
+      "explanation": "The correct answer is D) MainWindow.xaml.cs. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q043",
+      "questionText": "UWP apps are distributed through",
+      "options": [
+        "F-Droid",
+        "the App Store only",
+        "Google Play",
+        "the Microsoft Store"
+      ],
+      "correctAnswer": "the Microsoft Store",
+      "explanation": "The correct answer is D) the Microsoft Store. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q044",
+      "questionText": "Which Visual Studio template creates a Windows Forms app on .NET?",
+      "options": [
+        "Windows Forms App",
+        "Console App",
+        "Razor Class Library",
+        "Class Library"
+      ],
+      "correctAnswer": "Windows Forms App",
+      "explanation": "The correct answer is A) Windows Forms App. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q045",
+      "questionText": "In Windows Forms, a collection of controls can be grouped inside a",
+      "options": [
+        "Panel or GroupBox",
+        "Label",
+        "Timer",
+        "Process"
+      ],
+      "correctAnswer": "Panel or GroupBox",
+      "explanation": "The correct answer is A) Panel or GroupBox. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q046",
+      "questionText": "Which control shows progress of a task?",
+      "options": [
+        "TextBox",
+        "ListBox",
+        "Panel",
+        "ProgressBar"
+      ],
+      "correctAnswer": "ProgressBar",
+      "explanation": "The correct answer is D) ProgressBar. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q047",
+      "questionText": "Which control lists multiple items and allows selection?",
+      "options": [
+        "ListBox",
+        "PictureBox",
+        "Label",
+        "Button"
+      ],
+      "correctAnswer": "ListBox",
+      "explanation": "The correct answer is A) ListBox. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q048",
+      "questionText": "Which control displays an image in Windows Forms?",
+      "options": [
+        "Timer",
+        "PictureBox",
+        "Label only",
+        "Button only"
+      ],
+      "correctAnswer": "PictureBox",
+      "explanation": "The correct answer is B) PictureBox. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q049",
+      "questionText": "Which control executes code at regular intervals?",
+      "options": [
+        "Button",
+        "Panel",
+        "Label",
+        "Timer"
+      ],
+      "correctAnswer": "Timer",
+      "explanation": "The correct answer is D) Timer. (GUI/Desktop Apps with C#)"
+    },
+    {
+      "id": "csharp_s15_q050",
+      "questionText": "Which of the following is a cross-platform UI technology for .NET?",
+      "options": [
+        ".NET MAUI",
+        "Windows Forms",
+        "WPF",
+        "UWP"
+      ],
+      "correctAnswer": ".NET MAUI",
+      "explanation": "The correct answer is A) .NET MAUI. (GUI/Desktop Apps with C#)"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 const prisma = require('../_config/prisma');
 const { AGILE_DEVOPS_QUESTIONS } = require('./agileDevopsQuestionsData');
+const { CSHARP_QUIZ_QUESTIONS } = require('./csharpQuizQuestionsData');
 
 async function findQuestionById(questionId) {
     let question = null;
@@ -11,7 +12,8 @@ async function findQuestionById(questionId) {
         // DB fallback
     }
     if (!question) {
-        const memQ = AGILE_DEVOPS_QUESTIONS.find(q => q.id === String(questionId));
+        const memQ = AGILE_DEVOPS_QUESTIONS.find(q => q.id === String(questionId))
+            || CSHARP_QUIZ_QUESTIONS.find(q => q.id === String(questionId));
         if (memQ) {
             question = {
                 id: memQ.id,

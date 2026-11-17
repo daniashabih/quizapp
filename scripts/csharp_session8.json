@@ -1,0 +1,537 @@
+{
+  "category": "C#",
+  "session": 8,
+  "title": "Session 8: Properties, Indexers, and Record Types",
+  "sessionTitle": "Properties, Indexers, and Record Types",
+  "totalQuestions": 44,
+  "questions": [
+    {
+      "id": "csharp_s08_q001",
+      "questionText": "Properties in C# are",
+      "options": [
+        "namespaces",
+        "loops",
+        "methods that return void",
+        "members that provide a flexible way to read, write, or compute a private field"
+      ],
+      "correctAnswer": "members that provide a flexible way to read, write, or compute a private field",
+      "explanation": "The correct answer is D) members that provide a flexible way to read, write, or compute a private field. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q002",
+      "questionText": "Properties are typically used to",
+      "options": [
+        "replace constructors",
+        "create arrays",
+        "expose private fields in a controlled manner",
+        "declare classes"
+      ],
+      "correctAnswer": "expose private fields in a controlled manner",
+      "explanation": "The correct answer is C) expose private fields in a controlled manner. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q003",
+      "questionText": "Which accessor retrieves the value of a property?",
+      "options": [
+        "set",
+        "value",
+        "get",
+        "init"
+      ],
+      "correctAnswer": "get",
+      "explanation": "The correct answer is C) get. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q004",
+      "questionText": "Which accessor assigns a value to a property?",
+      "options": [
+        "set",
+        "return",
+        "get",
+        "put"
+      ],
+      "correctAnswer": "set",
+      "explanation": "The correct answer is A) set. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q005",
+      "questionText": "Inside a set accessor, the implicit parameter is named",
+      "options": [
+        "this",
+        "value",
+        "input",
+        "arg"
+      ],
+      "correctAnswer": "value",
+      "explanation": "The correct answer is B) value. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q006",
+      "questionText": "A property with only a get accessor is",
+      "options": [
+        "read-only",
+        "write-only",
+        "invalid",
+        "read-write"
+      ],
+      "correctAnswer": "read-only",
+      "explanation": "The correct answer is A) read-only. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q007",
+      "questionText": "A property with only a set accessor is",
+      "options": [
+        "static",
+        "write-only",
+        "read-only",
+        "invalid"
+      ],
+      "correctAnswer": "write-only",
+      "explanation": "The correct answer is B) write-only. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q008",
+      "questionText": "Which is a correct property declaration?",
+      "options": [
+        "public int Age { get; set; }",
+        "public Age int { get; set; }",
+        "public int Age() { get; set; }",
+        "public int Age => { get set }"
+      ],
+      "correctAnswer": "public int Age { get; set; }",
+      "explanation": "The correct answer is A) public int Age { get; set; }. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q009",
+      "questionText": "An auto-implemented property",
+      "options": [
+        "requires a backing field",
+        "is always read-only",
+        "lets the compiler create a hidden backing field",
+        "cannot have accessors"
+      ],
+      "correctAnswer": "lets the compiler create a hidden backing field",
+      "explanation": "The correct answer is C) lets the compiler create a hidden backing field. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q010",
+      "questionText": "Which is an auto-implemented property?",
+      "options": [
+        "public string name;",
+        "public string Name() { return n; }",
+        "string Name = get;",
+        "public string Name { get; set; }"
+      ],
+      "correctAnswer": "public string Name { get; set; }",
+      "explanation": "The correct answer is D) public string Name { get; set; }. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q011",
+      "questionText": "To make an auto-implemented property read-only from outside, you can use",
+      "options": [
+        "{ private; }",
+        "{ get; private set; }",
+        "{ get; get; }",
+        "{ set; }"
+      ],
+      "correctAnswer": "{ get; private set; }",
+      "explanation": "The correct answer is B) { get; private set; }. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q012",
+      "questionText": "A static property is accessed through",
+      "options": [
+        "this",
+        "the class name",
+        "an object",
+        "base"
+      ],
+      "correctAnswer": "the class name",
+      "explanation": "The correct answer is B) the class name. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q013",
+      "questionText": "Which is a Boolean property convention?",
+      "options": [
+        "Use int type",
+        "Use void type",
+        "Always name Flag",
+        "Name it IsXxx or HasXxx such as IsActive"
+      ],
+      "correctAnswer": "Name it IsXxx or HasXxx such as IsActive",
+      "explanation": "The correct answer is D) Name it IsXxx or HasXxx such as IsActive. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q014",
+      "questionText": "An abstract property",
+      "options": [
+        "must be static",
+        "cannot have get",
+        "is declared in an abstract class without implementation",
+        "has a body"
+      ],
+      "correctAnswer": "is declared in an abstract class without implementation",
+      "explanation": "The correct answer is C) is declared in an abstract class without implementation. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q015",
+      "questionText": "A virtual property in a base class",
+      "options": [
+        "can be overridden in a derived class",
+        "cannot have get",
+        "must be static",
+        "must be abstract"
+      ],
+      "correctAnswer": "can be overridden in a derived class",
+      "explanation": "The correct answer is A) can be overridden in a derived class. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q016",
+      "questionText": "Object initializer syntax is",
+      "options": [
+        "new Person[Name = \"Ali\"]",
+        "new Person { Name = \"Ali\", Age = 20 }",
+        "Person.init(Name=\"Ali\")",
+        "new Person(Name: Ali)"
+      ],
+      "correctAnswer": "new Person { Name = \"Ali\", Age = 20 }",
+      "explanation": "The correct answer is B) new Person { Name = \"Ali\", Age = 20 }. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q017",
+      "questionText": "Object initializers let you",
+      "options": [
+        "define constructors",
+        "set properties at object creation without calling a parameterized constructor",
+        "delete objects",
+        "define classes"
+      ],
+      "correctAnswer": "set properties at object creation without calling a parameterized constructor",
+      "explanation": "The correct answer is B) set properties at object creation without calling a parameterized constructor. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q018",
+      "questionText": "Which is true about properties vs. fields?",
+      "options": [
+        "Fields can include logic in accessors",
+        "Properties can include validation logic in accessors",
+        "Properties can't be private",
+        "Fields can't be public"
+      ],
+      "correctAnswer": "Properties can include validation logic in accessors",
+      "explanation": "The correct answer is B) Properties can include validation logic in accessors. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q019",
+      "questionText": "A key difference between a property and a method is",
+      "options": [
+        "a property cannot return a value",
+        "a method has no parameters",
+        "a property is accessed like a field without parentheses",
+        "a property requires parentheses"
+      ],
+      "correctAnswer": "a property is accessed like a field without parentheses",
+      "explanation": "The correct answer is C) a property is accessed like a field without parentheses. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q020",
+      "questionText": "Which is generally recommended for exposing data?",
+      "options": [
+        "Static fields only",
+        "Global variables",
+        "Public fields instead of properties",
+        "Properties instead of public fields"
+      ],
+      "correctAnswer": "Properties instead of public fields",
+      "explanation": "The correct answer is D) Properties instead of public fields. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q021",
+      "questionText": "Indexers allow",
+      "options": [
+        "classes to be static",
+        "methods to be sealed",
+        "objects to be indexed like arrays",
+        "variables to be constants"
+      ],
+      "correctAnswer": "objects to be indexed like arrays",
+      "explanation": "The correct answer is C) objects to be indexed like arrays. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q022",
+      "questionText": "Which keyword is used in indexer declarations?",
+      "options": [
+        "base",
+        "this",
+        "index",
+        "new"
+      ],
+      "correctAnswer": "this",
+      "explanation": "The correct answer is B) this. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q023",
+      "questionText": "Which is a correct indexer declaration?",
+      "options": [
+        "public int index[int i] { }",
+        "public int this[int i] { get { return arr[i]; } set { arr[i] = value; } }",
+        "public int[] this { }",
+        "public int Indexer(int i) { }"
+      ],
+      "correctAnswer": "public int this[int i] { get { return arr[i]; } set { arr[i] = value; } }",
+      "explanation": "The correct answer is B) public int this[int i] { get { return arr[i]; } set { arr[i] = value; } }. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q024",
+      "questionText": "Indexers are accessed using",
+      "options": [
+        "square brackets [ ]",
+        "parentheses ( )",
+        "angle brackets < >",
+        "curly braces { }"
+      ],
+      "correctAnswer": "square brackets [ ]",
+      "explanation": "The correct answer is A) square brackets [ ]. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q025",
+      "questionText": "Indexers can have",
+      "options": [
+        "only one parameter ever",
+        "multiple parameters",
+        "no parameters",
+        "only string parameters"
+      ],
+      "correctAnswer": "multiple parameters",
+      "explanation": "The correct answer is B) multiple parameters. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q026",
+      "questionText": "Indexer parameters can be of",
+      "options": [
+        "only char",
+        "only string",
+        "only int",
+        "any type, not just int"
+      ],
+      "correctAnswer": "any type, not just int",
+      "explanation": "The correct answer is D) any type, not just int. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q027",
+      "questionText": "Can an interface declare an indexer?",
+      "options": [
+        "Yes",
+        "Only read-only",
+        "Only static",
+        "No"
+      ],
+      "correctAnswer": "Yes",
+      "explanation": "The correct answer is A) Yes. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q028",
+      "questionText": "Which is TRUE about indexers?",
+      "options": [
+        "They have names like methods",
+        "They are declared with the void keyword",
+        "They can be static",
+        "They can be overloaded by parameter lists"
+      ],
+      "correctAnswer": "They can be overloaded by parameter lists",
+      "explanation": "The correct answer is D) They can be overloaded by parameter lists. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q029",
+      "questionText": "A difference between properties and indexers is that",
+      "options": [
+        "an indexer has parameters and is accessed with [ ]",
+        "properties are accessed with [ ]",
+        "indexers can be static",
+        "properties must have parameters"
+      ],
+      "correctAnswer": "an indexer has parameters and is accessed with [ ]",
+      "explanation": "The correct answer is A) an indexer has parameters and is accessed with [ ]. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q030",
+      "questionText": "Init only setters were introduced in",
+      "options": [
+        "C# 5.0",
+        "C# 7.0",
+        "C# 2.0",
+        "C# 9.0"
+      ],
+      "correctAnswer": "C# 9.0",
+      "explanation": "The correct answer is D) C# 9.0. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q031",
+      "questionText": "An init accessor allows a property to be set",
+      "options": [
+        "only during object initialization",
+        "never",
+        "only in static methods",
+        "any time"
+      ],
+      "correctAnswer": "only during object initialization",
+      "explanation": "The correct answer is A) only during object initialization. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q032",
+      "questionText": "Init-only properties are useful for creating",
+      "options": [
+        "sealed methods",
+        "immutable objects",
+        "static classes",
+        "abstract classes"
+      ],
+      "correctAnswer": "immutable objects",
+      "explanation": "The correct answer is B) immutable objects. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q033",
+      "questionText": "Which is the correct init declaration?",
+      "options": [
+        "public string Name { get; init; }",
+        "public init string Name;",
+        "public string Name { set init; }",
+        "public string Name { init; get set; }"
+      ],
+      "correctAnswer": "public string Name { get; init; }",
+      "explanation": "The correct answer is A) public string Name { get; init; }. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q034",
+      "questionText": "Record types were introduced in",
+      "options": [
+        "C# 7.0",
+        "C# 9.0",
+        "C# 3.0",
+        "C# 8.0"
+      ],
+      "correctAnswer": "C# 9.0",
+      "explanation": "The correct answer is B) C# 9.0. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q035",
+      "questionText": "Which keyword declares a record?",
+      "options": [
+        "struct only",
+        "data",
+        "recordset",
+        "record"
+      ],
+      "correctAnswer": "record",
+      "explanation": "The correct answer is D) record. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q036",
+      "questionText": "A record provides built-in",
+      "options": [
+        "no equality",
+        "value-based equality",
+        "only reference equality",
+        "no ToString"
+      ],
+      "correctAnswer": "value-based equality",
+      "explanation": "The correct answer is B) value-based equality. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q037",
+      "questionText": "Two record instances with the same property values are considered",
+      "options": [
+        "equal using ==",
+        "never equal",
+        "invalid",
+        "equal only by reference"
+      ],
+      "correctAnswer": "equal using ==",
+      "explanation": "The correct answer is A) equal using ==. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q038",
+      "questionText": "Records are by default",
+      "options": [
+        "reference types",
+        "sealed always but not copyable",
+        "static",
+        "value types"
+      ],
+      "correctAnswer": "reference types",
+      "explanation": "The correct answer is A) reference types. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q039",
+      "questionText": "Which expression creates a modified copy of a record?",
+      "options": [
+        "copy keyword",
+        "new copy",
+        "with expression",
+        "clone()"
+      ],
+      "correctAnswer": "with expression",
+      "explanation": "The correct answer is C) with expression. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q040",
+      "questionText": "Which is a valid positional record?",
+      "options": [
+        "public record = Person(string Name);",
+        "public record Person(string Name, int Age);",
+        "record Person(Name, Age) { };",
+        "public record Person { Name; Age; };"
+      ],
+      "correctAnswer": "public record Person(string Name, int Age);",
+      "explanation": "The correct answer is B) public record Person(string Name, int Age);. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q041",
+      "questionText": "A with expression such as p2 = p1 with { Age = 30 };",
+      "options": [
+        "creates a reference only",
+        "throws an error",
+        "modifies p1",
+        "copies p1 and changes Age in the copy"
+      ],
+      "correctAnswer": "copies p1 and changes Age in the copy",
+      "explanation": "The correct answer is D) copies p1 and changes Age in the copy. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q042",
+      "questionText": "Records are best suited for",
+      "options": [
+        "immutable data models",
+        "low-level pointers",
+        "static utilities",
+        "GUI controls"
+      ],
+      "correctAnswer": "immutable data models",
+      "explanation": "The correct answer is A) immutable data models. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q043",
+      "questionText": "Properties in a derived class can be overridden if the base property is",
+      "options": [
+        "sealed",
+        "virtual or abstract",
+        "static",
+        "const"
+      ],
+      "correctAnswer": "virtual or abstract",
+      "explanation": "The correct answer is B) virtual or abstract. (Properties, Indexers, and Record Types)"
+    },
+    {
+      "id": "csharp_s08_q044",
+      "questionText": "Which of the following can have get and set with different access levels?",
+      "options": [
+        "Namespaces",
+        "Fields",
+        "Property accessors",
+        "Constants"
+      ],
+      "correctAnswer": "Property accessors",
+      "explanation": "The correct answer is C) Property accessors. (Properties, Indexers, and Record Types)"
+    }
+  ]
+}

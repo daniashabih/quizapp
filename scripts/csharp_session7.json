@@ -1,0 +1,561 @@
+{
+  "category": "C#",
+  "session": 7,
+  "title": "Session 7: Abstract Classes and Interfaces",
+  "sessionTitle": "Abstract Classes and Interfaces",
+  "totalQuestions": 46,
+  "questions": [
+    {
+      "id": "csharp_s07_q001",
+      "questionText": "An abstract class is",
+      "options": [
+        "a sealed class",
+        "a static class",
+        "a class that can be instantiated freely",
+        "an incomplete base class that cannot be instantiated"
+      ],
+      "correctAnswer": "an incomplete base class that cannot be instantiated",
+      "explanation": "The correct answer is D) an incomplete base class that cannot be instantiated. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q002",
+      "questionText": "Which keyword declares an abstract class?",
+      "options": [
+        "interface",
+        "abstract",
+        "sealed",
+        "virtual"
+      ],
+      "correctAnswer": "abstract",
+      "explanation": "The correct answer is B) abstract. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q003",
+      "questionText": "Can you create an object of an abstract class directly using new?",
+      "options": [
+        "Only in the same file",
+        "No",
+        "Yes",
+        "Only with constructors"
+      ],
+      "correctAnswer": "No",
+      "explanation": "The correct answer is B) No. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q004",
+      "questionText": "An abstract method",
+      "options": [
+        "is always static",
+        "has a body",
+        "is always private",
+        "has no body and must be overridden in derived classes"
+      ],
+      "correctAnswer": "has no body and must be overridden in derived classes",
+      "explanation": "The correct answer is D) has no body and must be overridden in derived classes. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q005",
+      "questionText": "An abstract method can be declared in",
+      "options": [
+        "a non-abstract class",
+        "a static class",
+        "a sealed class",
+        "an abstract class"
+      ],
+      "correctAnswer": "an abstract class",
+      "explanation": "The correct answer is D) an abstract class. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q006",
+      "questionText": "Which is a valid abstract method declaration?",
+      "options": [
+        "public abstract void Draw() { }",
+        "abstract void Draw() { return; }",
+        "public abstract void Draw();",
+        "public abstract static void Draw();"
+      ],
+      "correctAnswer": "public abstract void Draw();",
+      "explanation": "The correct answer is C) public abstract void Draw();. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q007",
+      "questionText": "The derived class of an abstract class must",
+      "options": [
+        "be sealed",
+        "implement all abstract members, unless it is abstract itself",
+        "implement none",
+        "be static"
+      ],
+      "correctAnswer": "implement all abstract members, unless it is abstract itself",
+      "explanation": "The correct answer is B) implement all abstract members, unless it is abstract itself. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q008",
+      "questionText": "Can an abstract class contain non-abstract methods?",
+      "options": [
+        "Yes",
+        "Only properties",
+        "Only static",
+        "No"
+      ],
+      "correctAnswer": "Yes",
+      "explanation": "The correct answer is A) Yes. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q009",
+      "questionText": "Can an abstract class have constructors?",
+      "options": [
+        "Yes",
+        "No",
+        "Only static",
+        "Only private"
+      ],
+      "correctAnswer": "Yes",
+      "explanation": "The correct answer is A) Yes. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q010",
+      "questionText": "Which modifier is used in the derived class to implement an abstract method?",
+      "options": [
+        "override",
+        "virtual",
+        "abstract",
+        "new"
+      ],
+      "correctAnswer": "override",
+      "explanation": "The correct answer is A) override. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q011",
+      "questionText": "Visual Studio IntelliSense can help implement an abstract base class by",
+      "options": [
+        "deleting members",
+        "compiling the code",
+        "generating stubs for abstract members",
+        "making classes sealed"
+      ],
+      "correctAnswer": "generating stubs for abstract members",
+      "explanation": "The correct answer is C) generating stubs for abstract members. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q012",
+      "questionText": "An interface",
+      "options": [
+        "is a sealed class",
+        "declares a contract of members with no implementation (traditionally)",
+        "holds only fields",
+        "can be instantiated"
+      ],
+      "correctAnswer": "declares a contract of members with no implementation (traditionally)",
+      "explanation": "The correct answer is B) declares a contract of members with no implementation (traditionally). (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q013",
+      "questionText": "Interface names conventionally begin with",
+      "options": [
+        "T",
+        "A",
+        "I",
+        "X"
+      ],
+      "correctAnswer": "I",
+      "explanation": "The correct answer is C) I. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q014",
+      "questionText": "Which keyword declares an interface?",
+      "options": [
+        "implements",
+        "contract",
+        "abstract",
+        "interface"
+      ],
+      "correctAnswer": "interface",
+      "explanation": "The correct answer is D) interface. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q015",
+      "questionText": "Members of an interface are by default",
+      "options": [
+        "public",
+        "private",
+        "internal",
+        "protected"
+      ],
+      "correctAnswer": "public",
+      "explanation": "The correct answer is A) public. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q016",
+      "questionText": "Can an interface contain fields?",
+      "options": [
+        "Only static",
+        "No",
+        "Only const",
+        "Yes"
+      ],
+      "correctAnswer": "No",
+      "explanation": "The correct answer is B) No. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q017",
+      "questionText": "Can you instantiate an interface directly?",
+      "options": [
+        "No",
+        "Only in Main",
+        "Yes",
+        "Only with new"
+      ],
+      "correctAnswer": "No",
+      "explanation": "The correct answer is A) No. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q018",
+      "questionText": "How does a class implement an interface?",
+      "options": [
+        "class A extends IShape",
+        "class A : IShape",
+        "class A implements IShape",
+        "class A uses IShape"
+      ],
+      "correctAnswer": "class A : IShape",
+      "explanation": "The correct answer is B) class A : IShape. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q019",
+      "questionText": "When a class implements an interface it must",
+      "options": [
+        "implement only one",
+        "implement all the interface's members",
+        "be abstract",
+        "implement none"
+      ],
+      "correctAnswer": "implement all the interface's members",
+      "explanation": "The correct answer is B) implement all the interface's members. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q020",
+      "questionText": "C# achieves multiple inheritance through",
+      "options": [
+        "sealed classes",
+        "abstract classes",
+        "interfaces",
+        "static classes"
+      ],
+      "correctAnswer": "interfaces",
+      "explanation": "The correct answer is C) interfaces. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q021",
+      "questionText": "A class can implement",
+      "options": [
+        "no interfaces",
+        "multiple interfaces",
+        "only one interface",
+        "interfaces only if sealed"
+      ],
+      "correctAnswer": "multiple interfaces",
+      "explanation": "The correct answer is B) multiple interfaces. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q022",
+      "questionText": "Which declaration is correct for a class inheriting a base class and two interfaces?",
+      "options": [
+        "class A : I1, I2, B",
+        "class A : B, I1, I2",
+        "class A extends B implements I1, I2",
+        "class A : B & I1 & I2"
+      ],
+      "correctAnswer": "class A : B, I1, I2",
+      "explanation": "The correct answer is B) class A : B, I1, I2. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q023",
+      "questionText": "In an inheritance list the base class must",
+      "options": [
+        "appear first, followed by interfaces",
+        "appear in the middle",
+        "appear last",
+        "not appear"
+      ],
+      "correctAnswer": "appear first, followed by interfaces",
+      "explanation": "The correct answer is A) appear first, followed by interfaces. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q024",
+      "questionText": "Explicit interface implementation is used when",
+      "options": [
+        "two interfaces have methods with identical names",
+        "the class is static",
+        "the method is virtual",
+        "you want faster code"
+      ],
+      "correctAnswer": "two interfaces have methods with identical names",
+      "explanation": "The correct answer is A) two interfaces have methods with identical names. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q025",
+      "questionText": "An explicitly implemented interface member is accessed through",
+      "options": [
+        "the class object directly",
+        "a static call",
+        "the base keyword",
+        "an interface reference"
+      ],
+      "correctAnswer": "an interface reference",
+      "explanation": "The correct answer is D) an interface reference. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q026",
+      "questionText": "In explicit implementation, the method is declared as",
+      "options": [
+        "private void Draw() { }",
+        "public void IShape.Draw() { }",
+        "void IShape.Draw() { } with no access modifier",
+        "static void IShape.Draw() { }"
+      ],
+      "correctAnswer": "void IShape.Draw() { } with no access modifier",
+      "explanation": "The correct answer is C) void IShape.Draw() { } with no access modifier. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q027",
+      "questionText": "Interface inheritance means",
+      "options": [
+        "an interface derives from another interface",
+        "a class derives from an interface only",
+        "a struct derives from a class",
+        "an interface derives from a class"
+      ],
+      "correctAnswer": "an interface derives from another interface",
+      "explanation": "The correct answer is A) an interface derives from another interface. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q028",
+      "questionText": "Interface re-implementation occurs when",
+      "options": [
+        "a derived class implements the same interface again",
+        "a method is static",
+        "an interface has no members",
+        "a class is sealed"
+      ],
+      "correctAnswer": "a derived class implements the same interface again",
+      "explanation": "The correct answer is A) a derived class implements the same interface again. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q029",
+      "questionText": "The is operator is used to",
+      "options": [
+        "compare strings",
+        "create an object",
+        "cast and throw",
+        "check whether an object is compatible with a type"
+      ],
+      "correctAnswer": "check whether an object is compatible with a type",
+      "explanation": "The correct answer is D) check whether an object is compatible with a type. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q030",
+      "questionText": "The as operator",
+      "options": [
+        "returns null if the types are not compatible",
+        "returns false if not compatible",
+        "always converts",
+        "throws an exception if not compatible"
+      ],
+      "correctAnswer": "returns null if the types are not compatible",
+      "explanation": "The correct answer is A) returns null if the types are not compatible. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q031",
+      "questionText": "The result of obj is string when obj is an int boxed to object",
+      "options": [
+        "false",
+        "error",
+        "true",
+        "null"
+      ],
+      "correctAnswer": "false",
+      "explanation": "The correct answer is A) false. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q032",
+      "questionText": "The as operator can be used with",
+      "options": [
+        "only value types",
+        "only int",
+        "only enums",
+        "reference types and nullable types"
+      ],
+      "correctAnswer": "reference types and nullable types",
+      "explanation": "The correct answer is D) reference types and nullable types. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q033",
+      "questionText": "Which is a similarity between abstract classes and interfaces?",
+      "options": [
+        "Both support multiple inheritance",
+        "Neither can be instantiated",
+        "Both can contain fields",
+        "Both have constructors"
+      ],
+      "correctAnswer": "Neither can be instantiated",
+      "explanation": "The correct answer is B) Neither can be instantiated. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q034",
+      "questionText": "Which is a difference between abstract classes and interfaces?",
+      "options": [
+        "Interfaces can be instantiated",
+        "Interfaces can have constructors",
+        "A class can inherit only one abstract class but many interfaces",
+        "Abstract classes cannot have methods"
+      ],
+      "correctAnswer": "A class can inherit only one abstract class but many interfaces",
+      "explanation": "The correct answer is C) A class can inherit only one abstract class but many interfaces. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q035",
+      "questionText": "Which can contain constructors?",
+      "options": [
+        "Interface",
+        "Abstract class",
+        "Both",
+        "Neither"
+      ],
+      "correctAnswer": "Abstract class",
+      "explanation": "The correct answer is B) Abstract class. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q036",
+      "questionText": "Which should you use to define common behavior and share code among related classes?",
+      "options": [
+        "Static class",
+        "Interface",
+        "Sealed class",
+        "Abstract class"
+      ],
+      "correctAnswer": "Abstract class",
+      "explanation": "The correct answer is D) Abstract class. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q037",
+      "questionText": "Which should you use when unrelated classes need to share a capability?",
+      "options": [
+        "Interface",
+        "Partial class",
+        "Abstract class",
+        "Sealed class"
+      ],
+      "correctAnswer": "Interface",
+      "explanation": "The correct answer is A) Interface. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q038",
+      "questionText": "Which of these CANNOT be marked abstract?",
+      "options": [
+        "A field",
+        "A property",
+        "A class",
+        "A method"
+      ],
+      "correctAnswer": "A field",
+      "explanation": "The correct answer is A) A field. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q039",
+      "questionText": "Can an abstract class implement an interface without implementing all its members?",
+      "options": [
+        "Only if sealed",
+        "Yes, by marking those members abstract",
+        "No, never",
+        "Only if static"
+      ],
+      "correctAnswer": "Yes, by marking those members abstract",
+      "explanation": "The correct answer is B) Yes, by marking those members abstract. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q040",
+      "questionText": "An abstract class may inherit from",
+      "options": [
+        "only interfaces",
+        "only structs",
+        "nothing",
+        "another class and interfaces"
+      ],
+      "correctAnswer": "another class and interfaces",
+      "explanation": "The correct answer is D) another class and interfaces. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q041",
+      "questionText": "Which of these is an example of a typical interface?",
+      "options": [
+        "String",
+        "Math",
+        "Console",
+        "IComparable"
+      ],
+      "correctAnswer": "IComparable",
+      "explanation": "The correct answer is D) IComparable. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q042",
+      "questionText": "Interface methods in a class implementing them are typically declared",
+      "options": [
+        "protected",
+        "static",
+        "private",
+        "public"
+      ],
+      "correctAnswer": "public",
+      "explanation": "The correct answer is D) public. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q043",
+      "questionText": "If a class doesn't implement an interface method, the compiler",
+      "options": [
+        "makes the class abstract automatically",
+        "reports an error",
+        "issues no warning",
+        "auto-implements it"
+      ],
+      "correctAnswer": "reports an error",
+      "explanation": "The correct answer is B) reports an error. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q044",
+      "questionText": "Which is TRUE of an interface reference?",
+      "options": [
+        "It can hold an object of any class implementing the interface",
+        "It can hold only abstract objects",
+        "It can't call methods",
+        "It can hold only strings"
+      ],
+      "correctAnswer": "It can hold an object of any class implementing the interface",
+      "explanation": "The correct answer is A) It can hold an object of any class implementing the interface. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q045",
+      "questionText": "An abstract property",
+      "options": [
+        "has no implementation and must be overridden",
+        "is static",
+        "has a body",
+        "is sealed"
+      ],
+      "correctAnswer": "has no implementation and must be overridden",
+      "explanation": "The correct answer is A) has no implementation and must be overridden. (Abstract Classes and Interfaces)"
+    },
+    {
+      "id": "csharp_s07_q046",
+      "questionText": "Which of the following correctly declares an interface with a method?",
+      "options": [
+        "interface IA { void M() = 0; }",
+        "interface IA { abstract void M(); } required",
+        "interface IA { void M(); }",
+        "interface IA = { M(); }"
+      ],
+      "correctAnswer": "interface IA { void M(); }",
+      "explanation": "The correct answer is C) interface IA { void M(); }. (Abstract Classes and Interfaces)"
+    }
+  ]
+}

@@ -1,0 +1,597 @@
+{
+  "category": "C#",
+  "session": 4,
+  "title": "Session 4: Programming Constructs and Arrays",
+  "sessionTitle": "Programming Constructs and Arrays",
+  "totalQuestions": 49,
+  "questions": [
+    {
+      "id": "csharp_s04_q001",
+      "questionText": "Which statement executes a block only if a condition is true?",
+      "options": [
+        "for",
+        "switch only",
+        "if",
+        "foreach"
+      ],
+      "correctAnswer": "if",
+      "explanation": "The correct answer is C) if. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q002",
+      "questionText": "In an if...else construct, the else block executes when",
+      "options": [
+        "the if condition is true",
+        "never",
+        "always",
+        "the if condition is false"
+      ],
+      "correctAnswer": "the if condition is false",
+      "explanation": "The correct answer is D) the if condition is false. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q003",
+      "questionText": "The if...else if construct is used to",
+      "options": [
+        "repeat a block",
+        "exit the program",
+        "declare variables",
+        "test multiple conditions in sequence"
+      ],
+      "correctAnswer": "test multiple conditions in sequence",
+      "explanation": "The correct answer is D) test multiple conditions in sequence. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q004",
+      "questionText": "A nested if is",
+      "options": [
+        "an if with no braces",
+        "an if without a condition",
+        "an if statement placed inside another if",
+        "a loop"
+      ],
+      "correctAnswer": "an if statement placed inside another if",
+      "explanation": "The correct answer is C) an if statement placed inside another if. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q005",
+      "questionText": "The condition in an if statement must evaluate to",
+      "options": [
+        "char",
+        "string",
+        "bool",
+        "int"
+      ],
+      "correctAnswer": "bool",
+      "explanation": "The correct answer is C) bool. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q006",
+      "questionText": "Which is INVALID in C#?",
+      "options": [
+        "if (x != 5)",
+        "if (x > 5)",
+        "if (x == 5)",
+        "if (x = 5) when x is int"
+      ],
+      "correctAnswer": "if (x = 5) when x is int",
+      "explanation": "The correct answer is D) if (x = 5) when x is int. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q007",
+      "questionText": "The switch statement is used to",
+      "options": [
+        "select one of many code blocks based on a value",
+        "handle exceptions",
+        "define a class",
+        "repeat code"
+      ],
+      "correctAnswer": "select one of many code blocks based on a value",
+      "explanation": "The correct answer is A) select one of many code blocks based on a value. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q008",
+      "questionText": "Which keyword in a switch handles values not matched by any case?",
+      "options": [
+        "default",
+        "else",
+        "other",
+        "otherwise"
+      ],
+      "correctAnswer": "default",
+      "explanation": "The correct answer is A) default. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q009",
+      "questionText": "Which keyword ends a case section in a switch statement?",
+      "options": [
+        "exit",
+        "break",
+        "stop",
+        "end"
+      ],
+      "correctAnswer": "break",
+      "explanation": "The correct answer is B) break. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q010",
+      "questionText": "C# does not allow a case section to continue into the next one. This is called the",
+      "options": [
+        "fall-through rule",
+        "loop rule",
+        "no-fall-through rule",
+        "jump rule"
+      ],
+      "correctAnswer": "no-fall-through rule",
+      "explanation": "The correct answer is C) no-fall-through rule. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q011",
+      "questionText": "Which of these can be used as a switch expression type?",
+      "options": [
+        "object only",
+        "double only",
+        "float only",
+        "int, char, string, enum"
+      ],
+      "correctAnswer": "int, char, string, enum",
+      "explanation": "The correct answer is D) int, char, string, enum. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q012",
+      "questionText": "A nested switch is",
+      "options": [
+        "a switch with no cases",
+        "a switch inside another switch",
+        "a switch with two defaults",
+        "a switch inside a loop only"
+      ],
+      "correctAnswer": "a switch inside another switch",
+      "explanation": "The correct answer is B) a switch inside another switch. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q013",
+      "questionText": "Which loop checks its condition before executing the body?",
+      "options": [
+        "none",
+        "while",
+        "do-while",
+        "both for and do-while always run once"
+      ],
+      "correctAnswer": "while",
+      "explanation": "The correct answer is B) while. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q014",
+      "questionText": "Which loop executes the body at least once?",
+      "options": [
+        "while",
+        "for",
+        "do-while",
+        "foreach"
+      ],
+      "correctAnswer": "do-while",
+      "explanation": "The correct answer is C) do-while. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q015",
+      "questionText": "The do-while loop ends with",
+      "options": [
+        "nothing",
+        "a semicolon after the condition",
+        "a comma",
+        "a colon"
+      ],
+      "correctAnswer": "a semicolon after the condition",
+      "explanation": "The correct answer is B) a semicolon after the condition. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q016",
+      "questionText": "How many times does for (int i = 0; i < 5; i++) execute its body?",
+      "options": [
+        "5",
+        "6",
+        "0",
+        "4"
+      ],
+      "correctAnswer": "5",
+      "explanation": "The correct answer is A) 5. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q017",
+      "questionText": "How many times does for (int i = 1; i <= 5; i++) execute its body?",
+      "options": [
+        "6",
+        "5",
+        "4",
+        "1"
+      ],
+      "correctAnswer": "5",
+      "explanation": "The correct answer is B) 5. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q018",
+      "questionText": "The three parts of a for loop are",
+      "options": [
+        "input, process, output",
+        "declaration, class, method",
+        "initialization, condition, iteration",
+        "try, catch, finally"
+      ],
+      "correctAnswer": "initialization, condition, iteration",
+      "explanation": "The correct answer is C) initialization, condition, iteration. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q019",
+      "questionText": "Which for loop creates an infinite loop?",
+      "options": [
+        "for (int i=5; i>0; i--) { }",
+        "for (int i=0; i<10; i+=2) { }",
+        "for (int i=0; i<1; i++) { }",
+        "for (;;) { }"
+      ],
+      "correctAnswer": "for (;;) { }",
+      "explanation": "The correct answer is D) for (;;) { }. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q020",
+      "questionText": "Which loop is an infinite loop?",
+      "options": [
+        "while (false) { }",
+        "do { } while (false);",
+        "for (int i=0;i<0;i++){}",
+        "while (true) { }"
+      ],
+      "correctAnswer": "while (true) { }",
+      "explanation": "The correct answer is D) while (true) { }. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q021",
+      "questionText": "A for loop with multiple loop control variables is written as",
+      "options": [
+        "for (int i = 0, j = 10; i < j; i++, j--)",
+        "for (i = 0 and j = 10; ...)",
+        "for (int i, j; ...) with no init",
+        "for (int i = 0; int j = 10; ...)"
+      ],
+      "correctAnswer": "for (int i = 0, j = 10; i < j; i++, j--)",
+      "explanation": "The correct answer is A) for (int i = 0, j = 10; i < j; i++, j--). (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q022",
+      "questionText": "The scope of a variable declared inside the for loop initialization is",
+      "options": [
+        "global",
+        "the for loop only",
+        "the entire namespace",
+        "the entire class"
+      ],
+      "correctAnswer": "the for loop only",
+      "explanation": "The correct answer is B) the for loop only. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q023",
+      "questionText": "Which statement exits a loop immediately?",
+      "options": [
+        "skip",
+        "break",
+        "continue",
+        "pass"
+      ],
+      "correctAnswer": "break",
+      "explanation": "The correct answer is B) break. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q024",
+      "questionText": "Which statement skips the rest of the current iteration and proceeds to the next one?",
+      "options": [
+        "continue",
+        "exit",
+        "return",
+        "break"
+      ],
+      "correctAnswer": "continue",
+      "explanation": "The correct answer is A) continue. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q025",
+      "questionText": "The goto statement",
+      "options": [
+        "begins a loop",
+        "transfers control to a labeled statement",
+        "declares a label only",
+        "exits the program"
+      ],
+      "correctAnswer": "transfers control to a labeled statement",
+      "explanation": "The correct answer is B) transfers control to a labeled statement. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q026",
+      "questionText": "The return statement",
+      "options": [
+        "exits a method and optionally returns a value",
+        "restarts the method",
+        "only ends loops",
+        "declares a method"
+      ],
+      "correctAnswer": "exits a method and optionally returns a value",
+      "explanation": "The correct answer is A) exits a method and optionally returns a value. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q027",
+      "questionText": "What does this print? for(int i=1;i<=5;i++){ if(i==3) continue; Console.Write(i);}",
+      "options": [
+        "12",
+        "12345",
+        "45",
+        "1245"
+      ],
+      "correctAnswer": "1245",
+      "explanation": "The correct answer is D) 1245. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q028",
+      "questionText": "What does this print? for(int i=1;i<=5;i++){ if(i==3) break; Console.Write(i);}",
+      "options": [
+        "1245",
+        "123",
+        "12",
+        "345"
+      ],
+      "correctAnswer": "12",
+      "explanation": "The correct answer is C) 12. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q029",
+      "questionText": "What is the value of sum after: int sum=0; for(int i=1;i<=4;i++) sum+=i;",
+      "options": [
+        "10",
+        "4",
+        "6",
+        "24"
+      ],
+      "correctAnswer": "10",
+      "explanation": "The correct answer is A) 10. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q030",
+      "questionText": "An array is",
+      "options": [
+        "a collection of mixed types always",
+        "a collection of elements of the same type stored contiguously",
+        "a loop",
+        "a single value"
+      ],
+      "correctAnswer": "a collection of elements of the same type stored contiguously",
+      "explanation": "The correct answer is B) a collection of elements of the same type stored contiguously. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q031",
+      "questionText": "Array elements are accessed using",
+      "options": [
+        "a label",
+        "a key string",
+        "an index",
+        "a pointer"
+      ],
+      "correctAnswer": "an index",
+      "explanation": "The correct answer is C) an index. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q032",
+      "questionText": "The index of the first element of a C# array is",
+      "options": [
+        "-1",
+        "1",
+        "0",
+        "depends on the type"
+      ],
+      "correctAnswer": "0",
+      "explanation": "The correct answer is C) 0. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q033",
+      "questionText": "Which declares an integer array of size 5?",
+      "options": [
+        "int[] a = new int[5];",
+        "array int a = 5;",
+        "int a = new int(5);",
+        "int a[5];"
+      ],
+      "correctAnswer": "int[] a = new int[5];",
+      "explanation": "The correct answer is A) int[] a = new int[5];. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q034",
+      "questionText": "Which correctly initializes an array?",
+      "options": [
+        "int a = {1, 2, 3};",
+        "int[] a = [1,2,3,];",
+        "int[] a = (1, 2, 3);",
+        "int[] a = {1, 2, 3};"
+      ],
+      "correctAnswer": "int[] a = {1, 2, 3};",
+      "explanation": "The correct answer is D) int[] a = {1, 2, 3};. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q035",
+      "questionText": "What is the default value of elements in a new int array?",
+      "options": [
+        "0",
+        "-1",
+        "null",
+        "undefined"
+      ],
+      "correctAnswer": "0",
+      "explanation": "The correct answer is A) 0. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q036",
+      "questionText": "What is the default value of elements in a new string array?",
+      "options": [
+        "\"null\"",
+        "\"\"",
+        "null",
+        "0"
+      ],
+      "correctAnswer": "null",
+      "explanation": "The correct answer is C) null. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q037",
+      "questionText": "Which property returns the number of elements in a one-dimensional array?",
+      "options": [
+        "Size",
+        "Length",
+        "Count",
+        "Items"
+      ],
+      "correctAnswer": "Length",
+      "explanation": "The correct answer is B) Length. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q038",
+      "questionText": "Accessing a[5] when the array has 5 elements throws",
+      "options": [
+        "NullReferenceException",
+        "FormatException",
+        "ArgumentException",
+        "IndexOutOfRangeException"
+      ],
+      "correctAnswer": "IndexOutOfRangeException",
+      "explanation": "The correct answer is D) IndexOutOfRangeException. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q039",
+      "questionText": "Which declares a two-dimensional (rectangular) array?",
+      "options": [
+        "int[3,4] m;",
+        "int[,] m = new int[3,4];",
+        "int m[3][4];",
+        "int[][] m = new int[3,4];"
+      ],
+      "correctAnswer": "int[,] m = new int[3,4];",
+      "explanation": "The correct answer is B) int[,] m = new int[3,4];. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q040",
+      "questionText": "A jagged array is",
+      "options": [
+        "a rectangular array",
+        "a string array",
+        "an array of arrays with possibly different lengths",
+        "a one-dimensional array"
+      ],
+      "correctAnswer": "an array of arrays with possibly different lengths",
+      "explanation": "The correct answer is C) an array of arrays with possibly different lengths. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q041",
+      "questionText": "Which declares a jagged array with 3 rows?",
+      "options": [
+        "int[3][] j;",
+        "int[][] j = new int[3][];",
+        "int[,] j = new int[3][];",
+        "int j[3][];"
+      ],
+      "correctAnswer": "int[][] j = new int[3][];",
+      "explanation": "The correct answer is B) int[][] j = new int[3][];. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q042",
+      "questionText": "For a rectangular array int[,] m = new int[3,4], m.Length returns",
+      "options": [
+        "3",
+        "12",
+        "4",
+        "7"
+      ],
+      "correctAnswer": "12",
+      "explanation": "The correct answer is B) 12. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q043",
+      "questionText": "Which method returns the number of dimensions of an array?",
+      "options": [
+        "Rank",
+        "Depth",
+        "GetRows",
+        "Dimensions"
+      ],
+      "correctAnswer": "Rank",
+      "explanation": "The correct answer is A) Rank. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q044",
+      "questionText": "The foreach loop is used to",
+      "options": [
+        "jump to labels",
+        "declare arrays",
+        "iterate over each element of a collection or array",
+        "modify array size"
+      ],
+      "correctAnswer": "iterate over each element of a collection or array",
+      "explanation": "The correct answer is C) iterate over each element of a collection or array. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q045",
+      "questionText": "Within a foreach loop, the iteration variable is",
+      "options": [
+        "read-only",
+        "static",
+        "read-write",
+        "a pointer"
+      ],
+      "correctAnswer": "read-only",
+      "explanation": "The correct answer is A) read-only. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q046",
+      "questionText": "Which is an implicitly typed array?",
+      "options": [
+        "var a = {1,2,3};",
+        "var[] a = 3;",
+        "var a = new[3];",
+        "var a = new[] {1, 2, 3};"
+      ],
+      "correctAnswer": "var a = new[] {1, 2, 3};",
+      "explanation": "The correct answer is D) var a = new[] {1, 2, 3};. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q047",
+      "questionText": "Which class provides static methods such as Sort() and Reverse() for arrays?",
+      "options": [
+        "System.Array",
+        "System.List",
+        "System.Collections",
+        "System.Math"
+      ],
+      "correctAnswer": "System.Array",
+      "explanation": "The correct answer is A) System.Array. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q048",
+      "questionText": "Which statement sorts array a in ascending order?",
+      "options": [
+        "a.Order();",
+        "Array.Order(a);",
+        "Sort.Array(a);",
+        "Array.Sort(a);"
+      ],
+      "correctAnswer": "Array.Sort(a);",
+      "explanation": "The correct answer is D) Array.Sort(a);. (Programming Constructs and Arrays)"
+    },
+    {
+      "id": "csharp_s04_q049",
+      "questionText": "Which method reverses the order of elements in an array?",
+      "options": [
+        "Array.Reverse(a);",
+        "Array.Back(a);",
+        "a.Invert();",
+        "Array.Flip(a);"
+      ],
+      "correctAnswer": "Array.Reverse(a);",
+      "explanation": "The correct answer is A) Array.Reverse(a);. (Programming Constructs and Arrays)"
+    }
+  ]
+}

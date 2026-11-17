@@ -1,6 +1,11 @@
 const prisma = require('../_config/prisma');
 const { AGILE_DEVOPS_QUESTIONS } = require('./agileDevopsQuestionsData');
-const { CSHARP_QUIZ_QUESTIONS } = require('./csharpQuizQuestionsData');
+const { CSHARP_QUIZ_QUESTIONS, CSHARP_QUIZ_SESSIONS } = require('./csharpQuizQuestionsData');
+
+const CSHARP_SESSION_NUMBERS = Object.keys(CSHARP_QUIZ_SESSIONS)
+    .map(s => parseInt(s, 10))
+    .filter(n => !isNaN(n))
+    .sort((a, b) => a - b);
 
 const normalizeCategory = (name) => {
     return String(name || '')
@@ -41,7 +46,7 @@ const DEFAULT_CATEGORIES = [
     { name: 'SEO', sessions: [1, 2, 3] },
     { name: 'Power BI', sessions: [1, 2, 3] },
     { name: 'Excel', sessions: [1, 2, 3] },
-    { name: 'C#', sessions: [1, 2, 3], questionCount: CSHARP_QUIZ_QUESTIONS.length }
+    { name: 'C#', sessions: CSHARP_SESSION_NUMBERS, questionCount: CSHARP_QUIZ_QUESTIONS.length }
 ];
 
 const Category = {
@@ -124,9 +129,9 @@ const Category = {
             const csharpCount = Math.max(countMap[csharpNorm] || 0, countMap[csharpAliasNorm] || 0, CSHARP_QUIZ_QUESTIONS.length);
             countMap[csharpNorm] = csharpCount;
             countMap[csharpAliasNorm] = csharpCount;
-            if (!sessionMap[csharpNorm]) sessionMap[csharpNorm] = new Set([1, 2, 3]);
-            if (!sessionMap[csharpAliasNorm]) sessionMap[csharpAliasNorm] = new Set([1, 2, 3]);
-            for (let s = 1; s <= 3; s++) {
+            if (!sessionMap[csharpNorm]) sessionMap[csharpNorm] = new Set(CSHARP_SESSION_NUMBERS);
+            if (!sessionMap[csharpAliasNorm]) sessionMap[csharpAliasNorm] = new Set(CSHARP_SESSION_NUMBERS);
+            for (const s of CSHARP_SESSION_NUMBERS) {
                 sessionMap[csharpNorm].add(s);
                 sessionMap[csharpAliasNorm].add(s);
             }
@@ -135,7 +140,7 @@ const Category = {
                 const norm = normalizeCategory(cat.name);
                 const isCatCSharp = norm === csharpNorm || norm === csharpAliasNorm;
                 const sessions = isCatCSharp
-                    ? [1, 2, 3]
+                    ? Array.from(sessionMap[csharpNorm]).sort((a, b) => a - b)
                     : (sessionMap[norm] ? Array.from(sessionMap[norm]).sort((a, b) => a - b) : []);
                 return {
                     id: cat.id,
@@ -166,7 +171,7 @@ const Category = {
                     name: 'C#',
                     isEnabled: true,
                     questionCount: csharpCount,
-                    sessions: [1, 2, 3]
+                    sessions: [...CSHARP_SESSION_NUMBERS]
                 });
             }
 

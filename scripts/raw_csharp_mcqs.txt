@@ -2709,3 +2709,1305 @@ Q	Answer	Q	Answer
 23	C) only from within the class that declares it	48	B) ArgumentException
 24	B) whether it is null (has subscribers)	49	C) Queue
 25	C) MyEvent?.Invoke(this, EventArgs.Empty);	50	B) Stack
+
+Session 11: Generics and Iterators
+Choose the one correct option for each question.
+Q1. Generics allow you to
+A) define classes and methods with placeholder type parameters
+B) avoid compiling
+C) create only int classes
+D) remove type checking
+Q2. The type parameter in a generic class is written inside
+A) angle brackets < >
+B) parentheses ( )
+C) square brackets [ ]
+D) braces { }
+Q3. By convention a single type parameter is named
+A) T
+B) TypeOne only
+C) X
+D) Z
+Q4. Which is a benefit of generics?
+A) Runtime casting errors
+B) Type safety and no boxing/unboxing for value types
+C) Less reusable code
+D) Slower performance
+Q5. Generics promote
+A) code reusability
+B) code duplication
+C) slower code
+D) manual casting
+Q6. Which namespace contains generic collection types?
+A) System.Data
+B) System.Reflection
+C) System.Collections.Generic
+D) System.Generic
+Q7. Which namespace contains Collection<T> and ReadOnlyCollection<T>?
+A) System.Collections.ObjectModel
+B) System.Linq
+C) System.Text
+D) System.Collections.Specialized
+Q8. Which is a valid generic class declaration?
+A) class Box[T] { }
+B) class Box<T> { }
+C) class Box(T) { }
+D) generic class Box<T> { }
+Q9. Given class Box<T>, which creates a Box of int?
+A) Box b = new Box<int>;
+B) Box<> b = new Box();
+C) new Box(int) b;
+D) Box<int> b = new Box<int>();
+Q10. Constraints on type parameters are specified using
+A) the if keyword
+B) the on keyword
+C) the where keyword
+D) the with keyword
+Q11. Which constraint requires T to be a reference type?
+A) where T : new()
+B) where T : base
+C) where T : class
+D) where T : struct
+Q12. Which constraint requires T to be a value type?
+A) where T : value
+B) where T : struct
+C) where T : class
+D) where T : new()
+Q13. Which constraint requires T to have a public parameterless constructor?
+A) where T : default
+B) where T : new()
+C) where T : ctor
+D) where T : class
+Q14. Which constraint requires T to derive from Animal?
+A) where T -> Animal
+B) where T : Animal
+C) where T : extends Animal
+D) where T is Animal
+Q15. Which constraint requires T to implement IComparable?
+A) where T : IComparable
+B) where T == IComparable
+C) where T : implements IComparable
+D) where T <- IComparable
+Q16. When multiple constraints are used, new() must
+A) appear first
+B) appear in the middle
+C) be omitted
+D) appear last
+Q17. A generic class can be inherited by
+A) only structs
+B) no class
+C) a concrete class that specifies the type argument
+D) only abstract classes
+Q18. Which is a generic method declaration?
+A) generic void Swap(T a)
+B) void <T>Swap(T a)
+C) void Swap<T>(ref T a, ref T b)
+D) void Swap(T<>)
+Q19. How do you call generic method Swap<T> for ints x and y?
+A) Swap(int)(x, y);
+B) Swap[int](x, y);
+C) Swap.int(x,y);
+D) Swap<int>(ref x, ref y);
+Q20. The compiler can often infer the type argument of a generic method
+A) never
+B) from the arguments passed
+C) only for strings
+D) only from constraints
+Q21. A generic interface is declared as
+A) generic interface IRepo { }
+B) interface IRepo<T> { }
+C) interface IRepo(T) { }
+D) interface<T> IRepo { }
+Q22. Which is a built-in generic delegate that returns a value?
+A) Handler<T>
+B) Action<T>
+C) Func<T, TResult>
+D) Predicate<T> returns void
+Q23. Which built-in generic delegate returns void?
+A) Converter<T>
+B) Predicate<T>
+C) Action<T>
+D) Func<T>
+Q24. Predicate<T> returns
+A) T
+B) int
+C) void
+D) bool
+Q25. Methods can be overloaded using
+A) different names only
+B) different access modifiers only
+C) different return types only
+D) different numbers of type parameters
+Q26. A virtual method in a generic class can be
+A) only private
+B) only static
+C) overridden in a derived class
+D) never overridden
+Q27. List<T> is
+A) a fixed array
+B) a non-generic list
+C) a generic dynamic array
+D) a dictionary
+Q28. Which statement creates a list of strings?
+A) list<string> l = [];
+B) List l = new List<string>;
+C) List<string> l = new List<string>();
+D) List<> l = new string();
+Q29. Which List<T> method adds an element?
+A) Push()
+B) Put()
+C) Insert() only at end
+D) Add()
+Q30. Which property of List<T> returns the number of elements?
+A) Size
+B) Total
+C) Count
+D) Length
+Q31. What does default(T) return for a value type like int?
+A) null
+B) 1
+C) -1
+D) 0
+Q32. What does default(T) return for a reference type?
+A) ""
+B) 0
+C) undefined
+D) null
+Q33. Iterators are used to
+A) define namespaces
+B) step through a collection one element at a time
+C) compile code
+D) declare delegates
+Q34. Which keyword returns each element in an iterator method?
+A) return each
+B) iterate
+C) yield next
+D) yield return
+Q35. Which keyword ends iteration early in an iterator?
+A) break only
+B) return false
+C) stop
+D) yield break
+Q36. An iterator method must have a return type of
+A) void
+B) int
+C) IEnumerable, IEnumerable<T>, IEnumerator, or IEnumerator<T>
+D) string
+Q37. Which interface do you implement to make a class usable in foreach?
+A) ICloneable
+B) IEnumerable
+C) IDisposable
+D) IComparable
+Q38. Which method of IEnumerable returns an enumerator?
+A) Next()
+B) GetEnumerator()
+C) Current()
+D) MoveNext()
+Q39. Which IEnumerator method advances to the next element?
+A) Advance()
+B) Next()
+C) MoveNext()
+D) GetNext()
+Q40. Which IEnumerator property returns the current element?
+A) Element
+B) Current
+C) Value
+D) Item
+Q41. Iterators produce values
+A) all at once
+B) only once at compile time
+C) lazily, one at a time
+D) only in reverse
+Q42. A named iterator is
+A) an iterator without yield
+B) an iterator method with a custom name that can be called in foreach
+C) a delegate
+D) a property
+Q43. A generic iterator returns
+A) IEnumerable only
+B) void
+C) object[]
+D) IEnumerable<T>
+Q44. A benefit of iterators is
+A) they avoid memory entirely
+B) they remove loops
+C) they compile faster
+D) simpler code than implementing IEnumerator manually
+Q45. Can a yield return statement appear in a try block that has a catch clause?
+A) Yes
+B) Only in Main
+C) No
+D) Only in finally
+Q46. Which is TRUE of Dictionary<TKey,TValue> vs. Hashtable?
+A) Dictionary avoids boxing for value types
+B) Dictionary is non-generic
+C) Hashtable is generic
+D) Dictionary stores object keys only
+Q47. The Stack<T> method to add an item is
+A) Enqueue()
+B) Add()
+C) Push()
+D) Insert()
+Q48. The Queue<T> method to add an item is
+A) Enqueue()
+B) Add()
+C) Push()
+D) Put()
+Q49. Generic constraints help the compiler
+A) know which members can be used on T
+B) skip type checking
+C) reduce file size
+D) remove generics
+
+Session 11 Answer Key
+Q	Answer	Q	Answer
+1	A) define classes and methods with placeholder type parameters	26	C) overridden in a derived class
+2	A) angle brackets < >	27	C) a generic dynamic array
+3	A) T	28	C) List<string> l = new List<string>();
+4	B) Type safety and no boxing/unboxing for value types	29	D) Add()
+5	A) code reusability	30	C) Count
+6	C) System.Collections.Generic	31	D) 0
+7	A) System.Collections.ObjectModel	32	D) null
+8	B) class Box<T> { }	33	B) step through a collection one element at a time
+9	D) Box<int> b = new Box<int>();	34	D) yield return
+10	C) the where keyword	35	D) yield break
+11	C) where T : class	36	C) IEnumerable, IEnumerable<T>, IEnumerator, or IEnumerator<T>
+12	B) where T : struct	37	B) IEnumerable
+13	B) where T : new()	38	B) GetEnumerator()
+14	B) where T : Animal	39	C) MoveNext()
+15	A) where T : IComparable	40	B) Current
+16	D) appear last	41	C) lazily, one at a time
+17	C) a concrete class that specifies the type argument	42	B) an iterator method with a custom name that can be called in foreach
+18	C) void Swap<T>(ref T a, ref T b)	43	D) IEnumerable<T>
+19	D) Swap<int>(ref x, ref y);	44	D) simpler code than implementing IEnumerator manually
+20	B) from the arguments passed	45	C) No
+21	B) interface IRepo<T> { }	46	A) Dictionary avoids boxing for value types
+22	C) Func<T, TResult>	47	C) Push()
+23	C) Action<T>	48	A) Enqueue()
+24	D) bool	49	A) know which members can be used on T
+25	D) different numbers of type parameters		
+
+Session 12: Advanced Concepts in C#
+Choose the one correct option for each question.
+Q1. An anonymous method
+A) has a name
+B) is declared with the abstract keyword
+C) is a class
+D) passes a block of unnamed code as a delegate parameter
+Q2. Anonymous methods are created using the
+A) lambda keyword
+B) delegate keyword
+C) anon keyword
+D) func keyword
+Q3. Which is a valid anonymous method?
+A) anonymous(int x) { }
+B) delegate(int x) { return x * 2; }
+C) delegate x => x * 2
+D) def(int x) { }
+Q4. Anonymous methods were introduced in
+A) C# 2.0
+B) C# 6.0
+C) C# 9.0
+D) C# 1.0
+Q5. Extension methods allow you to
+A) add methods to existing types without modifying them
+B) create namespaces
+C) delete methods
+D) make classes sealed
+Q6. An extension method itself must be
+A) instance
+B) abstract
+C) static
+D) private
+Q7. The first parameter of an extension method is preceded by
+A) params
+B) base
+C) ref
+D) this
+Q8. Which is a valid extension method for string?
+A) public int WordCount(this string s)
+B) public static int WordCount(this string s)
+C) public static int WordCount(string this s)
+D) public static int WordCount(string s)
+Q9. Anonymous types are created using
+A) struct keyword
+B) class keyword
+C) new { } with properties
+D) the anonymous keyword
+Q10. Properties of anonymous types are
+A) read-write
+B) read-only
+C) static
+D) private only
+Q11. Which creates an anonymous type?
+A) var p = new Person();
+B) var p = { Name = "Ali" };
+C) var p = new { Name = "Ali", Age = 25 };
+D) anonymous p = new();
+Q12. Anonymous types derive directly from
+A) System.ValueType
+B) System.Object
+C) System.Anonymous
+D) System.Delegate
+Q13. Partial types allow
+A) sealing members
+B) static imports
+C) hiding classes
+D) splitting a class, struct, or interface across multiple files
+Q14. Which keyword defines partial types?
+A) split
+B) multiple
+C) part
+D) partial
+Q15. Partial type definitions must be in
+A) different namespaces
+B) different assemblies
+C) only different files in different projects
+D) the same namespace and assembly
+Q16. If one part of a partial class is declared abstract
+A) it is an error
+B) only that part is abstract
+C) the entire class is considered abstract
+D) nothing changes
+Q17. Partial methods
+A) must always be implemented
+B) are static always
+C) are public always
+D) have a definition in one part and an optional implementation in another
+Q18. Traditionally, a partial method's return type must be
+A) void
+B) bool
+C) string
+D) int
+Q19. Nullable types allow
+A) reference types to hold null only
+B) arrays to resize
+C) strings to be sealed
+D) value types to hold null
+Q20. Which declares a nullable int?
+A) int! x = null;
+B) int? x = null;
+C) nullable int x;
+D) int x = null;
+Q21. Which read-only property of a nullable type tells whether it has a value?
+A) Exists
+B) IsNull
+C) Present
+D) HasValue
+Q22. Which property returns the underlying value of a nullable type?
+A) Underlying
+B) Item
+C) Value
+D) Data
+Q23. Accessing Value when HasValue is false throws
+A) NullReferenceException
+B) InvalidOperationException
+C) ArgumentException
+D) FormatException
+Q24. Which method returns the value or a default if null?
+A) ValueOrNone()
+B) GetOrNull()
+C) Default()
+D) GetValueOrDefault()
+Q25. The null-coalescing operator is
+A) ?.
+B) ??
+C) ?:
+D) !!
+Q26. Which operator provides safe member access on a possibly null reference?
+A) ::
+B) ?.
+C) ->
+D) ??
+Q27. Assigning a nullable int to a non-nullable int requires
+A) the new keyword
+B) nothing
+C) an explicit cast or Value
+D) the as keyword
+Q28. ADO.NET is
+A) a language
+B) a .NET database technology to connect an application and a database server
+C) a text editor
+D) a UI toolkit
+Q29. Entity Framework is
+A) an open-source ORM framework for .NET applications
+B) a cloud provider
+C) a scripting language
+D) a UI framework
+Q30. ORM stands for
+A) Object Run-time Model
+B) Object-Relational Mapping
+C) Object Reference Mapping
+D) Open Resource Manager
+Q31. A lambda expression uses the operator
+A) =>
+B) ->
+C) ==>
+D) ::
+Q32. Which is a valid expression lambda?
+A) x => x * x
+B) (x) { x * x }
+C) x -> x * x
+D) lambda x: x*x
+Q33. A statement lambda has its body in
+A) braces { }
+B) angle brackets
+C) parentheses only
+D) square brackets
+Q34. Which lambda has two parameters?
+A) a, b => a + b
+B) (a b) => a + b
+C) (a, b) => a + b
+D) [a, b] => a + b
+Q35. LINQ stands for
+A) Library Integrated Queries
+B) Language Integrated Query
+C) Logical Index Query
+D) Linked Query
+Q36. Which LINQ clause filters data?
+A) select
+B) where
+C) group
+D) orderby
+Q37. Which LINQ clause sorts data?
+A) sort
+B) order
+C) arrange
+D) orderby
+Q38. Which LINQ clause projects the result?
+A) from
+B) select
+C) project
+D) into only
+Q39. Which LINQ method-based query filters items?
+A) Filter()
+B) Where()
+C) Pick()
+D) Find() only
+Q40. In Entity Framework, the Entity Data Model (EDM)
+A) defines threads
+B) defines the conceptual model of the data
+C) creates windows
+D) handles files
+Q41. Which approach starts by writing classes and then creates the database?
+A) Model Only
+B) Code First
+C) Database First
+D) Table First
+Q42. In EF, DbContext represents
+A) a session with the database
+B) a table
+C) a file
+D) a column
+Q43. Which class is used to create a basic thread?
+A) Task only
+B) Process
+C) Worker
+D) Thread
+Q44. Which class provides a pool of reusable worker threads?
+A) ThreadGroup
+B) WorkerPool
+C) ThreadPool
+D) ThreadManager
+Q45. The lock statement is used to
+A) end threads
+B) create threads
+C) synchronize access to shared resources
+D) sleep
+Q46. Which class represents an asynchronous operation?
+A) Timer
+B) Thread
+C) Task
+D) Process
+Q47. Which method runs loops in parallel?
+A) Parallel.For
+B) Thread.For
+C) Task.Loop
+D) Loop.Parallel
+Q48. PLINQ is
+A) Planned LINQ
+B) Process LINQ
+C) Parallel LINQ
+D) Partial LINQ
+Q49. Which keyword marks a method as asynchronous?
+A) parallel
+B) async
+C) task
+D) await only
+Q50. Which keyword waits for an asynchronous operation without blocking?
+A) await
+B) hold
+C) sync
+D) wait
+
+Session 12 Answer Key
+Q	Answer	Q	Answer
+1	D) passes a block of unnamed code as a delegate parameter	26	B) ?.
+2	B) delegate keyword	27	C) an explicit cast or Value
+3	B) delegate(int x) { return x * 2; }	28	B) a .NET database technology to connect an application and a database server
+4	A) C# 2.0	29	A) an open-source ORM framework for .NET applications
+5	A) add methods to existing types without modifying them	30	B) Object-Relational Mapping
+6	C) static	31	A) =>
+7	D) this	32	A) x => x * x
+8	B) public static int WordCount(this string s)	33	A) braces { }
+9	C) new { } with properties	34	C) (a, b) => a + b
+10	B) read-only	35	B) Language Integrated Query
+11	C) var p = new { Name = "Ali", Age = 25 };	36	B) where
+12	B) System.Object	37	D) orderby
+13	D) splitting a class, struct, or interface across multiple files	38	B) select
+14	D) partial	39	B) Where()
+15	D) the same namespace and assembly	40	B) defines the conceptual model of the data
+16	C) the entire class is considered abstract	41	B) Code First
+17	D) have a definition in one part and an optional implementation in another	42	A) a session with the database
+18	A) void	43	D) Thread
+19	D) value types to hold null	44	C) ThreadPool
+20	B) int? x = null;	45	C) synchronize access to shared resources
+21	D) HasValue	46	C) Task
+22	C) Value	47	A) Parallel.For
+23	B) InvalidOperationException	48	C) Parallel LINQ
+24	D) GetValueOrDefault()	49	B) async
+25	B) ??	50	A) await
+
+Session 13: New Features of C# 9.0
+Choose the one correct option for each question.
+Q1. The book covers new features of which C# version in this session?
+A) C# 9.0
+B) C# 5.0
+C) C# 2.0
+D) C# 3.0
+Q2. In Visual Studio, the language version of a project can be changed using
+A) Solution Explorer rename
+B) Task Manager
+C) the Output window
+D) the project's Advanced Build settings
+Q3. The language version can also be selected by
+A) editing the registry only
+B) reinstalling .NET
+C) editing the .exe
+D) editing the .csproj file
+Q4. Which element in the .csproj file specifies the language version?
+A) <LangVersion>
+B) <Version>
+C) <Language>
+D) <CSharpVersion>
+Q5. Which <LangVersion> value selects the latest major version?
+A) max
+B) current
+C) newest
+D) latest
+Q6. Which value selects the latest minor version, including previews?
+A) beta
+B) alpha
+C) next
+D) preview
+Q7. A .props file can be used to
+A) store images
+B) compile code
+C) set properties like LangVersion for multiple projects
+D) debug code
+Q8. The Light Bulb icon in Visual Studio is used to
+A) show quick actions and suggestions, including upgrading language version
+B) open the toolbox
+C) save files
+D) run the program
+Q9. A ref return allows a method to
+A) return a reference to a variable
+B) return nothing
+C) return two values
+D) return void
+Q10. Which keyword combination declares a ref return method?
+A) public ref Find int(...)
+B) ref public int Find(...)
+C) public ref int Find(...)
+D) public int ref Find(...)
+Q11. A ref local is declared using
+A) int ref x = arr[0];
+B) int x = ref(arr[0]);
+C) ref int x = ref arr[0];
+D) ref x = arr[0];
+Q12. Modifying a ref local
+A) throws an error
+B) does nothing
+C) changes a copy
+D) changes the original variable
+Q13. Improved out variables allow
+A) out only for strings
+B) declaring out variables inline in the call
+C) no out at all
+D) out with no assignment
+Q14. Which correctly uses an inline out variable declaration?
+A) int.TryParse(s, out n int)
+B) int.TryParse(s, int out n)
+C) int.TryParse(s, n out)
+D) int.TryParse(s, out int n)
+Q15. A discard is represented by
+A) #
+B) ~
+C) _
+D) $
+Q16. Discards are used to
+A) store values
+B) ignore values you don't need
+C) create arrays
+D) declare constants
+Q17. Tuples allow you to
+A) replace classes in all cases
+B) group multiple values into a single object
+C) define namespaces
+D) create loops
+Q18. Which is a valid tuple declaration?
+A) (int, string) t = (1, "a");
+B) [int, string] t = [1, "a"];
+C) int, string t = (1,"a");
+D) tuple t = (1, "a");
+Q19. A tuple with named elements is declared as
+A) (int Id, string Name) t = (1, "a");
+B) (Id: int, Name: string)
+C) {int Id, string Name}
+D) <int Id, string Name>
+Q20. Tuple deconstruction looks like
+A) var <id, name> = t;
+B) var {id, name} = t;
+C) var (id, name) = t;
+D) var [id, name] = t;
+Q21. Tuple types in C# 7+ are based on
+A) System.Tuple only
+B) System.Pair
+C) System.ValueTuple
+D) System.Group
+Q22. Async Main allows
+A) Main to be declared async Task
+B) Main to be recursive
+C) Main in a namespace only
+D) multiple Main methods
+Q23. Which is a valid async Main signature?
+A) async int Main
+B) static async Task Main(string[] args)
+C) static Task async Main()
+D) static async void Main(string[] a)
+Q24. Throw expressions can be used in
+A) null-coalescing and ternary expressions and expression-bodied members
+B) only in catch blocks
+C) only in loops
+D) only in constructors
+Q25. Expression-bodied members use the operator
+A) ::
+B) ->
+C) =>
+D) ==
+Q26. Which is an expression-bodied property?
+A) public int Double { return value * 2; }
+B) public int Double => value * 2;
+C) public int Double => { };
+D) public int Double() => ;
+Q27. Expression-bodied members were extended to include
+A) constructors, finalizers, and accessors
+B) only classes
+C) only namespaces
+D) only methods
+Q28. Pattern matching is used with
+A) the is operator and switch
+B) the new keyword
+C) only strings
+D) the sealed keyword
+Q29. Which is a type pattern?
+A) if (obj == string)
+B) if (obj as string == s)
+C) if (typeof obj)
+D) if (obj is string s)
+Q30. In C# 9 which keyword is used in relational patterns?
+A) < > <= >= in switch expressions
+B) case when only
+C) match
+D) compare
+Q31. Which logical pattern combinators were added in C# 9?
+A) and, but, nor
+B) also, either, neither
+C) and, or, not
+D) plus, minus
+Q32. Which is a valid pattern using not?
+A) if (!obj is)
+B) if (obj not is null)
+C) if (obj isnot null)
+D) if (obj is not null)
+Q33. A switch expression returns
+A) a value
+B) only bool
+C) nothing
+D) void
+Q34. Which is a valid switch expression?
+A) var r = x switch (1 => "one");
+B) var r = x switch { 1 => "one", _ => "other" };
+C) var r = switch x { 1: "one" };
+D) var r = switch(x) { case 1 => "one" };
+Q35. In a switch expression, _ represents
+A) an error
+B) a variable name
+C) the discard/default pattern
+D) a string
+Q36. Target-typed new expressions let you write
+A) Person p = Person.new;
+B) Person p = new();
+C) new Person p;
+D) Person p = new[]();
+Q37. Which is a target-typed new expression for a List<int>?
+A) List<int> l = new;
+B) var l = new();
+C) List l = new<int>();
+D) List<int> l = new();
+Q38. Covariant return types in C# 9 allow
+A) changing parameters
+B) an overriding method to return a more derived type
+C) removing return types
+D) returning void always
+Q39. Init-only setters and records belong to
+A) C# 9.0
+B) C# 6.0
+C) C# 4.0
+D) C# 2.0
+Q40. Fit and finish features include
+A) new data types
+B) new operators like @@
+C) GUI controls
+D) target-typed conditional and static anonymous functions
+Q41. Native-sized integers in C# 9 are
+A) word and dword
+B) int8 and int16
+C) nint and nuint
+D) long and ulong
+Q42. Function pointers in C# 9 are declared using
+A) delegate*
+B) ptr
+C) pointer
+D) func*
+Q43. Static anonymous functions are declared by adding
+A) static before the lambda
+B) const before lambda
+C) sealed before lambda
+D) ref before lambda
+Q44. Top-level statements are allowed in how many files per project?
+A) Unlimited
+B) None
+C) Only one
+D) Two
+Q45. Which version of C# is the default for .NET 5.0 projects?
+A) C# 8.0
+B) C# 7.0
+C) C# 9.0
+D) C# 10.0
+
+Session 13 Answer Key
+Q	Answer	Q	Answer
+1	A) C# 9.0	24	A) null-coalescing and ternary expressions and expression-bodied members
+2	D) the project's Advanced Build settings	25	C) =>
+3	D) editing the .csproj file	26	B) public int Double => value * 2;
+4	A) <LangVersion>	27	A) constructors, finalizers, and accessors
+5	D) latest	28	A) the is operator and switch
+6	D) preview	29	D) if (obj is string s)
+7	C) set properties like LangVersion for multiple projects	30	A) < > <= >= in switch expressions
+8	A) show quick actions and suggestions, including upgrading language version	31	C) and, or, not
+9	A) return a reference to a variable	32	D) if (obj is not null)
+10	C) public ref int Find(...)	33	A) a value
+11	C) ref int x = ref arr[0];	34	B) var r = x switch { 1 => "one", _ => "other" };
+12	D) changes the original variable	35	C) the discard/default pattern
+13	B) declaring out variables inline in the call	36	B) Person p = new();
+14	D) int.TryParse(s, out int n)	37	D) List<int> l = new();
+15	C) _	38	B) an overriding method to return a more derived type
+16	B) ignore values you don't need	39	A) C# 9.0
+17	B) group multiple values into a single object	40	D) target-typed conditional and static anonymous functions
+18	A) (int, string) t = (1, "a");	41	C) nint and nuint
+19	A) (int Id, string Name) t = (1, "a");	42	A) delegate*
+20	C) var (id, name) = t;	43	A) static before the lambda
+21	C) System.ValueTuple	44	C) Only one
+22	A) Main to be declared async Task	45	C) C# 9.0
+23	B) static async Task Main(string[] args)		
+
+Session 14: .NET Core Development and the Future
+Choose the one correct option for each question.
+Q1. .NET Core is
+A) an IDE
+B) a Windows-only framework
+C) a cross-platform, open-source framework from Microsoft
+D) a database
+Q2. Which operating systems does .NET Core support?
+A) Linux only
+B) Windows, Linux, and macOS
+C) macOS only
+D) Windows only
+Q3. .NET Core is best suited for
+A) kernel development
+B) cross-platform and cloud-based/microservice applications
+C) Windows Forms legacy apps only
+D) hardware drivers
+Q4. Which is a reason to use .NET Core?
+A) Requiring Windows-only APIs
+B) Requiring ASP.NET Web Forms
+C) Cross-platform needs and high performance
+D) Requiring WCF server
+Q5. When should you NOT use .NET Core?
+A) When your app depends on Windows-specific technologies not available in .NET Core
+B) When building console apps
+C) When building web APIs
+D) When building microservices
+Q6. .NET Framework is
+A) open-source from the start
+B) Windows-only
+C) browser-only
+D) cross-platform
+Q7. Porting from .NET Framework to .NET Core often involves
+A) recompiling nothing
+B) using tools like the .NET Portability Analyzer
+C) changing the OS
+D) removing C#
+Q8. Which tool analyzes API compatibility when porting?
+A) Linker
+B) .NET Portability Analyzer
+C) Debug Analyzer
+D) Code Profiler only
+Q9. .NET Core supports side-by-side installation of
+A) no versions
+B) only the latest
+C) only one version
+D) multiple versions on the same machine
+Q10. Which CLI is used to create and run .NET Core apps?
+A) netcore
+B) dotnet
+C) csc only
+D) nuget
+Q11. Which command creates a new console project?
+A) dotnet start console
+B) dotnet create console
+C) dotnet new console
+D) dotnet init console
+Q12. Which command builds a .NET project?
+A) dotnet create
+B) dotnet make
+C) dotnet compile
+D) dotnet build
+Q13. Which command runs a .NET project?
+A) dotnet exec
+B) dotnet run
+C) dotnet start
+D) dotnet go
+Q14. Which command restores NuGet packages?
+A) dotnet nuget get
+B) dotnet install
+C) dotnet restore
+D) dotnet fetch
+Q15. Which command publishes an app for deployment?
+A) dotnet deploy
+B) dotnet publish
+C) dotnet release
+D) dotnet export
+Q16. Which command runs unit tests?
+A) dotnet test
+B) dotnet check
+C) dotnet verify
+D) dotnet unit
+Q17. .NET Core projects use a project file with extension
+A) .proj only for VB
+B) .sln only
+C) .config
+D) .csproj
+Q18. The project's package manager in .NET is
+A) NuGet
+B) Maven
+C) pip
+D) npm
+Q19. The runtime for .NET Core apps is
+A) Java VM
+B) Node
+C) Mono only
+D) CoreCLR
+Q20. The JIT compiler in .NET Core is
+A) Chakra
+B) V8
+C) RyuJIT
+D) HotSpot
+Q21. ASP.NET Core is
+A) a Windows service
+B) a desktop framework
+C) a database
+D) a cross-platform framework for web apps and APIs
+Q22. .NET Core 3.1 is
+A) deprecated before 2.0
+B) a preview release
+C) Windows only
+D) a long-term support (LTS) release
+Q23. .NET 5.0 unifies
+A) .NET Framework 1.0 and 2.0
+B) Java and .NET
+C) Mono only
+D) .NET Core and .NET Framework features
+Q24. Starting with .NET 5, the name dropped
+A) the CLR
+B) the word "Core"
+C) the word ".NET"
+D) the version number
+Q25. Which .NET release follows .NET 5.0 in the unified platform plan?
+A) .NET Framework 5
+B) .NET 6
+C) .NET 5.1 only
+D) .NET Core 4.0
+Q26. The "future" of .NET is described as a single unified platform for
+A) only web
+B) desktop, web, cloud, mobile, gaming, IoT, and AI
+C) only mobile
+D) only Windows
+Q27. Which tool produces a self-contained deployment?
+A) dotnet build only
+B) dotnet publish with a runtime identifier
+C) dotnet new
+D) dotnet add
+Q28. In a framework-dependent deployment, the target machine must have
+A) the .NET runtime installed
+B) nothing
+C) Visual Studio
+D) the SDK and Visual Studio
+Q29. In a self-contained deployment, the app
+A) requires the runtime to be installed
+B) can't run on Linux
+C) needs Visual Studio
+D) includes the .NET runtime
+Q30. Which target moniker is used for .NET Core 3.1?
+A) netcoreapp3.1
+B) netapp31
+C) net3.1
+D) core3.1
+Q31. Which target moniker is used for .NET Framework 4.8?
+A) framework48
+B) net48
+C) netfx4.8
+D) net4.8core
+Q32. Which command shows installed SDKs?
+A) dotnet -s
+B) dotnet --list-sdks
+C) dotnet sdk list
+D) dotnet show sdks
+Q33. Which command shows installed runtimes?
+A) dotnet --list-runtimes
+B) dotnet list
+C) dotnet runtime
+D) dotnet -r
+Q34. Which command displays the installed .NET version?
+A) dotnet version
+B) dotnet --version
+C) dotnet -v
+D) dotnet info only
+Q35. A benefit of open source for .NET Core is
+A) closed development
+B) community contributions on GitHub
+C) license fees
+D) Windows-only code
+Q36. In .NET Core, the Main entry point is
+A) the same Main method (or top-level statements)
+B) Entry
+C) MainCore
+D) Start
+Q37. Which tool is the cross-platform editor from Microsoft that works with .NET Core?
+A) Paint
+B) Visual Studio Code
+C) Word
+D) Notepad
+
+Session 14 Answer Key
+Q	Answer	Q	Answer
+1	C) a cross-platform, open-source framework from Microsoft	20	C) RyuJIT
+2	B) Windows, Linux, and macOS	21	D) a cross-platform framework for web apps and APIs
+3	B) cross-platform and cloud-based/microservice applications	22	D) a long-term support (LTS) release
+4	C) Cross-platform needs and high performance	23	D) .NET Core and .NET Framework features
+5	A) When your app depends on Windows-specific technologies not available in .NET Core	24	B) the word "Core"
+6	B) Windows-only	25	B) .NET 6
+7	B) using tools like the .NET Portability Analyzer	26	B) desktop, web, cloud, mobile, gaming, IoT, and AI
+8	B) .NET Portability Analyzer	27	B) dotnet publish with a runtime identifier
+9	D) multiple versions on the same machine	28	A) the .NET runtime installed
+10	B) dotnet	29	D) includes the .NET runtime
+11	C) dotnet new console	30	A) netcoreapp3.1
+12	D) dotnet build	31	B) net48
+13	B) dotnet run	32	B) dotnet --list-sdks
+14	C) dotnet restore	33	A) dotnet --list-runtimes
+15	B) dotnet publish	34	B) dotnet --version
+16	A) dotnet test	35	B) community contributions on GitHub
+17	D) .csproj	36	A) the same Main method (or top-level statements)
+18	A) NuGet	37	B) Visual Studio Code
+19	D) CoreCLR		
+
+Session 15: GUI/Desktop Apps with C#
+Choose the one correct option for each question.
+Q1. Which technology can be used to build web apps with C# in .NET?
+A) UWP
+B) WPF
+C) ASP.NET Core
+D) WinForms
+Q2. Which kind of app does Windows Forms create?
+A) Windows desktop apps
+B) Android apps
+C) Web apps only
+D) iOS apps
+Q3. Which XAML-based technology creates rich desktop UIs on Windows?
+A) LINQ
+B) ADO.NET
+C) WPF
+D) ASP.NET
+Q4. WPF stands for
+A) Windows Print Framework
+B) Windows Program Framework
+C) Windows Presentation Foundation
+D) Web Page Format
+Q5. UWP stands for
+A) Unified Web Platform
+B) Universal Web Pages
+C) User Windows Program
+D) Universal Windows Platform
+Q6. UWP apps can run on
+A) Linux only
+B) Android only
+C) multiple Windows 10 device families
+D) macOS only
+Q7. WPF user interfaces are defined in
+A) JSON
+B) HTML only
+C) CSS only
+D) XAML
+Q8. XAML stands for
+A) XML Active Module Language
+B) Extended Access Markup Layer
+C) XML Application Model Language
+D) Extensible Application Markup Language
+Q9. Windows Forms apps are built with
+A) only code, no designer
+B) CSS styles
+C) drag-and-drop controls from the Toolbox
+D) HTML pages
+Q10. In Windows Forms, the base class of a window is
+A) Page
+B) Window
+C) Frame
+D) Form
+Q11. Which control displays text that a user can't edit?
+A) TextBox
+B) ComboBox
+C) Button
+D) Label
+Q12. Which control accepts text input?
+A) Label
+B) ProgressBar
+C) TextBox
+D) PictureBox
+Q13. Which control triggers an action when clicked?
+A) GroupBox
+B) Button
+C) Label
+D) Panel
+Q14. Which event is raised when a button is clicked?
+A) Click
+B) Paint
+C) Close
+D) Load
+Q15. Which event occurs when a form is first loaded?
+A) TextChanged
+B) Load
+C) Click
+D) Leave
+Q16. Which event fires when text in a TextBox changes?
+A) Click
+B) Enter
+C) TextChanged
+D) Shown
+Q17. Which control presents a drop-down list of choices?
+A) ComboBox
+B) Button
+C) Label
+D) Panel
+Q18. Which control lets users select one or more options independently?
+A) RadioButton
+B) Panel
+C) Label
+D) CheckBox
+Q19. Which control forces selection of exactly one option from a group?
+A) Label
+B) RadioButton
+C) TextBox
+D) CheckBox
+Q20. Which method displays a message dialog in Windows Forms?
+A) MessageBox.Show()
+B) Dialog.Open()
+C) Console.WriteLine()
+D) Alert()
+Q21. Which property sets the text displayed on a Button?
+A) Label
+B) Caption
+C) Title
+D) Text
+Q22. Which property sets the identifier name of a control in code?
+A) Text
+B) Name
+C) Tag
+D) ID only
+Q23. Which window in Visual Studio lets you change a control's properties?
+A) Properties window
+B) Output window
+C) Test Explorer
+D) Error List
+Q24. Which file in a Windows Forms project holds the designer-generated UI code?
+A) Form1.Designer.cs
+B) Program.cs only
+C) Form1.resx
+D) App.config
+Q25. Which file contains the Main entry point in a WinForms project?
+A) Program.cs
+B) App.xaml
+C) Form1.cs
+D) Form1.Designer.cs
+Q26. Which method starts the Windows Forms message loop?
+A) Main.Run()
+B) Form.Launch()
+C) Application.Run()
+D) Application.Start()
+Q27. Which call displays a Form as a modal dialog?
+A) ShowDialog()
+B) Display()
+C) Show()
+D) Open()
+Q28. Which is the correct way to show a non-modal form?
+A) form.ShowDialog()
+B) form.Hide()
+C) form.Open()
+D) form.Show()
+Q29. Which technique separates UI from logic commonly used in WPF?
+A) Spaghetti
+B) MVC only in WPF
+C) MVVM
+D) ADO
+Q30. Which pattern is commonly used in ASP.NET Core web apps?
+A) MVC
+B) MVP only
+C) MVS
+D) MVVM only
+Q31. In MVC the "C" stands for
+A) Class
+B) Controller
+C) Component
+D) Control
+Q32. In MVC the "V" stands for
+A) Visual
+B) Value
+C) Variable
+D) View
+Q33. In MVC the "M" stands for
+A) Module
+B) Method
+C) Main
+D) Model
+Q34. Which file extension is used for Razor views in ASP.NET Core MVC?
+A) .php
+B) .cshtml
+C) .jsp
+D) .aspx only
+Q35. Which command creates a new ASP.NET Core MVC app?
+A) dotnet new mvc
+B) dotnet new php
+C) dotnet new html
+D) dotnet new web-form
+Q36. Which web server is built into ASP.NET Core projects for hosting?
+A) Kestrel
+B) Apache
+C) Tomcat
+D) Nginx only
+Q37. Which file configures services and request pipeline in ASP.NET Core?
+A) global.asax only
+B) web.xml
+C) Startup.cs or Program.cs
+D) httpd.conf
+Q38. Which XAML element is a basic button in WPF?
+A) <Click>
+B) <Button>
+C) <PushButton>
+D) <Btn>
+Q39. Which WPF layout container arranges children in rows and columns?
+A) Grid
+B) Canvas only
+C) Frame
+D) Table
+Q40. Which WPF container stacks children vertically or horizontally?
+A) StackPanel
+B) Grid
+C) Border
+D) Canvas
+Q41. Which attribute binds a WPF control property to data?
+A) {Attach ...}
+B) {Link ...}
+C) {Binding ...}
+D) {Source ...}
+Q42. Which is the code-behind file of MainWindow.xaml?
+A) Window.cs
+B) Main.cs
+C) MainWindow.cs.xaml
+D) MainWindow.xaml.cs
+Q43. UWP apps are distributed through
+A) F-Droid
+B) the App Store only
+C) Google Play
+D) the Microsoft Store
+Q44. Which Visual Studio template creates a Windows Forms app on .NET?
+A) Windows Forms App
+B) Console App
+C) Razor Class Library
+D) Class Library
+Q45. In Windows Forms, a collection of controls can be grouped inside a
+A) Panel or GroupBox
+B) Label
+C) Timer
+D) Process
+Q46. Which control shows progress of a task?
+A) TextBox
+B) ListBox
+C) Panel
+D) ProgressBar
+Q47. Which control lists multiple items and allows selection?
+A) ListBox
+B) PictureBox
+C) Label
+D) Button
+Q48. Which control displays an image in Windows Forms?
+A) Timer
+B) PictureBox
+C) Label only
+D) Button only
+Q49. Which control executes code at regular intervals?
+A) Button
+B) Panel
+C) Label
+D) Timer
+Q50. Which of the following is a cross-platform UI technology for .NET?
+A) .NET MAUI
+B) Windows Forms
+C) WPF
+D) UWP
+
+Session 15 Answer Key
+Q	Answer	Q	Answer
+1	C) ASP.NET Core	26	C) Application.Run()
+2	A) Windows desktop apps	27	A) ShowDialog()
+3	C) WPF	28	D) form.Show()
+4	C) Windows Presentation Foundation	29	C) MVVM
+5	D) Universal Windows Platform	30	A) MVC
+6	C) multiple Windows 10 device families	31	B) Controller
+7	D) XAML	32	D) View
+8	D) Extensible Application Markup Language	33	D) Model
+9	C) drag-and-drop controls from the Toolbox	34	B) .cshtml
+10	D) Form	35	A) dotnet new mvc
+11	D) Label	36	A) Kestrel
+12	C) TextBox	37	C) Startup.cs or Program.cs
+13	B) Button	38	B) <Button>
+14	A) Click	39	A) Grid
+15	B) Load	40	A) StackPanel
+16	C) TextChanged	41	C) {Binding ...}
+17	A) ComboBox	42	D) MainWindow.xaml.cs
+18	D) CheckBox	43	D) the Microsoft Store
+19	B) RadioButton	44	A) Windows Forms App
+20	A) MessageBox.Show()	45	A) Panel or GroupBox
+21	D) Text	46	D) ProgressBar
+22	B) Name	47	A) ListBox
+23	A) Properties window	48	B) PictureBox
+24	A) Form1.Designer.cs	49	D) Timer
+25	A) Program.cs	50	A) .NET MAUI

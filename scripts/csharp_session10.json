@@ -1,0 +1,609 @@
+{
+  "category": "C#",
+  "session": 10,
+  "title": "Session 10: Events, Delegates, and Collections",
+  "sessionTitle": "Events, Delegates, and Collections",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "id": "csharp_s10_q001",
+      "questionText": "A delegate in C# is",
+      "options": [
+        "a namespace",
+        "a type-safe reference to a method",
+        "a loop",
+        "a data type for text"
+      ],
+      "correctAnswer": "a type-safe reference to a method",
+      "explanation": "The correct answer is B) a type-safe reference to a method. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q002",
+      "questionText": "Delegates are similar to",
+      "options": [
+        "constants",
+        "arrays",
+        "classes with no members",
+        "function pointers in C/C++"
+      ],
+      "correctAnswer": "function pointers in C/C++",
+      "explanation": "The correct answer is D) function pointers in C/C++. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q003",
+      "questionText": "Which keyword declares a delegate?",
+      "options": [
+        "method",
+        "func",
+        "delegate",
+        "event"
+      ],
+      "correctAnswer": "delegate",
+      "explanation": "The correct answer is C) delegate. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q004",
+      "questionText": "Which is a valid delegate declaration?",
+      "options": [
+        "delegate public int(int a, int b);",
+        "public delegate = int Calc(int a);",
+        "public delegate int Calc(int a, int b);",
+        "public delegate Calc(int a, int b);"
+      ],
+      "correctAnswer": "public delegate int Calc(int a, int b);",
+      "explanation": "The correct answer is C) public delegate int Calc(int a, int b);. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q005",
+      "questionText": "A delegate can reference a method only if",
+      "options": [
+        "the method has a matching signature and return type",
+        "the method is static",
+        "the method is private",
+        "the method is void"
+      ],
+      "correctAnswer": "the method has a matching signature and return type",
+      "explanation": "The correct answer is A) the method has a matching signature and return type. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q006",
+      "questionText": "Which step instantiates a delegate?",
+      "options": [
+        "Calc c = Add();",
+        "Calc c = new Calc(Add);",
+        "Calc c = typeof(Add);",
+        "delegate c = Add;"
+      ],
+      "correctAnswer": "Calc c = new Calc(Add);",
+      "explanation": "The correct answer is B) Calc c = new Calc(Add);. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q007",
+      "questionText": "Invoking a delegate is done by",
+      "options": [
+        "exec c",
+        "c(2, 3) or c.Invoke(2, 3)",
+        "call c(2,3)",
+        "c.Run(2,3)"
+      ],
+      "correctAnswer": "c(2, 3) or c.Invoke(2, 3)",
+      "explanation": "The correct answer is B) c(2, 3) or c.Invoke(2, 3). (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q008",
+      "questionText": "In the opening snippet of this book, CalculateValue calc = t.GetValue; calc(\"Test\") returns",
+      "options": [
+        "0",
+        "an error",
+        "4",
+        "\"Test\""
+      ],
+      "correctAnswer": "4",
+      "explanation": "The correct answer is C) 4. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q009",
+      "questionText": "A multicast delegate",
+      "options": [
+        "can't be invoked",
+        "holds only static methods",
+        "holds references to more than one method",
+        "holds only one method"
+      ],
+      "correctAnswer": "holds references to more than one method",
+      "explanation": "The correct answer is C) holds references to more than one method. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q010",
+      "questionText": "Which operator adds a method to a multicast delegate?",
+      "options": [
+        "-= only removes",
+        "==",
+        "*=",
+        "+="
+      ],
+      "correctAnswer": "+=",
+      "explanation": "The correct answer is D) +=. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q011",
+      "questionText": "Which operator removes a method from a delegate's invocation list?",
+      "options": [
+        "!=",
+        "-=",
+        "+=",
+        "/="
+      ],
+      "correctAnswer": "-=",
+      "explanation": "The correct answer is B) -=. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q012",
+      "questionText": "A multicast delegate invokes methods in",
+      "options": [
+        "the order they were added",
+        "alphabetical order",
+        "reverse order",
+        "random order"
+      ],
+      "correctAnswer": "the order they were added",
+      "explanation": "The correct answer is A) the order they were added. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q013",
+      "questionText": "A multicast delegate with a non-void return type returns",
+      "options": [
+        "null",
+        "a sum of all values",
+        "the value of the last method invoked",
+        "the first method's value"
+      ],
+      "correctAnswer": "the value of the last method invoked",
+      "explanation": "The correct answer is C) the value of the last method invoked. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q014",
+      "questionText": "All delegates in C# are derived from",
+      "options": [
+        "System.Delegate",
+        "System.Action",
+        "System.Func",
+        "System.Object only without Delegate"
+      ],
+      "correctAnswer": "System.Delegate",
+      "explanation": "The correct answer is A) System.Delegate. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q015",
+      "questionText": "The delegate-event model uses",
+      "options": [
+        "abstract classes",
+        "only inheritance",
+        "static classes",
+        "publishers that raise events and subscribers that handle them"
+      ],
+      "correctAnswer": "publishers that raise events and subscribers that handle them",
+      "explanation": "The correct answer is D) publishers that raise events and subscribers that handle them. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q016",
+      "questionText": "An event in C# is",
+      "options": [
+        "a method body",
+        "a message sent by an object to signal that something happened",
+        "a class",
+        "a loop"
+      ],
+      "correctAnswer": "a message sent by an object to signal that something happened",
+      "explanation": "The correct answer is B) a message sent by an object to signal that something happened. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q017",
+      "questionText": "Which keyword declares an event?",
+      "options": [
+        "delegate",
+        "signal",
+        "trigger",
+        "event"
+      ],
+      "correctAnswer": "event",
+      "explanation": "The correct answer is D) event. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q018",
+      "questionText": "Events are based on",
+      "options": [
+        "arrays",
+        "namespaces",
+        "interfaces only",
+        "delegates"
+      ],
+      "correctAnswer": "delegates",
+      "explanation": "The correct answer is D) delegates. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q019",
+      "questionText": "The class that raises an event is the",
+      "options": [
+        "publisher",
+        "consumer",
+        "observer",
+        "subscriber"
+      ],
+      "correctAnswer": "publisher",
+      "explanation": "The correct answer is A) publisher. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q020",
+      "questionText": "The class that responds to an event is the",
+      "options": [
+        "publisher",
+        "creator",
+        "sender only",
+        "subscriber"
+      ],
+      "correctAnswer": "subscriber",
+      "explanation": "The correct answer is D) subscriber. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q021",
+      "questionText": "Which operator subscribes a handler to an event?",
+      "options": [
+        "::",
+        "->",
+        "=",
+        "+="
+      ],
+      "correctAnswer": "+=",
+      "explanation": "The correct answer is D) +=. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q022",
+      "questionText": "Which is the standard event handler delegate in .NET?",
+      "options": [
+        "ActionHandler",
+        "EventHandler",
+        "SignalHandler",
+        "MethodHandler"
+      ],
+      "correctAnswer": "EventHandler",
+      "explanation": "The correct answer is B) EventHandler. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q023",
+      "questionText": "An event can be raised",
+      "options": [
+        "from Main only",
+        "from any class",
+        "only from within the class that declares it",
+        "from namespaces"
+      ],
+      "correctAnswer": "only from within the class that declares it",
+      "explanation": "The correct answer is C) only from within the class that declares it. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q024",
+      "questionText": "Before raising an event, a good practice is to check",
+      "options": [
+        "whether it is static",
+        "whether it is null (has subscribers)",
+        "its name",
+        "its type"
+      ],
+      "correctAnswer": "whether it is null (has subscribers)",
+      "explanation": "The correct answer is B) whether it is null (has subscribers). (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q025",
+      "questionText": "Which syntax safely raises an event?",
+      "options": [
+        "raise MyEvent;",
+        "MyEvent.Fire();",
+        "MyEvent?.Invoke(this, EventArgs.Empty);",
+        "MyEvent.Raise();"
+      ],
+      "correctAnswer": "MyEvent?.Invoke(this, EventArgs.Empty);",
+      "explanation": "The correct answer is C) MyEvent?.Invoke(this, EventArgs.Empty);. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q026",
+      "questionText": "Collections are",
+      "options": [
+        "only arrays",
+        "only numbers",
+        "only strings",
+        "classes that store and manage groups of related objects"
+      ],
+      "correctAnswer": "classes that store and manage groups of related objects",
+      "explanation": "The correct answer is D) classes that store and manage groups of related objects. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q027",
+      "questionText": "The non-generic collection classes are in",
+      "options": [
+        "System.Collections",
+        "System.Text",
+        "System.Collections.Generic",
+        "System.Linq"
+      ],
+      "correctAnswer": "System.Collections",
+      "explanation": "The correct answer is A) System.Collections. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q028",
+      "questionText": "The generic collection classes are in",
+      "options": [
+        "System.Collections.Generic",
+        "System.Generics",
+        "System.Linq only",
+        "System.Collections"
+      ],
+      "correctAnswer": "System.Collections.Generic",
+      "explanation": "The correct answer is A) System.Collections.Generic. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q029",
+      "questionText": "ArrayList is",
+      "options": [
+        "a dynamically resizable collection that stores objects",
+        "a fixed-size array",
+        "a key-value collection",
+        "a generic collection"
+      ],
+      "correctAnswer": "a dynamically resizable collection that stores objects",
+      "explanation": "The correct answer is A) a dynamically resizable collection that stores objects. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q030",
+      "questionText": "Which ArrayList method adds an element?",
+      "options": [
+        "Append()",
+        "Add()",
+        "Insert() only",
+        "Push()"
+      ],
+      "correctAnswer": "Add()",
+      "explanation": "The correct answer is B) Add(). (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q031",
+      "questionText": "Which ArrayList property gets the number of elements?",
+      "options": [
+        "Length",
+        "Total",
+        "Count",
+        "Size"
+      ],
+      "correctAnswer": "Count",
+      "explanation": "The correct answer is C) Count. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q032",
+      "questionText": "Which ArrayList method removes the first occurrence of a value?",
+      "options": [
+        "Remove()",
+        "Delete()",
+        "Clear() only",
+        "Pop()"
+      ],
+      "correctAnswer": "Remove()",
+      "explanation": "The correct answer is A) Remove(). (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q033",
+      "questionText": "Which ArrayList method removes all elements?",
+      "options": [
+        "Clear()",
+        "Empty()",
+        "Remove()",
+        "RemoveAt()"
+      ],
+      "correctAnswer": "Clear()",
+      "explanation": "The correct answer is A) Clear(). (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q034",
+      "questionText": "Which ArrayList method sorts its elements?",
+      "options": [
+        "Sort()",
+        "Arrange()",
+        "SortAll()",
+        "Order()"
+      ],
+      "correctAnswer": "Sort()",
+      "explanation": "The correct answer is A) Sort(). (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q035",
+      "questionText": "ArrayList elements are stored as",
+      "options": [
+        "object",
+        "the exact type",
+        "string only",
+        "int only"
+      ],
+      "correctAnswer": "object",
+      "explanation": "The correct answer is A) object. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q036",
+      "questionText": "Hashtable stores data as",
+      "options": [
+        "key-value pairs",
+        "a queue",
+        "a stack",
+        "single values"
+      ],
+      "correctAnswer": "key-value pairs",
+      "explanation": "The correct answer is A) key-value pairs. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q037",
+      "questionText": "In a Hashtable, keys must be",
+      "options": [
+        "null",
+        "unique",
+        "duplicate",
+        "integers only"
+      ],
+      "correctAnswer": "unique",
+      "explanation": "The correct answer is B) unique. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q038",
+      "questionText": "Hashtable stores each entry as a",
+      "options": [
+        "KeyValuePair always",
+        "Node",
+        "Tuple",
+        "DictionaryEntry"
+      ],
+      "correctAnswer": "DictionaryEntry",
+      "explanation": "The correct answer is D) DictionaryEntry. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q039",
+      "questionText": "SortedList stores key-value pairs",
+      "options": [
+        "sorted by keys",
+        "sorted by values only",
+        "in random order",
+        "in insertion order always"
+      ],
+      "correctAnswer": "sorted by keys",
+      "explanation": "The correct answer is A) sorted by keys. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q040",
+      "questionText": "Which method adds a key-value pair to a Hashtable or SortedList?",
+      "options": [
+        "Push(key)",
+        "Insert(value)",
+        "Put(key, value)",
+        "Add(key, value)"
+      ],
+      "correctAnswer": "Add(key, value)",
+      "explanation": "The correct answer is D) Add(key, value). (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q041",
+      "questionText": "Which property retrieves all keys in a Hashtable?",
+      "options": [
+        "Names",
+        "Keys",
+        "AllKeys",
+        "KeyList"
+      ],
+      "correctAnswer": "Keys",
+      "explanation": "The correct answer is B) Keys. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q042",
+      "questionText": "Dictionary<TKey, TValue> is",
+      "options": [
+        "a generic collection of key-value pairs",
+        "a stack",
+        "a sorted array",
+        "a non-generic collection"
+      ],
+      "correctAnswer": "a generic collection of key-value pairs",
+      "explanation": "The correct answer is A) a generic collection of key-value pairs. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q043",
+      "questionText": "Compared with Hashtable, Dictionary<TKey,TValue> is",
+      "options": [
+        "unable to store keys",
+        "type-safe and generic",
+        "slower always",
+        "non-generic"
+      ],
+      "correctAnswer": "type-safe and generic",
+      "explanation": "The correct answer is B) type-safe and generic. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q044",
+      "questionText": "Which method checks if a Dictionary contains a key?",
+      "options": [
+        "KeyExists()",
+        "FindKey()",
+        "ContainsKey()",
+        "HasKey()"
+      ],
+      "correctAnswer": "ContainsKey()",
+      "explanation": "The correct answer is C) ContainsKey(). (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q045",
+      "questionText": "Which is a valid collection initializer?",
+      "options": [
+        "var list = List<int>[1,2,3];",
+        "var list = new List<int> = (1,2,3);",
+        "var list = new List<int>(1, 2, 3);",
+        "var list = new List<int> { 1, 2, 3 };"
+      ],
+      "correctAnswer": "var list = new List<int> { 1, 2, 3 };",
+      "explanation": "The correct answer is D) var list = new List<int> { 1, 2, 3 };. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q046",
+      "questionText": "Which is a valid dictionary initializer?",
+      "options": [
+        "new Dictionary<int,string> { {1,\"a\"}, {2,\"b\"} }",
+        "Dictionary { 1:\"a\" }",
+        "new Dictionary(1,\"a\")",
+        "new Dictionary<int,string> = (1,\"a\")"
+      ],
+      "correctAnswer": "new Dictionary<int,string> { {1,\"a\"}, {2,\"b\"} }",
+      "explanation": "The correct answer is A) new Dictionary<int,string> { {1,\"a\"}, {2,\"b\"} }. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q047",
+      "questionText": "Accessing a missing key in a Dictionary using the indexer throws",
+      "options": [
+        "NullReferenceException",
+        "KeyNotFoundException",
+        "FormatException",
+        "IndexOutOfRangeException"
+      ],
+      "correctAnswer": "KeyNotFoundException",
+      "explanation": "The correct answer is B) KeyNotFoundException. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q048",
+      "questionText": "Adding a duplicate key to a Dictionary using Add() throws",
+      "options": [
+        "KeyNotFoundException",
+        "ArgumentException",
+        "OverflowException",
+        "FormatException"
+      ],
+      "correctAnswer": "ArgumentException",
+      "explanation": "The correct answer is B) ArgumentException. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q049",
+      "questionText": "Which collection is best for a first-in, first-out order?",
+      "options": [
+        "SortedList",
+        "Hashtable",
+        "Queue",
+        "Stack"
+      ],
+      "correctAnswer": "Queue",
+      "explanation": "The correct answer is C) Queue. (Events, Delegates, and Collections)"
+    },
+    {
+      "id": "csharp_s10_q050",
+      "questionText": "Which collection is best for last-in, first-out order?",
+      "options": [
+        "ArrayList",
+        "Stack",
+        "Queue",
+        "Dictionary"
+      ],
+      "correctAnswer": "Stack",
+      "explanation": "The correct answer is B) Stack. (Events, Delegates, and Collections)"
+    }
+  ]
+}

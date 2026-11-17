@@ -1,0 +1,609 @@
+{
+  "category": "C#",
+  "session": 9,
+  "title": "Session 9: Namespaces and Exception Handling",
+  "sessionTitle": "Namespaces and Exception Handling",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "id": "csharp_s09_q001",
+      "questionText": "A namespace in C# is used to",
+      "options": [
+        "organize classes and avoid naming conflicts",
+        "store data",
+        "create objects",
+        "handle exceptions"
+      ],
+      "correctAnswer": "organize classes and avoid naming conflicts",
+      "explanation": "The correct answer is A) organize classes and avoid naming conflicts. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q002",
+      "questionText": "Which keyword declares a namespace?",
+      "options": [
+        "package",
+        "module",
+        "library",
+        "namespace"
+      ],
+      "correctAnswer": "namespace",
+      "explanation": "The correct answer is D) namespace. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q003",
+      "questionText": "Which keyword imports a namespace?",
+      "options": [
+        "import",
+        "include",
+        "require",
+        "using"
+      ],
+      "correctAnswer": "using",
+      "explanation": "The correct answer is D) using. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q004",
+      "questionText": "The most commonly used built-in namespace is",
+      "options": [
+        "Core",
+        "Main",
+        "System",
+        "Base"
+      ],
+      "correctAnswer": "System",
+      "explanation": "The correct answer is C) System. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q005",
+      "questionText": "Console belongs to the",
+      "options": [
+        "System.Linq",
+        "System.Text",
+        "System.IO only",
+        "System namespace"
+      ],
+      "correctAnswer": "System namespace",
+      "explanation": "The correct answer is D) System namespace. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q006",
+      "questionText": "Which namespace contains the File and Directory classes?",
+      "options": [
+        "System.Data",
+        "System.IO",
+        "System.Text",
+        "System.Net"
+      ],
+      "correctAnswer": "System.IO",
+      "explanation": "The correct answer is B) System.IO. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q007",
+      "questionText": "Which namespace contains LINQ types?",
+      "options": [
+        "System.Collections only",
+        "System.Data.Linq only",
+        "System.Query",
+        "System.Linq"
+      ],
+      "correctAnswer": "System.Linq",
+      "explanation": "The correct answer is D) System.Linq. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q008",
+      "questionText": "Which namespace contains generic collections such as List<T>?",
+      "options": [
+        "System.Collections",
+        "System.Collections.Generic",
+        "System.Lists",
+        "System.Generic"
+      ],
+      "correctAnswer": "System.Collections.Generic",
+      "explanation": "The correct answer is B) System.Collections.Generic. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q009",
+      "questionText": "A custom namespace is",
+      "options": [
+        "one built into the CLR",
+        "a keyword",
+        "one defined by the programmer",
+        "one from the .NET library"
+      ],
+      "correctAnswer": "one defined by the programmer",
+      "explanation": "The correct answer is C) one defined by the programmer. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q010",
+      "questionText": "Namespaces can be nested using",
+      "options": [
+        "commas only",
+        "semicolons",
+        "dot notation or nested declarations",
+        "colons"
+      ],
+      "correctAnswer": "dot notation or nested declarations",
+      "explanation": "The correct answer is C) dot notation or nested declarations. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q011",
+      "questionText": "Types in a namespace are by default",
+      "options": [
+        "public",
+        "private",
+        "protected",
+        "internal"
+      ],
+      "correctAnswer": "internal",
+      "explanation": "The correct answer is D) internal. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q012",
+      "questionText": "Can namespace members be declared private?",
+      "options": [
+        "Only in nested namespaces",
+        "No",
+        "Only static",
+        "Yes"
+      ],
+      "correctAnswer": "No",
+      "explanation": "The correct answer is B) No. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q013",
+      "questionText": "Allowed access modifiers for types directly in a namespace are",
+      "options": [
+        "protected and internal",
+        "only private",
+        "private and protected",
+        "public and internal"
+      ],
+      "correctAnswer": "public and internal",
+      "explanation": "The correct answer is D) public and internal. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q014",
+      "questionText": "Qualified naming means",
+      "options": [
+        "using a hash",
+        "using only the type name",
+        "using the full namespace path with the type name",
+        "using a keyword"
+      ],
+      "correctAnswer": "using the full namespace path with the type name",
+      "explanation": "The correct answer is C) using the full namespace path with the type name. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q015",
+      "questionText": "Which is a fully qualified name?",
+      "options": [
+        "Console",
+        "WriteLine",
+        "System.Console.WriteLine",
+        "using System"
+      ],
+      "correctAnswer": "System.Console.WriteLine",
+      "explanation": "The correct answer is C) System.Console.WriteLine. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q016",
+      "questionText": "A recommended namespace naming convention is",
+      "options": [
+        "a single letter",
+        "numbers only",
+        "lower-case only with underscores",
+        "CompanyName.ProductName.Feature"
+      ],
+      "correctAnswer": "CompanyName.ProductName.Feature",
+      "explanation": "The correct answer is D) CompanyName.ProductName.Feature. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q017",
+      "questionText": "Namespace names should use",
+      "options": [
+        "snake_case",
+        "lowercase only",
+        "PascalCase",
+        "all caps"
+      ],
+      "correctAnswer": "PascalCase",
+      "explanation": "The correct answer is C) PascalCase. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q018",
+      "questionText": "A namespace alias is created using",
+      "options": [
+        "alias Alias = Namespace;",
+        "import Namespace as Alias;",
+        "using Alias = Namespace;",
+        "namespace Alias;"
+      ],
+      "correctAnswer": "using Alias = Namespace;",
+      "explanation": "The correct answer is C) using Alias = Namespace;. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q019",
+      "questionText": "The namespace alias qualifier is",
+      "options": [
+        "=>",
+        ":",
+        "::",
+        "->"
+      ],
+      "correctAnswer": "::",
+      "explanation": "The correct answer is C) ::. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q020",
+      "questionText": "Why use aliases?",
+      "options": [
+        "To resolve naming conflicts or shorten long names",
+        "To define methods",
+        "To create objects",
+        "To speed up the program"
+      ],
+      "correctAnswer": "To resolve naming conflicts or shorten long names",
+      "explanation": "The correct answer is A) To resolve naming conflicts or shorten long names. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q021",
+      "questionText": "An exception is",
+      "options": [
+        "a compile-time warning",
+        "a run-time error condition that disrupts normal program flow",
+        "a keyword",
+        "a comment"
+      ],
+      "correctAnswer": "a run-time error condition that disrupts normal program flow",
+      "explanation": "The correct answer is B) a run-time error condition that disrupts normal program flow. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q022",
+      "questionText": "The base class of all exceptions is",
+      "options": [
+        "System.Exception",
+        "System.Throwable",
+        "System.Fault",
+        "System.Error"
+      ],
+      "correctAnswer": "System.Exception",
+      "explanation": "The correct answer is A) System.Exception. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q023",
+      "questionText": "Which block contains code that may throw an exception?",
+      "options": [
+        "try",
+        "throw",
+        "finally",
+        "catch"
+      ],
+      "correctAnswer": "try",
+      "explanation": "The correct answer is A) try. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q024",
+      "questionText": "Which block handles an exception?",
+      "options": [
+        "finally",
+        "catch",
+        "try",
+        "using"
+      ],
+      "correctAnswer": "catch",
+      "explanation": "The correct answer is B) catch. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q025",
+      "questionText": "Which block always executes whether or not an exception occurs?",
+      "options": [
+        "try",
+        "throw",
+        "finally",
+        "catch"
+      ],
+      "correctAnswer": "finally",
+      "explanation": "The correct answer is C) finally. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q026",
+      "questionText": "A general catch block",
+      "options": [
+        "catches nothing",
+        "catches any exception without specifying a type",
+        "is invalid",
+        "runs before try"
+      ],
+      "correctAnswer": "catches any exception without specifying a type",
+      "explanation": "The correct answer is B) catches any exception without specifying a type. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q027",
+      "questionText": "When using multiple catch blocks, the order should be",
+      "options": [
+        "from most general to most specific",
+        "any order",
+        "from most specific to most general",
+        "alphabetical"
+      ],
+      "correctAnswer": "from most specific to most general",
+      "explanation": "The correct answer is C) from most specific to most general. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q028",
+      "questionText": "Placing catch (Exception) before catch (DivideByZeroException) causes",
+      "options": [
+        "a compile-time error",
+        "no problem",
+        "a warning only",
+        "run-time success"
+      ],
+      "correctAnswer": "a compile-time error",
+      "explanation": "The correct answer is A) a compile-time error. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q029",
+      "questionText": "Which exception occurs on dividing an integer by zero?",
+      "options": [
+        "DivideByZeroException",
+        "FormatException",
+        "ArithmeticOverflow",
+        "InvalidOperationException"
+      ],
+      "correctAnswer": "DivideByZeroException",
+      "explanation": "The correct answer is A) DivideByZeroException. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q030",
+      "questionText": "Which exception occurs when accessing an invalid array index?",
+      "options": [
+        "ArgumentNullException",
+        "FormatException",
+        "InvalidCastException",
+        "IndexOutOfRangeException"
+      ],
+      "correctAnswer": "IndexOutOfRangeException",
+      "explanation": "The correct answer is D) IndexOutOfRangeException. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q031",
+      "questionText": "Which exception occurs when converting \"abc\" to int using int.Parse?",
+      "options": [
+        "InvalidCastException",
+        "OverflowException",
+        "NullReferenceException",
+        "FormatException"
+      ],
+      "correctAnswer": "FormatException",
+      "explanation": "The correct answer is D) FormatException. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q032",
+      "questionText": "Which exception occurs when using a null reference to access a member?",
+      "options": [
+        "InvalidCastException",
+        "IndexOutOfRangeException",
+        "NullReferenceException",
+        "FormatException"
+      ],
+      "correctAnswer": "NullReferenceException",
+      "explanation": "The correct answer is C) NullReferenceException. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q033",
+      "questionText": "Which exception occurs on an invalid explicit type cast?",
+      "options": [
+        "ArgumentNullException",
+        "FormatException",
+        "DivideByZeroException",
+        "InvalidCastException"
+      ],
+      "correctAnswer": "InvalidCastException",
+      "explanation": "The correct answer is D) InvalidCastException. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q034",
+      "questionText": "Which property of Exception provides the error description?",
+      "options": [
+        "Info",
+        "Description",
+        "Text",
+        "Message"
+      ],
+      "correctAnswer": "Message",
+      "explanation": "The correct answer is D) Message. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q035",
+      "questionText": "Which property of Exception contains the call stack trace?",
+      "options": [
+        "Trace",
+        "Stack",
+        "CallStack",
+        "StackTrace"
+      ],
+      "correctAnswer": "StackTrace",
+      "explanation": "The correct answer is D) StackTrace. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q036",
+      "questionText": "Which property of Exception gets the inner exception that caused the current one?",
+      "options": [
+        "Cause",
+        "Previous",
+        "Parent",
+        "InnerException"
+      ],
+      "correctAnswer": "InnerException",
+      "explanation": "The correct answer is D) InnerException. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q037",
+      "questionText": "Which property gets the name of the application or object that caused the error?",
+      "options": [
+        "Target only",
+        "Source",
+        "Origin",
+        "Name"
+      ],
+      "correctAnswer": "Source",
+      "explanation": "The correct answer is B) Source. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q038",
+      "questionText": "The throw statement is used to",
+      "options": [
+        "handle an exception",
+        "end a program",
+        "explicitly raise an exception",
+        "catch an exception"
+      ],
+      "correctAnswer": "explicitly raise an exception",
+      "explanation": "The correct answer is C) explicitly raise an exception. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q039",
+      "questionText": "Which statement correctly throws an exception?",
+      "options": [
+        "raise new Exception(\"Error\");",
+        "throw Exception(\"Error\");",
+        "throws new Exception(\"Error\");",
+        "throw new Exception(\"Error\");"
+      ],
+      "correctAnswer": "throw new Exception(\"Error\");",
+      "explanation": "The correct answer is D) throw new Exception(\"Error\");. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q040",
+      "questionText": "Throw expressions were introduced to allow",
+      "options": [
+        "throw inside expressions such as ?? or the ternary operator",
+        "throw only in catch",
+        "throw in constants",
+        "throw in namespaces"
+      ],
+      "correctAnswer": "throw inside expressions such as ?? or the ternary operator",
+      "explanation": "The correct answer is A) throw inside expressions such as ?? or the ternary operator. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q041",
+      "questionText": "Which uses a throw expression correctly?",
+      "options": [
+        "throw string s;",
+        "string s = name ?? throw new ArgumentNullException();",
+        "string s = ?? throw;",
+        "string s = throw name;"
+      ],
+      "correctAnswer": "string s = name ?? throw new ArgumentNullException();",
+      "explanation": "The correct answer is B) string s = name ?? throw new ArgumentNullException();. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q042",
+      "questionText": "Within a catch block, rethrowing the same exception while preserving the stack trace is done using",
+      "options": [
+        "throw ex;",
+        "raise;",
+        "throw;",
+        "return ex;"
+      ],
+      "correctAnswer": "throw;",
+      "explanation": "The correct answer is C) throw;. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q043",
+      "questionText": "A finally block is typically used to",
+      "options": [
+        "define classes",
+        "release resources like files and connections",
+        "create threads",
+        "declare variables"
+      ],
+      "correctAnswer": "release resources like files and connections",
+      "explanation": "The correct answer is B) release resources like files and connections. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q044",
+      "questionText": "Nested try blocks are",
+      "options": [
+        "try with two finally blocks",
+        "invalid in C#",
+        "try blocks with no catch",
+        "try blocks inside another try block"
+      ],
+      "correctAnswer": "try blocks inside another try block",
+      "explanation": "The correct answer is D) try blocks inside another try block. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q045",
+      "questionText": "Can a single try have multiple catch blocks?",
+      "options": [
+        "Only with finally",
+        "Only two",
+        "No",
+        "Yes"
+      ],
+      "correctAnswer": "Yes",
+      "explanation": "The correct answer is D) Yes. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q046",
+      "questionText": "Only one catch block executes for a thrown exception",
+      "options": [
+        "False",
+        "Only in nested try",
+        "Only if general",
+        "True"
+      ],
+      "correctAnswer": "True",
+      "explanation": "The correct answer is D) True. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q047",
+      "questionText": "What happens to an unhandled exception?",
+      "options": [
+        "It is ignored",
+        "The program terminates abnormally",
+        "It is automatically fixed",
+        "It restarts the program"
+      ],
+      "correctAnswer": "The program terminates abnormally",
+      "explanation": "The correct answer is B) The program terminates abnormally. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q048",
+      "questionText": "The Exception Assistant in Visual Studio",
+      "options": [
+        "creates classes",
+        "compiles code",
+        "provides information and tips when an exception occurs while debugging",
+        "formats code"
+      ],
+      "correctAnswer": "provides information and tips when an exception occurs while debugging",
+      "explanation": "The correct answer is C) provides information and tips when an exception occurs while debugging. (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q049",
+      "questionText": "Which keyword can be used to define a user-defined exception class base?",
+      "options": [
+        "struct",
+        "interface",
+        "static",
+        "Exception (inherit from it)"
+      ],
+      "correctAnswer": "Exception (inherit from it)",
+      "explanation": "The correct answer is D) Exception (inherit from it). (Namespaces and Exception Handling)"
+    },
+    {
+      "id": "csharp_s09_q050",
+      "questionText": "Custom exception classes are by convention named with the suffix",
+      "options": [
+        "Exception",
+        "Fault",
+        "Error",
+        "Problem"
+      ],
+      "correctAnswer": "Exception",
+      "explanation": "The correct answer is A) Exception. (Namespaces and Exception Handling)"
+    }
+  ]
+}

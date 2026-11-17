@@ -1,0 +1,453 @@
+{
+  "category": "C#",
+  "session": 14,
+  "title": "Session 14: .NET Core Development and the Future",
+  "sessionTitle": ".NET Core Development and the Future",
+  "totalQuestions": 37,
+  "questions": [
+    {
+      "id": "csharp_s14_q001",
+      "questionText": ".NET Core is",
+      "options": [
+        "an IDE",
+        "a Windows-only framework",
+        "a cross-platform, open-source framework from Microsoft",
+        "a database"
+      ],
+      "correctAnswer": "a cross-platform, open-source framework from Microsoft",
+      "explanation": "The correct answer is C) a cross-platform, open-source framework from Microsoft. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q002",
+      "questionText": "Which operating systems does .NET Core support?",
+      "options": [
+        "Linux only",
+        "Windows, Linux, and macOS",
+        "macOS only",
+        "Windows only"
+      ],
+      "correctAnswer": "Windows, Linux, and macOS",
+      "explanation": "The correct answer is B) Windows, Linux, and macOS. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q003",
+      "questionText": ".NET Core is best suited for",
+      "options": [
+        "kernel development",
+        "cross-platform and cloud-based/microservice applications",
+        "Windows Forms legacy apps only",
+        "hardware drivers"
+      ],
+      "correctAnswer": "cross-platform and cloud-based/microservice applications",
+      "explanation": "The correct answer is B) cross-platform and cloud-based/microservice applications. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q004",
+      "questionText": "Which is a reason to use .NET Core?",
+      "options": [
+        "Requiring Windows-only APIs",
+        "Requiring ASP.NET Web Forms",
+        "Cross-platform needs and high performance",
+        "Requiring WCF server"
+      ],
+      "correctAnswer": "Cross-platform needs and high performance",
+      "explanation": "The correct answer is C) Cross-platform needs and high performance. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q005",
+      "questionText": "When should you NOT use .NET Core?",
+      "options": [
+        "When your app depends on Windows-specific technologies not available in .NET Core",
+        "When building console apps",
+        "When building web APIs",
+        "When building microservices"
+      ],
+      "correctAnswer": "When your app depends on Windows-specific technologies not available in .NET Core",
+      "explanation": "The correct answer is A) When your app depends on Windows-specific technologies not available in .NET Core. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q006",
+      "questionText": ".NET Framework is",
+      "options": [
+        "open-source from the start",
+        "Windows-only",
+        "browser-only",
+        "cross-platform"
+      ],
+      "correctAnswer": "Windows-only",
+      "explanation": "The correct answer is B) Windows-only. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q007",
+      "questionText": "Porting from .NET Framework to .NET Core often involves",
+      "options": [
+        "recompiling nothing",
+        "using tools like the .NET Portability Analyzer",
+        "changing the OS",
+        "removing C#"
+      ],
+      "correctAnswer": "using tools like the .NET Portability Analyzer",
+      "explanation": "The correct answer is B) using tools like the .NET Portability Analyzer. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q008",
+      "questionText": "Which tool analyzes API compatibility when porting?",
+      "options": [
+        "Linker",
+        ".NET Portability Analyzer",
+        "Debug Analyzer",
+        "Code Profiler only"
+      ],
+      "correctAnswer": ".NET Portability Analyzer",
+      "explanation": "The correct answer is B) .NET Portability Analyzer. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q009",
+      "questionText": ".NET Core supports side-by-side installation of",
+      "options": [
+        "no versions",
+        "only the latest",
+        "only one version",
+        "multiple versions on the same machine"
+      ],
+      "correctAnswer": "multiple versions on the same machine",
+      "explanation": "The correct answer is D) multiple versions on the same machine. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q010",
+      "questionText": "Which CLI is used to create and run .NET Core apps?",
+      "options": [
+        "netcore",
+        "dotnet",
+        "csc only",
+        "nuget"
+      ],
+      "correctAnswer": "dotnet",
+      "explanation": "The correct answer is B) dotnet. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q011",
+      "questionText": "Which command creates a new console project?",
+      "options": [
+        "dotnet start console",
+        "dotnet create console",
+        "dotnet new console",
+        "dotnet init console"
+      ],
+      "correctAnswer": "dotnet new console",
+      "explanation": "The correct answer is C) dotnet new console. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q012",
+      "questionText": "Which command builds a .NET project?",
+      "options": [
+        "dotnet create",
+        "dotnet make",
+        "dotnet compile",
+        "dotnet build"
+      ],
+      "correctAnswer": "dotnet build",
+      "explanation": "The correct answer is D) dotnet build. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q013",
+      "questionText": "Which command runs a .NET project?",
+      "options": [
+        "dotnet exec",
+        "dotnet run",
+        "dotnet start",
+        "dotnet go"
+      ],
+      "correctAnswer": "dotnet run",
+      "explanation": "The correct answer is B) dotnet run. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q014",
+      "questionText": "Which command restores NuGet packages?",
+      "options": [
+        "dotnet nuget get",
+        "dotnet install",
+        "dotnet restore",
+        "dotnet fetch"
+      ],
+      "correctAnswer": "dotnet restore",
+      "explanation": "The correct answer is C) dotnet restore. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q015",
+      "questionText": "Which command publishes an app for deployment?",
+      "options": [
+        "dotnet deploy",
+        "dotnet publish",
+        "dotnet release",
+        "dotnet export"
+      ],
+      "correctAnswer": "dotnet publish",
+      "explanation": "The correct answer is B) dotnet publish. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q016",
+      "questionText": "Which command runs unit tests?",
+      "options": [
+        "dotnet test",
+        "dotnet check",
+        "dotnet verify",
+        "dotnet unit"
+      ],
+      "correctAnswer": "dotnet test",
+      "explanation": "The correct answer is A) dotnet test. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q017",
+      "questionText": ".NET Core projects use a project file with extension",
+      "options": [
+        ".proj only for VB",
+        ".sln only",
+        ".config",
+        ".csproj"
+      ],
+      "correctAnswer": ".csproj",
+      "explanation": "The correct answer is D) .csproj. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q018",
+      "questionText": "The project's package manager in .NET is",
+      "options": [
+        "NuGet",
+        "Maven",
+        "pip",
+        "npm"
+      ],
+      "correctAnswer": "NuGet",
+      "explanation": "The correct answer is A) NuGet. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q019",
+      "questionText": "The runtime for .NET Core apps is",
+      "options": [
+        "Java VM",
+        "Node",
+        "Mono only",
+        "CoreCLR"
+      ],
+      "correctAnswer": "CoreCLR",
+      "explanation": "The correct answer is D) CoreCLR. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q020",
+      "questionText": "The JIT compiler in .NET Core is",
+      "options": [
+        "Chakra",
+        "V8",
+        "RyuJIT",
+        "HotSpot"
+      ],
+      "correctAnswer": "RyuJIT",
+      "explanation": "The correct answer is C) RyuJIT. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q021",
+      "questionText": "ASP.NET Core is",
+      "options": [
+        "a Windows service",
+        "a desktop framework",
+        "a database",
+        "a cross-platform framework for web apps and APIs"
+      ],
+      "correctAnswer": "a cross-platform framework for web apps and APIs",
+      "explanation": "The correct answer is D) a cross-platform framework for web apps and APIs. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q022",
+      "questionText": ".NET Core 3.1 is",
+      "options": [
+        "deprecated before 2.0",
+        "a preview release",
+        "Windows only",
+        "a long-term support (LTS) release"
+      ],
+      "correctAnswer": "a long-term support (LTS) release",
+      "explanation": "The correct answer is D) a long-term support (LTS) release. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q023",
+      "questionText": ".NET 5.0 unifies",
+      "options": [
+        ".NET Framework 1.0 and 2.0",
+        "Java and .NET",
+        "Mono only",
+        ".NET Core and .NET Framework features"
+      ],
+      "correctAnswer": ".NET Core and .NET Framework features",
+      "explanation": "The correct answer is D) .NET Core and .NET Framework features. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q024",
+      "questionText": "Starting with .NET 5, the name dropped",
+      "options": [
+        "the CLR",
+        "the word \"Core\"",
+        "the word \".NET\"",
+        "the version number"
+      ],
+      "correctAnswer": "the word \"Core\"",
+      "explanation": "The correct answer is B) the word \"Core\". (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q025",
+      "questionText": "Which .NET release follows .NET 5.0 in the unified platform plan?",
+      "options": [
+        ".NET Framework 5",
+        ".NET 6",
+        ".NET 5.1 only",
+        ".NET Core 4.0"
+      ],
+      "correctAnswer": ".NET 6",
+      "explanation": "The correct answer is B) .NET 6. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q026",
+      "questionText": "The \"future\" of .NET is described as a single unified platform for",
+      "options": [
+        "only web",
+        "desktop, web, cloud, mobile, gaming, IoT, and AI",
+        "only mobile",
+        "only Windows"
+      ],
+      "correctAnswer": "desktop, web, cloud, mobile, gaming, IoT, and AI",
+      "explanation": "The correct answer is B) desktop, web, cloud, mobile, gaming, IoT, and AI. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q027",
+      "questionText": "Which tool produces a self-contained deployment?",
+      "options": [
+        "dotnet build only",
+        "dotnet publish with a runtime identifier",
+        "dotnet new",
+        "dotnet add"
+      ],
+      "correctAnswer": "dotnet publish with a runtime identifier",
+      "explanation": "The correct answer is B) dotnet publish with a runtime identifier. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q028",
+      "questionText": "In a framework-dependent deployment, the target machine must have",
+      "options": [
+        "the .NET runtime installed",
+        "nothing",
+        "Visual Studio",
+        "the SDK and Visual Studio"
+      ],
+      "correctAnswer": "the .NET runtime installed",
+      "explanation": "The correct answer is A) the .NET runtime installed. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q029",
+      "questionText": "In a self-contained deployment, the app",
+      "options": [
+        "requires the runtime to be installed",
+        "can't run on Linux",
+        "needs Visual Studio",
+        "includes the .NET runtime"
+      ],
+      "correctAnswer": "includes the .NET runtime",
+      "explanation": "The correct answer is D) includes the .NET runtime. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q030",
+      "questionText": "Which target moniker is used for .NET Core 3.1?",
+      "options": [
+        "netcoreapp3.1",
+        "netapp31",
+        "net3.1",
+        "core3.1"
+      ],
+      "correctAnswer": "netcoreapp3.1",
+      "explanation": "The correct answer is A) netcoreapp3.1. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q031",
+      "questionText": "Which target moniker is used for .NET Framework 4.8?",
+      "options": [
+        "framework48",
+        "net48",
+        "netfx4.8",
+        "net4.8core"
+      ],
+      "correctAnswer": "net48",
+      "explanation": "The correct answer is B) net48. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q032",
+      "questionText": "Which command shows installed SDKs?",
+      "options": [
+        "dotnet -s",
+        "dotnet --list-sdks",
+        "dotnet sdk list",
+        "dotnet show sdks"
+      ],
+      "correctAnswer": "dotnet --list-sdks",
+      "explanation": "The correct answer is B) dotnet --list-sdks. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q033",
+      "questionText": "Which command shows installed runtimes?",
+      "options": [
+        "dotnet --list-runtimes",
+        "dotnet list",
+        "dotnet runtime",
+        "dotnet -r"
+      ],
+      "correctAnswer": "dotnet --list-runtimes",
+      "explanation": "The correct answer is A) dotnet --list-runtimes. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q034",
+      "questionText": "Which command displays the installed .NET version?",
+      "options": [
+        "dotnet version",
+        "dotnet --version",
+        "dotnet -v",
+        "dotnet info only"
+      ],
+      "correctAnswer": "dotnet --version",
+      "explanation": "The correct answer is B) dotnet --version. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q035",
+      "questionText": "A benefit of open source for .NET Core is",
+      "options": [
+        "closed development",
+        "community contributions on GitHub",
+        "license fees",
+        "Windows-only code"
+      ],
+      "correctAnswer": "community contributions on GitHub",
+      "explanation": "The correct answer is B) community contributions on GitHub. (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q036",
+      "questionText": "In .NET Core, the Main entry point is",
+      "options": [
+        "the same Main method (or top-level statements)",
+        "Entry",
+        "MainCore",
+        "Start"
+      ],
+      "correctAnswer": "the same Main method (or top-level statements)",
+      "explanation": "The correct answer is A) the same Main method (or top-level statements). (.NET Core Development and the Future)"
+    },
+    {
+      "id": "csharp_s14_q037",
+      "questionText": "Which tool is the cross-platform editor from Microsoft that works with .NET Core?",
+      "options": [
+        "Paint",
+        "Visual Studio Code",
+        "Word",
+        "Notepad"
+      ],
+      "correctAnswer": "Visual Studio Code",
+      "explanation": "The correct answer is B) Visual Studio Code. (.NET Core Development and the Future)"
+    }
+  ]
+}
