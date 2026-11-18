@@ -199,6 +199,8 @@ export default function Technologies() {
             const slug = (c.slug || '').toLowerCase();
             const isCSharpQuery = q === 'c#' || q === 'csharp' || q === 'c sharp';
             if (isCSharpQuery && (name === 'c#' || slug === 'csharp')) return true;
+            const isReactQuery = q === 'react js' || q === 'reactjs' || q === 'react.js' || q === 'react';
+            if (isReactQuery && (name === 'react.js' || name === 'react' || slug === 'react')) return true;
             return name.includes(q) || slug.includes(q);
         });
 

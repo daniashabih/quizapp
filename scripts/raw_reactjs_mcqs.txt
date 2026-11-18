@@ -1,0 +1,2402 @@
+Session 1: Introduction to ReactJS
+Q1. What is ReactJS?
+A.  A CSS pre-processor
+B.  A backend framework for Node.js
+C.  An open-source front-end JavaScript library for building component-based user interfaces
+D.  A server-side database engine
+Answer: C
+Q2. Which organization, assisted by a community of individual developers, maintains ReactJS?
+A.  Google
+B.  Amazon
+C.  Meta (formerly Facebook)
+D.  Microsoft
+Answer: C
+Q3. ReactJS is used only to build and render user interface components to the:
+A.  Database
+B.  Document Object Model (DOM)
+C.  Web server
+D.  Operating system
+Answer: B
+Q4. Which of the following is NOT an advantage of declarative views in ReactJS?
+A.  Developers must manually update the DOM after every change
+B.  Updates and renders the right components as data changes
+C.  Predictable code
+D.  Easy to debug
+Answer: A
+Q5. Which statement about component-based design in ReactJS is correct?
+A.  State must always be kept inside the DOM
+B.  Components cannot be combined to form complex UIs
+C.  An application can contain only one component
+D.  Components are capable of managing their own states
+Answer: D
+Q6. In ReactJS, the logic of components is written using:
+A.  Only HTML files
+B.  JavaScript instead of templates
+C.  XML templates
+D.  Only CSS files
+Answer: B
+Q7. What is Babel in the ReactJS ecosystem?
+A.  A routing library
+B.  A state management library
+C.  A module bundler
+D.  A JavaScript compiler that converts JavaScript code from one format to another
+Answer: D
+Q8. What is Webpack?
+A.  A JavaScript compiler
+B.  A testing library
+C.  A module bundler that bundles JavaScript modules and dependencies into a single file
+D.  A CSS framework
+Answer: C
+Q9. Which ecosystem component renders specific ReactJS components depending on the URL?
+A.  Webpack
+B.  Babel
+C.  Redux
+D.  Routing (ReactJS Router)
+Answer: D
+Q10. Which is described as the most popular CSS approach in the ReactJS styling ecosystem?
+A.  Flash styling
+B.  Inline HTML tables
+C.  Styled Components
+D.  XSLT
+Answer: C
+Q11. In Redux, all component state details are collated in a single location called the:
+A.  Router
+B.  Vault
+C.  Store
+D.  Context
+Answer: C
+Q12. In Redux, the states in the Store change through:
+A.  Routes
+B.  Hooks
+C.  Props
+D.  Actions
+Answer: D
+Q13. Which statement about Redux is correct?
+A.  It works only with ReactJS
+B.  It is a module bundler
+C.  It is used within ReactJS and also with other view libraries
+D.  It is a CSS pre-processor
+Answer: C
+Q14. Which feature manages the state of a component without depending on external libraries?
+A.  Context API
+B.  Webpack
+C.  Babel
+D.  Redux
+Answer: A
+Q15. Context in ReactJS provides a way to:
+A.  Style components using CSS
+B.  Bundle all JS files
+C.  Compile JSX to JavaScript
+D.  Pass data through the component tree without passing props down manually at every level
+Answer: D
+Q16. The Context API was developed by the ReactJS team to avoid dependency on:
+A.  NodeJS
+B.  HTML
+C.  External libraries such as Redux
+D.  Browsers
+Answer: C
+Q17. What is the Document Object Model (DOM)?
+A.  A structured, tree-based hierarchical representation of an HTML document created by the browser
+B.  A JavaScript compiler
+C.  A CSS file format
+D.  A server-side template
+Answer: A
+Q18. Why is it easier for scripting languages to interact with a Web page through the DOM?
+A.  Scripts can easily access and understand the structured format in the DOM
+B.  DOM stores data in a database
+C.  DOM removes the need for a browser
+D.  DOM converts JavaScript into HTML
+Answer: A
+Q19. What is the Virtual DOM?
+A.  A new HTML standard
+B.  A copy, clone, or virtual image of the DOM
+C.  A browser plug-in
+D.  A server-side database
+Answer: B
+Q20. For every object in the DOM, the Virtual DOM has:
+A.  No equivalent object
+B.  An equivalent object
+C.  Two equivalent objects
+D.  Only a CSS rule
+Answer: B
+Q21. When the state of an element changes in a ReactJS application, the change is updated first in the:
+A.  Virtual DOM
+B.  Real DOM
+C.  Server
+D.  Browser cache
+Answer: A
+Q22. How many Virtual DOM trees does ReactJS manage while updating the UI?
+A.  One
+B.  Two (the updated version and the pre-update version)
+C.  Three
+D.  Four
+Answer: B
+Q23. What is the process of comparing the pre-updated Virtual DOM with the updated Virtual DOM known as?
+A.  Compiling
+B.  Diffing
+C.  Bundling
+D.  Routing
+Answer: B
+Q24. Why does ReactJS use batch updates for the real DOM?
+A.  To update the DOM after every single change
+B.  To avoid using the Virtual DOM
+C.  To update the real DOM together instead of after every single change
+D.  To disable re-rendering
+Answer: C
+Q25. Which of the following are the core building blocks of ReactJS applications?
+A.  Tables
+B.  Components
+C.  Servers
+D.  Cookies
+Answer: B
+Q26. In technical terms, each ReactJS component returns:
+A.  A database record
+B.  A CSS file
+C.  An XML schema
+D.  A part of JSX code indicating what must be rendered on the screen
+Answer: D
+Q27. Functional components in ReactJS are:
+A.  HTML files
+B.  JavaScript functions
+C.  JavaScript ES6 classes
+D.  CSS modules
+Answer: B
+Q28. Which feature of JavaScript is used to create class-based components in ReactJS?
+A.  Closures only
+B.  Callbacks
+C.  ES6 classes
+D.  Promises
+Answer: C
+Q29. Which statement about props is correct?
+A.  Props are read-only data received by a component
+B.  Props are used to manage private data
+C.  Props can flow from child to parent only
+D.  Props data can be modified by the receiving component
+Answer: A
+Q30. Which statement about state is correct?
+A.  State is passed from parent to child
+B.  Components create and manage their own state, which is private to the component
+C.  State is read-only
+D.  Other components can freely modify a component's state
+Answer: B
+Q31. In ReactJS, data flow is:
+A.  Bidirectional
+B.  Unidirectional, from parent to child
+C.  Random
+D.  Unidirectional, from child to parent
+Answer: B
+Q32. What does JSX stand for?
+A.  JavaScript Syntax
+B.  Java Standard XML
+C.  JavaScript XML
+D.  JSON Extension
+Answer: C
+Q33. Which of the following is an advantage of JSX?
+A.  It forces markup and logic into separate files
+B.  Errors can be found during compiling
+C.  It cannot be used with Babel
+D.  It slows down processing
+Answer: B
+Q34. Which tool is used as a pre-processor to read and convert JSX into standard JavaScript?
+A.  Redux
+B.  Context API
+C.  Babel
+D.  Git
+Answer: C
+Q35. How many stages are there in the lifecycle of a ReactJS component as described in the session?
+A.  Two
+B.  Three
+C.  Four
+D.  Five
+Answer: C
+Q36. Which of the following lists the stages of the component lifecycle in order?
+A.  Initialization, Updating, Mounting, Unmounting
+B.  Updating, Mounting, Initialization, Unmounting
+C.  Initialization, Mounting, Updating, Unmounting
+D.  Mounting, Initialization, Unmounting, Updating
+Answer: C
+Q37. In which lifecycle stage is a component removed from the DOM?
+A.  Updating
+B.  Mounting
+C.  Initialization
+D.  Unmounting
+Answer: D
+Q38. The componentDidMount() method is called in which stage?
+A.  Unmounting
+B.  Updating
+C.  Mounting
+D.  Initialization
+Answer: C
+Q39. Which JavaScript runtime must be installed for a ReactJS development environment?
+A.  Rhino
+B.  Deno
+C.  NodeJS
+D.  PHP
+Answer: C
+Q40. Which IDE is installed in the session for writing ReactJS code?
+A.  Eclipse
+B.  Notepad
+C.  Visual Studio Code
+D.  NetBeans
+Answer: C
+Q41. Which command installs the create-react-app library globally?
+A.  npx create-react-app
+B.  npm i -g create-react-app
+C.  npm run build
+D.  npm start
+Answer: B
+Q42. Which version of the Node.js installer is downloaded in the session?
+A.  20.1.0
+B.  16.5.0
+C.  18.14.2
+D.  12.0.1
+Answer: C
+Q43. Which version of ReactJS is used in the session?
+A.  17.0.2
+B.  19.0
+C.  18.2.0
+D.  16.8
+Answer: C
+Q44. Which command is used in the integrated terminal to create a new ReactJS app?
+A.  react new app
+B.  node create-react-app
+C.  npm install react-app
+D.  npx create-react-app
+Answer: D
+Q45. In the sample app creation, which command starts the development server after moving into the app folder?
+A.  npm start
+B.  npm stop
+C.  npm build-app
+D.  npm init
+Answer: A
+Q46. How can a running ReactJS application be stopped from the terminal?
+A.  Press Ctrl+S
+B.  Run npm delete
+C.  Press Ctrl+C
+D.  Close the browser tab
+Answer: C
+Q47. According to the default ReactJS welcome page, which file should be edited to change the app?
+A.  package.json
+B.  index.html
+C.  src/App.js
+D.  public/manifest.json
+Answer: C
+Q48. In the NodeJS installation, the option "Automatically install the necessary tools" is:
+A.  Not available
+B.  Mandatory
+C.  Required only for Mac
+D.  Optional
+Answer: D
+Q49. Which is an advantage of using an IDE like Visual Studio Code for ReactJS?
+A.  It hosts the application on the internet
+B.  It replaces the need for NodeJS
+C.  It reduces development time and auto-generates base code such as component definitions
+D.  It compiles JSX without Babel
+Answer: C
+Q50. Why is the Virtual DOM faster to work with than the real DOM?
+A.  Because it does not use JavaScript
+B.  Because it avoids all rendering
+C.  Because it is stored on the server
+D.  Because only the updated part is rendered on the Web page after comparing versions
+Answer: D
+Q51. Single-page and mobile applications and server-rendered applications (with frameworks like Next.js) can be developed with:
+A.  Babel only
+B.  ReactJS
+C.  Redux only
+D.  Webpack only
+Answer: B
+Q52. Which of the following is true about traditional styling in the ReactJS ecosystem?
+A.  It requires Redux
+B.  It encapsulates styling within components
+C.  It cannot use classes
+D.  It includes styling details in the index.css file and can use SASS or CSS pre-processors
+Answer: D
+Session 2: ReactJS Components
+Q1. Which concept did the ReactJS team introduce by extending the idea of reusing logic through functions to reusing views (HTML + CSS)?
+A.  Reducers
+B.  Stylesheets
+C.  Components
+D.  Routers
+Answer: C
+Q2. In the session's analogy, components are compared to:
+A.  Train coaches
+B.  Pages of a book
+C.  Bricks of a wall
+D.  Lego blocks
+Answer: D
+Q3. How many types of components does ReactJS have as per the session?
+A.  One
+B.  Two
+C.  Three
+D.  Four
+Answer: B
+Q4. Which are the two types of components in ReactJS?
+A.  Parent and Child components
+B.  Static and Dynamic components
+C.  Pure and Impure components
+D.  Functional and Class components
+Answer: D
+Q5. Which is one of the two conditions for a normal function to be treated as a functional component?
+A.  Its name must start with a capital letter
+B.  Its name must be all in lowercase
+C.  It must not return anything
+D.  It must use the class keyword
+Answer: A
+Q6. What must a functional component return?
+A.  A CSS object only
+B.  A number
+C.  A JavaScript XML (JSX) element
+D.  A database cursor
+Answer: C
+Q7. Which of the following is a valid functional component name?
+A.  Welcome
+B.  welcome
+C.  welcomeComponent
+D.  _welcome_
+Answer: A
+Q8. Which is the correct way to use a component named Welcome inside the App component?
+A.  {Welcome}
+B.  <welcome />
+C.  Welcome()
+D.  <Welcome />
+Answer: D
+Q9. Which of the following is a correct way to call a component named Hello?
+A.  <Hello />
+B.  <Hello></Hello>
+C.  Both <Hello /> and <Hello></Hello>
+D.  Only Hello()
+Answer: C
+Q10. What is the main benefit of rendering <Welcome /> three times in App?
+A.  It demonstrates component reusability
+B.  It creates three separate apps
+C.  It increases the bundle size only
+D.  It converts class components to functions
+Answer: A
+Q11. Which class must a class component extend in ReactJS?
+A.  React.Component
+B.  React.Class
+C.  React.Function
+D.  React.Element
+Answer: A
+Q12. Which special method of a class component displays the view on the screen?
+A.  print()
+B.  show()
+C.  render()
+D.  display()
+Answer: C
+Q13. Which statement about class components is correct?
+A.  They cannot return JSX
+B.  They are written as plain functions
+C.  They are not supported in ReactJS
+D.  They serve the same purpose as functional components
+Answer: D
+Q14. In which ReactJS version were functional components (with hooks) introduced, shifting the ecosystem from class to function?
+A.  16.8
+B.  18.2
+C.  17.0
+D.  15.0
+Answer: A
+Q15. Which event accelerated the movement of the ReactJS ecosystem from class to functional components?
+A.  Introduction of hooks
+B.  Introduction of Webpack
+C.  Removal of JSX
+D.  Introduction of Redux
+Answer: A
+Q16. Which of the following is a drawback of class components?
+A.  They cannot manage state
+B.  Larger boilerplate code
+C.  They cannot be reused
+D.  They cannot be rendered
+Answer: B
+Q17. Which JavaScript concept typically requires in-depth mastery when using class components?
+A.  The void keyword
+B.  The this keyword
+C.  The var keyword
+D.  The typeof keyword
+Answer: B
+Q18. According to the session, how much less code can the functional version need compared to the equivalent class component?
+A.  About 80%
+B.  About 40%
+C.  About 10%
+D.  About 20%
+Answer: B
+Q19. Which of the following is NOT an advantage of functional components?
+A.  Concise syntax
+B.  Easy to develop
+C.  Lots of boilerplate code
+D.  No need for in-depth knowledge of concepts like this
+Answer: C
+Q20. Currently, in companies, which type of component is generally used?
+A.  Only class components
+B.  Only higher-order components
+C.  Only functional components
+D.  Only HTML files
+Answer: C
+Q21. In ReactJS, data flows:
+A.  Only from parent to child
+B.  In both directions automatically
+C.  Only from child to parent
+D.  Randomly between siblings
+Answer: A
+Q22. The data passed from a parent component to a child component is called:
+A.  Styles
+B.  Hooks
+C.  Props or properties
+D.  Routes
+Answer: C
+Q23. Props data flow is bidirectional. This statement is:
+A.  True
+B.  False
+C.  True only for class components
+D.  True only in production
+Answer: B
+Q24. Which of the following correctly receives props in a functional component?
+A.  function Welcome(props) { ... }
+B.  function Welcome<props> { ... }
+C.  function Welcome: props { ... }
+D.  function Welcome[props] { ... }
+Answer: A
+Q25. Given function Welcome(props) { return <h1>Hello, {props.name}</h1>; }, how is name passed from the parent?
+A.  <Welcome name="Neo" />
+B.  <Welcome (name="Neo") />
+C.  <Welcome props="Neo" />
+D.  <Welcome.name="Neo" />
+Answer: A
+Q26. What is the ES6 feature used to shorten props access as function Welcome({ name })?
+A.  Hoisting
+B.  Destructuring
+C.  Spreading
+D.  Currying
+Answer: B
+Q27. In function Welcome({ name }), what does { name } do?
+A.  Defines a CSS class
+B.  Creates a new state variable
+C.  Extracts the name key out of the props object
+D.  Imports the name module
+Answer: C
+Q28. Which statement about passing data from child to parent is correct as per the session?
+A.  There is no direct way; hooks are a workaround
+B.  It is done with CSS
+C.  There is a direct built-in way using props
+D.  It is done automatically by the Virtual DOM
+Answer: A
+Q29. Passing data from child to parent is especially useful when:
+A.  The app must be compiled
+B.  The parent must be styled
+C.  The parent must be informed about changes in the child component
+D.  The child must be deleted
+Answer: C
+Q30. What does HOC stand for in ReactJS?
+A.  Hyper Object Component
+B.  Higher-Order Component
+C.  Hooked Output Component
+D.  Hidden Origin Class
+Answer: B
+Q31. What do Higher-Order Components (HOC) do?
+A.  Compile JSX
+B.  Wrap components to make it easier to pass logic to them
+C.  Replace the Virtual DOM
+D.  Remove props from components
+Answer: B
+Q32. A HOC acts like a:
+A.  Browser plug-in
+B.  Router
+C.  Template component for building new components
+D.  Database
+Answer: C
+Q33. HOCs are especially useful in:
+A.  Installing NodeJS
+B.  Theming and customizing a component
+C.  Creating servers
+D.  Setting up the IDE
+Answer: B
+Q34. In the session's example, which function is the HOC?
+A.  App
+B.  StyledText
+C.  withStyles
+D.  Text
+Answer: C
+Q35. In the session's example, what is StyledText?
+A.  A new component created by wrapping the existing Text component using withStyles
+B.  A Redux store
+C.  A class component that extends Text
+D.  A CSS file
+Answer: A
+Q36. Which statement about the HOC example output is correct?
+A.  <Text /> contains its own style, while <StyledText /> contains the HOC style
+B.  Both components always have identical style
+C.  <Text /> has no style at all
+D.  <StyledText /> removes the Text component
+Answer: A
+Q37. What does a HOC such as withStyles(Component) return?
+A.  A string
+B.  A new component
+C.  A route
+D.  A CSS file
+Answer: B
+Q38. Which of the following correctly describes the relationship between a component and the final UI?
+A.  Components cannot be nested
+B.  Components cannot be reused
+C.  The UI must be a single component
+D.  Each part of the UI can be a combination of multiple components bundled together
+Answer: D
+Q39. Which type of component was ReactJS originally based on?
+A.  Class components
+B.  HOC only
+C.  Functional components
+D.  Style components
+Answer: A
+Q40. What is the base class that serves for creating a class component called?
+A.  React.Root
+B.  React.Main
+C.  React.Base
+D.  React.Component
+Answer: D
+Q41. In the session, component reusability is shown by:
+A.  Using HOC only
+B.  Copying the same code multiple times
+C.  Writing three class components
+D.  Calling the same Welcome component multiple times in App
+Answer: D
+Q42. Where is the component file in the session's examples written?
+A.  index.html
+B.  App.js
+C.  robots.txt
+D.  package.json
+Answer: B
+Q43. A component name beginning with a lowercase letter will be treated by React as:
+A.  A HOC
+B.  A functional component
+C.  A class component
+D.  An HTML tag
+Answer: D
+Q44. Which keyword is used to export a component so it can be imported elsewhere?
+A.  send
+B.  export
+C.  expose
+D.  extern
+Answer: B
+Q45. Which is the correct way to nest the Welcome component inside App's JSX return?
+A.  return Welcome.render;
+B.  return [Welcome]
+C.  return div(Welcome);
+D.  return <div><Welcome /></div>;
+Answer: D
+Q46. Which of the following describes "props" best?
+A.  Read-only data passed from parent to child
+B.  A lifecycle method
+C.  Private data a component creates and manages
+D.  A CSS rule
+Answer: A
+Q47. In which direction does a function passed as a prop allow communication?
+A.  From sibling to sibling directly
+B.  From browser to server
+C.  From CSS to JS
+D.  From child to parent by calling the parent's function
+Answer: D
+Q48. Which is the primary drawback listed for class components that led to lesser usage?
+A.  Larger boilerplate code and need to master this
+B.  They cannot be imported
+C.  They run slower on servers
+D.  They do not support JSX
+Answer: A
+Session 3: JSX Elements
+Q1. What is JSX?
+A.  A database query language
+B.  A browser built-in language
+C.  A syntax extension for JavaScript that lets you write HTML-like markup within a JavaScript file
+D.  A CSS framework
+Answer: C
+Q2. Which statement about browsers and JSX is correct?
+A.  Browsers require JSX only for CSS
+B.  Browsers convert JSX into CSS
+C.  Browsers do not understand JSX, so it is converted into JavaScript
+D.  Browsers natively understand JSX
+Answer: C
+Q3. Which tools convert JSX into JavaScript that the browser can understand?
+A.  Redux and Context
+B.  npm and npx only
+C.  Git and GitHub
+D.  Webpack and Babel
+Answer: D
+Q4. In the early days of Web development, how were content, design, and logic kept?
+A.  Content in HTML, design in CSS, and logic in JavaScript, usually in separate files
+B.  All in one file
+C.  All in the database
+D.  All inside CSS
+Answer: A
+Q5. In ReactJS, where do rendering logic and markup live?
+A.  In separate files
+B.  In the same place - components
+C.  In the browser cache
+D.  In the database
+Answer: B
+Q6. What is the benefit of keeping a button's rendering logic and markup together?
+A.  They stay in sync with each other on every edit
+B.  They are stored on the server
+C.  They become slower
+D.  They cannot be reused
+Answer: A
+Q7. Why is it safe to change the code of unrelated components, such as the sidebar and a button, independently?
+A.  Because JSX ignores logic
+B.  Because components share the same variables
+C.  Because ReactJS deletes unused code
+D.  Because each component's markup is isolated from the others
+Answer: D
+Q8. JSX looks much like HTML but is:
+A.  Written only in CSS
+B.  Identical to HTML
+C.  A bit stricter and can display dynamic information
+D.  Less strict and cannot display dynamic information
+Answer: C
+Q9. How many rules must JSX follow, as discussed in the session?
+A.  Two
+B.  Three
+C.  Four
+D.  Five
+Answer: B
+Q10. Which of the following is NOT one of the three JSX rules?
+A.  Close all tags
+B.  Return a single root element
+C.  Always use lowercase component names
+D.  Use camelCase for most attributes
+Answer: C
+Q11. Which rule applies to returning multiple elements from a component?
+A.  Multiple elements can be returned directly without any wrapper
+B.  Only two elements can be returned
+C.  Multiple elements must be wrapped within a single parent tag
+D.  Multiple elements must be separated by commas
+Answer: C
+Q12. Which of the following can be used to wrap multiple JSX elements without adding an extra DOM node?
+A.  <group />
+B.  <wrap></wrap>
+C.  <root></root>
+D.  <></> (Fragment)
+Answer: D
+Q13. Which of the following is a valid wrapper for multiple elements in JSX?
+A.  <div></div>
+B.  <></>
+C.  Both <div></div> and <></>
+D.  Neither
+Answer: C
+Q14. In JSX, a self-closing tag such as <img> must be written as:
+A.  <img></
+B.  <img>
+C.  </img>
+D.  <img/>
+Answer: D
+Q15. In JSX, <li>Badminton must be written as:
+A.  <li>Badminton</li>
+B.  <li/>Badminton
+C.  li>Badminton
+D.  <li>Badminton
+Answer: A
+Q16. Why does Code Snippet 4 (copied HTML with unclosed <li> tags and multiple root elements) not work in JSX?
+A.  Because JSX does not support lists
+B.  Because lists are not allowed in React
+C.  Because of CSS errors
+D.  Because JSX is stricter than HTML and has rules that must be followed
+Answer: D
+Q17. In JSX, the HTML class attribute is written as:
+A.  class
+B.  klass
+C.  cssClass
+D.  className
+Answer: D
+Q18. Why can the word "class" not be used as an attribute name in JSX?
+A.  It is deprecated in CSS
+B.  It is used only in Redux
+C.  It is not valid HTML
+D.  It is a reserved word in JavaScript
+Answer: D
+Q19. Which SVG attribute is correctly written in JSX?
+A.  stroke-width
+B.  Stroke-Width
+C.  strokeWidth
+D.  stroke_width
+Answer: C
+Q20. Which of the following attributes keeps its dashes in JSX?
+A.  font-size
+B.  stroke-width
+C.  aria-* and data-*
+D.  background-color
+Answer: C
+Q21. Why are attributes written in camelCase in JSX?
+A.  Because of the browser
+B.  Because CSS requires camelCase
+C.  Because JSX turns into JavaScript and attributes become keys of JavaScript objects, which have naming limitations
+D.  Because HTML requires camelCase
+Answer: C
+Q22. Which of the following is the correct JSX attribute for the CSS class "user-name"?
+A.  css="user-name"
+B.  className="user-name"
+C.  classname="user-name"
+D.  class="user-name"
+Answer: B
+Q23. Which symbols open a window to JavaScript inside JSX markup?
+A.  ( )
+B.  < >
+C.  [ ]
+D.  { }
+Answer: D
+Q24. Curly braces {} in JSX are also known as:
+A.  Route syntax
+B.  Fragment syntax
+C.  Style syntax
+D.  Template syntax
+Answer: D
+Q25. In const name = "Mark"; <span>{name}</span>, what is displayed?
+A.  {name}
+B.  Mark
+C.  name
+D.  undefined
+Answer: B
+Q26. How should a string attribute be passed to JSX?
+A.  Within curly braces only
+B.  Within angle brackets
+C.  Within single or double quotes
+D.  Within square brackets
+Answer: C
+Q27. If an attribute like src needs a value taken dynamically from a JavaScript variable, how is it written?
+A.  src=[pic]
+B.  src="pic"
+C.  src=(pic)
+D.  src={pic}
+Answer: D
+Q28. What is the output of <img src={pic} alt={name} /> where pic and name are JavaScript variables?
+A.  It uses the variable values for src and alt
+B.  It hides the image
+C.  It prints the words pic and name
+D.  It throws a syntax error
+Answer: A
+Q29. Which JavaScript array method is used to transform an array of strings into an array of components?
+A.  map()
+B.  pop()
+C.  push()
+D.  forEach()
+Answer: A
+Q30. Why is map() used in JSX to display a list of components?
+A.  It deletes the array
+B.  It converts an array of data into an array of JSX elements
+C.  It only logs data
+D.  It sorts the array
+Answer: B
+Q31. In {names.map((nm) => <Welcome name={nm} />)}, what is nm?
+A.  A component name
+B.  The array itself
+C.  A CSS class
+D.  The current item of the array passed as a prop to Welcome
+Answer: D
+Q32. In {names.map(...)}, why are the outer curly braces required?
+A.  To evaluate the JavaScript expression inside JSX
+B.  To close the tag
+C.  To import the module
+D.  To define a class
+Answer: A
+Q33. Which statement about {users.map((usr) => <User name={usr.name} pic={usr.pic} />)} is correct?
+A.  It converts an array of objects into an array of User components
+B.  It sorts users alphabetically
+C.  It deletes users
+D.  It creates a single User component
+Answer: A
+Q34. Which JSX code correctly defines a component taking name and pic as destructured props?
+A.  function User(<name>, <pic>) { ... }
+B.  function User(name, pic) { ... }
+C.  function User({ name, pic }) { ... }
+D.  function User[name, pic] { ... }
+Answer: C
+Q35. Which file is used in the session to hold the CSS code for the examples?
+A.  App.css
+B.  style.xml
+C.  index.html
+D.  package.json
+Answer: A
+Q36. Which CSS property is used to make an image a perfect circle together with equal height and width?
+A.  border-radius: 50%
+B.  border: none
+C.  display: block
+D.  opacity: 0
+Answer: A
+Q37. Which CSS property is used so that an image is zoomed in and not stretched?
+A.  text-align
+B.  overflow
+C.  object-fit: cover
+D.  object-fit: fill
+Answer: C
+Q38. Which CSS property keeps height and width the same for an image?
+A.  z-index
+B.  aspect-ratio: 1/1
+C.  float
+D.  line-height
+Answer: B
+Q39. HTML is described as a "forgiving language" because:
+A.  Closing <li> tags are optional
+B.  It reports every error
+C.  It requires camelCase
+D.  It does not allow lists
+Answer: A
+Q40. In the session, which component takes name and pic as props so both values can be displayed?
+A.  Router
+B.  Webpack
+C.  Store
+D.  User
+Answer: D
+Q41. What does the summary say about JSX?
+A.  It is a state manager
+B.  It is a CSS preprocessor
+C.  It separates logic and view into different files
+D.  It is used to keep related logic and view in one place
+Answer: D
+Q42. Which of the following correctly describes the correct return of multiple elements in a component?
+A.  return <h1>A</h1><h2>B</h2>;
+B.  return <h1>A</h1> + <h2>B</h2>;
+C.  return (<div>...</div>);
+D.  return <h1>A</h1>, <h2>B</h2>;
+Answer: C
+Q43. Which of the following causes an error in JSX?
+A.  Using self-closing tags such as <img />
+B.  Using className
+C.  Returning multiple elements without a wrapper
+D.  Closing all tags
+Answer: C
+Q44. JSX can return multiple elements without any wrapper. This statement is:
+A.  True
+B.  False
+C.  True only with map()
+D.  True only in class components
+Answer: B
+Q45. Template syntax supports expressions. This statement is:
+A.  True
+B.  False
+C.  True only for strings
+D.  True only in CSS
+Answer: A
+Q46. Which of the following is the correct JSX way to render an <h2> that includes a styled span containing a name variable?
+A.  <h2>Hello, <span class="user-first-name">name</span></h2>
+B.  <h2>Hello, <span className="user-first-name">{name}</span></h2>
+C.  <h2>Hello, <span>[name]</span></h2>
+D.  <h2>Hello, <span>(name)</span></h2>
+Answer: B
+Q47. Which of the following correctly describes nesting JSX elements as used in this session?
+A.  Importing HTML files
+B.  Using map() to produce multiple components from a collection of data
+C.  Writing components inside CSS
+D.  Using only static HTML
+Answer: B
+Session 4: Event Handling in ReactJS
+Q1. What does event handling in ReactJS make an application?
+A.  Interactive
+B.  Slower
+C.  Server-only
+D.  Static
+Answer: A
+Q2. Through which of the following can users interact with a React app?
+A.  Mouse events, keyboard events, touch events, and filling forms
+B.  Only keyboard events
+C.  Only mouse events
+D.  Only server events
+Answer: A
+Q3. In <button onClick={() => console.log("Clicked")}>Click me</button>, what is the arrow function called?
+A.  Callback function
+B.  Route
+C.  Event handler
+D.  Hook
+Answer: A
+Q4. In the same example, what is onClick?
+A.  Callback function
+B.  State variable
+C.  Router
+D.  Event handler
+Answer: D
+Q5. What happens when the user clicks the "Click me" button in the example?
+A.  The Virtual DOM is deleted
+B.  The callback function is executed
+C.  The page is refreshed
+D.  The app is closed
+Answer: B
+Q6. Which naming convention must all ReactJS event handlers follow?
+A.  UPPERCASE
+B.  CamelCase
+C.  lowercase
+D.  snake_case
+Answer: B
+Q7. Which of the following is a valid ReactJS event handler name?
+A.  onclick
+B.  ONCLICK
+C.  onClick
+D.  on-click
+Answer: C
+Q8. Which type of function is recommended for a small callback in an event handler?
+A.  Generator function
+B.  Normal function
+C.  Constructor function
+D.  Inline arrow function
+Answer: D
+Q9. If the callback function becomes large, what is recommended?
+A.  Delete it
+B.  Keep it inline
+C.  Convert it to CSS
+D.  Extract it into a separate named function
+Answer: D
+Q10. In <button onClick={onUserClick}>, why are there no parentheses after onUserClick?
+A.  It converts the function to a string
+B.  It calls the function immediately on render
+C.  The function is passed as a reference and called when the click occurs
+D.  It is a syntax error
+Answer: C
+Q11. Hooks in ReactJS are functions that start with the word:
+A.  use
+B.  hook
+C.  set
+D.  get
+Answer: A
+Q12. Which of the following is a ReactJS hook?
+A.  renderState
+B.  useState
+C.  getState
+D.  setProps
+Answer: B
+Q13. Which statement about ReactJS and hooks is correct?
+A.  Hooks are only for class components
+B.  ReactJS listens to changes made by hooks
+C.  ReactJS ignores hooks
+D.  ReactJS listens to all variables declared in a component
+Answer: B
+Q14. Which hook is required to update a value on the screen?
+A.  useNavigate
+B.  useParams
+C.  useEffect
+D.  useState
+Answer: D
+Q15. What is the correct syntax of the useState hook?
+A.  const {state, setState} = useState[InitialValue]
+B.  const state = useState.set(InitialValue)
+C.  const [state, setState] = useState(InitialValue)
+D.  useState(state, setState)
+Answer: C
+Q16. Where must useState be imported from?
+A.  "react-dom"
+B.  "react-router-dom"
+C.  "react"
+D.  "formik"
+Answer: C
+Q17. What does "state" refer to?
+A.  A package name
+B.  A route path
+C.  A CSS rule
+D.  The current data that a variable holds
+Answer: D
+Q18. In the like counter example using let like = 10 and like++, why does the screen not update?
+A.  The console blocks updates
+B.  The button is disabled
+C.  ReactJS does not listen to all variables declared in a component, only variables declared through hooks
+D.  The CSS is wrong
+Answer: C
+Q19. Why does ReactJS listen only to hook variables?
+A.  Listening to every variable would slow the app greatly when many variables are declared
+B.  To save memory on the server
+C.  Because hooks are faster than CSS
+D.  Because JavaScript does not support variables
+Answer: A
+Q20. In const [like, setLike] = useState(0), what does setLike do?
+A.  Notifies ReactJS that the like value must be updated and the view re-rendered
+B.  Deletes like
+C.  Declares a CSS style
+D.  Prints like in the console
+Answer: A
+Q21. What does re-render refer to?
+A.  Restarting the server
+B.  Reinstalling NodeJS
+C.  Deleting the browser cache
+D.  Re-creation of the elements on the screen
+Answer: D
+Q22. Which event handler is used to listen to typing events in an input field?
+A.  onTouchStart
+B.  onClick
+C.  onChange
+D.  onSubmit
+Answer: C
+Q23. Where is the typed value available inside the onChange callback?
+A.  event.target.value
+B.  event.value.target
+C.  event.input
+D.  event.type.value
+Answer: A
+Q24. In <input onChange={(event) => setColor(event.target.value)} />, what does event.target.value hold?
+A.  The value typed by the user
+B.  The component name
+C.  The name of the input
+D.  The CSS class
+Answer: A
+Q25. In the color box example, why is the style provided inline?
+A.  Because it is faster
+B.  Because it has to react to the user interaction
+C.  Because external CSS is not supported
+D.  Because JSX forbids CSS files
+Answer: B
+Q26. In the color box example, which state variable is provided to the background key of the styles object?
+A.  pos
+B.  color
+C.  email
+D.  like
+Answer: B
+Q27. Which event handler is attached to a form to handle form submission?
+A.  onChange
+B.  onTouchStart
+C.  onSubmit
+D.  onBlur
+Answer: C
+Q28. In the login form, why is the value attribute of the input set to the state variable?
+A.  To disable the input
+B.  To hide the input
+C.  To display the state value on the screen
+D.  To route the page
+Answer: C
+Q29. When a form's Submit button is clicked without any handling, what happens in the browser?
+A.  The app is deleted
+B.  The browser refreshes
+C.  The CSS is reloaded
+D.  The server stops
+Answer: B
+Q30. Which method avoids the browser refresh on form submission?
+A.  event.stopPropagation()
+B.  event.reload()
+C.  event.preventDefault()
+D.  event.refresh()
+Answer: C
+Q31. In the session's LoginForm, where is onSubmit attached?
+A.  To the body
+B.  To the h1 element
+C.  To the input element
+D.  To the form element
+Answer: D
+Q32. Which state variables are used in the login form example?
+A.  color and pos
+B.  email and password
+C.  like and dislike
+D.  time and show
+Answer: B
+Q33. Which event handler is used to track when the user touches the screen?
+A.  onSubmit
+B.  onTouchStart
+C.  onClick
+D.  onChange
+Answer: B
+Q34. In the PaintDot example, which properties of the touch event give the X and Y coordinates?
+A.  topLeft
+B.  pageX and pageY
+C.  eventX and eventY
+D.  clientZ
+Answer: B
+Q35. Why is event.touches[0] used in the touch example?
+A.  Multiple fingers can be used but tracking here is for only one finger
+B.  It is used to stop refresh
+C.  It is the first element of the DOM
+D.  It is a CSS selector
+Answer: A
+Q36. Which property of a styled element is updated with pos.pageX and pos.pageY to move the dot?
+A.  border and margin
+B.  left and top
+C.  color and size
+D.  font and weight
+Answer: B
+Q37. Which of the following is a mouse event handler in the session's examples?
+A.  onClick
+B.  onChange
+C.  onSubmit
+D.  onTouchStart
+Answer: A
+Q38. Which is a keyboard/typing related handler in the session?
+A.  onLoad
+B.  onTouchStart
+C.  onChange
+D.  onSubmit
+Answer: C
+Q39. Which of the following is a form event handler in the session?
+A.  onSubmit
+B.  onMouseOver
+C.  onKeyboard
+D.  onTouchStart
+Answer: A
+Q40. Which of the following is an event handler for touch interactions?
+A.  onSubmit
+B.  onClick
+C.  onTouchStart
+D.  onChange
+Answer: C
+Q41. As props flow only from parent to child, how can the child inform the parent?
+A.  By editing the DOM
+B.  By using CSS
+C.  By calling a function passed from the parent as a prop
+D.  By changing the parent's state directly
+Answer: C
+Q42. In the Game example, which function is passed to the StartGame component as onPlayerClick?
+A.  preventDefault
+B.  setCount
+C.  startGame
+D.  useState
+Answer: C
+Q43. What happens when the Start button in the Game example is clicked?
+A.  The count is updated and "Game started" is printed on the console
+B.  The component is deleted
+C.  The page is refreshed
+D.  The browser closes
+Answer: A
+Q44. Which of the following can be passed as props?
+A.  Only strings
+B.  Nothing
+C.  Functions
+D.  Only numbers
+Answer: C
+Q45. Is onClick a valid ReactJS event handler?
+A.  True
+B.  False
+C.  Only in class components
+D.  Only in HTML
+Answer: A
+Q46. Functions can be passed as props. This statement is:
+A.  True
+B.  False
+C.  True only for arrow functions
+D.  False in production
+Answer: A
+Q47. Which is a recommended callback function style for events?
+A.  Class function
+B.  Normal function
+C.  ClickMe function
+D.  Arrow function
+Answer: D
+Q48. Which statement about useState variables is correct?
+A.  They replace all props
+B.  They are declared to update the view
+C.  They cannot be updated
+D.  They are only for CSS
+Answer: B
+Q49. What does the summary say about event handlers?
+A.  They are attached to elements to add interactivity to the app
+B.  They are routes
+C.  They are databases
+D.  They are CSS rules
+Answer: A
+Q50. Which of the following can the YouTube like and dislike buttons be an example of?
+A.  Static content
+B.  Routing only
+C.  Interactivity via event handlers
+D.  Server-side rendering
+Answer: C
+Q51. Which of the following correctly writes an onChange handler that updates the email state?
+A.  onChange={setEmail()}
+B.  onChange=setEmail
+C.  onChange={event.email}
+D.  onChange={(event) => setEmail(event.target.value)}
+Answer: D
+Session 5: ReactJS Router
+Q1. What does MPA stand for?
+A.  Main Page Application
+B.  Multi-Process Application
+C.  Multi-Page Application
+D.  Managed Page Architecture
+Answer: C
+Q2. In an MPA, what happens when a user submits a form?
+A.  Only a part of the page is replaced
+B.  The server responds with a new HTML file and the browser renders the page from scratch
+C.  No request is sent
+D.  The response is always JSON and no refresh occurs
+Answer: B
+Q3. In an SPA, what does the server respond with for the initial request?
+A.  Only a JSON file
+B.  Multiple HTML files
+C.  Only a CSS file
+D.  An index.html and a JavaScript file
+Answer: D
+Q4. In an SPA, in which format does the response usually come when a form is submitted?
+A.  Plain HTML page
+B.  JSON
+C.  XML
+D.  PDF
+Answer: B
+Q5. In an SPA, what is replaced when new data arrives?
+A.  The server
+B.  The browser
+C.  The entire page
+D.  Only the parts of the page that require change
+Answer: D
+Q6. Which of the following is an advantage of SPA?
+A.  No full-page refresh
+B.  Always faster initial load
+C.  No need for JavaScript
+D.  Simple SEO
+Answer: A
+Q7. Which of the following is an advantage of SPA related to the Internet connection?
+A.  Needs no browser
+B.  Offline functioning with previously visited pages
+C.  Requires constant connectivity
+D.  Works only offline
+Answer: B
+Q8. Why do SPAs save bandwidth?
+A.  They use only HTML
+B.  Only the parts that need to change are requested
+C.  They disable images
+D.  They download the entire site each time
+Answer: B
+Q9. Which of the following is a drawback of SPA?
+A.  Complex development
+B.  Full page reload on each click
+C.  No JavaScript support
+D.  Cannot be bookmarked
+Answer: A
+Q10. Why does an SPA need additional Search Engine Optimization (SEO) care?
+A.  Search engine crawlers must execute JavaScript to index the app
+B.  SPAs have no URLs
+C.  SPAs do not use HTML
+D.  SPAs are blocked by browsers
+Answer: A
+Q11. Why can an SPA have a slow initial load?
+A.  It downloads more resources when loading for the first time
+B.  It uses only images
+C.  It requires a database
+D.  It does not use JavaScript
+Answer: A
+Q12. If client-side JavaScript is disabled in the browser, an SPA will:
+A.  Work normally
+B.  Work only partly with CSS
+C.  Not work
+D.  Switch to MPA automatically
+Answer: C
+Q13. Which package is used to implement routing in ReactJS?
+A.  react-scripts
+B.  react-router-dom
+C.  react-redux
+D.  react-native
+Answer: B
+Q14. Routing in an SPA refers to:
+A.  Compiling the JSX
+B.  Installing Node
+C.  Changing the page in the SPA
+D.  Fetching images
+Answer: C
+Q15. Which of the following is NOT an advantage of routing?
+A.  The app looks organized
+B.  Pages can be protected behind a login form
+C.  Users can bookmark pages
+D.  It removes the need for components
+Answer: D
+Q16. Which command installs the React Router used in the session?
+A.  npm start router
+B.  npm install react-routing
+C.  npm install react-router-dom@6
+D.  npx router-install
+Answer: C
+Q17. Which of the following is a basic component of the ReactJS Router?
+A.  Link
+B.  Store
+C.  Webpack
+D.  Reducer
+Answer: A
+Q18. How many types of routers are in react-router-dom as discussed?
+A.  One
+B.  Two
+C.  Three
+D.  Four
+Answer: B
+Q19. Which are the two types of routers in react-router-dom?
+A.  StaticRouter and DynamicRouter
+B.  LinkRouter and PathRouter
+C.  BrowserRouter and HashRouter
+D.  MainRouter and SubRouter
+Answer: C
+Q20. Which router is used with newer browsers?
+A.  NativeRouter
+B.  HashRouter
+C.  BrowserRouter
+D.  MemoryRouter
+Answer: C
+Q21. Which router is used with older browsers like Internet Explorer?
+A.  HashRouter
+B.  BrowserRouter
+C.  Both are identical
+D.  None
+Answer: A
+Q22. Where is BrowserRouter wrapped around the App component in the session?
+A.  App.css
+B.  index.js
+C.  package.json
+D.  UserList.js
+Answer: B
+Q23. Routing starts functioning only after:
+A.  BrowserRouter is imported and wrapped around the App component
+B.  The server restarts
+C.  Redux is installed
+D.  The CSS is loaded
+Answer: A
+Q24. Which component matches the URL with a given component?
+A.  useParams
+B.  Route
+C.  Link
+D.  Navigate
+Answer: B
+Q25. In <Route path="/" element={<Home />} />, path="/" indicates:
+A.  The users page
+B.  A redirect
+C.  A 404 page
+D.  The home page
+Answer: D
+Q26. In the session's routing, which component is displayed when the URL is /users?
+A.  UserList
+B.  Home
+C.  UserDetail
+D.  NotFound
+Answer: A
+Q27. Which component should wrap multiple Route components in React Router v6?
+A.  Switch
+B.  Div
+C.  Router
+D.  Routes
+Answer: D
+Q28. Why was the Link component introduced?
+A.  To load fonts
+B.  To create state
+C.  To style pages
+D.  Users cannot remember all URLs, and Link allows navigation through mouse click
+Answer: D
+Q29. Which of the following correctly creates a link to the users page?
+A.  <Link path="/users">Users</Link>
+B.  <Link to="/users">Users</Link>
+C.  <Link url="/users">Users</Link>
+D.  <Link href="/users">Users</Link>
+Answer: B
+Q30. Which prop of the Link component specifies the destination?
+A.  to
+B.  url
+C.  src
+D.  href
+Answer: A
+Q31. What is the effect of using the Link component compared with the anchor tag <a>?
+A.  Link causes no page refresh while anchor causes a refresh
+B.  Both cause a refresh
+C.  Link causes a refresh and anchor does not
+D.  Neither works
+Answer: A
+Q32. Anchor tag will not cause refresh. This statement is:
+A.  True
+B.  False
+C.  True only in production
+D.  True only with HashRouter
+Answer: B
+Q33. Which hook changes the URL programmatically?
+A.  useNavigate
+B.  useEffect
+C.  useState
+D.  useParams
+Answer: A
+Q34. Which is a good use of useNavigate?
+A.  Navigating to a success or retry page automatically after payment
+B.  Extracting the id from the URL
+C.  Styling a component
+D.  Declaring state
+Answer: A
+Q35. Which hook extracts the parameter from the URL?
+A.  useState
+B.  useEffect
+C.  useParams
+D.  useNavigate
+Answer: C
+Q36. useParams is typically used to get what in an e-commerce product details page?
+A.  The Node version
+B.  The component name
+C.  The id of the product
+D.  The CSS class
+Answer: C
+Q37. Which route path is used to match a dynamic user id?
+A.  /users/<id>
+B.  /users/{id}
+C.  /users/id
+D.  /users/:id
+Answer: D
+Q38. In path="/users/:id", what does ":" indicate?
+A.  A CSS class
+B.  A port number
+C.  The id is a variable
+D.  A comment
+Answer: C
+Q39. What does the useParams() hook return?
+A.  A boolean
+B.  A string
+C.  An object
+D.  A number
+Answer: C
+Q40. In const { id } = useParams(), what technique is used?
+A.  Hoisting
+B.  Currying
+C.  Destructuring
+D.  Spreading
+Answer: C
+Q41. When the user visits /users/0, which user details are displayed in the session?
+A.  The first user
+B.  The second user
+C.  The last user
+D.  None
+Answer: A
+Q42. How does the User card navigate to the details page on click?
+A.  useParams(id)
+B.  navigate(`/users/${id}`)
+C.  Link.reload()
+D.  window.close()
+Answer: B
+Q43. Which path is used to match all paths when no other route matches, for a 404 page?
+A.  path="*"
+B.  path="/404"
+C.  path="/all"
+D.  path="?"
+Answer: A
+Q44. Which component is used for redirection?
+A.  Router
+B.  Switch
+C.  Redirect
+D.  Navigate
+Answer: D
+Q45. Which prop is used with Navigate to replace the history entry during redirection?
+A.  push
+B.  replace
+C.  back
+D.  redo
+Answer: B
+Q46. Why is redirection used when a route changes from /people to /users?
+A.  So old users using old URLs remain unaffected
+B.  To delete old pages
+C.  To disable routing
+D.  To reduce bundle size
+Answer: A
+Q47. Which of the following is true about the Link component?
+A.  It cannot navigate
+B.  It causes no refresh
+C.  It is used for styling
+D.  It always reloads the page
+Answer: B
+Q48. Does HashRouter work in old browsers?
+A.  Yes
+B.  No
+C.  Only in Chrome
+D.  Only in production
+Answer: A
+Q49. Which statement about SPA and ReactJS is correct?
+A.  SPA is not possible with ReactJS
+B.  SPA is the same as MPA
+C.  SPA was invented by ReactJS
+D.  SPA existed before ReactJS but was popularized by it
+Answer: D
+Q50. Which of the following describes the traditional Web app?
+A.  PWA
+B.  SPA
+C.  CSR
+D.  MPA
+Answer: D
+Q51. Which hook-based approach is useful when styling must look like a button or a card and not like a Link?
+A.  useRef
+B.  useNavigate
+C.  useParams
+D.  useState
+Answer: B
+Q52. Which component renders only the UserList component and not Home for the URL /users?
+A.  Navigate
+B.  Route with path="/users"
+C.  BrowserRouter
+D.  Link
+Answer: B
+Session 6: Styling React Elements
+Q1. Which are the three main styles applied in HTML using CSS?
+A.  Static, dynamic, and hybrid
+B.  Fixed, fluid, and flex
+C.  Local, global, and module
+D.  Inline, internal, and external
+Answer: D
+Q2. In inline styles, styles are given directly to:
+A.  The package.json
+B.  The head style tag
+C.  The style attribute of the element
+D.  A separate .css file
+Answer: C
+Q3. In internal styles, where is the style tag declared?
+A.  In the <head>
+B.  In the <img> tag
+C.  In an external file
+D.  In the <footer>
+Answer: A
+Q4. In external styles, how is the separate CSS file linked to the HTML file?
+A.  By the <script> tag
+B.  By the <link> tag in the <head>
+C.  By the <meta> tag
+D.  By the <style> tag in the body
+Answer: B
+Q5. Which of the three HTML styling approaches is recommended?
+A.  External style
+B.  Inline style
+C.  Internal style
+D.  All equally
+Answer: A
+Q6. Why are inline styles not recommended in HTML?
+A.  They are not supported
+B.  They are hard to override
+C.  They cannot set colors
+D.  They require a server
+Answer: B
+Q7. Internal styles are used when:
+A.  Critical style has to be sent whenever the HTML file is loaded
+B.  A site has no CSS
+C.  Images are missing
+D.  Fonts must be installed
+Answer: A
+Q8. External styles follow which principle?
+A.  Single responsibility of JS
+B.  Inheritance
+C.  Separation of concerns
+D.  Polymorphism
+Answer: C
+Q9. How many styling methods in ReactJS are discussed in the summary?
+A.  Two
+B.  Three
+C.  Four
+D.  Five
+Answer: B
+Q10. Which are the three ReactJS styling types listed in the summary?
+A.  Redux, Context, and Hooks
+B.  SASS, LESS, and Stylus
+C.  Style objects, external CSS, and CSS modules
+D.  Inline, internal, and external HTML
+Answer: C
+Q11. What happens in ReactJS if the style attribute is given as a string?
+A.  It works normally
+B.  It results in an error
+C.  It is ignored silently
+D.  It is converted automatically
+Answer: B
+Q12. ReactJS expects the style attribute to be:
+A.  A string
+B.  A number
+C.  An array
+D.  A JavaScript object
+Answer: D
+Q13. Which is the correct way to apply a styles object in JSX?
+A.  style=(styles)
+B.  style="styles"
+C.  style={styles}
+D.  style=[styles]
+Answer: C
+Q14. Keys of the styles object in ReactJS must be written in:
+A.  kebab-case
+B.  UPPERCASE
+C.  snake_case
+D.  camelCase
+Answer: D
+Q15. Which key is correct inside a React style object?
+A.  backgroundColor
+B.  Background-Color
+C.  background-color
+D.  background_color
+Answer: A
+Q16. Which style key is correct for the CSS property border-radius in a React style object?
+A.  border_radius
+B.  border-radius
+C.  borderRadius
+D.  Border-Radius
+Answer: C
+Q17. Which style key is correct for object-fit in a React style object?
+A.  objectFit
+B.  object_fit
+C.  object-fit
+D.  OBJECTFIT
+Answer: A
+Q18. Which case must be used in style objects?
+A.  Kebab
+B.  Underscore
+C.  Camel
+D.  Title
+Answer: C
+Q19. Inline styles are generally used in ReactJS when:
+A.  Icons are installed
+B.  The style has to be changed dynamically
+C.  Fonts are added
+D.  The style is static
+Answer: B
+Q20. Style objects generate which type of CSS in the DOM?
+A.  Inline CSS
+B.  Internal CSS
+C.  External CSS
+D.  No CSS
+Answer: A
+Q21. Style objects generate internal CSS. This statement is:
+A.  True
+B.  False
+C.  True only in production
+D.  True only for images
+Answer: B
+Q22. How is an external CSS file used in a ReactJS component?
+A.  import "./App.css";
+B.  style.load()
+C.  <link> inside JSX only
+D.  require.css()
+Answer: A
+Q23. Which attribute is used in JSX to assign a CSS class from an external file?
+A.  styleClass
+B.  class
+C.  cssName
+D.  className
+Answer: D
+Q24. When a ReactJS app with external CSS is running in development, how are the styles added?
+A.  As inline styles
+B.  As internal CSS
+C.  Not added
+D.  As external CSS
+Answer: B
+Q25. When a ReactJS app with external CSS is in production, how are the styles loaded?
+A.  As an external CSS file
+B.  As internal CSS
+C.  As inline styles
+D.  As JS objects
+Answer: A
+Q26. Which approach guarantees a unique class name for each style?
+A.  Internal styles
+B.  Style objects
+C.  External CSS
+D.  CSS Modules
+Answer: D
+Q27. What is the benefit of CSS modules over plain external CSS?
+A.  They are faster to type
+B.  They need no files
+C.  They work only in HTML
+D.  The generated class name is always unique, avoiding clashes and unwanted overrides
+Answer: D
+Q28. How are CSS module styles imported in a ReactJS component?
+A.  link styles
+B.  import "./App.module.css" only
+C.  require(styles)
+D.  import styles from "./App.module.css"
+Answer: D
+Q29. How is a class applied from a CSS module?
+A.  className="styles"
+B.  style="profile-pic"
+C.  class="profile-pic"
+D.  className={styles["profile-pic"]}
+Answer: D
+Q30. Which of the following always provides unique CSS classes?
+A.  Style Objects
+B.  CSS Modules
+C.  External CSS
+D.  External Styles
+Answer: B
+Q31. Which website is used to add external fonts in the session?
+A.  fontawesome.com
+B.  fonts.google.com
+C.  typekit.com
+D.  fonts.apple.com
+Answer: B
+Q32. Where are Google font <link> tags pasted in a ReactJS (create-react-app) project?
+A.  package.json
+B.  src/App.css
+C.  src/index.css only
+D.  public/index.html under the <head> tag
+Answer: D
+Q33. Under which tag are fonts added?
+A.  <footer>
+B.  <body>
+C.  <section>
+D.  <head>
+Answer: D
+Q34. After adding the font link, how is the font used in CSS?
+A.  font: load('Roboto');
+B.  font-import: Roboto;
+C.  typeface: Roboto;
+D.  font-family: 'Roboto', sans-serif;
+Answer: D
+Q35. Which library is used to add icons in the session?
+A.  yup
+B.  react-router-dom
+C.  formik
+D.  react-bootstrap-icons
+Answer: D
+Q36. Which command installs the icons library?
+A.  npm i react-bootstrap-icons
+B.  npx icons
+C.  npm run icons
+D.  npm start icons
+Answer: A
+Q37. How are Bootstrap icons used in a component?
+A.  Imported as components, such as <Instagram />
+B.  Written as CSS
+C.  Written as class names only
+D.  Added as <img> tags only
+Answer: A
+Q38. Which of the following correctly imports icons?
+A.  import * as icons from "css";
+B.  import { Instagram, Twitter } from "react-bootstrap-icons";
+C.  import icons "react";
+D.  import Instagram from "bootstrap";
+Answer: B
+Q39. Which style approach is always recommended according to the summary?
+A.  External CSS
+B.  Inline CSS
+C.  Internal CSS
+D.  None
+Answer: A
+Q40. Which of the following is the preferred way of styling?
+A.  External styling
+B.  Internal styling
+C.  Inline styling
+D.  No styling
+Answer: A
+Q41. Which CSS property is used with height and width equal to create a perfect circle image?
+A.  outline: 50%
+B.  border-radius: 50%
+C.  margin: 50%
+D.  padding: 50%
+Answer: B
+Q42. In the session's inline style example, which property zooms the image without stretching?
+A.  overflow: hidden
+B.  clip
+C.  object-fit: cover
+D.  zoom: 1
+Answer: C
+Q43. What error message is shown when a string is passed to the style prop in ReactJS?
+A.  Cannot find module
+B.  Unexpected token
+C.  The "style" prop expects a mapping from style properties to values, not a string
+D.  Port already in use
+Answer: C
+Q44. In Code Snippet 6 for style objects, which type is the style prop value given using template syntax?
+A.  A JavaScript object
+B.  A JSON file
+C.  A CSS file
+D.  An HTML string
+Answer: A
+Q45. Which of the following is true about CSS modules and class names in the DOM during development?
+A.  The class name stays the same
+B.  The class name is generated with a unique suffix
+C.  Class names are removed
+D.  Class names turn into IDs
+Answer: B
+Q46. Which file contains the CSS in the plain CSS example?
+A.  index.html
+B.  App.js
+C.  App.css
+D.  manifest.json
+Answer: C
+Q47. Why is external CSS recommended over inline in React?
+A.  It disables JavaScript
+B.  It runs only offline
+C.  It needs no import
+D.  It separates HTML and CSS code and is easier to maintain
+Answer: D
+Q48. Which statement about fonts and React is correct?
+A.  Fonts cannot be used in React
+B.  Fonts can be directly added to the <head> tag in index.html
+C.  Fonts must be added in package.json
+D.  Fonts must be compiled by Babel
+Answer: B
+Q49. Which of the following should be used when you worry your styles will be overridden by other styles?
+A.  CSS modules
+B.  Inline HTML
+C.  Internal HTML styles
+D.  No styles
+Answer: A
+Q50. Which of these describes "Plain Inline Styling" in ReactJS?
+A.  Using style objects
+B.  Using SASS
+C.  Using CSS modules
+D.  Using external fonts
+Answer: A
+Session 7: ReactJS Component Lifecycle
+Q1. How many phases are there in the lifecycle of a ReactJS component?
+A.  Two
+B.  Three
+C.  Four
+D.  Five
+Answer: C
+Q2. Which are the phases of the ReactJS component lifecycle?
+A.  Load, Render, Paint, Exit
+B.  Start, Middle, End, Reset
+C.  Creation, Running, Pausing, Stopping
+D.  Initialization, Mounting, Updating, Unmounting
+Answer: D
+Q3. In which phase are the props and state of the component set up?
+A.  Unmounting
+B.  Mounting
+C.  Updating
+D.  Initialization
+Answer: D
+Q4. In which phase are the DOM elements of the component created and rendered so that they become visible to the user?
+A.  Unmounting
+B.  Initialization
+C.  Updating
+D.  Mounting
+Answer: D
+Q5. A component is in the updating phase when:
+A.  Its props or state change
+B.  It is first created
+C.  The server stops
+D.  It is removed from the DOM
+Answer: A
+Q6. In which phase are the DOM elements associated with a component destroyed?
+A.  Updating
+B.  Mounting
+C.  Initialization
+D.  Unmounting
+Answer: D
+Q7. Why was handling lifecycle phases with class component methods considered cumbersome?
+A.  They were too fast
+B.  They had no documentation
+C.  Many methods were rarely used and hard to remember for beginners
+D.  They only worked on mobile
+Answer: C
+Q8. Which single hook can solve the lifecycle needs in functional components?
+A.  useNavigate
+B.  useParams
+C.  useEffect
+D.  useState
+Answer: C
+Q9. How many arguments does the useEffect hook take?
+A.  One
+B.  Two
+C.  Three
+D.  Four
+Answer: B
+Q10. What are the two arguments of useEffect?
+A.  A callback function and a dependency array
+B.  A class and an object
+C.  A component and a route
+D.  A state and a prop
+Answer: A
+Q11. Which is the correct syntax of useEffect?
+A.  useEffect[callback];
+B.  useEffect(dependency array, state);
+C.  useEffect(callback function, dependency array);
+D.  useEffect(props, state);
+Answer: C
+Q12. What decides which phase of the component useEffect handles?
+A.  The browser
+B.  The CSS file
+C.  The dependency array
+D.  The component name
+Answer: C
+Q13. When is the callback called in useEffect(() => {}, [])?
+A.  Only when unmounted
+B.  Never
+C.  On every render
+D.  Only once, when the component is mounted
+Answer: D
+Q14. What does an empty dependency array in useEffect handle?
+A.  The mounting phase
+B.  The updating phase
+C.  The initialization phase
+D.  The unmounting phase
+Answer: A
+Q15. When is the callback called if no dependency array is given to useEffect?
+A.  Never
+B.  Only once
+C.  Only on unmount
+D.  Whenever any state or props change in the component
+Answer: D
+Q16. When no dependency array is given, the component is in which phase when the callback runs?
+A.  Unmounting
+B.  Initialization
+C.  Mounting
+D.  Updating
+Answer: D
+Q17. In useEffect(() => {}, [v1, v2]), when is the callback called?
+A.  Never
+B.  Only when v1 or v2 changes (and on mount)
+C.  Only on unmount
+D.  On every render
+Answer: B
+Q18. Where can clean-up code be written inside useEffect?
+A.  In the dependency array
+B.  In index.html
+C.  In the function returned from the callback
+D.  Outside the component
+Answer: C
+Q19. When is the function returned by the useEffect callback executed?
+A.  When the component mounts
+B.  When the component starts unmounting
+C.  Never
+D.  When the page loads
+Answer: B
+Q20. What is the purpose of clean-up code in useEffect?
+A.  Installing packages
+B.  Destroying variables and resources no longer needed, preventing memory leaks
+C.  Adding styles
+D.  Starting servers
+Answer: B
+Q21. Values in the dependency array are given to write clean-up code in useEffect. This statement is:
+A.  True
+B.  False
+C.  True only in development
+D.  True only for class components
+Answer: B
+Q22. When no dependency array is given, the component will be in the updating phase when either props or state changes. This statement is:
+A.  True
+B.  False
+C.  True only for props
+D.  True only for state
+Answer: A
+Q23. Which feature introduced in React v18 renders every component twice in development to ensure there are no errors?
+A.  Router
+B.  StrictMode
+C.  Context
+D.  Fragment
+Answer: B
+Q24. In which environment do effects run twice due to StrictMode?
+A.  Development only
+B.  Production only
+C.  Both
+D.  Neither
+Answer: A
+Q25. When the code reaches users in production, how many times do components run their setup?
+A.  Once
+B.  Twice
+C.  Three times
+D.  Four times
+Answer: A
+Q26. In which file can StrictMode be commented out to test without it?
+A.  package.json
+B.  App.css
+C.  index.js
+D.  UserList.js
+Answer: C
+Q27. In Code Snippet 3 (no dependency array), when does the console log run?
+A.  Whenever like or dislike changes
+B.  Never
+C.  Only on mount
+D.  Only when like changes
+Answer: A
+Q28. In Code Snippet 4 with [like] as the dependency array, when does the callback run?
+A.  Whenever dislike changes
+B.  On every render
+C.  Only when like changes
+D.  Never
+Answer: C
+Q29. In the Timer example with useEffect(() => {...}, []), why does "useEffect runs" print only once?
+A.  The console is disabled
+B.  The timer is stopped
+C.  The component is unmounted
+D.  The empty dependency array runs the callback only on mounting
+Answer: D
+Q30. Which function is used to start the interval in the Timer example?
+A.  setTimeout
+B.  setInterval
+C.  clearInterval
+D.  requestAnimationFrame
+Answer: B
+Q31. Which function is used in the clean-up code to stop the interval?
+A.  stopInterval
+B.  clearInterval
+C.  setInterval
+D.  killInterval
+Answer: B
+Q32. In setTime((prev) => prev + 1), what is prev?
+A.  A CSS class
+B.  A route
+C.  The previous value of time passed to the callback
+D.  A prop
+Answer: C
+Q33. setTime accepts:
+A.  Not only values but also a callback function
+B.  Only objects
+C.  Only strings
+D.  Only values
+Answer: A
+Q34. What technique is used in {show ? <Timer /> : null}?
+A.  Routing
+B.  Conditional Rendering
+C.  Looping
+D.  Styling
+Answer: B
+Q35. When show is false in conditional rendering, what happens to <Timer />?
+A.  It is hidden but kept mounted
+B.  It is duplicated
+C.  It is removed from the DOM
+D.  It is restyled
+Answer: C
+Q36. Why does "Timer called" keep printing after the Timer component is removed (without clean-up)?
+A.  The console is broken
+B.  The route is wrong
+C.  A memory leak: the interval did not stop
+D.  The component is still visible
+Answer: C
+Q37. How is the memory leak in the Timer example solved?
+A.  Removing the setInterval
+B.  Using clearInterval in the return function of useEffect
+C.  Using a CSS module
+D.  Using more state
+Answer: B
+Q38. What message is printed when the Timer is stopped in Code Snippet 7?
+A.  Timer started
+B.  Timer called
+C.  Timer stopped
+D.  useEffect runs
+Answer: C
+Q39. What does the useEffect hook generally synchronize ReactJS components with?
+A.  CSS files
+B.  Fonts
+C.  Icons
+D.  External systems such as fetching data from an API
+Answer: D
+Q40. Which of the following is true about memory leaks?
+A.  They cannot happen in React
+B.  They are handled in CSS
+C.  They need to be handled in the clean-up part of useEffect
+D.  They are handled by Babel
+Answer: C
+Q41. Which phase is the component in when the empty dependency array's callback is called?
+A.  Mounting
+B.  Updating
+C.  Unmounting
+D.  Initialization
+Answer: A
+Q42. Which of the following describes the dependency array containing multiple values?
+A.  Only one value is allowed
+B.  It must be empty
+C.  There can be n number of values
+D.  Only two values are allowed
+Answer: C
+Q43. Mostly, the values in a dependency array are:
+A.  CSS values
+B.  File names
+C.  State or props of the component
+D.  Route names
+Answer: C
+Q44. The lifecycle of ReactJS components is compared in the session to:
+A.  Seasons of the year
+B.  A train journey
+C.  Human life phases from birth to death
+D.  A football match
+Answer: C
+Q45. Which hook is used together with setInterval inside the Timer's callback to start the timer when mounted?
+A.  useNavigate
+B.  useEffect
+C.  useRef
+D.  useParams
+Answer: B
+Q46. Which is the correct way to make a callback run once on mount?
+A.  useEffect(() => {}, [x]);
+B.  useEffect([]);
+C.  useEffect(() => {});
+D.  useEffect(() => {}, []);
+Answer: D
+Q47. Which is the correct way to make a callback run on every state or props change?
+A.  useEffect(() => {}, []);
+B.  useEffect(() => {});
+C.  useEffect(() => {}, [x]);
+D.  useEffect([], () => {});
+Answer: B
+Q48. What does the summary say about the dependency array?
+A.  It dictates in which phase the callback function will be called
+B.  It styles components
+C.  It declares routes
+D.  It stores CSS
+Answer: A
+Q49. Which of the following is NOT a lifecycle phase of ReactJS components?
+A.  Initialization
+B.  Unmounting
+C.  Compiling
+D.  Mounting
+Answer: C
+Session 8: Creating a CRUD Application Using ReactJS Forms
+Q1. What does CRUD stand for?
+A.  Copy, Run, Undo, Deploy
+B.  Compile, Render, Update, Debug
+C.  Create, Route, Upload, Download
+D.  Create, Read, Update, Delete
+Answer: D
+Q2. Which HTTP method is used for the Create operation in CRUD?
+A.  DELETE
+B.  GET
+C.  PUT
+D.  POST
+Answer: D
+Q3. Which HTTP method is used for the Read operation in CRUD?
+A.  POST
+B.  PUT
+C.  DELETE
+D.  GET
+Answer: D
+Q4. Which HTTP method is used for the Update operation in the session's CRUD app?
+A.  DELETE
+B.  PUT
+C.  GET
+D.  POST
+Answer: B
+Q5. Which HTTP method is used for the Delete operation in CRUD?
+A.  PUT
+B.  POST
+C.  DELETE
+D.  GET
+Answer: C
+Q6. Which statement about CRUD is correct as per the session?
+A.  CRUD is used only in databases
+B.  Any feature in an app requires one of the four CRUD operations
+C.  CRUD applies only to mobile apps
+D.  CRUD is a CSS technique
+Answer: B
+Q7. Which starter code does the session CRUD application begin with?
+A.  The code from Session 2
+B.  A blank project
+C.  Code from the Redux store
+D.  The code from Session 5 (session8_starter.zip)
+Answer: D
+Q8. Which Visual Studio Code feature is used to move a component to its own file?
+A.  Surround with
+B.  Delete file
+C.  Move to a new file (via the bulb icon)
+D.  Format document
+Answer: C
+Q9. Which service is used in the session to mock the API and data?
+A.  mockapi.io
+B.  AWS S3
+C.  Firebase
+D.  MongoDB Atlas
+Answer: A
+Q10. Which JavaScript method is used to request data from the API in UserList?
+A.  fetch
+B.  load
+C.  request
+D.  axios.get only
+Answer: A
+Q11. Which hook is used to call the API only once, at mount, in UserList?
+A.  useEffect with an empty dependency array
+B.  useParams
+C.  useState without arguments
+D.  useNavigate
+Answer: A
+Q12. Why does the console run twice in development even with useEffect([])?
+A.  The API is slow
+B.  Browser bug
+C.  StrictMode renders components twice in development, but only once in production
+D.  Webpack is broken
+Answer: C
+Q13. Which hook stores the fetched users so they are displayed on screen?
+A.  useParams
+B.  useNavigate
+C.  useFormik
+D.  useState (via setUsers)
+Answer: D
+Q14. What is the initial value given to useState for the users list?
+A.  An empty array []
+B.  An empty string
+C.  0
+D.  null
+Answer: A
+Q15. In UserList, why is id={usr.id} passed to the User component instead of the index?
+A.  So the URL uses the actual user id from the API
+B.  To change CSS
+C.  To hide users
+D.  To reduce code
+Answer: A
+Q16. How does UserDetail get the id of the user from the URL?
+A.  useFormik()
+B.  useState()
+C.  useParams()
+D.  useNavigate()
+Answer: C
+Q17. What is the initial value of the user state in UserDetail?
+A.  0
+B.  An empty array []
+C.  An empty object {}
+D.  false
+Answer: C
+Q18. In the session, how is the Delete button passed to the User component?
+A.  Imported from CSS
+B.  Created directly inside the User component
+C.  As JSX passed through the deleteButton prop
+D.  Hard-coded in index.html
+Answer: C
+Q19. What is the pattern of passing JSX as props, such as deleteButton, known as?
+A.  Render props
+B.  Higher-order component
+C.  Context
+D.  Redux action
+Answer: A
+Q20. What is the advantage of passing the Delete button JSX as a prop from UserList?
+A.  It removes the need for props
+B.  The button has access to all the variables inside UserList
+C.  It makes the file smaller
+D.  It avoids using fetch
+Answer: B
+Q21. Which method is used inside fetch to delete a user?
+A.  DELETE
+B.  CLEAR
+C.  ERASE
+D.  REMOVE
+Answer: A
+Q22. How is the user list refreshed after deletion?
+A.  By refreshing the browser manually only
+B.  By restarting the server
+C.  By deleting state
+D.  By calling the function that fetches users again inside deleteUser
+Answer: D
+Q23. In the session, a separate function that fetches users is called in useEffect and also in:
+A.  Home
+B.  AddUser
+C.  deleteUser
+D.  NotFound
+Answer: C
+Q24. To add a user, which route and page are created?
+A.  A separate page (e.g., /users/add) with an AddUser component
+B.  No separate page is needed
+C.  An alert box
+D.  A modal only
+Answer: A
+Q25. Why must newUser data be stringified before sending in the POST request?
+A.  The body must be passed as JSON text to the fetch method
+B.  To make it faster
+C.  To change its color
+D.  To compress the data
+Answer: A
+Q26. Which JavaScript method converts an object to a JSON string?
+A.  JSON.parse()
+B.  JSON.stringify()
+C.  JSON.convert()
+D.  JSON.toObject()
+Answer: B
+Q27. Which libraries are used to simplify complex forms and validations?
+A.  axios and lodash
+B.  formik and yup
+C.  jest and enzyme
+D.  redux and saga
+Answer: B
+Q28. What is the role of formik?
+A.  Simplifies the form model and integration for adding validations
+B.  Fetches data from APIs
+C.  Styles components
+D.  Routes pages
+Answer: A
+Q29. What is the role of yup?
+A.  Compiles JSX
+B.  Bundles modules
+C.  Makes it easy to add validations to the form
+D.  Creates routes
+Answer: C
+Q30. Which hook from formik is used to manage the form model?
+A.  useFormik
+B.  useInput
+C.  useForm
+D.  useFormState
+Answer: A
+Q31. In useFormik, which option provides the form model's starting values?
+A.  startValues
+B.  formModel
+C.  initialValues
+D.  defaultValues
+Answer: C
+Q32. Why is the name attribute required on every input when using formik.handleChange?
+A.  So formik can identify which field is being updated
+B.  For routing
+C.  For CSS styling
+D.  For fetch
+Answer: A
+Q33. Why do built-in validations such as required not trigger when inputs are not inside a form element?
+A.  Validation is triggered only for inputs surrounded by a form element on submit
+B.  React disables them
+C.  The CSS blocks it
+D.  The browser is old
+Answer: A
+Q34. Which function must be set on the form's onSubmit to let formik take over submission?
+A.  formik.handleChange
+B.  formik.handleSubmit
+C.  formik.reset
+D.  formik.handleBlur
+Answer: B
+Q35. Which option of useFormik receives the yup schema?
+A.  validateWith
+B.  schemaYup
+C.  rules
+D.  validationSchema
+Answer: D
+Q36. What does the validationSchema ensure?
+A.  The onSubmit callback is called only when all validations pass
+B.  The form never submits
+C.  Fields are hidden
+D.  The form always submits
+Answer: A
+Q37. In the userValidationSchema, how is the pic field validated?
+A.  It must be at least 10 characters
+B.  It must be a number
+C.  It must be a string, a valid URL, and required
+D.  It is optional
+Answer: C
+Q38. In the userValidationSchema, what is required of the bio field?
+A.  A URL
+B.  A string of at least 10 characters that is required
+C.  Optional text
+D.  A number
+Answer: B
+Q39. Which formik property holds the validation error messages?
+A.  formik.alerts
+B.  formik.messages
+C.  formik.problems
+D.  formik.errors
+Answer: D
+Q40. Why are error messages displayed prematurely when the user starts typing in any field?
+A.  The CSS is wrong
+B.  All errors are shown without tracking whether each field was touched
+C.  yup fails
+D.  The API is slow
+Answer: B
+Q41. When is the onBlur event triggered?
+A.  When a user clicks on the field and then clicks outside of it
+B.  When the page loads
+C.  When the user types
+D.  When the form submits
+Answer: A
+Q42. Which formik handler is provided to onBlur?
+A.  formik.handleSubmit
+B.  formik.touch
+C.  formik.handleChange
+D.  formik.handleBlur
+Answer: D
+Q43. Which JavaScript technique is used to simplify formik.handleSubmit into handleSubmit?
+A.  Currying
+B.  Destructuring
+C.  Hoisting
+D.  Closure
+Answer: B
+Q44. How is the Edit button navigation set up for a user?
+A.  navigate to /
+B.  navigate to /users/add
+C.  navigate to /home
+D.  navigate to /users/edit/:id
+Answer: D
+Q45. Why are the form fields empty when the fetched data is used directly in initialValues of the same component?
+A.  The data takes time to load and initialValues is already set with undefined values
+B.  The route is wrong
+C.  formik fails
+D.  The API returns nothing
+Answer: A
+Q46. How is the problem of delayed data fixed in EditUser?
+A.  By using setTimeout
+B.  By reloading the page
+C.  By removing formik
+D.  By splitting into EditUser and EditUserForm and rendering the form only when data is available
+Answer: D
+Q47. What is displayed while the user data is being fetched in EditUser?
+A.  Loading...
+B.  An alert
+C.  A 404 page
+D.  The empty form
+Answer: A
+Q48. Which initial value is used for the user state in EditUser so that "Loading..." can be shown?
+A.  {}
+B.  null
+C.  0
+D.  []
+Answer: B
+Q49. Which HTTP method is used in the updateUser function?
+A.  GET
+B.  POST
+C.  DELETE
+D.  PUT
+Answer: D
+Q50. Which method is used to confirm a successful update and then navigate back to /users?
+A.  .finally(reload)
+B.  .stop()
+C.  .then(() => navigate("/users"))
+D.  .catch() only
+Answer: C

@@ -1,0 +1,580 @@
+{
+  "category": "React.js",
+  "session": 5,
+  "title": "Session 5: ReactJS Router",
+  "totalQuestions": 52,
+  "questions": [
+    {
+      "questionText": "What does MPA stand for?",
+      "options": [
+        "Main Page Application",
+        "Multi-Process Application",
+        "Multi-Page Application",
+        "Managed Page Architecture"
+      ],
+      "correctAnswer": "Multi-Page Application",
+      "explanation": "Correct answer is C) Multi-Page Application."
+    },
+    {
+      "questionText": "In an MPA, what happens when a user submits a form?",
+      "options": [
+        "Only a part of the page is replaced",
+        "The server responds with a new HTML file and the browser renders the page from scratch",
+        "No request is sent",
+        "The response is always JSON and no refresh occurs"
+      ],
+      "correctAnswer": "The server responds with a new HTML file and the browser renders the page from scratch",
+      "explanation": "Correct answer is B) The server responds with a new HTML file and the browser renders the page from scratch."
+    },
+    {
+      "questionText": "In an SPA, what does the server respond with for the initial request?",
+      "options": [
+        "Only a JSON file",
+        "Multiple HTML files",
+        "Only a CSS file",
+        "An index.html and a JavaScript file"
+      ],
+      "correctAnswer": "An index.html and a JavaScript file",
+      "explanation": "Correct answer is D) An index.html and a JavaScript file."
+    },
+    {
+      "questionText": "In an SPA, in which format does the response usually come when a form is submitted?",
+      "options": [
+        "Plain HTML page",
+        "JSON",
+        "XML",
+        "PDF"
+      ],
+      "correctAnswer": "JSON",
+      "explanation": "Correct answer is B) JSON."
+    },
+    {
+      "questionText": "In an SPA, what is replaced when new data arrives?",
+      "options": [
+        "The server",
+        "The browser",
+        "The entire page",
+        "Only the parts of the page that require change"
+      ],
+      "correctAnswer": "Only the parts of the page that require change",
+      "explanation": "Correct answer is D) Only the parts of the page that require change."
+    },
+    {
+      "questionText": "Which of the following is an advantage of SPA?",
+      "options": [
+        "No full-page refresh",
+        "Always faster initial load",
+        "No need for JavaScript",
+        "Simple SEO"
+      ],
+      "correctAnswer": "No full-page refresh",
+      "explanation": "Correct answer is A) No full-page refresh."
+    },
+    {
+      "questionText": "Which of the following is an advantage of SPA related to the Internet connection?",
+      "options": [
+        "Needs no browser",
+        "Offline functioning with previously visited pages",
+        "Requires constant connectivity",
+        "Works only offline"
+      ],
+      "correctAnswer": "Offline functioning with previously visited pages",
+      "explanation": "Correct answer is B) Offline functioning with previously visited pages."
+    },
+    {
+      "questionText": "Why do SPAs save bandwidth?",
+      "options": [
+        "They use only HTML",
+        "Only the parts that need to change are requested",
+        "They disable images",
+        "They download the entire site each time"
+      ],
+      "correctAnswer": "Only the parts that need to change are requested",
+      "explanation": "Correct answer is B) Only the parts that need to change are requested."
+    },
+    {
+      "questionText": "Which of the following is a drawback of SPA?",
+      "options": [
+        "Complex development",
+        "Full page reload on each click",
+        "No JavaScript support",
+        "Cannot be bookmarked"
+      ],
+      "correctAnswer": "Complex development",
+      "explanation": "Correct answer is A) Complex development."
+    },
+    {
+      "questionText": "Why does an SPA need additional Search Engine Optimization (SEO) care?",
+      "options": [
+        "Search engine crawlers must execute JavaScript to index the app",
+        "SPAs have no URLs",
+        "SPAs do not use HTML",
+        "SPAs are blocked by browsers"
+      ],
+      "correctAnswer": "Search engine crawlers must execute JavaScript to index the app",
+      "explanation": "Correct answer is A) Search engine crawlers must execute JavaScript to index the app."
+    },
+    {
+      "questionText": "Why can an SPA have a slow initial load?",
+      "options": [
+        "It downloads more resources when loading for the first time",
+        "It uses only images",
+        "It requires a database",
+        "It does not use JavaScript"
+      ],
+      "correctAnswer": "It downloads more resources when loading for the first time",
+      "explanation": "Correct answer is A) It downloads more resources when loading for the first time."
+    },
+    {
+      "questionText": "If client-side JavaScript is disabled in the browser, an SPA will:",
+      "options": [
+        "Work normally",
+        "Work only partly with CSS",
+        "Not work",
+        "Switch to MPA automatically"
+      ],
+      "correctAnswer": "Not work",
+      "explanation": "Correct answer is C) Not work."
+    },
+    {
+      "questionText": "Which package is used to implement routing in ReactJS?",
+      "options": [
+        "react-scripts",
+        "react-router-dom",
+        "react-redux",
+        "react-native"
+      ],
+      "correctAnswer": "react-router-dom",
+      "explanation": "Correct answer is B) react-router-dom."
+    },
+    {
+      "questionText": "Routing in an SPA refers to:",
+      "options": [
+        "Compiling the JSX",
+        "Installing Node",
+        "Changing the page in the SPA",
+        "Fetching images"
+      ],
+      "correctAnswer": "Changing the page in the SPA",
+      "explanation": "Correct answer is C) Changing the page in the SPA."
+    },
+    {
+      "questionText": "Which of the following is NOT an advantage of routing?",
+      "options": [
+        "The app looks organized",
+        "Pages can be protected behind a login form",
+        "Users can bookmark pages",
+        "It removes the need for components"
+      ],
+      "correctAnswer": "It removes the need for components",
+      "explanation": "Correct answer is D) It removes the need for components."
+    },
+    {
+      "questionText": "Which command installs the React Router used in the session?",
+      "options": [
+        "npm start router",
+        "npm install react-routing",
+        "npm install react-router-dom@6",
+        "npx router-install"
+      ],
+      "correctAnswer": "npm install react-router-dom@6",
+      "explanation": "Correct answer is C) npm install react-router-dom@6."
+    },
+    {
+      "questionText": "Which of the following is a basic component of the ReactJS Router?",
+      "options": [
+        "Link",
+        "Store",
+        "Webpack",
+        "Reducer"
+      ],
+      "correctAnswer": "Link",
+      "explanation": "Correct answer is A) Link."
+    },
+    {
+      "questionText": "How many types of routers are in react-router-dom as discussed?",
+      "options": [
+        "One",
+        "Two",
+        "Three",
+        "Four"
+      ],
+      "correctAnswer": "Two",
+      "explanation": "Correct answer is B) Two."
+    },
+    {
+      "questionText": "Which are the two types of routers in react-router-dom?",
+      "options": [
+        "StaticRouter and DynamicRouter",
+        "LinkRouter and PathRouter",
+        "BrowserRouter and HashRouter",
+        "MainRouter and SubRouter"
+      ],
+      "correctAnswer": "BrowserRouter and HashRouter",
+      "explanation": "Correct answer is C) BrowserRouter and HashRouter."
+    },
+    {
+      "questionText": "Which router is used with newer browsers?",
+      "options": [
+        "NativeRouter",
+        "HashRouter",
+        "BrowserRouter",
+        "MemoryRouter"
+      ],
+      "correctAnswer": "BrowserRouter",
+      "explanation": "Correct answer is C) BrowserRouter."
+    },
+    {
+      "questionText": "Which router is used with older browsers like Internet Explorer?",
+      "options": [
+        "HashRouter",
+        "BrowserRouter",
+        "Both are identical",
+        "None"
+      ],
+      "correctAnswer": "HashRouter",
+      "explanation": "Correct answer is A) HashRouter."
+    },
+    {
+      "questionText": "Where is BrowserRouter wrapped around the App component in the session?",
+      "options": [
+        "App.css",
+        "index.js",
+        "package.json",
+        "UserList.js"
+      ],
+      "correctAnswer": "index.js",
+      "explanation": "Correct answer is B) index.js."
+    },
+    {
+      "questionText": "Routing starts functioning only after:",
+      "options": [
+        "BrowserRouter is imported and wrapped around the App component",
+        "The server restarts",
+        "Redux is installed",
+        "The CSS is loaded"
+      ],
+      "correctAnswer": "BrowserRouter is imported and wrapped around the App component",
+      "explanation": "Correct answer is A) BrowserRouter is imported and wrapped around the App component."
+    },
+    {
+      "questionText": "Which component matches the URL with a given component?",
+      "options": [
+        "useParams",
+        "Route",
+        "Link",
+        "Navigate"
+      ],
+      "correctAnswer": "Route",
+      "explanation": "Correct answer is B) Route."
+    },
+    {
+      "questionText": "In <Route path=\"/\" element={<Home />} />, path=\"/\" indicates:",
+      "options": [
+        "The users page",
+        "A redirect",
+        "A 404 page",
+        "The home page"
+      ],
+      "correctAnswer": "The home page",
+      "explanation": "Correct answer is D) The home page."
+    },
+    {
+      "questionText": "In the session's routing, which component is displayed when the URL is /users?",
+      "options": [
+        "UserList",
+        "Home",
+        "UserDetail",
+        "NotFound"
+      ],
+      "correctAnswer": "UserList",
+      "explanation": "Correct answer is A) UserList."
+    },
+    {
+      "questionText": "Which component should wrap multiple Route components in React Router v6?",
+      "options": [
+        "Switch",
+        "Div",
+        "Router",
+        "Routes"
+      ],
+      "correctAnswer": "Routes",
+      "explanation": "Correct answer is D) Routes."
+    },
+    {
+      "questionText": "Why was the Link component introduced?",
+      "options": [
+        "To load fonts",
+        "To create state",
+        "To style pages",
+        "Users cannot remember all URLs, and Link allows navigation through mouse click"
+      ],
+      "correctAnswer": "Users cannot remember all URLs, and Link allows navigation through mouse click",
+      "explanation": "Correct answer is D) Users cannot remember all URLs, and Link allows navigation through mouse click."
+    },
+    {
+      "questionText": "Which of the following correctly creates a link to the users page?",
+      "options": [
+        "<Link path=\"/users\">Users</Link>",
+        "<Link to=\"/users\">Users</Link>",
+        "<Link url=\"/users\">Users</Link>",
+        "<Link href=\"/users\">Users</Link>"
+      ],
+      "correctAnswer": "<Link to=\"/users\">Users</Link>",
+      "explanation": "Correct answer is B) <Link to=\"/users\">Users</Link>."
+    },
+    {
+      "questionText": "Which prop of the Link component specifies the destination?",
+      "options": [
+        "to",
+        "url",
+        "src",
+        "href"
+      ],
+      "correctAnswer": "to",
+      "explanation": "Correct answer is A) to."
+    },
+    {
+      "questionText": "What is the effect of using the Link component compared with the anchor tag <a>?",
+      "options": [
+        "Link causes no page refresh while anchor causes a refresh",
+        "Both cause a refresh",
+        "Link causes a refresh and anchor does not",
+        "Neither works"
+      ],
+      "correctAnswer": "Link causes no page refresh while anchor causes a refresh",
+      "explanation": "Correct answer is A) Link causes no page refresh while anchor causes a refresh."
+    },
+    {
+      "questionText": "Anchor tag will not cause refresh. This statement is:",
+      "options": [
+        "True",
+        "False",
+        "True only in production",
+        "True only with HashRouter"
+      ],
+      "correctAnswer": "False",
+      "explanation": "Correct answer is B) False."
+    },
+    {
+      "questionText": "Which hook changes the URL programmatically?",
+      "options": [
+        "useNavigate",
+        "useEffect",
+        "useState",
+        "useParams"
+      ],
+      "correctAnswer": "useNavigate",
+      "explanation": "Correct answer is A) useNavigate."
+    },
+    {
+      "questionText": "Which is a good use of useNavigate?",
+      "options": [
+        "Navigating to a success or retry page automatically after payment",
+        "Extracting the id from the URL",
+        "Styling a component",
+        "Declaring state"
+      ],
+      "correctAnswer": "Navigating to a success or retry page automatically after payment",
+      "explanation": "Correct answer is A) Navigating to a success or retry page automatically after payment."
+    },
+    {
+      "questionText": "Which hook extracts the parameter from the URL?",
+      "options": [
+        "useState",
+        "useEffect",
+        "useParams",
+        "useNavigate"
+      ],
+      "correctAnswer": "useParams",
+      "explanation": "Correct answer is C) useParams."
+    },
+    {
+      "questionText": "useParams is typically used to get what in an e-commerce product details page?",
+      "options": [
+        "The Node version",
+        "The component name",
+        "The id of the product",
+        "The CSS class"
+      ],
+      "correctAnswer": "The id of the product",
+      "explanation": "Correct answer is C) The id of the product."
+    },
+    {
+      "questionText": "Which route path is used to match a dynamic user id?",
+      "options": [
+        "/users/<id>",
+        "/users/{id}",
+        "/users/id",
+        "/users/:id"
+      ],
+      "correctAnswer": "/users/:id",
+      "explanation": "Correct answer is D) /users/:id."
+    },
+    {
+      "questionText": "In path=\"/users/:id\", what does \":\" indicate?",
+      "options": [
+        "A CSS class",
+        "A port number",
+        "The id is a variable",
+        "A comment"
+      ],
+      "correctAnswer": "The id is a variable",
+      "explanation": "Correct answer is C) The id is a variable."
+    },
+    {
+      "questionText": "What does the useParams() hook return?",
+      "options": [
+        "A boolean",
+        "A string",
+        "An object",
+        "A number"
+      ],
+      "correctAnswer": "An object",
+      "explanation": "Correct answer is C) An object."
+    },
+    {
+      "questionText": "In const { id } = useParams(), what technique is used?",
+      "options": [
+        "Hoisting",
+        "Currying",
+        "Destructuring",
+        "Spreading"
+      ],
+      "correctAnswer": "Destructuring",
+      "explanation": "Correct answer is C) Destructuring."
+    },
+    {
+      "questionText": "When the user visits /users/0, which user details are displayed in the session?",
+      "options": [
+        "The first user",
+        "The second user",
+        "The last user",
+        "None"
+      ],
+      "correctAnswer": "The first user",
+      "explanation": "Correct answer is A) The first user."
+    },
+    {
+      "questionText": "How does the User card navigate to the details page on click?",
+      "options": [
+        "useParams(id)",
+        "navigate(`/users/${id}`)",
+        "Link.reload()",
+        "window.close()"
+      ],
+      "correctAnswer": "navigate(`/users/${id}`)",
+      "explanation": "Correct answer is B) navigate(`/users/${id}`)."
+    },
+    {
+      "questionText": "Which path is used to match all paths when no other route matches, for a 404 page?",
+      "options": [
+        "path=\"*\"",
+        "path=\"/404\"",
+        "path=\"/all\"",
+        "path=\"?\""
+      ],
+      "correctAnswer": "path=\"*\"",
+      "explanation": "Correct answer is A) path=\"*\"."
+    },
+    {
+      "questionText": "Which component is used for redirection?",
+      "options": [
+        "Router",
+        "Switch",
+        "Redirect",
+        "Navigate"
+      ],
+      "correctAnswer": "Navigate",
+      "explanation": "Correct answer is D) Navigate."
+    },
+    {
+      "questionText": "Which prop is used with Navigate to replace the history entry during redirection?",
+      "options": [
+        "push",
+        "replace",
+        "back",
+        "redo"
+      ],
+      "correctAnswer": "replace",
+      "explanation": "Correct answer is B) replace."
+    },
+    {
+      "questionText": "Why is redirection used when a route changes from /people to /users?",
+      "options": [
+        "So old users using old URLs remain unaffected",
+        "To delete old pages",
+        "To disable routing",
+        "To reduce bundle size"
+      ],
+      "correctAnswer": "So old users using old URLs remain unaffected",
+      "explanation": "Correct answer is A) So old users using old URLs remain unaffected."
+    },
+    {
+      "questionText": "Which of the following is true about the Link component?",
+      "options": [
+        "It cannot navigate",
+        "It causes no refresh",
+        "It is used for styling",
+        "It always reloads the page"
+      ],
+      "correctAnswer": "It causes no refresh",
+      "explanation": "Correct answer is B) It causes no refresh."
+    },
+    {
+      "questionText": "Does HashRouter work in old browsers?",
+      "options": [
+        "Yes",
+        "No",
+        "Only in Chrome",
+        "Only in production"
+      ],
+      "correctAnswer": "Yes",
+      "explanation": "Correct answer is A) Yes."
+    },
+    {
+      "questionText": "Which statement about SPA and ReactJS is correct?",
+      "options": [
+        "SPA is not possible with ReactJS",
+        "SPA is the same as MPA",
+        "SPA was invented by ReactJS",
+        "SPA existed before ReactJS but was popularized by it"
+      ],
+      "correctAnswer": "SPA existed before ReactJS but was popularized by it",
+      "explanation": "Correct answer is D) SPA existed before ReactJS but was popularized by it."
+    },
+    {
+      "questionText": "Which of the following describes the traditional Web app?",
+      "options": [
+        "PWA",
+        "SPA",
+        "CSR",
+        "MPA"
+      ],
+      "correctAnswer": "MPA",
+      "explanation": "Correct answer is D) MPA."
+    },
+    {
+      "questionText": "Which hook-based approach is useful when styling must look like a button or a card and not like a Link?",
+      "options": [
+        "useRef",
+        "useNavigate",
+        "useParams",
+        "useState"
+      ],
+      "correctAnswer": "useNavigate",
+      "explanation": "Correct answer is B) useNavigate."
+    },
+    {
+      "questionText": "Which component renders only the UserList component and not Home for the URL /users?",
+      "options": [
+        "Navigate",
+        "Route with path=\"/users\"",
+        "BrowserRouter",
+        "Link"
+      ],
+      "correctAnswer": "Route with path=\"/users\"",
+      "explanation": "Correct answer is B) Route with path=\"/users\"."
+    }
+  ]
+}

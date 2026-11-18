@@ -1,0 +1,50 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+React.js,7,How many phases are there in the lifecycle of a ReactJS component?,Two,Three,Four,Five,Four
+React.js,7,Which are the phases of the ReactJS component lifecycle?,"Load, Render, Paint, Exit","Start, Middle, End, Reset","Creation, Running, Pausing, Stopping","Initialization, Mounting, Updating, Unmounting","Initialization, Mounting, Updating, Unmounting"
+React.js,7,In which phase are the props and state of the component set up?,Unmounting,Mounting,Updating,Initialization,Initialization
+React.js,7,In which phase are the DOM elements of the component created and rendered so that they become visible to the user?,Unmounting,Initialization,Updating,Mounting,Mounting
+React.js,7,A component is in the updating phase when:,Its props or state change,It is first created,The server stops,It is removed from the DOM,Its props or state change
+React.js,7,In which phase are the DOM elements associated with a component destroyed?,Updating,Mounting,Initialization,Unmounting,Unmounting
+React.js,7,Why was handling lifecycle phases with class component methods considered cumbersome?,They were too fast,They had no documentation,Many methods were rarely used and hard to remember for beginners,They only worked on mobile,Many methods were rarely used and hard to remember for beginners
+React.js,7,Which single hook can solve the lifecycle needs in functional components?,useNavigate,useParams,useEffect,useState,useEffect
+React.js,7,How many arguments does the useEffect hook take?,One,Two,Three,Four,Two
+React.js,7,What are the two arguments of useEffect?,A callback function and a dependency array,A class and an object,A component and a route,A state and a prop,A callback function and a dependency array
+React.js,7,Which is the correct syntax of useEffect?,useEffect[callback];,"useEffect(dependency array, state);","useEffect(callback function, dependency array);","useEffect(props, state);","useEffect(callback function, dependency array);"
+React.js,7,What decides which phase of the component useEffect handles?,The browser,The CSS file,The dependency array,The component name,The dependency array
+React.js,7,"When is the callback called in useEffect(() => {}, [])?",Only when unmounted,Never,On every render,"Only once, when the component is mounted","Only once, when the component is mounted"
+React.js,7,What does an empty dependency array in useEffect handle?,The mounting phase,The updating phase,The initialization phase,The unmounting phase,The mounting phase
+React.js,7,When is the callback called if no dependency array is given to useEffect?,Never,Only once,Only on unmount,Whenever any state or props change in the component,Whenever any state or props change in the component
+React.js,7,"When no dependency array is given, the component is in which phase when the callback runs?",Unmounting,Initialization,Mounting,Updating,Updating
+React.js,7,"In useEffect(() => {}, [v1, v2]), when is the callback called?",Never,Only when v1 or v2 changes (and on mount),Only on unmount,On every render,Only when v1 or v2 changes (and on mount)
+React.js,7,Where can clean-up code be written inside useEffect?,In the dependency array,In index.html,In the function returned from the callback,Outside the component,In the function returned from the callback
+React.js,7,When is the function returned by the useEffect callback executed?,When the component mounts,When the component starts unmounting,Never,When the page loads,When the component starts unmounting
+React.js,7,What is the purpose of clean-up code in useEffect?,Installing packages,"Destroying variables and resources no longer needed, preventing memory leaks",Adding styles,Starting servers,"Destroying variables and resources no longer needed, preventing memory leaks"
+React.js,7,Values in the dependency array are given to write clean-up code in useEffect. This statement is:,True,False,True only in development,True only for class components,False
+React.js,7,"When no dependency array is given, the component will be in the updating phase when either props or state changes. This statement is:",True,False,True only for props,True only for state,True
+React.js,7,Which feature introduced in React v18 renders every component twice in development to ensure there are no errors?,Router,StrictMode,Context,Fragment,StrictMode
+React.js,7,In which environment do effects run twice due to StrictMode?,Development only,Production only,Both,Neither,Development only
+React.js,7,"When the code reaches users in production, how many times do components run their setup?",Once,Twice,Three times,Four times,Once
+React.js,7,In which file can StrictMode be commented out to test without it?,package.json,App.css,index.js,UserList.js,index.js
+React.js,7,"In Code Snippet 3 (no dependency array), when does the console log run?",Whenever like or dislike changes,Never,Only on mount,Only when like changes,Whenever like or dislike changes
+React.js,7,"In Code Snippet 4 with [like] as the dependency array, when does the callback run?",Whenever dislike changes,On every render,Only when like changes,Never,Only when like changes
+React.js,7,"In the Timer example with useEffect(() => {...}, []), why does ""useEffect runs"" print only once?",The console is disabled,The timer is stopped,The component is unmounted,The empty dependency array runs the callback only on mounting,The empty dependency array runs the callback only on mounting
+React.js,7,Which function is used to start the interval in the Timer example?,setTimeout,setInterval,clearInterval,requestAnimationFrame,setInterval
+React.js,7,Which function is used in the clean-up code to stop the interval?,stopInterval,clearInterval,setInterval,killInterval,clearInterval
+React.js,7,"In setTime((prev) => prev + 1), what is prev?",A CSS class,A route,The previous value of time passed to the callback,A prop,The previous value of time passed to the callback
+React.js,7,setTime accepts:,Not only values but also a callback function,Only objects,Only strings,Only values,Not only values but also a callback function
+React.js,7,What technique is used in {show ? <Timer /> : null}?,Routing,Conditional Rendering,Looping,Styling,Conditional Rendering
+React.js,7,"When show is false in conditional rendering, what happens to <Timer />?",It is hidden but kept mounted,It is duplicated,It is removed from the DOM,It is restyled,It is removed from the DOM
+React.js,7,"Why does ""Timer called"" keep printing after the Timer component is removed (without clean-up)?",The console is broken,The route is wrong,A memory leak: the interval did not stop,The component is still visible,A memory leak: the interval did not stop
+React.js,7,How is the memory leak in the Timer example solved?,Removing the setInterval,Using clearInterval in the return function of useEffect,Using a CSS module,Using more state,Using clearInterval in the return function of useEffect
+React.js,7,What message is printed when the Timer is stopped in Code Snippet 7?,Timer started,Timer called,Timer stopped,useEffect runs,Timer stopped
+React.js,7,What does the useEffect hook generally synchronize ReactJS components with?,CSS files,Fonts,Icons,External systems such as fetching data from an API,External systems such as fetching data from an API
+React.js,7,Which of the following is true about memory leaks?,They cannot happen in React,They are handled in CSS,They need to be handled in the clean-up part of useEffect,They are handled by Babel,They need to be handled in the clean-up part of useEffect
+React.js,7,Which phase is the component in when the empty dependency array's callback is called?,Mounting,Updating,Unmounting,Initialization,Mounting
+React.js,7,Which of the following describes the dependency array containing multiple values?,Only one value is allowed,It must be empty,There can be n number of values,Only two values are allowed,There can be n number of values
+React.js,7,"Mostly, the values in a dependency array are:",CSS values,File names,State or props of the component,Route names,State or props of the component
+React.js,7,The lifecycle of ReactJS components is compared in the session to:,Seasons of the year,A train journey,Human life phases from birth to death,A football match,Human life phases from birth to death
+React.js,7,Which hook is used together with setInterval inside the Timer's callback to start the timer when mounted?,useNavigate,useEffect,useRef,useParams,useEffect
+React.js,7,Which is the correct way to make a callback run once on mount?,"useEffect(() => {}, [x]);",useEffect([]);,useEffect(() => {});,"useEffect(() => {}, []);","useEffect(() => {}, []);"
+React.js,7,Which is the correct way to make a callback run on every state or props change?,"useEffect(() => {}, []);",useEffect(() => {});,"useEffect(() => {}, [x]);","useEffect([], () => {});",useEffect(() => {});
+React.js,7,What does the summary say about the dependency array?,It dictates in which phase the callback function will be called,It styles components,It declares routes,It stores CSS,It dictates in which phase the callback function will be called
+React.js,7,Which of the following is NOT a lifecycle phase of ReactJS components?,Initialization,Unmounting,Compiling,Mounting,Compiling

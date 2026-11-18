@@ -1,0 +1,49 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+React.js,2,Which concept did the ReactJS team introduce by extending the idea of reusing logic through functions to reusing views (HTML + CSS)?,Reducers,Stylesheets,Components,Routers,Components
+React.js,2,"In the session's analogy, components are compared to:",Train coaches,Pages of a book,Bricks of a wall,Lego blocks,Lego blocks
+React.js,2,How many types of components does ReactJS have as per the session?,One,Two,Three,Four,Two
+React.js,2,Which are the two types of components in ReactJS?,Parent and Child components,Static and Dynamic components,Pure and Impure components,Functional and Class components,Functional and Class components
+React.js,2,Which is one of the two conditions for a normal function to be treated as a functional component?,Its name must start with a capital letter,Its name must be all in lowercase,It must not return anything,It must use the class keyword,Its name must start with a capital letter
+React.js,2,What must a functional component return?,A CSS object only,A number,A JavaScript XML (JSX) element,A database cursor,A JavaScript XML (JSX) element
+React.js,2,Which of the following is a valid functional component name?,Welcome,welcome,welcomeComponent,_welcome_,Welcome
+React.js,2,Which is the correct way to use a component named Welcome inside the App component?,{Welcome},<welcome />,Welcome(),<Welcome />,<Welcome />
+React.js,2,Which of the following is a correct way to call a component named Hello?,<Hello />,<Hello></Hello>,Both <Hello /> and <Hello></Hello>,Only Hello(),Both <Hello /> and <Hello></Hello>
+React.js,2,What is the main benefit of rendering <Welcome /> three times in App?,It demonstrates component reusability,It creates three separate apps,It increases the bundle size only,It converts class components to functions,It demonstrates component reusability
+React.js,2,Which class must a class component extend in ReactJS?,React.Component,React.Class,React.Function,React.Element,React.Component
+React.js,2,Which special method of a class component displays the view on the screen?,print(),show(),render(),display(),render()
+React.js,2,Which statement about class components is correct?,They cannot return JSX,They are written as plain functions,They are not supported in ReactJS,They serve the same purpose as functional components,They serve the same purpose as functional components
+React.js,2,"In which ReactJS version were functional components (with hooks) introduced, shifting the ecosystem from class to function?",16.8,18.2,17.0,15.0,16.8
+React.js,2,Which event accelerated the movement of the ReactJS ecosystem from class to functional components?,Introduction of hooks,Introduction of Webpack,Removal of JSX,Introduction of Redux,Introduction of hooks
+React.js,2,Which of the following is a drawback of class components?,They cannot manage state,Larger boilerplate code,They cannot be reused,They cannot be rendered,Larger boilerplate code
+React.js,2,Which JavaScript concept typically requires in-depth mastery when using class components?,The void keyword,The this keyword,The var keyword,The typeof keyword,The this keyword
+React.js,2,"According to the session, how much less code can the functional version need compared to the equivalent class component?",About 80%,About 40%,About 10%,About 20%,About 40%
+React.js,2,Which of the following is NOT an advantage of functional components?,Concise syntax,Easy to develop,Lots of boilerplate code,No need for in-depth knowledge of concepts like this,Lots of boilerplate code
+React.js,2,"Currently, in companies, which type of component is generally used?",Only class components,Only higher-order components,Only functional components,Only HTML files,Only functional components
+React.js,2,"In ReactJS, data flows:",Only from parent to child,In both directions automatically,Only from child to parent,Randomly between siblings,Only from parent to child
+React.js,2,The data passed from a parent component to a child component is called:,Styles,Hooks,Props or properties,Routes,Props or properties
+React.js,2,Props data flow is bidirectional. This statement is:,True,False,True only for class components,True only in production,False
+React.js,2,Which of the following correctly receives props in a functional component?,function Welcome(props) { ... },function Welcome<props> { ... },function Welcome: props { ... },function Welcome[props] { ... },function Welcome(props) { ... }
+React.js,2,"Given function Welcome(props) { return <h1>Hello, {props.name}</h1>; }, how is name passed from the parent?","<Welcome name=""Neo"" />","<Welcome (name=""Neo"") />","<Welcome props=""Neo"" />","<Welcome.name=""Neo"" />","<Welcome name=""Neo"" />"
+React.js,2,What is the ES6 feature used to shorten props access as function Welcome({ name })?,Hoisting,Destructuring,Spreading,Currying,Destructuring
+React.js,2,"In function Welcome({ name }), what does { name } do?",Defines a CSS class,Creates a new state variable,Extracts the name key out of the props object,Imports the name module,Extracts the name key out of the props object
+React.js,2,Which statement about passing data from child to parent is correct as per the session?,There is no direct way; hooks are a workaround,It is done with CSS,There is a direct built-in way using props,It is done automatically by the Virtual DOM,There is no direct way; hooks are a workaround
+React.js,2,Passing data from child to parent is especially useful when:,The app must be compiled,The parent must be styled,The parent must be informed about changes in the child component,The child must be deleted,The parent must be informed about changes in the child component
+React.js,2,What does HOC stand for in ReactJS?,Hyper Object Component,Higher-Order Component,Hooked Output Component,Hidden Origin Class,Higher-Order Component
+React.js,2,What do Higher-Order Components (HOC) do?,Compile JSX,Wrap components to make it easier to pass logic to them,Replace the Virtual DOM,Remove props from components,Wrap components to make it easier to pass logic to them
+React.js,2,A HOC acts like a:,Browser plug-in,Router,Template component for building new components,Database,Template component for building new components
+React.js,2,HOCs are especially useful in:,Installing NodeJS,Theming and customizing a component,Creating servers,Setting up the IDE,Theming and customizing a component
+React.js,2,"In the session's example, which function is the HOC?",App,StyledText,withStyles,Text,withStyles
+React.js,2,"In the session's example, what is StyledText?",A new component created by wrapping the existing Text component using withStyles,A Redux store,A class component that extends Text,A CSS file,A new component created by wrapping the existing Text component using withStyles
+React.js,2,Which statement about the HOC example output is correct?,"<Text /> contains its own style, while <StyledText /> contains the HOC style",Both components always have identical style,<Text /> has no style at all,<StyledText /> removes the Text component,"<Text /> contains its own style, while <StyledText /> contains the HOC style"
+React.js,2,What does a HOC such as withStyles(Component) return?,A string,A new component,A route,A CSS file,A new component
+React.js,2,Which of the following correctly describes the relationship between a component and the final UI?,Components cannot be nested,Components cannot be reused,The UI must be a single component,Each part of the UI can be a combination of multiple components bundled together,Each part of the UI can be a combination of multiple components bundled together
+React.js,2,Which type of component was ReactJS originally based on?,Class components,HOC only,Functional components,Style components,Class components
+React.js,2,What is the base class that serves for creating a class component called?,React.Root,React.Main,React.Base,React.Component,React.Component
+React.js,2,"In the session, component reusability is shown by:",Using HOC only,Copying the same code multiple times,Writing three class components,Calling the same Welcome component multiple times in App,Calling the same Welcome component multiple times in App
+React.js,2,Where is the component file in the session's examples written?,index.html,App.js,robots.txt,package.json,App.js
+React.js,2,A component name beginning with a lowercase letter will be treated by React as:,A HOC,A functional component,A class component,An HTML tag,An HTML tag
+React.js,2,Which keyword is used to export a component so it can be imported elsewhere?,send,export,expose,extern,export
+React.js,2,Which is the correct way to nest the Welcome component inside App's JSX return?,return Welcome.render;,return [Welcome],return div(Welcome);,return <div><Welcome /></div>;,return <div><Welcome /></div>;
+React.js,2,"Which of the following describes ""props"" best?",Read-only data passed from parent to child,A lifecycle method,Private data a component creates and manages,A CSS rule,Read-only data passed from parent to child
+React.js,2,In which direction does a function passed as a prop allow communication?,From sibling to sibling directly,From browser to server,From CSS to JS,From child to parent by calling the parent's function,From child to parent by calling the parent's function
+React.js,2,Which is the primary drawback listed for class components that led to lesser usage?,Larger boilerplate code and need to master this,They cannot be imported,They run slower on servers,They do not support JSX,Larger boilerplate code and need to master this

@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+React.js,6,Which are the three main styles applied in HTML using CSS?,"Static, dynamic, and hybrid","Fixed, fluid, and flex","Local, global, and module","Inline, internal, and external","Inline, internal, and external"
+React.js,6,"In inline styles, styles are given directly to:",The package.json,The head style tag,The style attribute of the element,A separate .css file,The style attribute of the element
+React.js,6,"In internal styles, where is the style tag declared?",In the <head>,In the <img> tag,In an external file,In the <footer>,In the <head>
+React.js,6,"In external styles, how is the separate CSS file linked to the HTML file?",By the <script> tag,By the <link> tag in the <head>,By the <meta> tag,By the <style> tag in the body,By the <link> tag in the <head>
+React.js,6,Which of the three HTML styling approaches is recommended?,External style,Inline style,Internal style,All equally,External style
+React.js,6,Why are inline styles not recommended in HTML?,They are not supported,They are hard to override,They cannot set colors,They require a server,They are hard to override
+React.js,6,Internal styles are used when:,Critical style has to be sent whenever the HTML file is loaded,A site has no CSS,Images are missing,Fonts must be installed,Critical style has to be sent whenever the HTML file is loaded
+React.js,6,External styles follow which principle?,Single responsibility of JS,Inheritance,Separation of concerns,Polymorphism,Separation of concerns
+React.js,6,How many styling methods in ReactJS are discussed in the summary?,Two,Three,Four,Five,Three
+React.js,6,Which are the three ReactJS styling types listed in the summary?,"Redux, Context, and Hooks","SASS, LESS, and Stylus","Style objects, external CSS, and CSS modules","Inline, internal, and external HTML","Style objects, external CSS, and CSS modules"
+React.js,6,What happens in ReactJS if the style attribute is given as a string?,It works normally,It results in an error,It is ignored silently,It is converted automatically,It results in an error
+React.js,6,ReactJS expects the style attribute to be:,A string,A number,An array,A JavaScript object,A JavaScript object
+React.js,6,Which is the correct way to apply a styles object in JSX?,style=(styles),"style=""styles""",style={styles},style=[styles],style={styles}
+React.js,6,Keys of the styles object in ReactJS must be written in:,kebab-case,UPPERCASE,snake_case,camelCase,camelCase
+React.js,6,Which key is correct inside a React style object?,backgroundColor,Background-Color,background-color,background_color,backgroundColor
+React.js,6,Which style key is correct for the CSS property border-radius in a React style object?,border_radius,border-radius,borderRadius,Border-Radius,borderRadius
+React.js,6,Which style key is correct for object-fit in a React style object?,objectFit,object_fit,object-fit,OBJECTFIT,objectFit
+React.js,6,Which case must be used in style objects?,Kebab,Underscore,Camel,Title,Camel
+React.js,6,Inline styles are generally used in ReactJS when:,Icons are installed,The style has to be changed dynamically,Fonts are added,The style is static,The style has to be changed dynamically
+React.js,6,Style objects generate which type of CSS in the DOM?,Inline CSS,Internal CSS,External CSS,No CSS,Inline CSS
+React.js,6,Style objects generate internal CSS. This statement is:,True,False,True only in production,True only for images,False
+React.js,6,How is an external CSS file used in a ReactJS component?,"import ""./App.css"";",style.load(),<link> inside JSX only,require.css(),"import ""./App.css"";"
+React.js,6,Which attribute is used in JSX to assign a CSS class from an external file?,styleClass,class,cssName,className,className
+React.js,6,"When a ReactJS app with external CSS is running in development, how are the styles added?",As inline styles,As internal CSS,Not added,As external CSS,As internal CSS
+React.js,6,"When a ReactJS app with external CSS is in production, how are the styles loaded?",As an external CSS file,As internal CSS,As inline styles,As JS objects,As an external CSS file
+React.js,6,Which approach guarantees a unique class name for each style?,Internal styles,Style objects,External CSS,CSS Modules,CSS Modules
+React.js,6,What is the benefit of CSS modules over plain external CSS?,They are faster to type,They need no files,They work only in HTML,"The generated class name is always unique, avoiding clashes and unwanted overrides","The generated class name is always unique, avoiding clashes and unwanted overrides"
+React.js,6,How are CSS module styles imported in a ReactJS component?,link styles,"import ""./App.module.css"" only",require(styles),"import styles from ""./App.module.css""","import styles from ""./App.module.css"""
+React.js,6,How is a class applied from a CSS module?,"className=""styles""","style=""profile-pic""","class=""profile-pic""","className={styles[""profile-pic""]}","className={styles[""profile-pic""]}"
+React.js,6,Which of the following always provides unique CSS classes?,Style Objects,CSS Modules,External CSS,External Styles,CSS Modules
+React.js,6,Which website is used to add external fonts in the session?,fontawesome.com,fonts.google.com,typekit.com,fonts.apple.com,fonts.google.com
+React.js,6,Where are Google font <link> tags pasted in a ReactJS (create-react-app) project?,package.json,src/App.css,src/index.css only,public/index.html under the <head> tag,public/index.html under the <head> tag
+React.js,6,Under which tag are fonts added?,<footer>,<body>,<section>,<head>,<head>
+React.js,6,"After adding the font link, how is the font used in CSS?",font: load('Roboto');,font-import: Roboto;,typeface: Roboto;,"font-family: 'Roboto', sans-serif;","font-family: 'Roboto', sans-serif;"
+React.js,6,Which library is used to add icons in the session?,yup,react-router-dom,formik,react-bootstrap-icons,react-bootstrap-icons
+React.js,6,Which command installs the icons library?,npm i react-bootstrap-icons,npx icons,npm run icons,npm start icons,npm i react-bootstrap-icons
+React.js,6,How are Bootstrap icons used in a component?,"Imported as components, such as <Instagram />",Written as CSS,Written as class names only,Added as <img> tags only,"Imported as components, such as <Instagram />"
+React.js,6,Which of the following correctly imports icons?,"import * as icons from ""css"";","import { Instagram, Twitter } from ""react-bootstrap-icons"";","import icons ""react"";","import Instagram from ""bootstrap"";","import { Instagram, Twitter } from ""react-bootstrap-icons"";"
+React.js,6,Which style approach is always recommended according to the summary?,External CSS,Inline CSS,Internal CSS,None,External CSS
+React.js,6,Which of the following is the preferred way of styling?,External styling,Internal styling,Inline styling,No styling,External styling
+React.js,6,Which CSS property is used with height and width equal to create a perfect circle image?,outline: 50%,border-radius: 50%,margin: 50%,padding: 50%,border-radius: 50%
+React.js,6,"In the session's inline style example, which property zooms the image without stretching?",overflow: hidden,clip,object-fit: cover,zoom: 1,object-fit: cover
+React.js,6,What error message is shown when a string is passed to the style prop in ReactJS?,Cannot find module,Unexpected token,"The ""style"" prop expects a mapping from style properties to values, not a string",Port already in use,"The ""style"" prop expects a mapping from style properties to values, not a string"
+React.js,6,"In Code Snippet 6 for style objects, which type is the style prop value given using template syntax?",A JavaScript object,A JSON file,A CSS file,An HTML string,A JavaScript object
+React.js,6,Which of the following is true about CSS modules and class names in the DOM during development?,The class name stays the same,The class name is generated with a unique suffix,Class names are removed,Class names turn into IDs,The class name is generated with a unique suffix
+React.js,6,Which file contains the CSS in the plain CSS example?,index.html,App.js,App.css,manifest.json,App.css
+React.js,6,Why is external CSS recommended over inline in React?,It disables JavaScript,It runs only offline,It needs no import,It separates HTML and CSS code and is easier to maintain,It separates HTML and CSS code and is easier to maintain
+React.js,6,Which statement about fonts and React is correct?,Fonts cannot be used in React,Fonts can be directly added to the <head> tag in index.html,Fonts must be added in package.json,Fonts must be compiled by Babel,Fonts can be directly added to the <head> tag in index.html
+React.js,6,Which of the following should be used when you worry your styles will be overridden by other styles?,CSS modules,Inline HTML,Internal HTML styles,No styles,CSS modules
+React.js,6,"Which of these describes ""Plain Inline Styling"" in ReactJS?",Using style objects,Using SASS,Using CSS modules,Using external fonts,Using style objects

@@ -1,0 +1,53 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+React.js,1,What is ReactJS?,A CSS pre-processor,A backend framework for Node.js,An open-source front-end JavaScript library for building component-based user interfaces,A server-side database engine,An open-source front-end JavaScript library for building component-based user interfaces
+React.js,1,"Which organization, assisted by a community of individual developers, maintains ReactJS?",Google,Amazon,Meta (formerly Facebook),Microsoft,Meta (formerly Facebook)
+React.js,1,ReactJS is used only to build and render user interface components to the:,Database,Document Object Model (DOM),Web server,Operating system,Document Object Model (DOM)
+React.js,1,Which of the following is NOT an advantage of declarative views in ReactJS?,Developers must manually update the DOM after every change,Updates and renders the right components as data changes,Predictable code,Easy to debug,Developers must manually update the DOM after every change
+React.js,1,Which statement about component-based design in ReactJS is correct?,State must always be kept inside the DOM,Components cannot be combined to form complex UIs,An application can contain only one component,Components are capable of managing their own states,Components are capable of managing their own states
+React.js,1,"In ReactJS, the logic of components is written using:",Only HTML files,JavaScript instead of templates,XML templates,Only CSS files,JavaScript instead of templates
+React.js,1,What is Babel in the ReactJS ecosystem?,A routing library,A state management library,A module bundler,A JavaScript compiler that converts JavaScript code from one format to another,A JavaScript compiler that converts JavaScript code from one format to another
+React.js,1,What is Webpack?,A JavaScript compiler,A testing library,A module bundler that bundles JavaScript modules and dependencies into a single file,A CSS framework,A module bundler that bundles JavaScript modules and dependencies into a single file
+React.js,1,Which ecosystem component renders specific ReactJS components depending on the URL?,Webpack,Babel,Redux,Routing (ReactJS Router),Routing (ReactJS Router)
+React.js,1,Which is described as the most popular CSS approach in the ReactJS styling ecosystem?,Flash styling,Inline HTML tables,Styled Components,XSLT,Styled Components
+React.js,1,"In Redux, all component state details are collated in a single location called the:",Router,Vault,Store,Context,Store
+React.js,1,"In Redux, the states in the Store change through:",Routes,Hooks,Props,Actions,Actions
+React.js,1,Which statement about Redux is correct?,It works only with ReactJS,It is a module bundler,It is used within ReactJS and also with other view libraries,It is a CSS pre-processor,It is used within ReactJS and also with other view libraries
+React.js,1,Which feature manages the state of a component without depending on external libraries?,Context API,Webpack,Babel,Redux,Context API
+React.js,1,Context in ReactJS provides a way to:,Style components using CSS,Bundle all JS files,Compile JSX to JavaScript,Pass data through the component tree without passing props down manually at every level,Pass data through the component tree without passing props down manually at every level
+React.js,1,The Context API was developed by the ReactJS team to avoid dependency on:,NodeJS,HTML,External libraries such as Redux,Browsers,External libraries such as Redux
+React.js,1,What is the Document Object Model (DOM)?,"A structured, tree-based hierarchical representation of an HTML document created by the browser",A JavaScript compiler,A CSS file format,A server-side template,"A structured, tree-based hierarchical representation of an HTML document created by the browser"
+React.js,1,Why is it easier for scripting languages to interact with a Web page through the DOM?,Scripts can easily access and understand the structured format in the DOM,DOM stores data in a database,DOM removes the need for a browser,DOM converts JavaScript into HTML,Scripts can easily access and understand the structured format in the DOM
+React.js,1,What is the Virtual DOM?,A new HTML standard,"A copy, clone, or virtual image of the DOM",A browser plug-in,A server-side database,"A copy, clone, or virtual image of the DOM"
+React.js,1,"For every object in the DOM, the Virtual DOM has:",No equivalent object,An equivalent object,Two equivalent objects,Only a CSS rule,An equivalent object
+React.js,1,"When the state of an element changes in a ReactJS application, the change is updated first in the:",Virtual DOM,Real DOM,Server,Browser cache,Virtual DOM
+React.js,1,How many Virtual DOM trees does ReactJS manage while updating the UI?,One,Two (the updated version and the pre-update version),Three,Four,Two (the updated version and the pre-update version)
+React.js,1,What is the process of comparing the pre-updated Virtual DOM with the updated Virtual DOM known as?,Compiling,Diffing,Bundling,Routing,Diffing
+React.js,1,Why does ReactJS use batch updates for the real DOM?,To update the DOM after every single change,To avoid using the Virtual DOM,To update the real DOM together instead of after every single change,To disable re-rendering,To update the real DOM together instead of after every single change
+React.js,1,Which of the following are the core building blocks of ReactJS applications?,Tables,Components,Servers,Cookies,Components
+React.js,1,"In technical terms, each ReactJS component returns:",A database record,A CSS file,An XML schema,A part of JSX code indicating what must be rendered on the screen,A part of JSX code indicating what must be rendered on the screen
+React.js,1,Functional components in ReactJS are:,HTML files,JavaScript functions,JavaScript ES6 classes,CSS modules,JavaScript functions
+React.js,1,Which feature of JavaScript is used to create class-based components in ReactJS?,Closures only,Callbacks,ES6 classes,Promises,ES6 classes
+React.js,1,Which statement about props is correct?,Props are read-only data received by a component,Props are used to manage private data,Props can flow from child to parent only,Props data can be modified by the receiving component,Props are read-only data received by a component
+React.js,1,Which statement about state is correct?,State is passed from parent to child,"Components create and manage their own state, which is private to the component",State is read-only,Other components can freely modify a component's state,"Components create and manage their own state, which is private to the component"
+React.js,1,"In ReactJS, data flow is:",Bidirectional,"Unidirectional, from parent to child",Random,"Unidirectional, from child to parent","Unidirectional, from parent to child"
+React.js,1,What does JSX stand for?,JavaScript Syntax,Java Standard XML,JavaScript XML,JSON Extension,JavaScript XML
+React.js,1,Which of the following is an advantage of JSX?,It forces markup and logic into separate files,Errors can be found during compiling,It cannot be used with Babel,It slows down processing,Errors can be found during compiling
+React.js,1,Which tool is used as a pre-processor to read and convert JSX into standard JavaScript?,Redux,Context API,Babel,Git,Babel
+React.js,1,How many stages are there in the lifecycle of a ReactJS component as described in the session?,Two,Three,Four,Five,Four
+React.js,1,Which of the following lists the stages of the component lifecycle in order?,"Initialization, Updating, Mounting, Unmounting","Updating, Mounting, Initialization, Unmounting","Initialization, Mounting, Updating, Unmounting","Mounting, Initialization, Unmounting, Updating","Initialization, Mounting, Updating, Unmounting"
+React.js,1,In which lifecycle stage is a component removed from the DOM?,Updating,Mounting,Initialization,Unmounting,Unmounting
+React.js,1,The componentDidMount() method is called in which stage?,Unmounting,Updating,Mounting,Initialization,Mounting
+React.js,1,Which JavaScript runtime must be installed for a ReactJS development environment?,Rhino,Deno,NodeJS,PHP,NodeJS
+React.js,1,Which IDE is installed in the session for writing ReactJS code?,Eclipse,Notepad,Visual Studio Code,NetBeans,Visual Studio Code
+React.js,1,Which command installs the create-react-app library globally?,npx create-react-app,npm i -g create-react-app,npm run build,npm start,npm i -g create-react-app
+React.js,1,Which version of the Node.js installer is downloaded in the session?,20.1.0,16.5.0,18.14.2,12.0.1,18.14.2
+React.js,1,Which version of ReactJS is used in the session?,17.0.2,19.0,18.2.0,16.8,18.2.0
+React.js,1,Which command is used in the integrated terminal to create a new ReactJS app?,react new app,node create-react-app,npm install react-app,npx create-react-app,npx create-react-app
+React.js,1,"In the sample app creation, which command starts the development server after moving into the app folder?",npm start,npm stop,npm build-app,npm init,npm start
+React.js,1,How can a running ReactJS application be stopped from the terminal?,Press Ctrl+S,Run npm delete,Press Ctrl+C,Close the browser tab,Press Ctrl+C
+React.js,1,"According to the default ReactJS welcome page, which file should be edited to change the app?",package.json,index.html,src/App.js,public/manifest.json,src/App.js
+React.js,1,"In the NodeJS installation, the option ""Automatically install the necessary tools"" is:",Not available,Mandatory,Required only for Mac,Optional,Optional
+React.js,1,Which is an advantage of using an IDE like Visual Studio Code for ReactJS?,It hosts the application on the internet,It replaces the need for NodeJS,It reduces development time and auto-generates base code such as component definitions,It compiles JSX without Babel,It reduces development time and auto-generates base code such as component definitions
+React.js,1,Why is the Virtual DOM faster to work with than the real DOM?,Because it does not use JavaScript,Because it avoids all rendering,Because it is stored on the server,Because only the updated part is rendered on the Web page after comparing versions,Because only the updated part is rendered on the Web page after comparing versions
+React.js,1,Single-page and mobile applications and server-rendered applications (with frameworks like Next.js) can be developed with:,Babel only,ReactJS,Redux only,Webpack only,ReactJS
+React.js,1,Which of the following is true about traditional styling in the ReactJS ecosystem?,It requires Redux,It encapsulates styling within components,It cannot use classes,It includes styling details in the index.css file and can use SASS or CSS pre-processors,It includes styling details in the index.css file and can use SASS or CSS pre-processors

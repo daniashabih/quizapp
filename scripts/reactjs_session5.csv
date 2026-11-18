@@ -1,0 +1,53 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+React.js,5,What does MPA stand for?,Main Page Application,Multi-Process Application,Multi-Page Application,Managed Page Architecture,Multi-Page Application
+React.js,5,"In an MPA, what happens when a user submits a form?",Only a part of the page is replaced,The server responds with a new HTML file and the browser renders the page from scratch,No request is sent,The response is always JSON and no refresh occurs,The server responds with a new HTML file and the browser renders the page from scratch
+React.js,5,"In an SPA, what does the server respond with for the initial request?",Only a JSON file,Multiple HTML files,Only a CSS file,An index.html and a JavaScript file,An index.html and a JavaScript file
+React.js,5,"In an SPA, in which format does the response usually come when a form is submitted?",Plain HTML page,JSON,XML,PDF,JSON
+React.js,5,"In an SPA, what is replaced when new data arrives?",The server,The browser,The entire page,Only the parts of the page that require change,Only the parts of the page that require change
+React.js,5,Which of the following is an advantage of SPA?,No full-page refresh,Always faster initial load,No need for JavaScript,Simple SEO,No full-page refresh
+React.js,5,Which of the following is an advantage of SPA related to the Internet connection?,Needs no browser,Offline functioning with previously visited pages,Requires constant connectivity,Works only offline,Offline functioning with previously visited pages
+React.js,5,Why do SPAs save bandwidth?,They use only HTML,Only the parts that need to change are requested,They disable images,They download the entire site each time,Only the parts that need to change are requested
+React.js,5,Which of the following is a drawback of SPA?,Complex development,Full page reload on each click,No JavaScript support,Cannot be bookmarked,Complex development
+React.js,5,Why does an SPA need additional Search Engine Optimization (SEO) care?,Search engine crawlers must execute JavaScript to index the app,SPAs have no URLs,SPAs do not use HTML,SPAs are blocked by browsers,Search engine crawlers must execute JavaScript to index the app
+React.js,5,Why can an SPA have a slow initial load?,It downloads more resources when loading for the first time,It uses only images,It requires a database,It does not use JavaScript,It downloads more resources when loading for the first time
+React.js,5,"If client-side JavaScript is disabled in the browser, an SPA will:",Work normally,Work only partly with CSS,Not work,Switch to MPA automatically,Not work
+React.js,5,Which package is used to implement routing in ReactJS?,react-scripts,react-router-dom,react-redux,react-native,react-router-dom
+React.js,5,Routing in an SPA refers to:,Compiling the JSX,Installing Node,Changing the page in the SPA,Fetching images,Changing the page in the SPA
+React.js,5,Which of the following is NOT an advantage of routing?,The app looks organized,Pages can be protected behind a login form,Users can bookmark pages,It removes the need for components,It removes the need for components
+React.js,5,Which command installs the React Router used in the session?,npm start router,npm install react-routing,npm install react-router-dom@6,npx router-install,npm install react-router-dom@6
+React.js,5,Which of the following is a basic component of the ReactJS Router?,Link,Store,Webpack,Reducer,Link
+React.js,5,How many types of routers are in react-router-dom as discussed?,One,Two,Three,Four,Two
+React.js,5,Which are the two types of routers in react-router-dom?,StaticRouter and DynamicRouter,LinkRouter and PathRouter,BrowserRouter and HashRouter,MainRouter and SubRouter,BrowserRouter and HashRouter
+React.js,5,Which router is used with newer browsers?,NativeRouter,HashRouter,BrowserRouter,MemoryRouter,BrowserRouter
+React.js,5,Which router is used with older browsers like Internet Explorer?,HashRouter,BrowserRouter,Both are identical,None,HashRouter
+React.js,5,Where is BrowserRouter wrapped around the App component in the session?,App.css,index.js,package.json,UserList.js,index.js
+React.js,5,Routing starts functioning only after:,BrowserRouter is imported and wrapped around the App component,The server restarts,Redux is installed,The CSS is loaded,BrowserRouter is imported and wrapped around the App component
+React.js,5,Which component matches the URL with a given component?,useParams,Route,Link,Navigate,Route
+React.js,5,"In <Route path=""/"" element={<Home />} />, path=""/"" indicates:",The users page,A redirect,A 404 page,The home page,The home page
+React.js,5,"In the session's routing, which component is displayed when the URL is /users?",UserList,Home,UserDetail,NotFound,UserList
+React.js,5,Which component should wrap multiple Route components in React Router v6?,Switch,Div,Router,Routes,Routes
+React.js,5,Why was the Link component introduced?,To load fonts,To create state,To style pages,"Users cannot remember all URLs, and Link allows navigation through mouse click","Users cannot remember all URLs, and Link allows navigation through mouse click"
+React.js,5,Which of the following correctly creates a link to the users page?,"<Link path=""/users"">Users</Link>","<Link to=""/users"">Users</Link>","<Link url=""/users"">Users</Link>","<Link href=""/users"">Users</Link>","<Link to=""/users"">Users</Link>"
+React.js,5,Which prop of the Link component specifies the destination?,to,url,src,href,to
+React.js,5,What is the effect of using the Link component compared with the anchor tag <a>?,Link causes no page refresh while anchor causes a refresh,Both cause a refresh,Link causes a refresh and anchor does not,Neither works,Link causes no page refresh while anchor causes a refresh
+React.js,5,Anchor tag will not cause refresh. This statement is:,True,False,True only in production,True only with HashRouter,False
+React.js,5,Which hook changes the URL programmatically?,useNavigate,useEffect,useState,useParams,useNavigate
+React.js,5,Which is a good use of useNavigate?,Navigating to a success or retry page automatically after payment,Extracting the id from the URL,Styling a component,Declaring state,Navigating to a success or retry page automatically after payment
+React.js,5,Which hook extracts the parameter from the URL?,useState,useEffect,useParams,useNavigate,useParams
+React.js,5,useParams is typically used to get what in an e-commerce product details page?,The Node version,The component name,The id of the product,The CSS class,The id of the product
+React.js,5,Which route path is used to match a dynamic user id?,/users/<id>,/users/{id},/users/id,/users/:id,/users/:id
+React.js,5,"In path=""/users/:id"", what does "":"" indicate?",A CSS class,A port number,The id is a variable,A comment,The id is a variable
+React.js,5,What does the useParams() hook return?,A boolean,A string,An object,A number,An object
+React.js,5,"In const { id } = useParams(), what technique is used?",Hoisting,Currying,Destructuring,Spreading,Destructuring
+React.js,5,"When the user visits /users/0, which user details are displayed in the session?",The first user,The second user,The last user,None,The first user
+React.js,5,How does the User card navigate to the details page on click?,useParams(id),navigate(`/users/${id}`),Link.reload(),window.close(),navigate(`/users/${id}`)
+React.js,5,"Which path is used to match all paths when no other route matches, for a 404 page?","path=""*""","path=""/404""","path=""/all""","path=""?""","path=""*"""
+React.js,5,Which component is used for redirection?,Router,Switch,Redirect,Navigate,Navigate
+React.js,5,Which prop is used with Navigate to replace the history entry during redirection?,push,replace,back,redo,replace
+React.js,5,Why is redirection used when a route changes from /people to /users?,So old users using old URLs remain unaffected,To delete old pages,To disable routing,To reduce bundle size,So old users using old URLs remain unaffected
+React.js,5,Which of the following is true about the Link component?,It cannot navigate,It causes no refresh,It is used for styling,It always reloads the page,It causes no refresh
+React.js,5,Does HashRouter work in old browsers?,Yes,No,Only in Chrome,Only in production,Yes
+React.js,5,Which statement about SPA and ReactJS is correct?,SPA is not possible with ReactJS,SPA is the same as MPA,SPA was invented by ReactJS,SPA existed before ReactJS but was popularized by it,SPA existed before ReactJS but was popularized by it
+React.js,5,Which of the following describes the traditional Web app?,PWA,SPA,CSR,MPA,MPA
+React.js,5,Which hook-based approach is useful when styling must look like a button or a card and not like a Link?,useRef,useNavigate,useParams,useState,useNavigate
+React.js,5,Which component renders only the UserList component and not Home for the URL /users?,Navigate,"Route with path=""/users""",BrowserRouter,Link,"Route with path=""/users"""

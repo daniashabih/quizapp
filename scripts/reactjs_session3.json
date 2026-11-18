@@ -1,0 +1,525 @@
+{
+  "category": "React.js",
+  "session": 3,
+  "title": "Session 3: JSX Elements",
+  "totalQuestions": 47,
+  "questions": [
+    {
+      "questionText": "What is JSX?",
+      "options": [
+        "A database query language",
+        "A browser built-in language",
+        "A syntax extension for JavaScript that lets you write HTML-like markup within a JavaScript file",
+        "A CSS framework"
+      ],
+      "correctAnswer": "A syntax extension for JavaScript that lets you write HTML-like markup within a JavaScript file",
+      "explanation": "Correct answer is C) A syntax extension for JavaScript that lets you write HTML-like markup within a JavaScript file."
+    },
+    {
+      "questionText": "Which statement about browsers and JSX is correct?",
+      "options": [
+        "Browsers require JSX only for CSS",
+        "Browsers convert JSX into CSS",
+        "Browsers do not understand JSX, so it is converted into JavaScript",
+        "Browsers natively understand JSX"
+      ],
+      "correctAnswer": "Browsers do not understand JSX, so it is converted into JavaScript",
+      "explanation": "Correct answer is C) Browsers do not understand JSX, so it is converted into JavaScript."
+    },
+    {
+      "questionText": "Which tools convert JSX into JavaScript that the browser can understand?",
+      "options": [
+        "Redux and Context",
+        "npm and npx only",
+        "Git and GitHub",
+        "Webpack and Babel"
+      ],
+      "correctAnswer": "Webpack and Babel",
+      "explanation": "Correct answer is D) Webpack and Babel."
+    },
+    {
+      "questionText": "In the early days of Web development, how were content, design, and logic kept?",
+      "options": [
+        "Content in HTML, design in CSS, and logic in JavaScript, usually in separate files",
+        "All in one file",
+        "All in the database",
+        "All inside CSS"
+      ],
+      "correctAnswer": "Content in HTML, design in CSS, and logic in JavaScript, usually in separate files",
+      "explanation": "Correct answer is A) Content in HTML, design in CSS, and logic in JavaScript, usually in separate files."
+    },
+    {
+      "questionText": "In ReactJS, where do rendering logic and markup live?",
+      "options": [
+        "In separate files",
+        "In the same place - components",
+        "In the browser cache",
+        "In the database"
+      ],
+      "correctAnswer": "In the same place - components",
+      "explanation": "Correct answer is B) In the same place - components."
+    },
+    {
+      "questionText": "What is the benefit of keeping a button's rendering logic and markup together?",
+      "options": [
+        "They stay in sync with each other on every edit",
+        "They are stored on the server",
+        "They become slower",
+        "They cannot be reused"
+      ],
+      "correctAnswer": "They stay in sync with each other on every edit",
+      "explanation": "Correct answer is A) They stay in sync with each other on every edit."
+    },
+    {
+      "questionText": "Why is it safe to change the code of unrelated components, such as the sidebar and a button, independently?",
+      "options": [
+        "Because JSX ignores logic",
+        "Because components share the same variables",
+        "Because ReactJS deletes unused code",
+        "Because each component's markup is isolated from the others"
+      ],
+      "correctAnswer": "Because each component's markup is isolated from the others",
+      "explanation": "Correct answer is D) Because each component's markup is isolated from the others."
+    },
+    {
+      "questionText": "JSX looks much like HTML but is:",
+      "options": [
+        "Written only in CSS",
+        "Identical to HTML",
+        "A bit stricter and can display dynamic information",
+        "Less strict and cannot display dynamic information"
+      ],
+      "correctAnswer": "A bit stricter and can display dynamic information",
+      "explanation": "Correct answer is C) A bit stricter and can display dynamic information."
+    },
+    {
+      "questionText": "How many rules must JSX follow, as discussed in the session?",
+      "options": [
+        "Two",
+        "Three",
+        "Four",
+        "Five"
+      ],
+      "correctAnswer": "Three",
+      "explanation": "Correct answer is B) Three."
+    },
+    {
+      "questionText": "Which of the following is NOT one of the three JSX rules?",
+      "options": [
+        "Close all tags",
+        "Return a single root element",
+        "Always use lowercase component names",
+        "Use camelCase for most attributes"
+      ],
+      "correctAnswer": "Always use lowercase component names",
+      "explanation": "Correct answer is C) Always use lowercase component names."
+    },
+    {
+      "questionText": "Which rule applies to returning multiple elements from a component?",
+      "options": [
+        "Multiple elements can be returned directly without any wrapper",
+        "Only two elements can be returned",
+        "Multiple elements must be wrapped within a single parent tag",
+        "Multiple elements must be separated by commas"
+      ],
+      "correctAnswer": "Multiple elements must be wrapped within a single parent tag",
+      "explanation": "Correct answer is C) Multiple elements must be wrapped within a single parent tag."
+    },
+    {
+      "questionText": "Which of the following can be used to wrap multiple JSX elements without adding an extra DOM node?",
+      "options": [
+        "<group />",
+        "<wrap></wrap>",
+        "<root></root>",
+        "<></> (Fragment)"
+      ],
+      "correctAnswer": "<></> (Fragment)",
+      "explanation": "Correct answer is D) <></> (Fragment)."
+    },
+    {
+      "questionText": "Which of the following is a valid wrapper for multiple elements in JSX?",
+      "options": [
+        "<div></div>",
+        "<></>",
+        "Both <div></div> and <></>",
+        "Neither"
+      ],
+      "correctAnswer": "Both <div></div> and <></>",
+      "explanation": "Correct answer is C) Both <div></div> and <></>."
+    },
+    {
+      "questionText": "In JSX, a self-closing tag such as <img> must be written as:",
+      "options": [
+        "<img></",
+        "<img>",
+        "</img>",
+        "<img/>"
+      ],
+      "correctAnswer": "<img/>",
+      "explanation": "Correct answer is D) <img/>."
+    },
+    {
+      "questionText": "In JSX, <li>Badminton must be written as:",
+      "options": [
+        "<li>Badminton</li>",
+        "<li/>Badminton",
+        "li>Badminton",
+        "<li>Badminton"
+      ],
+      "correctAnswer": "<li>Badminton</li>",
+      "explanation": "Correct answer is A) <li>Badminton</li>."
+    },
+    {
+      "questionText": "Why does Code Snippet 4 (copied HTML with unclosed <li> tags and multiple root elements) not work in JSX?",
+      "options": [
+        "Because JSX does not support lists",
+        "Because lists are not allowed in React",
+        "Because of CSS errors",
+        "Because JSX is stricter than HTML and has rules that must be followed"
+      ],
+      "correctAnswer": "Because JSX is stricter than HTML and has rules that must be followed",
+      "explanation": "Correct answer is D) Because JSX is stricter than HTML and has rules that must be followed."
+    },
+    {
+      "questionText": "In JSX, the HTML class attribute is written as:",
+      "options": [
+        "class",
+        "klass",
+        "cssClass",
+        "className"
+      ],
+      "correctAnswer": "className",
+      "explanation": "Correct answer is D) className."
+    },
+    {
+      "questionText": "Why can the word \"class\" not be used as an attribute name in JSX?",
+      "options": [
+        "It is deprecated in CSS",
+        "It is used only in Redux",
+        "It is not valid HTML",
+        "It is a reserved word in JavaScript"
+      ],
+      "correctAnswer": "It is a reserved word in JavaScript",
+      "explanation": "Correct answer is D) It is a reserved word in JavaScript."
+    },
+    {
+      "questionText": "Which SVG attribute is correctly written in JSX?",
+      "options": [
+        "stroke-width",
+        "Stroke-Width",
+        "strokeWidth",
+        "stroke_width"
+      ],
+      "correctAnswer": "strokeWidth",
+      "explanation": "Correct answer is C) strokeWidth."
+    },
+    {
+      "questionText": "Which of the following attributes keeps its dashes in JSX?",
+      "options": [
+        "font-size",
+        "stroke-width",
+        "aria-* and data-*",
+        "background-color"
+      ],
+      "correctAnswer": "aria-* and data-*",
+      "explanation": "Correct answer is C) aria-* and data-*."
+    },
+    {
+      "questionText": "Why are attributes written in camelCase in JSX?",
+      "options": [
+        "Because of the browser",
+        "Because CSS requires camelCase",
+        "Because JSX turns into JavaScript and attributes become keys of JavaScript objects, which have naming limitations",
+        "Because HTML requires camelCase"
+      ],
+      "correctAnswer": "Because JSX turns into JavaScript and attributes become keys of JavaScript objects, which have naming limitations",
+      "explanation": "Correct answer is C) Because JSX turns into JavaScript and attributes become keys of JavaScript objects, which have naming limitations."
+    },
+    {
+      "questionText": "Which of the following is the correct JSX attribute for the CSS class \"user-name\"?",
+      "options": [
+        "css=\"user-name\"",
+        "className=\"user-name\"",
+        "classname=\"user-name\"",
+        "class=\"user-name\""
+      ],
+      "correctAnswer": "className=\"user-name\"",
+      "explanation": "Correct answer is B) className=\"user-name\"."
+    },
+    {
+      "questionText": "Which symbols open a window to JavaScript inside JSX markup?",
+      "options": [
+        "( )",
+        "< >",
+        "[ ]",
+        "{ }"
+      ],
+      "correctAnswer": "{ }",
+      "explanation": "Correct answer is D) { }."
+    },
+    {
+      "questionText": "Curly braces {} in JSX are also known as:",
+      "options": [
+        "Route syntax",
+        "Fragment syntax",
+        "Style syntax",
+        "Template syntax"
+      ],
+      "correctAnswer": "Template syntax",
+      "explanation": "Correct answer is D) Template syntax."
+    },
+    {
+      "questionText": "In const name = \"Mark\"; <span>{name}</span>, what is displayed?",
+      "options": [
+        "{name}",
+        "Mark",
+        "name",
+        "undefined"
+      ],
+      "correctAnswer": "Mark",
+      "explanation": "Correct answer is B) Mark."
+    },
+    {
+      "questionText": "How should a string attribute be passed to JSX?",
+      "options": [
+        "Within curly braces only",
+        "Within angle brackets",
+        "Within single or double quotes",
+        "Within square brackets"
+      ],
+      "correctAnswer": "Within single or double quotes",
+      "explanation": "Correct answer is C) Within single or double quotes."
+    },
+    {
+      "questionText": "If an attribute like src needs a value taken dynamically from a JavaScript variable, how is it written?",
+      "options": [
+        "src=[pic]",
+        "src=\"pic\"",
+        "src=(pic)",
+        "src={pic}"
+      ],
+      "correctAnswer": "src={pic}",
+      "explanation": "Correct answer is D) src={pic}."
+    },
+    {
+      "questionText": "What is the output of <img src={pic} alt={name} /> where pic and name are JavaScript variables?",
+      "options": [
+        "It uses the variable values for src and alt",
+        "It hides the image",
+        "It prints the words pic and name",
+        "It throws a syntax error"
+      ],
+      "correctAnswer": "It uses the variable values for src and alt",
+      "explanation": "Correct answer is A) It uses the variable values for src and alt."
+    },
+    {
+      "questionText": "Which JavaScript array method is used to transform an array of strings into an array of components?",
+      "options": [
+        "map()",
+        "pop()",
+        "push()",
+        "forEach()"
+      ],
+      "correctAnswer": "map()",
+      "explanation": "Correct answer is A) map()."
+    },
+    {
+      "questionText": "Why is map() used in JSX to display a list of components?",
+      "options": [
+        "It deletes the array",
+        "It converts an array of data into an array of JSX elements",
+        "It only logs data",
+        "It sorts the array"
+      ],
+      "correctAnswer": "It converts an array of data into an array of JSX elements",
+      "explanation": "Correct answer is B) It converts an array of data into an array of JSX elements."
+    },
+    {
+      "questionText": "In {names.map((nm) => <Welcome name={nm} />)}, what is nm?",
+      "options": [
+        "A component name",
+        "The array itself",
+        "A CSS class",
+        "The current item of the array passed as a prop to Welcome"
+      ],
+      "correctAnswer": "The current item of the array passed as a prop to Welcome",
+      "explanation": "Correct answer is D) The current item of the array passed as a prop to Welcome."
+    },
+    {
+      "questionText": "In {names.map(...)}, why are the outer curly braces required?",
+      "options": [
+        "To evaluate the JavaScript expression inside JSX",
+        "To close the tag",
+        "To import the module",
+        "To define a class"
+      ],
+      "correctAnswer": "To evaluate the JavaScript expression inside JSX",
+      "explanation": "Correct answer is A) To evaluate the JavaScript expression inside JSX."
+    },
+    {
+      "questionText": "Which statement about {users.map((usr) => <User name={usr.name} pic={usr.pic} />)} is correct?",
+      "options": [
+        "It converts an array of objects into an array of User components",
+        "It sorts users alphabetically",
+        "It deletes users",
+        "It creates a single User component"
+      ],
+      "correctAnswer": "It converts an array of objects into an array of User components",
+      "explanation": "Correct answer is A) It converts an array of objects into an array of User components."
+    },
+    {
+      "questionText": "Which JSX code correctly defines a component taking name and pic as destructured props?",
+      "options": [
+        "function User(<name>, <pic>) { ... }",
+        "function User(name, pic) { ... }",
+        "function User({ name, pic }) { ... }",
+        "function User[name, pic] { ... }"
+      ],
+      "correctAnswer": "function User({ name, pic }) { ... }",
+      "explanation": "Correct answer is C) function User({ name, pic }) { ... }."
+    },
+    {
+      "questionText": "Which file is used in the session to hold the CSS code for the examples?",
+      "options": [
+        "App.css",
+        "style.xml",
+        "index.html",
+        "package.json"
+      ],
+      "correctAnswer": "App.css",
+      "explanation": "Correct answer is A) App.css."
+    },
+    {
+      "questionText": "Which CSS property is used to make an image a perfect circle together with equal height and width?",
+      "options": [
+        "border-radius: 50%",
+        "border: none",
+        "display: block",
+        "opacity: 0"
+      ],
+      "correctAnswer": "border-radius: 50%",
+      "explanation": "Correct answer is A) border-radius: 50%."
+    },
+    {
+      "questionText": "Which CSS property is used so that an image is zoomed in and not stretched?",
+      "options": [
+        "text-align",
+        "overflow",
+        "object-fit: cover",
+        "object-fit: fill"
+      ],
+      "correctAnswer": "object-fit: cover",
+      "explanation": "Correct answer is C) object-fit: cover."
+    },
+    {
+      "questionText": "Which CSS property keeps height and width the same for an image?",
+      "options": [
+        "z-index",
+        "aspect-ratio: 1/1",
+        "float",
+        "line-height"
+      ],
+      "correctAnswer": "aspect-ratio: 1/1",
+      "explanation": "Correct answer is B) aspect-ratio: 1/1."
+    },
+    {
+      "questionText": "HTML is described as a \"forgiving language\" because:",
+      "options": [
+        "Closing <li> tags are optional",
+        "It reports every error",
+        "It requires camelCase",
+        "It does not allow lists"
+      ],
+      "correctAnswer": "Closing <li> tags are optional",
+      "explanation": "Correct answer is A) Closing <li> tags are optional."
+    },
+    {
+      "questionText": "In the session, which component takes name and pic as props so both values can be displayed?",
+      "options": [
+        "Router",
+        "Webpack",
+        "Store",
+        "User"
+      ],
+      "correctAnswer": "User",
+      "explanation": "Correct answer is D) User."
+    },
+    {
+      "questionText": "What does the summary say about JSX?",
+      "options": [
+        "It is a state manager",
+        "It is a CSS preprocessor",
+        "It separates logic and view into different files",
+        "It is used to keep related logic and view in one place"
+      ],
+      "correctAnswer": "It is used to keep related logic and view in one place",
+      "explanation": "Correct answer is D) It is used to keep related logic and view in one place."
+    },
+    {
+      "questionText": "Which of the following correctly describes the correct return of multiple elements in a component?",
+      "options": [
+        "return <h1>A</h1><h2>B</h2>;",
+        "return <h1>A</h1> + <h2>B</h2>;",
+        "return (<div>...</div>);",
+        "return <h1>A</h1>, <h2>B</h2>;"
+      ],
+      "correctAnswer": "return (<div>...</div>);",
+      "explanation": "Correct answer is C) return (<div>...</div>);."
+    },
+    {
+      "questionText": "Which of the following causes an error in JSX?",
+      "options": [
+        "Using self-closing tags such as <img />",
+        "Using className",
+        "Returning multiple elements without a wrapper",
+        "Closing all tags"
+      ],
+      "correctAnswer": "Returning multiple elements without a wrapper",
+      "explanation": "Correct answer is C) Returning multiple elements without a wrapper."
+    },
+    {
+      "questionText": "JSX can return multiple elements without any wrapper. This statement is:",
+      "options": [
+        "True",
+        "False",
+        "True only with map()",
+        "True only in class components"
+      ],
+      "correctAnswer": "False",
+      "explanation": "Correct answer is B) False."
+    },
+    {
+      "questionText": "Template syntax supports expressions. This statement is:",
+      "options": [
+        "True",
+        "False",
+        "True only for strings",
+        "True only in CSS"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Correct answer is A) True."
+    },
+    {
+      "questionText": "Which of the following is the correct JSX way to render an <h2> that includes a styled span containing a name variable?",
+      "options": [
+        "<h2>Hello, <span class=\"user-first-name\">name</span></h2>",
+        "<h2>Hello, <span className=\"user-first-name\">{name}</span></h2>",
+        "<h2>Hello, <span>[name]</span></h2>",
+        "<h2>Hello, <span>(name)</span></h2>"
+      ],
+      "correctAnswer": "<h2>Hello, <span className=\"user-first-name\">{name}</span></h2>",
+      "explanation": "Correct answer is B) <h2>Hello, <span className=\"user-first-name\">{name}</span></h2>."
+    },
+    {
+      "questionText": "Which of the following correctly describes nesting JSX elements as used in this session?",
+      "options": [
+        "Importing HTML files",
+        "Using map() to produce multiple components from a collection of data",
+        "Writing components inside CSS",
+        "Using only static HTML"
+      ],
+      "correctAnswer": "Using map() to produce multiple components from a collection of data",
+      "explanation": "Correct answer is B) Using map() to produce multiple components from a collection of data."
+    }
+  ]
+}

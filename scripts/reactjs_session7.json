@@ -1,0 +1,547 @@
+{
+  "category": "React.js",
+  "session": 7,
+  "title": "Session 7: ReactJS Component Lifecycle",
+  "totalQuestions": 49,
+  "questions": [
+    {
+      "questionText": "How many phases are there in the lifecycle of a ReactJS component?",
+      "options": [
+        "Two",
+        "Three",
+        "Four",
+        "Five"
+      ],
+      "correctAnswer": "Four",
+      "explanation": "Correct answer is C) Four."
+    },
+    {
+      "questionText": "Which are the phases of the ReactJS component lifecycle?",
+      "options": [
+        "Load, Render, Paint, Exit",
+        "Start, Middle, End, Reset",
+        "Creation, Running, Pausing, Stopping",
+        "Initialization, Mounting, Updating, Unmounting"
+      ],
+      "correctAnswer": "Initialization, Mounting, Updating, Unmounting",
+      "explanation": "Correct answer is D) Initialization, Mounting, Updating, Unmounting."
+    },
+    {
+      "questionText": "In which phase are the props and state of the component set up?",
+      "options": [
+        "Unmounting",
+        "Mounting",
+        "Updating",
+        "Initialization"
+      ],
+      "correctAnswer": "Initialization",
+      "explanation": "Correct answer is D) Initialization."
+    },
+    {
+      "questionText": "In which phase are the DOM elements of the component created and rendered so that they become visible to the user?",
+      "options": [
+        "Unmounting",
+        "Initialization",
+        "Updating",
+        "Mounting"
+      ],
+      "correctAnswer": "Mounting",
+      "explanation": "Correct answer is D) Mounting."
+    },
+    {
+      "questionText": "A component is in the updating phase when:",
+      "options": [
+        "Its props or state change",
+        "It is first created",
+        "The server stops",
+        "It is removed from the DOM"
+      ],
+      "correctAnswer": "Its props or state change",
+      "explanation": "Correct answer is A) Its props or state change."
+    },
+    {
+      "questionText": "In which phase are the DOM elements associated with a component destroyed?",
+      "options": [
+        "Updating",
+        "Mounting",
+        "Initialization",
+        "Unmounting"
+      ],
+      "correctAnswer": "Unmounting",
+      "explanation": "Correct answer is D) Unmounting."
+    },
+    {
+      "questionText": "Why was handling lifecycle phases with class component methods considered cumbersome?",
+      "options": [
+        "They were too fast",
+        "They had no documentation",
+        "Many methods were rarely used and hard to remember for beginners",
+        "They only worked on mobile"
+      ],
+      "correctAnswer": "Many methods were rarely used and hard to remember for beginners",
+      "explanation": "Correct answer is C) Many methods were rarely used and hard to remember for beginners."
+    },
+    {
+      "questionText": "Which single hook can solve the lifecycle needs in functional components?",
+      "options": [
+        "useNavigate",
+        "useParams",
+        "useEffect",
+        "useState"
+      ],
+      "correctAnswer": "useEffect",
+      "explanation": "Correct answer is C) useEffect."
+    },
+    {
+      "questionText": "How many arguments does the useEffect hook take?",
+      "options": [
+        "One",
+        "Two",
+        "Three",
+        "Four"
+      ],
+      "correctAnswer": "Two",
+      "explanation": "Correct answer is B) Two."
+    },
+    {
+      "questionText": "What are the two arguments of useEffect?",
+      "options": [
+        "A callback function and a dependency array",
+        "A class and an object",
+        "A component and a route",
+        "A state and a prop"
+      ],
+      "correctAnswer": "A callback function and a dependency array",
+      "explanation": "Correct answer is A) A callback function and a dependency array."
+    },
+    {
+      "questionText": "Which is the correct syntax of useEffect?",
+      "options": [
+        "useEffect[callback];",
+        "useEffect(dependency array, state);",
+        "useEffect(callback function, dependency array);",
+        "useEffect(props, state);"
+      ],
+      "correctAnswer": "useEffect(callback function, dependency array);",
+      "explanation": "Correct answer is C) useEffect(callback function, dependency array);."
+    },
+    {
+      "questionText": "What decides which phase of the component useEffect handles?",
+      "options": [
+        "The browser",
+        "The CSS file",
+        "The dependency array",
+        "The component name"
+      ],
+      "correctAnswer": "The dependency array",
+      "explanation": "Correct answer is C) The dependency array."
+    },
+    {
+      "questionText": "When is the callback called in useEffect(() => {}, [])?",
+      "options": [
+        "Only when unmounted",
+        "Never",
+        "On every render",
+        "Only once, when the component is mounted"
+      ],
+      "correctAnswer": "Only once, when the component is mounted",
+      "explanation": "Correct answer is D) Only once, when the component is mounted."
+    },
+    {
+      "questionText": "What does an empty dependency array in useEffect handle?",
+      "options": [
+        "The mounting phase",
+        "The updating phase",
+        "The initialization phase",
+        "The unmounting phase"
+      ],
+      "correctAnswer": "The mounting phase",
+      "explanation": "Correct answer is A) The mounting phase."
+    },
+    {
+      "questionText": "When is the callback called if no dependency array is given to useEffect?",
+      "options": [
+        "Never",
+        "Only once",
+        "Only on unmount",
+        "Whenever any state or props change in the component"
+      ],
+      "correctAnswer": "Whenever any state or props change in the component",
+      "explanation": "Correct answer is D) Whenever any state or props change in the component."
+    },
+    {
+      "questionText": "When no dependency array is given, the component is in which phase when the callback runs?",
+      "options": [
+        "Unmounting",
+        "Initialization",
+        "Mounting",
+        "Updating"
+      ],
+      "correctAnswer": "Updating",
+      "explanation": "Correct answer is D) Updating."
+    },
+    {
+      "questionText": "In useEffect(() => {}, [v1, v2]), when is the callback called?",
+      "options": [
+        "Never",
+        "Only when v1 or v2 changes (and on mount)",
+        "Only on unmount",
+        "On every render"
+      ],
+      "correctAnswer": "Only when v1 or v2 changes (and on mount)",
+      "explanation": "Correct answer is B) Only when v1 or v2 changes (and on mount)."
+    },
+    {
+      "questionText": "Where can clean-up code be written inside useEffect?",
+      "options": [
+        "In the dependency array",
+        "In index.html",
+        "In the function returned from the callback",
+        "Outside the component"
+      ],
+      "correctAnswer": "In the function returned from the callback",
+      "explanation": "Correct answer is C) In the function returned from the callback."
+    },
+    {
+      "questionText": "When is the function returned by the useEffect callback executed?",
+      "options": [
+        "When the component mounts",
+        "When the component starts unmounting",
+        "Never",
+        "When the page loads"
+      ],
+      "correctAnswer": "When the component starts unmounting",
+      "explanation": "Correct answer is B) When the component starts unmounting."
+    },
+    {
+      "questionText": "What is the purpose of clean-up code in useEffect?",
+      "options": [
+        "Installing packages",
+        "Destroying variables and resources no longer needed, preventing memory leaks",
+        "Adding styles",
+        "Starting servers"
+      ],
+      "correctAnswer": "Destroying variables and resources no longer needed, preventing memory leaks",
+      "explanation": "Correct answer is B) Destroying variables and resources no longer needed, preventing memory leaks."
+    },
+    {
+      "questionText": "Values in the dependency array are given to write clean-up code in useEffect. This statement is:",
+      "options": [
+        "True",
+        "False",
+        "True only in development",
+        "True only for class components"
+      ],
+      "correctAnswer": "False",
+      "explanation": "Correct answer is B) False."
+    },
+    {
+      "questionText": "When no dependency array is given, the component will be in the updating phase when either props or state changes. This statement is:",
+      "options": [
+        "True",
+        "False",
+        "True only for props",
+        "True only for state"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Correct answer is A) True."
+    },
+    {
+      "questionText": "Which feature introduced in React v18 renders every component twice in development to ensure there are no errors?",
+      "options": [
+        "Router",
+        "StrictMode",
+        "Context",
+        "Fragment"
+      ],
+      "correctAnswer": "StrictMode",
+      "explanation": "Correct answer is B) StrictMode."
+    },
+    {
+      "questionText": "In which environment do effects run twice due to StrictMode?",
+      "options": [
+        "Development only",
+        "Production only",
+        "Both",
+        "Neither"
+      ],
+      "correctAnswer": "Development only",
+      "explanation": "Correct answer is A) Development only."
+    },
+    {
+      "questionText": "When the code reaches users in production, how many times do components run their setup?",
+      "options": [
+        "Once",
+        "Twice",
+        "Three times",
+        "Four times"
+      ],
+      "correctAnswer": "Once",
+      "explanation": "Correct answer is A) Once."
+    },
+    {
+      "questionText": "In which file can StrictMode be commented out to test without it?",
+      "options": [
+        "package.json",
+        "App.css",
+        "index.js",
+        "UserList.js"
+      ],
+      "correctAnswer": "index.js",
+      "explanation": "Correct answer is C) index.js."
+    },
+    {
+      "questionText": "In Code Snippet 3 (no dependency array), when does the console log run?",
+      "options": [
+        "Whenever like or dislike changes",
+        "Never",
+        "Only on mount",
+        "Only when like changes"
+      ],
+      "correctAnswer": "Whenever like or dislike changes",
+      "explanation": "Correct answer is A) Whenever like or dislike changes."
+    },
+    {
+      "questionText": "In Code Snippet 4 with [like] as the dependency array, when does the callback run?",
+      "options": [
+        "Whenever dislike changes",
+        "On every render",
+        "Only when like changes",
+        "Never"
+      ],
+      "correctAnswer": "Only when like changes",
+      "explanation": "Correct answer is C) Only when like changes."
+    },
+    {
+      "questionText": "In the Timer example with useEffect(() => {...}, []), why does \"useEffect runs\" print only once?",
+      "options": [
+        "The console is disabled",
+        "The timer is stopped",
+        "The component is unmounted",
+        "The empty dependency array runs the callback only on mounting"
+      ],
+      "correctAnswer": "The empty dependency array runs the callback only on mounting",
+      "explanation": "Correct answer is D) The empty dependency array runs the callback only on mounting."
+    },
+    {
+      "questionText": "Which function is used to start the interval in the Timer example?",
+      "options": [
+        "setTimeout",
+        "setInterval",
+        "clearInterval",
+        "requestAnimationFrame"
+      ],
+      "correctAnswer": "setInterval",
+      "explanation": "Correct answer is B) setInterval."
+    },
+    {
+      "questionText": "Which function is used in the clean-up code to stop the interval?",
+      "options": [
+        "stopInterval",
+        "clearInterval",
+        "setInterval",
+        "killInterval"
+      ],
+      "correctAnswer": "clearInterval",
+      "explanation": "Correct answer is B) clearInterval."
+    },
+    {
+      "questionText": "In setTime((prev) => prev + 1), what is prev?",
+      "options": [
+        "A CSS class",
+        "A route",
+        "The previous value of time passed to the callback",
+        "A prop"
+      ],
+      "correctAnswer": "The previous value of time passed to the callback",
+      "explanation": "Correct answer is C) The previous value of time passed to the callback."
+    },
+    {
+      "questionText": "setTime accepts:",
+      "options": [
+        "Not only values but also a callback function",
+        "Only objects",
+        "Only strings",
+        "Only values"
+      ],
+      "correctAnswer": "Not only values but also a callback function",
+      "explanation": "Correct answer is A) Not only values but also a callback function."
+    },
+    {
+      "questionText": "What technique is used in {show ? <Timer /> : null}?",
+      "options": [
+        "Routing",
+        "Conditional Rendering",
+        "Looping",
+        "Styling"
+      ],
+      "correctAnswer": "Conditional Rendering",
+      "explanation": "Correct answer is B) Conditional Rendering."
+    },
+    {
+      "questionText": "When show is false in conditional rendering, what happens to <Timer />?",
+      "options": [
+        "It is hidden but kept mounted",
+        "It is duplicated",
+        "It is removed from the DOM",
+        "It is restyled"
+      ],
+      "correctAnswer": "It is removed from the DOM",
+      "explanation": "Correct answer is C) It is removed from the DOM."
+    },
+    {
+      "questionText": "Why does \"Timer called\" keep printing after the Timer component is removed (without clean-up)?",
+      "options": [
+        "The console is broken",
+        "The route is wrong",
+        "A memory leak: the interval did not stop",
+        "The component is still visible"
+      ],
+      "correctAnswer": "A memory leak: the interval did not stop",
+      "explanation": "Correct answer is C) A memory leak: the interval did not stop."
+    },
+    {
+      "questionText": "How is the memory leak in the Timer example solved?",
+      "options": [
+        "Removing the setInterval",
+        "Using clearInterval in the return function of useEffect",
+        "Using a CSS module",
+        "Using more state"
+      ],
+      "correctAnswer": "Using clearInterval in the return function of useEffect",
+      "explanation": "Correct answer is B) Using clearInterval in the return function of useEffect."
+    },
+    {
+      "questionText": "What message is printed when the Timer is stopped in Code Snippet 7?",
+      "options": [
+        "Timer started",
+        "Timer called",
+        "Timer stopped",
+        "useEffect runs"
+      ],
+      "correctAnswer": "Timer stopped",
+      "explanation": "Correct answer is C) Timer stopped."
+    },
+    {
+      "questionText": "What does the useEffect hook generally synchronize ReactJS components with?",
+      "options": [
+        "CSS files",
+        "Fonts",
+        "Icons",
+        "External systems such as fetching data from an API"
+      ],
+      "correctAnswer": "External systems such as fetching data from an API",
+      "explanation": "Correct answer is D) External systems such as fetching data from an API."
+    },
+    {
+      "questionText": "Which of the following is true about memory leaks?",
+      "options": [
+        "They cannot happen in React",
+        "They are handled in CSS",
+        "They need to be handled in the clean-up part of useEffect",
+        "They are handled by Babel"
+      ],
+      "correctAnswer": "They need to be handled in the clean-up part of useEffect",
+      "explanation": "Correct answer is C) They need to be handled in the clean-up part of useEffect."
+    },
+    {
+      "questionText": "Which phase is the component in when the empty dependency array's callback is called?",
+      "options": [
+        "Mounting",
+        "Updating",
+        "Unmounting",
+        "Initialization"
+      ],
+      "correctAnswer": "Mounting",
+      "explanation": "Correct answer is A) Mounting."
+    },
+    {
+      "questionText": "Which of the following describes the dependency array containing multiple values?",
+      "options": [
+        "Only one value is allowed",
+        "It must be empty",
+        "There can be n number of values",
+        "Only two values are allowed"
+      ],
+      "correctAnswer": "There can be n number of values",
+      "explanation": "Correct answer is C) There can be n number of values."
+    },
+    {
+      "questionText": "Mostly, the values in a dependency array are:",
+      "options": [
+        "CSS values",
+        "File names",
+        "State or props of the component",
+        "Route names"
+      ],
+      "correctAnswer": "State or props of the component",
+      "explanation": "Correct answer is C) State or props of the component."
+    },
+    {
+      "questionText": "The lifecycle of ReactJS components is compared in the session to:",
+      "options": [
+        "Seasons of the year",
+        "A train journey",
+        "Human life phases from birth to death",
+        "A football match"
+      ],
+      "correctAnswer": "Human life phases from birth to death",
+      "explanation": "Correct answer is C) Human life phases from birth to death."
+    },
+    {
+      "questionText": "Which hook is used together with setInterval inside the Timer's callback to start the timer when mounted?",
+      "options": [
+        "useNavigate",
+        "useEffect",
+        "useRef",
+        "useParams"
+      ],
+      "correctAnswer": "useEffect",
+      "explanation": "Correct answer is B) useEffect."
+    },
+    {
+      "questionText": "Which is the correct way to make a callback run once on mount?",
+      "options": [
+        "useEffect(() => {}, [x]);",
+        "useEffect([]);",
+        "useEffect(() => {});",
+        "useEffect(() => {}, []);"
+      ],
+      "correctAnswer": "useEffect(() => {}, []);",
+      "explanation": "Correct answer is D) useEffect(() => {}, []);."
+    },
+    {
+      "questionText": "Which is the correct way to make a callback run on every state or props change?",
+      "options": [
+        "useEffect(() => {}, []);",
+        "useEffect(() => {});",
+        "useEffect(() => {}, [x]);",
+        "useEffect([], () => {});"
+      ],
+      "correctAnswer": "useEffect(() => {});",
+      "explanation": "Correct answer is B) useEffect(() => {});."
+    },
+    {
+      "questionText": "What does the summary say about the dependency array?",
+      "options": [
+        "It dictates in which phase the callback function will be called",
+        "It styles components",
+        "It declares routes",
+        "It stores CSS"
+      ],
+      "correctAnswer": "It dictates in which phase the callback function will be called",
+      "explanation": "Correct answer is A) It dictates in which phase the callback function will be called."
+    },
+    {
+      "questionText": "Which of the following is NOT a lifecycle phase of ReactJS components?",
+      "options": [
+        "Initialization",
+        "Unmounting",
+        "Compiling",
+        "Mounting"
+      ],
+      "correctAnswer": "Compiling",
+      "explanation": "Correct answer is C) Compiling."
+    }
+  ]
+}

@@ -1,0 +1,558 @@
+{
+  "category": "React.js",
+  "session": 8,
+  "title": "Session 8: Creating a CRUD Application Using ReactJS Forms",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "What does CRUD stand for?",
+      "options": [
+        "Copy, Run, Undo, Deploy",
+        "Compile, Render, Update, Debug",
+        "Create, Route, Upload, Download",
+        "Create, Read, Update, Delete"
+      ],
+      "correctAnswer": "Create, Read, Update, Delete",
+      "explanation": "Correct answer is D) Create, Read, Update, Delete."
+    },
+    {
+      "questionText": "Which HTTP method is used for the Create operation in CRUD?",
+      "options": [
+        "DELETE",
+        "GET",
+        "PUT",
+        "POST"
+      ],
+      "correctAnswer": "POST",
+      "explanation": "Correct answer is D) POST."
+    },
+    {
+      "questionText": "Which HTTP method is used for the Read operation in CRUD?",
+      "options": [
+        "POST",
+        "PUT",
+        "DELETE",
+        "GET"
+      ],
+      "correctAnswer": "GET",
+      "explanation": "Correct answer is D) GET."
+    },
+    {
+      "questionText": "Which HTTP method is used for the Update operation in the session's CRUD app?",
+      "options": [
+        "DELETE",
+        "PUT",
+        "GET",
+        "POST"
+      ],
+      "correctAnswer": "PUT",
+      "explanation": "Correct answer is B) PUT."
+    },
+    {
+      "questionText": "Which HTTP method is used for the Delete operation in CRUD?",
+      "options": [
+        "PUT",
+        "POST",
+        "DELETE",
+        "GET"
+      ],
+      "correctAnswer": "DELETE",
+      "explanation": "Correct answer is C) DELETE."
+    },
+    {
+      "questionText": "Which statement about CRUD is correct as per the session?",
+      "options": [
+        "CRUD is used only in databases",
+        "Any feature in an app requires one of the four CRUD operations",
+        "CRUD applies only to mobile apps",
+        "CRUD is a CSS technique"
+      ],
+      "correctAnswer": "Any feature in an app requires one of the four CRUD operations",
+      "explanation": "Correct answer is B) Any feature in an app requires one of the four CRUD operations."
+    },
+    {
+      "questionText": "Which starter code does the session CRUD application begin with?",
+      "options": [
+        "The code from Session 2",
+        "A blank project",
+        "Code from the Redux store",
+        "The code from Session 5 (session8_starter.zip)"
+      ],
+      "correctAnswer": "The code from Session 5 (session8_starter.zip)",
+      "explanation": "Correct answer is D) The code from Session 5 (session8_starter.zip)."
+    },
+    {
+      "questionText": "Which Visual Studio Code feature is used to move a component to its own file?",
+      "options": [
+        "Surround with",
+        "Delete file",
+        "Move to a new file (via the bulb icon)",
+        "Format document"
+      ],
+      "correctAnswer": "Move to a new file (via the bulb icon)",
+      "explanation": "Correct answer is C) Move to a new file (via the bulb icon)."
+    },
+    {
+      "questionText": "Which service is used in the session to mock the API and data?",
+      "options": [
+        "mockapi.io",
+        "AWS S3",
+        "Firebase",
+        "MongoDB Atlas"
+      ],
+      "correctAnswer": "mockapi.io",
+      "explanation": "Correct answer is A) mockapi.io."
+    },
+    {
+      "questionText": "Which JavaScript method is used to request data from the API in UserList?",
+      "options": [
+        "fetch",
+        "load",
+        "request",
+        "axios.get only"
+      ],
+      "correctAnswer": "fetch",
+      "explanation": "Correct answer is A) fetch."
+    },
+    {
+      "questionText": "Which hook is used to call the API only once, at mount, in UserList?",
+      "options": [
+        "useEffect with an empty dependency array",
+        "useParams",
+        "useState without arguments",
+        "useNavigate"
+      ],
+      "correctAnswer": "useEffect with an empty dependency array",
+      "explanation": "Correct answer is A) useEffect with an empty dependency array."
+    },
+    {
+      "questionText": "Why does the console run twice in development even with useEffect([])?",
+      "options": [
+        "The API is slow",
+        "Browser bug",
+        "StrictMode renders components twice in development, but only once in production",
+        "Webpack is broken"
+      ],
+      "correctAnswer": "StrictMode renders components twice in development, but only once in production",
+      "explanation": "Correct answer is C) StrictMode renders components twice in development, but only once in production."
+    },
+    {
+      "questionText": "Which hook stores the fetched users so they are displayed on screen?",
+      "options": [
+        "useParams",
+        "useNavigate",
+        "useFormik",
+        "useState (via setUsers)"
+      ],
+      "correctAnswer": "useState (via setUsers)",
+      "explanation": "Correct answer is D) useState (via setUsers)."
+    },
+    {
+      "questionText": "What is the initial value given to useState for the users list?",
+      "options": [
+        "An empty array []",
+        "An empty string",
+        "0",
+        "null"
+      ],
+      "correctAnswer": "An empty array []",
+      "explanation": "Correct answer is A) An empty array []."
+    },
+    {
+      "questionText": "In UserList, why is id={usr.id} passed to the User component instead of the index?",
+      "options": [
+        "So the URL uses the actual user id from the API",
+        "To change CSS",
+        "To hide users",
+        "To reduce code"
+      ],
+      "correctAnswer": "So the URL uses the actual user id from the API",
+      "explanation": "Correct answer is A) So the URL uses the actual user id from the API."
+    },
+    {
+      "questionText": "How does UserDetail get the id of the user from the URL?",
+      "options": [
+        "useFormik()",
+        "useState()",
+        "useParams()",
+        "useNavigate()"
+      ],
+      "correctAnswer": "useParams()",
+      "explanation": "Correct answer is C) useParams()."
+    },
+    {
+      "questionText": "What is the initial value of the user state in UserDetail?",
+      "options": [
+        "0",
+        "An empty array []",
+        "An empty object {}",
+        "false"
+      ],
+      "correctAnswer": "An empty object {}",
+      "explanation": "Correct answer is C) An empty object {}."
+    },
+    {
+      "questionText": "In the session, how is the Delete button passed to the User component?",
+      "options": [
+        "Imported from CSS",
+        "Created directly inside the User component",
+        "As JSX passed through the deleteButton prop",
+        "Hard-coded in index.html"
+      ],
+      "correctAnswer": "As JSX passed through the deleteButton prop",
+      "explanation": "Correct answer is C) As JSX passed through the deleteButton prop."
+    },
+    {
+      "questionText": "What is the pattern of passing JSX as props, such as deleteButton, known as?",
+      "options": [
+        "Render props",
+        "Higher-order component",
+        "Context",
+        "Redux action"
+      ],
+      "correctAnswer": "Render props",
+      "explanation": "Correct answer is A) Render props."
+    },
+    {
+      "questionText": "What is the advantage of passing the Delete button JSX as a prop from UserList?",
+      "options": [
+        "It removes the need for props",
+        "The button has access to all the variables inside UserList",
+        "It makes the file smaller",
+        "It avoids using fetch"
+      ],
+      "correctAnswer": "The button has access to all the variables inside UserList",
+      "explanation": "Correct answer is B) The button has access to all the variables inside UserList."
+    },
+    {
+      "questionText": "Which method is used inside fetch to delete a user?",
+      "options": [
+        "DELETE",
+        "CLEAR",
+        "ERASE",
+        "REMOVE"
+      ],
+      "correctAnswer": "DELETE",
+      "explanation": "Correct answer is A) DELETE."
+    },
+    {
+      "questionText": "How is the user list refreshed after deletion?",
+      "options": [
+        "By refreshing the browser manually only",
+        "By restarting the server",
+        "By deleting state",
+        "By calling the function that fetches users again inside deleteUser"
+      ],
+      "correctAnswer": "By calling the function that fetches users again inside deleteUser",
+      "explanation": "Correct answer is D) By calling the function that fetches users again inside deleteUser."
+    },
+    {
+      "questionText": "In the session, a separate function that fetches users is called in useEffect and also in:",
+      "options": [
+        "Home",
+        "AddUser",
+        "deleteUser",
+        "NotFound"
+      ],
+      "correctAnswer": "deleteUser",
+      "explanation": "Correct answer is C) deleteUser."
+    },
+    {
+      "questionText": "To add a user, which route and page are created?",
+      "options": [
+        "A separate page (e.g., /users/add) with an AddUser component",
+        "No separate page is needed",
+        "An alert box",
+        "A modal only"
+      ],
+      "correctAnswer": "A separate page (e.g., /users/add) with an AddUser component",
+      "explanation": "Correct answer is A) A separate page (e.g., /users/add) with an AddUser component."
+    },
+    {
+      "questionText": "Why must newUser data be stringified before sending in the POST request?",
+      "options": [
+        "The body must be passed as JSON text to the fetch method",
+        "To make it faster",
+        "To change its color",
+        "To compress the data"
+      ],
+      "correctAnswer": "The body must be passed as JSON text to the fetch method",
+      "explanation": "Correct answer is A) The body must be passed as JSON text to the fetch method."
+    },
+    {
+      "questionText": "Which JavaScript method converts an object to a JSON string?",
+      "options": [
+        "JSON.parse()",
+        "JSON.stringify()",
+        "JSON.convert()",
+        "JSON.toObject()"
+      ],
+      "correctAnswer": "JSON.stringify()",
+      "explanation": "Correct answer is B) JSON.stringify()."
+    },
+    {
+      "questionText": "Which libraries are used to simplify complex forms and validations?",
+      "options": [
+        "axios and lodash",
+        "formik and yup",
+        "jest and enzyme",
+        "redux and saga"
+      ],
+      "correctAnswer": "formik and yup",
+      "explanation": "Correct answer is B) formik and yup."
+    },
+    {
+      "questionText": "What is the role of formik?",
+      "options": [
+        "Simplifies the form model and integration for adding validations",
+        "Fetches data from APIs",
+        "Styles components",
+        "Routes pages"
+      ],
+      "correctAnswer": "Simplifies the form model and integration for adding validations",
+      "explanation": "Correct answer is A) Simplifies the form model and integration for adding validations."
+    },
+    {
+      "questionText": "What is the role of yup?",
+      "options": [
+        "Compiles JSX",
+        "Bundles modules",
+        "Makes it easy to add validations to the form",
+        "Creates routes"
+      ],
+      "correctAnswer": "Makes it easy to add validations to the form",
+      "explanation": "Correct answer is C) Makes it easy to add validations to the form."
+    },
+    {
+      "questionText": "Which hook from formik is used to manage the form model?",
+      "options": [
+        "useFormik",
+        "useInput",
+        "useForm",
+        "useFormState"
+      ],
+      "correctAnswer": "useFormik",
+      "explanation": "Correct answer is A) useFormik."
+    },
+    {
+      "questionText": "In useFormik, which option provides the form model's starting values?",
+      "options": [
+        "startValues",
+        "formModel",
+        "initialValues",
+        "defaultValues"
+      ],
+      "correctAnswer": "initialValues",
+      "explanation": "Correct answer is C) initialValues."
+    },
+    {
+      "questionText": "Why is the name attribute required on every input when using formik.handleChange?",
+      "options": [
+        "So formik can identify which field is being updated",
+        "For routing",
+        "For CSS styling",
+        "For fetch"
+      ],
+      "correctAnswer": "So formik can identify which field is being updated",
+      "explanation": "Correct answer is A) So formik can identify which field is being updated."
+    },
+    {
+      "questionText": "Why do built-in validations such as required not trigger when inputs are not inside a form element?",
+      "options": [
+        "Validation is triggered only for inputs surrounded by a form element on submit",
+        "React disables them",
+        "The CSS blocks it",
+        "The browser is old"
+      ],
+      "correctAnswer": "Validation is triggered only for inputs surrounded by a form element on submit",
+      "explanation": "Correct answer is A) Validation is triggered only for inputs surrounded by a form element on submit."
+    },
+    {
+      "questionText": "Which function must be set on the form's onSubmit to let formik take over submission?",
+      "options": [
+        "formik.handleChange",
+        "formik.handleSubmit",
+        "formik.reset",
+        "formik.handleBlur"
+      ],
+      "correctAnswer": "formik.handleSubmit",
+      "explanation": "Correct answer is B) formik.handleSubmit."
+    },
+    {
+      "questionText": "Which option of useFormik receives the yup schema?",
+      "options": [
+        "validateWith",
+        "schemaYup",
+        "rules",
+        "validationSchema"
+      ],
+      "correctAnswer": "validationSchema",
+      "explanation": "Correct answer is D) validationSchema."
+    },
+    {
+      "questionText": "What does the validationSchema ensure?",
+      "options": [
+        "The onSubmit callback is called only when all validations pass",
+        "The form never submits",
+        "Fields are hidden",
+        "The form always submits"
+      ],
+      "correctAnswer": "The onSubmit callback is called only when all validations pass",
+      "explanation": "Correct answer is A) The onSubmit callback is called only when all validations pass."
+    },
+    {
+      "questionText": "In the userValidationSchema, how is the pic field validated?",
+      "options": [
+        "It must be at least 10 characters",
+        "It must be a number",
+        "It must be a string, a valid URL, and required",
+        "It is optional"
+      ],
+      "correctAnswer": "It must be a string, a valid URL, and required",
+      "explanation": "Correct answer is C) It must be a string, a valid URL, and required."
+    },
+    {
+      "questionText": "In the userValidationSchema, what is required of the bio field?",
+      "options": [
+        "A URL",
+        "A string of at least 10 characters that is required",
+        "Optional text",
+        "A number"
+      ],
+      "correctAnswer": "A string of at least 10 characters that is required",
+      "explanation": "Correct answer is B) A string of at least 10 characters that is required."
+    },
+    {
+      "questionText": "Which formik property holds the validation error messages?",
+      "options": [
+        "formik.alerts",
+        "formik.messages",
+        "formik.problems",
+        "formik.errors"
+      ],
+      "correctAnswer": "formik.errors",
+      "explanation": "Correct answer is D) formik.errors."
+    },
+    {
+      "questionText": "Why are error messages displayed prematurely when the user starts typing in any field?",
+      "options": [
+        "The CSS is wrong",
+        "All errors are shown without tracking whether each field was touched",
+        "yup fails",
+        "The API is slow"
+      ],
+      "correctAnswer": "All errors are shown without tracking whether each field was touched",
+      "explanation": "Correct answer is B) All errors are shown without tracking whether each field was touched."
+    },
+    {
+      "questionText": "When is the onBlur event triggered?",
+      "options": [
+        "When a user clicks on the field and then clicks outside of it",
+        "When the page loads",
+        "When the user types",
+        "When the form submits"
+      ],
+      "correctAnswer": "When a user clicks on the field and then clicks outside of it",
+      "explanation": "Correct answer is A) When a user clicks on the field and then clicks outside of it."
+    },
+    {
+      "questionText": "Which formik handler is provided to onBlur?",
+      "options": [
+        "formik.handleSubmit",
+        "formik.touch",
+        "formik.handleChange",
+        "formik.handleBlur"
+      ],
+      "correctAnswer": "formik.handleBlur",
+      "explanation": "Correct answer is D) formik.handleBlur."
+    },
+    {
+      "questionText": "Which JavaScript technique is used to simplify formik.handleSubmit into handleSubmit?",
+      "options": [
+        "Currying",
+        "Destructuring",
+        "Hoisting",
+        "Closure"
+      ],
+      "correctAnswer": "Destructuring",
+      "explanation": "Correct answer is B) Destructuring."
+    },
+    {
+      "questionText": "How is the Edit button navigation set up for a user?",
+      "options": [
+        "navigate to /",
+        "navigate to /users/add",
+        "navigate to /home",
+        "navigate to /users/edit/:id"
+      ],
+      "correctAnswer": "navigate to /users/edit/:id",
+      "explanation": "Correct answer is D) navigate to /users/edit/:id."
+    },
+    {
+      "questionText": "Why are the form fields empty when the fetched data is used directly in initialValues of the same component?",
+      "options": [
+        "The data takes time to load and initialValues is already set with undefined values",
+        "The route is wrong",
+        "formik fails",
+        "The API returns nothing"
+      ],
+      "correctAnswer": "The data takes time to load and initialValues is already set with undefined values",
+      "explanation": "Correct answer is A) The data takes time to load and initialValues is already set with undefined values."
+    },
+    {
+      "questionText": "How is the problem of delayed data fixed in EditUser?",
+      "options": [
+        "By using setTimeout",
+        "By reloading the page",
+        "By removing formik",
+        "By splitting into EditUser and EditUserForm and rendering the form only when data is available"
+      ],
+      "correctAnswer": "By splitting into EditUser and EditUserForm and rendering the form only when data is available",
+      "explanation": "Correct answer is D) By splitting into EditUser and EditUserForm and rendering the form only when data is available."
+    },
+    {
+      "questionText": "What is displayed while the user data is being fetched in EditUser?",
+      "options": [
+        "Loading...",
+        "An alert",
+        "A 404 page",
+        "The empty form"
+      ],
+      "correctAnswer": "Loading...",
+      "explanation": "Correct answer is A) Loading...."
+    },
+    {
+      "questionText": "Which initial value is used for the user state in EditUser so that \"Loading...\" can be shown?",
+      "options": [
+        "{}",
+        "null",
+        "0",
+        "[]"
+      ],
+      "correctAnswer": "null",
+      "explanation": "Correct answer is B) null."
+    },
+    {
+      "questionText": "Which HTTP method is used in the updateUser function?",
+      "options": [
+        "GET",
+        "POST",
+        "DELETE",
+        "PUT"
+      ],
+      "correctAnswer": "PUT",
+      "explanation": "Correct answer is D) PUT."
+    },
+    {
+      "questionText": "Which method is used to confirm a successful update and then navigate back to /users?",
+      "options": [
+        ".finally(reload)",
+        ".stop()",
+        ".then(() => navigate(\"/users\"))",
+        ".catch() only"
+      ],
+      "correctAnswer": ".then(() => navigate(\"/users\"))",
+      "explanation": "Correct answer is C) .then(() => navigate(\"/users\"))."
+    }
+  ]
+}

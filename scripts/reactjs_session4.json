@@ -1,0 +1,569 @@
+{
+  "category": "React.js",
+  "session": 4,
+  "title": "Session 4: Event Handling in ReactJS",
+  "totalQuestions": 51,
+  "questions": [
+    {
+      "questionText": "What does event handling in ReactJS make an application?",
+      "options": [
+        "Interactive",
+        "Slower",
+        "Server-only",
+        "Static"
+      ],
+      "correctAnswer": "Interactive",
+      "explanation": "Correct answer is A) Interactive."
+    },
+    {
+      "questionText": "Through which of the following can users interact with a React app?",
+      "options": [
+        "Mouse events, keyboard events, touch events, and filling forms",
+        "Only keyboard events",
+        "Only mouse events",
+        "Only server events"
+      ],
+      "correctAnswer": "Mouse events, keyboard events, touch events, and filling forms",
+      "explanation": "Correct answer is A) Mouse events, keyboard events, touch events, and filling forms."
+    },
+    {
+      "questionText": "In <button onClick={() => console.log(\"Clicked\")}>Click me</button>, what is the arrow function called?",
+      "options": [
+        "Callback function",
+        "Route",
+        "Event handler",
+        "Hook"
+      ],
+      "correctAnswer": "Callback function",
+      "explanation": "Correct answer is A) Callback function."
+    },
+    {
+      "questionText": "In the same example, what is onClick?",
+      "options": [
+        "Callback function",
+        "State variable",
+        "Router",
+        "Event handler"
+      ],
+      "correctAnswer": "Event handler",
+      "explanation": "Correct answer is D) Event handler."
+    },
+    {
+      "questionText": "What happens when the user clicks the \"Click me\" button in the example?",
+      "options": [
+        "The Virtual DOM is deleted",
+        "The callback function is executed",
+        "The page is refreshed",
+        "The app is closed"
+      ],
+      "correctAnswer": "The callback function is executed",
+      "explanation": "Correct answer is B) The callback function is executed."
+    },
+    {
+      "questionText": "Which naming convention must all ReactJS event handlers follow?",
+      "options": [
+        "UPPERCASE",
+        "CamelCase",
+        "lowercase",
+        "snake_case"
+      ],
+      "correctAnswer": "CamelCase",
+      "explanation": "Correct answer is B) CamelCase."
+    },
+    {
+      "questionText": "Which of the following is a valid ReactJS event handler name?",
+      "options": [
+        "onclick",
+        "ONCLICK",
+        "onClick",
+        "on-click"
+      ],
+      "correctAnswer": "onClick",
+      "explanation": "Correct answer is C) onClick."
+    },
+    {
+      "questionText": "Which type of function is recommended for a small callback in an event handler?",
+      "options": [
+        "Generator function",
+        "Normal function",
+        "Constructor function",
+        "Inline arrow function"
+      ],
+      "correctAnswer": "Inline arrow function",
+      "explanation": "Correct answer is D) Inline arrow function."
+    },
+    {
+      "questionText": "If the callback function becomes large, what is recommended?",
+      "options": [
+        "Delete it",
+        "Keep it inline",
+        "Convert it to CSS",
+        "Extract it into a separate named function"
+      ],
+      "correctAnswer": "Extract it into a separate named function",
+      "explanation": "Correct answer is D) Extract it into a separate named function."
+    },
+    {
+      "questionText": "In <button onClick={onUserClick}>, why are there no parentheses after onUserClick?",
+      "options": [
+        "It converts the function to a string",
+        "It calls the function immediately on render",
+        "The function is passed as a reference and called when the click occurs",
+        "It is a syntax error"
+      ],
+      "correctAnswer": "The function is passed as a reference and called when the click occurs",
+      "explanation": "Correct answer is C) The function is passed as a reference and called when the click occurs."
+    },
+    {
+      "questionText": "Hooks in ReactJS are functions that start with the word:",
+      "options": [
+        "use",
+        "hook",
+        "set",
+        "get"
+      ],
+      "correctAnswer": "use",
+      "explanation": "Correct answer is A) use."
+    },
+    {
+      "questionText": "Which of the following is a ReactJS hook?",
+      "options": [
+        "renderState",
+        "useState",
+        "getState",
+        "setProps"
+      ],
+      "correctAnswer": "useState",
+      "explanation": "Correct answer is B) useState."
+    },
+    {
+      "questionText": "Which statement about ReactJS and hooks is correct?",
+      "options": [
+        "Hooks are only for class components",
+        "ReactJS listens to changes made by hooks",
+        "ReactJS ignores hooks",
+        "ReactJS listens to all variables declared in a component"
+      ],
+      "correctAnswer": "ReactJS listens to changes made by hooks",
+      "explanation": "Correct answer is B) ReactJS listens to changes made by hooks."
+    },
+    {
+      "questionText": "Which hook is required to update a value on the screen?",
+      "options": [
+        "useNavigate",
+        "useParams",
+        "useEffect",
+        "useState"
+      ],
+      "correctAnswer": "useState",
+      "explanation": "Correct answer is D) useState."
+    },
+    {
+      "questionText": "What is the correct syntax of the useState hook?",
+      "options": [
+        "const {state, setState} = useState[InitialValue]",
+        "const state = useState.set(InitialValue)",
+        "const [state, setState] = useState(InitialValue)",
+        "useState(state, setState)"
+      ],
+      "correctAnswer": "const [state, setState] = useState(InitialValue)",
+      "explanation": "Correct answer is C) const [state, setState] = useState(InitialValue)."
+    },
+    {
+      "questionText": "Where must useState be imported from?",
+      "options": [
+        "\"react-dom\"",
+        "\"react-router-dom\"",
+        "\"react\"",
+        "\"formik\""
+      ],
+      "correctAnswer": "\"react\"",
+      "explanation": "Correct answer is C) \"react\"."
+    },
+    {
+      "questionText": "What does \"state\" refer to?",
+      "options": [
+        "A package name",
+        "A route path",
+        "A CSS rule",
+        "The current data that a variable holds"
+      ],
+      "correctAnswer": "The current data that a variable holds",
+      "explanation": "Correct answer is D) The current data that a variable holds."
+    },
+    {
+      "questionText": "In the like counter example using let like = 10 and like++, why does the screen not update?",
+      "options": [
+        "The console blocks updates",
+        "The button is disabled",
+        "ReactJS does not listen to all variables declared in a component, only variables declared through hooks",
+        "The CSS is wrong"
+      ],
+      "correctAnswer": "ReactJS does not listen to all variables declared in a component, only variables declared through hooks",
+      "explanation": "Correct answer is C) ReactJS does not listen to all variables declared in a component, only variables declared through hooks."
+    },
+    {
+      "questionText": "Why does ReactJS listen only to hook variables?",
+      "options": [
+        "Listening to every variable would slow the app greatly when many variables are declared",
+        "To save memory on the server",
+        "Because hooks are faster than CSS",
+        "Because JavaScript does not support variables"
+      ],
+      "correctAnswer": "Listening to every variable would slow the app greatly when many variables are declared",
+      "explanation": "Correct answer is A) Listening to every variable would slow the app greatly when many variables are declared."
+    },
+    {
+      "questionText": "In const [like, setLike] = useState(0), what does setLike do?",
+      "options": [
+        "Notifies ReactJS that the like value must be updated and the view re-rendered",
+        "Deletes like",
+        "Declares a CSS style",
+        "Prints like in the console"
+      ],
+      "correctAnswer": "Notifies ReactJS that the like value must be updated and the view re-rendered",
+      "explanation": "Correct answer is A) Notifies ReactJS that the like value must be updated and the view re-rendered."
+    },
+    {
+      "questionText": "What does re-render refer to?",
+      "options": [
+        "Restarting the server",
+        "Reinstalling NodeJS",
+        "Deleting the browser cache",
+        "Re-creation of the elements on the screen"
+      ],
+      "correctAnswer": "Re-creation of the elements on the screen",
+      "explanation": "Correct answer is D) Re-creation of the elements on the screen."
+    },
+    {
+      "questionText": "Which event handler is used to listen to typing events in an input field?",
+      "options": [
+        "onTouchStart",
+        "onClick",
+        "onChange",
+        "onSubmit"
+      ],
+      "correctAnswer": "onChange",
+      "explanation": "Correct answer is C) onChange."
+    },
+    {
+      "questionText": "Where is the typed value available inside the onChange callback?",
+      "options": [
+        "event.target.value",
+        "event.value.target",
+        "event.input",
+        "event.type.value"
+      ],
+      "correctAnswer": "event.target.value",
+      "explanation": "Correct answer is A) event.target.value."
+    },
+    {
+      "questionText": "In <input onChange={(event) => setColor(event.target.value)} />, what does event.target.value hold?",
+      "options": [
+        "The value typed by the user",
+        "The component name",
+        "The name of the input",
+        "The CSS class"
+      ],
+      "correctAnswer": "The value typed by the user",
+      "explanation": "Correct answer is A) The value typed by the user."
+    },
+    {
+      "questionText": "In the color box example, why is the style provided inline?",
+      "options": [
+        "Because it is faster",
+        "Because it has to react to the user interaction",
+        "Because external CSS is not supported",
+        "Because JSX forbids CSS files"
+      ],
+      "correctAnswer": "Because it has to react to the user interaction",
+      "explanation": "Correct answer is B) Because it has to react to the user interaction."
+    },
+    {
+      "questionText": "In the color box example, which state variable is provided to the background key of the styles object?",
+      "options": [
+        "pos",
+        "color",
+        "email",
+        "like"
+      ],
+      "correctAnswer": "color",
+      "explanation": "Correct answer is B) color."
+    },
+    {
+      "questionText": "Which event handler is attached to a form to handle form submission?",
+      "options": [
+        "onChange",
+        "onTouchStart",
+        "onSubmit",
+        "onBlur"
+      ],
+      "correctAnswer": "onSubmit",
+      "explanation": "Correct answer is C) onSubmit."
+    },
+    {
+      "questionText": "In the login form, why is the value attribute of the input set to the state variable?",
+      "options": [
+        "To disable the input",
+        "To hide the input",
+        "To display the state value on the screen",
+        "To route the page"
+      ],
+      "correctAnswer": "To display the state value on the screen",
+      "explanation": "Correct answer is C) To display the state value on the screen."
+    },
+    {
+      "questionText": "When a form's Submit button is clicked without any handling, what happens in the browser?",
+      "options": [
+        "The app is deleted",
+        "The browser refreshes",
+        "The CSS is reloaded",
+        "The server stops"
+      ],
+      "correctAnswer": "The browser refreshes",
+      "explanation": "Correct answer is B) The browser refreshes."
+    },
+    {
+      "questionText": "Which method avoids the browser refresh on form submission?",
+      "options": [
+        "event.stopPropagation()",
+        "event.reload()",
+        "event.preventDefault()",
+        "event.refresh()"
+      ],
+      "correctAnswer": "event.preventDefault()",
+      "explanation": "Correct answer is C) event.preventDefault()."
+    },
+    {
+      "questionText": "In the session's LoginForm, where is onSubmit attached?",
+      "options": [
+        "To the body",
+        "To the h1 element",
+        "To the input element",
+        "To the form element"
+      ],
+      "correctAnswer": "To the form element",
+      "explanation": "Correct answer is D) To the form element."
+    },
+    {
+      "questionText": "Which state variables are used in the login form example?",
+      "options": [
+        "color and pos",
+        "email and password",
+        "like and dislike",
+        "time and show"
+      ],
+      "correctAnswer": "email and password",
+      "explanation": "Correct answer is B) email and password."
+    },
+    {
+      "questionText": "Which event handler is used to track when the user touches the screen?",
+      "options": [
+        "onSubmit",
+        "onTouchStart",
+        "onClick",
+        "onChange"
+      ],
+      "correctAnswer": "onTouchStart",
+      "explanation": "Correct answer is B) onTouchStart."
+    },
+    {
+      "questionText": "In the PaintDot example, which properties of the touch event give the X and Y coordinates?",
+      "options": [
+        "topLeft",
+        "pageX and pageY",
+        "eventX and eventY",
+        "clientZ"
+      ],
+      "correctAnswer": "pageX and pageY",
+      "explanation": "Correct answer is B) pageX and pageY."
+    },
+    {
+      "questionText": "Why is event.touches[0] used in the touch example?",
+      "options": [
+        "Multiple fingers can be used but tracking here is for only one finger",
+        "It is used to stop refresh",
+        "It is the first element of the DOM",
+        "It is a CSS selector"
+      ],
+      "correctAnswer": "Multiple fingers can be used but tracking here is for only one finger",
+      "explanation": "Correct answer is A) Multiple fingers can be used but tracking here is for only one finger."
+    },
+    {
+      "questionText": "Which property of a styled element is updated with pos.pageX and pos.pageY to move the dot?",
+      "options": [
+        "border and margin",
+        "left and top",
+        "color and size",
+        "font and weight"
+      ],
+      "correctAnswer": "left and top",
+      "explanation": "Correct answer is B) left and top."
+    },
+    {
+      "questionText": "Which of the following is a mouse event handler in the session's examples?",
+      "options": [
+        "onClick",
+        "onChange",
+        "onSubmit",
+        "onTouchStart"
+      ],
+      "correctAnswer": "onClick",
+      "explanation": "Correct answer is A) onClick."
+    },
+    {
+      "questionText": "Which is a keyboard/typing related handler in the session?",
+      "options": [
+        "onLoad",
+        "onTouchStart",
+        "onChange",
+        "onSubmit"
+      ],
+      "correctAnswer": "onChange",
+      "explanation": "Correct answer is C) onChange."
+    },
+    {
+      "questionText": "Which of the following is a form event handler in the session?",
+      "options": [
+        "onSubmit",
+        "onMouseOver",
+        "onKeyboard",
+        "onTouchStart"
+      ],
+      "correctAnswer": "onSubmit",
+      "explanation": "Correct answer is A) onSubmit."
+    },
+    {
+      "questionText": "Which of the following is an event handler for touch interactions?",
+      "options": [
+        "onSubmit",
+        "onClick",
+        "onTouchStart",
+        "onChange"
+      ],
+      "correctAnswer": "onTouchStart",
+      "explanation": "Correct answer is C) onTouchStart."
+    },
+    {
+      "questionText": "As props flow only from parent to child, how can the child inform the parent?",
+      "options": [
+        "By editing the DOM",
+        "By using CSS",
+        "By calling a function passed from the parent as a prop",
+        "By changing the parent's state directly"
+      ],
+      "correctAnswer": "By calling a function passed from the parent as a prop",
+      "explanation": "Correct answer is C) By calling a function passed from the parent as a prop."
+    },
+    {
+      "questionText": "In the Game example, which function is passed to the StartGame component as onPlayerClick?",
+      "options": [
+        "preventDefault",
+        "setCount",
+        "startGame",
+        "useState"
+      ],
+      "correctAnswer": "startGame",
+      "explanation": "Correct answer is C) startGame."
+    },
+    {
+      "questionText": "What happens when the Start button in the Game example is clicked?",
+      "options": [
+        "The count is updated and \"Game started\" is printed on the console",
+        "The component is deleted",
+        "The page is refreshed",
+        "The browser closes"
+      ],
+      "correctAnswer": "The count is updated and \"Game started\" is printed on the console",
+      "explanation": "Correct answer is A) The count is updated and \"Game started\" is printed on the console."
+    },
+    {
+      "questionText": "Which of the following can be passed as props?",
+      "options": [
+        "Only strings",
+        "Nothing",
+        "Functions",
+        "Only numbers"
+      ],
+      "correctAnswer": "Functions",
+      "explanation": "Correct answer is C) Functions."
+    },
+    {
+      "questionText": "Is onClick a valid ReactJS event handler?",
+      "options": [
+        "True",
+        "False",
+        "Only in class components",
+        "Only in HTML"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Correct answer is A) True."
+    },
+    {
+      "questionText": "Functions can be passed as props. This statement is:",
+      "options": [
+        "True",
+        "False",
+        "True only for arrow functions",
+        "False in production"
+      ],
+      "correctAnswer": "True",
+      "explanation": "Correct answer is A) True."
+    },
+    {
+      "questionText": "Which is a recommended callback function style for events?",
+      "options": [
+        "Class function",
+        "Normal function",
+        "ClickMe function",
+        "Arrow function"
+      ],
+      "correctAnswer": "Arrow function",
+      "explanation": "Correct answer is D) Arrow function."
+    },
+    {
+      "questionText": "Which statement about useState variables is correct?",
+      "options": [
+        "They replace all props",
+        "They are declared to update the view",
+        "They cannot be updated",
+        "They are only for CSS"
+      ],
+      "correctAnswer": "They are declared to update the view",
+      "explanation": "Correct answer is B) They are declared to update the view."
+    },
+    {
+      "questionText": "What does the summary say about event handlers?",
+      "options": [
+        "They are attached to elements to add interactivity to the app",
+        "They are routes",
+        "They are databases",
+        "They are CSS rules"
+      ],
+      "correctAnswer": "They are attached to elements to add interactivity to the app",
+      "explanation": "Correct answer is A) They are attached to elements to add interactivity to the app."
+    },
+    {
+      "questionText": "Which of the following can the YouTube like and dislike buttons be an example of?",
+      "options": [
+        "Static content",
+        "Routing only",
+        "Interactivity via event handlers",
+        "Server-side rendering"
+      ],
+      "correctAnswer": "Interactivity via event handlers",
+      "explanation": "Correct answer is C) Interactivity via event handlers."
+    },
+    {
+      "questionText": "Which of the following correctly writes an onChange handler that updates the email state?",
+      "options": [
+        "onChange={setEmail()}",
+        "onChange=setEmail",
+        "onChange={event.email}",
+        "onChange={(event) => setEmail(event.target.value)}"
+      ],
+      "correctAnswer": "onChange={(event) => setEmail(event.target.value)}",
+      "explanation": "Correct answer is D) onChange={(event) => setEmail(event.target.value)}."
+    }
+  ]
+}

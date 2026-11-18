@@ -1,0 +1,558 @@
+{
+  "category": "React.js",
+  "session": 6,
+  "title": "Session 6: Styling React Elements",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "Which are the three main styles applied in HTML using CSS?",
+      "options": [
+        "Static, dynamic, and hybrid",
+        "Fixed, fluid, and flex",
+        "Local, global, and module",
+        "Inline, internal, and external"
+      ],
+      "correctAnswer": "Inline, internal, and external",
+      "explanation": "Correct answer is D) Inline, internal, and external."
+    },
+    {
+      "questionText": "In inline styles, styles are given directly to:",
+      "options": [
+        "The package.json",
+        "The head style tag",
+        "The style attribute of the element",
+        "A separate .css file"
+      ],
+      "correctAnswer": "The style attribute of the element",
+      "explanation": "Correct answer is C) The style attribute of the element."
+    },
+    {
+      "questionText": "In internal styles, where is the style tag declared?",
+      "options": [
+        "In the <head>",
+        "In the <img> tag",
+        "In an external file",
+        "In the <footer>"
+      ],
+      "correctAnswer": "In the <head>",
+      "explanation": "Correct answer is A) In the <head>."
+    },
+    {
+      "questionText": "In external styles, how is the separate CSS file linked to the HTML file?",
+      "options": [
+        "By the <script> tag",
+        "By the <link> tag in the <head>",
+        "By the <meta> tag",
+        "By the <style> tag in the body"
+      ],
+      "correctAnswer": "By the <link> tag in the <head>",
+      "explanation": "Correct answer is B) By the <link> tag in the <head>."
+    },
+    {
+      "questionText": "Which of the three HTML styling approaches is recommended?",
+      "options": [
+        "External style",
+        "Inline style",
+        "Internal style",
+        "All equally"
+      ],
+      "correctAnswer": "External style",
+      "explanation": "Correct answer is A) External style."
+    },
+    {
+      "questionText": "Why are inline styles not recommended in HTML?",
+      "options": [
+        "They are not supported",
+        "They are hard to override",
+        "They cannot set colors",
+        "They require a server"
+      ],
+      "correctAnswer": "They are hard to override",
+      "explanation": "Correct answer is B) They are hard to override."
+    },
+    {
+      "questionText": "Internal styles are used when:",
+      "options": [
+        "Critical style has to be sent whenever the HTML file is loaded",
+        "A site has no CSS",
+        "Images are missing",
+        "Fonts must be installed"
+      ],
+      "correctAnswer": "Critical style has to be sent whenever the HTML file is loaded",
+      "explanation": "Correct answer is A) Critical style has to be sent whenever the HTML file is loaded."
+    },
+    {
+      "questionText": "External styles follow which principle?",
+      "options": [
+        "Single responsibility of JS",
+        "Inheritance",
+        "Separation of concerns",
+        "Polymorphism"
+      ],
+      "correctAnswer": "Separation of concerns",
+      "explanation": "Correct answer is C) Separation of concerns."
+    },
+    {
+      "questionText": "How many styling methods in ReactJS are discussed in the summary?",
+      "options": [
+        "Two",
+        "Three",
+        "Four",
+        "Five"
+      ],
+      "correctAnswer": "Three",
+      "explanation": "Correct answer is B) Three."
+    },
+    {
+      "questionText": "Which are the three ReactJS styling types listed in the summary?",
+      "options": [
+        "Redux, Context, and Hooks",
+        "SASS, LESS, and Stylus",
+        "Style objects, external CSS, and CSS modules",
+        "Inline, internal, and external HTML"
+      ],
+      "correctAnswer": "Style objects, external CSS, and CSS modules",
+      "explanation": "Correct answer is C) Style objects, external CSS, and CSS modules."
+    },
+    {
+      "questionText": "What happens in ReactJS if the style attribute is given as a string?",
+      "options": [
+        "It works normally",
+        "It results in an error",
+        "It is ignored silently",
+        "It is converted automatically"
+      ],
+      "correctAnswer": "It results in an error",
+      "explanation": "Correct answer is B) It results in an error."
+    },
+    {
+      "questionText": "ReactJS expects the style attribute to be:",
+      "options": [
+        "A string",
+        "A number",
+        "An array",
+        "A JavaScript object"
+      ],
+      "correctAnswer": "A JavaScript object",
+      "explanation": "Correct answer is D) A JavaScript object."
+    },
+    {
+      "questionText": "Which is the correct way to apply a styles object in JSX?",
+      "options": [
+        "style=(styles)",
+        "style=\"styles\"",
+        "style={styles}",
+        "style=[styles]"
+      ],
+      "correctAnswer": "style={styles}",
+      "explanation": "Correct answer is C) style={styles}."
+    },
+    {
+      "questionText": "Keys of the styles object in ReactJS must be written in:",
+      "options": [
+        "kebab-case",
+        "UPPERCASE",
+        "snake_case",
+        "camelCase"
+      ],
+      "correctAnswer": "camelCase",
+      "explanation": "Correct answer is D) camelCase."
+    },
+    {
+      "questionText": "Which key is correct inside a React style object?",
+      "options": [
+        "backgroundColor",
+        "Background-Color",
+        "background-color",
+        "background_color"
+      ],
+      "correctAnswer": "backgroundColor",
+      "explanation": "Correct answer is A) backgroundColor."
+    },
+    {
+      "questionText": "Which style key is correct for the CSS property border-radius in a React style object?",
+      "options": [
+        "border_radius",
+        "border-radius",
+        "borderRadius",
+        "Border-Radius"
+      ],
+      "correctAnswer": "borderRadius",
+      "explanation": "Correct answer is C) borderRadius."
+    },
+    {
+      "questionText": "Which style key is correct for object-fit in a React style object?",
+      "options": [
+        "objectFit",
+        "object_fit",
+        "object-fit",
+        "OBJECTFIT"
+      ],
+      "correctAnswer": "objectFit",
+      "explanation": "Correct answer is A) objectFit."
+    },
+    {
+      "questionText": "Which case must be used in style objects?",
+      "options": [
+        "Kebab",
+        "Underscore",
+        "Camel",
+        "Title"
+      ],
+      "correctAnswer": "Camel",
+      "explanation": "Correct answer is C) Camel."
+    },
+    {
+      "questionText": "Inline styles are generally used in ReactJS when:",
+      "options": [
+        "Icons are installed",
+        "The style has to be changed dynamically",
+        "Fonts are added",
+        "The style is static"
+      ],
+      "correctAnswer": "The style has to be changed dynamically",
+      "explanation": "Correct answer is B) The style has to be changed dynamically."
+    },
+    {
+      "questionText": "Style objects generate which type of CSS in the DOM?",
+      "options": [
+        "Inline CSS",
+        "Internal CSS",
+        "External CSS",
+        "No CSS"
+      ],
+      "correctAnswer": "Inline CSS",
+      "explanation": "Correct answer is A) Inline CSS."
+    },
+    {
+      "questionText": "Style objects generate internal CSS. This statement is:",
+      "options": [
+        "True",
+        "False",
+        "True only in production",
+        "True only for images"
+      ],
+      "correctAnswer": "False",
+      "explanation": "Correct answer is B) False."
+    },
+    {
+      "questionText": "How is an external CSS file used in a ReactJS component?",
+      "options": [
+        "import \"./App.css\";",
+        "style.load()",
+        "<link> inside JSX only",
+        "require.css()"
+      ],
+      "correctAnswer": "import \"./App.css\";",
+      "explanation": "Correct answer is A) import \"./App.css\";."
+    },
+    {
+      "questionText": "Which attribute is used in JSX to assign a CSS class from an external file?",
+      "options": [
+        "styleClass",
+        "class",
+        "cssName",
+        "className"
+      ],
+      "correctAnswer": "className",
+      "explanation": "Correct answer is D) className."
+    },
+    {
+      "questionText": "When a ReactJS app with external CSS is running in development, how are the styles added?",
+      "options": [
+        "As inline styles",
+        "As internal CSS",
+        "Not added",
+        "As external CSS"
+      ],
+      "correctAnswer": "As internal CSS",
+      "explanation": "Correct answer is B) As internal CSS."
+    },
+    {
+      "questionText": "When a ReactJS app with external CSS is in production, how are the styles loaded?",
+      "options": [
+        "As an external CSS file",
+        "As internal CSS",
+        "As inline styles",
+        "As JS objects"
+      ],
+      "correctAnswer": "As an external CSS file",
+      "explanation": "Correct answer is A) As an external CSS file."
+    },
+    {
+      "questionText": "Which approach guarantees a unique class name for each style?",
+      "options": [
+        "Internal styles",
+        "Style objects",
+        "External CSS",
+        "CSS Modules"
+      ],
+      "correctAnswer": "CSS Modules",
+      "explanation": "Correct answer is D) CSS Modules."
+    },
+    {
+      "questionText": "What is the benefit of CSS modules over plain external CSS?",
+      "options": [
+        "They are faster to type",
+        "They need no files",
+        "They work only in HTML",
+        "The generated class name is always unique, avoiding clashes and unwanted overrides"
+      ],
+      "correctAnswer": "The generated class name is always unique, avoiding clashes and unwanted overrides",
+      "explanation": "Correct answer is D) The generated class name is always unique, avoiding clashes and unwanted overrides."
+    },
+    {
+      "questionText": "How are CSS module styles imported in a ReactJS component?",
+      "options": [
+        "link styles",
+        "import \"./App.module.css\" only",
+        "require(styles)",
+        "import styles from \"./App.module.css\""
+      ],
+      "correctAnswer": "import styles from \"./App.module.css\"",
+      "explanation": "Correct answer is D) import styles from \"./App.module.css\"."
+    },
+    {
+      "questionText": "How is a class applied from a CSS module?",
+      "options": [
+        "className=\"styles\"",
+        "style=\"profile-pic\"",
+        "class=\"profile-pic\"",
+        "className={styles[\"profile-pic\"]}"
+      ],
+      "correctAnswer": "className={styles[\"profile-pic\"]}",
+      "explanation": "Correct answer is D) className={styles[\"profile-pic\"]}."
+    },
+    {
+      "questionText": "Which of the following always provides unique CSS classes?",
+      "options": [
+        "Style Objects",
+        "CSS Modules",
+        "External CSS",
+        "External Styles"
+      ],
+      "correctAnswer": "CSS Modules",
+      "explanation": "Correct answer is B) CSS Modules."
+    },
+    {
+      "questionText": "Which website is used to add external fonts in the session?",
+      "options": [
+        "fontawesome.com",
+        "fonts.google.com",
+        "typekit.com",
+        "fonts.apple.com"
+      ],
+      "correctAnswer": "fonts.google.com",
+      "explanation": "Correct answer is B) fonts.google.com."
+    },
+    {
+      "questionText": "Where are Google font <link> tags pasted in a ReactJS (create-react-app) project?",
+      "options": [
+        "package.json",
+        "src/App.css",
+        "src/index.css only",
+        "public/index.html under the <head> tag"
+      ],
+      "correctAnswer": "public/index.html under the <head> tag",
+      "explanation": "Correct answer is D) public/index.html under the <head> tag."
+    },
+    {
+      "questionText": "Under which tag are fonts added?",
+      "options": [
+        "<footer>",
+        "<body>",
+        "<section>",
+        "<head>"
+      ],
+      "correctAnswer": "<head>",
+      "explanation": "Correct answer is D) <head>."
+    },
+    {
+      "questionText": "After adding the font link, how is the font used in CSS?",
+      "options": [
+        "font: load('Roboto');",
+        "font-import: Roboto;",
+        "typeface: Roboto;",
+        "font-family: 'Roboto', sans-serif;"
+      ],
+      "correctAnswer": "font-family: 'Roboto', sans-serif;",
+      "explanation": "Correct answer is D) font-family: 'Roboto', sans-serif;."
+    },
+    {
+      "questionText": "Which library is used to add icons in the session?",
+      "options": [
+        "yup",
+        "react-router-dom",
+        "formik",
+        "react-bootstrap-icons"
+      ],
+      "correctAnswer": "react-bootstrap-icons",
+      "explanation": "Correct answer is D) react-bootstrap-icons."
+    },
+    {
+      "questionText": "Which command installs the icons library?",
+      "options": [
+        "npm i react-bootstrap-icons",
+        "npx icons",
+        "npm run icons",
+        "npm start icons"
+      ],
+      "correctAnswer": "npm i react-bootstrap-icons",
+      "explanation": "Correct answer is A) npm i react-bootstrap-icons."
+    },
+    {
+      "questionText": "How are Bootstrap icons used in a component?",
+      "options": [
+        "Imported as components, such as <Instagram />",
+        "Written as CSS",
+        "Written as class names only",
+        "Added as <img> tags only"
+      ],
+      "correctAnswer": "Imported as components, such as <Instagram />",
+      "explanation": "Correct answer is A) Imported as components, such as <Instagram />."
+    },
+    {
+      "questionText": "Which of the following correctly imports icons?",
+      "options": [
+        "import * as icons from \"css\";",
+        "import { Instagram, Twitter } from \"react-bootstrap-icons\";",
+        "import icons \"react\";",
+        "import Instagram from \"bootstrap\";"
+      ],
+      "correctAnswer": "import { Instagram, Twitter } from \"react-bootstrap-icons\";",
+      "explanation": "Correct answer is B) import { Instagram, Twitter } from \"react-bootstrap-icons\";."
+    },
+    {
+      "questionText": "Which style approach is always recommended according to the summary?",
+      "options": [
+        "External CSS",
+        "Inline CSS",
+        "Internal CSS",
+        "None"
+      ],
+      "correctAnswer": "External CSS",
+      "explanation": "Correct answer is A) External CSS."
+    },
+    {
+      "questionText": "Which of the following is the preferred way of styling?",
+      "options": [
+        "External styling",
+        "Internal styling",
+        "Inline styling",
+        "No styling"
+      ],
+      "correctAnswer": "External styling",
+      "explanation": "Correct answer is A) External styling."
+    },
+    {
+      "questionText": "Which CSS property is used with height and width equal to create a perfect circle image?",
+      "options": [
+        "outline: 50%",
+        "border-radius: 50%",
+        "margin: 50%",
+        "padding: 50%"
+      ],
+      "correctAnswer": "border-radius: 50%",
+      "explanation": "Correct answer is B) border-radius: 50%."
+    },
+    {
+      "questionText": "In the session's inline style example, which property zooms the image without stretching?",
+      "options": [
+        "overflow: hidden",
+        "clip",
+        "object-fit: cover",
+        "zoom: 1"
+      ],
+      "correctAnswer": "object-fit: cover",
+      "explanation": "Correct answer is C) object-fit: cover."
+    },
+    {
+      "questionText": "What error message is shown when a string is passed to the style prop in ReactJS?",
+      "options": [
+        "Cannot find module",
+        "Unexpected token",
+        "The \"style\" prop expects a mapping from style properties to values, not a string",
+        "Port already in use"
+      ],
+      "correctAnswer": "The \"style\" prop expects a mapping from style properties to values, not a string",
+      "explanation": "Correct answer is C) The \"style\" prop expects a mapping from style properties to values, not a string."
+    },
+    {
+      "questionText": "In Code Snippet 6 for style objects, which type is the style prop value given using template syntax?",
+      "options": [
+        "A JavaScript object",
+        "A JSON file",
+        "A CSS file",
+        "An HTML string"
+      ],
+      "correctAnswer": "A JavaScript object",
+      "explanation": "Correct answer is A) A JavaScript object."
+    },
+    {
+      "questionText": "Which of the following is true about CSS modules and class names in the DOM during development?",
+      "options": [
+        "The class name stays the same",
+        "The class name is generated with a unique suffix",
+        "Class names are removed",
+        "Class names turn into IDs"
+      ],
+      "correctAnswer": "The class name is generated with a unique suffix",
+      "explanation": "Correct answer is B) The class name is generated with a unique suffix."
+    },
+    {
+      "questionText": "Which file contains the CSS in the plain CSS example?",
+      "options": [
+        "index.html",
+        "App.js",
+        "App.css",
+        "manifest.json"
+      ],
+      "correctAnswer": "App.css",
+      "explanation": "Correct answer is C) App.css."
+    },
+    {
+      "questionText": "Why is external CSS recommended over inline in React?",
+      "options": [
+        "It disables JavaScript",
+        "It runs only offline",
+        "It needs no import",
+        "It separates HTML and CSS code and is easier to maintain"
+      ],
+      "correctAnswer": "It separates HTML and CSS code and is easier to maintain",
+      "explanation": "Correct answer is D) It separates HTML and CSS code and is easier to maintain."
+    },
+    {
+      "questionText": "Which statement about fonts and React is correct?",
+      "options": [
+        "Fonts cannot be used in React",
+        "Fonts can be directly added to the <head> tag in index.html",
+        "Fonts must be added in package.json",
+        "Fonts must be compiled by Babel"
+      ],
+      "correctAnswer": "Fonts can be directly added to the <head> tag in index.html",
+      "explanation": "Correct answer is B) Fonts can be directly added to the <head> tag in index.html."
+    },
+    {
+      "questionText": "Which of the following should be used when you worry your styles will be overridden by other styles?",
+      "options": [
+        "CSS modules",
+        "Inline HTML",
+        "Internal HTML styles",
+        "No styles"
+      ],
+      "correctAnswer": "CSS modules",
+      "explanation": "Correct answer is A) CSS modules."
+    },
+    {
+      "questionText": "Which of these describes \"Plain Inline Styling\" in ReactJS?",
+      "options": [
+        "Using style objects",
+        "Using SASS",
+        "Using CSS modules",
+        "Using external fonts"
+      ],
+      "correctAnswer": "Using style objects",
+      "explanation": "Correct answer is A) Using style objects."
+    }
+  ]
+}

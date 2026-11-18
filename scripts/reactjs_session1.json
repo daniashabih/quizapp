@@ -1,0 +1,580 @@
+{
+  "category": "React.js",
+  "session": 1,
+  "title": "Session 1: Introduction to ReactJS",
+  "totalQuestions": 52,
+  "questions": [
+    {
+      "questionText": "What is ReactJS?",
+      "options": [
+        "A CSS pre-processor",
+        "A backend framework for Node.js",
+        "An open-source front-end JavaScript library for building component-based user interfaces",
+        "A server-side database engine"
+      ],
+      "correctAnswer": "An open-source front-end JavaScript library for building component-based user interfaces",
+      "explanation": "Correct answer is C) An open-source front-end JavaScript library for building component-based user interfaces."
+    },
+    {
+      "questionText": "Which organization, assisted by a community of individual developers, maintains ReactJS?",
+      "options": [
+        "Google",
+        "Amazon",
+        "Meta (formerly Facebook)",
+        "Microsoft"
+      ],
+      "correctAnswer": "Meta (formerly Facebook)",
+      "explanation": "Correct answer is C) Meta (formerly Facebook)."
+    },
+    {
+      "questionText": "ReactJS is used only to build and render user interface components to the:",
+      "options": [
+        "Database",
+        "Document Object Model (DOM)",
+        "Web server",
+        "Operating system"
+      ],
+      "correctAnswer": "Document Object Model (DOM)",
+      "explanation": "Correct answer is B) Document Object Model (DOM)."
+    },
+    {
+      "questionText": "Which of the following is NOT an advantage of declarative views in ReactJS?",
+      "options": [
+        "Developers must manually update the DOM after every change",
+        "Updates and renders the right components as data changes",
+        "Predictable code",
+        "Easy to debug"
+      ],
+      "correctAnswer": "Developers must manually update the DOM after every change",
+      "explanation": "Correct answer is A) Developers must manually update the DOM after every change."
+    },
+    {
+      "questionText": "Which statement about component-based design in ReactJS is correct?",
+      "options": [
+        "State must always be kept inside the DOM",
+        "Components cannot be combined to form complex UIs",
+        "An application can contain only one component",
+        "Components are capable of managing their own states"
+      ],
+      "correctAnswer": "Components are capable of managing their own states",
+      "explanation": "Correct answer is D) Components are capable of managing their own states."
+    },
+    {
+      "questionText": "In ReactJS, the logic of components is written using:",
+      "options": [
+        "Only HTML files",
+        "JavaScript instead of templates",
+        "XML templates",
+        "Only CSS files"
+      ],
+      "correctAnswer": "JavaScript instead of templates",
+      "explanation": "Correct answer is B) JavaScript instead of templates."
+    },
+    {
+      "questionText": "What is Babel in the ReactJS ecosystem?",
+      "options": [
+        "A routing library",
+        "A state management library",
+        "A module bundler",
+        "A JavaScript compiler that converts JavaScript code from one format to another"
+      ],
+      "correctAnswer": "A JavaScript compiler that converts JavaScript code from one format to another",
+      "explanation": "Correct answer is D) A JavaScript compiler that converts JavaScript code from one format to another."
+    },
+    {
+      "questionText": "What is Webpack?",
+      "options": [
+        "A JavaScript compiler",
+        "A testing library",
+        "A module bundler that bundles JavaScript modules and dependencies into a single file",
+        "A CSS framework"
+      ],
+      "correctAnswer": "A module bundler that bundles JavaScript modules and dependencies into a single file",
+      "explanation": "Correct answer is C) A module bundler that bundles JavaScript modules and dependencies into a single file."
+    },
+    {
+      "questionText": "Which ecosystem component renders specific ReactJS components depending on the URL?",
+      "options": [
+        "Webpack",
+        "Babel",
+        "Redux",
+        "Routing (ReactJS Router)"
+      ],
+      "correctAnswer": "Routing (ReactJS Router)",
+      "explanation": "Correct answer is D) Routing (ReactJS Router)."
+    },
+    {
+      "questionText": "Which is described as the most popular CSS approach in the ReactJS styling ecosystem?",
+      "options": [
+        "Flash styling",
+        "Inline HTML tables",
+        "Styled Components",
+        "XSLT"
+      ],
+      "correctAnswer": "Styled Components",
+      "explanation": "Correct answer is C) Styled Components."
+    },
+    {
+      "questionText": "In Redux, all component state details are collated in a single location called the:",
+      "options": [
+        "Router",
+        "Vault",
+        "Store",
+        "Context"
+      ],
+      "correctAnswer": "Store",
+      "explanation": "Correct answer is C) Store."
+    },
+    {
+      "questionText": "In Redux, the states in the Store change through:",
+      "options": [
+        "Routes",
+        "Hooks",
+        "Props",
+        "Actions"
+      ],
+      "correctAnswer": "Actions",
+      "explanation": "Correct answer is D) Actions."
+    },
+    {
+      "questionText": "Which statement about Redux is correct?",
+      "options": [
+        "It works only with ReactJS",
+        "It is a module bundler",
+        "It is used within ReactJS and also with other view libraries",
+        "It is a CSS pre-processor"
+      ],
+      "correctAnswer": "It is used within ReactJS and also with other view libraries",
+      "explanation": "Correct answer is C) It is used within ReactJS and also with other view libraries."
+    },
+    {
+      "questionText": "Which feature manages the state of a component without depending on external libraries?",
+      "options": [
+        "Context API",
+        "Webpack",
+        "Babel",
+        "Redux"
+      ],
+      "correctAnswer": "Context API",
+      "explanation": "Correct answer is A) Context API."
+    },
+    {
+      "questionText": "Context in ReactJS provides a way to:",
+      "options": [
+        "Style components using CSS",
+        "Bundle all JS files",
+        "Compile JSX to JavaScript",
+        "Pass data through the component tree without passing props down manually at every level"
+      ],
+      "correctAnswer": "Pass data through the component tree without passing props down manually at every level",
+      "explanation": "Correct answer is D) Pass data through the component tree without passing props down manually at every level."
+    },
+    {
+      "questionText": "The Context API was developed by the ReactJS team to avoid dependency on:",
+      "options": [
+        "NodeJS",
+        "HTML",
+        "External libraries such as Redux",
+        "Browsers"
+      ],
+      "correctAnswer": "External libraries such as Redux",
+      "explanation": "Correct answer is C) External libraries such as Redux."
+    },
+    {
+      "questionText": "What is the Document Object Model (DOM)?",
+      "options": [
+        "A structured, tree-based hierarchical representation of an HTML document created by the browser",
+        "A JavaScript compiler",
+        "A CSS file format",
+        "A server-side template"
+      ],
+      "correctAnswer": "A structured, tree-based hierarchical representation of an HTML document created by the browser",
+      "explanation": "Correct answer is A) A structured, tree-based hierarchical representation of an HTML document created by the browser."
+    },
+    {
+      "questionText": "Why is it easier for scripting languages to interact with a Web page through the DOM?",
+      "options": [
+        "Scripts can easily access and understand the structured format in the DOM",
+        "DOM stores data in a database",
+        "DOM removes the need for a browser",
+        "DOM converts JavaScript into HTML"
+      ],
+      "correctAnswer": "Scripts can easily access and understand the structured format in the DOM",
+      "explanation": "Correct answer is A) Scripts can easily access and understand the structured format in the DOM."
+    },
+    {
+      "questionText": "What is the Virtual DOM?",
+      "options": [
+        "A new HTML standard",
+        "A copy, clone, or virtual image of the DOM",
+        "A browser plug-in",
+        "A server-side database"
+      ],
+      "correctAnswer": "A copy, clone, or virtual image of the DOM",
+      "explanation": "Correct answer is B) A copy, clone, or virtual image of the DOM."
+    },
+    {
+      "questionText": "For every object in the DOM, the Virtual DOM has:",
+      "options": [
+        "No equivalent object",
+        "An equivalent object",
+        "Two equivalent objects",
+        "Only a CSS rule"
+      ],
+      "correctAnswer": "An equivalent object",
+      "explanation": "Correct answer is B) An equivalent object."
+    },
+    {
+      "questionText": "When the state of an element changes in a ReactJS application, the change is updated first in the:",
+      "options": [
+        "Virtual DOM",
+        "Real DOM",
+        "Server",
+        "Browser cache"
+      ],
+      "correctAnswer": "Virtual DOM",
+      "explanation": "Correct answer is A) Virtual DOM."
+    },
+    {
+      "questionText": "How many Virtual DOM trees does ReactJS manage while updating the UI?",
+      "options": [
+        "One",
+        "Two (the updated version and the pre-update version)",
+        "Three",
+        "Four"
+      ],
+      "correctAnswer": "Two (the updated version and the pre-update version)",
+      "explanation": "Correct answer is B) Two (the updated version and the pre-update version)."
+    },
+    {
+      "questionText": "What is the process of comparing the pre-updated Virtual DOM with the updated Virtual DOM known as?",
+      "options": [
+        "Compiling",
+        "Diffing",
+        "Bundling",
+        "Routing"
+      ],
+      "correctAnswer": "Diffing",
+      "explanation": "Correct answer is B) Diffing."
+    },
+    {
+      "questionText": "Why does ReactJS use batch updates for the real DOM?",
+      "options": [
+        "To update the DOM after every single change",
+        "To avoid using the Virtual DOM",
+        "To update the real DOM together instead of after every single change",
+        "To disable re-rendering"
+      ],
+      "correctAnswer": "To update the real DOM together instead of after every single change",
+      "explanation": "Correct answer is C) To update the real DOM together instead of after every single change."
+    },
+    {
+      "questionText": "Which of the following are the core building blocks of ReactJS applications?",
+      "options": [
+        "Tables",
+        "Components",
+        "Servers",
+        "Cookies"
+      ],
+      "correctAnswer": "Components",
+      "explanation": "Correct answer is B) Components."
+    },
+    {
+      "questionText": "In technical terms, each ReactJS component returns:",
+      "options": [
+        "A database record",
+        "A CSS file",
+        "An XML schema",
+        "A part of JSX code indicating what must be rendered on the screen"
+      ],
+      "correctAnswer": "A part of JSX code indicating what must be rendered on the screen",
+      "explanation": "Correct answer is D) A part of JSX code indicating what must be rendered on the screen."
+    },
+    {
+      "questionText": "Functional components in ReactJS are:",
+      "options": [
+        "HTML files",
+        "JavaScript functions",
+        "JavaScript ES6 classes",
+        "CSS modules"
+      ],
+      "correctAnswer": "JavaScript functions",
+      "explanation": "Correct answer is B) JavaScript functions."
+    },
+    {
+      "questionText": "Which feature of JavaScript is used to create class-based components in ReactJS?",
+      "options": [
+        "Closures only",
+        "Callbacks",
+        "ES6 classes",
+        "Promises"
+      ],
+      "correctAnswer": "ES6 classes",
+      "explanation": "Correct answer is C) ES6 classes."
+    },
+    {
+      "questionText": "Which statement about props is correct?",
+      "options": [
+        "Props are read-only data received by a component",
+        "Props are used to manage private data",
+        "Props can flow from child to parent only",
+        "Props data can be modified by the receiving component"
+      ],
+      "correctAnswer": "Props are read-only data received by a component",
+      "explanation": "Correct answer is A) Props are read-only data received by a component."
+    },
+    {
+      "questionText": "Which statement about state is correct?",
+      "options": [
+        "State is passed from parent to child",
+        "Components create and manage their own state, which is private to the component",
+        "State is read-only",
+        "Other components can freely modify a component's state"
+      ],
+      "correctAnswer": "Components create and manage their own state, which is private to the component",
+      "explanation": "Correct answer is B) Components create and manage their own state, which is private to the component."
+    },
+    {
+      "questionText": "In ReactJS, data flow is:",
+      "options": [
+        "Bidirectional",
+        "Unidirectional, from parent to child",
+        "Random",
+        "Unidirectional, from child to parent"
+      ],
+      "correctAnswer": "Unidirectional, from parent to child",
+      "explanation": "Correct answer is B) Unidirectional, from parent to child."
+    },
+    {
+      "questionText": "What does JSX stand for?",
+      "options": [
+        "JavaScript Syntax",
+        "Java Standard XML",
+        "JavaScript XML",
+        "JSON Extension"
+      ],
+      "correctAnswer": "JavaScript XML",
+      "explanation": "Correct answer is C) JavaScript XML."
+    },
+    {
+      "questionText": "Which of the following is an advantage of JSX?",
+      "options": [
+        "It forces markup and logic into separate files",
+        "Errors can be found during compiling",
+        "It cannot be used with Babel",
+        "It slows down processing"
+      ],
+      "correctAnswer": "Errors can be found during compiling",
+      "explanation": "Correct answer is B) Errors can be found during compiling."
+    },
+    {
+      "questionText": "Which tool is used as a pre-processor to read and convert JSX into standard JavaScript?",
+      "options": [
+        "Redux",
+        "Context API",
+        "Babel",
+        "Git"
+      ],
+      "correctAnswer": "Babel",
+      "explanation": "Correct answer is C) Babel."
+    },
+    {
+      "questionText": "How many stages are there in the lifecycle of a ReactJS component as described in the session?",
+      "options": [
+        "Two",
+        "Three",
+        "Four",
+        "Five"
+      ],
+      "correctAnswer": "Four",
+      "explanation": "Correct answer is C) Four."
+    },
+    {
+      "questionText": "Which of the following lists the stages of the component lifecycle in order?",
+      "options": [
+        "Initialization, Updating, Mounting, Unmounting",
+        "Updating, Mounting, Initialization, Unmounting",
+        "Initialization, Mounting, Updating, Unmounting",
+        "Mounting, Initialization, Unmounting, Updating"
+      ],
+      "correctAnswer": "Initialization, Mounting, Updating, Unmounting",
+      "explanation": "Correct answer is C) Initialization, Mounting, Updating, Unmounting."
+    },
+    {
+      "questionText": "In which lifecycle stage is a component removed from the DOM?",
+      "options": [
+        "Updating",
+        "Mounting",
+        "Initialization",
+        "Unmounting"
+      ],
+      "correctAnswer": "Unmounting",
+      "explanation": "Correct answer is D) Unmounting."
+    },
+    {
+      "questionText": "The componentDidMount() method is called in which stage?",
+      "options": [
+        "Unmounting",
+        "Updating",
+        "Mounting",
+        "Initialization"
+      ],
+      "correctAnswer": "Mounting",
+      "explanation": "Correct answer is C) Mounting."
+    },
+    {
+      "questionText": "Which JavaScript runtime must be installed for a ReactJS development environment?",
+      "options": [
+        "Rhino",
+        "Deno",
+        "NodeJS",
+        "PHP"
+      ],
+      "correctAnswer": "NodeJS",
+      "explanation": "Correct answer is C) NodeJS."
+    },
+    {
+      "questionText": "Which IDE is installed in the session for writing ReactJS code?",
+      "options": [
+        "Eclipse",
+        "Notepad",
+        "Visual Studio Code",
+        "NetBeans"
+      ],
+      "correctAnswer": "Visual Studio Code",
+      "explanation": "Correct answer is C) Visual Studio Code."
+    },
+    {
+      "questionText": "Which command installs the create-react-app library globally?",
+      "options": [
+        "npx create-react-app",
+        "npm i -g create-react-app",
+        "npm run build",
+        "npm start"
+      ],
+      "correctAnswer": "npm i -g create-react-app",
+      "explanation": "Correct answer is B) npm i -g create-react-app."
+    },
+    {
+      "questionText": "Which version of the Node.js installer is downloaded in the session?",
+      "options": [
+        "20.1.0",
+        "16.5.0",
+        "18.14.2",
+        "12.0.1"
+      ],
+      "correctAnswer": "18.14.2",
+      "explanation": "Correct answer is C) 18.14.2."
+    },
+    {
+      "questionText": "Which version of ReactJS is used in the session?",
+      "options": [
+        "17.0.2",
+        "19.0",
+        "18.2.0",
+        "16.8"
+      ],
+      "correctAnswer": "18.2.0",
+      "explanation": "Correct answer is C) 18.2.0."
+    },
+    {
+      "questionText": "Which command is used in the integrated terminal to create a new ReactJS app?",
+      "options": [
+        "react new app",
+        "node create-react-app",
+        "npm install react-app",
+        "npx create-react-app"
+      ],
+      "correctAnswer": "npx create-react-app",
+      "explanation": "Correct answer is D) npx create-react-app."
+    },
+    {
+      "questionText": "In the sample app creation, which command starts the development server after moving into the app folder?",
+      "options": [
+        "npm start",
+        "npm stop",
+        "npm build-app",
+        "npm init"
+      ],
+      "correctAnswer": "npm start",
+      "explanation": "Correct answer is A) npm start."
+    },
+    {
+      "questionText": "How can a running ReactJS application be stopped from the terminal?",
+      "options": [
+        "Press Ctrl+S",
+        "Run npm delete",
+        "Press Ctrl+C",
+        "Close the browser tab"
+      ],
+      "correctAnswer": "Press Ctrl+C",
+      "explanation": "Correct answer is C) Press Ctrl+C."
+    },
+    {
+      "questionText": "According to the default ReactJS welcome page, which file should be edited to change the app?",
+      "options": [
+        "package.json",
+        "index.html",
+        "src/App.js",
+        "public/manifest.json"
+      ],
+      "correctAnswer": "src/App.js",
+      "explanation": "Correct answer is C) src/App.js."
+    },
+    {
+      "questionText": "In the NodeJS installation, the option \"Automatically install the necessary tools\" is:",
+      "options": [
+        "Not available",
+        "Mandatory",
+        "Required only for Mac",
+        "Optional"
+      ],
+      "correctAnswer": "Optional",
+      "explanation": "Correct answer is D) Optional."
+    },
+    {
+      "questionText": "Which is an advantage of using an IDE like Visual Studio Code for ReactJS?",
+      "options": [
+        "It hosts the application on the internet",
+        "It replaces the need for NodeJS",
+        "It reduces development time and auto-generates base code such as component definitions",
+        "It compiles JSX without Babel"
+      ],
+      "correctAnswer": "It reduces development time and auto-generates base code such as component definitions",
+      "explanation": "Correct answer is C) It reduces development time and auto-generates base code such as component definitions."
+    },
+    {
+      "questionText": "Why is the Virtual DOM faster to work with than the real DOM?",
+      "options": [
+        "Because it does not use JavaScript",
+        "Because it avoids all rendering",
+        "Because it is stored on the server",
+        "Because only the updated part is rendered on the Web page after comparing versions"
+      ],
+      "correctAnswer": "Because only the updated part is rendered on the Web page after comparing versions",
+      "explanation": "Correct answer is D) Because only the updated part is rendered on the Web page after comparing versions."
+    },
+    {
+      "questionText": "Single-page and mobile applications and server-rendered applications (with frameworks like Next.js) can be developed with:",
+      "options": [
+        "Babel only",
+        "ReactJS",
+        "Redux only",
+        "Webpack only"
+      ],
+      "correctAnswer": "ReactJS",
+      "explanation": "Correct answer is B) ReactJS."
+    },
+    {
+      "questionText": "Which of the following is true about traditional styling in the ReactJS ecosystem?",
+      "options": [
+        "It requires Redux",
+        "It encapsulates styling within components",
+        "It cannot use classes",
+        "It includes styling details in the index.css file and can use SASS or CSS pre-processors"
+      ],
+      "correctAnswer": "It includes styling details in the index.css file and can use SASS or CSS pre-processors",
+      "explanation": "Correct answer is D) It includes styling details in the index.css file and can use SASS or CSS pre-processors."
+    }
+  ]
+}

@@ -7,6 +7,22 @@ const CSHARP_SESSION_NUMBERS = Object.keys(CSHARP_QUIZ_SESSIONS)
     .filter(n => !isNaN(n))
     .sort((a, b) => a - b);
 
+const REACTJS_SESSIONS = {
+    1: 'Introduction to ReactJS',
+    2: 'ReactJS Components',
+    3: 'JSX Elements',
+    4: 'Event Handling in ReactJS',
+    5: 'ReactJS Router',
+    6: 'Styling React Elements',
+    7: 'ReactJS Component Lifecycle',
+    8: 'Creating a CRUD Application Using ReactJS Forms'
+};
+
+const isReactJsCategory = (category) => {
+    const lower = String(category || '').trim().toLowerCase();
+    return lower === 'react.js' || lower === 'react js' || lower === 'reactjs';
+};
+
 const parseOptions = (opts) => {
     if (Array.isArray(opts)) return opts;
     if (typeof opts === 'string') {
@@ -29,6 +45,9 @@ const getCategoryVariations = (category) => {
     const lower = clean.toLowerCase();
     if (lower === 'c#' || lower === 'csharp' || lower === 'c sharp') {
         return ['C#', 'csharp', 'c sharp', 'CSharp'];
+    }
+    if (lower === 'react.js' || lower === 'react js' || lower === 'reactjs') {
+        return ['React.js', 'React JS', 'ReactJS', 'react.js', 'react js', 'reactjs'];
     }
     const withAnd = clean.replace(/&/g, 'and');
     const withAmp = clean.replace(/\band\b/gi, '&');
@@ -221,14 +240,21 @@ const Question = {
             }
         }
 
-        return rows.map(r => ({
-            ...r,
-            session: r.session || 1,
-            options: parseOptions(r.options),
-            question_text: r.questionText,
-            correct_answer: r.correctAnswer,
-            created_at: r.createdAt
-        }));
+        return rows.map(r => {
+            const sNum = r.session || 1;
+            const sessionTitle = isReactJsCategory(r.category || category) && REACTJS_SESSIONS[sNum]
+                ? REACTJS_SESSIONS[sNum]
+                : undefined;
+            return {
+                ...r,
+                session: sNum,
+                ...(sessionTitle ? { sessionTitle } : {}),
+                options: parseOptions(r.options),
+                question_text: r.questionText,
+                correct_answer: r.correctAnswer,
+                created_at: r.createdAt
+            };
+        });
     },
 
     getSessionsByCategory: async (category) => {
@@ -242,6 +268,8 @@ const Question = {
             category.toLowerCase() === 'csharp' ||
             category.toLowerCase() === 'c sharp'
         );
+
+        const isReactJs = isReactJsCategory(category);
 
         let rows = [];
         try {
@@ -291,6 +319,8 @@ const Question = {
                     title = AGILE_DEVOPS_SESSIONS[sNum];
                 } else if (isCSharp && CSHARP_QUIZ_SESSIONS[sNum]) {
                     title = CSHARP_QUIZ_SESSIONS[sNum];
+                } else if (isReactJs && REACTJS_SESSIONS[sNum]) {
+                    title = REACTJS_SESSIONS[sNum];
                 }
                 return {
                     session: sNum,

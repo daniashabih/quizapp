@@ -1,0 +1,536 @@
+{
+  "category": "React.js",
+  "session": 2,
+  "title": "Session 2: ReactJS Components",
+  "totalQuestions": 48,
+  "questions": [
+    {
+      "questionText": "Which concept did the ReactJS team introduce by extending the idea of reusing logic through functions to reusing views (HTML + CSS)?",
+      "options": [
+        "Reducers",
+        "Stylesheets",
+        "Components",
+        "Routers"
+      ],
+      "correctAnswer": "Components",
+      "explanation": "Correct answer is C) Components."
+    },
+    {
+      "questionText": "In the session's analogy, components are compared to:",
+      "options": [
+        "Train coaches",
+        "Pages of a book",
+        "Bricks of a wall",
+        "Lego blocks"
+      ],
+      "correctAnswer": "Lego blocks",
+      "explanation": "Correct answer is D) Lego blocks."
+    },
+    {
+      "questionText": "How many types of components does ReactJS have as per the session?",
+      "options": [
+        "One",
+        "Two",
+        "Three",
+        "Four"
+      ],
+      "correctAnswer": "Two",
+      "explanation": "Correct answer is B) Two."
+    },
+    {
+      "questionText": "Which are the two types of components in ReactJS?",
+      "options": [
+        "Parent and Child components",
+        "Static and Dynamic components",
+        "Pure and Impure components",
+        "Functional and Class components"
+      ],
+      "correctAnswer": "Functional and Class components",
+      "explanation": "Correct answer is D) Functional and Class components."
+    },
+    {
+      "questionText": "Which is one of the two conditions for a normal function to be treated as a functional component?",
+      "options": [
+        "Its name must start with a capital letter",
+        "Its name must be all in lowercase",
+        "It must not return anything",
+        "It must use the class keyword"
+      ],
+      "correctAnswer": "Its name must start with a capital letter",
+      "explanation": "Correct answer is A) Its name must start with a capital letter."
+    },
+    {
+      "questionText": "What must a functional component return?",
+      "options": [
+        "A CSS object only",
+        "A number",
+        "A JavaScript XML (JSX) element",
+        "A database cursor"
+      ],
+      "correctAnswer": "A JavaScript XML (JSX) element",
+      "explanation": "Correct answer is C) A JavaScript XML (JSX) element."
+    },
+    {
+      "questionText": "Which of the following is a valid functional component name?",
+      "options": [
+        "Welcome",
+        "welcome",
+        "welcomeComponent",
+        "_welcome_"
+      ],
+      "correctAnswer": "Welcome",
+      "explanation": "Correct answer is A) Welcome."
+    },
+    {
+      "questionText": "Which is the correct way to use a component named Welcome inside the App component?",
+      "options": [
+        "{Welcome}",
+        "<welcome />",
+        "Welcome()",
+        "<Welcome />"
+      ],
+      "correctAnswer": "<Welcome />",
+      "explanation": "Correct answer is D) <Welcome />."
+    },
+    {
+      "questionText": "Which of the following is a correct way to call a component named Hello?",
+      "options": [
+        "<Hello />",
+        "<Hello></Hello>",
+        "Both <Hello /> and <Hello></Hello>",
+        "Only Hello()"
+      ],
+      "correctAnswer": "Both <Hello /> and <Hello></Hello>",
+      "explanation": "Correct answer is C) Both <Hello /> and <Hello></Hello>."
+    },
+    {
+      "questionText": "What is the main benefit of rendering <Welcome /> three times in App?",
+      "options": [
+        "It demonstrates component reusability",
+        "It creates three separate apps",
+        "It increases the bundle size only",
+        "It converts class components to functions"
+      ],
+      "correctAnswer": "It demonstrates component reusability",
+      "explanation": "Correct answer is A) It demonstrates component reusability."
+    },
+    {
+      "questionText": "Which class must a class component extend in ReactJS?",
+      "options": [
+        "React.Component",
+        "React.Class",
+        "React.Function",
+        "React.Element"
+      ],
+      "correctAnswer": "React.Component",
+      "explanation": "Correct answer is A) React.Component."
+    },
+    {
+      "questionText": "Which special method of a class component displays the view on the screen?",
+      "options": [
+        "print()",
+        "show()",
+        "render()",
+        "display()"
+      ],
+      "correctAnswer": "render()",
+      "explanation": "Correct answer is C) render()."
+    },
+    {
+      "questionText": "Which statement about class components is correct?",
+      "options": [
+        "They cannot return JSX",
+        "They are written as plain functions",
+        "They are not supported in ReactJS",
+        "They serve the same purpose as functional components"
+      ],
+      "correctAnswer": "They serve the same purpose as functional components",
+      "explanation": "Correct answer is D) They serve the same purpose as functional components."
+    },
+    {
+      "questionText": "In which ReactJS version were functional components (with hooks) introduced, shifting the ecosystem from class to function?",
+      "options": [
+        "16.8",
+        "18.2",
+        "17.0",
+        "15.0"
+      ],
+      "correctAnswer": "16.8",
+      "explanation": "Correct answer is A) 16.8."
+    },
+    {
+      "questionText": "Which event accelerated the movement of the ReactJS ecosystem from class to functional components?",
+      "options": [
+        "Introduction of hooks",
+        "Introduction of Webpack",
+        "Removal of JSX",
+        "Introduction of Redux"
+      ],
+      "correctAnswer": "Introduction of hooks",
+      "explanation": "Correct answer is A) Introduction of hooks."
+    },
+    {
+      "questionText": "Which of the following is a drawback of class components?",
+      "options": [
+        "They cannot manage state",
+        "Larger boilerplate code",
+        "They cannot be reused",
+        "They cannot be rendered"
+      ],
+      "correctAnswer": "Larger boilerplate code",
+      "explanation": "Correct answer is B) Larger boilerplate code."
+    },
+    {
+      "questionText": "Which JavaScript concept typically requires in-depth mastery when using class components?",
+      "options": [
+        "The void keyword",
+        "The this keyword",
+        "The var keyword",
+        "The typeof keyword"
+      ],
+      "correctAnswer": "The this keyword",
+      "explanation": "Correct answer is B) The this keyword."
+    },
+    {
+      "questionText": "According to the session, how much less code can the functional version need compared to the equivalent class component?",
+      "options": [
+        "About 80%",
+        "About 40%",
+        "About 10%",
+        "About 20%"
+      ],
+      "correctAnswer": "About 40%",
+      "explanation": "Correct answer is B) About 40%."
+    },
+    {
+      "questionText": "Which of the following is NOT an advantage of functional components?",
+      "options": [
+        "Concise syntax",
+        "Easy to develop",
+        "Lots of boilerplate code",
+        "No need for in-depth knowledge of concepts like this"
+      ],
+      "correctAnswer": "Lots of boilerplate code",
+      "explanation": "Correct answer is C) Lots of boilerplate code."
+    },
+    {
+      "questionText": "Currently, in companies, which type of component is generally used?",
+      "options": [
+        "Only class components",
+        "Only higher-order components",
+        "Only functional components",
+        "Only HTML files"
+      ],
+      "correctAnswer": "Only functional components",
+      "explanation": "Correct answer is C) Only functional components."
+    },
+    {
+      "questionText": "In ReactJS, data flows:",
+      "options": [
+        "Only from parent to child",
+        "In both directions automatically",
+        "Only from child to parent",
+        "Randomly between siblings"
+      ],
+      "correctAnswer": "Only from parent to child",
+      "explanation": "Correct answer is A) Only from parent to child."
+    },
+    {
+      "questionText": "The data passed from a parent component to a child component is called:",
+      "options": [
+        "Styles",
+        "Hooks",
+        "Props or properties",
+        "Routes"
+      ],
+      "correctAnswer": "Props or properties",
+      "explanation": "Correct answer is C) Props or properties."
+    },
+    {
+      "questionText": "Props data flow is bidirectional. This statement is:",
+      "options": [
+        "True",
+        "False",
+        "True only for class components",
+        "True only in production"
+      ],
+      "correctAnswer": "False",
+      "explanation": "Correct answer is B) False."
+    },
+    {
+      "questionText": "Which of the following correctly receives props in a functional component?",
+      "options": [
+        "function Welcome(props) { ... }",
+        "function Welcome<props> { ... }",
+        "function Welcome: props { ... }",
+        "function Welcome[props] { ... }"
+      ],
+      "correctAnswer": "function Welcome(props) { ... }",
+      "explanation": "Correct answer is A) function Welcome(props) { ... }."
+    },
+    {
+      "questionText": "Given function Welcome(props) { return <h1>Hello, {props.name}</h1>; }, how is name passed from the parent?",
+      "options": [
+        "<Welcome name=\"Neo\" />",
+        "<Welcome (name=\"Neo\") />",
+        "<Welcome props=\"Neo\" />",
+        "<Welcome.name=\"Neo\" />"
+      ],
+      "correctAnswer": "<Welcome name=\"Neo\" />",
+      "explanation": "Correct answer is A) <Welcome name=\"Neo\" />."
+    },
+    {
+      "questionText": "What is the ES6 feature used to shorten props access as function Welcome({ name })?",
+      "options": [
+        "Hoisting",
+        "Destructuring",
+        "Spreading",
+        "Currying"
+      ],
+      "correctAnswer": "Destructuring",
+      "explanation": "Correct answer is B) Destructuring."
+    },
+    {
+      "questionText": "In function Welcome({ name }), what does { name } do?",
+      "options": [
+        "Defines a CSS class",
+        "Creates a new state variable",
+        "Extracts the name key out of the props object",
+        "Imports the name module"
+      ],
+      "correctAnswer": "Extracts the name key out of the props object",
+      "explanation": "Correct answer is C) Extracts the name key out of the props object."
+    },
+    {
+      "questionText": "Which statement about passing data from child to parent is correct as per the session?",
+      "options": [
+        "There is no direct way; hooks are a workaround",
+        "It is done with CSS",
+        "There is a direct built-in way using props",
+        "It is done automatically by the Virtual DOM"
+      ],
+      "correctAnswer": "There is no direct way; hooks are a workaround",
+      "explanation": "Correct answer is A) There is no direct way; hooks are a workaround."
+    },
+    {
+      "questionText": "Passing data from child to parent is especially useful when:",
+      "options": [
+        "The app must be compiled",
+        "The parent must be styled",
+        "The parent must be informed about changes in the child component",
+        "The child must be deleted"
+      ],
+      "correctAnswer": "The parent must be informed about changes in the child component",
+      "explanation": "Correct answer is C) The parent must be informed about changes in the child component."
+    },
+    {
+      "questionText": "What does HOC stand for in ReactJS?",
+      "options": [
+        "Hyper Object Component",
+        "Higher-Order Component",
+        "Hooked Output Component",
+        "Hidden Origin Class"
+      ],
+      "correctAnswer": "Higher-Order Component",
+      "explanation": "Correct answer is B) Higher-Order Component."
+    },
+    {
+      "questionText": "What do Higher-Order Components (HOC) do?",
+      "options": [
+        "Compile JSX",
+        "Wrap components to make it easier to pass logic to them",
+        "Replace the Virtual DOM",
+        "Remove props from components"
+      ],
+      "correctAnswer": "Wrap components to make it easier to pass logic to them",
+      "explanation": "Correct answer is B) Wrap components to make it easier to pass logic to them."
+    },
+    {
+      "questionText": "A HOC acts like a:",
+      "options": [
+        "Browser plug-in",
+        "Router",
+        "Template component for building new components",
+        "Database"
+      ],
+      "correctAnswer": "Template component for building new components",
+      "explanation": "Correct answer is C) Template component for building new components."
+    },
+    {
+      "questionText": "HOCs are especially useful in:",
+      "options": [
+        "Installing NodeJS",
+        "Theming and customizing a component",
+        "Creating servers",
+        "Setting up the IDE"
+      ],
+      "correctAnswer": "Theming and customizing a component",
+      "explanation": "Correct answer is B) Theming and customizing a component."
+    },
+    {
+      "questionText": "In the session's example, which function is the HOC?",
+      "options": [
+        "App",
+        "StyledText",
+        "withStyles",
+        "Text"
+      ],
+      "correctAnswer": "withStyles",
+      "explanation": "Correct answer is C) withStyles."
+    },
+    {
+      "questionText": "In the session's example, what is StyledText?",
+      "options": [
+        "A new component created by wrapping the existing Text component using withStyles",
+        "A Redux store",
+        "A class component that extends Text",
+        "A CSS file"
+      ],
+      "correctAnswer": "A new component created by wrapping the existing Text component using withStyles",
+      "explanation": "Correct answer is A) A new component created by wrapping the existing Text component using withStyles."
+    },
+    {
+      "questionText": "Which statement about the HOC example output is correct?",
+      "options": [
+        "<Text /> contains its own style, while <StyledText /> contains the HOC style",
+        "Both components always have identical style",
+        "<Text /> has no style at all",
+        "<StyledText /> removes the Text component"
+      ],
+      "correctAnswer": "<Text /> contains its own style, while <StyledText /> contains the HOC style",
+      "explanation": "Correct answer is A) <Text /> contains its own style, while <StyledText /> contains the HOC style."
+    },
+    {
+      "questionText": "What does a HOC such as withStyles(Component) return?",
+      "options": [
+        "A string",
+        "A new component",
+        "A route",
+        "A CSS file"
+      ],
+      "correctAnswer": "A new component",
+      "explanation": "Correct answer is B) A new component."
+    },
+    {
+      "questionText": "Which of the following correctly describes the relationship between a component and the final UI?",
+      "options": [
+        "Components cannot be nested",
+        "Components cannot be reused",
+        "The UI must be a single component",
+        "Each part of the UI can be a combination of multiple components bundled together"
+      ],
+      "correctAnswer": "Each part of the UI can be a combination of multiple components bundled together",
+      "explanation": "Correct answer is D) Each part of the UI can be a combination of multiple components bundled together."
+    },
+    {
+      "questionText": "Which type of component was ReactJS originally based on?",
+      "options": [
+        "Class components",
+        "HOC only",
+        "Functional components",
+        "Style components"
+      ],
+      "correctAnswer": "Class components",
+      "explanation": "Correct answer is A) Class components."
+    },
+    {
+      "questionText": "What is the base class that serves for creating a class component called?",
+      "options": [
+        "React.Root",
+        "React.Main",
+        "React.Base",
+        "React.Component"
+      ],
+      "correctAnswer": "React.Component",
+      "explanation": "Correct answer is D) React.Component."
+    },
+    {
+      "questionText": "In the session, component reusability is shown by:",
+      "options": [
+        "Using HOC only",
+        "Copying the same code multiple times",
+        "Writing three class components",
+        "Calling the same Welcome component multiple times in App"
+      ],
+      "correctAnswer": "Calling the same Welcome component multiple times in App",
+      "explanation": "Correct answer is D) Calling the same Welcome component multiple times in App."
+    },
+    {
+      "questionText": "Where is the component file in the session's examples written?",
+      "options": [
+        "index.html",
+        "App.js",
+        "robots.txt",
+        "package.json"
+      ],
+      "correctAnswer": "App.js",
+      "explanation": "Correct answer is B) App.js."
+    },
+    {
+      "questionText": "A component name beginning with a lowercase letter will be treated by React as:",
+      "options": [
+        "A HOC",
+        "A functional component",
+        "A class component",
+        "An HTML tag"
+      ],
+      "correctAnswer": "An HTML tag",
+      "explanation": "Correct answer is D) An HTML tag."
+    },
+    {
+      "questionText": "Which keyword is used to export a component so it can be imported elsewhere?",
+      "options": [
+        "send",
+        "export",
+        "expose",
+        "extern"
+      ],
+      "correctAnswer": "export",
+      "explanation": "Correct answer is B) export."
+    },
+    {
+      "questionText": "Which is the correct way to nest the Welcome component inside App's JSX return?",
+      "options": [
+        "return Welcome.render;",
+        "return [Welcome]",
+        "return div(Welcome);",
+        "return <div><Welcome /></div>;"
+      ],
+      "correctAnswer": "return <div><Welcome /></div>;",
+      "explanation": "Correct answer is D) return <div><Welcome /></div>;."
+    },
+    {
+      "questionText": "Which of the following describes \"props\" best?",
+      "options": [
+        "Read-only data passed from parent to child",
+        "A lifecycle method",
+        "Private data a component creates and manages",
+        "A CSS rule"
+      ],
+      "correctAnswer": "Read-only data passed from parent to child",
+      "explanation": "Correct answer is A) Read-only data passed from parent to child."
+    },
+    {
+      "questionText": "In which direction does a function passed as a prop allow communication?",
+      "options": [
+        "From sibling to sibling directly",
+        "From browser to server",
+        "From CSS to JS",
+        "From child to parent by calling the parent's function"
+      ],
+      "correctAnswer": "From child to parent by calling the parent's function",
+      "explanation": "Correct answer is D) From child to parent by calling the parent's function."
+    },
+    {
+      "questionText": "Which is the primary drawback listed for class components that led to lesser usage?",
+      "options": [
+        "Larger boilerplate code and need to master this",
+        "They cannot be imported",
+        "They run slower on servers",
+        "They do not support JSX"
+      ],
+      "correctAnswer": "Larger boilerplate code and need to master this",
+      "explanation": "Correct answer is A) Larger boilerplate code and need to master this."
+    }
+  ]
+}

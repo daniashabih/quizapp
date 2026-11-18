@@ -579,6 +579,9 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                       final isCSharpQuery =
                           q == 'c#' || q == 'csharp' || q == 'c sharp';
                       if (isCSharpQuery && name == 'c#') return true;
+                      final isReactQuery =
+                          q == 'react js' || q == 'reactjs' || q == 'react.js' || q == 'react';
+                      if (isReactQuery && (name == 'react.js' || name == 'react')) return true;
                       return name.contains(q);
                     })
                     .toList();

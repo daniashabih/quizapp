@@ -199,12 +199,13 @@ export default function TechnologyDetail() {
 
     const topicBullets = TOPIC_DETAILS[seoConfig.slug] || [];
 
-    const handleStartSession = (categoryName, sessionNumber) => {
+    const handleStartSession = (categoryName, sessionNumber, sessionTitle = '') => {
         navigate('/quiz/start', {
             state: {
                 category: categoryName,
                 language: categoryName,
-                session: sessionNumber
+                session: sessionNumber,
+                ...(sessionTitle && sessionTitle !== `Session ${sessionNumber}` ? { sessionTitle } : {})
             }
         });
     };
@@ -368,7 +369,7 @@ export default function TechnologyDetail() {
                                                 <button
                                                     key={`${cat.name}-s-${s.session}`}
                                                     type="button"
-                                                    onClick={() => handleStartSession(cat.name, s.session)}
+                                                    onClick={() => handleStartSession(cat.name, s.session, s.title)}
                                                     className="p-3 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] text-left transition-all cursor-pointer flex items-center justify-between gap-2"
                                                 >
                                                     <div className="min-w-0">

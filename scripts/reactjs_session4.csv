@@ -1,0 +1,52 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+React.js,4,What does event handling in ReactJS make an application?,Interactive,Slower,Server-only,Static,Interactive
+React.js,4,Through which of the following can users interact with a React app?,"Mouse events, keyboard events, touch events, and filling forms",Only keyboard events,Only mouse events,Only server events,"Mouse events, keyboard events, touch events, and filling forms"
+React.js,4,"In <button onClick={() => console.log(""Clicked"")}>Click me</button>, what is the arrow function called?",Callback function,Route,Event handler,Hook,Callback function
+React.js,4,"In the same example, what is onClick?",Callback function,State variable,Router,Event handler,Event handler
+React.js,4,"What happens when the user clicks the ""Click me"" button in the example?",The Virtual DOM is deleted,The callback function is executed,The page is refreshed,The app is closed,The callback function is executed
+React.js,4,Which naming convention must all ReactJS event handlers follow?,UPPERCASE,CamelCase,lowercase,snake_case,CamelCase
+React.js,4,Which of the following is a valid ReactJS event handler name?,onclick,ONCLICK,onClick,on-click,onClick
+React.js,4,Which type of function is recommended for a small callback in an event handler?,Generator function,Normal function,Constructor function,Inline arrow function,Inline arrow function
+React.js,4,"If the callback function becomes large, what is recommended?",Delete it,Keep it inline,Convert it to CSS,Extract it into a separate named function,Extract it into a separate named function
+React.js,4,"In <button onClick={onUserClick}>, why are there no parentheses after onUserClick?",It converts the function to a string,It calls the function immediately on render,The function is passed as a reference and called when the click occurs,It is a syntax error,The function is passed as a reference and called when the click occurs
+React.js,4,Hooks in ReactJS are functions that start with the word:,use,hook,set,get,use
+React.js,4,Which of the following is a ReactJS hook?,renderState,useState,getState,setProps,useState
+React.js,4,Which statement about ReactJS and hooks is correct?,Hooks are only for class components,ReactJS listens to changes made by hooks,ReactJS ignores hooks,ReactJS listens to all variables declared in a component,ReactJS listens to changes made by hooks
+React.js,4,Which hook is required to update a value on the screen?,useNavigate,useParams,useEffect,useState,useState
+React.js,4,What is the correct syntax of the useState hook?,"const {state, setState} = useState[InitialValue]",const state = useState.set(InitialValue),"const [state, setState] = useState(InitialValue)","useState(state, setState)","const [state, setState] = useState(InitialValue)"
+React.js,4,Where must useState be imported from?,"""react-dom""","""react-router-dom""","""react""","""formik""","""react"""
+React.js,4,"What does ""state"" refer to?",A package name,A route path,A CSS rule,The current data that a variable holds,The current data that a variable holds
+React.js,4,"In the like counter example using let like = 10 and like++, why does the screen not update?",The console blocks updates,The button is disabled,"ReactJS does not listen to all variables declared in a component, only variables declared through hooks",The CSS is wrong,"ReactJS does not listen to all variables declared in a component, only variables declared through hooks"
+React.js,4,Why does ReactJS listen only to hook variables?,Listening to every variable would slow the app greatly when many variables are declared,To save memory on the server,Because hooks are faster than CSS,Because JavaScript does not support variables,Listening to every variable would slow the app greatly when many variables are declared
+React.js,4,"In const [like, setLike] = useState(0), what does setLike do?",Notifies ReactJS that the like value must be updated and the view re-rendered,Deletes like,Declares a CSS style,Prints like in the console,Notifies ReactJS that the like value must be updated and the view re-rendered
+React.js,4,What does re-render refer to?,Restarting the server,Reinstalling NodeJS,Deleting the browser cache,Re-creation of the elements on the screen,Re-creation of the elements on the screen
+React.js,4,Which event handler is used to listen to typing events in an input field?,onTouchStart,onClick,onChange,onSubmit,onChange
+React.js,4,Where is the typed value available inside the onChange callback?,event.target.value,event.value.target,event.input,event.type.value,event.target.value
+React.js,4,"In <input onChange={(event) => setColor(event.target.value)} />, what does event.target.value hold?",The value typed by the user,The component name,The name of the input,The CSS class,The value typed by the user
+React.js,4,"In the color box example, why is the style provided inline?",Because it is faster,Because it has to react to the user interaction,Because external CSS is not supported,Because JSX forbids CSS files,Because it has to react to the user interaction
+React.js,4,"In the color box example, which state variable is provided to the background key of the styles object?",pos,color,email,like,color
+React.js,4,Which event handler is attached to a form to handle form submission?,onChange,onTouchStart,onSubmit,onBlur,onSubmit
+React.js,4,"In the login form, why is the value attribute of the input set to the state variable?",To disable the input,To hide the input,To display the state value on the screen,To route the page,To display the state value on the screen
+React.js,4,"When a form's Submit button is clicked without any handling, what happens in the browser?",The app is deleted,The browser refreshes,The CSS is reloaded,The server stops,The browser refreshes
+React.js,4,Which method avoids the browser refresh on form submission?,event.stopPropagation(),event.reload(),event.preventDefault(),event.refresh(),event.preventDefault()
+React.js,4,"In the session's LoginForm, where is onSubmit attached?",To the body,To the h1 element,To the input element,To the form element,To the form element
+React.js,4,Which state variables are used in the login form example?,color and pos,email and password,like and dislike,time and show,email and password
+React.js,4,Which event handler is used to track when the user touches the screen?,onSubmit,onTouchStart,onClick,onChange,onTouchStart
+React.js,4,"In the PaintDot example, which properties of the touch event give the X and Y coordinates?",topLeft,pageX and pageY,eventX and eventY,clientZ,pageX and pageY
+React.js,4,Why is event.touches[0] used in the touch example?,Multiple fingers can be used but tracking here is for only one finger,It is used to stop refresh,It is the first element of the DOM,It is a CSS selector,Multiple fingers can be used but tracking here is for only one finger
+React.js,4,Which property of a styled element is updated with pos.pageX and pos.pageY to move the dot?,border and margin,left and top,color and size,font and weight,left and top
+React.js,4,Which of the following is a mouse event handler in the session's examples?,onClick,onChange,onSubmit,onTouchStart,onClick
+React.js,4,Which is a keyboard/typing related handler in the session?,onLoad,onTouchStart,onChange,onSubmit,onChange
+React.js,4,Which of the following is a form event handler in the session?,onSubmit,onMouseOver,onKeyboard,onTouchStart,onSubmit
+React.js,4,Which of the following is an event handler for touch interactions?,onSubmit,onClick,onTouchStart,onChange,onTouchStart
+React.js,4,"As props flow only from parent to child, how can the child inform the parent?",By editing the DOM,By using CSS,By calling a function passed from the parent as a prop,By changing the parent's state directly,By calling a function passed from the parent as a prop
+React.js,4,"In the Game example, which function is passed to the StartGame component as onPlayerClick?",preventDefault,setCount,startGame,useState,startGame
+React.js,4,What happens when the Start button in the Game example is clicked?,"The count is updated and ""Game started"" is printed on the console",The component is deleted,The page is refreshed,The browser closes,"The count is updated and ""Game started"" is printed on the console"
+React.js,4,Which of the following can be passed as props?,Only strings,Nothing,Functions,Only numbers,Functions
+React.js,4,Is onClick a valid ReactJS event handler?,True,False,Only in class components,Only in HTML,True
+React.js,4,Functions can be passed as props. This statement is:,True,False,True only for arrow functions,False in production,True
+React.js,4,Which is a recommended callback function style for events?,Class function,Normal function,ClickMe function,Arrow function,Arrow function
+React.js,4,Which statement about useState variables is correct?,They replace all props,They are declared to update the view,They cannot be updated,They are only for CSS,They are declared to update the view
+React.js,4,What does the summary say about event handlers?,They are attached to elements to add interactivity to the app,They are routes,They are databases,They are CSS rules,They are attached to elements to add interactivity to the app
+React.js,4,Which of the following can the YouTube like and dislike buttons be an example of?,Static content,Routing only,Interactivity via event handlers,Server-side rendering,Interactivity via event handlers
+React.js,4,Which of the following correctly writes an onChange handler that updates the email state?,onChange={setEmail()},onChange=setEmail,onChange={event.email},onChange={(event) => setEmail(event.target.value)},onChange={(event) => setEmail(event.target.value)}

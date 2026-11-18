@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+React.js,8,What does CRUD stand for?,"Copy, Run, Undo, Deploy","Compile, Render, Update, Debug","Create, Route, Upload, Download","Create, Read, Update, Delete","Create, Read, Update, Delete"
+React.js,8,Which HTTP method is used for the Create operation in CRUD?,DELETE,GET,PUT,POST,POST
+React.js,8,Which HTTP method is used for the Read operation in CRUD?,POST,PUT,DELETE,GET,GET
+React.js,8,Which HTTP method is used for the Update operation in the session's CRUD app?,DELETE,PUT,GET,POST,PUT
+React.js,8,Which HTTP method is used for the Delete operation in CRUD?,PUT,POST,DELETE,GET,DELETE
+React.js,8,Which statement about CRUD is correct as per the session?,CRUD is used only in databases,Any feature in an app requires one of the four CRUD operations,CRUD applies only to mobile apps,CRUD is a CSS technique,Any feature in an app requires one of the four CRUD operations
+React.js,8,Which starter code does the session CRUD application begin with?,The code from Session 2,A blank project,Code from the Redux store,The code from Session 5 (session8_starter.zip),The code from Session 5 (session8_starter.zip)
+React.js,8,Which Visual Studio Code feature is used to move a component to its own file?,Surround with,Delete file,Move to a new file (via the bulb icon),Format document,Move to a new file (via the bulb icon)
+React.js,8,Which service is used in the session to mock the API and data?,mockapi.io,AWS S3,Firebase,MongoDB Atlas,mockapi.io
+React.js,8,Which JavaScript method is used to request data from the API in UserList?,fetch,load,request,axios.get only,fetch
+React.js,8,"Which hook is used to call the API only once, at mount, in UserList?",useEffect with an empty dependency array,useParams,useState without arguments,useNavigate,useEffect with an empty dependency array
+React.js,8,Why does the console run twice in development even with useEffect([])?,The API is slow,Browser bug,"StrictMode renders components twice in development, but only once in production",Webpack is broken,"StrictMode renders components twice in development, but only once in production"
+React.js,8,Which hook stores the fetched users so they are displayed on screen?,useParams,useNavigate,useFormik,useState (via setUsers),useState (via setUsers)
+React.js,8,What is the initial value given to useState for the users list?,An empty array [],An empty string,0,null,An empty array []
+React.js,8,"In UserList, why is id={usr.id} passed to the User component instead of the index?",So the URL uses the actual user id from the API,To change CSS,To hide users,To reduce code,So the URL uses the actual user id from the API
+React.js,8,How does UserDetail get the id of the user from the URL?,useFormik(),useState(),useParams(),useNavigate(),useParams()
+React.js,8,What is the initial value of the user state in UserDetail?,0,An empty array [],An empty object {},false,An empty object {}
+React.js,8,"In the session, how is the Delete button passed to the User component?",Imported from CSS,Created directly inside the User component,As JSX passed through the deleteButton prop,Hard-coded in index.html,As JSX passed through the deleteButton prop
+React.js,8,"What is the pattern of passing JSX as props, such as deleteButton, known as?",Render props,Higher-order component,Context,Redux action,Render props
+React.js,8,What is the advantage of passing the Delete button JSX as a prop from UserList?,It removes the need for props,The button has access to all the variables inside UserList,It makes the file smaller,It avoids using fetch,The button has access to all the variables inside UserList
+React.js,8,Which method is used inside fetch to delete a user?,DELETE,CLEAR,ERASE,REMOVE,DELETE
+React.js,8,How is the user list refreshed after deletion?,By refreshing the browser manually only,By restarting the server,By deleting state,By calling the function that fetches users again inside deleteUser,By calling the function that fetches users again inside deleteUser
+React.js,8,"In the session, a separate function that fetches users is called in useEffect and also in:",Home,AddUser,deleteUser,NotFound,deleteUser
+React.js,8,"To add a user, which route and page are created?","A separate page (e.g., /users/add) with an AddUser component",No separate page is needed,An alert box,A modal only,"A separate page (e.g., /users/add) with an AddUser component"
+React.js,8,Why must newUser data be stringified before sending in the POST request?,The body must be passed as JSON text to the fetch method,To make it faster,To change its color,To compress the data,The body must be passed as JSON text to the fetch method
+React.js,8,Which JavaScript method converts an object to a JSON string?,JSON.parse(),JSON.stringify(),JSON.convert(),JSON.toObject(),JSON.stringify()
+React.js,8,Which libraries are used to simplify complex forms and validations?,axios and lodash,formik and yup,jest and enzyme,redux and saga,formik and yup
+React.js,8,What is the role of formik?,Simplifies the form model and integration for adding validations,Fetches data from APIs,Styles components,Routes pages,Simplifies the form model and integration for adding validations
+React.js,8,What is the role of yup?,Compiles JSX,Bundles modules,Makes it easy to add validations to the form,Creates routes,Makes it easy to add validations to the form
+React.js,8,Which hook from formik is used to manage the form model?,useFormik,useInput,useForm,useFormState,useFormik
+React.js,8,"In useFormik, which option provides the form model's starting values?",startValues,formModel,initialValues,defaultValues,initialValues
+React.js,8,Why is the name attribute required on every input when using formik.handleChange?,So formik can identify which field is being updated,For routing,For CSS styling,For fetch,So formik can identify which field is being updated
+React.js,8,Why do built-in validations such as required not trigger when inputs are not inside a form element?,Validation is triggered only for inputs surrounded by a form element on submit,React disables them,The CSS blocks it,The browser is old,Validation is triggered only for inputs surrounded by a form element on submit
+React.js,8,Which function must be set on the form's onSubmit to let formik take over submission?,formik.handleChange,formik.handleSubmit,formik.reset,formik.handleBlur,formik.handleSubmit
+React.js,8,Which option of useFormik receives the yup schema?,validateWith,schemaYup,rules,validationSchema,validationSchema
+React.js,8,What does the validationSchema ensure?,The onSubmit callback is called only when all validations pass,The form never submits,Fields are hidden,The form always submits,The onSubmit callback is called only when all validations pass
+React.js,8,"In the userValidationSchema, how is the pic field validated?",It must be at least 10 characters,It must be a number,"It must be a string, a valid URL, and required",It is optional,"It must be a string, a valid URL, and required"
+React.js,8,"In the userValidationSchema, what is required of the bio field?",A URL,A string of at least 10 characters that is required,Optional text,A number,A string of at least 10 characters that is required
+React.js,8,Which formik property holds the validation error messages?,formik.alerts,formik.messages,formik.problems,formik.errors,formik.errors
+React.js,8,Why are error messages displayed prematurely when the user starts typing in any field?,The CSS is wrong,All errors are shown without tracking whether each field was touched,yup fails,The API is slow,All errors are shown without tracking whether each field was touched
+React.js,8,When is the onBlur event triggered?,When a user clicks on the field and then clicks outside of it,When the page loads,When the user types,When the form submits,When a user clicks on the field and then clicks outside of it
+React.js,8,Which formik handler is provided to onBlur?,formik.handleSubmit,formik.touch,formik.handleChange,formik.handleBlur,formik.handleBlur
+React.js,8,Which JavaScript technique is used to simplify formik.handleSubmit into handleSubmit?,Currying,Destructuring,Hoisting,Closure,Destructuring
+React.js,8,How is the Edit button navigation set up for a user?,navigate to /,navigate to /users/add,navigate to /home,navigate to /users/edit/:id,navigate to /users/edit/:id
+React.js,8,Why are the form fields empty when the fetched data is used directly in initialValues of the same component?,The data takes time to load and initialValues is already set with undefined values,The route is wrong,formik fails,The API returns nothing,The data takes time to load and initialValues is already set with undefined values
+React.js,8,How is the problem of delayed data fixed in EditUser?,By using setTimeout,By reloading the page,By removing formik,By splitting into EditUser and EditUserForm and rendering the form only when data is available,By splitting into EditUser and EditUserForm and rendering the form only when data is available
+React.js,8,What is displayed while the user data is being fetched in EditUser?,Loading...,An alert,A 404 page,The empty form,Loading...
+React.js,8,"Which initial value is used for the user state in EditUser so that ""Loading..."" can be shown?",{},null,0,[],null
+React.js,8,Which HTTP method is used in the updateUser function?,GET,POST,DELETE,PUT,PUT
+React.js,8,Which method is used to confirm a successful update and then navigate back to /users?,.finally(reload),.stop(),".then(() => navigate(""/users""))",.catch() only,".then(() => navigate(""/users""))"

@@ -20,7 +20,7 @@ const DEFAULT_CATEGORIES = [
     { name: 'CSS', sessions: [1, 2, 3] },
     { name: 'JavaScript', sessions: [1, 2, 3] },
     { name: 'TypeScript', sessions: [1, 2, 3] },
-    { name: 'React.js', sessions: [1, 2, 3] },
+    { name: 'React.js', sessions: [1, 2, 3, 4, 5, 6, 7, 8] },
     { name: 'Next.js', sessions: [1, 2, 3] },
     { name: 'Angular', sessions: [1, 2, 3] },
     { name: 'Vue', sessions: [1, 2, 3] },
