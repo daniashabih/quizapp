@@ -1,6 +1,11 @@
 const { questions, CATEGORY_NAME, SESSION_NUMBER } = require('./uploadCombinedSemester2Session2Quiz');
 
 async function syncToLive() {
+    if (!questions || questions.length === 0) {
+        console.log(`ℹ️ No Session ${SESSION_NUMBER} questions remaining for "${CATEGORY_NAME}" (merged into Session 1).`);
+        return;
+    }
+
     const BASE_URL = process.env.LIVE_API_URL || 'https://www.hangbug.com';
     console.log('================================================================');
     console.log(`  UPLOADING ${questions.length} MCQS TO LIVE SERVER (${BASE_URL})`);

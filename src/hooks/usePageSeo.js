@@ -143,14 +143,35 @@ export function usePageSeo({
             document.querySelector('meta[name="twitter:url"]')?.remove();
         }
 
-        // 4. Open Graph Type & Site Name
+        // 4. Open Graph Type, Site Name & Article Meta
         setMetaTag('meta[property="og:type"]', 'property', 'og:type', ogType);
         setMetaTag('meta[property="og:site_name"]', 'property', 'og:site_name', DEFAULT_SITE_NAME);
+
+        // Clean stale article:* tags before setting current article metadata
+        document.querySelectorAll('meta[property^="article:"]').forEach((el) => el.remove());
+        if (ogType === 'article' && article) {
+            if (article.datePublished) {
+                setMetaTag('meta[property="article:published_time"]', 'property', 'article:published_time', article.datePublished);
+            }
+            if (article.dateModified) {
+                setMetaTag('meta[property="article:modified_time"]', 'property', 'article:modified_time', article.dateModified);
+            }
+            if (article.articleSection) {
+                setMetaTag('meta[property="article:section"]', 'property', 'article:section', article.articleSection);
+            }
+        }
 
         // 5. Open Graph & Twitter Image
         const imageToUse = ogImage || DEFAULT_IMAGE;
         setMetaTag('meta[property="og:image"]', 'property', 'og:image', imageToUse);
         setMetaTag('meta[property="og:image:alt"]', 'property', 'og:image:alt', ogImageAlt);
+        if (imageToUse !== DEFAULT_IMAGE) {
+            document.querySelector('meta[property="og:image:width"]')?.remove();
+            document.querySelector('meta[property="og:image:height"]')?.remove();
+        } else {
+            setMetaTag('meta[property="og:image:width"]', 'property', 'og:image:width', '1024');
+            setMetaTag('meta[property="og:image:height"]', 'property', 'og:image:height', '1024');
+        }
 
         setMetaTag('meta[name="twitter:card"]', 'name', 'twitter:card', twitterCard);
         setMetaTag('meta[name="twitter:image"]', 'name', 'twitter:image', twitterImage || imageToUse);

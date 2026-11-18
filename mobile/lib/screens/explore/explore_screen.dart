@@ -589,6 +589,9 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                           q == 'material ui' ||
                           q == 'mterial ui';
                       if (isMaterialUiQuery && name == 'material ui') return true;
+                      final isMongoDbQuery =
+                          q == 'mongo db' || q == 'mongodb' || q == 'mongo';
+                      if (isMongoDbQuery && name == 'mongodb') return true;
                       return name.contains(q);
                     })
                     .toList();
@@ -931,7 +934,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                         Flexible(
                           child: Text(
                             displayTotalQuestions > 0
-                                ? '${_sessions.length} Sessions · $displayTotalQuestions Qs'
+                                ? '${_sessions.length} ${_sessions.length == 1 ? 'Session' : 'Sessions'} · $displayTotalQuestions Qs'
                                 : 'Select any session to start',
                             style: AppTextStyles.bodySmall.copyWith(
                               fontSize: 11.5,

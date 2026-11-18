@@ -103,7 +103,18 @@ const BlogPostModel = {
                     };
                 }
 
-                // If DB collection is empty, trigger background seeding
+                const totalInDb = await prisma.blogPost.count();
+                if (totalInDb > 0) {
+                    return {
+                        articles: [],
+                        total: 0,
+                        page: pageNum,
+                        limit: limitNum,
+                        totalPages: 1
+                    };
+                }
+
+                // If DB collection is completely empty, trigger background seeding
                 if (!category && !search && !tag) {
                     BlogPostModel.seedArticles().catch(() => {});
                 }
@@ -156,9 +167,9 @@ const BlogPostModel = {
     },
 
     /**
-     * Get single article by slug with related articles
+     * Get single published article by slug with related articles
      */
-    getBySlug: async (slug) => {
+    getBySlug: async (slug, { incrementView = true } = {}) => {
         if (!slug) return null;
         const safeSlug = String(slug).toLowerCase().trim();
 
@@ -167,16 +178,18 @@ const BlogPostModel = {
 
         try {
             if (prisma && prisma.blogPost) {
-                article = await prisma.blogPost.findUnique({
-                    where: { slug: safeSlug }
+                article = await prisma.blogPost.findFirst({
+                    where: { slug: safeSlug, isPublished: true }
                 });
 
                 if (article) {
-                    // Increment view count asynchronously
-                    prisma.blogPost.update({
-                        where: { slug: safeSlug },
-                        data: { viewsCount: { increment: 1 } }
-                    }).catch(() => {});
+                    // Increment view count asynchronously for user views
+                    if (incrementView) {
+                        prisma.blogPost.update({
+                            where: { slug: safeSlug },
+                            data: { viewsCount: { increment: 1 } }
+                        }).catch(() => {});
+                    }
 
                     relatedArticles = await prisma.blogPost.findMany({
                         where: {
@@ -202,16 +215,24 @@ const BlogPostModel = {
 
                     return { article, relatedArticles };
                 }
+
+                // If MongoDB is populated, treat missing or unpublished slugs as 404 (never resurrect from memory fallback)
+                const totalInDb = await prisma.blogPost.count();
+                if (totalInDb > 0) {
+                    return null;
+                }
             }
         } catch {
             // DB fallback
         }
 
-        // Memory fallback
-        article = memArticles.find(a => a.slug === safeSlug);
+        // Memory fallback (when DB is offline or completely empty)
+        article = memArticles.find(a => a.slug === safeSlug && a.isPublished === true);
         if (!article) return null;
 
-        article.viewsCount = (article.viewsCount || 0) + 1;
+        if (incrementView) {
+            article.viewsCount = (article.viewsCount || 0) + 1;
+        }
 
         relatedArticles = memArticles
             .filter(a => a.slug !== safeSlug && a.isPublished)
@@ -248,6 +269,9 @@ const BlogPostModel = {
                     orderBy: { publishedAt: 'desc' }
                 });
                 if (latest) return latest;
+
+                const totalInDb = await prisma.blogPost.count();
+                if (totalInDb > 0) return null;
             }
         } catch {
             // DB fallback
@@ -264,41 +288,74 @@ const BlogPostModel = {
      */
     getCategoriesWithCount: async () => {
         const counts = {};
+        const rawNames = {};
+        let usedDb = false;
 
         try {
             if (prisma && prisma.blogPost) {
-                const groupCounts = await prisma.blogPost.groupBy({
-                    by: ['category'],
-                    where: { isPublished: true },
-                    _count: { category: true }
-                });
-
-                if (Array.isArray(groupCounts) && groupCounts.length > 0) {
-                    groupCounts.forEach(g => {
-                        if (g.category) counts[g.category.toLowerCase()] = g._count.category;
+                const totalInDb = await prisma.blogPost.count();
+                if (totalInDb > 0) {
+                    usedDb = true;
+                    const groupCounts = await prisma.blogPost.groupBy({
+                        by: ['category'],
+                        where: { isPublished: true },
+                        _count: { category: true }
                     });
+
+                    if (Array.isArray(groupCounts)) {
+                        groupCounts.forEach(g => {
+                            if (g.category) {
+                                const lower = g.category.toLowerCase();
+                                counts[lower] = g._count.category;
+                                rawNames[lower] = g.category;
+                            }
+                        });
+                    }
                 }
             }
         } catch {
             // DB fallback
         }
 
-        if (Object.keys(counts).length === 0) {
+        if (!usedDb && Object.keys(counts).length === 0) {
             memArticles.filter(a => a.isPublished).forEach(a => {
                 if (a.category) {
                     const key = a.category.toLowerCase();
                     counts[key] = (counts[key] || 0) + 1;
+                    rawNames[key] = a.category;
                 }
             });
         }
 
-        // Return only categories with count > 0
-        const activeCategories = BLOG_CATEGORIES.map(cat => ({
-            name: cat.name,
-            slug: cat.slug,
-            description: cat.description,
-            count: counts[cat.name.toLowerCase()] || counts[cat.slug.toLowerCase()] || 0
-        })).filter(c => c.count > 0);
+        const matchedKeys = new Set();
+        const activeCategories = BLOG_CATEGORIES.map(cat => {
+            const nameKey = cat.name.toLowerCase();
+            const slugKey = cat.slug.toLowerCase();
+            const count = counts[nameKey] || counts[slugKey] || 0;
+            if (count > 0) {
+                matchedKeys.add(nameKey);
+                matchedKeys.add(slugKey);
+            }
+            return {
+                name: cat.name,
+                slug: cat.slug,
+                description: cat.description,
+                count
+            };
+        }).filter(c => c.count > 0);
+
+        // Include any custom published categories not in BLOG_CATEGORIES
+        for (const [lowerKey, count] of Object.entries(counts)) {
+            if (count > 0 && !matchedKeys.has(lowerKey)) {
+                const displayName = rawNames[lowerKey] || lowerKey;
+                activeCategories.push({
+                    name: displayName,
+                    slug: slugify(displayName),
+                    description: '',
+                    count
+                });
+            }
+        }
 
         return activeCategories;
     },
@@ -443,7 +500,11 @@ const BlogPostModel = {
         if (data.coverImage !== undefined) updateData.coverImage = data.coverImage;
         if (data.seoTitle !== undefined) updateData.seoTitle = data.seoTitle;
         if (data.seoDescription !== undefined) updateData.seoDescription = data.seoDescription;
-        if (data.canonicalUrl !== undefined) updateData.canonicalUrl = data.canonicalUrl;
+        if (data.canonicalUrl !== undefined) {
+            updateData.canonicalUrl = data.canonicalUrl;
+        } else if (updateData.slug) {
+            updateData.canonicalUrl = `https://www.hangbug.com/blog/${updateData.slug}`;
+        }
         if (data.relatedQuizCategory !== undefined) updateData.relatedQuizCategory = data.relatedQuizCategory;
         if (data.relatedGameSlug !== undefined) updateData.relatedGameSlug = data.relatedGameSlug;
         if (data.keyTakeaways !== undefined) {

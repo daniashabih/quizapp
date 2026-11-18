@@ -1,5 +1,15 @@
 const fs = require('fs');
 const path = require('path');
+const {
+    ensureMarkdownParser,
+    isMongoUriConfigured,
+    renderCompleteBlogArticleHtml,
+    renderCompleteBlogIndexHtml,
+    renderVisible404BodyHtml,
+    applyHeadMetadata,
+    findRelatedForArticle,
+    deriveCategoriesFromArticles
+} = require('../_utils/blogSeoRenderer');
 
 const BASE_URL = 'https://www.hangbug.com';
 const ROOT_DIR = path.resolve(__dirname, '../..');
@@ -66,7 +76,7 @@ const BLOG_SLUGS = [
     'improve-programming-skills-coding-practice'
 ];
 
-function buildSitemapXml(extraSlugs = [], extraBlogSlugs = []) {
+function buildSitemapXml(extraSlugs = [], extraBlogSlugs = [], options = {}) {
     const today = new Date().toISOString().split('T')[0];
     const mergedSlugs = Array.from(
         new Set(
@@ -74,12 +84,14 @@ function buildSitemapXml(extraSlugs = [], extraBlogSlugs = []) {
                 .filter(slug => slug && slug !== 'coding-memory-match')
         )
     );
-    const mergedBlogSlugs = Array.from(
-        new Set(
-            [...BLOG_SLUGS, ...(Array.isArray(extraBlogSlugs) ? extraBlogSlugs : [])]
-                .filter(Boolean)
-        )
-    );
+    const mergedBlogSlugs = Array.isArray(options?.blogSlugsOverride)
+        ? Array.from(new Set(options.blogSlugsOverride.filter(Boolean)))
+        : Array.from(
+              new Set(
+                  [...BLOG_SLUGS, ...(Array.isArray(extraBlogSlugs) ? extraBlogSlugs : [])]
+                      .filter(Boolean)
+              )
+          );
 
     const urls = [
         ...PUBLIC_ROUTES.map(r => `  <url>\n    <loc>${BASE_URL}${r.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`),
@@ -137,25 +149,31 @@ Sitemap: ${BASE_URL}/sitemap.xml
 async function getDynamicSitemap(req, res) {
     let extraSlugs = [];
     let extraBlogSlugs = [];
+    let blogSlugsOverride = null;
     try {
-        const prisma = require('../_config/prisma');
-        if (prisma) {
-            if (prisma.game) {
-                const dbGames = await Promise.race([
-                    prisma.game.findMany({ where: { isPublished: true }, select: { slug: true } }),
-                    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1500))
-                ]);
-                if (Array.isArray(dbGames)) {
-                    extraSlugs = dbGames.map(g => g.slug).filter(Boolean);
+        if (isMongoUriConfigured(process.env.MONGODB_URI)) {
+            const prisma = require('../_config/prisma');
+            if (prisma) {
+                if (prisma.game) {
+                    const dbGames = await Promise.race([
+                        prisma.game.findMany({ where: { isPublished: true }, select: { slug: true } }),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
+                    ]);
+                    if (Array.isArray(dbGames)) {
+                        extraSlugs = dbGames.map(g => g.slug).filter(Boolean);
+                    }
                 }
-            }
-            if (prisma.blogPost) {
-                const dbBlogPosts = await Promise.race([
-                    prisma.blogPost.findMany({ where: { isPublished: true }, select: { slug: true } }),
-                    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 1500))
-                ]);
-                if (Array.isArray(dbBlogPosts)) {
-                    extraBlogSlugs = dbBlogPosts.map(b => b.slug).filter(Boolean);
+                if (prisma.blogPost) {
+                    const [totalBlogs, dbBlogPosts] = await Promise.race([
+                        Promise.all([
+                            prisma.blogPost.count(),
+                            prisma.blogPost.findMany({ where: { isPublished: true }, select: { slug: true } })
+                        ]),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
+                    ]);
+                    if (totalBlogs > 0 && Array.isArray(dbBlogPosts)) {
+                        blogSlugsOverride = dbBlogPosts.map(b => b.slug).filter(Boolean);
+                    }
                 }
             }
         }
@@ -163,9 +181,9 @@ async function getDynamicSitemap(req, res) {
         // Fallback to static GAME_SLUGS and BLOG_SLUGS if DB is offline
     }
 
-    const xml = buildSitemapXml(extraSlugs, extraBlogSlugs);
+    const xml = buildSitemapXml(extraSlugs, extraBlogSlugs, { blogSlugsOverride });
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=43200');
+    res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=43200');
     return res.status(200).send(xml);
 }
 
@@ -413,75 +431,234 @@ async function withTimeout(promise, ms = 1500) {
     ]);
 }
 
+async function resolveBlogIndexMeta() {
+    let articles = [];
+    let featuredArticle = null;
+    let categories = [];
+    let total = 0;
+    let fromDb = false;
+
+    try {
+        if (isMongoUriConfigured(process.env.MONGODB_URI)) {
+            const prisma = require('../_config/prisma');
+            if (prisma && prisma.blogPost) {
+                const totalInDb = await withTimeout(prisma.blogPost.count(), 2500);
+                if (totalInDb > 0) {
+                    fromDb = true;
+                    const dbPublished = await withTimeout(
+                        prisma.blogPost.findMany({
+                            where: { isPublished: true },
+                            orderBy: [{ order: 'asc' }, { publishedAt: 'desc' }],
+                            select: {
+                                id: true,
+                                slug: true,
+                                title: true,
+                                excerpt: true,
+                                category: true,
+                                tags: true,
+                                difficulty: true,
+                                readingTimeMinutes: true,
+                                authorName: true,
+                                authorRole: true,
+                                authorAvatar: true,
+                                coverGradient: true,
+                                coverImage: true,
+                                seoTitle: true,
+                                seoDescription: true,
+                                isFeatured: true,
+                                isPublished: true,
+                                viewsCount: true,
+                                publishedAt: true,
+                                createdAt: true
+                            }
+                        }),
+                        2500
+                    );
+                    total = dbPublished.length;
+                    articles = dbPublished.slice(0, 9);
+                    featuredArticle = dbPublished.find(a => a.isFeatured) || dbPublished[0] || null;
+                    categories = deriveCategoriesFromArticles(dbPublished);
+                }
+            }
+        }
+    } catch {
+        // Fallback below
+    }
+
+    if (!fromDb) {
+        const { INITIAL_BLOG_ARTICLES } = require('../_models/blogArticles/initialBlogArticles');
+        const published = (INITIAL_BLOG_ARTICLES || []).filter(a => a && a.slug && a.isPublished !== false);
+        total = published.length;
+        articles = published.slice(0, 9);
+        featuredArticle = published.find(a => a.isFeatured) || published[0] || null;
+        categories = deriveCategoriesFromArticles(published);
+    }
+
+    return {
+        fromDb,
+        meta: {
+            isBlogIndex: true,
+            blogListData: {
+                articles,
+                featuredArticle,
+                categories,
+                total
+            }
+        }
+    };
+}
+
 async function resolveAppRoute(pathname) {
+    await ensureMarkdownParser();
     const clean = normalizePathname(pathname);
     if (!clean) {
         return { statusCode: 404, noindex: true, cleanPath: '/' };
     }
 
-    if (isKnownAppRoute(clean)) {
-        let meta = null;
-        if (clean.startsWith('/blog/')) {
-            const sub = clean.slice('/blog/'.length).toLowerCase();
-            const article = getInitialBlogMap().get(sub);
-            if (article) {
-                meta = {
-                    title: article.seoTitle || `${article.title} | Hangbug`,
-                    description: article.seoDescription || article.excerpt || '',
-                    canonicalPath: `/blog/${article.slug}`,
-                    h1: article.title,
-                    article
-                };
-            }
-        }
+    // Blog index (/blog) — resolve actual published blog catalog
+    if (clean === '/blog') {
+        const blogIndex = await resolveBlogIndexMeta();
         return {
             statusCode: 200,
-            noindex: isNoindexAppRoute(clean),
-            cleanPath: clean,
-            meta
+            noindex: false,
+            cleanPath: '/blog',
+            fromDb: blogIndex.fromDb,
+            meta: blogIndex.meta
         };
     }
 
-    // Dynamic DB check for newly created published blog posts & games
-    try {
-        const prisma = require('../_config/prisma');
-        if (prisma) {
-            if (clean.startsWith('/blog/')) {
-                const sub = clean.slice('/blog/'.length).toLowerCase();
-                if (sub && !sub.includes('/') && prisma.blogPost) {
+    // Blog detail (/blog/:slug) — check MongoDB FIRST so unpublished/edited/new DB articles are authoritative
+    if (clean.startsWith('/blog/')) {
+        const sub = clean.slice('/blog/'.length).toLowerCase();
+        if (!sub || sub.includes('/')) {
+            return { statusCode: 404, noindex: true, cleanPath: clean };
+        }
+
+        let dbChecked = false;
+        let dbPopulated = false;
+
+        try {
+            if (isMongoUriConfigured(process.env.MONGODB_URI)) {
+                const prisma = require('../_config/prisma');
+                if (prisma && prisma.blogPost) {
                     const article = await withTimeout(
                         prisma.blogPost.findFirst({
-                            where: { slug: sub, isPublished: true },
-                            select: {
-                                slug: true,
-                                title: true,
-                                excerpt: true,
-                                seoTitle: true,
-                                seoDescription: true,
-                                category: true,
-                                authorName: true,
-                                publishedAt: true,
-                                updatedAt: true
-                            }
-                        })
-                    ).catch(() => null);
+                            where: { slug: sub }
+                        }),
+                        2500
+                    );
+                    dbChecked = true;
 
                     if (article) {
+                        if (article.isPublished !== true) {
+                            return {
+                                statusCode: 404,
+                                noindex: true,
+                                cleanPath: clean,
+                                fromDb: true
+                            };
+                        }
+
+                        const relatedArticles = await withTimeout(
+                            prisma.blogPost.findMany({
+                                where: {
+                                    slug: { not: sub },
+                                    isPublished: true,
+                                    OR: [
+                                        { category: article.category },
+                                        { tags: { hasSome: article.tags || [] } }
+                                    ]
+                                },
+                                take: 3,
+                                select: {
+                                    id: true,
+                                    slug: true,
+                                    title: true,
+                                    excerpt: true,
+                                    category: true,
+                                    readingTimeMinutes: true,
+                                    coverGradient: true,
+                                    publishedAt: true
+                                }
+                            }),
+                            2000
+                        ).catch(() => []);
+
                         return {
                             statusCode: 200,
                             noindex: false,
                             cleanPath: `/blog/${article.slug}`,
+                            fromDb: true,
                             meta: {
                                 title: article.seoTitle || `${article.title} | Hangbug`,
                                 description: article.seoDescription || article.excerpt || '',
                                 canonicalPath: `/blog/${article.slug}`,
                                 h1: article.title,
-                                article
+                                article,
+                                relatedArticles
                             }
                         };
                     }
+
+                    const totalInDb = await withTimeout(prisma.blogPost.count(), 2000).catch(() => 0);
+                    dbPopulated = totalInDb > 0;
                 }
-            } else if (clean.startsWith('/games/')) {
+            }
+        } catch {
+            // DB unreachable — allow fallback only when DB is offline/unconfigured
+            dbChecked = false;
+        }
+
+        if (dbChecked && dbPopulated) {
+            return {
+                statusCode: 404,
+                noindex: true,
+                cleanPath: clean,
+                fromDb: true
+            };
+        }
+
+        const fallbackArticle = getInitialBlogMap().get(sub);
+        if (fallbackArticle && fallbackArticle.isPublished !== false) {
+            const { INITIAL_BLOG_ARTICLES } = require('../_models/blogArticles/initialBlogArticles');
+            const relatedArticles = findRelatedForArticle(fallbackArticle, INITIAL_BLOG_ARTICLES || []);
+            return {
+                statusCode: 200,
+                noindex: false,
+                cleanPath: `/blog/${fallbackArticle.slug}`,
+                fromDb: false,
+                meta: {
+                    title: fallbackArticle.seoTitle || `${fallbackArticle.title} | Hangbug`,
+                    description: fallbackArticle.seoDescription || fallbackArticle.excerpt || '',
+                    canonicalPath: `/blog/${fallbackArticle.slug}`,
+                    h1: fallbackArticle.title,
+                    article: fallbackArticle,
+                    relatedArticles
+                }
+            };
+        }
+
+        return {
+            statusCode: 404,
+            noindex: true,
+            cleanPath: clean
+        };
+    }
+
+    if (isKnownAppRoute(clean)) {
+        return {
+            statusCode: 200,
+            noindex: isNoindexAppRoute(clean),
+            cleanPath: clean,
+            meta: null
+        };
+    }
+
+    // Dynamic DB check for newly created published games
+    try {
+        if (isMongoUriConfigured(process.env.MONGODB_URI)) {
+            const prisma = require('../_config/prisma');
+            if (prisma && clean.startsWith('/games/')) {
                 const sub = clean.slice('/games/'.length).toLowerCase();
                 if (sub && !sub.includes('/') && prisma.game) {
                     const game = await withTimeout(
@@ -501,6 +678,7 @@ async function resolveAppRoute(pathname) {
                             statusCode: 200,
                             noindex: false,
                             cleanPath: `/games/${game.slug}`,
+                            fromDb: true,
                             meta: {
                                 title: `${game.title} — ${game.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | Hangbug`,
                                 description: game.description || '',
@@ -556,88 +734,50 @@ function renderStatusHtml(resolution = { statusCode: 404, noindex: true }) {
             : '<!doctype html><html lang="en"><head><meta charset="UTF-8" /><title>Hangbug</title></head><body><div id="root"></div></body></html>';
     }
 
-    let html = baseHtml;
-
     if (resolution.statusCode === 404) {
         const errorTitle = '404: Page Not Found — HangBug';
         const errorDesc = "The page you are looking for doesn't exist, has been removed, or was moved to another URL.";
 
-        html = html.replace(/<title>[\s\S]*?<\/title>/i, () => `<title>${escapeHtmlText(errorTitle)}</title>`);
-        html = replaceOrInsertMeta(html, 'name', 'description', errorDesc);
-        html = replaceOrInsertMeta(html, 'name', 'robots', 'noindex, nofollow');
-        html = html.replace(/<link\s+rel="canonical"[^>]*>\s*/gi, '');
-        html = html.replace(/<meta\s+property="og:url"[^>]*>\s*/gi, '');
-        html = html.replace(/<meta\s+name="twitter:url"[^>]*>\s*/gi, '');
-        html = replaceOrInsertMeta(html, 'property', 'og:title', errorTitle);
-        html = replaceOrInsertMeta(html, 'property', 'og:description', errorDesc);
-        html = replaceOrInsertMeta(html, 'name', 'twitter:title', errorTitle);
-        html = replaceOrInsertMeta(html, 'name', 'twitter:description', errorDesc);
-        html = html.replace(/<script id="hangbug-jsonld" type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi, '');
-        html = replaceRootFallbackHtml(
-            html,
-            '      <div id="seo-static-content" class="sr-only">\n        <h1>404 - Page Not Found</h1>\n        <p>The page or resource you are looking for does not exist on Hangbug.</p>\n      </div>'
-        );
-        return html;
+        return applyHeadMetadata(baseHtml, {
+            title: errorTitle,
+            description: errorDesc,
+            robots: 'noindex, nofollow',
+            omitCanonical: true,
+            jsonLd: null,
+            bodyHtml: renderVisible404BodyHtml()
+        });
     }
 
+    if (resolution.meta && resolution.meta.article) {
+        return renderCompleteBlogArticleHtml(
+            baseHtml,
+            resolution.meta.article,
+            resolution.meta.relatedArticles || []
+        );
+    }
+
+    if (resolution.meta && resolution.meta.isBlogIndex) {
+        return renderCompleteBlogIndexHtml(baseHtml, resolution.meta.blogListData || {});
+    }
+
+    let html = baseHtml;
     const robotsDirective = resolution.noindex
         ? 'noindex, nofollow'
         : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
     html = replaceOrInsertMeta(html, 'name', 'robots', robotsDirective);
 
     if (resolution.meta && resolution.meta.title) {
-        const { title, description, canonicalPath, h1, article } = resolution.meta;
+        const { title, description, canonicalPath, h1 } = resolution.meta;
         const canonicalHref = `${BASE_URL}${canonicalPath === '/' ? '/' : canonicalPath}`;
 
-        html = html.replace(/<title>[\s\S]*?<\/title>/i, () => `<title>${escapeHtmlText(title)}</title>`);
-        if (description) {
-            html = replaceOrInsertMeta(html, 'name', 'description', description);
-            html = replaceOrInsertMeta(html, 'property', 'og:description', description);
-            html = replaceOrInsertMeta(html, 'name', 'twitter:description', description);
-        }
-        if (/<link\s+rel="canonical"/i.test(html)) {
-            html = html.replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, () => `<link rel="canonical" href="${escapeHtmlAttr(canonicalHref)}" />`);
-        } else {
-            html = html.replace('</head>', () => `    <link rel="canonical" href="${escapeHtmlAttr(canonicalHref)}" />\n  </head>`);
-        }
-        html = replaceOrInsertMeta(html, 'property', 'og:title', title);
-        html = replaceOrInsertMeta(html, 'property', 'og:url', canonicalHref);
-        html = replaceOrInsertMeta(html, 'name', 'twitter:title', title);
-        html = replaceOrInsertMeta(html, 'name', 'twitter:url', canonicalHref);
-
-        if (article) {
-            html = replaceOrInsertMeta(html, 'property', 'og:type', 'article');
-            const articleJsonLd = {
-                '@context': 'https://schema.org',
-                '@graph': [
-                    {
-                        '@type': 'Article',
-                        '@id': `${canonicalHref}#article`,
-                        headline: article.title,
-                        description: description || article.title,
-                        datePublished: article.publishedAt ? new Date(article.publishedAt).toISOString() : undefined,
-                        dateModified: article.updatedAt ? new Date(article.updatedAt).toISOString() : undefined,
-                        author: {
-                            '@type': 'Organization',
-                            name: article.authorName || 'Hangbug Editorial Team'
-                        },
-                        publisher: { '@id': `${BASE_URL}/#organization` },
-                        mainEntityOfPage: { '@id': `${canonicalHref}#webpage` }
-                    }
-                ]
-            };
-            const jsonLdTag = `<script id="hangbug-jsonld" type="application/ld+json">\n${JSON.stringify(articleJsonLd, null, 2)}\n    </script>`;
-            if (/<script id="hangbug-jsonld"[^>]*>[\s\S]*?<\/script>/i.test(html)) {
-                html = html.replace(/<script id="hangbug-jsonld"[^>]*>[\s\S]*?<\/script>/i, () => jsonLdTag);
-            } else {
-                html = html.replace('</head>', () => `    ${jsonLdTag}\n  </head>`);
-            }
-        }
-
-        html = replaceRootFallbackHtml(
-            html,
-            `      <main id="seo-static-content" class="sr-only">\n        <h1>${escapeHtmlText(h1 || title)}</h1>\n        <p>${escapeHtmlText(description || '')}</p>\n      </main>`
-        );
+        return applyHeadMetadata(html, {
+            title,
+            description,
+            canonicalUrl: canonicalHref,
+            robots: robotsDirective,
+            ogType: 'website',
+            bodyHtml: `<main class="max-w-4xl mx-auto px-4 py-16"><h1>${escapeHtmlText(h1 || title)}</h1><p>${escapeHtmlText(description || '')}</p></main>`
+        });
     } else if (resolution.noindex) {
         // Private / auth / dashboard routes: remove homepage canonical & homepage JSON-LD
         html = html.replace(/<link\s+rel="canonical"[^>]*>\s*/gi, '');

@@ -1,0 +1,558 @@
+{
+  "category": "MongoDB",
+  "session": 1,
+  "title": "Session 1: Introduction to NoSQL Databases",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "What does the term NoSQL stand for?",
+      "options": [
+        "Not Only SQL",
+        "No Structured Query Language",
+        "Network Object SQL",
+        "New Online SQL"
+      ],
+      "correctAnswer": "Not Only SQL",
+      "explanation": "Correct answer is A) Not Only SQL."
+    },
+    {
+      "questionText": "Who introduced the term NoSQL in 1998 to name his file-based database?",
+      "options": [
+        "Dwight Merriman",
+        "Eric Brewer",
+        "Carl Strozzi",
+        "Eric Evans"
+      ],
+      "correctAnswer": "Carl Strozzi",
+      "explanation": "Correct answer is C) Carl Strozzi."
+    },
+    {
+      "questionText": "The term NoSQL was also used as the hashtag (#nosql) for a meetup about which topic?",
+      "options": [
+        "Mobile app development",
+        "Cloud billing models",
+        "Relational database tuning",
+        "Open source distributed databases"
+      ],
+      "correctAnswer": "Open source distributed databases",
+      "explanation": "Correct answer is D) Open source distributed databases."
+    },
+    {
+      "questionText": "NoSQL databases are based on which principles?",
+      "options": [
+        "Only the SQL standard",
+        "Strict relational algebra",
+        "They are not based on RDBMS principles",
+        "Fixed-schema table design only"
+      ],
+      "correctAnswer": "They are not based on RDBMS principles",
+      "explanation": "Correct answer is C) They are not based on RDBMS principles."
+    },
+    {
+      "questionText": "Which of the following is a common feature of NoSQL databases?",
+      "options": [
+        "Support only for vertical scaling",
+        "Mandatory joins across tables",
+        "Schema-less design",
+        "Fixed schema"
+      ],
+      "correctAnswer": "Schema-less design",
+      "explanation": "Correct answer is C) Schema-less design."
+    },
+    {
+      "questionText": "NoSQL databases are mostly:",
+      "options": [
+        "Hardware-based",
+        "Closed source",
+        "Licensed per query",
+        "Open source"
+      ],
+      "correctAnswer": "Open source",
+      "explanation": "Correct answer is D) Open source."
+    },
+    {
+      "questionText": "NoSQL databases are built mainly for:",
+      "options": [
+        "Spreadsheet processing",
+        "Print layout",
+        "Legacy mainframe batch jobs",
+        "New generation web applications"
+      ],
+      "correctAnswer": "New generation web applications",
+      "explanation": "Correct answer is D) New generation web applications."
+    },
+    {
+      "questionText": "Which development drove the demand for managing large data and the rise of NoSQL?",
+      "options": [
+        "Return to file-based systems",
+        "Reduction of data volumes",
+        "The explosion of social media sites such as Facebook and Twitter",
+        "Decline in internet usage"
+      ],
+      "correctAnswer": "The explosion of social media sites such as Facebook and Twitter",
+      "explanation": "Correct answer is C) The explosion of social media sites such as Facebook and Twitter."
+    },
+    {
+      "questionText": "Which of the following is NOT one of the four basic NoSQL database types?",
+      "options": [
+        "Graph",
+        "Relational",
+        "Key-Value",
+        "Document"
+      ],
+      "correctAnswer": "Relational",
+      "explanation": "Correct answer is B) Relational."
+    },
+    {
+      "questionText": "Which are the four basic types of NoSQL databases?",
+      "options": [
+        "Key-Value, Document, Column-based, Graph",
+        "Key-Value, Relational, Column, Tree",
+        "Document, Table, Graph, Index",
+        "Row, Column, Table, Graph"
+      ],
+      "correctAnswer": "Key-Value, Document, Column-based, Graph",
+      "explanation": "Correct answer is A) Key-Value, Document, Column-based, Graph."
+    },
+    {
+      "questionText": "Which statement is true about the schema of an RDBMS?",
+      "options": [
+        "It has no schema",
+        "It is schema-less",
+        "It follows a fixed schema",
+        "It follows a dynamic schema"
+      ],
+      "correctAnswer": "It follows a fixed schema",
+      "explanation": "Correct answer is C) It follows a fixed schema."
+    },
+    {
+      "questionText": "Which statement is true about the schema of NoSQL databases?",
+      "options": [
+        "They need ALTER TABLE for every change",
+        "They require a predefined table structure",
+        "They follow dynamic schemas",
+        "They follow only fixed schemas"
+      ],
+      "correctAnswer": "They follow dynamic schemas",
+      "explanation": "Correct answer is C) They follow dynamic schemas."
+    },
+    {
+      "questionText": "Which type of scaling does an RDBMS typically support?",
+      "options": [
+        "Horizontal scaling only",
+        "No scaling",
+        "Auto-sharding only",
+        "Vertical scaling"
+      ],
+      "correctAnswer": "Vertical scaling",
+      "explanation": "Correct answer is D) Vertical scaling."
+    },
+    {
+      "questionText": "Which type of scaling do NoSQL databases support?",
+      "options": [
+        "Vertical scaling only",
+        "No scaling",
+        "Horizontal scaling",
+        "Scaling only in single-node mode"
+      ],
+      "correctAnswer": "Horizontal scaling",
+      "explanation": "Correct answer is C) Horizontal scaling."
+    },
+    {
+      "questionText": "Which statement about ACID compliance is made in the course comparison of RDBMS and NoSQL?",
+      "options": [
+        "Both are fully ACID compliant in the same way",
+        "RDBMS is ACID compliant while NoSQL is generally not ACID compliant",
+        "NoSQL is always ACID compliant while RDBMS is not",
+        "Neither supports ACID"
+      ],
+      "correctAnswer": "RDBMS is ACID compliant while NoSQL is generally not ACID compliant",
+      "explanation": "Correct answer is B) RDBMS is ACID compliant while NoSQL is generally not ACID compliant."
+    },
+    {
+      "questionText": "NoSQL databases can serve as the primary data source for which kind of applications?",
+      "options": [
+        "Only desktop publishing",
+        "Only embedded firmware",
+        "Only offline batch reports",
+        "Online applications"
+      ],
+      "correctAnswer": "Online applications",
+      "explanation": "Correct answer is D) Online applications."
+    },
+    {
+      "questionText": "NoSQL databases are well suited for big data use cases involving which characteristics?",
+      "options": [
+        "Low-volume transactions only",
+        "Velocity, variety, volume, and complexity",
+        "Static data with no growth",
+        "Only small, uniform data"
+      ],
+      "correctAnswer": "Velocity, variety, volume, and complexity",
+      "explanation": "Correct answer is B) Velocity, variety, volume, and complexity."
+    },
+    {
+      "questionText": "Which benefit of NoSQL relates to uptime?",
+      "options": [
+        "Manual failover only",
+        "Inherent continuous availability",
+        "Single point of failure",
+        "Mandatory scheduled downtime"
+      ],
+      "correctAnswer": "Inherent continuous availability",
+      "explanation": "Correct answer is B) Inherent continuous availability."
+    },
+    {
+      "questionText": "NoSQL databases excel at which kind of operations?",
+      "options": [
+        "Only in-memory calculators",
+        "Only offline reporting",
+        "Distributed database and multi-data center operations",
+        "Single-user local operations"
+      ],
+      "correctAnswer": "Distributed database and multi-data center operations",
+      "explanation": "Correct answer is C) Distributed database and multi-data center operations."
+    },
+    {
+      "questionText": "Which layer can NoSQL eliminate the need for?",
+      "options": [
+        "The application layer",
+        "A specific caching layer",
+        "The network layer",
+        "The operating system"
+      ],
+      "correctAnswer": "A specific caching layer",
+      "explanation": "Correct answer is B) A specific caching layer."
+    },
+    {
+      "questionText": "How do NoSQL databases improve performance when load increases?",
+      "options": [
+        "By replacing the CPU in a single machine only",
+        "By dropping indexes",
+        "By reducing the data stored",
+        "By adding additional nodes to the cluster"
+      ],
+      "correctAnswer": "By adding additional nodes to the cluster",
+      "explanation": "Correct answer is D) By adding additional nodes to the cluster."
+    },
+    {
+      "questionText": "A flexible schema design in NoSQL means the schema can be altered:",
+      "options": [
+        "Without downtime or service disruption",
+        "Never after creation",
+        "Only after a full system shutdown",
+        "Only by a DBA at midnight"
+      ],
+      "correctAnswer": "Without downtime or service disruption",
+      "explanation": "Correct answer is A) Without downtime or service disruption."
+    },
+    {
+      "questionText": "NoSQL databases can operate in which type of environment?",
+      "options": [
+        "Only on-premises servers",
+        "Only on tape drives",
+        "Only on mobile devices",
+        "Cloud settings"
+      ],
+      "correctAnswer": "Cloud settings",
+      "explanation": "Correct answer is D) Cloud settings."
+    },
+    {
+      "questionText": "Which of the following is a Key-Value database used for caching?",
+      "options": [
+        "Memcached",
+        "OrientDB",
+        "InfoGrid",
+        "Hypertable"
+      ],
+      "correctAnswer": "Memcached",
+      "explanation": "Correct answer is A) Memcached."
+    },
+    {
+      "questionText": "How does a key-value store hold each item?",
+      "options": [
+        "As rows in joined tables",
+        "As an attribute name (key) together with its value",
+        "As column families only",
+        "As nodes and edges"
+      ],
+      "correctAnswer": "As an attribute name (key) together with its value",
+      "explanation": "Correct answer is B) As an attribute name (key) together with its value."
+    },
+    {
+      "questionText": "Key-value stores are ideal for:",
+      "options": [
+        "Complex multi-table joins",
+        "Web-scale operations across thousands of servers and millions of users with quick retrieval",
+        "Deep graph traversal",
+        "Strict relational constraints"
+      ],
+      "correctAnswer": "Web-scale operations across thousands of servers and millions of users with quick retrieval",
+      "explanation": "Correct answer is B) Web-scale operations across thousands of servers and millions of users with quick retrieval."
+    },
+    {
+      "questionText": "Which is a disadvantage of key-value databases mentioned in the course?",
+      "options": [
+        "Maintaining unique keys becomes difficult as data volume increases",
+        "They require fixed schemas",
+        "They cannot store any data",
+        "They cannot be accessed by key"
+      ],
+      "correctAnswer": "Maintaining unique keys becomes difficult as data volume increases",
+      "explanation": "Correct answer is A) Maintaining unique keys becomes difficult as data volume increases."
+    },
+    {
+      "questionText": "Which of the following is a document database?",
+      "options": [
+        "Cassandra",
+        "Riak",
+        "MongoDB",
+        "Redis server"
+      ],
+      "correctAnswer": "MongoDB",
+      "explanation": "Correct answer is C) MongoDB."
+    },
+    {
+      "questionText": "Which statement describes Apache CouchDB?",
+      "options": [
+        "It uses JSON for documents, JavaScript for MapReduce indexes, and HTTP for its API",
+        "It is a key-value cache",
+        "It uses SQL for all queries",
+        "It stores data as nodes and edges"
+      ],
+      "correctAnswer": "It uses JSON for documents, JavaScript for MapReduce indexes, and HTTP for its API",
+      "explanation": "Correct answer is A) It uses JSON for documents, JavaScript for MapReduce indexes, and HTTP for its API."
+    },
+    {
+      "questionText": "MongoDB provides built-in support for which of the following, as described in the course?",
+      "options": [
+        "Only graph traversal",
+        "Only column compression",
+        "MapReduce-style aggregation and geospatial indexes",
+        "Only a key-value API"
+      ],
+      "correctAnswer": "MapReduce-style aggregation and geospatial indexes",
+      "explanation": "Correct answer is C) MapReduce-style aggregation and geospatial indexes."
+    },
+    {
+      "questionText": "Which of the following is a column-based database?",
+      "options": [
+        "Cassandra",
+        "MongoDB",
+        "Neo4J",
+        "Riak"
+      ],
+      "correctAnswer": "Cassandra",
+      "explanation": "Correct answer is A) Cassandra."
+    },
+    {
+      "questionText": "In a column-based database, what identifies the rows?",
+      "options": [
+        "The document id only",
+        "The row key",
+        "The node label",
+        "The foreign key"
+      ],
+      "correctAnswer": "The row key",
+      "explanation": "Correct answer is B) The row key."
+    },
+    {
+      "questionText": "Which kind of operations are performed quickly in column-based databases?",
+      "options": [
+        "Aggregate operations such as MIN, MAX, SUM, COUNT and AVG",
+        "Only relationship traversal",
+        "Only full-text translation",
+        "Only INSERT operations"
+      ],
+      "correctAnswer": "Aggregate operations such as MIN, MAX, SUM, COUNT and AVG",
+      "explanation": "Correct answer is A) Aggregate operations such as MIN, MAX, SUM, COUNT and AVG."
+    },
+    {
+      "questionText": "Which statement is true about Cassandra?",
+      "options": [
+        "It is a graph database",
+        "Any node can handle read and write operations",
+        "It is a document database",
+        "Only one master node can accept writes"
+      ],
+      "correctAnswer": "Any node can handle read and write operations",
+      "explanation": "Correct answer is B) Any node can handle read and write operations."
+    },
+    {
+      "questionText": "Which database type stores data and relationships as nodes and edges?",
+      "options": [
+        "Column-based database",
+        "Key-Value database",
+        "Document database",
+        "Graph database"
+      ],
+      "correctAnswer": "Graph database",
+      "explanation": "Correct answer is D) Graph database."
+    },
+    {
+      "questionText": "Which of the following is a graph database?",
+      "options": [
+        "CouchDB",
+        "Neo4J",
+        "Cassandra",
+        "Memcached"
+      ],
+      "correctAnswer": "Neo4J",
+      "explanation": "Correct answer is B) Neo4J."
+    },
+    {
+      "questionText": "Which graph database was created by Twitter for relationship-related analytics?",
+      "options": [
+        "OrientDB",
+        "FlockDB",
+        "Neo4J",
+        "InfiniteGraph"
+      ],
+      "correctAnswer": "FlockDB",
+      "explanation": "Correct answer is B) FlockDB."
+    },
+    {
+      "questionText": "The CAP theorem states that in a distributed system:",
+      "options": [
+        "None of the properties can be used",
+        "All three properties can always be guaranteed",
+        "Only one property can ever be used",
+        "Only two of the three properties can be guaranteed simultaneously"
+      ],
+      "correctAnswer": "Only two of the three properties can be guaranteed simultaneously",
+      "explanation": "Correct answer is D) Only two of the three properties can be guaranteed simultaneously."
+    },
+    {
+      "questionText": "What do the letters in CAP stand for?",
+      "options": [
+        "Consistency, Availability, Partition tolerance",
+        "Consistency, Atomicity, Partitioning",
+        "Capacity, Availability, Performance",
+        "Concurrency, Atomicity, Persistence"
+      ],
+      "correctAnswer": "Consistency, Availability, Partition tolerance",
+      "explanation": "Correct answer is A) Consistency, Availability, Partition tolerance."
+    },
+    {
+      "questionText": "In the CAP theorem, consistency means:",
+      "options": [
+        "The system works across network failures",
+        "All clients see the same view of the data with consistent reads and writes",
+        "The system is always online",
+        "Data is encrypted"
+      ],
+      "correctAnswer": "All clients see the same view of the data with consistent reads and writes",
+      "explanation": "Correct answer is B) All clients see the same view of the data with consistent reads and writes."
+    },
+    {
+      "questionText": "In the CAP theorem, availability means:",
+      "options": [
+        "The database system is available to operate when required",
+        "The system survives cluster failures",
+        "All clients see identical data at the same instant",
+        "The data meets schema constraints"
+      ],
+      "correctAnswer": "The database system is available to operate when required",
+      "explanation": "Correct answer is A) The database system is available to operate when required."
+    },
+    {
+      "questionText": "Consistency in ACID means that:",
+      "options": [
+        "Data is partitioned across shards",
+        "The database is always online",
+        "All nodes show the same value at the same time",
+        "Data that does not satisfy predefined constraints is not persisted"
+      ],
+      "correctAnswer": "Data that does not satisfy predefined constraints is not persisted",
+      "explanation": "Correct answer is D) Data that does not satisfy predefined constraints is not persisted."
+    },
+    {
+      "questionText": "According to the CAP theorem, what kind of system is MongoDB?",
+      "options": [
+        "CA (Consistent and Available)",
+        "AC only",
+        "CP (Consistent and Partition tolerant)",
+        "AP (Available and Partition tolerant)"
+      ],
+      "correctAnswer": "CP (Consistent and Partition tolerant)",
+      "explanation": "Correct answer is C) CP (Consistent and Partition tolerant)."
+    },
+    {
+      "questionText": "Which CAP properties does MongoDB favor?",
+      "options": [
+        "Availability and Partition tolerance",
+        "Consistency and Availability",
+        "Consistency and Partition tolerance",
+        "Availability only"
+      ],
+      "correctAnswer": "Consistency and Partition tolerance",
+      "explanation": "Correct answer is C) Consistency and Partition tolerance."
+    },
+    {
+      "questionText": "Which of the following should be understood before adjusting a database according to CAP?",
+      "options": [
+        "How data is consumed, whether it is read or write heavy, and whether inconsistent data can be handled",
+        "The brand of the server",
+        "Only the programming language",
+        "Only the color of the UI"
+      ],
+      "correctAnswer": "How data is consumed, whether it is read or write heavy, and whether inconsistent data can be handled",
+      "explanation": "Correct answer is A) How data is consumed, whether it is read or write heavy, and whether inconsistent data can be handled."
+    },
+    {
+      "questionText": "In the case study, how many hits per second can MongoDB serve on one node, according to the course?",
+      "options": [
+        "500",
+        "1000",
+        "100000",
+        "11000"
+      ],
+      "correctAnswer": "11000",
+      "explanation": "Correct answer is D) 11000."
+    },
+    {
+      "questionText": "In the case study, by default MongoDB performs reads and writes on which node?",
+      "options": [
+        "A secondary node",
+        "The primary node",
+        "The backup node",
+        "The arbiter"
+      ],
+      "correctAnswer": "The primary node",
+      "explanation": "Correct answer is B) The primary node."
+    },
+    {
+      "questionText": "In the case study, what replication factor is used?",
+      "options": [
+        "3, with 1 primary and 2 secondary nodes",
+        "1 primary only",
+        "5 primaries",
+        "2 primaries and 1 secondary"
+      ],
+      "correctAnswer": "3, with 1 primary and 2 secondary nodes",
+      "explanation": "Correct answer is A) 3, with 1 primary and 2 secondary nodes."
+    },
+    {
+      "questionText": "In the case study, to which node do the analytics team's hits go?",
+      "options": [
+        "One of the secondary nodes",
+        "The config server",
+        "The primary node",
+        "The arbiter"
+      ],
+      "correctAnswer": "One of the secondary nodes",
+      "explanation": "Correct answer is A) One of the secondary nodes."
+    },
+    {
+      "questionText": "In the case study, why is it acceptable for analytics reads to go to a secondary?",
+      "options": [
+        "Analytics does not read data",
+        "Secondaries always have more recent data than the primary",
+        "Secondaries never fall behind",
+        "It may miss the last few seconds of data, which does not matter much"
+      ],
+      "correctAnswer": "It may miss the last few seconds of data, which does not matter much",
+      "explanation": "Correct answer is D) It may miss the last few seconds of data, which does not matter much."
+    }
+  ]
+}

@@ -1,0 +1,558 @@
+{
+  "category": "MongoDB",
+  "session": 2,
+  "title": "Session 2: MongoDB - A Database for the Modern Web",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "MongoDB replaces the concept of 'rows' of relational data models with:",
+      "options": [
+        "Columns",
+        "Views",
+        "Tables",
+        "Documents"
+      ],
+      "correctAnswer": "Documents",
+      "explanation": "Correct answer is D) Documents."
+    },
+    {
+      "questionText": "Which two key characteristics describe MongoDB?",
+      "options": [
+        "Graph based and fixed schema",
+        "Key-only and schema bound",
+        "Row based and fixed schema",
+        "Document based and schema free"
+      ],
+      "correctAnswer": "Document based and schema free",
+      "explanation": "Correct answer is D) Document based and schema free."
+    },
+    {
+      "questionText": "MongoDB allows which constructs to represent complex relationships in a single record?",
+      "options": [
+        "Triggers only",
+        "Stored procedures only",
+        "Embedded documents and arrays",
+        "Foreign keys only"
+      ],
+      "correctAnswer": "Embedded documents and arrays",
+      "explanation": "Correct answer is C) Embedded documents and arrays."
+    },
+    {
+      "questionText": "What does JSON stand for?",
+      "options": [
+        "Joint Schema Object Notation",
+        "JavaScript Online Network",
+        "Java Standard Object Names",
+        "JavaScript Object Notation"
+      ],
+      "correctAnswer": "JavaScript Object Notation",
+      "explanation": "Correct answer is D) JavaScript Object Notation."
+    },
+    {
+      "questionText": "JSON is built on which two structures?",
+      "options": [
+        "Rows and columns",
+        "Nodes and edges",
+        "Tables and views",
+        "A collection of name/value pairs and an ordered list of values"
+      ],
+      "correctAnswer": "A collection of name/value pairs and an ordered list of values",
+      "explanation": "Correct answer is D) A collection of name/value pairs and an ordered list of values."
+    },
+    {
+      "questionText": "Which basic data types does JSON support?",
+      "options": [
+        "Only integers",
+        "Only strings",
+        "Only binary blobs",
+        "Numbers, strings, booleans, arrays, and hashes"
+      ],
+      "correctAnswer": "Numbers, strings, booleans, arrays, and hashes",
+      "explanation": "Correct answer is D) Numbers, strings, booleans, arrays, and hashes."
+    },
+    {
+      "questionText": "BSON is described as lightweight because:",
+      "options": [
+        "It stores only strings",
+        "It keeps the overhead of processing extra header data to a minimum over the network",
+        "It uses no data types",
+        "It cannot store arrays"
+      ],
+      "correctAnswer": "It keeps the overhead of processing extra header data to a minimum over the network",
+      "explanation": "Correct answer is B) It keeps the overhead of processing extra header data to a minimum over the network."
+    },
+    {
+      "questionText": "BSON is described as efficient because it:",
+      "options": [
+        "Requires manual parsing",
+        "Compresses data to zero bytes",
+        "Uses C data types that allow quick encoding and decoding",
+        "Stores only text"
+      ],
+      "correctAnswer": "Uses C data types that allow quick encoding and decoding",
+      "explanation": "Correct answer is C) Uses C data types that allow quick encoding and decoding."
+    },
+    {
+      "questionText": "In MongoDB, the equivalent of an RDBMS table or view is called:",
+      "options": [
+        "Field",
+        "Document",
+        "Collection",
+        "Shard"
+      ],
+      "correctAnswer": "Collection",
+      "explanation": "Correct answer is C) Collection."
+    },
+    {
+      "questionText": "In MongoDB, the equivalent of an RDBMS column is a:",
+      "options": [
+        "Field",
+        "Collection",
+        "Shard",
+        "Document"
+      ],
+      "correctAnswer": "Field",
+      "explanation": "Correct answer is A) Field."
+    },
+    {
+      "questionText": "In MongoDB, the equivalent of an RDBMS join is:",
+      "options": [
+        "Index",
+        "Field",
+        "Embedded document",
+        "Shard"
+      ],
+      "correctAnswer": "Embedded document",
+      "explanation": "Correct answer is C) Embedded document."
+    },
+    {
+      "questionText": "In MongoDB, the equivalent of an RDBMS partition is a:",
+      "options": [
+        "Reference",
+        "Shard",
+        "Document",
+        "Collection"
+      ],
+      "correctAnswer": "Shard",
+      "explanation": "Correct answer is B) Shard."
+    },
+    {
+      "questionText": "Collections in MongoDB are grouped into:",
+      "options": [
+        "Tables",
+        "Databases",
+        "Indexes",
+        "Shards only"
+      ],
+      "correctAnswer": "Databases",
+      "explanation": "Correct answer is B) Databases."
+    },
+    {
+      "questionText": "A relational table requires an extra field. What must happen?",
+      "options": [
+        "The entire table needs to be altered",
+        "Nothing, it is automatically added only to that row",
+        "Documents are converted to BSON",
+        "A new database is created"
+      ],
+      "correctAnswer": "The entire table needs to be altered",
+      "explanation": "Correct answer is A) The entire table needs to be altered."
+    },
+    {
+      "questionText": "In MongoDB, each document in a collection can have:",
+      "options": [
+        "No fields",
+        "Exactly the same fields as every other document",
+        "Only numeric fields",
+        "A completely independent structure"
+      ],
+      "correctAnswer": "A completely independent structure",
+      "explanation": "Correct answer is D) A completely independent structure."
+    },
+    {
+      "questionText": "A write operation in a single document in MongoDB is considered:",
+      "options": [
+        "Atomic only on secondaries",
+        "Never atomic",
+        "Atomic, even if it alters multiple embedded documents",
+        "Atomic only across collections"
+      ],
+      "correctAnswer": "Atomic, even if it alters multiple embedded documents",
+      "explanation": "Correct answer is C) Atomic, even if it alters multiple embedded documents."
+    },
+    {
+      "questionText": "For a multi-document write operation in MongoDB (as described in the course), which is true?",
+      "options": [
+        "It always locks the whole cluster",
+        "It is always fully atomic",
+        "It cannot be performed",
+        "The entire operation is not atomic and other operations may interleave"
+      ],
+      "correctAnswer": "The entire operation is not atomic and other operations may interleave",
+      "explanation": "Correct answer is D) The entire operation is not atomic and other operations may interleave."
+    },
+    {
+      "questionText": "Distributing a database across multiple machines is called:",
+      "options": [
+        "Horizontal scaling (scaling out)",
+        "Vertical scaling",
+        "Journaling",
+        "Indexing"
+      ],
+      "correctAnswer": "Horizontal scaling (scaling out)",
+      "explanation": "Correct answer is A) Horizontal scaling (scaling out)."
+    },
+    {
+      "questionText": "Which statement is true about scaling up?",
+      "options": [
+        "It is easy but can be a costly affair",
+        "It uses commodity servers only",
+        "It can never be done",
+        "It is always cheap and unlimited"
+      ],
+      "correctAnswer": "It is easy but can be a costly affair",
+      "explanation": "Correct answer is A) It is easy but can be a costly affair."
+    },
+    {
+      "questionText": "What is the range-based partitioning mechanism used by MongoDB for horizontal scaling called?",
+      "options": [
+        "Auto-mapping",
+        "Auto-sharding",
+        "Auto-journaling",
+        "Auto-indexing"
+      ],
+      "correctAnswer": "Auto-sharding",
+      "explanation": "Correct answer is B) Auto-sharding."
+    },
+    {
+      "questionText": "What determines the distribution of collection data in automatic sharding?",
+      "options": [
+        "The shard key",
+        "The primary key only",
+        "The replica name",
+        "The database name"
+      ],
+      "correctAnswer": "The shard key",
+      "explanation": "Correct answer is A) The shard key."
+    },
+    {
+      "questionText": "Which type of searches can MongoDB perform?",
+      "options": [
+        "Only SQL joins",
+        "Search by field, range queries, and regular expression searches",
+        "Only exact key matches",
+        "Only full table scans"
+      ],
+      "correctAnswer": "Search by field, range queries, and regular expression searches",
+      "explanation": "Correct answer is B) Search by field, range queries, and regular expression searches."
+    },
+    {
+      "questionText": "In what form does MongoDB implement secondary indexes?",
+      "options": [
+        "Hash tables only",
+        "B-trees",
+        "Linked lists",
+        "Binary files"
+      ],
+      "correctAnswer": "B-trees",
+      "explanation": "Correct answer is B) B-trees."
+    },
+    {
+      "questionText": "What is the maximum number of indexes MongoDB allows per collection (as stated in the course)?",
+      "options": [
+        "64",
+        "128",
+        "8",
+        "16"
+      ],
+      "correctAnswer": "64",
+      "explanation": "Correct answer is A) 64."
+    },
+    {
+      "questionText": "What does MongoDB use to create database replication?",
+      "options": [
+        "Views",
+        "Replica sets",
+        "Stored procedures",
+        "Triggers"
+      ],
+      "correctAnswer": "Replica sets",
+      "explanation": "Correct answer is B) Replica sets."
+    },
+    {
+      "questionText": "In a replica set, the primary supports ___ while the secondary supports ___.",
+      "options": [
+        "Read and write; read",
+        "Read only; write only",
+        "Write only; read only",
+        "Neither; both"
+      ],
+      "correctAnswer": "Read and write; read",
+      "explanation": "Correct answer is A) Read and write; read."
+    },
+    {
+      "questionText": "When the primary fails in a replica set, what happens?",
+      "options": [
+        "A secondary is converted to primary",
+        "A new database is created automatically",
+        "The data is deleted",
+        "The cluster stops permanently"
+      ],
+      "correctAnswer": "A secondary is converted to primary",
+      "explanation": "Correct answer is A) A secondary is converted to primary."
+    },
+    {
+      "questionText": "How does MongoDB store data in memory?",
+      "options": [
+        "In a separate Java heap only",
+        "In memory mapped files, letting the operating system manage memory",
+        "In a hash table on disk",
+        "In flat CSV files only"
+      ],
+      "correctAnswer": "In memory mapped files, letting the operating system manage memory",
+      "explanation": "Correct answer is B) In memory mapped files, letting the operating system manage memory."
+    },
+    {
+      "questionText": "Which type of consistency can be chosen via the replica set depending on needs?",
+      "options": [
+        "Only no consistency",
+        "Only strict ACID",
+        "Only eventual consistency",
+        "Strong or delayed consistency"
+      ],
+      "correctAnswer": "Strong or delayed consistency",
+      "explanation": "Correct answer is D) Strong or delayed consistency."
+    },
+    {
+      "questionText": "A MapReduce operation consists of which two phases?",
+      "options": [
+        "Read and Write",
+        "Index and Sort",
+        "Map and Reduce",
+        "Split and Merge"
+      ],
+      "correctAnswer": "Map and Reduce",
+      "explanation": "Correct answer is C) Map and Reduce."
+    },
+    {
+      "questionText": "In the Map phase of MapReduce:",
+      "options": [
+        "Documents are processed and one or more objects are produced for each input document",
+        "Indexes are rebuilt",
+        "Data is deleted",
+        "Outputs are combined"
+      ],
+      "correctAnswer": "Documents are processed and one or more objects are produced for each input document",
+      "explanation": "Correct answer is A) Documents are processed and one or more objects are produced for each input document."
+    },
+    {
+      "questionText": "Aggregation operations in MongoDB are used to:",
+      "options": [
+        "Create users",
+        "Rename databases",
+        "Install the server",
+        "Analyze data sets and return calculated results"
+      ],
+      "correctAnswer": "Analyze data sets and return calculated results",
+      "explanation": "Correct answer is D) Analyze data sets and return calculated results."
+    },
+    {
+      "questionText": "What does the ObjectId data type consist of?",
+      "options": [
+        "4 bytes of random data",
+        "8 bytes only",
+        "12 bytes, where the first four bytes represent the creation time",
+        "16 bytes of text"
+      ],
+      "correctAnswer": "12 bytes, where the first four bytes represent the creation time",
+      "explanation": "Correct answer is C) 12 bytes, where the first four bytes represent the creation time."
+    },
+    {
+      "questionText": "In BSON, a Date is stored as:",
+      "options": [
+        "A string in DD/MM/YYYY format",
+        "A 32-bit integer of days",
+        "A 64-bit integer denoting milliseconds since the UNIX epoch",
+        "A floating point of seconds"
+      ],
+      "correctAnswer": "A 64-bit integer denoting milliseconds since the UNIX epoch",
+      "explanation": "Correct answer is C) A 64-bit integer denoting milliseconds since the UNIX epoch."
+    },
+    {
+      "questionText": "Which BSON type is for internal MongoDB use and is not associated with the regular Date type?",
+      "options": [
+        "Symbol",
+        "Code",
+        "Binary data",
+        "Timestamp"
+      ],
+      "correctAnswer": "Timestamp",
+      "explanation": "Correct answer is D) Timestamp."
+    },
+    {
+      "questionText": "The Null data type in MongoDB is used to represent:",
+      "options": [
+        "Only zero",
+        "Only an empty string",
+        "Only false",
+        "Both a null value and a nonexistent field"
+      ],
+      "correctAnswer": "Both a null value and a nonexistent field",
+      "explanation": "Correct answer is D) Both a null value and a nonexistent field."
+    },
+    {
+      "questionText": "Which type lets documents contain entire documents as values in a parent document?",
+      "options": [
+        "Embedded document",
+        "Regular expression",
+        "Binary data",
+        "Symbol"
+      ],
+      "correctAnswer": "Embedded document",
+      "explanation": "Correct answer is A) Embedded document."
+    },
+    {
+      "questionText": "What is the core database server process of MongoDB called?",
+      "options": [
+        "mongostat",
+        "mongos",
+        "mongosniff",
+        "mongod"
+      ],
+      "correctAnswer": "mongod",
+      "explanation": "Correct answer is D) mongod."
+    },
+    {
+      "questionText": "Which MongoDB component routes requests to the appropriate shard?",
+      "options": [
+        "mongoexport",
+        "mongos",
+        "mongodump",
+        "mongod"
+      ],
+      "correctAnswer": "mongos",
+      "explanation": "Correct answer is B) mongos."
+    },
+    {
+      "questionText": "A replica set configuration in the course comprises two replicas and:",
+      "options": [
+        "A second router",
+        "An arbiter process residing on a third server",
+        "A load balancer",
+        "A config backup"
+      ],
+      "correctAnswer": "An arbiter process residing on a third server",
+      "explanation": "Correct answer is B) An arbiter process residing on a third server."
+    },
+    {
+      "questionText": "Which tool restores a MongoDB database from a dump?",
+      "options": [
+        "mongorestore",
+        "mongosniff",
+        "mongostat",
+        "mongoexport"
+      ],
+      "correctAnswer": "mongorestore",
+      "explanation": "Correct answer is A) mongorestore."
+    },
+    {
+      "questionText": "Which tools import and export JSON, CSV and TSV data?",
+      "options": [
+        "mongoimport and mongoexport",
+        "mongodump and mongorestore",
+        "mongostat and mongosniff",
+        "mongos and mongod"
+      ],
+      "correctAnswer": "mongoimport and mongoexport",
+      "explanation": "Correct answer is A) mongoimport and mongoexport."
+    },
+    {
+      "questionText": "Which tool provides statistics such as inserts, queries, updates and deletes?",
+      "options": [
+        "mongosniff",
+        "mongoexport",
+        "mongostat",
+        "mongorestore"
+      ],
+      "correctAnswer": "mongostat",
+      "explanation": "Correct answer is C) mongostat."
+    },
+    {
+      "questionText": "Which is a use case of MongoDB mentioned in the course?",
+      "options": [
+        "Only spreadsheet use",
+        "Internet of Things (IoT)",
+        "Only printing documents",
+        "Only email servers"
+      ],
+      "correctAnswer": "Internet of Things (IoT)",
+      "explanation": "Correct answer is B) Internet of Things (IoT)."
+    },
+    {
+      "questionText": "Which MongoDB use case builds a single view of all business data?",
+      "options": [
+        "Single View",
+        "Catalog",
+        "Personalization",
+        "Mobile"
+      ],
+      "correctAnswer": "Single View",
+      "explanation": "Correct answer is A) Single View."
+    },
+    {
+      "questionText": "Embedded (denormalized) data models are suitable for:",
+      "options": [
+        "No relationships",
+        "'Contains' and one-to-many relationships between entities",
+        "Complex many-to-many relationships only",
+        "Large hierarchical data sets only"
+      ],
+      "correctAnswer": "'Contains' and one-to-many relationships between entities",
+      "explanation": "Correct answer is B) 'Contains' and one-to-many relationships between entities."
+    },
+    {
+      "questionText": "An advantage of embedded data models is that they:",
+      "options": [
+        "Cannot hold arrays",
+        "Always require more queries",
+        "Allow related data to be updated in a single atomic write operation",
+        "Prevent any data duplication"
+      ],
+      "correctAnswer": "Allow related data to be updated in a single atomic write operation",
+      "explanation": "Correct answer is C) Allow related data to be updated in a single atomic write operation."
+    },
+    {
+      "questionText": "The key challenge in data modeling involves balancing:",
+      "options": [
+        "Only licensing",
+        "Only the colour of the UI",
+        "Application needs, database engine performance, and data retrieval patterns",
+        "Only the server brand"
+      ],
+      "correctAnswer": "Application needs, database engine performance, and data retrieval patterns",
+      "explanation": "Correct answer is C) Application needs, database engine performance, and data retrieval patterns."
+    },
+    {
+      "questionText": "In the HR case study, why did the organization move away from RDBMS?",
+      "options": [
+        "The schema never changed",
+        "RDBMS was too fast",
+        "Hierarchical data and frequently changing schema were hard to manage",
+        "The data was too small"
+      ],
+      "correctAnswer": "Hierarchical data and frequently changing schema were hard to manage",
+      "explanation": "Correct answer is C) Hierarchical data and frequently changing schema were hard to manage."
+    },
+    {
+      "questionText": "In the case study, which tool was used to insert sample JSON data into MongoDB?",
+      "options": [
+        "mongostat",
+        "mongoimport",
+        "mongodump",
+        "mongosniff"
+      ],
+      "correctAnswer": "mongoimport",
+      "explanation": "Correct answer is B) mongoimport."
+    }
+  ]
+}

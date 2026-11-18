@@ -1,0 +1,558 @@
+{
+  "category": "MongoDB",
+  "session": 5,
+  "title": "Session 5: Replication and Sharding in MongoDB",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "What is the primary task of a MongoDB administrator in a production setting, per the course?",
+      "options": [
+        "Writing stored procedures",
+        "Designing UI",
+        "Deleting old data",
+        "Setting up a functioning replication"
+      ],
+      "correctAnswer": "Setting up a functioning replication",
+      "explanation": "Correct answer is D) Setting up a functioning replication."
+    },
+    {
+      "questionText": "Replication protects data in the event of:",
+      "options": [
+        "Hardware failure and service interruptions",
+        "Only user typos",
+        "Only schema errors",
+        "Nothing"
+      ],
+      "correctAnswer": "Hardware failure and service interruptions",
+      "explanation": "Correct answer is A) Hardware failure and service interruptions."
+    },
+    {
+      "questionText": "Which is the oldest mode of replication that MongoDB supports?",
+      "options": [
+        "Replica sets",
+        "Master-slave replication",
+        "Journaling",
+        "Sharding"
+      ],
+      "correctAnswer": "Master-slave replication",
+      "explanation": "Correct answer is B) Master-slave replication."
+    },
+    {
+      "questionText": "A replica set consists of:",
+      "options": [
+        "A single mongod instance",
+        "A group of mongos routers only",
+        "A group of mongod instances that host the same data set",
+        "Config servers only"
+      ],
+      "correctAnswer": "A group of mongod instances that host the same data set",
+      "explanation": "Correct answer is C) A group of mongod instances that host the same data set."
+    },
+    {
+      "questionText": "Where does the primary log changes to its data sets?",
+      "options": [
+        "In the config database",
+        "In its oplog",
+        "In the arbiter",
+        "In the mongos"
+      ],
+      "correctAnswer": "In its oplog",
+      "explanation": "Correct answer is B) In its oplog."
+    },
+    {
+      "questionText": "What does the replica set do when the primary becomes unavailable?",
+      "options": [
+        "It nominates a secondary as the new primary",
+        "It deletes the data",
+        "It stops accepting reads and writes permanently",
+        "It promotes the arbiter"
+      ],
+      "correctAnswer": "It nominates a secondary as the new primary",
+      "explanation": "Correct answer is A) It nominates a secondary as the new primary."
+    },
+    {
+      "questionText": "The role of an arbiter is to:",
+      "options": [
+        "Accept writes",
+        "Participate in elections to select the primary",
+        "Act as a mongos",
+        "Store data copies"
+      ],
+      "correctAnswer": "Participate in elections to select the primary",
+      "explanation": "Correct answer is B) Participate in elections to select the primary."
+    },
+    {
+      "questionText": "Secondary members apply operations from the primary:",
+      "options": [
+        "Only at midnight",
+        "Asynchronously",
+        "Synchronously only",
+        "Never"
+      ],
+      "correctAnswer": "Asynchronously",
+      "explanation": "Correct answer is B) Asynchronously."
+    },
+    {
+      "questionText": "Which role can change between primary and secondary, but not for an arbiter?",
+      "options": [
+        "Arbiter can store data",
+        "Arbiter can become secondary",
+        "Primary and secondary can swap; an arbiter remains unchanged",
+        "Arbiter can become primary"
+      ],
+      "correctAnswer": "Primary and secondary can swap; an arbiter remains unchanged",
+      "explanation": "Correct answer is C) Primary and secondary can swap; an arbiter remains unchanged."
+    },
+    {
+      "questionText": "How is a new primary chosen after failover?",
+      "options": [
+        "Through an election in which the secondary with a majority of votes wins",
+        "By the mongos",
+        "By random choice without voting",
+        "By the oldest document"
+      ],
+      "correctAnswer": "Through an election in which the secondary with a majority of votes wins",
+      "explanation": "Correct answer is A) Through an election in which the secondary with a majority of votes wins."
+    },
+    {
+      "questionText": "In MongoDB 3.0, how many replica set members can vote?",
+      "options": [
+        "12",
+        "50",
+        "7",
+        "3"
+      ],
+      "correctAnswer": "7",
+      "explanation": "Correct answer is C) 7."
+    },
+    {
+      "questionText": "A priority 0 member can:",
+      "options": [
+        "Become primary",
+        "Replace an unavailable primary",
+        "Trigger an election",
+        "Maintain data copies, accept reads, and vote in elections"
+      ],
+      "correctAnswer": "Maintain data copies, accept reads, and vote in elections",
+      "explanation": "Correct answer is D) Maintain data copies, accept reads, and vote in elections."
+    },
+    {
+      "questionText": "Hidden members are typically used for:",
+      "options": [
+        "Reporting and backup",
+        "Storing config metadata",
+        "Routing queries",
+        "Accepting client writes"
+      ],
+      "correctAnswer": "Reporting and backup",
+      "explanation": "Correct answer is A) Reporting and backup."
+    },
+    {
+      "questionText": "What is a delayed replica set member?",
+      "options": [
+        "A new primary",
+        "A secondary that copies data from the primary's oplog after a delay",
+        "An arbiter",
+        "A member that never syncs"
+      ],
+      "correctAnswer": "A secondary that copies data from the primary's oplog after a delay",
+      "explanation": "Correct answer is B) A secondary that copies data from the primary's oplog after a delay."
+    },
+    {
+      "questionText": "A delayed member must be:",
+      "options": [
+        "A priority zero member and hidden",
+        "Visible to applications",
+        "An arbiter",
+        "A primary"
+      ],
+      "correctAnswer": "A priority zero member and hidden",
+      "explanation": "Correct answer is A) A priority zero member and hidden."
+    },
+    {
+      "questionText": "Which method applies a new replica set configuration?",
+      "options": [
+        "rs.apply(cfg)",
+        "rs.reconfig(cfg)",
+        "rs.set(cfg)",
+        "rs.update(cfg)"
+      ],
+      "correctAnswer": "rs.reconfig(cfg)",
+      "explanation": "Correct answer is B) rs.reconfig(cfg)."
+    },
+    {
+      "questionText": "What does write concern ensure?",
+      "options": [
+        "That a write operation was successful to a given level of assurance",
+        "That reads are fast",
+        "That indexes are built",
+        "That shards are balanced"
+      ],
+      "correctAnswer": "That a write operation was successful to a given level of assurance",
+      "explanation": "Correct answer is A) That a write operation was successful to a given level of assurance."
+    },
+    {
+      "questionText": "An unacknowledged write concern:",
+      "options": [
+        "Does not acknowledge the receipt of write operations",
+        "Confirms write on all members",
+        "Always blocks",
+        "Confirms journal commit"
+      ],
+      "correctAnswer": "Does not acknowledge the receipt of write operations",
+      "explanation": "Correct answer is A) Does not acknowledge the receipt of write operations."
+    },
+    {
+      "questionText": "Write operations in a replica set become durable when:",
+      "options": [
+        "Written to the arbiter",
+        "Written to a single hidden member",
+        "Replicated and committed to the journal on a majority of voting members",
+        "Written to the client"
+      ],
+      "correctAnswer": "Replicated and committed to the journal on a majority of voting members",
+      "explanation": "Correct answer is C) Replicated and committed to the journal on a majority of voting members."
+    },
+    {
+      "questionText": "The default write concern in a replica set requires acknowledgement from:",
+      "options": [
+        "All members",
+        "Only the arbiter",
+        "Only secondaries",
+        "Only the primary member"
+      ],
+      "correctAnswer": "Only the primary member",
+      "explanation": "Correct answer is D) Only the primary member."
+    },
+    {
+      "questionText": "Which setting can be changed to modify the default write concern?",
+      "options": [
+        "writeDefaults",
+        "defaultWrite",
+        "getLastErrorDefaults",
+        "journalDefaults"
+      ],
+      "correctAnswer": "getLastErrorDefaults",
+      "explanation": "Correct answer is C) getLastErrorDefaults."
+    },
+    {
+      "questionText": "By default, a client directs read operations to:",
+      "options": [
+        "The config server",
+        "The primary",
+        "The arbiter",
+        "A random secondary"
+      ],
+      "correctAnswer": "The primary",
+      "explanation": "Correct answer is B) The primary."
+    },
+    {
+      "questionText": "Which read preference mode reads only from secondaries?",
+      "options": [
+        "primary",
+        "secondary",
+        "nearest",
+        "primaryPreferred"
+      ],
+      "correctAnswer": "secondary",
+      "explanation": "Correct answer is B) secondary."
+    },
+    {
+      "questionText": "Which read preference mode reads from the member with the least network latency?",
+      "options": [
+        "nearest",
+        "secondary",
+        "primaryPreferred",
+        "primary"
+      ],
+      "correctAnswer": "nearest",
+      "explanation": "Correct answer is A) nearest."
+    },
+    {
+      "questionText": "Typical use of non-primary read preference includes:",
+      "options": [
+        "Dropping collections",
+        "Writing to secondaries",
+        "Providing local reads for geographically distributed applications",
+        "Disabling replication"
+      ],
+      "correctAnswer": "Providing local reads for geographically distributed applications",
+      "explanation": "Correct answer is C) Providing local reads for geographically distributed applications."
+    },
+    {
+      "questionText": "Where does MongoDB store tag sets for a replica set?",
+      "options": [
+        "In the replica set configuration object",
+        "In the oplog",
+        "In the mongos",
+        "In the journal"
+      ],
+      "correctAnswer": "In the replica set configuration object",
+      "explanation": "Correct answer is A) In the replica set configuration object."
+    },
+    {
+      "questionText": "Which statement about tag sets is true?",
+      "options": [
+        "Tags only work with the primary mode",
+        "Read preferences ignore tags",
+        "Write concerns require tags",
+        "Read preferences consider the tag value, while write concerns ignore it when selecting a member"
+      ],
+      "correctAnswer": "Read preferences consider the tag value, while write concerns ignore it when selecting a member",
+      "explanation": "Correct answer is D) Read preferences consider the tag value, while write concerns ignore it when selecting a member."
+    },
+    {
+      "questionText": "Which is the minimum recommended replica set architecture?",
+      "options": [
+        "Two members",
+        "A single member",
+        "Seven members",
+        "A three member replica set"
+      ],
+      "correctAnswer": "A three member replica set",
+      "explanation": "Correct answer is D) A three member replica set."
+    },
+    {
+      "questionText": "What is the oplog?",
+      "options": [
+        "A log of user logins",
+        "An index of documents",
+        "The operation log of changes maintained by the primary (master)",
+        "A backup file"
+      ],
+      "correctAnswer": "The operation log of changes maintained by the primary (master)",
+      "explanation": "Correct answer is C) The operation log of changes maintained by the primary (master)."
+    },
+    {
+      "questionText": "What does 'ns' in an oplog document represent?",
+      "options": [
+        "New shard",
+        "Namespace (the collection where the operation is performed)",
+        "Node status",
+        "Network speed"
+      ],
+      "correctAnswer": "Namespace (the collection where the operation is performed)",
+      "explanation": "Correct answer is B) Namespace (the collection where the operation is performed)."
+    },
+    {
+      "questionText": "Which method prints replication information for slaves, including how far behind they are?",
+      "options": [
+        "db.printSlaveReplicationInfo()",
+        "rs.info()",
+        "db.slaveStatus()",
+        "rs.lag()"
+      ],
+      "correctAnswer": "db.printSlaveReplicationInfo()",
+      "explanation": "Correct answer is A) db.printSlaveReplicationInfo()."
+    },
+    {
+      "questionText": "Sharding provides:",
+      "options": [
+        "Reduced storage only",
+        "No capacity change",
+        "Only read capacity",
+        "Additional write capacity by distributing the write load"
+      ],
+      "correctAnswer": "Additional write capacity by distributing the write load",
+      "explanation": "Correct answer is D) Additional write capacity by distributing the write load."
+    },
+    {
+      "questionText": "When should sharding be considered?",
+      "options": [
+        "When there is only one user",
+        "When the data set outgrows the storage of a single instance or the working set exceeds RAM",
+        "When no writes happen",
+        "When the data is tiny"
+      ],
+      "correctAnswer": "When the data set outgrows the storage of a single instance or the working set exceeds RAM",
+      "explanation": "Correct answer is B) When the data set outgrows the storage of a single instance or the working set exceeds RAM."
+    },
+    {
+      "questionText": "MongoDB shards data on:",
+      "options": [
+        "A per field basis",
+        "A per user basis",
+        "A per collection basis",
+        "A per index basis"
+      ],
+      "correctAnswer": "A per collection basis",
+      "explanation": "Correct answer is C) A per collection basis."
+    },
+    {
+      "questionText": "A shard key must be:",
+      "options": [
+        "A text field only",
+        "A field that exists in every document in the collection",
+        "An array only",
+        "A field that exists in some documents"
+      ],
+      "correctAnswer": "A field that exists in every document in the collection",
+      "explanation": "Correct answer is B) A field that exists in every document in the collection."
+    },
+    {
+      "questionText": "Which is a characteristic of an ideal shard key?",
+      "options": [
+        "Few possible values",
+        "Always unique to a single shard",
+        "Monotonically increasing only",
+        "High degree of randomness and easily divisible"
+      ],
+      "correctAnswer": "High degree of randomness and easily divisible",
+      "explanation": "Correct answer is D) High degree of randomness and easily divisible."
+    },
+    {
+      "questionText": "A drawback of range-based sharding is:",
+      "options": [
+        "Uneven data distribution, for example with linearly increasing keys such as time",
+        "It does not support range queries",
+        "It cannot use indexes",
+        "It requires hashing"
+      ],
+      "correctAnswer": "Uneven data distribution, for example with linearly increasing keys such as time",
+      "explanation": "Correct answer is A) Uneven data distribution, for example with linearly increasing keys such as time."
+    },
+    {
+      "questionText": "Which statement about hash-based sharding is true?",
+      "options": [
+        "Range queries are very efficient",
+        "Data is evenly distributed but range queries on the shard key are ineffective",
+        "Data is distributed unevenly",
+        "It requires compound keys"
+      ],
+      "correctAnswer": "Data is evenly distributed but range queries on the shard key are ineffective",
+      "explanation": "Correct answer is B) Data is evenly distributed but range queries on the shard key are ineffective."
+    },
+    {
+      "questionText": "What do config servers store?",
+      "options": [
+        "User passwords only",
+        "Index data",
+        "Application data",
+        "Metadata for the sharded cluster"
+      ],
+      "correctAnswer": "Metadata for the sharded cluster",
+      "explanation": "Correct answer is D) Metadata for the sharded cluster."
+    },
+    {
+      "questionText": "When config servers are unavailable, the cluster metadata becomes:",
+      "options": [
+        "Writable only",
+        "Deleted",
+        "Encrypted",
+        "Read-only"
+      ],
+      "correctAnswer": "Read-only",
+      "explanation": "Correct answer is D) Read-only."
+    },
+    {
+      "questionText": "Which command starts a config server?",
+      "options": [
+        "mongo --config",
+        "mongod --shard",
+        "mongos --configsvr",
+        "mongod --configsvr --dbpath /data/configdb --port 27019"
+      ],
+      "correctAnswer": "mongod --configsvr --dbpath /data/configdb --port 27019",
+      "explanation": "Correct answer is D) mongod --configsvr --dbpath /data/configdb --port 27019."
+    },
+    {
+      "questionText": "Which method enables sharding for a database?",
+      "options": [
+        "sh.startSharding()",
+        "db.shard()",
+        "sh.shardDB()",
+        "sh.enableSharding('<database>')"
+      ],
+      "correctAnswer": "sh.enableSharding('<database>')",
+      "explanation": "Correct answer is D) sh.enableSharding('<database>')."
+    },
+    {
+      "questionText": "If a collection already contains data, what must be done before sharding it?",
+      "options": [
+        "Drop the collection",
+        "Disable the balancer",
+        "Create an index on the shard key",
+        "Restart mongos"
+      ],
+      "correctAnswer": "Create an index on the shard key",
+      "explanation": "Correct answer is C) Create an index on the shard key."
+    },
+    {
+      "questionText": "What is splitting in MongoDB sharding?",
+      "options": [
+        "Merging shards",
+        "Deleting chunks",
+        "Moving a chunk to another shard",
+        "A background process that splits a chunk into two when it exceeds the specified size"
+      ],
+      "correctAnswer": "A background process that splits a chunk into two when it exceeds the specified size",
+      "explanation": "Correct answer is D) A background process that splits a chunk into two when it exceeds the specified size."
+    },
+    {
+      "questionText": "What is the default chunk size in MongoDB (per the course)?",
+      "options": [
+        "64 MB",
+        "16 MB",
+        "1 GB",
+        "128 MB"
+      ],
+      "correctAnswer": "64 MB",
+      "explanation": "Correct answer is A) 64 MB."
+    },
+    {
+      "questionText": "A jumbo chunk is:",
+      "options": [
+        "A chunk that exceeds the specified size or document limit and cannot be migrated",
+        "A chunk on the config server",
+        "A chunk with no data",
+        "A chunk of 1 KB"
+      ],
+      "correctAnswer": "A chunk that exceeds the specified size or document limit and cannot be migrated",
+      "explanation": "Correct answer is A) A chunk that exceeds the specified size or document limit and cannot be migrated."
+    },
+    {
+      "questionText": "What does the balancer do?",
+      "options": [
+        "Elects primaries",
+        "Compresses data",
+        "Migrates chunks between shards to even out the chunk distribution",
+        "Creates indexes"
+      ],
+      "correctAnswer": "Migrates chunks between shards to even out the chunk distribution",
+      "explanation": "Correct answer is C) Migrates chunks between shards to even out the chunk distribution."
+    },
+    {
+      "questionText": "Why might the balancer be disabled temporarily?",
+      "options": [
+        "To delete data",
+        "To create indexes",
+        "For maintenance or to avoid impact during peak load",
+        "To enable replication"
+      ],
+      "correctAnswer": "For maintenance or to avoid impact during peak load",
+      "explanation": "Correct answer is C) For maintenance or to avoid impact during peak load."
+    },
+    {
+      "questionText": "Which method associates a tag with a shard?",
+      "options": [
+        "sh.addTag()",
+        "sh.addShardTag()",
+        "sh.tagShard()",
+        "sh.setTag()"
+      ],
+      "correctAnswer": "sh.addShardTag()",
+      "explanation": "Correct answer is B) sh.addShardTag()."
+    },
+    {
+      "questionText": "In the case study, replication was introduced to:",
+      "options": [
+        "Delete analytics queries",
+        "Remove the front end",
+        "Make MongoDB fault tolerant and split read load to secondaries",
+        "Disable the primary"
+      ],
+      "correctAnswer": "Make MongoDB fault tolerant and split read load to secondaries",
+      "explanation": "Correct answer is C) Make MongoDB fault tolerant and split read load to secondaries."
+    }
+  ]
+}

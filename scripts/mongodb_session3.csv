@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+MongoDB,3,What does CRUD stand for?,"Create, Replicate, Upload, Delete","Connect, Read, Use, Disconnect","Create, Read, Update, Delete","Copy, Run, Update, Drop","Create, Read, Update, Delete"
+MongoDB,3,Data modification operations in MongoDB modify data of how many collections at a time?,A single collection,All collections in the database,All databases,Two collections,A single collection
+MongoDB,3,A batch insert allows you to:,Update one document only,Create indexes,Store multiple documents in a database at one time,Delete many documents,Store multiple documents in a database at one time
+MongoDB,3,Why are batch inserts faster?,They compress the network,They disable indexes,They skip writing data,They eliminate much of the header processing activity,They eliminate much of the header processing activity
+MongoDB,3,What is the size limit of a single batch insert (as stated in the course)?,4 MB,16 MB,64 MB,1 MB,16 MB
+MongoDB,3,What is the maximum number of operations in each group of an ordered bulk operation?,10000,1000,100,500,1000
+MongoDB,3,"When a bulk group exceeds 1000 operations, MongoDB:",Rejects all operations,Deletes the extra operations,Divides it into smaller groups of 1000 or fewer,Doubles the group size,Divides it into smaller groups of 1000 or fewer
+MongoDB,3,Which shell helper initializes an unordered bulk operation?,initializeOrderedBulkOp(),bulk.start(),newBulkInsert(),initializeUnorderedBulkOp(),initializeUnorderedBulkOp()
+MongoDB,3,Which method executes the queued bulk operations?,bulk.send(),bulk.execute(),bulk.commit(),bulk.run(),bulk.execute()
+MongoDB,3,"In an unordered bulk operation, MongoDB:",Runs only on a single thread,Never reorders anything,Rejects groups over 10,Groups and reorders operations for enhanced performance,Groups and reorders operations for enhanced performance
+MongoDB,3,"During an insert, the database checks for the '_id' key and confirms that the document does not exceed:",16 MB,4 MB,100 MB,1 MB,16 MB
+MongoDB,3,MongoDB is not vulnerable to traditional injection attacks on inserts because:,It encrypts every field,It blocks all network traffic,It only supports read operations,It does not perform any code execution on inserts,It does not perform any code execution on inserts
+MongoDB,3,Which method retrieves documents from a collection?,drop(),find(),remove(),insert(),find()
+MongoDB,3,Which method formats find() output in a readable way?,beautify(),format(),pretty(),print(),pretty()
+MongoDB,3,What does an empty query document {} do in find()?,Raises an error,Deletes all documents,Selects all documents in the collection,Selects no documents,Selects all documents in the collection
+MongoDB,3,What does a projection in a MongoDB query define?,The fields to return from the matching documents,The sort order,The shard key,The index to use,The fields to return from the matching documents
+MongoDB,3,Which operator matches any of a variety of values for a single key?,$where,$in,$slice,$not,$in
+MongoDB,3,MongoDB recommends using which operator instead of $or when performing equality checks on the same field?,$and,$nin,$in,$mod,$in
+MongoDB,3,"In db.items.find({soldQty: {$lt: 900}}), what does $lt mean?",Less than,Greater than,Less than or equal,Equal to,Less than
+MongoDB,3,"In MongoDB, what does $gt mean?",Less than,Greater than or equal,Not equal,Greater than,Greater than
+MongoDB,3,What does the $mod operator do?,Modifies a document,Matches values whose remainder after division by the first value equals the second value,Mods a collection,Multiplies fields,Matches values whose remainder after division by the first value equals the second value
+MongoDB,3,"In a query on an array field, {country_codes: 5} matches documents where:",The array is empty,The array is sorted,The array contains 5 as at least one element,The array has exactly five elements,The array contains 5 as at least one element
+MongoDB,3,Which query accesses the first element of the array country_codes using dot notation?,{ 'country_codes@0': 1 },{ 'country_codes[0]': 1 },{ country_codes.first: 1 },{ 'country_codes.0': 1 },{ 'country_codes.0': 1 }
+MongoDB,3,"Which operator returns a subset of array elements, such as the first two?",$slice,$mod,$elemMatch,$where,$slice
+MongoDB,3,Which operator matches documents whose array has an element satisfying multiple conditions?,$elemMatch,$slice,$not,$where,$elemMatch
+MongoDB,3,$where can be used to:,Create an index,Back up the database,Shard a collection,Compare the values of two keys in a document,Compare the values of two keys in a document
+MongoDB,3,Which cursor method checks if more results are available?,next(),hasNext(),hasMore(),moreData(),hasNext()
+MongoDB,3,How does the shell fetch results of a query initially?,The first 10 MB,Only 1 result,The first 100 results or the first 4 MB,All results at once,The first 100 results or the first 4 MB
+MongoDB,3,Which cursor option skips the first n results?,skip(),limit(),sort(),explain(),skip()
+MongoDB,3,"In sort({username: 1, age: -1}), what does -1 mean?",Sort in descending order,Sort in ascending order,Ignore the field,Remove the field,Sort in descending order
+MongoDB,3,"To display the next page of 25 results, which cursor method is added?",limit(50),explain(25),hint(25),skip(25),skip(25)
+MongoDB,3,How can pagination avoid skip?,By increasing the limit,By using drop(),By deleting earlier documents,"By querying with a range condition on the last seen sort key, such as date","By querying with a range condition on the last seen sort key, such as date"
+MongoDB,3,Which advanced query option tells the server which index to use?,$snapshot,$maxScan,$hint,$explain,$hint
+MongoDB,3,Which advanced query option specifies the maximum number of documents scanned for a query?,$hint,$maxScan,$explain,$snapshot,$maxScan
+MongoDB,3,Which method modifies existing documents in a collection?,update(),find(),drop(),insert(),update()
+MongoDB,3,The update() method takes which parameters?,"An update condition, an update operation, and an options document",Only a cursor,Only a collection name,Only a sort order,"An update condition, an update operation, and an options document"
+MongoDB,3,Operations performed by an update are atomic within:,A single document,A whole cluster,A whole database,A whole collection,A single document
+MongoDB,3,Which update operator changes the value of a field?,$push,$unset,$set,$inc,$set
+MongoDB,3,Which update operator increments or decrements numbers?,$inc,$pull,$push,$set,$inc
+MongoDB,3,Which update operator removes a field from a document?,$inc,$unset,$set,$push,$unset
+MongoDB,3,Which update operator adds an element to an array field?,$unset,$push,$set,$inc,$push
+MongoDB,3,Which update operator adds an element to an array only if it is not already present?,$push,$addToSet,$set,$inc,$addToSet
+MongoDB,3,What does the positional operator $ do in an update?,Deletes the array,Updates the array element that matched the query document,Creates an index,Sorts the array,Updates the array element that matched the query document
+MongoDB,3,Which command increments votes for the first comment of a blog post using position?,{$set: {'comments.votes': 1}},{$push: {'comments.0': 1}},{$inc: {'comments.0.votes': 1}},{$inc: {'comments[first].votes': 1}},{$inc: {'comments.0.votes': 1}}
+MongoDB,3,How is an upsert enabled in the update() method?,Using the option {upsert: true},Using {insert: true},Using {replace: true},Using {multi: true},Using the option {upsert: true}
+MongoDB,3,Which statement is true about an upsert?,It always inserts a duplicate,It updates a matching document or inserts a new one if none matches,It always deletes,It requires a unique index,It updates a matching document or inserts a new one if none matches
+MongoDB,3,Which method removes documents from a collection?,find(),update(),remove(),insert(),remove()
+MongoDB,3,Which call removes a single document where item is 'Bag'?,db.items.delete({item: 'Bag'}),db.items.drop({item: 'Bag'}),db.items.remove(1),"db.items.remove({item: 'Bag'}, 1)","db.items.remove({item: 'Bag'}, 1)"
+MongoDB,3,"Which method deletes the entire collection, including its indexes?",truncate(),remove({}),clear(),drop(),drop()
+MongoDB,3,"In the HR case study, bulk insert was used because:",It skips validation,Bulk insert is the only way to insert data,It deletes old data,The data was huge and bulk insert gives better performance,The data was huge and bulk insert gives better performance

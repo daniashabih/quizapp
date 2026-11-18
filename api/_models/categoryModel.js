@@ -26,7 +26,7 @@ const DEFAULT_CATEGORIES = [
     { name: 'Vue', sessions: [1, 2, 3] },
     { name: 'Node.js', sessions: [1, 2, 3] },
     { name: 'Express.js', sessions: [1, 2, 3] },
-    { name: 'MongoDB', sessions: [1, 2, 3] },
+    { name: 'MongoDB', sessions: [1, 2, 3, 4, 5, 6, 7] },
     { name: 'SQL', sessions: [1, 2, 3] },
     { name: 'SQL Server', sessions: [1, 2, 3] },
     { name: 'PHP', sessions: [1, 2, 3] },

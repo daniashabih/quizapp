@@ -70,7 +70,7 @@ app.use((req, res, next) => {
     if (!req.path.startsWith('/api') && req.path.length > 1 && req.path.endsWith('/')) {
         const query = req.url.slice(req.path.length);
         const safePath = '/' + req.path.slice(0, -1).replace(/^\/+/, '');
-        if (isKnownAppRoute(safePath)) {
+        if (!safePath.startsWith('/blog/') && isKnownAppRoute(safePath)) {
             return res.redirect(301, safePath + query);
         }
     }
@@ -202,6 +202,13 @@ async function handlePageRequest(req, res, next) {
 
         if (resolution.noindex) {
             res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+        }
+
+        // For DB-backed blog pages, prefer dynamic SSR renderStatusHtml so live MongoDB state is reflected immediately;
+        // otherwise serve pre-rendered static HTML when available.
+        if (resolution.fromDb && (resolution.meta?.article || resolution.meta?.isBlogIndex)) {
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            return res.status(200).send(renderStatusHtml(resolution));
         }
 
         const prerenderedFile = findPrerenderedFile(resolution.cleanPath);

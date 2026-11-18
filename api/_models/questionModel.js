@@ -40,6 +40,25 @@ const isMaterialUiCategory = (category) => {
     );
 };
 
+const MONGODB_SESSIONS = {
+    1: 'Introduction to NoSQL Databases',
+    2: 'MongoDB - A Database for the Modern Web',
+    3: 'CRUD Operations in MongoDB',
+    4: 'Indexing and Aggregation in MongoDB',
+    5: 'Replication and Sharding in MongoDB',
+    6: 'Developing Java and Node JS Applications with MongoDB',
+    7: 'Administration of MongoDB Cluster Operations'
+};
+
+const isMongoDbCategory = (category) => {
+    const lower = String(category || '').trim().toLowerCase();
+    return (
+        lower === 'mongodb' ||
+        lower === 'mongo db' ||
+        lower === 'mongo'
+    );
+};
+
 const parseOptions = (opts) => {
     if (Array.isArray(opts)) return opts;
     if (typeof opts === 'string') {
@@ -68,6 +87,9 @@ const getCategoryVariations = (category) => {
     }
     if (isMaterialUiCategory(clean)) {
         return ['Material UI', 'Material-UI', 'MaterialUI', 'MUI', 'material ui', 'materialui', 'mui'];
+    }
+    if (isMongoDbCategory(clean)) {
+        return ['MongoDB', 'Mongo DB', 'mongodb', 'mongo db', 'mongo'];
     }
     const withAnd = clean.replace(/&/g, 'and');
     const withAmp = clean.replace(/\band\b/gi, '&');
@@ -268,6 +290,8 @@ const Question = {
                 sessionTitle = REACTJS_SESSIONS[sNum];
             } else if (isMaterialUiCategory(targetCat) && MATERIAL_UI_SESSIONS[sNum]) {
                 sessionTitle = MATERIAL_UI_SESSIONS[sNum];
+            } else if (isMongoDbCategory(targetCat) && MONGODB_SESSIONS[sNum]) {
+                sessionTitle = MONGODB_SESSIONS[sNum];
             }
             return {
                 ...r,
@@ -295,6 +319,7 @@ const Question = {
 
         const isReactJs = isReactJsCategory(category);
         const isMaterialUi = isMaterialUiCategory(category);
+        const isMongoDb = isMongoDbCategory(category);
 
         let rows = [];
         try {
@@ -348,6 +373,8 @@ const Question = {
                     title = REACTJS_SESSIONS[sNum];
                 } else if (isMaterialUi && MATERIAL_UI_SESSIONS[sNum]) {
                     title = MATERIAL_UI_SESSIONS[sNum];
+                } else if (isMongoDb && MONGODB_SESSIONS[sNum]) {
+                    title = MONGODB_SESSIONS[sNum];
                 }
                 return {
                     session: sNum,

@@ -1,0 +1,558 @@
+{
+  "category": "MongoDB",
+  "session": 4,
+  "title": "Session 4: Indexing and Aggregation in MongoDB",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "What are indexes in MongoDB?",
+      "options": [
+        "Backup files of a collection",
+        "Data structures that store a collection's data set in a form that is easy to traverse",
+        "Network protocols",
+        "Query languages"
+      ],
+      "correctAnswer": "Data structures that store a collection's data set in a form that is easy to traverse",
+      "explanation": "Correct answer is B) Data structures that store a collection's data set in a form that is easy to traverse."
+    },
+    {
+      "questionText": "Indexes help MongoDB queries to:",
+      "options": [
+        "Avoid storing data",
+        "Find matching documents without a collection scan",
+        "Always scan the whole collection",
+        "Delete documents faster"
+      ],
+      "correctAnswer": "Find matching documents without a collection scan",
+      "explanation": "Correct answer is B) Find matching documents without a collection scan."
+    },
+    {
+      "questionText": "Which index does every MongoDB collection contain by default?",
+      "options": [
+        "A geospatial index",
+        "A text index",
+        "An index on the name field",
+        "An index on the _id field"
+      ],
+      "correctAnswer": "An index on the _id field",
+      "explanation": "Correct answer is D) An index on the _id field."
+    },
+    {
+      "questionText": "Which index types support geospatial queries?",
+      "options": [
+        "Text and unique",
+        "2d and 2dsphere indexes",
+        "Sparse and compound",
+        "Hashed and TTL"
+      ],
+      "correctAnswer": "2d and 2dsphere indexes",
+      "explanation": "Correct answer is B) 2d and 2dsphere indexes."
+    },
+    {
+      "questionText": "Which index type is used to search string data in a collection?",
+      "options": [
+        "Text index",
+        "TTL index",
+        "Hashed index",
+        "Geospatial index"
+      ],
+      "correctAnswer": "Text index",
+      "explanation": "Correct answer is A) Text index."
+    },
+    {
+      "questionText": "Which method is used to create an index in the course examples?",
+      "options": [
+        "addIndex()",
+        "makeIndex()",
+        "createIndex()",
+        "newIndex()"
+      ],
+      "correctAnswer": "createIndex()",
+      "explanation": "Correct answer is C) createIndex()."
+    },
+    {
+      "questionText": "How do you create an index on an embedded document field ISDN inside details?",
+      "options": [
+        "It is not possible",
+        "db.items.createIndex({ISDN.details: 1})",
+        "db.items.createIndex({details: ISDN})",
+        "db.items.createIndex({'details.ISDN': 1})"
+      ],
+      "correctAnswer": "db.items.createIndex({'details.ISDN': 1})",
+      "explanation": "Correct answer is D) db.items.createIndex({'details.ISDN': 1})."
+    },
+    {
+      "questionText": "For compound indexes, sort order is:",
+      "options": [
+        "Ignored by MongoDB",
+        "Only important for _id",
+        "Important, since it determines whether the index can support a sort operation",
+        "Never important"
+      ],
+      "correctAnswer": "Important, since it determines whether the index can support a sort operation",
+      "explanation": "Correct answer is C) Important, since it determines whether the index can support a sort operation."
+    },
+    {
+      "questionText": "A compound index contains:",
+      "options": [
+        "Multiple fields in a single index",
+        "Only the _id field",
+        "Only one field",
+        "Only text fields"
+      ],
+      "correctAnswer": "Multiple fields in a single index",
+      "explanation": "Correct answer is A) Multiple fields in a single index."
+    },
+    {
+      "questionText": "For the compound index {item: 1, available: 1, soldQty: 1}, an index prefix is:",
+      "options": [
+        "Any single field in the middle",
+        "Only the last field",
+        "Only the _id",
+        "A combination starting from the first field, such as {item}"
+      ],
+      "correctAnswer": "A combination starting from the first field, such as {item}",
+      "explanation": "Correct answer is D) A combination starting from the first field, such as {item}."
+    },
+    {
+      "questionText": "When sorted documents cannot be obtained from an index, the sort is performed:",
+      "options": [
+        "It cannot be performed",
+        "In memory",
+        "By the client",
+        "On disk automatically always"
+      ],
+      "correctAnswer": "In memory",
+      "explanation": "Correct answer is B) In memory."
+    },
+    {
+      "questionText": "A sort operation without an index fails after exhausting how much memory (per the course)?",
+      "options": [
+        "32 MB",
+        "4 MB",
+        "100 MB",
+        "16 MB"
+      ],
+      "correctAnswer": "32 MB",
+      "explanation": "Correct answer is A) 32 MB."
+    },
+    {
+      "questionText": "For a field holding an array, MongoDB creates:",
+      "options": [
+        "Separate index entries for each array element (multikey index)",
+        "Only one index entry for the whole array",
+        "No index",
+        "A text index"
+      ],
+      "correctAnswer": "Separate index entries for each array element (multikey index)",
+      "explanation": "Correct answer is A) Separate index entries for each array element (multikey index)."
+    },
+    {
+      "questionText": "Which of these cannot be a multikey index?",
+      "options": [
+        "An index on numbers array",
+        "A shard key index and a hashed index",
+        "A single field index on an array",
+        "An index on strings array"
+      ],
+      "correctAnswer": "A shard key index and a hashed index",
+      "explanation": "Correct answer is B) A shard key index and a hashed index."
+    },
+    {
+      "questionText": "A hashed shard key ensures:",
+      "options": [
+        "Slower data distribution",
+        "Data on a single shard",
+        "Even data distribution across shards",
+        "No sharding"
+      ],
+      "correctAnswer": "Even data distribution across shards",
+      "explanation": "Correct answer is C) Even data distribution across shards."
+    },
+    {
+      "questionText": "Which statement about hashed indexes is correct?",
+      "options": [
+        "They can only be used for text",
+        "You cannot create a unique or compound index on a hashed field",
+        "They must be unique",
+        "They support range queries"
+      ],
+      "correctAnswer": "You cannot create a unique or compound index on a hashed field",
+      "explanation": "Correct answer is B) You cannot create a unique or compound index on a hashed field."
+    },
+    {
+      "questionText": "What does TTL stand for in TTL indexes?",
+      "options": [
+        "Total Table Lock",
+        "Time To Live",
+        "Time To Load",
+        "Transaction Timeout Limit"
+      ],
+      "correctAnswer": "Time To Live",
+      "explanation": "Correct answer is B) Time To Live."
+    },
+    {
+      "questionText": "Which statement is true about TTL indexes?",
+      "options": [
+        "They never delete documents",
+        "They work on the _id field",
+        "They can be compound indexes",
+        "They cannot be created on a capped collection"
+      ],
+      "correctAnswer": "They cannot be created on a capped collection",
+      "explanation": "Correct answer is D) They cannot be created on a capped collection."
+    },
+    {
+      "questionText": "To change a non-TTL single-field index to a TTL index, you must:",
+      "options": [
+        "Restart the server",
+        "Drop the index and recreate it with expireAfterSeconds",
+        "Use createIndex to alter it in place",
+        "Rename the index"
+      ],
+      "correctAnswer": "Drop the index and recreate it with expireAfterSeconds",
+      "explanation": "Correct answer is B) Drop the index and recreate it with expireAfterSeconds."
+    },
+    {
+      "questionText": "Which is the correct syntax to create a unique index on name?",
+      "options": [
+        "db.collection.unique({name: 1})",
+        "db.collection.createIndex({name: 1}, {unique: true})",
+        "db.collection.createIndex({unique: true}, {name: 1})",
+        "db.collection.createUniqueIndex({name: 1})"
+      ],
+      "correctAnswer": "db.collection.createIndex({name: 1}, {unique: true})",
+      "explanation": "Correct answer is B) db.collection.createIndex({name: 1}, {unique: true})."
+    },
+    {
+      "questionText": "What happens when more than one document has a missing indexed field and the index is unique?",
+      "options": [
+        "The index build fails",
+        "The documents are deleted",
+        "The documents are merged",
+        "The index is built silently"
+      ],
+      "correctAnswer": "The index build fails",
+      "explanation": "Correct answer is A) The index build fails."
+    },
+    {
+      "questionText": "Which option creates a sparse index?",
+      "options": [
+        "{sparse: true}",
+        "{skip: true}",
+        "{ignore: true}",
+        "{partial: 1}"
+      ],
+      "correctAnswer": "{sparse: true}",
+      "explanation": "Correct answer is A) {sparse: true}."
+    },
+    {
+      "questionText": "MongoDB does not use a sparse index that would return an incomplete result unless:",
+      "options": [
+        "A unique index exists",
+        "The collection is empty",
+        "The server is restarted",
+        "It is specified with hint()"
+      ],
+      "correctAnswer": "It is specified with hint()",
+      "explanation": "Correct answer is D) It is specified with hint()."
+    },
+    {
+      "questionText": "Which wildcard specifier indexes all fields containing string content in a text index?",
+      "options": [
+        "$all",
+        "*",
+        "$**",
+        "%%"
+      ],
+      "correctAnswer": "$**",
+      "explanation": "Correct answer is C) $**."
+    },
+    {
+      "questionText": "Which option sets the default language for a text index?",
+      "options": [
+        "default_language",
+        "lang",
+        "text_language",
+        "language_default"
+      ],
+      "correctAnswer": "default_language",
+      "explanation": "Correct answer is A) default_language."
+    },
+    {
+      "questionText": "By default, what is the value of the 'background' option when building indexes in MongoDB?",
+      "options": [
+        "true",
+        "auto",
+        "false",
+        "null"
+      ],
+      "correctAnswer": "false",
+      "explanation": "Correct answer is C) false."
+    },
+    {
+      "questionText": "What happens during a foreground index build?",
+      "options": [
+        "Nothing, the database remains fully available",
+        "The database is deleted",
+        "The index builds instantly",
+        "Operations on the database are blocked"
+      ],
+      "correctAnswer": "Operations on the database are blocked",
+      "explanation": "Correct answer is D) Operations on the database are blocked."
+    },
+    {
+      "questionText": "A background index build compared with a foreground build is:",
+      "options": [
+        "Blocking",
+        "Instant",
+        "Slower and uses an incremental approach",
+        "Faster"
+      ],
+      "correctAnswer": "Slower and uses an incremental approach",
+      "explanation": "Correct answer is C) Slower and uses an incremental approach."
+    },
+    {
+      "questionText": "Which method removes a specific index?",
+      "options": [
+        "deleteIndex()",
+        "clearIndex()",
+        "removeIndex()",
+        "dropIndex()"
+      ],
+      "correctAnswer": "dropIndex()",
+      "explanation": "Correct answer is D) dropIndex()."
+    },
+    {
+      "questionText": "Which method removes all indexes except _id?",
+      "options": [
+        "dropIndex()",
+        "removeAll()",
+        "dropIndexes()",
+        "clearIndexes()"
+      ],
+      "correctAnswer": "dropIndexes()",
+      "explanation": "Correct answer is C) dropIndexes()."
+    },
+    {
+      "questionText": "Which method drops all indexes including _id and rebuilds them?",
+      "options": [
+        "dropIndexes()",
+        "reIndex()",
+        "createIndex()",
+        "rebuildIndex()"
+      ],
+      "correctAnswer": "reIndex()",
+      "explanation": "Correct answer is B) reIndex()."
+    },
+    {
+      "questionText": "Which shell command aborts an ongoing index build?",
+      "options": [
+        "db.killOp()",
+        "db.stop()",
+        "db.currentOp()",
+        "db.abort()"
+      ],
+      "correctAnswer": "db.killOp()",
+      "explanation": "Correct answer is A) db.killOp()."
+    },
+    {
+      "questionText": "Which method forces MongoDB to use a particular index?",
+      "options": [
+        "sort()",
+        "limit()",
+        "explain()",
+        "hint()"
+      ],
+      "correctAnswer": "hint()",
+      "explanation": "Correct answer is D) hint()."
+    },
+    {
+      "questionText": "Which operator in hint() prevents MongoDB from using any index?",
+      "options": [
+        "$none",
+        "$noindex",
+        "$skip",
+        "$natural"
+      ],
+      "correctAnswer": "$natural",
+      "explanation": "Correct answer is D) $natural."
+    },
+    {
+      "questionText": "In serverStatus index metrics, 'scanAndOrder' is true when:",
+      "options": [
+        "A query cannot use the order of documents in the index for sorted results",
+        "The index is sparse",
+        "The index is unique",
+        "The index is hashed"
+      ],
+      "correctAnswer": "A query cannot use the order of documents in the index for sorted results",
+      "explanation": "Correct answer is A) A query cannot use the order of documents in the index for sorted results."
+    },
+    {
+      "questionText": "Which command reports the total number of indexes across all collections in a database?",
+      "options": [
+        "ping",
+        "serverStatus",
+        "collStats",
+        "dbStats"
+      ],
+      "correctAnswer": "dbStats",
+      "explanation": "Correct answer is D) dbStats."
+    },
+    {
+      "questionText": "Geospatial indexes are created by passing which values to createIndex()?",
+      "options": [
+        "1 or -1",
+        "'2d' or '2dsphere'",
+        "'geo' or 'map'",
+        "'sphere' or 'flat'"
+      ],
+      "correctAnswer": "'2d' or '2dsphere'",
+      "explanation": "Correct answer is B) '2d' or '2dsphere'."
+    },
+    {
+      "questionText": "Which operator returns locations within a specified polygon?",
+      "options": [
+        "$near",
+        "$geoIntersects",
+        "$text",
+        "$geoWithin"
+      ],
+      "correctAnswer": "$geoWithin",
+      "explanation": "Correct answer is D) $geoWithin."
+    },
+    {
+      "questionText": "Which operator returns points closest to a specified point?",
+      "options": [
+        "$mod",
+        "$near",
+        "$geoWithin",
+        "$geoIntersects"
+      ],
+      "correctAnswer": "$near",
+      "explanation": "Correct answer is B) $near."
+    },
+    {
+      "questionText": "Aggregation operations process data records and:",
+      "options": [
+        "Only create indexes",
+        "Return computed results",
+        "Only delete documents",
+        "Only back up data"
+      ],
+      "correctAnswer": "Return computed results",
+      "explanation": "Correct answer is B) Return computed results."
+    },
+    {
+      "questionText": "The MongoDB aggregation framework is based on:",
+      "options": [
+        "Data processing pipelines",
+        "Triggers",
+        "Cursors only",
+        "Stored procedures"
+      ],
+      "correctAnswer": "Data processing pipelines",
+      "explanation": "Correct answer is A) Data processing pipelines."
+    },
+    {
+      "questionText": "Which pipeline stage groups documents by an identifier expression and applies accumulators?",
+      "options": [
+        "$group",
+        "$sort",
+        "$skip",
+        "$match"
+      ],
+      "correctAnswer": "$group",
+      "explanation": "Correct answer is A) $group."
+    },
+    {
+      "questionText": "Which pipeline stage rearranges the document stream using sort keys?",
+      "options": [
+        "$sort",
+        "$skip",
+        "$match",
+        "$limit"
+      ],
+      "correctAnswer": "$sort",
+      "explanation": "Correct answer is A) $sort."
+    },
+    {
+      "questionText": "Which pipeline stage skips the first n documents?",
+      "options": [
+        "$limit",
+        "$sort",
+        "$skip",
+        "$group"
+      ],
+      "correctAnswer": "$skip",
+      "explanation": "Correct answer is C) $skip."
+    },
+    {
+      "questionText": "Which pipeline stage deconstructs an array field to output a document per element?",
+      "options": [
+        "$unwind",
+        "$project",
+        "$match",
+        "$group"
+      ],
+      "correctAnswer": "$unwind",
+      "explanation": "Correct answer is A) $unwind."
+    },
+    {
+      "questionText": "In the aggregation { $group: {_id: '$cust_id', total: {$sum: '$amount'}} }, what is calculated?",
+      "options": [
+        "Number of customers",
+        "Maximum amount",
+        "Total amount for each customer",
+        "Average of amount"
+      ],
+      "correctAnswer": "Total amount for each customer",
+      "explanation": "Correct answer is C) Total amount for each customer."
+    },
+    {
+      "questionText": "MapReduce functions in MongoDB are written in:",
+      "options": [
+        "SQL",
+        "Java only",
+        "Python",
+        "JavaScript"
+      ],
+      "correctAnswer": "JavaScript",
+      "explanation": "Correct answer is D) JavaScript."
+    },
+    {
+      "questionText": "In MapReduce, the emit() function is used to:",
+      "options": [
+        "Create an index",
+        "Delete a key",
+        "Associate a value with a key in the map function",
+        "Sort the result"
+      ],
+      "correctAnswer": "Associate a value with a key in the map function",
+      "explanation": "Correct answer is C) Associate a value with a key in the map function."
+    },
+    {
+      "questionText": "Which method returns the number of documents in a collection?",
+      "options": [
+        "size()",
+        "distinct()",
+        "count()",
+        "group()"
+      ],
+      "correctAnswer": "count()",
+      "explanation": "Correct answer is C) count()."
+    },
+    {
+      "questionText": "In the case study of population analysis, which feature funnels data down at the database level?",
+      "options": [
+        "mongostat",
+        "mongodump",
+        "The aggregation framework",
+        "mongosniff"
+      ],
+      "correctAnswer": "The aggregation framework",
+      "explanation": "Correct answer is C) The aggregation framework."
+    }
+  ]
+}

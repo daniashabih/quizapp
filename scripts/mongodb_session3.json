@@ -1,0 +1,558 @@
+{
+  "category": "MongoDB",
+  "session": 3,
+  "title": "Session 3: CRUD Operations in MongoDB",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "What does CRUD stand for?",
+      "options": [
+        "Create, Replicate, Upload, Delete",
+        "Connect, Read, Use, Disconnect",
+        "Create, Read, Update, Delete",
+        "Copy, Run, Update, Drop"
+      ],
+      "correctAnswer": "Create, Read, Update, Delete",
+      "explanation": "Correct answer is C) Create, Read, Update, Delete."
+    },
+    {
+      "questionText": "Data modification operations in MongoDB modify data of how many collections at a time?",
+      "options": [
+        "A single collection",
+        "All collections in the database",
+        "All databases",
+        "Two collections"
+      ],
+      "correctAnswer": "A single collection",
+      "explanation": "Correct answer is A) A single collection."
+    },
+    {
+      "questionText": "A batch insert allows you to:",
+      "options": [
+        "Update one document only",
+        "Create indexes",
+        "Store multiple documents in a database at one time",
+        "Delete many documents"
+      ],
+      "correctAnswer": "Store multiple documents in a database at one time",
+      "explanation": "Correct answer is C) Store multiple documents in a database at one time."
+    },
+    {
+      "questionText": "Why are batch inserts faster?",
+      "options": [
+        "They compress the network",
+        "They disable indexes",
+        "They skip writing data",
+        "They eliminate much of the header processing activity"
+      ],
+      "correctAnswer": "They eliminate much of the header processing activity",
+      "explanation": "Correct answer is D) They eliminate much of the header processing activity."
+    },
+    {
+      "questionText": "What is the size limit of a single batch insert (as stated in the course)?",
+      "options": [
+        "4 MB",
+        "16 MB",
+        "64 MB",
+        "1 MB"
+      ],
+      "correctAnswer": "16 MB",
+      "explanation": "Correct answer is B) 16 MB."
+    },
+    {
+      "questionText": "What is the maximum number of operations in each group of an ordered bulk operation?",
+      "options": [
+        "10000",
+        "1000",
+        "100",
+        "500"
+      ],
+      "correctAnswer": "1000",
+      "explanation": "Correct answer is B) 1000."
+    },
+    {
+      "questionText": "When a bulk group exceeds 1000 operations, MongoDB:",
+      "options": [
+        "Rejects all operations",
+        "Deletes the extra operations",
+        "Divides it into smaller groups of 1000 or fewer",
+        "Doubles the group size"
+      ],
+      "correctAnswer": "Divides it into smaller groups of 1000 or fewer",
+      "explanation": "Correct answer is C) Divides it into smaller groups of 1000 or fewer."
+    },
+    {
+      "questionText": "Which shell helper initializes an unordered bulk operation?",
+      "options": [
+        "initializeOrderedBulkOp()",
+        "bulk.start()",
+        "newBulkInsert()",
+        "initializeUnorderedBulkOp()"
+      ],
+      "correctAnswer": "initializeUnorderedBulkOp()",
+      "explanation": "Correct answer is D) initializeUnorderedBulkOp()."
+    },
+    {
+      "questionText": "Which method executes the queued bulk operations?",
+      "options": [
+        "bulk.send()",
+        "bulk.execute()",
+        "bulk.commit()",
+        "bulk.run()"
+      ],
+      "correctAnswer": "bulk.execute()",
+      "explanation": "Correct answer is B) bulk.execute()."
+    },
+    {
+      "questionText": "In an unordered bulk operation, MongoDB:",
+      "options": [
+        "Runs only on a single thread",
+        "Never reorders anything",
+        "Rejects groups over 10",
+        "Groups and reorders operations for enhanced performance"
+      ],
+      "correctAnswer": "Groups and reorders operations for enhanced performance",
+      "explanation": "Correct answer is D) Groups and reorders operations for enhanced performance."
+    },
+    {
+      "questionText": "During an insert, the database checks for the '_id' key and confirms that the document does not exceed:",
+      "options": [
+        "16 MB",
+        "4 MB",
+        "100 MB",
+        "1 MB"
+      ],
+      "correctAnswer": "16 MB",
+      "explanation": "Correct answer is A) 16 MB."
+    },
+    {
+      "questionText": "MongoDB is not vulnerable to traditional injection attacks on inserts because:",
+      "options": [
+        "It encrypts every field",
+        "It blocks all network traffic",
+        "It only supports read operations",
+        "It does not perform any code execution on inserts"
+      ],
+      "correctAnswer": "It does not perform any code execution on inserts",
+      "explanation": "Correct answer is D) It does not perform any code execution on inserts."
+    },
+    {
+      "questionText": "Which method retrieves documents from a collection?",
+      "options": [
+        "drop()",
+        "find()",
+        "remove()",
+        "insert()"
+      ],
+      "correctAnswer": "find()",
+      "explanation": "Correct answer is B) find()."
+    },
+    {
+      "questionText": "Which method formats find() output in a readable way?",
+      "options": [
+        "beautify()",
+        "format()",
+        "pretty()",
+        "print()"
+      ],
+      "correctAnswer": "pretty()",
+      "explanation": "Correct answer is C) pretty()."
+    },
+    {
+      "questionText": "What does an empty query document {} do in find()?",
+      "options": [
+        "Raises an error",
+        "Deletes all documents",
+        "Selects all documents in the collection",
+        "Selects no documents"
+      ],
+      "correctAnswer": "Selects all documents in the collection",
+      "explanation": "Correct answer is C) Selects all documents in the collection."
+    },
+    {
+      "questionText": "What does a projection in a MongoDB query define?",
+      "options": [
+        "The fields to return from the matching documents",
+        "The sort order",
+        "The shard key",
+        "The index to use"
+      ],
+      "correctAnswer": "The fields to return from the matching documents",
+      "explanation": "Correct answer is A) The fields to return from the matching documents."
+    },
+    {
+      "questionText": "Which operator matches any of a variety of values for a single key?",
+      "options": [
+        "$where",
+        "$in",
+        "$slice",
+        "$not"
+      ],
+      "correctAnswer": "$in",
+      "explanation": "Correct answer is B) $in."
+    },
+    {
+      "questionText": "MongoDB recommends using which operator instead of $or when performing equality checks on the same field?",
+      "options": [
+        "$and",
+        "$nin",
+        "$in",
+        "$mod"
+      ],
+      "correctAnswer": "$in",
+      "explanation": "Correct answer is C) $in."
+    },
+    {
+      "questionText": "In db.items.find({soldQty: {$lt: 900}}), what does $lt mean?",
+      "options": [
+        "Less than",
+        "Greater than",
+        "Less than or equal",
+        "Equal to"
+      ],
+      "correctAnswer": "Less than",
+      "explanation": "Correct answer is A) Less than."
+    },
+    {
+      "questionText": "In MongoDB, what does $gt mean?",
+      "options": [
+        "Less than",
+        "Greater than or equal",
+        "Not equal",
+        "Greater than"
+      ],
+      "correctAnswer": "Greater than",
+      "explanation": "Correct answer is D) Greater than."
+    },
+    {
+      "questionText": "What does the $mod operator do?",
+      "options": [
+        "Modifies a document",
+        "Matches values whose remainder after division by the first value equals the second value",
+        "Mods a collection",
+        "Multiplies fields"
+      ],
+      "correctAnswer": "Matches values whose remainder after division by the first value equals the second value",
+      "explanation": "Correct answer is B) Matches values whose remainder after division by the first value equals the second value."
+    },
+    {
+      "questionText": "In a query on an array field, {country_codes: 5} matches documents where:",
+      "options": [
+        "The array is empty",
+        "The array is sorted",
+        "The array contains 5 as at least one element",
+        "The array has exactly five elements"
+      ],
+      "correctAnswer": "The array contains 5 as at least one element",
+      "explanation": "Correct answer is C) The array contains 5 as at least one element."
+    },
+    {
+      "questionText": "Which query accesses the first element of the array country_codes using dot notation?",
+      "options": [
+        "{ 'country_codes@0': 1 }",
+        "{ 'country_codes[0]': 1 }",
+        "{ country_codes.first: 1 }",
+        "{ 'country_codes.0': 1 }"
+      ],
+      "correctAnswer": "{ 'country_codes.0': 1 }",
+      "explanation": "Correct answer is D) { 'country_codes.0': 1 }."
+    },
+    {
+      "questionText": "Which operator returns a subset of array elements, such as the first two?",
+      "options": [
+        "$slice",
+        "$mod",
+        "$elemMatch",
+        "$where"
+      ],
+      "correctAnswer": "$slice",
+      "explanation": "Correct answer is A) $slice."
+    },
+    {
+      "questionText": "Which operator matches documents whose array has an element satisfying multiple conditions?",
+      "options": [
+        "$elemMatch",
+        "$slice",
+        "$not",
+        "$where"
+      ],
+      "correctAnswer": "$elemMatch",
+      "explanation": "Correct answer is A) $elemMatch."
+    },
+    {
+      "questionText": "$where can be used to:",
+      "options": [
+        "Create an index",
+        "Back up the database",
+        "Shard a collection",
+        "Compare the values of two keys in a document"
+      ],
+      "correctAnswer": "Compare the values of two keys in a document",
+      "explanation": "Correct answer is D) Compare the values of two keys in a document."
+    },
+    {
+      "questionText": "Which cursor method checks if more results are available?",
+      "options": [
+        "next()",
+        "hasNext()",
+        "hasMore()",
+        "moreData()"
+      ],
+      "correctAnswer": "hasNext()",
+      "explanation": "Correct answer is B) hasNext()."
+    },
+    {
+      "questionText": "How does the shell fetch results of a query initially?",
+      "options": [
+        "The first 10 MB",
+        "Only 1 result",
+        "The first 100 results or the first 4 MB",
+        "All results at once"
+      ],
+      "correctAnswer": "The first 100 results or the first 4 MB",
+      "explanation": "Correct answer is C) The first 100 results or the first 4 MB."
+    },
+    {
+      "questionText": "Which cursor option skips the first n results?",
+      "options": [
+        "skip()",
+        "limit()",
+        "sort()",
+        "explain()"
+      ],
+      "correctAnswer": "skip()",
+      "explanation": "Correct answer is A) skip()."
+    },
+    {
+      "questionText": "In sort({username: 1, age: -1}), what does -1 mean?",
+      "options": [
+        "Sort in descending order",
+        "Sort in ascending order",
+        "Ignore the field",
+        "Remove the field"
+      ],
+      "correctAnswer": "Sort in descending order",
+      "explanation": "Correct answer is A) Sort in descending order."
+    },
+    {
+      "questionText": "To display the next page of 25 results, which cursor method is added?",
+      "options": [
+        "limit(50)",
+        "explain(25)",
+        "hint(25)",
+        "skip(25)"
+      ],
+      "correctAnswer": "skip(25)",
+      "explanation": "Correct answer is D) skip(25)."
+    },
+    {
+      "questionText": "How can pagination avoid skip?",
+      "options": [
+        "By increasing the limit",
+        "By using drop()",
+        "By deleting earlier documents",
+        "By querying with a range condition on the last seen sort key, such as date"
+      ],
+      "correctAnswer": "By querying with a range condition on the last seen sort key, such as date",
+      "explanation": "Correct answer is D) By querying with a range condition on the last seen sort key, such as date."
+    },
+    {
+      "questionText": "Which advanced query option tells the server which index to use?",
+      "options": [
+        "$snapshot",
+        "$maxScan",
+        "$hint",
+        "$explain"
+      ],
+      "correctAnswer": "$hint",
+      "explanation": "Correct answer is C) $hint."
+    },
+    {
+      "questionText": "Which advanced query option specifies the maximum number of documents scanned for a query?",
+      "options": [
+        "$hint",
+        "$maxScan",
+        "$explain",
+        "$snapshot"
+      ],
+      "correctAnswer": "$maxScan",
+      "explanation": "Correct answer is B) $maxScan."
+    },
+    {
+      "questionText": "Which method modifies existing documents in a collection?",
+      "options": [
+        "update()",
+        "find()",
+        "drop()",
+        "insert()"
+      ],
+      "correctAnswer": "update()",
+      "explanation": "Correct answer is A) update()."
+    },
+    {
+      "questionText": "The update() method takes which parameters?",
+      "options": [
+        "An update condition, an update operation, and an options document",
+        "Only a cursor",
+        "Only a collection name",
+        "Only a sort order"
+      ],
+      "correctAnswer": "An update condition, an update operation, and an options document",
+      "explanation": "Correct answer is A) An update condition, an update operation, and an options document."
+    },
+    {
+      "questionText": "Operations performed by an update are atomic within:",
+      "options": [
+        "A single document",
+        "A whole cluster",
+        "A whole database",
+        "A whole collection"
+      ],
+      "correctAnswer": "A single document",
+      "explanation": "Correct answer is A) A single document."
+    },
+    {
+      "questionText": "Which update operator changes the value of a field?",
+      "options": [
+        "$push",
+        "$unset",
+        "$set",
+        "$inc"
+      ],
+      "correctAnswer": "$set",
+      "explanation": "Correct answer is C) $set."
+    },
+    {
+      "questionText": "Which update operator increments or decrements numbers?",
+      "options": [
+        "$inc",
+        "$pull",
+        "$push",
+        "$set"
+      ],
+      "correctAnswer": "$inc",
+      "explanation": "Correct answer is A) $inc."
+    },
+    {
+      "questionText": "Which update operator removes a field from a document?",
+      "options": [
+        "$inc",
+        "$unset",
+        "$set",
+        "$push"
+      ],
+      "correctAnswer": "$unset",
+      "explanation": "Correct answer is B) $unset."
+    },
+    {
+      "questionText": "Which update operator adds an element to an array field?",
+      "options": [
+        "$unset",
+        "$push",
+        "$set",
+        "$inc"
+      ],
+      "correctAnswer": "$push",
+      "explanation": "Correct answer is B) $push."
+    },
+    {
+      "questionText": "Which update operator adds an element to an array only if it is not already present?",
+      "options": [
+        "$push",
+        "$addToSet",
+        "$set",
+        "$inc"
+      ],
+      "correctAnswer": "$addToSet",
+      "explanation": "Correct answer is B) $addToSet."
+    },
+    {
+      "questionText": "What does the positional operator $ do in an update?",
+      "options": [
+        "Deletes the array",
+        "Updates the array element that matched the query document",
+        "Creates an index",
+        "Sorts the array"
+      ],
+      "correctAnswer": "Updates the array element that matched the query document",
+      "explanation": "Correct answer is B) Updates the array element that matched the query document."
+    },
+    {
+      "questionText": "Which command increments votes for the first comment of a blog post using position?",
+      "options": [
+        "{$set: {'comments.votes': 1}}",
+        "{$push: {'comments.0': 1}}",
+        "{$inc: {'comments.0.votes': 1}}",
+        "{$inc: {'comments[first].votes': 1}}"
+      ],
+      "correctAnswer": "{$inc: {'comments.0.votes': 1}}",
+      "explanation": "Correct answer is C) {$inc: {'comments.0.votes': 1}}."
+    },
+    {
+      "questionText": "How is an upsert enabled in the update() method?",
+      "options": [
+        "Using the option {upsert: true}",
+        "Using {insert: true}",
+        "Using {replace: true}",
+        "Using {multi: true}"
+      ],
+      "correctAnswer": "Using the option {upsert: true}",
+      "explanation": "Correct answer is A) Using the option {upsert: true}."
+    },
+    {
+      "questionText": "Which statement is true about an upsert?",
+      "options": [
+        "It always inserts a duplicate",
+        "It updates a matching document or inserts a new one if none matches",
+        "It always deletes",
+        "It requires a unique index"
+      ],
+      "correctAnswer": "It updates a matching document or inserts a new one if none matches",
+      "explanation": "Correct answer is B) It updates a matching document or inserts a new one if none matches."
+    },
+    {
+      "questionText": "Which method removes documents from a collection?",
+      "options": [
+        "find()",
+        "update()",
+        "remove()",
+        "insert()"
+      ],
+      "correctAnswer": "remove()",
+      "explanation": "Correct answer is C) remove()."
+    },
+    {
+      "questionText": "Which call removes a single document where item is 'Bag'?",
+      "options": [
+        "db.items.delete({item: 'Bag'})",
+        "db.items.drop({item: 'Bag'})",
+        "db.items.remove(1)",
+        "db.items.remove({item: 'Bag'}, 1)"
+      ],
+      "correctAnswer": "db.items.remove({item: 'Bag'}, 1)",
+      "explanation": "Correct answer is D) db.items.remove({item: 'Bag'}, 1)."
+    },
+    {
+      "questionText": "Which method deletes the entire collection, including its indexes?",
+      "options": [
+        "truncate()",
+        "remove({})",
+        "clear()",
+        "drop()"
+      ],
+      "correctAnswer": "drop()",
+      "explanation": "Correct answer is D) drop()."
+    },
+    {
+      "questionText": "In the HR case study, bulk insert was used because:",
+      "options": [
+        "It skips validation",
+        "Bulk insert is the only way to insert data",
+        "It deletes old data",
+        "The data was huge and bulk insert gives better performance"
+      ],
+      "correctAnswer": "The data was huge and bulk insert gives better performance",
+      "explanation": "Correct answer is D) The data was huge and bulk insert gives better performance."
+    }
+  ]
+}

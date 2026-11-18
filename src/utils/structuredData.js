@@ -252,6 +252,19 @@ export function buildWebPageSchema({
     return schema;
 }
 
+function normalizeImageUrl(imageUrl) {
+    if (!imageUrl || typeof imageUrl !== 'string') return LOGO_URL;
+    const trimmed = imageUrl.trim();
+    if (!trimmed) return LOGO_URL;
+    if (trimmed.startsWith('https://') || trimmed.startsWith('http://')) {
+        return trimmed;
+    }
+    if (trimmed.startsWith('/')) {
+        return `${SITE_URL}${trimmed}`;
+    }
+    return `${SITE_URL}/${trimmed}`;
+}
+
 /**
  * 5. Article Schema strictly for genuine blog articles
  * Returns null if required genuine article fields (headline, datePublished) are absent.
@@ -266,20 +279,27 @@ export function buildArticleSchema(article = {}) {
     }
 
     const pageUrl = normalizeCanonicalUrl(article.url || article.canonicalPath || '/');
+    const resolvedImages = Array.isArray(article.image)
+        ? article.image.filter(Boolean).map(normalizeImageUrl)
+        : [normalizeImageUrl(article.image)];
+
     const schema = {
         '@type': 'Article',
         '@id': `${pageUrl}#article`,
+        url: pageUrl,
         mainEntityOfPage: {
             '@id': `${pageUrl}#webpage`
         },
         headline,
         description: article.description || headline,
-        image: Array.isArray(article.image) ? article.image : [article.image || LOGO_URL],
+        image: resolvedImages.length > 0 ? resolvedImages : [LOGO_URL],
         datePublished,
+        dateModified: article.dateModified || datePublished,
         author: article.authorName
             ? {
                   '@type': article.authorType || 'Person',
-                  name: article.authorName
+                  name: article.authorName,
+                  url: article.authorUrl || SITE_HOME_URL
               }
             : {
                   '@id': `${SITE_URL}/#organization`
@@ -290,11 +310,14 @@ export function buildArticleSchema(article = {}) {
         inLanguage: 'en'
     };
 
-    if (article.dateModified) {
-        schema.dateModified = article.dateModified;
-    }
     if (article.articleSection) {
         schema.articleSection = article.articleSection;
+    }
+    if (article.keywords) {
+        schema.keywords = Array.isArray(article.keywords) ? article.keywords.join(', ') : article.keywords;
+    }
+    if (typeof article.wordCount === 'number' && article.wordCount > 0) {
+        schema.wordCount = article.wordCount;
     }
     if (article.articleBody) {
         schema.articleBody = article.articleBody;
@@ -746,6 +769,12 @@ export function validateStructuredData(jsonLd) {
         if (node['@type'] === 'Article') {
             if (!node.headline || !node.datePublished) {
                 errors.push('Article schema requires headline and datePublished.');
+            }
+            if (!node.author) {
+                errors.push('Article schema requires an author.');
+            }
+            if (!node.publisher) {
+                errors.push('Article schema requires a publisher.');
             }
         }
 

@@ -20,6 +20,14 @@ const CATEGORY_NAME = quizData.category || 'PHP, XML JSON, Laravel, MySQL, JavaS
 const SESSION_NUMBER = quizData.session || 1;
 const questions = quizData.questions;
 
+function normalizeQuestionKey(text) {
+    return String(text || '')
+        .trim()
+        .toLowerCase()
+        .replace(/_+/g, '_')
+        .replace(/\s+/g, ' ');
+}
+
 async function seed() {
     if (!prisma) {
         console.error('Prisma client unavailable. Use sync script to sync to live server.');
@@ -48,44 +56,58 @@ async function seed() {
         }
 
         const effectiveCategoryName = category.name;
+        const allExisting = await prisma.question.findMany({
+            where: { category: effectiveCategoryName }
+        });
+        const existingByKey = new Map();
+        for (const row of allExisting) {
+            const key = normalizeQuestionKey(row.questionText);
+            if (!existingByKey.has(key)) {
+                existingByKey.set(key, row);
+            }
+        }
 
-        // Step 2: Insert / Upsert Questions
+        // Step 2: Insert / Upsert / Move Questions into Session 1
         let inserted = 0;
         let updated = 0;
+        let moved = 0;
 
         for (let i = 0; i < questions.length; i++) {
             const q = questions[i];
-            const existing = await prisma.question.findFirst({
-                where: {
-                    category: effectiveCategoryName,
-                    session: SESSION_NUMBER,
-                    questionText: q.questionText
-                }
-            });
+            const key = normalizeQuestionKey(q.questionText);
+            const existing = existingByKey.get(key);
 
             if (!existing) {
-                await prisma.question.create({
+                const created = await prisma.question.create({
                     data: {
                         category: effectiveCategoryName,
                         session: SESSION_NUMBER,
                         questionText: q.questionText,
                         options: JSON.stringify(q.options),
-                        correctAnswer: q.correctAnswer
+                        correctAnswer: q.correctAnswer,
+                        explanation: q.explanation || ''
                     }
                 });
+                existingByKey.set(key, created);
                 console.log(`  [${i + 1}/${questions.length}] ➕ Inserted: "${q.questionText.substring(0, 50)}..."`);
                 inserted++;
             } else {
+                const wasDifferentSession = (existing.session || 1) !== SESSION_NUMBER;
                 await prisma.question.update({
                     where: { id: existing.id },
                     data: {
                         options: JSON.stringify(q.options),
                         correctAnswer: q.correctAnswer,
+                        explanation: q.explanation || existing.explanation || '',
                         session: SESSION_NUMBER
                     }
                 });
-                console.log(`  [${i + 1}/${questions.length}] 🔄 Updated: "${q.questionText.substring(0, 50)}..."`);
-                updated++;
+                if (wasDifferentSession) {
+                    console.log(`  [${i + 1}/${questions.length}] 🔄 Moved from Session ${existing.session || 1} -> Session ${SESSION_NUMBER}: "${q.questionText.substring(0, 45)}..."`);
+                    moved++;
+                } else {
+                    updated++;
+                }
             }
         }
 
@@ -101,6 +123,7 @@ async function seed() {
         console.log(`   - Track: "${effectiveCategoryName}"`);
         console.log(`   - Session: ${SESSION_NUMBER}`);
         console.log(`   - Newly Inserted: ${inserted}`);
+        console.log(`   - Moved to Session ${SESSION_NUMBER}: ${moved}`);
         console.log(`   - Updated Existing: ${updated}`);
         console.log(`   - Total Session ${SESSION_NUMBER} Questions in DB: ${totalCount}`);
         console.log('================================================================\n');
@@ -119,4 +142,4 @@ if (require.main === module) {
     seed();
 }
 
-module.exports = { questions, CATEGORY_NAME, SESSION_NUMBER, seed };
+module.exports = { questions, CATEGORY_NAME, SESSION_NUMBER, normalizeQuestionKey, seed };

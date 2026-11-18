@@ -1,0 +1,558 @@
+{
+  "category": "MongoDB",
+  "session": 6,
+  "title": "Session 6: Developing Java and Node JS Applications with MongoDB",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "What is a capped collection?",
+      "options": [
+        "A collection that cannot be queried",
+        "A collection of only indexes",
+        "A collection with no size limit",
+        "A collection with a predefined size that supports insert and retrieve operations"
+      ],
+      "correctAnswer": "A collection with a predefined size that supports insert and retrieve operations",
+      "explanation": "Correct answer is D) A collection with a predefined size that supports insert and retrieve operations."
+    },
+    {
+      "questionText": "Capped collections function like:",
+      "options": [
+        "Hash tables",
+        "Binary trees",
+        "Circular buffers",
+        "Stacks with no limit"
+      ],
+      "correctAnswer": "Circular buffers",
+      "explanation": "Correct answer is C) Circular buffers."
+    },
+    {
+      "questionText": "Capped collections preserve:",
+      "options": [
+        "Random order",
+        "Alphabetical order only",
+        "Reverse order only",
+        "Insertion order"
+      ],
+      "correctAnswer": "Insertion order",
+      "explanation": "Correct answer is D) Insertion order."
+    },
+    {
+      "questionText": "What happens to the oldest documents in a full capped collection?",
+      "options": [
+        "They are automatically deleted to make room for new ones",
+        "New inserts are rejected",
+        "They are moved to another collection",
+        "They are archived to GridFS"
+      ],
+      "correctAnswer": "They are automatically deleted to make room for new ones",
+      "explanation": "Correct answer is A) They are automatically deleted to make room for new ones."
+    },
+    {
+      "questionText": "Which method creates a capped collection?",
+      "options": [
+        "db.createCollection('serverlog', {capped: true, size: 100000})",
+        "db.capped('serverlog', 100000)",
+        "db.createCapped('serverlog')",
+        "db.cappedCollection('serverlog', size: 100000)"
+      ],
+      "correctAnswer": "db.createCollection('serverlog', {capped: true, size: 100000})",
+      "explanation": "Correct answer is A) db.createCollection('serverlog', {capped: true, size: 100000})."
+    },
+    {
+      "questionText": "What must be specified when creating a capped collection?",
+      "options": [
+        "The replica set name",
+        "The maximum size in bytes",
+        "The index name",
+        "The shard key"
+      ],
+      "correctAnswer": "The maximum size in bytes",
+      "explanation": "Correct answer is B) The maximum size in bytes."
+    },
+    {
+      "questionText": "If the specified size of a capped collection is 4096 bytes or less, the collection has a cap of:",
+      "options": [
+        "256 bytes",
+        "8192 bytes",
+        "1024 bytes",
+        "4096 bytes"
+      ],
+      "correctAnswer": "4096 bytes",
+      "explanation": "Correct answer is D) 4096 bytes."
+    },
+    {
+      "questionText": "Which field specifies the maximum number of documents in a capped collection?",
+      "options": [
+        "limit",
+        "count",
+        "docs",
+        "max"
+      ],
+      "correctAnswer": "max",
+      "explanation": "Correct answer is D) max."
+    },
+    {
+      "questionText": "How do you retrieve documents from a capped collection in reverse insertion order?",
+      "options": [
+        "find().sort({_id: 1})",
+        "find().sort({$natural: 1})",
+        "find().reverse()",
+        "find().sort({$natural: -1})"
+      ],
+      "correctAnswer": "find().sort({$natural: -1})",
+      "explanation": "Correct answer is D) find().sort({$natural: -1})."
+    },
+    {
+      "questionText": "Which method checks whether a collection is capped?",
+      "options": [
+        "isLimited()",
+        "isCapped()",
+        "getCapped()",
+        "checkCapped()"
+      ],
+      "correctAnswer": "isCapped()",
+      "explanation": "Correct answer is B) isCapped()."
+    },
+    {
+      "questionText": "When updating documents in a capped collection, only which type of update is allowed?",
+      "options": [
+        "No updates at all",
+        "Only deletes",
+        "Updates that grow the document",
+        "In-place updates that do not increase the document size"
+      ],
+      "correctAnswer": "In-place updates that do not increase the document size",
+      "explanation": "Correct answer is D) In-place updates that do not increase the document size."
+    },
+    {
+      "questionText": "What happens if an update to a capped collection increases the document size?",
+      "options": [
+        "The collection is converted",
+        "The size cap is increased",
+        "The operation fails",
+        "The document is moved"
+      ],
+      "correctAnswer": "The operation fails",
+      "explanation": "Correct answer is C) The operation fails."
+    },
+    {
+      "questionText": "Which error can a secondary raise on capped collection updates that grow objects?",
+      "options": [
+        "objects in a capped ns cannot grow",
+        "capped collection is full",
+        "write concern error",
+        "index not found"
+      ],
+      "correctAnswer": "objects in a capped ns cannot grow",
+      "explanation": "Correct answer is A) objects in a capped ns cannot grow."
+    },
+    {
+      "questionText": "Which index type can expire data from a normal collection after a given time?",
+      "options": [
+        "Geospatial index",
+        "TTL index",
+        "Hashed index",
+        "Text index"
+      ],
+      "correctAnswer": "TTL index",
+      "explanation": "Correct answer is B) TTL index."
+    },
+    {
+      "questionText": "mongod automatically removes TTL data:",
+      "options": [
+        "Only when the server restarts",
+        "Only manually",
+        "Never",
+        "After a specified duration in seconds or at a specific clock time"
+      ],
+      "correctAnswer": "After a specified duration in seconds or at a specific clock time",
+      "explanation": "Correct answer is D) After a specified duration in seconds or at a specific clock time."
+    },
+    {
+      "questionText": "What is GridFS?",
+      "options": [
+        "A sharding algorithm",
+        "An index type",
+        "A specification for storing and retrieving files larger than 16 MB",
+        "A replication protocol"
+      ],
+      "correctAnswer": "A specification for storing and retrieving files larger than 16 MB",
+      "explanation": "Correct answer is C) A specification for storing and retrieving files larger than 16 MB."
+    },
+    {
+      "questionText": "What is the BSON document size limit that GridFS helps overcome?",
+      "options": [
+        "1 MB",
+        "100 MB",
+        "4 MB",
+        "16 MB"
+      ],
+      "correctAnswer": "16 MB",
+      "explanation": "Correct answer is D) 16 MB."
+    },
+    {
+      "questionText": "GridFS stores files in how many collections?",
+      "options": [
+        "Four",
+        "One",
+        "Two",
+        "Three"
+      ],
+      "correctAnswer": "Two",
+      "explanation": "Correct answer is C) Two."
+    },
+    {
+      "questionText": "Which GridFS collection stores the binary chunks?",
+      "options": [
+        "fs.chunks",
+        "fs.data",
+        "fs.meta",
+        "fs.files"
+      ],
+      "correctAnswer": "fs.chunks",
+      "explanation": "Correct answer is A) fs.chunks."
+    },
+    {
+      "questionText": "Which GridFS collection stores file metadata?",
+      "options": [
+        "fs.info",
+        "fs.chunks",
+        "fs.files",
+        "fs.meta"
+      ],
+      "correctAnswer": "fs.files",
+      "explanation": "Correct answer is C) fs.files."
+    },
+    {
+      "questionText": "How are GridFS chunks numbered?",
+      "options": [
+        "Randomly",
+        "Starting from 1",
+        "Starting from 0",
+        "By file size"
+      ],
+      "correctAnswer": "Starting from 0",
+      "explanation": "Correct answer is C) Starting from 0."
+    },
+    {
+      "questionText": "Which command-line tool can store and retrieve files in GridFS?",
+      "options": [
+        "mongodump",
+        "mongofiles",
+        "mongostat",
+        "mongosniff"
+      ],
+      "correctAnswer": "mongofiles",
+      "explanation": "Correct answer is B) mongofiles."
+    },
+    {
+      "questionText": "An advantage of GridFS is that it allows:",
+      "options": [
+        "Access to parts of files (for example skipping to the middle of a video) without loading the whole file into memory",
+        "Encryption of all files",
+        "Compression of all files",
+        "Only whole-file access"
+      ],
+      "correctAnswer": "Access to parts of files (for example skipping to the middle of a video) without loading the whole file into memory",
+      "explanation": "Correct answer is A) Access to parts of files (for example skipping to the middle of a video) without loading the whole file into memory."
+    },
+    {
+      "questionText": "Applications communicate with MongoDB through:",
+      "options": [
+        "FTP",
+        "Direct disk access",
+        "Client libraries or drivers",
+        "Email"
+      ],
+      "correctAnswer": "Client libraries or drivers",
+      "explanation": "Correct answer is C) Client libraries or drivers."
+    },
+    {
+      "questionText": "To install the Java driver, you need to:",
+      "options": [
+        "Download the JAR file and add it to the classpath",
+        "Edit the registry",
+        "Compile the server",
+        "Install an RPM"
+      ],
+      "correctAnswer": "Download the JAR file and add it to the classpath",
+      "explanation": "Correct answer is A) Download the JAR file and add it to the classpath."
+    },
+    {
+      "questionText": "Which Java packages contain the classes needed in a normal MongoDB application?",
+      "options": [
+        "org.mongo and org.gridfs",
+        "java.mongo",
+        "com.mongodb and com.mongodb.gridfs",
+        "javax.mongodb"
+      ],
+      "correctAnswer": "com.mongodb and com.mongodb.gridfs",
+      "explanation": "Correct answer is C) com.mongodb and com.mongodb.gridfs."
+    },
+    {
+      "questionText": "Which Java class is used to connect to the MongoDB server (as in the course sample)?",
+      "options": [
+        "MongoLink",
+        "DBConnect",
+        "MongoServer",
+        "MongoClient"
+      ],
+      "correctAnswer": "MongoClient",
+      "explanation": "Correct answer is D) MongoClient."
+    },
+    {
+      "questionText": "Which method of MongoClient returns a database object in the course sample?",
+      "options": [
+        "getDB()",
+        "getBase()",
+        "openDB()",
+        "useDB()"
+      ],
+      "correctAnswer": "getDB()",
+      "explanation": "Correct answer is A) getDB()."
+    },
+    {
+      "questionText": "Which method of the DB class creates a collection in Java?",
+      "options": [
+        "makeCollection()",
+        "addCollection()",
+        "newCollection()",
+        "createCollection()"
+      ],
+      "correctAnswer": "createCollection()",
+      "explanation": "Correct answer is D) createCollection()."
+    },
+    {
+      "questionText": "Which method obtains an existing collection from a DB object?",
+      "options": [
+        "openCollection()",
+        "getCollection()",
+        "useCollection()",
+        "findCollection()"
+      ],
+      "correctAnswer": "getCollection()",
+      "explanation": "Correct answer is B) getCollection()."
+    },
+    {
+      "questionText": "Documents in Java must be instances of:",
+      "options": [
+        "com.mongodb.Cursor",
+        "java.lang.String",
+        "org.bson.DBObject",
+        "java.util.List"
+      ],
+      "correctAnswer": "org.bson.DBObject",
+      "explanation": "Correct answer is C) org.bson.DBObject."
+    },
+    {
+      "questionText": "Which DBCollection method inserts a document in Java?",
+      "options": [
+        "put()",
+        "insert()",
+        "create()",
+        "add()"
+      ],
+      "correctAnswer": "insert()",
+      "explanation": "Correct answer is B) insert()."
+    },
+    {
+      "questionText": "Which Java class iterates through documents returned by a find()?",
+      "options": [
+        "DBIterator",
+        "DBCursor",
+        "DBList",
+        "DBRows"
+      ],
+      "correctAnswer": "DBCursor",
+      "explanation": "Correct answer is B) DBCursor."
+    },
+    {
+      "questionText": "Which DBCollection method removes documents in Java?",
+      "options": [
+        "drop()",
+        "delete()",
+        "remove()",
+        "erase()"
+      ],
+      "correctAnswer": "remove()",
+      "explanation": "Correct answer is C) remove()."
+    },
+    {
+      "questionText": "Which method saves a GridFSInputFile into MongoDB?",
+      "options": [
+        "commit()",
+        "save()",
+        "write()",
+        "store()"
+      ],
+      "correctAnswer": "save()",
+      "explanation": "Correct answer is B) save()."
+    },
+    {
+      "questionText": "Which GridFS method removes a file in Java?",
+      "options": [
+        "clear()",
+        "remove()",
+        "delete()",
+        "drop()"
+      ],
+      "correctAnswer": "remove()",
+      "explanation": "Correct answer is B) remove()."
+    },
+    {
+      "questionText": "Which npm command installs the MongoDB native driver for Node JS?",
+      "options": [
+        "npm install mongodb",
+        "npm add mongo-java",
+        "node install mongodb",
+        "npm get mongodb"
+      ],
+      "correctAnswer": "npm install mongodb",
+      "explanation": "Correct answer is A) npm install mongodb."
+    },
+    {
+      "questionText": "Which module is loaded in Node JS to use the native MongoDB driver?",
+      "options": [
+        "mongojs",
+        "mongodb",
+        "mongod",
+        "mongoose"
+      ],
+      "correctAnswer": "mongodb",
+      "explanation": "Correct answer is B) mongodb."
+    },
+    {
+      "questionText": "What does the connection URL typically look like for a local server?",
+      "options": [
+        "mongo://test",
+        "http://localhost:27017",
+        "jdbc:mongodb://localhost",
+        "mongodb://localhost:27017/test"
+      ],
+      "correctAnswer": "mongodb://localhost:27017/test",
+      "explanation": "Correct answer is D) mongodb://localhost:27017/test."
+    },
+    {
+      "questionText": "Which interface's connect() method is used to connect from Node JS?",
+      "options": [
+        "NodeClient",
+        "MongoClient",
+        "DbClient",
+        "MongoServer"
+      ],
+      "correctAnswer": "MongoClient",
+      "explanation": "Correct answer is B) MongoClient."
+    },
+    {
+      "questionText": "In a Node JS callback, the first argument returns:",
+      "options": [
+        "An error",
+        "The cursor",
+        "The collection",
+        "The result"
+      ],
+      "correctAnswer": "An error",
+      "explanation": "Correct answer is A) An error."
+    },
+    {
+      "questionText": "In a Node JS callback, the second argument returns:",
+      "options": [
+        "The error",
+        "The result of the operation",
+        "The driver version",
+        "The URL"
+      ],
+      "correctAnswer": "The result of the operation",
+      "explanation": "Correct answer is B) The result of the operation."
+    },
+    {
+      "questionText": "Which Node JS call retrieves documents as an array?",
+      "options": [
+        "collection.find({...}).toArray(callback)",
+        "collection.getAll()",
+        "collection.fetch()",
+        "collection.array()"
+      ],
+      "correctAnswer": "collection.find({...}).toArray(callback)",
+      "explanation": "Correct answer is A) collection.find({...}).toArray(callback)."
+    },
+    {
+      "questionText": "Which Node JS statement sets available to false for the item Pencil?",
+      "options": [
+        "collection.update({item: 'Pencil'}, {$set: {available: false}}, callback)",
+        "collection.modify(...)",
+        "collection.replaceAll(...)",
+        "collection.change(...)"
+      ],
+      "correctAnswer": "collection.update({item: 'Pencil'}, {$set: {available: false}}, callback)",
+      "explanation": "Correct answer is A) collection.update({item: 'Pencil'}, {$set: {available: false}}, callback)."
+    },
+    {
+      "questionText": "What is Mongoose?",
+      "options": [
+        "A PHP library for MongoDB",
+        "A Node JS library that provides schema-based modelling of application data",
+        "A Java library for MongoDB",
+        "A Python library for MongoDB"
+      ],
+      "correctAnswer": "A Node JS library that provides schema-based modelling of application data",
+      "explanation": "Correct answer is B) A Node JS library that provides schema-based modelling of application data."
+    },
+    {
+      "questionText": "Which features does Mongoose provide?",
+      "options": [
+        "Type casting, validation, query building and business logic hooks",
+        "Only replication",
+        "Only hardware monitoring",
+        "Only backup"
+      ],
+      "correctAnswer": "Type casting, validation, query building and business logic hooks",
+      "explanation": "Correct answer is A) Type casting, validation, query building and business logic hooks."
+    },
+    {
+      "questionText": "Which command installs Mongoose?",
+      "options": [
+        "npm install mongoose",
+        "npm install mongo-schema",
+        "node install mongoose",
+        "npm get mongoose"
+      ],
+      "correctAnswer": "npm install mongoose",
+      "explanation": "Correct answer is A) npm install mongoose."
+    },
+    {
+      "questionText": "Which method connects to the database in Mongoose?",
+      "options": [
+        "mongoose.link()",
+        "mongoose.use()",
+        "mongoose.connect()",
+        "mongoose.open()"
+      ],
+      "correctAnswer": "mongoose.connect()",
+      "explanation": "Correct answer is C) mongoose.connect()."
+    },
+    {
+      "questionText": "Which Mongoose method saves a document to the database?",
+      "options": [
+        "write()",
+        "persist()",
+        "store()",
+        "save()"
+      ],
+      "correctAnswer": "save()",
+      "explanation": "Correct answer is D) save()."
+    },
+    {
+      "questionText": "In Mongoose, what does a model represent?",
+      "options": [
+        "An index",
+        "A server",
+        "A collection in the database with a defined schema",
+        "A cursor"
+      ],
+      "correctAnswer": "A collection in the database with a defined schema",
+      "explanation": "Correct answer is C) A collection in the database with a defined schema."
+    }
+  ]
+}

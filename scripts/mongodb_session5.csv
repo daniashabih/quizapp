@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+MongoDB,5,"What is the primary task of a MongoDB administrator in a production setting, per the course?",Writing stored procedures,Designing UI,Deleting old data,Setting up a functioning replication,Setting up a functioning replication
+MongoDB,5,Replication protects data in the event of:,Hardware failure and service interruptions,Only user typos,Only schema errors,Nothing,Hardware failure and service interruptions
+MongoDB,5,Which is the oldest mode of replication that MongoDB supports?,Replica sets,Master-slave replication,Journaling,Sharding,Master-slave replication
+MongoDB,5,A replica set consists of:,A single mongod instance,A group of mongos routers only,A group of mongod instances that host the same data set,Config servers only,A group of mongod instances that host the same data set
+MongoDB,5,Where does the primary log changes to its data sets?,In the config database,In its oplog,In the arbiter,In the mongos,In its oplog
+MongoDB,5,What does the replica set do when the primary becomes unavailable?,It nominates a secondary as the new primary,It deletes the data,It stops accepting reads and writes permanently,It promotes the arbiter,It nominates a secondary as the new primary
+MongoDB,5,The role of an arbiter is to:,Accept writes,Participate in elections to select the primary,Act as a mongos,Store data copies,Participate in elections to select the primary
+MongoDB,5,Secondary members apply operations from the primary:,Only at midnight,Asynchronously,Synchronously only,Never,Asynchronously
+MongoDB,5,"Which role can change between primary and secondary, but not for an arbiter?",Arbiter can store data,Arbiter can become secondary,Primary and secondary can swap; an arbiter remains unchanged,Arbiter can become primary,Primary and secondary can swap; an arbiter remains unchanged
+MongoDB,5,How is a new primary chosen after failover?,Through an election in which the secondary with a majority of votes wins,By the mongos,By random choice without voting,By the oldest document,Through an election in which the secondary with a majority of votes wins
+MongoDB,5,"In MongoDB 3.0, how many replica set members can vote?",12,50,7,3,7
+MongoDB,5,A priority 0 member can:,Become primary,Replace an unavailable primary,Trigger an election,"Maintain data copies, accept reads, and vote in elections","Maintain data copies, accept reads, and vote in elections"
+MongoDB,5,Hidden members are typically used for:,Reporting and backup,Storing config metadata,Routing queries,Accepting client writes,Reporting and backup
+MongoDB,5,What is a delayed replica set member?,A new primary,A secondary that copies data from the primary's oplog after a delay,An arbiter,A member that never syncs,A secondary that copies data from the primary's oplog after a delay
+MongoDB,5,A delayed member must be:,A priority zero member and hidden,Visible to applications,An arbiter,A primary,A priority zero member and hidden
+MongoDB,5,Which method applies a new replica set configuration?,rs.apply(cfg),rs.reconfig(cfg),rs.set(cfg),rs.update(cfg),rs.reconfig(cfg)
+MongoDB,5,What does write concern ensure?,That a write operation was successful to a given level of assurance,That reads are fast,That indexes are built,That shards are balanced,That a write operation was successful to a given level of assurance
+MongoDB,5,An unacknowledged write concern:,Does not acknowledge the receipt of write operations,Confirms write on all members,Always blocks,Confirms journal commit,Does not acknowledge the receipt of write operations
+MongoDB,5,Write operations in a replica set become durable when:,Written to the arbiter,Written to a single hidden member,Replicated and committed to the journal on a majority of voting members,Written to the client,Replicated and committed to the journal on a majority of voting members
+MongoDB,5,The default write concern in a replica set requires acknowledgement from:,All members,Only the arbiter,Only secondaries,Only the primary member,Only the primary member
+MongoDB,5,Which setting can be changed to modify the default write concern?,writeDefaults,defaultWrite,getLastErrorDefaults,journalDefaults,getLastErrorDefaults
+MongoDB,5,"By default, a client directs read operations to:",The config server,The primary,The arbiter,A random secondary,The primary
+MongoDB,5,Which read preference mode reads only from secondaries?,primary,secondary,nearest,primaryPreferred,secondary
+MongoDB,5,Which read preference mode reads from the member with the least network latency?,nearest,secondary,primaryPreferred,primary,nearest
+MongoDB,5,Typical use of non-primary read preference includes:,Dropping collections,Writing to secondaries,Providing local reads for geographically distributed applications,Disabling replication,Providing local reads for geographically distributed applications
+MongoDB,5,Where does MongoDB store tag sets for a replica set?,In the replica set configuration object,In the oplog,In the mongos,In the journal,In the replica set configuration object
+MongoDB,5,Which statement about tag sets is true?,Tags only work with the primary mode,Read preferences ignore tags,Write concerns require tags,"Read preferences consider the tag value, while write concerns ignore it when selecting a member","Read preferences consider the tag value, while write concerns ignore it when selecting a member"
+MongoDB,5,Which is the minimum recommended replica set architecture?,Two members,A single member,Seven members,A three member replica set,A three member replica set
+MongoDB,5,What is the oplog?,A log of user logins,An index of documents,The operation log of changes maintained by the primary (master),A backup file,The operation log of changes maintained by the primary (master)
+MongoDB,5,What does 'ns' in an oplog document represent?,New shard,Namespace (the collection where the operation is performed),Node status,Network speed,Namespace (the collection where the operation is performed)
+MongoDB,5,"Which method prints replication information for slaves, including how far behind they are?",db.printSlaveReplicationInfo(),rs.info(),db.slaveStatus(),rs.lag(),db.printSlaveReplicationInfo()
+MongoDB,5,Sharding provides:,Reduced storage only,No capacity change,Only read capacity,Additional write capacity by distributing the write load,Additional write capacity by distributing the write load
+MongoDB,5,When should sharding be considered?,When there is only one user,When the data set outgrows the storage of a single instance or the working set exceeds RAM,When no writes happen,When the data is tiny,When the data set outgrows the storage of a single instance or the working set exceeds RAM
+MongoDB,5,MongoDB shards data on:,A per field basis,A per user basis,A per collection basis,A per index basis,A per collection basis
+MongoDB,5,A shard key must be:,A text field only,A field that exists in every document in the collection,An array only,A field that exists in some documents,A field that exists in every document in the collection
+MongoDB,5,Which is a characteristic of an ideal shard key?,Few possible values,Always unique to a single shard,Monotonically increasing only,High degree of randomness and easily divisible,High degree of randomness and easily divisible
+MongoDB,5,A drawback of range-based sharding is:,"Uneven data distribution, for example with linearly increasing keys such as time",It does not support range queries,It cannot use indexes,It requires hashing,"Uneven data distribution, for example with linearly increasing keys such as time"
+MongoDB,5,Which statement about hash-based sharding is true?,Range queries are very efficient,Data is evenly distributed but range queries on the shard key are ineffective,Data is distributed unevenly,It requires compound keys,Data is evenly distributed but range queries on the shard key are ineffective
+MongoDB,5,What do config servers store?,User passwords only,Index data,Application data,Metadata for the sharded cluster,Metadata for the sharded cluster
+MongoDB,5,"When config servers are unavailable, the cluster metadata becomes:",Writable only,Deleted,Encrypted,Read-only,Read-only
+MongoDB,5,Which command starts a config server?,mongo --config,mongod --shard,mongos --configsvr,mongod --configsvr --dbpath /data/configdb --port 27019,mongod --configsvr --dbpath /data/configdb --port 27019
+MongoDB,5,Which method enables sharding for a database?,sh.startSharding(),db.shard(),sh.shardDB(),sh.enableSharding('<database>'),sh.enableSharding('<database>')
+MongoDB,5,"If a collection already contains data, what must be done before sharding it?",Drop the collection,Disable the balancer,Create an index on the shard key,Restart mongos,Create an index on the shard key
+MongoDB,5,What is splitting in MongoDB sharding?,Merging shards,Deleting chunks,Moving a chunk to another shard,A background process that splits a chunk into two when it exceeds the specified size,A background process that splits a chunk into two when it exceeds the specified size
+MongoDB,5,What is the default chunk size in MongoDB (per the course)?,64 MB,16 MB,1 GB,128 MB,64 MB
+MongoDB,5,A jumbo chunk is:,A chunk that exceeds the specified size or document limit and cannot be migrated,A chunk on the config server,A chunk with no data,A chunk of 1 KB,A chunk that exceeds the specified size or document limit and cannot be migrated
+MongoDB,5,What does the balancer do?,Elects primaries,Compresses data,Migrates chunks between shards to even out the chunk distribution,Creates indexes,Migrates chunks between shards to even out the chunk distribution
+MongoDB,5,Why might the balancer be disabled temporarily?,To delete data,To create indexes,For maintenance or to avoid impact during peak load,To enable replication,For maintenance or to avoid impact during peak load
+MongoDB,5,Which method associates a tag with a shard?,sh.addTag(),sh.addShardTag(),sh.tagShard(),sh.setTag(),sh.addShardTag()
+MongoDB,5,"In the case study, replication was introduced to:",Delete analytics queries,Remove the front end,Make MongoDB fault tolerant and split read load to secondaries,Disable the primary,Make MongoDB fault tolerant and split read load to secondaries

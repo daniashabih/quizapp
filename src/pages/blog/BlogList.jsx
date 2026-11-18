@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import {
     BookOpen,
@@ -63,6 +63,17 @@ function formatDate(dateString) {
     }
 }
 
+function readEmbeddedBlogListData() {
+    if (typeof document === 'undefined') return null;
+    try {
+        const el = document.getElementById('hangbug-blog-list-data');
+        if (!el || !el.textContent) return null;
+        return JSON.parse(el.textContent);
+    } catch {
+        return null;
+    }
+}
+
 export default function BlogList() {
     usePageSeo({
         title: 'Programming & Web Development Blog: Tutorials & Guides | Hangbug',
@@ -79,12 +90,19 @@ export default function BlogList() {
     const searchQuery = searchParams.get('q') || '';
     const currentPage = parseInt(searchParams.get('page') || '1', 10);
 
-    const [articles, setArticles] = useState([]);
-    const [featuredArticle, setFeaturedArticle] = useState(null);
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalArticles, setTotalArticles] = useState(0);
+    const initialEmbedded = activeCategory === 'All' && !searchQuery && currentPage === 1
+        ? readEmbeddedBlogListData()
+        : null;
+
+    const [articles, setArticles] = useState(() => initialEmbedded?.articles || []);
+    const [featuredArticle, setFeaturedArticle] = useState(() => initialEmbedded?.featuredArticle || null);
+    const [categories, setCategories] = useState(() => initialEmbedded?.categories || []);
+    const [loading, setLoading] = useState(() => !(initialEmbedded?.articles?.length > 0));
+    const [totalPages, setTotalPages] = useState(() => {
+        const total = initialEmbedded?.total || 0;
+        return total > 0 ? Math.ceil(total / 9) : 1;
+    });
+    const [totalArticles, setTotalArticles] = useState(() => initialEmbedded?.total || 0);
 
     // Fetch categories with counts
     useEffect(() => {
@@ -116,7 +134,14 @@ export default function BlogList() {
     // Fetch articles
     useEffect(() => {
         let isMounted = true;
-        setLoading(true);
+        const hasInitialForDefaultView =
+            activeCategory === 'All' &&
+            !searchQuery &&
+            currentPage === 1 &&
+            Boolean(initialEmbedded?.articles?.length);
+        if (!hasInitialForDefaultView) {
+            setLoading(true);
+        }
 
         blogService.getPublishedArticles({
             category: activeCategory !== 'All' ? activeCategory : '',
@@ -295,7 +320,6 @@ export default function BlogList() {
 
                         {categories.map((cat) => {
                             const isSelected = activeCategory.toLowerCase() === cat.name.toLowerCase();
-                            const pillColor = CATEGORY_COLORS[cat.name] || 'border-[var(--card-border)] text-[var(--foreground)]';
 
                             return (
                                 <button

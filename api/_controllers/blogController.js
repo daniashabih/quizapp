@@ -78,7 +78,8 @@ exports.getCategories = async (req, res) => {
 exports.getArticleBySlug = async (req, res) => {
     try {
         const { slug } = req.params;
-        const data = await BlogPostModel.getBySlug(slug);
+        const incrementView = req.query?.noTrack !== '1';
+        const data = await BlogPostModel.getBySlug(slug, { incrementView });
 
         if (!data || !data.article) {
             return res.status(404).json({

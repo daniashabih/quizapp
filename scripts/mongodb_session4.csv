@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+MongoDB,4,What are indexes in MongoDB?,Backup files of a collection,Data structures that store a collection's data set in a form that is easy to traverse,Network protocols,Query languages,Data structures that store a collection's data set in a form that is easy to traverse
+MongoDB,4,Indexes help MongoDB queries to:,Avoid storing data,Find matching documents without a collection scan,Always scan the whole collection,Delete documents faster,Find matching documents without a collection scan
+MongoDB,4,Which index does every MongoDB collection contain by default?,A geospatial index,A text index,An index on the name field,An index on the _id field,An index on the _id field
+MongoDB,4,Which index types support geospatial queries?,Text and unique,2d and 2dsphere indexes,Sparse and compound,Hashed and TTL,2d and 2dsphere indexes
+MongoDB,4,Which index type is used to search string data in a collection?,Text index,TTL index,Hashed index,Geospatial index,Text index
+MongoDB,4,Which method is used to create an index in the course examples?,addIndex(),makeIndex(),createIndex(),newIndex(),createIndex()
+MongoDB,4,How do you create an index on an embedded document field ISDN inside details?,It is not possible,db.items.createIndex({ISDN.details: 1}),db.items.createIndex({details: ISDN}),db.items.createIndex({'details.ISDN': 1}),db.items.createIndex({'details.ISDN': 1})
+MongoDB,4,"For compound indexes, sort order is:",Ignored by MongoDB,Only important for _id,"Important, since it determines whether the index can support a sort operation",Never important,"Important, since it determines whether the index can support a sort operation"
+MongoDB,4,A compound index contains:,Multiple fields in a single index,Only the _id field,Only one field,Only text fields,Multiple fields in a single index
+MongoDB,4,"For the compound index {item: 1, available: 1, soldQty: 1}, an index prefix is:",Any single field in the middle,Only the last field,Only the _id,"A combination starting from the first field, such as {item}","A combination starting from the first field, such as {item}"
+MongoDB,4,"When sorted documents cannot be obtained from an index, the sort is performed:",It cannot be performed,In memory,By the client,On disk automatically always,In memory
+MongoDB,4,A sort operation without an index fails after exhausting how much memory (per the course)?,32 MB,4 MB,100 MB,16 MB,32 MB
+MongoDB,4,"For a field holding an array, MongoDB creates:",Separate index entries for each array element (multikey index),Only one index entry for the whole array,No index,A text index,Separate index entries for each array element (multikey index)
+MongoDB,4,Which of these cannot be a multikey index?,An index on numbers array,A shard key index and a hashed index,A single field index on an array,An index on strings array,A shard key index and a hashed index
+MongoDB,4,A hashed shard key ensures:,Slower data distribution,Data on a single shard,Even data distribution across shards,No sharding,Even data distribution across shards
+MongoDB,4,Which statement about hashed indexes is correct?,They can only be used for text,You cannot create a unique or compound index on a hashed field,They must be unique,They support range queries,You cannot create a unique or compound index on a hashed field
+MongoDB,4,What does TTL stand for in TTL indexes?,Total Table Lock,Time To Live,Time To Load,Transaction Timeout Limit,Time To Live
+MongoDB,4,Which statement is true about TTL indexes?,They never delete documents,They work on the _id field,They can be compound indexes,They cannot be created on a capped collection,They cannot be created on a capped collection
+MongoDB,4,"To change a non-TTL single-field index to a TTL index, you must:",Restart the server,Drop the index and recreate it with expireAfterSeconds,Use createIndex to alter it in place,Rename the index,Drop the index and recreate it with expireAfterSeconds
+MongoDB,4,Which is the correct syntax to create a unique index on name?,db.collection.unique({name: 1}),"db.collection.createIndex({name: 1}, {unique: true})","db.collection.createIndex({unique: true}, {name: 1})",db.collection.createUniqueIndex({name: 1}),"db.collection.createIndex({name: 1}, {unique: true})"
+MongoDB,4,What happens when more than one document has a missing indexed field and the index is unique?,The index build fails,The documents are deleted,The documents are merged,The index is built silently,The index build fails
+MongoDB,4,Which option creates a sparse index?,{sparse: true},{skip: true},{ignore: true},{partial: 1},{sparse: true}
+MongoDB,4,MongoDB does not use a sparse index that would return an incomplete result unless:,A unique index exists,The collection is empty,The server is restarted,It is specified with hint(),It is specified with hint()
+MongoDB,4,Which wildcard specifier indexes all fields containing string content in a text index?,$all,*,$**,%%,$**
+MongoDB,4,Which option sets the default language for a text index?,default_language,lang,text_language,language_default,default_language
+MongoDB,4,"By default, what is the value of the 'background' option when building indexes in MongoDB?",true,auto,false,null,false
+MongoDB,4,What happens during a foreground index build?,"Nothing, the database remains fully available",The database is deleted,The index builds instantly,Operations on the database are blocked,Operations on the database are blocked
+MongoDB,4,A background index build compared with a foreground build is:,Blocking,Instant,Slower and uses an incremental approach,Faster,Slower and uses an incremental approach
+MongoDB,4,Which method removes a specific index?,deleteIndex(),clearIndex(),removeIndex(),dropIndex(),dropIndex()
+MongoDB,4,Which method removes all indexes except _id?,dropIndex(),removeAll(),dropIndexes(),clearIndexes(),dropIndexes()
+MongoDB,4,Which method drops all indexes including _id and rebuilds them?,dropIndexes(),reIndex(),createIndex(),rebuildIndex(),reIndex()
+MongoDB,4,Which shell command aborts an ongoing index build?,db.killOp(),db.stop(),db.currentOp(),db.abort(),db.killOp()
+MongoDB,4,Which method forces MongoDB to use a particular index?,sort(),limit(),explain(),hint(),hint()
+MongoDB,4,Which operator in hint() prevents MongoDB from using any index?,$none,$noindex,$skip,$natural,$natural
+MongoDB,4,"In serverStatus index metrics, 'scanAndOrder' is true when:",A query cannot use the order of documents in the index for sorted results,The index is sparse,The index is unique,The index is hashed,A query cannot use the order of documents in the index for sorted results
+MongoDB,4,Which command reports the total number of indexes across all collections in a database?,ping,serverStatus,collStats,dbStats,dbStats
+MongoDB,4,Geospatial indexes are created by passing which values to createIndex()?,1 or -1,'2d' or '2dsphere','geo' or 'map','sphere' or 'flat','2d' or '2dsphere'
+MongoDB,4,Which operator returns locations within a specified polygon?,$near,$geoIntersects,$text,$geoWithin,$geoWithin
+MongoDB,4,Which operator returns points closest to a specified point?,$mod,$near,$geoWithin,$geoIntersects,$near
+MongoDB,4,Aggregation operations process data records and:,Only create indexes,Return computed results,Only delete documents,Only back up data,Return computed results
+MongoDB,4,The MongoDB aggregation framework is based on:,Data processing pipelines,Triggers,Cursors only,Stored procedures,Data processing pipelines
+MongoDB,4,Which pipeline stage groups documents by an identifier expression and applies accumulators?,$group,$sort,$skip,$match,$group
+MongoDB,4,Which pipeline stage rearranges the document stream using sort keys?,$sort,$skip,$match,$limit,$sort
+MongoDB,4,Which pipeline stage skips the first n documents?,$limit,$sort,$skip,$group,$skip
+MongoDB,4,Which pipeline stage deconstructs an array field to output a document per element?,$unwind,$project,$match,$group,$unwind
+MongoDB,4,"In the aggregation { $group: {_id: '$cust_id', total: {$sum: '$amount'}} }, what is calculated?",Number of customers,Maximum amount,Total amount for each customer,Average of amount,Total amount for each customer
+MongoDB,4,MapReduce functions in MongoDB are written in:,SQL,Java only,Python,JavaScript,JavaScript
+MongoDB,4,"In MapReduce, the emit() function is used to:",Create an index,Delete a key,Associate a value with a key in the map function,Sort the result,Associate a value with a key in the map function
+MongoDB,4,Which method returns the number of documents in a collection?,size(),distinct(),count(),group(),count()
+MongoDB,4,"In the case study of population analysis, which feature funnels data down at the database level?",mongostat,mongodump,The aggregation framework,mongosniff,The aggregation framework

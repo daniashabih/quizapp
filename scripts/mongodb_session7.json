@@ -1,0 +1,558 @@
+{
+  "category": "MongoDB",
+  "session": 7,
+  "title": "Session 7: Administration of MongoDB Cluster Operations",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "Although you cannot remove individual documents from a capped collection, you can:",
+      "options": [
+        "Drop the entire collection using drop()",
+        "Use remove() on a single document",
+        "Shard it",
+        "Convert it to a TTL index"
+      ],
+      "correctAnswer": "Drop the entire collection using drop()",
+      "explanation": "Correct answer is A) Drop the entire collection using drop()."
+    },
+    {
+      "questionText": "Data is automatically removed from a capped collection when:",
+      "options": [
+        "An index is created",
+        "The server restarts",
+        "A user logs out",
+        "The collection grows beyond the defined size or number of documents"
+      ],
+      "correctAnswer": "The collection grows beyond the defined size or number of documents",
+      "explanation": "Correct answer is D) The collection grows beyond the defined size or number of documents."
+    },
+    {
+      "questionText": "What is a memory-mapped file?",
+      "options": [
+        "A file whose data is stored by the operating system in its memory",
+        "A compressed backup",
+        "A log file only",
+        "A file stored only on tape"
+      ],
+      "correctAnswer": "A file whose data is stored by the operating system in its memory",
+      "explanation": "Correct answer is A) A file whose data is stored by the operating system in its memory."
+    },
+    {
+      "questionText": "Memory-mapped files are a critical part of which storage engine?",
+      "options": [
+        "WiredTiger",
+        "MMAPv1",
+        "InnoDB",
+        "RocksDB"
+      ],
+      "correctAnswer": "MMAPv1",
+      "explanation": "Correct answer is B) MMAPv1."
+    },
+    {
+      "questionText": "In memory-mapped files, which data is mapped into memory?",
+      "options": [
+        "Only the data that is accessed",
+        "Only journal files",
+        "All data at startup",
+        "Only indexes"
+      ],
+      "correctAnswer": "Only the data that is accessed",
+      "explanation": "Correct answer is A) Only the data that is accessed."
+    },
+    {
+      "questionText": "If mongod stops unexpectedly with journaling enabled:",
+      "options": [
+        "The journal is deleted",
+        "All data is lost",
+        "It can recover the written data from the journal to a consistent state",
+        "It cannot restart"
+      ],
+      "correctAnswer": "It can recover the written data from the journal to a consistent state",
+      "explanation": "Correct answer is C) It can recover the written data from the journal to a consistent state."
+    },
+    {
+      "questionText": "By default, up to how much recent write activity might be lost without being in the journal?",
+      "options": [
+        "The last 100 milliseconds",
+        "1 minute",
+        "1 hour",
+        "10 seconds"
+      ],
+      "correctAnswer": "The last 100 milliseconds",
+      "explanation": "Correct answer is A) The last 100 milliseconds."
+    },
+    {
+      "questionText": "How is journaling enabled when starting mongod?",
+      "options": [
+        "By running mongos",
+        "By editing the oplog",
+        "Using the nojournal option",
+        "Using the journal command line option"
+      ],
+      "correctAnswer": "Using the journal command line option",
+      "explanation": "Correct answer is D) Using the journal command line option."
+    },
+    {
+      "questionText": "MMAPv1 is the default storage engine in:",
+      "options": [
+        "MongoDB 4.0 and later only",
+        "MongoDB 3.0 and all previous versions",
+        "Only versions with sharding",
+        "Only MongoDB 1.0"
+      ],
+      "correctAnswer": "MongoDB 3.0 and all previous versions",
+      "explanation": "Correct answer is B) MongoDB 3.0 and all previous versions."
+    },
+    {
+      "questionText": "Which storage engine was added as an optional engine in MongoDB 3.0?",
+      "options": [
+        "InnoDB",
+        "Memory",
+        "MMAPv1",
+        "WiredTiger"
+      ],
+      "correctAnswer": "WiredTiger",
+      "explanation": "Correct answer is D) WiredTiger."
+    },
+    {
+      "questionText": "In WiredTiger, write operations occur within the context of:",
+      "options": [
+        "A document level lock",
+        "A collection level lock only",
+        "A database level lock",
+        "No lock"
+      ],
+      "correctAnswer": "A document level lock",
+      "explanation": "Correct answer is A) A document level lock."
+    },
+    {
+      "questionText": "What does WiredTiger use alongside checkpoints?",
+      "options": [
+        "A hash index",
+        "A capped collection",
+        "A write-ahead transaction log",
+        "A GridFS file"
+      ],
+      "correctAnswer": "A write-ahead transaction log",
+      "explanation": "Correct answer is C) A write-ahead transaction log."
+    },
+    {
+      "questionText": "What does the WiredTiger journal enable?",
+      "options": [
+        "Faster index builds",
+        "Sharding",
+        "Compression only",
+        "Replay of data modifications since the last checkpoint after an unexpected exit"
+      ],
+      "correctAnswer": "Replay of data modifications since the last checkpoint after an unexpected exit",
+      "explanation": "Correct answer is D) Replay of data modifications since the last checkpoint after an unexpected exit."
+    },
+    {
+      "questionText": "Which compression does WiredTiger use for collections?",
+      "options": [
+        "No compression",
+        "Block compression with the snappy algorithm",
+        "Gzip only",
+        "Prefix compression"
+      ],
+      "correctAnswer": "Block compression with the snappy algorithm",
+      "explanation": "Correct answer is B) Block compression with the snappy algorithm."
+    },
+    {
+      "questionText": "Which allocation strategy is the default for MMAPv1 in MongoDB 3.0?",
+      "options": [
+        "Power of 2-sized allocations",
+        "Random sizes",
+        "Dynamic padding factor",
+        "Fixed 1 KB allocations"
+      ],
+      "correctAnswer": "Power of 2-sized allocations",
+      "explanation": "Correct answer is A) Power of 2-sized allocations."
+    },
+    {
+      "questionText": "For documents larger than 2 MB under power of 2 allocation, the size is rounded up to:",
+      "options": [
+        "16 MB",
+        "The nearest 256 KB",
+        "The nearest multiple of 2 MB",
+        "The nearest 1 MB"
+      ],
+      "correctAnswer": "The nearest multiple of 2 MB",
+      "explanation": "Correct answer is C) The nearest multiple of 2 MB."
+    },
+    {
+      "questionText": "Which workloads can disable power of 2 allocation using noPadding?",
+      "options": [
+        "Insert-only workloads or updates that do not change document size",
+        "Workloads with no indexes",
+        "Read-only workloads on secondaries",
+        "Workloads with heavy growth in documents"
+      ],
+      "correctAnswer": "Insert-only workloads or updates that do not change document size",
+      "explanation": "Correct answer is A) Insert-only workloads or updates that do not change document size."
+    },
+    {
+      "questionText": "Which command and option can be used to set the noPadding flag?",
+      "options": [
+        "mongod --nopad",
+        "db.setPadding()",
+        "collMod command and createCollection() with the noPadding option",
+        "rs.noPadding()"
+      ],
+      "correctAnswer": "collMod command and createCollection() with the noPadding option",
+      "explanation": "Correct answer is C) collMod command and createCollection() with the noPadding option."
+    },
+    {
+      "questionText": "Which of the following can cause performance degradation in MongoDB?",
+      "options": [
+        "Only comments in code",
+        "Only network cables",
+        "Locks, memory usage, page faults and number of connections",
+        "Only UI themes"
+      ],
+      "correctAnswer": "Locks, memory usage, page faults and number of connections",
+      "explanation": "Correct answer is C) Locks, memory usage, page faults and number of connections."
+    },
+    {
+      "questionText": "Which serverStatus section should be reviewed to know if locks affect performance?",
+      "options": [
+        "network",
+        "globalLock",
+        "connections",
+        "repl"
+      ],
+      "correctAnswer": "globalLock",
+      "explanation": "Correct answer is B) globalLock."
+    },
+    {
+      "questionText": "How can page fault occurrences be reduced?",
+      "options": [
+        "Reduce RAM",
+        "Increase RAM or deploy a sharded cluster",
+        "Disable journaling",
+        "Disable indexes"
+      ],
+      "correctAnswer": "Increase RAM or deploy a sharded cluster",
+      "explanation": "Correct answer is B) Increase RAM or deploy a sharded cluster."
+    },
+    {
+      "questionText": "For read-heavy applications with too many connections, which action is recommended?",
+      "options": [
+        "Increase the replica set size and distribute reads to secondaries",
+        "Deploy sharding only",
+        "Disable reads",
+        "Reduce replica set size"
+      ],
+      "correctAnswer": "Increase the replica set size and distribute reads to secondaries",
+      "explanation": "Correct answer is A) Increase the replica set size and distribute reads to secondaries."
+    },
+    {
+      "questionText": "Poor performance can also result from:",
+      "options": [
+        "Inadequate indexing strategies and poor schema design",
+        "Using replica sets",
+        "Using too many comments",
+        "Using JSON"
+      ],
+      "correctAnswer": "Inadequate indexing strategies and poor schema design",
+      "explanation": "Correct answer is A) Inadequate indexing strategies and poor schema design."
+    },
+    {
+      "questionText": "Which method reports current operations running on a mongod instance?",
+      "options": [
+        "db.ping()",
+        "db.currentOp()",
+        "db.stats()",
+        "db.hostInfo()"
+      ],
+      "correctAnswer": "db.currentOp()",
+      "explanation": "Correct answer is B) db.currentOp()."
+    },
+    {
+      "questionText": "The explain() methods can be run in which three modes?",
+      "options": [
+        "queryPlanner, executionStats and allPlansExecution",
+        "read, write, update",
+        "fast, slow, medium",
+        "index, scan, plan"
+      ],
+      "correctAnswer": "queryPlanner, executionStats and allPlansExecution",
+      "explanation": "Correct answer is A) queryPlanner, executionStats and allPlansExecution."
+    },
+    {
+      "questionText": "Why use projections in queries?",
+      "options": [
+        "To shard the data",
+        "To return only the necessary fields",
+        "To create indexes",
+        "To delete fields"
+      ],
+      "correctAnswer": "To return only the necessary fields",
+      "explanation": "Correct answer is B) To return only the necessary fields."
+    },
+    {
+      "questionText": "Which three strategies are used to collect data and monitor MongoDB?",
+      "options": [
+        "Only logs",
+        "Utilities, database commands and MMS monitoring",
+        "Only GUI tools",
+        "Only emails"
+      ],
+      "correctAnswer": "Utilities, database commands and MMS monitoring",
+      "explanation": "Correct answer is B) Utilities, database commands and MMS monitoring."
+    },
+    {
+      "questionText": "Which utility captures and returns counts of database operations by type?",
+      "options": [
+        "mongotop",
+        "mongofiles",
+        "mongostat",
+        "mongodump"
+      ],
+      "correctAnswer": "mongostat",
+      "explanation": "Correct answer is C) mongostat."
+    },
+    {
+      "questionText": "Which interface provides diagnostic information on a simple web page, accessible at port 28017 for default 27017?",
+      "options": [
+        "mongos",
+        "mongodump",
+        "HTTP console",
+        "Compass console only"
+      ],
+      "correctAnswer": "HTTP console",
+      "explanation": "Correct answer is C) HTTP console."
+    },
+    {
+      "questionText": "Which command returns storage usage and data volumes of a database?",
+      "options": [
+        "replSetGetStatus",
+        "dbStats",
+        "serverStatus",
+        "collStats"
+      ],
+      "correctAnswer": "dbStats",
+      "explanation": "Correct answer is B) dbStats."
+    },
+    {
+      "questionText": "Which command provides details of the state and configuration of a replica set?",
+      "options": [
+        "currentOp",
+        "dbStats",
+        "collStats",
+        "replSetGetStatus"
+      ],
+      "correctAnswer": "replSetGetStatus",
+      "explanation": "Correct answer is D) replSetGetStatus."
+    },
+    {
+      "questionText": "Which additional tools can be used to check MongoDB server statistics?",
+      "options": [
+        "Notepad",
+        "Paint",
+        "Photoshop",
+        "Munin, Nagios and Ganglia"
+      ],
+      "correctAnswer": "Munin, Nagios and Ganglia",
+      "explanation": "Correct answer is D) Munin, Nagios and Ganglia."
+    },
+    {
+      "questionText": "MMS can monitor how many system metrics (per the course)?",
+      "options": [
+        "Exactly 5",
+        "10",
+        "25",
+        "More than 100"
+      ],
+      "correctAnswer": "More than 100",
+      "explanation": "Correct answer is D) More than 100."
+    },
+    {
+      "questionText": "For a snapshot of a running mongod, which feature should be enabled?",
+      "options": [
+        "Sharding",
+        "Auditing",
+        "Journaling, with the journal on the same logical volume as data files",
+        "TTL"
+      ],
+      "correctAnswer": "Journaling, with the journal on the same logical volume as data files",
+      "explanation": "Correct answer is C) Journaling, with the journal on the same logical volume as data files."
+    },
+    {
+      "questionText": "To take snapshots on a sharded cluster, what should be done first?",
+      "options": [
+        "Add new shards",
+        "Disable the balancer and capture a snapshot from every shard and config server",
+        "Stop the config servers",
+        "Drop all indexes"
+      ],
+      "correctAnswer": "Disable the balancer and capture a snapshot from every shard and config server",
+      "explanation": "Correct answer is B) Disable the balancer and capture a snapshot from every shard and config server."
+    },
+    {
+      "questionText": "What does mongodump create?",
+      "options": [
+        "PDF files",
+        "CSV files",
+        "BSON files from a MongoDB database",
+        "XML files"
+      ],
+      "correctAnswer": "BSON files from a MongoDB database",
+      "explanation": "Correct answer is C) BSON files from a MongoDB database."
+    },
+    {
+      "questionText": "What does mongorestore do?",
+      "options": [
+        "Restores data to a running mongod and rebuilds indexes",
+        "Creates shards",
+        "Deletes data files",
+        "Starts replication"
+      ],
+      "correctAnswer": "Restores data to a running mongod and rebuilds indexes",
+      "explanation": "Correct answer is A) Restores data to a running mongod and rebuilds indexes."
+    },
+    {
+      "questionText": "How can the impact of mongodump on a replica set's performance be reduced?",
+      "options": [
+        "Run it on the primary during peak time",
+        "Capture the backup from a secondary member",
+        "Run it without a connection",
+        "Run it on the arbiter"
+      ],
+      "correctAnswer": "Capture the backup from a secondary member",
+      "explanation": "Correct answer is B) Capture the backup from a secondary member."
+    },
+    {
+      "questionText": "What does the fsync command with lock do?",
+      "options": [
+        "Starts the balancer",
+        "Deletes the journal",
+        "Creates replicas",
+        "Flushes writes to disk and prevents further writes until unlocked"
+      ],
+      "correctAnswer": "Flushes writes to disk and prevents further writes until unlocked",
+      "explanation": "Correct answer is D) Flushes writes to disk and prevents further writes until unlocked."
+    },
+    {
+      "questionText": "In which database is the fsync lock command run?",
+      "options": [
+        "admin",
+        "test",
+        "config",
+        "local"
+      ],
+      "correctAnswer": "admin",
+      "explanation": "Correct answer is A) admin."
+    },
+    {
+      "questionText": "Which are among the security strategies in MongoDB?",
+      "options": [
+        "Authentication, authorization and auditing",
+        "Only passwords on files",
+        "Only encryption of disks",
+        "Only firewalls"
+      ],
+      "correctAnswer": "Authentication, authorization and auditing",
+      "explanation": "Correct answer is A) Authentication, authorization and auditing."
+    },
+    {
+      "questionText": "What is authentication in MongoDB?",
+      "options": [
+        "Backing up data",
+        "Controlling which operations a user may run",
+        "Recording system activity",
+        "A mechanism for verifying a user or instance accessing MongoDB"
+      ],
+      "correctAnswer": "A mechanism for verifying a user or instance accessing MongoDB",
+      "explanation": "Correct answer is D) A mechanism for verifying a user or instance accessing MongoDB."
+    },
+    {
+      "questionText": "Which authentication mechanism is used with secure SSL connections for server and membership authentication?",
+      "options": [
+        "Basic HTTP only",
+        "x.509 certificate authentication",
+        "No authentication",
+        "Kerberos only"
+      ],
+      "correctAnswer": "x.509 certificate authentication",
+      "explanation": "Correct answer is B) x.509 certificate authentication."
+    },
+    {
+      "questionText": "Which service does MongoDB Enterprise support for proxy authentication?",
+      "options": [
+        "NTP",
+        "SNMP",
+        "LDAP",
+        "DNS"
+      ],
+      "correctAnswer": "LDAP",
+      "explanation": "Correct answer is C) LDAP."
+    },
+    {
+      "questionText": "Which mechanisms authenticate members of a deployment to each other?",
+      "options": [
+        "SSH and FTP",
+        "Password.txt and OAuth",
+        "Telnet and HTTP",
+        "keyFile and x.509"
+      ],
+      "correctAnswer": "keyFile and x.509",
+      "explanation": "Correct answer is D) keyFile and x.509."
+    },
+    {
+      "questionText": "Maintenance operations like compact and rs.reconfig() on a sharded cluster require:",
+      "options": [
+        "Connecting to mongos only",
+        "Direct connections to the specific shard with a shard local administrative user",
+        "Connecting to the arbiter",
+        "Connecting to the config server"
+      ],
+      "correctAnswer": "Direct connections to the specific shard with a shard local administrative user",
+      "explanation": "Correct answer is B) Direct connections to the specific shard with a shard local administrative user."
+    },
+    {
+      "questionText": "Which access control model does MongoDB use?",
+      "options": [
+        "Discretionary file access control",
+        "IP-based only",
+        "No access control",
+        "Role-based access control (RBAC)"
+      ],
+      "correctAnswer": "Role-based access control (RBAC)",
+      "explanation": "Correct answer is D) Role-based access control (RBAC)."
+    },
+    {
+      "questionText": "Which are built-in roles in MongoDB?",
+      "options": [
+        "guest, visitor, boss",
+        "viewer, editor, owner only",
+        "user1, user2",
+        "read, readWrite, dbAdmin and root"
+      ],
+      "correctAnswer": "read, readWrite, dbAdmin and root",
+      "explanation": "Correct answer is D) read, readWrite, dbAdmin and root."
+    },
+    {
+      "questionText": "Auditing in MongoDB is used to:",
+      "options": [
+        "Replicate data",
+        "Speed up queries",
+        "Track system activity and verify security policies are controlling activities as desired",
+        "Create indexes"
+      ],
+      "correctAnswer": "Track system activity and verify security policies are controlling activities as desired",
+      "explanation": "Correct answer is C) Track system activity and verify security policies are controlling activities as desired."
+    },
+    {
+      "questionText": "In the Java migration case study, which Java driver version was mentioned as MongoDB's current version?",
+      "options": [
+        "5.x",
+        "2.x",
+        "3.x",
+        "1.x"
+      ],
+      "correctAnswer": "3.x",
+      "explanation": "Correct answer is C) 3.x."
+    }
+  ]
+}

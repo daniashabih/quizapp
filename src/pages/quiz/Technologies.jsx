@@ -203,6 +203,8 @@ export default function Technologies() {
             if (isReactQuery && (name === 'react.js' || name === 'react' || slug === 'react')) return true;
             const isMaterialUiQuery = q === 'mui' || q === 'materialui' || q === 'material-ui' || q === 'material ui' || q === 'mterial ui';
             if (isMaterialUiQuery && (name === 'material ui' || slug === 'material-ui' || slug === 'materialui')) return true;
+            const isMongoDbQuery = q === 'mongo db' || q === 'mongodb' || q === 'mongo';
+            if (isMongoDbQuery && (name === 'mongodb' || slug === 'mongodb')) return true;
             return name.includes(q) || slug.includes(q);
         });
 
@@ -377,7 +379,9 @@ export default function Technologies() {
                                             </div>
                                             <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
                                                 <Layers size={13} /> 
-                                                {hasMultipleSessions ? (cat.sessions.length > 5 ? `${cat.sessions.length} Sessions` : `Sessions: ${cat.sessions.join(', ')}`) : 'Multi-Session'}
+                                                {hasMultipleSessions
+                                                    ? (cat.sessions.length > 5 ? `${cat.sessions.length} Sessions` : `Sessions: ${cat.sessions.join(', ')}`)
+                                                    : (Array.isArray(cat.sessions) && cat.sessions.length === 1 ? `Session ${cat.sessions[0]}` : 'Multi-Session')}
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-1 pt-2.5 text-xs font-semibold text-black group-hover:gap-2 transition-all">

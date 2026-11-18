@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+MongoDB,2,MongoDB replaces the concept of 'rows' of relational data models with:,Columns,Views,Tables,Documents,Documents
+MongoDB,2,Which two key characteristics describe MongoDB?,Graph based and fixed schema,Key-only and schema bound,Row based and fixed schema,Document based and schema free,Document based and schema free
+MongoDB,2,MongoDB allows which constructs to represent complex relationships in a single record?,Triggers only,Stored procedures only,Embedded documents and arrays,Foreign keys only,Embedded documents and arrays
+MongoDB,2,What does JSON stand for?,Joint Schema Object Notation,JavaScript Online Network,Java Standard Object Names,JavaScript Object Notation,JavaScript Object Notation
+MongoDB,2,JSON is built on which two structures?,Rows and columns,Nodes and edges,Tables and views,A collection of name/value pairs and an ordered list of values,A collection of name/value pairs and an ordered list of values
+MongoDB,2,Which basic data types does JSON support?,Only integers,Only strings,Only binary blobs,"Numbers, strings, booleans, arrays, and hashes","Numbers, strings, booleans, arrays, and hashes"
+MongoDB,2,BSON is described as lightweight because:,It stores only strings,It keeps the overhead of processing extra header data to a minimum over the network,It uses no data types,It cannot store arrays,It keeps the overhead of processing extra header data to a minimum over the network
+MongoDB,2,BSON is described as efficient because it:,Requires manual parsing,Compresses data to zero bytes,Uses C data types that allow quick encoding and decoding,Stores only text,Uses C data types that allow quick encoding and decoding
+MongoDB,2,"In MongoDB, the equivalent of an RDBMS table or view is called:",Field,Document,Collection,Shard,Collection
+MongoDB,2,"In MongoDB, the equivalent of an RDBMS column is a:",Field,Collection,Shard,Document,Field
+MongoDB,2,"In MongoDB, the equivalent of an RDBMS join is:",Index,Field,Embedded document,Shard,Embedded document
+MongoDB,2,"In MongoDB, the equivalent of an RDBMS partition is a:",Reference,Shard,Document,Collection,Shard
+MongoDB,2,Collections in MongoDB are grouped into:,Tables,Databases,Indexes,Shards only,Databases
+MongoDB,2,A relational table requires an extra field. What must happen?,The entire table needs to be altered,"Nothing, it is automatically added only to that row",Documents are converted to BSON,A new database is created,The entire table needs to be altered
+MongoDB,2,"In MongoDB, each document in a collection can have:",No fields,Exactly the same fields as every other document,Only numeric fields,A completely independent structure,A completely independent structure
+MongoDB,2,A write operation in a single document in MongoDB is considered:,Atomic only on secondaries,Never atomic,"Atomic, even if it alters multiple embedded documents",Atomic only across collections,"Atomic, even if it alters multiple embedded documents"
+MongoDB,2,"For a multi-document write operation in MongoDB (as described in the course), which is true?",It always locks the whole cluster,It is always fully atomic,It cannot be performed,The entire operation is not atomic and other operations may interleave,The entire operation is not atomic and other operations may interleave
+MongoDB,2,Distributing a database across multiple machines is called:,Horizontal scaling (scaling out),Vertical scaling,Journaling,Indexing,Horizontal scaling (scaling out)
+MongoDB,2,Which statement is true about scaling up?,It is easy but can be a costly affair,It uses commodity servers only,It can never be done,It is always cheap and unlimited,It is easy but can be a costly affair
+MongoDB,2,What is the range-based partitioning mechanism used by MongoDB for horizontal scaling called?,Auto-mapping,Auto-sharding,Auto-journaling,Auto-indexing,Auto-sharding
+MongoDB,2,What determines the distribution of collection data in automatic sharding?,The shard key,The primary key only,The replica name,The database name,The shard key
+MongoDB,2,Which type of searches can MongoDB perform?,Only SQL joins,"Search by field, range queries, and regular expression searches",Only exact key matches,Only full table scans,"Search by field, range queries, and regular expression searches"
+MongoDB,2,In what form does MongoDB implement secondary indexes?,Hash tables only,B-trees,Linked lists,Binary files,B-trees
+MongoDB,2,What is the maximum number of indexes MongoDB allows per collection (as stated in the course)?,64,128,8,16,64
+MongoDB,2,What does MongoDB use to create database replication?,Views,Replica sets,Stored procedures,Triggers,Replica sets
+MongoDB,2,"In a replica set, the primary supports ___ while the secondary supports ___.",Read and write; read,Read only; write only,Write only; read only,Neither; both,Read and write; read
+MongoDB,2,"When the primary fails in a replica set, what happens?",A secondary is converted to primary,A new database is created automatically,The data is deleted,The cluster stops permanently,A secondary is converted to primary
+MongoDB,2,How does MongoDB store data in memory?,In a separate Java heap only,"In memory mapped files, letting the operating system manage memory",In a hash table on disk,In flat CSV files only,"In memory mapped files, letting the operating system manage memory"
+MongoDB,2,Which type of consistency can be chosen via the replica set depending on needs?,Only no consistency,Only strict ACID,Only eventual consistency,Strong or delayed consistency,Strong or delayed consistency
+MongoDB,2,A MapReduce operation consists of which two phases?,Read and Write,Index and Sort,Map and Reduce,Split and Merge,Map and Reduce
+MongoDB,2,In the Map phase of MapReduce:,Documents are processed and one or more objects are produced for each input document,Indexes are rebuilt,Data is deleted,Outputs are combined,Documents are processed and one or more objects are produced for each input document
+MongoDB,2,Aggregation operations in MongoDB are used to:,Create users,Rename databases,Install the server,Analyze data sets and return calculated results,Analyze data sets and return calculated results
+MongoDB,2,What does the ObjectId data type consist of?,4 bytes of random data,8 bytes only,"12 bytes, where the first four bytes represent the creation time",16 bytes of text,"12 bytes, where the first four bytes represent the creation time"
+MongoDB,2,"In BSON, a Date is stored as:",A string in DD/MM/YYYY format,A 32-bit integer of days,A 64-bit integer denoting milliseconds since the UNIX epoch,A floating point of seconds,A 64-bit integer denoting milliseconds since the UNIX epoch
+MongoDB,2,Which BSON type is for internal MongoDB use and is not associated with the regular Date type?,Symbol,Code,Binary data,Timestamp,Timestamp
+MongoDB,2,The Null data type in MongoDB is used to represent:,Only zero,Only an empty string,Only false,Both a null value and a nonexistent field,Both a null value and a nonexistent field
+MongoDB,2,Which type lets documents contain entire documents as values in a parent document?,Embedded document,Regular expression,Binary data,Symbol,Embedded document
+MongoDB,2,What is the core database server process of MongoDB called?,mongostat,mongos,mongosniff,mongod,mongod
+MongoDB,2,Which MongoDB component routes requests to the appropriate shard?,mongoexport,mongos,mongodump,mongod,mongos
+MongoDB,2,A replica set configuration in the course comprises two replicas and:,A second router,An arbiter process residing on a third server,A load balancer,A config backup,An arbiter process residing on a third server
+MongoDB,2,Which tool restores a MongoDB database from a dump?,mongorestore,mongosniff,mongostat,mongoexport,mongorestore
+MongoDB,2,"Which tools import and export JSON, CSV and TSV data?",mongoimport and mongoexport,mongodump and mongorestore,mongostat and mongosniff,mongos and mongod,mongoimport and mongoexport
+MongoDB,2,"Which tool provides statistics such as inserts, queries, updates and deletes?",mongosniff,mongoexport,mongostat,mongorestore,mongostat
+MongoDB,2,Which is a use case of MongoDB mentioned in the course?,Only spreadsheet use,Internet of Things (IoT),Only printing documents,Only email servers,Internet of Things (IoT)
+MongoDB,2,Which MongoDB use case builds a single view of all business data?,Single View,Catalog,Personalization,Mobile,Single View
+MongoDB,2,Embedded (denormalized) data models are suitable for:,No relationships,'Contains' and one-to-many relationships between entities,Complex many-to-many relationships only,Large hierarchical data sets only,'Contains' and one-to-many relationships between entities
+MongoDB,2,An advantage of embedded data models is that they:,Cannot hold arrays,Always require more queries,Allow related data to be updated in a single atomic write operation,Prevent any data duplication,Allow related data to be updated in a single atomic write operation
+MongoDB,2,The key challenge in data modeling involves balancing:,Only licensing,Only the colour of the UI,"Application needs, database engine performance, and data retrieval patterns",Only the server brand,"Application needs, database engine performance, and data retrieval patterns"
+MongoDB,2,"In the HR case study, why did the organization move away from RDBMS?",The schema never changed,RDBMS was too fast,Hierarchical data and frequently changing schema were hard to manage,The data was too small,Hierarchical data and frequently changing schema were hard to manage
+MongoDB,2,"In the case study, which tool was used to insert sample JSON data into MongoDB?",mongostat,mongoimport,mongodump,mongosniff,mongoimport

@@ -1,0 +1,2128 @@
+Lesson 1: Introduction to NoSQL Databases
+Section A: Questions (50)
+1.	What does the term NoSQL stand for?
+A.	Not Only SQL
+B.	No Structured Query Language
+C.	Network Object SQL
+D.	New Online SQL
+2.	Who introduced the term NoSQL in 1998 to name his file-based database?
+A.	Dwight Merriman
+B.	Eric Brewer
+C.	Carl Strozzi
+D.	Eric Evans
+3.	The term NoSQL was also used as the hashtag (#nosql) for a meetup about which topic?
+A.	Mobile app development
+B.	Cloud billing models
+C.	Relational database tuning
+D.	Open source distributed databases
+4.	NoSQL databases are based on which principles?
+A.	Only the SQL standard
+B.	Strict relational algebra
+C.	They are not based on RDBMS principles
+D.	Fixed-schema table design only
+5.	Which of the following is a common feature of NoSQL databases?
+A.	Support only for vertical scaling
+B.	Mandatory joins across tables
+C.	Schema-less design
+D.	Fixed schema
+6.	NoSQL databases are mostly:
+A.	Hardware-based
+B.	Closed source
+C.	Licensed per query
+D.	Open source
+7.	NoSQL databases are built mainly for:
+A.	Spreadsheet processing
+B.	Print layout
+C.	Legacy mainframe batch jobs
+D.	New generation web applications
+8.	Which development drove the demand for managing large data and the rise of NoSQL?
+A.	Return to file-based systems
+B.	Reduction of data volumes
+C.	The explosion of social media sites such as Facebook and Twitter
+D.	Decline in internet usage
+9.	Which of the following is NOT one of the four basic NoSQL database types?
+A.	Graph
+B.	Relational
+C.	Key-Value
+D.	Document
+10.	Which are the four basic types of NoSQL databases?
+A.	Key-Value, Document, Column-based, Graph
+B.	Key-Value, Relational, Column, Tree
+C.	Document, Table, Graph, Index
+D.	Row, Column, Table, Graph
+11.	Which statement is true about the schema of an RDBMS?
+A.	It has no schema
+B.	It is schema-less
+C.	It follows a fixed schema
+D.	It follows a dynamic schema
+12.	Which statement is true about the schema of NoSQL databases?
+A.	They need ALTER TABLE for every change
+B.	They require a predefined table structure
+C.	They follow dynamic schemas
+D.	They follow only fixed schemas
+13.	Which type of scaling does an RDBMS typically support?
+A.	Horizontal scaling only
+B.	No scaling
+C.	Auto-sharding only
+D.	Vertical scaling
+14.	Which type of scaling do NoSQL databases support?
+A.	Vertical scaling only
+B.	No scaling
+C.	Horizontal scaling
+D.	Scaling only in single-node mode
+15.	Which statement about ACID compliance is made in the course comparison of RDBMS and NoSQL?
+A.	Both are fully ACID compliant in the same way
+B.	RDBMS is ACID compliant while NoSQL is generally not ACID compliant
+C.	NoSQL is always ACID compliant while RDBMS is not
+D.	Neither supports ACID
+16.	NoSQL databases can serve as the primary data source for which kind of applications?
+A.	Only desktop publishing
+B.	Only embedded firmware
+C.	Only offline batch reports
+D.	Online applications
+17.	NoSQL databases are well suited for big data use cases involving which characteristics?
+A.	Low-volume transactions only
+B.	Velocity, variety, volume, and complexity
+C.	Static data with no growth
+D.	Only small, uniform data
+18.	Which benefit of NoSQL relates to uptime?
+A.	Manual failover only
+B.	Inherent continuous availability
+C.	Single point of failure
+D.	Mandatory scheduled downtime
+19.	NoSQL databases excel at which kind of operations?
+A.	Only in-memory calculators
+B.	Only offline reporting
+C.	Distributed database and multi-data center operations
+D.	Single-user local operations
+20.	Which layer can NoSQL eliminate the need for?
+A.	The application layer
+B.	A specific caching layer
+C.	The network layer
+D.	The operating system
+21.	How do NoSQL databases improve performance when load increases?
+A.	By replacing the CPU in a single machine only
+B.	By dropping indexes
+C.	By reducing the data stored
+D.	By adding additional nodes to the cluster
+22.	A flexible schema design in NoSQL means the schema can be altered:
+A.	Without downtime or service disruption
+B.	Never after creation
+C.	Only after a full system shutdown
+D.	Only by a DBA at midnight
+23.	NoSQL databases can operate in which type of environment?
+A.	Only on-premises servers
+B.	Only on tape drives
+C.	Only on mobile devices
+D.	Cloud settings
+24.	Which of the following is a Key-Value database used for caching?
+A.	Memcached
+B.	OrientDB
+C.	InfoGrid
+D.	Hypertable
+25.	How does a key-value store hold each item?
+A.	As rows in joined tables
+B.	As an attribute name (key) together with its value
+C.	As column families only
+D.	As nodes and edges
+26.	Key-value stores are ideal for:
+A.	Complex multi-table joins
+B.	Web-scale operations across thousands of servers and millions of users with quick retrieval
+C.	Deep graph traversal
+D.	Strict relational constraints
+27.	Which is a disadvantage of key-value databases mentioned in the course?
+A.	Maintaining unique keys becomes difficult as data volume increases
+B.	They require fixed schemas
+C.	They cannot store any data
+D.	They cannot be accessed by key
+28.	Which of the following is a document database?
+A.	Cassandra
+B.	Riak
+C.	MongoDB
+D.	Redis server
+29.	Which statement describes Apache CouchDB?
+A.	It uses JSON for documents, JavaScript for MapReduce indexes, and HTTP for its API
+B.	It is a key-value cache
+C.	It uses SQL for all queries
+D.	It stores data as nodes and edges
+30.	MongoDB provides built-in support for which of the following, as described in the course?
+A.	Only graph traversal
+B.	Only column compression
+C.	MapReduce-style aggregation and geospatial indexes
+D.	Only a key-value API
+31.	Which of the following is a column-based database?
+A.	Cassandra
+B.	MongoDB
+C.	Neo4J
+D.	Riak
+32.	In a column-based database, what identifies the rows?
+A.	The document id only
+B.	The row key
+C.	The node label
+D.	The foreign key
+33.	Which kind of operations are performed quickly in column-based databases?
+A.	Aggregate operations such as MIN, MAX, SUM, COUNT and AVG
+B.	Only relationship traversal
+C.	Only full-text translation
+D.	Only INSERT operations
+34.	Which statement is true about Cassandra?
+A.	It is a graph database
+B.	Any node can handle read and write operations
+C.	It is a document database
+D.	Only one master node can accept writes
+35.	Which database type stores data and relationships as nodes and edges?
+A.	Column-based database
+B.	Key-Value database
+C.	Document database
+D.	Graph database
+36.	Which of the following is a graph database?
+A.	CouchDB
+B.	Neo4J
+C.	Cassandra
+D.	Memcached
+37.	Which graph database was created by Twitter for relationship-related analytics?
+A.	OrientDB
+B.	FlockDB
+C.	Neo4J
+D.	InfiniteGraph
+38.	The CAP theorem states that in a distributed system:
+A.	None of the properties can be used
+B.	All three properties can always be guaranteed
+C.	Only one property can ever be used
+D.	Only two of the three properties can be guaranteed simultaneously
+39.	What do the letters in CAP stand for?
+A.	Consistency, Availability, Partition tolerance
+B.	Consistency, Atomicity, Partitioning
+C.	Capacity, Availability, Performance
+D.	Concurrency, Atomicity, Persistence
+40.	In the CAP theorem, consistency means:
+A.	The system works across network failures
+B.	All clients see the same view of the data with consistent reads and writes
+C.	The system is always online
+D.	Data is encrypted
+41.	In the CAP theorem, availability means:
+A.	The database system is available to operate when required
+B.	The system survives cluster failures
+C.	All clients see identical data at the same instant
+D.	The data meets schema constraints
+42.	Consistency in ACID means that:
+A.	Data is partitioned across shards
+B.	The database is always online
+C.	All nodes show the same value at the same time
+D.	Data that does not satisfy predefined constraints is not persisted
+43.	According to the CAP theorem, what kind of system is MongoDB?
+A.	CA (Consistent and Available)
+B.	AC only
+C.	CP (Consistent and Partition tolerant)
+D.	AP (Available and Partition tolerant)
+44.	Which CAP properties does MongoDB favor?
+A.	Availability and Partition tolerance
+B.	Consistency and Availability
+C.	Consistency and Partition tolerance
+D.	Availability only
+45.	Which of the following should be understood before adjusting a database according to CAP?
+A.	How data is consumed, whether it is read or write heavy, and whether inconsistent data can be handled
+B.	The brand of the server
+C.	Only the programming language
+D.	Only the color of the UI
+46.	In the case study, how many hits per second can MongoDB serve on one node, according to the course?
+A.	500
+B.	1000
+C.	100000
+D.	11000
+47.	In the case study, by default MongoDB performs reads and writes on which node?
+A.	A secondary node
+B.	The primary node
+C.	The backup node
+D.	The arbiter
+48.	In the case study, what replication factor is used?
+A.	3, with 1 primary and 2 secondary nodes
+B.	1 primary only
+C.	5 primaries
+D.	2 primaries and 1 secondary
+49.	In the case study, to which node do the analytics team's hits go?
+A.	One of the secondary nodes
+B.	The config server
+C.	The primary node
+D.	The arbiter
+50.	In the case study, why is it acceptable for analytics reads to go to a secondary?
+A.	Analytics does not read data
+B.	Secondaries always have more recent data than the primary
+C.	Secondaries never fall behind
+D.	It may miss the last few seconds of data, which does not matter much
+Answer Key: Lesson 1: Introduction to NoSQL Databases
+| Q   | Ans   | Correct answer   |
+| 1   | A   | Not Only SQL   |
+| 2   | C   | Carl Strozzi   |
+| 3   | D   | Open source distributed databases   |
+| 4   | C   | They are not based on RDBMS principles   |
+| 5   | C   | Schema-less design   |
+| 6   | D   | Open source   |
+| 7   | D   | New generation web applications   |
+| 8   | C   | The explosion of social media sites such as Facebook and Twitter   |
+| 9   | B   | Relational   |
+| 10   | A   | Key-Value, Document, Column-based, Graph   |
+| 11   | C   | It follows a fixed schema   |
+| 12   | C   | They follow dynamic schemas   |
+| 13   | D   | Vertical scaling   |
+| 14   | C   | Horizontal scaling   |
+| 15   | B   | RDBMS is ACID compliant while NoSQL is generally not ACID compliant   |
+| 16   | D   | Online applications   |
+| 17   | B   | Velocity, variety, volume, and complexity   |
+| 18   | B   | Inherent continuous availability   |
+| 19   | C   | Distributed database and multi-data center operations   |
+| 20   | B   | A specific caching layer   |
+| 21   | D   | By adding additional nodes to the cluster   |
+| 22   | A   | Without downtime or service disruption   |
+| 23   | D   | Cloud settings   |
+| 24   | A   | Memcached   |
+| 25   | B   | As an attribute name (key) together with its value   |
+| 26   | B   | Web-scale operations across thousands of servers and millions of users with quick retrieval   |
+| 27   | A   | Maintaining unique keys becomes difficult as data volume increases   |
+| 28   | C   | MongoDB   |
+| 29   | A   | It uses JSON for documents, JavaScript for MapReduce indexes, and HTTP for its API   |
+| 30   | C   | MapReduce-style aggregation and geospatial indexes   |
+| 31   | A   | Cassandra   |
+| 32   | B   | The row key   |
+| 33   | A   | Aggregate operations such as MIN, MAX, SUM, COUNT and AVG   |
+| 34   | B   | Any node can handle read and write operations   |
+| 35   | D   | Graph database   |
+| 36   | B   | Neo4J   |
+| 37   | B   | FlockDB   |
+| 38   | D   | Only two of the three properties can be guaranteed simultaneously   |
+| 39   | A   | Consistency, Availability, Partition tolerance   |
+| 40   | B   | All clients see the same view of the data with consistent reads and writes   |
+| 41   | A   | The database system is available to operate when required   |
+| 42   | D   | Data that does not satisfy predefined constraints is not persisted   |
+| 43   | C   | CP (Consistent and Partition tolerant)   |
+| 44   | C   | Consistency and Partition tolerance   |
+| 45   | A   | How data is consumed, whether it is read or write heavy, and whether inconsistent data can be handled   |
+| 46   | D   | 11000   |
+| 47   | B   | The primary node   |
+| 48   | A   | 3, with 1 primary and 2 secondary nodes   |
+| 49   | A   | One of the secondary nodes   |
+| 50   | D   | It may miss the last few seconds of data, which does not matter much   |
+Lesson 2: MongoDB - A Database for the Modern Web
+Section A: Questions (50)
+1.	MongoDB replaces the concept of 'rows' of relational data models with:
+A.	Columns
+B.	Views
+C.	Tables
+D.	Documents
+2.	Which two key characteristics describe MongoDB?
+A.	Graph based and fixed schema
+B.	Key-only and schema bound
+C.	Row based and fixed schema
+D.	Document based and schema free
+3.	MongoDB allows which constructs to represent complex relationships in a single record?
+A.	Triggers only
+B.	Stored procedures only
+C.	Embedded documents and arrays
+D.	Foreign keys only
+4.	What does JSON stand for?
+A.	Joint Schema Object Notation
+B.	JavaScript Online Network
+C.	Java Standard Object Names
+D.	JavaScript Object Notation
+5.	JSON is built on which two structures?
+A.	Rows and columns
+B.	Nodes and edges
+C.	Tables and views
+D.	A collection of name/value pairs and an ordered list of values
+6.	Which basic data types does JSON support?
+A.	Only integers
+B.	Only strings
+C.	Only binary blobs
+D.	Numbers, strings, booleans, arrays, and hashes
+7.	BSON is described as lightweight because:
+A.	It stores only strings
+B.	It keeps the overhead of processing extra header data to a minimum over the network
+C.	It uses no data types
+D.	It cannot store arrays
+8.	BSON is described as efficient because it:
+A.	Requires manual parsing
+B.	Compresses data to zero bytes
+C.	Uses C data types that allow quick encoding and decoding
+D.	Stores only text
+9.	In MongoDB, the equivalent of an RDBMS table or view is called:
+A.	Field
+B.	Document
+C.	Collection
+D.	Shard
+10.	In MongoDB, the equivalent of an RDBMS column is a:
+A.	Field
+B.	Collection
+C.	Shard
+D.	Document
+11.	In MongoDB, the equivalent of an RDBMS join is:
+A.	Index
+B.	Field
+C.	Embedded document
+D.	Shard
+12.	In MongoDB, the equivalent of an RDBMS partition is a:
+A.	Reference
+B.	Shard
+C.	Document
+D.	Collection
+13.	Collections in MongoDB are grouped into:
+A.	Tables
+B.	Databases
+C.	Indexes
+D.	Shards only
+14.	A relational table requires an extra field. What must happen?
+A.	The entire table needs to be altered
+B.	Nothing, it is automatically added only to that row
+C.	Documents are converted to BSON
+D.	A new database is created
+15.	In MongoDB, each document in a collection can have:
+A.	No fields
+B.	Exactly the same fields as every other document
+C.	Only numeric fields
+D.	A completely independent structure
+16.	A write operation in a single document in MongoDB is considered:
+A.	Atomic only on secondaries
+B.	Never atomic
+C.	Atomic, even if it alters multiple embedded documents
+D.	Atomic only across collections
+17.	For a multi-document write operation in MongoDB (as described in the course), which is true?
+A.	It always locks the whole cluster
+B.	It is always fully atomic
+C.	It cannot be performed
+D.	The entire operation is not atomic and other operations may interleave
+18.	Distributing a database across multiple machines is called:
+A.	Horizontal scaling (scaling out)
+B.	Vertical scaling
+C.	Journaling
+D.	Indexing
+19.	Which statement is true about scaling up?
+A.	It is easy but can be a costly affair
+B.	It uses commodity servers only
+C.	It can never be done
+D.	It is always cheap and unlimited
+20.	What is the range-based partitioning mechanism used by MongoDB for horizontal scaling called?
+A.	Auto-mapping
+B.	Auto-sharding
+C.	Auto-journaling
+D.	Auto-indexing
+21.	What determines the distribution of collection data in automatic sharding?
+A.	The shard key
+B.	The primary key only
+C.	The replica name
+D.	The database name
+22.	Which type of searches can MongoDB perform?
+A.	Only SQL joins
+B.	Search by field, range queries, and regular expression searches
+C.	Only exact key matches
+D.	Only full table scans
+23.	In what form does MongoDB implement secondary indexes?
+A.	Hash tables only
+B.	B-trees
+C.	Linked lists
+D.	Binary files
+24.	What is the maximum number of indexes MongoDB allows per collection (as stated in the course)?
+A.	64
+B.	128
+C.	8
+D.	16
+25.	What does MongoDB use to create database replication?
+A.	Views
+B.	Replica sets
+C.	Stored procedures
+D.	Triggers
+26.	In a replica set, the primary supports ___ while the secondary supports ___.
+A.	Read and write; read
+B.	Read only; write only
+C.	Write only; read only
+D.	Neither; both
+27.	When the primary fails in a replica set, what happens?
+A.	A secondary is converted to primary
+B.	A new database is created automatically
+C.	The data is deleted
+D.	The cluster stops permanently
+28.	How does MongoDB store data in memory?
+A.	In a separate Java heap only
+B.	In memory mapped files, letting the operating system manage memory
+C.	In a hash table on disk
+D.	In flat CSV files only
+29.	Which type of consistency can be chosen via the replica set depending on needs?
+A.	Only no consistency
+B.	Only strict ACID
+C.	Only eventual consistency
+D.	Strong or delayed consistency
+30.	A MapReduce operation consists of which two phases?
+A.	Read and Write
+B.	Index and Sort
+C.	Map and Reduce
+D.	Split and Merge
+31.	In the Map phase of MapReduce:
+A.	Documents are processed and one or more objects are produced for each input document
+B.	Indexes are rebuilt
+C.	Data is deleted
+D.	Outputs are combined
+32.	Aggregation operations in MongoDB are used to:
+A.	Create users
+B.	Rename databases
+C.	Install the server
+D.	Analyze data sets and return calculated results
+33.	What does the ObjectId data type consist of?
+A.	4 bytes of random data
+B.	8 bytes only
+C.	12 bytes, where the first four bytes represent the creation time
+D.	16 bytes of text
+34.	In BSON, a Date is stored as:
+A.	A string in DD/MM/YYYY format
+B.	A 32-bit integer of days
+C.	A 64-bit integer denoting milliseconds since the UNIX epoch
+D.	A floating point of seconds
+35.	Which BSON type is for internal MongoDB use and is not associated with the regular Date type?
+A.	Symbol
+B.	Code
+C.	Binary data
+D.	Timestamp
+36.	The Null data type in MongoDB is used to represent:
+A.	Only zero
+B.	Only an empty string
+C.	Only false
+D.	Both a null value and a nonexistent field
+37.	Which type lets documents contain entire documents as values in a parent document?
+A.	Embedded document
+B.	Regular expression
+C.	Binary data
+D.	Symbol
+38.	What is the core database server process of MongoDB called?
+A.	mongostat
+B.	mongos
+C.	mongosniff
+D.	mongod
+39.	Which MongoDB component routes requests to the appropriate shard?
+A.	mongoexport
+B.	mongos
+C.	mongodump
+D.	mongod
+40.	A replica set configuration in the course comprises two replicas and:
+A.	A second router
+B.	An arbiter process residing on a third server
+C.	A load balancer
+D.	A config backup
+41.	Which tool restores a MongoDB database from a dump?
+A.	mongorestore
+B.	mongosniff
+C.	mongostat
+D.	mongoexport
+42.	Which tools import and export JSON, CSV and TSV data?
+A.	mongoimport and mongoexport
+B.	mongodump and mongorestore
+C.	mongostat and mongosniff
+D.	mongos and mongod
+43.	Which tool provides statistics such as inserts, queries, updates and deletes?
+A.	mongosniff
+B.	mongoexport
+C.	mongostat
+D.	mongorestore
+44.	Which is a use case of MongoDB mentioned in the course?
+A.	Only spreadsheet use
+B.	Internet of Things (IoT)
+C.	Only printing documents
+D.	Only email servers
+45.	Which MongoDB use case builds a single view of all business data?
+A.	Single View
+B.	Catalog
+C.	Personalization
+D.	Mobile
+46.	Embedded (denormalized) data models are suitable for:
+A.	No relationships
+B.	'Contains' and one-to-many relationships between entities
+C.	Complex many-to-many relationships only
+D.	Large hierarchical data sets only
+47.	An advantage of embedded data models is that they:
+A.	Cannot hold arrays
+B.	Always require more queries
+C.	Allow related data to be updated in a single atomic write operation
+D.	Prevent any data duplication
+48.	The key challenge in data modeling involves balancing:
+A.	Only licensing
+B.	Only the colour of the UI
+C.	Application needs, database engine performance, and data retrieval patterns
+D.	Only the server brand
+49.	In the HR case study, why did the organization move away from RDBMS?
+A.	The schema never changed
+B.	RDBMS was too fast
+C.	Hierarchical data and frequently changing schema were hard to manage
+D.	The data was too small
+50.	In the case study, which tool was used to insert sample JSON data into MongoDB?
+A.	mongostat
+B.	mongoimport
+C.	mongodump
+D.	mongosniff
+Answer Key: Lesson 2: MongoDB - A Database for the Modern Web
+| Q   | Ans   | Correct answer   |
+| 1   | D   | Documents   |
+| 2   | D   | Document based and schema free   |
+| 3   | C   | Embedded documents and arrays   |
+| 4   | D   | JavaScript Object Notation   |
+| 5   | D   | A collection of name/value pairs and an ordered list of values   |
+| 6   | D   | Numbers, strings, booleans, arrays, and hashes   |
+| 7   | B   | It keeps the overhead of processing extra header data to a minimum over the network   |
+| 8   | C   | Uses C data types that allow quick encoding and decoding   |
+| 9   | C   | Collection   |
+| 10   | A   | Field   |
+| 11   | C   | Embedded document   |
+| 12   | B   | Shard   |
+| 13   | B   | Databases   |
+| 14   | A   | The entire table needs to be altered   |
+| 15   | D   | A completely independent structure   |
+| 16   | C   | Atomic, even if it alters multiple embedded documents   |
+| 17   | D   | The entire operation is not atomic and other operations may interleave   |
+| 18   | A   | Horizontal scaling (scaling out)   |
+| 19   | A   | It is easy but can be a costly affair   |
+| 20   | B   | Auto-sharding   |
+| 21   | A   | The shard key   |
+| 22   | B   | Search by field, range queries, and regular expression searches   |
+| 23   | B   | B-trees   |
+| 24   | A   | 64   |
+| 25   | B   | Replica sets   |
+| 26   | A   | Read and write; read   |
+| 27   | A   | A secondary is converted to primary   |
+| 28   | B   | In memory mapped files, letting the operating system manage memory   |
+| 29   | D   | Strong or delayed consistency   |
+| 30   | C   | Map and Reduce   |
+| 31   | A   | Documents are processed and one or more objects are produced for each input document   |
+| 32   | D   | Analyze data sets and return calculated results   |
+| 33   | C   | 12 bytes, where the first four bytes represent the creation time   |
+| 34   | C   | A 64-bit integer denoting milliseconds since the UNIX epoch   |
+| 35   | D   | Timestamp   |
+| 36   | D   | Both a null value and a nonexistent field   |
+| 37   | A   | Embedded document   |
+| 38   | D   | mongod   |
+| 39   | B   | mongos   |
+| 40   | B   | An arbiter process residing on a third server   |
+| 41   | A   | mongorestore   |
+| 42   | A   | mongoimport and mongoexport   |
+| 43   | C   | mongostat   |
+| 44   | B   | Internet of Things (IoT)   |
+| 45   | A   | Single View   |
+| 46   | B   | 'Contains' and one-to-many relationships between entities   |
+| 47   | C   | Allow related data to be updated in a single atomic write operation   |
+| 48   | C   | Application needs, database engine performance, and data retrieval patterns   |
+| 49   | C   | Hierarchical data and frequently changing schema were hard to manage   |
+| 50   | B   | mongoimport   |
+Lesson 3: CRUD Operations in MongoDB
+Section A: Questions (50)
+1.	What does CRUD stand for?
+A.	Create, Replicate, Upload, Delete
+B.	Connect, Read, Use, Disconnect
+C.	Create, Read, Update, Delete
+D.	Copy, Run, Update, Drop
+2.	Data modification operations in MongoDB modify data of how many collections at a time?
+A.	A single collection
+B.	All collections in the database
+C.	All databases
+D.	Two collections
+3.	A batch insert allows you to:
+A.	Update one document only
+B.	Create indexes
+C.	Store multiple documents in a database at one time
+D.	Delete many documents
+4.	Why are batch inserts faster?
+A.	They compress the network
+B.	They disable indexes
+C.	They skip writing data
+D.	They eliminate much of the header processing activity
+5.	What is the size limit of a single batch insert (as stated in the course)?
+A.	4 MB
+B.	16 MB
+C.	64 MB
+D.	1 MB
+6.	What is the maximum number of operations in each group of an ordered bulk operation?
+A.	10000
+B.	1000
+C.	100
+D.	500
+7.	When a bulk group exceeds 1000 operations, MongoDB:
+A.	Rejects all operations
+B.	Deletes the extra operations
+C.	Divides it into smaller groups of 1000 or fewer
+D.	Doubles the group size
+8.	Which shell helper initializes an unordered bulk operation?
+A.	initializeOrderedBulkOp()
+B.	bulk.start()
+C.	newBulkInsert()
+D.	initializeUnorderedBulkOp()
+9.	Which method executes the queued bulk operations?
+A.	bulk.send()
+B.	bulk.execute()
+C.	bulk.commit()
+D.	bulk.run()
+10.	In an unordered bulk operation, MongoDB:
+A.	Runs only on a single thread
+B.	Never reorders anything
+C.	Rejects groups over 10
+D.	Groups and reorders operations for enhanced performance
+11.	During an insert, the database checks for the '_id' key and confirms that the document does not exceed:
+A.	16 MB
+B.	4 MB
+C.	100 MB
+D.	1 MB
+12.	MongoDB is not vulnerable to traditional injection attacks on inserts because:
+A.	It encrypts every field
+B.	It blocks all network traffic
+C.	It only supports read operations
+D.	It does not perform any code execution on inserts
+13.	Which method retrieves documents from a collection?
+A.	drop()
+B.	find()
+C.	remove()
+D.	insert()
+14.	Which method formats find() output in a readable way?
+A.	beautify()
+B.	format()
+C.	pretty()
+D.	print()
+15.	What does an empty query document {} do in find()?
+A.	Raises an error
+B.	Deletes all documents
+C.	Selects all documents in the collection
+D.	Selects no documents
+16.	What does a projection in a MongoDB query define?
+A.	The fields to return from the matching documents
+B.	The sort order
+C.	The shard key
+D.	The index to use
+17.	Which operator matches any of a variety of values for a single key?
+A.	$where
+B.	$in
+C.	$slice
+D.	$not
+18.	MongoDB recommends using which operator instead of $or when performing equality checks on the same field?
+A.	$and
+B.	$nin
+C.	$in
+D.	$mod
+19.	In db.items.find({soldQty: {$lt: 900}}), what does $lt mean?
+A.	Less than
+B.	Greater than
+C.	Less than or equal
+D.	Equal to
+20.	In MongoDB, what does $gt mean?
+A.	Less than
+B.	Greater than or equal
+C.	Not equal
+D.	Greater than
+21.	What does the $mod operator do?
+A.	Modifies a document
+B.	Matches values whose remainder after division by the first value equals the second value
+C.	Mods a collection
+D.	Multiplies fields
+22.	In a query on an array field, {country_codes: 5} matches documents where:
+A.	The array is empty
+B.	The array is sorted
+C.	The array contains 5 as at least one element
+D.	The array has exactly five elements
+23.	Which query accesses the first element of the array country_codes using dot notation?
+A.	{ 'country_codes@0': 1 }
+B.	{ 'country_codes[0]': 1 }
+C.	{ country_codes.first: 1 }
+D.	{ 'country_codes.0': 1 }
+24.	Which operator returns a subset of array elements, such as the first two?
+A.	$slice
+B.	$mod
+C.	$elemMatch
+D.	$where
+25.	Which operator matches documents whose array has an element satisfying multiple conditions?
+A.	$elemMatch
+B.	$slice
+C.	$not
+D.	$where
+26.	$where can be used to:
+A.	Create an index
+B.	Back up the database
+C.	Shard a collection
+D.	Compare the values of two keys in a document
+27.	Which cursor method checks if more results are available?
+A.	next()
+B.	hasNext()
+C.	hasMore()
+D.	moreData()
+28.	How does the shell fetch results of a query initially?
+A.	The first 10 MB
+B.	Only 1 result
+C.	The first 100 results or the first 4 MB
+D.	All results at once
+29.	Which cursor option skips the first n results?
+A.	skip()
+B.	limit()
+C.	sort()
+D.	explain()
+30.	In sort({username: 1, age: -1}), what does -1 mean?
+A.	Sort in descending order
+B.	Sort in ascending order
+C.	Ignore the field
+D.	Remove the field
+31.	To display the next page of 25 results, which cursor method is added?
+A.	limit(50)
+B.	explain(25)
+C.	hint(25)
+D.	skip(25)
+32.	How can pagination avoid skip?
+A.	By increasing the limit
+B.	By using drop()
+C.	By deleting earlier documents
+D.	By querying with a range condition on the last seen sort key, such as date
+33.	Which advanced query option tells the server which index to use?
+A.	$snapshot
+B.	$maxScan
+C.	$hint
+D.	$explain
+34.	Which advanced query option specifies the maximum number of documents scanned for a query?
+A.	$hint
+B.	$maxScan
+C.	$explain
+D.	$snapshot
+35.	Which method modifies existing documents in a collection?
+A.	update()
+B.	find()
+C.	drop()
+D.	insert()
+36.	The update() method takes which parameters?
+A.	An update condition, an update operation, and an options document
+B.	Only a cursor
+C.	Only a collection name
+D.	Only a sort order
+37.	Operations performed by an update are atomic within:
+A.	A single document
+B.	A whole cluster
+C.	A whole database
+D.	A whole collection
+38.	Which update operator changes the value of a field?
+A.	$push
+B.	$unset
+C.	$set
+D.	$inc
+39.	Which update operator increments or decrements numbers?
+A.	$inc
+B.	$pull
+C.	$push
+D.	$set
+40.	Which update operator removes a field from a document?
+A.	$inc
+B.	$unset
+C.	$set
+D.	$push
+41.	Which update operator adds an element to an array field?
+A.	$unset
+B.	$push
+C.	$set
+D.	$inc
+42.	Which update operator adds an element to an array only if it is not already present?
+A.	$push
+B.	$addToSet
+C.	$set
+D.	$inc
+43.	What does the positional operator $ do in an update?
+A.	Deletes the array
+B.	Updates the array element that matched the query document
+C.	Creates an index
+D.	Sorts the array
+44.	Which command increments votes for the first comment of a blog post using position?
+A.	{$set: {'comments.votes': 1}}
+B.	{$push: {'comments.0': 1}}
+C.	{$inc: {'comments.0.votes': 1}}
+D.	{$inc: {'comments[first].votes': 1}}
+45.	How is an upsert enabled in the update() method?
+A.	Using the option {upsert: true}
+B.	Using {insert: true}
+C.	Using {replace: true}
+D.	Using {multi: true}
+46.	Which statement is true about an upsert?
+A.	It always inserts a duplicate
+B.	It updates a matching document or inserts a new one if none matches
+C.	It always deletes
+D.	It requires a unique index
+47.	Which method removes documents from a collection?
+A.	find()
+B.	update()
+C.	remove()
+D.	insert()
+48.	Which call removes a single document where item is 'Bag'?
+A.	db.items.delete({item: 'Bag'})
+B.	db.items.drop({item: 'Bag'})
+C.	db.items.remove(1)
+D.	db.items.remove({item: 'Bag'}, 1)
+49.	Which method deletes the entire collection, including its indexes?
+A.	truncate()
+B.	remove({})
+C.	clear()
+D.	drop()
+50.	In the HR case study, bulk insert was used because:
+A.	It skips validation
+B.	Bulk insert is the only way to insert data
+C.	It deletes old data
+D.	The data was huge and bulk insert gives better performance
+Answer Key: Lesson 3: CRUD Operations in MongoDB
+| Q   | Ans   | Correct answer   |
+| 1   | C   | Create, Read, Update, Delete   |
+| 2   | A   | A single collection   |
+| 3   | C   | Store multiple documents in a database at one time   |
+| 4   | D   | They eliminate much of the header processing activity   |
+| 5   | B   | 16 MB   |
+| 6   | B   | 1000   |
+| 7   | C   | Divides it into smaller groups of 1000 or fewer   |
+| 8   | D   | initializeUnorderedBulkOp()   |
+| 9   | B   | bulk.execute()   |
+| 10   | D   | Groups and reorders operations for enhanced performance   |
+| 11   | A   | 16 MB   |
+| 12   | D   | It does not perform any code execution on inserts   |
+| 13   | B   | find()   |
+| 14   | C   | pretty()   |
+| 15   | C   | Selects all documents in the collection   |
+| 16   | A   | The fields to return from the matching documents   |
+| 17   | B   | $in   |
+| 18   | C   | $in   |
+| 19   | A   | Less than   |
+| 20   | D   | Greater than   |
+| 21   | B   | Matches values whose remainder after division by the first value equals the second value   |
+| 22   | C   | The array contains 5 as at least one element   |
+| 23   | D   | { 'country_codes.0': 1 }   |
+| 24   | A   | $slice   |
+| 25   | A   | $elemMatch   |
+| 26   | D   | Compare the values of two keys in a document   |
+| 27   | B   | hasNext()   |
+| 28   | C   | The first 100 results or the first 4 MB   |
+| 29   | A   | skip()   |
+| 30   | A   | Sort in descending order   |
+| 31   | D   | skip(25)   |
+| 32   | D   | By querying with a range condition on the last seen sort key, such as date   |
+| 33   | C   | $hint   |
+| 34   | B   | $maxScan   |
+| 35   | A   | update()   |
+| 36   | A   | An update condition, an update operation, and an options document   |
+| 37   | A   | A single document   |
+| 38   | C   | $set   |
+| 39   | A   | $inc   |
+| 40   | B   | $unset   |
+| 41   | B   | $push   |
+| 42   | B   | $addToSet   |
+| 43   | B   | Updates the array element that matched the query document   |
+| 44   | C   | {$inc: {'comments.0.votes': 1}}   |
+| 45   | A   | Using the option {upsert: true}   |
+| 46   | B   | It updates a matching document or inserts a new one if none matches   |
+| 47   | C   | remove()   |
+| 48   | D   | db.items.remove({item: 'Bag'}, 1)   |
+| 49   | D   | drop()   |
+| 50   | D   | The data was huge and bulk insert gives better performance   |
+Lesson 4: Indexing and Aggregation in MongoDB
+Section A: Questions (50)
+1.	What are indexes in MongoDB?
+A.	Backup files of a collection
+B.	Data structures that store a collection's data set in a form that is easy to traverse
+C.	Network protocols
+D.	Query languages
+2.	Indexes help MongoDB queries to:
+A.	Avoid storing data
+B.	Find matching documents without a collection scan
+C.	Always scan the whole collection
+D.	Delete documents faster
+3.	Which index does every MongoDB collection contain by default?
+A.	A geospatial index
+B.	A text index
+C.	An index on the name field
+D.	An index on the _id field
+4.	Which index types support geospatial queries?
+A.	Text and unique
+B.	2d and 2dsphere indexes
+C.	Sparse and compound
+D.	Hashed and TTL
+5.	Which index type is used to search string data in a collection?
+A.	Text index
+B.	TTL index
+C.	Hashed index
+D.	Geospatial index
+6.	Which method is used to create an index in the course examples?
+A.	addIndex()
+B.	makeIndex()
+C.	createIndex()
+D.	newIndex()
+7.	How do you create an index on an embedded document field ISDN inside details?
+A.	It is not possible
+B.	db.items.createIndex({ISDN.details: 1})
+C.	db.items.createIndex({details: ISDN})
+D.	db.items.createIndex({'details.ISDN': 1})
+8.	For compound indexes, sort order is:
+A.	Ignored by MongoDB
+B.	Only important for _id
+C.	Important, since it determines whether the index can support a sort operation
+D.	Never important
+9.	A compound index contains:
+A.	Multiple fields in a single index
+B.	Only the _id field
+C.	Only one field
+D.	Only text fields
+10.	For the compound index {item: 1, available: 1, soldQty: 1}, an index prefix is:
+A.	Any single field in the middle
+B.	Only the last field
+C.	Only the _id
+D.	A combination starting from the first field, such as {item}
+11.	When sorted documents cannot be obtained from an index, the sort is performed:
+A.	It cannot be performed
+B.	In memory
+C.	By the client
+D.	On disk automatically always
+12.	A sort operation without an index fails after exhausting how much memory (per the course)?
+A.	32 MB
+B.	4 MB
+C.	100 MB
+D.	16 MB
+13.	For a field holding an array, MongoDB creates:
+A.	Separate index entries for each array element (multikey index)
+B.	Only one index entry for the whole array
+C.	No index
+D.	A text index
+14.	Which of these cannot be a multikey index?
+A.	An index on numbers array
+B.	A shard key index and a hashed index
+C.	A single field index on an array
+D.	An index on strings array
+15.	A hashed shard key ensures:
+A.	Slower data distribution
+B.	Data on a single shard
+C.	Even data distribution across shards
+D.	No sharding
+16.	Which statement about hashed indexes is correct?
+A.	They can only be used for text
+B.	You cannot create a unique or compound index on a hashed field
+C.	They must be unique
+D.	They support range queries
+17.	What does TTL stand for in TTL indexes?
+A.	Total Table Lock
+B.	Time To Live
+C.	Time To Load
+D.	Transaction Timeout Limit
+18.	Which statement is true about TTL indexes?
+A.	They never delete documents
+B.	They work on the _id field
+C.	They can be compound indexes
+D.	They cannot be created on a capped collection
+19.	To change a non-TTL single-field index to a TTL index, you must:
+A.	Restart the server
+B.	Drop the index and recreate it with expireAfterSeconds
+C.	Use createIndex to alter it in place
+D.	Rename the index
+20.	Which is the correct syntax to create a unique index on name?
+A.	db.collection.unique({name: 1})
+B.	db.collection.createIndex({name: 1}, {unique: true})
+C.	db.collection.createIndex({unique: true}, {name: 1})
+D.	db.collection.createUniqueIndex({name: 1})
+21.	What happens when more than one document has a missing indexed field and the index is unique?
+A.	The index build fails
+B.	The documents are deleted
+C.	The documents are merged
+D.	The index is built silently
+22.	Which option creates a sparse index?
+A.	{sparse: true}
+B.	{skip: true}
+C.	{ignore: true}
+D.	{partial: 1}
+23.	MongoDB does not use a sparse index that would return an incomplete result unless:
+A.	A unique index exists
+B.	The collection is empty
+C.	The server is restarted
+D.	It is specified with hint()
+24.	Which wildcard specifier indexes all fields containing string content in a text index?
+A.	$all
+B.	*
+C.	$**
+D.	%%
+25.	Which option sets the default language for a text index?
+A.	default_language
+B.	lang
+C.	text_language
+D.	language_default
+26.	By default, what is the value of the 'background' option when building indexes in MongoDB?
+A.	true
+B.	auto
+C.	false
+D.	null
+27.	What happens during a foreground index build?
+A.	Nothing, the database remains fully available
+B.	The database is deleted
+C.	The index builds instantly
+D.	Operations on the database are blocked
+28.	A background index build compared with a foreground build is:
+A.	Blocking
+B.	Instant
+C.	Slower and uses an incremental approach
+D.	Faster
+29.	Which method removes a specific index?
+A.	deleteIndex()
+B.	clearIndex()
+C.	removeIndex()
+D.	dropIndex()
+30.	Which method removes all indexes except _id?
+A.	dropIndex()
+B.	removeAll()
+C.	dropIndexes()
+D.	clearIndexes()
+31.	Which method drops all indexes including _id and rebuilds them?
+A.	dropIndexes()
+B.	reIndex()
+C.	createIndex()
+D.	rebuildIndex()
+32.	Which shell command aborts an ongoing index build?
+A.	db.killOp()
+B.	db.stop()
+C.	db.currentOp()
+D.	db.abort()
+33.	Which method forces MongoDB to use a particular index?
+A.	sort()
+B.	limit()
+C.	explain()
+D.	hint()
+34.	Which operator in hint() prevents MongoDB from using any index?
+A.	$none
+B.	$noindex
+C.	$skip
+D.	$natural
+35.	In serverStatus index metrics, 'scanAndOrder' is true when:
+A.	A query cannot use the order of documents in the index for sorted results
+B.	The index is sparse
+C.	The index is unique
+D.	The index is hashed
+36.	Which command reports the total number of indexes across all collections in a database?
+A.	ping
+B.	serverStatus
+C.	collStats
+D.	dbStats
+37.	Geospatial indexes are created by passing which values to createIndex()?
+A.	1 or -1
+B.	'2d' or '2dsphere'
+C.	'geo' or 'map'
+D.	'sphere' or 'flat'
+38.	Which operator returns locations within a specified polygon?
+A.	$near
+B.	$geoIntersects
+C.	$text
+D.	$geoWithin
+39.	Which operator returns points closest to a specified point?
+A.	$mod
+B.	$near
+C.	$geoWithin
+D.	$geoIntersects
+40.	Aggregation operations process data records and:
+A.	Only create indexes
+B.	Return computed results
+C.	Only delete documents
+D.	Only back up data
+41.	The MongoDB aggregation framework is based on:
+A.	Data processing pipelines
+B.	Triggers
+C.	Cursors only
+D.	Stored procedures
+42.	Which pipeline stage groups documents by an identifier expression and applies accumulators?
+A.	$group
+B.	$sort
+C.	$skip
+D.	$match
+43.	Which pipeline stage rearranges the document stream using sort keys?
+A.	$sort
+B.	$skip
+C.	$match
+D.	$limit
+44.	Which pipeline stage skips the first n documents?
+A.	$limit
+B.	$sort
+C.	$skip
+D.	$group
+45.	Which pipeline stage deconstructs an array field to output a document per element?
+A.	$unwind
+B.	$project
+C.	$match
+D.	$group
+46.	In the aggregation { $group: {_id: '$cust_id', total: {$sum: '$amount'}} }, what is calculated?
+A.	Number of customers
+B.	Maximum amount
+C.	Total amount for each customer
+D.	Average of amount
+47.	MapReduce functions in MongoDB are written in:
+A.	SQL
+B.	Java only
+C.	Python
+D.	JavaScript
+48.	In MapReduce, the emit() function is used to:
+A.	Create an index
+B.	Delete a key
+C.	Associate a value with a key in the map function
+D.	Sort the result
+49.	Which method returns the number of documents in a collection?
+A.	size()
+B.	distinct()
+C.	count()
+D.	group()
+50.	In the case study of population analysis, which feature funnels data down at the database level?
+A.	mongostat
+B.	mongodump
+C.	The aggregation framework
+D.	mongosniff
+Answer Key: Lesson 4: Indexing and Aggregation in MongoDB
+| Q   | Ans   | Correct answer   |
+| 1   | B   | Data structures that store a collection's data set in a form that is easy to traverse   |
+| 2   | B   | Find matching documents without a collection scan   |
+| 3   | D   | An index on the _id field   |
+| 4   | B   | 2d and 2dsphere indexes   |
+| 5   | A   | Text index   |
+| 6   | C   | createIndex()   |
+| 7   | D   | db.items.createIndex({'details.ISDN': 1})   |
+| 8   | C   | Important, since it determines whether the index can support a sort operation   |
+| 9   | A   | Multiple fields in a single index   |
+| 10   | D   | A combination starting from the first field, such as {item}   |
+| 11   | B   | In memory   |
+| 12   | A   | 32 MB   |
+| 13   | A   | Separate index entries for each array element (multikey index)   |
+| 14   | B   | A shard key index and a hashed index   |
+| 15   | C   | Even data distribution across shards   |
+| 16   | B   | You cannot create a unique or compound index on a hashed field   |
+| 17   | B   | Time To Live   |
+| 18   | D   | They cannot be created on a capped collection   |
+| 19   | B   | Drop the index and recreate it with expireAfterSeconds   |
+| 20   | B   | db.collection.createIndex({name: 1}, {unique: true})   |
+| 21   | A   | The index build fails   |
+| 22   | A   | {sparse: true}   |
+| 23   | D   | It is specified with hint()   |
+| 24   | C   | $**   |
+| 25   | A   | default_language   |
+| 26   | C   | false   |
+| 27   | D   | Operations on the database are blocked   |
+| 28   | C   | Slower and uses an incremental approach   |
+| 29   | D   | dropIndex()   |
+| 30   | C   | dropIndexes()   |
+| 31   | B   | reIndex()   |
+| 32   | A   | db.killOp()   |
+| 33   | D   | hint()   |
+| 34   | D   | $natural   |
+| 35   | A   | A query cannot use the order of documents in the index for sorted results   |
+| 36   | D   | dbStats   |
+| 37   | B   | '2d' or '2dsphere'   |
+| 38   | D   | $geoWithin   |
+| 39   | B   | $near   |
+| 40   | B   | Return computed results   |
+| 41   | A   | Data processing pipelines   |
+| 42   | A   | $group   |
+| 43   | A   | $sort   |
+| 44   | C   | $skip   |
+| 45   | A   | $unwind   |
+| 46   | C   | Total amount for each customer   |
+| 47   | D   | JavaScript   |
+| 48   | C   | Associate a value with a key in the map function   |
+| 49   | C   | count()   |
+| 50   | C   | The aggregation framework   |
+Lesson 5: Replication and Sharding in MongoDB
+Section A: Questions (50)
+1.	What is the primary task of a MongoDB administrator in a production setting, per the course?
+A.	Writing stored procedures
+B.	Designing UI
+C.	Deleting old data
+D.	Setting up a functioning replication
+2.	Replication protects data in the event of:
+A.	Hardware failure and service interruptions
+B.	Only user typos
+C.	Only schema errors
+D.	Nothing
+3.	Which is the oldest mode of replication that MongoDB supports?
+A.	Replica sets
+B.	Master-slave replication
+C.	Journaling
+D.	Sharding
+4.	A replica set consists of:
+A.	A single mongod instance
+B.	A group of mongos routers only
+C.	A group of mongod instances that host the same data set
+D.	Config servers only
+5.	Where does the primary log changes to its data sets?
+A.	In the config database
+B.	In its oplog
+C.	In the arbiter
+D.	In the mongos
+6.	What does the replica set do when the primary becomes unavailable?
+A.	It nominates a secondary as the new primary
+B.	It deletes the data
+C.	It stops accepting reads and writes permanently
+D.	It promotes the arbiter
+7.	The role of an arbiter is to:
+A.	Accept writes
+B.	Participate in elections to select the primary
+C.	Act as a mongos
+D.	Store data copies
+8.	Secondary members apply operations from the primary:
+A.	Only at midnight
+B.	Asynchronously
+C.	Synchronously only
+D.	Never
+9.	Which role can change between primary and secondary, but not for an arbiter?
+A.	Arbiter can store data
+B.	Arbiter can become secondary
+C.	Primary and secondary can swap; an arbiter remains unchanged
+D.	Arbiter can become primary
+10.	How is a new primary chosen after failover?
+A.	Through an election in which the secondary with a majority of votes wins
+B.	By the mongos
+C.	By random choice without voting
+D.	By the oldest document
+11.	In MongoDB 3.0, how many replica set members can vote?
+A.	12
+B.	50
+C.	7
+D.	3
+12.	A priority 0 member can:
+A.	Become primary
+B.	Replace an unavailable primary
+C.	Trigger an election
+D.	Maintain data copies, accept reads, and vote in elections
+13.	Hidden members are typically used for:
+A.	Reporting and backup
+B.	Storing config metadata
+C.	Routing queries
+D.	Accepting client writes
+14.	What is a delayed replica set member?
+A.	A new primary
+B.	A secondary that copies data from the primary's oplog after a delay
+C.	An arbiter
+D.	A member that never syncs
+15.	A delayed member must be:
+A.	A priority zero member and hidden
+B.	Visible to applications
+C.	An arbiter
+D.	A primary
+16.	Which method applies a new replica set configuration?
+A.	rs.apply(cfg)
+B.	rs.reconfig(cfg)
+C.	rs.set(cfg)
+D.	rs.update(cfg)
+17.	What does write concern ensure?
+A.	That a write operation was successful to a given level of assurance
+B.	That reads are fast
+C.	That indexes are built
+D.	That shards are balanced
+18.	An unacknowledged write concern:
+A.	Does not acknowledge the receipt of write operations
+B.	Confirms write on all members
+C.	Always blocks
+D.	Confirms journal commit
+19.	Write operations in a replica set become durable when:
+A.	Written to the arbiter
+B.	Written to a single hidden member
+C.	Replicated and committed to the journal on a majority of voting members
+D.	Written to the client
+20.	The default write concern in a replica set requires acknowledgement from:
+A.	All members
+B.	Only the arbiter
+C.	Only secondaries
+D.	Only the primary member
+21.	Which setting can be changed to modify the default write concern?
+A.	writeDefaults
+B.	defaultWrite
+C.	getLastErrorDefaults
+D.	journalDefaults
+22.	By default, a client directs read operations to:
+A.	The config server
+B.	The primary
+C.	The arbiter
+D.	A random secondary
+23.	Which read preference mode reads only from secondaries?
+A.	primary
+B.	secondary
+C.	nearest
+D.	primaryPreferred
+24.	Which read preference mode reads from the member with the least network latency?
+A.	nearest
+B.	secondary
+C.	primaryPreferred
+D.	primary
+25.	Typical use of non-primary read preference includes:
+A.	Dropping collections
+B.	Writing to secondaries
+C.	Providing local reads for geographically distributed applications
+D.	Disabling replication
+26.	Where does MongoDB store tag sets for a replica set?
+A.	In the replica set configuration object
+B.	In the oplog
+C.	In the mongos
+D.	In the journal
+27.	Which statement about tag sets is true?
+A.	Tags only work with the primary mode
+B.	Read preferences ignore tags
+C.	Write concerns require tags
+D.	Read preferences consider the tag value, while write concerns ignore it when selecting a member
+28.	Which is the minimum recommended replica set architecture?
+A.	Two members
+B.	A single member
+C.	Seven members
+D.	A three member replica set
+29.	What is the oplog?
+A.	A log of user logins
+B.	An index of documents
+C.	The operation log of changes maintained by the primary (master)
+D.	A backup file
+30.	What does 'ns' in an oplog document represent?
+A.	New shard
+B.	Namespace (the collection where the operation is performed)
+C.	Node status
+D.	Network speed
+31.	Which method prints replication information for slaves, including how far behind they are?
+A.	db.printSlaveReplicationInfo()
+B.	rs.info()
+C.	db.slaveStatus()
+D.	rs.lag()
+32.	Sharding provides:
+A.	Reduced storage only
+B.	No capacity change
+C.	Only read capacity
+D.	Additional write capacity by distributing the write load
+33.	When should sharding be considered?
+A.	When there is only one user
+B.	When the data set outgrows the storage of a single instance or the working set exceeds RAM
+C.	When no writes happen
+D.	When the data is tiny
+34.	MongoDB shards data on:
+A.	A per field basis
+B.	A per user basis
+C.	A per collection basis
+D.	A per index basis
+35.	A shard key must be:
+A.	A text field only
+B.	A field that exists in every document in the collection
+C.	An array only
+D.	A field that exists in some documents
+36.	Which is a characteristic of an ideal shard key?
+A.	Few possible values
+B.	Always unique to a single shard
+C.	Monotonically increasing only
+D.	High degree of randomness and easily divisible
+37.	A drawback of range-based sharding is:
+A.	Uneven data distribution, for example with linearly increasing keys such as time
+B.	It does not support range queries
+C.	It cannot use indexes
+D.	It requires hashing
+38.	Which statement about hash-based sharding is true?
+A.	Range queries are very efficient
+B.	Data is evenly distributed but range queries on the shard key are ineffective
+C.	Data is distributed unevenly
+D.	It requires compound keys
+39.	What do config servers store?
+A.	User passwords only
+B.	Index data
+C.	Application data
+D.	Metadata for the sharded cluster
+40.	When config servers are unavailable, the cluster metadata becomes:
+A.	Writable only
+B.	Deleted
+C.	Encrypted
+D.	Read-only
+41.	Which command starts a config server?
+A.	mongo --config
+B.	mongod --shard
+C.	mongos --configsvr
+D.	mongod --configsvr --dbpath /data/configdb --port 27019
+42.	Which method enables sharding for a database?
+A.	sh.startSharding()
+B.	db.shard()
+C.	sh.shardDB()
+D.	sh.enableSharding('<database>')
+43.	If a collection already contains data, what must be done before sharding it?
+A.	Drop the collection
+B.	Disable the balancer
+C.	Create an index on the shard key
+D.	Restart mongos
+44.	What is splitting in MongoDB sharding?
+A.	Merging shards
+B.	Deleting chunks
+C.	Moving a chunk to another shard
+D.	A background process that splits a chunk into two when it exceeds the specified size
+45.	What is the default chunk size in MongoDB (per the course)?
+A.	64 MB
+B.	16 MB
+C.	1 GB
+D.	128 MB
+46.	A jumbo chunk is:
+A.	A chunk that exceeds the specified size or document limit and cannot be migrated
+B.	A chunk on the config server
+C.	A chunk with no data
+D.	A chunk of 1 KB
+47.	What does the balancer do?
+A.	Elects primaries
+B.	Compresses data
+C.	Migrates chunks between shards to even out the chunk distribution
+D.	Creates indexes
+48.	Why might the balancer be disabled temporarily?
+A.	To delete data
+B.	To create indexes
+C.	For maintenance or to avoid impact during peak load
+D.	To enable replication
+49.	Which method associates a tag with a shard?
+A.	sh.addTag()
+B.	sh.addShardTag()
+C.	sh.tagShard()
+D.	sh.setTag()
+50.	In the case study, replication was introduced to:
+A.	Delete analytics queries
+B.	Remove the front end
+C.	Make MongoDB fault tolerant and split read load to secondaries
+D.	Disable the primary
+Answer Key: Lesson 5: Replication and Sharding in MongoDB
+| Q   | Ans   | Correct answer   |
+| 1   | D   | Setting up a functioning replication   |
+| 2   | A   | Hardware failure and service interruptions   |
+| 3   | B   | Master-slave replication   |
+| 4   | C   | A group of mongod instances that host the same data set   |
+| 5   | B   | In its oplog   |
+| 6   | A   | It nominates a secondary as the new primary   |
+| 7   | B   | Participate in elections to select the primary   |
+| 8   | B   | Asynchronously   |
+| 9   | C   | Primary and secondary can swap; an arbiter remains unchanged   |
+| 10   | A   | Through an election in which the secondary with a majority of votes wins   |
+| 11   | C   | 7   |
+| 12   | D   | Maintain data copies, accept reads, and vote in elections   |
+| 13   | A   | Reporting and backup   |
+| 14   | B   | A secondary that copies data from the primary's oplog after a delay   |
+| 15   | A   | A priority zero member and hidden   |
+| 16   | B   | rs.reconfig(cfg)   |
+| 17   | A   | That a write operation was successful to a given level of assurance   |
+| 18   | A   | Does not acknowledge the receipt of write operations   |
+| 19   | C   | Replicated and committed to the journal on a majority of voting members   |
+| 20   | D   | Only the primary member   |
+| 21   | C   | getLastErrorDefaults   |
+| 22   | B   | The primary   |
+| 23   | B   | secondary   |
+| 24   | A   | nearest   |
+| 25   | C   | Providing local reads for geographically distributed applications   |
+| 26   | A   | In the replica set configuration object   |
+| 27   | D   | Read preferences consider the tag value, while write concerns ignore it when selecting a member   |
+| 28   | D   | A three member replica set   |
+| 29   | C   | The operation log of changes maintained by the primary (master)   |
+| 30   | B   | Namespace (the collection where the operation is performed)   |
+| 31   | A   | db.printSlaveReplicationInfo()   |
+| 32   | D   | Additional write capacity by distributing the write load   |
+| 33   | B   | When the data set outgrows the storage of a single instance or the working set exceeds RAM   |
+| 34   | C   | A per collection basis   |
+| 35   | B   | A field that exists in every document in the collection   |
+| 36   | D   | High degree of randomness and easily divisible   |
+| 37   | A   | Uneven data distribution, for example with linearly increasing keys such as time   |
+| 38   | B   | Data is evenly distributed but range queries on the shard key are ineffective   |
+| 39   | D   | Metadata for the sharded cluster   |
+| 40   | D   | Read-only   |
+| 41   | D   | mongod --configsvr --dbpath /data/configdb --port 27019   |
+| 42   | D   | sh.enableSharding('<database>')   |
+| 43   | C   | Create an index on the shard key   |
+| 44   | D   | A background process that splits a chunk into two when it exceeds the specified size   |
+| 45   | A   | 64 MB   |
+| 46   | A   | A chunk that exceeds the specified size or document limit and cannot be migrated   |
+| 47   | C   | Migrates chunks between shards to even out the chunk distribution   |
+| 48   | C   | For maintenance or to avoid impact during peak load   |
+| 49   | B   | sh.addShardTag()   |
+| 50   | C   | Make MongoDB fault tolerant and split read load to secondaries   |
+Lesson 6: Developing Java and Node JS Applications with MongoDB
+Section A: Questions (50)
+1.	What is a capped collection?
+A.	A collection that cannot be queried
+B.	A collection of only indexes
+C.	A collection with no size limit
+D.	A collection with a predefined size that supports insert and retrieve operations
+2.	Capped collections function like:
+A.	Hash tables
+B.	Binary trees
+C.	Circular buffers
+D.	Stacks with no limit
+3.	Capped collections preserve:
+A.	Random order
+B.	Alphabetical order only
+C.	Reverse order only
+D.	Insertion order
+4.	What happens to the oldest documents in a full capped collection?
+A.	They are automatically deleted to make room for new ones
+B.	New inserts are rejected
+C.	They are moved to another collection
+D.	They are archived to GridFS
+5.	Which method creates a capped collection?
+A.	db.createCollection('serverlog', {capped: true, size: 100000})
+B.	db.capped('serverlog', 100000)
+C.	db.createCapped('serverlog')
+D.	db.cappedCollection('serverlog', size: 100000)
+6.	What must be specified when creating a capped collection?
+A.	The replica set name
+B.	The maximum size in bytes
+C.	The index name
+D.	The shard key
+7.	If the specified size of a capped collection is 4096 bytes or less, the collection has a cap of:
+A.	256 bytes
+B.	8192 bytes
+C.	1024 bytes
+D.	4096 bytes
+8.	Which field specifies the maximum number of documents in a capped collection?
+A.	limit
+B.	count
+C.	docs
+D.	max
+9.	How do you retrieve documents from a capped collection in reverse insertion order?
+A.	find().sort({_id: 1})
+B.	find().sort({$natural: 1})
+C.	find().reverse()
+D.	find().sort({$natural: -1})
+10.	Which method checks whether a collection is capped?
+A.	isLimited()
+B.	isCapped()
+C.	getCapped()
+D.	checkCapped()
+11.	When updating documents in a capped collection, only which type of update is allowed?
+A.	No updates at all
+B.	Only deletes
+C.	Updates that grow the document
+D.	In-place updates that do not increase the document size
+12.	What happens if an update to a capped collection increases the document size?
+A.	The collection is converted
+B.	The size cap is increased
+C.	The operation fails
+D.	The document is moved
+13.	Which error can a secondary raise on capped collection updates that grow objects?
+A.	objects in a capped ns cannot grow
+B.	capped collection is full
+C.	write concern error
+D.	index not found
+14.	Which index type can expire data from a normal collection after a given time?
+A.	Geospatial index
+B.	TTL index
+C.	Hashed index
+D.	Text index
+15.	mongod automatically removes TTL data:
+A.	Only when the server restarts
+B.	Only manually
+C.	Never
+D.	After a specified duration in seconds or at a specific clock time
+16.	What is GridFS?
+A.	A sharding algorithm
+B.	An index type
+C.	A specification for storing and retrieving files larger than 16 MB
+D.	A replication protocol
+17.	What is the BSON document size limit that GridFS helps overcome?
+A.	1 MB
+B.	100 MB
+C.	4 MB
+D.	16 MB
+18.	GridFS stores files in how many collections?
+A.	Four
+B.	One
+C.	Two
+D.	Three
+19.	Which GridFS collection stores the binary chunks?
+A.	fs.chunks
+B.	fs.data
+C.	fs.meta
+D.	fs.files
+20.	Which GridFS collection stores file metadata?
+A.	fs.info
+B.	fs.chunks
+C.	fs.files
+D.	fs.meta
+21.	How are GridFS chunks numbered?
+A.	Randomly
+B.	Starting from 1
+C.	Starting from 0
+D.	By file size
+22.	Which command-line tool can store and retrieve files in GridFS?
+A.	mongodump
+B.	mongofiles
+C.	mongostat
+D.	mongosniff
+23.	An advantage of GridFS is that it allows:
+A.	Access to parts of files (for example skipping to the middle of a video) without loading the whole file into memory
+B.	Encryption of all files
+C.	Compression of all files
+D.	Only whole-file access
+24.	Applications communicate with MongoDB through:
+A.	FTP
+B.	Direct disk access
+C.	Client libraries or drivers
+D.	Email
+25.	To install the Java driver, you need to:
+A.	Download the JAR file and add it to the classpath
+B.	Edit the registry
+C.	Compile the server
+D.	Install an RPM
+26.	Which Java packages contain the classes needed in a normal MongoDB application?
+A.	org.mongo and org.gridfs
+B.	java.mongo
+C.	com.mongodb and com.mongodb.gridfs
+D.	javax.mongodb
+27.	Which Java class is used to connect to the MongoDB server (as in the course sample)?
+A.	MongoLink
+B.	DBConnect
+C.	MongoServer
+D.	MongoClient
+28.	Which method of MongoClient returns a database object in the course sample?
+A.	getDB()
+B.	getBase()
+C.	openDB()
+D.	useDB()
+29.	Which method of the DB class creates a collection in Java?
+A.	makeCollection()
+B.	addCollection()
+C.	newCollection()
+D.	createCollection()
+30.	Which method obtains an existing collection from a DB object?
+A.	openCollection()
+B.	getCollection()
+C.	useCollection()
+D.	findCollection()
+31.	Documents in Java must be instances of:
+A.	com.mongodb.Cursor
+B.	java.lang.String
+C.	org.bson.DBObject
+D.	java.util.List
+32.	Which DBCollection method inserts a document in Java?
+A.	put()
+B.	insert()
+C.	create()
+D.	add()
+33.	Which Java class iterates through documents returned by a find()?
+A.	DBIterator
+B.	DBCursor
+C.	DBList
+D.	DBRows
+34.	Which DBCollection method removes documents in Java?
+A.	drop()
+B.	delete()
+C.	remove()
+D.	erase()
+35.	Which method saves a GridFSInputFile into MongoDB?
+A.	commit()
+B.	save()
+C.	write()
+D.	store()
+36.	Which GridFS method removes a file in Java?
+A.	clear()
+B.	remove()
+C.	delete()
+D.	drop()
+37.	Which npm command installs the MongoDB native driver for Node JS?
+A.	npm install mongodb
+B.	npm add mongo-java
+C.	node install mongodb
+D.	npm get mongodb
+38.	Which module is loaded in Node JS to use the native MongoDB driver?
+A.	mongojs
+B.	mongodb
+C.	mongod
+D.	mongoose
+39.	What does the connection URL typically look like for a local server?
+A.	mongo://test
+B.	http://localhost:27017
+C.	jdbc:mongodb://localhost
+D.	mongodb://localhost:27017/test
+40.	Which interface's connect() method is used to connect from Node JS?
+A.	NodeClient
+B.	MongoClient
+C.	DbClient
+D.	MongoServer
+41.	In a Node JS callback, the first argument returns:
+A.	An error
+B.	The cursor
+C.	The collection
+D.	The result
+42.	In a Node JS callback, the second argument returns:
+A.	The error
+B.	The result of the operation
+C.	The driver version
+D.	The URL
+43.	Which Node JS call retrieves documents as an array?
+A.	collection.find({...}).toArray(callback)
+B.	collection.getAll()
+C.	collection.fetch()
+D.	collection.array()
+44.	Which Node JS statement sets available to false for the item Pencil?
+A.	collection.update({item: 'Pencil'}, {$set: {available: false}}, callback)
+B.	collection.modify(...)
+C.	collection.replaceAll(...)
+D.	collection.change(...)
+45.	What is Mongoose?
+A.	A PHP library for MongoDB
+B.	A Node JS library that provides schema-based modelling of application data
+C.	A Java library for MongoDB
+D.	A Python library for MongoDB
+46.	Which features does Mongoose provide?
+A.	Type casting, validation, query building and business logic hooks
+B.	Only replication
+C.	Only hardware monitoring
+D.	Only backup
+47.	Which command installs Mongoose?
+A.	npm install mongoose
+B.	npm install mongo-schema
+C.	node install mongoose
+D.	npm get mongoose
+48.	Which method connects to the database in Mongoose?
+A.	mongoose.link()
+B.	mongoose.use()
+C.	mongoose.connect()
+D.	mongoose.open()
+49.	Which Mongoose method saves a document to the database?
+A.	write()
+B.	persist()
+C.	store()
+D.	save()
+50.	In Mongoose, what does a model represent?
+A.	An index
+B.	A server
+C.	A collection in the database with a defined schema
+D.	A cursor
+Answer Key: Lesson 6: Developing Java and Node JS Applications with MongoDB
+| Q   | Ans   | Correct answer   |
+| 1   | D   | A collection with a predefined size that supports insert and retrieve operations   |
+| 2   | C   | Circular buffers   |
+| 3   | D   | Insertion order   |
+| 4   | A   | They are automatically deleted to make room for new ones   |
+| 5   | A   | db.createCollection('serverlog', {capped: true, size: 100000})   |
+| 6   | B   | The maximum size in bytes   |
+| 7   | D   | 4096 bytes   |
+| 8   | D   | max   |
+| 9   | D   | find().sort({$natural: -1})   |
+| 10   | B   | isCapped()   |
+| 11   | D   | In-place updates that do not increase the document size   |
+| 12   | C   | The operation fails   |
+| 13   | A   | objects in a capped ns cannot grow   |
+| 14   | B   | TTL index   |
+| 15   | D   | After a specified duration in seconds or at a specific clock time   |
+| 16   | C   | A specification for storing and retrieving files larger than 16 MB   |
+| 17   | D   | 16 MB   |
+| 18   | C   | Two   |
+| 19   | A   | fs.chunks   |
+| 20   | C   | fs.files   |
+| 21   | C   | Starting from 0   |
+| 22   | B   | mongofiles   |
+| 23   | A   | Access to parts of files (for example skipping to the middle of a video) without loading the whole file into memory   |
+| 24   | C   | Client libraries or drivers   |
+| 25   | A   | Download the JAR file and add it to the classpath   |
+| 26   | C   | com.mongodb and com.mongodb.gridfs   |
+| 27   | D   | MongoClient   |
+| 28   | A   | getDB()   |
+| 29   | D   | createCollection()   |
+| 30   | B   | getCollection()   |
+| 31   | C   | org.bson.DBObject   |
+| 32   | B   | insert()   |
+| 33   | B   | DBCursor   |
+| 34   | C   | remove()   |
+| 35   | B   | save()   |
+| 36   | B   | remove()   |
+| 37   | A   | npm install mongodb   |
+| 38   | B   | mongodb   |
+| 39   | D   | mongodb://localhost:27017/test   |
+| 40   | B   | MongoClient   |
+| 41   | A   | An error   |
+| 42   | B   | The result of the operation   |
+| 43   | A   | collection.find({...}).toArray(callback)   |
+| 44   | A   | collection.update({item: 'Pencil'}, {$set: {available: false}}, callback)   |
+| 45   | B   | A Node JS library that provides schema-based modelling of application data   |
+| 46   | A   | Type casting, validation, query building and business logic hooks   |
+| 47   | A   | npm install mongoose   |
+| 48   | C   | mongoose.connect()   |
+| 49   | D   | save()   |
+| 50   | C   | A collection in the database with a defined schema   |
+Lesson 7: Administration of MongoDB Cluster Operations
+Section A: Questions (50)
+1.	Although you cannot remove individual documents from a capped collection, you can:
+A.	Drop the entire collection using drop()
+B.	Use remove() on a single document
+C.	Shard it
+D.	Convert it to a TTL index
+2.	Data is automatically removed from a capped collection when:
+A.	An index is created
+B.	The server restarts
+C.	A user logs out
+D.	The collection grows beyond the defined size or number of documents
+3.	What is a memory-mapped file?
+A.	A file whose data is stored by the operating system in its memory
+B.	A compressed backup
+C.	A log file only
+D.	A file stored only on tape
+4.	Memory-mapped files are a critical part of which storage engine?
+A.	WiredTiger
+B.	MMAPv1
+C.	InnoDB
+D.	RocksDB
+5.	In memory-mapped files, which data is mapped into memory?
+A.	Only the data that is accessed
+B.	Only journal files
+C.	All data at startup
+D.	Only indexes
+6.	If mongod stops unexpectedly with journaling enabled:
+A.	The journal is deleted
+B.	All data is lost
+C.	It can recover the written data from the journal to a consistent state
+D.	It cannot restart
+7.	By default, up to how much recent write activity might be lost without being in the journal?
+A.	The last 100 milliseconds
+B.	1 minute
+C.	1 hour
+D.	10 seconds
+8.	How is journaling enabled when starting mongod?
+A.	By running mongos
+B.	By editing the oplog
+C.	Using the nojournal option
+D.	Using the journal command line option
+9.	MMAPv1 is the default storage engine in:
+A.	MongoDB 4.0 and later only
+B.	MongoDB 3.0 and all previous versions
+C.	Only versions with sharding
+D.	Only MongoDB 1.0
+10.	Which storage engine was added as an optional engine in MongoDB 3.0?
+A.	InnoDB
+B.	Memory
+C.	MMAPv1
+D.	WiredTiger
+11.	In WiredTiger, write operations occur within the context of:
+A.	A document level lock
+B.	A collection level lock only
+C.	A database level lock
+D.	No lock
+12.	What does WiredTiger use alongside checkpoints?
+A.	A hash index
+B.	A capped collection
+C.	A write-ahead transaction log
+D.	A GridFS file
+13.	What does the WiredTiger journal enable?
+A.	Faster index builds
+B.	Sharding
+C.	Compression only
+D.	Replay of data modifications since the last checkpoint after an unexpected exit
+14.	Which compression does WiredTiger use for collections?
+A.	No compression
+B.	Block compression with the snappy algorithm
+C.	Gzip only
+D.	Prefix compression
+15.	Which allocation strategy is the default for MMAPv1 in MongoDB 3.0?
+A.	Power of 2-sized allocations
+B.	Random sizes
+C.	Dynamic padding factor
+D.	Fixed 1 KB allocations
+16.	For documents larger than 2 MB under power of 2 allocation, the size is rounded up to:
+A.	16 MB
+B.	The nearest 256 KB
+C.	The nearest multiple of 2 MB
+D.	The nearest 1 MB
+17.	Which workloads can disable power of 2 allocation using noPadding?
+A.	Insert-only workloads or updates that do not change document size
+B.	Workloads with no indexes
+C.	Read-only workloads on secondaries
+D.	Workloads with heavy growth in documents
+18.	Which command and option can be used to set the noPadding flag?
+A.	mongod --nopad
+B.	db.setPadding()
+C.	collMod command and createCollection() with the noPadding option
+D.	rs.noPadding()
+19.	Which of the following can cause performance degradation in MongoDB?
+A.	Only comments in code
+B.	Only network cables
+C.	Locks, memory usage, page faults and number of connections
+D.	Only UI themes
+20.	Which serverStatus section should be reviewed to know if locks affect performance?
+A.	network
+B.	globalLock
+C.	connections
+D.	repl
+21.	How can page fault occurrences be reduced?
+A.	Reduce RAM
+B.	Increase RAM or deploy a sharded cluster
+C.	Disable journaling
+D.	Disable indexes
+22.	For read-heavy applications with too many connections, which action is recommended?
+A.	Increase the replica set size and distribute reads to secondaries
+B.	Deploy sharding only
+C.	Disable reads
+D.	Reduce replica set size
+23.	Poor performance can also result from:
+A.	Inadequate indexing strategies and poor schema design
+B.	Using replica sets
+C.	Using too many comments
+D.	Using JSON
+24.	Which method reports current operations running on a mongod instance?
+A.	db.ping()
+B.	db.currentOp()
+C.	db.stats()
+D.	db.hostInfo()
+25.	The explain() methods can be run in which three modes?
+A.	queryPlanner, executionStats and allPlansExecution
+B.	read, write, update
+C.	fast, slow, medium
+D.	index, scan, plan
+26.	Why use projections in queries?
+A.	To shard the data
+B.	To return only the necessary fields
+C.	To create indexes
+D.	To delete fields
+27.	Which three strategies are used to collect data and monitor MongoDB?
+A.	Only logs
+B.	Utilities, database commands and MMS monitoring
+C.	Only GUI tools
+D.	Only emails
+28.	Which utility captures and returns counts of database operations by type?
+A.	mongotop
+B.	mongofiles
+C.	mongostat
+D.	mongodump
+29.	Which interface provides diagnostic information on a simple web page, accessible at port 28017 for default 27017?
+A.	mongos
+B.	mongodump
+C.	HTTP console
+D.	Compass console only
+30.	Which command returns storage usage and data volumes of a database?
+A.	replSetGetStatus
+B.	dbStats
+C.	serverStatus
+D.	collStats
+31.	Which command provides details of the state and configuration of a replica set?
+A.	currentOp
+B.	dbStats
+C.	collStats
+D.	replSetGetStatus
+32.	Which additional tools can be used to check MongoDB server statistics?
+A.	Notepad
+B.	Paint
+C.	Photoshop
+D.	Munin, Nagios and Ganglia
+33.	MMS can monitor how many system metrics (per the course)?
+A.	Exactly 5
+B.	10
+C.	25
+D.	More than 100
+34.	For a snapshot of a running mongod, which feature should be enabled?
+A.	Sharding
+B.	Auditing
+C.	Journaling, with the journal on the same logical volume as data files
+D.	TTL
+35.	To take snapshots on a sharded cluster, what should be done first?
+A.	Add new shards
+B.	Disable the balancer and capture a snapshot from every shard and config server
+C.	Stop the config servers
+D.	Drop all indexes
+36.	What does mongodump create?
+A.	PDF files
+B.	CSV files
+C.	BSON files from a MongoDB database
+D.	XML files
+37.	What does mongorestore do?
+A.	Restores data to a running mongod and rebuilds indexes
+B.	Creates shards
+C.	Deletes data files
+D.	Starts replication
+38.	How can the impact of mongodump on a replica set's performance be reduced?
+A.	Run it on the primary during peak time
+B.	Capture the backup from a secondary member
+C.	Run it without a connection
+D.	Run it on the arbiter
+39.	What does the fsync command with lock do?
+A.	Starts the balancer
+B.	Deletes the journal
+C.	Creates replicas
+D.	Flushes writes to disk and prevents further writes until unlocked
+40.	In which database is the fsync lock command run?
+A.	admin
+B.	test
+C.	config
+D.	local
+41.	Which are among the security strategies in MongoDB?
+A.	Authentication, authorization and auditing
+B.	Only passwords on files
+C.	Only encryption of disks
+D.	Only firewalls
+42.	What is authentication in MongoDB?
+A.	Backing up data
+B.	Controlling which operations a user may run
+C.	Recording system activity
+D.	A mechanism for verifying a user or instance accessing MongoDB
+43.	Which authentication mechanism is used with secure SSL connections for server and membership authentication?
+A.	Basic HTTP only
+B.	x.509 certificate authentication
+C.	No authentication
+D.	Kerberos only
+44.	Which service does MongoDB Enterprise support for proxy authentication?
+A.	NTP
+B.	SNMP
+C.	LDAP
+D.	DNS
+45.	Which mechanisms authenticate members of a deployment to each other?
+A.	SSH and FTP
+B.	Password.txt and OAuth
+C.	Telnet and HTTP
+D.	keyFile and x.509
+46.	Maintenance operations like compact and rs.reconfig() on a sharded cluster require:
+A.	Connecting to mongos only
+B.	Direct connections to the specific shard with a shard local administrative user
+C.	Connecting to the arbiter
+D.	Connecting to the config server
+47.	Which access control model does MongoDB use?
+A.	Discretionary file access control
+B.	IP-based only
+C.	No access control
+D.	Role-based access control (RBAC)
+48.	Which are built-in roles in MongoDB?
+A.	guest, visitor, boss
+B.	viewer, editor, owner only
+C.	user1, user2
+D.	read, readWrite, dbAdmin and root
+49.	Auditing in MongoDB is used to:
+A.	Replicate data
+B.	Speed up queries
+C.	Track system activity and verify security policies are controlling activities as desired
+D.	Create indexes
+50.	In the Java migration case study, which Java driver version was mentioned as MongoDB's current version?
+A.	5.x
+B.	2.x
+C.	3.x
+D.	1.x
+Answer Key: Lesson 7: Administration of MongoDB Cluster Operations
+| Q   | Ans   | Correct answer   |
+| 1   | A   | Drop the entire collection using drop()   |
+| 2   | D   | The collection grows beyond the defined size or number of documents   |
+| 3   | A   | A file whose data is stored by the operating system in its memory   |
+| 4   | B   | MMAPv1   |
+| 5   | A   | Only the data that is accessed   |
+| 6   | C   | It can recover the written data from the journal to a consistent state   |
+| 7   | A   | The last 100 milliseconds   |
+| 8   | D   | Using the journal command line option   |
+| 9   | B   | MongoDB 3.0 and all previous versions   |
+| 10   | D   | WiredTiger   |
+| 11   | A   | A document level lock   |
+| 12   | C   | A write-ahead transaction log   |
+| 13   | D   | Replay of data modifications since the last checkpoint after an unexpected exit   |
+| 14   | B   | Block compression with the snappy algorithm   |
+| 15   | A   | Power of 2-sized allocations   |
+| 16   | C   | The nearest multiple of 2 MB   |
+| 17   | A   | Insert-only workloads or updates that do not change document size   |
+| 18   | C   | collMod command and createCollection() with the noPadding option   |
+| 19   | C   | Locks, memory usage, page faults and number of connections   |
+| 20   | B   | globalLock   |
+| 21   | B   | Increase RAM or deploy a sharded cluster   |
+| 22   | A   | Increase the replica set size and distribute reads to secondaries   |
+| 23   | A   | Inadequate indexing strategies and poor schema design   |
+| 24   | B   | db.currentOp()   |
+| 25   | A   | queryPlanner, executionStats and allPlansExecution   |
+| 26   | B   | To return only the necessary fields   |
+| 27   | B   | Utilities, database commands and MMS monitoring   |
+| 28   | C   | mongostat   |
+| 29   | C   | HTTP console   |
+| 30   | B   | dbStats   |
+| 31   | D   | replSetGetStatus   |
+| 32   | D   | Munin, Nagios and Ganglia   |
+| 33   | D   | More than 100   |
+| 34   | C   | Journaling, with the journal on the same logical volume as data files   |
+| 35   | B   | Disable the balancer and capture a snapshot from every shard and config server   |
+| 36   | C   | BSON files from a MongoDB database   |
+| 37   | A   | Restores data to a running mongod and rebuilds indexes   |
+| 38   | B   | Capture the backup from a secondary member   |
+| 39   | D   | Flushes writes to disk and prevents further writes until unlocked   |
+| 40   | A   | admin   |
+| 41   | A   | Authentication, authorization and auditing   |
+| 42   | D   | A mechanism for verifying a user or instance accessing MongoDB   |
+| 43   | B   | x.509 certificate authentication   |
+| 44   | C   | LDAP   |
+| 45   | D   | keyFile and x.509   |
+| 46   | B   | Direct connections to the specific shard with a shard local administrative user   |
+| 47   | D   | Role-based access control (RBAC)   |
+| 48   | D   | read, readWrite, dbAdmin and root   |
+| 49   | C   | Track system activity and verify security policies are controlling activities as desired   |
+| 50   | C   | 3.x   |

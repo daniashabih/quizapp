@@ -29,7 +29,7 @@ test('1. Question.normalizeQuestionText normalizes underscores, whitespace, and 
     assert.equal(a, 'php variables must start with a _.');
 });
 
-test('2. PHP, XML JSON, Laravel, MySQL, JavaScript Session 1 and Session 2 contain zero cross-session duplicates and valid answers', () => {
+test('2. PHP, XML JSON, Laravel, MySQL, JavaScript holds all 145 unique questions in Session 1 with Session 2 merged', () => {
     const s1 = JSON.parse(
         fs.readFileSync(path.join(__dirname, '..', 'scripts', 'php_xml_json_laravel_mysql_javascript_session1.json'), 'utf8')
     );
@@ -51,8 +51,9 @@ test('2. PHP, XML JSON, Laravel, MySQL, JavaScript Session 1 and Session 2 conta
         }
     }
 
-    assert.equal(s1.questions.length, 119);
-    assert.equal(s2.questions.length, 17);
+    assert.equal(s1.session, 1);
+    assert.equal(s1.questions.length, 145);
+    assert.equal(s2.questions.length, 0);
 });
 
 test('3. questionController.createQuestion returns 409 when Question.findDuplicate detects an existing question', async () => {

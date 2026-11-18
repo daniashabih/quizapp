@@ -5,8 +5,24 @@ import { fileURLToPath } from 'node:url';
 import { SEO_PAGES_CONFIG, getTechnologySeoBySlug } from '../src/config/seoPagesConfig.js';
 import { buildPageStructuredData } from '../src/utils/structuredData.js';
 
+import {
+    stripMarkdownToPlainText
+} from '../api/_utils/blogMarkdownParser.mjs';
+
 const require = createRequire(import.meta.url);
-const { INITIAL_BLOG_ARTICLES } = require('../api/_models/blogArticles/initialBlogArticles.js');
+const {
+    ensureMarkdownParser,
+    isMongoUriConfigured,
+    buildArticleSeoTitle,
+    buildArticleSeoDescription,
+    applyHeadMetadata,
+    renderVisible404BodyHtml,
+    renderCompleteBlogArticleHtml,
+    renderCompleteBlogIndexHtml,
+    deriveCategoriesFromArticles,
+    findRelatedForArticle,
+    fetchPublishedBlogPostsFromSource
+} = require('../api/_utils/blogSeoRenderer.js');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -365,7 +381,7 @@ function generateHomeBodyHtml(pageConfig) {
 
 function escapeAttr(str) {
     return String(str || '')
-        .replace(/&/g, '&amp;')
+        .replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)(?=[a-zA-Z#])/g, '&amp;')
         .replace(/"/g, '&quot;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
@@ -373,7 +389,7 @@ function escapeAttr(str) {
 
 function escapeText(str) {
     return String(str || '')
-        .replace(/&/g, '&amp;')
+        .replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)(?=[a-zA-Z#])/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 }
@@ -665,30 +681,6 @@ const additionalPages = [
             { label: 'Play Speed Typing', to: '/games/speed-typing' },
             { label: 'Explore Technology Quizzes', to: '/technologies' }
         ]
-    },
-    {
-        path: '/blog',
-        title: 'Engineering Blog & Programming Tutorials — Hangbug',
-        h1: 'Developer Tutorials, Coding Insights & Engineering Guides',
-        description: 'Read software engineering tutorials, programming interview guides, full-stack tips, and deep dives into JavaScript, Python, React, Laravel, and Flutter on the Hangbug Blog.',
-        introContent: 'The Hangbug Engineering Blog delivers practical, developer-oriented guides covering modern web development, backend architecture, database indexing, and proven technical interview strategies.',
-        h2s: [
-            'Recent Programming Tutorials & Architecture Articles',
-            'Technical Interview Preparation Guides',
-            'Full-Stack Web & Mobile Best Practices',
-            'How to Combine Reading With Deliberate Quiz Practice'
-        ],
-        h3s: [
-            'Frontend Foundations (HTML5, Modern CSS, React Components)',
-            'Backend Performance (PHP, Laravel MVC, MySQL Optimization)',
-            'Cross-Platform Mobile Development (Flutter & Dart Null Safety)'
-        ],
-        internalLinks: [
-            { label: 'HTML Guide for Beginners', to: '/blog/html-tutorial-for-beginners' },
-            { label: 'JavaScript Fundamentals', to: '/blog/javascript-fundamentals-beginners-guide' },
-            { label: 'Flutter & Dart Mobile Guide', to: '/blog/flutter-dart-mobile-app-development' },
-            { label: 'All Technology Quizzes', to: '/technologies' }
-        ]
     }
 ];
 
@@ -787,80 +779,92 @@ for (const game of GAMES_LIST) {
     renderedCount++;
 }
 
-// 5. Pre-render all static Blog Articles (/blog/:slug) with genuine Article schema
-for (const article of INITIAL_BLOG_ARTICLES) {
-    if (!article || !article.slug) continue;
-    const articleTitle = article.seoTitle || `${article.title} | Hangbug`;
-    const articleDesc = article.seoDescription || article.excerpt || '';
-    const relatedTechSlug = (article.category || '').toLowerCase() === 'c#'
-        ? 'csharp'
-        : (article.category || '').toLowerCase().replace(/\s+/g, '-');
+// 5. Pre-render Blog Index (/blog) & every valid published Blog Article (/blog/:slug) from MongoDB
+async function prerenderBlogSystem() {
+    await ensureMarkdownParser();
+    // Clean any stale blog build artifacts so unpublished/deleted articles never persist
+    const blogDistDir = path.join(DIST_DIR, 'blog');
+    const blogDistFile = path.join(DIST_DIR, 'blog.html');
+    fs.rmSync(blogDistDir, { recursive: true, force: true });
+    fs.rmSync(blogDistFile, { force: true });
 
-    const pageDef = {
-        path: `/blog/${article.slug}`,
-        title: articleTitle,
-        description: articleDesc,
-        h1: article.title,
-        ogType: 'article',
-        schemaType: 'Article',
-        article: {
-            headline: article.title,
-            description: article.excerpt || articleDesc,
-            authorName: article.authorName || 'Hangbug Editorial Team',
-            authorType: 'Organization',
-            datePublished: article.publishedAt ? new Date(article.publishedAt).toISOString() : '2026-08-01T00:00:00.000Z',
-            dateModified: article.updatedAt ? new Date(article.updatedAt).toISOString() : (article.publishedAt ? new Date(article.publishedAt).toISOString() : '2026-08-01T00:00:00.000Z'),
-            articleSection: article.category
-        },
-        bodyHtml: generateBodyHtml({
-            title: articleTitle,
-            h1: article.title,
-            description: articleDesc,
-            primaryKeyword: article.category || 'programming tutorials',
-            introContent: article.excerpt || articleDesc,
-            h2s: [
-                `${article.category} Key Concepts & Takeaways`,
-                'Hands-On Code Practice & Application',
-                'Reinforce With Quizzes & Coding Challenges',
-                'Continue Learning on Hangbug'
-            ],
-            h3s: Array.isArray(article.keyTakeaways) && article.keyTakeaways.length > 0
-                ? article.keyTakeaways
-                : [article.title],
-            internalLinks: [
-                { label: 'All Blog Tutorials', to: '/blog' },
-                ...(relatedTechSlug && getTechnologySeoBySlug(relatedTechSlug)
-                    ? [{ label: `${article.category} Quizzes`, to: `/technologies/${relatedTechSlug}` }]
-                    : []),
-                ...(article.relatedGameSlug
-                    ? [{ label: 'Related Coding Challenge', to: `/games/${article.relatedGameSlug}` }]
-                    : []),
-                { label: 'Explore All Technologies', to: '/technologies' }
-            ]
-        })
-    };
+    const { source, articles: fetchedArticles, unpublishedSlugs } = await fetchPublishedBlogPostsFromSource({
+        allowRemoteApiFallback: true
+    });
 
-    const renderedHtml = renderPage(pageDef);
-    writeStaticPage(`/blog/${article.slug}`, renderedHtml);
-    const words = countWords(pageDef.bodyHtml);
-    console.log(`✓ Pre-rendered /blog/${article.slug.padEnd(28)} [Title & H1 unique | Word Count: ${words}]`);
+    if (unpublishedSlugs.length > 0) {
+        console.log(`ℹ Excluded ${unpublishedSlugs.length} unpublished blog article(s): ${unpublishedSlugs.join(', ')}`);
+    }
+
+    // Strictly filter to published articles with valid slugs
+    const publishedArticles = (fetchedArticles || []).filter(
+        a => a && typeof a.slug === 'string' && a.slug.trim() && a.isPublished === true
+    );
+
+    // Ensure unique title and meta description per article
+    const seenTitles = new Set();
+    const seenDescriptions = new Set();
+    const normalizedArticles = publishedArticles.map((rawArticle) => {
+        const article = { ...rawArticle, slug: String(rawArticle.slug).trim().toLowerCase() };
+
+        let resolvedTitle = buildArticleSeoTitle(article);
+        if (seenTitles.has(resolvedTitle.toLowerCase())) {
+            const disambiguator = article.category && !resolvedTitle.toLowerCase().includes(article.category.toLowerCase())
+                ? `${article.title} (${article.category}) | Hangbug`
+                : `${article.title} — ${article.slug} | Hangbug`;
+            resolvedTitle = disambiguator;
+        }
+        seenTitles.add(resolvedTitle.toLowerCase());
+        article.seoTitle = resolvedTitle;
+
+        let resolvedDesc = buildArticleSeoDescription(article);
+        if (seenDescriptions.has(resolvedDesc.toLowerCase())) {
+            const plain = stripMarkdownToPlainText(article.content || '');
+            const candidate = plain && plain.length > 40
+                ? `${article.title}: ${plain.slice(0, 125).trim()}...`
+                : `${article.title} — ${resolvedDesc}`;
+            resolvedDesc = candidate.slice(0, 160);
+        }
+        seenDescriptions.add(resolvedDesc.toLowerCase());
+        article.seoDescription = resolvedDesc;
+
+        return article;
+    });
+
+    // 5a. Pre-render /blog index using actual published articles
+    const categories = deriveCategoriesFromArticles(normalizedArticles);
+    const featuredArticle = normalizedArticles.find(a => a.isFeatured) || normalizedArticles[0] || null;
+    const blogIndexHtml = renderCompleteBlogIndexHtml(cleanSpaShell, {
+        articles: normalizedArticles.slice(0, 9),
+        featuredArticle,
+        categories,
+        total: normalizedArticles.length
+    });
+    writeStaticPage('/blog', blogIndexHtml);
+    console.log(`✓ Pre-rendered /blog                     [Source: ${source} | ${normalizedArticles.length} published articles]`);
     renderedCount++;
+
+    // 5b. Pre-render every valid published blog article
+    for (const article of normalizedArticles) {
+        const relatedArticles = findRelatedForArticle(article, normalizedArticles);
+        const renderedHtml = renderCompleteBlogArticleHtml(cleanSpaShell, article, relatedArticles);
+        writeStaticPage(`/blog/${article.slug}`, renderedHtml);
+        const words = countWords(article.content || article.excerpt || '');
+        console.log(`✓ Pre-rendered /blog/${article.slug.padEnd(36)} [Source: ${source} | Words: ${words}]`);
+        renderedCount++;
+    }
 }
 
+await prerenderBlogSystem();
+
 // 6. Generate static 404.html error shell with noindex metadata for missing static files on Vercel
-const notFoundHtml = renderPage({
-    path: '/404',
+const notFoundHtml = applyHeadMetadata(cleanSpaShell, {
     title: '404: Page Not Found — HangBug',
     description: "The page you are looking for doesn't exist, has been removed, or was moved to another URL.",
     robots: 'noindex, nofollow',
     omitCanonical: true,
-    omitJsonLd: true,
-    bodyHtml: `
-      <div id="seo-static-content" class="sr-only">
-        <h1>404 - Page Not Found</h1>
-        <p>The page or resource you are trying to access does not exist, has been moved, or is temporarily unavailable on Hangbug.</p>
-      </div>
-    `
+    jsonLd: null,
+    bodyHtml: renderVisible404BodyHtml()
 });
 fs.writeFileSync(path.join(DIST_DIR, '404.html'), notFoundHtml, 'utf8');
 console.log('✓ Generated dist/404.html with noindex, nofollow metadata');
@@ -874,13 +878,21 @@ for (const f of ['llms.txt', 'llms-full.txt']) {
     }
 }
 
+if (isMongoUriConfigured(process.env.MONGODB_URI)) {
+    try {
+        const prisma = require('../api/_config/prisma');
+        await prisma.$disconnect();
+    } catch {
+        // ignore disconnect errors
+    }
+}
+
 console.log(`\n🎉 Successfully pre-rendered ${renderedCount} public pages into dist/`);
 console.log('✓ Every pre-rendered page has:');
 console.log('  - Distinct <title>');
 console.log('  - Distinct <meta name="description">');
 console.log('  - Dedicated <link rel="canonical">');
 console.log('  - Unique <h1> (different from <title>)');
-console.log('  - Word count > 300 words (fixing low word count)');
-console.log('  - High text-to-HTML ratio > 20% (fixing low text-HTML ratio)');
-console.log('  - 100% compliant Schema.org JSON-LD with valid offers (fixing invalid structured data)');
-console.log('  - 100% unique page content (fixing duplicate content)');
+console.log('  - Visible, crawlable article content consistent with React rendering');
+console.log('  - 100% compliant Schema.org JSON-LD (Article + BreadcrumbList + Organization + WebSite)');
+console.log('  - Open Graph & Twitter card metadata');

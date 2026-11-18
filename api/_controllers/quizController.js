@@ -10,6 +10,8 @@ const isMemoryCategoryMatch = (memCategory, targetCategory) => {
     const a = String(memCategory || '').trim().toLowerCase().replace(/\band\b/g, '&');
     const b = String(targetCategory || '').trim().toLowerCase().replace(/\band\b/g, '&');
     if (b === 'csharp' || b === 'c sharp') return a === 'c#';
+    const isMongo = (val) => val === 'mongodb' || val === 'mongo db' || val === 'mongo';
+    if (isMongo(a) && isMongo(b)) return true;
     return a === b || a.includes(b) || b.includes(a);
 };
 

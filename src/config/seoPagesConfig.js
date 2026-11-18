@@ -392,10 +392,10 @@ export const SEO_PAGES_CONFIG = {
         slug: 'mongodb',
         name: 'MongoDB',
         categoryLabel: 'Database Engineering',
-        categoryMatcher: ['MongoDB'],
+        categoryMatcher: ['MongoDB', 'Mongo DB'],
         path: '/technologies/mongodb',
         title: 'MongoDB Quizzes & NoSQL Practice — Document Schemas & Aggregations | Hangbug',
-        description: 'Practice MongoDB and NoSQL database concepts on Hangbug with interactive coding challenges covering BSON documents, CRUD queries, indexing, and aggregations.',
+        description: 'Practice MongoDB and NoSQL database concepts on Hangbug with 7 session-wise quizzes and interactive coding challenges covering BSON documents, CRUD queries, indexing, replication, sharding, and aggregations.',
         primaryKeyword: 'MongoDB quizzes',
         secondaryKeywords: [
             'NoSQL database practice test',
@@ -407,7 +407,7 @@ export const SEO_PAGES_CONFIG = {
         h1: 'MongoDB Quizzes & NoSQL Document Database Practice',
         h2s: [
             'NoSQL & MongoDB Concepts You Will Practice',
-            'MongoDB Assessment & Practice Availability',
+            'Live MongoDB Quiz Sessions',
             'Interactive MongoDB Coding & Query Games',
             'Related Database & Backend Tracks'
         ],

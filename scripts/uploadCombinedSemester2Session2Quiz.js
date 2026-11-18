@@ -29,6 +29,11 @@ function normalizeQuestionKey(text) {
 }
 
 async function seed() {
+    if (!questions || questions.length === 0) {
+        console.log(`ℹ️ No Session ${SESSION_NUMBER} questions remaining for "${CATEGORY_NAME}" (merged into Session 1).`);
+        return;
+    }
+
     if (!prisma) {
         console.error('Prisma client unavailable. Use sync script to sync to live server.');
         return;

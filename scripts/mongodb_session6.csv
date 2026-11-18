@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+MongoDB,6,What is a capped collection?,A collection that cannot be queried,A collection of only indexes,A collection with no size limit,A collection with a predefined size that supports insert and retrieve operations,A collection with a predefined size that supports insert and retrieve operations
+MongoDB,6,Capped collections function like:,Hash tables,Binary trees,Circular buffers,Stacks with no limit,Circular buffers
+MongoDB,6,Capped collections preserve:,Random order,Alphabetical order only,Reverse order only,Insertion order,Insertion order
+MongoDB,6,What happens to the oldest documents in a full capped collection?,They are automatically deleted to make room for new ones,New inserts are rejected,They are moved to another collection,They are archived to GridFS,They are automatically deleted to make room for new ones
+MongoDB,6,Which method creates a capped collection?,"db.createCollection('serverlog', {capped: true, size: 100000})","db.capped('serverlog', 100000)",db.createCapped('serverlog'),"db.cappedCollection('serverlog', size: 100000)","db.createCollection('serverlog', {capped: true, size: 100000})"
+MongoDB,6,What must be specified when creating a capped collection?,The replica set name,The maximum size in bytes,The index name,The shard key,The maximum size in bytes
+MongoDB,6,"If the specified size of a capped collection is 4096 bytes or less, the collection has a cap of:",256 bytes,8192 bytes,1024 bytes,4096 bytes,4096 bytes
+MongoDB,6,Which field specifies the maximum number of documents in a capped collection?,limit,count,docs,max,max
+MongoDB,6,How do you retrieve documents from a capped collection in reverse insertion order?,find().sort({_id: 1}),find().sort({$natural: 1}),find().reverse(),find().sort({$natural: -1}),find().sort({$natural: -1})
+MongoDB,6,Which method checks whether a collection is capped?,isLimited(),isCapped(),getCapped(),checkCapped(),isCapped()
+MongoDB,6,"When updating documents in a capped collection, only which type of update is allowed?",No updates at all,Only deletes,Updates that grow the document,In-place updates that do not increase the document size,In-place updates that do not increase the document size
+MongoDB,6,What happens if an update to a capped collection increases the document size?,The collection is converted,The size cap is increased,The operation fails,The document is moved,The operation fails
+MongoDB,6,Which error can a secondary raise on capped collection updates that grow objects?,objects in a capped ns cannot grow,capped collection is full,write concern error,index not found,objects in a capped ns cannot grow
+MongoDB,6,Which index type can expire data from a normal collection after a given time?,Geospatial index,TTL index,Hashed index,Text index,TTL index
+MongoDB,6,mongod automatically removes TTL data:,Only when the server restarts,Only manually,Never,After a specified duration in seconds or at a specific clock time,After a specified duration in seconds or at a specific clock time
+MongoDB,6,What is GridFS?,A sharding algorithm,An index type,A specification for storing and retrieving files larger than 16 MB,A replication protocol,A specification for storing and retrieving files larger than 16 MB
+MongoDB,6,What is the BSON document size limit that GridFS helps overcome?,1 MB,100 MB,4 MB,16 MB,16 MB
+MongoDB,6,GridFS stores files in how many collections?,Four,One,Two,Three,Two
+MongoDB,6,Which GridFS collection stores the binary chunks?,fs.chunks,fs.data,fs.meta,fs.files,fs.chunks
+MongoDB,6,Which GridFS collection stores file metadata?,fs.info,fs.chunks,fs.files,fs.meta,fs.files
+MongoDB,6,How are GridFS chunks numbered?,Randomly,Starting from 1,Starting from 0,By file size,Starting from 0
+MongoDB,6,Which command-line tool can store and retrieve files in GridFS?,mongodump,mongofiles,mongostat,mongosniff,mongofiles
+MongoDB,6,An advantage of GridFS is that it allows:,Access to parts of files (for example skipping to the middle of a video) without loading the whole file into memory,Encryption of all files,Compression of all files,Only whole-file access,Access to parts of files (for example skipping to the middle of a video) without loading the whole file into memory
+MongoDB,6,Applications communicate with MongoDB through:,FTP,Direct disk access,Client libraries or drivers,Email,Client libraries or drivers
+MongoDB,6,"To install the Java driver, you need to:",Download the JAR file and add it to the classpath,Edit the registry,Compile the server,Install an RPM,Download the JAR file and add it to the classpath
+MongoDB,6,Which Java packages contain the classes needed in a normal MongoDB application?,org.mongo and org.gridfs,java.mongo,com.mongodb and com.mongodb.gridfs,javax.mongodb,com.mongodb and com.mongodb.gridfs
+MongoDB,6,Which Java class is used to connect to the MongoDB server (as in the course sample)?,MongoLink,DBConnect,MongoServer,MongoClient,MongoClient
+MongoDB,6,Which method of MongoClient returns a database object in the course sample?,getDB(),getBase(),openDB(),useDB(),getDB()
+MongoDB,6,Which method of the DB class creates a collection in Java?,makeCollection(),addCollection(),newCollection(),createCollection(),createCollection()
+MongoDB,6,Which method obtains an existing collection from a DB object?,openCollection(),getCollection(),useCollection(),findCollection(),getCollection()
+MongoDB,6,Documents in Java must be instances of:,com.mongodb.Cursor,java.lang.String,org.bson.DBObject,java.util.List,org.bson.DBObject
+MongoDB,6,Which DBCollection method inserts a document in Java?,put(),insert(),create(),add(),insert()
+MongoDB,6,Which Java class iterates through documents returned by a find()?,DBIterator,DBCursor,DBList,DBRows,DBCursor
+MongoDB,6,Which DBCollection method removes documents in Java?,drop(),delete(),remove(),erase(),remove()
+MongoDB,6,Which method saves a GridFSInputFile into MongoDB?,commit(),save(),write(),store(),save()
+MongoDB,6,Which GridFS method removes a file in Java?,clear(),remove(),delete(),drop(),remove()
+MongoDB,6,Which npm command installs the MongoDB native driver for Node JS?,npm install mongodb,npm add mongo-java,node install mongodb,npm get mongodb,npm install mongodb
+MongoDB,6,Which module is loaded in Node JS to use the native MongoDB driver?,mongojs,mongodb,mongod,mongoose,mongodb
+MongoDB,6,What does the connection URL typically look like for a local server?,mongo://test,http://localhost:27017,jdbc:mongodb://localhost,mongodb://localhost:27017/test,mongodb://localhost:27017/test
+MongoDB,6,Which interface's connect() method is used to connect from Node JS?,NodeClient,MongoClient,DbClient,MongoServer,MongoClient
+MongoDB,6,"In a Node JS callback, the first argument returns:",An error,The cursor,The collection,The result,An error
+MongoDB,6,"In a Node JS callback, the second argument returns:",The error,The result of the operation,The driver version,The URL,The result of the operation
+MongoDB,6,Which Node JS call retrieves documents as an array?,collection.find({...}).toArray(callback),collection.getAll(),collection.fetch(),collection.array(),collection.find({...}).toArray(callback)
+MongoDB,6,Which Node JS statement sets available to false for the item Pencil?,"collection.update({item: 'Pencil'}, {$set: {available: false}}, callback)",collection.modify(...),collection.replaceAll(...),collection.change(...),"collection.update({item: 'Pencil'}, {$set: {available: false}}, callback)"
+MongoDB,6,What is Mongoose?,A PHP library for MongoDB,A Node JS library that provides schema-based modelling of application data,A Java library for MongoDB,A Python library for MongoDB,A Node JS library that provides schema-based modelling of application data
+MongoDB,6,Which features does Mongoose provide?,"Type casting, validation, query building and business logic hooks",Only replication,Only hardware monitoring,Only backup,"Type casting, validation, query building and business logic hooks"
+MongoDB,6,Which command installs Mongoose?,npm install mongoose,npm install mongo-schema,node install mongoose,npm get mongoose,npm install mongoose
+MongoDB,6,Which method connects to the database in Mongoose?,mongoose.link(),mongoose.use(),mongoose.connect(),mongoose.open(),mongoose.connect()
+MongoDB,6,Which Mongoose method saves a document to the database?,write(),persist(),store(),save(),save()
+MongoDB,6,"In Mongoose, what does a model represent?",An index,A server,A collection in the database with a defined schema,A cursor,A collection in the database with a defined schema

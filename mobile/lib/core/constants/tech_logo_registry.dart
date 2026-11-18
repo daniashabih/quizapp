@@ -151,6 +151,7 @@ class TechLogoRegistry {
     'golang': ['go'],
     'go': ['go'],
     'mongo': ['mongodb'],
+    'mongo db': ['mongodb'],
     'mongodb': ['mongodb'],
     'postgres': ['postgresql'],
     'postgresql': ['postgresql'],

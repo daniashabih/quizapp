@@ -226,6 +226,9 @@ function AppContent() {
 function App() {
     const [splashDone, setSplashDone] = useState(() => {
         try {
+            if (typeof window !== 'undefined' && window.location.pathname.startsWith('/blog')) {
+                return true;
+            }
             return sessionStorage.getItem(SPLASH_SESSION_KEY) === '1';
         } catch {
             return false;

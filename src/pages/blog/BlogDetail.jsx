@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import {
-    BookOpen,
     Clock,
     Calendar,
-    ArrowLeft,
     Share2,
     Check,
     Copy,
@@ -13,10 +11,8 @@ import {
     Code2,
     Gamepad2,
     ChevronRight,
-    HelpCircle,
-    User,
+    GraduationCap,
     ArrowRight,
-    Tag,
     Linkedin,
     Twitter
 } from 'lucide-react';
@@ -25,7 +21,79 @@ import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
 import blogService from '../../services/blogService';
 import { INITIAL_BLOG_ARTICLES } from '../../services/blogArticles';
+import { getTechnologySeoBySlug } from '../../config/seoPagesConfig';
+import {
+    decodeHtmlEntities,
+    parseInlineTokens,
+    parseMarkdownBlocks,
+    stripMarkdownToPlainText,
+    countPlainWords
+} from '../../../api/_utils/blogMarkdownParser.mjs';
 import NotFound from '../NotFound';
+
+const SITE_BASE_URL = 'https://www.hangbug.com';
+const DEFAULT_COVER_IMAGE = 'https://www.hangbug.com/branding/hangbug-logo-full.png';
+
+function readEmbeddedBlogData(currentSlug) {
+    if (typeof document === 'undefined' || !currentSlug) return null;
+    try {
+        const el = document.getElementById('hangbug-blog-data');
+        if (!el || !el.textContent) return null;
+        const parsed = JSON.parse(el.textContent);
+        if (parsed?.article && String(parsed.article.slug).toLowerCase() === String(currentSlug).toLowerCase()) {
+            return parsed;
+        }
+    } catch {
+        // Ignore malformed embedded payload
+    }
+    return null;
+}
+
+function resolveCoverImageUrl(coverImage) {
+    if (!coverImage || typeof coverImage !== 'string') return DEFAULT_COVER_IMAGE;
+    const trimmed = coverImage.trim();
+    if (!trimmed) return DEFAULT_COVER_IMAGE;
+    if (trimmed.startsWith('https://') || trimmed.startsWith('http://')) return trimmed;
+    if (trimmed.startsWith('/')) return `${SITE_BASE_URL}${trimmed}`;
+    return `${SITE_BASE_URL}/${trimmed}`;
+}
+
+function toIsoDate(value, fallback = '2026-08-01T00:00:00.000Z') {
+    if (!value) return fallback;
+    try {
+        const d = new Date(value);
+        return Number.isNaN(d.getTime()) ? fallback : d.toISOString();
+    } catch {
+        return fallback;
+    }
+}
+
+function buildArticleSeoDescription(article) {
+    const seoDesc = typeof article?.seoDescription === 'string' ? article.seoDescription.trim() : '';
+    if (seoDesc) return seoDesc;
+    const excerpt = typeof article?.excerpt === 'string' ? article.excerpt.trim() : '';
+    if (excerpt) return excerpt.length <= 160 ? excerpt : `${excerpt.slice(0, 157).trim()}...`;
+    const plain = stripMarkdownToPlainText(article?.content || '');
+    if (plain) return plain.length <= 160 ? plain : `${plain.slice(0, 157).trim()}...`;
+    return `${article?.title || 'Programming Guide'} — Developer tutorial and practical guide on Hangbug.`;
+}
+
+function isOrganizationAuthor(authorName) {
+    const name = String(authorName || '').trim().toLowerCase();
+    return !name || name.includes('hangbug') || name.includes('editorial') || name.includes('team');
+}
+
+function resolveTechQuizTarget(article) {
+    const candidates = [article?.relatedQuizCategory, article?.category].filter(Boolean);
+    for (const candidate of candidates) {
+        const rawSlug = String(candidate).toLowerCase().trim().replace(/\s+/g, '-');
+        const seoConfig = getTechnologySeoBySlug(rawSlug);
+        if (seoConfig && seoConfig.path) {
+            return { path: seoConfig.path, label: seoConfig.name || candidate };
+        }
+    }
+    return { path: '/technologies', label: null };
+}
 
 const CATEGORY_COLORS = {
     HTML: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30',
@@ -95,175 +163,233 @@ function CodeBlock({ code, language }) {
     );
 }
 
+function renderInlineTokens(tokens, keyPrefix = 't') {
+    return (tokens || []).map((token, idx) => {
+        const key = `${keyPrefix}-${idx}`;
+        if (token.type === 'text') {
+            return <React.Fragment key={key}>{token.value}</React.Fragment>;
+        }
+        if (token.type === 'code') {
+            return (
+                <code key={key} className="px-1.5 py-0.5 rounded bg-[var(--muted-bg)] text-[#193D35] dark:text-emerald-400 font-mono text-xs border border-[var(--card-border)]">
+                    {token.value}
+                </code>
+            );
+        }
+        if (token.type === 'strong') {
+            return (
+                <strong key={key} className="font-bold text-[var(--foreground)]">
+                    {renderInlineTokens(token.tokens, `${key}-b`)}
+                </strong>
+            );
+        }
+        if (token.type === 'em') {
+            return (
+                <em key={key} className="italic">
+                    {renderInlineTokens(token.tokens, `${key}-i`)}
+                </em>
+            );
+        }
+        if (token.type === 'link') {
+            const href = token.href || '#';
+            const isInternal = href.startsWith('/') || href.startsWith(SITE_BASE_URL);
+            if (isInternal) {
+                const toPath = href.startsWith(SITE_BASE_URL) ? (href.slice(SITE_BASE_URL.length) || '/') : href;
+                return (
+                    <Link
+                        key={key}
+                        to={toPath}
+                        className="font-semibold text-[#193D35] dark:text-emerald-400 underline decoration-[#193D35]/40 hover:decoration-[#193D35]"
+                    >
+                        {renderInlineTokens(token.tokens, `${key}-a`)}
+                    </Link>
+                );
+            }
+            return (
+                <a
+                    key={key}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[#193D35] dark:text-emerald-400 underline decoration-[#193D35]/40 hover:decoration-[#193D35]"
+                >
+                    {renderInlineTokens(token.tokens, `${key}-a`)}
+                </a>
+            );
+        }
+        return null;
+    });
+}
+
+function renderInline(text) {
+    if (!text) return '';
+    return renderInlineTokens(parseInlineTokens(text));
+}
+
 function MarkdownRenderer({ content }) {
     if (!content) return null;
-
-    // Split markdown content by code blocks: ```lang ... ```
-    const parts = [];
-    const codeBlockRegex = /```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g;
-    let lastIndex = 0;
-    let match;
-
-    while ((match = codeBlockRegex.exec(content)) !== null) {
-        if (match.index > lastIndex) {
-            parts.push({
-                type: 'text',
-                value: content.slice(lastIndex, match.index)
-            });
-        }
-        parts.push({
-            type: 'code',
-            language: match[1] || 'text',
-            value: match[2].trim()
-        });
-        lastIndex = match.index + match[0].length;
-    }
-
-    if (lastIndex < content.length) {
-        parts.push({
-            type: 'text',
-            value: content.slice(lastIndex)
-        });
-    }
+    const blocks = parseMarkdownBlocks(content);
 
     return (
         <div className="article-body space-y-6 text-[var(--foreground)] text-sm sm:text-base leading-relaxed">
-            {parts.map((part, idx) => {
-                if (part.type === 'code') {
-                    return <CodeBlock key={idx} language={part.language} code={part.value} />;
+            {blocks.map((block, idx) => {
+                if (block.type === 'code') {
+                    return <CodeBlock key={idx} language={block.language} code={block.value} />;
                 }
-
-                // Render text paragraphs, headings, bullet lists
-                const lines = part.value.split('\n');
-                const elements = [];
-                let currentList = [];
-
-                const flushList = () => {
-                    if (currentList.length > 0) {
-                        elements.push(
-                            <ul key={`ul-${elements.length}`} className="my-4 space-y-2 list-none pl-1">
-                                {currentList.map((item, lIdx) => (
-                                    <li key={lIdx} className="flex items-start gap-2 text-sm text-[var(--foreground)] leading-relaxed">
-                                        <span className="text-[#193D35] dark:text-emerald-400 mt-1.5 shrink-0">•</span>
-                                        <span>{renderInline(item)}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        );
-                        currentList = [];
-                    }
-                };
-
-                lines.forEach((line, lIdx) => {
-                    const trimmed = line.trim();
-
-                    if (!trimmed) {
-                        flushList();
-                        return;
-                    }
-
-                    if (trimmed.startsWith('### ')) {
-                        flushList();
-                        elements.push(
-                            <h3 key={lIdx} className="text-lg sm:text-xl font-black text-[var(--foreground)] pt-4 pb-1">
-                                {trimmed.replace('### ', '')}
-                            </h3>
-                        );
-                    } else if (trimmed.startsWith('## ')) {
-                        flushList();
-                        elements.push(
-                            <h2 key={lIdx} className="text-xl sm:text-2xl font-black text-[var(--foreground)] pt-6 pb-2 border-b border-[var(--card-border)]">
-                                {trimmed.replace('## ', '')}
+                if (block.type === 'heading') {
+                    if (block.level === 2) {
+                        return (
+                            <h2 key={idx} id={block.id || undefined} className="text-xl sm:text-2xl font-black text-[var(--foreground)] pt-6 pb-2 border-b border-[var(--card-border)]">
+                                {renderInline(block.text)}
                             </h2>
                         );
-                    } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-                        currentList.push(trimmed.slice(2));
-                    } else if (/^\d+\.\s/.test(trimmed)) {
-                        flushList();
-                        elements.push(
-                            <p key={lIdx} className="text-sm sm:text-base text-[var(--foreground)] leading-relaxed font-semibold">
-                                {renderInline(trimmed)}
-                            </p>
-                        );
-                    } else if (trimmed === '---') {
-                        flushList();
-                        elements.push(<hr key={lIdx} className="my-8 border-[var(--card-border)]" />);
-                    } else {
-                        flushList();
-                        elements.push(
-                            <p key={lIdx} className="text-sm sm:text-base text-[var(--foreground)] leading-relaxed">
-                                {renderInline(trimmed)}
-                            </p>
+                    }
+                    if (block.level === 4) {
+                        return (
+                            <h4 key={idx} id={block.id || undefined} className="text-base sm:text-lg font-bold text-[var(--foreground)] pt-3 pb-1">
+                                {renderInline(block.text)}
+                            </h4>
                         );
                     }
-                });
-
-                flushList();
-                return <React.Fragment key={idx}>{elements}</React.Fragment>;
+                    return (
+                        <h3 key={idx} id={block.id || undefined} className="text-lg sm:text-xl font-black text-[var(--foreground)] pt-4 pb-1">
+                            {renderInline(block.text)}
+                        </h3>
+                    );
+                }
+                if (block.type === 'hr') {
+                    return <hr key={idx} className="my-8 border-[var(--card-border)]" />;
+                }
+                if (block.type === 'blockquote') {
+                    return (
+                        <blockquote key={idx} className="my-4 pl-4 border-l-4 border-[#193D35] dark:border-emerald-400 bg-[var(--muted-bg)]/50 py-3 pr-4 rounded-r-xl text-sm text-[var(--foreground)] leading-relaxed space-y-2">
+                            {block.lines.map((line, lIdx) => (
+                                <p key={lIdx}>{renderInline(line)}</p>
+                            ))}
+                        </blockquote>
+                    );
+                }
+                if (block.type === 'ul') {
+                    return (
+                        <ul key={idx} className="my-4 space-y-2 list-none pl-1">
+                            {block.items.map((item, lIdx) => (
+                                <li key={lIdx} className="flex items-start gap-2 text-sm text-[var(--foreground)] leading-relaxed">
+                                    <span className="text-[#193D35] dark:text-emerald-400 mt-1 shrink-0" aria-hidden="true">•</span>
+                                    <span>{renderInline(item)}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    );
+                }
+                if (block.type === 'ol') {
+                    return (
+                        <ol key={idx} className="my-4 space-y-2 list-decimal pl-6 text-sm text-[var(--foreground)] leading-relaxed">
+                            {block.items.map((item, lIdx) => (
+                                <li key={lIdx}>{renderInline(item)}</li>
+                            ))}
+                        </ol>
+                    );
+                }
+                if (block.type === 'table') {
+                    return (
+                        <div key={idx} className="my-6 overflow-x-auto rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)]">
+                            <table className="w-full border-collapse text-left">
+                                <thead className="bg-[var(--muted-bg)]/60">
+                                    <tr>
+                                        {block.headers.map((header, hIdx) => (
+                                            <th
+                                                key={hIdx}
+                                                className="px-4 py-2.5 text-xs font-bold text-[var(--foreground)] border-b border-[var(--card-border)]"
+                                                style={{ textAlign: block.alignments[hIdx] || 'left' }}
+                                            >
+                                                {renderInline(header)}
+                                            </th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {block.rows.map((row, rIdx) => (
+                                        <tr key={rIdx} className="border-b border-[var(--card-border)]/60 last:border-b-0">
+                                            {row.map((cell, cIdx) => (
+                                                <td
+                                                    key={cIdx}
+                                                    className="px-4 py-2.5 text-xs sm:text-sm text-[var(--foreground)]"
+                                                    style={{ textAlign: block.alignments[cIdx] || 'left' }}
+                                                >
+                                                    {renderInline(cell)}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    );
+                }
+                return (
+                    <p key={idx} className="text-sm sm:text-base text-[var(--foreground)] leading-relaxed">
+                        {renderInline(block.text)}
+                    </p>
+                );
             })}
         </div>
     );
 }
 
-function renderInline(text) {
-    if (!text) return '';
-    // Bold **text** and inline `code`
-    const parts = text.split(/(\*\*.*?\*\*|`.*?`)/g);
-    return parts.map((part, i) => {
-        if (part.startsWith('**') && part.endsWith('**')) {
-            return <strong key={i} className="font-bold text-[var(--foreground)]">{part.slice(2, -2)}</strong>;
-        }
-        if (part.startsWith('`') && part.endsWith('`')) {
-            return (
-                <code key={i} className="px-1.5 py-0.5 rounded bg-[var(--muted-bg)] text-[#193D35] dark:text-emerald-400 font-mono text-xs border border-[var(--card-border)]">
-                    {part.slice(1, -1)}
-                </code>
-            );
-        }
-        return part;
-    });
-}
-
 export default function BlogDetail() {
     const { slug } = useParams();
-    const navigate = useNavigate();
+    const initialEmbedded = readEmbeddedBlogData(slug);
 
-    const [article, setArticle] = useState(null);
-    const [relatedArticles, setRelatedArticles] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [article, setArticle] = useState(() => initialEmbedded?.article || null);
+    const [relatedArticles, setRelatedArticles] = useState(() => initialEmbedded?.relatedArticles || []);
+    const [loading, setLoading] = useState(() => !initialEmbedded?.article);
     const [copiedShare, setCopiedShare] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
-        setLoading(true);
+        const embeddedForSlug = readEmbeddedBlogData(slug);
+
+        if (embeddedForSlug?.article) {
+            setArticle(embeddedForSlug.article);
+            setRelatedArticles(embeddedForSlug.relatedArticles || []);
+            setLoading(false);
+        } else {
+            setArticle(null);
+            setRelatedArticles([]);
+            setLoading(true);
+        }
 
         blogService.getArticleBySlug(slug)
             .then(res => {
-                if (isMounted && res?.success && res.article) {
+                if (!isMounted) return;
+                if (res?.success && res.article) {
                     setArticle(res.article);
                     setRelatedArticles(res.relatedArticles || []);
-                } else if (isMounted) {
-                    // Fallback to static articles
-                    const fallback = INITIAL_BLOG_ARTICLES.find(a => a.slug === slug);
-                    setArticle(fallback || null);
-                    if (fallback) {
-                        const related = INITIAL_BLOG_ARTICLES
-                            .filter(a => a.slug !== slug && a.category === fallback.category)
-                            .slice(0, 3);
-                        setRelatedArticles(related);
-                    }
+                } else if (!embeddedForSlug?.article) {
+                    setArticle(null);
+                    setRelatedArticles([]);
                 }
             })
-            .catch(() => {
-                if (isMounted) {
-                    const fallback = INITIAL_BLOG_ARTICLES.find(a => a.slug === slug);
-                    setArticle(fallback || null);
-                    if (fallback) {
-                        const related = INITIAL_BLOG_ARTICLES
-                            .filter(a => a.slug !== slug && a.category === fallback.category)
-                            .slice(0, 3);
-                        setRelatedArticles(related);
-                    }
+            .catch((err) => {
+                if (!isMounted) return;
+                const status = err?.response?.status;
+                // Strictly return 404 when server confirms article is missing or unpublished
+                if (status === 404 || status === 400) {
+                    setArticle(null);
+                    setRelatedArticles([]);
+                    return;
+                }
+                if (embeddedForSlug?.article) {
+                    return;
+                }
+                // Network/offline fallback only for published static articles
+                const fallback = INITIAL_BLOG_ARTICLES.find(a => a.slug === slug && a.isPublished !== false);
+                setArticle(fallback || null);
+                if (fallback) {
+                    const related = INITIAL_BLOG_ARTICLES
+                        .filter(a => a.slug !== slug && a.isPublished !== false && a.category === fallback.category)
+                        .slice(0, 3);
+                    setRelatedArticles(related);
                 }
             })
             .finally(() => {
@@ -273,36 +399,46 @@ export default function BlogDetail() {
         return () => { isMounted = false; };
     }, [slug]);
 
-    const fallbackArticle = INITIAL_BLOG_ARTICLES.find(a => a.slug === slug) || null;
-    const activeArticle = article || fallbackArticle;
+    const activeArticle = article && String(article.slug).toLowerCase() === String(slug || '').toLowerCase()
+        ? article
+        : null;
+    const seoDescription = activeArticle ? buildArticleSeoDescription(activeArticle) : '';
+    const seoTitle = activeArticle ? ((activeArticle.seoTitle || '').trim() || `${activeArticle.title} | Hangbug`) : '';
+    const coverImageUrl = activeArticle ? resolveCoverImageUrl(activeArticle.coverImage) : undefined;
+    const datePublishedIso = activeArticle ? toIsoDate(activeArticle.publishedAt || activeArticle.createdAt) : undefined;
+    const dateModifiedIso = activeArticle ? toIsoDate(activeArticle.updatedAt || activeArticle.publishedAt || activeArticle.createdAt, datePublishedIso) : undefined;
 
     // Dynamic SEO Configuration
     usePageSeo({
         skip: loading && !activeArticle,
-        title: activeArticle
-            ? (activeArticle.seoTitle || `${activeArticle.title} | Hangbug`)
-            : '404: Page Not Found — HangBug',
+        title: activeArticle ? seoTitle : '404: Page Not Found — HangBug',
         description: activeArticle
-            ? (activeArticle.seoDescription || activeArticle.excerpt || 'Read programming guides and tutorials on Hangbug.')
+            ? seoDescription
             : "The page you are looking for doesn't exist, has been removed, or was moved to another URL.",
-        canonicalPath: activeArticle ? `/blog/${slug}` : undefined,
+        canonicalPath: activeArticle ? `/blog/${activeArticle.slug}` : undefined,
+        ogType: activeArticle ? 'article' : 'website',
+        ogImage: coverImageUrl,
+        ogImageAlt: activeArticle ? `${activeArticle.title} — Hangbug` : undefined,
         noindex: !loading && !activeArticle,
         disableStructuredData: !activeArticle,
         schemaType: 'Article',
-        breadcrumbs: [
+        breadcrumbs: activeArticle ? [
             { name: 'Home', path: '/' },
             { name: 'Blog', path: '/blog' },
-            ...(activeArticle?.category ? [{ name: activeArticle.category, path: `/blog?category=${encodeURIComponent(activeArticle.category)}` }] : []),
-            ...(activeArticle?.title ? [{ name: activeArticle.title, path: `/blog/${slug}` }] : [])
-        ],
+            ...(activeArticle.category ? [{ name: activeArticle.category, path: `/blog?category=${encodeURIComponent(activeArticle.category)}` }] : []),
+            { name: activeArticle.title, path: `/blog/${activeArticle.slug}` }
+        ] : undefined,
         article: activeArticle ? {
             headline: activeArticle.title,
-            description: activeArticle.excerpt,
+            description: activeArticle.excerpt || seoDescription,
             authorName: activeArticle.authorName || 'Hangbug Editorial Team',
-            authorType: 'Organization',
-            datePublished: activeArticle.publishedAt ? new Date(activeArticle.publishedAt).toISOString() : new Date().toISOString(),
-            dateModified: activeArticle.updatedAt ? new Date(activeArticle.updatedAt).toISOString() : new Date().toISOString(),
-            image: 'https://www.hangbug.com/branding/hangbug-logo-full.png'
+            authorType: isOrganizationAuthor(activeArticle.authorName) ? 'Organization' : 'Person',
+            datePublished: datePublishedIso,
+            dateModified: dateModifiedIso,
+            articleSection: activeArticle.category,
+            keywords: Array.isArray(activeArticle.tags) ? activeArticle.tags.join(', ') : undefined,
+            wordCount: countPlainWords(activeArticle.content || activeArticle.excerpt || ''),
+            image: coverImageUrl
         } : null
     });
 
@@ -327,12 +463,12 @@ export default function BlogDetail() {
         );
     }
 
-    if (!article) {
+    if (!activeArticle) {
         return <NotFound />;
     }
 
-    const categoryColor = CATEGORY_COLORS[article.category] || 'bg-primary/10 text-primary border-primary/20';
-    const techSlug = article.category?.toLowerCase().replace(/\s+/g, '-');
+    const categoryColor = CATEGORY_COLORS[activeArticle.category] || 'bg-primary/10 text-primary border-primary/20';
+    const techTarget = resolveTechQuizTarget(activeArticle);
 
     return (
         <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col font-sans transition-colors duration-300">
@@ -345,12 +481,12 @@ export default function BlogDetail() {
                     <ChevronRight size={12} className="shrink-0" />
                     <Link to="/blog" className="hover:text-[var(--foreground)] transition-colors shrink-0">Blog</Link>
                     <ChevronRight size={12} className="shrink-0" />
-                    <Link to={`/blog?category=${encodeURIComponent(article.category)}`} className="hover:text-[var(--foreground)] transition-colors shrink-0 font-medium">
-                        {article.category}
+                    <Link to={`/blog?category=${encodeURIComponent(activeArticle.category)}`} className="hover:text-[var(--foreground)] transition-colors shrink-0 font-medium">
+                        {activeArticle.category}
                     </Link>
                     <ChevronRight size={12} className="shrink-0" />
                     <span className="text-[var(--foreground)] truncate shrink-0 max-w-[200px] font-semibold">
-                        {article.title}
+                        {decodeHtmlEntities(activeArticle.title)}
                     </span>
                 </nav>
 
@@ -358,43 +494,43 @@ export default function BlogDetail() {
                 <header className="space-y-4">
                     <div className="flex flex-wrap items-center gap-2.5">
                         <Link
-                            to={`/blog?category=${encodeURIComponent(article.category)}`}
+                            to={`/blog?category=${encodeURIComponent(activeArticle.category)}`}
                             className={`px-3 py-1 rounded-lg text-xs font-bold border transition-colors ${categoryColor}`}
                         >
-                            {article.category}
+                            {activeArticle.category}
                         </Link>
                         <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-[var(--muted-bg)] border border-[var(--card-border)] text-[var(--foreground-muted)]">
-                            {article.difficulty || 'Beginner'}
+                            {activeArticle.difficulty || 'Beginner'}
                         </span>
                         <div className="flex items-center gap-1.5 text-xs text-[var(--foreground-muted)]">
                             <Clock size={13} />
-                            <span>{article.readingTimeMinutes || 8} min read</span>
+                            <span>{activeArticle.readingTimeMinutes || 8} min read</span>
                         </div>
                     </div>
 
                     {/* Single Meaningful H1 Heading */}
                     <h1 className="text-3xl sm:text-5xl font-black text-[var(--foreground)] tracking-tight leading-tight">
-                        {article.title}
+                        {decodeHtmlEntities(activeArticle.title)}
                     </h1>
 
                     <p className="text-base sm:text-lg text-[var(--foreground-muted)] leading-relaxed">
-                        {article.excerpt}
+                        {decodeHtmlEntities(activeArticle.excerpt)}
                     </p>
 
                     {/* Author & Share Bar */}
                     <div className="pt-4 border-t border-[var(--card-border)] flex flex-wrap items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full bg-[#193D35] text-white flex items-center justify-center font-bold text-xs shadow-sm">
-                                {article.authorAvatar || 'HB'}
+                                {activeArticle.authorAvatar || 'HB'}
                             </div>
                             <div>
-                                <p className="text-xs font-bold text-[var(--foreground)]">{article.authorName || 'Hangbug Editorial Team'}</p>
+                                <p className="text-xs font-bold text-[var(--foreground)]">{activeArticle.authorName || 'Hangbug Editorial Team'}</p>
                                 <div className="flex items-center gap-2 text-[11px] text-[var(--foreground-muted)]">
-                                    <span>{article.authorRole || 'Technical Educators'}</span>
+                                    <span>{activeArticle.authorRole || 'Technical Educators'}</span>
                                     <span>•</span>
                                     <div className="flex items-center gap-1">
                                         <Calendar size={11} />
-                                        <span>{formatDate(article.publishedAt)}</span>
+                                        <time dateTime={datePublishedIso}>{formatDate(activeArticle.publishedAt)}</time>
                                     </div>
                                 </div>
                             </div>
@@ -419,7 +555,7 @@ export default function BlogDetail() {
                                 )}
                             </button>
                             <a
-                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(window.location.href)}`}
+                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(activeArticle.title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Share on Twitter"
@@ -428,7 +564,7 @@ export default function BlogDetail() {
                                 <Twitter size={14} />
                             </a>
                             <a
-                                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`}
+                                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Share on LinkedIn"
@@ -441,7 +577,7 @@ export default function BlogDetail() {
                 </header>
 
                 {/* Key Takeaways Callout */}
-                {Array.isArray(article.keyTakeaways) && article.keyTakeaways.length > 0 && (
+                {Array.isArray(activeArticle.keyTakeaways) && activeArticle.keyTakeaways.length > 0 && (
                     <aside aria-label="Key takeaways" className="rounded-2xl bg-gradient-to-br from-[#193D35]/10 via-[var(--card-bg)] to-[var(--card-bg)] border border-[#193D35]/30 p-6 space-y-3 shadow-sm">
                         <div className="flex items-center gap-2 text-[#193D35] dark:text-emerald-400">
                             <Sparkles size={16} />
@@ -450,10 +586,10 @@ export default function BlogDetail() {
                             </h2>
                         </div>
                         <ul className="space-y-2">
-                            {article.keyTakeaways.map((takeaway, idx) => (
+                            {activeArticle.keyTakeaways.map((takeaway, idx) => (
                                 <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--foreground)] leading-relaxed">
                                     <CheckCircle2 size={15} className="text-[#193D35] dark:text-emerald-400 mt-0.5 shrink-0" />
-                                    <span>{takeaway}</span>
+                                    <span>{decodeHtmlEntities(takeaway)}</span>
                                 </li>
                             ))}
                         </ul>
@@ -462,7 +598,7 @@ export default function BlogDetail() {
 
                 {/* Main Article Body */}
                 <article className="prose prose-slate dark:prose-invert max-w-none">
-                    <MarkdownRenderer content={article.content} />
+                    <MarkdownRenderer content={activeArticle.content} />
                 </article>
 
                 {/* Interactive Practice Callout (Hangbug Quizzes & Games) */}
@@ -483,16 +619,16 @@ export default function BlogDetail() {
 
                     <div className="pt-2 flex flex-wrap gap-3">
                         <Link
-                            to={`/technologies/${techSlug}`}
+                            to={techTarget.path}
                             className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-all"
                         >
                             <Code2 size={14} />
-                            <span>Take {article.category} Quiz</span>
+                            <span>{techTarget.label ? `Take ${techTarget.label} Quiz` : 'Explore Technology Quizzes'}</span>
                         </Link>
 
-                        {article.relatedGameSlug && (
+                        {activeArticle.relatedGameSlug && (
                             <Link
-                                to={`/games/${article.relatedGameSlug}`}
+                                to={`/games/${activeArticle.relatedGameSlug}`}
                                 className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all"
                             >
                                 <Gamepad2 size={14} />
@@ -505,13 +641,13 @@ export default function BlogDetail() {
                 {/* Author Bio Box */}
                 <section className="rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 shadow-sm">
                     <div className="w-14 h-14 rounded-2xl bg-[#193D35] text-white flex items-center justify-center font-black text-base shrink-0 shadow-md">
-                        {article.authorAvatar || 'HB'}
+                        {activeArticle.authorAvatar || 'HB'}
                     </div>
                     <div className="space-y-1.5 text-center sm:text-left">
                         <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground-muted)]">About the Author</p>
-                        <h3 className="text-base font-bold text-[var(--foreground)]">{article.authorName || 'Hangbug Editorial Team'}</h3>
+                        <h3 className="text-base font-bold text-[var(--foreground)]">{activeArticle.authorName || 'Hangbug Editorial Team'}</h3>
                         <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
-                            {article.authorBio || 'The Hangbug team creates practical programming quizzes, interactive coding games, and actionable developer tutorials to help software engineers thrive.'}
+                            {activeArticle.authorBio || 'The Hangbug team creates practical programming quizzes, interactive coding games, and actionable developer tutorials to help software engineers thrive.'}
                         </p>
                     </div>
                 </section>
@@ -521,10 +657,10 @@ export default function BlogDetail() {
                     <section className="space-y-4 pt-6 border-t border-[var(--card-border)]">
                         <div className="flex items-center justify-between">
                             <h2 className="text-lg font-bold text-[var(--foreground)]">
-                                Related Tutorials in {article.category}
+                                Related Tutorials in {activeArticle.category}
                             </h2>
-                            <Link to={`/blog?category=${encodeURIComponent(article.category)}`} className="text-xs text-[#193D35] dark:text-emerald-400 hover:underline">
-                                View all {article.category} articles
+                            <Link to={`/blog?category=${encodeURIComponent(activeArticle.category)}`} className="text-xs text-[#193D35] dark:text-emerald-400 hover:underline">
+                                View all {activeArticle.category} articles
                             </Link>
                         </div>
 
