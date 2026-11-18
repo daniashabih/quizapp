@@ -1,0 +1,795 @@
+Session 1: Introduction to UI
+50 multiple-choice questions
+1.	What does UI stand for?
+a.	Unified Input
+b.	User Interaction
+c.	User Interface
+d.	Universal Integration
+2.	A User Interface is best described as ______.
+a.	a programming language used by developers
+b.	a database that stores user records
+c.	a network protocol for sending data
+d.	a point of interaction between a user and a digital device, Website, or application
+3.	Which of the following is an example of a User Interface?
+a.	A router's firmware
+b.	A touchscreen on a smartphone
+c.	A power cable
+d.	A hard disk drive
+4.	A digital kiosk in a shopping mall that helps visitors locate their favorite outlet is an example of ______.
+a.	a UI
+b.	a compiler
+c.	a database server
+d.	an operating system kernel
+5.	UI design is the process of creating ______.
+a.	the look and feel of the interface
+b.	the server-side logic of an application
+c.	the network infrastructure
+d.	the database structure
+6.	Who designs the look and feel of an interface?
+a.	A database administrator
+b.	A system tester
+c.	A network engineer
+d.	A UI designer
+7.	A UI design language is ______.
+a.	a language for querying databases
+b.	a language used to write server code
+c.	a set of UI design guidelines and principles put together by a design entity
+d.	a scripting language for operating systems
+8.	In the 1940s/50s, computer programs and data were mainly handled with the help of ______.
+a.	voice commands
+b.	punched cards
+c.	touch screens
+d.	a mouse
+9.	Which company introduced the first Graphical User Interface (GUI) in the 1970s, according to the history of UI design?
+a.	Xerox
+b.	Amazon
+c.	Samsung
+d.	Google
+10.	In 1984 and the early 90s, Apple and Microsoft introduced computers with ______.
+a.	multi-touch screens
+b.	a built-in GUI screen and mouse
+c.	voice assistants
+d.	punched cards
+11.	The Palm Pilot, popular in the 1990s, worked with a touch screen and a ______.
+a.	mouse
+b.	voice assistant
+c.	stylus
+d.	joystick
+12.	Which Apple devices took UI design a giant step forward in 2007 and 2010?
+a.	iPod and MacBook
+b.	Magic Mouse and iMac
+c.	Siri and Apple Watch
+d.	iPhone and iPad
+13.	Voice recognition became a form of UI from 2011 with ______.
+a.	kiosks and ATMs
+b.	Palm Pilot and punched cards
+c.	Magic Mouse and trackpad
+d.	Siri, Google Now, and Alexa
+14.	Which UI design principle states that the best interfaces are almost invisible and avoid unnecessary elements?
+a.	Efficiency
+b.	Give feedback to users
+c.	Simplicity is the key
+d.	Stay consistent
+15.	The Google Flights interface being simple, minimal, and easy to understand illustrates which principle?
+a.	Simplicity is the key
+b.	Know your users
+c.	Visual hierarchy
+d.	Step by step information flow
+16.	Jeff Bezos's idea of being obsessed about your users supports which principle?
+a.	Efficiency
+b.	Know your users
+c.	Stay consistent
+d.	Give feedback to users
+17.	According to the 'Know your users' principle, the goal of a business should be ______.
+a.	business-centric, not user-centric
+b.	technology-centric
+c.	user-centric, not business-centric
+d.	competitor-centric
+18.	The 'Efficiency' principle says the number of steps a user takes to complete a task should be ______.
+a.	as many as possible
+b.	equal to the number of screens
+c.	decided by the developer
+d.	minimal
+19.	The consistent header while navigating the Amazon Website is an example of which principle?
+a.	Efficiency
+b.	Stay consistent
+c.	Speak the language of the users
+d.	Give feedback to users
+20.	Which of the following helps make a UI consistent and predictable?
+a.	Using consistent colors throughout
+b.	Changing the layout on every screen
+c.	Using unfamiliar UI elements
+d.	Using different terminology on each page
+21.	Presenting and arranging UI elements in an order that helps users understand information easily is called ______.
+a.	tokenization
+b.	prototyping
+c.	visual hierarchy
+d.	wireframing
+22.	Which of the following is used to create visual hierarchy?
+a.	Hiding important elements
+b.	Strategic use of color, contrast, and text size
+c.	Removing all whitespace
+d.	Using the same size for every element
+23.	On the Shopee page, highlighted words that instantly capture attention demonstrate ______.
+a.	user visual hierarchy
+b.	a consistent header
+c.	feedback to users
+d.	pagination
+24.	Providing a clear and concise label for each UI element supports which principle?
+a.	Efficiency
+b.	Step by step information flow
+c.	Simplicity is the key
+d.	Speak the language of the users
+25.	A notification telling the user whether a submitted form was successful is an example of ______.
+a.	visual hierarchy
+b.	staying consistent
+c.	knowing your users
+d.	giving feedback to users
+26.	The principle 'Step by step information flow' states that each screen should lead to ______.
+a.	at least five actions
+b.	one primary action only
+c.	all possible actions at once
+d.	no action at all
+27.	A UI designer collaborates closely with ______.
+a.	clients, UX designers, UX researchers, and developers
+b.	only the client
+c.	only the end users
+d.	only the developers
+28.	Different forms of interaction on a screen that establish interactivity between the user and the interface are called ______.
+a.	tokens
+b.	containers
+c.	touch points
+d.	breakpoints
+29.	A UI designer creates a color palette that is consistent with ______.
+a.	the brand image of the brand being designed for
+b.	the default browser colors
+c.	the designer's personal preference
+d.	the developer's favorite colors
+30.	Which statement about visual hierarchy is correct?
+a.	Whitespace makes a design less attractive
+b.	Font size has no effect on readability
+c.	Brighter colors should never be used
+d.	Repetition gives the impression that content is related
+31.	Having more whitespace in a design makes it ______.
+a.	inconsistent
+b.	more attractive and soothing to the eyes
+c.	harder to read
+d.	slower to load
+32.	The end product or deliverable of a UI designer is a ______.
+a.	database schema
+b.	test script
+c.	high-fidelity prototype/mockup
+d.	server configuration
+33.	A paper prototype is an example of a ______.
+a.	design token
+b.	low-fidelity prototype
+c.	high-fidelity prototype
+d.	final product
+34.	A prototype is ______.
+a.	a visual representation of a design
+b.	a finished and launched product
+c.	a design token file
+d.	a programming framework
+35.	Why do UI designers test high-fidelity prototypes with users?
+a.	To replace the UX designer
+b.	To skip the wireframing stage
+c.	To identify flaws before the final product is built
+d.	To avoid collecting user feedback
+36.	UI designers should iterate their designs based on user feedback until ______.
+a.	the project deadline passes
+b.	the first draft is complete
+c.	the developer approves
+d.	the end product is loved by users
+37.	Which are the four key UI design elements?
+a.	Colors, fonts, icons, and images
+b.	Wireframes, mockups, prototypes, and tokens
+c.	Buttons, tokens, grids, and shadows
+d.	Input controls, navigational components, informational components, and containers
+38.	Interactive elements that allow users to enter information into the system's interface are called ______.
+a.	navigational components
+b.	input controls
+c.	informational components
+d.	containers
+39.	Which input control lets users select only one option from a set of choices?
+a.	Radio button
+b.	Text field
+c.	List box
+d.	Check box
+40.	Which input control allows users to check or uncheck and select one or more options from a set?
+a.	Progress bar
+b.	Tooltip
+c.	Check box
+d.	Radio button
+41.	A list of items displayed on clicking an arrow, from which one item is selected at a time, is a ______.
+a.	carousel
+b.	breadcrumb
+c.	check box
+d.	drop-down list
+42.	Which navigational component helps users keep track of their location within a program or Website?
+a.	Breadcrumb
+b.	Message box
+c.	Tooltip
+d.	Progress bar
+43.	Which navigational component divides content into distinct pages and is generally found at the bottom of a page?
+a.	Accordion
+b.	Pagination
+c.	Breadcrumb
+d.	Modal window
+44.	Which informational component shows a hint when the user hovers the pointer over an item?
+a.	Search field
+b.	Icon
+c.	Tooltip
+d.	Tag
+45.	A small window that gives information or asks for confirmation, and requires an action before the user can move forward, is a ______.
+a.	breadcrumb
+b.	tooltip
+c.	carousel
+d.	message box
+46.	A child window that requires the user to interact with it before returning to the parent application is a ______.
+a.	tooltip
+b.	modal window (pop-up)
+c.	progress bar
+d.	tag
+47.	Which container element shows/hides a vertical list of items and content based on user action?
+a.	Accordion
+b.	Carousel
+c.	Pagination
+d.	Search field
+48.	Material Design was created by ______ in ______.
+a.	Microsoft; 1984
+b.	Xerox; 1970
+c.	Google; 2014
+d.	Apple; 2007
+49.	Material UI is ______.
+a.	an implementation of the Google Material Design specification
+b.	a programming language
+c.	a hardware design standard
+d.	a database engine
+50.	Which part of Material UI provides a rich library to represent common actions in an application?
+a.	Typography
+b.	Theme
+c.	Color palette
+d.	Material Icons
+Answer Key: Session 1
+Introduction to UI
+| Q   | Ans   | Q   | Ans   | Q   | Ans   | Q   | Ans   | Q   | Ans   |
+| 1   | c   | 11   | c   | 21   | c   | 31   | b   | 41   | d   |
+| 2   | d   | 12   | d   | 22   | b   | 32   | c   | 42   | a   |
+| 3   | b   | 13   | d   | 23   | a   | 33   | b   | 43   | b   |
+| 4   | a   | 14   | c   | 24   | d   | 34   | a   | 44   | c   |
+| 5   | a   | 15   | a   | 25   | d   | 35   | c   | 45   | d   |
+| 6   | d   | 16   | b   | 26   | b   | 36   | d   | 46   | b   |
+| 7   | c   | 17   | c   | 27   | a   | 37   | d   | 47   | a   |
+| 8   | b   | 18   | d   | 28   | c   | 38   | b   | 48   | c   |
+| 9   | a   | 19   | b   | 29   | a   | 39   | a   | 49   | a   |
+| 10   | b   | 20   | a   | 30   | d   | 40   | c   | 50   | d   |
+Session 2: Introduction to Material Design
+50 multiple-choice questions
+1.	A design token is ______.
+a.	a programming language
+b.	a login credential for Figma
+c.	a piece of data UI/UX designers create to store the values of a style in their style library
+d.	a type of UI input control
+2.	Which team receives the style library and designs from the UI design team?
+a.	The Software Engineering (SE) team
+b.	The marketing team
+c.	The UX research team
+d.	The HR team
+3.	Which UI-stage output is considered the most important to hand over to the SE team?
+a.	The project invoices
+b.	The meeting notes
+c.	The user surveys
+d.	The style libraries
+4.	Design tokens let designers send the style library to engineers without violating ______ standards.
+a.	Waterfall
+b.	Agile
+c.	Accessibility
+d.	ISO
+5.	Which team carries out the UX study and hands recommendations to the UI design team?
+a.	Quality assurance team
+b.	Software Engineering team
+c.	Sales team
+d.	UX research team
+6.	Figma is used for enabling new ______ workflows.
+a.	database-to-network
+b.	design-to-code
+c.	paper-to-print
+d.	code-to-hardware
+7.	To get started with Figma, a user first has to ______.
+a.	create an account on the Figma Website
+b.	clone a GitHub repository
+c.	install a compiler
+d.	buy a Pro license
+8.	Which Figma plugin is used to create design tokens?
+a.	Prototype Viewer
+b.	Color Picker
+c.	Figma Tokens (Tokens Studio for Figma)
+d.	Auto Layout
+9.	In the Figma Tokens plugin, which option is selected to create a token for a text style such as Headline1?
+a.	Opacity
+b.	Spacing
+c.	Typography
+d.	Border Radius
+10.	What is the Description field of a token used for?
+a.	Choosing the font color
+b.	Naming the Figma file
+c.	Exporting the project as PNG
+d.	Communicating a message to the engineers about the token values
+11.	Which tab in the Figma Tokens plugin displays the JSON code for a token?
+a.	JSON tab
+b.	Settings tab
+c.	Layers tab
+d.	Inspect tab
+12.	Where is the JSON code of tokens pushed so that the SE team can clone it?
+a.	An email attachment
+b.	A GitHub repository
+c.	The Figma Assets panel
+d.	A printed document
+13.	Which is a benefit of using design tokens?
+a.	They remove the need for developers
+b.	They only work in paper prototypes
+c.	Design and engineering teams work with data that works in both design and code
+d.	They replace the style library entirely
+14.	Material Design tokens are created and maintained by ______.
+a.	the Material Design team
+b.	individual end users
+c.	the SE team
+d.	the Figma team
+15.	How many types of tokens are listed on the Material Design Website?
+a.	Five
+b.	Three
+c.	One
+d.	Two
+16.	Which Material Design token type is currently under development?
+a.	Color token
+b.	Reference token
+c.	System token
+d.	Component token
+17.	A Material Design reference token stores ______.
+a.	the values of system styles only
+b.	the prototype animations
+c.	the values of reference styles in the style library
+d.	the engineers' credentials
+18.	A Material Design system token stores ______.
+a.	the values of system styles in the style library
+b.	the values of reference styles only
+c.	the user feedback data
+d.	the GitHub repository URL
+19.	A Material Design token name that starts with md.ref is a ______.
+a.	system token
+b.	layout token
+c.	component token
+d.	reference token
+20.	A Material Design token name that starts with md.sys is a ______.
+a.	typography-only token
+b.	system token
+c.	component token
+d.	reference token
+21.	In md.ref and md.sys, 'md' stands for ______.
+a.	main design
+b.	mobile display
+c.	material design
+d.	master data
+22.	Colors that form a broad range of options but have no assigned role are called ______.
+a.	error color styles
+b.	system color styles
+c.	component color styles
+d.	reference color styles
+23.	Colors assigned a role, such as the button color or background color, are called ______.
+a.	reference color styles
+b.	system color styles
+c.	neutral key colors
+d.	tonal palettes
+24.	In the book's example, which name was used for the blue reference color token?
+a.	md.ref.color.reference-color-blue
+b.	md.ref.typescale.blue
+c.	md.sys.grid.blue
+d.	md.sys.color.reference-color-blue
+25.	Which name was used for the system token that stores the button color?
+a.	md.sys.typescale.button
+b.	md.ref.grid.button
+c.	md.ref.color.button-color
+d.	md.sys.color.button-color
+26.	The booking Website's budget and reservation-policy filters are examples of ______.
+a.	sliders
+b.	toggles
+c.	check boxes
+d.	radio buttons
+27.	A button that, when clicked, reveals a list of options to choose from (such as adults, children, and rooms) is a ______.
+a.	check box
+b.	drop-down list
+c.	breadcrumb
+d.	tag
+28.	Which input control lets users select one option from a mutually exclusive set, such as Round-trip, One-way, or Multi-city?
+a.	Radio buttons
+b.	Sliders
+c.	Check boxes
+d.	List boxes
+29.	Which input control can support a long vertical list and allows multiple selections at once?
+a.	Progress bar
+b.	Toggle
+c.	List box
+d.	Radio button
+30.	Which input control is an ON/OFF switch that lets users choose between two states?
+a.	List box
+b.	Toggle
+c.	Date field
+d.	Check box
+31.	Which input control allows users to select a date and/or time and keeps the format consistent?
+a.	Radio button
+b.	Text field
+c.	Accordion
+d.	Date field (date picker)
+32.	The clickable trail of previous pages on Coursera that tells users where they are is a ______.
+a.	breadcrumb
+b.	tag
+c.	slider
+d.	pagination
+33.	Which navigational component is also known as a trackbar and is used to adjust values like volume or brightness?
+a.	Slider
+b.	Menu
+c.	Carousel
+d.	Icon
+34.	Which navigational component is a single-line text box accompanied by a magnifying glass?
+a.	Toggle
+b.	Search field
+c.	Accordion
+d.	Tooltip
+35.	A set of rotating banners or a slideshow that displays images or text is a ______.
+a.	breadcrumb
+b.	message box
+c.	slider
+d.	carousel
+36.	Which is described as the most important navigational component, presenting many options to interact with the interface?
+a.	Progress bar
+b.	Tooltip
+c.	Menu
+d.	Modal window
+37.	Which informational component indicates how much of a task is completed and is not clickable?
+a.	Button
+b.	Icon
+c.	Progress bar
+d.	Menu
+38.	Notifications can indicate which of the following?
+a.	Task completion, new announcements, or error/warning messages
+b.	Only the font in use
+c.	Only the user's location
+d.	Only the page number
+39.	A label displayed when a user hovers over or long-presses an element is a ______.
+a.	breadcrumb
+b.	tooltip
+c.	toggle
+d.	tag
+40.	A modal window ______.
+a.	is always hidden from users
+b.	disappears automatically after one second
+c.	is only used in printed media
+d.	will not go away until the user interacts with it
+41.	An accordion is especially useful on ______.
+a.	command-line tools
+b.	printed posters
+c.	mobile screens, where space is limited
+d.	server hardware
+42.	Which statement correctly contrasts UX and UI?
+a.	UX is about usability and UI is about beauty
+b.	UX and UI are exactly the same
+c.	UX is about beauty and UI is about usability
+d.	UX is about code and UI is about databases
+43.	Which statement about UX and UI scope is correct?
+a.	UI is broad, while UX is specific to digital interfaces
+b.	UX is broad, while UI is specific to digital interfaces
+c.	Both are limited to mobile apps
+d.	Neither applies to Websites
+44.	Which statement about UX and UI focus is correct?
+a.	Both are only looks-driven
+b.	UI is data-driven, while UX is looks-driven
+c.	Both are only data-driven
+d.	UX is data-driven, while UI is looks-driven
+45.	Which of the following are key deliverables of a UX designer?
+a.	Style tiles and layout mock-ups
+b.	Shadow styles and grid tokens
+c.	JSON files and GitHub repositories
+d.	Empathy maps/user personas, user journey maps, and wireframes
+46.	Which of the following are key deliverables of a UI designer?
+a.	Style tiles and layout mock-ups
+b.	Database schemas
+c.	Usability test reports only
+d.	Empathy maps and user journey maps
+47.	Which tools give UI designers an advantage for creating the skin and appearance of a product?
+a.	Spreadsheets only
+b.	Notepad and Calculator
+c.	Sketch and Adobe XD
+d.	Command prompt and Git
+48.	User Experience Research is ______.
+a.	the testing of server hardware
+b.	the systematic investigation of users and their requirements
+c.	the design of company logos
+d.	the process of writing production code
+49.	UX research helps to learn about users' ______.
+a.	behaviors, necessity, motivations, and pain points
+b.	salaries and addresses
+c.	favorite programming languages
+d.	operating system versions only
+50.	In the cake analogy, the UX design is like ______ and the UI design is like ______.
+a.	the oven; the plate
+b.	the ingredients; the icing and decoration
+c.	the recipe book; the knife
+d.	the icing and decoration; the ingredients
+Answer Key: Session 2
+Introduction to Material Design
+| Q   | Ans   | Q   | Ans   | Q   | Ans   | Q   | Ans   | Q   | Ans   |
+| 1   | c   | 11   | a   | 21   | c   | 31   | d   | 41   | c   |
+| 2   | a   | 12   | b   | 22   | d   | 32   | a   | 42   | a   |
+| 3   | d   | 13   | c   | 23   | b   | 33   | a   | 43   | b   |
+| 4   | b   | 14   | a   | 24   | a   | 34   | b   | 44   | d   |
+| 5   | d   | 15   | b   | 25   | d   | 35   | d   | 45   | d   |
+| 6   | b   | 16   | d   | 26   | c   | 36   | c   | 46   | a   |
+| 7   | a   | 17   | c   | 27   | b   | 37   | c   | 47   | c   |
+| 8   | c   | 18   | a   | 28   | a   | 38   | a   | 48   | b   |
+| 9   | c   | 19   | d   | 29   | c   | 39   | b   | 49   | a   |
+| 10   | d   | 20   | b   | 30   | b   | 40   | d   | 50   | b   |
+Session 3: Creating a Material Design Type and Component System
+50 multiple-choice questions
+1.	How many roles does Material Design outline for a typography system?
+a.	Four
+b.	Five
+c.	Two
+d.	Three
+2.	Which are the five roles of a Material Design typography system?
+a.	Primary, Secondary, Tertiary, Neutral, and Error
+b.	Display, Heading, Caption, Link, and Quote
+c.	Display, Headline, Title, Label, and Body
+d.	Enabled, Disabled, Hovered, Focused, and Pressed
+3.	Each typography role is broken down into which three subsets?
+a.	Primary, Secondary, and Tertiary
+b.	Light, Regular, and Black
+c.	Bold, Italic, and Underline
+d.	Large, Medium, and Small
+4.	On the Material Design Website, the text style values are found in which tab?
+a.	Type scale & Tokens
+b.	Interaction states
+c.	Shadows
+d.	Color roles
+5.	Which Figma element is used and renamed 'Typography System' to hold the text styles?
+a.	Hand tool
+b.	Frame (#)
+c.	Comment tool
+d.	Pen tool
+6.	The default font for Display large in Material Design is ______.
+a.	Rubik Bold
+b.	Arial Black
+c.	Times New Roman
+d.	Roboto Regular
+7.	The default font weight for Display large is 400, which equals ______ in Figma.
+a.	Regular
+b.	ExtraBold
+c.	Bold
+d.	Black
+8.	In typography, 'tracking' refers to ______.
+a.	font size
+b.	line height
+c.	letter spacing
+d.	paragraph indent
+9.	What are the default size and line height values used for Display large in the book's example?
+a.	Size 57 and line height 64
+b.	Size 64 and line height 57
+c.	Size 24 and line height 16
+d.	Size 12 and line height 10
+10.	How can a designer identify the value a system token is storing?
+a.	By checking the file size
+b.	By the color of the token icon
+c.	By reading the GitHub commit message
+d.	The last parameter name after the last dot in the System token column represents it
+11.	Which property is tweaked to create the reference text styles Medium, SemiBold, Bold, ExtraBold, and Black?
+a.	Text decoration
+b.	Weight
+c.	Font size
+d.	Tracking
+12.	If the Medium text style is chosen to play the Display large role, then ______.
+a.	all styles are deleted
+b.	all styles become system styles
+c.	it becomes the system style and the others remain reference styles
+d.	it becomes a component token
+13.	Which token name was used for the first Display large reference token in the book?
+a.	md.ref.color.display-large1
+b.	md.sys.grid.display-large1
+c.	md.sys.typescale.display-large
+d.	md.ref.typescale.display-large1
+14.	Which button in the Figma Tokens plugin automatically creates the text styles in the style library?
+a.	Add new token
+b.	Apply to selection
+c.	Create styles
+d.	Reset onboarding
+15.	What is the first step in creating a Material Design color system?
+a.	Assign color roles
+b.	Choose the key colors
+c.	Create shadows
+d.	Create buttons
+16.	What is the correct order of steps for creating a color system?
+a.	Key colors, tonal palettes, specific colors, color roles
+b.	Specific colors, key colors, color roles, tonal palettes
+c.	Color roles, key colors, tonal palettes, specific colors
+d.	Tonal palettes, color roles, key colors, specific colors
+17.	Primary key colors are used for generating colors for ______.
+a.	the most important elements on the design
+b.	surfaces and backgrounds
+c.	error messages
+d.	less important components
+18.	Secondary key colors are used for ______.
+a.	success messages only
+b.	text and icons only
+c.	the most important elements
+d.	less important components on the design
+19.	Tertiary key colors are used to ______.
+a.	display error messages
+b.	create shadows
+c.	balance the primary and secondary colors
+d.	set the grid columns
+20.	Neutral key colors are used for ______.
+a.	the main call-to-action button only
+b.	surface, background, text, and icons
+c.	typography weights
+d.	success messages
+21.	A tonal palette for a color is ______.
+a.	a group of shadow styles
+b.	a palette of different shades or tones of that same color
+c.	a palette of unrelated colors
+d.	a set of fonts
+22.	How many tones does Material Design recommend for each color's tonal palette?
+a.	13
+b.	8
+c.	5
+d.	20
+23.	In a tonal palette, the first tone and the last tone are ______.
+a.	primary and secondary
+b.	red and green
+c.	absolute black and absolute white
+d.	absolute white and absolute black
+24.	The tonal shades in the book's palette are labeled with numbers from ______.
+a.	1 to 10
+b.	0 to 255
+c.	10 to 50
+d.	0 to 100
+25.	'Primary40' on the Material Design Website means ______.
+a.	the tone labeled 40 in the primary tonal palette plays the primary color role
+b.	40 primary colors are required
+c.	the primary grid has 40 columns
+d.	the primary font size is 40
+26.	When picking a key color, it should be chosen from ______.
+a.	only the black corner
+b.	the darker region of the color picker
+c.	any region; it makes no difference
+d.	the lightest region of the color picker
+27.	In the book's color system, in which format are the colors set?
+a.	Pantone
+b.	CMYK
+c.	Grayscale
+d.	Hex value
+28.	Which two additional colors should be added to a Material Design color system?
+a.	Black color and white color
+b.	Warning color and info color
+c.	Error color and success color
+d.	Primary color and secondary color
+29.	The colors in the tonal palette are ______ color styles.
+a.	reference
+b.	component
+c.	layout
+d.	system
+30.	When creating a responsive column grid in Figma, which value of the layout is considered?
+a.	The color
+b.	The corner radius
+c.	The width (W)
+d.	The font family
+31.	What column and margin values were set for the iPhone 13 Pro Max Layout in the book's example?
+a.	12 columns and margin 16
+b.	4 columns and margin 8
+c.	8 columns and margin 4
+d.	1 column and margin 0
+32.	Which layout grid property identifies the spacing between two items placed horizontally?
+a.	Type
+b.	Margin
+c.	Count
+d.	Gutter
+33.	What Gutter value was used in the book's column grid example?
+a.	24
+b.	8
+c.	0
+d.	16
+34.	For the row grid in the book, which settings were used?
+a.	Count 4, Type Stretch, Height 16, Gutter 16
+b.	Count 1000, Type Center, Height 8, Gutter 0
+c.	Count 100, Type Right, Height 0, Gutter 4
+d.	Count 12, Type Left, Height 24, Gutter 8
+35.	Material Design recommends that most measurements in layouts be aligned to ______.
+a.	5px
+b.	20px
+c.	8px
+d.	10px
+36.	Which Website version of Material Design is referred to for shadow and elevation values, because the newer version had not released them?
+a.	Material Design version 1
+b.	Material Design version 3
+c.	Material Design version 2
+d.	Material Design version 4
+37.	Which elevation value is referred to when creating shadow effects in the book?
+a.	2dp
+b.	8dp
+c.	24dp
+d.	16dp
+38.	The Key Shadow column of the elevation table has which two columns?
+a.	Enabled and Disabled
+b.	Reference and System
+c.	Umbra and Penumbra
+d.	Primary and Secondary
+39.	Which three shadow types are covered by the elevation table in the book?
+a.	Soft, Hard, and Neutral
+b.	Umbra, Penumbra, and Ambient
+c.	Primary, Secondary, and Tertiary
+d.	Display, Title, and Body
+40.	Component interaction state is ______.
+a.	the way a component behaves and looks when a user interacts with it
+b.	the file format of a prototype
+c.	the name of a design token
+d.	the color of the Figma canvas
+41.	On the altschoolafrica.com example, why does the 'Explore all schools' button appear more actionable than 'Log In'?
+a.	It has no label
+b.	It has a darker shade of color and a stronger presence
+c.	It is placed in the footer
+d.	It has a larger font family
+42.	How many types of common buttons does Material Design list on its buttons specs page?
+a.	Five
+b.	Two
+c.	Three
+d.	Eight
+43.	Which are the three labels (parts) of a filled button?
+a.	Umbra, penumbra, and ambient
+b.	Display, headline, and title
+c.	Margin, padding, and gutter
+d.	Container, label text, and icon
+44.	Which text style property from the typography tokens is used for the button label in the book?
+a.	Title medium
+b.	Body small
+c.	Label large
+d.	Display large
+45.	What top and bottom padding value is set for the button's Auto layout?
+a.	10
+b.	0
+c.	57
+d.	24
+46.	In the book's filled button, the container is filled with ______ and the label text uses ______.
+a.	error color; success color
+b.	neutral color; secondary color
+c.	on primary color; primary color
+d.	primary color; on primary color
+47.	Which five interaction states does Material Design outline for a filled button?
+a.	Primary, Secondary, Tertiary, Neutral, and Error
+b.	Enabled, Disabled, Hovered, Focused, and Pressed
+c.	Umbra, Penumbra, Ambient, Key, and Shadow
+d.	Display, Headline, Title, Label, and Body
+48.	Which interaction state represents a non-actionable button?
+a.	Enabled
+b.	Focused
+c.	Disabled
+d.	Pressed
+49.	The elevation property value for the enabled state of the filled button is ______.
+a.	Level 3 with a large shadow
+b.	Level 5
+c.	16dp
+d.	Level 0 (no shadow)
+50.	In Figma, the button variants for the different interaction states are created using ______.
+a.	Layout grid > Columns
+b.	Main component > Add variant
+c.	Plugins > Create styles
+d.	Effects > Drop shadow
+Answer Key: Session 3
+Creating a Material Design Type and Component System
+| Q   | Ans   | Q   | Ans   | Q   | Ans   | Q   | Ans   | Q   | Ans   |
+| 1   | b   | 11   | b   | 21   | b   | 31   | b   | 41   | b   |
+| 2   | c   | 12   | c   | 22   | a   | 32   | d   | 42   | a   |
+| 3   | d   | 13   | d   | 23   | c   | 33   | d   | 43   | d   |
+| 4   | a   | 14   | c   | 24   | d   | 34   | b   | 44   | c   |
+| 5   | b   | 15   | b   | 25   | a   | 35   | c   | 45   | a   |
+| 6   | d   | 16   | a   | 26   | b   | 36   | a   | 46   | d   |
+| 7   | a   | 17   | a   | 27   | d   | 37   | d   | 47   | b   |
+| 8   | c   | 18   | d   | 28   | c   | 38   | c   | 48   | c   |
+| 9   | a   | 19   | c   | 29   | a   | 39   | b   | 49   | d   |
+| 10   | d   | 20   | b   | 30   | c   | 40   | a   | 50   | b   |

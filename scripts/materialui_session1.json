@@ -1,0 +1,558 @@
+{
+  "category": "Material UI",
+  "session": 1,
+  "title": "Session 1: Introduction to UI",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "What does UI stand for?",
+      "options": [
+        "Unified Input",
+        "User Interaction",
+        "User Interface",
+        "Universal Integration"
+      ],
+      "correctAnswer": "User Interface",
+      "explanation": "Correct answer is C) User Interface."
+    },
+    {
+      "questionText": "A User Interface is best described as ______.",
+      "options": [
+        "a programming language used by developers",
+        "a database that stores user records",
+        "a network protocol for sending data",
+        "a point of interaction between a user and a digital device, Website, or application"
+      ],
+      "correctAnswer": "a point of interaction between a user and a digital device, Website, or application",
+      "explanation": "Correct answer is D) a point of interaction between a user and a digital device, Website, or application."
+    },
+    {
+      "questionText": "Which of the following is an example of a User Interface?",
+      "options": [
+        "A router's firmware",
+        "A touchscreen on a smartphone",
+        "A power cable",
+        "A hard disk drive"
+      ],
+      "correctAnswer": "A touchscreen on a smartphone",
+      "explanation": "Correct answer is B) A touchscreen on a smartphone."
+    },
+    {
+      "questionText": "A digital kiosk in a shopping mall that helps visitors locate their favorite outlet is an example of ______.",
+      "options": [
+        "a UI",
+        "a compiler",
+        "a database server",
+        "an operating system kernel"
+      ],
+      "correctAnswer": "a UI",
+      "explanation": "Correct answer is A) a UI."
+    },
+    {
+      "questionText": "UI design is the process of creating ______.",
+      "options": [
+        "the look and feel of the interface",
+        "the server-side logic of an application",
+        "the network infrastructure",
+        "the database structure"
+      ],
+      "correctAnswer": "the look and feel of the interface",
+      "explanation": "Correct answer is A) the look and feel of the interface."
+    },
+    {
+      "questionText": "Who designs the look and feel of an interface?",
+      "options": [
+        "A database administrator",
+        "A system tester",
+        "A network engineer",
+        "A UI designer"
+      ],
+      "correctAnswer": "A UI designer",
+      "explanation": "Correct answer is D) A UI designer."
+    },
+    {
+      "questionText": "A UI design language is ______.",
+      "options": [
+        "a language for querying databases",
+        "a language used to write server code",
+        "a set of UI design guidelines and principles put together by a design entity",
+        "a scripting language for operating systems"
+      ],
+      "correctAnswer": "a set of UI design guidelines and principles put together by a design entity",
+      "explanation": "Correct answer is C) a set of UI design guidelines and principles put together by a design entity."
+    },
+    {
+      "questionText": "In the 1940s/50s, computer programs and data were mainly handled with the help of ______.",
+      "options": [
+        "voice commands",
+        "punched cards",
+        "touch screens",
+        "a mouse"
+      ],
+      "correctAnswer": "punched cards",
+      "explanation": "Correct answer is B) punched cards."
+    },
+    {
+      "questionText": "Which company introduced the first Graphical User Interface (GUI) in the 1970s, according to the history of UI design?",
+      "options": [
+        "Xerox",
+        "Amazon",
+        "Samsung",
+        "Google"
+      ],
+      "correctAnswer": "Xerox",
+      "explanation": "Correct answer is A) Xerox."
+    },
+    {
+      "questionText": "In 1984 and the early 90s, Apple and Microsoft introduced computers with ______.",
+      "options": [
+        "multi-touch screens",
+        "a built-in GUI screen and mouse",
+        "voice assistants",
+        "punched cards"
+      ],
+      "correctAnswer": "a built-in GUI screen and mouse",
+      "explanation": "Correct answer is B) a built-in GUI screen and mouse."
+    },
+    {
+      "questionText": "The Palm Pilot, popular in the 1990s, worked with a touch screen and a ______.",
+      "options": [
+        "mouse",
+        "voice assistant",
+        "stylus",
+        "joystick"
+      ],
+      "correctAnswer": "stylus",
+      "explanation": "Correct answer is C) stylus."
+    },
+    {
+      "questionText": "Which Apple devices took UI design a giant step forward in 2007 and 2010?",
+      "options": [
+        "iPod and MacBook",
+        "Magic Mouse and iMac",
+        "Siri and Apple Watch",
+        "iPhone and iPad"
+      ],
+      "correctAnswer": "iPhone and iPad",
+      "explanation": "Correct answer is D) iPhone and iPad."
+    },
+    {
+      "questionText": "Voice recognition became a form of UI from 2011 with ______.",
+      "options": [
+        "kiosks and ATMs",
+        "Palm Pilot and punched cards",
+        "Magic Mouse and trackpad",
+        "Siri, Google Now, and Alexa"
+      ],
+      "correctAnswer": "Siri, Google Now, and Alexa",
+      "explanation": "Correct answer is D) Siri, Google Now, and Alexa."
+    },
+    {
+      "questionText": "Which UI design principle states that the best interfaces are almost invisible and avoid unnecessary elements?",
+      "options": [
+        "Efficiency",
+        "Give feedback to users",
+        "Simplicity is the key",
+        "Stay consistent"
+      ],
+      "correctAnswer": "Simplicity is the key",
+      "explanation": "Correct answer is C) Simplicity is the key."
+    },
+    {
+      "questionText": "The Google Flights interface being simple, minimal, and easy to understand illustrates which principle?",
+      "options": [
+        "Simplicity is the key",
+        "Know your users",
+        "Visual hierarchy",
+        "Step by step information flow"
+      ],
+      "correctAnswer": "Simplicity is the key",
+      "explanation": "Correct answer is A) Simplicity is the key."
+    },
+    {
+      "questionText": "Jeff Bezos's idea of being obsessed about your users supports which principle?",
+      "options": [
+        "Efficiency",
+        "Know your users",
+        "Stay consistent",
+        "Give feedback to users"
+      ],
+      "correctAnswer": "Know your users",
+      "explanation": "Correct answer is B) Know your users."
+    },
+    {
+      "questionText": "According to the 'Know your users' principle, the goal of a business should be ______.",
+      "options": [
+        "business-centric, not user-centric",
+        "technology-centric",
+        "user-centric, not business-centric",
+        "competitor-centric"
+      ],
+      "correctAnswer": "user-centric, not business-centric",
+      "explanation": "Correct answer is C) user-centric, not business-centric."
+    },
+    {
+      "questionText": "The 'Efficiency' principle says the number of steps a user takes to complete a task should be ______.",
+      "options": [
+        "as many as possible",
+        "equal to the number of screens",
+        "decided by the developer",
+        "minimal"
+      ],
+      "correctAnswer": "minimal",
+      "explanation": "Correct answer is D) minimal."
+    },
+    {
+      "questionText": "The consistent header while navigating the Amazon Website is an example of which principle?",
+      "options": [
+        "Efficiency",
+        "Stay consistent",
+        "Speak the language of the users",
+        "Give feedback to users"
+      ],
+      "correctAnswer": "Stay consistent",
+      "explanation": "Correct answer is B) Stay consistent."
+    },
+    {
+      "questionText": "Which of the following helps make a UI consistent and predictable?",
+      "options": [
+        "Using consistent colors throughout",
+        "Changing the layout on every screen",
+        "Using unfamiliar UI elements",
+        "Using different terminology on each page"
+      ],
+      "correctAnswer": "Using consistent colors throughout",
+      "explanation": "Correct answer is A) Using consistent colors throughout."
+    },
+    {
+      "questionText": "Presenting and arranging UI elements in an order that helps users understand information easily is called ______.",
+      "options": [
+        "tokenization",
+        "prototyping",
+        "visual hierarchy",
+        "wireframing"
+      ],
+      "correctAnswer": "visual hierarchy",
+      "explanation": "Correct answer is C) visual hierarchy."
+    },
+    {
+      "questionText": "Which of the following is used to create visual hierarchy?",
+      "options": [
+        "Hiding important elements",
+        "Strategic use of color, contrast, and text size",
+        "Removing all whitespace",
+        "Using the same size for every element"
+      ],
+      "correctAnswer": "Strategic use of color, contrast, and text size",
+      "explanation": "Correct answer is B) Strategic use of color, contrast, and text size."
+    },
+    {
+      "questionText": "On the Shopee page, highlighted words that instantly capture attention demonstrate ______.",
+      "options": [
+        "user visual hierarchy",
+        "a consistent header",
+        "feedback to users",
+        "pagination"
+      ],
+      "correctAnswer": "user visual hierarchy",
+      "explanation": "Correct answer is A) user visual hierarchy."
+    },
+    {
+      "questionText": "Providing a clear and concise label for each UI element supports which principle?",
+      "options": [
+        "Efficiency",
+        "Step by step information flow",
+        "Simplicity is the key",
+        "Speak the language of the users"
+      ],
+      "correctAnswer": "Speak the language of the users",
+      "explanation": "Correct answer is D) Speak the language of the users."
+    },
+    {
+      "questionText": "A notification telling the user whether a submitted form was successful is an example of ______.",
+      "options": [
+        "visual hierarchy",
+        "staying consistent",
+        "knowing your users",
+        "giving feedback to users"
+      ],
+      "correctAnswer": "giving feedback to users",
+      "explanation": "Correct answer is D) giving feedback to users."
+    },
+    {
+      "questionText": "The principle 'Step by step information flow' states that each screen should lead to ______.",
+      "options": [
+        "at least five actions",
+        "one primary action only",
+        "all possible actions at once",
+        "no action at all"
+      ],
+      "correctAnswer": "one primary action only",
+      "explanation": "Correct answer is B) one primary action only."
+    },
+    {
+      "questionText": "A UI designer collaborates closely with ______.",
+      "options": [
+        "clients, UX designers, UX researchers, and developers",
+        "only the client",
+        "only the end users",
+        "only the developers"
+      ],
+      "correctAnswer": "clients, UX designers, UX researchers, and developers",
+      "explanation": "Correct answer is A) clients, UX designers, UX researchers, and developers."
+    },
+    {
+      "questionText": "Different forms of interaction on a screen that establish interactivity between the user and the interface are called ______.",
+      "options": [
+        "tokens",
+        "containers",
+        "touch points",
+        "breakpoints"
+      ],
+      "correctAnswer": "touch points",
+      "explanation": "Correct answer is C) touch points."
+    },
+    {
+      "questionText": "A UI designer creates a color palette that is consistent with ______.",
+      "options": [
+        "the brand image of the brand being designed for",
+        "the default browser colors",
+        "the designer's personal preference",
+        "the developer's favorite colors"
+      ],
+      "correctAnswer": "the brand image of the brand being designed for",
+      "explanation": "Correct answer is A) the brand image of the brand being designed for."
+    },
+    {
+      "questionText": "Which statement about visual hierarchy is correct?",
+      "options": [
+        "Whitespace makes a design less attractive",
+        "Font size has no effect on readability",
+        "Brighter colors should never be used",
+        "Repetition gives the impression that content is related"
+      ],
+      "correctAnswer": "Repetition gives the impression that content is related",
+      "explanation": "Correct answer is D) Repetition gives the impression that content is related."
+    },
+    {
+      "questionText": "Having more whitespace in a design makes it ______.",
+      "options": [
+        "inconsistent",
+        "more attractive and soothing to the eyes",
+        "harder to read",
+        "slower to load"
+      ],
+      "correctAnswer": "more attractive and soothing to the eyes",
+      "explanation": "Correct answer is B) more attractive and soothing to the eyes."
+    },
+    {
+      "questionText": "The end product or deliverable of a UI designer is a ______.",
+      "options": [
+        "database schema",
+        "test script",
+        "high-fidelity prototype/mockup",
+        "server configuration"
+      ],
+      "correctAnswer": "high-fidelity prototype/mockup",
+      "explanation": "Correct answer is C) high-fidelity prototype/mockup."
+    },
+    {
+      "questionText": "A paper prototype is an example of a ______.",
+      "options": [
+        "design token",
+        "low-fidelity prototype",
+        "high-fidelity prototype",
+        "final product"
+      ],
+      "correctAnswer": "low-fidelity prototype",
+      "explanation": "Correct answer is B) low-fidelity prototype."
+    },
+    {
+      "questionText": "A prototype is ______.",
+      "options": [
+        "a visual representation of a design",
+        "a finished and launched product",
+        "a design token file",
+        "a programming framework"
+      ],
+      "correctAnswer": "a visual representation of a design",
+      "explanation": "Correct answer is A) a visual representation of a design."
+    },
+    {
+      "questionText": "Why do UI designers test high-fidelity prototypes with users?",
+      "options": [
+        "To replace the UX designer",
+        "To skip the wireframing stage",
+        "To identify flaws before the final product is built",
+        "To avoid collecting user feedback"
+      ],
+      "correctAnswer": "To identify flaws before the final product is built",
+      "explanation": "Correct answer is C) To identify flaws before the final product is built."
+    },
+    {
+      "questionText": "UI designers should iterate their designs based on user feedback until ______.",
+      "options": [
+        "the project deadline passes",
+        "the first draft is complete",
+        "the developer approves",
+        "the end product is loved by users"
+      ],
+      "correctAnswer": "the end product is loved by users",
+      "explanation": "Correct answer is D) the end product is loved by users."
+    },
+    {
+      "questionText": "Which are the four key UI design elements?",
+      "options": [
+        "Colors, fonts, icons, and images",
+        "Wireframes, mockups, prototypes, and tokens",
+        "Buttons, tokens, grids, and shadows",
+        "Input controls, navigational components, informational components, and containers"
+      ],
+      "correctAnswer": "Input controls, navigational components, informational components, and containers",
+      "explanation": "Correct answer is D) Input controls, navigational components, informational components, and containers."
+    },
+    {
+      "questionText": "Interactive elements that allow users to enter information into the system's interface are called ______.",
+      "options": [
+        "navigational components",
+        "input controls",
+        "informational components",
+        "containers"
+      ],
+      "correctAnswer": "input controls",
+      "explanation": "Correct answer is B) input controls."
+    },
+    {
+      "questionText": "Which input control lets users select only one option from a set of choices?",
+      "options": [
+        "Radio button",
+        "Text field",
+        "List box",
+        "Check box"
+      ],
+      "correctAnswer": "Radio button",
+      "explanation": "Correct answer is A) Radio button."
+    },
+    {
+      "questionText": "Which input control allows users to check or uncheck and select one or more options from a set?",
+      "options": [
+        "Progress bar",
+        "Tooltip",
+        "Check box",
+        "Radio button"
+      ],
+      "correctAnswer": "Check box",
+      "explanation": "Correct answer is C) Check box."
+    },
+    {
+      "questionText": "A list of items displayed on clicking an arrow, from which one item is selected at a time, is a ______.",
+      "options": [
+        "carousel",
+        "breadcrumb",
+        "check box",
+        "drop-down list"
+      ],
+      "correctAnswer": "drop-down list",
+      "explanation": "Correct answer is D) drop-down list."
+    },
+    {
+      "questionText": "Which navigational component helps users keep track of their location within a program or Website?",
+      "options": [
+        "Breadcrumb",
+        "Message box",
+        "Tooltip",
+        "Progress bar"
+      ],
+      "correctAnswer": "Breadcrumb",
+      "explanation": "Correct answer is A) Breadcrumb."
+    },
+    {
+      "questionText": "Which navigational component divides content into distinct pages and is generally found at the bottom of a page?",
+      "options": [
+        "Accordion",
+        "Pagination",
+        "Breadcrumb",
+        "Modal window"
+      ],
+      "correctAnswer": "Pagination",
+      "explanation": "Correct answer is B) Pagination."
+    },
+    {
+      "questionText": "Which informational component shows a hint when the user hovers the pointer over an item?",
+      "options": [
+        "Search field",
+        "Icon",
+        "Tooltip",
+        "Tag"
+      ],
+      "correctAnswer": "Tooltip",
+      "explanation": "Correct answer is C) Tooltip."
+    },
+    {
+      "questionText": "A small window that gives information or asks for confirmation, and requires an action before the user can move forward, is a ______.",
+      "options": [
+        "breadcrumb",
+        "tooltip",
+        "carousel",
+        "message box"
+      ],
+      "correctAnswer": "message box",
+      "explanation": "Correct answer is D) message box."
+    },
+    {
+      "questionText": "A child window that requires the user to interact with it before returning to the parent application is a ______.",
+      "options": [
+        "tooltip",
+        "modal window (pop-up)",
+        "progress bar",
+        "tag"
+      ],
+      "correctAnswer": "modal window (pop-up)",
+      "explanation": "Correct answer is B) modal window (pop-up)."
+    },
+    {
+      "questionText": "Which container element shows/hides a vertical list of items and content based on user action?",
+      "options": [
+        "Accordion",
+        "Carousel",
+        "Pagination",
+        "Search field"
+      ],
+      "correctAnswer": "Accordion",
+      "explanation": "Correct answer is A) Accordion."
+    },
+    {
+      "questionText": "Material Design was created by ______ in ______.",
+      "options": [
+        "Microsoft; 1984",
+        "Xerox; 1970",
+        "Google; 2014",
+        "Apple; 2007"
+      ],
+      "correctAnswer": "Google; 2014",
+      "explanation": "Correct answer is C) Google; 2014."
+    },
+    {
+      "questionText": "Material UI is ______.",
+      "options": [
+        "an implementation of the Google Material Design specification",
+        "a programming language",
+        "a hardware design standard",
+        "a database engine"
+      ],
+      "correctAnswer": "an implementation of the Google Material Design specification",
+      "explanation": "Correct answer is A) an implementation of the Google Material Design specification."
+    },
+    {
+      "questionText": "Which part of Material UI provides a rich library to represent common actions in an application?",
+      "options": [
+        "Typography",
+        "Theme",
+        "Color palette",
+        "Material Icons"
+      ],
+      "correctAnswer": "Material Icons",
+      "explanation": "Correct answer is D) Material Icons."
+    }
+  ]
+}

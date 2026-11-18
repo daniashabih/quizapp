@@ -582,6 +582,13 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                       final isReactQuery =
                           q == 'react js' || q == 'reactjs' || q == 'react.js' || q == 'react';
                       if (isReactQuery && (name == 'react.js' || name == 'react')) return true;
+                      final isMaterialUiQuery =
+                          q == 'mui' ||
+                          q == 'materialui' ||
+                          q == 'material-ui' ||
+                          q == 'material ui' ||
+                          q == 'mterial ui';
+                      if (isMaterialUiQuery && name == 'material ui') return true;
                       return name.contains(q);
                     })
                     .toList();

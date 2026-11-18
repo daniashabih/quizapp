@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Material UI,2,A design token is ______.,a programming language,a login credential for Figma,a piece of data UI/UX designers create to store the values of a style in their style library,a type of UI input control,a piece of data UI/UX designers create to store the values of a style in their style library
+Material UI,2,Which team receives the style library and designs from the UI design team?,The Software Engineering (SE) team,The marketing team,The UX research team,The HR team,The Software Engineering (SE) team
+Material UI,2,Which UI-stage output is considered the most important to hand over to the SE team?,The project invoices,The meeting notes,The user surveys,The style libraries,The style libraries
+Material UI,2,Design tokens let designers send the style library to engineers without violating ______ standards.,Waterfall,Agile,Accessibility,ISO,Agile
+Material UI,2,Which team carries out the UX study and hands recommendations to the UI design team?,Quality assurance team,Software Engineering team,Sales team,UX research team,UX research team
+Material UI,2,Figma is used for enabling new ______ workflows.,database-to-network,design-to-code,paper-to-print,code-to-hardware,design-to-code
+Material UI,2,"To get started with Figma, a user first has to ______.",create an account on the Figma Website,clone a GitHub repository,install a compiler,buy a Pro license,create an account on the Figma Website
+Material UI,2,Which Figma plugin is used to create design tokens?,Prototype Viewer,Color Picker,Figma Tokens (Tokens Studio for Figma),Auto Layout,Figma Tokens (Tokens Studio for Figma)
+Material UI,2,"In the Figma Tokens plugin, which option is selected to create a token for a text style such as Headline1?",Opacity,Spacing,Typography,Border Radius,Typography
+Material UI,2,What is the Description field of a token used for?,Choosing the font color,Naming the Figma file,Exporting the project as PNG,Communicating a message to the engineers about the token values,Communicating a message to the engineers about the token values
+Material UI,2,Which tab in the Figma Tokens plugin displays the JSON code for a token?,JSON tab,Settings tab,Layers tab,Inspect tab,JSON tab
+Material UI,2,Where is the JSON code of tokens pushed so that the SE team can clone it?,An email attachment,A GitHub repository,The Figma Assets panel,A printed document,A GitHub repository
+Material UI,2,Which is a benefit of using design tokens?,They remove the need for developers,They only work in paper prototypes,Design and engineering teams work with data that works in both design and code,They replace the style library entirely,Design and engineering teams work with data that works in both design and code
+Material UI,2,Material Design tokens are created and maintained by ______.,the Material Design team,individual end users,the SE team,the Figma team,the Material Design team
+Material UI,2,How many types of tokens are listed on the Material Design Website?,Five,Three,One,Two,Three
+Material UI,2,Which Material Design token type is currently under development?,Color token,Reference token,System token,Component token,Component token
+Material UI,2,A Material Design reference token stores ______.,the values of system styles only,the prototype animations,the values of reference styles in the style library,the engineers' credentials,the values of reference styles in the style library
+Material UI,2,A Material Design system token stores ______.,the values of system styles in the style library,the values of reference styles only,the user feedback data,the GitHub repository URL,the values of system styles in the style library
+Material UI,2,A Material Design token name that starts with md.ref is a ______.,system token,layout token,component token,reference token,reference token
+Material UI,2,A Material Design token name that starts with md.sys is a ______.,typography-only token,system token,component token,reference token,system token
+Material UI,2,"In md.ref and md.sys, 'md' stands for ______.",main design,mobile display,material design,master data,material design
+Material UI,2,Colors that form a broad range of options but have no assigned role are called ______.,error color styles,system color styles,component color styles,reference color styles,reference color styles
+Material UI,2,"Colors assigned a role, such as the button color or background color, are called ______.",reference color styles,system color styles,neutral key colors,tonal palettes,system color styles
+Material UI,2,"In the book's example, which name was used for the blue reference color token?",md.ref.color.reference-color-blue,md.ref.typescale.blue,md.sys.grid.blue,md.sys.color.reference-color-blue,md.ref.color.reference-color-blue
+Material UI,2,Which name was used for the system token that stores the button color?,md.sys.typescale.button,md.ref.grid.button,md.ref.color.button-color,md.sys.color.button-color,md.sys.color.button-color
+Material UI,2,The booking Website's budget and reservation-policy filters are examples of ______.,sliders,toggles,check boxes,radio buttons,check boxes
+Material UI,2,"A button that, when clicked, reveals a list of options to choose from (such as adults, children, and rooms) is a ______.",check box,drop-down list,breadcrumb,tag,drop-down list
+Material UI,2,"Which input control lets users select one option from a mutually exclusive set, such as Round-trip, One-way, or Multi-city?",Radio buttons,Sliders,Check boxes,List boxes,Radio buttons
+Material UI,2,Which input control can support a long vertical list and allows multiple selections at once?,Progress bar,Toggle,List box,Radio button,List box
+Material UI,2,Which input control is an ON/OFF switch that lets users choose between two states?,List box,Toggle,Date field,Check box,Toggle
+Material UI,2,Which input control allows users to select a date and/or time and keeps the format consistent?,Radio button,Text field,Accordion,Date field (date picker),Date field (date picker)
+Material UI,2,The clickable trail of previous pages on Coursera that tells users where they are is a ______.,breadcrumb,tag,slider,pagination,breadcrumb
+Material UI,2,Which navigational component is also known as a trackbar and is used to adjust values like volume or brightness?,Slider,Menu,Carousel,Icon,Slider
+Material UI,2,Which navigational component is a single-line text box accompanied by a magnifying glass?,Toggle,Search field,Accordion,Tooltip,Search field
+Material UI,2,A set of rotating banners or a slideshow that displays images or text is a ______.,breadcrumb,message box,slider,carousel,carousel
+Material UI,2,"Which is described as the most important navigational component, presenting many options to interact with the interface?",Progress bar,Tooltip,Menu,Modal window,Menu
+Material UI,2,Which informational component indicates how much of a task is completed and is not clickable?,Button,Icon,Progress bar,Menu,Progress bar
+Material UI,2,Notifications can indicate which of the following?,"Task completion, new announcements, or error/warning messages",Only the font in use,Only the user's location,Only the page number,"Task completion, new announcements, or error/warning messages"
+Material UI,2,A label displayed when a user hovers over or long-presses an element is a ______.,breadcrumb,tooltip,toggle,tag,tooltip
+Material UI,2,A modal window ______.,is always hidden from users,disappears automatically after one second,is only used in printed media,will not go away until the user interacts with it,will not go away until the user interacts with it
+Material UI,2,An accordion is especially useful on ______.,command-line tools,printed posters,"mobile screens, where space is limited",server hardware,"mobile screens, where space is limited"
+Material UI,2,Which statement correctly contrasts UX and UI?,UX is about usability and UI is about beauty,UX and UI are exactly the same,UX is about beauty and UI is about usability,UX is about code and UI is about databases,UX is about usability and UI is about beauty
+Material UI,2,Which statement about UX and UI scope is correct?,"UI is broad, while UX is specific to digital interfaces","UX is broad, while UI is specific to digital interfaces",Both are limited to mobile apps,Neither applies to Websites,"UX is broad, while UI is specific to digital interfaces"
+Material UI,2,Which statement about UX and UI focus is correct?,Both are only looks-driven,"UI is data-driven, while UX is looks-driven",Both are only data-driven,"UX is data-driven, while UI is looks-driven","UX is data-driven, while UI is looks-driven"
+Material UI,2,Which of the following are key deliverables of a UX designer?,Style tiles and layout mock-ups,Shadow styles and grid tokens,JSON files and GitHub repositories,"Empathy maps/user personas, user journey maps, and wireframes","Empathy maps/user personas, user journey maps, and wireframes"
+Material UI,2,Which of the following are key deliverables of a UI designer?,Style tiles and layout mock-ups,Database schemas,Usability test reports only,Empathy maps and user journey maps,Style tiles and layout mock-ups
+Material UI,2,Which tools give UI designers an advantage for creating the skin and appearance of a product?,Spreadsheets only,Notepad and Calculator,Sketch and Adobe XD,Command prompt and Git,Sketch and Adobe XD
+Material UI,2,User Experience Research is ______.,the testing of server hardware,the systematic investigation of users and their requirements,the design of company logos,the process of writing production code,the systematic investigation of users and their requirements
+Material UI,2,UX research helps to learn about users' ______.,"behaviors, necessity, motivations, and pain points",salaries and addresses,favorite programming languages,operating system versions only,"behaviors, necessity, motivations, and pain points"
+Material UI,2,"In the cake analogy, the UX design is like ______ and the UI design is like ______.",the oven; the plate,the ingredients; the icing and decoration,the recipe book; the knife,the icing and decoration; the ingredients,the ingredients; the icing and decoration

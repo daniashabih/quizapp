@@ -1,0 +1,558 @@
+{
+  "category": "Material UI",
+  "session": 3,
+  "title": "Session 3: Creating a Material Design Type and Component System",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "How many roles does Material Design outline for a typography system?",
+      "options": [
+        "Four",
+        "Five",
+        "Two",
+        "Three"
+      ],
+      "correctAnswer": "Five",
+      "explanation": "Correct answer is B) Five."
+    },
+    {
+      "questionText": "Which are the five roles of a Material Design typography system?",
+      "options": [
+        "Primary, Secondary, Tertiary, Neutral, and Error",
+        "Display, Heading, Caption, Link, and Quote",
+        "Display, Headline, Title, Label, and Body",
+        "Enabled, Disabled, Hovered, Focused, and Pressed"
+      ],
+      "correctAnswer": "Display, Headline, Title, Label, and Body",
+      "explanation": "Correct answer is C) Display, Headline, Title, Label, and Body."
+    },
+    {
+      "questionText": "Each typography role is broken down into which three subsets?",
+      "options": [
+        "Primary, Secondary, and Tertiary",
+        "Light, Regular, and Black",
+        "Bold, Italic, and Underline",
+        "Large, Medium, and Small"
+      ],
+      "correctAnswer": "Large, Medium, and Small",
+      "explanation": "Correct answer is D) Large, Medium, and Small."
+    },
+    {
+      "questionText": "On the Material Design Website, the text style values are found in which tab?",
+      "options": [
+        "Type scale & Tokens",
+        "Interaction states",
+        "Shadows",
+        "Color roles"
+      ],
+      "correctAnswer": "Type scale & Tokens",
+      "explanation": "Correct answer is A) Type scale & Tokens."
+    },
+    {
+      "questionText": "Which Figma element is used and renamed 'Typography System' to hold the text styles?",
+      "options": [
+        "Hand tool",
+        "Frame (#)",
+        "Comment tool",
+        "Pen tool"
+      ],
+      "correctAnswer": "Frame (#)",
+      "explanation": "Correct answer is B) Frame (#)."
+    },
+    {
+      "questionText": "The default font for Display large in Material Design is ______.",
+      "options": [
+        "Rubik Bold",
+        "Arial Black",
+        "Times New Roman",
+        "Roboto Regular"
+      ],
+      "correctAnswer": "Roboto Regular",
+      "explanation": "Correct answer is D) Roboto Regular."
+    },
+    {
+      "questionText": "The default font weight for Display large is 400, which equals ______ in Figma.",
+      "options": [
+        "Regular",
+        "ExtraBold",
+        "Bold",
+        "Black"
+      ],
+      "correctAnswer": "Regular",
+      "explanation": "Correct answer is A) Regular."
+    },
+    {
+      "questionText": "In typography, 'tracking' refers to ______.",
+      "options": [
+        "font size",
+        "line height",
+        "letter spacing",
+        "paragraph indent"
+      ],
+      "correctAnswer": "letter spacing",
+      "explanation": "Correct answer is C) letter spacing."
+    },
+    {
+      "questionText": "What are the default size and line height values used for Display large in the book's example?",
+      "options": [
+        "Size 57 and line height 64",
+        "Size 64 and line height 57",
+        "Size 24 and line height 16",
+        "Size 12 and line height 10"
+      ],
+      "correctAnswer": "Size 57 and line height 64",
+      "explanation": "Correct answer is A) Size 57 and line height 64."
+    },
+    {
+      "questionText": "How can a designer identify the value a system token is storing?",
+      "options": [
+        "By checking the file size",
+        "By the color of the token icon",
+        "By reading the GitHub commit message",
+        "The last parameter name after the last dot in the System token column represents it"
+      ],
+      "correctAnswer": "The last parameter name after the last dot in the System token column represents it",
+      "explanation": "Correct answer is D) The last parameter name after the last dot in the System token column represents it."
+    },
+    {
+      "questionText": "Which property is tweaked to create the reference text styles Medium, SemiBold, Bold, ExtraBold, and Black?",
+      "options": [
+        "Text decoration",
+        "Weight",
+        "Font size",
+        "Tracking"
+      ],
+      "correctAnswer": "Weight",
+      "explanation": "Correct answer is B) Weight."
+    },
+    {
+      "questionText": "If the Medium text style is chosen to play the Display large role, then ______.",
+      "options": [
+        "all styles are deleted",
+        "all styles become system styles",
+        "it becomes the system style and the others remain reference styles",
+        "it becomes a component token"
+      ],
+      "correctAnswer": "it becomes the system style and the others remain reference styles",
+      "explanation": "Correct answer is C) it becomes the system style and the others remain reference styles."
+    },
+    {
+      "questionText": "Which token name was used for the first Display large reference token in the book?",
+      "options": [
+        "md.ref.color.display-large1",
+        "md.sys.grid.display-large1",
+        "md.sys.typescale.display-large",
+        "md.ref.typescale.display-large1"
+      ],
+      "correctAnswer": "md.ref.typescale.display-large1",
+      "explanation": "Correct answer is D) md.ref.typescale.display-large1."
+    },
+    {
+      "questionText": "Which button in the Figma Tokens plugin automatically creates the text styles in the style library?",
+      "options": [
+        "Add new token",
+        "Apply to selection",
+        "Create styles",
+        "Reset onboarding"
+      ],
+      "correctAnswer": "Create styles",
+      "explanation": "Correct answer is C) Create styles."
+    },
+    {
+      "questionText": "What is the first step in creating a Material Design color system?",
+      "options": [
+        "Assign color roles",
+        "Choose the key colors",
+        "Create shadows",
+        "Create buttons"
+      ],
+      "correctAnswer": "Choose the key colors",
+      "explanation": "Correct answer is B) Choose the key colors."
+    },
+    {
+      "questionText": "What is the correct order of steps for creating a color system?",
+      "options": [
+        "Key colors, tonal palettes, specific colors, color roles",
+        "Specific colors, key colors, color roles, tonal palettes",
+        "Color roles, key colors, tonal palettes, specific colors",
+        "Tonal palettes, color roles, key colors, specific colors"
+      ],
+      "correctAnswer": "Key colors, tonal palettes, specific colors, color roles",
+      "explanation": "Correct answer is A) Key colors, tonal palettes, specific colors, color roles."
+    },
+    {
+      "questionText": "Primary key colors are used for generating colors for ______.",
+      "options": [
+        "the most important elements on the design",
+        "surfaces and backgrounds",
+        "error messages",
+        "less important components"
+      ],
+      "correctAnswer": "the most important elements on the design",
+      "explanation": "Correct answer is A) the most important elements on the design."
+    },
+    {
+      "questionText": "Secondary key colors are used for ______.",
+      "options": [
+        "success messages only",
+        "text and icons only",
+        "the most important elements",
+        "less important components on the design"
+      ],
+      "correctAnswer": "less important components on the design",
+      "explanation": "Correct answer is D) less important components on the design."
+    },
+    {
+      "questionText": "Tertiary key colors are used to ______.",
+      "options": [
+        "display error messages",
+        "create shadows",
+        "balance the primary and secondary colors",
+        "set the grid columns"
+      ],
+      "correctAnswer": "balance the primary and secondary colors",
+      "explanation": "Correct answer is C) balance the primary and secondary colors."
+    },
+    {
+      "questionText": "Neutral key colors are used for ______.",
+      "options": [
+        "the main call-to-action button only",
+        "surface, background, text, and icons",
+        "typography weights",
+        "success messages"
+      ],
+      "correctAnswer": "surface, background, text, and icons",
+      "explanation": "Correct answer is B) surface, background, text, and icons."
+    },
+    {
+      "questionText": "A tonal palette for a color is ______.",
+      "options": [
+        "a group of shadow styles",
+        "a palette of different shades or tones of that same color",
+        "a palette of unrelated colors",
+        "a set of fonts"
+      ],
+      "correctAnswer": "a palette of different shades or tones of that same color",
+      "explanation": "Correct answer is B) a palette of different shades or tones of that same color."
+    },
+    {
+      "questionText": "How many tones does Material Design recommend for each color's tonal palette?",
+      "options": [
+        "13",
+        "8",
+        "5",
+        "20"
+      ],
+      "correctAnswer": "13",
+      "explanation": "Correct answer is A) 13."
+    },
+    {
+      "questionText": "In a tonal palette, the first tone and the last tone are ______.",
+      "options": [
+        "primary and secondary",
+        "red and green",
+        "absolute black and absolute white",
+        "absolute white and absolute black"
+      ],
+      "correctAnswer": "absolute black and absolute white",
+      "explanation": "Correct answer is C) absolute black and absolute white."
+    },
+    {
+      "questionText": "The tonal shades in the book's palette are labeled with numbers from ______.",
+      "options": [
+        "1 to 10",
+        "0 to 255",
+        "10 to 50",
+        "0 to 100"
+      ],
+      "correctAnswer": "0 to 100",
+      "explanation": "Correct answer is D) 0 to 100."
+    },
+    {
+      "questionText": "'Primary40' on the Material Design Website means ______.",
+      "options": [
+        "the tone labeled 40 in the primary tonal palette plays the primary color role",
+        "40 primary colors are required",
+        "the primary grid has 40 columns",
+        "the primary font size is 40"
+      ],
+      "correctAnswer": "the tone labeled 40 in the primary tonal palette plays the primary color role",
+      "explanation": "Correct answer is A) the tone labeled 40 in the primary tonal palette plays the primary color role."
+    },
+    {
+      "questionText": "When picking a key color, it should be chosen from ______.",
+      "options": [
+        "only the black corner",
+        "the darker region of the color picker",
+        "any region; it makes no difference",
+        "the lightest region of the color picker"
+      ],
+      "correctAnswer": "the darker region of the color picker",
+      "explanation": "Correct answer is B) the darker region of the color picker."
+    },
+    {
+      "questionText": "In the book's color system, in which format are the colors set?",
+      "options": [
+        "Pantone",
+        "CMYK",
+        "Grayscale",
+        "Hex value"
+      ],
+      "correctAnswer": "Hex value",
+      "explanation": "Correct answer is D) Hex value."
+    },
+    {
+      "questionText": "Which two additional colors should be added to a Material Design color system?",
+      "options": [
+        "Black color and white color",
+        "Warning color and info color",
+        "Error color and success color",
+        "Primary color and secondary color"
+      ],
+      "correctAnswer": "Error color and success color",
+      "explanation": "Correct answer is C) Error color and success color."
+    },
+    {
+      "questionText": "The colors in the tonal palette are ______ color styles.",
+      "options": [
+        "reference",
+        "component",
+        "layout",
+        "system"
+      ],
+      "correctAnswer": "reference",
+      "explanation": "Correct answer is A) reference."
+    },
+    {
+      "questionText": "When creating a responsive column grid in Figma, which value of the layout is considered?",
+      "options": [
+        "The color",
+        "The corner radius",
+        "The width (W)",
+        "The font family"
+      ],
+      "correctAnswer": "The width (W)",
+      "explanation": "Correct answer is C) The width (W)."
+    },
+    {
+      "questionText": "What column and margin values were set for the iPhone 13 Pro Max Layout in the book's example?",
+      "options": [
+        "12 columns and margin 16",
+        "4 columns and margin 8",
+        "8 columns and margin 4",
+        "1 column and margin 0"
+      ],
+      "correctAnswer": "4 columns and margin 8",
+      "explanation": "Correct answer is B) 4 columns and margin 8."
+    },
+    {
+      "questionText": "Which layout grid property identifies the spacing between two items placed horizontally?",
+      "options": [
+        "Type",
+        "Margin",
+        "Count",
+        "Gutter"
+      ],
+      "correctAnswer": "Gutter",
+      "explanation": "Correct answer is D) Gutter."
+    },
+    {
+      "questionText": "What Gutter value was used in the book's column grid example?",
+      "options": [
+        "24",
+        "8",
+        "0",
+        "16"
+      ],
+      "correctAnswer": "16",
+      "explanation": "Correct answer is D) 16."
+    },
+    {
+      "questionText": "For the row grid in the book, which settings were used?",
+      "options": [
+        "Count 4, Type Stretch, Height 16, Gutter 16",
+        "Count 1000, Type Center, Height 8, Gutter 0",
+        "Count 100, Type Right, Height 0, Gutter 4",
+        "Count 12, Type Left, Height 24, Gutter 8"
+      ],
+      "correctAnswer": "Count 1000, Type Center, Height 8, Gutter 0",
+      "explanation": "Correct answer is B) Count 1000, Type Center, Height 8, Gutter 0."
+    },
+    {
+      "questionText": "Material Design recommends that most measurements in layouts be aligned to ______.",
+      "options": [
+        "5px",
+        "20px",
+        "8px",
+        "10px"
+      ],
+      "correctAnswer": "8px",
+      "explanation": "Correct answer is C) 8px."
+    },
+    {
+      "questionText": "Which Website version of Material Design is referred to for shadow and elevation values, because the newer version had not released them?",
+      "options": [
+        "Material Design version 1",
+        "Material Design version 3",
+        "Material Design version 2",
+        "Material Design version 4"
+      ],
+      "correctAnswer": "Material Design version 1",
+      "explanation": "Correct answer is A) Material Design version 1."
+    },
+    {
+      "questionText": "Which elevation value is referred to when creating shadow effects in the book?",
+      "options": [
+        "2dp",
+        "8dp",
+        "24dp",
+        "16dp"
+      ],
+      "correctAnswer": "16dp",
+      "explanation": "Correct answer is D) 16dp."
+    },
+    {
+      "questionText": "The Key Shadow column of the elevation table has which two columns?",
+      "options": [
+        "Enabled and Disabled",
+        "Reference and System",
+        "Umbra and Penumbra",
+        "Primary and Secondary"
+      ],
+      "correctAnswer": "Umbra and Penumbra",
+      "explanation": "Correct answer is C) Umbra and Penumbra."
+    },
+    {
+      "questionText": "Which three shadow types are covered by the elevation table in the book?",
+      "options": [
+        "Soft, Hard, and Neutral",
+        "Umbra, Penumbra, and Ambient",
+        "Primary, Secondary, and Tertiary",
+        "Display, Title, and Body"
+      ],
+      "correctAnswer": "Umbra, Penumbra, and Ambient",
+      "explanation": "Correct answer is B) Umbra, Penumbra, and Ambient."
+    },
+    {
+      "questionText": "Component interaction state is ______.",
+      "options": [
+        "the way a component behaves and looks when a user interacts with it",
+        "the file format of a prototype",
+        "the name of a design token",
+        "the color of the Figma canvas"
+      ],
+      "correctAnswer": "the way a component behaves and looks when a user interacts with it",
+      "explanation": "Correct answer is A) the way a component behaves and looks when a user interacts with it."
+    },
+    {
+      "questionText": "On the altschoolafrica.com example, why does the 'Explore all schools' button appear more actionable than 'Log In'?",
+      "options": [
+        "It has no label",
+        "It has a darker shade of color and a stronger presence",
+        "It is placed in the footer",
+        "It has a larger font family"
+      ],
+      "correctAnswer": "It has a darker shade of color and a stronger presence",
+      "explanation": "Correct answer is B) It has a darker shade of color and a stronger presence."
+    },
+    {
+      "questionText": "How many types of common buttons does Material Design list on its buttons specs page?",
+      "options": [
+        "Five",
+        "Two",
+        "Three",
+        "Eight"
+      ],
+      "correctAnswer": "Five",
+      "explanation": "Correct answer is A) Five."
+    },
+    {
+      "questionText": "Which are the three labels (parts) of a filled button?",
+      "options": [
+        "Umbra, penumbra, and ambient",
+        "Display, headline, and title",
+        "Margin, padding, and gutter",
+        "Container, label text, and icon"
+      ],
+      "correctAnswer": "Container, label text, and icon",
+      "explanation": "Correct answer is D) Container, label text, and icon."
+    },
+    {
+      "questionText": "Which text style property from the typography tokens is used for the button label in the book?",
+      "options": [
+        "Title medium",
+        "Body small",
+        "Label large",
+        "Display large"
+      ],
+      "correctAnswer": "Label large",
+      "explanation": "Correct answer is C) Label large."
+    },
+    {
+      "questionText": "What top and bottom padding value is set for the button's Auto layout?",
+      "options": [
+        "10",
+        "0",
+        "57",
+        "24"
+      ],
+      "correctAnswer": "10",
+      "explanation": "Correct answer is A) 10."
+    },
+    {
+      "questionText": "In the book's filled button, the container is filled with ______ and the label text uses ______.",
+      "options": [
+        "error color; success color",
+        "neutral color; secondary color",
+        "on primary color; primary color",
+        "primary color; on primary color"
+      ],
+      "correctAnswer": "primary color; on primary color",
+      "explanation": "Correct answer is D) primary color; on primary color."
+    },
+    {
+      "questionText": "Which five interaction states does Material Design outline for a filled button?",
+      "options": [
+        "Primary, Secondary, Tertiary, Neutral, and Error",
+        "Enabled, Disabled, Hovered, Focused, and Pressed",
+        "Umbra, Penumbra, Ambient, Key, and Shadow",
+        "Display, Headline, Title, Label, and Body"
+      ],
+      "correctAnswer": "Enabled, Disabled, Hovered, Focused, and Pressed",
+      "explanation": "Correct answer is B) Enabled, Disabled, Hovered, Focused, and Pressed."
+    },
+    {
+      "questionText": "Which interaction state represents a non-actionable button?",
+      "options": [
+        "Enabled",
+        "Focused",
+        "Disabled",
+        "Pressed"
+      ],
+      "correctAnswer": "Disabled",
+      "explanation": "Correct answer is C) Disabled."
+    },
+    {
+      "questionText": "The elevation property value for the enabled state of the filled button is ______.",
+      "options": [
+        "Level 3 with a large shadow",
+        "Level 5",
+        "16dp",
+        "Level 0 (no shadow)"
+      ],
+      "correctAnswer": "Level 0 (no shadow)",
+      "explanation": "Correct answer is D) Level 0 (no shadow)."
+    },
+    {
+      "questionText": "In Figma, the button variants for the different interaction states are created using ______.",
+      "options": [
+        "Layout grid > Columns",
+        "Main component > Add variant",
+        "Plugins > Create styles",
+        "Effects > Drop shadow"
+      ],
+      "correctAnswer": "Main component > Add variant",
+      "explanation": "Correct answer is B) Main component > Add variant."
+    }
+  ]
+}

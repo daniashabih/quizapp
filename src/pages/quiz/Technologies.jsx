@@ -201,6 +201,8 @@ export default function Technologies() {
             if (isCSharpQuery && (name === 'c#' || slug === 'csharp')) return true;
             const isReactQuery = q === 'react js' || q === 'reactjs' || q === 'react.js' || q === 'react';
             if (isReactQuery && (name === 'react.js' || name === 'react' || slug === 'react')) return true;
+            const isMaterialUiQuery = q === 'mui' || q === 'materialui' || q === 'material-ui' || q === 'material ui' || q === 'mterial ui';
+            if (isMaterialUiQuery && (name === 'material ui' || slug === 'material-ui' || slug === 'materialui')) return true;
             return name.includes(q) || slug.includes(q);
         });
 

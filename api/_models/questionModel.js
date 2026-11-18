@@ -23,6 +23,23 @@ const isReactJsCategory = (category) => {
     return lower === 'react.js' || lower === 'react js' || lower === 'reactjs';
 };
 
+const MATERIAL_UI_SESSIONS = {
+    1: 'Introduction to UI',
+    2: 'Introduction to Material Design',
+    3: 'Creating a Material Design Type and Component System'
+};
+
+const isMaterialUiCategory = (category) => {
+    const lower = String(category || '').trim().toLowerCase();
+    return (
+        lower === 'material ui' ||
+        lower === 'material-ui' ||
+        lower === 'materialui' ||
+        lower === 'mui' ||
+        lower === 'mterial ui'
+    );
+};
+
 const parseOptions = (opts) => {
     if (Array.isArray(opts)) return opts;
     if (typeof opts === 'string') {
@@ -48,6 +65,9 @@ const getCategoryVariations = (category) => {
     }
     if (lower === 'react.js' || lower === 'react js' || lower === 'reactjs') {
         return ['React.js', 'React JS', 'ReactJS', 'react.js', 'react js', 'reactjs'];
+    }
+    if (isMaterialUiCategory(clean)) {
+        return ['Material UI', 'Material-UI', 'MaterialUI', 'MUI', 'material ui', 'materialui', 'mui'];
     }
     const withAnd = clean.replace(/&/g, 'and');
     const withAmp = clean.replace(/\band\b/gi, '&');
@@ -242,9 +262,13 @@ const Question = {
 
         return rows.map(r => {
             const sNum = r.session || 1;
-            const sessionTitle = isReactJsCategory(r.category || category) && REACTJS_SESSIONS[sNum]
-                ? REACTJS_SESSIONS[sNum]
-                : undefined;
+            const targetCat = r.category || category;
+            let sessionTitle;
+            if (isReactJsCategory(targetCat) && REACTJS_SESSIONS[sNum]) {
+                sessionTitle = REACTJS_SESSIONS[sNum];
+            } else if (isMaterialUiCategory(targetCat) && MATERIAL_UI_SESSIONS[sNum]) {
+                sessionTitle = MATERIAL_UI_SESSIONS[sNum];
+            }
             return {
                 ...r,
                 session: sNum,
@@ -270,6 +294,7 @@ const Question = {
         );
 
         const isReactJs = isReactJsCategory(category);
+        const isMaterialUi = isMaterialUiCategory(category);
 
         let rows = [];
         try {
@@ -321,6 +346,8 @@ const Question = {
                     title = CSHARP_QUIZ_SESSIONS[sNum];
                 } else if (isReactJs && REACTJS_SESSIONS[sNum]) {
                     title = REACTJS_SESSIONS[sNum];
+                } else if (isMaterialUi && MATERIAL_UI_SESSIONS[sNum]) {
+                    title = MATERIAL_UI_SESSIONS[sNum];
                 }
                 return {
                     session: sNum,

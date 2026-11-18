@@ -1,0 +1,51 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Material UI,3,How many roles does Material Design outline for a typography system?,Four,Five,Two,Three,Five
+Material UI,3,Which are the five roles of a Material Design typography system?,"Primary, Secondary, Tertiary, Neutral, and Error","Display, Heading, Caption, Link, and Quote","Display, Headline, Title, Label, and Body","Enabled, Disabled, Hovered, Focused, and Pressed","Display, Headline, Title, Label, and Body"
+Material UI,3,Each typography role is broken down into which three subsets?,"Primary, Secondary, and Tertiary","Light, Regular, and Black","Bold, Italic, and Underline","Large, Medium, and Small","Large, Medium, and Small"
+Material UI,3,"On the Material Design Website, the text style values are found in which tab?",Type scale & Tokens,Interaction states,Shadows,Color roles,Type scale & Tokens
+Material UI,3,Which Figma element is used and renamed 'Typography System' to hold the text styles?,Hand tool,Frame (#),Comment tool,Pen tool,Frame (#)
+Material UI,3,The default font for Display large in Material Design is ______.,Rubik Bold,Arial Black,Times New Roman,Roboto Regular,Roboto Regular
+Material UI,3,"The default font weight for Display large is 400, which equals ______ in Figma.",Regular,ExtraBold,Bold,Black,Regular
+Material UI,3,"In typography, 'tracking' refers to ______.",font size,line height,letter spacing,paragraph indent,letter spacing
+Material UI,3,What are the default size and line height values used for Display large in the book's example?,Size 57 and line height 64,Size 64 and line height 57,Size 24 and line height 16,Size 12 and line height 10,Size 57 and line height 64
+Material UI,3,How can a designer identify the value a system token is storing?,By checking the file size,By the color of the token icon,By reading the GitHub commit message,The last parameter name after the last dot in the System token column represents it,The last parameter name after the last dot in the System token column represents it
+Material UI,3,"Which property is tweaked to create the reference text styles Medium, SemiBold, Bold, ExtraBold, and Black?",Text decoration,Weight,Font size,Tracking,Weight
+Material UI,3,"If the Medium text style is chosen to play the Display large role, then ______.",all styles are deleted,all styles become system styles,it becomes the system style and the others remain reference styles,it becomes a component token,it becomes the system style and the others remain reference styles
+Material UI,3,Which token name was used for the first Display large reference token in the book?,md.ref.color.display-large1,md.sys.grid.display-large1,md.sys.typescale.display-large,md.ref.typescale.display-large1,md.ref.typescale.display-large1
+Material UI,3,Which button in the Figma Tokens plugin automatically creates the text styles in the style library?,Add new token,Apply to selection,Create styles,Reset onboarding,Create styles
+Material UI,3,What is the first step in creating a Material Design color system?,Assign color roles,Choose the key colors,Create shadows,Create buttons,Choose the key colors
+Material UI,3,What is the correct order of steps for creating a color system?,"Key colors, tonal palettes, specific colors, color roles","Specific colors, key colors, color roles, tonal palettes","Color roles, key colors, tonal palettes, specific colors","Tonal palettes, color roles, key colors, specific colors","Key colors, tonal palettes, specific colors, color roles"
+Material UI,3,Primary key colors are used for generating colors for ______.,the most important elements on the design,surfaces and backgrounds,error messages,less important components,the most important elements on the design
+Material UI,3,Secondary key colors are used for ______.,success messages only,text and icons only,the most important elements,less important components on the design,less important components on the design
+Material UI,3,Tertiary key colors are used to ______.,display error messages,create shadows,balance the primary and secondary colors,set the grid columns,balance the primary and secondary colors
+Material UI,3,Neutral key colors are used for ______.,the main call-to-action button only,"surface, background, text, and icons",typography weights,success messages,"surface, background, text, and icons"
+Material UI,3,A tonal palette for a color is ______.,a group of shadow styles,a palette of different shades or tones of that same color,a palette of unrelated colors,a set of fonts,a palette of different shades or tones of that same color
+Material UI,3,How many tones does Material Design recommend for each color's tonal palette?,13,8,5,20,13
+Material UI,3,"In a tonal palette, the first tone and the last tone are ______.",primary and secondary,red and green,absolute black and absolute white,absolute white and absolute black,absolute black and absolute white
+Material UI,3,The tonal shades in the book's palette are labeled with numbers from ______.,1 to 10,0 to 255,10 to 50,0 to 100,0 to 100
+Material UI,3,'Primary40' on the Material Design Website means ______.,the tone labeled 40 in the primary tonal palette plays the primary color role,40 primary colors are required,the primary grid has 40 columns,the primary font size is 40,the tone labeled 40 in the primary tonal palette plays the primary color role
+Material UI,3,"When picking a key color, it should be chosen from ______.",only the black corner,the darker region of the color picker,any region; it makes no difference,the lightest region of the color picker,the darker region of the color picker
+Material UI,3,"In the book's color system, in which format are the colors set?",Pantone,CMYK,Grayscale,Hex value,Hex value
+Material UI,3,Which two additional colors should be added to a Material Design color system?,Black color and white color,Warning color and info color,Error color and success color,Primary color and secondary color,Error color and success color
+Material UI,3,The colors in the tonal palette are ______ color styles.,reference,component,layout,system,reference
+Material UI,3,"When creating a responsive column grid in Figma, which value of the layout is considered?",The color,The corner radius,The width (W),The font family,The width (W)
+Material UI,3,What column and margin values were set for the iPhone 13 Pro Max Layout in the book's example?,12 columns and margin 16,4 columns and margin 8,8 columns and margin 4,1 column and margin 0,4 columns and margin 8
+Material UI,3,Which layout grid property identifies the spacing between two items placed horizontally?,Type,Margin,Count,Gutter,Gutter
+Material UI,3,What Gutter value was used in the book's column grid example?,24,8,0,16,16
+Material UI,3,"For the row grid in the book, which settings were used?","Count 4, Type Stretch, Height 16, Gutter 16","Count 1000, Type Center, Height 8, Gutter 0","Count 100, Type Right, Height 0, Gutter 4","Count 12, Type Left, Height 24, Gutter 8","Count 1000, Type Center, Height 8, Gutter 0"
+Material UI,3,Material Design recommends that most measurements in layouts be aligned to ______.,5px,20px,8px,10px,8px
+Material UI,3,"Which Website version of Material Design is referred to for shadow and elevation values, because the newer version had not released them?",Material Design version 1,Material Design version 3,Material Design version 2,Material Design version 4,Material Design version 1
+Material UI,3,Which elevation value is referred to when creating shadow effects in the book?,2dp,8dp,24dp,16dp,16dp
+Material UI,3,The Key Shadow column of the elevation table has which two columns?,Enabled and Disabled,Reference and System,Umbra and Penumbra,Primary and Secondary,Umbra and Penumbra
+Material UI,3,Which three shadow types are covered by the elevation table in the book?,"Soft, Hard, and Neutral","Umbra, Penumbra, and Ambient","Primary, Secondary, and Tertiary","Display, Title, and Body","Umbra, Penumbra, and Ambient"
+Material UI,3,Component interaction state is ______.,the way a component behaves and looks when a user interacts with it,the file format of a prototype,the name of a design token,the color of the Figma canvas,the way a component behaves and looks when a user interacts with it
+Material UI,3,"On the altschoolafrica.com example, why does the 'Explore all schools' button appear more actionable than 'Log In'?",It has no label,It has a darker shade of color and a stronger presence,It is placed in the footer,It has a larger font family,It has a darker shade of color and a stronger presence
+Material UI,3,How many types of common buttons does Material Design list on its buttons specs page?,Five,Two,Three,Eight,Five
+Material UI,3,Which are the three labels (parts) of a filled button?,"Umbra, penumbra, and ambient","Display, headline, and title","Margin, padding, and gutter","Container, label text, and icon","Container, label text, and icon"
+Material UI,3,Which text style property from the typography tokens is used for the button label in the book?,Title medium,Body small,Label large,Display large,Label large
+Material UI,3,What top and bottom padding value is set for the button's Auto layout?,10,0,57,24,10
+Material UI,3,"In the book's filled button, the container is filled with ______ and the label text uses ______.",error color; success color,neutral color; secondary color,on primary color; primary color,primary color; on primary color,primary color; on primary color
+Material UI,3,Which five interaction states does Material Design outline for a filled button?,"Primary, Secondary, Tertiary, Neutral, and Error","Enabled, Disabled, Hovered, Focused, and Pressed","Umbra, Penumbra, Ambient, Key, and Shadow","Display, Headline, Title, Label, and Body","Enabled, Disabled, Hovered, Focused, and Pressed"
+Material UI,3,Which interaction state represents a non-actionable button?,Enabled,Focused,Disabled,Pressed,Disabled
+Material UI,3,The elevation property value for the enabled state of the filled button is ______.,Level 3 with a large shadow,Level 5,16dp,Level 0 (no shadow),Level 0 (no shadow)
+Material UI,3,"In Figma, the button variants for the different interaction states are created using ______.",Layout grid > Columns,Main component > Add variant,Plugins > Create styles,Effects > Drop shadow,Main component > Add variant

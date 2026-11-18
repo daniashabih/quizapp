@@ -48,6 +48,7 @@ const SEEDED_AND_PROMPT_CATEGORIES = [
     'PHP, XML JSON, Laravel, MySQL, JavaScript',
     'C#',
     'HTML & CSS',
+    'Material UI',
 ];
 
 test('1. All catalog SVG assets exist on both Web and Flutter with clean inline SVG geometry', () => {

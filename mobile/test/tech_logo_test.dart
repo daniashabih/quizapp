@@ -43,6 +43,7 @@ void main() {
     'PHP, XML JSON, Laravel, MySQL, JavaScript',
     'C#',
     'HTML & CSS',
+    'Material UI',
   ];
 
   group('TechLogoRegistry', () {

@@ -33,7 +33,8 @@ const INITIAL_TECHNOLOGIES = [
     'Power BI',
     'Excel',
     'PHP, XML JSON, Laravel, MySQL, JavaScript',
-    'C#'
+    'C#',
+    'Material UI'
 ];
 
 async function seedTechnologies() {

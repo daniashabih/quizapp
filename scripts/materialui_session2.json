@@ -1,0 +1,558 @@
+{
+  "category": "Material UI",
+  "session": 2,
+  "title": "Session 2: Introduction to Material Design",
+  "totalQuestions": 50,
+  "questions": [
+    {
+      "questionText": "A design token is ______.",
+      "options": [
+        "a programming language",
+        "a login credential for Figma",
+        "a piece of data UI/UX designers create to store the values of a style in their style library",
+        "a type of UI input control"
+      ],
+      "correctAnswer": "a piece of data UI/UX designers create to store the values of a style in their style library",
+      "explanation": "Correct answer is C) a piece of data UI/UX designers create to store the values of a style in their style library."
+    },
+    {
+      "questionText": "Which team receives the style library and designs from the UI design team?",
+      "options": [
+        "The Software Engineering (SE) team",
+        "The marketing team",
+        "The UX research team",
+        "The HR team"
+      ],
+      "correctAnswer": "The Software Engineering (SE) team",
+      "explanation": "Correct answer is A) The Software Engineering (SE) team."
+    },
+    {
+      "questionText": "Which UI-stage output is considered the most important to hand over to the SE team?",
+      "options": [
+        "The project invoices",
+        "The meeting notes",
+        "The user surveys",
+        "The style libraries"
+      ],
+      "correctAnswer": "The style libraries",
+      "explanation": "Correct answer is D) The style libraries."
+    },
+    {
+      "questionText": "Design tokens let designers send the style library to engineers without violating ______ standards.",
+      "options": [
+        "Waterfall",
+        "Agile",
+        "Accessibility",
+        "ISO"
+      ],
+      "correctAnswer": "Agile",
+      "explanation": "Correct answer is B) Agile."
+    },
+    {
+      "questionText": "Which team carries out the UX study and hands recommendations to the UI design team?",
+      "options": [
+        "Quality assurance team",
+        "Software Engineering team",
+        "Sales team",
+        "UX research team"
+      ],
+      "correctAnswer": "UX research team",
+      "explanation": "Correct answer is D) UX research team."
+    },
+    {
+      "questionText": "Figma is used for enabling new ______ workflows.",
+      "options": [
+        "database-to-network",
+        "design-to-code",
+        "paper-to-print",
+        "code-to-hardware"
+      ],
+      "correctAnswer": "design-to-code",
+      "explanation": "Correct answer is B) design-to-code."
+    },
+    {
+      "questionText": "To get started with Figma, a user first has to ______.",
+      "options": [
+        "create an account on the Figma Website",
+        "clone a GitHub repository",
+        "install a compiler",
+        "buy a Pro license"
+      ],
+      "correctAnswer": "create an account on the Figma Website",
+      "explanation": "Correct answer is A) create an account on the Figma Website."
+    },
+    {
+      "questionText": "Which Figma plugin is used to create design tokens?",
+      "options": [
+        "Prototype Viewer",
+        "Color Picker",
+        "Figma Tokens (Tokens Studio for Figma)",
+        "Auto Layout"
+      ],
+      "correctAnswer": "Figma Tokens (Tokens Studio for Figma)",
+      "explanation": "Correct answer is C) Figma Tokens (Tokens Studio for Figma)."
+    },
+    {
+      "questionText": "In the Figma Tokens plugin, which option is selected to create a token for a text style such as Headline1?",
+      "options": [
+        "Opacity",
+        "Spacing",
+        "Typography",
+        "Border Radius"
+      ],
+      "correctAnswer": "Typography",
+      "explanation": "Correct answer is C) Typography."
+    },
+    {
+      "questionText": "What is the Description field of a token used for?",
+      "options": [
+        "Choosing the font color",
+        "Naming the Figma file",
+        "Exporting the project as PNG",
+        "Communicating a message to the engineers about the token values"
+      ],
+      "correctAnswer": "Communicating a message to the engineers about the token values",
+      "explanation": "Correct answer is D) Communicating a message to the engineers about the token values."
+    },
+    {
+      "questionText": "Which tab in the Figma Tokens plugin displays the JSON code for a token?",
+      "options": [
+        "JSON tab",
+        "Settings tab",
+        "Layers tab",
+        "Inspect tab"
+      ],
+      "correctAnswer": "JSON tab",
+      "explanation": "Correct answer is A) JSON tab."
+    },
+    {
+      "questionText": "Where is the JSON code of tokens pushed so that the SE team can clone it?",
+      "options": [
+        "An email attachment",
+        "A GitHub repository",
+        "The Figma Assets panel",
+        "A printed document"
+      ],
+      "correctAnswer": "A GitHub repository",
+      "explanation": "Correct answer is B) A GitHub repository."
+    },
+    {
+      "questionText": "Which is a benefit of using design tokens?",
+      "options": [
+        "They remove the need for developers",
+        "They only work in paper prototypes",
+        "Design and engineering teams work with data that works in both design and code",
+        "They replace the style library entirely"
+      ],
+      "correctAnswer": "Design and engineering teams work with data that works in both design and code",
+      "explanation": "Correct answer is C) Design and engineering teams work with data that works in both design and code."
+    },
+    {
+      "questionText": "Material Design tokens are created and maintained by ______.",
+      "options": [
+        "the Material Design team",
+        "individual end users",
+        "the SE team",
+        "the Figma team"
+      ],
+      "correctAnswer": "the Material Design team",
+      "explanation": "Correct answer is A) the Material Design team."
+    },
+    {
+      "questionText": "How many types of tokens are listed on the Material Design Website?",
+      "options": [
+        "Five",
+        "Three",
+        "One",
+        "Two"
+      ],
+      "correctAnswer": "Three",
+      "explanation": "Correct answer is B) Three."
+    },
+    {
+      "questionText": "Which Material Design token type is currently under development?",
+      "options": [
+        "Color token",
+        "Reference token",
+        "System token",
+        "Component token"
+      ],
+      "correctAnswer": "Component token",
+      "explanation": "Correct answer is D) Component token."
+    },
+    {
+      "questionText": "A Material Design reference token stores ______.",
+      "options": [
+        "the values of system styles only",
+        "the prototype animations",
+        "the values of reference styles in the style library",
+        "the engineers' credentials"
+      ],
+      "correctAnswer": "the values of reference styles in the style library",
+      "explanation": "Correct answer is C) the values of reference styles in the style library."
+    },
+    {
+      "questionText": "A Material Design system token stores ______.",
+      "options": [
+        "the values of system styles in the style library",
+        "the values of reference styles only",
+        "the user feedback data",
+        "the GitHub repository URL"
+      ],
+      "correctAnswer": "the values of system styles in the style library",
+      "explanation": "Correct answer is A) the values of system styles in the style library."
+    },
+    {
+      "questionText": "A Material Design token name that starts with md.ref is a ______.",
+      "options": [
+        "system token",
+        "layout token",
+        "component token",
+        "reference token"
+      ],
+      "correctAnswer": "reference token",
+      "explanation": "Correct answer is D) reference token."
+    },
+    {
+      "questionText": "A Material Design token name that starts with md.sys is a ______.",
+      "options": [
+        "typography-only token",
+        "system token",
+        "component token",
+        "reference token"
+      ],
+      "correctAnswer": "system token",
+      "explanation": "Correct answer is B) system token."
+    },
+    {
+      "questionText": "In md.ref and md.sys, 'md' stands for ______.",
+      "options": [
+        "main design",
+        "mobile display",
+        "material design",
+        "master data"
+      ],
+      "correctAnswer": "material design",
+      "explanation": "Correct answer is C) material design."
+    },
+    {
+      "questionText": "Colors that form a broad range of options but have no assigned role are called ______.",
+      "options": [
+        "error color styles",
+        "system color styles",
+        "component color styles",
+        "reference color styles"
+      ],
+      "correctAnswer": "reference color styles",
+      "explanation": "Correct answer is D) reference color styles."
+    },
+    {
+      "questionText": "Colors assigned a role, such as the button color or background color, are called ______.",
+      "options": [
+        "reference color styles",
+        "system color styles",
+        "neutral key colors",
+        "tonal palettes"
+      ],
+      "correctAnswer": "system color styles",
+      "explanation": "Correct answer is B) system color styles."
+    },
+    {
+      "questionText": "In the book's example, which name was used for the blue reference color token?",
+      "options": [
+        "md.ref.color.reference-color-blue",
+        "md.ref.typescale.blue",
+        "md.sys.grid.blue",
+        "md.sys.color.reference-color-blue"
+      ],
+      "correctAnswer": "md.ref.color.reference-color-blue",
+      "explanation": "Correct answer is A) md.ref.color.reference-color-blue."
+    },
+    {
+      "questionText": "Which name was used for the system token that stores the button color?",
+      "options": [
+        "md.sys.typescale.button",
+        "md.ref.grid.button",
+        "md.ref.color.button-color",
+        "md.sys.color.button-color"
+      ],
+      "correctAnswer": "md.sys.color.button-color",
+      "explanation": "Correct answer is D) md.sys.color.button-color."
+    },
+    {
+      "questionText": "The booking Website's budget and reservation-policy filters are examples of ______.",
+      "options": [
+        "sliders",
+        "toggles",
+        "check boxes",
+        "radio buttons"
+      ],
+      "correctAnswer": "check boxes",
+      "explanation": "Correct answer is C) check boxes."
+    },
+    {
+      "questionText": "A button that, when clicked, reveals a list of options to choose from (such as adults, children, and rooms) is a ______.",
+      "options": [
+        "check box",
+        "drop-down list",
+        "breadcrumb",
+        "tag"
+      ],
+      "correctAnswer": "drop-down list",
+      "explanation": "Correct answer is B) drop-down list."
+    },
+    {
+      "questionText": "Which input control lets users select one option from a mutually exclusive set, such as Round-trip, One-way, or Multi-city?",
+      "options": [
+        "Radio buttons",
+        "Sliders",
+        "Check boxes",
+        "List boxes"
+      ],
+      "correctAnswer": "Radio buttons",
+      "explanation": "Correct answer is A) Radio buttons."
+    },
+    {
+      "questionText": "Which input control can support a long vertical list and allows multiple selections at once?",
+      "options": [
+        "Progress bar",
+        "Toggle",
+        "List box",
+        "Radio button"
+      ],
+      "correctAnswer": "List box",
+      "explanation": "Correct answer is C) List box."
+    },
+    {
+      "questionText": "Which input control is an ON/OFF switch that lets users choose between two states?",
+      "options": [
+        "List box",
+        "Toggle",
+        "Date field",
+        "Check box"
+      ],
+      "correctAnswer": "Toggle",
+      "explanation": "Correct answer is B) Toggle."
+    },
+    {
+      "questionText": "Which input control allows users to select a date and/or time and keeps the format consistent?",
+      "options": [
+        "Radio button",
+        "Text field",
+        "Accordion",
+        "Date field (date picker)"
+      ],
+      "correctAnswer": "Date field (date picker)",
+      "explanation": "Correct answer is D) Date field (date picker)."
+    },
+    {
+      "questionText": "The clickable trail of previous pages on Coursera that tells users where they are is a ______.",
+      "options": [
+        "breadcrumb",
+        "tag",
+        "slider",
+        "pagination"
+      ],
+      "correctAnswer": "breadcrumb",
+      "explanation": "Correct answer is A) breadcrumb."
+    },
+    {
+      "questionText": "Which navigational component is also known as a trackbar and is used to adjust values like volume or brightness?",
+      "options": [
+        "Slider",
+        "Menu",
+        "Carousel",
+        "Icon"
+      ],
+      "correctAnswer": "Slider",
+      "explanation": "Correct answer is A) Slider."
+    },
+    {
+      "questionText": "Which navigational component is a single-line text box accompanied by a magnifying glass?",
+      "options": [
+        "Toggle",
+        "Search field",
+        "Accordion",
+        "Tooltip"
+      ],
+      "correctAnswer": "Search field",
+      "explanation": "Correct answer is B) Search field."
+    },
+    {
+      "questionText": "A set of rotating banners or a slideshow that displays images or text is a ______.",
+      "options": [
+        "breadcrumb",
+        "message box",
+        "slider",
+        "carousel"
+      ],
+      "correctAnswer": "carousel",
+      "explanation": "Correct answer is D) carousel."
+    },
+    {
+      "questionText": "Which is described as the most important navigational component, presenting many options to interact with the interface?",
+      "options": [
+        "Progress bar",
+        "Tooltip",
+        "Menu",
+        "Modal window"
+      ],
+      "correctAnswer": "Menu",
+      "explanation": "Correct answer is C) Menu."
+    },
+    {
+      "questionText": "Which informational component indicates how much of a task is completed and is not clickable?",
+      "options": [
+        "Button",
+        "Icon",
+        "Progress bar",
+        "Menu"
+      ],
+      "correctAnswer": "Progress bar",
+      "explanation": "Correct answer is C) Progress bar."
+    },
+    {
+      "questionText": "Notifications can indicate which of the following?",
+      "options": [
+        "Task completion, new announcements, or error/warning messages",
+        "Only the font in use",
+        "Only the user's location",
+        "Only the page number"
+      ],
+      "correctAnswer": "Task completion, new announcements, or error/warning messages",
+      "explanation": "Correct answer is A) Task completion, new announcements, or error/warning messages."
+    },
+    {
+      "questionText": "A label displayed when a user hovers over or long-presses an element is a ______.",
+      "options": [
+        "breadcrumb",
+        "tooltip",
+        "toggle",
+        "tag"
+      ],
+      "correctAnswer": "tooltip",
+      "explanation": "Correct answer is B) tooltip."
+    },
+    {
+      "questionText": "A modal window ______.",
+      "options": [
+        "is always hidden from users",
+        "disappears automatically after one second",
+        "is only used in printed media",
+        "will not go away until the user interacts with it"
+      ],
+      "correctAnswer": "will not go away until the user interacts with it",
+      "explanation": "Correct answer is D) will not go away until the user interacts with it."
+    },
+    {
+      "questionText": "An accordion is especially useful on ______.",
+      "options": [
+        "command-line tools",
+        "printed posters",
+        "mobile screens, where space is limited",
+        "server hardware"
+      ],
+      "correctAnswer": "mobile screens, where space is limited",
+      "explanation": "Correct answer is C) mobile screens, where space is limited."
+    },
+    {
+      "questionText": "Which statement correctly contrasts UX and UI?",
+      "options": [
+        "UX is about usability and UI is about beauty",
+        "UX and UI are exactly the same",
+        "UX is about beauty and UI is about usability",
+        "UX is about code and UI is about databases"
+      ],
+      "correctAnswer": "UX is about usability and UI is about beauty",
+      "explanation": "Correct answer is A) UX is about usability and UI is about beauty."
+    },
+    {
+      "questionText": "Which statement about UX and UI scope is correct?",
+      "options": [
+        "UI is broad, while UX is specific to digital interfaces",
+        "UX is broad, while UI is specific to digital interfaces",
+        "Both are limited to mobile apps",
+        "Neither applies to Websites"
+      ],
+      "correctAnswer": "UX is broad, while UI is specific to digital interfaces",
+      "explanation": "Correct answer is B) UX is broad, while UI is specific to digital interfaces."
+    },
+    {
+      "questionText": "Which statement about UX and UI focus is correct?",
+      "options": [
+        "Both are only looks-driven",
+        "UI is data-driven, while UX is looks-driven",
+        "Both are only data-driven",
+        "UX is data-driven, while UI is looks-driven"
+      ],
+      "correctAnswer": "UX is data-driven, while UI is looks-driven",
+      "explanation": "Correct answer is D) UX is data-driven, while UI is looks-driven."
+    },
+    {
+      "questionText": "Which of the following are key deliverables of a UX designer?",
+      "options": [
+        "Style tiles and layout mock-ups",
+        "Shadow styles and grid tokens",
+        "JSON files and GitHub repositories",
+        "Empathy maps/user personas, user journey maps, and wireframes"
+      ],
+      "correctAnswer": "Empathy maps/user personas, user journey maps, and wireframes",
+      "explanation": "Correct answer is D) Empathy maps/user personas, user journey maps, and wireframes."
+    },
+    {
+      "questionText": "Which of the following are key deliverables of a UI designer?",
+      "options": [
+        "Style tiles and layout mock-ups",
+        "Database schemas",
+        "Usability test reports only",
+        "Empathy maps and user journey maps"
+      ],
+      "correctAnswer": "Style tiles and layout mock-ups",
+      "explanation": "Correct answer is A) Style tiles and layout mock-ups."
+    },
+    {
+      "questionText": "Which tools give UI designers an advantage for creating the skin and appearance of a product?",
+      "options": [
+        "Spreadsheets only",
+        "Notepad and Calculator",
+        "Sketch and Adobe XD",
+        "Command prompt and Git"
+      ],
+      "correctAnswer": "Sketch and Adobe XD",
+      "explanation": "Correct answer is C) Sketch and Adobe XD."
+    },
+    {
+      "questionText": "User Experience Research is ______.",
+      "options": [
+        "the testing of server hardware",
+        "the systematic investigation of users and their requirements",
+        "the design of company logos",
+        "the process of writing production code"
+      ],
+      "correctAnswer": "the systematic investigation of users and their requirements",
+      "explanation": "Correct answer is B) the systematic investigation of users and their requirements."
+    },
+    {
+      "questionText": "UX research helps to learn about users' ______.",
+      "options": [
+        "behaviors, necessity, motivations, and pain points",
+        "salaries and addresses",
+        "favorite programming languages",
+        "operating system versions only"
+      ],
+      "correctAnswer": "behaviors, necessity, motivations, and pain points",
+      "explanation": "Correct answer is A) behaviors, necessity, motivations, and pain points."
+    },
+    {
+      "questionText": "In the cake analogy, the UX design is like ______ and the UI design is like ______.",
+      "options": [
+        "the oven; the plate",
+        "the ingredients; the icing and decoration",
+        "the recipe book; the knife",
+        "the icing and decoration; the ingredients"
+      ],
+      "correctAnswer": "the ingredients; the icing and decoration",
+      "explanation": "Correct answer is B) the ingredients; the icing and decoration."
+    }
+  ]
+}
