@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from '../../services/notificationService';
 import {
@@ -895,9 +895,9 @@ const Quiz = () => {
                         <button onClick={startFreshQuiz} className="btn-primary text-xs py-2.5 px-6 inline-flex items-center gap-1.5 cursor-pointer">
                             <RefreshCw size={14} /> Retry
                         </button>
-                        <button onClick={() => navigate('/technologies')} className="btn-secondary text-xs py-2.5 px-5 cursor-pointer">
+                        <Link to="/technologies" className="btn-secondary text-xs py-2.5 px-5 inline-flex items-center justify-center">
                             Browse Tracks
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -915,9 +915,9 @@ const Quiz = () => {
                     <p className="text-xs text-[var(--foreground-muted)]">
                         No questions available for {selectedCategory} in <strong className="text-[var(--foreground)]">Session {selectedSession}</strong>. Try choosing another session or create questions in Admin dashboard.
                     </p>
-                    <button onClick={() => navigate('/technologies')} className="btn-primary text-xs py-2.5 px-6 mx-auto cursor-pointer">
+                    <Link to="/technologies" className="btn-primary text-xs py-2.5 px-6 mx-auto inline-flex items-center justify-center">
                         Browse Sessions & Tracks
-                    </button>
+                    </Link>
                 </div>
             </div>
         );

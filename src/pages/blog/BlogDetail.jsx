@@ -481,9 +481,9 @@ export default function BlogDetail() {
                     <ChevronRight size={12} className="shrink-0" />
                     <Link to="/blog" className="hover:text-[var(--foreground)] transition-colors shrink-0">Blog</Link>
                     <ChevronRight size={12} className="shrink-0" />
-                    <Link to={`/blog?category=${encodeURIComponent(activeArticle.category)}`} className="hover:text-[var(--foreground)] transition-colors shrink-0 font-medium">
+                    <span className="font-medium shrink-0">
                         {activeArticle.category}
-                    </Link>
+                    </span>
                     <ChevronRight size={12} className="shrink-0" />
                     <span className="text-[var(--foreground)] truncate shrink-0 max-w-[200px] font-semibold">
                         {decodeHtmlEntities(activeArticle.title)}
@@ -493,12 +493,11 @@ export default function BlogDetail() {
                 {/* Article Header */}
                 <header className="space-y-4">
                     <div className="flex flex-wrap items-center gap-2.5">
-                        <Link
-                            to={`/blog?category=${encodeURIComponent(activeArticle.category)}`}
-                            className={`px-3 py-1 rounded-lg text-xs font-bold border transition-colors ${categoryColor}`}
+                        <span
+                            className={`px-3 py-1 rounded-lg text-xs font-bold border ${categoryColor}`}
                         >
                             {activeArticle.category}
-                        </Link>
+                        </span>
                         <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-[var(--muted-bg)] border border-[var(--card-border)] text-[var(--foreground-muted)]">
                             {activeArticle.difficulty || 'Beginner'}
                         </span>
@@ -657,10 +656,10 @@ export default function BlogDetail() {
                     <section className="space-y-4 pt-6 border-t border-[var(--card-border)]">
                         <div className="flex items-center justify-between">
                             <h2 className="text-lg font-bold text-[var(--foreground)]">
-                                Related Tutorials in {activeArticle.category}
+                                Continue Reading Developer Guides
                             </h2>
-                            <Link to={`/blog?category=${encodeURIComponent(activeArticle.category)}`} className="text-xs text-[#193D35] dark:text-emerald-400 hover:underline">
-                                View all {activeArticle.category} articles
+                            <Link to="/blog" className="text-xs text-[#193D35] dark:text-emerald-400 hover:underline">
+                                View all articles
                             </Link>
                         </div>
 

@@ -375,9 +375,7 @@ export default function BlogList() {
                                         </div>
 
                                         <h3 className="text-2xl sm:text-3xl font-black text-[var(--foreground)] group-hover:text-[#193D35] dark:group-hover:text-emerald-400 transition-colors leading-snug">
-                                            <Link to={`/blog/${featuredArticle.slug}`}>
-                                                {featuredArticle.title}
-                                            </Link>
+                                            {featuredArticle.title}
                                         </h3>
 
                                         <p className="text-sm text-[var(--foreground-muted)] line-clamp-3 leading-relaxed">
@@ -494,7 +492,10 @@ export default function BlogList() {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {articles.map((article) => {
+                            {(activeCategory === 'All' && !searchQuery && featuredArticle
+                                ? articles.filter(a => a.slug !== featuredArticle.slug)
+                                : articles
+                            ).map((article) => {
                                 const categoryColor = CATEGORY_COLORS[article.category] || 'bg-primary/10 text-primary border-primary/20';
 
                                 return (
@@ -516,9 +517,7 @@ export default function BlogList() {
 
                                             {/* Article Title */}
                                             <h3 className="text-base font-bold text-[var(--foreground)] group-hover:text-[#193D35] dark:group-hover:text-emerald-400 transition-colors leading-snug">
-                                                <Link to={`/blog/${article.slug}`}>
-                                                    {article.title}
-                                                </Link>
+                                                {article.title}
                                             </h3>
 
                                             {/* Excerpt */}
@@ -536,7 +535,7 @@ export default function BlogList() {
 
                                             <Link
                                                 to={`/blog/${article.slug}`}
-                                                className="inline-flex items-center gap-1 font-semibold text-[#193D35] dark:text-emerald-400 hover:gap-1.5 transition-all text-xs"
+                                                className="inline-flex items-center gap-1 font-semibold text-[#193D35] dark:text-emerald-400 hover:gap-1.5 transition-all text-xs after:absolute after:inset-0"
                                             >
                                                 <span>Read</span>
                                                 <ArrowRight size={12} />

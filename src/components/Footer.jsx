@@ -21,9 +21,8 @@ export default function Footer() {
                             Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.
                         </p>
                         <div className="pt-2 flex flex-col space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
-                            <Link to="/certificate/view" className="hover:text-[var(--foreground)] transition-colors">Verify Certificate</Link>
+                            <Link to="/certificate/view" rel="nofollow" className="hover:text-[var(--foreground)] transition-colors">Verify Certificate</Link>
                             <Link to="/leaderboard" className="hover:text-[var(--foreground)] transition-colors">Global Leaderboard</Link>
-                            <Link to="/leaderboard/full" className="hover:text-[var(--foreground)] transition-colors">Full Rankings Directory</Link>
                             {user ? (
                                 <Link to="/dashboard" className="hover:text-[var(--foreground)] transition-colors">Developer Dashboard</Link>
                             ) : (
@@ -66,6 +65,11 @@ export default function Footer() {
                             <li><Link to="/games/word-rain" className="hover:text-[var(--foreground)] transition-colors">Word Rain</Link></li>
                             <li><Link to="/games/memory-match" className="hover:text-[var(--foreground)] transition-colors">Coding Memory Match</Link></li>
                             <li><Link to="/games/complete-the-code" className="hover:text-[var(--foreground)] transition-colors">Complete The Code</Link></li>
+                            <li><Link to="/games/code-scramble" className="hover:text-[var(--foreground)] transition-colors">Code Scramble</Link></li>
+                            <li><Link to="/games/missing-code" className="hover:text-[var(--foreground)] transition-colors">Missing Code</Link></li>
+                            <li><Link to="/games/syntax-typing" className="hover:text-[var(--foreground)] transition-colors">Syntax Typing</Link></li>
+                            <li><Link to="/games/error-free-typing" className="hover:text-[var(--foreground)] transition-colors">Error-Free Typing</Link></li>
+                            <li><Link to="/games/sixty-second-challenge" className="hover:text-[var(--foreground)] transition-colors">60-Second Challenge</Link></li>
                             <li><Link to="/games/csharp-oop-challenge" className="hover:text-[var(--foreground)] transition-colors">C# OOP Challenge</Link></li>
                             <li><Link to="/games/csharp-collections-challenge" className="hover:text-[var(--foreground)] transition-colors">C# Collections Challenge</Link></li>
                             <li><Link to="/games/csharp-linq-challenge" className="hover:text-[var(--foreground)] transition-colors">C# LINQ Challenge</Link></li>

@@ -61,7 +61,7 @@ export const SEO_PAGES_CONFIG = {
             { label: 'Contact Support', to: '/contact' },
             { label: 'Certificate Verification & Info', to: '/certificate/view' },
             { label: 'Global Leaderboard', to: '/leaderboard' },
-            { label: 'Full Developer Leaderboard', to: '/leaderboard/full' }
+            { label: 'JavaScript Quizzes & Practice', to: '/technologies/javascript' }
         ]
     },
 
@@ -828,6 +828,72 @@ export const TECHNOLOGY_SEO_SLUGS = [
     'python',
     'programming-fundamentals'
 ];
+
+export function resolveGameTechnologyGuide(rawSlug, fallbackName = '') {
+    const clean = String(rawSlug || '').trim().toLowerCase();
+    if (!clean || clean === 'all') {
+        return { to: '/technologies', label: 'All Tech Quizzes', blogTo: '/blog', blogLabel: 'Tutorials & Guides' };
+    }
+
+    const mapped = {
+        bootstrap: { slug: 'css', label: 'CSS & Styling Quiz', blogTo: '/blog/css-basics-beginners-guide', blogLabel: 'CSS Styling Guide' },
+        jquery: { slug: 'javascript', label: 'JavaScript Quiz', blogTo: '/blog/javascript-fundamentals-beginners-guide', blogLabel: 'JavaScript Guide' },
+        nodejs: { slug: 'javascript', label: 'JavaScript & Node Quiz', blogTo: '/blog/javascript-fundamentals-beginners-guide', blogLabel: 'JavaScript Guide' },
+        express: { slug: 'javascript', label: 'JavaScript & Backend Quiz', blogTo: '/blog/javascript-fundamentals-beginners-guide', blogLabel: 'JavaScript Guide' },
+        'full-stack': { slug: 'react', label: 'React & Full-Stack Quiz', blogTo: '/blog/javascript-fundamentals-beginners-guide', blogLabel: 'JavaScript Guide' },
+        sql: { slug: 'mysql', label: 'MySQL & SQL Quiz', blogTo: '/blog/laravel-basics-mvc-architecture', blogLabel: 'Laravel & DB Guide' },
+        'android-development': { slug: 'dart', label: 'Dart & Mobile Quiz', blogTo: '/blog/flutter-dart-mobile-app-development', blogLabel: 'Flutter & Dart Guide' },
+        'programming-logic': { slug: 'programming-fundamentals', label: 'Programming Fundamentals Quiz', blogTo: '/blog/javascript-fundamentals-beginners-guide', blogLabel: 'Programming Guide' },
+        oop: { slug: 'programming-fundamentals', label: 'OOP & Fundamentals Quiz', blogTo: '/blog/php-programming-beginners-guide', blogLabel: 'OOP & PHP Guide' },
+        dsa: { slug: 'programming-fundamentals', label: 'DSA & Logic Quiz', blogTo: '/blog/javascript-fundamentals-beginners-guide', blogLabel: 'Coding Fundamentals Guide' },
+        'html-css': { slug: 'html', label: 'HTML & CSS Quiz', blogTo: '/blog/html-tutorial-for-beginners', blogLabel: 'HTML Tutorial' },
+        'web-fundamentals': { slug: 'html', label: 'Web Fundamentals Quiz', blogTo: '/blog/html-tutorial-for-beginners', blogLabel: 'HTML & Web Guide' },
+        csharp: { slug: null, label: 'Browse C# & Tech Quizzes', blogTo: '/blog/php-programming-beginners-guide', blogLabel: 'Programming Tutorials' }
+    };
+
+    const blogByCanonicalSlug = {
+        html: { blogTo: '/blog/html-tutorial-for-beginners', blogLabel: 'HTML Tutorial for Beginners' },
+        css: { blogTo: '/blog/css-basics-beginners-guide', blogLabel: 'CSS Basics Guide' },
+        javascript: { blogTo: '/blog/javascript-fundamentals-beginners-guide', blogLabel: 'JavaScript Fundamentals Guide' },
+        react: { blogTo: '/blog/javascript-fundamentals-beginners-guide', blogLabel: 'JavaScript Fundamentals Guide' },
+        php: { blogTo: '/blog/php-programming-beginners-guide', blogLabel: 'PHP Programming Guide' },
+        laravel: { blogTo: '/blog/laravel-basics-mvc-architecture', blogLabel: 'Laravel MVC Guide' },
+        mysql: { blogTo: '/blog/laravel-basics-mvc-architecture', blogLabel: 'Laravel & MySQL Guide' },
+        mongodb: { slug: 'mongodb', blogTo: '/blog/php-programming-beginners-guide', blogLabel: 'Backend Programming Guide' },
+        flutter: { blogTo: '/blog/flutter-dart-mobile-app-development', blogLabel: 'Flutter & Dart Guide' },
+        dart: { blogTo: '/blog/flutter-dart-mobile-app-development', blogLabel: 'Flutter & Dart Guide' },
+        python: { blogTo: '/blog/javascript-fundamentals-beginners-guide', blogLabel: 'Programming Fundamentals' },
+        'programming-fundamentals': { blogTo: '/blog/javascript-fundamentals-beginners-guide', blogLabel: 'Programming Logic Guide' }
+    };
+
+    const directSeo = getTechnologySeoBySlug(clean);
+    if (directSeo) {
+        const blogMeta = blogByCanonicalSlug[directSeo.slug] || { blogTo: '/blog', blogLabel: 'Tutorials & Guides' };
+        return {
+            to: `/technologies/${directSeo.slug}`,
+            label: `Take ${fallbackName || directSeo.badge || directSeo.slug.toUpperCase()} Quiz`,
+            blogTo: blogMeta.blogTo,
+            blogLabel: blogMeta.blogLabel
+        };
+    }
+
+    const m = mapped[clean];
+    if (m) {
+        return {
+            to: m.slug ? `/technologies/${m.slug}` : '/technologies',
+            label: m.label,
+            blogTo: m.blogTo,
+            blogLabel: m.blogLabel
+        };
+    }
+
+    return {
+        to: '/technologies',
+        label: fallbackName ? `Browse ${fallbackName} & All Quizzes` : 'Browse All Tech Quizzes',
+        blogTo: '/blog',
+        blogLabel: 'Tutorials & Guides'
+    };
+}
 
 export function getTechnologySeoBySlug(slug) {
     if (!slug) return null;

@@ -24,6 +24,7 @@ import {
 import { toast } from '../../services/notificationService';
 import { useAuth } from '../../context/AuthContext';
 import usePageSeo from '../../hooks/usePageSeo';
+import { resolveGameTechnologyGuide } from '../../config/seoPagesConfig';
 import gameService, { FALLBACK_GAMES, FALLBACK_TECHNOLOGIES } from '../../services/gameService';
 import TechIcon from './components/TechIcon';
 import gameAudio from '../../utils/gameAudio';
@@ -592,22 +593,29 @@ export const GamePlayer = () => {
                     <aside aria-label="Related Practice & Guides" className="w-full mt-6 pt-5 border-t border-[var(--card-border)] flex flex-wrap items-center justify-between gap-3 text-xs">
                         <div className="flex flex-wrap items-center gap-2">
                             <span className="text-[var(--foreground-muted)] font-semibold">Related Tracks:</span>
-                            {selectedTechnology && selectedTechnology !== 'all' ? (
-                                <Link
-                                    to={`/technologies/${selectedTechnology}`}
-                                    className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-emerald-500 font-bold text-[var(--foreground)] transition-colors inline-flex items-center gap-1"
-                                >
-                                    <TechIcon slug={selectedTechnology} className="w-3.5 h-3.5" />
-                                    <span>Take {supportedTechs.find(t => t.slug === selectedTechnology)?.name || selectedTechnology} Quiz</span>
-                                </Link>
-                            ) : (
-                                <Link
-                                    to="/technologies"
-                                    className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-emerald-500 font-bold text-[var(--foreground)] transition-colors"
-                                >
-                                    Explore All 12 Technology Tracks
-                                </Link>
-                            )}
+                            {(() => {
+                                const selectedTechObj = supportedTechs.find(t => t.slug === selectedTechnology);
+                                const guide = resolveGameTechnologyGuide(selectedTechnology, selectedTechObj?.name);
+                                return (
+                                    <>
+                                        <Link
+                                            to={guide.to}
+                                            className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-emerald-500 font-bold text-[var(--foreground)] transition-colors inline-flex items-center gap-1"
+                                        >
+                                            {selectedTechnology && selectedTechnology !== 'all' && <TechIcon slug={selectedTechnology} className="w-3.5 h-3.5" />}
+                                            <span>{guide.label}</span>
+                                        </Link>
+                                        {guide.blogTo !== '/blog' && (
+                                            <Link
+                                                to={guide.blogTo}
+                                                className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] font-semibold text-[var(--foreground)] transition-colors"
+                                            >
+                                                Read: {guide.blogLabel}
+                                            </Link>
+                                        )}
+                                    </>
+                                );
+                            })()}
                             <Link
                                 to="/blog"
                                 className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-emerald-500 text-[var(--foreground)] font-semibold transition-colors"
@@ -721,14 +729,18 @@ export const GamePlayer = () => {
                             >
                                 Back to All Games
                             </Link>
-                            {selectedTechnology && selectedTechnology !== 'all' && (
-                                <Link
-                                    to={`/technologies/${selectedTechnology}`}
-                                    className="text-xs text-center text-emerald-500 dark:text-emerald-400 font-bold hover:underline mt-1"
-                                >
-                                    Practice {supportedTechs.find(t => t.slug === selectedTechnology)?.name || selectedTechnology} Quiz Track →
-                                </Link>
-                            )}
+                            {selectedTechnology && selectedTechnology !== 'all' && (() => {
+                                const selectedTechObj = supportedTechs.find(t => t.slug === selectedTechnology);
+                                const guide = resolveGameTechnologyGuide(selectedTechnology, selectedTechObj?.name);
+                                return (
+                                    <Link
+                                        to={guide.to}
+                                        className="text-xs text-center text-emerald-500 dark:text-emerald-400 font-bold hover:underline mt-1"
+                                    >
+                                        {guide.label} →
+                                    </Link>
+                                );
+                            })()}
                         </div>
                     </div>
                 </div>

@@ -143,7 +143,7 @@ export default function Landing() {
                                     className="input-field pl-11 pr-32 py-3 text-sm rounded-2xl border-[var(--input-border)] focus:border-[#193D35] shadow-sm"
                                 />
                                 <Link
-                                    to="/technologies"
+                                    to="/technologies#catalog"
                                     className="absolute right-2 top-1/2 -translate-y-1/2 btn-primary text-xs py-2 px-4 rounded-xl shadow-xs inline-flex items-center gap-1"
                                     aria-label="Explore all technologies"
                                 >
@@ -164,7 +164,7 @@ export default function Landing() {
                                             {filteredTechs.map(t => (
                                                 <Link
                                                     key={t.id || t.name}
-                                                    to="/technologies"
+                                                    to={t.slug ? `/technologies/${t.slug}` : '/technologies'}
                                                     className="flex items-center justify-between p-2 rounded-xl hover:bg-[var(--muted-bg)] transition-colors text-xs font-semibold text-[var(--foreground)]"
                                                 >
                                                     <span>{t.name}</span>
@@ -490,17 +490,30 @@ export default function Landing() {
                         </div>
 
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5">
-                            {CORE_TECHNOLOGIES.map((tech) => (
+                            {CORE_TECHNOLOGIES.filter(tech => tech.slug || tech.name === 'C#').map((tech) => (
                                 <Link
                                     key={tech.name}
-                                    to={tech.slug ? `/technologies/${tech.slug}` : '/technologies'}
+                                    to={tech.slug ? `/technologies/${tech.slug}` : '/games/complete-the-code?tech=csharp'}
                                     className="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] transition-all flex flex-col justify-between gap-1.5 shadow-2xs group"
                                 >
                                     <h3 className="text-sm font-display font-bold text-[var(--foreground)] group-hover:text-[#193D35] transition-colors">
                                         {tech.name}
                                     </h3>
-                                    <p className="text-[11px] text-[var(--foreground-muted)]">{tech.category}</p>
+                                    <p className="text-[11px] text-[var(--foreground-muted)]">
+                                        {tech.slug ? tech.category : 'Interactive C# Games'}
+                                    </p>
                                 </Link>
+                            ))}
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-[var(--foreground-muted)]">
+                            <span className="font-semibold text-[var(--foreground-secondary)]">Additional Catalog Stacks:</span>
+                            {CORE_TECHNOLOGIES.filter(tech => !tech.slug && tech.name !== 'C#').map((tech) => (
+                                <span
+                                    key={tech.name}
+                                    className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] font-medium text-[var(--foreground)]"
+                                >
+                                    {tech.name}
+                                </span>
                             ))}
                         </div>
                     </section>
@@ -638,11 +651,7 @@ export default function Landing() {
                                 </Link>
                                 <div className="flex items-center gap-3">
                                     <Link to="/leaderboard" className="font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)]">
-                                        Top Learners
-                                    </Link>
-                                    <span className="text-[var(--card-border)]">&bull;</span>
-                                    <Link to="/leaderboard/full" className="font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)]">
-                                        Full Rankings →
+                                        Top Learners &amp; Leaderboard Rankings
                                     </Link>
                                 </div>
                             </div>

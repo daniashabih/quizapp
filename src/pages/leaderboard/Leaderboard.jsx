@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import LeaderboardComponent from '../../components/Leaderboard';
@@ -148,14 +148,13 @@ const LeaderboardPage = ({ mode: propMode }) => {
                             </span>
                         </div>
                         {isFullMode && (
-                            <button
-                                type="button"
-                                onClick={() => navigate(isDashboard ? '/dashboard/leaderboard' : '/leaderboard')}
-                                className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground-secondary)] hover:text-[var(--foreground)] transition-all cursor-pointer"
+                            <Link
+                                to={isDashboard ? '/dashboard/leaderboard' : '/leaderboard'}
+                                className="inline-flex items-center gap-1 px-3 py-1 text-xs font-semibold rounded-full border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground-secondary)] hover:text-[var(--foreground)] transition-all"
                             >
                                 <ChevronLeft className="w-3.5 h-3.5" />
                                 <span>Back to Top 5</span>
-                            </button>
+                            </Link>
                         )}
                     </div>
 

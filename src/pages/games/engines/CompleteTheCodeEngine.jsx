@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import {
     CheckCircle2,
     XCircle,
@@ -373,12 +374,12 @@ export const CompleteTheCodeEngine = ({
                     >
                         <RotateCcw size={15} /> Play Again
                     </button>
-                    <a
-                        href="/games?tech=csharp"
+                    <Link
+                        to="/games?tech=csharp"
                         className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-[var(--foreground)] font-bold text-xs transition-colors"
                     >
                         Back to C# Games
-                    </a>
+                    </Link>
                 </div>
             </div>
         );

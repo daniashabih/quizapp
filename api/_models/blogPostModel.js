@@ -173,6 +173,49 @@ const BlogPostModel = {
         if (!slug) return null;
         const safeSlug = String(slug).toLowerCase().trim();
 
+        const UNPUBLISHED_BLOG_FALLBACK_MAP = {
+            'mysql-database-tutorial-beginners': 'https://www.hangbug.com/technologies/mysql',
+            'csharp-programming-beginners-guide': 'https://www.hangbug.com/technologies',
+            'programming-interview-questions-beginners': 'https://www.hangbug.com/technologies/programming-fundamentals',
+            'improve-programming-skills-coding-practice': 'https://www.hangbug.com/games',
+            'php-interview-questions': 'https://www.hangbug.com/technologies/php',
+            'laravel-interview-questions': 'https://www.hangbug.com/technologies/laravel',
+            '50-html-interview-questions-and-answers': 'https://www.hangbug.com/technologies/html',
+            '50-css-interview-questions-and-answers': 'https://www.hangbug.com/technologies/css',
+            'javascript-mcqs-for-beginners': 'https://www.hangbug.com/technologies/javascript',
+            'mysql-practice-questions': 'https://www.hangbug.com/technologies/mysql'
+        };
+
+        const sanitizeContentLinks = (rawContent, publishedSlugSet) => {
+            if (!rawContent || typeof rawContent !== 'string') return rawContent;
+            let sanitized = rawContent;
+
+            // Rewrite any markdown or HTML links pointing to unpublished/missing blog slugs
+            sanitized = sanitized.replace(
+                /(https?:\/\/(?:www\.)?hangbug\.com)?\/blog\/([a-z0-9-]+)(?:\/)?/gi,
+                (fullMatch, originPrefix, targetSlug) => {
+                    const cleanSlug = String(targetSlug || '').toLowerCase();
+                    if (publishedSlugSet.has(cleanSlug)) {
+                        return originPrefix ? `https://www.hangbug.com/blog/${cleanSlug}` : `/blog/${cleanSlug}`;
+                    }
+                    if (UNPUBLISHED_BLOG_FALLBACK_MAP[cleanSlug]) {
+                        return originPrefix
+                            ? UNPUBLISHED_BLOG_FALLBACK_MAP[cleanSlug]
+                            : UNPUBLISHED_BLOG_FALLBACK_MAP[cleanSlug].replace('https://www.hangbug.com', '');
+                    }
+                    return originPrefix ? 'https://www.hangbug.com/blog' : '/blog';
+                }
+            );
+
+            // Clean legacy link label if it still refers to the retired MySQL blog tutorial
+            sanitized = sanitized.replace(
+                /\[MySQL Database Tutorial\]\(https:\/\/www\.hangbug\.com\/technologies\/mysql\)/g,
+                '[MySQL & SQL Practice Track](https://www.hangbug.com/technologies/mysql)'
+            );
+
+            return sanitized;
+        };
+
         let article = null;
         let relatedArticles = [];
 
@@ -190,6 +233,12 @@ const BlogPostModel = {
                             data: { viewsCount: { increment: 1 } }
                         }).catch(() => {});
                     }
+
+                    const publishedRows = await prisma.blogPost.findMany({
+                        where: { isPublished: true },
+                        select: { slug: true }
+                    });
+                    const publishedSlugSet = new Set(publishedRows.map(r => String(r.slug || '').toLowerCase()));
 
                     relatedArticles = await prisma.blogPost.findMany({
                         where: {
@@ -213,7 +262,37 @@ const BlogPostModel = {
                         }
                     });
 
-                    return { article, relatedArticles };
+                    // Ensure isolated category articles still display up to 3 published related articles
+                    if (relatedArticles.length < 3) {
+                        const existingSlugs = [safeSlug, ...relatedArticles.map(r => r.slug)];
+                        const fallbackRelated = await prisma.blogPost.findMany({
+                            where: {
+                                slug: { notIn: existingSlugs },
+                                isPublished: true
+                            },
+                            orderBy: { publishedAt: 'desc' },
+                            take: 3 - relatedArticles.length,
+                            select: {
+                                id: true,
+                                slug: true,
+                                title: true,
+                                excerpt: true,
+                                category: true,
+                                readingTimeMinutes: true,
+                                coverGradient: true,
+                                publishedAt: true
+                            }
+                        });
+                        relatedArticles = [...relatedArticles, ...fallbackRelated];
+                    }
+
+                    return {
+                        article: {
+                            ...article,
+                            content: sanitizeContentLinks(article.content, publishedSlugSet)
+                        },
+                        relatedArticles
+                    };
                 }
 
                 // If MongoDB is populated, treat missing or unpublished slugs as 404 (never resurrect from memory fallback)
@@ -234,22 +313,43 @@ const BlogPostModel = {
             article.viewsCount = (article.viewsCount || 0) + 1;
         }
 
+        const memPublishedSlugs = new Set(
+            memArticles.filter(a => a.isPublished).map(a => String(a.slug || '').toLowerCase())
+        );
+
+        const formatRelated = (a) => ({
+            id: a.id,
+            slug: a.slug,
+            title: a.title,
+            excerpt: a.excerpt,
+            category: a.category,
+            readingTimeMinutes: a.readingTimeMinutes,
+            coverGradient: a.coverGradient,
+            publishedAt: a.publishedAt
+        });
+
         relatedArticles = memArticles
             .filter(a => a.slug !== safeSlug && a.isPublished)
             .filter(a => a.category === article.category || (a.tags && article.tags && a.tags.some(t => article.tags.includes(t))))
             .slice(0, 3)
-            .map(a => ({
-                id: a.id,
-                slug: a.slug,
-                title: a.title,
-                excerpt: a.excerpt,
-                category: a.category,
-                readingTimeMinutes: a.readingTimeMinutes,
-                coverGradient: a.coverGradient,
-                publishedAt: a.publishedAt
-            }));
+            .map(formatRelated);
 
-        return { article, relatedArticles };
+        if (relatedArticles.length < 3) {
+            const existing = new Set([safeSlug, ...relatedArticles.map(r => r.slug)]);
+            const extra = memArticles
+                .filter(a => a.isPublished && !existing.has(a.slug))
+                .slice(0, 3 - relatedArticles.length)
+                .map(formatRelated);
+            relatedArticles = [...relatedArticles, ...extra];
+        }
+
+        return {
+            article: {
+                ...article,
+                content: sanitizeContentLinks(article.content, memPublishedSlugs)
+            },
+            relatedArticles
+        };
     },
 
     /**
