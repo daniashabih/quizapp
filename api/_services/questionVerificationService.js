@@ -367,7 +367,6 @@ async function verifyQuestionWithBooks({
             searchMode: 'no_active_books',
             provider: getActiveProviderInfo().provider,
             model: '',
-            fallbackUsed: false,
             latencyMs: 0,
             verification: personalizeExplanationForUserSelection(
                 formatVerificationResponse(saved),
@@ -414,7 +413,6 @@ async function verifyQuestionWithBooks({
                 searchMode: 'cache',
                 provider: activeProvider.provider,
                 model: activeProvider.verificationModel,
-                fallbackUsed: false,
                 latencyMs: 0,
                 verification: personalizeExplanationForUserSelection(
                     formatVerificationResponse(cachedRecord),
@@ -442,7 +440,6 @@ async function verifyQuestionWithBooks({
             searchMode: sharedResult.searchMode,
             provider: sharedResult.provider || activeProvider.provider,
             model: sharedResult.model || activeProvider.verificationModel,
-            fallbackUsed: Boolean(sharedResult.fallbackUsed),
             latencyMs: 0,
             verification: personalizeExplanationForUserSelection(
                 sharedResult.verification,
@@ -478,8 +475,7 @@ async function verifyQuestionWithBooks({
         let grounded;
         let aiMeta = {
             provider: activeProvider.provider,
-            modelUsed: '',
-            fallbackUsed: false
+            modelUsed: ''
         };
 
         if (evidenceChunks.length === 0) {
@@ -502,8 +498,7 @@ async function verifyQuestionWithBooks({
             if (rawAi?._meta) {
                 aiMeta = {
                     provider: rawAi._meta.provider || activeProvider.provider,
-                    modelUsed: rawAi._meta.modelUsed || activeProvider.verificationModel,
-                    fallbackUsed: Boolean(rawAi._meta.fallbackUsed)
+                    modelUsed: rawAi._meta.modelUsed || activeProvider.verificationModel
                 };
             } else {
                 aiMeta.modelUsed = activeProvider.verificationModel;
@@ -566,7 +561,6 @@ async function verifyQuestionWithBooks({
             searchMode: searchResult.searchMode,
             provider: aiMeta.provider,
             model: aiMeta.modelUsed,
-            fallbackUsed: aiMeta.fallbackUsed,
             latencyMs: Date.now() - startedAt,
             verification: formatVerificationResponse(saved)
         };
@@ -580,7 +574,6 @@ async function verifyQuestionWithBooks({
             searchMode: result.searchMode,
             provider: result.provider,
             model: result.model,
-            fallbackUsed: result.fallbackUsed,
             latencyMs: result.latencyMs,
             verification: personalizeExplanationForUserSelection(
                 result.verification,

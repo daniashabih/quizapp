@@ -223,14 +223,6 @@ const aiVerificationService = {
         return res.data;
     },
 
-    checkAiModels: async (refresh = false) => {
-        const res = await axios.get('/admin/ai/models/check', {
-            params: refresh ? { refresh: 'true' } : undefined,
-            timeout: 25000
-        });
-        return res.data;
-    },
-
     testAiModel: async (payload) => {
         const res = await axios.post('/admin/ai/test', payload, { timeout: 45000 });
         return res.data;

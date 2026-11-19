@@ -13,6 +13,7 @@ const blogController = require('../_controllers/blogController');
 const knowledgeBaseController = require('../_controllers/knowledgeBaseController');
 const verificationController = require('../_controllers/verificationController');
 const aiController = require('../_controllers/aiController');
+const seoDashboardController = require('../_controllers/seoDashboardController');
 const { MAX_BOOK_FILE_SIZE_BYTES } = require('../_services/bookExtractorService');
 const Setting = require('../_models/settingModel');
 const prisma = require('../_config/prisma');
@@ -247,11 +248,25 @@ router.post('/verification-reports/:id/approve', verificationController.approveR
 router.post('/verification-reports/:id/dismiss', verificationController.dismissReport);
 router.delete('/verification-reports/:id', verificationController.deleteReport);
 
-// 11. /api/admin/ai (Hugging Face Inference Providers Controls, Usage & Diagnostics)
+// 11. /api/admin/ai (AI Controls, Usage & Diagnostics)
 router.get('/ai/status', aiController.getAiStatus);
 router.get('/ai/usage', aiController.getAiUsage);
-router.get('/ai/models/check', aiController.checkAiModels);
 router.post('/ai/test', adminAiTestLimiter, aiController.testAiModels);
 router.post('/ai/cache/clear', aiController.clearAiCache);
+
+// 12. /api/admin/seo (Hangbug SEO & Growth Studio)
+router.get('/seo/dashboard', seoDashboardController.getSeoDashboard);
+router.post('/seo/audit/run', seoDashboardController.runAudit);
+router.post('/seo/pagespeed/run', seoDashboardController.runPageSpeed);
+router.post('/seo/inspect-url', seoDashboardController.inspectUrl);
+router.patch('/seo/recommendations/:recKey', seoDashboardController.toggleRecommendation);
+router.get('/seo/competitors', seoDashboardController.getCompetitors);
+router.post('/seo/competitors', seoDashboardController.createCompetitor);
+router.post('/seo/competitors/:id/refresh', seoDashboardController.refreshCompetitor);
+router.delete('/seo/competitors/:id', seoDashboardController.removeCompetitor);
+router.get('/seo/settings', seoDashboardController.getSeoSettings);
+router.put('/seo/settings', seoDashboardController.updateSeoSettings);
+router.post('/seo/integrations/test', seoDashboardController.testSeoIntegration);
+router.post('/seo/backlinks/import', seoDashboardController.importBacklinks);
 
 module.exports = router;

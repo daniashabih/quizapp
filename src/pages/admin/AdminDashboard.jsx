@@ -1340,7 +1340,7 @@ const AdminDashboard = () => {
                                 AI Quiz Generator
                             </h2>
                             <p className="text-xs text-[var(--foreground-muted)]">
-                                Automatically construct high-quality multiple choice questions using Hugging Face / configured server AI models.
+                                Automatically construct high-quality multiple choice questions using the configured server AI engine.
                             </p>
                         </div>
                     </div>

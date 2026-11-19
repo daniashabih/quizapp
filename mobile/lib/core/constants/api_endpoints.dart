@@ -104,7 +104,6 @@ class ApiEndpoints {
   // Admin AI Provider Controls, Diagnostics & Usage
   static const String adminAiStatus = '/admin/ai/status';
   static const String adminAiUsage = '/admin/ai/usage';
-  static const String adminAiModelsCheck = '/admin/ai/models/check';
   static const String adminAiTest = '/admin/ai/test';
   static const String adminAiCacheClear = '/admin/ai/cache/clear';
 }

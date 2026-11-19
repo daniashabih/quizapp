@@ -10,11 +10,9 @@ import {
     Trash2,
     CheckCircle2,
     Activity,
-    Zap,
     BookOpen,
     Loader2,
     Clock,
-    DollarSign,
     Layers
 } from 'lucide-react';
 import { toast } from '../../../services/notificationService';
@@ -23,18 +21,13 @@ import aiVerificationService from '../../../services/aiVerificationService';
 const TEST_MODES = [
     {
         id: 'chat',
-        label: 'Primary Chat Model',
-        hint: 'Runs the configured HF_CHAT_MODEL (Qwen instruction model)'
-    },
-    {
-        id: 'fallback',
-        label: 'Fallback Chat Model',
-        hint: 'Tests HF_FALLBACK_CHAT_MODEL (DeepSeek checked fallback)'
+        label: 'Chat Completion',
+        hint: 'Runs a diagnostic prompt against the configured server chat model'
     },
     {
         id: 'embedding',
         label: 'Embedding Vector',
-        hint: 'Generates normalized vector via HF_EMBEDDING_MODEL'
+        hint: 'Generates a normalized vector using the configured embedding model'
     },
     {
         id: 'verification',
@@ -45,13 +38,11 @@ const TEST_MODES = [
 
 export default function AdminAiControls({ standalone = false }) {
     const [statusData, setStatusData] = useState(null);
-    const [modelCheck, setModelCheck] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [checkingModels, setCheckingModels] = useState(false);
     const [clearingCache, setClearingCache] = useState(false);
 
     // Interactive Test Runner State
-    const [testMode, setTestMode] = useState('chat');
+    const [testMode, setTestMode] = useState('verification');
     const [promptText, setPromptText] = useState('Explain the HTML <section> tag in 3 concise lines.');
     const [ragQuestion, setRagQuestion] = useState('Which HTML tag defines an independent, self-contained section in a document?');
     const [ragOptions, setRagOptions] = useState('<section>, <div>, <span>, <font>');
@@ -69,7 +60,7 @@ export default function AdminAiControls({ standalone = false }) {
                 setStatusData(res);
             }
         } catch (err) {
-            toast.error(err?.response?.data?.message || 'Failed to load AI provider status & usage.');
+            toast.error(err?.response?.data?.message || 'Failed to load AI status & usage.');
         } finally {
             setLoading(false);
         }
@@ -78,21 +69,6 @@ export default function AdminAiControls({ standalone = false }) {
     useEffect(() => {
         fetchStatus();
     }, [fetchStatus]);
-
-    const handleCheckLiveModels = async (refresh = true) => {
-        setCheckingModels(true);
-        try {
-            const res = await aiVerificationService.checkAiModels(refresh);
-            if (res?.success) {
-                setModelCheck(res);
-                toast.success('Fetched live Hugging Face provider availability & pricing.');
-            }
-        } catch (err) {
-            toast.error(err?.response?.data?.message || 'Could not reach Hugging Face model catalog.');
-        } finally {
-            setCheckingModels(false);
-        }
-    };
 
     const handleClearCache = async () => {
         setClearingCache(true);
@@ -139,7 +115,7 @@ export default function AdminAiControls({ standalone = false }) {
             setTestResult(res);
             fetchStatus();
         } catch (err) {
-            setTestError(err?.response?.data?.message || err?.message || 'Test request failed.');
+            setTestError(err?.response?.data?.message || err?.message || 'Diagnostic request failed.');
         } finally {
             setRunningTest(false);
         }
@@ -152,6 +128,7 @@ export default function AdminAiControls({ standalone = false }) {
     const totals = usage?.totals || {};
     const persistent = usage?.persistentDbStats || {};
     const cache = statusData?.cache || {};
+    const isConfigured = Boolean(aiProvider.configured);
 
     return (
         <div className={`space-y-6 ${standalone ? 'animate-fade-up max-w-7xl mx-auto' : ''}`}>
@@ -159,26 +136,17 @@ export default function AdminAiControls({ standalone = false }) {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#F3E5C5] dark:bg-[#D19A45]/20 text-[#193D35] dark:text-[#F3E5C5] border border-[#E2D0A6] dark:border-[#D19A45]/40 mb-2">
-                        <Cpu size={12} /> Hugging Face Inference Providers
+                        <Cpu size={12} /> Hangbug AI Engine
                     </div>
                     <h2 className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)]">
-                        AI Models, Diagnostics & Usage
+                        AI Models & Usage
                     </h2>
                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)] mt-0.5">
-                        Inspect active server-side Hugging Face models, check live provider pricing, run diagnostics, and monitor token & cache usage.
+                        Inspect active server AI configuration, MongoDB Atlas Vector Search status, cache metrics, and run verification diagnostics.
                     </p>
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
-                    <button
-                        type="button"
-                        onClick={() => handleCheckLiveModels(true)}
-                        disabled={checkingModels}
-                        className="btn-secondary text-xs py-2 px-3 inline-flex items-center gap-1.5 cursor-pointer"
-                    >
-                        {checkingModels ? <Loader2 size={14} className="animate-spin" /> : <Zap size={14} className="text-[#D19A45]" />}
-                        <span>Check Live HF Pricing</span>
-                    </button>
                     <button
                         type="button"
                         onClick={handleClearCache}
@@ -202,30 +170,30 @@ export default function AdminAiControls({ standalone = false }) {
 
             {/* Security & Readiness Banner */}
             <div className={`p-4 rounded-2xl border flex items-start gap-3 ${
-                aiProvider.configured
+                isConfigured
                     ? 'bg-emerald-50/70 dark:bg-emerald-950/25 border-emerald-200 dark:border-emerald-800'
                     : 'bg-amber-50 dark:bg-amber-950/30 border-amber-300 dark:border-amber-800'
             }`}>
-                {aiProvider.configured ? (
+                {isConfigured ? (
                     <ShieldCheck size={18} className="text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                 ) : (
                     <AlertTriangle size={18} className="text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                 )}
                 <div className="text-xs space-y-1 flex-1 min-w-0">
                     <p className="font-bold text-[var(--foreground)]">
-                        {aiProvider.configured
-                            ? `Active Provider: ${String(aiProvider.provider || 'huggingface').toUpperCase()} — Token Secured Server-Side`
-                            : 'Hugging Face Server Token Not Configured'}
+                        {isConfigured
+                            ? `Active Provider: ${String(aiProvider.provider || '').toUpperCase()} — Credentials Secured Server-Side`
+                            : 'No Active AI Provider Configured on Server'}
                     </p>
                     <p className="text-[var(--foreground-muted)]">
-                        {aiProvider.configured
-                            ? 'API credentials stay strictly in Vercel server environment variables and are never sent to browser or Flutter clients.'
-                            : 'Add your Hugging Face Inference Providers token in Vercel server environment variables to enable live chat verification and embeddings.'}
+                        {isConfigured
+                            ? 'API credentials stay strictly in server environment variables and are never sent to browser or mobile clients.'
+                            : 'Existing uploaded books, vector chunks, and saved verification reports remain intact. Configure a server AI provider in Vercel environment variables when ready to run live inference.'}
                     </p>
                 </div>
             </div>
 
-            {/* Vector Dimension Mismatch Warning if Old 1536-dim Books Exist */}
+            {/* Vector Dimension Mismatch Warning if Applicable */}
             {vectorIndex.dimensionMismatchCount > 0 && (
                 <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800 flex items-start gap-3">
                     <Database size={18} className="text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
@@ -234,37 +202,29 @@ export default function AdminAiControls({ standalone = false }) {
                             Vector Dimension Mismatch Detected ({vectorIndex.dimensionMismatchCount} book(s))
                         </p>
                         <p>
-                            Active embedding model produces <strong>{vectorIndex.dimensions}</strong> dimensions, while {vectorIndex.dimensionMismatchCount} previously indexed book(s) use a different vector dimension. Re-index those books in <strong>AI Knowledge Base</strong> and click <strong>Sync Vector Index</strong>.
+                            Configured vector index dimension is <strong>{vectorIndex.dimensions}</strong>, while {vectorIndex.dimensionMismatchCount} indexed book(s) use a different dimension. Review or re-index in <strong>AI Knowledge Base</strong> if needed.
                         </p>
                     </div>
                 </div>
             )}
 
             {/* Configuration Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div className="card p-4 rounded-2xl border border-[var(--card-border)] space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--foreground-muted)]">Primary Instruction Model</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--foreground-muted)]">Verification / Chat Model</span>
                     <p className="text-xs font-mono font-bold text-[var(--foreground)] break-all">
-                        {config.chatModel || 'Qwen/Qwen3-30B-A3B-Instruct-2507:cheapest'}
+                        {config.chatModel || 'Not Configured'}
                     </p>
-                    <p className="text-[11px] text-[var(--foreground-muted)]">Used for RAG verification & MCQs</p>
-                </div>
-
-                <div className="card p-4 rounded-2xl border border-[var(--card-border)] space-y-1">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--foreground-muted)]">Checked Fallback Model</span>
-                    <p className="text-xs font-mono font-bold text-[var(--foreground)] break-all">
-                        {config.fallbackChatModel || 'Disabled'}
-                    </p>
-                    <p className="text-[11px] text-[var(--foreground-muted)]">Auto-fallback on transient outage</p>
+                    <p className="text-[11px] text-[var(--foreground-muted)]">Used for RAG verification & question tools</p>
                 </div>
 
                 <div className="card p-4 rounded-2xl border border-[var(--card-border)] space-y-1">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--foreground-muted)]">Book Embedding Model</span>
                     <p className="text-xs font-mono font-bold text-[var(--foreground)] break-all">
-                        {config.embeddingModel || 'BAAI/bge-large-en-v1.5'}
+                        {config.embeddingModel || 'Not Configured'}
                     </p>
                     <p className="text-[11px] text-[var(--foreground-muted)]">
-                        {config.embeddingDimensions || 1024} dims · Provider: {config.embeddingProvider || 'auto'}
+                        {config.embeddingDimensions || 1536} dimensions
                     </p>
                 </div>
 
@@ -274,7 +234,7 @@ export default function AdminAiControls({ standalone = false }) {
                         {vectorIndex.name || 'book_chunks_vector_index'}
                     </p>
                     <p className="text-[11px] text-[var(--foreground-muted)]">
-                        {vectorIndex.collection || 'knowledge_book_chunks'} · {vectorIndex.dimensions || 1024}d cosine
+                        {vectorIndex.collection || 'knowledge_book_chunks'} · {vectorIndex.dimensions || 1536}d cosine
                     </p>
                 </div>
             </div>
@@ -285,9 +245,9 @@ export default function AdminAiControls({ standalone = false }) {
                     { label: 'Session Requests', value: totals.totalRequests ?? 0, icon: Activity, color: 'text-[#193D35] dark:text-emerald-400' },
                     { label: 'Cache Hit Rate', value: `${totals.cacheHitRatePercent ?? 0}%`, icon: Layers, color: 'text-emerald-600 dark:text-emerald-400' },
                     { label: 'Total Tokens', value: (totals.totalTokens ?? 0).toLocaleString(), icon: Sparkles, color: 'text-[#D19A45]' },
-                    { label: 'Est. Cost (USD)', value: `$${Number(totals.estimatedCostUsd || 0).toFixed(5)}`, icon: DollarSign, color: 'text-[#193D35] dark:text-[#F3E5C5]' },
                     { label: 'DB Cached Reports', value: persistent.cachedVerificationsCount ?? 0, icon: BookOpen, color: 'text-sky-600 dark:text-sky-400' },
-                    { label: 'Fallbacks / Errors', value: `${totals.fallbackCalls ?? 0} / ${totals.errors ?? 0}`, icon: AlertTriangle, color: 'text-amber-600 dark:text-amber-400' }
+                    { label: 'Indexed Chunks', value: (persistent.totalIndexedChunks ?? 0).toLocaleString(), icon: Database, color: 'text-[#193D35] dark:text-[#F3E5C5]' },
+                    { label: 'Errors', value: totals.errors ?? 0, icon: AlertTriangle, color: 'text-amber-600 dark:text-amber-400' }
                 ].map(item => {
                     const Icon = item.icon;
                     return (
@@ -309,66 +269,16 @@ export default function AdminAiControls({ standalone = false }) {
                 <span>Verify Rate Limit: <strong className="text-[var(--foreground)]">{config.verifyRateLimitMax || 40}/15m</strong></span>
                 <span>Memory Cache: <strong className="text-[var(--foreground)]">{cache.embeddingEntries || 0} embeddings · {cache.chatEntries || 0} chats</strong></span>
                 <span>Total DB Verification Hits: <strong className="text-[var(--foreground)]">{persistent.totalVerificationRequests || 0}</strong></span>
-                <span>Indexed Book Chunks: <strong className="text-[var(--foreground)]">{persistent.totalIndexedChunks || 0}</strong></span>
             </div>
 
-            {/* Live HF Model Availability & Pricing Result */}
-            {modelCheck && (
-                <div className="card p-5 rounded-2xl border border-[var(--card-border)] space-y-3">
-                    <div className="flex items-center justify-between gap-2">
-                        <h3 className="text-sm font-display font-bold text-[var(--foreground)]">
-                            Live Hugging Face Provider Availability & Pricing
-                        </h3>
-                        <span className="text-[11px] text-[var(--foreground-muted)]">
-                            Checked {new Date(modelCheck.checkedAt).toLocaleTimeString()} {modelCheck.cached ? '(cached)' : '(live)'}
-                        </span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-                        {[
-                            { title: 'Primary Chat Model', data: modelCheck.primaryChat, type: 'chat' },
-                            { title: 'Fallback Chat Model', data: modelCheck.fallbackChat, type: 'chat' },
-                            { title: 'Embedding Model', data: modelCheck.embedding, type: 'embed' }
-                        ].map(block => (
-                            <div key={block.title} className="p-3.5 rounded-xl bg-[var(--muted-bg)]/60 border border-[var(--card-border)] space-y-1.5">
-                                <div className="flex items-center justify-between">
-                                    <span className="font-bold text-[var(--foreground)]">{block.title}</span>
-                                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                                        block.data?.liveFound
-                                            ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300'
-                                            : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
-                                    }`}>
-                                        {block.data ? (block.data.liveFound ? 'LIVE' : 'UNAVAILABLE') : 'N/A'}
-                                    </span>
-                                </div>
-                                {block.data && (
-                                    <>
-                                        <p className="font-mono text-[11px] text-[var(--foreground)] break-all">{block.data.id}</p>
-                                        {block.type === 'chat' && block.data.cheapestProvider && (
-                                            <p className="text-[11px] text-[var(--foreground-muted)]">
-                                                Cheapest live: <strong>{block.data.cheapestProvider.provider}</strong> · ${block.data.cheapestProvider.inputPer1M}/1M in · ${block.data.cheapestProvider.outputPer1M}/1M out ({block.data.liveProviderCount} live)
-                                            </p>
-                                        )}
-                                        {block.type === 'embed' && (
-                                            <p className="text-[11px] text-[var(--foreground-muted)]">
-                                                {block.data.dimensions}d · Providers: {(block.data.providers || []).map(p => `${p.provider} (${p.status})`).join(', ') || 'none'}
-                                            </p>
-                                        )}
-                                    </>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            {/* Interactive Model & RAG Test Runner */}
+            {/* Interactive Diagnostic Tester */}
             <div className="card p-5 sm:p-6 rounded-2xl border border-[var(--card-border)] space-y-4">
                 <div>
                     <h3 className="text-base font-display font-bold text-[var(--foreground)]">
-                        Interactive AI Diagnostic Tester
+                        AI & Book RAG Diagnostic Tester
                     </h3>
                     <p className="text-xs text-[var(--foreground-muted)]">
-                        Send real requests to your configured Hugging Face models or run an end-to-end book-grounded RAG check (never alters saved quiz answers).
+                        Verify configured chat/embedding readiness or run a book-grounded verification check (never alters saved quiz answers).
                     </p>
                 </div>
 
@@ -459,11 +369,11 @@ export default function AdminAiControls({ standalone = false }) {
 
                     <button
                         type="submit"
-                        disabled={runningTest}
-                        className="btn-primary text-xs py-2.5 px-5 inline-flex items-center gap-2 cursor-pointer"
+                        disabled={runningTest || (!isConfigured && testMode !== 'verification')}
+                        className="btn-primary text-xs py-2.5 px-5 inline-flex items-center gap-2 disabled:opacity-50 cursor-pointer"
                     >
                         {runningTest ? <Loader2 size={14} className="animate-spin" /> : <Play size={14} />}
-                        <span>{runningTest ? 'Running Live Test...' : 'Run Live Model Test'}</span>
+                        <span>{runningTest ? 'Running Test...' : 'Run Diagnostic Test'}</span>
                     </button>
                 </form>
 
@@ -484,7 +394,7 @@ export default function AdminAiControls({ standalone = false }) {
                                         Status: {testResult.verification.verification_status}
                                     </span>
                                     <span className="font-mono text-[11px] text-[var(--foreground-muted)]">
-                                        searchMode={testResult.searchMode} · model={testResult.model || 'n/a'} · {testResult.latencyMs || 0}ms
+                                        searchMode={testResult.searchMode} · {testResult.latencyMs || 0}ms
                                     </span>
                                 </div>
                                 {testResult.verification.verified_correct_answer && (
@@ -507,7 +417,6 @@ export default function AdminAiControls({ standalone = false }) {
                                     <span className="inline-flex items-center gap-1.5 font-bold text-emerald-700 dark:text-emerald-300">
                                         <CheckCircle2 size={14} />
                                         {testResult.result.provider} · {testResult.result.model}
-                                        {testResult.result.fallbackUsed ? ' (Fallback Used)' : ''}
                                     </span>
                                     <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[var(--foreground-muted)]">
                                         <Clock size={12} /> {testResult.result.latencyMs}ms
@@ -551,7 +460,7 @@ export default function AdminAiControls({ standalone = false }) {
                                     <th className="py-2 pr-3">Time</th>
                                     <th className="py-2 pr-3">Operation</th>
                                     <th className="py-2 pr-3">Model</th>
-                                    <th className="py-2 pr-3">Cache / Fallback</th>
+                                    <th className="py-2 pr-3">Mode</th>
                                     <th className="py-2 pr-3">Tokens</th>
                                     <th className="py-2 pr-3">Latency</th>
                                     <th className="py-2">Status</th>
@@ -566,7 +475,7 @@ export default function AdminAiControls({ standalone = false }) {
                                         <td className="py-2 pr-3 font-semibold">{evt.operation}</td>
                                         <td className="py-2 pr-3 font-mono text-[11px] max-w-[220px] truncate">{evt.model || evt.provider}</td>
                                         <td className="py-2 pr-3">
-                                            {evt.cached ? `cache (${evt.cacheLayer || 'hit'})` : evt.fallbackUsed ? 'fallback' : 'live'}
+                                            {evt.cached ? `cache (${evt.cacheLayer || 'hit'})` : 'live'}
                                         </td>
                                         <td className="py-2 pr-3 font-mono">{evt.totalTokens || 0}</td>
                                         <td className="py-2 pr-3 font-mono">{evt.latencyMs || 0}ms</td>

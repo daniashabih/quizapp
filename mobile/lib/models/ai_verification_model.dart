@@ -180,10 +180,10 @@ class KnowledgeBaseListResponse {
     this.totalPages = 0,
     this.totalIndexedChunks = 0,
     this.aiProviderConfigured = true,
-    this.activeProvider = 'huggingface',
+    this.activeProvider = '',
     this.activeVerificationModel = '',
     this.activeEmbeddingModel = '',
-    this.activeEmbeddingDimensions = 1024,
+    this.activeEmbeddingDimensions = 1536,
   });
 
   factory KnowledgeBaseListResponse.fromJson(Map<String, dynamic> json) {
@@ -205,10 +205,10 @@ class KnowledgeBaseListResponse {
       totalPages: (summary['totalPages'] as num?)?.toInt() ?? 0,
       totalIndexedChunks: (summary['totalIndexedChunks'] as num?)?.toInt() ?? 0,
       aiProviderConfigured: aiProvider['configured'] != false,
-      activeProvider: aiProvider['provider']?.toString() ?? 'huggingface',
+      activeProvider: aiProvider['provider']?.toString() ?? '',
       activeVerificationModel: aiProvider['verificationModel']?.toString() ?? '',
       activeEmbeddingModel: aiProvider['embeddingModel']?.toString() ?? '',
-      activeEmbeddingDimensions: (aiProvider['embeddingDimensions'] as num?)?.toInt() ?? 1024,
+      activeEmbeddingDimensions: (aiProvider['embeddingDimensions'] as num?)?.toInt() ?? 1536,
     );
   }
 }
@@ -380,7 +380,6 @@ class AdminAiEventModel {
   final String model;
   final bool cached;
   final String cacheLayer;
-  final bool fallbackUsed;
   final int totalTokens;
   final int latencyMs;
   final String status;
@@ -392,7 +391,6 @@ class AdminAiEventModel {
     required this.model,
     this.cached = false,
     this.cacheLayer = '',
-    this.fallbackUsed = false,
     this.totalTokens = 0,
     this.latencyMs = 0,
     this.status = 'ok',
@@ -406,7 +404,6 @@ class AdminAiEventModel {
       model: json['model']?.toString() ?? '',
       cached: json['cached'] == true,
       cacheLayer: json['cacheLayer']?.toString() ?? '',
-      fallbackUsed: json['fallbackUsed'] == true,
       totalTokens: (json['totalTokens'] as num?)?.toInt() ?? 0,
       latencyMs: (json['latencyMs'] as num?)?.toInt() ?? 0,
       status: json['status']?.toString() ?? 'ok',
@@ -418,9 +415,7 @@ class AdminAiStatusModel {
   final bool configured;
   final String provider;
   final String chatModel;
-  final String fallbackChatModel;
   final String embeddingModel;
-  final String embeddingProvider;
   final int embeddingDimensions;
   final String vectorIndexName;
   final int dimensionMismatchCount;
@@ -429,8 +424,6 @@ class AdminAiStatusModel {
   final int totalRequests;
   final double cacheHitRatePercent;
   final int totalTokens;
-  final double estimatedCostUsd;
-  final int fallbackCalls;
   final int errors;
   final int cachedVerificationsCount;
   final int totalIndexedChunks;
@@ -442,9 +435,7 @@ class AdminAiStatusModel {
     required this.configured,
     required this.provider,
     required this.chatModel,
-    required this.fallbackChatModel,
     required this.embeddingModel,
-    required this.embeddingProvider,
     required this.embeddingDimensions,
     required this.vectorIndexName,
     this.dimensionMismatchCount = 0,
@@ -453,8 +444,6 @@ class AdminAiStatusModel {
     this.totalRequests = 0,
     this.cacheHitRatePercent = 0,
     this.totalTokens = 0,
-    this.estimatedCostUsd = 0,
-    this.fallbackCalls = 0,
     this.errors = 0,
     this.cachedVerificationsCount = 0,
     this.totalIndexedChunks = 0,
@@ -475,12 +464,10 @@ class AdminAiStatusModel {
 
     return AdminAiStatusModel(
       configured: aiProvider['configured'] == true,
-      provider: aiProvider['provider']?.toString() ?? 'huggingface',
+      provider: aiProvider['provider']?.toString() ?? '',
       chatModel: config['chatModel']?.toString() ?? aiProvider['verificationModel']?.toString() ?? '',
-      fallbackChatModel: config['fallbackChatModel']?.toString() ?? aiProvider['fallbackModel']?.toString() ?? '',
       embeddingModel: config['embeddingModel']?.toString() ?? aiProvider['embeddingModel']?.toString() ?? '',
-      embeddingProvider: config['embeddingProvider']?.toString() ?? 'auto',
-      embeddingDimensions: (config['embeddingDimensions'] as num?)?.toInt() ?? 1024,
+      embeddingDimensions: (config['embeddingDimensions'] as num?)?.toInt() ?? 1536,
       vectorIndexName: vectorIndex['name']?.toString() ?? 'book_chunks_vector_index',
       dimensionMismatchCount: (vectorIndex['dimensionMismatchCount'] as num?)?.toInt() ?? 0,
       timeoutMs: (config['timeoutMs'] as num?)?.toInt() ?? 25000,
@@ -488,8 +475,6 @@ class AdminAiStatusModel {
       totalRequests: (totals['totalRequests'] as num?)?.toInt() ?? 0,
       cacheHitRatePercent: (totals['cacheHitRatePercent'] as num?)?.toDouble() ?? 0.0,
       totalTokens: (totals['totalTokens'] as num?)?.toInt() ?? 0,
-      estimatedCostUsd: (totals['estimatedCostUsd'] as num?)?.toDouble() ?? 0.0,
-      fallbackCalls: (totals['fallbackCalls'] as num?)?.toInt() ?? 0,
       errors: (totals['errors'] as num?)?.toInt() ?? 0,
       cachedVerificationsCount: (persistent['cachedVerificationsCount'] as num?)?.toInt() ?? 0,
       totalIndexedChunks: (persistent['totalIndexedChunks'] as num?)?.toInt() ?? 0,
@@ -499,75 +484,6 @@ class AdminAiStatusModel {
           .whereType<Map<String, dynamic>>()
           .map(AdminAiEventModel.fromJson)
           .toList(),
-    );
-  }
-}
-
-class AdminAiModelCheckEntry {
-  final String title;
-  final String id;
-  final bool liveFound;
-  final String details;
-
-  const AdminAiModelCheckEntry({
-    required this.title,
-    required this.id,
-    required this.liveFound,
-    required this.details,
-  });
-}
-
-class AdminAiModelsCheckResponse {
-  final String checkedAt;
-  final bool cached;
-  final List<AdminAiModelCheckEntry> entries;
-
-  const AdminAiModelsCheckResponse({
-    required this.checkedAt,
-    required this.cached,
-    required this.entries,
-  });
-
-  factory AdminAiModelsCheckResponse.fromJson(Map<String, dynamic> json) {
-    final list = <AdminAiModelCheckEntry>[];
-
-    void addChat(String title, Map<String, dynamic>? m) {
-      if (m == null) return;
-      final cheapest = m['cheapestProvider'] as Map<String, dynamic>?;
-      final count = (m['liveProviderCount'] as num?)?.toInt() ?? 0;
-      final details = cheapest != null
-          ? 'Cheapest: ${cheapest['provider']} · \$${cheapest['inputPer1M']}/1M in · \$${cheapest['outputPer1M']}/1M out ($count live)'
-          : 'No live provider pricing found';
-      list.add(AdminAiModelCheckEntry(
-        title: title,
-        id: m['id']?.toString() ?? '',
-        liveFound: m['liveFound'] == true,
-        details: details,
-      ));
-    }
-
-    addChat('Primary Chat Model', json['primaryChat'] as Map<String, dynamic>?);
-    addChat('Fallback Chat Model', json['fallbackChat'] as Map<String, dynamic>?);
-
-    final emb = json['embedding'] as Map<String, dynamic>?;
-    if (emb != null) {
-      final providers = (emb['providers'] as List?) ?? [];
-      final pText = providers
-          .whereType<Map<String, dynamic>>()
-          .map((p) => '${p['provider']} (${p['status']})')
-          .join(', ');
-      list.add(AdminAiModelCheckEntry(
-        title: 'Embedding Model (${emb['dimensions'] ?? 1024}d)',
-        id: emb['id']?.toString() ?? '',
-        liveFound: emb['liveFound'] == true,
-        details: pText.isNotEmpty ? 'Providers: $pText' : 'No providers mapped',
-      ));
-    }
-
-    return AdminAiModelsCheckResponse(
-      checkedAt: json['checkedAt']?.toString() ?? '',
-      cached: json['cached'] == true,
-      entries: list,
     );
   }
 }

@@ -149,7 +149,7 @@ async function processBookById(bookId, { preloadedBuffer = null } = {}) {
 
         // Step 2: Reuse existing embeddings by contentHash ONLY if dimensions match the active embedding model
         const providerInfo = getActiveProviderInfo();
-        const expectedDimensions = providerInfo.embeddingDimensions || 1024;
+        const expectedDimensions = providerInfo.embeddingDimensions || 1536;
         const uniqueHashes = Array.from(new Set(chunks.map(c => c.contentHash)));
         const existingEmbeddedChunks = await prisma.knowledgeBookChunk.findMany({
             where: {
@@ -246,7 +246,7 @@ async function processBookById(bookId, { preloadedBuffer = null } = {}) {
             processingError: '',
             indexedChunks: indexedCount,
             totalChunks: chunks.length,
-            embeddingModel: providerInfo.embeddingModel || 'BAAI/bge-large-en-v1.5',
+            embeddingModel: providerInfo.embeddingModel || 'text-embedding-3-small',
             embeddingDimensions: dimensions,
             knowledgeVersion: (book.knowledgeVersion || 1) + 1,
             lastIndexedAt: new Date()

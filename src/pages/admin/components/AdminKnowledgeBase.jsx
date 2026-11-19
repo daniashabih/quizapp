@@ -345,9 +345,9 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                 <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800 flex items-start gap-3">
                     <AlertCircle size={18} className="text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                     <div className="text-xs text-amber-900 dark:text-amber-200 space-y-1">
-                        <p className="font-bold">Server AI Provider Token Required for Embeddings & Verification</p>
+                        <p className="font-bold">Server AI Provider Required for New Embeddings & Verification</p>
                         <p>
-                            Configure your Hugging Face Inference Providers token (recommended) or optional OpenAI / Gemini keys in your Vercel server environment variables to generate vector embeddings and run book-grounded verification.
+                            Existing uploaded books and indexed chunks remain intact. Configure an AI provider key in your server environment variables to process new book embeddings and run verification.
                         </p>
                     </div>
                 </div>
