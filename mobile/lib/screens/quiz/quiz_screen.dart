@@ -12,6 +12,7 @@ import '../../widgets/empty_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
 import '../../widgets/banner_ad_widget.dart';
 import '../../widgets/animated_theme_toggle.dart';
+import '../../widgets/ai_verification_panel.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   final String category;
@@ -753,6 +754,25 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                                             ],
                                           ),
                                         ),
+
+                                      // 6. AI Book-Based Question Verification Panel
+                                      AiVerificationPanel(
+                                        key: ValueKey('quiz_ai_verify_${currentQuestion.id}'),
+                                        questionId: currentQuestion.id,
+                                        questionText: currentQuestion.questionText,
+                                        options: currentQuestion.options,
+                                        correctAnswer: currentQuestion.correctAnswer,
+                                        technology: currentQuestion.category.isNotEmpty
+                                            ? currentQuestion.category
+                                            : (state.category.isNotEmpty
+                                                ? state.category
+                                                : widget.category),
+                                        userSelectedAnswer: (currentSelectedIdx != null &&
+                                                currentSelectedIdx >= 0 &&
+                                                currentSelectedIdx < currentQuestion.options.length)
+                                            ? currentQuestion.options[currentSelectedIdx]
+                                            : null,
+                                      ),
                                     ],
                                   ],
                                 ),

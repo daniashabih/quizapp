@@ -96,7 +96,7 @@ class AiVerificationService {
           'author': author.trim(),
           'edition': edition.trim(),
           'description': description.trim(),
-          if (publicationYear != null) 'publicationYear': publicationYear,
+          'publicationYear': ?publicationYear,
           'technology': technology.trim(),
           'fileName': fileName,
           'fileType': ext,

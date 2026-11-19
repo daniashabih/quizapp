@@ -10,8 +10,10 @@ import '../providers/settings_provider.dart';
 import '../screens/admin/admin_ai_generator_screen.dart';
 import '../screens/admin/admin_categories_screen.dart';
 import '../screens/admin/admin_dashboard_screen.dart';
+import '../screens/admin/admin_knowledge_base_screen.dart';
 import '../screens/admin/admin_questions_screen.dart';
 import '../screens/admin/admin_users_screen.dart';
+import '../screens/admin/admin_verification_reports_screen.dart';
 import '../screens/auth/forgot_password_screen.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
@@ -356,6 +358,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/admin/ai-generator',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const AdminAiGeneratorScreen(),
+      ),
+      GoRoute(
+        path: '/admin/knowledge-base',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AdminKnowledgeBaseScreen(),
+      ),
+      GoRoute(
+        path: '/admin/verification-reports',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AdminVerificationReportsScreen(),
       ),
     ],
   );
