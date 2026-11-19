@@ -13,6 +13,7 @@ import {
 import attemptService from '../../services/attemptService';
 import { useSettings } from '../../context/SettingsContext';
 import ThemeToggle from '../../components/ThemeToggle';
+import AiVerificationPanel from '../../components/AiVerificationPanel';
 import usePageSeo from '../../hooks/usePageSeo';
 import { trackQuizStart, trackQuizCompletion, trackCertificateGeneration } from '../../utils/analytics';
 
@@ -119,6 +120,7 @@ const Quiz = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [evaluatedAnswers, setEvaluatedAnswers] = useState({});
+    const [aiVerifications, setAiVerifications] = useState({});
     const [flaggedQuestions, setFlaggedQuestions] = useState(new Set());
     const [navigatorOpen, setNavigatorOpen] = useState(() => {
         if (typeof window !== 'undefined') {
@@ -1253,6 +1255,27 @@ const Quiz = () => {
                                         {currentEvaluation?.explanation || currentQ?.explanation}
                                     </p>
                                 </div>
+                            )}
+
+                            {/* Step 5b: AI Book-Based Question Verification Panel */}
+                            {currentQ && (
+                                <AiVerificationPanel
+                                    key={currentQ.id || currentQ._id || currentIndex}
+                                    questionId={currentQ.id || currentQ._id || ''}
+                                    questionText={currentQ.question_text || currentQ.questionText || ''}
+                                    options={Array.isArray(currentOptions) ? currentOptions : []}
+                                    correctAnswer={currentEvaluation?.correctAnswer || currentQ.correct_answer || currentQ.correctAnswer || ''}
+                                    technology={currentQ.category || selectedCategory || ''}
+                                    userSelectedAnswer={
+                                        selectedAnswers[currentQ.id] !== undefined && Array.isArray(currentOptions)
+                                            ? (currentOptions[selectedAnswers[currentQ.id]] || '')
+                                            : ''
+                                    }
+                                    cachedResult={aiVerifications[currentQ.id] || null}
+                                    onVerified={(qId, verification) => {
+                                        setAiVerifications(prev => ({ ...prev, [qId]: verification }));
+                                    }}
+                                />
                             )}
                         </div>
                     </div>

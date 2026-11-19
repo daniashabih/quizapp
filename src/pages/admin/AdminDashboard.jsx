@@ -11,6 +11,8 @@ import {
 } from 'lucide-react';
 import AdminGamesManagement from './components/AdminGamesManagement';
 import AdminBlogManagement from './components/AdminBlogManagement';
+import AdminKnowledgeBase from './components/AdminKnowledgeBase';
+import AdminVerificationReports from './components/AdminVerificationReports';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import dashboardService from '../../services/dashboardService';
@@ -575,6 +577,8 @@ const AdminDashboard = () => {
             <div className="flex items-center gap-2 border-b border-[var(--card-border)] overflow-x-auto pb-1">
                 {[
                     { id: 'overview', label: 'Analytics & Overview', icon: BarChart3 },
+                    { id: 'knowledge-base', label: 'AI Knowledge Base', icon: BookOpen, highlight: true },
+                    { id: 'verification-reports', label: 'AI Verification Reports', icon: ShieldCheck, highlight: true },
                     { id: 'questions', label: 'Questions Bank', icon: BookOpen, count: stats.totalQuestions || questions.length },
                     { id: 'games', label: 'Mini Games', icon: Gamepad2 },
                     { id: 'blog', label: 'Blog & Articles', icon: FileText },
@@ -903,6 +907,8 @@ const AdminDashboard = () => {
             )}
 
             {/* TAB 1: QUESTIONS BANK */}
+            {activeTab === 'knowledge-base' && <AdminKnowledgeBase />}
+            {activeTab === 'verification-reports' && <AdminVerificationReports />}
             {activeTab === 'games' && <AdminGamesManagement />}
             {activeTab === 'blog' && <AdminBlogManagement />}
 

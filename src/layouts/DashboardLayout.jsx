@@ -14,7 +14,9 @@ import {
     ChevronRight,
     Home,
     Globe,
-    Gamepad2
+    Gamepad2,
+    Library,
+    FileCheck2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import BrandLogo from '../components/BrandLogo';
@@ -43,6 +45,8 @@ const DashboardLayout = ({ children }) => {
         { name: 'Settings', path: '/dashboard/settings', matchPaths: ['/dashboard/settings', '/settings'], icon: Settings },
         ...(isAdmin ? [
             { name: 'Admin Panel', path: '/admin', matchPaths: ['/admin', '/dashboard/admin'], exact: true, icon: ShieldCheck },
+            { name: 'AI Knowledge Base', path: '/admin/knowledge-base', matchPaths: ['/admin/knowledge-base'], icon: Library },
+            { name: 'AI Verification Reports', path: '/admin/verification-reports', matchPaths: ['/admin/verification-reports'], icon: FileCheck2 },
             { name: 'SEO & Growth', path: '/dashboard/seo', matchPaths: ['/dashboard/seo', '/admin/seo', '/seo'], icon: Globe },
         ] : []),
     ];

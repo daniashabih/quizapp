@@ -51,6 +51,8 @@ import Settings from "./pages/settings/Settings";
 
 // Admin
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminKnowledgeBase from "./pages/admin/components/AdminKnowledgeBase";
+import AdminVerificationReports from "./pages/admin/components/AdminVerificationReports";
 
 // SEO Dashboard
 import SeoDashboard from "./pages/seo/SeoDashboard";
@@ -187,6 +189,8 @@ function AppRoutes() {
                 {/* Protected Admin Routes */}
                 <Route path="/admin" element={<ProtectedRoute adminOnly><DashboardLayout /></ProtectedRoute>}>
                     <Route index element={<AdminDashboard />} />
+                    <Route path="knowledge-base" element={<AdminKnowledgeBase standalone />} />
+                    <Route path="verification-reports" element={<AdminVerificationReports standalone />} />
                 </Route>
 
                 {/* Protected Dashboard Routes */}
