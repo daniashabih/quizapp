@@ -157,7 +157,9 @@ Best SEO and accessibility practices mandate exactly **one \`<h1>\` tag per page
 Reading syntax is only the first step. To reinforce your knowledge:
 - Test your understanding with the [HTML Quizzes Track on Hangbug](https://www.hangbug.com/technologies/html).
 - Play the interactive [HTML Find the Bug Game](https://www.hangbug.com/games/find-the-bug?tech=html) to spot syntax mistakes in live snippets.
-- Continue to styling with our [CSS Basics Beginner's Guide](https://www.hangbug.com/blog/css-basics-beginners-guide).`
+- Challenge your code arrangement skills in the [HTML Code Puzzle Game](https://www.hangbug.com/games/code-puzzle?tech=html).
+- Continue to styling with our [CSS Basics Beginner's Guide](https://www.hangbug.com/blog/css-basics-beginners-guide).
+- Learn frontend scripting in the [JavaScript Fundamentals Guide](https://www.hangbug.com/blog/javascript-fundamentals-beginners-guide).`
     },
 
     // 2. CSS
@@ -299,7 +301,10 @@ Custom properties allow you to declare reusable values once and apply them every
 
 ## Practice Your CSS Skills
 - Take the [CSS Quizzes Track](https://www.hangbug.com/technologies/css) to test specificity and layout concepts.
-- Solve the [CSS Code Puzzle Game](https://www.hangbug.com/games/code-puzzle?tech=css) to arrange stylesheet declarations in order.`
+- Solve the [CSS Code Puzzle Game](https://www.hangbug.com/games/code-puzzle?tech=css) to arrange stylesheet declarations in order.
+- Spot layout defects in the [CSS Find the Bug Game](https://www.hangbug.com/games/find-the-bug?tech=css).
+- Review semantic document structure in our [HTML Tutorial for Beginners](https://www.hangbug.com/blog/html-tutorial-for-beginners).
+- Move on to interactive scripting with the [JavaScript Fundamentals Guide](https://www.hangbug.com/blog/javascript-fundamentals-beginners-guide).`
     },
 
     // 3. JavaScript
@@ -435,7 +440,10 @@ A closure is the combination of a function bundled together with references to i
 
 ## Test Your Knowledge
 - Practice [JavaScript MCQ Quizzes](https://www.hangbug.com/technologies/javascript) with real-time feedback.
-- Play the [JavaScript Output Predictor Game](https://www.hangbug.com/games/output-predictor?tech=javascript) to test your understanding of variable scope and async execution.`
+- Play the [JavaScript Output Predictor Game](https://www.hangbug.com/games/output-predictor?tech=javascript) to test your understanding of variable scope and async execution.
+- Rearrange algorithmic snippets in the [JavaScript Code Puzzle Game](https://www.hangbug.com/games/code-puzzle?tech=javascript).
+- Explore frontend component rendering in our [React Quizzes Track](https://www.hangbug.com/technologies/react).
+- Strengthen fundamentals with our [HTML Tutorial for Beginners](https://www.hangbug.com/blog/html-tutorial-for-beginners) and [CSS Basics Beginner's Guide](https://www.hangbug.com/blog/css-basics-beginners-guide).`
     },
 
     // 4. PHP
@@ -578,7 +586,9 @@ Setting \`PDO::ATTR_EMULATE_PREPARES => false\` ensures that parameter values an
 
 ## Explore More
 - Take the [PHP Quizzes Track](https://www.hangbug.com/technologies/php) on Hangbug.
-- Test your backend knowledge in the [Laravel Basics Guide](https://www.hangbug.com/blog/laravel-basics-mvc-architecture).`
+- Test your backend knowledge in the [Laravel Basics Guide](https://www.hangbug.com/blog/laravel-basics-mvc-architecture).
+- Practice relational query design on the [MySQL Quizzes Track](https://www.hangbug.com/technologies/mysql) and play the [SQL Challenge Game](https://www.hangbug.com/games/sql-challenge?tech=mysql).
+- Spot syntax and security vulnerabilities in the [PHP Find the Bug Game](https://www.hangbug.com/games/find-the-bug?tech=php).`
     },
 
     // 5. Laravel
@@ -713,7 +723,9 @@ Middleware provides a convenient mechanism for inspecting and filtering HTTP req
 
 ## Continue Learning
 - Take the [Laravel Quizzes Track](https://www.hangbug.com/technologies/laravel) to test your framework skills.
-- Pair your backend knowledge with the [MySQL Database Tutorial](https://www.hangbug.com/blog/mysql-database-tutorial-beginners).`
+- Review server-side concepts in the [PHP Programming Beginner's Guide](https://www.hangbug.com/blog/php-programming-beginners-guide).
+- Practice relational query design on the [MySQL Quizzes Track](https://www.hangbug.com/technologies/mysql) and play the interactive [SQL Challenge Game](https://www.hangbug.com/games/sql-challenge?tech=mysql).
+- Solve hands-on routing and model arrangement in the [Laravel Code Puzzle Game](https://www.hangbug.com/games/code-puzzle?tech=laravel).`
     },
 
     // 6. Flutter & Dart
@@ -881,7 +893,11 @@ Yes, using the official \`http\` package, Flutter can execute GET, POST, and PUT
 ---
 
 ## Practice on Hangbug
-- Test your mobile development skills with [Flutter Quizzes](https://www.hangbug.com/technologies/flutter) and [Dart Quizzes](https://www.hangbug.com/technologies/dart).`
+- Test your mobile development skills with [Flutter Quizzes](https://www.hangbug.com/technologies/flutter) and [Dart Quizzes](https://www.hangbug.com/technologies/dart).
+- Solve widget ordering in the [Flutter Code Puzzle Game](https://www.hangbug.com/games/code-puzzle?tech=flutter).
+- Test null-safe stream logic in the [Dart Output Predictor Game](https://www.hangbug.com/games/output-predictor?tech=dart).
+- Strengthen object-oriented foundations with our [Programming Fundamentals Quizzes](https://www.hangbug.com/technologies/programming-fundamentals).
+- Review client-side web scripting with the [JavaScript Fundamentals Guide](https://www.hangbug.com/blog/javascript-fundamentals-beginners-guide).`
     },
 
     // 7. C#

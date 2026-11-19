@@ -48,6 +48,19 @@ Hangbug is accessible on both Web (https://www.hangbug.com) and Android mobile d
 - **Syntax Typing:** https://www.hangbug.com/games/syntax-typing
 - **Word Rain:** https://www.hangbug.com/games/word-rain
 - **Complete The Code:** https://www.hangbug.com/games/complete-the-code
+- **C# OOP Challenge:** https://www.hangbug.com/games/csharp-oop-challenge
+- **C# Collections Challenge:** https://www.hangbug.com/games/csharp-collections-challenge
+- **C# LINQ Challenge:** https://www.hangbug.com/games/csharp-linq-challenge
+- **C# Exception Handling Challenge:** https://www.hangbug.com/games/csharp-exception-handling
+- **C# Quiz Challenge:** https://www.hangbug.com/games/csharp-quiz-challenge
+
+## Developer Tutorials & Guides
+- **HTML Tutorial for Beginners (2025 Guide):** https://www.hangbug.com/blog/html-tutorial-for-beginners
+- **CSS Basics & Modern Layouts:** https://www.hangbug.com/blog/css-basics-beginners-guide
+- **JavaScript Fundamentals & DOM Guide:** https://www.hangbug.com/blog/javascript-fundamentals-beginners-guide
+- **PHP Programming for Beginners:** https://www.hangbug.com/blog/php-programming-beginners-guide
+- **Laravel Basics & MVC Architecture:** https://www.hangbug.com/blog/laravel-basics-mvc-architecture
+- **Flutter & Dart Mobile App Development:** https://www.hangbug.com/blog/flutter-dart-mobile-app-development
 
 ## Contact & Policies
 - **Customer Support:** support@hangbug.com

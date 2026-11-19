@@ -19,6 +19,7 @@ const CORE_PUBLIC_ROUTES = [
     { loc: '/technologies', changefreq: 'daily', priority: '0.9', lastmod: '2026-11-18T12:28:38.000Z' },
     { loc: '/games', changefreq: 'daily', priority: '0.9', lastmod: '2026-11-17T15:52:06.672Z' },
     { loc: '/leaderboard', changefreq: 'daily', priority: '0.8', lastmod: '2026-11-13T14:09:48.000Z' },
+    { loc: '/leaderboard/full', changefreq: 'daily', priority: '0.7', lastmod: '2026-11-18T12:00:00.000Z' },
     { loc: '/about', changefreq: 'monthly', priority: '0.7', lastmod: '2026-11-10T14:11:47.000Z' },
     { loc: '/contact', changefreq: 'monthly', priority: '0.7', lastmod: '2026-11-13T14:09:48.000Z' },
     { loc: '/privacy-policy', changefreq: 'monthly', priority: '0.6', lastmod: '2026-11-13T14:51:33.000Z' },
@@ -28,17 +29,17 @@ const CORE_PUBLIC_ROUTES = [
 
 const TECHNOLOGY_GUIDE_CONFIGS = [
     { slug: 'html', matchers: ['html', 'html & css'], defaultPopulated: true, fallbackLastmod: '2026-11-10T13:23:06.010Z' },
-    { slug: 'css', matchers: ['css', 'html & css'], defaultPopulated: false, fallbackLastmod: '2026-11-18T12:28:38.000Z' },
+    { slug: 'css', matchers: ['css', 'html & css'], defaultPopulated: true, fallbackLastmod: '2026-11-18T12:28:38.000Z' },
     { slug: 'javascript', matchers: ['javascript', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
     { slug: 'react', matchers: ['react.js', 'react'], defaultPopulated: true, fallbackLastmod: '2026-11-19T11:52:22.776Z' },
     { slug: 'php', matchers: ['php', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
     { slug: 'laravel', matchers: ['laravel', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
     { slug: 'mysql', matchers: ['mysql', 'sql', 'sql server', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
     { slug: 'mongodb', matchers: ['mongodb', 'mongo db'], defaultPopulated: true, fallbackLastmod: '2026-11-19T11:52:22.776Z' },
-    { slug: 'flutter', matchers: ['flutter'], defaultPopulated: false, fallbackLastmod: '2026-11-18T12:28:38.000Z' },
+    { slug: 'flutter', matchers: ['flutter'], defaultPopulated: true, fallbackLastmod: '2026-11-18T12:28:38.000Z' },
     { slug: 'dart', matchers: ['dart'], defaultPopulated: true, fallbackLastmod: '2026-11-11T12:35:09.075Z' },
     { slug: 'python', matchers: ['python'], defaultPopulated: true, fallbackLastmod: '2026-08-18T11:28:57.074Z' },
-    { slug: 'programming-fundamentals', matchers: ['programming fundamentals', 'programming logic', 'oop', 'dsa'], defaultPopulated: false, fallbackLastmod: '2026-11-18T12:28:38.000Z' }
+    { slug: 'programming-fundamentals', matchers: ['programming fundamentals', 'programming logic', 'oop', 'dsa'], defaultPopulated: true, fallbackLastmod: '2026-11-18T12:28:38.000Z' }
 ];
 
 const PUBLIC_ROUTES = [
@@ -67,7 +68,13 @@ const GAME_SLUGS = [
     'sixty-second-challenge',
     'error-free-typing',
     'syntax-typing',
-    'word-rain'
+    'word-rain',
+    'csharp-oop-challenge',
+    'csharp-collections-challenge',
+    'csharp-linq-challenge',
+    'csharp-exception-handling',
+    'complete-the-code',
+    'csharp-quiz-challenge'
 ];
 
 const RUNTIME_EXTRA_GAME_SLUGS = new Set([
@@ -93,7 +100,13 @@ const DEFAULT_GAME_LASTMODS = {
     'sixty-second-challenge': '2026-11-07T13:45:08.860Z',
     'error-free-typing': '2026-11-02T10:06:19.372Z',
     'syntax-typing': '2026-11-06T12:31:24.352Z',
-    'word-rain': '2026-11-17T15:52:06.672Z'
+    'word-rain': '2026-11-17T15:52:06.672Z',
+    'csharp-oop-challenge': '2026-11-18T12:00:00.000Z',
+    'csharp-collections-challenge': '2026-11-18T12:00:00.000Z',
+    'csharp-linq-challenge': '2026-11-18T12:00:00.000Z',
+    'csharp-exception-handling': '2026-11-18T12:00:00.000Z',
+    'complete-the-code': '2026-11-18T12:00:00.000Z',
+    'csharp-quiz-challenge': '2026-11-18T12:00:00.000Z'
 };
 
 const BLOG_SLUGS = [

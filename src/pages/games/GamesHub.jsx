@@ -19,7 +19,8 @@ import {
     Clock,
     Zap,
     Layers,
-    CheckCircle2
+    CheckCircle2,
+    BookOpen
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import gameService, { FALLBACK_GAMES, FALLBACK_TECH_CATEGORIES, FALLBACK_TECHNOLOGIES } from '../../services/gameService';
@@ -770,6 +771,71 @@ export const GamesHub = () => {
                         })}
                     </div>
                 )}
+
+                {/* Contextual Links: Bridge Games with Tech Tracks & Guides */}
+                <section aria-labelledby="learning-tracks-heading" className="mt-14 pt-10 border-t border-[var(--card-border)]">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="p-6 rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)] space-y-3">
+                            <h2 id="learning-tracks-heading" className="text-base font-black text-[var(--foreground)] flex items-center gap-2">
+                                <Code2 size={18} className="text-emerald-500" /> Practice Quizzes by Technology
+                            </h2>
+                            <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                Complement interactive game practice with timed, session-based multiple choice quizzes to test conceptual knowledge and earn verified certificates:
+                            </p>
+                            <div className="flex flex-wrap gap-2 pt-2">
+                                {[
+                                    { name: 'JavaScript Quizzes', to: '/technologies/javascript' },
+                                    { name: 'Python Quizzes', to: '/technologies/python' },
+                                    { name: 'React Track', to: '/technologies/react' },
+                                    { name: 'HTML5 Markup', to: '/technologies/html' },
+                                    { name: 'CSS3 & Flexbox', to: '/technologies/css' },
+                                    { name: 'MySQL & SQL Queries', to: '/technologies/mysql' },
+                                    { name: 'MongoDB Track', to: '/technologies/mongodb' },
+                                    { name: 'PHP Backend', to: '/technologies/php' },
+                                    { name: 'Laravel MVC', to: '/technologies/laravel' },
+                                    { name: 'Flutter Apps', to: '/technologies/flutter' },
+                                    { name: 'Dart Programming', to: '/technologies/dart' },
+                                    { name: 'CS Fundamentals', to: '/technologies/programming-fundamentals' },
+                                ].map((track) => (
+                                    <Link
+                                        key={track.to}
+                                        to={track.to}
+                                        className="px-2.5 py-1 rounded-lg bg-[var(--muted-bg)] border border-[var(--card-border)] hover:border-emerald-500 text-xs font-semibold text-[var(--foreground)] transition-colors"
+                                    >
+                                        {track.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="p-6 rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)] space-y-3">
+                            <h2 className="text-base font-black text-[var(--foreground)] flex items-center gap-2">
+                                <BookOpen size={18} className="text-emerald-500" /> Developer Guides &amp; Tutorials
+                            </h2>
+                            <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
+                                Review foundational theory, syntax cheat-sheets, and step-by-step programming patterns before attempting higher difficulty challenges:
+                            </p>
+                            <div className="flex flex-wrap gap-2 pt-2">
+                                {[
+                                    { name: 'JavaScript DOM Guide', to: '/blog/javascript-fundamentals-beginners-guide' },
+                                    { name: 'HTML5 for Beginners', to: '/blog/html-tutorial-for-beginners' },
+                                    { name: 'CSS Modern Layouts', to: '/blog/css-basics-beginners-guide' },
+                                    { name: 'PHP Development', to: '/blog/php-programming-beginners-guide' },
+                                    { name: 'Laravel MVC Guide', to: '/blog/laravel-basics-mvc-architecture' },
+                                    { name: 'Flutter & Dart Mobile', to: '/blog/flutter-dart-mobile-app-development' },
+                                ].map((guide) => (
+                                    <Link
+                                        key={guide.to}
+                                        to={guide.to}
+                                        className="px-2.5 py-1 rounded-lg bg-[var(--muted-bg)] border border-[var(--card-border)] hover:border-emerald-500 text-xs font-semibold text-[var(--foreground)] transition-colors"
+                                    >
+                                        {guide.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </main>
 
             {/* Footer */}

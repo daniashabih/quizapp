@@ -142,13 +142,13 @@ export default function Landing() {
                                     placeholder="Search technology (e.g. HTML, JavaScript, PHP, C#)…"
                                     className="input-field pl-11 pr-32 py-3 text-sm rounded-2xl border-[var(--input-border)] focus:border-[#193D35] shadow-sm"
                                 />
-                                <button
-                                    type="button"
-                                    onClick={() => navigate('/technologies')}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 btn-primary text-xs py-2 px-4 rounded-xl shadow-xs"
+                                <Link
+                                    to="/technologies"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 btn-primary text-xs py-2 px-4 rounded-xl shadow-xs inline-flex items-center gap-1"
+                                    aria-label="Explore all technologies"
                                 >
                                     Explore <ArrowRight size={13} />
-                                </button>
+                                </Link>
                             </div>
 
                             {/* Live Search Quick Results */}
@@ -534,12 +534,17 @@ export default function Landing() {
                                         { name: 'Code Puzzle', to: '/games/code-puzzle' },
                                         { name: 'Find the Bug', to: '/games/find-the-bug' },
                                         { name: 'Output Predictor', to: '/games/output-predictor' },
+                                        { name: 'Complete the Code', to: '/games/complete-the-code' },
                                         { name: 'Code Scramble', to: '/games/code-scramble' },
                                         { name: 'Missing Code', to: '/games/missing-code' },
                                         { name: 'Logic Builder', to: '/games/logic-builder' },
                                         { name: 'SQL Challenge', to: '/games/sql-challenge' },
                                         { name: 'Memory Match', to: '/games/memory-match' },
-                                        { name: 'C# OOP & LINQ Challenges', to: '/games/csharp-oop-challenge' },
+                                        { name: 'C# OOP Challenge', to: '/games/csharp-oop-challenge' },
+                                        { name: 'C# Collections', to: '/games/csharp-collections-challenge' },
+                                        { name: 'C# LINQ Challenge', to: '/games/csharp-linq-challenge' },
+                                        { name: 'C# Exception Handling', to: '/games/csharp-exception-handling' },
+                                        { name: 'C# Quiz Challenge', to: '/games/csharp-quiz-challenge' },
                                     ].map(g => (
                                         <Link key={g.name} to={g.to} className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] text-xs font-semibold text-[var(--foreground)] transition-colors">
                                             {g.name}
@@ -627,14 +632,97 @@ export default function Landing() {
                                     with any questions.
                                 </p>
                             </div>
-                            <div className="flex items-center justify-between pt-4 border-t border-[var(--card-border)] text-xs">
+                            <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[var(--card-border)] text-xs">
                                 <Link to="/technologies" className="font-bold text-[#193D35] hover:underline inline-flex items-center gap-1">
                                     Start a Technology Quiz <ArrowRight size={13} />
                                 </Link>
-                                <Link to="/leaderboard" className="font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)]">
-                                    View Leaderboard →
-                                </Link>
+                                <div className="flex items-center gap-3">
+                                    <Link to="/leaderboard" className="font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)]">
+                                        Top Learners
+                                    </Link>
+                                    <span className="text-[var(--card-border)]">&bull;</span>
+                                    <Link to="/leaderboard/full" className="font-semibold text-[var(--foreground-muted)] hover:text-[var(--foreground)]">
+                                        Full Rankings →
+                                    </Link>
+                                </div>
                             </div>
+                        </div>
+                    </section>
+
+                    {/* Section 5: Featured Developer Tutorials & Learning Guides */}
+                    <section aria-labelledby="featured-tutorials" className="space-y-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div>
+                                <h2 id="featured-tutorials" className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)] flex items-center gap-2">
+                                    <BookOpen size={22} className="text-[#193D35]" /> Featured Developer Tutorials &amp; Tech Guides
+                                </h2>
+                                <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">
+                                    Read in-depth step-by-step guides, code examples, and practice companion quizzes for modern web and mobile stacks:
+                                </p>
+                            </div>
+                            <Link to="/blog" className="text-xs font-bold text-[#193D35] hover:underline inline-flex items-center gap-1 shrink-0">
+                                Browse All Guides <ArrowRight size={13} />
+                            </Link>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {[
+                                {
+                                    title: 'HTML Tutorial for Beginners (2025 Guide)',
+                                    slug: 'html-tutorial-for-beginners',
+                                    summary: 'Learn semantic HTML5 elements, page structure, forms, SEO fundamentals, and best practices for modern web development.',
+                                    tech: 'HTML'
+                                },
+                                {
+                                    title: 'CSS Basics & Modern Layouts',
+                                    slug: 'css-basics-beginners-guide',
+                                    summary: 'Master selectors, the CSS box model, Flexbox alignment, CSS Grid layouts, and responsive media queries.',
+                                    tech: 'CSS'
+                                },
+                                {
+                                    title: 'JavaScript Fundamentals & DOM Guide',
+                                    slug: 'javascript-fundamentals-beginners-guide',
+                                    summary: 'Understand JavaScript variables, data types, ES6 arrow functions, array methods, and event-driven DOM scripting.',
+                                    tech: 'JavaScript'
+                                },
+                                {
+                                    title: 'PHP Programming for Beginners',
+                                    slug: 'php-programming-beginners-guide',
+                                    summary: 'Build server-side web applications with PHP syntax, superglobals, form validation, and relational database connectivity.',
+                                    tech: 'PHP'
+                                },
+                                {
+                                    title: 'Laravel Basics & MVC Architecture',
+                                    slug: 'laravel-basics-mvc-architecture',
+                                    summary: 'Explore Laravel routing, Blade templating, Eloquent ORM models, middleware, and full-stack MVC application flow.',
+                                    tech: 'Laravel'
+                                },
+                                {
+                                    title: 'Flutter & Dart Mobile App Development',
+                                    slug: 'flutter-dart-mobile-app-development',
+                                    summary: 'Create cross-platform mobile apps for Android and iOS using Dart object-oriented programming and reactive Flutter widgets.',
+                                    tech: 'Flutter & Dart'
+                                },
+                            ].map((article) => (
+                                <Link
+                                    key={article.slug}
+                                    to={`/blog/${article.slug}`}
+                                    className="p-5 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] transition-all flex flex-col justify-between group shadow-xs hover:shadow-md"
+                                >
+                                    <div className="space-y-2">
+                                        <div className="flex items-center justify-between text-[11px] font-bold text-[#193D35]">
+                                            <span>{article.tech}</span>
+                                            <span className="text-[var(--foreground-muted)] font-normal group-hover:text-[#193D35] transition-colors">Read Guide →</span>
+                                        </div>
+                                        <h3 className="text-sm font-bold text-[var(--foreground)] group-hover:text-[#193D35] transition-colors leading-snug">
+                                            {article.title}
+                                        </h3>
+                                        <p className="text-xs text-[var(--foreground-muted)] line-clamp-2 leading-relaxed">
+                                            {article.summary}
+                                        </p>
+                                    </div>
+                                </Link>
+                            ))}
                         </div>
                     </section>
                 </div>

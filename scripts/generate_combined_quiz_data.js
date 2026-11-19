@@ -781,7 +781,7 @@ const questions = [
         explanation: "In PHP, a string character corresponds to a single byte (8 bits), meaning PHP natively supports a 256-character set and does not have built-in native Unicode support."
     },
     {
-        questionText: "Which of the following directories includes the Views that will be used to display the final Web page as well as the un-compiled assets related to JavaScript and CSS?",
+        questionText: "Which of the following directories includes the Views that will be used to display the final Web page as well as assets related to JavaScript and CSS?",
         options: ["Bootstrap", "Resources", "Storage", "Database"],
         correctAnswer: "Resources",
         explanation: "In Laravel, the resources directory contains Blade views (resources/views) along with raw, un-compiled frontend assets such as JavaScript and CSS files."
@@ -850,6 +850,50 @@ const questions = [
         ],
         correctAnswer: "All of these",
         explanation: "HTML uses a fixed set of predefined tags for displaying content and tolerates lenient markup, whereas XML supports custom user-defined tags and enforces strict structural well-formedness for storing and transporting data."
+    },
+    {
+        questionText: "The main reason to use the query builder over writing SQL code manually is because _______.",
+        options: [
+            "it is rich in features",
+            "it writes different SQL codes depending on the database being used",
+            "it has few SQLite directives",
+            "it uses configuration mode for migration"
+        ],
+        correctAnswer: "it writes different SQL codes depending on the database being used",
+        explanation: "Laravel's query builder provides a database-agnostic interface that automatically generates the specific SQL dialect needed for whatever database system (MySQL, Postgres, SQLite, SQL Server) is configured."
+    },
+    {
+        questionText: "The Update operation is similar to the _______ operation.",
+        options: [
+            "Edit",
+            "Yield",
+            "Update",
+            "Create"
+        ],
+        correctAnswer: "Create",
+        explanation: "In Laravel resource controller operations and data persistence models, the Update operation is structurally similar to the Create operation because both receive incoming request data, validate it, and persist attributes to the database record."
+    },
+    {
+        questionText: "Match the following function names with their respective description:\n\nDescriptions:\n1) Deletes a specific record.\n2) Displays the index page.\n3) Displays a form to update records.\n4) Displays the form to create a record.\n5) Adds a record with details from form.\n\nFunctions:\na) destroy()\nb) index()\nc) create()\nd) store()",
+        options: [
+            "a-1, b-2, c-4, d-5",
+            "a-1, b-2, c-3, d-4",
+            "a-2, b-1, c-4, d-5",
+            "a-1, b-3, c-4, d-2"
+        ],
+        correctAnswer: "a-1, b-2, c-4, d-5",
+        explanation: "In Laravel resource controllers: destroy() deletes a specific record (1), index() displays the index page (2), create() displays the form to create a record (4), and store() adds a record with details from form (5). (Option 3 corresponds to edit())."
+    },
+    {
+        questionText: "Although the Master Blade template uses the _______ directive, it is replaced by the content in the _______ directive of child templates.",
+        options: [
+            "expression and custom",
+            "namespace and functions",
+            "yield and sections",
+            "array and list"
+        ],
+        correctAnswer: "yield and sections",
+        explanation: "In Laravel Blade templating, the master layout defines placeholders using the @yield directive, which are replaced by the content enclosed within the @section directive of extending child templates."
     }
 ];
 

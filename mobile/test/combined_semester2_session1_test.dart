@@ -22,7 +22,7 @@ class _CombinedSemester2StubQuizRepository implements QuizRepository {
       const CategoryModel(
         id: 'cat_combined_sem2',
         name: categoryName,
-        questionCount: 145,
+        questionCount: 149,
         sessions: [1],
         isEnabled: true,
       ),
@@ -37,7 +37,7 @@ class _CombinedSemester2StubQuizRepository implements QuizRepository {
       CategorySessionInfo(
         session: 1,
         title: 'Session 1',
-        count: 145,
+        count: 149,
       ),
     ];
   }
@@ -98,7 +98,7 @@ void main() {
   });
 
   testWidgets(
-    'ExploreScreen displays 145 questions in a single Session 1 after merging Session 2',
+    'ExploreScreen displays 149 questions in a single Session 1 after merging Session 2',
     (tester) async {
       final stubRepo = _CombinedSemester2StubQuizRepository();
 
@@ -120,15 +120,15 @@ void main() {
         find.text(_CombinedSemester2StubQuizRepository.categoryName),
         findsOneWidget,
       );
-      expect(find.text('145 Questions'), findsOneWidget);
+      expect(find.text('149 Questions'), findsOneWidget);
 
       await tester.tap(
         find.text(_CombinedSemester2StubQuizRepository.categoryName),
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('1 Session · 145 Qs'), findsOneWidget);
-      expect(find.text('Session 1 (145)'), findsOneWidget);
+      expect(find.text('1 Session · 149 Qs'), findsOneWidget);
+      expect(find.text('Session 1 (149)'), findsOneWidget);
       expect(find.text('Session 2 (26)'), findsNothing);
       expect(find.textContaining('All Sessions'), findsNothing);
     },

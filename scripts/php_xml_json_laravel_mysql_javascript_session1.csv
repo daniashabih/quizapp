@@ -232,7 +232,7 @@ c) Works only on Windows.","a and b","a and c","b and c","All of these","a and b
 "PHP, XML JSON, Laravel, MySQL, JavaScript",1,"______ are required to use Composer and Homestead on Windows.","Virtual Environment","PHP Binaries","Windows tools","SSH Keys","PHP Binaries"
 "PHP, XML JSON, Laravel, MySQL, JavaScript",1,"______ acts as a version control system for a database that includes many tables.","Database","Storage","Cache","Migration","Migration"
 "PHP, XML JSON, Laravel, MySQL, JavaScript",1,"PHP has no support for Unicode, as it only supports a _____-character set.","248","246","254","256","256"
-"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following directories includes the Views that will be used to display the final Web page as well as the un-compiled assets related to JavaScript and CSS?","Bootstrap","Resources","Storage","Database","Resources"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following directories includes the Views that will be used to display the final Web page as well as assets related to JavaScript and CSS?","Bootstrap","Resources","Storage","Database","Resources"
 "PHP, XML JSON, Laravel, MySQL, JavaScript",1,"______ help in organizing codes by grouping requests that handle the codes in a single route and class.","Models","Controllers","Views","Applications","Controllers"
 "PHP, XML JSON, Laravel, MySQL, JavaScript",1,"In Laravel convention, ________ are the preferred way to create records, not tables.","keys","functions","routes","models","models"
 "PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Which of the following enables the user to add elements to the project that follow the Laravel convention?","Artisan Tool","PHP Code","Laravel Components","Composer","Artisan Tool"
@@ -243,3 +243,20 @@ c) Works only on Windows.","a and b","a and c","b and c","All of these","a and b
 "PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Using which of the following methods can you select a column name?","big Increments","get","where","find","get"
 "PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The code 'vagrant@homestead:~$ composer -V' verifies:","Homestead version","SQLite version","Laravel version","Composer version","Composer version"
 "PHP, XML JSON, Laravel, MySQL, JavaScript",1,"What are the major differences between HTML and XML?","HTML defines a certain set of tags to be used compulsorily whereas XML does not.","XML is strict about document structure, how it is stored, and transferred, but HTML does not follow these rules.","None of these","All of these","All of these"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The main reason to use the query builder over writing SQL code manually is because _______.","it is rich in features","it writes different SQL codes depending on the database being used","it has few SQLite directives","it uses configuration mode for migration","it writes different SQL codes depending on the database being used"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"The Update operation is similar to the _______ operation.","Edit","Yield","Update","Create","Create"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Match the following function names with their respective description:
+
+Descriptions:
+1) Deletes a specific record.
+2) Displays the index page.
+3) Displays a form to update records.
+4) Displays the form to create a record.
+5) Adds a record with details from form.
+
+Functions:
+a) destroy()
+b) index()
+c) create()
+d) store()","a-1, b-2, c-4, d-5","a-1, b-2, c-3, d-4","a-2, b-1, c-4, d-5","a-1, b-3, c-4, d-2","a-1, b-2, c-4, d-5"
+"PHP, XML JSON, Laravel, MySQL, JavaScript",1,"Although the Master Blade template uses the _______ directive, it is replaced by the content in the _______ directive of child templates.","expression and custom","namespace and functions","yield and sections","array and list","yield and sections"

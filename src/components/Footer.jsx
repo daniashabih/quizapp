@@ -8,41 +8,91 @@ export default function Footer() {
     const { user } = useAuth();
 
     return (
-        <footer className="w-full border-t border-[var(--card-border)] bg-[var(--card-bg)] pt-8 pb-6 px-4 sm:px-6 lg:px-8 shrink-0 mt-auto transition-colors duration-300">
-            <div className="max-w-7xl mx-auto space-y-6">
-                {/* Main Links Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                    {/* Brand & Description */}
-                    <div className="md:col-span-2 space-y-3">
-                        <Link to="/" className="inline-block">
+        <footer className="w-full border-t border-[var(--card-border)] bg-[var(--card-bg)] pt-10 pb-6 px-4 sm:px-6 lg:px-8 shrink-0 mt-auto transition-colors duration-300">
+            <div className="max-w-7xl mx-auto space-y-8">
+                {/* Main Links Grid: Responsive across Mobile, Tablet & Desktop */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+                    {/* Column 1: Brand & Overview */}
+                    <div className="sm:col-span-2 lg:col-span-1 space-y-3">
+                        <Link to="/" className="inline-block" aria-label="Hangbug Home">
                             <BrandLogo size="md" loading="lazy" />
                         </Link>
-                        <p className="text-xs text-[var(--foreground-muted)] max-w-sm leading-relaxed">
+                        <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
                             Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.
                         </p>
+                        <div className="pt-2 flex flex-col space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
+                            <Link to="/certificate/view" className="hover:text-[var(--foreground)] transition-colors">Verify Certificate</Link>
+                            <Link to="/leaderboard" className="hover:text-[var(--foreground)] transition-colors">Global Leaderboard</Link>
+                            <Link to="/leaderboard/full" className="hover:text-[var(--foreground)] transition-colors">Full Rankings Directory</Link>
+                            {user ? (
+                                <Link to="/dashboard" className="hover:text-[var(--foreground)] transition-colors">Developer Dashboard</Link>
+                            ) : (
+                                <Link to="/login" className="hover:text-[var(--foreground)] transition-colors">Account Sign In</Link>
+                            )}
+                        </div>
                     </div>
 
-                    {/* Platform Links */}
+                    {/* Column 2: Technology Quiz Tracks */}
                     <div className="space-y-2.5">
-                        <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Platform</p>
-                        <ul className="space-y-2 text-xs text-[var(--foreground-muted)] font-medium">
-                            <li><Link to="/technologies" className="hover:text-[var(--foreground)] transition-colors">Technologies</Link></li>
-                            <li><Link to="/games" className="hover:text-[var(--foreground)] transition-colors">Coding &amp; Typing Games</Link></li>
-                            <li><Link to="/leaderboard" className="hover:text-[var(--foreground)] transition-colors">Global Leaderboard</Link></li>
-                            <li><Link to="/certificate/view" className="hover:text-[var(--foreground)] transition-colors">Verify Certificate</Link></li>
-                            <li><Link to="/blog" className="hover:text-[var(--foreground)] transition-colors">Blog &amp; Tutorials</Link></li>
-                            {user ? (
-                                <li><Link to="/dashboard" className="hover:text-[var(--foreground)] transition-colors">Developer Dashboard</Link></li>
-                            ) : (
-                                <li><Link to="/login" className="hover:text-[var(--foreground)] transition-colors">Account Sign In</Link></li>
-                            )}
+                        <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Technologies</p>
+                        <ul className="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
+                            <li><Link to="/technologies" className="hover:text-[var(--foreground)] transition-colors font-semibold text-[var(--foreground)]">All Technologies</Link></li>
+                            <li><Link to="/technologies/html" className="hover:text-[var(--foreground)] transition-colors">HTML Quizzes</Link></li>
+                            <li><Link to="/technologies/css" className="hover:text-[var(--foreground)] transition-colors">CSS Quizzes</Link></li>
+                            <li><Link to="/technologies/javascript" className="hover:text-[var(--foreground)] transition-colors">JavaScript Quizzes</Link></li>
+                            <li><Link to="/technologies/react" className="hover:text-[var(--foreground)] transition-colors">React.js Quizzes</Link></li>
+                            <li><Link to="/technologies/python" className="hover:text-[var(--foreground)] transition-colors">Python Quizzes</Link></li>
+                            <li><Link to="/technologies/php" className="hover:text-[var(--foreground)] transition-colors">PHP Quizzes</Link></li>
+                            <li><Link to="/technologies/laravel" className="hover:text-[var(--foreground)] transition-colors">Laravel Quizzes</Link></li>
+                            <li><Link to="/technologies/mysql" className="hover:text-[var(--foreground)] transition-colors">MySQL Quizzes</Link></li>
+                            <li><Link to="/technologies/mongodb" className="hover:text-[var(--foreground)] transition-colors">MongoDB Quizzes</Link></li>
+                            <li><Link to="/technologies/flutter" className="hover:text-[var(--foreground)] transition-colors">Flutter Quizzes</Link></li>
+                            <li><Link to="/technologies/dart" className="hover:text-[var(--foreground)] transition-colors">Dart Quizzes</Link></li>
+                            <li><Link to="/technologies/programming-fundamentals" className="hover:text-[var(--foreground)] transition-colors">Fundamentals &amp; OOP</Link></li>
                         </ul>
                     </div>
 
-                    {/* Company & Legal */}
+                    {/* Column 3: Coding & Typing Games */}
+                    <div className="space-y-2.5">
+                        <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Coding Games</p>
+                        <ul className="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
+                            <li><Link to="/games" className="hover:text-[var(--foreground)] transition-colors font-semibold text-[var(--foreground)]">All Developer Games</Link></li>
+                            <li><Link to="/games/code-puzzle" className="hover:text-[var(--foreground)] transition-colors">Code Puzzle</Link></li>
+                            <li><Link to="/games/find-the-bug" className="hover:text-[var(--foreground)] transition-colors">Find The Bug</Link></li>
+                            <li><Link to="/games/output-predictor" className="hover:text-[var(--foreground)] transition-colors">Output Predictor</Link></li>
+                            <li><Link to="/games/sql-challenge" className="hover:text-[var(--foreground)] transition-colors">SQL Challenge</Link></li>
+                            <li><Link to="/games/speed-typing" className="hover:text-[var(--foreground)] transition-colors">Speed Typing</Link></li>
+                            <li><Link to="/games/code-typing" className="hover:text-[var(--foreground)] transition-colors">Code Typing</Link></li>
+                            <li><Link to="/games/word-rain" className="hover:text-[var(--foreground)] transition-colors">Word Rain</Link></li>
+                            <li><Link to="/games/memory-match" className="hover:text-[var(--foreground)] transition-colors">Coding Memory Match</Link></li>
+                            <li><Link to="/games/complete-the-code" className="hover:text-[var(--foreground)] transition-colors">Complete The Code</Link></li>
+                            <li><Link to="/games/csharp-oop-challenge" className="hover:text-[var(--foreground)] transition-colors">C# OOP Challenge</Link></li>
+                            <li><Link to="/games/csharp-collections-challenge" className="hover:text-[var(--foreground)] transition-colors">C# Collections Challenge</Link></li>
+                            <li><Link to="/games/csharp-linq-challenge" className="hover:text-[var(--foreground)] transition-colors">C# LINQ Challenge</Link></li>
+                            <li><Link to="/games/csharp-exception-handling" className="hover:text-[var(--foreground)] transition-colors">C# Exception Handling</Link></li>
+                            <li><Link to="/games/csharp-quiz-challenge" className="hover:text-[var(--foreground)] transition-colors">C# Quiz Challenge</Link></li>
+                            <li><Link to="/games/logic-builder" className="hover:text-[var(--foreground)] transition-colors">Logic Builder</Link></li>
+                        </ul>
+                    </div>
+
+                    {/* Column 4: Published Tutorials & Guides */}
+                    <div className="space-y-2.5">
+                        <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Tutorials &amp; Guides</p>
+                        <ul className="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
+                            <li><Link to="/blog" className="hover:text-[var(--foreground)] transition-colors font-semibold text-[var(--foreground)]">All Blog Articles</Link></li>
+                            <li><Link to="/blog/html-tutorial-for-beginners" className="hover:text-[var(--foreground)] transition-colors">HTML Tutorial for Beginners</Link></li>
+                            <li><Link to="/blog/css-basics-beginners-guide" className="hover:text-[var(--foreground)] transition-colors">CSS Basics Beginner's Guide</Link></li>
+                            <li><Link to="/blog/javascript-fundamentals-beginners-guide" className="hover:text-[var(--foreground)] transition-colors">JavaScript Fundamentals</Link></li>
+                            <li><Link to="/blog/php-programming-beginners-guide" className="hover:text-[var(--foreground)] transition-colors">PHP Programming Guide</Link></li>
+                            <li><Link to="/blog/laravel-basics-mvc-architecture" className="hover:text-[var(--foreground)] transition-colors">Laravel MVC Architecture</Link></li>
+                            <li><Link to="/blog/flutter-dart-mobile-app-development" className="hover:text-[var(--foreground)] transition-colors">Flutter &amp; Dart Mobile Guide</Link></li>
+                        </ul>
+                    </div>
+
+                    {/* Column 5: Company & Legal */}
                     <div className="space-y-2.5">
                         <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Company &amp; Legal</p>
-                        <ul className="space-y-2 text-xs text-[var(--foreground-muted)] font-medium">
+                        <ul className="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
                             <li><Link to="/about" className="hover:text-[var(--foreground)] transition-colors">About Hangbug</Link></li>
                             <li><Link to="/contact" className="hover:text-[var(--foreground)] transition-colors">Contact Support</Link></li>
                             <li><Link to="/privacy-policy" className="hover:text-[var(--foreground)] transition-colors">Privacy Policy</Link></li>

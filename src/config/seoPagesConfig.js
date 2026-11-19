@@ -51,10 +51,17 @@ export const SEO_PAGES_CONFIG = {
             { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' },
             { label: 'Play Coding & Typing Games', to: '/games' },
             { label: 'Blog & Tutorials', to: '/blog' },
+            { label: 'HTML Tutorial for Beginners', to: '/blog/html-tutorial-for-beginners' },
+            { label: 'CSS Basics Guide', to: '/blog/css-basics-beginners-guide' },
+            { label: 'JavaScript Fundamentals Guide', to: '/blog/javascript-fundamentals-beginners-guide' },
+            { label: 'PHP Programming Guide', to: '/blog/php-programming-beginners-guide' },
+            { label: 'Laravel MVC Architecture Guide', to: '/blog/laravel-basics-mvc-architecture' },
+            { label: 'Flutter & Dart Mobile Guide', to: '/blog/flutter-dart-mobile-app-development' },
             { label: 'About Hangbug', to: '/about' },
             { label: 'Contact Support', to: '/contact' },
             { label: 'Certificate Verification & Info', to: '/certificate/view' },
-            { label: 'Global Leaderboard', to: '/leaderboard' }
+            { label: 'Global Leaderboard', to: '/leaderboard' },
+            { label: 'Full Developer Leaderboard', to: '/leaderboard/full' }
         ]
     },
 
@@ -627,8 +634,23 @@ export const SEO_PAGES_CONFIG = {
             { label: 'Code Puzzle Game', to: '/games/code-puzzle' },
             { label: 'Find the Bug Game', to: '/games/find-the-bug' },
             { label: 'Output Predictor Game', to: '/games/output-predictor' },
+            { label: 'Code Scramble Game', to: '/games/code-scramble' },
+            { label: 'Missing Code Game', to: '/games/missing-code' },
+            { label: 'Logic Builder Game', to: '/games/logic-builder' },
             { label: 'SQL Challenge Game', to: '/games/sql-challenge' },
+            { label: 'Coding Memory Match', to: '/games/memory-match' },
+            { label: 'Speed Typing Game', to: '/games/speed-typing' },
             { label: 'Code Typing Game', to: '/games/code-typing' },
+            { label: '60-Second Sprint', to: '/games/sixty-second-challenge' },
+            { label: 'Error-Free Typing', to: '/games/error-free-typing' },
+            { label: 'Syntax Typing Drill', to: '/games/syntax-typing' },
+            { label: 'Word Rain Arcade', to: '/games/word-rain' },
+            { label: 'C# OOP Challenge', to: '/games/csharp-oop-challenge' },
+            { label: 'C# Collections Challenge', to: '/games/csharp-collections-challenge' },
+            { label: 'C# LINQ Challenge', to: '/games/csharp-linq-challenge' },
+            { label: 'C# Exception Handling', to: '/games/csharp-exception-handling' },
+            { label: 'Complete the Code', to: '/games/complete-the-code' },
+            { label: 'C# Quiz Challenge', to: '/games/csharp-quiz-challenge' },
             { label: 'Explore Technology Quizzes', to: '/technologies' },
             { label: 'Global Leaderboard', to: '/leaderboard' }
         ]
@@ -740,8 +762,8 @@ export const SEO_PAGES_CONFIG = {
     },
 
     resources: {
-        id: 'resources',
-        path: '/resources',
+        id: 'blog',
+        path: '/blog',
         title: 'Developer Blog & Learning Resources — Coding Practice Guides | Hangbug',
         description: 'Explore Hangbug learning resources, structured programming study paths, interview preparation strategies, and direct links to coding quizzes and games.',
         primaryKeyword: 'programming learning resources',
@@ -780,6 +802,12 @@ export const SEO_PAGES_CONFIG = {
             { label: 'Dart Quizzes', to: '/technologies/dart' },
             { label: 'Python Quizzes', to: '/technologies/python' },
             { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' },
+            { label: 'HTML Tutorial for Beginners', to: '/blog/html-tutorial-for-beginners' },
+            { label: 'CSS Basics Guide', to: '/blog/css-basics-beginners-guide' },
+            { label: 'JavaScript Fundamentals Guide', to: '/blog/javascript-fundamentals-beginners-guide' },
+            { label: 'PHP Programming Guide', to: '/blog/php-programming-beginners-guide' },
+            { label: 'Laravel MVC Architecture Guide', to: '/blog/laravel-basics-mvc-architecture' },
+            { label: 'Flutter & Dart Mobile Guide', to: '/blog/flutter-dart-mobile-app-development' },
             { label: 'Coding & Typing Games', to: '/games' },
             { label: 'Certificate Information', to: '/certificate/view' }
         ]

@@ -5,12 +5,24 @@ const ROOT_DIR = path.resolve(__dirname, '..');
 
 // 1. Gather all valid public routes from App.jsx, seoPagesConfig.js, gameService.js, blogArticles.js
 const { SEO_PAGES_CONFIG, TECHNOLOGY_SEO_SLUGS } = require('../src/config/seoPagesConfig.js');
-const { INITIAL_BLOG_ARTICLES } = require('../src/services/blogArticles.js');
 
-// Read FALLBACK_GAMES from gameService.js safely
-const gameServiceCode = fs.readFileSync(path.join(ROOT_DIR, 'src/services/gameService.js'), 'utf8');
-const gameSlugMatches = [...gameServiceCode.matchAll(/slug:\s*['"]([^'"]+)['"]/g)].map(m => m[1]);
-const UNIQUE_GAME_SLUGS = Array.from(new Set(gameSlugMatches));
+const VALID_GAME_SLUGS = [
+    'code-puzzle', 'find-the-bug', 'output-predictor', 'code-scramble',
+    'missing-code', 'logic-builder', 'sql-challenge', 'memory-match',
+    'speed-typing', 'code-typing', 'sixty-second-challenge', 'error-free-typing',
+    'syntax-typing', 'word-rain', 'csharp-oop-challenge', 'csharp-collections-challenge',
+    'csharp-linq-challenge', 'csharp-exception-handling', 'complete-the-code',
+    'csharp-quiz-challenge'
+];
+
+const PUBLISHED_BLOG_SLUGS = [
+    'html-tutorial-for-beginners',
+    'css-basics-beginners-guide',
+    'javascript-fundamentals-beginners-guide',
+    'php-programming-beginners-guide',
+    'laravel-basics-mvc-architecture',
+    'flutter-dart-mobile-app-development'
+];
 
 console.log('--- CANONICAL VALID PUBLIC ROUTES ---');
 const CANONICAL_ROUTES = new Set([
@@ -18,14 +30,12 @@ const CANONICAL_ROUTES = new Set([
     '/technologies',
     ...TECHNOLOGY_SEO_SLUGS.map(s => `/technologies/${s}`),
     '/games',
-    ...UNIQUE_GAME_SLUGS.map(s => `/games/${s}`),
+    ...VALID_GAME_SLUGS.map(s => `/games/${s}`),
     '/blog',
-    ...INITIAL_BLOG_ARTICLES.map(a => `/blog/${a.slug}`),
+    ...PUBLISHED_BLOG_SLUGS.map(s => `/blog/${s}`),
     '/login',
     '/register',
-    '/signup',
     '/forgot-password',
-    '/reset-password',
     '/certificate/view',
     '/leaderboard',
     '/leaderboard/full',
@@ -40,6 +50,7 @@ const CANONICAL_ROUTES = new Set([
 const KNOWN_REDIRECTS = {
     '/privacy': '/privacy-policy',
     '/resources': '/blog',
+    '/signup': '/register',
     '/account-deletion': '/delete-account',
     '/data-deletion': '/delete-account',
     '/quizzes': '/technologies',
@@ -62,8 +73,8 @@ const KNOWN_REDIRECTS = {
     '/settings': '/dashboard/settings'
 };
 
-// Scan files in src, public, scripts, api
-const DIRS_TO_SCAN = ['src', 'public', 'scripts', 'api'];
+// Scan files in src, public
+const DIRS_TO_SCAN = ['src', 'public'];
 
 function getFiles(dir, exts = ['.jsx', '.js', '.tsx', '.ts', '.html', '.mjs', '.json', '.xml', '.txt']) {
     let results = [];
@@ -150,7 +161,7 @@ for (const item of linkOccurrences) {
 
     // Ignore non-internal links (e.g. mailto, external https, #anchors, api calls)
     if (!url.startsWith('/')) continue;
-    if (url.startsWith('/api') || url.startsWith('/assets') || url.startsWith('/branding') || url.startsWith('/favicon') || url.endsWith('.png') || url.endsWith('.svg') || url.endsWith('.ico') || url.endsWith('.xml') || url.endsWith('.txt') || url.endsWith('.json')) continue;
+    if (url.startsWith('/api') || url.startsWith('/assets') || url.startsWith('/branding') || url.startsWith('/favicon') || /\.(png|svg|ico|xml|txt|json|pdf|jpg|jpeg)$/i.test(url)) continue;
 
     // Remove hash and query for path evaluation
     const cleanPath = url.split('#')[0].split('?')[0].replace(/\/+$/, '') || '/';

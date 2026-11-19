@@ -586,6 +586,43 @@ export const GamePlayer = () => {
                     <h2 className="sr-only">{activeGame.title} Interactive Challenge</h2>
                     {renderEngine()}
                 </section>
+
+                {/* Contextual Links: Bridge Game with Tech Tracks & Guides */}
+                {!isFullscreen && (
+                    <aside aria-label="Related Practice & Guides" className="w-full mt-6 pt-5 border-t border-[var(--card-border)] flex flex-wrap items-center justify-between gap-3 text-xs">
+                        <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-[var(--foreground-muted)] font-semibold">Related Tracks:</span>
+                            {selectedTechnology && selectedTechnology !== 'all' ? (
+                                <Link
+                                    to={`/technologies/${selectedTechnology}`}
+                                    className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-emerald-500 font-bold text-[var(--foreground)] transition-colors inline-flex items-center gap-1"
+                                >
+                                    <TechIcon slug={selectedTechnology} className="w-3.5 h-3.5" />
+                                    <span>Take {supportedTechs.find(t => t.slug === selectedTechnology)?.name || selectedTechnology} Quiz</span>
+                                </Link>
+                            ) : (
+                                <Link
+                                    to="/technologies"
+                                    className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-emerald-500 font-bold text-[var(--foreground)] transition-colors"
+                                >
+                                    Explore All 12 Technology Tracks
+                                </Link>
+                            )}
+                            <Link
+                                to="/blog"
+                                className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-emerald-500 text-[var(--foreground)] font-semibold transition-colors"
+                            >
+                                Developer Tutorials
+                            </Link>
+                        </div>
+                        <Link
+                            to="/leaderboard"
+                            className="text-emerald-500 dark:text-emerald-400 font-bold hover:underline inline-flex items-center gap-1"
+                        >
+                            <Trophy size={13} /> Global Leaderboard →
+                        </Link>
+                    </aside>
+                )}
             </main>
 
             {/* INSTRUCTIONS MODAL */}
@@ -684,6 +721,14 @@ export const GamePlayer = () => {
                             >
                                 Back to All Games
                             </Link>
+                            {selectedTechnology && selectedTechnology !== 'all' && (
+                                <Link
+                                    to={`/technologies/${selectedTechnology}`}
+                                    className="text-xs text-center text-emerald-500 dark:text-emerald-400 font-bold hover:underline mt-1"
+                                >
+                                    Practice {supportedTechs.find(t => t.slug === selectedTechnology)?.name || selectedTechnology} Quiz Track →
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>
