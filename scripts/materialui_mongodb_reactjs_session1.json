@@ -410,6 +410,171 @@
             ],
             "correctAnswer": "reference style",
             "explanation": "Reference tokens (md.ref.*) hold the raw reference style values available in the style library."
+        },
+        {
+            "questionText": "What is the recommended frequency for conducting E2E tests in a MERN stack application?",
+            "options": [
+                "Only during the initial development phase",
+                "Monthly, regardless of changes",
+                "After implementing significant modifications or updates",
+                "Exclusively during the server-side development"
+            ],
+            "correctAnswer": "After implementing significant modifications or updates",
+            "explanation": "End-to-end (E2E) tests should be run after implementing significant modifications or updates to ensure critical user flows continue working properly."
+        },
+        {
+            "questionText": "Which directory is dedicated to housing reusable React components in the project structure?",
+            "options": [
+                "public/",
+                "src/",
+                "pages/",
+                "components/"
+            ],
+            "correctAnswer": "components/",
+            "explanation": "The components/ directory is conventionally dedicated to storing reusable React UI components."
+        },
+        {
+            "questionText": "In MERN, ______ library facilitates client-side routing, enabling navigation within the app without full page reloads.",
+            "options": [
+                "MongoDB",
+                "React Router",
+                "Express.js",
+                "Redux"
+            ],
+            "correctAnswer": "React Router",
+            "explanation": "React Router enables client-side routing in React and MERN applications, allowing navigation between views without full page reloads."
+        },
+        {
+            "questionText": "Explain the significance of the viewport meta tag in achieving responsive design.",
+            "options": [
+                "It regulates the width and scaling of the viewport in HTML",
+                "It handles server configurations",
+                "It manages front-end states",
+                "It defines database connections and schemas"
+            ],
+            "correctAnswer": "It regulates the width and scaling of the viewport in HTML",
+            "explanation": "The viewport meta tag tells the browser how to control the page width and scaling on different device screens for responsive design."
+        },
+        {
+            "questionText": "______ is commonly used for server-side operations in full-stack development.",
+            "options": [
+                "HTML",
+                "Java",
+                "JavaScript",
+                "Python"
+            ],
+            "correctAnswer": "JavaScript",
+            "explanation": "JavaScript (via Node.js in the MERN stack) is commonly used for server-side operations in full-stack web development."
+        },
+        {
+            "questionText": "In Express.js, which parameter serves as the error handler in personalized middleware functions for error handling?",
+            "options": [
+                "err",
+                "req",
+                "next",
+                "res"
+            ],
+            "correctAnswer": "err",
+            "explanation": "Express error-handling middleware takes four parameters (err, req, res, next), where err is the first parameter representing the error."
+        },
+        {
+            "questionText": "What role does the Long Term Support (LTS) edition play in the Node.js installation process?",
+            "options": [
+                "Ensures stability with a stable version",
+                "Enhances Node.js performance",
+                "Provides support for the latest features",
+                "Facilitates communication with MongoDB"
+            ],
+            "correctAnswer": "Ensures stability with a stable version",
+            "explanation": "The Node.js LTS (Long Term Support) edition provides a stable, well-tested version with long-term security and maintenance support."
+        },
+        {
+            "questionText": "What is the key strength of Node.js in handling scalable and real-time applications?",
+            "options": [
+                "Blocking I/O model",
+                "Rigid data schema",
+                "Asynchronous operations and event-driven architecture",
+                "Limited support for concurrent connections"
+            ],
+            "correctAnswer": "Asynchronous operations and event-driven architecture",
+            "explanation": "Node.js excels at scalable, real-time applications because of its non-blocking, asynchronous operations and event-driven architecture."
+        },
+        {
+            "questionText": "Which React-based framework provides Server-Side Rendering (SSR) and Static Site Generation (SSG) capabilities for better Search Engine Optimization (SEO) and performance?",
+            "options": [
+                "Gatsby",
+                "Vue.js",
+                "Next.js",
+                "Angular"
+            ],
+            "correctAnswer": "Next.js",
+            "explanation": "Next.js is a React-based framework that supports both Server-Side Rendering (SSR) and Static Site Generation (SSG) for better SEO and performance."
+        },
+        {
+            "questionText": "Axios simplifies the process of making HTTP requests within ______ and Web browsers in the context of Web development.",
+            "options": [
+                "Node.js",
+                "Python",
+                "Java",
+                "Ruby"
+            ],
+            "correctAnswer": "Node.js",
+            "explanation": "Axios is a promise-based HTTP client that works seamlessly in both Node.js and Web browsers."
+        },
+        {
+            "questionText": "What is the role of Web servers in full stack development?",
+            "options": [
+                "Creating user interfaces",
+                "Handling client requests",
+                "Managing databases",
+                "Deploying applications"
+            ],
+            "correctAnswer": "Handling client requests",
+            "explanation": "Web servers handle incoming client HTTP requests and return appropriate responses, serving static files or routing requests to backend logic."
+        },
+        {
+            "questionText": "Which JavaScript library is commonly used for making HTTP requests in ReactJS components?",
+            "options": [
+                "Fetch API",
+                "Axios",
+                "jQuery",
+                "Express.js"
+            ],
+            "correctAnswer": "Axios",
+            "explanation": "Axios is a popular JavaScript library commonly used to make HTTP requests in ReactJS components (while Fetch API is a built-in browser API)."
+        },
+        {
+            "questionText": "What is the primary advantage of token-based authentication in MERN applications?",
+            "options": [
+                "Statefulness",
+                "Compatibility with APIs",
+                "Dependency on server-side sessions",
+                "Limited scalability"
+            ],
+            "correctAnswer": "Compatibility with APIs",
+            "explanation": "Token-based authentication (like JWT) is stateless, scalable, and well-suited for RESTful APIs in MERN applications."
+        },
+        {
+            "questionText": "What is the initial step in establishing a robust back end server in full stack development?",
+            "options": [
+                "Selection of back-end technology",
+                "Database configuration",
+                "Formulation of API architecture",
+                "Environment setup"
+            ],
+            "correctAnswer": "Selection of back-end technology",
+            "explanation": "Selecting the appropriate back-end technology stack is the foundational first step before setting up the environment, configuring databases, and designing APIs."
+        },
+        {
+            "questionText": "How does the Fetch API differ from Axios in ReactJS applications?",
+            "options": [
+                "Fetch API is a more flexible alternative to traditional XMLHttpRequest, and Axios is a popular library for making HTTP requests",
+                "Fetch API is specific to React, while Axios is a general-purpose library",
+                "Axios is used for server-side requests, and Fetch API is for client-side requests",
+                "Axios is built into React, while Fetch API needs to be installed separately"
+            ],
+            "correctAnswer": "Fetch API is a more flexible alternative to traditional XMLHttpRequest, and Axios is a popular library for making HTTP requests",
+            "explanation": "Fetch API is a modern built-in browser interface replacing XMLHttpRequest, whereas Axios is a third-party library for making HTTP requests."
         }
     ]
 }
