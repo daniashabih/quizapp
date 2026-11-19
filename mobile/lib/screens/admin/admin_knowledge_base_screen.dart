@@ -22,6 +22,48 @@ class _AdminKnowledgeBaseScreenState
     extends ConsumerState<AdminKnowledgeBaseScreen> {
   final TextEditingController _searchController = TextEditingController();
   Timer? _pollTimer;
+  bool _syncingIndex = false;
+
+  Future<void> _handleSyncVectorIndex() async {
+    if (_syncingIndex) return;
+    setState(() => _syncingIndex = true);
+    try {
+      final res = await ref.read(aiVerificationServiceProvider).setupVectorIndex();
+      final msg = res['message']?.toString() ??
+          'Vector Search index "${res['indexName'] ?? 'book_chunks_vector_index'}" synced.';
+      if (res['success'] == true) {
+        AppNotificationService.success(
+          id: 'kb-vector-sync-ok',
+          title: 'Vector Index Synced',
+          message: msg,
+        );
+      } else if (mounted) {
+        await showDialog<void>(
+          context: context,
+          builder: (dCtx) => AlertDialog(
+            title: const Text('Atlas Vector Index Notice'),
+            content: SingleChildScrollView(
+              child: Text(msg, style: AppTextStyles.bodySmall),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(dCtx).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      AppNotificationService.error(
+        id: 'kb-vector-sync-err',
+        title: 'Sync Failed',
+        message: e.toString().replaceFirst('Exception: ', ''),
+      );
+    } finally {
+      if (mounted) setState(() => _syncingIndex = false);
+    }
+  }
 
   @override
   void dispose() {
@@ -281,6 +323,17 @@ class _AdminKnowledgeBaseScreenState
       appBar: AppBar(
         title: const Text('AI Knowledge Base'),
         actions: [
+          IconButton(
+            tooltip: 'Sync Vector Index',
+            icon: _syncingIndex
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.storage_rounded),
+            onPressed: _syncingIndex ? null : _handleSyncVectorIndex,
+          ),
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
             onPressed: () => ref.invalidate(adminKnowledgeBaseProvider),

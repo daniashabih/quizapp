@@ -84,6 +84,7 @@ class ApiEndpoints {
   // AI Book-Based Question Verification (RAG)
   static const String aiVerifyQuestion = '/ai/verify-question';
   static const String adminKnowledgeBaseStatus = '/admin/knowledge-base/status';
+  static const String adminKnowledgeBaseSetupVectorIndex = '/admin/knowledge-base/setup-vector-index';
   static const String adminKnowledgeBaseBooks = '/admin/knowledge-base/books';
   static const String adminKnowledgeBaseInitUpload = '/admin/knowledge-base/books/init-upload';
   static String adminKnowledgeBaseBookById(String id) => '/admin/knowledge-base/books/$id';

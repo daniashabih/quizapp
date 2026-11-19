@@ -24,7 +24,11 @@ const {
     getUsageSummary,
     resetRuntimeUsageForTests
 } = require('../api/_services/aiUsageService');
-const { getAtlasVectorIndexDefinition } = require('../api/_services/vectorSearchService');
+const {
+    getAtlasVectorIndexDefinition,
+    ensureAtlasVectorSearchIndex
+} = require('../api/_services/vectorSearchService');
+const prisma = require('../api/_config/prisma');
 
 test('Hugging Face configuration, model selection, and secret safety', () => {
     const savedEnv = {
@@ -341,6 +345,48 @@ test('Hugging Face chat completion: primary Qwen model, DeepSeek fallback, and s
             if (v === undefined) delete process.env[k];
             else process.env[k] = v;
         }
+    }
+});
+
+test('ensureAtlasVectorSearchIndex creates collection before createSearchIndexes to avoid NamespaceNotFound', async () => {
+    const origRunCommandRaw = prisma.$runCommandRaw;
+    const origAggregateRaw = prisma.knowledgeBookChunk.aggregateRaw;
+    const commands = [];
+
+    try {
+        prisma.knowledgeBookChunk.aggregateRaw = async () => [];
+        prisma.$runCommandRaw = async (cmd) => {
+            commands.push(cmd);
+            if (cmd.create === 'knowledge_book_chunks') {
+                return { ok: 1 };
+            }
+            if (cmd.createSearchIndexes === 'knowledge_book_chunks') {
+                return { ok: 1, indexesCreated: ['book_chunks_vector_index'] };
+            }
+            throw new Error(`Unexpected command: ${JSON.stringify(cmd)}`);
+        };
+
+        const res = await ensureAtlasVectorSearchIndex(1024);
+        assert.equal(res.success, true);
+        assert.equal(res.created, true);
+        assert.equal(res.dimensions, 1024);
+        assert.equal(commands[0].create, 'knowledge_book_chunks');
+        assert.equal(commands[1].createSearchIndexes, 'knowledge_book_chunks');
+
+        // Verify already-synced index detection via $listSearchIndexes
+        prisma.knowledgeBookChunk.aggregateRaw = async () => ([{
+            name: 'book_chunks_vector_index',
+            status: 'READY',
+            latestDefinition: {
+                fields: [{ type: 'vector', path: 'embedding', numDimensions: 1024, similarity: 'cosine' }]
+            }
+        }]);
+        const synced = await ensureAtlasVectorSearchIndex(1024);
+        assert.equal(synced.success, true);
+        assert.equal(synced.alreadyExists, true);
+    } finally {
+        prisma.$runCommandRaw = origRunCommandRaw;
+        prisma.knowledgeBookChunk.aggregateRaw = origAggregateRaw;
     }
 });
 

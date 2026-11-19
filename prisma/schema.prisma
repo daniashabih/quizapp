@@ -433,3 +433,104 @@ model QuestionCorrectionHistory {
   @@index([createdAt])
   @@map("question_correction_history")
 }
+
+model SeoProjectConfig {
+  id                        String   @id @default(auto()) @map("_id") @db.ObjectId
+  domain                    String   @unique
+  projectName               String   @default("Hangbug") @map("project_name")
+  siteUrl                   String   @default("https://www.hangbug.com") @map("site_url")
+  gscProperty               String?  @default("") @map("gsc_property")
+  ga4PropertyId             String?  @default("") @map("ga4_property_id")
+  ga4MeasurementId          String   @default("G-BSZBBFZZH0") @map("ga4_measurement_id")
+  googleServiceAccountEmail String?  @default("") @map("google_service_account_email")
+  googlePrivateKey          String?  @default("") @map("google_private_key")
+  googleAccessToken         String?  @default("") @map("google_access_token")
+  pagespeedApiKey           String?  @default("") @map("pagespeed_api_key")
+  keywordProvider           String   @default("none") @map("keyword_provider")
+  keywordProviderKey        String?  @default("") @map("keyword_provider_key")
+  backlinkProvider          String   @default("none") @map("backlink_provider")
+  backlinkProviderKey       String?  @default("") @map("backlink_provider_key")
+  aiVisibilityProvider      String   @default("none") @map("ai_visibility_provider")
+  aiVisibilityProviderKey   String?  @default("") @map("ai_visibility_provider_key")
+  crawlFrequency            String   @default("daily") @map("crawl_frequency")
+  maxCrawlPages             Int      @default(60) @map("max_crawl_pages")
+  updatedAt                 DateTime @updatedAt @map("updated_at")
+  createdAt                 DateTime @default(now()) @map("created_at")
+
+  @@map("seo_project_configs")
+}
+
+model SeoAuditRun {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  domain               String
+  status               String   @default("completed")
+  source               String   @default("Hangbug SEO Crawler")
+  overallScore         Int      @default(0) @map("overall_score")
+  technicalScore       Int      @default(0) @map("technical_score")
+  onPageScore          Int      @default(0) @map("on_page_score")
+  contentScore         Int      @default(0) @map("content_score")
+  indexingScore        Int      @default(0) @map("indexing_score")
+  internalLinkingScore Int      @default(0) @map("internal_linking_score")
+  scoreBreakdownJson   String   @default("{}") @map("score_breakdown_json")
+  pagesScanned         Int      @default(0) @map("pages_scanned")
+  criticalCount        Int      @default(0) @map("critical_count")
+  warningCount         Int      @default(0) @map("warning_count")
+  opportunityCount     Int      @default(0) @map("opportunity_count")
+  passedCount          Int      @default(0) @map("passed_count")
+  summaryJson          String   @default("{}") @map("summary_json")
+  issuesJson           String   @default("[]") @map("issues_json")
+  pagespeedJson        String?  @default("") @map("pagespeed_json")
+  durationMs           Int      @default(0) @map("duration_ms")
+  createdAt            DateTime @default(now()) @map("created_at")
+
+  @@index([domain, createdAt])
+  @@map("seo_audit_runs")
+}
+
+model SeoRecommendationState {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  domain      String
+  recKey      String    @map("rec_key")
+  title       String
+  priority    String    @default("Medium")
+  isCompleted Boolean   @default(false) @map("is_completed")
+  completedBy String?   @default("") @map("completed_by")
+  completedAt DateTime? @map("completed_at")
+  notes       String?   @default("")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  @@unique([domain, recKey])
+  @@index([domain, isCompleted])
+  @@map("seo_recommendation_states")
+}
+
+model SeoCompetitor {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  domain           String
+  competitorDomain String    @map("competitor_domain")
+  label            String?   @default("")
+  notes            String?   @default("")
+  snapshotJson     String?   @default("{}") @map("snapshot_json")
+  lastCheckedAt    DateTime? @map("last_checked_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+
+  @@unique([domain, competitorDomain])
+  @@index([domain])
+  @@map("seo_competitors")
+}
+
+model SeoIntegrationSnapshot {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  domain    String
+  provider  String
+  dataJson  String   @default("{}") @map("data_json")
+  source    String   @default("")
+  syncedAt  DateTime @default(now()) @map("synced_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([domain, provider])
+  @@index([domain, provider])
+  @@map("seo_integration_snapshots")
+}

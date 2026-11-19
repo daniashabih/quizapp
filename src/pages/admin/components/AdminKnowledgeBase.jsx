@@ -93,6 +93,7 @@ export default function AdminKnowledgeBase({ standalone = false }) {
 
     // Vector Index Setup
     const [settingUpIndex, setSettingUpIndex] = useState(false);
+    const [vectorIndexNotice, setVectorIndexNotice] = useState(null);
 
     const pollIntervalRef = useRef(null);
 
@@ -268,11 +269,21 @@ export default function AdminKnowledgeBase({ standalone = false }) {
 
     const handleSetupVectorIndex = async () => {
         setSettingUpIndex(true);
+        setVectorIndexNotice(null);
         try {
             const res = await aiVerificationService.setupVectorIndex();
             if (res?.success) {
-                toast.success(`MongoDB Atlas Vector Search index "${res.indexName}" provisioned!`);
+                toast.success(
+                    res.message ||
+                    `MongoDB Atlas Vector Search index "${res.indexName}" (${res.dimensions || aiProvider?.embeddingDimensions || 1024}d) provisioned!`
+                );
             } else {
+                setVectorIndexNotice({
+                    indexName: res?.indexName || 'book_chunks_vector_index',
+                    dimensions: res?.dimensions || aiProvider?.embeddingDimensions || 1024,
+                    message: res?.message || 'Check MongoDB Atlas Search Indexes UI to verify index creation.',
+                    definition: res?.definition || null
+                });
                 toast.info(res?.message || 'Check MongoDB Atlas Search Indexes UI to verify index creation.');
             }
         } catch (err) {
@@ -351,6 +362,33 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                         <span>Embedding Model: <strong className="font-mono text-[11px] text-[var(--foreground)]">{aiProvider.embeddingModel}</strong></span>
                         <span>Vector Dimensions: <strong className="text-[var(--foreground)]">{aiProvider.embeddingDimensions || 1024}</strong></span>
                     </div>
+                </div>
+            )}
+
+            {/* Vector Index Manual Notice (shown only when Atlas requires manual UI setup) */}
+            {vectorIndexNotice && (
+                <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800 space-y-2 text-xs">
+                    <div className="flex items-start justify-between gap-3">
+                        <div className="space-y-1">
+                            <p className="font-bold text-amber-900 dark:text-amber-200">
+                                Atlas Vector Search Index Notice ({vectorIndexNotice.indexName} · {vectorIndexNotice.dimensions}d)
+                            </p>
+                            <p className="text-amber-800 dark:text-amber-300">{vectorIndexNotice.message}</p>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => setVectorIndexNotice(null)}
+                            className="p-1 rounded-lg text-amber-700 dark:text-amber-300 hover:bg-amber-200/40 cursor-pointer"
+                            aria-label="Dismiss notice"
+                        >
+                            <X size={15} />
+                        </button>
+                    </div>
+                    {vectorIndexNotice.definition && (
+                        <pre className="p-3 rounded-xl bg-black/5 dark:bg-black/30 font-mono text-[11px] overflow-x-auto text-[var(--foreground)]">
+                            {JSON.stringify(vectorIndexNotice.definition.definition || vectorIndexNotice.definition, null, 2)}
+                        </pre>
+                    )}
                 </div>
             )}
 

@@ -178,6 +178,14 @@ class AiVerificationService {
     await apiClient.delete(ApiEndpoints.adminKnowledgeBaseBookById(bookId));
   }
 
+  Future<Map<String, dynamic>> setupVectorIndex() async {
+    final response = await apiClient.post(
+      ApiEndpoints.adminKnowledgeBaseSetupVectorIndex,
+      options: Options(receiveTimeout: const Duration(seconds: 30)),
+    );
+    return response.data as Map<String, dynamic>;
+  }
+
   /// Admin Verification Reports
   Future<VerificationReportsResponse> getVerificationReports({
     String? status,
