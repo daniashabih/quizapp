@@ -296,3 +296,140 @@ model BlogPost {
   @@index([isPublished, publishedAt])
   @@map("blog_posts")
 }
+
+model KnowledgeBook {
+  id                   String                  @id @default(auto()) @map("_id") @db.ObjectId
+  title                String
+  author               String
+  edition              String?                 @default("")
+  description          String?                 @default("")
+  publicationYear      Int?                    @map("publication_year")
+  technology           String
+  technologyNormalized String                  @map("technology_normalized")
+  fileName             String                  @map("file_name")
+  fileType             String                  @map("file_type")
+  mimeType             String                  @map("mime_type")
+  fileSize             Int                     @default(0) @map("file_size")
+  fileHash             String                  @map("file_hash")
+  storageMode          String                  @default("mongodb_parts") @map("storage_mode")
+  totalParts           Int                     @default(0) @map("total_parts")
+  isEnabled            Boolean                 @default(true) @map("is_enabled")
+  processingStatus     String                  @default("Uploaded") @map("processing_status")
+  processingProgress   Int                     @default(0) @map("processing_progress")
+  processingError      String?                 @default("") @map("processing_error")
+  ocrUsed              Boolean                 @default(false) @map("ocr_used")
+  totalPages           Int                     @default(0) @map("total_pages")
+  totalChunks          Int                     @default(0) @map("total_chunks")
+  indexedChunks        Int                     @default(0) @map("indexed_chunks")
+  embeddingModel       String?                 @default("") @map("embedding_model")
+  embeddingDimensions  Int?                    @default(1536) @map("embedding_dimensions")
+  knowledgeVersion     Int                     @default(1) @map("knowledge_version")
+  uploadedBy           String?                 @default("") @map("uploaded_by")
+  lastIndexedAt        DateTime?               @map("last_indexed_at")
+  createdAt            DateTime                @default(now()) @map("created_at")
+  updatedAt            DateTime                @updatedAt @map("updated_at")
+  chunks               KnowledgeBookChunk[]
+  fileParts            KnowledgeBookFilePart[]
+
+  @@index([technologyNormalized, isEnabled])
+  @@index([fileHash])
+  @@index([processingStatus])
+  @@map("knowledge_books")
+}
+
+model KnowledgeBookFilePart {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  bookId    String        @map("book_id") @db.ObjectId
+  partIndex Int           @map("part_index")
+  data      Bytes
+  createdAt DateTime      @default(now()) @map("created_at")
+  book      KnowledgeBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([bookId, partIndex])
+  @@index([bookId])
+  @@map("knowledge_book_file_parts")
+}
+
+model KnowledgeBookChunk {
+  id                   String        @id @default(auto()) @map("_id") @db.ObjectId
+  bookId               String        @map("bookId") @db.ObjectId
+  technology           String        @map("technology")
+  technologyNormalized String        @map("technologyNormalized")
+  bookTitle            String        @map("bookTitle")
+  author               String        @map("author")
+  edition              String?       @default("") @map("edition")
+  chapter              String?       @default("") @map("chapter")
+  pageNumber           Int?          @default(1) @map("pageNumber")
+  chunkIndex           Int           @default(0) @map("chunkIndex")
+  chunkText            String        @map("chunkText")
+  contentHash          String        @map("contentHash")
+  embedding            Float[]       @map("embedding")
+  isActive             Boolean       @default(true) @map("isActive")
+  createdAt            DateTime      @default(now()) @map("createdAt")
+  book                 KnowledgeBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@index([bookId])
+  @@index([technologyNormalized, isActive])
+  @@index([contentHash])
+  @@map("knowledge_book_chunks")
+}
+
+model QuestionVerification {
+  id                    String    @id @default(auto()) @map("_id") @db.ObjectId
+  cacheKey              String    @unique @map("cache_key")
+  questionId            String?   @default("") @map("question_id")
+  technology            String
+  technologyNormalized  String    @map("technology_normalized")
+  questionText          String    @map("question_text")
+  options               String
+  originalCorrectAnswer String    @map("original_correct_answer")
+  verifiedCorrectAnswer String?   @default("") @map("verified_correct_answer")
+  verificationStatus    String    @map("verification_status")
+  explanation           String
+  sourceBook            String?   @default("") @map("source_book")
+  sourceAuthor          String?   @default("") @map("source_author")
+  sourceChapter         String?   @default("") @map("source_chapter")
+  sourcePage            String?   @default("") @map("source_page")
+  supportingExcerpt     String?   @default("") @map("supporting_excerpt")
+  issueDescription      String?   @default("") @map("issue_description")
+  suggestedCorrection   String?   @default("") @map("suggested_correction")
+  confidence            Float     @default(0)
+  knowledgeBaseVersion  String    @map("knowledge_base_version")
+  retrievedChunkIds     String[]  @default([]) @map("retrieved_chunk_ids")
+  reviewStatus          String    @default("pending") @map("review_status")
+  reviewedBy            String?   @default("") @map("reviewed_by")
+  reviewedAt            DateTime? @map("reviewed_at")
+  reviewNotes           String?   @default("") @map("review_notes")
+  requestCount          Int       @default(1) @map("request_count")
+  lastRequestedAt       DateTime  @default(now()) @map("last_requested_at")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  @@index([technologyNormalized, verificationStatus])
+  @@index([verificationStatus, reviewStatus])
+  @@index([questionId])
+  @@map("question_verifications")
+}
+
+model QuestionCorrectionHistory {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  questionId            String   @map("question_id")
+  verificationId        String   @map("verification_id")
+  technology            String
+  questionText          String   @map("question_text")
+  previousCorrectAnswer String   @map("previous_correct_answer")
+  newCorrectAnswer      String   @map("new_correct_answer")
+  previousExplanation   String?  @default("") @map("previous_explanation")
+  newExplanation        String?  @default("") @map("new_explanation")
+  sourceBook            String?  @default("") @map("source_book")
+  sourceChapter         String?  @default("") @map("source_chapter")
+  sourcePage            String?  @default("") @map("source_page")
+  approvedBy            String   @map("approved_by")
+  approvedByEmail       String?  @default("") @map("approved_by_email")
+  notes                 String?  @default("")
+  createdAt             DateTime @default(now()) @map("created_at")
+
+  @@index([questionId])
+  @@index([createdAt])
+  @@map("question_correction_history")
+}

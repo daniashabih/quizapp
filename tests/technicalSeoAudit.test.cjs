@@ -395,6 +395,7 @@ test('19. Technical SEO: XML sitemap accurate ISO 8601 lastmod timestamps and st
 
 test('20. Technical SEO: Vercel routing configuration, API protections, and alias 301 redirects', () => {
     const vercelConfig = JSON.parse(readFile('vercel.json'));
+    assert.strictEqual(vercelConfig.trailingSlash, false, 'vercel.json must disable trailing slashes to prevent duplicate URLs');
     assert.ok(vercelConfig.functions && vercelConfig.functions['api/index.js'], 'vercel.json must configure api/index.js function');
     assert.ok(vercelConfig.functions['api/index.js'].includeFiles.includes('api/**'), 'includeFiles must bundle api/**');
 
@@ -709,6 +710,17 @@ test('29. Soft 404 Prevention: Vercel rewrites, pre-rendered blog/404 artifacts,
         for (const r of okRoutes) {
             const res = await requestRoute(r);
             assert.strictEqual(res.status, 200, `${r} must return HTTP 200, got ${res.status}`);
+        }
+
+        const csharpAliasRes = await requestRoute('/games/csharp-code-puzzle');
+        assert.strictEqual(csharpAliasRes.status, 200, '/games/csharp-code-puzzle must return HTTP 200');
+        assert.ok(csharpAliasRes.body.includes('C# Code Puzzle'), '/games/csharp-code-puzzle must render C# Code Puzzle title');
+        assert.ok(csharpAliasRes.body.includes('<link rel="canonical" href="https://www.hangbug.com/games/code-puzzle"'), '/games/csharp-code-puzzle must canonicalize to /games/code-puzzle');
+
+        for (const trailingRoute of ['/blog/', '/technologies/', '/blog/html-tutorial-for-beginners/']) {
+            const trRes = await requestRoute(trailingRoute);
+            assert.strictEqual(trRes.status, 301, `${trailingRoute} must 301 redirect trailing slash`);
+            assert.strictEqual(trRes.headers.location, trailingRoute.slice(0, -1), `${trailingRoute} must redirect to ${trailingRoute.slice(0, -1)}`);
         }
 
         const notFoundRoutes = [

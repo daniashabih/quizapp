@@ -219,6 +219,7 @@ export const SEO_PAGES_CONFIG = {
         introContent: 'Evaluate and refine your core scripting expertise with Hangbug JavaScript quizzes and browser-based coding games. Work through session-calibrated questions on variable scoping, lexical closures, Promise resolution, microtask queues, and modern ES6+ syntax.',
         imageAlt: 'JavaScript ES6+ programming quiz and code output predictor icon on Hangbug',
         internalLinks: [
+            { label: 'JavaScript Fundamentals Guide', to: '/blog/javascript-fundamentals-beginners-guide' },
             { label: 'React.js Quizzes', to: '/technologies/react' },
             { label: 'HTML Quizzes', to: '/technologies/html' },
             { label: 'CSS Quizzes', to: '/technologies/css' },
