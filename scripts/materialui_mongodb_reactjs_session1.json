@@ -1,0 +1,122 @@
+{
+  "category": "Material UI, MongoDB, ReactJS",
+  "session": 1,
+  "title": "Session 1",
+  "totalQuestions": 19,
+  "questions": [
+    {
+      "questionText": "Which of the following is a CSS property that can be used to set the background color of a React component?",
+      "options": ["background-color", "background-image", "background-position", "background-repeat"],
+      "correctAnswer": "background-color",
+      "explanation": "The background-color property sets the background color of an element (written as backgroundColor in React inline styles)."
+    },
+    {
+      "questionText": "Which one of the following is a benefit of using JSX in React?",
+      "options": ["JSX is faster than traditional HTML templates", "JSX provides better code organization and readability", "JSX is easier to learn than HTML and CSS", "JSX is more compatible with older Web browsers"],
+      "correctAnswer": "JSX provides better code organization and readability",
+      "explanation": "JSX lets you write markup alongside component logic, improving code organization and readability."
+    },
+    {
+      "questionText": "Which one of the following is an example of a synthetic event in ReactJS?",
+      "options": ["onClick", "onChange", "onBlur", "All of these"],
+      "correctAnswer": "All of these",
+      "explanation": "onClick, onChange and onBlur are all React SyntheticEvents, a cross-browser wrapper around native browser events."
+    },
+    {
+      "questionText": "Which CSS property is used to adjust the opacity of a React component?",
+      "options": ["Opacity", "Visibility", "Display", "Filter"],
+      "correctAnswer": "Opacity",
+      "explanation": "The opacity property sets the transparency level of an element, from 0 (fully transparent) to 1 (fully opaque)."
+    },
+    {
+      "questionText": "What is the purpose of the \"key\" attribute in ReactJS?",
+      "options": ["To specify the type of element being rendered.", "To provide a unique identifier for a list of elements.", "To control the behavior of a component.", "None of these"],
+      "correctAnswer": "To provide a unique identifier for a list of elements.",
+      "explanation": "Keys give list items a stable identity so React can efficiently determine which items changed, were added or removed."
+    },
+    {
+      "questionText": "Which of the following methods can be used to handle mouse events in a React component?",
+      "options": ["onMouseEnter", "onMouseLeave", "onMouseDown and onMouseUp", "All of these"],
+      "correctAnswer": "All of these",
+      "explanation": "onMouseEnter, onMouseLeave, onMouseDown and onMouseUp are all React mouse event handlers."
+    },
+    {
+      "questionText": "What is the purpose of user visual hierarchy in UI?",
+      "options": ["To create a visually pleasing interface with attractive colors and typography.", "To guide users' attention and prioritize information based on importance.", "To ensure consistent spacing and alignment of UI elements.", "To optimize the UI for different screen sizes and resolutions."],
+      "correctAnswer": "To guide users' attention and prioritize information based on importance.",
+      "explanation": "Visual hierarchy arranges elements so users notice the most important information first."
+    },
+    {
+      "questionText": "Which of the following is an Informational component?",
+      "options": ["Checkbox", "Pagination", "Radio button", "Progress bar"],
+      "correctAnswer": "Progress bar",
+      "explanation": "A progress bar conveys information (task progress). Checkbox and radio button are input controls; pagination is a navigational component."
+    },
+    {
+      "questionText": "What is Material Design?",
+      "options": ["A design language designed by Google", "A programming language for Web development", "A database management tool", "A project management tool"],
+      "correctAnswer": "A design language designed by Google",
+      "explanation": "Material Design is a design language developed by Google in 2014; Material UI implements it for React."
+    },
+    {
+      "questionText": "Which of the following commands is used to find how documents are distributed amongst the shards?",
+      "options": ["addShard", "mongos", "initiate", "getShardDistribution"],
+      "correctAnswer": "getShardDistribution",
+      "explanation": "db.collection.getShardDistribution() prints data and document distribution statistics for a sharded collection across its shards."
+    },
+    {
+      "questionText": "Which of the following command can be used to run under admin database, irrespective of the database currently in use?",
+      "options": ["db.runCommand", "db.adminCommand", "db.auth", "None of these"],
+      "correctAnswer": "db.adminCommand",
+      "explanation": "db.adminCommand() always runs the command against the admin database, regardless of the database currently selected."
+    },
+    {
+      "questionText": "Sharding is ______.",
+      "options": ["Storing all the data in same server", "Storing all the data in multiple servers", "Storing part of the data in one server", "Indexing and storing data across servers"],
+      "correctAnswer": "Storing all the data in multiple servers",
+      "explanation": "Sharding distributes (horizontally partitions) the full data set across multiple servers (shards) to support large data sets and high throughput."
+    },
+    {
+      "questionText": "MongoDB defines indexes at the ______ level.",
+      "options": ["Application", "Collection", "Indexing", "Execution"],
+      "correctAnswer": "Collection",
+      "explanation": "MongoDB defines indexes at the collection level and supports indexes on any field or sub-field of the documents."
+    },
+    {
+      "questionText": "Which of the following method is used to select the first document in MongoDB using Python?",
+      "options": ["find_one", "find_many", "find", "find_all"],
+      "correctAnswer": "find_one",
+      "explanation": "In PyMongo, collection.find_one() returns the first document that matches the query (or the first document in the collection if no filter is given)."
+    },
+    {
+      "questionText": "Which of the following tools helps you view the statistics of inserts and updates in MongoDB?",
+      "options": ["mongostat", "mongodump", "mongofile", "mongoimport"],
+      "correctAnswer": "mongostat",
+      "explanation": "mongostat provides a quick overview of a running mongod/mongos, showing counts of inserts, queries, updates, deletes and more per second."
+    },
+    {
+      "questionText": "Which of the following commands is used to direct a query to the shard server?",
+      "options": ["mongod", "mongoimport", "mongos", "mongosh"],
+      "correctAnswer": "mongos",
+      "explanation": "mongos is the query router for a sharded cluster; it routes client queries to the appropriate shard(s)."
+    },
+    {
+      "questionText": "Which of the following is the name given to the index which exists in every MongoDB collection and prevents duplication of data?",
+      "options": ["Single Key Index", "Compound Index", "MultiKey Index", "Default Index"],
+      "correctAnswer": "Default Index",
+      "explanation": "Every collection has a default unique index on the _id field, which prevents inserting two documents with the same _id value."
+    },
+    {
+      "questionText": "If the _id field in Default_id is not defined, who creates it?",
+      "options": ["Administrator", "Language Driver", "Database", "It is always defined."],
+      "correctAnswer": "Language Driver",
+      "explanation": "If a document is inserted without an _id field, the MongoDB language driver automatically generates an ObjectId for it."
+    },
+    {
+      "questionText": "A MongoDB aggregation pipeline can have ______ number of stages.",
+      "options": ["one", "two", "any", "four"],
+      "correctAnswer": "any",
+      "explanation": "An aggregation pipeline consists of one or more stages, and you can chain any number of stages to process documents."
+    }
+  ]
+}
