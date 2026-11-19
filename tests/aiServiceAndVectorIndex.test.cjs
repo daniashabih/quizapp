@@ -45,6 +45,10 @@ function collectFiles(relativeDir, extensions) {
 test('aiProviderService has no Hugging Face defaults and uses 1536-dim baseline', () => {
     const envKeys = [
         'AI_PROVIDER',
+        'EMBEDDING_PROVIDER',
+        'GROQ_API_KEY',
+        'GROQ_MODEL',
+        'GROQ_BASE_URL',
         'OPENAI_API_KEY',
         'GEMINI_API_KEY',
         'GOOGLE_API_KEY',
