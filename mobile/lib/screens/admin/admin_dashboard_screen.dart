@@ -171,6 +171,16 @@ class AdminDashboardScreen extends ConsumerWidget {
                   style: AppTextStyles.displaySmall.copyWith(fontSize: 18),
                 ),
                 const SizedBox(height: 12),
+                const SizedBox(height: 8),
+                _buildToolTile(
+                  context,
+                  icon: Icons.analytics_rounded,
+                  title: 'SEO & Growth Studio',
+                  subtitle: 'Search performance, site audit, indexing, content & recommendations',
+                  color: const Color(0xFF2F806B),
+                  onTap: () => context.push('/admin/seo'),
+                ),
+                const SizedBox(height: 8),
                 _buildToolTile(
                   context,
                   icon: Icons.auto_stories_rounded,

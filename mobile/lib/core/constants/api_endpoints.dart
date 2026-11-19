@@ -106,4 +106,20 @@ class ApiEndpoints {
   static const String adminAiUsage = '/admin/ai/usage';
   static const String adminAiTest = '/admin/ai/test';
   static const String adminAiCacheClear = '/admin/ai/cache/clear';
+
+  // Admin SEO & Growth Studio
+  static const String adminSeoDashboard = '/admin/seo/dashboard';
+  static const String adminSeoAuditRun = '/admin/seo/audit/run';
+  static const String adminSeoPageSpeedRun = '/admin/seo/pagespeed/run';
+  static const String adminSeoInspectUrl = '/admin/seo/inspect-url';
+  static String adminSeoRecommendationToggle(String recKey) =>
+      '/admin/seo/recommendations/${Uri.encodeComponent(recKey)}';
+  static const String adminSeoCompetitors = '/admin/seo/competitors';
+  static String adminSeoCompetitorRefresh(String id) =>
+      '/admin/seo/competitors/${Uri.encodeComponent(id)}/refresh';
+  static String adminSeoCompetitorDelete(String id) =>
+      '/admin/seo/competitors/${Uri.encodeComponent(id)}';
+  static const String adminSeoSettings = '/admin/seo/settings';
+  static const String adminSeoTestIntegration = '/admin/seo/integrations/test';
+  static const String adminSeoImportBacklinks = '/admin/seo/backlinks/import';
 }
