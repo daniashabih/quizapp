@@ -1,0 +1,4967 @@
+Session 1: Introduction to Azure Cloud Computing
+Choose the correct answer for each question.
+1. Which statement best describes cloud computing?
+A. A method of hosting all applications on local servers only
+B. A programming language for Web applications
+C. An approach giving convenient, on-demand access through the Internet to computing resources
+D. A hardware device used to store data locally
+2. In cloud computing, services are typically charged based on:
+A. The number of developers
+B. The physical size of the datacenter
+C. Usage
+D. A fixed yearly license
+3. What is a datacenter?
+A. A cloud billing model
+B. A type of Web browser
+C. A programming framework
+D. A dedicated storage space used to store computers and related components
+4. Companies that deliver computing services over the Internet are known as:
+A. Cloud proxies
+B. Cloud providers
+C. Cloud consumers
+D. Cloud brokers
+5. Services provided by cloud companies through the Internet are called:
+A. Offline services
+B. Desktop services
+C. Cloud services
+D. Local services
+6. Which of the following is given as an example of a commonly used cloud computing application?
+A. Calculator
+B. Notepad
+C. Paint
+D. Twitter
+7. Utility computing is a concept that allows users to:
+A. Host servers only on-premises
+B. Avoid using the Internet
+C. Use and pay for computing resources on a metered basis
+D. Own all computing hardware
+8. Why is the word "cloud" used in cloud computing?
+A. The Internet has traditionally been represented pictorially as a cloud
+B. It is the name of the first provider
+C. Clouds produce the electricity for datacenters
+D. Servers are physically located in the sky
+9. Which is NOT one of the three core reasons organizations adopt cloud computing?
+A. Quick deployment
+B. More economical than local infrastructure
+C. Unlimited scalability
+D. Elimination of the need for the Internet
+10. How does cloud computing reduce deployment failures?
+A. By allowing developers to use similar hardware resources across environments
+B. By using different hardware in testing and production
+C. By removing the testing phase
+D. By limiting the number of users
+11. In the case study of 10,000 users growing by another 50,000, the performance problem was caused by:
+A. Hardware limitations
+B. Network security
+C. Cloud misconfiguration
+D. Software bugs
+12. Which are the three cloud service models?
+A. PaaS, SaaS, TaaS
+B. SaaS, NaaS, IaaS
+C. IaaS, PaaS, SaaS
+D. IaaS, DaaS, CaaS
+13. Because each cloud service model is built on top of another, they are also called:
+A. The cloud tree
+B. The cloud network
+C. The cloud cluster
+D. The cloud computing stack
+14. Which is the simplest type of cloud computing service?
+A. SaaS
+B. IaaS
+C. PaaS
+D. DaaS
+15. Which of the following is an example of IaaS infrastructure?
+A. Visual Studio Team Services only
+B. Office 365
+C. Gmail
+D. Virtual Machines
+16. Amazon is cited as a popular IaaS provider through which services?
+A. Gmail and Flickr
+B. Dropbox and Twitter
+C. Azure and Office
+D. EC2 and S3
+17. In which model does the user NOT have to set up or manage network, storage, servers, or databases for development?
+A. Colocation
+B. Physical hosting
+C. PaaS
+D. On-premises
+18. Microsoft Azure is cited as a popular example of:
+A. A programming language
+B. Desktop software
+C. SaaS only
+D. PaaS
+19. Which is given as an example of SaaS by Microsoft?
+A. Visual Studio
+B. Office 365
+C. Cosmos DB
+D. Azure SDK
+20. Gmail is described as a SaaS service because:
+A. It requires installing a server
+B. It requires a physical datacenter
+C. An e-mail client is offered as an Internet service without local installation
+D. It is only for developers
+21. Which of the following is listed among Azure PaaS data and storage offerings in Figure 1.4?
+A. Gmail
+B. Dropbox
+C. Cosmos DB
+D. Flickr
+22. Which of the following is NOT a distinct characteristic of cloud platforms such as Azure?
+A. Geographically distributed datacenters
+B. Fixed hardware that cannot be scaled
+C. Scale on demand
+D. Pay-for-play
+23. Cloud platforms reduce upfront ______ costs and incur only ______ costs.
+A. CapEx, OpEx
+B. OpEx, CapEx
+C. Hardware, software
+D. Tax, license
+24. What does an SLA do in cloud computing?
+A. Provides free hardware
+B. Guarantees a set level of uptime and provides a refund if it is not met
+C. Defines the programming language
+D. Encrypts all data
+25. Network latency refers to:
+A. A delay in data communication over a network
+B. The speed of a processor
+C. The number of users
+D. The size of a database
+26. Edge caching involves:
+A. Deleting cached data
+B. Distributing content from a local Web server to a caching server nearer to the user
+C. Storing data on the user's desktop only
+D. Encrypting network traffic
+27. What is a precursor to cloud computing mentioned in the session?
+A. Floppy disks
+B. Distributed applications
+C. Mainframes
+D. Spreadsheets
+28. Distributed applications are designed to run on:
+A. Multiple computers
+B. Only browsers
+C. Only mobile phones
+D. A single system
+29. Which is an example of a distributed application mentioned?
+A. Notepad
+B. Collaboration application
+C. Paint
+D. Calculator
+30. Which technologies were used for distributed applications before Web services?
+A. RMI, RPC, and DCOM
+B. JSON and YAML
+C. SQL and NoSQL
+D. HTML and CSS
+31. Why were older distributed technologies such as RMI, RPC, and DCOM found difficult?
+A. They were too fast
+B. They were free
+C. They were difficult to use or required both client and server to use the same technology
+D. They did not use computers
+32. SOA stands for:
+A. Service Oriented Architecture
+B. Server Oriented Access
+C. System Operations Architecture
+D. Simple Object Application
+33. SOA provides which type of coupling among modules?
+A. No coupling
+B. Loose coupling
+C. Hardware coupling
+D. Tight coupling
+34. Loose coupling means:
+A. Modules communicate without being concerned with each other's internal implementation
+B. Modules must use the same language
+C. Modules cannot communicate
+D. Modules share all internal code
+35. Which are the three key roles in SOA?
+A. Designer, tester, deployer
+B. Client, router, firewall
+C. Host, proxy, cache
+D. Service provider, service consumer, service broker
+36. In SOA, messages are defined using:
+A. Images
+B. Plain text only
+C. Binary only
+D. XML
+37. Dynamic discovery in SOA is implemented by:
+A. The database
+B. The directory service
+C. The client browser
+D. The firewall
+38. A Web service is best described as:
+A. A database table
+B. A software component accessed by other applications through protocols such as HTTP
+C. A desktop game
+D. A hardware router
+39. Which is a characteristic of a Web service?
+A. It uses port 21
+B. It can only be used from a browser
+C. It contains only classes used by clients and no user interface
+D. It contains a user interface
+40. Which port is used by the Web server to make a Web service available through firewalls?
+A. Port 3389
+B. Port 25
+C. Port 80
+D. Port 21
+41. A Web service can be called using:
+A. Telnet only
+B. FTP only
+C. SMTP only
+D. HTTP Get, HTTP Post, or SOAP
+42. Clients of a Web service require a ______ that gathers parameters and results to invoke the service.
+A. Cache
+B. Proxy
+C. Router
+D. Compiler
+43. Which of the following is NOT a Web service terminology listed in the session?
+A. Contract
+B. Ethernet
+C. Consumer
+D. EndPoint
+44. In Web services, an EndPoint is:
+A. The URL used to communicate with the Web service
+B. The server that hosts the service
+C. The end user
+D. The service agreement
+45. In Web service terminology, the Host is:
+A. The URL
+B. The agreement
+C. The end user
+D. The server containing the Web service and the application
+46. ASP.NET Web services (XML Web services) are considered:
+A. Only for mobile apps
+B. The newest service model
+C. Legacy services not recommended for new applications
+D. Part of Azure SaaS
+47. Which .NET Framework version first included WCF?
+A. 2.0
+B. 4.5
+C. 3.0
+D. 3.5
+48. ASP.NET Web API is a framework that helps build:
+A. HTTP-based services on top of the .NET Framework
+B. Desktop games only
+C. Operating systems
+D. Hardware drivers
+49. Microsoft's cloud platform was first unveiled in October 2008 at the Professional Developers Conference under the name:
+A. Azure Services
+B. Microsoft Azure
+C. Cloud OS
+D. Windows Azure
+50. When was Windows Azure renamed Microsoft Azure?
+A. 2020
+B. 2014
+C. 2008
+D. 2010
+51. Which are the important components of the Azure platform architecture?
+A. Compute, Data Services, App Services
+B. Input, Output, Storage
+C. Design, Code, Test
+D. Client, Server, Router
+52. Which Azure features monitors and maintains software and hardware upgrades or failures automatically?
+A. Service Management using the fabric controller
+B. Storage
+C. Windows Server
+D. Development tools
+53. Azure storage services include which of the following?
+A. Tables, BLOBs, and queues
+B. Only files
+C. Only images
+D. Only tables
+54. Microsoft Azure provides assured availability of:
+A. 95%
+B. 90%
+C. 100% uptime
+D. 99.95% uptime
+55. Which Azure component maintains application instances, applies OS patches, and recovers instances after crashes?
+A. Connect
+B. Edge cache
+C. Fabric Controller
+D. Cosmos DB
+Answer Key - Session 1
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | C | An approach giving convenient, on-demand access through the Internet to computing resources |
+| 2 | C | Usage |
+| 3 | D | A dedicated storage space used to store computers and related components |
+| 4 | B | Cloud providers |
+| 5 | C | Cloud services |
+| 6 | D | Twitter |
+| 7 | C | Use and pay for computing resources on a metered basis |
+| 8 | A | The Internet has traditionally been represented pictorially as a cloud |
+| 9 | D | Elimination of the need for the Internet |
+| 10 | A | By allowing developers to use similar hardware resources across environments |
+| 11 | A | Hardware limitations |
+| 12 | C | IaaS, PaaS, SaaS |
+| 13 | D | The cloud computing stack |
+| 14 | B | IaaS |
+| 15 | D | Virtual Machines |
+| 16 | D | EC2 and S3 |
+| 17 | C | PaaS |
+| 18 | D | PaaS |
+| 19 | B | Office 365 |
+| 20 | C | An e-mail client is offered as an Internet service without local installation |
+| 21 | C | Cosmos DB |
+| 22 | B | Fixed hardware that cannot be scaled |
+| 23 | A | CapEx, OpEx |
+| 24 | B | Guarantees a set level of uptime and provides a refund if it is not met |
+| 25 | A | A delay in data communication over a network |
+| 26 | B | Distributing content from a local Web server to a caching server nearer to the user |
+| 27 | B | Distributed applications |
+| 28 | A | Multiple computers |
+| 29 | B | Collaboration application |
+| 30 | A | RMI, RPC, and DCOM |
+| 31 | C | They were difficult to use or required both client and server to use the same technology |
+| 32 | A | Service Oriented Architecture |
+| 33 | B | Loose coupling |
+| 34 | A | Modules communicate without being concerned with each other's internal implementation |
+| 35 | D | Service provider, service consumer, service broker |
+| 36 | D | XML |
+| 37 | B | The directory service |
+| 38 | B | A software component accessed by other applications through protocols such as HTTP |
+| 39 | C | It contains only classes used by clients and no user interface |
+| 40 | C | Port 80 |
+| 41 | D | HTTP Get, HTTP Post, or SOAP |
+| 42 | B | Proxy |
+| 43 | B | Ethernet |
+| 44 | A | The URL used to communicate with the Web service |
+| 45 | D | The server containing the Web service and the application |
+| 46 | C | Legacy services not recommended for new applications |
+| 47 | C | 3.0 |
+| 48 | A | HTTP-based services on top of the .NET Framework |
+| 49 | D | Windows Azure |
+| 50 | B | 2014 |
+| 51 | A | Compute, Data Services, App Services |
+| 52 | A | Service Management using the fabric controller |
+| 53 | A | Tables, BLOBs, and queues |
+| 54 | D | 99.95% uptime |
+| 55 | C | Fabric Controller |
+
+Session 2: Understanding Microsoft Azure Cloud Services
+Choose the correct answer for each question.
+1. Which Microsoft products and services run on the core infrastructure of Microsoft's data centers?
+A. Only Visual Studio
+B. Bing, MSN, Office 365, Skype, and OneDrive
+C. Only Xbox
+D. Only Windows 10
+2. The features and functionalities of Azure cloud services are accessible through:
+A. The Microsoft Azure portal
+B. Excel
+C. A command-line compiler only
+D. Windows Notepad
+3. The Azure portal dashboard displays:
+A. Status information about the overall state of deployments and accounts
+B. Antivirus logs
+C. Source code
+D. Only billing receipts
+4. An Azure subscription grants a user access to:
+A. Only Office 365
+B. Only the Azure SDK
+C. Only Visual Studio
+D. Azure services and the Azure portal
+5. How many components does each Azure subscription have, as described in the session?
+A. Three
+B. Four
+C. One
+D. Two
+6. The Azure account component of a subscription is used for:
+A. Compiling applications
+B. Hosting databases only
+C. Reporting resource usage and billing for services
+D. Writing code
+7. Which URL is used to open the Azure portal when creating an account?
+A. http://portal.azure.com
+B. http://www.cloud.local
+C. http://azure.exe
+D. http://sql.azure.org
+8. How long is the free trial account for learning and testing described as being available?
+A. 12 months
+B. 3 months
+C. 5 years
+D. 1 month
+9. What must be provided to create a free trial account?
+A. Company registration only
+B. Nothing
+C. Passport copy only
+D. Credit card number and mobile phone number
+10. Which of the following is NOT a key plan for paid Azure subscriptions?
+A. Standard
+B. Free Lifetime
+C. Professional Direct
+D. Developer
+11. Which plan is listed among the key paid Azure subscription plans?
+A. Student
+B. Trial
+C. Premier
+D. Guest
+12. What is the purpose of the Microsoft pricing calculator?
+A. To compile code
+B. To delete subscriptions
+C. To create VMs
+D. To calculate estimates based on the services a user may use
+13. Into how many panes is the Azure portal interface divided?
+A. Four
+B. One
+C. Three
+D. Two
+14. The right pane of the Azure portal displays:
+A. Nothing
+B. Context-specific information depending on what is selected in the left pane
+C. Only the dashboard
+D. Only help text
+15. Which option in the left pane loads all the services provided by Azure?
+A. Advisor
+B. Dashboard
+C. Monitor
+D. All Services
+16. Which of the following is NOT listed among services in the left pane of the portal?
+A. Resource Groups
+B. Photoshop
+C. Load Balancer
+D. Function Apps
+17. To manage an existing subscription, which option should be clicked first in the portal?
+A. All Services
+B. Monitor
+C. Advisor
+D. Create a resource
+18. For a free account, which subscription should be selected on the subscription page?
+A. Developer
+B. Standard
+C. Premier
+D. Free Trial
+19. Which menu options are available on the Subscription Detail page?
+A. Compile, Run, Debug
+B. Copy, Paste, Cut
+C. Manage, Cancel subscription, Upgrade subscription
+D. Open, Save, Print
+20. In Azure, a manageable item such as a VM, storage account, web app, database, or virtual network is called a:
+A. Gadget
+B. Resource
+C. Template
+D. Dashboard
+21. Which Azure service lets you deploy, update, or delete resources for a solution as a group in a single coordinated operation?
+A. Azure Advisor
+B. Azure Monitor
+C. Azure Resource Manager
+D. Load Balancer
+22. Resource Manager management features include:
+A. Only testing
+B. Only billing
+C. Security, auditing, and tagging
+D. Only compilation
+23. Which option is used to create a resource from the dashboard?
+A. + Create a resource
+B. Print
+C. Restart portal
+D. Delete all
+24. Which of the following is a commonly used resource listed in the New resource window?
+A. Photoshop
+B. Notepad
+C. Paint
+D. Windows VM
+25. An Azure VM is generally selected when you need:
+A. Only a database
+B. Only static hosting
+C. Enhanced control over the computing environment
+D. No control over the environment
+26. Using an Azure VM offers:
+A. Virtualization without the effort of buying and maintaining physical hardware
+B. No patching ever
+C. Automatic code generation
+D. Free hardware
+27. Which windows appear as options in the Create Virtual Machine window?
+A. Start, Stop, Pause, Resume
+B. Basics, Size, Settings, Summary
+C. Input, Output, Process, Store
+D. Login, Logout, Save, Exit
+28. Which VM version is selected in the walkthrough for creating a Windows VM?
+A. Windows Server 2016 or higher
+B. Windows 95
+C. Windows 3.1
+D. Windows XP
+29. Before clicking Create on the Summary page, the user must:
+A. Select the terms of use check box
+B. Delete the resource group
+C. Restart the portal
+D. Install Visual Studio
+30. After submitting a VM creation, where is the progress notification shown?
+A. A small notification at the right corner of the screen
+B. A pop-up window requiring a restart
+C. The command prompt
+D. An email only
+31. Which important resources are created when a Windows VM is created?
+A. Only Virtual Machine
+B. Virtual Machine, IP Address, Disc, and Resource Group
+C. Only Disc
+D. Only IP Address
+32. Which Azure data resources are listed among data access technologies?
+A. Excel, Word, PowerPoint
+B. Photoshop, Illustrator
+C. SQL database, Cosmos DB, data warehouses, data factories
+D. Notepad only
+33. Which Azure resource drives applications that deal with small to medium chunks of data?
+A. Azure Data Warehouse
+B. Azure SQL Database
+C. Azure Data Factory only
+D. Azure Search
+34. Azure SQL Database is a relational ______ based on the Microsoft SQL Server engine.
+A. Software-as-a-Service
+B. Database-as-a-Service (DBaaS)
+C. Infrastructure-as-a-Service
+D. Testing-as-a-Service
+35. Which of the following is a feature of Azure SQL Database?
+A. Works only with C
+B. Requires physical servers
+C. Cannot be secured
+D. Need not manage infrastructure
+36. Azure Cosmos DB is described as:
+A. A desktop application
+B. A single-region relational database
+C. A globally distributed, multi-model database
+D. A text editor
+37. Cosmos DB offers SLA-backed assurance for which of the following?
+A. Only file sharing
+B. Only printing
+C. Throughput, latency, availability, consistency
+D. Only color themes
+38. Throughput is a measure of:
+A. The cost of a VM
+B. The size of a database
+C. The number of users
+D. A system's overall performance in sending data through all its components
+39. Azure SQL Data Warehouse is a cloud-based:
+A. Email client
+B. Web browser
+C. Text editor
+D. Enterprise Data Warehouse (EDW)
+40. Azure SQL Data Warehouse runs complex queries using:
+A. Massively Parallel Processing (MPP)
+B. Single-thread processing only
+C. Manual processing
+D. Random access only
+41. Which tool is used to import Big Data into SQL Data Warehouse using simple Transact-SQL queries?
+A. Redis
+B. SoaTest
+C. HDInsight
+D. PolyBase
+42. Azure Data Factory is a cloud-based:
+A. Game engine
+B. Data integration service
+C. Image editor
+D. Operating system
+43. Data-driven workflows in Azure Data Factory are called:
+A. Pools
+B. Packages
+C. Piles
+D. Pipelines
+44. Which of the following is a compute service used by Data Factory to transform data?
+A. Excel
+B. Azure HDInsight (Hadoop, Spark)
+C. Notepad
+D. Paint
+45. Azure Redis Cache is based on:
+A. The open-source Redis cache
+B. MySQL
+C. Oracle cache
+D. A proprietary Windows cache only
+46. Redis Cache improves performance by:
+A. Using in-memory as fast storage instead of reading from disk
+B. Doubling the database size
+C. Deleting data
+D. Storing data on tape
+47. Which role does Azure Redis Cache also play?
+A. Operating system
+B. Web browser
+C. Message broker
+D. Compiler
+48. Which of the following is an additional Azure database resource?
+A. Notepad DB
+B. Azure Database for PostgreSQL
+C. Azure Photoshop DB
+D. Paint DB
+49. Which programming languages can Azure application development support without managing infrastructure?
+A. .NET, Python, Java, PHP, Ruby
+B. Only COBOL
+C. Only Pascal
+D. Only C
+50. Which of the following is a feature of Azure application development?
+A. Manual scaling only
+B. Auto-scaling
+C. No GitHub integration
+D. No Linux support
+51. Azure supports automated deployments from:
+A. Only email
+B. Only a USB stick
+C. GitHub, Visual Studio Team Services, or any Git repo
+D. Only floppy disks
+52. Which of the following is a need for cloud testing?
+A. Bugs do not exist in cloud applications
+B. Testing is not required in the cloud
+C. Traditional testing incurs high cost to simulate user activity from various regions
+D. Cloud testing needs no environment
+53. A limitation of cloud testing is that:
+A. It cannot test applications
+B. It requires no setup
+C. Test results may not be accurate due to dissimilar network performance across providers
+D. It is always free
+54. Which tools are mentioned as helping in cloud testing?
+A. Excel and Word
+B. SoaTest and HP LoadRunner
+C. Chrome and Firefox
+D. Notepad and Paint
+Answer Key - Session 2
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | B | Bing, MSN, Office 365, Skype, and OneDrive |
+| 2 | A | The Microsoft Azure portal |
+| 3 | A | Status information about the overall state of deployments and accounts |
+| 4 | D | Azure services and the Azure portal |
+| 5 | D | Two |
+| 6 | C | Reporting resource usage and billing for services |
+| 7 | A | http://portal.azure.com |
+| 8 | A | 12 months |
+| 9 | D | Credit card number and mobile phone number |
+| 10 | B | Free Lifetime |
+| 11 | C | Premier |
+| 12 | D | To calculate estimates based on the services a user may use |
+| 13 | D | Two |
+| 14 | B | Context-specific information depending on what is selected in the left pane |
+| 15 | D | All Services |
+| 16 | B | Photoshop |
+| 17 | A | All Services |
+| 18 | D | Free Trial |
+| 19 | C | Manage, Cancel subscription, Upgrade subscription |
+| 20 | B | Resource |
+| 21 | C | Azure Resource Manager |
+| 22 | C | Security, auditing, and tagging |
+| 23 | A | + Create a resource |
+| 24 | D | Windows VM |
+| 25 | C | Enhanced control over the computing environment |
+| 26 | A | Virtualization without the effort of buying and maintaining physical hardware |
+| 27 | B | Basics, Size, Settings, Summary |
+| 28 | A | Windows Server 2016 or higher |
+| 29 | A | Select the terms of use check box |
+| 30 | A | A small notification at the right corner of the screen |
+| 31 | B | Virtual Machine, IP Address, Disc, and Resource Group |
+| 32 | C | SQL database, Cosmos DB, data warehouses, data factories |
+| 33 | B | Azure SQL Database |
+| 34 | B | Database-as-a-Service (DBaaS) |
+| 35 | D | Need not manage infrastructure |
+| 36 | C | A globally distributed, multi-model database |
+| 37 | C | Throughput, latency, availability, consistency |
+| 38 | D | A system's overall performance in sending data through all its components |
+| 39 | D | Enterprise Data Warehouse (EDW) |
+| 40 | A | Massively Parallel Processing (MPP) |
+| 41 | D | PolyBase |
+| 42 | B | Data integration service |
+| 43 | D | Pipelines |
+| 44 | B | Azure HDInsight (Hadoop, Spark) |
+| 45 | A | The open-source Redis cache |
+| 46 | A | Using in-memory as fast storage instead of reading from disk |
+| 47 | C | Message broker |
+| 48 | B | Azure Database for PostgreSQL |
+| 49 | A | .NET, Python, Java, PHP, Ruby |
+| 50 | B | Auto-scaling |
+| 51 | C | GitHub, Visual Studio Team Services, or any Git repo |
+| 52 | C | Traditional testing incurs high cost to simulate user activity from various regions |
+| 53 | C | Test results may not be accurate due to dissimilar network performance across providers |
+| 54 | B | SoaTest and HP LoadRunner |
+
+Session 3: Data Access Technologies in Azure
+Choose the correct answer for each question.
+1. Caching is a technique in which:
+A. Data is encrypted only
+B. Remote data is stored locally for frequent reuse
+C. Data is compiled
+D. Data is permanently deleted
+2. Which of the following is static content?
+A. Server-side logic
+B. Database queries
+C. Images, CSS, and JavaScript files
+D. User session data
+3. Heavy static files can consume approximately what share of a page's total load time?
+A. 10 percent
+B. 60 percent
+C. 30 percent
+D. 100 percent
+4. Which object is used to share common data with multiple action methods by adding it to the cache?
+A. Session.Abandon
+B. Application.Exit
+C. Response.Redirect
+D. HttpContext.Cache
+5. A cache policy is:
+A. A type of CDN
+B. A set of rules that determine whether a cached copy of a resource can be used for a request
+C. A firewall rule
+D. A database backup plan
+6. An effective cache policy is determined by client cache requirements and:
+A. Server's content expiration and revalidation requirements
+B. The keyboard layout
+C. Only the browser color scheme
+D. The user's operating system
+7. Using client and server cache requirements ensures:
+A. The most conservative cache policy is achieved so the client receives up-to-date content
+B. The cache is disabled
+C. Data is duplicated
+D. The cache never expires
+8. Cache expiration policy represents:
+A. A list of users
+B. A database schema
+C. A network route
+D. A set of eviction and expiration details for a specific cache entry
+9. Which two types of expiration policies are available for cache expiration?
+A. Local and Remote
+B. Absolute and Sliding
+C. Static and Dynamic
+D. Fast and Slow
+10. In Code Snippet 1, the studentList is cached for how long using AbsoluteExpiration?
+A. 10 minutes
+B. 1 hour
+C. 23 hours and 59 minutes
+D. 24 days
+11. Which class is used in Code Snippet 1 to define the cache policy?
+A. TransactionScope
+B. SqlDependency
+C. CacheDependency
+D. CacheItemPolicy
+12. Which object is first created to set up a cache dependency?
+A. SqlCommand
+B. Transaction
+C. CacheDependency
+D. DataReader
+13. Which method is used to add a dependent cache item with a CacheDependency parameter?
+A. Cache.Insert()
+B. Cache.Clear()
+C. Cache.Open()
+D. Cache.Close()
+14. When a dependency object changes, the cached item is:
+A. Duplicated
+B. Automatically invalidated and removed
+C. Locked permanently
+D. Encrypted
+15. Which of the following is NOT one of the three types of cache dependency in Table 3.1?
+A. Cache dependency on a file
+B. Cache dependency on cached items
+C. Cache dependency on SQL
+D. Cache dependency on server hardware
+16. SQL cache dependency is enabled using which command line tool?
+A. aspnet_regsql.exe
+B. sqlcmd.exe
+C. aspnet_compiler.exe
+D. csc.exe
+17. Query notification in ADO.NET means:
+A. An application is notified when data changes in the source
+B. A database is backed up
+C. A server restarts
+D. A user logs in
+18. Which ADO.NET class provides the low-level implementation of query notifications?
+A. SqlCacheDependency
+B. SqlDataReader
+C. SqlDependency
+D. SqlNotificationRequest
+19. Which class provides a high-level implementation of query notifications?
+A. SqlDependency
+B. SqlConnection
+C. SqlNotificationRequest
+D. SqlCommand
+20. SqlCacheDependency helper classes are used by:
+A. Only desktop games
+B. Only mobile apps
+C. Web applications built using ASP.NET 2.0
+D. Only console applications
+21. Azure Redis Cache is based on:
+A. A proprietary Oracle cache
+B. SQL Server only
+C. The open-source Redis Cache
+D. MySQL only
+22. Azure Redis Cache can be used by:
+A. Any application, inside or outside Azure
+B. Only applications inside Azure
+C. Only desktop applications
+D. Only Windows services
+23. A transaction is:
+A. A kind of table
+B. A single unit of work where either all or none of the operations are performed
+C. A type of query
+D. A network protocol
+24. If an error occurs in a transaction, the transaction must be:
+A. Rolled back
+B. Committed
+C. Duplicated
+D. Ignored
+25. The acronym ACID stands for properties of a transaction. Which set is correct?
+A. Access, Control, Integrity, Data
+B. Atomic, Cached, Indexed, Distributed
+C. Atomicity, Consistency, Isolation, Durability
+D. Authentication, Consistency, Integrity, Durability
+26. Which ACID property assures that a committed transaction remains even when the system fails?
+A. Durability
+B. Atomicity
+C. Isolation
+D. Consistency
+27. Which ACID property assures independent and transparent transactions?
+A. Durability
+B. Atomicity
+C. Consistency
+D. Isolation
+28. A database transaction consists of an array of statements that:
+A. Only read data
+B. Execute together and either succeed or fail, keeping the database consistent
+C. Are always ignored
+D. Run independently
+29. A transaction executed on a single data source/database is called a:
+A. Remote transaction
+B. Local transaction
+C. Elastic transaction
+D. Distributed transaction
+30. Local transactions are described as being:
+A. Two phase
+B. Three phase
+C. Multi phase
+D. Single phase
+31. Which component of System.Transactions manages local transactions?
+A. SqlDependency
+B. CacheDependency
+C. Lightweight Transaction Manager (LTM)
+D. MSDTC only
+32. A transaction that includes more than one data source is called a:
+A. Static transaction
+B. Local transaction
+C. Simple transaction
+D. Distributed or elastic transaction
+33. Which coordinator uses System.Transactions classes to manage distributed transactions on the cloud?
+A. Resource Manager
+B. Lightweight Transaction Manager
+C. Azure Advisor
+D. Microsoft Distributed Transaction Coordinator (MSDTC)
+34. Which object is instantiated to create a transaction using System.Transactions?
+A. SqlDataAdapter
+B. DataSet
+C. TransactionScope
+D. CacheDependency
+35. A transaction in the current thread that is opened by TransactionScope is called a(n):
+A. Cached transaction
+B. Static transaction
+C. Ambient transaction
+D. Local database
+36. To be part of the transaction, ADO.NET connections must be opened:
+A. After the transaction is disposed
+B. Before instantiating TransactionScope
+C. In another application
+D. After the TransactionScope is instantiated and before it is disposed
+37. Which method must be called before Dispose to commit the transaction?
+A. TransactionScope.Open()
+B. TransactionScope.Cancel()
+C. TransactionScope.Complete()
+D. TransactionScope.Rollback()
+38. Which isolation level is the highest?
+A. Repeatable Read
+B. Serializable
+C. Read Uncommitted
+D. Read Committed
+39. Which isolation level is the lowest and allows dirty reads?
+A. Read Uncommitted
+B. Read Committed
+C. Serializable
+D. Repeatable Read
+40. Read Committed isolation level:
+A. Allows shared locks and reads only committed data
+B. Prevents all reads
+C. Has no locks
+D. Allows dirty reads
+41. Azure Blob storage is used to store:
+A. Unstructured data such as text or binary data
+B. Only relational tables
+C. Only SQL queries
+D. Only queues
+42. Blob storage objects can be accessed using:
+A. Only FTP
+B. Only email
+C. HTTP or HTTPS through URLs
+D. Only Bluetooth
+43. Which of the following is a common use of Blob storage?
+A. Storing video and audio for streaming
+B. Compiling code
+C. Running stored procedures
+D. Storing relational joins
+44. Azure Table storage is described as a:
+A. Message queue
+B. Key/attribute store with a schemaless design
+C. File compiler
+D. Relational store with fixed schema
+45. What is the size of a single Azure Queue message?
+A. 1 GB
+B. 64 KB
+C. 1 MB
+D. 10 MB
+46. Which is a common use of Azure Queue storage?
+A. Running SQL joins
+B. Processing a backlog of work asynchronously and passing messages from a Web role to a worker role
+C. Storing images
+D. Hosting web pages
+47. Azure SQL Database can be used in which two ways?
+A. Only IaaS
+B. Azure SQL (PaaS) Database and SQL Server on Azure VMs (IaaS)
+C. SaaS and DaaS
+D. Only PaaS
+48. After creating an Azure SQL database server, which action gives access permission for your client machine?
+A. Change the OS
+B. Delete the resource group
+C. Set server firewall and add client IP
+D. Restart SSMS
+49. What is the format of the server name used to connect to the Azure database from SSMS?
+A. databasename.database.windows.net
+B. databasename.local
+C. databasename.azure.exe
+D. databasename.sql.com
+50. Which tool is used to connect to the Azure SQL database from a local machine in the session?
+A. Task Manager
+B. SQL Server Management Studio (SSMS)
+C. Notepad
+D. Paint
+51. Cosmos DB is classified as which type of database?
+A. Spreadsheet
+B. Relational only
+C. NewSQL
+D. File system
+52. Which data models does Cosmos DB support through one backend?
+A. Only relational
+B. Only key value
+C. Document, key value, relational, and graph
+D. Only graph
+53. Cosmos DB does not rely on:
+A. Query languages
+B. Networks
+C. Transactions
+D. Schemas
+54. A Content Delivery Network (CDN) is:
+A. A programming language
+B. A VM template
+C. A database engine
+D. A distributed network of services that delivers Web content to users
+55. CDN cached content is stored in locations called:
+A. Local disks only
+B. Backup tapes
+C. Origin servers only
+D. Point-of-Presence (POP) on edge servers
+Answer Key - Session 3
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | B | Remote data is stored locally for frequent reuse |
+| 2 | C | Images, CSS, and JavaScript files |
+| 3 | B | 60 percent |
+| 4 | D | HttpContext.Cache |
+| 5 | B | A set of rules that determine whether a cached copy of a resource can be used for a request |
+| 6 | A | Server's content expiration and revalidation requirements |
+| 7 | A | The most conservative cache policy is achieved so the client receives up-to-date content |
+| 8 | D | A set of eviction and expiration details for a specific cache entry |
+| 9 | B | Absolute and Sliding |
+| 10 | C | 23 hours and 59 minutes |
+| 11 | D | CacheItemPolicy |
+| 12 | C | CacheDependency |
+| 13 | A | Cache.Insert() |
+| 14 | B | Automatically invalidated and removed |
+| 15 | D | Cache dependency on server hardware |
+| 16 | A | aspnet_regsql.exe |
+| 17 | A | An application is notified when data changes in the source |
+| 18 | D | SqlNotificationRequest |
+| 19 | A | SqlDependency |
+| 20 | C | Web applications built using ASP.NET 2.0 |
+| 21 | C | The open-source Redis Cache |
+| 22 | A | Any application, inside or outside Azure |
+| 23 | B | A single unit of work where either all or none of the operations are performed |
+| 24 | A | Rolled back |
+| 25 | C | Atomicity, Consistency, Isolation, Durability |
+| 26 | A | Durability |
+| 27 | D | Isolation |
+| 28 | B | Execute together and either succeed or fail, keeping the database consistent |
+| 29 | B | Local transaction |
+| 30 | D | Single phase |
+| 31 | C | Lightweight Transaction Manager (LTM) |
+| 32 | D | Distributed or elastic transaction |
+| 33 | D | Microsoft Distributed Transaction Coordinator (MSDTC) |
+| 34 | C | TransactionScope |
+| 35 | C | Ambient transaction |
+| 36 | D | After the TransactionScope is instantiated and before it is disposed |
+| 37 | C | TransactionScope.Complete() |
+| 38 | B | Serializable |
+| 39 | A | Read Uncommitted |
+| 40 | A | Allows shared locks and reads only committed data |
+| 41 | A | Unstructured data such as text or binary data |
+| 42 | C | HTTP or HTTPS through URLs |
+| 43 | A | Storing video and audio for streaming |
+| 44 | B | Key/attribute store with a schemaless design |
+| 45 | B | 64 KB |
+| 46 | B | Processing a backlog of work asynchronously and passing messages from a Web role to a worker role |
+| 47 | B | Azure SQL (PaaS) Database and SQL Server on Azure VMs (IaaS) |
+| 48 | C | Set server firewall and add client IP |
+| 49 | A | databasename.database.windows.net |
+| 50 | B | SQL Server Management Studio (SSMS) |
+| 51 | C | NewSQL |
+| 52 | C | Document, key value, relational, and graph |
+| 53 | D | Schemas |
+| 54 | D | A distributed network of services that delivers Web content to users |
+| 55 | D | Point-of-Presence (POP) on edge servers |
+
+Session 4: Data Access Using ADO.NET
+Choose the correct answer for each question.
+1. ADO.NET is:
+A. A text editor
+B. A Web browser
+C. A cloud storage provider
+D. A set of classes that expose data access services for the .NET Framework
+2. Which data sources can be accessed consistently using ADO.NET?
+A. Only Excel
+B. Only XML
+C. XML, SQL Server, and sources exposed through ODBC and OLE DB
+D. Only SQL Server
+3. ADO.NET supports creating which of the following?
+A. Only images
+B. Front-end database clients and middle-layer business components
+C. Only hardware drivers
+D. Only operating systems
+4. Which of the following can use ADO.NET to connect to a database?
+A. Windows applications, ASP.NET Web applications, and console applications
+B. Only mobile apps
+C. Only ASP.NET applications
+D. Only console applications
+5. In ADO.NET, what acts as a link between a data source and an application?
+A. .NET Framework data providers
+B. The compiler
+C. The Web browser
+D. The firewall
+6. A connection object connects to a data source by supplying authentication information in a:
+A. Connection string
+B. Resource group
+C. Cache policy
+D. Stored procedure
+7. Which connection object is used for ODBC data sources?
+A. SqlConnection
+B. OdbcConnection
+C. OleDbConnection
+D. OracleConnection
+8. Which connection object is used for SQL Server?
+A. OracleConnection
+B. SqlConnection
+C. OdbcConnection
+D. OleDbConnection
+9. Which connection object is used for OLE DB?
+A. SqlConnection
+B. OdbcConnection
+C. OracleConnection
+D. OleDbConnection
+10. Which property of SqlConnection contains the connection string values?
+A. Transaction
+B. DataSource only
+C. CommandText
+D. ConnectionString
+11. Which class allows creating syntactically correct connection strings at run time?
+A. SqlCommand
+B. TransactionScope
+C. SqlConnectionStringBuilder
+D. SqlDataReader
+12. In Code Snippet 1, which method opens the connection to the SQL Server database?
+A. Open()
+B. Start()
+C. Connect()
+D. Begin()
+13. The format of a connection string is:
+A. A binary file
+B. A comma-separated list of numbers
+C. An XML document
+D. A semicolon-delimited list of key/value parameter pairs
+14. A syntax error in a connection string generates:
+A. A compile-time warning only
+B. No error
+C. A cache refresh
+D. A run-time exception
+15. In the connection string, which key specifies the database name?
+A. Encrypt
+B. Server
+C. Initial Catalog
+D. Password
+16. In the connection string sample, what does Encrypt=True indicate?
+A. Encryption is disabled
+B. The database is deleted
+C. The password is shown
+D. Encryption is used for the connection
+17. In the sample connection string, the Connection Timeout value is:
+A. 100
+B. 10
+C. 30
+D. 5
+18. Connection strings can be stored in which file in an ASP.NET Web application?
+A. Web.config
+B. Site.css
+C. Default.aspx
+D. Global.asax only
+19. In Web.config, the connection string is placed inside which section?
+A. <connectionStrings>
+B. <runtime>
+C. <system.web> only
+D. <appSettings> only
+20. What providerName is used for SQL Server in the Web.config sample?
+A. System.Data.OleDb
+B. System.Data.Oracle
+C. System.Data.Odbc
+D. System.Data.SqlClient
+21. Which object is used to run commands and return results from a data source?
+A. DataSet
+B. DbConnection
+C. DbCommand
+D. DataTable
+22. Which property configures the SQL statement run by a command?
+A. CommandName
+B. CommandText
+C. CommandTimeout
+D. ConnectionString
+23. Which method of the DbConnection object creates a command for a specific connection?
+A. NewCommand
+B. CreateCommand
+C. OpenCommand
+D. BuildCommand
+24. Which command object exists for the SQL Server .NET Framework data provider?
+A. OdbcCommand
+B. SqlCommand
+C. OracleCommand
+D. OleDbCommand
+25. Which method returns a DataReader object?
+A. ExecuteScalar()
+B. ExecuteReader()
+C. ExecuteXmlReader()
+D. ExecuteNonQuery()
+26. Which method returns a single scalar value?
+A. ExecuteReader()
+B. ExecuteXmlReader()
+C. ExecuteNonQuery()
+D. ExecuteScalar()
+27. Which method executes a command that does not return rows, such as CREATE TABLE or INSERT?
+A. ExecuteXmlReader()
+B. ExecuteScalar()
+C. ExecuteNonQuery()
+D. ExecuteReader()
+28. ExecuteXmlReader() is available only for which command object?
+A. SqlCommand
+B. OdbcCommand
+C. OracleCommand
+D. OleDbCommand
+29. The CommandType enumeration specifies:
+A. The size of a database
+B. How a command string is interpreted
+C. The number of rows returned
+D. The connection timeout
+30. CommandType.StoredProcedure interprets the command string as:
+A. A table name
+B. An SQL statement
+C. A stored procedure name
+D. A connection string
+31. CommandType.TableDirect interprets the command string as:
+A. A file path
+B. A table name
+C. A stored procedure
+D. An SQL statement
+32. When ExecuteReader is used with a stored procedure, output parameters and return values cannot be obtained until:
+A. The DataReader is closed
+B. The page loads
+C. The command is created
+D. The connection is opened
+33. In the session walkthrough, the ASP.NET Web Form application is named:
+A. StudentDB
+B. StudentManagement
+C. AzureSQL
+D. CreateTable
+34. Which method is used in the CreateTable page to create the Students table?
+A. command.ExecuteScalar()
+B. command.ExecuteReader()
+C. command.ExecuteNonQuery()
+D. command.ExecuteXmlReader()
+35. Which statement is used in the finally block of the sample code?
+A. connection.Close()
+B. reader.Read()
+C. command.Execute()
+D. connection.Open()
+36. Why is the Close() method placed inside the finally block?
+A. To create a table
+B. To open the connection again
+C. To execute a query
+D. To ensure the connection is closed whether or not an exception occurs
+37. Which SQL statement is used in InsertRecord.aspx.cs to add a student?
+A. DELETE FROM [Students]
+B. DROP TABLE [Students]
+C. UPDATE [Students]
+D. INSERT INTO [Students]
+38. Which tool is used to verify the inserted record with a select query?
+A. SQL Server Management Studio (SSMS)
+B. Windows Media Player
+C. Notepad
+D. Paint
+39. A DataReader is a ______ cursor type.
+A. Write-only
+B. Read-write and bidirectional
+C. Random-access
+D. Forward-only and read-only
+40. Why can paging not be achieved using a DataReader?
+A. Because it is encrypted
+B. Because it is forward-only
+C. Because it needs a cache
+D. Because it is write-only
+41. A DataReader is the best option to display data when:
+A. Paging is required
+B. The data needs to be cached
+C. The data needs to be modified
+D. It is not required to work on the data
+42. DataReader results are kept in the:
+A. Server's hard disk
+B. Client's network buffer
+C. Registry
+D. Browser cache only
+43. Which DataReader method is used to access the next row of results?
+A. Next
+B. Read
+C. Fetch
+D. Open
+44. How does a DataReader improve application performance?
+A. It duplicates rows
+B. It stores only one row at a time in memory and returns data as soon as available
+C. It caches data on disk
+D. It stores the entire table in memory
+45. To retrieve rows using a DataReader, which method is called on the Command object?
+A. Command.ExecuteReader
+B. Command.ExecuteNonQuery
+C. Command.Fill
+D. Command.ExecuteScalar
+46. Which statement is true about ADO.NET transaction support?
+A. It supports both single-database and distributed transactions
+B. It supports no transactions
+C. It supports only distributed transactions
+D. It supports only single-database transactions
+47. Which namespace classes are used for the distributed transaction model?
+A. System.Transactions
+B. System.Drawing
+C. System.IO
+D. System.Text
+48. Which method begins a local transaction on a Connection object?
+A. CreateTransaction
+B. StartTransaction
+C. BeginTransaction
+D. OpenTransaction
+49. The Command object's ______ property enlists a command in a transaction.
+A. Transaction
+B. CommandType
+C. Connection only
+D. Parameters
+50. The scope of a single-connection transaction is limited to:
+A. The server farm
+B. All databases
+C. The connection
+D. The whole network
+51. In a distributed transaction, if any participant cannot guarantee that changes are permanent:
+A. The transaction commits anyway
+B. The changes are cached
+C. Only that participant is rolled back
+D. The complete transaction fails and all changes are rolled back
+52. Which method enlists a connection in a distributed transaction in ADO.NET?
+A. EnlistDistributedTransaction only in the newest version
+B. Dispose
+C. EnlistTransaction
+D. Commit
+53. Which method was used in previous ADO.NET versions to explicitly enlist in distributed transactions with an ITransaction instance?
+A. BeginTransaction
+B. Complete
+C. EnlistDistributedTransaction
+D. EnlistTransaction
+54. For SQL Server, using a System.Transactions transaction automatically results in:
+A. No transaction
+B. A permanent distributed transaction
+C. Use of a lightweight transaction that can be upgraded to a full distributed transaction
+D. A cache dependency
+Answer Key - Session 4
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | D | A set of classes that expose data access services for the .NET Framework |
+| 2 | C | XML, SQL Server, and sources exposed through ODBC and OLE DB |
+| 3 | B | Front-end database clients and middle-layer business components |
+| 4 | A | Windows applications, ASP.NET Web applications, and console applications |
+| 5 | A | .NET Framework data providers |
+| 6 | A | Connection string |
+| 7 | B | OdbcConnection |
+| 8 | B | SqlConnection |
+| 9 | D | OleDbConnection |
+| 10 | D | ConnectionString |
+| 11 | C | SqlConnectionStringBuilder |
+| 12 | A | Open() |
+| 13 | D | A semicolon-delimited list of key/value parameter pairs |
+| 14 | D | A run-time exception |
+| 15 | C | Initial Catalog |
+| 16 | D | Encryption is used for the connection |
+| 17 | C | 30 |
+| 18 | A | Web.config |
+| 19 | A | <connectionStrings> |
+| 20 | D | System.Data.SqlClient |
+| 21 | C | DbCommand |
+| 22 | B | CommandText |
+| 23 | B | CreateCommand |
+| 24 | B | SqlCommand |
+| 25 | B | ExecuteReader() |
+| 26 | D | ExecuteScalar() |
+| 27 | C | ExecuteNonQuery() |
+| 28 | A | SqlCommand |
+| 29 | B | How a command string is interpreted |
+| 30 | C | A stored procedure name |
+| 31 | B | A table name |
+| 32 | A | The DataReader is closed |
+| 33 | B | StudentManagement |
+| 34 | C | command.ExecuteNonQuery() |
+| 35 | A | connection.Close() |
+| 36 | D | To ensure the connection is closed whether or not an exception occurs |
+| 37 | D | INSERT INTO [Students] |
+| 38 | A | SQL Server Management Studio (SSMS) |
+| 39 | D | Forward-only and read-only |
+| 40 | B | Because it is forward-only |
+| 41 | D | It is not required to work on the data |
+| 42 | B | Client's network buffer |
+| 43 | B | Read |
+| 44 | B | It stores only one row at a time in memory and returns data as soon as available |
+| 45 | A | Command.ExecuteReader |
+| 46 | A | It supports both single-database and distributed transactions |
+| 47 | A | System.Transactions |
+| 48 | C | BeginTransaction |
+| 49 | A | Transaction |
+| 50 | C | The connection |
+| 51 | D | The complete transaction fails and all changes are rolled back |
+| 52 | C | EnlistTransaction |
+| 53 | C | EnlistDistributedTransaction |
+| 54 | C | Use of a lightweight transaction that can be upgraded to a full distributed transaction |
+
+Session 5: Data Access Using Entity Framework
+Choose the correct answer for each question.
+1. Entity Framework (EF) is:
+A. An Object Relational Mapping (ORM) tool for working with databases
+B. A Web browser
+C. A cloud billing tool
+D. A text editor
+2. EF was first introduced with:
+A. Visual Studio 6 and .NET 1.0
+B. .NET Core 3.0
+C. Visual Studio 2008 SP1 and .NET Framework 3.5 SP1
+D. Visual Studio 2015 only
+3. EF is an open source ORM framework built for:
+A. ADO.NET
+B. Java Servlets
+C. PHP
+D. Python
+4. What does an ORM do?
+A. Maps software objects to relational database tables and columns
+B. Converts images to text
+C. Compiles code
+D. Encrypts databases
+5. EF converts its queries into:
+A. SQL queries for the underlying database
+B. Image files
+C. HTML pages
+D. Registry keys
+6. LINQ was first introduced in which .NET Framework version?
+A. 2.0
+B. 4.5
+C. 1.0
+D. 3.5
+7. LINQ stands for:
+A. Lightweight Inline Query
+B. Linked Index Query
+C. Language Integrated Query
+D. Logical Input Network Query
+8. LINQ can be used with which languages?
+A. Only Python
+B. C# or Visual Basic
+C. Only PHP
+D. Only Java
+9. Which approach does EF NOT support?
+A. Script-first
+B. Database-first
+C. Model-first
+D. Code-first
+10. The EDM consists of how many primary parts?
+A. Four
+B. Five
+C. Three
+D. Two
+11. Which is NOT a primary part of the EDM?
+A. Presentation Model
+B. Conceptual Model
+C. Storage Model
+D. Mapping
+12. The conceptual model of EDM comprises:
+A. Only keys
+B. Only views
+C. Model classes and their relationships
+D. Tables and stored procedures
+13. The storage model in EDM comprises:
+A. Only LINQ queries
+B. Only controllers
+C. Tables, stored procedures, views, keys, and their relationships
+D. Only classes
+14. The mapping part of EDM describes:
+A. How the storage model is mapped to the conceptual model
+B. How VMs are created
+C. How firewalls work
+D. How cache expires
+15. LINQ-to-Entities creates queries for:
+A. The registry
+B. The object model
+C. The file system
+D. The network layer
+16. Entity SQL is described as:
+A. The same as T-SQL
+B. A different query language for EF 6 only that resembles L2E
+C. A cache language
+D. A scripting shell
+17. In EF architecture, which service is the primary entry point for retrieving information from the database?
+A. Cache Services
+B. Object Services
+C. Compiler Services
+D. Firewall Services
+18. The Entity Client Data Provider:
+A. Compiles C# code
+B. Translates L2E or Entity SQL queries into SQL queries the database can understand
+C. Creates virtual machines
+D. Hosts Web sites
+19. The ADO.NET Data Provider:
+A. Creates the EDM
+B. Converses with the database using ADO.NET
+C. Hosts controllers
+D. Generates views
+20. Which method of EF gathers Insert, Update, and Delete commands and saves changes to the database?
+A. SaveRecords()
+B. UpdateDatabase()
+C. CommitAll()
+D. SaveChanges()
+21. In the Code-First approach, the database is generated from:
+A. Entity classes
+B. A spreadsheet
+C. An existing database
+D. An EDMX file
+22. Is a Model Designer required for the Code-First approach?
+A. Yes
+B. Only on Azure
+C. Only for new projects
+D. No
+23. In Code-First, entities are known as:
+A. Table entities
+B. Stored entities
+C. Plain Old CLR Objects (POCO) entities
+D. EDMX entities
+24. Which object manages the interaction between classes and the database in Code-First?
+A. TransactionScope
+B. DataReader
+C. CacheItemPolicy
+D. DbContext
+25. Code-First can update the database using:
+A. SQL cache dependency
+B. Query notification
+C. Code-First migration
+D. Model fix
+26. Which approach uses the EF Designer to build entity models and relationships, and then creates the database from the models?
+A. Cloud-First
+B. Database-First
+C. Code-First
+D. Model-First
+27. Model-First is good for:
+A. Only legacy applications
+B. New projects where the database is not yet created
+C. Projects where the database already exists
+D. Only mobile applications
+28. Which file saves the model in the Model-First approach?
+A. XML config only
+B. EDMX file
+C. Web.config
+D. Global.asax
+29. In Database-First, model code such as properties, classes, and DbContext is created from:
+A. A CSS file
+B. The database
+C. An EDMX file only
+D. A Word document
+30. Which relationships are supported by EF's mapping capabilities?
+A. One-to-one, one-to-many, many-to-many
+B. Only one-to-one
+C. Only one-to-many
+D. None
+31. Which inheritance mappings does EF support?
+A. None
+B. Table per type, table per concrete class, table per hierarchy
+C. Only table per hierarchy
+D. Only table per type
+32. In the walkthrough, the ADO.NET Entity Data Model is named:
+A. StudentDBModel
+B. StudentContext
+C. AzureModel
+D. StudentDBEntities
+33. Which option is selected in the Entity Data Model Wizard to create a model from an existing database?
+A. Empty EF Designer model
+B. EF Designer from database
+C. Empty Code First model
+D. Code First from database only
+34. Which data source is chosen in the Connection Properties for Azure SQL?
+A. MySQL
+B. Access
+C. Oracle
+D. Microsoft SQL Server
+35. Which EF version is selected in the walkthrough?
+A. Entity Framework 1.0
+B. Entity Framework 2.0
+C. Entity Framework 3.5
+D. Entity Framework 6.0
+36. What does the "Add New Scaffolded Item - MVC 5 Controller with views, using Entity Framework" option generate?
+A. A controller and views for creating, updating, deleting, and displaying data
+B. Only a database
+C. Only a CSS file
+D. Only a stored procedure
+37. In the walkthrough, which controller is added under the Controllers folder?
+A. HomeController
+B. AzureController
+C. StudentController
+D. DbController
+38. Which auto-generated views are created for the Student model?
+A. Login and Logout
+B. Create, Delete, Details, Edit, Index
+C. Only Create
+D. Only Index
+39. CRUD stands for:
+A. Connect, Retrieve, Use, Dispose
+B. Copy, Run, Upload, Download
+C. Cache, Remove, Update, Deploy
+D. Create, Read, Update, Delete
+40. LINQ-to-Entities queries work on:
+A. The entity set (DbSet type properties)
+B. Only files
+C. Only XML
+D. Only stored procedures
+41. Which syntaxes can be used for LINQ queries on the EDM?
+A. Only query syntax
+B. Method syntax or query syntax
+C. Only SQL syntax
+D. Only method syntax
+42. In the sample query, which method returns the first matching student or a default value?
+A. Single
+B. Skip
+C. Last
+D. FirstOrDefault
+43. Eager loading means:
+A. No related entities are loaded
+B. Entities are deleted
+C. Related entities are loaded only when accessed
+D. A specific entity also loads related entities as part of the query
+44. Which method is used to execute eager loading?
+A. Load()
+B. Join()
+C. Fetch()
+D. Include()
+45. Lazy loading means:
+A. Entities are never loaded
+B. All entities are loaded in advance
+C. Entities are loaded automatically when a property referencing them is accessed for the first time
+D. Entities are loaded from cache only
+46. To implement lazy loading, you override ______ properties.
+A. Private
+B. Sealed
+C. Static
+D. Virtual
+47. LINQ-to-Entities is described as a ______ language.
+A. Procedural only
+B. Assembly
+C. Declarative
+D. Machine
+48. Which standard query operators are in the Set category?
+A. Where, OfType
+B. Skip, Take
+C. Select, SelectMany
+D. Distinct, Except, Intersect, Union
+49. Which are Quantifier operators?
+A. All, Any, Contains
+B. Sum, Min, Max
+C. OrderBy, ThenBy
+D. Join, GroupJoin
+50. Which operators belong to the Filtering category?
+A. Where and OfType
+B. Skip and Take
+C. OrderBy and Reverse
+D. Aggregate and Average
+51. Which operators belong to the Sorting category?
+A. Where, OfType
+B. Concat only
+C. OrderBy, OrderByDescending, ThenBy, ThenByDescending, Reverse
+D. Select, SelectMany
+52. Which operators belong to the Aggregation category?
+A. Skip, Take
+B. GroupBy, ToLookup
+C. Aggregate, Average, Count, LongCount, Max, Min, Sum
+D. Cast, ToList
+53. Which operators belong to the Partitioning category?
+A. Distinct, Union
+B. Skip, SkipWhile, Take, TakeWhile
+C. Join, GroupJoin
+D. Where, OfType
+54. Which operators belong to the Grouping category?
+A. Skip, Take
+B. Where, OfType
+C. GroupBy, ToLookup
+D. Sum, Count
+55. Which operators belong to the Projection category?
+A. Where
+B. Concat
+C. Select, SelectMany
+D. OrderBy
+Answer Key - Session 5
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | A | An Object Relational Mapping (ORM) tool for working with databases |
+| 2 | C | Visual Studio 2008 SP1 and .NET Framework 3.5 SP1 |
+| 3 | A | ADO.NET |
+| 4 | A | Maps software objects to relational database tables and columns |
+| 5 | A | SQL queries for the underlying database |
+| 6 | D | 3.5 |
+| 7 | C | Language Integrated Query |
+| 8 | B | C# or Visual Basic |
+| 9 | A | Script-first |
+| 10 | C | Three |
+| 11 | A | Presentation Model |
+| 12 | C | Model classes and their relationships |
+| 13 | C | Tables, stored procedures, views, keys, and their relationships |
+| 14 | A | How the storage model is mapped to the conceptual model |
+| 15 | B | The object model |
+| 16 | B | A different query language for EF 6 only that resembles L2E |
+| 17 | B | Object Services |
+| 18 | B | Translates L2E or Entity SQL queries into SQL queries the database can understand |
+| 19 | B | Converses with the database using ADO.NET |
+| 20 | D | SaveChanges() |
+| 21 | A | Entity classes |
+| 22 | D | No |
+| 23 | C | Plain Old CLR Objects (POCO) entities |
+| 24 | D | DbContext |
+| 25 | C | Code-First migration |
+| 26 | D | Model-First |
+| 27 | B | New projects where the database is not yet created |
+| 28 | B | EDMX file |
+| 29 | B | The database |
+| 30 | A | One-to-one, one-to-many, many-to-many |
+| 31 | B | Table per type, table per concrete class, table per hierarchy |
+| 32 | A | StudentDBModel |
+| 33 | B | EF Designer from database |
+| 34 | D | Microsoft SQL Server |
+| 35 | D | Entity Framework 6.0 |
+| 36 | A | A controller and views for creating, updating, deleting, and displaying data |
+| 37 | C | StudentController |
+| 38 | B | Create, Delete, Details, Edit, Index |
+| 39 | D | Create, Read, Update, Delete |
+| 40 | A | The entity set (DbSet type properties) |
+| 41 | B | Method syntax or query syntax |
+| 42 | D | FirstOrDefault |
+| 43 | D | A specific entity also loads related entities as part of the query |
+| 44 | D | Include() |
+| 45 | C | Entities are loaded automatically when a property referencing them is accessed for the first time |
+| 46 | D | Virtual |
+| 47 | C | Declarative |
+| 48 | D | Distinct, Except, Intersect, Union |
+| 49 | A | All, Any, Contains |
+| 50 | A | Where and OfType |
+| 51 | C | OrderBy, OrderByDescending, ThenBy, ThenByDescending, Reverse |
+| 52 | C | Aggregate, Average, Count, LongCount, Max, Min, Sum |
+| 53 | B | Skip, SkipWhile, Take, TakeWhile |
+| 54 | C | GroupBy, ToLookup |
+| 55 | C | Select, SelectMany |
+
+Session 6: Data Access Using Third-party Databases and Azure Storage Services
+Choose the correct answer for each question.
+1. Azure database services allow developers to:
+A. Avoid using databases
+B. Write operating systems
+C. Manage physical servers
+D. Focus time on other crucial tasks instead of managing a database from scratch
+2. Azure database services offer which of the following?
+A. Only desktop use
+B. No availability guarantees
+C. Enterprise-grade performance with high built-in availability
+D. Only offline access
+3. Azure Database for MySQL is based on:
+A. The open-source MySQL server engine
+B. The Oracle engine
+C. The SQLite engine
+D. The Cosmos engine
+4. Azure Database for MySQL is described as a:
+A. Completely managed relational database service
+B. File system
+C. Message queue
+D. Desktop database only
+5. Azure Database for MySQL can handle:
+A. No workloads
+B. Mission-critical workloads with high performance and dynamic scalability
+C. Only static pages
+D. Only small workloads
+6. Azure Cosmos DB is a:
+A. Local file
+B. Globally distributed database service
+C. Desktop editor
+D. Single-region database
+7. Cosmos DB uses a single backend to support which data models?
+A. Only graph
+B. Only relational
+C. Only document
+D. Key-value, document, relational, and graph
+8. Cosmos DB is sometimes referred to as NewSQL because:
+A. It is relational only
+B. It has no query language
+C. It lacks transactions
+D. It uses a SQL-like query language and supports ACID transactions, but has no relational data model
+9. Entity Framework uses which model to access various databases?
+A. A cloud model
+B. A queue model
+C. A file model
+D. A provider model
+10. A data provider represents:
+A. A cloud region
+B. A server farm
+C. A set of libraries that facilitate data operations
+D. A single table
+11. Which databases use the Oracle data provider?
+A. Excel files
+B. MySQL databases
+C. SQL Server databases
+D. Oracle databases
+12. Which databases are mentioned as using the OLE DB data provider?
+A. Only Oracle
+B. Only Cosmos DB
+C. MySQL, Excel, Access
+D. Only SQL Server
+13. Entity Framework acts as a bond between:
+A. Object-oriented code and the SQL Azure relational database
+B. Hardware and software
+C. Queues and tables
+D. Browsers and servers only
+14. Entity Framework is integrated into:
+A. Excel
+B. Visual Studio
+C. Notepad
+D. Paint
+15. EF6 is combined with which MySQL component?
+A. MySQL Workbench
+B. MySQL Shell
+C. phpMyAdmin
+D. MySQL Connector/NET
+16. Which NuGet package is installed for EF support with MySQL?
+A. Microsoft.Azure.DocumentDB
+B. EntityFramework.Web
+C. MySql.Data.Entity
+D. System.Data.SQLite
+17. MySQL ADO.NET Connector is described as a:
+A. Completely managed ADO.NET driver
+B. Hardware driver
+C. Query language
+D. Cloud portal
+18. In the MySQL connection string sample, the providerName is:
+A. System.Data.OleDb
+B. System.Data.SqlClient
+C. MySql.Data.MySqlClient
+D. System.Data.SQLite
+19. In the MySQL connection string sample, which default MySQL port is used?
+A. 3306
+B. 443
+C. 80
+D. 1433
+20. Which attribute is used on the DbContext class to configure MySQL for EF?
+A. [ActionName]
+B. [Required]
+C. [Display]
+D. [DbConfigurationType(typeof(MySqlEFConfiguration))]
+21. In the MySQL DbContext sample, Students is exposed as a:
+A. DataTable
+B. List<string>
+C. DbSet<Student>
+D. Dictionary
+22. SQLite is described as:
+A. A client-server enterprise database requiring installation
+B. An autonomous, serverless, zero-configuration transactional SQL database engine
+C. A cloud-only database
+D. A NoSQL document store
+23. SQLite code is:
+A. In the public domain and free for any purpose
+B. Available only for Linux
+C. Available only to Azure customers
+D. Proprietary and paid
+24. Which NuGet package should be added to use SQLite with EF?
+A. SQLite.Azure
+B. System.SQLite
+C. System.Data.SQLite
+D. Data.SQLite
+25. Which tool is mentioned as the simplest way to create/view SQLite files?
+A. DB Browser for SQLite
+B. Excel
+C. Visual Studio Code
+D. SSMS
+26. In the SQLite DbContext sample, which property of the connection string builder points to the database file?
+A. ServerName
+B. Catalog
+C. Endpoint
+D. DataSource
+27. In the SQLite DbContext sample, which convention is removed in OnModelCreating?
+A. StoreGeneratedConvention
+B. ForeignKeyConvention
+C. KeyConvention
+D. PluralizingTableNameConvention
+28. What is the URL format for addressing Azure queues?
+A. https://<storage account>.queue.core.windows.net/<queue>
+B. https://<queue>.table.core.windows.net
+C. http://queue.azure.exe/<queue>
+D. ftp://<queue>.windows.net
+29. A storage account is used to:
+A. Create firewalls only
+B. Host VMs only
+C. Compile code
+D. Access Azure Storage
+30. A queue name should be:
+A. Any case
+B. In lowercase only
+C. Numeric only
+D. In uppercase only
+31. The maximum size of a queue message is:
+A. 1 GB
+B. 1 MB
+C. 64 KB
+D. 1 KB
+32. How long can a message remain in a queue?
+A. One year
+B. Seven days
+C. Forever
+D. One hour
+33. Azure Cosmos DB is provided as which type of solution?
+A. IaaS
+B. PaaS
+C. SaaS only
+D. On-premises only
+34. Azure Cosmos DB can be tried free of cost:
+A. Only with an MSDN subscription
+B. Only with a paid subscription
+C. Without an Azure subscription
+D. Never
+35. Azure Cosmos DB provides assurance for availability, high throughput, low latency, and:
+A. Manual backups
+B. Tunable consistency
+C. No consistency
+D. Fixed consistency only
+36. Cosmos DB is mainly used by which kinds of applications?
+A. Only batch
+B. Web, mobile, gaming, and IoT
+C. Only desktop
+D. Only mainframe
+37. In the Cosmos DB creation steps, the ID field must be:
+A. Unique and in lowercase
+B. Left blank
+C. Numeric only
+D. Uppercase
+38. Which menu item is used to select Cosmos DB in the portal?
+A. Security Center
+B. All Services > Azure Cosmos DB
+C. Monitor
+D. Advisor
+39. Which window is opened after clicking the newly created Cosmos DB?
+A. Login page
+B. Billing page
+C. Help page
+D. Quick start page
+40. Which tool in the Cosmos DB menu is used to add a collection and view documents?
+A. Dashboard
+B. Data Explorer
+C. Resource Manager
+D. Advisor
+41. In the walkthrough, the collection created in Cosmos DB is named:
+A. Records
+B. Student
+C. Courses
+D. Items only
+42. Which options are required to connect later to the Cosmos DB database from the Keys page?
+A. Only password
+B. Only port
+C. URI, Primary Key, and Connection string
+D. Only username
+43. Which NuGet package is installed to integrate Azure Cosmos DB with ASP.NET MVC in the session?
+A. MySql.Data.Entity
+B. EntityFramework
+C. Microsoft.Azure.DocumentDB
+D. System.Data.SQLite
+44. In Web.config, Cosmos DB settings are added under which section?
+A. <appSettings>
+B. <providers>
+C. <runtime>
+D. <connectionStrings>
+45. The Web.config key "endpoint" holds:
+A. The URI value from the Keys page
+B. The database name
+C. The primary key
+D. The collection name
+46. The Web.config key "authKey" holds:
+A. The server name
+B. The primary key value from the Keys page
+C. The URI
+D. The collection name
+47. Which file from the downloaded sample code is added to the application for Cosmos DB access?
+A. DocumentDBRepository.cs
+B. Global.asax
+C. Startup.cs
+D. Program.cs
+48. In the sample application, the new controller added is named:
+A. StudentInfoController
+B. HomeController
+C. CosmosController
+D. StudentController
+49. In the Index action of StudentInfoController, items are retrieved using:
+A. SqlCommand.ExecuteReader
+B. CacheItemPolicy
+C. DocumentDBRepository<Student>.GetItemsAsync
+D. DbContext.SaveChanges
+50. The Student list page in the sample application is accessed at which URL path?
+A. /azure/login
+B. /home/about
+C. /student/create
+D. /studentinfo/index
+51. Which Required attribute message is used for the Student Id in the model?
+A. Please enter Id
+B. Id missing
+C. Student Id is required
+D. Invalid Id
+Answer Key - Session 6
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | D | Focus time on other crucial tasks instead of managing a database from scratch |
+| 2 | C | Enterprise-grade performance with high built-in availability |
+| 3 | A | The open-source MySQL server engine |
+| 4 | A | Completely managed relational database service |
+| 5 | B | Mission-critical workloads with high performance and dynamic scalability |
+| 6 | B | Globally distributed database service |
+| 7 | D | Key-value, document, relational, and graph |
+| 8 | D | It uses a SQL-like query language and supports ACID transactions, but has no relational data model |
+| 9 | D | A provider model |
+| 10 | C | A set of libraries that facilitate data operations |
+| 11 | D | Oracle databases |
+| 12 | C | MySQL, Excel, Access |
+| 13 | A | Object-oriented code and the SQL Azure relational database |
+| 14 | B | Visual Studio |
+| 15 | D | MySQL Connector/NET |
+| 16 | C | MySql.Data.Entity |
+| 17 | A | Completely managed ADO.NET driver |
+| 18 | C | MySql.Data.MySqlClient |
+| 19 | A | 3306 |
+| 20 | D | [DbConfigurationType(typeof(MySqlEFConfiguration))] |
+| 21 | C | DbSet<Student> |
+| 22 | B | An autonomous, serverless, zero-configuration transactional SQL database engine |
+| 23 | A | In the public domain and free for any purpose |
+| 24 | C | System.Data.SQLite |
+| 25 | A | DB Browser for SQLite |
+| 26 | D | DataSource |
+| 27 | D | PluralizingTableNameConvention |
+| 28 | A | https://<storage account>.queue.core.windows.net/<queue> |
+| 29 | D | Access Azure Storage |
+| 30 | B | In lowercase only |
+| 31 | C | 64 KB |
+| 32 | B | Seven days |
+| 33 | B | PaaS |
+| 34 | C | Without an Azure subscription |
+| 35 | B | Tunable consistency |
+| 36 | B | Web, mobile, gaming, and IoT |
+| 37 | A | Unique and in lowercase |
+| 38 | B | All Services > Azure Cosmos DB |
+| 39 | D | Quick start page |
+| 40 | B | Data Explorer |
+| 41 | B | Student |
+| 42 | C | URI, Primary Key, and Connection string |
+| 43 | C | Microsoft.Azure.DocumentDB |
+| 44 | A | <appSettings> |
+| 45 | A | The URI value from the Keys page |
+| 46 | B | The primary key value from the Keys page |
+| 47 | A | DocumentDBRepository.cs |
+| 48 | A | StudentInfoController |
+| 49 | C | DocumentDBRepository<Student>.GetItemsAsync |
+| 50 | D | /studentinfo/index |
+| 51 | C | Student Id is required |
+
+Session 7: Design and Implementation of Web API
+Choose the correct answer for each question.
+1. ASP.NET Web API is a framework that:
+A. Allows producing HTTP services accessible to different clients, including browsers and mobile devices
+B. Only builds desktop applications
+C. Only manages databases
+D. Only builds games
+2. Web API responses can be sent back using which content types by default?
+A. JSON and XML
+B. Only images
+C. Only HTML
+D. Only PDF
+3. Web API is an ideal platform for building:
+A. Only desktop forms
+B. Operating systems
+C. RESTful applications on the .NET Framework
+D. Only SOAP-only services
+4. JSON stands for:
+A. Java Standard Object Network
+B. JavaScript Object Notation
+C. JavaScript Online Node
+D. Joint Syntax Object Notation
+5. Web API is considered to be a part of:
+A. The core ASP.NET platform, not the MVC Framework
+B. Silverlight
+C. The MVC Framework only
+D. Windows Forms
+6. Which of the following attributes of MVC is part of ASP.NET Web API?
+A. Only Razor
+B. Only views
+C. Routing, controllers, filters, model binders
+D. Only master pages
+7. HTTP is the protocol used to:
+A. Store databases
+B. Print documents
+C. Communicate over the Web
+D. Compile code
+8. When a user enters a URL in a browser, what is sent to the application on the server?
+A. An HTTP request
+B. A database dump
+C. An email
+D. An FTP file
+9. Which of the following is an HTTP request header that specifies the domain name of the application whose resource is being accessed?
+A. Accept
+B. Host
+C. Keep-Alive
+D. Connection
+10. Which HTTP request header specifies the MIME types the client expects in the response?
+A. Keep-Alive
+B. Content-Type only
+C. Host
+D. Accept
+11. Which header value indicates the server should use the same connection for subsequent communication?
+A. keep-alive (Connection header)
+B. Accept-Language
+C. close
+D. Host
+12. An HTTP response contains:
+A. Only a body
+B. Only a status code
+C. Response headers and a response body along with a status code
+D. Only headers
+13. Which response header specifies the type of content the response contains?
+A. Host
+B. Accept
+C. User-Agent
+D. Content-Type
+14. A Content-Type value of text/html tells the browser to render the response body as:
+A. JSON
+B. HTML
+C. An image
+D. Plain XML
+15. In the walkthrough, the new ASP.NET Web Application is named:
+A. StudentServices
+B. WebAPIHelper
+C. StudentManagement
+D. StudentOData
+16. When Web API is selected as the project type in Visual Studio, what does it also include?
+A. Only WCF
+B. Only Entity Framework
+C. MVC with API Explorer helper pages
+D. Only SOAP
+17. Which type of controller is added to the Controllers folder in the walkthrough?
+A. Web API 2 Controller
+B. Windows Form Controller
+C. Silverlight Controller
+D. WCF Controller
+18. Which model class is created to hold the attributes needed to create a student?
+A. StudentModel
+B. EditStudentModel
+C. StudentEntity
+D. CreateStudentModel
+19. Which HTTP method attribute is used with the Create() action to insert a record?
+A. [HttpDelete]
+B. [HttpPost]
+C. [HttpGet]
+D. [HttpPut]
+20. Which attribute is used on GetAll() to retrieve the list of students?
+A. [HttpPut]
+B. [HttpGet]
+C. [HttpPost]
+D. [HttpDelete]
+21. Which method of the context saves the inserted record to the database?
+A. Commit()
+B. SaveChanges()
+C. Flush()
+D. Update()
+22. Which return type is used in the sample actions?
+A. IHttpActionResult
+B. ActionResult only
+C. string only
+D. void only
+23. Which third-party tool is mentioned for testing Web APIs?
+A. Postman
+B. Excel
+C. Notepad
+D. Paint
+24. In Postman, how is JSON data passed to create a student with the POST method?
+A. In a cookie
+B. As raw content in the request body
+C. In the URL only
+D. In a header only
+25. In Web API, which part of the request is used to select an action?
+A. The HTTP method
+B. The IP address
+C. The URI method only
+D. The browser type
+26. ASP.NET MVC uses which element to select an action?
+A. The port
+B. The URI
+C. The cookies
+D. The HTTP method only
+27. A controller in Web API is:
+A. A database table
+B. A browser extension
+C. A configuration file
+D. A class that can manage HTTP requests, with public methods called actions
+28. The routing table is used to:
+A. Store database records
+B. Cache static content
+C. Decide which action should be called for a request
+D. Compile code
+29. Where is the default Web API route defined?
+A. WebApiConfig.cs in the App_Start folder
+B. Global.asax only
+C. Web.config only
+D. Startup.cs in Models
+30. What is the default route template for Web API?
+A. api/{action}
+B. {controller}/{action}/{id}
+C. api/{controller}/{id}
+D. home/index
+31. What happens if the request URI does not match any route template?
+A. The server restarts
+B. A 404 error is displayed
+C. A 500 error always
+D. A 200 response is returned
+32. In the default route, 'api' is:
+A. A controller
+B. An action
+C. A placeholder variable
+D. The actual path segment
+33. In the default route, {controller} and {id} are:
+A. Query strings
+B. Placeholder variables
+C. Fixed segments
+D. HTTP methods
+34. Attribute routing uses which attribute to define route templates on actions?
+A. [HttpPost]
+B. [Authorize]
+C. [Display]
+D. [Route]
+35. Which route template is shown as an example of hierarchy of resources in attribute routing?
+A. api/{controller}/{id}
+B. students/{id}
+C. students/{studentId}/marks
+D. home/index
+36. Which HTTP method attribute is used for the Modify() action?
+A. [HttpDelete]
+B. [HttpPut]
+C. [HttpGet]
+D. [HttpPost]
+37. Which attribute is used on the Delete() action?
+A. [HttpPut]
+B. [HttpPost]
+C. [HttpDelete]
+D. [HttpGet]
+38. In Modify(), how is the entity marked as changed?
+A. context.Add(student)
+B. context.Entry(student).State = EntityState.Modified
+C. context.Refresh()
+D. context.Delete(student)
+39. In Delete(), which method removes the student from the DbSet?
+A. _context.Students.Remove(...)
+B. _context.Students.Find(...)
+C. _context.Students.Add(...)
+D. _context.Students.Clear(...)
+40. CRUD operations in Web API correspond to:
+A. Cache, Remove, Update, Deploy
+B. Connect, Retrieve, Use, Dispose
+C. Copy, Run, Upload, Download
+D. Create, Read, Update, Delete
+41. Which Web API method accepts a Student JSON object as body and is mapped to api/Student with POST?
+A. Delete()
+B. GetAll()
+C. GetById()
+D. Create()
+42. Dependency injection is used to create:
+A. Loosely linked systems where replacing an object is easy
+B. Only databases
+C. Tightly coupled systems
+D. Only static pages
+43. Which of the following are IOC containers?
+A. Ninject, Unity, CastleWindsor, StructureMap
+B. Chrome, Firefox
+C. Excel, Word
+D. Postman, Fiddler
+44. Which are the three methods to reference an object to an external module in dependency injection?
+A. Property, Field, Event injection
+B. Static, Dynamic, Global injection
+C. Class, Object, Method injection
+D. Constructor, Setter, and Interface injection
+45. In asynchronous actions, the callback function executes on:
+A. A new process
+B. A thread from the Thread pool
+C. The UI thread only
+D. A database thread
+46. Which keyword is used in the GetAllAsync example to wait for ToListAsync()?
+A. yield
+B. lock
+C. await
+D. using
+47. Which namespace must be imported to use Task?
+A. System.IO
+B. System.Net.Mail
+C. System.Threading.Tasks
+D. System.Drawing
+48. OData stands for:
+A. Online Data Packet
+B. Open Data Protocol
+C. Object Data Policy
+D. Open Database Provider
+49. OData is built on:
+A. RPC
+B. DCOM
+C. SOAP only
+D. REST
+50. OData standard queries include:
+A. Only backups
+B. Only encryption
+C. Only compiling
+D. Limiting returned objects, paging, counting, and filtering
+51. Which OData versions does ASP.NET Web API support?
+A. v2 only
+B. v5 only
+C. v1 only
+D. v3 and v4
+52. Which NuGet package is installed to add OData support in the walkthrough?
+A. System.Data.SQLite
+B. MySql.Data.Entity
+C. Microsoft.AspNet.Odata
+D. Microsoft.Azure.DocumentDB
+53. In the OData walkthrough, which class is used to build the Entity Data Model for the route?
+A. HttpConfiguration only
+B. DbContext
+C. TransactionScope
+D. ODataConventionModelBuilder
+54. Which attribute enables OData query options (such as $filter) on the GetStudentModels action?
+A. [Route]
+B. [Authorize]
+C. [EnableQuery]
+D. [HttpGet] only
+55. The OData controller class derives from:
+A. Controller only
+B. ApiController only
+C. ODataController
+D. Page
+Answer Key - Session 7
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | A | Allows producing HTTP services accessible to different clients, including browsers and mobile devices |
+| 2 | A | JSON and XML |
+| 3 | C | RESTful applications on the .NET Framework |
+| 4 | B | JavaScript Object Notation |
+| 5 | A | The core ASP.NET platform, not the MVC Framework |
+| 6 | C | Routing, controllers, filters, model binders |
+| 7 | C | Communicate over the Web |
+| 8 | A | An HTTP request |
+| 9 | B | Host |
+| 10 | D | Accept |
+| 11 | A | keep-alive (Connection header) |
+| 12 | C | Response headers and a response body along with a status code |
+| 13 | D | Content-Type |
+| 14 | B | HTML |
+| 15 | A | StudentServices |
+| 16 | C | MVC with API Explorer helper pages |
+| 17 | A | Web API 2 Controller |
+| 18 | D | CreateStudentModel |
+| 19 | B | [HttpPost] |
+| 20 | B | [HttpGet] |
+| 21 | B | SaveChanges() |
+| 22 | A | IHttpActionResult |
+| 23 | A | Postman |
+| 24 | B | As raw content in the request body |
+| 25 | A | The HTTP method |
+| 26 | B | The URI |
+| 27 | D | A class that can manage HTTP requests, with public methods called actions |
+| 28 | C | Decide which action should be called for a request |
+| 29 | A | WebApiConfig.cs in the App_Start folder |
+| 30 | C | api/{controller}/{id} |
+| 31 | B | A 404 error is displayed |
+| 32 | D | The actual path segment |
+| 33 | B | Placeholder variables |
+| 34 | D | [Route] |
+| 35 | C | students/{studentId}/marks |
+| 36 | B | [HttpPut] |
+| 37 | C | [HttpDelete] |
+| 38 | B | context.Entry(student).State = EntityState.Modified |
+| 39 | A | _context.Students.Remove(...) |
+| 40 | D | Create, Read, Update, Delete |
+| 41 | D | Create() |
+| 42 | A | Loosely linked systems where replacing an object is easy |
+| 43 | A | Ninject, Unity, CastleWindsor, StructureMap |
+| 44 | D | Constructor, Setter, and Interface injection |
+| 45 | B | A thread from the Thread pool |
+| 46 | C | await |
+| 47 | C | System.Threading.Tasks |
+| 48 | B | Open Data Protocol |
+| 49 | D | REST |
+| 50 | D | Limiting returned objects, paging, counting, and filtering |
+| 51 | D | v3 and v4 |
+| 52 | C | Microsoft.AspNet.Odata |
+| 53 | D | ODataConventionModelBuilder |
+| 54 | C | [EnableQuery] |
+| 55 | C | ODataController |
+
+Session 8: Security in Web API
+Choose the correct answer for each question.
+1. What are the two important phases of Web API security implementation?
+A. Compilation and deployment
+B. Caching and routing
+C. Authentication and authorization
+D. Encryption and compression
+2. Validating a user's identity using a username and password is called:
+A. Authorization
+B. Authentication
+C. Caching
+D. Routing
+3. Determining what an authenticated user is allowed to do (e.g., read but not edit a file) is called:
+A. Authorization
+B. Serialization
+C. Binding
+D. Authentication
+4. In Web API, where is authentication performed?
+A. In the browser
+B. In the controller action
+C. In the database only
+D. In the host
+5. Which server employs HTTP modules to authenticate users in Web API hosting?
+A. Tomcat
+B. Apache
+C. Internet Information Server (IIS)
+D. Nginx
+6. The host generates which object for authenticated users?
+A. IEnumerable
+B. IPrincipal
+C. IQueryable
+D. IHttpActionResult
+7. The principal is appended to the current thread using:
+A. Thread.Sleep
+B. Thread.Start
+C. Thread.CurrentPrincipal
+D. Thread.Abort
+8. What does Identity.IsAuthenticated return when authentication succeeds?
+A. true
+B. false
+C. 0
+D. null
+9. Authorization filters are applied:
+A. After the controller action
+B. Only in the browser
+C. Only at application end
+D. Prior to the controller action
+10. Which property is used to obtain the current principal from a controller action?
+A. ApiController.Context
+B. ApiController.User
+C. ApiController.Identity
+D. ApiController.Request
+11. The AuthorizeAttribute filter displays which HTTP error code when authentication is unsuccessful?
+A. 404
+B. 200
+C. 401
+D. 500
+12. The AuthorizeAttribute filter can be applied at which levels?
+A. Only action level
+B. Only controller level
+C. Only globally
+D. Globally, at controller level, or at action level
+13. Which are the two ways to provide security in Web API mentioned in the session?
+A. Basic authentication and token-based authentication
+B. HTTP and HTTPS
+C. Cookies and sessions
+D. FTP and SFTP
+14. In basic authentication, credentials are sent:
+A. In a cookie only
+B. As username and password embedded in a request header
+C. In a database only
+D. In the URL only
+15. Token-based authentication works by:
+A. Disabling security
+B. Using only cookies
+C. Sending a password with every request
+D. Forwarding a token to the authenticated user for accessing other resources
+16. A token has a predefined:
+A. Lifetime that determines when it expires
+B. Color
+C. Port
+D. Language
+17. OWIN stands for:
+A. Online Web Identity Network
+B. Open Windows Interface Node
+C. Object Web Integration for .NET
+D. Open Web Interface for .NET
+18. Which authentication option is selected to implement OWIN token authentication with stored user profiles?
+A. Work or School Accounts only
+B. Windows Authentication
+C. Individual User Accounts
+D. No Authentication
+19. Individual User Accounts allows users to:
+A. Register or sign in using an existing account for Facebook, Twitter, Google, Microsoft or other providers
+B. Skip login
+C. Only use Windows login
+D. Only use anonymous access
+20. After creating the application with authentication, which controller appears in the Controllers folder?
+A. AccountController
+B. PaymentController
+C. LoginController
+D. StudentController
+21. By default, where does OWIN authentication create its authentication database?
+A. In Redis
+B. In Azure Cosmos DB
+C. In the Data (App_Data) folder
+D. In the cloud automatically
+22. In the walkthrough, the connection name for the authentication database is:
+A. AzureDb
+B. DefaultConnection
+C. AuthDb
+D. OwinDb
+23. Which methods of AccountController are visible in the API helper page?
+A. None
+B. Register and Logout
+C. Token only
+D. Login only
+24. Which setting in Startup.Auth.cs specifies the URL for token generation?
+A. ProviderPath
+B. AuthorizeEndpointPath
+C. LoginPath
+D. TokenEndpointPath
+25. What is the AccessTokenExpireTimeSpan in the sample code?
+A. 1 year
+B. 30 minutes
+C. 1 hour
+D. 14 days
+26. In production mode, AllowInsecureHttp should be set to:
+A. false
+B. null
+C. true
+D. 0
+27. Which tool is used in the session to generate and test the token?
+A. Paint
+B. Postman
+C. Excel
+D. Notepad
+28. Before logging in, a user must first:
+A. Delete the database
+B. Install SQL
+C. Restart IIS
+D. Register with a unique user ID and password
+29. Which HTTP method is used to register a user in Postman?
+A. DELETE
+B. PUT
+C. GET
+D. POST
+30. What response code indicates that the registration API executed successfully?
+A. 200
+B. 500
+C. 401
+D. 404
+31. The login response includes which of the following?
+A. Access token, expiry, token type
+B. Only a cookie
+C. Only a password
+D. Only an email
+32. How many tables are created by OWIN in the Azure database, and how many begin with AspNet?
+A. Three, none begin with AspNet
+B. Ten, all begin with AspNet
+C. Six, five begin with AspNet
+D. Six, all begin with AspNet
+33. Which method is overridden to implement custom authorization logic in a class derived from AuthorizeAttribute?
+A. IsAuthorized
+B. HandleRequest
+C. Validate
+D. OnActionExecuting
+34. IsAuthorized returns a Boolean where true means:
+A. The database is down
+B. The token expired
+C. The user is blocked
+D. The user is authorized
+35. Which method of AuthorizeAttribute allows custom logic when authorization fails?
+A. OnException
+B. Dispose
+C. HandleUnauthorizedRequest
+D. Reset
+36. Which namespace should the custom filter derive from for Web API?
+A. System.Web.Http
+B. System.IO
+C. System.Data
+D. System.Web.Mvc
+37. The [Authorize(Roles = "Supervisor")] attribute means:
+A. Only users in the Supervisor role can access the controller or its actions
+B. Nobody can access
+C. Only anonymous users can access
+D. Everyone can access
+38. The [AllowAnonymous] attribute:
+A. Encrypts data
+B. Blocks all users
+C. Lets a user access a controller or action without authentication
+D. Requires a role
+39. CORS stands for:
+A. Cross Origin Resource Sharing
+B. Central Origin Routing Service
+C. Cross Object Resource Sync
+D. Cached Origin Resource Server
+40. CORS is a standard of which organization?
+A. Microsoft only
+B. ISO only
+C. World Wide Web Consortium (W3C)
+D. IEEE only
+41. CORS allows a server to:
+A. Decline all requests
+B. Disable HTTP
+C. Accept some cross-origin requests while declining others
+D. Accept all requests always
+42. Which technique was used earlier for cross-domain calls before CORS?
+A. RPC
+B. SOAP
+C. FTP
+D. JSONP (JSON with Padding)
+43. Which NuGet package is installed to enable CORS in Web API?
+A. Microsoft.AspNet.Odata
+B. Microsoft.AspNet.WebApi.Cors
+C. EntityFramework
+D. MySql.Data.Entity
+44. Which minimum version of Web API is required for the CORS package?
+A. Web API 0.5
+B. Web API 1.0
+C. Any version
+D. Web API 2.0 or later
+45. Which line in WebApiConfig.Register enables CORS?
+A. config.AllowCors()
+B. config.EnableCors()
+C. config.UseCors()
+D. config.CorsOn()
+46. The [EnableCors] attribute takes which parameters?
+A. Only headers
+B. Only origins
+C. origins, headers, and methods
+D. users and roles
+47. For the origins parameter, you should use:
+A. The database name
+B. Any random text
+C. The URI where the WebClient application was deployed
+D. The server password
+48. XSRF/CSRF stands for:
+A. Cross-Site Request Foundation
+B. Cross-Site Reporting Forgery
+C. Cross-Site Response Forgery
+D. Cross-Site Request Forgery
+49. XSRF has high chances when Web applications use:
+A. No authentication
+B. Only tokens in headers
+C. Cookies to authenticate users
+D. Only SSL
+50. Why are browsers vulnerable to XSRF with cookies?
+A. Cookies expire immediately
+B. Cookies are sent to the Web app with every request, regardless of how the request is generated
+C. Cookies are never sent
+D. Cookies are encrypted
+51. Which authentication method can also be prone to XSRF?
+A. No authentication
+B. Basic authentication
+C. Public access
+D. Anonymous
+52. In the authorization filter walkthrough, which tables are NOT included in the Entity Data Model?
+A. Student table
+B. AspNet tables
+C. None
+D. All tables
+53. Adding [Authorize] before the StudentController does what?
+A. Deletes the controller
+B. Secures all methods so login is required
+C. Disables CORS
+D. Makes all methods anonymous
+54. Which method is marked [AllowAnonymous] in the example?
+A. GetAll()
+B. Delete()
+C. Modify()
+D. Create()
+55. Why does Create() fail without a token?
+A. The database is offline
+B. The controller is marked [Authorize] and requires login
+C. The route is wrong
+D. The method is deprecated
+Answer Key - Session 8
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | C | Authentication and authorization |
+| 2 | B | Authentication |
+| 3 | A | Authorization |
+| 4 | D | In the host |
+| 5 | C | Internet Information Server (IIS) |
+| 6 | B | IPrincipal |
+| 7 | C | Thread.CurrentPrincipal |
+| 8 | A | true |
+| 9 | D | Prior to the controller action |
+| 10 | B | ApiController.User |
+| 11 | C | 401 |
+| 12 | D | Globally, at controller level, or at action level |
+| 13 | A | Basic authentication and token-based authentication |
+| 14 | B | As username and password embedded in a request header |
+| 15 | D | Forwarding a token to the authenticated user for accessing other resources |
+| 16 | A | Lifetime that determines when it expires |
+| 17 | D | Open Web Interface for .NET |
+| 18 | C | Individual User Accounts |
+| 19 | A | Register or sign in using an existing account for Facebook, Twitter, Google, Microsoft or other providers |
+| 20 | A | AccountController |
+| 21 | C | In the Data (App_Data) folder |
+| 22 | B | DefaultConnection |
+| 23 | B | Register and Logout |
+| 24 | D | TokenEndpointPath |
+| 25 | D | 14 days |
+| 26 | A | false |
+| 27 | B | Postman |
+| 28 | D | Register with a unique user ID and password |
+| 29 | D | POST |
+| 30 | A | 200 |
+| 31 | A | Access token, expiry, token type |
+| 32 | C | Six, five begin with AspNet |
+| 33 | A | IsAuthorized |
+| 34 | D | The user is authorized |
+| 35 | C | HandleUnauthorizedRequest |
+| 36 | A | System.Web.Http |
+| 37 | A | Only users in the Supervisor role can access the controller or its actions |
+| 38 | C | Lets a user access a controller or action without authentication |
+| 39 | A | Cross Origin Resource Sharing |
+| 40 | C | World Wide Web Consortium (W3C) |
+| 41 | C | Accept some cross-origin requests while declining others |
+| 42 | D | JSONP (JSON with Padding) |
+| 43 | B | Microsoft.AspNet.WebApi.Cors |
+| 44 | D | Web API 2.0 or later |
+| 45 | B | config.EnableCors() |
+| 46 | C | origins, headers, and methods |
+| 47 | C | The URI where the WebClient application was deployed |
+| 48 | D | Cross-Site Request Forgery |
+| 49 | C | Cookies to authenticate users |
+| 50 | B | Cookies are sent to the Web app with every request, regardless of how the request is generated |
+| 51 | B | Basic authentication |
+| 52 | B | AspNet tables |
+| 53 | B | Secures all methods so login is required |
+| 54 | A | GetAll() |
+| 55 | B | The controller is marked [Authorize] and requires login |
+
+Session 9: Hosting and Consuming Web API
+Choose the correct answer for each question.
+1. After creating a Web API project, it should be:
+A. Converted to PDF
+B. Deployed or published onto a Web server
+C. Deleted
+D. Only run in Visual Studio
+2. Which Azure resource type is clicked (AzureWin2016VM-nsg) to configure inbound rules for the VM?
+A. SQL database
+B. Network security group
+C. Storage account
+D. Public IP only
+3. Which setting is added to allow Remote Desktop (RDP) access to the Windows VM?
+A. Inbound security rule
+B. Storage rule
+C. Load balancer rule
+D. Outbound security rule
+4. Which port range is specified for Remote Desktop (RDP) access?
+A. 80
+B. 3389
+C. 443
+D. 1433
+5. What name is given to the RDP inbound rule in the walkthrough?
+A. sql-access
+B. web-access
+C. rdp-access
+D. vm-rule
+6. To log in to the Windows VM using Remote Desktop, the user needs:
+A. The VM's public IP and the credentials assigned while creating the VM
+B. Only a Web browser
+C. The SQL password only
+D. Only the VM name
+7. Which application is run from the Start menu to install IIS?
+A. Notepad
+B. Calculator
+C. Server Manager
+D. Paint
+8. Which option is chosen in the Add Roles and Features Wizard?
+A. Virtual installation
+B. Remote Desktop Services installation
+C. Role-based or feature-based installation
+D. Scenario-based only
+9. Which role is selected to install IIS?
+A. Hyper-V
+B. Web Server (IIS)
+C. File Server
+D. DNS Server
+10. Which feature is selected under .NET Framework 4.6 features?
+A. BitLocker
+B. PowerShell only
+C. WCF only
+D. ASP.NET 4.6
+11. How can one confirm IIS is installed properly on the VM?
+A. Open Paint
+B. Check the Notepad
+C. Restart the VM
+D. Browse the VM's public IP and see the IIS welcome page
+12. To publish the Web API application to a folder, which publish target is selected?
+A. Folder
+B. IIS only
+C. Azure Container
+D. FTP only
+13. In the walkthrough, where is the app published in the project directory?
+A. /App_Data
+B. /Controllers
+C. /bin/Release/Publish
+D. /Views
+14. Typical path of the wwwroot folder on a Windows VM is:
+A. C:\inetpub\wwwroot
+B. C:\Windows\System32
+C. D:\data
+D. C:\Users\Public
+15. If the Web API cannot connect to the database after being hosted, what should be replaced in Web.config?
+A. The controller name
+B. The route
+C. The port number
+D. The connection string copied from Azure SQL Database settings
+16. In self-hosting, the Web API is hosted:
+A. Only in Azure
+B. Only in IIS
+C. Only in a browser
+D. Independently of the main client application, for example in a console application or Windows Service
+17. In self-hosting, which method is the application entry point where self-hosting code is written?
+A. Page_Load
+B. Startup.Configure
+C. Application_Start
+D. Main method in Program.cs
+18. Kestrel is:
+A. A database
+B. The default open-source Web server included in ASP.NET templates
+C. A cloud billing tool
+D. A browser
+19. Kestrel can be used for hosting ASP.NET applications on:
+A. Only Linux
+B. Only macOS
+C. Any operating system
+D. Only Windows
+20. Which of the following can be used as a reverse proxy server with Kestrel?
+A. Apache, Nginx, or IIS
+B. Postman
+C. Swagger
+D. SSMS
+21. A reverse proxy scenario means:
+A. A client-side proxy
+B. Multiple apps sharing the same IP and port on a single server
+C. One app using many servers
+D. An app with no ports
+22. Does Kestrel support multiple apps sharing the same IP and port?
+A. Only on Windows
+B. No
+C. Only with IIS removed
+D. Yes
+23. Azure App Service Web Apps is a service for hosting:
+A. Mobile backends, REST APIs, and Web apps
+B. Only containers
+C. Only databases
+D. Only VMs
+24. Which languages can be used to build Azure Web Apps?
+A. Only Pascal
+B. Only COBOL
+C. Only C++
+D. .NET Core, Python, Java, PHP
+25. After a successful deployment of the first ASP.NET Web app, which is formed?
+A. Only a queue
+B. Only a database
+C. Only a VM
+D. A resource group with a service plan, Azure Web app, and deployed application
+26. In the Publish wizard, which target is selected to create the Azure Web App?
+A. Import Profile
+B. Folder
+C. FTP
+D. App Service (Create New)
+27. What is the URL of the published Web API sample in the walkthrough?
+A. http://studentservicesazureapp.azurewebsites.net
+B. http://localhost:59502
+C. http://portal.azure.com
+D. http://www.getpostman.com
+28. Windows Containers can be used to:
+A. Replace databases
+B. Compile SQL
+C. Automate the deployment of .NET applications as independent, portable containers
+D. Create Excel files
+29. The salient feature of a container is that it:
+A. Cannot run in the cloud
+B. Requires a physical server
+C. Retains the same environment across various deployments
+D. Changes the environment on every deployment
+30. The container service is based on which platform?
+A. Kestrel
+B. Hyper-V only
+C. Docker
+D. Swagger
+31. Components of a containerized application are also known as:
+A. Monoliths
+B. Mainframes
+C. Microservices
+D. Macros
+32. Organizing multiple containers is called:
+A. Container caching
+B. Container routing
+C. Container orchestration
+D. Container compilation
+33. Which are famous container orchestration tools?
+A. Postman and Fiddler
+B. SSMS and Excel
+C. IIS and Kestrel
+D. Docker Swarm and Kubernetes
+34. Container orchestration helps automate:
+A. Deployment, availability, scaling, and moving containers
+B. Only printing
+C. Only compiling
+D. Only email
+35. HttpClient class provides:
+A. A UI control
+B. A base class for sending/receiving HTTP requests and responses from a URL
+C. A cache policy
+D. A database connection
+36. Which HttpClient method sends a GET request to a URI?
+A. GetAsync
+B. PutAsync
+C. DeleteAsync
+D. PostAsync
+37. Which HttpClient method sends a POST request?
+A. PostAsync
+B. PutAsync
+C. GetAsync
+D. DeleteAsync
+38. Which HttpClient method sends a DELETE request?
+A. GetAsync
+B. DeleteAsync
+C. PostAsync
+D. PutAsync
+39. Which NuGet package must be installed to call the Web API from an MVC application using HttpClient?
+A. EntityFramework
+B. MySql.Data.Entity
+C. Microsoft.AspNet.WebApi.Client
+D. Microsoft.AspNet.Odata
+40. In Code Snippet 4, which property of HttpClient sets the API base URL?
+A. MaxResponseContentBufferSize
+B. BaseAddress
+C. Timeout
+D. DefaultProxy
+41. What Accept header value is set in the HttpClient sample?
+A. image/png
+B. application/json
+C. text/html
+D. application/pdf
+42. Which method is used to read the response content as a student list in the sample?
+A. ReadAsString only
+B. ReadAsAsync
+C. ReadAsXml
+D. ReadAsStream only
+43. What is Swagger?
+A. A hosting platform
+B. A browser
+C. A database
+D. A language-agnostic specification for describing REST APIs
+44. Swagger is also referred to as:
+A. OpenAPI
+B. OpenData
+C. OpenAuth
+D. OpenHost
+45. Which is a benefit of Swagger?
+A. Cheaper VMs
+B. Free hosting
+C. API discoverability, client SDK generation, interactive documentation
+D. Faster compilation
+46. By default, the Swagger specification document is named:
+A. api.config
+B. swagger.xml
+C. swagger.json
+D. openapi.exe
+47. Swagger UI is:
+A. A VM
+B. A Web-based UI that presents details about the service using the generated Swagger specification
+C. A compiler
+D. A database editor
+48. Which tools embed Swagger UI for ASP.NET Core?
+A. Docker and Kubernetes
+B. Postman and Fiddler
+C. IIS and Kestrel
+D. NSwag and Swashbuckle
+49. AutoRest is used to:
+A. Generate client proxy classes for Swagger-enabled Web APIs
+B. Create VMs
+C. Host Web APIs
+D. Encrypt data
+50. With AutoRest, client proxy classes can be generated by:
+A. Using Notepad only
+B. Using a database
+C. Writing thousands of lines
+D. Executing a single command through a command-line interface
+51. AutoRest can be installed with:
+A. Azure Chocolatey gallery or NuGet
+B. Only Postman
+C. Only a USB drive
+D. Only a CD
+52. Compared with SOAP-based Web services, Web APIs generate client proxy classes how without Swagger?
+A. Always via Add Service Reference
+B. They do not need clients
+C. Via Windows Forms
+D. They rely on HttpClient to perform requests manually
+Answer Key - Session 9
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | B | Deployed or published onto a Web server |
+| 2 | B | Network security group |
+| 3 | A | Inbound security rule |
+| 4 | B | 3389 |
+| 5 | C | rdp-access |
+| 6 | A | The VM's public IP and the credentials assigned while creating the VM |
+| 7 | C | Server Manager |
+| 8 | C | Role-based or feature-based installation |
+| 9 | B | Web Server (IIS) |
+| 10 | D | ASP.NET 4.6 |
+| 11 | D | Browse the VM's public IP and see the IIS welcome page |
+| 12 | A | Folder |
+| 13 | C | /bin/Release/Publish |
+| 14 | A | C:\inetpub\wwwroot |
+| 15 | D | The connection string copied from Azure SQL Database settings |
+| 16 | D | Independently of the main client application, for example in a console application or Windows Service |
+| 17 | D | Main method in Program.cs |
+| 18 | B | The default open-source Web server included in ASP.NET templates |
+| 19 | C | Any operating system |
+| 20 | A | Apache, Nginx, or IIS |
+| 21 | B | Multiple apps sharing the same IP and port on a single server |
+| 22 | B | No |
+| 23 | A | Mobile backends, REST APIs, and Web apps |
+| 24 | D | .NET Core, Python, Java, PHP |
+| 25 | D | A resource group with a service plan, Azure Web app, and deployed application |
+| 26 | D | App Service (Create New) |
+| 27 | A | http://studentservicesazureapp.azurewebsites.net |
+| 28 | C | Automate the deployment of .NET applications as independent, portable containers |
+| 29 | C | Retains the same environment across various deployments |
+| 30 | C | Docker |
+| 31 | C | Microservices |
+| 32 | C | Container orchestration |
+| 33 | D | Docker Swarm and Kubernetes |
+| 34 | A | Deployment, availability, scaling, and moving containers |
+| 35 | B | A base class for sending/receiving HTTP requests and responses from a URL |
+| 36 | A | GetAsync |
+| 37 | A | PostAsync |
+| 38 | B | DeleteAsync |
+| 39 | C | Microsoft.AspNet.WebApi.Client |
+| 40 | B | BaseAddress |
+| 41 | B | application/json |
+| 42 | B | ReadAsAsync |
+| 43 | D | A language-agnostic specification for describing REST APIs |
+| 44 | A | OpenAPI |
+| 45 | C | API discoverability, client SDK generation, interactive documentation |
+| 46 | C | swagger.json |
+| 47 | B | A Web-based UI that presents details about the service using the generated Swagger specification |
+| 48 | D | NSwag and Swashbuckle |
+| 49 | A | Generate client proxy classes for Swagger-enabled Web APIs |
+| 50 | D | Executing a single command through a command-line interface |
+| 51 | A | Azure Chocolatey gallery or NuGet |
+| 52 | D | They rely on HttpClient to perform requests manually |
+
+Session 10: Introduction to WCF Services
+Choose the correct answer for each question.
+1. WCF stands for:
+A. Windows Cloud Function
+B. Web Client Foundation
+C. Windows Communication Foundation
+D. Web Communication Framework
+2. WCF is best described as:
+A. A cloud billing tool
+B. A Web browser
+C. A database engine
+D. A unified .NET framework for building service-oriented applications
+3. In which .NET Framework version was WCF first introduced?
+A. 1.0
+B. 2.0
+C. 3.0
+D. 4.5
+4. Which protocols are supported by WCF?
+A. Only FTP
+B. Only SMTP
+C. Only HTTP
+D. SOAP with HTTP, TCP/IP, Named pipes
+5. SOAP is:
+A. A programming language
+B. A database language
+C. A cloud provider
+D. A lightweight protocol used to exchange data over distributed environments
+6. SOAP is the underlying layer for:
+A. Only Docker
+B. Only Web API
+C. Only Cosmos DB
+D. ASP.NET Web services (ASMX) and WCF
+7. SOAP is maintained by:
+A. ISO
+B. W3C
+C. IEEE
+D. ANSI
+8. What does ABC of WCF stand for?
+A. Application, Browser, Client
+B. Address, Behavior, Controller
+C. Address, Binding, Contract
+D. Authentication, Binding, Cache
+9. In WCF, the Address specifies:
+A. Where the service resides (URL)
+B. The security mode
+C. The operations supported
+D. How clients communicate
+10. In WCF, the Binding specifies:
+A. The data type
+B. How clients should communicate (encoding, transport, security, sessions)
+C. The cache policy
+D. Where the service resides
+11. A service endpoint defines:
+A. How the service is exposed to clients
+B. How the UI looks
+C. How the database is backed up
+D. How VMs are created
+12. Which of the following is a feature provided by WCF?
+A. Only encryption
+B. Security, performance tuning, and hosting environments
+C. Only hosting
+D. Only caching
+13. WCF combines benefits of which technologies into a single unified model?
+A. Only Remoting
+B. Only Web services
+C. Remoting, Web services, Enterprise services, WSE standards, Messaging services
+D. Only SOAP
+14. Which are the three main components of a WCF service?
+A. Service contracts, host environments, and one or more endpoints
+B. Tables, queries, indexes
+C. Servers, clients, routers
+D. Models, views, controllers
+15. In the travel analogy, Address corresponds to:
+A. The price
+B. The mode of travel
+C. The destination
+D. The location of the travel agent, station, or airport
+16. In the travel analogy, Contract corresponds to:
+A. The ticket color
+B. The mode of travel
+C. The address of the station
+D. The purpose (reaching the destination)
+17. A service contract consists of:
+A. Only addresses
+B. Only bindings
+C. Declarations of methods in an interface
+D. Only data types
+18. Message contracts use protocols such as SOAP to:
+A. Create databases
+B. Acquire finer control over the message
+C. Compile code
+D. Delete messages
+19. Policies and bindings in WCF:
+A. Create user interfaces
+B. Apply the conditions required to communicate with a service
+C. Store data
+D. Compile code
+20. Endpoints in WCF are:
+A. Cache entries
+B. URIs exposed to the outside world that clients use to connect
+C. Databases
+D. Local files
+21. Which of the following is a difference between WCF and Web API?
+A. WCF supports TCP, HTTP, UDP, and custom transports; Web API supports only HTTP
+B. Both support only HTTP
+C. Web API supports TCP and UDP; WCF supports only HTTP
+D. Neither supports HTTP
+22. MTOM stands for:
+A. Message Transmission Optimization Mechanism
+B. Message Transfer Over Mail
+C. Multiple Transfer Object Model
+D. Managed Transport Object Method
+23. Which standards does WCF support for message security, transactions, and reliable messaging?
+A. Only JSON
+B. Only OData
+C. Only REST
+D. WS-* standards
+24. WSDL stands for:
+A. Windows Service Definition Layer
+B. Web Services Description Language
+C. Web Server Data Language
+D. Web Standard Document Language
+25. WSDL is:
+A. A binary file
+B. A database
+C. An XML document that defines the Web service and its contract
+D. A compiler
+26. Before creating a service, developers should answer which questions?
+A. Only the language
+B. Only the colors
+C. Only the price
+D. What functionality, where it is located, and how to send messages
+27. What is the name of the WCF project in the walkthrough?
+A. StudentOData
+B. StudentApp
+C. StudentServices
+D. StudentWCFServices
+28. By default, the WCF project creates which files that are removed in the walkthrough?
+A. Index.cshtml and Layout.cshtml
+B. Service1.cs and IService1.cs
+C. Global.asax and Web.config
+D. Program.cs and Startup.cs
+29. Which attribute marks a model class in WCF?
+A. [ServiceContract]
+B. [DataContract]
+C. [OperationContract]
+D. [HttpGet]
+30. Which attribute marks each property in a data contract?
+A. [DataMember]
+B. [Route]
+C. [OperationContract]
+D. [ServiceContract]
+31. Which attribute is applied to methods in a WCF service interface?
+A. [OperationContract]
+B. [ServiceContract]
+C. [Authorize]
+D. [DataContract]
+32. Which namespace contains ServiceContract and OperationContract?
+A. System.ServiceModel
+B. System.Drawing
+C. System.Web.Http
+D. System.Data
+33. In the walkthrough, which binding is used for the main service endpoint?
+A. netTcpBinding
+B. netNamedPipeBinding
+C. wsHttpBinding
+D. basicHttpBinding
+34. The Metadata Exchange endpoint is used by the service to:
+A. Print reports
+B. Encrypt data
+C. Describe itself to clients
+D. Create databases
+35. Which tool is embedded in Visual Studio for testing WCF services?
+A. Postman
+B. WCF Test Client
+C. Fiddler
+D. SSMS
+36. Each endpoint in WCF configuration consists of how many properties?
+A. Four (Address, Binding, Contract, Behaviors)
+B. Three only
+C. Two
+D. Five
+37. Which attribute in the endpoint specifies the binding policy such as wsHttpBinding?
+A. binding
+B. behaviorConfiguration only
+C. address
+D. contract
+38. Which categories of information are enclosed in a binding?
+A. Classes, objects, and methods
+B. Protocols, encoding, and transport
+C. Forms, pages, and controls
+D. Tables, views, and procedures
+39. Which binding suits connecting to services that adapt to WS-I Basic Profile (e.g., ASP.NET Web services)?
+A. WSHttpBinding
+B. NetTcpBinding
+C. BasicHttpBinding
+D. NetNamedPipeBinding
+40. Which binding is suited for a local network with higher performance than HTTP bindings?
+A. NetTcpBinding
+B. WSHttpBinding
+C. BasicHttpBinding
+D. NetMsmqBinding
+41. Which binding connects to other WCF endpoints on the same machine?
+A. NetNamedPipeBinding
+B. WSHttpBinding
+C. NetTcpBinding
+D. BasicHttpBinding
+42. Which binding uses queued messages with other WCF endpoints?
+A. BasicHttpBinding
+B. WSHttpBinding
+C. NetMsmqBinding
+D. NetTcpBinding
+43. A Service Bus works on which concept?
+A. Offline
+B. Multi-tenant
+C. Peer-to-peer only
+D. Single-user
+44. Hybrid applications are:
+A. Only desktop applications
+B. Only mobile applications
+C. Only static sites
+D. Enterprise applications based on Azure that may use local components difficult to migrate to the cloud
+45. Relayed messaging offers:
+A. Subscriptions, topics, and queues
+B. Request/response, one-way, peer-to-peer, and direct TCP messaging
+C. Only SMS
+D. Only email
+46. Brokered messaging offers:
+A. Only request/response
+B. Only direct TCP
+C. Subscriptions, topics, and queues (asynchronous messaging)
+D. Only HTTP
+47. Which section in the namespace page is used to get keys and connection strings?
+A. Shared access policies
+B. Diagnose and solve problems
+C. Overview
+D. Activity log
+48. Which NuGet package is installed for Service Bus integration in the WCF app?
+A. Microsoft.AspNet.Odata
+B. MySql.Data.Entity
+C. System.Data.SQLite
+D. Microsoft Azure Service Bus
+49. Which binding is used for the Service Bus relay endpoint in the sample?
+A. basicHttpBinding
+B. wsHttpBinding
+C. netTcpRelayBinding
+D. netMsmqBinding
+50. Which tool downloads metadata from running services and saves it locally?
+A. Fiddler
+B. Svcutil.exe
+C. Postman
+D. SSMS
+51. Svcutil.exe retrieves metadata using:
+A. Only FTP
+B. Only SQL
+C. WS-MetadataExchange (and XML Web Service Directory for HTTP/HTTPS)
+D. Only SMTP
+52. Svcutil.exe generates which binding for a service with a BasicHttpContextBinding endpoint?
+A. NetTcpBinding
+B. WSHttpBinding
+C. None
+D. BasicHttpBinding with allowCookies set to true
+53. Which Svcutil.exe option is used in the sample command to specify the metadata output directory?
+A. /d:
+B. /o:
+C. /r:
+D. /t:
+54. A proxy class:
+A. Compiles code
+B. Stores data
+C. Maps parameters to XML elements so clients need not communicate at the SOAP level
+D. Hosts the Web service
+55. Which Visual Studio feature generates a WCF client proxy?
+A. Add Image
+B. Add Page
+C. Add Service Reference
+D. Add Class
+Answer Key - Session 10
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | C | Windows Communication Foundation |
+| 2 | D | A unified .NET framework for building service-oriented applications |
+| 3 | C | 3.0 |
+| 4 | D | SOAP with HTTP, TCP/IP, Named pipes |
+| 5 | D | A lightweight protocol used to exchange data over distributed environments |
+| 6 | D | ASP.NET Web services (ASMX) and WCF |
+| 7 | B | W3C |
+| 8 | C | Address, Binding, Contract |
+| 9 | A | Where the service resides (URL) |
+| 10 | B | How clients should communicate (encoding, transport, security, sessions) |
+| 11 | A | How the service is exposed to clients |
+| 12 | B | Security, performance tuning, and hosting environments |
+| 13 | C | Remoting, Web services, Enterprise services, WSE standards, Messaging services |
+| 14 | A | Service contracts, host environments, and one or more endpoints |
+| 15 | D | The location of the travel agent, station, or airport |
+| 16 | D | The purpose (reaching the destination) |
+| 17 | C | Declarations of methods in an interface |
+| 18 | B | Acquire finer control over the message |
+| 19 | B | Apply the conditions required to communicate with a service |
+| 20 | B | URIs exposed to the outside world that clients use to connect |
+| 21 | A | WCF supports TCP, HTTP, UDP, and custom transports; Web API supports only HTTP |
+| 22 | A | Message Transmission Optimization Mechanism |
+| 23 | D | WS-* standards |
+| 24 | B | Web Services Description Language |
+| 25 | C | An XML document that defines the Web service and its contract |
+| 26 | D | What functionality, where it is located, and how to send messages |
+| 27 | D | StudentWCFServices |
+| 28 | B | Service1.cs and IService1.cs |
+| 29 | B | [DataContract] |
+| 30 | A | [DataMember] |
+| 31 | A | [OperationContract] |
+| 32 | A | System.ServiceModel |
+| 33 | D | basicHttpBinding |
+| 34 | C | Describe itself to clients |
+| 35 | B | WCF Test Client |
+| 36 | A | Four (Address, Binding, Contract, Behaviors) |
+| 37 | A | binding |
+| 38 | B | Protocols, encoding, and transport |
+| 39 | C | BasicHttpBinding |
+| 40 | A | NetTcpBinding |
+| 41 | A | NetNamedPipeBinding |
+| 42 | C | NetMsmqBinding |
+| 43 | B | Multi-tenant |
+| 44 | D | Enterprise applications based on Azure that may use local components difficult to migrate to the cloud |
+| 45 | B | Request/response, one-way, peer-to-peer, and direct TCP messaging |
+| 46 | C | Subscriptions, topics, and queues (asynchronous messaging) |
+| 47 | A | Shared access policies |
+| 48 | D | Microsoft Azure Service Bus |
+| 49 | C | netTcpRelayBinding |
+| 50 | B | Svcutil.exe |
+| 51 | C | WS-MetadataExchange (and XML Web Service Directory for HTTP/HTTPS) |
+| 52 | D | BasicHttpBinding with allowCookies set to true |
+| 53 | A | /d: |
+| 54 | C | Maps parameters to XML elements so clients need not communicate at the SOAP level |
+| 55 | C | Add Service Reference |
+
+Session 11: Implementing Azure Serverless Web Services and API Management
+Choose the correct answer for each question.
+1. Serverless computing in Azure offers developers:
+A. Manual OS patching
+B. More server management tasks
+C. Physical datacenter access
+D. Abstraction of servers, infrastructure, and operating systems
+2. With serverless computing, developers eliminate the overhead of:
+A. Provisioning and managing servers
+B. Testing
+C. Using the Internet
+D. Writing code
+3. Which of the following is a serverless service in Azure?
+A. Only Active Directory
+B. Only Azure VMs
+C. Azure Logic Apps and Azure Functions
+D. Only SQL Server
+4. Azure Logic Apps is a cloud service for:
+A. Creating physical servers
+B. Designing UI themes
+C. Creating automated scalable workflows
+D. Compiling C# code
+5. A series of steps or tasks in Logic Apps is known as a:
+A. Policy
+B. Pipeline only
+C. Query
+D. Workflow
+6. Logic Apps provides which tool to model and automate processes?
+A. Visual designer
+B. Notepad
+C. Spreadsheet
+D. Command line only
+7. Logic Apps is useful for which scenarios?
+A. Only gaming
+B. Data integration, app integration, EAI, and B2B communication
+C. Only printing
+D. Only image editing
+8. EAI stands for:
+A. External API Interface
+B. Easy Azure Integration
+C. Enterprise Application Integration
+D. Event Application Index
+9. Which is an example workload automated by Logic Apps?
+A. Designing hardware
+B. Monitoring when records are created or changed in Salesforce
+C. Compiling a kernel
+D. Formatting disks
+10. Each connector provides a set of operations categorized as:
+A. Actions and triggers
+B. Tables and views
+C. Models and views
+D. Classes and objects
+11. In Logic Apps, actions are:
+A. Changes driven by a user that map directly to operations
+B. Network ports
+C. Policies
+D. Events that start the workflow
+12. In Logic Apps, a trigger is:
+A. A storage tier
+B. A database table
+C. An event from a connector that fires a logic app
+D. A user-driven change only
+13. Every logic app starts with:
+A. A loop
+B. A trigger
+C. A policy
+D. An action
+14. Which of the following is a common trigger?
+A. When an HTTP request is received
+B. Install IIS
+C. Format a disk
+D. Compile a project
+15. Connectors are primarily Web APIs that use JSON for data exchange, Swagger for documentation, and ______ for pluggable interfaces.
+A. SOAP
+B. DCOM
+C. RPC
+D. REST
+16. How many built-in connectors does Logic Apps offer?
+A. About 5
+B. None
+C. Over 100
+D. Exactly 10
+17. Custom API apps in Logic Apps are created when:
+A. Developers need to call APIs or services not available as connectors
+B. A database fails
+C. Logic Apps is not installed
+D. Connectors are too fast
+18. Custom APIs for Logic Apps can be hosted on:
+A. Only a browser
+B. Only on-premises
+C. Only a USB drive
+D. Azure App Service
+19. Azure Functions is described as:
+A. A browser extension
+B. A database
+C. A hardware product
+D. A serverless compute service that runs code on demand without provisioning infrastructure
+20. With Azure Functions, a developer pays for:
+A. Nothing
+B. A fixed monthly VM
+C. Just the time for which the code runs
+D. Only storage
+21. WebJobs is a feature of:
+A. Azure Active Directory
+B. Azure Cosmos DB
+C. Azure App Service
+D. Azure Monitor
+22. WebJobs allows running scripts or programs:
+A. As background processes in the Website
+B. Only on desktops
+C. Only in browsers
+D. Only offline
+23. The WebJobs SDK runs as a:
+A. Browser plug-in
+B. .NET console application
+C. Windows Service only
+D. Database job
+24. An example given for the WebJobs SDK is:
+A. Sending mail
+B. Formatting a database
+C. Deleting a VM
+D. Creating a thumbnail image in response to an image blob created in Azure storage
+25. Which Marketplace menu item is selected to create a Function App?
+A. Storage > Blob
+B. Compute > Function App
+C. Databases > SQL
+D. Networking > VPN
+26. Which publish option is selected to publish the function directly from Visual Studio?
+A. Import profile only
+B. Folder publish
+C. Direct publish
+D. FTP only
+27. Azure Service Fabric is:
+A. A Web browser
+B. A distributed systems platform for packaging, deploying, and managing reliable and scalable containers and microservices
+C. A text editor
+D. A database
+28. Service Fabric focuses on issues faced in:
+A. Only desktop applications
+B. Development and management of cloud-native applications
+C. Only hardware design
+D. Only video editing
+29. Service Fabric applications comprise microservices running at high density on machines in a shared pool called a:
+A. Queue
+B. Folder
+C. Container image
+D. Cluster
+30. Which of the following services is powered by Service Fabric?
+A. Only Excel
+B. Only Notepad
+C. Only Paint
+D. Azure SQL, Power BI, Cosmos DB, IoT Hub, Event Hubs, Skype for Business
+31. Stateless microservices:
+A. Cannot have a mutable state outside of a request and its response
+B. Always keep mutable state
+C. Cannot exist in Service Fabric
+D. Are always databases
+32. An example of stateless microservices is:
+A. Shopping carts
+B. User accounts
+C. Web proxies and protocol gateways
+D. Databases
+33. An example of stateful microservices is:
+A. Databases, user accounts, queues, shopping carts
+B. Worker roles only
+C. Protocol gateways
+D. Web proxies
+34. Azure App Service can be used to protect which of the following?
+A. Only storage
+B. Only VMs
+C. Only databases
+D. Web apps, API apps, mobile app back ends, and Azure Functions
+35. To use a certificate in an Azure Website, developers can:
+A. Print it
+B. Upload it to the Azure Website's certificates collection
+C. Delete it
+D. Email it
+36. Azure Active Directory can protect a Web API using:
+A. Only passwords in URLs
+B. OAuth 2.0 bearer access tokens
+C. FTP
+D. No tokens
+37. Which policy is added to validate OAuth tokens for all incoming requests?
+A. validate-token only
+B. validate-xml
+C. validate-jwt
+D. validate-cors
+38. OAuth 2.0 helps to:
+A. Encrypt hardware
+B. Ensure access only to authenticated users and only to the extent they are entitled
+C. Remove all security
+D. Allow anonymous access
+39. Azure Policy is a service that:
+A. Creates, assigns, and manages policies for resources
+B. Hosts Web apps
+C. Creates databases
+D. Compiles code
+40. Azure Policy helps keep resources in compliance with:
+A. Only colors
+B. Only languages
+C. Service level agreements and corporate standards
+D. Only prices
+41. An example policy in Azure is:
+A. Deleting all databases
+B. Allowing only a particular SKU size of virtual machines
+C. Disabling all VMs
+D. Allowing any VM size
+42. Azure API Management (APIM) helps organizations to:
+A. Edit images
+B. Compile code
+C. Create VMs only
+D. Publish APIs to internal, external, and partner developers
+43. APIM offers which of the following?
+A. Only a database
+B. Only a text editor
+C. A developer portal and an API gateway
+D. Only a compiler
+44. The APIM developer portal is used for:
+A. Creating VMs
+B. Managing the subscription of services
+C. Compiling C
+D. Writing SQL
+45. Swagger is described as:
+A. An open source framework for building, designing, documenting, and consuming RESTful APIs
+B. An operating system
+C. A database
+D. A hardware vendor
+46. Which NuGet package is used to Swagger-enable an API in .NET?
+A. Swashbuckle
+B. Microsoft.AspNet.Odata
+C. MySql.Data.Entity
+D. System.Data.SQLite
+47. Swagger definition files can be written in which extensions?
+A. *.dll
+B. *.exe
+C. *.mp3
+D. *.yaml or *.json
+48. The Swagger standard has been renamed as:
+A. OpenHost
+B. OpenAPI
+C. OpenData
+D. OpenFabric
+49. When generated ASP.NET MVC code from Swagger is deployed to an Azure App Service, it is called:
+A. An Azure API app
+B. An Azure Function
+C. A WebJob
+D. A Logic App
+50. Which type of Azure log gives details on Azure Resource Manager operations such as CREATE, DELETE, and UPDATE?
+A. Data plane logs
+B. Backup logs
+C. Control/Management logs
+D. Processed events
+51. Which type of log covers events as part of Azure resource usage, such as Windows event system logs and application logs in a VM?
+A. Policy logs
+B. Processed events
+C. Control logs
+D. Data plane logs
+52. Which log type provides analyzed events or alerts such as Azure Security Center alerts?
+A. Backup logs
+B. Control logs
+C. Processed events
+D. Data plane logs
+53. BCDR stands for:
+A. Basic Cloud Deployment Region
+B. Business Continuity and Disaster Recovery
+C. Binary Code Data Repository
+D. Backup Cache Data Retention
+54. Azure Site Recovery:
+A. Replicates workloads from a primary site to a secondary location for failover during outages
+B. Creates databases
+C. Hosts websites
+D. Compiles code
+55. Which of the following is the first high-level step for setting up disaster recovery of Azure VMs to a secondary region?
+A. Formatting the disk
+B. Deleting the VM
+C. Installing IIS
+D. Creating a recovery services vault
+Answer Key - Session 11
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | D | Abstraction of servers, infrastructure, and operating systems |
+| 2 | A | Provisioning and managing servers |
+| 3 | C | Azure Logic Apps and Azure Functions |
+| 4 | C | Creating automated scalable workflows |
+| 5 | D | Workflow |
+| 6 | A | Visual designer |
+| 7 | B | Data integration, app integration, EAI, and B2B communication |
+| 8 | C | Enterprise Application Integration |
+| 9 | B | Monitoring when records are created or changed in Salesforce |
+| 10 | A | Actions and triggers |
+| 11 | A | Changes driven by a user that map directly to operations |
+| 12 | C | An event from a connector that fires a logic app |
+| 13 | B | A trigger |
+| 14 | A | When an HTTP request is received |
+| 15 | D | REST |
+| 16 | C | Over 100 |
+| 17 | A | Developers need to call APIs or services not available as connectors |
+| 18 | D | Azure App Service |
+| 19 | D | A serverless compute service that runs code on demand without provisioning infrastructure |
+| 20 | C | Just the time for which the code runs |
+| 21 | C | Azure App Service |
+| 22 | A | As background processes in the Website |
+| 23 | B | .NET console application |
+| 24 | D | Creating a thumbnail image in response to an image blob created in Azure storage |
+| 25 | B | Compute > Function App |
+| 26 | C | Direct publish |
+| 27 | B | A distributed systems platform for packaging, deploying, and managing reliable and scalable containers and microservices |
+| 28 | B | Development and management of cloud-native applications |
+| 29 | D | Cluster |
+| 30 | D | Azure SQL, Power BI, Cosmos DB, IoT Hub, Event Hubs, Skype for Business |
+| 31 | A | Cannot have a mutable state outside of a request and its response |
+| 32 | C | Web proxies and protocol gateways |
+| 33 | A | Databases, user accounts, queues, shopping carts |
+| 34 | D | Web apps, API apps, mobile app back ends, and Azure Functions |
+| 35 | B | Upload it to the Azure Website's certificates collection |
+| 36 | B | OAuth 2.0 bearer access tokens |
+| 37 | C | validate-jwt |
+| 38 | B | Ensure access only to authenticated users and only to the extent they are entitled |
+| 39 | A | Creates, assigns, and manages policies for resources |
+| 40 | C | Service level agreements and corporate standards |
+| 41 | B | Allowing only a particular SKU size of virtual machines |
+| 42 | D | Publish APIs to internal, external, and partner developers |
+| 43 | C | A developer portal and an API gateway |
+| 44 | B | Managing the subscription of services |
+| 45 | A | An open source framework for building, designing, documenting, and consuming RESTful APIs |
+| 46 | A | Swashbuckle |
+| 47 | D | *.yaml or *.json |
+| 48 | B | OpenAPI |
+| 49 | A | An Azure API app |
+| 50 | C | Control/Management logs |
+| 51 | D | Data plane logs |
+| 52 | C | Processed events |
+| 53 | B | Business Continuity and Disaster Recovery |
+| 54 | A | Replicates workloads from a primary site to a secondary location for failover during outages |
+| 55 | D | Creating a recovery services vault |
+
+Session 12: Traffic Management and Monitoring Strategies for Web Services
+Choose the correct answer for each question.
+1. Azure Load Balancer helps developers to:
+A. Scale their applications and provide high availability
+B. Edit images
+C. Create databases only
+D. Compile code
+2. A load balancer accepts inbound flows at its:
+A. Database
+B. Backend only
+C. Frontend and transmits them to backend pool instances based on rules
+D. Browser
+3. Load balancing of inbound Internet traffic to VMs is called a:
+A. Private load balancer only
+B. Hybrid database
+C. Public load balancer
+D. Static balancer
+4. Which type of rule forwards port traffic to specific destination ports on VMs?
+A. Inbound NAT rules
+B. Outbound DNS rules
+C. Cache rules
+D. Policy rules
+5. NAT stands for:
+A. Node Address Table
+B. Network Application Transfer
+C. New Access Token
+D. Network Address Translation
+6. To give outgoing connectivity to VMs within a virtual network, a developer uses:
+A. A VPN only
+B. A DNS server only
+C. A firewall only
+D. A public load balancer
+7. Which algorithm does the Azure load balancer use by default to distribute traffic?
+A. 5-tuple hash
+B. Least connections only
+C. Round robin only
+D. Random
+8. The 5-tuple hash includes which of the following?
+A. Only ports
+B. Only IP addresses
+C. Source IP, destination IP, source port, destination port, protocol
+D. Only protocol
+9. Packets belonging to the same traffic flow reach:
+A. Only the first instance
+B. No instance
+C. Different backend instances every time
+D. The same backend instance
+10. If a new flow is started from the same source IP with a different source port, the 5-tuple hash may:
+A. Drop traffic
+B. Always use the same endpoint
+C. Send the traffic to a different backend endpoint
+D. Duplicate traffic
+11. The load balancer capabilities for TCP and UDP applications include:
+A. Port forwarding, automatic reconfiguration, and health probes
+B. Only compilation
+C. Only logging
+D. Only caching
+12. Health probes in a load balancer are used to:
+A. Compile code
+B. Encrypt data
+C. Detect the health of backend instances
+D. Store data
+13. Azure Application Gateway is a load balancer for:
+A. Incoming Web traffic to Web applications
+B. Only FTP
+C. Only email
+D. Only database traffic
+14. Traditional load balancers work at which OSI layer?
+A. Layer 1
+B. Layer 4 (transport layer)
+C. Layer 2
+D. Layer 7 only
+15. Which protocols are involved at OSI layer 4 as mentioned?
+A. SMTP and POP3
+B. HTTP and FTP only
+C. DNS only
+D. TCP and UDP
+16. Application Gateway can perform routing based on:
+A. Only the source IP
+B. Only the port
+C. Only the protocol
+D. URL and more
+17. Which of the following is a feature of Azure Application Gateway?
+A. Only backup
+B. URL-based routing, multiple-site hosting, session affinity
+C. Only compilation
+D. Only caching
+18. Azure Traffic Manager allows developers to:
+A. Distribute traffic globally
+B. Manage only local traffic
+C. Manage only email traffic
+D. Create databases
+19. Azure Traffic Manager depends on:
+A. FTP
+B. DNS
+C. SMTP
+D. RDP
+20. Traffic Manager routes traffic by:
+A. Random selection only
+B. Manual assignment
+C. Ignoring health
+D. Checking for healthy endpoints and using a routing algorithm
+21. In Traffic Manager, an endpoint is:
+A. A service accessible by the Internet set up in Azure
+B. A user account
+C. A cache
+D. A database table
+22. Traffic Manager can recover quickly from situations such as:
+A. Printer failures
+B. Slow keyboards
+C. Typing errors
+D. Breakdown of an entire Azure region
+23. Which feature allows scheduled maintenance with no downtime?
+A. Stopping all traffic
+B. Perform maintenance without deferment (traffic redirected to other active endpoints)
+C. Static caching
+D. Disabling health checks
+24. Nested Traffic Manager profiles help developers to:
+A. Compile code
+B. Delete endpoints
+C. Create VMs
+D. Combine traffic-routing methods for large and complex deployments
+25. Traffic Manager improves application performance by:
+A. Disabling endpoints
+B. Increasing latency
+C. Ignoring users
+D. Allocating traffic to the endpoint with low network latency
+26. Traffic Manager can be used with hybrid applications because it supports:
+A. Only Azure endpoints
+B. Only local endpoints
+C. External, non-Azure endpoints
+D. No endpoints
+27. Application Insights is a service for:
+A. Hardware management
+B. Billing
+C. Application Performance Management (APM)
+D. Compiling
+28. Application Insights helps developers to:
+A. Create ISO files
+B. Edit documents
+C. Manage printers
+D. Track live Web applications and identify performance problems
+29. Application Insights supports applications deployed on:
+A. .NET, Node.js, and J2EE
+B. Only .NET
+C. Only Java
+D. Only PHP
+30. For mobile applications, Application Insights can be used together with:
+A. Paint
+B. SQL Server only
+C. Notepad
+D. Visual Studio App Center
+31. To use Application Insights, a developer installs a package in the application and:
+A. Deletes the app
+B. Disables logging
+C. Reinstalls Windows
+D. Configures an Application Insights resource in the Azure portal
+32. Which of the following can be configured to periodically send requests to a Web service for monitoring?
+A. Cache policy
+B. Query notification
+C. Web tests
+D. Resource group
+33. Azure Monitor gathers log data and saves it in:
+A. Redis Cache
+B. Log Analytics
+C. Blob storage only
+D. Cosmos DB only
+34. Log Analytics provides developers with:
+A. A query language for advanced analytics
+B. Only a compiler
+C. Only a hosting platform
+D. Only a code editor
+35. A log query in Log Analytics can be used for:
+A. Studying information in the portal, setting alert rules, and retrieving information via the Log Analytics API
+B. Only creating VMs
+C. Only deleting data
+D. Only printing
+36. Which Log Analytics feature allows detecting spikes and analyzing their cause?
+A. Syntax highlighting
+B. Tabs
+C. Smart Analytics
+D. Share
+37. Which Log Analytics feature lets developers view previously saved queries and functions?
+A. Query explorer
+B. Tabs
+C. Visualizations
+D. Column selection
+38. Which feature of Log Analytics helps improve readability of queries?
+A. Share
+B. Syntax highlighting
+C. Possibilities
+D. Smart Analytics
+39. Which Log Analytics feature allows generating links to queries and pinning them to a shared Azure dashboard?
+A. Share
+B. Tabs
+C. Possibilities
+D. Column selection
+40. To configure Application Insights for a hosted Web App, which menu is first selected in the Azure Portal?
+A. Monitor only
+B. App Services
+C. Security Center
+D. Advisor
+41. Which button is clicked on the Application Insights page to start a new Application Insights resource?
+A. Refresh only
+B. Delete
+C. Setup Application Insights
+D. Download
+42. Azure Event Hubs provides an environment that allows to:
+A. Edit documents
+B. Create hardware
+C. Print reports
+D. Stream Big Data
+43. Event Hubs is also called an event:
+A. Deletion service
+B. Ingestion service
+C. Billing service
+D. Compilation service
+44. Event Hubs can accept close to how many events per second?
+A. Millions
+B. Tens
+C. Hundreds
+D. One
+45. An event ingestor is:
+A. A VM
+B. A web page
+C. An element positioned between event producers and event consumers to separate generation from consumption
+D. A database table
+46. Which of the following is a use case for Event Hubs?
+A. Only image editing
+B. Anomaly detection such as fraud, application logging, and real-time dashboarding
+C. Only printing
+D. Only email
+47. Azure Stream Analytics is:
+A. A database
+B. A web browser
+C. An engine that executes events and lets developers analyze large sets of information arriving from various devices
+D. A VM
+48. Which is NOT mentioned as a source for Stream Analytics data?
+A. Sensors
+B. Compiler logs only
+C. Social media feeds
+D. Websites
+49. Which of the following is a use case for Stream Analytics?
+A. Creating VMs
+B. IoT sensor fusion and clickstream analytics
+C. Compiling code
+D. Writing documents
+50. Stream Analytics can be used for geospatial analytics in:
+A. Only gaming
+B. Fleet management and driverless vehicles
+C. Only email
+D. Only printing
+51. Stream Analytics can be used for real-time analysis on:
+A. Only images
+B. Only emails
+C. Point of Sale (PoS) data to regulate inventory and detect anomalies
+D. Only PDFs
+52. Patterns detected in Stream Analytics can be used to:
+A. Format drives
+B. Activate alerts, feed data to reporting tools, or store data for future use
+C. Delete data
+D. Stop the Internet
+Answer Key - Session 12
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | A | Scale their applications and provide high availability |
+| 2 | C | Frontend and transmits them to backend pool instances based on rules |
+| 3 | C | Public load balancer |
+| 4 | A | Inbound NAT rules |
+| 5 | D | Network Address Translation |
+| 6 | D | A public load balancer |
+| 7 | A | 5-tuple hash |
+| 8 | C | Source IP, destination IP, source port, destination port, protocol |
+| 9 | D | The same backend instance |
+| 10 | C | Send the traffic to a different backend endpoint |
+| 11 | A | Port forwarding, automatic reconfiguration, and health probes |
+| 12 | C | Detect the health of backend instances |
+| 13 | A | Incoming Web traffic to Web applications |
+| 14 | B | Layer 4 (transport layer) |
+| 15 | D | TCP and UDP |
+| 16 | D | URL and more |
+| 17 | B | URL-based routing, multiple-site hosting, session affinity |
+| 18 | A | Distribute traffic globally |
+| 19 | B | DNS |
+| 20 | D | Checking for healthy endpoints and using a routing algorithm |
+| 21 | A | A service accessible by the Internet set up in Azure |
+| 22 | D | Breakdown of an entire Azure region |
+| 23 | B | Perform maintenance without deferment (traffic redirected to other active endpoints) |
+| 24 | D | Combine traffic-routing methods for large and complex deployments |
+| 25 | D | Allocating traffic to the endpoint with low network latency |
+| 26 | C | External, non-Azure endpoints |
+| 27 | C | Application Performance Management (APM) |
+| 28 | D | Track live Web applications and identify performance problems |
+| 29 | A | .NET, Node.js, and J2EE |
+| 30 | D | Visual Studio App Center |
+| 31 | D | Configures an Application Insights resource in the Azure portal |
+| 32 | C | Web tests |
+| 33 | B | Log Analytics |
+| 34 | A | A query language for advanced analytics |
+| 35 | A | Studying information in the portal, setting alert rules, and retrieving information via the Log Analytics API |
+| 36 | C | Smart Analytics |
+| 37 | A | Query explorer |
+| 38 | B | Syntax highlighting |
+| 39 | A | Share |
+| 40 | B | App Services |
+| 41 | C | Setup Application Insights |
+| 42 | D | Stream Big Data |
+| 43 | B | Ingestion service |
+| 44 | A | Millions |
+| 45 | C | An element positioned between event producers and event consumers to separate generation from consumption |
+| 46 | B | Anomaly detection such as fraud, application logging, and real-time dashboarding |
+| 47 | C | An engine that executes events and lets developers analyze large sets of information arriving from various devices |
+| 48 | B | Compiler logs only |
+| 49 | B | IoT sensor fusion and clickstream analytics |
+| 50 | B | Fleet management and driverless vehicles |
+| 51 | C | Point of Sale (PoS) data to regulate inventory and detect anomalies |
+| 52 | B | Activate alerts, feed data to reporting tools, or store data for future use |
+
+Session 13: Configuring Web Applications for Deployment
+Choose the correct answer for each question.
+1. Azure Web Apps configuration allows storing:
+A. Only images
+B. Only executables
+C. Key/value string pairs belonging to the Web app's configuration
+D. Only videos
+2. A security advantage of storing configuration in Azure rather than Web.config is that:
+A. Connection strings with passwords are not available as plain text in the web.config file
+B. Web.config becomes larger
+C. Passwords are published online
+D. Settings cannot be changed
+3. In the Azure portal, which tab lets developers enter configuration key/value pairs for a Website?
+A. Dashboard
+B. App Settings
+C. Monitor
+D. Alerts
+4. Settings can be specified as:
+A. Only ConnectionStrings
+B. Only environment files
+C. ConnectionStrings or AppSettings
+D. Only AppSettings
+5. Compared with AppSettings, ConnectionStrings include:
+A. Less security
+B. Only images
+C. Additional metadata indicating the string is a database connection string
+D. No values
+6. Which API method should be invoked in the controller when using ConnectionStrings?
+A. LoadStrings()
+B. GetAppSetting()
+C. ReadConfig()
+D. GetConnectionString()
+7. Which of the following is available under the Platform settings?
+A. Only billing
+B. Framework versions, Web Sockets, HTTP Version
+C. Only logging
+D. Only DNS
+8. All stored app settings are:
+A. Public
+B. Always plain text
+C. Always encrypted
+D. Never stored
+9. For .NET apps, AppSettings are:
+A. Ignored
+B. Stored in a database
+C. Added to the .NET configuration AppSettings at runtime, overriding existing settings
+D. Stored in the registry
+10. For Python, Node, and Java apps, app settings are accessible as:
+A. Browser storage
+B. Cookies
+C. Environment variables
+D. Registry keys
+11. For a nested JSON key such as ApplicationInsights:InstrumentationKey on Linux/container apps, the key name becomes:
+A. ApplicationInsights-InstrumentationKey
+B. ApplicationInsights/InstrumentationKey
+C. ApplicationInsights__InstrumentationKey
+D. ApplicationInsights.InstrumentationKey
+12. What environment variable prefix is used for SQL Database connection strings?
+A. SQLAZURECONNSTR_
+B. SQLCONNSTR_
+C. CUSTOMCONNSTR_
+D. MYSQLCONNSTR_
+13. What environment variable prefix is used for SQL Server connection strings?
+A. DBCONNSTR_
+B. CUSTOMCONNSTR_
+C. SQLAZURECONNSTR_
+D. SQLCONNSTR_
+14. What environment variable prefix is used for custom connection strings?
+A. SQLAZURECONNSTR_
+B. SQLCONNSTR_
+C. CUSTOMCONNSTR_
+D. OTHERCONNSTR_
+15. A SQL database connection string named connectionstring1 is accessible via which environment variable?
+A. CUSTOMCONNSTR_connectionString1
+B. SQLAZURECONNSTR_connectionString1
+C. SQLCONNSTR_connectionString1
+D. APPSETTING_connectionString1
+16. In the Default Documents setting, the web page shown in the root URL of a Website is:
+A. The first matching file in the list
+B. The last file in the list
+C. Randomly chosen
+D. Always index.html
+17. Handler mappings are used to:
+A. Manage DNS
+B. Create VMs
+C. Compile code
+D. Add custom script processors to manage requests for particular file extensions
+18. Which path refers to the root directory of the app in handler mappings?
+A. D:\data
+B. D:\home\site\wwwroot
+C. C:\Windows
+D. C:\inetpub
+19. Azure Key Vault is:
+A. A hosting platform
+B. A security-related tool available in the Azure platform
+C. A load balancer
+D. A database engine
+20. Before any task can be done with a vault, it must be:
+A. Deleted
+B. Replicated
+C. Authenticated
+D. Compiled
+21. Which authentication method for Key Vault is recommended as best practice?
+A. Service principal and certificate
+B. Service principal and secret
+C. Managed identities for Azure resources
+D. Anonymous
+22. Which of the following is a way to authenticate Key Vault?
+A. Cookies only
+B. FTP login
+C. Windows XP login
+D. Service Principal and Certificate
+23. Which of the following is a benefit of Azure Key Vault?
+A. Certificate management, key management, and secrets management
+B. Only VM creation
+C. Only code compilation
+D. Only logging
+24. Key Vault certificate management involves:
+A. Printing certificates
+B. Compiling certificates
+C. Provisioning, managing, and deploying public and private SSL/TLS certificates
+D. Deleting certificates
+25. Azure Key Vault secrets management ensures strict control over access to:
+A. Only tables
+B. Only VMs
+C. Only images
+D. Passwords, tokens, API keys, certificates, and other secrets
+26. Secrets and keys are protected using HSMs validated under which standard?
+A. FIPS 140-2 Level 2
+B. HIPAA only
+C. ISO 9001
+D. PCI-DSS only
+27. HSM stands for:
+A. Hybrid Storage Manager
+B. Hardware Security Module
+C. High Speed Memory
+D. Host Server Machine
+28. Centralizing application secrets in Key Vault:
+A. Stores secrets in code
+B. Exposes secrets to everyone
+C. Controls distribution and reduces chances of accidental exposure
+D. Deletes secrets
+29. Which service handles authentication for Key Vault?
+A. Azure Backup
+B. Azure Active Directory
+C. Azure Monitor
+D. Azure CDN
+30. Which methods manage authorization for Key Vault?
+A. Cookies
+B. Firewall only
+C. Load balancer
+D. Key Vault access policy or Role Based Access Control (RBAC)
+31. RBAC stands for:
+A. Resource Based Application Code
+B. Role Based Access Control
+C. Remote Backup and Cache
+D. Random Binary Access Control
+32. To monitor access and usage of Key Vault, you can:
+A. Use Notepad
+B. Delete secrets
+C. Disable the vault
+D. Enable Key Vault logging
+33. Key Vault logs can be configured for:
+A. Only printing
+B. Archiving to a storage account, sending to Log Analytics, or streaming to an event hub
+C. Only deletion
+D. Only email
+34. Key Vault contents can be replicated:
+A. Nowhere
+B. Within a region and to a secondary region
+C. Only within a single rack
+D. Only to on-premises
+35. Standard administration of Key Vault is available through:
+A. Only Excel
+B. Azure CLI, the portal, and PowerShell
+C. Only Notepad
+D. Only Paint
+36. Key Vault can integrate with which Azure services?
+A. Web Apps, Disk Encryption, SQL Database, storage accounts, Log Analytics, Event Hubs
+B. Only Cosmos DB
+C. None
+D. Only VMs
+37. How many credential types does Azure App Service support for FTP/S and local Git deployment?
+A. Two (user-level and app-level)
+B. One
+C. Three
+D. Four
+38. User-level credentials are linked to:
+A. A subscription key
+B. A Microsoft Account
+C. A specific Web app
+D. A VM
+39. Can user-level credentials be shared among different users?
+A. No, they are never shared
+B. Only with admins
+C. Only with co-admins
+D. Yes, always
+40. App-level credentials apply to:
+A. Only the particular app
+B. Every subscription
+C. Every database
+D. The whole account
+41. App-level credentials are generated:
+A. Manually by the user
+B. By Postman
+C. By Key Vault only
+D. Automatically during app creation
+42. Where can app-level credentials be found?
+A. In the Web.config
+B. In Notepad
+C. In the cache
+D. In the publish profile of the app
+43. Can app-level credentials be configured manually?
+A. Yes, always
+B. Only by the Microsoft account
+C. Only through NuGet
+D. No, but they can be reset at any time
+44. A publish profile is:
+A. An XML file with WebDeploy and FTP-related content
+B. A database table
+C. A binary executable
+D. A cache file
+45. For a site named MyIdealSite, the app-level user name is:
+A. MyIdealSite@admin
+B. $MyIdealSite
+C. admin
+D. MyIdealSite.com
+46. App-level credentials are typically used by:
+A. Casual users who type them each time
+B. Browsers
+C. Programs that automate deployment, such as Visual Studio
+D. Printers
+47. A NuGet package is:
+A. A single ZIP file with the .nupkg extension
+B. A .mp3 file
+C. An .exe file
+D. A .docx file
+48. A NuGet package includes:
+A. Only images
+B. Only SQL
+C. Only videos
+D. Compiled code (DLLs), additional files, and a manifest with information such as the version number
+49. Where can developers find NuGet packages?
+A. Only on CDs
+B. Only in Excel
+C. Only in Notepad
+D. nuget.org or the Package Manager UI in Visual Studio
+50. NuGet packages on nuget.org are sorted by:
+A. Date only
+B. Total downloads
+C. Price
+D. Alphabetical order only
+51. Which method of installing NuGet packages works on Windows only?
+A. dotnet.exe CLI
+B. Package Manager UI on Mac
+C. Package Manager Console (Install-Package)
+D. nuget.exe CLI
+52. Which command-line tool uses "dotnet add package <package_name>"?
+A. dotnet.exe CLI
+B. nuget.exe CLI
+C. Package Manager Console
+D. Visual Studio UI
+53. Which tool uses "nuget install <package_name>"?
+A. nuget.exe CLI
+B. Azure portal
+C. Package Manager Console
+D. dotnet.exe CLI
+54. Does the nuget.exe CLI install command make changes to packages.config or project files?
+A. No
+B. Yes
+C. Only the project file
+D. Only packages.config
+55. Which Visual Studio command installs a package from the Package Manager Console?
+A. Get-Package
+B. Add-Package
+C. Load-Package
+D. Install-Package
+Answer Key - Session 13
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | C | Key/value string pairs belonging to the Web app's configuration |
+| 2 | A | Connection strings with passwords are not available as plain text in the web.config file |
+| 3 | B | App Settings |
+| 4 | C | ConnectionStrings or AppSettings |
+| 5 | C | Additional metadata indicating the string is a database connection string |
+| 6 | D | GetConnectionString() |
+| 7 | B | Framework versions, Web Sockets, HTTP Version |
+| 8 | C | Always encrypted |
+| 9 | C | Added to the .NET configuration AppSettings at runtime, overriding existing settings |
+| 10 | C | Environment variables |
+| 11 | C | ApplicationInsights__InstrumentationKey |
+| 12 | A | SQLAZURECONNSTR_ |
+| 13 | D | SQLCONNSTR_ |
+| 14 | C | CUSTOMCONNSTR_ |
+| 15 | B | SQLAZURECONNSTR_connectionString1 |
+| 16 | A | The first matching file in the list |
+| 17 | D | Add custom script processors to manage requests for particular file extensions |
+| 18 | B | D:\home\site\wwwroot |
+| 19 | B | A security-related tool available in the Azure platform |
+| 20 | C | Authenticated |
+| 21 | C | Managed identities for Azure resources |
+| 22 | D | Service Principal and Certificate |
+| 23 | A | Certificate management, key management, and secrets management |
+| 24 | C | Provisioning, managing, and deploying public and private SSL/TLS certificates |
+| 25 | D | Passwords, tokens, API keys, certificates, and other secrets |
+| 26 | A | FIPS 140-2 Level 2 |
+| 27 | B | Hardware Security Module |
+| 28 | C | Controls distribution and reduces chances of accidental exposure |
+| 29 | B | Azure Active Directory |
+| 30 | D | Key Vault access policy or Role Based Access Control (RBAC) |
+| 31 | B | Role Based Access Control |
+| 32 | D | Enable Key Vault logging |
+| 33 | B | Archiving to a storage account, sending to Log Analytics, or streaming to an event hub |
+| 34 | B | Within a region and to a secondary region |
+| 35 | B | Azure CLI, the portal, and PowerShell |
+| 36 | A | Web Apps, Disk Encryption, SQL Database, storage accounts, Log Analytics, Event Hubs |
+| 37 | A | Two (user-level and app-level) |
+| 38 | B | A Microsoft Account |
+| 39 | A | No, they are never shared |
+| 40 | A | Only the particular app |
+| 41 | D | Automatically during app creation |
+| 42 | D | In the publish profile of the app |
+| 43 | D | No, but they can be reset at any time |
+| 44 | A | An XML file with WebDeploy and FTP-related content |
+| 45 | B | $MyIdealSite |
+| 46 | C | Programs that automate deployment, such as Visual Studio |
+| 47 | A | A single ZIP file with the .nupkg extension |
+| 48 | D | Compiled code (DLLs), additional files, and a manifest with information such as the version number |
+| 49 | D | nuget.org or the Package Manager UI in Visual Studio |
+| 50 | B | Total downloads |
+| 51 | C | Package Manager Console (Install-Package) |
+| 52 | A | dotnet.exe CLI |
+| 53 | A | nuget.exe CLI |
+| 54 | A | No |
+| 55 | D | Install-Package |
+
+Session 14: Deploying Web Applications and Services
+Choose the correct answer for each question.
+1. Azure App Service Web apps is a service used to host:
+A. Only databases
+B. Web applications, REST APIs, and mobile backends
+C. Only VMs
+D. Only email
+2. Which languages can be used to develop Azure App Service Web apps?
+A. C#, Java, PHP, Ruby, Python
+B. Only COBOL
+C. Only C
+D. Only Pascal
+3. Which are the three main benefits of Azure App Services?
+A. High-productivity development, fully-managed platform, enterprise-grade apps
+B. None
+C. Low cost, no security, manual scaling
+D. Only hosting, only billing, only logging
+4. High-productivity development in App Services includes:
+A. Debugging live-site, continuous integration, and Visual Studio IDE
+B. Printing only
+C. No tools
+D. Manual servers only
+5. In a fully-managed platform, App Services handles:
+A. Only designing
+B. Only coding
+C. Only testing
+D. Infrastructure maintenance and load balancing
+6. Which capabilities are easier with App Service's managed platform?
+A. Editing videos
+B. Printing documents
+C. Adding SSL certificates, SSO, custom domains, identity integration
+D. Creating spreadsheets
+7. Enterprise-grade apps in App Services benefit from:
+A. Global datacenter network, security, and compliance
+B. Only local servers
+C. No security
+D. Only free plans
+8. Which service is integrated with App Service to help secure apps?
+A. Azure Event Hubs
+B. Azure CDN
+C. Azure Active Directory
+D. Azure Backup
+9. Web apps in Azure App Service are similar to the earlier:
+A. Azure Blobs
+B. Azure Queues
+C. Azure Tables
+D. Azure Websites
+10. Web apps key features include:
+A. No DevOps
+B. No scaling
+C. Built-in autoscale, load balancing, and high availability with auto-patching
+D. Manual patching only
+11. Which of the following templates is available for Web apps?
+A. Notepad
+B. WordPress, Umbraco, Joomla, Drupal
+C. Photoshop
+D. Excel
+12. The compute resources that run Web apps are determined by the:
+A. App Service plan
+B. Subscription name
+C. Storage account
+D. Resource group only
+13. Mobile Apps in Azure App Service provide:
+A. Only printers
+B. Only game servers
+C. Only desktop backends
+D. A custom backend for mobile platforms such as iOS, Windows, Android, Cordova, Xamarin
+14. Which feature of Mobile Apps lets an app work offline?
+A. Traffic manager
+B. Push notifications
+C. Autoscale
+D. Native sync experience
+15. Mobile Apps support social integration with:
+A. Only Skype
+B. Facebook, Twitter, and Google
+C. Only LinkedIn
+D. Only Instagram
+16. Mobile Apps support long-running background tasks using:
+A. Event Hubs
+B. API Apps
+C. WebJobs
+D. Logic Apps
+17. Logic Apps in Azure App Service allow users to:
+A. Automate the execution of processes across commercial services, consumers, and on-premises custom APIs
+B. Compile code
+C. Edit images
+D. Manage printers
+18. Which is a key feature of Logic Apps in App Service?
+A. Editing PDFs
+B. Writing hardware drivers
+C. Creating business processes and workflows visually
+D. Creating spreadsheets
+19. API Apps are used for:
+A. Only desktop apps
+B. Only mobile apps
+C. Building, consuming, and distributing APIs in the cloud and on-premises
+D. Only email
+20. API Apps secure APIs using:
+A. Only cookies
+B. Only passwords in URLs
+C. Single Sign-On, Active Directory, and OAuth
+D. No security
+21. An App Service plan provides resources that are similar to:
+A. A server farm in traditional Web hosting
+B. A printer
+C. A phone
+D. A single laptop
+22. Each App Service plan defines which of the following?
+A. Only the language
+B. Region, number of VM instances, VM instance size, and pricing tier
+C. Only the user name
+D. Only the app name
+23. Which pricing tiers are listed for App Service plans?
+A. Only Premium
+B. Free, Shared, Basic, Standard, Premium, PremiumV2, Isolated, Consumption
+C. Only Basic
+D. Only Free and Paid
+24. Which are the shared compute tiers?
+A. Isolated and Consumption
+B. Free and Shared
+C. Premium and PremiumV2
+D. Basic and Standard
+25. In shared compute tiers, apps:
+A. Run on dedicated VMs
+B. Always scale out
+C. Run on dedicated networks
+D. Run on the same Azure VM as other customers' apps and cannot scale out
+26. Which are the dedicated compute tiers?
+A. Isolated only
+B. Consumption only
+C. Free and Shared
+D. Basic, Standard, Premium, and PremiumV2
+27. In dedicated compute tiers, resources are shared only among:
+A. Apps in the same App Service plan
+B. All regions
+C. All subscriptions
+D. All customers
+28. The Isolated tier runs apps on:
+A. Dedicated Azure VMs on dedicated Azure Virtual Networks
+B. Local PCs
+C. Shared networks
+D. Shared VMs
+29. The Consumption tier:
+A. Is only for databases
+B. Is always free
+C. Dynamically scales functions depending on workload
+D. Never scales
+30. Billing for App Service plans is done:
+A. Never
+B. On a per-second basis
+C. Yearly only
+D. Monthly only
+31. Which plans are suitable for production workloads on dedicated VMs?
+A. Basic, Standard, and Premium
+B. Only Consumption
+C. Only Shared
+D. Only Free
+32. For apps that require a private dedicated Azure environment and secure connection to on-premises network, which plan is suitable?
+A. Shared
+B. Isolated
+C. Consumption
+D. Free
+33. To estimate the price of Azure products, a company should use:
+A. The online pricing calculator
+B. A browser extension only
+C. Notepad
+D. A calendar
+34. Azure App Service is described as a fully managed:
+A. On-premises tool
+B. Platform as a Service (PaaS)
+C. IaaS only
+D. SaaS only
+35. Azure App Service incorporates which previous services into a single service?
+A. Only Event Hubs
+B. Mobile Services, Azure Websites, and BizTalk Services
+C. Only Cosmos DB
+D. Only Redis
+36. In the portal, which apps are listed under the Web menu when creating a resource?
+A. VM
+B. Web App, API App, Logic App
+C. Mobile App
+D. Function App only
+37. In the portal, which app is listed under the Mobile menu?
+A. Logic App
+B. Web App
+C. Mobile App
+D. API App
+38. When creating an ASP.NET Web app for Azure deployment in the walkthrough, authentication is set to:
+A. Individual accounts
+B. Windows Authentication
+C. No Authentication
+D. Work or School Accounts
+39. Which Visual Studio menu option is used to run the Web app locally without debugging?
+A. Tools > Options
+B. Debug > Start without Debugging
+C. Build > Clean
+D. File > Exit
+40. How is the publish wizard launched in Solution Explorer?
+A. Press Ctrl+C
+B. Double-click Web.config
+C. Right-click the project and select Publish
+D. Right-click the Views folder
+41. Which publish target is selected to deploy to Azure Web Apps?
+A. Folder
+B. IIS only
+C. FTP only
+D. App Service
+42. After a successful deployment of the Web app, the developer has:
+A. Only a queue
+B. Only a database
+C. Only a VM
+D. A resource group containing an App Service plan and an Azure Web app with a deployed application
+43. WCF Data Services were formerly known as:
+A. ASP.NET Services
+B. Azure Services
+C. ADO.NET Data Services
+D. OData Services
+44. OData is a:
+A. Binary protocol only
+B. REST-based protocol that allows CRUD operations on resources through URLs
+C. Database engine
+D. SOAP-only protocol
+45. WCF Data Services return results in which formats?
+A. Only images
+B. Only PDF
+C. Only CSV
+D. XML-based Atom and JSON
+46. OData uses which model of the Entity Framework to expose resources as related entities?
+A. Storage Model only
+B. Mapping Model only
+C. Entity Data Model
+D. Code-first model only
+47. CRUD operations in OData use which standard HTTP methods?
+A. FTP methods
+B. Only POST
+C. Only GET
+D. GET, PUT, POST, DELETE
+48. In the WCF Data Service walkthrough, the ASP.NET Web app is named:
+A. StudentManagement
+B. StudentServices
+C. StudentOData
+D. WCFDataServiceDemo
+49. Which project template is selected for the WCFDataServiceDemo app?
+A. Web Forms
+B. Empty project
+C. MVC
+D. Web API
+50. Which WCF Data Service item name is created in the walkthrough?
+A. Customers.svc
+B. StudentService.svc
+C. Orders.svc
+D. ProductsWcfDataService.svc
+51. In Visual Studio 2017, the WCF Data Service template:
+A. Is always available
+B. Is deleted
+C. Is not seen by default and must be added by installing an extension
+D. Is available only in Visual Studio 6
+52. Which template is used to create a data model from an existing database in the walkthrough?
+A. ADO.NET Entity Data Model (EF Designer from database)
+B. Web Form
+C. Empty model
+D. Code First
+53. In ProductsWcfDataService.svc.cs, which placeholder is replaced with the name of the entity model?
+A. <TODO: set port>
+B. <TODO: connection string>
+C. <TODO: add namespace>
+D. <TODO: put your data source class name here>
+54. Which dialog is used to add a reference to the data service address?
+A. Add Service Reference
+B. Add Page
+C. Add New Item
+D. Add Class
+55. Which option is selected to deploy the WCF data service to Azure in the walkthrough?
+A. Publish Azure Application
+B. Export Profile only
+C. Deploy to Folder only
+D. Create ISO
+Answer Key - Session 14
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | B | Web applications, REST APIs, and mobile backends |
+| 2 | A | C#, Java, PHP, Ruby, Python |
+| 3 | A | High-productivity development, fully-managed platform, enterprise-grade apps |
+| 4 | A | Debugging live-site, continuous integration, and Visual Studio IDE |
+| 5 | D | Infrastructure maintenance and load balancing |
+| 6 | C | Adding SSL certificates, SSO, custom domains, identity integration |
+| 7 | A | Global datacenter network, security, and compliance |
+| 8 | C | Azure Active Directory |
+| 9 | D | Azure Websites |
+| 10 | C | Built-in autoscale, load balancing, and high availability with auto-patching |
+| 11 | B | WordPress, Umbraco, Joomla, Drupal |
+| 12 | A | App Service plan |
+| 13 | D | A custom backend for mobile platforms such as iOS, Windows, Android, Cordova, Xamarin |
+| 14 | D | Native sync experience |
+| 15 | B | Facebook, Twitter, and Google |
+| 16 | C | WebJobs |
+| 17 | A | Automate the execution of processes across commercial services, consumers, and on-premises custom APIs |
+| 18 | C | Creating business processes and workflows visually |
+| 19 | C | Building, consuming, and distributing APIs in the cloud and on-premises |
+| 20 | C | Single Sign-On, Active Directory, and OAuth |
+| 21 | A | A server farm in traditional Web hosting |
+| 22 | B | Region, number of VM instances, VM instance size, and pricing tier |
+| 23 | B | Free, Shared, Basic, Standard, Premium, PremiumV2, Isolated, Consumption |
+| 24 | B | Free and Shared |
+| 25 | D | Run on the same Azure VM as other customers' apps and cannot scale out |
+| 26 | D | Basic, Standard, Premium, and PremiumV2 |
+| 27 | A | Apps in the same App Service plan |
+| 28 | A | Dedicated Azure VMs on dedicated Azure Virtual Networks |
+| 29 | C | Dynamically scales functions depending on workload |
+| 30 | B | On a per-second basis |
+| 31 | A | Basic, Standard, and Premium |
+| 32 | B | Isolated |
+| 33 | A | The online pricing calculator |
+| 34 | B | Platform as a Service (PaaS) |
+| 35 | B | Mobile Services, Azure Websites, and BizTalk Services |
+| 36 | B | Web App, API App, Logic App |
+| 37 | C | Mobile App |
+| 38 | C | No Authentication |
+| 39 | B | Debug > Start without Debugging |
+| 40 | C | Right-click the project and select Publish |
+| 41 | D | App Service |
+| 42 | D | A resource group containing an App Service plan and an Azure Web app with a deployed application |
+| 43 | C | ADO.NET Data Services |
+| 44 | B | REST-based protocol that allows CRUD operations on resources through URLs |
+| 45 | D | XML-based Atom and JSON |
+| 46 | C | Entity Data Model |
+| 47 | D | GET, PUT, POST, DELETE |
+| 48 | D | WCFDataServiceDemo |
+| 49 | B | Empty project |
+| 50 | D | ProductsWcfDataService.svc |
+| 51 | C | Is not seen by default and must be added by installing an extension |
+| 52 | A | ADO.NET Entity Data Model (EF Designer from database) |
+| 53 | D | <TODO: put your data source class name here> |
+| 54 | A | Add Service Reference |
+| 55 | A | Publish Azure Application |
+
+Session 15: Working with Shared Assemblies
+Choose the correct answer for each question.
+1. Assemblies are one of the main components of the:
+A. Windows registry only
+B. Web browser
+C. Linux kernel
+D. .NET Framework
+2. Assemblies are used for:
+A. Only gaming
+B. Version control and promoting reuse of code
+C. Only video
+D. Only printing
+3. Assemblies provide the CLR with:
+A. Only fonts
+B. Only colors
+C. Information required for type implementation
+D. Only passwords
+4. An assembly is:
+A. A database
+B. A browser
+C. A single deployable unit
+D. Multiple unrelated files
+5. An assembly can include which file types?
+A. .html or .css
+B. .mp3 or .jpg
+C. .exe or .dll
+D. .docx or .xlsx
+6. Information such as assembly name and version is known as:
+A. Assembly metadata
+B. Assembly view
+C. Assembly policy
+D. Assembly cache
+7. A shared assembly can be used by:
+A. No application
+B. Multiple applications
+C. Only the OS
+D. Only one application
+8. To use an assembly exclusively for one application, you install a:
+A. Global assembly
+B. Network assembly
+C. Side-by-side assembly as a private assembly
+D. Strong-named shared assembly
+9. The Global Assembly Cache (GAC) is:
+A. A database
+B. A central repository for shared assemblies in the .NET Framework
+C. A browser cache
+D. A hardware cache
+10. Applications depending on a shared assembly in the GAC:
+A. Must copy it
+B. Cannot access it
+C. Use the same disk files and need no configuration to locate it
+D. Need separate copies
+11. An administrative advantage of assembly sharing is that:
+A. Policies are ignored
+B. Each app needs separate policy
+C. Nothing applies
+D. Security policies and configuration applied to a shared assembly affect all applications that depend on it
+12. The simplest assembly is:
+A. A single file with a simple name
+B. A multifile assembly
+C. A GAC assembly
+D. A network assembly
+13. A single-file simple assembly:
+A. Must be placed in the GAC
+B. Cannot be loaded
+C. Has no version checking and is uninstalled by removing its directory
+D. Always has version checks
+14. For a shared assembly, developers should:
+A. Provide a strong name and deploy it in the GAC
+B. Store it only locally
+C. Delete it
+D. Avoid naming it
+15. A multifile assembly can be created using:
+A. Various code modules and resource files
+B. Only images
+C. Only one file
+D. Only SQL
+16. In the walkthrough, the class library project is named:
+A. Azure
+B. Utility
+C. StudentServices
+D. ConvertType
+17. Which project type is selected to create the assembly?
+A. Class Library (.NET Framework)
+B. Windows Forms only
+C. Web API
+D. Console App only
+18. The ConvertType class exposes a method that converts:
+A. A date to a string
+B. A file to a database
+C. A string to an integer (StringToInt)
+D. An integer to a string
+19. What does StringToInt return when conversion fails?
+A. null
+B. -1
+C. An exception
+D. The default value 0
+20. Which file is opened to set assembly settings?
+A. Web.config
+B. Program.cs
+C. AssemblyInfo.cs
+D. App.config
+21. Which attribute sets the assembly's title?
+A. AssemblyTitle
+B. AssemblyFile
+C. AssemblyLanguage
+D. AssemblyName
+22. Which of the following is NOT a valid assembly attribute from the session's AssemblyInfo code?
+A. AssemblyCompany
+B. AssemblyLanguage
+C. AssemblyTitle
+D. AssemblyProduct
+23. The assembly version consists of how many values?
+A. Three
+B. Five
+C. Four (Major, Minor, Build Number, Revision)
+D. Two
+24. Which wildcard character can be used in AssemblyVersion to default the Build and Revision numbers?
+A. Question mark (?)
+B. Asterisk (*)
+C. Hash (#)
+D. Percent (%)
+25. Building the class library generates:
+A. An .mp3 file
+B. A .dll file
+C. A .docx file
+D. An .html file
+26. The built DLL is placed in which path?
+A. ..\bin\Debug\Utility.dll
+B. ..\App_Data\Utility.dll
+C. ..\obj\Utility.exe
+D. ..\Views\Utility.dll
+27. To use the Utility assembly in an Azure Function app, a developer should:
+A. Delete it
+B. Rename it
+C. Add an assembly reference and use the using declaration
+D. Copy code by hand
+28. In the Azure Function sample, which attribute defines the HTTP trigger?
+A. [HttpTrigger]
+B. [Authorize]
+C. [DataContract]
+D. [Route]
+29. Where can an assembly be deployed so that the CLR can find it?
+A. Only in the registry
+B. Only in the cloud
+C. Only on USB
+D. In the application directory, on an HTTP server, or in the GAC
+30. Subdirectories of the application root for assemblies are named according to:
+A. Language/culture
+B. Version number only
+C. Company name
+D. Date
+31. An assembly deployed on an HTTP server must have:
+A. A strong name
+B. A .txt extension
+C. No name
+D. A password
+32. For an assembly deployed on an HTTP server, users point to it in the:
+A. Web.config's appSettings only
+B. codebase section of the application's configuration file
+C. Registry
+D. Global.asax
+33. To share an assembly with multiple applications, it should be deployed in the:
+A. Global assembly cache
+B. Desktop folder
+C. Downloads folder
+D. Temp folder
+34. Assemblies loaded from an intranet share automatically receive which zone evidence?
+A. Internet
+B. Untrusted
+C. Restricted
+D. MyComputer ('This PC')
+35. Which rule applies to library assemblies loaded from a network share?
+A. They must be in a subfolder
+B. They must be in the GAC
+C. They must be in the registry
+D. They should be in the same folder as the executable assembly
+36. Library assemblies located in a subfolder when loaded from a network share:
+A. Are deleted
+B. Are always full trust
+C. Are not given the full-trust grant set
+D. Are encrypted
+37. Reverting to the former Intranet policy can be done by setting:
+A. A password
+B. A DLL name
+C. A Web.config value
+D. A registry key applicable to all applications on the computer
+38. Which tool is used to view and modify the GAC and download cache?
+A. Postman
+B. Notepad
+C. SSMS
+D. gacutil (GAC tool)
+39. How is the GAC tool run?
+A. Using the Visual Studio Command Prompt or Developer Command Prompt
+B. Through Paint
+C. Through a browser
+D. Through Excel
+40. Which command lists the assemblies in the GAC?
+A. gacutil -d
+B. gacutil -i
+C. gacutil -c
+D. gacutil -l
+41. Assembly versioning is defined through attributes in which file?
+A. Web.config
+B. Program.cs
+C. AssemblyInfo.cs
+D. Global.asax
+42. Which part of the version is incremented manually for major releases?
+A. Major Version
+B. Build Number
+C. Revision
+D. Minor Version
+43. Which part of the version is usually incremented automatically with each build on the Build Server?
+A. Major Version
+B. Revision
+C. Build Number
+D. Minor Version
+44. Which version part is incremented for QFEs (hotfixes or patches) in production?
+A. Build Number
+B. Revision
+C. Minor Version
+D. Major Version
+45. QFE stands for:
+A. Quick File Exchange
+B. Query Function Extension
+C. Quality Feature Engine
+D. Quick Fix Engineering
+46. An assembly manifest contains:
+A. Only images
+B. Assembly metadata such as name, version, culture, strong name, list of files, and referenced assemblies
+C. Only user data
+D. Only passwords
+47. Where is assembly manifest information stored?
+A. In the registry only
+B. In a portable executable (.exe or .dll) file
+C. In a Word document
+D. In a spreadsheet
+48. Which language code is stored with the manifest in the portable executable file?
+A. Only SQL
+B. Only C source
+C. Only HTML
+D. Microsoft Intermediate Language (MSIL)
+49. Which of the following is a function of the assembly manifest?
+A. Creates VMs
+B. Lists the files in the assembly, lists dependent assemblies, makes the assembly self-describing
+C. Compiles code
+D. Hosts websites
+50. In the application configuration file, which attribute on <assemblyBinding> redirects binding to a particular .NET Framework version?
+A. bindTo
+B. appliesTo
+C. redirectTo
+D. versionTo
+51. In which .NET Framework version was the appliesTo attribute created?
+A. 1.0
+B. 1.1
+C. 3.5
+D. 2.0
+52. In .NET Framework 1.0, <assemblyBinding> elements are:
+A. Ignored
+B. Applied only to version 2.0
+C. Applied only with appliesTo
+D. All applied even if appliesTo is specified
+53. Elements of <assemblyBinding> are:
+A. Order-insensitive
+B. Ignored
+C. Random
+D. Order-sensitive
+54. If there is a conflict in redirection, which statement is used?
+A. The first matching redirection statement in the configuration file
+B. A random statement
+C. None
+D. The last matching statement
+55. Which XML section includes the <assemblyBinding> element?
+A. <appSettings>
+B. <connectionStrings>
+C. <runtime>
+D. <system.web>
+Answer Key - Session 15
+| No. | Answer | Correct option |
+| --- | --- | --- |
+| 1 | D | .NET Framework |
+| 2 | B | Version control and promoting reuse of code |
+| 3 | C | Information required for type implementation |
+| 4 | C | A single deployable unit |
+| 5 | C | .exe or .dll |
+| 6 | A | Assembly metadata |
+| 7 | B | Multiple applications |
+| 8 | C | Side-by-side assembly as a private assembly |
+| 9 | B | A central repository for shared assemblies in the .NET Framework |
+| 10 | C | Use the same disk files and need no configuration to locate it |
+| 11 | D | Security policies and configuration applied to a shared assembly affect all applications that depend on it |
+| 12 | A | A single file with a simple name |
+| 13 | C | Has no version checking and is uninstalled by removing its directory |
+| 14 | A | Provide a strong name and deploy it in the GAC |
+| 15 | A | Various code modules and resource files |
+| 16 | B | Utility |
+| 17 | A | Class Library (.NET Framework) |
+| 18 | C | A string to an integer (StringToInt) |
+| 19 | D | The default value 0 |
+| 20 | C | AssemblyInfo.cs |
+| 21 | A | AssemblyTitle |
+| 22 | B | AssemblyLanguage |
+| 23 | C | Four (Major, Minor, Build Number, Revision) |
+| 24 | B | Asterisk (*) |
+| 25 | B | A .dll file |
+| 26 | A | ..\bin\Debug\Utility.dll |
+| 27 | C | Add an assembly reference and use the using declaration |
+| 28 | A | [HttpTrigger] |
+| 29 | D | In the application directory, on an HTTP server, or in the GAC |
+| 30 | A | Language/culture |
+| 31 | A | A strong name |
+| 32 | B | codebase section of the application's configuration file |
+| 33 | A | Global assembly cache |
+| 34 | D | MyComputer ('This PC') |
+| 35 | D | They should be in the same folder as the executable assembly |
+| 36 | C | Are not given the full-trust grant set |
+| 37 | D | A registry key applicable to all applications on the computer |
+| 38 | D | gacutil (GAC tool) |
+| 39 | A | Using the Visual Studio Command Prompt or Developer Command Prompt |
+| 40 | D | gacutil -l |
+| 41 | C | AssemblyInfo.cs |
+| 42 | A | Major Version |
+| 43 | C | Build Number |
+| 44 | B | Revision |
+| 45 | D | Quick Fix Engineering |
+| 46 | B | Assembly metadata such as name, version, culture, strong name, list of files, and referenced assemblies |
+| 47 | B | In a portable executable (.exe or .dll) file |
+| 48 | D | Microsoft Intermediate Language (MSIL) |
+| 49 | B | Lists the files in the assembly, lists dependent assemblies, makes the assembly self-describing |
+| 50 | B | appliesTo |
+| 51 | B | 1.1 |
+| 52 | D | All applied even if appliesTo is specified |
+| 53 | D | Order-sensitive |
+| 54 | A | The first matching redirection statement in the configuration file |
+| 55 | C | <runtime> |
