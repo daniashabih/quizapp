@@ -1072,7 +1072,8 @@
         "Routing",
         "Migration System"
       ],
-      "correctAnswer": "Routing"
+      "correctAnswer": "Routing",
+      "explanation": "In Laravel, Routing is an essential feature that directs all incoming application requests (based on the request URI and HTTP method) towards the appropriate controller actions or handler closures."
     },
     {
       "questionText": "Laravel recommends the use of ____ when writing codes.",
