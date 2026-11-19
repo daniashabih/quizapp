@@ -1,0 +1,613 @@
+{
+  "category": "Azure",
+  "session": 1,
+  "title": "Session 1: Introduction to Azure Cloud Computing",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "Which statement best describes cloud computing?",
+      "options": [
+        "A method of hosting all applications on local servers only",
+        "A programming language for Web applications",
+        "An approach giving convenient, on-demand access through the Internet to computing resources",
+        "A hardware device used to store data locally"
+      ],
+      "correctAnswer": "An approach giving convenient, on-demand access through the Internet to computing resources",
+      "explanation": "Correct answer is C) An approach giving convenient, on-demand access through the Internet to computing resources."
+    },
+    {
+      "questionText": "In cloud computing, services are typically charged based on:",
+      "options": [
+        "The number of developers",
+        "The physical size of the datacenter",
+        "Usage",
+        "A fixed yearly license"
+      ],
+      "correctAnswer": "Usage",
+      "explanation": "Correct answer is C) Usage."
+    },
+    {
+      "questionText": "What is a datacenter?",
+      "options": [
+        "A cloud billing model",
+        "A type of Web browser",
+        "A programming framework",
+        "A dedicated storage space used to store computers and related components"
+      ],
+      "correctAnswer": "A dedicated storage space used to store computers and related components",
+      "explanation": "Correct answer is D) A dedicated storage space used to store computers and related components."
+    },
+    {
+      "questionText": "Companies that deliver computing services over the Internet are known as:",
+      "options": [
+        "Cloud proxies",
+        "Cloud providers",
+        "Cloud consumers",
+        "Cloud brokers"
+      ],
+      "correctAnswer": "Cloud providers",
+      "explanation": "Correct answer is B) Cloud providers."
+    },
+    {
+      "questionText": "Services provided by cloud companies through the Internet are called:",
+      "options": [
+        "Offline services",
+        "Desktop services",
+        "Cloud services",
+        "Local services"
+      ],
+      "correctAnswer": "Cloud services",
+      "explanation": "Correct answer is C) Cloud services."
+    },
+    {
+      "questionText": "Which of the following is given as an example of a commonly used cloud computing application?",
+      "options": [
+        "Calculator",
+        "Notepad",
+        "Paint",
+        "Twitter"
+      ],
+      "correctAnswer": "Twitter",
+      "explanation": "Correct answer is D) Twitter."
+    },
+    {
+      "questionText": "Utility computing is a concept that allows users to:",
+      "options": [
+        "Host servers only on-premises",
+        "Avoid using the Internet",
+        "Use and pay for computing resources on a metered basis",
+        "Own all computing hardware"
+      ],
+      "correctAnswer": "Use and pay for computing resources on a metered basis",
+      "explanation": "Correct answer is C) Use and pay for computing resources on a metered basis."
+    },
+    {
+      "questionText": "Why is the word \"cloud\" used in cloud computing?",
+      "options": [
+        "The Internet has traditionally been represented pictorially as a cloud",
+        "It is the name of the first provider",
+        "Clouds produce the electricity for datacenters",
+        "Servers are physically located in the sky"
+      ],
+      "correctAnswer": "The Internet has traditionally been represented pictorially as a cloud",
+      "explanation": "Correct answer is A) The Internet has traditionally been represented pictorially as a cloud."
+    },
+    {
+      "questionText": "Which is NOT one of the three core reasons organizations adopt cloud computing?",
+      "options": [
+        "Quick deployment",
+        "More economical than local infrastructure",
+        "Unlimited scalability",
+        "Elimination of the need for the Internet"
+      ],
+      "correctAnswer": "Elimination of the need for the Internet",
+      "explanation": "Correct answer is D) Elimination of the need for the Internet."
+    },
+    {
+      "questionText": "How does cloud computing reduce deployment failures?",
+      "options": [
+        "By allowing developers to use similar hardware resources across environments",
+        "By using different hardware in testing and production",
+        "By removing the testing phase",
+        "By limiting the number of users"
+      ],
+      "correctAnswer": "By allowing developers to use similar hardware resources across environments",
+      "explanation": "Correct answer is A) By allowing developers to use similar hardware resources across environments."
+    },
+    {
+      "questionText": "In the case study of 10,000 users growing by another 50,000, the performance problem was caused by:",
+      "options": [
+        "Hardware limitations",
+        "Network security",
+        "Cloud misconfiguration",
+        "Software bugs"
+      ],
+      "correctAnswer": "Hardware limitations",
+      "explanation": "Correct answer is A) Hardware limitations."
+    },
+    {
+      "questionText": "Which are the three cloud service models?",
+      "options": [
+        "PaaS, SaaS, TaaS",
+        "SaaS, NaaS, IaaS",
+        "IaaS, PaaS, SaaS",
+        "IaaS, DaaS, CaaS"
+      ],
+      "correctAnswer": "IaaS, PaaS, SaaS",
+      "explanation": "Correct answer is C) IaaS, PaaS, SaaS."
+    },
+    {
+      "questionText": "Because each cloud service model is built on top of another, they are also called:",
+      "options": [
+        "The cloud tree",
+        "The cloud network",
+        "The cloud cluster",
+        "The cloud computing stack"
+      ],
+      "correctAnswer": "The cloud computing stack",
+      "explanation": "Correct answer is D) The cloud computing stack."
+    },
+    {
+      "questionText": "Which is the simplest type of cloud computing service?",
+      "options": [
+        "SaaS",
+        "IaaS",
+        "PaaS",
+        "DaaS"
+      ],
+      "correctAnswer": "IaaS",
+      "explanation": "Correct answer is B) IaaS."
+    },
+    {
+      "questionText": "Which of the following is an example of IaaS infrastructure?",
+      "options": [
+        "Visual Studio Team Services only",
+        "Office 365",
+        "Gmail",
+        "Virtual Machines"
+      ],
+      "correctAnswer": "Virtual Machines",
+      "explanation": "Correct answer is D) Virtual Machines."
+    },
+    {
+      "questionText": "Amazon is cited as a popular IaaS provider through which services?",
+      "options": [
+        "Gmail and Flickr",
+        "Dropbox and Twitter",
+        "Azure and Office",
+        "EC2 and S3"
+      ],
+      "correctAnswer": "EC2 and S3",
+      "explanation": "Correct answer is D) EC2 and S3."
+    },
+    {
+      "questionText": "In which model does the user NOT have to set up or manage network, storage, servers, or databases for development?",
+      "options": [
+        "Colocation",
+        "Physical hosting",
+        "PaaS",
+        "On-premises"
+      ],
+      "correctAnswer": "PaaS",
+      "explanation": "Correct answer is C) PaaS."
+    },
+    {
+      "questionText": "Microsoft Azure is cited as a popular example of:",
+      "options": [
+        "A programming language",
+        "Desktop software",
+        "SaaS only",
+        "PaaS"
+      ],
+      "correctAnswer": "PaaS",
+      "explanation": "Correct answer is D) PaaS."
+    },
+    {
+      "questionText": "Which is given as an example of SaaS by Microsoft?",
+      "options": [
+        "Visual Studio",
+        "Office 365",
+        "Cosmos DB",
+        "Azure SDK"
+      ],
+      "correctAnswer": "Office 365",
+      "explanation": "Correct answer is B) Office 365."
+    },
+    {
+      "questionText": "Gmail is described as a SaaS service because:",
+      "options": [
+        "It requires installing a server",
+        "It requires a physical datacenter",
+        "An e-mail client is offered as an Internet service without local installation",
+        "It is only for developers"
+      ],
+      "correctAnswer": "An e-mail client is offered as an Internet service without local installation",
+      "explanation": "Correct answer is C) An e-mail client is offered as an Internet service without local installation."
+    },
+    {
+      "questionText": "Which of the following is listed among Azure PaaS data and storage offerings in Figure 1.4?",
+      "options": [
+        "Gmail",
+        "Dropbox",
+        "Cosmos DB",
+        "Flickr"
+      ],
+      "correctAnswer": "Cosmos DB",
+      "explanation": "Correct answer is C) Cosmos DB."
+    },
+    {
+      "questionText": "Which of the following is NOT a distinct characteristic of cloud platforms such as Azure?",
+      "options": [
+        "Geographically distributed datacenters",
+        "Fixed hardware that cannot be scaled",
+        "Scale on demand",
+        "Pay-for-play"
+      ],
+      "correctAnswer": "Fixed hardware that cannot be scaled",
+      "explanation": "Correct answer is B) Fixed hardware that cannot be scaled."
+    },
+    {
+      "questionText": "Cloud platforms reduce upfront ______ costs and incur only ______ costs.",
+      "options": [
+        "CapEx, OpEx",
+        "OpEx, CapEx",
+        "Hardware, software",
+        "Tax, license"
+      ],
+      "correctAnswer": "CapEx, OpEx",
+      "explanation": "Correct answer is A) CapEx, OpEx."
+    },
+    {
+      "questionText": "What does an SLA do in cloud computing?",
+      "options": [
+        "Provides free hardware",
+        "Guarantees a set level of uptime and provides a refund if it is not met",
+        "Defines the programming language",
+        "Encrypts all data"
+      ],
+      "correctAnswer": "Guarantees a set level of uptime and provides a refund if it is not met",
+      "explanation": "Correct answer is B) Guarantees a set level of uptime and provides a refund if it is not met."
+    },
+    {
+      "questionText": "Network latency refers to:",
+      "options": [
+        "A delay in data communication over a network",
+        "The speed of a processor",
+        "The number of users",
+        "The size of a database"
+      ],
+      "correctAnswer": "A delay in data communication over a network",
+      "explanation": "Correct answer is A) A delay in data communication over a network."
+    },
+    {
+      "questionText": "Edge caching involves:",
+      "options": [
+        "Deleting cached data",
+        "Distributing content from a local Web server to a caching server nearer to the user",
+        "Storing data on the user's desktop only",
+        "Encrypting network traffic"
+      ],
+      "correctAnswer": "Distributing content from a local Web server to a caching server nearer to the user",
+      "explanation": "Correct answer is B) Distributing content from a local Web server to a caching server nearer to the user."
+    },
+    {
+      "questionText": "What is a precursor to cloud computing mentioned in the session?",
+      "options": [
+        "Floppy disks",
+        "Distributed applications",
+        "Mainframes",
+        "Spreadsheets"
+      ],
+      "correctAnswer": "Distributed applications",
+      "explanation": "Correct answer is B) Distributed applications."
+    },
+    {
+      "questionText": "Distributed applications are designed to run on:",
+      "options": [
+        "Multiple computers",
+        "Only browsers",
+        "Only mobile phones",
+        "A single system"
+      ],
+      "correctAnswer": "Multiple computers",
+      "explanation": "Correct answer is A) Multiple computers."
+    },
+    {
+      "questionText": "Which is an example of a distributed application mentioned?",
+      "options": [
+        "Notepad",
+        "Collaboration application",
+        "Paint",
+        "Calculator"
+      ],
+      "correctAnswer": "Collaboration application",
+      "explanation": "Correct answer is B) Collaboration application."
+    },
+    {
+      "questionText": "Which technologies were used for distributed applications before Web services?",
+      "options": [
+        "RMI, RPC, and DCOM",
+        "JSON and YAML",
+        "SQL and NoSQL",
+        "HTML and CSS"
+      ],
+      "correctAnswer": "RMI, RPC, and DCOM",
+      "explanation": "Correct answer is A) RMI, RPC, and DCOM."
+    },
+    {
+      "questionText": "Why were older distributed technologies such as RMI, RPC, and DCOM found difficult?",
+      "options": [
+        "They were too fast",
+        "They were free",
+        "They were difficult to use or required both client and server to use the same technology",
+        "They did not use computers"
+      ],
+      "correctAnswer": "They were difficult to use or required both client and server to use the same technology",
+      "explanation": "Correct answer is C) They were difficult to use or required both client and server to use the same technology."
+    },
+    {
+      "questionText": "SOA stands for:",
+      "options": [
+        "Service Oriented Architecture",
+        "Server Oriented Access",
+        "System Operations Architecture",
+        "Simple Object Application"
+      ],
+      "correctAnswer": "Service Oriented Architecture",
+      "explanation": "Correct answer is A) Service Oriented Architecture."
+    },
+    {
+      "questionText": "SOA provides which type of coupling among modules?",
+      "options": [
+        "No coupling",
+        "Loose coupling",
+        "Hardware coupling",
+        "Tight coupling"
+      ],
+      "correctAnswer": "Loose coupling",
+      "explanation": "Correct answer is B) Loose coupling."
+    },
+    {
+      "questionText": "Loose coupling means:",
+      "options": [
+        "Modules communicate without being concerned with each other's internal implementation",
+        "Modules must use the same language",
+        "Modules cannot communicate",
+        "Modules share all internal code"
+      ],
+      "correctAnswer": "Modules communicate without being concerned with each other's internal implementation",
+      "explanation": "Correct answer is A) Modules communicate without being concerned with each other's internal implementation."
+    },
+    {
+      "questionText": "Which are the three key roles in SOA?",
+      "options": [
+        "Designer, tester, deployer",
+        "Client, router, firewall",
+        "Host, proxy, cache",
+        "Service provider, service consumer, service broker"
+      ],
+      "correctAnswer": "Service provider, service consumer, service broker",
+      "explanation": "Correct answer is D) Service provider, service consumer, service broker."
+    },
+    {
+      "questionText": "In SOA, messages are defined using:",
+      "options": [
+        "Images",
+        "Plain text only",
+        "Binary only",
+        "XML"
+      ],
+      "correctAnswer": "XML",
+      "explanation": "Correct answer is D) XML."
+    },
+    {
+      "questionText": "Dynamic discovery in SOA is implemented by:",
+      "options": [
+        "The database",
+        "The directory service",
+        "The client browser",
+        "The firewall"
+      ],
+      "correctAnswer": "The directory service",
+      "explanation": "Correct answer is B) The directory service."
+    },
+    {
+      "questionText": "A Web service is best described as:",
+      "options": [
+        "A database table",
+        "A software component accessed by other applications through protocols such as HTTP",
+        "A desktop game",
+        "A hardware router"
+      ],
+      "correctAnswer": "A software component accessed by other applications through protocols such as HTTP",
+      "explanation": "Correct answer is B) A software component accessed by other applications through protocols such as HTTP."
+    },
+    {
+      "questionText": "Which is a characteristic of a Web service?",
+      "options": [
+        "It uses port 21",
+        "It can only be used from a browser",
+        "It contains only classes used by clients and no user interface",
+        "It contains a user interface"
+      ],
+      "correctAnswer": "It contains only classes used by clients and no user interface",
+      "explanation": "Correct answer is C) It contains only classes used by clients and no user interface."
+    },
+    {
+      "questionText": "Which port is used by the Web server to make a Web service available through firewalls?",
+      "options": [
+        "Port 3389",
+        "Port 25",
+        "Port 80",
+        "Port 21"
+      ],
+      "correctAnswer": "Port 80",
+      "explanation": "Correct answer is C) Port 80."
+    },
+    {
+      "questionText": "A Web service can be called using:",
+      "options": [
+        "Telnet only",
+        "FTP only",
+        "SMTP only",
+        "HTTP Get, HTTP Post, or SOAP"
+      ],
+      "correctAnswer": "HTTP Get, HTTP Post, or SOAP",
+      "explanation": "Correct answer is D) HTTP Get, HTTP Post, or SOAP."
+    },
+    {
+      "questionText": "Clients of a Web service require a ______ that gathers parameters and results to invoke the service.",
+      "options": [
+        "Cache",
+        "Proxy",
+        "Router",
+        "Compiler"
+      ],
+      "correctAnswer": "Proxy",
+      "explanation": "Correct answer is B) Proxy."
+    },
+    {
+      "questionText": "Which of the following is NOT a Web service terminology listed in the session?",
+      "options": [
+        "Contract",
+        "Ethernet",
+        "Consumer",
+        "EndPoint"
+      ],
+      "correctAnswer": "Ethernet",
+      "explanation": "Correct answer is B) Ethernet."
+    },
+    {
+      "questionText": "In Web services, an EndPoint is:",
+      "options": [
+        "The URL used to communicate with the Web service",
+        "The server that hosts the service",
+        "The end user",
+        "The service agreement"
+      ],
+      "correctAnswer": "The URL used to communicate with the Web service",
+      "explanation": "Correct answer is A) The URL used to communicate with the Web service."
+    },
+    {
+      "questionText": "In Web service terminology, the Host is:",
+      "options": [
+        "The URL",
+        "The agreement",
+        "The end user",
+        "The server containing the Web service and the application"
+      ],
+      "correctAnswer": "The server containing the Web service and the application",
+      "explanation": "Correct answer is D) The server containing the Web service and the application."
+    },
+    {
+      "questionText": "ASP.NET Web services (XML Web services) are considered:",
+      "options": [
+        "Only for mobile apps",
+        "The newest service model",
+        "Legacy services not recommended for new applications",
+        "Part of Azure SaaS"
+      ],
+      "correctAnswer": "Legacy services not recommended for new applications",
+      "explanation": "Correct answer is C) Legacy services not recommended for new applications."
+    },
+    {
+      "questionText": "Which .NET Framework version first included WCF?",
+      "options": [
+        "2.0",
+        "4.5",
+        "3.0",
+        "3.5"
+      ],
+      "correctAnswer": "3.0",
+      "explanation": "Correct answer is C) 3.0."
+    },
+    {
+      "questionText": "ASP.NET Web API is a framework that helps build:",
+      "options": [
+        "HTTP-based services on top of the .NET Framework",
+        "Desktop games only",
+        "Operating systems",
+        "Hardware drivers"
+      ],
+      "correctAnswer": "HTTP-based services on top of the .NET Framework",
+      "explanation": "Correct answer is A) HTTP-based services on top of the .NET Framework."
+    },
+    {
+      "questionText": "Microsoft's cloud platform was first unveiled in October 2008 at the Professional Developers Conference under the name:",
+      "options": [
+        "Azure Services",
+        "Microsoft Azure",
+        "Cloud OS",
+        "Windows Azure"
+      ],
+      "correctAnswer": "Windows Azure",
+      "explanation": "Correct answer is D) Windows Azure."
+    },
+    {
+      "questionText": "When was Windows Azure renamed Microsoft Azure?",
+      "options": [
+        "2020",
+        "2014",
+        "2008",
+        "2010"
+      ],
+      "correctAnswer": "2014",
+      "explanation": "Correct answer is B) 2014."
+    },
+    {
+      "questionText": "Which are the important components of the Azure platform architecture?",
+      "options": [
+        "Compute, Data Services, App Services",
+        "Input, Output, Storage",
+        "Design, Code, Test",
+        "Client, Server, Router"
+      ],
+      "correctAnswer": "Compute, Data Services, App Services",
+      "explanation": "Correct answer is A) Compute, Data Services, App Services."
+    },
+    {
+      "questionText": "Which Azure features monitors and maintains software and hardware upgrades or failures automatically?",
+      "options": [
+        "Service Management using the fabric controller",
+        "Storage",
+        "Windows Server",
+        "Development tools"
+      ],
+      "correctAnswer": "Service Management using the fabric controller",
+      "explanation": "Correct answer is A) Service Management using the fabric controller."
+    },
+    {
+      "questionText": "Azure storage services include which of the following?",
+      "options": [
+        "Tables, BLOBs, and queues",
+        "Only files",
+        "Only images",
+        "Only tables"
+      ],
+      "correctAnswer": "Tables, BLOBs, and queues",
+      "explanation": "Correct answer is A) Tables, BLOBs, and queues."
+    },
+    {
+      "questionText": "Microsoft Azure provides assured availability of:",
+      "options": [
+        "95%",
+        "90%",
+        "100% uptime",
+        "99.95% uptime"
+      ],
+      "correctAnswer": "99.95% uptime",
+      "explanation": "Correct answer is D) 99.95% uptime."
+    },
+    {
+      "questionText": "Which Azure component maintains application instances, applies OS patches, and recovers instances after crashes?",
+      "options": [
+        "Connect",
+        "Edge cache",
+        "Fabric Controller",
+        "Cosmos DB"
+      ],
+      "correctAnswer": "Fabric Controller",
+      "explanation": "Correct answer is C) Fabric Controller."
+    }
+  ]
+}

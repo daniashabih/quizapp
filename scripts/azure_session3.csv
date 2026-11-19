@@ -1,0 +1,55 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,3,Caching is a technique in which:,Data is encrypted only,Remote data is stored locally for frequent reuse,Data is compiled,Data is permanently deleted,Remote data is stored locally for frequent reuse
+Azure,3,Which of the following is static content?,Server-side logic,Database queries,"Images, CSS, and JavaScript files",User session data,"Images, CSS, and JavaScript files"
+Azure,3,Heavy static files can consume approximately what share of a page's total load time?,10 percent,60 percent,30 percent,100 percent,60 percent
+Azure,3,Which object is used to share common data with multiple action methods by adding it to the cache?,Session.Abandon,Application.Exit,Response.Redirect,HttpContext.Cache,HttpContext.Cache
+Azure,3,A cache policy is:,A type of CDN,A set of rules that determine whether a cached copy of a resource can be used for a request,A firewall rule,A database backup plan,A set of rules that determine whether a cached copy of a resource can be used for a request
+Azure,3,An effective cache policy is determined by client cache requirements and:,Server's content expiration and revalidation requirements,The keyboard layout,Only the browser color scheme,The user's operating system,Server's content expiration and revalidation requirements
+Azure,3,Using client and server cache requirements ensures:,The most conservative cache policy is achieved so the client receives up-to-date content,The cache is disabled,Data is duplicated,The cache never expires,The most conservative cache policy is achieved so the client receives up-to-date content
+Azure,3,Cache expiration policy represents:,A list of users,A database schema,A network route,A set of eviction and expiration details for a specific cache entry,A set of eviction and expiration details for a specific cache entry
+Azure,3,Which two types of expiration policies are available for cache expiration?,Local and Remote,Absolute and Sliding,Static and Dynamic,Fast and Slow,Absolute and Sliding
+Azure,3,"In Code Snippet 1, the studentList is cached for how long using AbsoluteExpiration?",10 minutes,1 hour,23 hours and 59 minutes,24 days,23 hours and 59 minutes
+Azure,3,Which class is used in Code Snippet 1 to define the cache policy?,TransactionScope,SqlDependency,CacheDependency,CacheItemPolicy,CacheItemPolicy
+Azure,3,Which object is first created to set up a cache dependency?,SqlCommand,Transaction,CacheDependency,DataReader,CacheDependency
+Azure,3,Which method is used to add a dependent cache item with a CacheDependency parameter?,Cache.Insert(),Cache.Clear(),Cache.Open(),Cache.Close(),Cache.Insert()
+Azure,3,"When a dependency object changes, the cached item is:",Duplicated,Automatically invalidated and removed,Locked permanently,Encrypted,Automatically invalidated and removed
+Azure,3,Which of the following is NOT one of the three types of cache dependency in Table 3.1?,Cache dependency on a file,Cache dependency on cached items,Cache dependency on SQL,Cache dependency on server hardware,Cache dependency on server hardware
+Azure,3,SQL cache dependency is enabled using which command line tool?,aspnet_regsql.exe,sqlcmd.exe,aspnet_compiler.exe,csc.exe,aspnet_regsql.exe
+Azure,3,Query notification in ADO.NET means:,An application is notified when data changes in the source,A database is backed up,A server restarts,A user logs in,An application is notified when data changes in the source
+Azure,3,Which ADO.NET class provides the low-level implementation of query notifications?,SqlCacheDependency,SqlDataReader,SqlDependency,SqlNotificationRequest,SqlNotificationRequest
+Azure,3,Which class provides a high-level implementation of query notifications?,SqlDependency,SqlConnection,SqlNotificationRequest,SqlCommand,SqlDependency
+Azure,3,SqlCacheDependency helper classes are used by:,Only desktop games,Only mobile apps,Web applications built using ASP.NET 2.0,Only console applications,Web applications built using ASP.NET 2.0
+Azure,3,Azure Redis Cache can be used by:,"Any application, inside or outside Azure",Only applications inside Azure,Only desktop applications,Only Windows services,"Any application, inside or outside Azure"
+Azure,3,A transaction is:,A kind of table,A single unit of work where either all or none of the operations are performed,A type of query,A network protocol,A single unit of work where either all or none of the operations are performed
+Azure,3,"If an error occurs in a transaction, the transaction must be:",Rolled back,Committed,Duplicated,Ignored,Rolled back
+Azure,3,The acronym ACID stands for properties of a transaction. Which set is correct?,"Access, Control, Integrity, Data","Atomic, Cached, Indexed, Distributed","Atomicity, Consistency, Isolation, Durability","Authentication, Consistency, Integrity, Durability","Atomicity, Consistency, Isolation, Durability"
+Azure,3,Which ACID property assures that a committed transaction remains even when the system fails?,Durability,Atomicity,Isolation,Consistency,Durability
+Azure,3,Which ACID property assures independent and transparent transactions?,Durability,Atomicity,Consistency,Isolation,Isolation
+Azure,3,A database transaction consists of an array of statements that:,Only read data,"Execute together and either succeed or fail, keeping the database consistent",Are always ignored,Run independently,"Execute together and either succeed or fail, keeping the database consistent"
+Azure,3,A transaction executed on a single data source/database is called a:,Remote transaction,Local transaction,Elastic transaction,Distributed transaction,Local transaction
+Azure,3,Local transactions are described as being:,Two phase,Three phase,Multi phase,Single phase,Single phase
+Azure,3,Which component of System.Transactions manages local transactions?,SqlDependency,CacheDependency,Lightweight Transaction Manager (LTM),MSDTC only,Lightweight Transaction Manager (LTM)
+Azure,3,A transaction that includes more than one data source is called a:,Static transaction,Local transaction,Simple transaction,Distributed or elastic transaction,Distributed or elastic transaction
+Azure,3,Which coordinator uses System.Transactions classes to manage distributed transactions on the cloud?,Resource Manager,Lightweight Transaction Manager,Azure Advisor,Microsoft Distributed Transaction Coordinator (MSDTC),Microsoft Distributed Transaction Coordinator (MSDTC)
+Azure,3,Which object is instantiated to create a transaction using System.Transactions?,SqlDataAdapter,DataSet,TransactionScope,CacheDependency,TransactionScope
+Azure,3,A transaction in the current thread that is opened by TransactionScope is called a(n):,Cached transaction,Static transaction,Ambient transaction,Local database,Ambient transaction
+Azure,3,"To be part of the transaction, ADO.NET connections must be opened:",After the transaction is disposed,Before instantiating TransactionScope,In another application,After the TransactionScope is instantiated and before it is disposed,After the TransactionScope is instantiated and before it is disposed
+Azure,3,Which method must be called before Dispose to commit the transaction?,TransactionScope.Open(),TransactionScope.Cancel(),TransactionScope.Complete(),TransactionScope.Rollback(),TransactionScope.Complete()
+Azure,3,Which isolation level is the highest?,Repeatable Read,Serializable,Read Uncommitted,Read Committed,Serializable
+Azure,3,Which isolation level is the lowest and allows dirty reads?,Read Uncommitted,Read Committed,Serializable,Repeatable Read,Read Uncommitted
+Azure,3,Read Committed isolation level:,Allows shared locks and reads only committed data,Prevents all reads,Has no locks,Allows dirty reads,Allows shared locks and reads only committed data
+Azure,3,Azure Blob storage is used to store:,Unstructured data such as text or binary data,Only relational tables,Only SQL queries,Only queues,Unstructured data such as text or binary data
+Azure,3,Blob storage objects can be accessed using:,Only FTP,Only email,HTTP or HTTPS through URLs,Only Bluetooth,HTTP or HTTPS through URLs
+Azure,3,Which of the following is a common use of Blob storage?,Storing video and audio for streaming,Compiling code,Running stored procedures,Storing relational joins,Storing video and audio for streaming
+Azure,3,Azure Table storage is described as a:,Message queue,Key/attribute store with a schemaless design,File compiler,Relational store with fixed schema,Key/attribute store with a schemaless design
+Azure,3,What is the size of a single Azure Queue message?,1 GB,64 KB,1 MB,10 MB,64 KB
+Azure,3,Which is a common use of Azure Queue storage?,Running SQL joins,Processing a backlog of work asynchronously and passing messages from a Web role to a worker role,Storing images,Hosting web pages,Processing a backlog of work asynchronously and passing messages from a Web role to a worker role
+Azure,3,Azure SQL Database can be used in which two ways?,Only IaaS,Azure SQL (PaaS) Database and SQL Server on Azure VMs (IaaS),SaaS and DaaS,Only PaaS,Azure SQL (PaaS) Database and SQL Server on Azure VMs (IaaS)
+Azure,3,"After creating an Azure SQL database server, which action gives access permission for your client machine?",Change the OS,Delete the resource group,Set server firewall and add client IP,Restart SSMS,Set server firewall and add client IP
+Azure,3,What is the format of the server name used to connect to the Azure database from SSMS?,databasename.database.windows.net,databasename.local,databasename.azure.exe,databasename.sql.com,databasename.database.windows.net
+Azure,3,Which tool is used to connect to the Azure SQL database from a local machine in the session?,Task Manager,SQL Server Management Studio (SSMS),Notepad,Paint,SQL Server Management Studio (SSMS)
+Azure,3,Cosmos DB is classified as which type of database?,Spreadsheet,Relational only,NewSQL,File system,NewSQL
+Azure,3,Which data models does Cosmos DB support through one backend?,Only relational,Only key value,"Document, key value, relational, and graph",Only graph,"Document, key value, relational, and graph"
+Azure,3,Cosmos DB does not rely on:,Query languages,Networks,Transactions,Schemas,Schemas
+Azure,3,A Content Delivery Network (CDN) is:,A programming language,A VM template,A database engine,A distributed network of services that delivers Web content to users,A distributed network of services that delivers Web content to users
+Azure,3,CDN cached content is stored in locations called:,Local disks only,Backup tapes,Origin servers only,Point-of-Presence (POP) on edge servers,Point-of-Presence (POP) on edge servers

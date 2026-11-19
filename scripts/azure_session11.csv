@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,11,Serverless computing in Azure offers developers:,Manual OS patching,More server management tasks,Physical datacenter access,"Abstraction of servers, infrastructure, and operating systems","Abstraction of servers, infrastructure, and operating systems"
+Azure,11,"With serverless computing, developers eliminate the overhead of:",Provisioning and managing servers,Testing,Using the Internet,Writing code,Provisioning and managing servers
+Azure,11,Which of the following is a serverless service in Azure?,Only Active Directory,Only Azure VMs,Azure Logic Apps and Azure Functions,Only SQL Server,Azure Logic Apps and Azure Functions
+Azure,11,Azure Logic Apps is a cloud service for:,Creating physical servers,Designing UI themes,Creating automated scalable workflows,Compiling C# code,Creating automated scalable workflows
+Azure,11,A series of steps or tasks in Logic Apps is known as a:,Policy,Pipeline only,Query,Workflow,Workflow
+Azure,11,Logic Apps provides which tool to model and automate processes?,Visual designer,Notepad,Spreadsheet,Command line only,Visual designer
+Azure,11,Logic Apps is useful for which scenarios?,Only gaming,"Data integration, app integration, EAI, and B2B communication",Only printing,Only image editing,"Data integration, app integration, EAI, and B2B communication"
+Azure,11,EAI stands for:,External API Interface,Easy Azure Integration,Enterprise Application Integration,Event Application Index,Enterprise Application Integration
+Azure,11,Which is an example workload automated by Logic Apps?,Designing hardware,Monitoring when records are created or changed in Salesforce,Compiling a kernel,Formatting disks,Monitoring when records are created or changed in Salesforce
+Azure,11,Each connector provides a set of operations categorized as:,Actions and triggers,Tables and views,Models and views,Classes and objects,Actions and triggers
+Azure,11,"In Logic Apps, actions are:",Changes driven by a user that map directly to operations,Network ports,Policies,Events that start the workflow,Changes driven by a user that map directly to operations
+Azure,11,"In Logic Apps, a trigger is:",A storage tier,A database table,An event from a connector that fires a logic app,A user-driven change only,An event from a connector that fires a logic app
+Azure,11,Every logic app starts with:,A loop,A trigger,A policy,An action,A trigger
+Azure,11,Which of the following is a common trigger?,When an HTTP request is received,Install IIS,Format a disk,Compile a project,When an HTTP request is received
+Azure,11,"Connectors are primarily Web APIs that use JSON for data exchange, Swagger for documentation, and ______ for pluggable interfaces.",SOAP,DCOM,RPC,REST,REST
+Azure,11,How many built-in connectors does Logic Apps offer?,About 5,None,Over 100,Exactly 10,Over 100
+Azure,11,Custom API apps in Logic Apps are created when:,Developers need to call APIs or services not available as connectors,A database fails,Logic Apps is not installed,Connectors are too fast,Developers need to call APIs or services not available as connectors
+Azure,11,Custom APIs for Logic Apps can be hosted on:,Only a browser,Only on-premises,Only a USB drive,Azure App Service,Azure App Service
+Azure,11,Azure Functions is described as:,A browser extension,A database,A hardware product,A serverless compute service that runs code on demand without provisioning infrastructure,A serverless compute service that runs code on demand without provisioning infrastructure
+Azure,11,"With Azure Functions, a developer pays for:",Nothing,A fixed monthly VM,Just the time for which the code runs,Only storage,Just the time for which the code runs
+Azure,11,WebJobs is a feature of:,Azure Active Directory,Azure Cosmos DB,Azure App Service,Azure Monitor,Azure App Service
+Azure,11,WebJobs allows running scripts or programs:,As background processes in the Website,Only on desktops,Only in browsers,Only offline,As background processes in the Website
+Azure,11,The WebJobs SDK runs as a:,Browser plug-in,.NET console application,Windows Service only,Database job,.NET console application
+Azure,11,An example given for the WebJobs SDK is:,Sending mail,Formatting a database,Deleting a VM,Creating a thumbnail image in response to an image blob created in Azure storage,Creating a thumbnail image in response to an image blob created in Azure storage
+Azure,11,Which Marketplace menu item is selected to create a Function App?,Storage > Blob,Compute > Function App,Databases > SQL,Networking > VPN,Compute > Function App
+Azure,11,Which publish option is selected to publish the function directly from Visual Studio?,Import profile only,Folder publish,Direct publish,FTP only,Direct publish
+Azure,11,Azure Service Fabric is:,A Web browser,"A distributed systems platform for packaging, deploying, and managing reliable and scalable containers and microservices",A text editor,A database,"A distributed systems platform for packaging, deploying, and managing reliable and scalable containers and microservices"
+Azure,11,Service Fabric focuses on issues faced in:,Only desktop applications,Development and management of cloud-native applications,Only hardware design,Only video editing,Development and management of cloud-native applications
+Azure,11,Service Fabric applications comprise microservices running at high density on machines in a shared pool called a:,Queue,Folder,Container image,Cluster,Cluster
+Azure,11,Which of the following services is powered by Service Fabric?,Only Excel,Only Notepad,Only Paint,"Azure SQL, Power BI, Cosmos DB, IoT Hub, Event Hubs, Skype for Business","Azure SQL, Power BI, Cosmos DB, IoT Hub, Event Hubs, Skype for Business"
+Azure,11,Stateless microservices:,Cannot have a mutable state outside of a request and its response,Always keep mutable state,Cannot exist in Service Fabric,Are always databases,Cannot have a mutable state outside of a request and its response
+Azure,11,An example of stateless microservices is:,Shopping carts,User accounts,Web proxies and protocol gateways,Databases,Web proxies and protocol gateways
+Azure,11,An example of stateful microservices is:,"Databases, user accounts, queues, shopping carts",Worker roles only,Protocol gateways,Web proxies,"Databases, user accounts, queues, shopping carts"
+Azure,11,Azure App Service can be used to protect which of the following?,Only storage,Only VMs,Only databases,"Web apps, API apps, mobile app back ends, and Azure Functions","Web apps, API apps, mobile app back ends, and Azure Functions"
+Azure,11,"To use a certificate in an Azure Website, developers can:",Print it,Upload it to the Azure Website's certificates collection,Delete it,Email it,Upload it to the Azure Website's certificates collection
+Azure,11,Azure Active Directory can protect a Web API using:,Only passwords in URLs,OAuth 2.0 bearer access tokens,FTP,No tokens,OAuth 2.0 bearer access tokens
+Azure,11,Which policy is added to validate OAuth tokens for all incoming requests?,validate-token only,validate-xml,validate-jwt,validate-cors,validate-jwt
+Azure,11,OAuth 2.0 helps to:,Encrypt hardware,Ensure access only to authenticated users and only to the extent they are entitled,Remove all security,Allow anonymous access,Ensure access only to authenticated users and only to the extent they are entitled
+Azure,11,Azure Policy is a service that:,"Creates, assigns, and manages policies for resources",Hosts Web apps,Creates databases,Compiles code,"Creates, assigns, and manages policies for resources"
+Azure,11,Azure Policy helps keep resources in compliance with:,Only colors,Only languages,Service level agreements and corporate standards,Only prices,Service level agreements and corporate standards
+Azure,11,An example policy in Azure is:,Deleting all databases,Allowing only a particular SKU size of virtual machines,Disabling all VMs,Allowing any VM size,Allowing only a particular SKU size of virtual machines
+Azure,11,Azure API Management (APIM) helps organizations to:,Edit images,Compile code,Create VMs only,"Publish APIs to internal, external, and partner developers","Publish APIs to internal, external, and partner developers"
+Azure,11,APIM offers which of the following?,Only a database,Only a text editor,A developer portal and an API gateway,Only a compiler,A developer portal and an API gateway
+Azure,11,The APIM developer portal is used for:,Creating VMs,Managing the subscription of services,Compiling C,Writing SQL,Managing the subscription of services
+Azure,11,Swagger is described as:,"An open source framework for building, designing, documenting, and consuming RESTful APIs",An operating system,A database,A hardware vendor,"An open source framework for building, designing, documenting, and consuming RESTful APIs"
+Azure,11,Which NuGet package is used to Swagger-enable an API in .NET?,Swashbuckle,Microsoft.AspNet.Odata,MySql.Data.Entity,System.Data.SQLite,Swashbuckle
+Azure,11,Swagger definition files can be written in which extensions?,*.dll,*.exe,*.mp3,*.yaml or *.json,*.yaml or *.json
+Azure,11,The Swagger standard has been renamed as:,OpenHost,OpenAPI,OpenData,OpenFabric,OpenAPI
+Azure,11,"When generated ASP.NET MVC code from Swagger is deployed to an Azure App Service, it is called:",An Azure API app,An Azure Function,A WebJob,A Logic App,An Azure API app
+Azure,11,"Which type of Azure log gives details on Azure Resource Manager operations such as CREATE, DELETE, and UPDATE?",Data plane logs,Backup logs,Control/Management logs,Processed events,Control/Management logs
+Azure,11,"Which type of log covers events as part of Azure resource usage, such as Windows event system logs and application logs in a VM?",Policy logs,Processed events,Control logs,Data plane logs,Data plane logs
+Azure,11,Which log type provides analyzed events or alerts such as Azure Security Center alerts?,Backup logs,Control logs,Processed events,Data plane logs,Processed events
+Azure,11,BCDR stands for:,Basic Cloud Deployment Region,Business Continuity and Disaster Recovery,Binary Code Data Repository,Backup Cache Data Retention,Business Continuity and Disaster Recovery
+Azure,11,Azure Site Recovery:,Replicates workloads from a primary site to a secondary location for failover during outages,Creates databases,Hosts websites,Compiles code,Replicates workloads from a primary site to a secondary location for failover during outages
+Azure,11,Which of the following is the first high-level step for setting up disaster recovery of Azure VMs to a secondary region?,Formatting the disk,Deleting the VM,Installing IIS,Creating a recovery services vault,Creating a recovery services vault

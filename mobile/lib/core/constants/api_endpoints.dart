@@ -80,4 +80,23 @@ class ApiEndpoints {
   static const String adminGameStats = '/admin/games/stats';
   static String adminGameTogglePublish(String id) => '/admin/games/$id/toggle-publish';
   static String adminGameToggleFeature(String id) => '/admin/games/$id/toggle-feature';
+
+  // AI Book-Based Question Verification (RAG)
+  static const String aiVerifyQuestion = '/ai/verify-question';
+  static const String adminKnowledgeBaseStatus = '/admin/knowledge-base/status';
+  static const String adminKnowledgeBaseBooks = '/admin/knowledge-base/books';
+  static const String adminKnowledgeBaseInitUpload = '/admin/knowledge-base/books/init-upload';
+  static String adminKnowledgeBaseBookById(String id) => '/admin/knowledge-base/books/$id';
+  static String adminKnowledgeBaseBookUploadPart(String id) => '/admin/knowledge-base/books/$id/upload-part';
+  static String adminKnowledgeBaseBookFinalizeUpload(String id) => '/admin/knowledge-base/books/$id/finalize-upload';
+  static String adminKnowledgeBaseBookToggle(String id) => '/admin/knowledge-base/books/$id/toggle';
+  static String adminKnowledgeBaseBookRetry(String id) => '/admin/knowledge-base/books/$id/retry';
+  static String adminKnowledgeBaseBookReplace(String id) => '/admin/knowledge-base/books/$id/replace';
+
+  // AI Verification Reports & Approval History
+  static const String adminVerificationReports = '/admin/verification-reports';
+  static const String adminVerificationHistory = '/admin/verification-reports/history';
+  static String adminVerificationReportApprove(String id) => '/admin/verification-reports/$id/approve';
+  static String adminVerificationReportDismiss(String id) => '/admin/verification-reports/$id/dismiss';
+  static String adminVerificationReportById(String id) => '/admin/verification-reports/$id';
 }

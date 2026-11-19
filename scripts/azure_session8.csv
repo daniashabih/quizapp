@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,8,What are the two important phases of Web API security implementation?,Compilation and deployment,Caching and routing,Authentication and authorization,Encryption and compression,Authentication and authorization
+Azure,8,Validating a user's identity using a username and password is called:,Authorization,Authentication,Caching,Routing,Authentication
+Azure,8,"Determining what an authenticated user is allowed to do (e.g., read but not edit a file) is called:",Authorization,Serialization,Binding,Authentication,Authorization
+Azure,8,"In Web API, where is authentication performed?",In the browser,In the controller action,In the database only,In the host,In the host
+Azure,8,Which server employs HTTP modules to authenticate users in Web API hosting?,Tomcat,Apache,Internet Information Server (IIS),Nginx,Internet Information Server (IIS)
+Azure,8,The host generates which object for authenticated users?,IEnumerable,IPrincipal,IQueryable,IHttpActionResult,IPrincipal
+Azure,8,The principal is appended to the current thread using:,Thread.Sleep,Thread.Start,Thread.CurrentPrincipal,Thread.Abort,Thread.CurrentPrincipal
+Azure,8,What does Identity.IsAuthenticated return when authentication succeeds?,true,false,0,null,true
+Azure,8,Authorization filters are applied:,After the controller action,Only in the browser,Only at application end,Prior to the controller action,Prior to the controller action
+Azure,8,Which property is used to obtain the current principal from a controller action?,ApiController.Context,ApiController.User,ApiController.Identity,ApiController.Request,ApiController.User
+Azure,8,The AuthorizeAttribute filter displays which HTTP error code when authentication is unsuccessful?,404,200,401,500,401
+Azure,8,The AuthorizeAttribute filter can be applied at which levels?,Only action level,Only controller level,Only globally,"Globally, at controller level, or at action level","Globally, at controller level, or at action level"
+Azure,8,Which are the two ways to provide security in Web API mentioned in the session?,Basic authentication and token-based authentication,HTTP and HTTPS,Cookies and sessions,FTP and SFTP,Basic authentication and token-based authentication
+Azure,8,"In basic authentication, credentials are sent:",In a cookie only,As username and password embedded in a request header,In a database only,In the URL only,As username and password embedded in a request header
+Azure,8,Token-based authentication works by:,Disabling security,Using only cookies,Sending a password with every request,Forwarding a token to the authenticated user for accessing other resources,Forwarding a token to the authenticated user for accessing other resources
+Azure,8,A token has a predefined:,Lifetime that determines when it expires,Color,Port,Language,Lifetime that determines when it expires
+Azure,8,OWIN stands for:,Online Web Identity Network,Open Windows Interface Node,Object Web Integration for .NET,Open Web Interface for .NET,Open Web Interface for .NET
+Azure,8,Which authentication option is selected to implement OWIN token authentication with stored user profiles?,Work or School Accounts only,Windows Authentication,Individual User Accounts,No Authentication,Individual User Accounts
+Azure,8,Individual User Accounts allows users to:,"Register or sign in using an existing account for Facebook, Twitter, Google, Microsoft or other providers",Skip login,Only use Windows login,Only use anonymous access,"Register or sign in using an existing account for Facebook, Twitter, Google, Microsoft or other providers"
+Azure,8,"After creating the application with authentication, which controller appears in the Controllers folder?",AccountController,PaymentController,LoginController,StudentController,AccountController
+Azure,8,"By default, where does OWIN authentication create its authentication database?",In Redis,In Azure Cosmos DB,In the Data (App_Data) folder,In the cloud automatically,In the Data (App_Data) folder
+Azure,8,"In the walkthrough, the connection name for the authentication database is:",AzureDb,DefaultConnection,AuthDb,OwinDb,DefaultConnection
+Azure,8,Which methods of AccountController are visible in the API helper page?,None,Register and Logout,Token only,Login only,Register and Logout
+Azure,8,Which setting in Startup.Auth.cs specifies the URL for token generation?,ProviderPath,AuthorizeEndpointPath,LoginPath,TokenEndpointPath,TokenEndpointPath
+Azure,8,What is the AccessTokenExpireTimeSpan in the sample code?,1 year,30 minutes,1 hour,14 days,14 days
+Azure,8,"In production mode, AllowInsecureHttp should be set to:",false,null,true,0,false
+Azure,8,Which tool is used in the session to generate and test the token?,Paint,Postman,Excel,Notepad,Postman
+Azure,8,"Before logging in, a user must first:",Delete the database,Install SQL,Restart IIS,Register with a unique user ID and password,Register with a unique user ID and password
+Azure,8,Which HTTP method is used to register a user in Postman?,DELETE,PUT,GET,POST,POST
+Azure,8,What response code indicates that the registration API executed successfully?,200,500,401,404,200
+Azure,8,The login response includes which of the following?,"Access token, expiry, token type",Only a cookie,Only a password,Only an email,"Access token, expiry, token type"
+Azure,8,"How many tables are created by OWIN in the Azure database, and how many begin with AspNet?","Three, none begin with AspNet","Ten, all begin with AspNet","Six, five begin with AspNet","Six, all begin with AspNet","Six, five begin with AspNet"
+Azure,8,Which method is overridden to implement custom authorization logic in a class derived from AuthorizeAttribute?,IsAuthorized,HandleRequest,Validate,OnActionExecuting,IsAuthorized
+Azure,8,IsAuthorized returns a Boolean where true means:,The database is down,The token expired,The user is blocked,The user is authorized,The user is authorized
+Azure,8,Which method of AuthorizeAttribute allows custom logic when authorization fails?,OnException,Dispose,HandleUnauthorizedRequest,Reset,HandleUnauthorizedRequest
+Azure,8,Which namespace should the custom filter derive from for Web API?,System.Web.Http,System.IO,System.Data,System.Web.Mvc,System.Web.Http
+Azure,8,"The [Authorize(Roles = ""Supervisor"")] attribute means:",Only users in the Supervisor role can access the controller or its actions,Nobody can access,Only anonymous users can access,Everyone can access,Only users in the Supervisor role can access the controller or its actions
+Azure,8,The [AllowAnonymous] attribute:,Encrypts data,Blocks all users,Lets a user access a controller or action without authentication,Requires a role,Lets a user access a controller or action without authentication
+Azure,8,CORS stands for:,Cross Origin Resource Sharing,Central Origin Routing Service,Cross Object Resource Sync,Cached Origin Resource Server,Cross Origin Resource Sharing
+Azure,8,CORS is a standard of which organization?,Microsoft only,ISO only,World Wide Web Consortium (W3C),IEEE only,World Wide Web Consortium (W3C)
+Azure,8,CORS allows a server to:,Decline all requests,Disable HTTP,Accept some cross-origin requests while declining others,Accept all requests always,Accept some cross-origin requests while declining others
+Azure,8,Which technique was used earlier for cross-domain calls before CORS?,RPC,SOAP,FTP,JSONP (JSON with Padding),JSONP (JSON with Padding)
+Azure,8,Which NuGet package is installed to enable CORS in Web API?,Microsoft.AspNet.Odata,Microsoft.AspNet.WebApi.Cors,EntityFramework,MySql.Data.Entity,Microsoft.AspNet.WebApi.Cors
+Azure,8,Which minimum version of Web API is required for the CORS package?,Web API 0.5,Web API 1.0,Any version,Web API 2.0 or later,Web API 2.0 or later
+Azure,8,Which line in WebApiConfig.Register enables CORS?,config.AllowCors(),config.EnableCors(),config.UseCors(),config.CorsOn(),config.EnableCors()
+Azure,8,The [EnableCors] attribute takes which parameters?,Only headers,Only origins,"origins, headers, and methods",users and roles,"origins, headers, and methods"
+Azure,8,"For the origins parameter, you should use:",The database name,Any random text,The URI where the WebClient application was deployed,The server password,The URI where the WebClient application was deployed
+Azure,8,XSRF/CSRF stands for:,Cross-Site Request Foundation,Cross-Site Reporting Forgery,Cross-Site Response Forgery,Cross-Site Request Forgery,Cross-Site Request Forgery
+Azure,8,XSRF has high chances when Web applications use:,No authentication,Only tokens in headers,Cookies to authenticate users,Only SSL,Cookies to authenticate users
+Azure,8,Why are browsers vulnerable to XSRF with cookies?,Cookies expire immediately,"Cookies are sent to the Web app with every request, regardless of how the request is generated",Cookies are never sent,Cookies are encrypted,"Cookies are sent to the Web app with every request, regardless of how the request is generated"
+Azure,8,Which authentication method can also be prone to XSRF?,No authentication,Basic authentication,Public access,Anonymous,Basic authentication
+Azure,8,"In the authorization filter walkthrough, which tables are NOT included in the Entity Data Model?",Student table,AspNet tables,None,All tables,AspNet tables
+Azure,8,Adding [Authorize] before the StudentController does what?,Deletes the controller,Secures all methods so login is required,Disables CORS,Makes all methods anonymous,Secures all methods so login is required
+Azure,8,Which method is marked [AllowAnonymous] in the example?,GetAll(),Delete(),Modify(),Create(),GetAll()
+Azure,8,Why does Create() fail without a token?,The database is offline,The controller is marked [Authorize] and requires login,The route is wrong,The method is deprecated,The controller is marked [Authorize] and requires login

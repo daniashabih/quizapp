@@ -1,0 +1,55 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,4,ADO.NET is:,A text editor,A Web browser,A cloud storage provider,A set of classes that expose data access services for the .NET Framework,A set of classes that expose data access services for the .NET Framework
+Azure,4,Which data sources can be accessed consistently using ADO.NET?,Only Excel,Only XML,"XML, SQL Server, and sources exposed through ODBC and OLE DB",Only SQL Server,"XML, SQL Server, and sources exposed through ODBC and OLE DB"
+Azure,4,ADO.NET supports creating which of the following?,Only images,Front-end database clients and middle-layer business components,Only hardware drivers,Only operating systems,Front-end database clients and middle-layer business components
+Azure,4,Which of the following can use ADO.NET to connect to a database?,"Windows applications, ASP.NET Web applications, and console applications",Only mobile apps,Only ASP.NET applications,Only console applications,"Windows applications, ASP.NET Web applications, and console applications"
+Azure,4,"In ADO.NET, what acts as a link between a data source and an application?",.NET Framework data providers,The compiler,The Web browser,The firewall,.NET Framework data providers
+Azure,4,A connection object connects to a data source by supplying authentication information in a:,Connection string,Resource group,Cache policy,Stored procedure,Connection string
+Azure,4,Which connection object is used for ODBC data sources?,SqlConnection,OdbcConnection,OleDbConnection,OracleConnection,OdbcConnection
+Azure,4,Which connection object is used for SQL Server?,OracleConnection,SqlConnection,OdbcConnection,OleDbConnection,SqlConnection
+Azure,4,Which connection object is used for OLE DB?,SqlConnection,OdbcConnection,OracleConnection,OleDbConnection,OleDbConnection
+Azure,4,Which property of SqlConnection contains the connection string values?,Transaction,DataSource only,CommandText,ConnectionString,ConnectionString
+Azure,4,Which class allows creating syntactically correct connection strings at run time?,SqlCommand,TransactionScope,SqlConnectionStringBuilder,SqlDataReader,SqlConnectionStringBuilder
+Azure,4,"In Code Snippet 1, which method opens the connection to the SQL Server database?",Open(),Start(),Connect(),Begin(),Open()
+Azure,4,The format of a connection string is:,A binary file,A comma-separated list of numbers,An XML document,A semicolon-delimited list of key/value parameter pairs,A semicolon-delimited list of key/value parameter pairs
+Azure,4,A syntax error in a connection string generates:,A compile-time warning only,No error,A cache refresh,A run-time exception,A run-time exception
+Azure,4,"In the connection string, which key specifies the database name?",Encrypt,Server,Initial Catalog,Password,Initial Catalog
+Azure,4,"In the connection string sample, what does Encrypt=True indicate?",Encryption is disabled,The database is deleted,The password is shown,Encryption is used for the connection,Encryption is used for the connection
+Azure,4,"In the sample connection string, the Connection Timeout value is:",100,10,30,5,30
+Azure,4,Connection strings can be stored in which file in an ASP.NET Web application?,Web.config,Site.css,Default.aspx,Global.asax only,Web.config
+Azure,4,"In Web.config, the connection string is placed inside which section?",<connectionStrings>,<runtime>,<system.web> only,<appSettings> only,<connectionStrings>
+Azure,4,What providerName is used for SQL Server in the Web.config sample?,System.Data.OleDb,System.Data.Oracle,System.Data.Odbc,System.Data.SqlClient,System.Data.SqlClient
+Azure,4,Which object is used to run commands and return results from a data source?,DataSet,DbConnection,DbCommand,DataTable,DbCommand
+Azure,4,Which property configures the SQL statement run by a command?,CommandName,CommandText,CommandTimeout,ConnectionString,CommandText
+Azure,4,Which method of the DbConnection object creates a command for a specific connection?,NewCommand,CreateCommand,OpenCommand,BuildCommand,CreateCommand
+Azure,4,Which command object exists for the SQL Server .NET Framework data provider?,OdbcCommand,SqlCommand,OracleCommand,OleDbCommand,SqlCommand
+Azure,4,Which method returns a DataReader object?,ExecuteScalar(),ExecuteReader(),ExecuteXmlReader(),ExecuteNonQuery(),ExecuteReader()
+Azure,4,Which method returns a single scalar value?,ExecuteReader(),ExecuteXmlReader(),ExecuteNonQuery(),ExecuteScalar(),ExecuteScalar()
+Azure,4,"Which method executes a command that does not return rows, such as CREATE TABLE or INSERT?",ExecuteXmlReader(),ExecuteScalar(),ExecuteNonQuery(),ExecuteReader(),ExecuteNonQuery()
+Azure,4,ExecuteXmlReader() is available only for which command object?,SqlCommand,OdbcCommand,OracleCommand,OleDbCommand,SqlCommand
+Azure,4,The CommandType enumeration specifies:,The size of a database,How a command string is interpreted,The number of rows returned,The connection timeout,How a command string is interpreted
+Azure,4,CommandType.StoredProcedure interprets the command string as:,A table name,An SQL statement,A stored procedure name,A connection string,A stored procedure name
+Azure,4,CommandType.TableDirect interprets the command string as:,A file path,A table name,A stored procedure,An SQL statement,A table name
+Azure,4,"When ExecuteReader is used with a stored procedure, output parameters and return values cannot be obtained until:",The DataReader is closed,The page loads,The command is created,The connection is opened,The DataReader is closed
+Azure,4,"In the session walkthrough, the ASP.NET Web Form application is named:",StudentDB,StudentManagement,AzureSQL,CreateTable,StudentManagement
+Azure,4,Which method is used in the CreateTable page to create the Students table?,command.ExecuteScalar(),command.ExecuteReader(),command.ExecuteNonQuery(),command.ExecuteXmlReader(),command.ExecuteNonQuery()
+Azure,4,Which statement is used in the finally block of the sample code?,connection.Close(),reader.Read(),command.Execute(),connection.Open(),connection.Close()
+Azure,4,Why is the Close() method placed inside the finally block?,To create a table,To open the connection again,To execute a query,To ensure the connection is closed whether or not an exception occurs,To ensure the connection is closed whether or not an exception occurs
+Azure,4,Which SQL statement is used in InsertRecord.aspx.cs to add a student?,DELETE FROM [Students],DROP TABLE [Students],UPDATE [Students],INSERT INTO [Students],INSERT INTO [Students]
+Azure,4,Which tool is used to verify the inserted record with a select query?,SQL Server Management Studio (SSMS),Windows Media Player,Notepad,Paint,SQL Server Management Studio (SSMS)
+Azure,4,A DataReader is a ______ cursor type.,Write-only,Read-write and bidirectional,Random-access,Forward-only and read-only,Forward-only and read-only
+Azure,4,Why can paging not be achieved using a DataReader?,Because it is encrypted,Because it is forward-only,Because it needs a cache,Because it is write-only,Because it is forward-only
+Azure,4,A DataReader is the best option to display data when:,Paging is required,The data needs to be cached,The data needs to be modified,It is not required to work on the data,It is not required to work on the data
+Azure,4,DataReader results are kept in the:,Server's hard disk,Client's network buffer,Registry,Browser cache only,Client's network buffer
+Azure,4,Which DataReader method is used to access the next row of results?,Next,Read,Fetch,Open,Read
+Azure,4,How does a DataReader improve application performance?,It duplicates rows,It stores only one row at a time in memory and returns data as soon as available,It caches data on disk,It stores the entire table in memory,It stores only one row at a time in memory and returns data as soon as available
+Azure,4,"To retrieve rows using a DataReader, which method is called on the Command object?",Command.ExecuteReader,Command.ExecuteNonQuery,Command.Fill,Command.ExecuteScalar,Command.ExecuteReader
+Azure,4,Which statement is true about ADO.NET transaction support?,It supports both single-database and distributed transactions,It supports no transactions,It supports only distributed transactions,It supports only single-database transactions,It supports both single-database and distributed transactions
+Azure,4,Which namespace classes are used for the distributed transaction model?,System.Transactions,System.Drawing,System.IO,System.Text,System.Transactions
+Azure,4,Which method begins a local transaction on a Connection object?,CreateTransaction,StartTransaction,BeginTransaction,OpenTransaction,BeginTransaction
+Azure,4,The Command object's ______ property enlists a command in a transaction.,Transaction,CommandType,Connection only,Parameters,Transaction
+Azure,4,The scope of a single-connection transaction is limited to:,The server farm,All databases,The connection,The whole network,The connection
+Azure,4,"In a distributed transaction, if any participant cannot guarantee that changes are permanent:",The transaction commits anyway,The changes are cached,Only that participant is rolled back,The complete transaction fails and all changes are rolled back,The complete transaction fails and all changes are rolled back
+Azure,4,Which method enlists a connection in a distributed transaction in ADO.NET?,EnlistDistributedTransaction only in the newest version,Dispose,EnlistTransaction,Commit,EnlistTransaction
+Azure,4,Which method was used in previous ADO.NET versions to explicitly enlist in distributed transactions with an ITransaction instance?,BeginTransaction,Complete,EnlistDistributedTransaction,EnlistTransaction,EnlistDistributedTransaction
+Azure,4,"For SQL Server, using a System.Transactions transaction automatically results in:",No transaction,A permanent distributed transaction,Use of a lightweight transaction that can be upgraded to a full distributed transaction,A cache dependency,Use of a lightweight transaction that can be upgraded to a full distributed transaction

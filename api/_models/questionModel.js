@@ -59,6 +59,34 @@ const isMongoDbCategory = (category) => {
     );
 };
 
+const AZURE_SESSIONS = {
+    1: 'Introduction to Azure Cloud Computing',
+    2: 'Understanding Microsoft Azure Cloud Services',
+    3: 'Data Access Technologies in Azure',
+    4: 'Data Access Using ADO.NET',
+    5: 'Data Access Using Entity Framework',
+    6: 'Data Access Using Third-party Databases and Azure Storage Services',
+    7: 'Design and Implementation of Web API',
+    8: 'Security in Web API',
+    9: 'Hosting and Consuming Web API',
+    10: 'Introduction to WCF Services',
+    11: 'Implementing Azure Serverless Web Services and API Management',
+    12: 'Traffic Management and Monitoring Strategies for Web Services',
+    13: 'Configuring Web Applications for Deployment',
+    14: 'Deploying Web Applications and Services',
+    15: 'Working with Shared Assemblies'
+};
+
+const isAzureCategory = (category) => {
+    const lower = String(category || '').trim().toLowerCase();
+    return (
+        lower === 'azure' ||
+        lower === 'microsoft azure' ||
+        lower === 'ms azure' ||
+        lower === 'windows azure'
+    );
+};
+
 const parseOptions = (opts) => {
     if (Array.isArray(opts)) return opts;
     if (typeof opts === 'string') {

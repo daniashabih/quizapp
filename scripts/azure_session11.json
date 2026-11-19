@@ -1,0 +1,613 @@
+{
+  "category": "Azure",
+  "session": 11,
+  "title": "Session 11: Implementing Azure Serverless Web Services and API Management",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "Serverless computing in Azure offers developers:",
+      "options": [
+        "Manual OS patching",
+        "More server management tasks",
+        "Physical datacenter access",
+        "Abstraction of servers, infrastructure, and operating systems"
+      ],
+      "correctAnswer": "Abstraction of servers, infrastructure, and operating systems",
+      "explanation": "Correct answer is D) Abstraction of servers, infrastructure, and operating systems."
+    },
+    {
+      "questionText": "With serverless computing, developers eliminate the overhead of:",
+      "options": [
+        "Provisioning and managing servers",
+        "Testing",
+        "Using the Internet",
+        "Writing code"
+      ],
+      "correctAnswer": "Provisioning and managing servers",
+      "explanation": "Correct answer is A) Provisioning and managing servers."
+    },
+    {
+      "questionText": "Which of the following is a serverless service in Azure?",
+      "options": [
+        "Only Active Directory",
+        "Only Azure VMs",
+        "Azure Logic Apps and Azure Functions",
+        "Only SQL Server"
+      ],
+      "correctAnswer": "Azure Logic Apps and Azure Functions",
+      "explanation": "Correct answer is C) Azure Logic Apps and Azure Functions."
+    },
+    {
+      "questionText": "Azure Logic Apps is a cloud service for:",
+      "options": [
+        "Creating physical servers",
+        "Designing UI themes",
+        "Creating automated scalable workflows",
+        "Compiling C# code"
+      ],
+      "correctAnswer": "Creating automated scalable workflows",
+      "explanation": "Correct answer is C) Creating automated scalable workflows."
+    },
+    {
+      "questionText": "A series of steps or tasks in Logic Apps is known as a:",
+      "options": [
+        "Policy",
+        "Pipeline only",
+        "Query",
+        "Workflow"
+      ],
+      "correctAnswer": "Workflow",
+      "explanation": "Correct answer is D) Workflow."
+    },
+    {
+      "questionText": "Logic Apps provides which tool to model and automate processes?",
+      "options": [
+        "Visual designer",
+        "Notepad",
+        "Spreadsheet",
+        "Command line only"
+      ],
+      "correctAnswer": "Visual designer",
+      "explanation": "Correct answer is A) Visual designer."
+    },
+    {
+      "questionText": "Logic Apps is useful for which scenarios?",
+      "options": [
+        "Only gaming",
+        "Data integration, app integration, EAI, and B2B communication",
+        "Only printing",
+        "Only image editing"
+      ],
+      "correctAnswer": "Data integration, app integration, EAI, and B2B communication",
+      "explanation": "Correct answer is B) Data integration, app integration, EAI, and B2B communication."
+    },
+    {
+      "questionText": "EAI stands for:",
+      "options": [
+        "External API Interface",
+        "Easy Azure Integration",
+        "Enterprise Application Integration",
+        "Event Application Index"
+      ],
+      "correctAnswer": "Enterprise Application Integration",
+      "explanation": "Correct answer is C) Enterprise Application Integration."
+    },
+    {
+      "questionText": "Which is an example workload automated by Logic Apps?",
+      "options": [
+        "Designing hardware",
+        "Monitoring when records are created or changed in Salesforce",
+        "Compiling a kernel",
+        "Formatting disks"
+      ],
+      "correctAnswer": "Monitoring when records are created or changed in Salesforce",
+      "explanation": "Correct answer is B) Monitoring when records are created or changed in Salesforce."
+    },
+    {
+      "questionText": "Each connector provides a set of operations categorized as:",
+      "options": [
+        "Actions and triggers",
+        "Tables and views",
+        "Models and views",
+        "Classes and objects"
+      ],
+      "correctAnswer": "Actions and triggers",
+      "explanation": "Correct answer is A) Actions and triggers."
+    },
+    {
+      "questionText": "In Logic Apps, actions are:",
+      "options": [
+        "Changes driven by a user that map directly to operations",
+        "Network ports",
+        "Policies",
+        "Events that start the workflow"
+      ],
+      "correctAnswer": "Changes driven by a user that map directly to operations",
+      "explanation": "Correct answer is A) Changes driven by a user that map directly to operations."
+    },
+    {
+      "questionText": "In Logic Apps, a trigger is:",
+      "options": [
+        "A storage tier",
+        "A database table",
+        "An event from a connector that fires a logic app",
+        "A user-driven change only"
+      ],
+      "correctAnswer": "An event from a connector that fires a logic app",
+      "explanation": "Correct answer is C) An event from a connector that fires a logic app."
+    },
+    {
+      "questionText": "Every logic app starts with:",
+      "options": [
+        "A loop",
+        "A trigger",
+        "A policy",
+        "An action"
+      ],
+      "correctAnswer": "A trigger",
+      "explanation": "Correct answer is B) A trigger."
+    },
+    {
+      "questionText": "Which of the following is a common trigger?",
+      "options": [
+        "When an HTTP request is received",
+        "Install IIS",
+        "Format a disk",
+        "Compile a project"
+      ],
+      "correctAnswer": "When an HTTP request is received",
+      "explanation": "Correct answer is A) When an HTTP request is received."
+    },
+    {
+      "questionText": "Connectors are primarily Web APIs that use JSON for data exchange, Swagger for documentation, and ______ for pluggable interfaces.",
+      "options": [
+        "SOAP",
+        "DCOM",
+        "RPC",
+        "REST"
+      ],
+      "correctAnswer": "REST",
+      "explanation": "Correct answer is D) REST."
+    },
+    {
+      "questionText": "How many built-in connectors does Logic Apps offer?",
+      "options": [
+        "About 5",
+        "None",
+        "Over 100",
+        "Exactly 10"
+      ],
+      "correctAnswer": "Over 100",
+      "explanation": "Correct answer is C) Over 100."
+    },
+    {
+      "questionText": "Custom API apps in Logic Apps are created when:",
+      "options": [
+        "Developers need to call APIs or services not available as connectors",
+        "A database fails",
+        "Logic Apps is not installed",
+        "Connectors are too fast"
+      ],
+      "correctAnswer": "Developers need to call APIs or services not available as connectors",
+      "explanation": "Correct answer is A) Developers need to call APIs or services not available as connectors."
+    },
+    {
+      "questionText": "Custom APIs for Logic Apps can be hosted on:",
+      "options": [
+        "Only a browser",
+        "Only on-premises",
+        "Only a USB drive",
+        "Azure App Service"
+      ],
+      "correctAnswer": "Azure App Service",
+      "explanation": "Correct answer is D) Azure App Service."
+    },
+    {
+      "questionText": "Azure Functions is described as:",
+      "options": [
+        "A browser extension",
+        "A database",
+        "A hardware product",
+        "A serverless compute service that runs code on demand without provisioning infrastructure"
+      ],
+      "correctAnswer": "A serverless compute service that runs code on demand without provisioning infrastructure",
+      "explanation": "Correct answer is D) A serverless compute service that runs code on demand without provisioning infrastructure."
+    },
+    {
+      "questionText": "With Azure Functions, a developer pays for:",
+      "options": [
+        "Nothing",
+        "A fixed monthly VM",
+        "Just the time for which the code runs",
+        "Only storage"
+      ],
+      "correctAnswer": "Just the time for which the code runs",
+      "explanation": "Correct answer is C) Just the time for which the code runs."
+    },
+    {
+      "questionText": "WebJobs is a feature of:",
+      "options": [
+        "Azure Active Directory",
+        "Azure Cosmos DB",
+        "Azure App Service",
+        "Azure Monitor"
+      ],
+      "correctAnswer": "Azure App Service",
+      "explanation": "Correct answer is C) Azure App Service."
+    },
+    {
+      "questionText": "WebJobs allows running scripts or programs:",
+      "options": [
+        "As background processes in the Website",
+        "Only on desktops",
+        "Only in browsers",
+        "Only offline"
+      ],
+      "correctAnswer": "As background processes in the Website",
+      "explanation": "Correct answer is A) As background processes in the Website."
+    },
+    {
+      "questionText": "The WebJobs SDK runs as a:",
+      "options": [
+        "Browser plug-in",
+        ".NET console application",
+        "Windows Service only",
+        "Database job"
+      ],
+      "correctAnswer": ".NET console application",
+      "explanation": "Correct answer is B) .NET console application."
+    },
+    {
+      "questionText": "An example given for the WebJobs SDK is:",
+      "options": [
+        "Sending mail",
+        "Formatting a database",
+        "Deleting a VM",
+        "Creating a thumbnail image in response to an image blob created in Azure storage"
+      ],
+      "correctAnswer": "Creating a thumbnail image in response to an image blob created in Azure storage",
+      "explanation": "Correct answer is D) Creating a thumbnail image in response to an image blob created in Azure storage."
+    },
+    {
+      "questionText": "Which Marketplace menu item is selected to create a Function App?",
+      "options": [
+        "Storage > Blob",
+        "Compute > Function App",
+        "Databases > SQL",
+        "Networking > VPN"
+      ],
+      "correctAnswer": "Compute > Function App",
+      "explanation": "Correct answer is B) Compute > Function App."
+    },
+    {
+      "questionText": "Which publish option is selected to publish the function directly from Visual Studio?",
+      "options": [
+        "Import profile only",
+        "Folder publish",
+        "Direct publish",
+        "FTP only"
+      ],
+      "correctAnswer": "Direct publish",
+      "explanation": "Correct answer is C) Direct publish."
+    },
+    {
+      "questionText": "Azure Service Fabric is:",
+      "options": [
+        "A Web browser",
+        "A distributed systems platform for packaging, deploying, and managing reliable and scalable containers and microservices",
+        "A text editor",
+        "A database"
+      ],
+      "correctAnswer": "A distributed systems platform for packaging, deploying, and managing reliable and scalable containers and microservices",
+      "explanation": "Correct answer is B) A distributed systems platform for packaging, deploying, and managing reliable and scalable containers and microservices."
+    },
+    {
+      "questionText": "Service Fabric focuses on issues faced in:",
+      "options": [
+        "Only desktop applications",
+        "Development and management of cloud-native applications",
+        "Only hardware design",
+        "Only video editing"
+      ],
+      "correctAnswer": "Development and management of cloud-native applications",
+      "explanation": "Correct answer is B) Development and management of cloud-native applications."
+    },
+    {
+      "questionText": "Service Fabric applications comprise microservices running at high density on machines in a shared pool called a:",
+      "options": [
+        "Queue",
+        "Folder",
+        "Container image",
+        "Cluster"
+      ],
+      "correctAnswer": "Cluster",
+      "explanation": "Correct answer is D) Cluster."
+    },
+    {
+      "questionText": "Which of the following services is powered by Service Fabric?",
+      "options": [
+        "Only Excel",
+        "Only Notepad",
+        "Only Paint",
+        "Azure SQL, Power BI, Cosmos DB, IoT Hub, Event Hubs, Skype for Business"
+      ],
+      "correctAnswer": "Azure SQL, Power BI, Cosmos DB, IoT Hub, Event Hubs, Skype for Business",
+      "explanation": "Correct answer is D) Azure SQL, Power BI, Cosmos DB, IoT Hub, Event Hubs, Skype for Business."
+    },
+    {
+      "questionText": "Stateless microservices:",
+      "options": [
+        "Cannot have a mutable state outside of a request and its response",
+        "Always keep mutable state",
+        "Cannot exist in Service Fabric",
+        "Are always databases"
+      ],
+      "correctAnswer": "Cannot have a mutable state outside of a request and its response",
+      "explanation": "Correct answer is A) Cannot have a mutable state outside of a request and its response."
+    },
+    {
+      "questionText": "An example of stateless microservices is:",
+      "options": [
+        "Shopping carts",
+        "User accounts",
+        "Web proxies and protocol gateways",
+        "Databases"
+      ],
+      "correctAnswer": "Web proxies and protocol gateways",
+      "explanation": "Correct answer is C) Web proxies and protocol gateways."
+    },
+    {
+      "questionText": "An example of stateful microservices is:",
+      "options": [
+        "Databases, user accounts, queues, shopping carts",
+        "Worker roles only",
+        "Protocol gateways",
+        "Web proxies"
+      ],
+      "correctAnswer": "Databases, user accounts, queues, shopping carts",
+      "explanation": "Correct answer is A) Databases, user accounts, queues, shopping carts."
+    },
+    {
+      "questionText": "Azure App Service can be used to protect which of the following?",
+      "options": [
+        "Only storage",
+        "Only VMs",
+        "Only databases",
+        "Web apps, API apps, mobile app back ends, and Azure Functions"
+      ],
+      "correctAnswer": "Web apps, API apps, mobile app back ends, and Azure Functions",
+      "explanation": "Correct answer is D) Web apps, API apps, mobile app back ends, and Azure Functions."
+    },
+    {
+      "questionText": "To use a certificate in an Azure Website, developers can:",
+      "options": [
+        "Print it",
+        "Upload it to the Azure Website's certificates collection",
+        "Delete it",
+        "Email it"
+      ],
+      "correctAnswer": "Upload it to the Azure Website's certificates collection",
+      "explanation": "Correct answer is B) Upload it to the Azure Website's certificates collection."
+    },
+    {
+      "questionText": "Azure Active Directory can protect a Web API using:",
+      "options": [
+        "Only passwords in URLs",
+        "OAuth 2.0 bearer access tokens",
+        "FTP",
+        "No tokens"
+      ],
+      "correctAnswer": "OAuth 2.0 bearer access tokens",
+      "explanation": "Correct answer is B) OAuth 2.0 bearer access tokens."
+    },
+    {
+      "questionText": "Which policy is added to validate OAuth tokens for all incoming requests?",
+      "options": [
+        "validate-token only",
+        "validate-xml",
+        "validate-jwt",
+        "validate-cors"
+      ],
+      "correctAnswer": "validate-jwt",
+      "explanation": "Correct answer is C) validate-jwt."
+    },
+    {
+      "questionText": "OAuth 2.0 helps to:",
+      "options": [
+        "Encrypt hardware",
+        "Ensure access only to authenticated users and only to the extent they are entitled",
+        "Remove all security",
+        "Allow anonymous access"
+      ],
+      "correctAnswer": "Ensure access only to authenticated users and only to the extent they are entitled",
+      "explanation": "Correct answer is B) Ensure access only to authenticated users and only to the extent they are entitled."
+    },
+    {
+      "questionText": "Azure Policy is a service that:",
+      "options": [
+        "Creates, assigns, and manages policies for resources",
+        "Hosts Web apps",
+        "Creates databases",
+        "Compiles code"
+      ],
+      "correctAnswer": "Creates, assigns, and manages policies for resources",
+      "explanation": "Correct answer is A) Creates, assigns, and manages policies for resources."
+    },
+    {
+      "questionText": "Azure Policy helps keep resources in compliance with:",
+      "options": [
+        "Only colors",
+        "Only languages",
+        "Service level agreements and corporate standards",
+        "Only prices"
+      ],
+      "correctAnswer": "Service level agreements and corporate standards",
+      "explanation": "Correct answer is C) Service level agreements and corporate standards."
+    },
+    {
+      "questionText": "An example policy in Azure is:",
+      "options": [
+        "Deleting all databases",
+        "Allowing only a particular SKU size of virtual machines",
+        "Disabling all VMs",
+        "Allowing any VM size"
+      ],
+      "correctAnswer": "Allowing only a particular SKU size of virtual machines",
+      "explanation": "Correct answer is B) Allowing only a particular SKU size of virtual machines."
+    },
+    {
+      "questionText": "Azure API Management (APIM) helps organizations to:",
+      "options": [
+        "Edit images",
+        "Compile code",
+        "Create VMs only",
+        "Publish APIs to internal, external, and partner developers"
+      ],
+      "correctAnswer": "Publish APIs to internal, external, and partner developers",
+      "explanation": "Correct answer is D) Publish APIs to internal, external, and partner developers."
+    },
+    {
+      "questionText": "APIM offers which of the following?",
+      "options": [
+        "Only a database",
+        "Only a text editor",
+        "A developer portal and an API gateway",
+        "Only a compiler"
+      ],
+      "correctAnswer": "A developer portal and an API gateway",
+      "explanation": "Correct answer is C) A developer portal and an API gateway."
+    },
+    {
+      "questionText": "The APIM developer portal is used for:",
+      "options": [
+        "Creating VMs",
+        "Managing the subscription of services",
+        "Compiling C",
+        "Writing SQL"
+      ],
+      "correctAnswer": "Managing the subscription of services",
+      "explanation": "Correct answer is B) Managing the subscription of services."
+    },
+    {
+      "questionText": "Swagger is described as:",
+      "options": [
+        "An open source framework for building, designing, documenting, and consuming RESTful APIs",
+        "An operating system",
+        "A database",
+        "A hardware vendor"
+      ],
+      "correctAnswer": "An open source framework for building, designing, documenting, and consuming RESTful APIs",
+      "explanation": "Correct answer is A) An open source framework for building, designing, documenting, and consuming RESTful APIs."
+    },
+    {
+      "questionText": "Which NuGet package is used to Swagger-enable an API in .NET?",
+      "options": [
+        "Swashbuckle",
+        "Microsoft.AspNet.Odata",
+        "MySql.Data.Entity",
+        "System.Data.SQLite"
+      ],
+      "correctAnswer": "Swashbuckle",
+      "explanation": "Correct answer is A) Swashbuckle."
+    },
+    {
+      "questionText": "Swagger definition files can be written in which extensions?",
+      "options": [
+        "*.dll",
+        "*.exe",
+        "*.mp3",
+        "*.yaml or *.json"
+      ],
+      "correctAnswer": "*.yaml or *.json",
+      "explanation": "Correct answer is D) *.yaml or *.json."
+    },
+    {
+      "questionText": "The Swagger standard has been renamed as:",
+      "options": [
+        "OpenHost",
+        "OpenAPI",
+        "OpenData",
+        "OpenFabric"
+      ],
+      "correctAnswer": "OpenAPI",
+      "explanation": "Correct answer is B) OpenAPI."
+    },
+    {
+      "questionText": "When generated ASP.NET MVC code from Swagger is deployed to an Azure App Service, it is called:",
+      "options": [
+        "An Azure API app",
+        "An Azure Function",
+        "A WebJob",
+        "A Logic App"
+      ],
+      "correctAnswer": "An Azure API app",
+      "explanation": "Correct answer is A) An Azure API app."
+    },
+    {
+      "questionText": "Which type of Azure log gives details on Azure Resource Manager operations such as CREATE, DELETE, and UPDATE?",
+      "options": [
+        "Data plane logs",
+        "Backup logs",
+        "Control/Management logs",
+        "Processed events"
+      ],
+      "correctAnswer": "Control/Management logs",
+      "explanation": "Correct answer is C) Control/Management logs."
+    },
+    {
+      "questionText": "Which type of log covers events as part of Azure resource usage, such as Windows event system logs and application logs in a VM?",
+      "options": [
+        "Policy logs",
+        "Processed events",
+        "Control logs",
+        "Data plane logs"
+      ],
+      "correctAnswer": "Data plane logs",
+      "explanation": "Correct answer is D) Data plane logs."
+    },
+    {
+      "questionText": "Which log type provides analyzed events or alerts such as Azure Security Center alerts?",
+      "options": [
+        "Backup logs",
+        "Control logs",
+        "Processed events",
+        "Data plane logs"
+      ],
+      "correctAnswer": "Processed events",
+      "explanation": "Correct answer is C) Processed events."
+    },
+    {
+      "questionText": "BCDR stands for:",
+      "options": [
+        "Basic Cloud Deployment Region",
+        "Business Continuity and Disaster Recovery",
+        "Binary Code Data Repository",
+        "Backup Cache Data Retention"
+      ],
+      "correctAnswer": "Business Continuity and Disaster Recovery",
+      "explanation": "Correct answer is B) Business Continuity and Disaster Recovery."
+    },
+    {
+      "questionText": "Azure Site Recovery:",
+      "options": [
+        "Replicates workloads from a primary site to a secondary location for failover during outages",
+        "Creates databases",
+        "Hosts websites",
+        "Compiles code"
+      ],
+      "correctAnswer": "Replicates workloads from a primary site to a secondary location for failover during outages",
+      "explanation": "Correct answer is A) Replicates workloads from a primary site to a secondary location for failover during outages."
+    },
+    {
+      "questionText": "Which of the following is the first high-level step for setting up disaster recovery of Azure VMs to a secondary region?",
+      "options": [
+        "Formatting the disk",
+        "Deleting the VM",
+        "Installing IIS",
+        "Creating a recovery services vault"
+      ],
+      "correctAnswer": "Creating a recovery services vault",
+      "explanation": "Correct answer is D) Creating a recovery services vault."
+    }
+  ]
+}

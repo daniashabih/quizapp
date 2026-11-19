@@ -1,0 +1,53 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,9,"After creating a Web API project, it should be:",Converted to PDF,Deployed or published onto a Web server,Deleted,Only run in Visual Studio,Deployed or published onto a Web server
+Azure,9,Which Azure resource type is clicked (AzureWin2016VM-nsg) to configure inbound rules for the VM?,SQL database,Network security group,Storage account,Public IP only,Network security group
+Azure,9,Which setting is added to allow Remote Desktop (RDP) access to the Windows VM?,Inbound security rule,Storage rule,Load balancer rule,Outbound security rule,Inbound security rule
+Azure,9,Which port range is specified for Remote Desktop (RDP) access?,80,3389,443,1433,3389
+Azure,9,What name is given to the RDP inbound rule in the walkthrough?,sql-access,web-access,rdp-access,vm-rule,rdp-access
+Azure,9,"To log in to the Windows VM using Remote Desktop, the user needs:",The VM's public IP and the credentials assigned while creating the VM,Only a Web browser,The SQL password only,Only the VM name,The VM's public IP and the credentials assigned while creating the VM
+Azure,9,Which application is run from the Start menu to install IIS?,Notepad,Calculator,Server Manager,Paint,Server Manager
+Azure,9,Which option is chosen in the Add Roles and Features Wizard?,Virtual installation,Remote Desktop Services installation,Role-based or feature-based installation,Scenario-based only,Role-based or feature-based installation
+Azure,9,Which role is selected to install IIS?,Hyper-V,Web Server (IIS),File Server,DNS Server,Web Server (IIS)
+Azure,9,Which feature is selected under .NET Framework 4.6 features?,BitLocker,PowerShell only,WCF only,ASP.NET 4.6,ASP.NET 4.6
+Azure,9,How can one confirm IIS is installed properly on the VM?,Open Paint,Check the Notepad,Restart the VM,Browse the VM's public IP and see the IIS welcome page,Browse the VM's public IP and see the IIS welcome page
+Azure,9,"To publish the Web API application to a folder, which publish target is selected?",Folder,IIS only,Azure Container,FTP only,Folder
+Azure,9,"In the walkthrough, where is the app published in the project directory?",/App_Data,/Controllers,/bin/Release/Publish,/Views,/bin/Release/Publish
+Azure,9,Typical path of the wwwroot folder on a Windows VM is:,C:\inetpub\wwwroot,C:\Windows\System32,D:\data,C:\Users\Public,C:\inetpub\wwwroot
+Azure,9,"If the Web API cannot connect to the database after being hosted, what should be replaced in Web.config?",The controller name,The route,The port number,The connection string copied from Azure SQL Database settings,The connection string copied from Azure SQL Database settings
+Azure,9,"In self-hosting, the Web API is hosted:",Only in Azure,Only in IIS,Only in a browser,"Independently of the main client application, for example in a console application or Windows Service","Independently of the main client application, for example in a console application or Windows Service"
+Azure,9,"In self-hosting, which method is the application entry point where self-hosting code is written?",Page_Load,Startup.Configure,Application_Start,Main method in Program.cs,Main method in Program.cs
+Azure,9,Kestrel is:,A database,The default open-source Web server included in ASP.NET templates,A cloud billing tool,A browser,The default open-source Web server included in ASP.NET templates
+Azure,9,Kestrel can be used for hosting ASP.NET applications on:,Only Linux,Only macOS,Any operating system,Only Windows,Any operating system
+Azure,9,Which of the following can be used as a reverse proxy server with Kestrel?,"Apache, Nginx, or IIS",Postman,Swagger,SSMS,"Apache, Nginx, or IIS"
+Azure,9,A reverse proxy scenario means:,A client-side proxy,Multiple apps sharing the same IP and port on a single server,One app using many servers,An app with no ports,Multiple apps sharing the same IP and port on a single server
+Azure,9,Does Kestrel support multiple apps sharing the same IP and port?,Only on Windows,No,Only with IIS removed,Yes,No
+Azure,9,Azure App Service Web Apps is a service for hosting:,"Mobile backends, REST APIs, and Web apps",Only containers,Only databases,Only VMs,"Mobile backends, REST APIs, and Web apps"
+Azure,9,Which languages can be used to build Azure Web Apps?,Only Pascal,Only COBOL,Only C++,".NET Core, Python, Java, PHP",".NET Core, Python, Java, PHP"
+Azure,9,"After a successful deployment of the first ASP.NET Web app, which is formed?",Only a queue,Only a database,Only a VM,"A resource group with a service plan, Azure Web app, and deployed application","A resource group with a service plan, Azure Web app, and deployed application"
+Azure,9,"In the Publish wizard, which target is selected to create the Azure Web App?",Import Profile,Folder,FTP,App Service (Create New),App Service (Create New)
+Azure,9,What is the URL of the published Web API sample in the walkthrough?,http://studentservicesazureapp.azurewebsites.net,http://localhost:59502,http://portal.azure.com,http://www.getpostman.com,http://studentservicesazureapp.azurewebsites.net
+Azure,9,Windows Containers can be used to:,Replace databases,Compile SQL,"Automate the deployment of .NET applications as independent, portable containers",Create Excel files,"Automate the deployment of .NET applications as independent, portable containers"
+Azure,9,The salient feature of a container is that it:,Cannot run in the cloud,Requires a physical server,Retains the same environment across various deployments,Changes the environment on every deployment,Retains the same environment across various deployments
+Azure,9,The container service is based on which platform?,Kestrel,Hyper-V only,Docker,Swagger,Docker
+Azure,9,Components of a containerized application are also known as:,Monoliths,Mainframes,Microservices,Macros,Microservices
+Azure,9,Organizing multiple containers is called:,Container caching,Container routing,Container orchestration,Container compilation,Container orchestration
+Azure,9,Which are famous container orchestration tools?,Postman and Fiddler,SSMS and Excel,IIS and Kestrel,Docker Swarm and Kubernetes,Docker Swarm and Kubernetes
+Azure,9,Container orchestration helps automate:,"Deployment, availability, scaling, and moving containers",Only printing,Only compiling,Only email,"Deployment, availability, scaling, and moving containers"
+Azure,9,HttpClient class provides:,A UI control,A base class for sending/receiving HTTP requests and responses from a URL,A cache policy,A database connection,A base class for sending/receiving HTTP requests and responses from a URL
+Azure,9,Which HttpClient method sends a GET request to a URI?,GetAsync,PutAsync,DeleteAsync,PostAsync,GetAsync
+Azure,9,Which HttpClient method sends a POST request?,PostAsync,PutAsync,GetAsync,DeleteAsync,PostAsync
+Azure,9,Which HttpClient method sends a DELETE request?,GetAsync,DeleteAsync,PostAsync,PutAsync,DeleteAsync
+Azure,9,Which NuGet package must be installed to call the Web API from an MVC application using HttpClient?,EntityFramework,MySql.Data.Entity,Microsoft.AspNet.WebApi.Client,Microsoft.AspNet.Odata,Microsoft.AspNet.WebApi.Client
+Azure,9,"In Code Snippet 4, which property of HttpClient sets the API base URL?",MaxResponseContentBufferSize,BaseAddress,Timeout,DefaultProxy,BaseAddress
+Azure,9,What Accept header value is set in the HttpClient sample?,image/png,application/json,text/html,application/pdf,application/json
+Azure,9,Which method is used to read the response content as a student list in the sample?,ReadAsString only,ReadAsAsync,ReadAsXml,ReadAsStream only,ReadAsAsync
+Azure,9,What is Swagger?,A hosting platform,A browser,A database,A language-agnostic specification for describing REST APIs,A language-agnostic specification for describing REST APIs
+Azure,9,Swagger is also referred to as:,OpenAPI,OpenData,OpenAuth,OpenHost,OpenAPI
+Azure,9,Which is a benefit of Swagger?,Cheaper VMs,Free hosting,"API discoverability, client SDK generation, interactive documentation",Faster compilation,"API discoverability, client SDK generation, interactive documentation"
+Azure,9,"By default, the Swagger specification document is named:",api.config,swagger.xml,swagger.json,openapi.exe,swagger.json
+Azure,9,Swagger UI is:,A VM,A Web-based UI that presents details about the service using the generated Swagger specification,A compiler,A database editor,A Web-based UI that presents details about the service using the generated Swagger specification
+Azure,9,Which tools embed Swagger UI for ASP.NET Core?,Docker and Kubernetes,Postman and Fiddler,IIS and Kestrel,NSwag and Swashbuckle,NSwag and Swashbuckle
+Azure,9,AutoRest is used to:,Generate client proxy classes for Swagger-enabled Web APIs,Create VMs,Host Web APIs,Encrypt data,Generate client proxy classes for Swagger-enabled Web APIs
+Azure,9,"With AutoRest, client proxy classes can be generated by:",Using Notepad only,Using a database,Writing thousands of lines,Executing a single command through a command-line interface,Executing a single command through a command-line interface
+Azure,9,AutoRest can be installed with:,Azure Chocolatey gallery or NuGet,Only Postman,Only a USB drive,Only a CD,Azure Chocolatey gallery or NuGet
+Azure,9,"Compared with SOAP-based Web services, Web APIs generate client proxy classes how without Swagger?",Always via Add Service Reference,They do not need clients,Via Windows Forms,They rely on HttpClient to perform requests manually,They rely on HttpClient to perform requests manually

@@ -1,0 +1,580 @@
+{
+  "category": "Azure",
+  "session": 9,
+  "title": "Session 9: Hosting and Consuming Web API",
+  "totalQuestions": 52,
+  "questions": [
+    {
+      "questionText": "After creating a Web API project, it should be:",
+      "options": [
+        "Converted to PDF",
+        "Deployed or published onto a Web server",
+        "Deleted",
+        "Only run in Visual Studio"
+      ],
+      "correctAnswer": "Deployed or published onto a Web server",
+      "explanation": "Correct answer is B) Deployed or published onto a Web server."
+    },
+    {
+      "questionText": "Which Azure resource type is clicked (AzureWin2016VM-nsg) to configure inbound rules for the VM?",
+      "options": [
+        "SQL database",
+        "Network security group",
+        "Storage account",
+        "Public IP only"
+      ],
+      "correctAnswer": "Network security group",
+      "explanation": "Correct answer is B) Network security group."
+    },
+    {
+      "questionText": "Which setting is added to allow Remote Desktop (RDP) access to the Windows VM?",
+      "options": [
+        "Inbound security rule",
+        "Storage rule",
+        "Load balancer rule",
+        "Outbound security rule"
+      ],
+      "correctAnswer": "Inbound security rule",
+      "explanation": "Correct answer is A) Inbound security rule."
+    },
+    {
+      "questionText": "Which port range is specified for Remote Desktop (RDP) access?",
+      "options": [
+        "80",
+        "3389",
+        "443",
+        "1433"
+      ],
+      "correctAnswer": "3389",
+      "explanation": "Correct answer is B) 3389."
+    },
+    {
+      "questionText": "What name is given to the RDP inbound rule in the walkthrough?",
+      "options": [
+        "sql-access",
+        "web-access",
+        "rdp-access",
+        "vm-rule"
+      ],
+      "correctAnswer": "rdp-access",
+      "explanation": "Correct answer is C) rdp-access."
+    },
+    {
+      "questionText": "To log in to the Windows VM using Remote Desktop, the user needs:",
+      "options": [
+        "The VM's public IP and the credentials assigned while creating the VM",
+        "Only a Web browser",
+        "The SQL password only",
+        "Only the VM name"
+      ],
+      "correctAnswer": "The VM's public IP and the credentials assigned while creating the VM",
+      "explanation": "Correct answer is A) The VM's public IP and the credentials assigned while creating the VM."
+    },
+    {
+      "questionText": "Which application is run from the Start menu to install IIS?",
+      "options": [
+        "Notepad",
+        "Calculator",
+        "Server Manager",
+        "Paint"
+      ],
+      "correctAnswer": "Server Manager",
+      "explanation": "Correct answer is C) Server Manager."
+    },
+    {
+      "questionText": "Which option is chosen in the Add Roles and Features Wizard?",
+      "options": [
+        "Virtual installation",
+        "Remote Desktop Services installation",
+        "Role-based or feature-based installation",
+        "Scenario-based only"
+      ],
+      "correctAnswer": "Role-based or feature-based installation",
+      "explanation": "Correct answer is C) Role-based or feature-based installation."
+    },
+    {
+      "questionText": "Which role is selected to install IIS?",
+      "options": [
+        "Hyper-V",
+        "Web Server (IIS)",
+        "File Server",
+        "DNS Server"
+      ],
+      "correctAnswer": "Web Server (IIS)",
+      "explanation": "Correct answer is B) Web Server (IIS)."
+    },
+    {
+      "questionText": "Which feature is selected under .NET Framework 4.6 features?",
+      "options": [
+        "BitLocker",
+        "PowerShell only",
+        "WCF only",
+        "ASP.NET 4.6"
+      ],
+      "correctAnswer": "ASP.NET 4.6",
+      "explanation": "Correct answer is D) ASP.NET 4.6."
+    },
+    {
+      "questionText": "How can one confirm IIS is installed properly on the VM?",
+      "options": [
+        "Open Paint",
+        "Check the Notepad",
+        "Restart the VM",
+        "Browse the VM's public IP and see the IIS welcome page"
+      ],
+      "correctAnswer": "Browse the VM's public IP and see the IIS welcome page",
+      "explanation": "Correct answer is D) Browse the VM's public IP and see the IIS welcome page."
+    },
+    {
+      "questionText": "To publish the Web API application to a folder, which publish target is selected?",
+      "options": [
+        "Folder",
+        "IIS only",
+        "Azure Container",
+        "FTP only"
+      ],
+      "correctAnswer": "Folder",
+      "explanation": "Correct answer is A) Folder."
+    },
+    {
+      "questionText": "In the walkthrough, where is the app published in the project directory?",
+      "options": [
+        "/App_Data",
+        "/Controllers",
+        "/bin/Release/Publish",
+        "/Views"
+      ],
+      "correctAnswer": "/bin/Release/Publish",
+      "explanation": "Correct answer is C) /bin/Release/Publish."
+    },
+    {
+      "questionText": "Typical path of the wwwroot folder on a Windows VM is:",
+      "options": [
+        "C:\\inetpub\\wwwroot",
+        "C:\\Windows\\System32",
+        "D:\\data",
+        "C:\\Users\\Public"
+      ],
+      "correctAnswer": "C:\\inetpub\\wwwroot",
+      "explanation": "Correct answer is A) C:\\inetpub\\wwwroot."
+    },
+    {
+      "questionText": "If the Web API cannot connect to the database after being hosted, what should be replaced in Web.config?",
+      "options": [
+        "The controller name",
+        "The route",
+        "The port number",
+        "The connection string copied from Azure SQL Database settings"
+      ],
+      "correctAnswer": "The connection string copied from Azure SQL Database settings",
+      "explanation": "Correct answer is D) The connection string copied from Azure SQL Database settings."
+    },
+    {
+      "questionText": "In self-hosting, the Web API is hosted:",
+      "options": [
+        "Only in Azure",
+        "Only in IIS",
+        "Only in a browser",
+        "Independently of the main client application, for example in a console application or Windows Service"
+      ],
+      "correctAnswer": "Independently of the main client application, for example in a console application or Windows Service",
+      "explanation": "Correct answer is D) Independently of the main client application, for example in a console application or Windows Service."
+    },
+    {
+      "questionText": "In self-hosting, which method is the application entry point where self-hosting code is written?",
+      "options": [
+        "Page_Load",
+        "Startup.Configure",
+        "Application_Start",
+        "Main method in Program.cs"
+      ],
+      "correctAnswer": "Main method in Program.cs",
+      "explanation": "Correct answer is D) Main method in Program.cs."
+    },
+    {
+      "questionText": "Kestrel is:",
+      "options": [
+        "A database",
+        "The default open-source Web server included in ASP.NET templates",
+        "A cloud billing tool",
+        "A browser"
+      ],
+      "correctAnswer": "The default open-source Web server included in ASP.NET templates",
+      "explanation": "Correct answer is B) The default open-source Web server included in ASP.NET templates."
+    },
+    {
+      "questionText": "Kestrel can be used for hosting ASP.NET applications on:",
+      "options": [
+        "Only Linux",
+        "Only macOS",
+        "Any operating system",
+        "Only Windows"
+      ],
+      "correctAnswer": "Any operating system",
+      "explanation": "Correct answer is C) Any operating system."
+    },
+    {
+      "questionText": "Which of the following can be used as a reverse proxy server with Kestrel?",
+      "options": [
+        "Apache, Nginx, or IIS",
+        "Postman",
+        "Swagger",
+        "SSMS"
+      ],
+      "correctAnswer": "Apache, Nginx, or IIS",
+      "explanation": "Correct answer is A) Apache, Nginx, or IIS."
+    },
+    {
+      "questionText": "A reverse proxy scenario means:",
+      "options": [
+        "A client-side proxy",
+        "Multiple apps sharing the same IP and port on a single server",
+        "One app using many servers",
+        "An app with no ports"
+      ],
+      "correctAnswer": "Multiple apps sharing the same IP and port on a single server",
+      "explanation": "Correct answer is B) Multiple apps sharing the same IP and port on a single server."
+    },
+    {
+      "questionText": "Does Kestrel support multiple apps sharing the same IP and port?",
+      "options": [
+        "Only on Windows",
+        "No",
+        "Only with IIS removed",
+        "Yes"
+      ],
+      "correctAnswer": "No",
+      "explanation": "Correct answer is B) No."
+    },
+    {
+      "questionText": "Azure App Service Web Apps is a service for hosting:",
+      "options": [
+        "Mobile backends, REST APIs, and Web apps",
+        "Only containers",
+        "Only databases",
+        "Only VMs"
+      ],
+      "correctAnswer": "Mobile backends, REST APIs, and Web apps",
+      "explanation": "Correct answer is A) Mobile backends, REST APIs, and Web apps."
+    },
+    {
+      "questionText": "Which languages can be used to build Azure Web Apps?",
+      "options": [
+        "Only Pascal",
+        "Only COBOL",
+        "Only C++",
+        ".NET Core, Python, Java, PHP"
+      ],
+      "correctAnswer": ".NET Core, Python, Java, PHP",
+      "explanation": "Correct answer is D) .NET Core, Python, Java, PHP."
+    },
+    {
+      "questionText": "After a successful deployment of the first ASP.NET Web app, which is formed?",
+      "options": [
+        "Only a queue",
+        "Only a database",
+        "Only a VM",
+        "A resource group with a service plan, Azure Web app, and deployed application"
+      ],
+      "correctAnswer": "A resource group with a service plan, Azure Web app, and deployed application",
+      "explanation": "Correct answer is D) A resource group with a service plan, Azure Web app, and deployed application."
+    },
+    {
+      "questionText": "In the Publish wizard, which target is selected to create the Azure Web App?",
+      "options": [
+        "Import Profile",
+        "Folder",
+        "FTP",
+        "App Service (Create New)"
+      ],
+      "correctAnswer": "App Service (Create New)",
+      "explanation": "Correct answer is D) App Service (Create New)."
+    },
+    {
+      "questionText": "What is the URL of the published Web API sample in the walkthrough?",
+      "options": [
+        "http://studentservicesazureapp.azurewebsites.net",
+        "http://localhost:59502",
+        "http://portal.azure.com",
+        "http://www.getpostman.com"
+      ],
+      "correctAnswer": "http://studentservicesazureapp.azurewebsites.net",
+      "explanation": "Correct answer is A) http://studentservicesazureapp.azurewebsites.net."
+    },
+    {
+      "questionText": "Windows Containers can be used to:",
+      "options": [
+        "Replace databases",
+        "Compile SQL",
+        "Automate the deployment of .NET applications as independent, portable containers",
+        "Create Excel files"
+      ],
+      "correctAnswer": "Automate the deployment of .NET applications as independent, portable containers",
+      "explanation": "Correct answer is C) Automate the deployment of .NET applications as independent, portable containers."
+    },
+    {
+      "questionText": "The salient feature of a container is that it:",
+      "options": [
+        "Cannot run in the cloud",
+        "Requires a physical server",
+        "Retains the same environment across various deployments",
+        "Changes the environment on every deployment"
+      ],
+      "correctAnswer": "Retains the same environment across various deployments",
+      "explanation": "Correct answer is C) Retains the same environment across various deployments."
+    },
+    {
+      "questionText": "The container service is based on which platform?",
+      "options": [
+        "Kestrel",
+        "Hyper-V only",
+        "Docker",
+        "Swagger"
+      ],
+      "correctAnswer": "Docker",
+      "explanation": "Correct answer is C) Docker."
+    },
+    {
+      "questionText": "Components of a containerized application are also known as:",
+      "options": [
+        "Monoliths",
+        "Mainframes",
+        "Microservices",
+        "Macros"
+      ],
+      "correctAnswer": "Microservices",
+      "explanation": "Correct answer is C) Microservices."
+    },
+    {
+      "questionText": "Organizing multiple containers is called:",
+      "options": [
+        "Container caching",
+        "Container routing",
+        "Container orchestration",
+        "Container compilation"
+      ],
+      "correctAnswer": "Container orchestration",
+      "explanation": "Correct answer is C) Container orchestration."
+    },
+    {
+      "questionText": "Which are famous container orchestration tools?",
+      "options": [
+        "Postman and Fiddler",
+        "SSMS and Excel",
+        "IIS and Kestrel",
+        "Docker Swarm and Kubernetes"
+      ],
+      "correctAnswer": "Docker Swarm and Kubernetes",
+      "explanation": "Correct answer is D) Docker Swarm and Kubernetes."
+    },
+    {
+      "questionText": "Container orchestration helps automate:",
+      "options": [
+        "Deployment, availability, scaling, and moving containers",
+        "Only printing",
+        "Only compiling",
+        "Only email"
+      ],
+      "correctAnswer": "Deployment, availability, scaling, and moving containers",
+      "explanation": "Correct answer is A) Deployment, availability, scaling, and moving containers."
+    },
+    {
+      "questionText": "HttpClient class provides:",
+      "options": [
+        "A UI control",
+        "A base class for sending/receiving HTTP requests and responses from a URL",
+        "A cache policy",
+        "A database connection"
+      ],
+      "correctAnswer": "A base class for sending/receiving HTTP requests and responses from a URL",
+      "explanation": "Correct answer is B) A base class for sending/receiving HTTP requests and responses from a URL."
+    },
+    {
+      "questionText": "Which HttpClient method sends a GET request to a URI?",
+      "options": [
+        "GetAsync",
+        "PutAsync",
+        "DeleteAsync",
+        "PostAsync"
+      ],
+      "correctAnswer": "GetAsync",
+      "explanation": "Correct answer is A) GetAsync."
+    },
+    {
+      "questionText": "Which HttpClient method sends a POST request?",
+      "options": [
+        "PostAsync",
+        "PutAsync",
+        "GetAsync",
+        "DeleteAsync"
+      ],
+      "correctAnswer": "PostAsync",
+      "explanation": "Correct answer is A) PostAsync."
+    },
+    {
+      "questionText": "Which HttpClient method sends a DELETE request?",
+      "options": [
+        "GetAsync",
+        "DeleteAsync",
+        "PostAsync",
+        "PutAsync"
+      ],
+      "correctAnswer": "DeleteAsync",
+      "explanation": "Correct answer is B) DeleteAsync."
+    },
+    {
+      "questionText": "Which NuGet package must be installed to call the Web API from an MVC application using HttpClient?",
+      "options": [
+        "EntityFramework",
+        "MySql.Data.Entity",
+        "Microsoft.AspNet.WebApi.Client",
+        "Microsoft.AspNet.Odata"
+      ],
+      "correctAnswer": "Microsoft.AspNet.WebApi.Client",
+      "explanation": "Correct answer is C) Microsoft.AspNet.WebApi.Client."
+    },
+    {
+      "questionText": "In Code Snippet 4, which property of HttpClient sets the API base URL?",
+      "options": [
+        "MaxResponseContentBufferSize",
+        "BaseAddress",
+        "Timeout",
+        "DefaultProxy"
+      ],
+      "correctAnswer": "BaseAddress",
+      "explanation": "Correct answer is B) BaseAddress."
+    },
+    {
+      "questionText": "What Accept header value is set in the HttpClient sample?",
+      "options": [
+        "image/png",
+        "application/json",
+        "text/html",
+        "application/pdf"
+      ],
+      "correctAnswer": "application/json",
+      "explanation": "Correct answer is B) application/json."
+    },
+    {
+      "questionText": "Which method is used to read the response content as a student list in the sample?",
+      "options": [
+        "ReadAsString only",
+        "ReadAsAsync",
+        "ReadAsXml",
+        "ReadAsStream only"
+      ],
+      "correctAnswer": "ReadAsAsync",
+      "explanation": "Correct answer is B) ReadAsAsync."
+    },
+    {
+      "questionText": "What is Swagger?",
+      "options": [
+        "A hosting platform",
+        "A browser",
+        "A database",
+        "A language-agnostic specification for describing REST APIs"
+      ],
+      "correctAnswer": "A language-agnostic specification for describing REST APIs",
+      "explanation": "Correct answer is D) A language-agnostic specification for describing REST APIs."
+    },
+    {
+      "questionText": "Swagger is also referred to as:",
+      "options": [
+        "OpenAPI",
+        "OpenData",
+        "OpenAuth",
+        "OpenHost"
+      ],
+      "correctAnswer": "OpenAPI",
+      "explanation": "Correct answer is A) OpenAPI."
+    },
+    {
+      "questionText": "Which is a benefit of Swagger?",
+      "options": [
+        "Cheaper VMs",
+        "Free hosting",
+        "API discoverability, client SDK generation, interactive documentation",
+        "Faster compilation"
+      ],
+      "correctAnswer": "API discoverability, client SDK generation, interactive documentation",
+      "explanation": "Correct answer is C) API discoverability, client SDK generation, interactive documentation."
+    },
+    {
+      "questionText": "By default, the Swagger specification document is named:",
+      "options": [
+        "api.config",
+        "swagger.xml",
+        "swagger.json",
+        "openapi.exe"
+      ],
+      "correctAnswer": "swagger.json",
+      "explanation": "Correct answer is C) swagger.json."
+    },
+    {
+      "questionText": "Swagger UI is:",
+      "options": [
+        "A VM",
+        "A Web-based UI that presents details about the service using the generated Swagger specification",
+        "A compiler",
+        "A database editor"
+      ],
+      "correctAnswer": "A Web-based UI that presents details about the service using the generated Swagger specification",
+      "explanation": "Correct answer is B) A Web-based UI that presents details about the service using the generated Swagger specification."
+    },
+    {
+      "questionText": "Which tools embed Swagger UI for ASP.NET Core?",
+      "options": [
+        "Docker and Kubernetes",
+        "Postman and Fiddler",
+        "IIS and Kestrel",
+        "NSwag and Swashbuckle"
+      ],
+      "correctAnswer": "NSwag and Swashbuckle",
+      "explanation": "Correct answer is D) NSwag and Swashbuckle."
+    },
+    {
+      "questionText": "AutoRest is used to:",
+      "options": [
+        "Generate client proxy classes for Swagger-enabled Web APIs",
+        "Create VMs",
+        "Host Web APIs",
+        "Encrypt data"
+      ],
+      "correctAnswer": "Generate client proxy classes for Swagger-enabled Web APIs",
+      "explanation": "Correct answer is A) Generate client proxy classes for Swagger-enabled Web APIs."
+    },
+    {
+      "questionText": "With AutoRest, client proxy classes can be generated by:",
+      "options": [
+        "Using Notepad only",
+        "Using a database",
+        "Writing thousands of lines",
+        "Executing a single command through a command-line interface"
+      ],
+      "correctAnswer": "Executing a single command through a command-line interface",
+      "explanation": "Correct answer is D) Executing a single command through a command-line interface."
+    },
+    {
+      "questionText": "AutoRest can be installed with:",
+      "options": [
+        "Azure Chocolatey gallery or NuGet",
+        "Only Postman",
+        "Only a USB drive",
+        "Only a CD"
+      ],
+      "correctAnswer": "Azure Chocolatey gallery or NuGet",
+      "explanation": "Correct answer is A) Azure Chocolatey gallery or NuGet."
+    },
+    {
+      "questionText": "Compared with SOAP-based Web services, Web APIs generate client proxy classes how without Swagger?",
+      "options": [
+        "Always via Add Service Reference",
+        "They do not need clients",
+        "Via Windows Forms",
+        "They rely on HttpClient to perform requests manually"
+      ],
+      "correctAnswer": "They rely on HttpClient to perform requests manually",
+      "explanation": "Correct answer is D) They rely on HttpClient to perform requests manually."
+    }
+  ]
+}

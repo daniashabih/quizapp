@@ -1,0 +1,580 @@
+{
+  "category": "Azure",
+  "session": 12,
+  "title": "Session 12: Traffic Management and Monitoring Strategies for Web Services",
+  "totalQuestions": 52,
+  "questions": [
+    {
+      "questionText": "Azure Load Balancer helps developers to:",
+      "options": [
+        "Scale their applications and provide high availability",
+        "Edit images",
+        "Create databases only",
+        "Compile code"
+      ],
+      "correctAnswer": "Scale their applications and provide high availability",
+      "explanation": "Correct answer is A) Scale their applications and provide high availability."
+    },
+    {
+      "questionText": "A load balancer accepts inbound flows at its:",
+      "options": [
+        "Database",
+        "Backend only",
+        "Frontend and transmits them to backend pool instances based on rules",
+        "Browser"
+      ],
+      "correctAnswer": "Frontend and transmits them to backend pool instances based on rules",
+      "explanation": "Correct answer is C) Frontend and transmits them to backend pool instances based on rules."
+    },
+    {
+      "questionText": "Load balancing of inbound Internet traffic to VMs is called a:",
+      "options": [
+        "Private load balancer only",
+        "Hybrid database",
+        "Public load balancer",
+        "Static balancer"
+      ],
+      "correctAnswer": "Public load balancer",
+      "explanation": "Correct answer is C) Public load balancer."
+    },
+    {
+      "questionText": "Which type of rule forwards port traffic to specific destination ports on VMs?",
+      "options": [
+        "Inbound NAT rules",
+        "Outbound DNS rules",
+        "Cache rules",
+        "Policy rules"
+      ],
+      "correctAnswer": "Inbound NAT rules",
+      "explanation": "Correct answer is A) Inbound NAT rules."
+    },
+    {
+      "questionText": "NAT stands for:",
+      "options": [
+        "Node Address Table",
+        "Network Application Transfer",
+        "New Access Token",
+        "Network Address Translation"
+      ],
+      "correctAnswer": "Network Address Translation",
+      "explanation": "Correct answer is D) Network Address Translation."
+    },
+    {
+      "questionText": "To give outgoing connectivity to VMs within a virtual network, a developer uses:",
+      "options": [
+        "A VPN only",
+        "A DNS server only",
+        "A firewall only",
+        "A public load balancer"
+      ],
+      "correctAnswer": "A public load balancer",
+      "explanation": "Correct answer is D) A public load balancer."
+    },
+    {
+      "questionText": "Which algorithm does the Azure load balancer use by default to distribute traffic?",
+      "options": [
+        "5-tuple hash",
+        "Least connections only",
+        "Round robin only",
+        "Random"
+      ],
+      "correctAnswer": "5-tuple hash",
+      "explanation": "Correct answer is A) 5-tuple hash."
+    },
+    {
+      "questionText": "The 5-tuple hash includes which of the following?",
+      "options": [
+        "Only ports",
+        "Only IP addresses",
+        "Source IP, destination IP, source port, destination port, protocol",
+        "Only protocol"
+      ],
+      "correctAnswer": "Source IP, destination IP, source port, destination port, protocol",
+      "explanation": "Correct answer is C) Source IP, destination IP, source port, destination port, protocol."
+    },
+    {
+      "questionText": "Packets belonging to the same traffic flow reach:",
+      "options": [
+        "Only the first instance",
+        "No instance",
+        "Different backend instances every time",
+        "The same backend instance"
+      ],
+      "correctAnswer": "The same backend instance",
+      "explanation": "Correct answer is D) The same backend instance."
+    },
+    {
+      "questionText": "If a new flow is started from the same source IP with a different source port, the 5-tuple hash may:",
+      "options": [
+        "Drop traffic",
+        "Always use the same endpoint",
+        "Send the traffic to a different backend endpoint",
+        "Duplicate traffic"
+      ],
+      "correctAnswer": "Send the traffic to a different backend endpoint",
+      "explanation": "Correct answer is C) Send the traffic to a different backend endpoint."
+    },
+    {
+      "questionText": "The load balancer capabilities for TCP and UDP applications include:",
+      "options": [
+        "Port forwarding, automatic reconfiguration, and health probes",
+        "Only compilation",
+        "Only logging",
+        "Only caching"
+      ],
+      "correctAnswer": "Port forwarding, automatic reconfiguration, and health probes",
+      "explanation": "Correct answer is A) Port forwarding, automatic reconfiguration, and health probes."
+    },
+    {
+      "questionText": "Health probes in a load balancer are used to:",
+      "options": [
+        "Compile code",
+        "Encrypt data",
+        "Detect the health of backend instances",
+        "Store data"
+      ],
+      "correctAnswer": "Detect the health of backend instances",
+      "explanation": "Correct answer is C) Detect the health of backend instances."
+    },
+    {
+      "questionText": "Azure Application Gateway is a load balancer for:",
+      "options": [
+        "Incoming Web traffic to Web applications",
+        "Only FTP",
+        "Only email",
+        "Only database traffic"
+      ],
+      "correctAnswer": "Incoming Web traffic to Web applications",
+      "explanation": "Correct answer is A) Incoming Web traffic to Web applications."
+    },
+    {
+      "questionText": "Traditional load balancers work at which OSI layer?",
+      "options": [
+        "Layer 1",
+        "Layer 4 (transport layer)",
+        "Layer 2",
+        "Layer 7 only"
+      ],
+      "correctAnswer": "Layer 4 (transport layer)",
+      "explanation": "Correct answer is B) Layer 4 (transport layer)."
+    },
+    {
+      "questionText": "Which protocols are involved at OSI layer 4 as mentioned?",
+      "options": [
+        "SMTP and POP3",
+        "HTTP and FTP only",
+        "DNS only",
+        "TCP and UDP"
+      ],
+      "correctAnswer": "TCP and UDP",
+      "explanation": "Correct answer is D) TCP and UDP."
+    },
+    {
+      "questionText": "Application Gateway can perform routing based on:",
+      "options": [
+        "Only the source IP",
+        "Only the port",
+        "Only the protocol",
+        "URL and more"
+      ],
+      "correctAnswer": "URL and more",
+      "explanation": "Correct answer is D) URL and more."
+    },
+    {
+      "questionText": "Which of the following is a feature of Azure Application Gateway?",
+      "options": [
+        "Only backup",
+        "URL-based routing, multiple-site hosting, session affinity",
+        "Only compilation",
+        "Only caching"
+      ],
+      "correctAnswer": "URL-based routing, multiple-site hosting, session affinity",
+      "explanation": "Correct answer is B) URL-based routing, multiple-site hosting, session affinity."
+    },
+    {
+      "questionText": "Azure Traffic Manager allows developers to:",
+      "options": [
+        "Distribute traffic globally",
+        "Manage only local traffic",
+        "Manage only email traffic",
+        "Create databases"
+      ],
+      "correctAnswer": "Distribute traffic globally",
+      "explanation": "Correct answer is A) Distribute traffic globally."
+    },
+    {
+      "questionText": "Azure Traffic Manager depends on:",
+      "options": [
+        "FTP",
+        "DNS",
+        "SMTP",
+        "RDP"
+      ],
+      "correctAnswer": "DNS",
+      "explanation": "Correct answer is B) DNS."
+    },
+    {
+      "questionText": "Traffic Manager routes traffic by:",
+      "options": [
+        "Random selection only",
+        "Manual assignment",
+        "Ignoring health",
+        "Checking for healthy endpoints and using a routing algorithm"
+      ],
+      "correctAnswer": "Checking for healthy endpoints and using a routing algorithm",
+      "explanation": "Correct answer is D) Checking for healthy endpoints and using a routing algorithm."
+    },
+    {
+      "questionText": "In Traffic Manager, an endpoint is:",
+      "options": [
+        "A service accessible by the Internet set up in Azure",
+        "A user account",
+        "A cache",
+        "A database table"
+      ],
+      "correctAnswer": "A service accessible by the Internet set up in Azure",
+      "explanation": "Correct answer is A) A service accessible by the Internet set up in Azure."
+    },
+    {
+      "questionText": "Traffic Manager can recover quickly from situations such as:",
+      "options": [
+        "Printer failures",
+        "Slow keyboards",
+        "Typing errors",
+        "Breakdown of an entire Azure region"
+      ],
+      "correctAnswer": "Breakdown of an entire Azure region",
+      "explanation": "Correct answer is D) Breakdown of an entire Azure region."
+    },
+    {
+      "questionText": "Which feature allows scheduled maintenance with no downtime?",
+      "options": [
+        "Stopping all traffic",
+        "Perform maintenance without deferment (traffic redirected to other active endpoints)",
+        "Static caching",
+        "Disabling health checks"
+      ],
+      "correctAnswer": "Perform maintenance without deferment (traffic redirected to other active endpoints)",
+      "explanation": "Correct answer is B) Perform maintenance without deferment (traffic redirected to other active endpoints)."
+    },
+    {
+      "questionText": "Nested Traffic Manager profiles help developers to:",
+      "options": [
+        "Compile code",
+        "Delete endpoints",
+        "Create VMs",
+        "Combine traffic-routing methods for large and complex deployments"
+      ],
+      "correctAnswer": "Combine traffic-routing methods for large and complex deployments",
+      "explanation": "Correct answer is D) Combine traffic-routing methods for large and complex deployments."
+    },
+    {
+      "questionText": "Traffic Manager improves application performance by:",
+      "options": [
+        "Disabling endpoints",
+        "Increasing latency",
+        "Ignoring users",
+        "Allocating traffic to the endpoint with low network latency"
+      ],
+      "correctAnswer": "Allocating traffic to the endpoint with low network latency",
+      "explanation": "Correct answer is D) Allocating traffic to the endpoint with low network latency."
+    },
+    {
+      "questionText": "Traffic Manager can be used with hybrid applications because it supports:",
+      "options": [
+        "Only Azure endpoints",
+        "Only local endpoints",
+        "External, non-Azure endpoints",
+        "No endpoints"
+      ],
+      "correctAnswer": "External, non-Azure endpoints",
+      "explanation": "Correct answer is C) External, non-Azure endpoints."
+    },
+    {
+      "questionText": "Application Insights is a service for:",
+      "options": [
+        "Hardware management",
+        "Billing",
+        "Application Performance Management (APM)",
+        "Compiling"
+      ],
+      "correctAnswer": "Application Performance Management (APM)",
+      "explanation": "Correct answer is C) Application Performance Management (APM)."
+    },
+    {
+      "questionText": "Application Insights helps developers to:",
+      "options": [
+        "Create ISO files",
+        "Edit documents",
+        "Manage printers",
+        "Track live Web applications and identify performance problems"
+      ],
+      "correctAnswer": "Track live Web applications and identify performance problems",
+      "explanation": "Correct answer is D) Track live Web applications and identify performance problems."
+    },
+    {
+      "questionText": "Application Insights supports applications deployed on:",
+      "options": [
+        ".NET, Node.js, and J2EE",
+        "Only .NET",
+        "Only Java",
+        "Only PHP"
+      ],
+      "correctAnswer": ".NET, Node.js, and J2EE",
+      "explanation": "Correct answer is A) .NET, Node.js, and J2EE."
+    },
+    {
+      "questionText": "For mobile applications, Application Insights can be used together with:",
+      "options": [
+        "Paint",
+        "SQL Server only",
+        "Notepad",
+        "Visual Studio App Center"
+      ],
+      "correctAnswer": "Visual Studio App Center",
+      "explanation": "Correct answer is D) Visual Studio App Center."
+    },
+    {
+      "questionText": "To use Application Insights, a developer installs a package in the application and:",
+      "options": [
+        "Deletes the app",
+        "Disables logging",
+        "Reinstalls Windows",
+        "Configures an Application Insights resource in the Azure portal"
+      ],
+      "correctAnswer": "Configures an Application Insights resource in the Azure portal",
+      "explanation": "Correct answer is D) Configures an Application Insights resource in the Azure portal."
+    },
+    {
+      "questionText": "Which of the following can be configured to periodically send requests to a Web service for monitoring?",
+      "options": [
+        "Cache policy",
+        "Query notification",
+        "Web tests",
+        "Resource group"
+      ],
+      "correctAnswer": "Web tests",
+      "explanation": "Correct answer is C) Web tests."
+    },
+    {
+      "questionText": "Azure Monitor gathers log data and saves it in:",
+      "options": [
+        "Redis Cache",
+        "Log Analytics",
+        "Blob storage only",
+        "Cosmos DB only"
+      ],
+      "correctAnswer": "Log Analytics",
+      "explanation": "Correct answer is B) Log Analytics."
+    },
+    {
+      "questionText": "Log Analytics provides developers with:",
+      "options": [
+        "A query language for advanced analytics",
+        "Only a compiler",
+        "Only a hosting platform",
+        "Only a code editor"
+      ],
+      "correctAnswer": "A query language for advanced analytics",
+      "explanation": "Correct answer is A) A query language for advanced analytics."
+    },
+    {
+      "questionText": "A log query in Log Analytics can be used for:",
+      "options": [
+        "Studying information in the portal, setting alert rules, and retrieving information via the Log Analytics API",
+        "Only creating VMs",
+        "Only deleting data",
+        "Only printing"
+      ],
+      "correctAnswer": "Studying information in the portal, setting alert rules, and retrieving information via the Log Analytics API",
+      "explanation": "Correct answer is A) Studying information in the portal, setting alert rules, and retrieving information via the Log Analytics API."
+    },
+    {
+      "questionText": "Which Log Analytics feature allows detecting spikes and analyzing their cause?",
+      "options": [
+        "Syntax highlighting",
+        "Tabs",
+        "Smart Analytics",
+        "Share"
+      ],
+      "correctAnswer": "Smart Analytics",
+      "explanation": "Correct answer is C) Smart Analytics."
+    },
+    {
+      "questionText": "Which Log Analytics feature lets developers view previously saved queries and functions?",
+      "options": [
+        "Query explorer",
+        "Tabs",
+        "Visualizations",
+        "Column selection"
+      ],
+      "correctAnswer": "Query explorer",
+      "explanation": "Correct answer is A) Query explorer."
+    },
+    {
+      "questionText": "Which feature of Log Analytics helps improve readability of queries?",
+      "options": [
+        "Share",
+        "Syntax highlighting",
+        "Possibilities",
+        "Smart Analytics"
+      ],
+      "correctAnswer": "Syntax highlighting",
+      "explanation": "Correct answer is B) Syntax highlighting."
+    },
+    {
+      "questionText": "Which Log Analytics feature allows generating links to queries and pinning them to a shared Azure dashboard?",
+      "options": [
+        "Share",
+        "Tabs",
+        "Possibilities",
+        "Column selection"
+      ],
+      "correctAnswer": "Share",
+      "explanation": "Correct answer is A) Share."
+    },
+    {
+      "questionText": "To configure Application Insights for a hosted Web App, which menu is first selected in the Azure Portal?",
+      "options": [
+        "Monitor only",
+        "App Services",
+        "Security Center",
+        "Advisor"
+      ],
+      "correctAnswer": "App Services",
+      "explanation": "Correct answer is B) App Services."
+    },
+    {
+      "questionText": "Which button is clicked on the Application Insights page to start a new Application Insights resource?",
+      "options": [
+        "Refresh only",
+        "Delete",
+        "Setup Application Insights",
+        "Download"
+      ],
+      "correctAnswer": "Setup Application Insights",
+      "explanation": "Correct answer is C) Setup Application Insights."
+    },
+    {
+      "questionText": "Azure Event Hubs provides an environment that allows to:",
+      "options": [
+        "Edit documents",
+        "Create hardware",
+        "Print reports",
+        "Stream Big Data"
+      ],
+      "correctAnswer": "Stream Big Data",
+      "explanation": "Correct answer is D) Stream Big Data."
+    },
+    {
+      "questionText": "Event Hubs is also called an event:",
+      "options": [
+        "Deletion service",
+        "Ingestion service",
+        "Billing service",
+        "Compilation service"
+      ],
+      "correctAnswer": "Ingestion service",
+      "explanation": "Correct answer is B) Ingestion service."
+    },
+    {
+      "questionText": "Event Hubs can accept close to how many events per second?",
+      "options": [
+        "Millions",
+        "Tens",
+        "Hundreds",
+        "One"
+      ],
+      "correctAnswer": "Millions",
+      "explanation": "Correct answer is A) Millions."
+    },
+    {
+      "questionText": "An event ingestor is:",
+      "options": [
+        "A VM",
+        "A web page",
+        "An element positioned between event producers and event consumers to separate generation from consumption",
+        "A database table"
+      ],
+      "correctAnswer": "An element positioned between event producers and event consumers to separate generation from consumption",
+      "explanation": "Correct answer is C) An element positioned between event producers and event consumers to separate generation from consumption."
+    },
+    {
+      "questionText": "Which of the following is a use case for Event Hubs?",
+      "options": [
+        "Only image editing",
+        "Anomaly detection such as fraud, application logging, and real-time dashboarding",
+        "Only printing",
+        "Only email"
+      ],
+      "correctAnswer": "Anomaly detection such as fraud, application logging, and real-time dashboarding",
+      "explanation": "Correct answer is B) Anomaly detection such as fraud, application logging, and real-time dashboarding."
+    },
+    {
+      "questionText": "Azure Stream Analytics is:",
+      "options": [
+        "A database",
+        "A web browser",
+        "An engine that executes events and lets developers analyze large sets of information arriving from various devices",
+        "A VM"
+      ],
+      "correctAnswer": "An engine that executes events and lets developers analyze large sets of information arriving from various devices",
+      "explanation": "Correct answer is C) An engine that executes events and lets developers analyze large sets of information arriving from various devices."
+    },
+    {
+      "questionText": "Which is NOT mentioned as a source for Stream Analytics data?",
+      "options": [
+        "Sensors",
+        "Compiler logs only",
+        "Social media feeds",
+        "Websites"
+      ],
+      "correctAnswer": "Compiler logs only",
+      "explanation": "Correct answer is B) Compiler logs only."
+    },
+    {
+      "questionText": "Which of the following is a use case for Stream Analytics?",
+      "options": [
+        "Creating VMs",
+        "IoT sensor fusion and clickstream analytics",
+        "Compiling code",
+        "Writing documents"
+      ],
+      "correctAnswer": "IoT sensor fusion and clickstream analytics",
+      "explanation": "Correct answer is B) IoT sensor fusion and clickstream analytics."
+    },
+    {
+      "questionText": "Stream Analytics can be used for geospatial analytics in:",
+      "options": [
+        "Only gaming",
+        "Fleet management and driverless vehicles",
+        "Only email",
+        "Only printing"
+      ],
+      "correctAnswer": "Fleet management and driverless vehicles",
+      "explanation": "Correct answer is B) Fleet management and driverless vehicles."
+    },
+    {
+      "questionText": "Stream Analytics can be used for real-time analysis on:",
+      "options": [
+        "Only images",
+        "Only emails",
+        "Point of Sale (PoS) data to regulate inventory and detect anomalies",
+        "Only PDFs"
+      ],
+      "correctAnswer": "Point of Sale (PoS) data to regulate inventory and detect anomalies",
+      "explanation": "Correct answer is C) Point of Sale (PoS) data to regulate inventory and detect anomalies."
+    },
+    {
+      "questionText": "Patterns detected in Stream Analytics can be used to:",
+      "options": [
+        "Format drives",
+        "Activate alerts, feed data to reporting tools, or store data for future use",
+        "Delete data",
+        "Stop the Internet"
+      ],
+      "correctAnswer": "Activate alerts, feed data to reporting tools, or store data for future use",
+      "explanation": "Correct answer is B) Activate alerts, feed data to reporting tools, or store data for future use."
+    }
+  ]
+}

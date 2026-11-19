@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,13,Azure Web Apps configuration allows storing:,Only images,Only executables,Key/value string pairs belonging to the Web app's configuration,Only videos,Key/value string pairs belonging to the Web app's configuration
+Azure,13,A security advantage of storing configuration in Azure rather than Web.config is that:,Connection strings with passwords are not available as plain text in the web.config file,Web.config becomes larger,Passwords are published online,Settings cannot be changed,Connection strings with passwords are not available as plain text in the web.config file
+Azure,13,"In the Azure portal, which tab lets developers enter configuration key/value pairs for a Website?",Dashboard,App Settings,Monitor,Alerts,App Settings
+Azure,13,Settings can be specified as:,Only ConnectionStrings,Only environment files,ConnectionStrings or AppSettings,Only AppSettings,ConnectionStrings or AppSettings
+Azure,13,"Compared with AppSettings, ConnectionStrings include:",Less security,Only images,Additional metadata indicating the string is a database connection string,No values,Additional metadata indicating the string is a database connection string
+Azure,13,Which API method should be invoked in the controller when using ConnectionStrings?,LoadStrings(),GetAppSetting(),ReadConfig(),GetConnectionString(),GetConnectionString()
+Azure,13,Which of the following is available under the Platform settings?,Only billing,"Framework versions, Web Sockets, HTTP Version",Only logging,Only DNS,"Framework versions, Web Sockets, HTTP Version"
+Azure,13,All stored app settings are:,Public,Always plain text,Always encrypted,Never stored,Always encrypted
+Azure,13,"For .NET apps, AppSettings are:",Ignored,Stored in a database,"Added to the .NET configuration AppSettings at runtime, overriding existing settings",Stored in the registry,"Added to the .NET configuration AppSettings at runtime, overriding existing settings"
+Azure,13,"For Python, Node, and Java apps, app settings are accessible as:",Browser storage,Cookies,Environment variables,Registry keys,Environment variables
+Azure,13,"For a nested JSON key such as ApplicationInsights:InstrumentationKey on Linux/container apps, the key name becomes:",ApplicationInsights-InstrumentationKey,ApplicationInsights/InstrumentationKey,ApplicationInsights__InstrumentationKey,ApplicationInsights.InstrumentationKey,ApplicationInsights__InstrumentationKey
+Azure,13,What environment variable prefix is used for SQL Database connection strings?,SQLAZURECONNSTR_,SQLCONNSTR_,CUSTOMCONNSTR_,MYSQLCONNSTR_,SQLAZURECONNSTR_
+Azure,13,What environment variable prefix is used for SQL Server connection strings?,DBCONNSTR_,CUSTOMCONNSTR_,SQLAZURECONNSTR_,SQLCONNSTR_,SQLCONNSTR_
+Azure,13,What environment variable prefix is used for custom connection strings?,SQLAZURECONNSTR_,SQLCONNSTR_,CUSTOMCONNSTR_,OTHERCONNSTR_,CUSTOMCONNSTR_
+Azure,13,A SQL database connection string named connectionstring1 is accessible via which environment variable?,CUSTOMCONNSTR_connectionString1,SQLAZURECONNSTR_connectionString1,SQLCONNSTR_connectionString1,APPSETTING_connectionString1,SQLAZURECONNSTR_connectionString1
+Azure,13,"In the Default Documents setting, the web page shown in the root URL of a Website is:",The first matching file in the list,The last file in the list,Randomly chosen,Always index.html,The first matching file in the list
+Azure,13,Handler mappings are used to:,Manage DNS,Create VMs,Compile code,Add custom script processors to manage requests for particular file extensions,Add custom script processors to manage requests for particular file extensions
+Azure,13,Which path refers to the root directory of the app in handler mappings?,D:\data,D:\home\site\wwwroot,C:\Windows,C:\inetpub,D:\home\site\wwwroot
+Azure,13,Azure Key Vault is:,A hosting platform,A security-related tool available in the Azure platform,A load balancer,A database engine,A security-related tool available in the Azure platform
+Azure,13,"Before any task can be done with a vault, it must be:",Deleted,Replicated,Authenticated,Compiled,Authenticated
+Azure,13,Which authentication method for Key Vault is recommended as best practice?,Service principal and certificate,Service principal and secret,Managed identities for Azure resources,Anonymous,Managed identities for Azure resources
+Azure,13,Which of the following is a way to authenticate Key Vault?,Cookies only,FTP login,Windows XP login,Service Principal and Certificate,Service Principal and Certificate
+Azure,13,Which of the following is a benefit of Azure Key Vault?,"Certificate management, key management, and secrets management",Only VM creation,Only code compilation,Only logging,"Certificate management, key management, and secrets management"
+Azure,13,Key Vault certificate management involves:,Printing certificates,Compiling certificates,"Provisioning, managing, and deploying public and private SSL/TLS certificates",Deleting certificates,"Provisioning, managing, and deploying public and private SSL/TLS certificates"
+Azure,13,Azure Key Vault secrets management ensures strict control over access to:,Only tables,Only VMs,Only images,"Passwords, tokens, API keys, certificates, and other secrets","Passwords, tokens, API keys, certificates, and other secrets"
+Azure,13,Secrets and keys are protected using HSMs validated under which standard?,FIPS 140-2 Level 2,HIPAA only,ISO 9001,PCI-DSS only,FIPS 140-2 Level 2
+Azure,13,HSM stands for:,Hybrid Storage Manager,Hardware Security Module,High Speed Memory,Host Server Machine,Hardware Security Module
+Azure,13,Centralizing application secrets in Key Vault:,Stores secrets in code,Exposes secrets to everyone,Controls distribution and reduces chances of accidental exposure,Deletes secrets,Controls distribution and reduces chances of accidental exposure
+Azure,13,Which service handles authentication for Key Vault?,Azure Backup,Azure Active Directory,Azure Monitor,Azure CDN,Azure Active Directory
+Azure,13,Which methods manage authorization for Key Vault?,Cookies,Firewall only,Load balancer,Key Vault access policy or Role Based Access Control (RBAC),Key Vault access policy or Role Based Access Control (RBAC)
+Azure,13,RBAC stands for:,Resource Based Application Code,Role Based Access Control,Remote Backup and Cache,Random Binary Access Control,Role Based Access Control
+Azure,13,"To monitor access and usage of Key Vault, you can:",Use Notepad,Delete secrets,Disable the vault,Enable Key Vault logging,Enable Key Vault logging
+Azure,13,Key Vault logs can be configured for:,Only printing,"Archiving to a storage account, sending to Log Analytics, or streaming to an event hub",Only deletion,Only email,"Archiving to a storage account, sending to Log Analytics, or streaming to an event hub"
+Azure,13,Key Vault contents can be replicated:,Nowhere,Within a region and to a secondary region,Only within a single rack,Only to on-premises,Within a region and to a secondary region
+Azure,13,Standard administration of Key Vault is available through:,Only Excel,"Azure CLI, the portal, and PowerShell",Only Notepad,Only Paint,"Azure CLI, the portal, and PowerShell"
+Azure,13,Key Vault can integrate with which Azure services?,"Web Apps, Disk Encryption, SQL Database, storage accounts, Log Analytics, Event Hubs",Only Cosmos DB,None,Only VMs,"Web Apps, Disk Encryption, SQL Database, storage accounts, Log Analytics, Event Hubs"
+Azure,13,How many credential types does Azure App Service support for FTP/S and local Git deployment?,Two (user-level and app-level),One,Three,Four,Two (user-level and app-level)
+Azure,13,User-level credentials are linked to:,A subscription key,A Microsoft Account,A specific Web app,A VM,A Microsoft Account
+Azure,13,Can user-level credentials be shared among different users?,"No, they are never shared",Only with admins,Only with co-admins,"Yes, always","No, they are never shared"
+Azure,13,App-level credentials apply to:,Only the particular app,Every subscription,Every database,The whole account,Only the particular app
+Azure,13,App-level credentials are generated:,Manually by the user,By Postman,By Key Vault only,Automatically during app creation,Automatically during app creation
+Azure,13,Where can app-level credentials be found?,In the Web.config,In Notepad,In the cache,In the publish profile of the app,In the publish profile of the app
+Azure,13,Can app-level credentials be configured manually?,"Yes, always",Only by the Microsoft account,Only through NuGet,"No, but they can be reset at any time","No, but they can be reset at any time"
+Azure,13,A publish profile is:,An XML file with WebDeploy and FTP-related content,A database table,A binary executable,A cache file,An XML file with WebDeploy and FTP-related content
+Azure,13,"For a site named MyIdealSite, the app-level user name is:",MyIdealSite@admin,$MyIdealSite,admin,MyIdealSite.com,$MyIdealSite
+Azure,13,App-level credentials are typically used by:,Casual users who type them each time,Browsers,"Programs that automate deployment, such as Visual Studio",Printers,"Programs that automate deployment, such as Visual Studio"
+Azure,13,A NuGet package is:,A single ZIP file with the .nupkg extension,A .mp3 file,An .exe file,A .docx file,A single ZIP file with the .nupkg extension
+Azure,13,A NuGet package includes:,Only images,Only SQL,Only videos,"Compiled code (DLLs), additional files, and a manifest with information such as the version number","Compiled code (DLLs), additional files, and a manifest with information such as the version number"
+Azure,13,Where can developers find NuGet packages?,Only on CDs,Only in Excel,Only in Notepad,nuget.org or the Package Manager UI in Visual Studio,nuget.org or the Package Manager UI in Visual Studio
+Azure,13,NuGet packages on nuget.org are sorted by:,Date only,Total downloads,Price,Alphabetical order only,Total downloads
+Azure,13,Which method of installing NuGet packages works on Windows only?,dotnet.exe CLI,Package Manager UI on Mac,Package Manager Console (Install-Package),nuget.exe CLI,Package Manager Console (Install-Package)
+Azure,13,"Which command-line tool uses ""dotnet add package <package_name>""?",dotnet.exe CLI,nuget.exe CLI,Package Manager Console,Visual Studio UI,dotnet.exe CLI
+Azure,13,"Which tool uses ""nuget install <package_name>""?",nuget.exe CLI,Azure portal,Package Manager Console,dotnet.exe CLI,nuget.exe CLI
+Azure,13,Does the nuget.exe CLI install command make changes to packages.config or project files?,No,Yes,Only the project file,Only packages.config,No
+Azure,13,Which Visual Studio command installs a package from the Package Manager Console?,Get-Package,Add-Package,Load-Package,Install-Package,Install-Package

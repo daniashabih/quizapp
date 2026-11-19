@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,7,ASP.NET Web API is a framework that:,"Allows producing HTTP services accessible to different clients, including browsers and mobile devices",Only builds desktop applications,Only manages databases,Only builds games,"Allows producing HTTP services accessible to different clients, including browsers and mobile devices"
+Azure,7,Web API responses can be sent back using which content types by default?,JSON and XML,Only images,Only HTML,Only PDF,JSON and XML
+Azure,7,Web API is an ideal platform for building:,Only desktop forms,Operating systems,RESTful applications on the .NET Framework,Only SOAP-only services,RESTful applications on the .NET Framework
+Azure,7,JSON stands for:,Java Standard Object Network,JavaScript Object Notation,JavaScript Online Node,Joint Syntax Object Notation,JavaScript Object Notation
+Azure,7,Web API is considered to be a part of:,"The core ASP.NET platform, not the MVC Framework",Silverlight,The MVC Framework only,Windows Forms,"The core ASP.NET platform, not the MVC Framework"
+Azure,7,Which of the following attributes of MVC is part of ASP.NET Web API?,Only Razor,Only views,"Routing, controllers, filters, model binders",Only master pages,"Routing, controllers, filters, model binders"
+Azure,7,HTTP is the protocol used to:,Store databases,Print documents,Communicate over the Web,Compile code,Communicate over the Web
+Azure,7,"When a user enters a URL in a browser, what is sent to the application on the server?",An HTTP request,A database dump,An email,An FTP file,An HTTP request
+Azure,7,Which of the following is an HTTP request header that specifies the domain name of the application whose resource is being accessed?,Accept,Host,Keep-Alive,Connection,Host
+Azure,7,Which HTTP request header specifies the MIME types the client expects in the response?,Keep-Alive,Content-Type only,Host,Accept,Accept
+Azure,7,Which header value indicates the server should use the same connection for subsequent communication?,keep-alive (Connection header),Accept-Language,close,Host,keep-alive (Connection header)
+Azure,7,An HTTP response contains:,Only a body,Only a status code,Response headers and a response body along with a status code,Only headers,Response headers and a response body along with a status code
+Azure,7,Which response header specifies the type of content the response contains?,Host,Accept,User-Agent,Content-Type,Content-Type
+Azure,7,A Content-Type value of text/html tells the browser to render the response body as:,JSON,HTML,An image,Plain XML,HTML
+Azure,7,"In the walkthrough, the new ASP.NET Web Application is named:",StudentServices,WebAPIHelper,StudentManagement,StudentOData,StudentServices
+Azure,7,"When Web API is selected as the project type in Visual Studio, what does it also include?",Only WCF,Only Entity Framework,MVC with API Explorer helper pages,Only SOAP,MVC with API Explorer helper pages
+Azure,7,Which type of controller is added to the Controllers folder in the walkthrough?,Web API 2 Controller,Windows Form Controller,Silverlight Controller,WCF Controller,Web API 2 Controller
+Azure,7,Which model class is created to hold the attributes needed to create a student?,StudentModel,EditStudentModel,StudentEntity,CreateStudentModel,CreateStudentModel
+Azure,7,Which HTTP method attribute is used with the Create() action to insert a record?,[HttpDelete],[HttpPost],[HttpGet],[HttpPut],[HttpPost]
+Azure,7,Which attribute is used on GetAll() to retrieve the list of students?,[HttpPut],[HttpGet],[HttpPost],[HttpDelete],[HttpGet]
+Azure,7,Which method of the context saves the inserted record to the database?,Commit(),SaveChanges(),Flush(),Update(),SaveChanges()
+Azure,7,Which return type is used in the sample actions?,IHttpActionResult,ActionResult only,string only,void only,IHttpActionResult
+Azure,7,Which third-party tool is mentioned for testing Web APIs?,Postman,Excel,Notepad,Paint,Postman
+Azure,7,"In Postman, how is JSON data passed to create a student with the POST method?",In a cookie,As raw content in the request body,In the URL only,In a header only,As raw content in the request body
+Azure,7,"In Web API, which part of the request is used to select an action?",The HTTP method,The IP address,The URI method only,The browser type,The HTTP method
+Azure,7,ASP.NET MVC uses which element to select an action?,The port,The URI,The cookies,The HTTP method only,The URI
+Azure,7,A controller in Web API is:,A database table,A browser extension,A configuration file,"A class that can manage HTTP requests, with public methods called actions","A class that can manage HTTP requests, with public methods called actions"
+Azure,7,The routing table is used to:,Store database records,Cache static content,Decide which action should be called for a request,Compile code,Decide which action should be called for a request
+Azure,7,Where is the default Web API route defined?,WebApiConfig.cs in the App_Start folder,Global.asax only,Web.config only,Startup.cs in Models,WebApiConfig.cs in the App_Start folder
+Azure,7,What is the default route template for Web API?,api/{action},{controller}/{action}/{id},api/{controller}/{id},home/index,api/{controller}/{id}
+Azure,7,What happens if the request URI does not match any route template?,The server restarts,A 404 error is displayed,A 500 error always,A 200 response is returned,A 404 error is displayed
+Azure,7,"In the default route, 'api' is:",A controller,An action,A placeholder variable,The actual path segment,The actual path segment
+Azure,7,"In the default route, {controller} and {id} are:",Query strings,Placeholder variables,Fixed segments,HTTP methods,Placeholder variables
+Azure,7,Attribute routing uses which attribute to define route templates on actions?,[HttpPost],[Authorize],[Display],[Route],[Route]
+Azure,7,Which route template is shown as an example of hierarchy of resources in attribute routing?,api/{controller}/{id},students/{id},students/{studentId}/marks,home/index,students/{studentId}/marks
+Azure,7,Which HTTP method attribute is used for the Modify() action?,[HttpDelete],[HttpPut],[HttpGet],[HttpPost],[HttpPut]
+Azure,7,Which attribute is used on the Delete() action?,[HttpPut],[HttpPost],[HttpDelete],[HttpGet],[HttpDelete]
+Azure,7,"In Modify(), how is the entity marked as changed?",context.Add(student),context.Entry(student).State = EntityState.Modified,context.Refresh(),context.Delete(student),context.Entry(student).State = EntityState.Modified
+Azure,7,"In Delete(), which method removes the student from the DbSet?",_context.Students.Remove(...),_context.Students.Find(...),_context.Students.Add(...),_context.Students.Clear(...),_context.Students.Remove(...)
+Azure,7,CRUD operations in Web API correspond to:,"Cache, Remove, Update, Deploy","Connect, Retrieve, Use, Dispose","Copy, Run, Upload, Download","Create, Read, Update, Delete","Create, Read, Update, Delete"
+Azure,7,Which Web API method accepts a Student JSON object as body and is mapped to api/Student with POST?,Delete(),GetAll(),GetById(),Create(),Create()
+Azure,7,Dependency injection is used to create:,Loosely linked systems where replacing an object is easy,Only databases,Tightly coupled systems,Only static pages,Loosely linked systems where replacing an object is easy
+Azure,7,Which of the following are IOC containers?,"Ninject, Unity, CastleWindsor, StructureMap","Chrome, Firefox","Excel, Word","Postman, Fiddler","Ninject, Unity, CastleWindsor, StructureMap"
+Azure,7,Which are the three methods to reference an object to an external module in dependency injection?,"Property, Field, Event injection","Static, Dynamic, Global injection","Class, Object, Method injection","Constructor, Setter, and Interface injection","Constructor, Setter, and Interface injection"
+Azure,7,"In asynchronous actions, the callback function executes on:",A new process,A thread from the Thread pool,The UI thread only,A database thread,A thread from the Thread pool
+Azure,7,Which keyword is used in the GetAllAsync example to wait for ToListAsync()?,yield,lock,await,using,await
+Azure,7,Which namespace must be imported to use Task?,System.IO,System.Net.Mail,System.Threading.Tasks,System.Drawing,System.Threading.Tasks
+Azure,7,OData stands for:,Online Data Packet,Open Data Protocol,Object Data Policy,Open Database Provider,Open Data Protocol
+Azure,7,OData is built on:,RPC,DCOM,SOAP only,REST,REST
+Azure,7,OData standard queries include:,Only backups,Only encryption,Only compiling,"Limiting returned objects, paging, counting, and filtering","Limiting returned objects, paging, counting, and filtering"
+Azure,7,Which OData versions does ASP.NET Web API support?,v2 only,v5 only,v1 only,v3 and v4,v3 and v4
+Azure,7,Which NuGet package is installed to add OData support in the walkthrough?,System.Data.SQLite,MySql.Data.Entity,Microsoft.AspNet.Odata,Microsoft.Azure.DocumentDB,Microsoft.AspNet.Odata
+Azure,7,"In the OData walkthrough, which class is used to build the Entity Data Model for the route?",HttpConfiguration only,DbContext,TransactionScope,ODataConventionModelBuilder,ODataConventionModelBuilder
+Azure,7,Which attribute enables OData query options (such as $filter) on the GetStudentModels action?,[Route],[Authorize],[EnableQuery],[HttpGet] only,[EnableQuery]
+Azure,7,The OData controller class derives from:,Controller only,ApiController only,ODataController,Page,ODataController

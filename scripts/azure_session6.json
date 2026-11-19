@@ -1,0 +1,569 @@
+{
+  "category": "Azure",
+  "session": 6,
+  "title": "Session 6: Data Access Using Third-party Databases and Azure Storage Services",
+  "totalQuestions": 51,
+  "questions": [
+    {
+      "questionText": "Azure database services allow developers to:",
+      "options": [
+        "Avoid using databases",
+        "Write operating systems",
+        "Manage physical servers",
+        "Focus time on other crucial tasks instead of managing a database from scratch"
+      ],
+      "correctAnswer": "Focus time on other crucial tasks instead of managing a database from scratch",
+      "explanation": "Correct answer is D) Focus time on other crucial tasks instead of managing a database from scratch."
+    },
+    {
+      "questionText": "Azure database services offer which of the following?",
+      "options": [
+        "Only desktop use",
+        "No availability guarantees",
+        "Enterprise-grade performance with high built-in availability",
+        "Only offline access"
+      ],
+      "correctAnswer": "Enterprise-grade performance with high built-in availability",
+      "explanation": "Correct answer is C) Enterprise-grade performance with high built-in availability."
+    },
+    {
+      "questionText": "Azure Database for MySQL is based on:",
+      "options": [
+        "The open-source MySQL server engine",
+        "The Oracle engine",
+        "The SQLite engine",
+        "The Cosmos engine"
+      ],
+      "correctAnswer": "The open-source MySQL server engine",
+      "explanation": "Correct answer is A) The open-source MySQL server engine."
+    },
+    {
+      "questionText": "Azure Database for MySQL is described as a:",
+      "options": [
+        "Completely managed relational database service",
+        "File system",
+        "Message queue",
+        "Desktop database only"
+      ],
+      "correctAnswer": "Completely managed relational database service",
+      "explanation": "Correct answer is A) Completely managed relational database service."
+    },
+    {
+      "questionText": "Azure Database for MySQL can handle:",
+      "options": [
+        "No workloads",
+        "Mission-critical workloads with high performance and dynamic scalability",
+        "Only static pages",
+        "Only small workloads"
+      ],
+      "correctAnswer": "Mission-critical workloads with high performance and dynamic scalability",
+      "explanation": "Correct answer is B) Mission-critical workloads with high performance and dynamic scalability."
+    },
+    {
+      "questionText": "Azure Cosmos DB is a:",
+      "options": [
+        "Local file",
+        "Globally distributed database service",
+        "Desktop editor",
+        "Single-region database"
+      ],
+      "correctAnswer": "Globally distributed database service",
+      "explanation": "Correct answer is B) Globally distributed database service."
+    },
+    {
+      "questionText": "Cosmos DB uses a single backend to support which data models?",
+      "options": [
+        "Only graph",
+        "Only relational",
+        "Only document",
+        "Key-value, document, relational, and graph"
+      ],
+      "correctAnswer": "Key-value, document, relational, and graph",
+      "explanation": "Correct answer is D) Key-value, document, relational, and graph."
+    },
+    {
+      "questionText": "Cosmos DB is sometimes referred to as NewSQL because:",
+      "options": [
+        "It is relational only",
+        "It has no query language",
+        "It lacks transactions",
+        "It uses a SQL-like query language and supports ACID transactions, but has no relational data model"
+      ],
+      "correctAnswer": "It uses a SQL-like query language and supports ACID transactions, but has no relational data model",
+      "explanation": "Correct answer is D) It uses a SQL-like query language and supports ACID transactions, but has no relational data model."
+    },
+    {
+      "questionText": "Entity Framework uses which model to access various databases?",
+      "options": [
+        "A cloud model",
+        "A queue model",
+        "A file model",
+        "A provider model"
+      ],
+      "correctAnswer": "A provider model",
+      "explanation": "Correct answer is D) A provider model."
+    },
+    {
+      "questionText": "A data provider represents:",
+      "options": [
+        "A cloud region",
+        "A server farm",
+        "A set of libraries that facilitate data operations",
+        "A single table"
+      ],
+      "correctAnswer": "A set of libraries that facilitate data operations",
+      "explanation": "Correct answer is C) A set of libraries that facilitate data operations."
+    },
+    {
+      "questionText": "Which databases use the Oracle data provider?",
+      "options": [
+        "Excel files",
+        "MySQL databases",
+        "SQL Server databases",
+        "Oracle databases"
+      ],
+      "correctAnswer": "Oracle databases",
+      "explanation": "Correct answer is D) Oracle databases."
+    },
+    {
+      "questionText": "Which databases are mentioned as using the OLE DB data provider?",
+      "options": [
+        "Only Oracle",
+        "Only Cosmos DB",
+        "MySQL, Excel, Access",
+        "Only SQL Server"
+      ],
+      "correctAnswer": "MySQL, Excel, Access",
+      "explanation": "Correct answer is C) MySQL, Excel, Access."
+    },
+    {
+      "questionText": "Entity Framework acts as a bond between:",
+      "options": [
+        "Object-oriented code and the SQL Azure relational database",
+        "Hardware and software",
+        "Queues and tables",
+        "Browsers and servers only"
+      ],
+      "correctAnswer": "Object-oriented code and the SQL Azure relational database",
+      "explanation": "Correct answer is A) Object-oriented code and the SQL Azure relational database."
+    },
+    {
+      "questionText": "Entity Framework is integrated into:",
+      "options": [
+        "Excel",
+        "Visual Studio",
+        "Notepad",
+        "Paint"
+      ],
+      "correctAnswer": "Visual Studio",
+      "explanation": "Correct answer is B) Visual Studio."
+    },
+    {
+      "questionText": "EF6 is combined with which MySQL component?",
+      "options": [
+        "MySQL Workbench",
+        "MySQL Shell",
+        "phpMyAdmin",
+        "MySQL Connector/NET"
+      ],
+      "correctAnswer": "MySQL Connector/NET",
+      "explanation": "Correct answer is D) MySQL Connector/NET."
+    },
+    {
+      "questionText": "Which NuGet package is installed for EF support with MySQL?",
+      "options": [
+        "Microsoft.Azure.DocumentDB",
+        "EntityFramework.Web",
+        "MySql.Data.Entity",
+        "System.Data.SQLite"
+      ],
+      "correctAnswer": "MySql.Data.Entity",
+      "explanation": "Correct answer is C) MySql.Data.Entity."
+    },
+    {
+      "questionText": "MySQL ADO.NET Connector is described as a:",
+      "options": [
+        "Completely managed ADO.NET driver",
+        "Hardware driver",
+        "Query language",
+        "Cloud portal"
+      ],
+      "correctAnswer": "Completely managed ADO.NET driver",
+      "explanation": "Correct answer is A) Completely managed ADO.NET driver."
+    },
+    {
+      "questionText": "In the MySQL connection string sample, the providerName is:",
+      "options": [
+        "System.Data.OleDb",
+        "System.Data.SqlClient",
+        "MySql.Data.MySqlClient",
+        "System.Data.SQLite"
+      ],
+      "correctAnswer": "MySql.Data.MySqlClient",
+      "explanation": "Correct answer is C) MySql.Data.MySqlClient."
+    },
+    {
+      "questionText": "In the MySQL connection string sample, which default MySQL port is used?",
+      "options": [
+        "3306",
+        "443",
+        "80",
+        "1433"
+      ],
+      "correctAnswer": "3306",
+      "explanation": "Correct answer is A) 3306."
+    },
+    {
+      "questionText": "Which attribute is used on the DbContext class to configure MySQL for EF?",
+      "options": [
+        "[ActionName]",
+        "[Required]",
+        "[Display]",
+        "[DbConfigurationType(typeof(MySqlEFConfiguration))]"
+      ],
+      "correctAnswer": "[DbConfigurationType(typeof(MySqlEFConfiguration))]",
+      "explanation": "Correct answer is D) [DbConfigurationType(typeof(MySqlEFConfiguration))]."
+    },
+    {
+      "questionText": "In the MySQL DbContext sample, Students is exposed as a:",
+      "options": [
+        "DataTable",
+        "List<string>",
+        "DbSet<Student>",
+        "Dictionary"
+      ],
+      "correctAnswer": "DbSet<Student>",
+      "explanation": "Correct answer is C) DbSet<Student>."
+    },
+    {
+      "questionText": "SQLite is described as:",
+      "options": [
+        "A client-server enterprise database requiring installation",
+        "An autonomous, serverless, zero-configuration transactional SQL database engine",
+        "A cloud-only database",
+        "A NoSQL document store"
+      ],
+      "correctAnswer": "An autonomous, serverless, zero-configuration transactional SQL database engine",
+      "explanation": "Correct answer is B) An autonomous, serverless, zero-configuration transactional SQL database engine."
+    },
+    {
+      "questionText": "SQLite code is:",
+      "options": [
+        "In the public domain and free for any purpose",
+        "Available only for Linux",
+        "Available only to Azure customers",
+        "Proprietary and paid"
+      ],
+      "correctAnswer": "In the public domain and free for any purpose",
+      "explanation": "Correct answer is A) In the public domain and free for any purpose."
+    },
+    {
+      "questionText": "Which NuGet package should be added to use SQLite with EF?",
+      "options": [
+        "SQLite.Azure",
+        "System.SQLite",
+        "System.Data.SQLite",
+        "Data.SQLite"
+      ],
+      "correctAnswer": "System.Data.SQLite",
+      "explanation": "Correct answer is C) System.Data.SQLite."
+    },
+    {
+      "questionText": "Which tool is mentioned as the simplest way to create/view SQLite files?",
+      "options": [
+        "DB Browser for SQLite",
+        "Excel",
+        "Visual Studio Code",
+        "SSMS"
+      ],
+      "correctAnswer": "DB Browser for SQLite",
+      "explanation": "Correct answer is A) DB Browser for SQLite."
+    },
+    {
+      "questionText": "In the SQLite DbContext sample, which property of the connection string builder points to the database file?",
+      "options": [
+        "ServerName",
+        "Catalog",
+        "Endpoint",
+        "DataSource"
+      ],
+      "correctAnswer": "DataSource",
+      "explanation": "Correct answer is D) DataSource."
+    },
+    {
+      "questionText": "In the SQLite DbContext sample, which convention is removed in OnModelCreating?",
+      "options": [
+        "StoreGeneratedConvention",
+        "ForeignKeyConvention",
+        "KeyConvention",
+        "PluralizingTableNameConvention"
+      ],
+      "correctAnswer": "PluralizingTableNameConvention",
+      "explanation": "Correct answer is D) PluralizingTableNameConvention."
+    },
+    {
+      "questionText": "What is the URL format for addressing Azure queues?",
+      "options": [
+        "https://<storage account>.queue.core.windows.net/<queue>",
+        "https://<queue>.table.core.windows.net",
+        "http://queue.azure.exe/<queue>",
+        "ftp://<queue>.windows.net"
+      ],
+      "correctAnswer": "https://<storage account>.queue.core.windows.net/<queue>",
+      "explanation": "Correct answer is A) https://<storage account>.queue.core.windows.net/<queue>."
+    },
+    {
+      "questionText": "A storage account is used to:",
+      "options": [
+        "Create firewalls only",
+        "Host VMs only",
+        "Compile code",
+        "Access Azure Storage"
+      ],
+      "correctAnswer": "Access Azure Storage",
+      "explanation": "Correct answer is D) Access Azure Storage."
+    },
+    {
+      "questionText": "A queue name should be:",
+      "options": [
+        "Any case",
+        "In lowercase only",
+        "Numeric only",
+        "In uppercase only"
+      ],
+      "correctAnswer": "In lowercase only",
+      "explanation": "Correct answer is B) In lowercase only."
+    },
+    {
+      "questionText": "The maximum size of a queue message is:",
+      "options": [
+        "1 GB",
+        "1 MB",
+        "64 KB",
+        "1 KB"
+      ],
+      "correctAnswer": "64 KB",
+      "explanation": "Correct answer is C) 64 KB."
+    },
+    {
+      "questionText": "How long can a message remain in a queue?",
+      "options": [
+        "One year",
+        "Seven days",
+        "Forever",
+        "One hour"
+      ],
+      "correctAnswer": "Seven days",
+      "explanation": "Correct answer is B) Seven days."
+    },
+    {
+      "questionText": "Azure Cosmos DB is provided as which type of solution?",
+      "options": [
+        "IaaS",
+        "PaaS",
+        "SaaS only",
+        "On-premises only"
+      ],
+      "correctAnswer": "PaaS",
+      "explanation": "Correct answer is B) PaaS."
+    },
+    {
+      "questionText": "Azure Cosmos DB can be tried free of cost:",
+      "options": [
+        "Only with an MSDN subscription",
+        "Only with a paid subscription",
+        "Without an Azure subscription",
+        "Never"
+      ],
+      "correctAnswer": "Without an Azure subscription",
+      "explanation": "Correct answer is C) Without an Azure subscription."
+    },
+    {
+      "questionText": "Azure Cosmos DB provides assurance for availability, high throughput, low latency, and:",
+      "options": [
+        "Manual backups",
+        "Tunable consistency",
+        "No consistency",
+        "Fixed consistency only"
+      ],
+      "correctAnswer": "Tunable consistency",
+      "explanation": "Correct answer is B) Tunable consistency."
+    },
+    {
+      "questionText": "Cosmos DB is mainly used by which kinds of applications?",
+      "options": [
+        "Only batch",
+        "Web, mobile, gaming, and IoT",
+        "Only desktop",
+        "Only mainframe"
+      ],
+      "correctAnswer": "Web, mobile, gaming, and IoT",
+      "explanation": "Correct answer is B) Web, mobile, gaming, and IoT."
+    },
+    {
+      "questionText": "In the Cosmos DB creation steps, the ID field must be:",
+      "options": [
+        "Unique and in lowercase",
+        "Left blank",
+        "Numeric only",
+        "Uppercase"
+      ],
+      "correctAnswer": "Unique and in lowercase",
+      "explanation": "Correct answer is A) Unique and in lowercase."
+    },
+    {
+      "questionText": "Which menu item is used to select Cosmos DB in the portal?",
+      "options": [
+        "Security Center",
+        "All Services > Azure Cosmos DB",
+        "Monitor",
+        "Advisor"
+      ],
+      "correctAnswer": "All Services > Azure Cosmos DB",
+      "explanation": "Correct answer is B) All Services > Azure Cosmos DB."
+    },
+    {
+      "questionText": "Which window is opened after clicking the newly created Cosmos DB?",
+      "options": [
+        "Login page",
+        "Billing page",
+        "Help page",
+        "Quick start page"
+      ],
+      "correctAnswer": "Quick start page",
+      "explanation": "Correct answer is D) Quick start page."
+    },
+    {
+      "questionText": "Which tool in the Cosmos DB menu is used to add a collection and view documents?",
+      "options": [
+        "Dashboard",
+        "Data Explorer",
+        "Resource Manager",
+        "Advisor"
+      ],
+      "correctAnswer": "Data Explorer",
+      "explanation": "Correct answer is B) Data Explorer."
+    },
+    {
+      "questionText": "In the walkthrough, the collection created in Cosmos DB is named:",
+      "options": [
+        "Records",
+        "Student",
+        "Courses",
+        "Items only"
+      ],
+      "correctAnswer": "Student",
+      "explanation": "Correct answer is B) Student."
+    },
+    {
+      "questionText": "Which options are required to connect later to the Cosmos DB database from the Keys page?",
+      "options": [
+        "Only password",
+        "Only port",
+        "URI, Primary Key, and Connection string",
+        "Only username"
+      ],
+      "correctAnswer": "URI, Primary Key, and Connection string",
+      "explanation": "Correct answer is C) URI, Primary Key, and Connection string."
+    },
+    {
+      "questionText": "Which NuGet package is installed to integrate Azure Cosmos DB with ASP.NET MVC in the session?",
+      "options": [
+        "MySql.Data.Entity",
+        "EntityFramework",
+        "Microsoft.Azure.DocumentDB",
+        "System.Data.SQLite"
+      ],
+      "correctAnswer": "Microsoft.Azure.DocumentDB",
+      "explanation": "Correct answer is C) Microsoft.Azure.DocumentDB."
+    },
+    {
+      "questionText": "In Web.config, Cosmos DB settings are added under which section?",
+      "options": [
+        "<appSettings>",
+        "<providers>",
+        "<runtime>",
+        "<connectionStrings>"
+      ],
+      "correctAnswer": "<appSettings>",
+      "explanation": "Correct answer is A) <appSettings>."
+    },
+    {
+      "questionText": "The Web.config key \"endpoint\" holds:",
+      "options": [
+        "The URI value from the Keys page",
+        "The database name",
+        "The primary key",
+        "The collection name"
+      ],
+      "correctAnswer": "The URI value from the Keys page",
+      "explanation": "Correct answer is A) The URI value from the Keys page."
+    },
+    {
+      "questionText": "The Web.config key \"authKey\" holds:",
+      "options": [
+        "The server name",
+        "The primary key value from the Keys page",
+        "The URI",
+        "The collection name"
+      ],
+      "correctAnswer": "The primary key value from the Keys page",
+      "explanation": "Correct answer is B) The primary key value from the Keys page."
+    },
+    {
+      "questionText": "Which file from the downloaded sample code is added to the application for Cosmos DB access?",
+      "options": [
+        "DocumentDBRepository.cs",
+        "Global.asax",
+        "Startup.cs",
+        "Program.cs"
+      ],
+      "correctAnswer": "DocumentDBRepository.cs",
+      "explanation": "Correct answer is A) DocumentDBRepository.cs."
+    },
+    {
+      "questionText": "In the sample application, the new controller added is named:",
+      "options": [
+        "StudentInfoController",
+        "HomeController",
+        "CosmosController",
+        "StudentController"
+      ],
+      "correctAnswer": "StudentInfoController",
+      "explanation": "Correct answer is A) StudentInfoController."
+    },
+    {
+      "questionText": "In the Index action of StudentInfoController, items are retrieved using:",
+      "options": [
+        "SqlCommand.ExecuteReader",
+        "CacheItemPolicy",
+        "DocumentDBRepository<Student>.GetItemsAsync",
+        "DbContext.SaveChanges"
+      ],
+      "correctAnswer": "DocumentDBRepository<Student>.GetItemsAsync",
+      "explanation": "Correct answer is C) DocumentDBRepository<Student>.GetItemsAsync."
+    },
+    {
+      "questionText": "The Student list page in the sample application is accessed at which URL path?",
+      "options": [
+        "/azure/login",
+        "/home/about",
+        "/student/create",
+        "/studentinfo/index"
+      ],
+      "correctAnswer": "/studentinfo/index",
+      "explanation": "Correct answer is D) /studentinfo/index."
+    },
+    {
+      "questionText": "Which Required attribute message is used for the Student Id in the model?",
+      "options": [
+        "Please enter Id",
+        "Id missing",
+        "Student Id is required",
+        "Invalid Id"
+      ],
+      "correctAnswer": "Student Id is required",
+      "explanation": "Correct answer is C) Student Id is required."
+    }
+  ]
+}

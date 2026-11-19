@@ -1,0 +1,613 @@
+{
+  "category": "Azure",
+  "session": 15,
+  "title": "Session 15: Working with Shared Assemblies",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "Assemblies are one of the main components of the:",
+      "options": [
+        "Windows registry only",
+        "Web browser",
+        "Linux kernel",
+        ".NET Framework"
+      ],
+      "correctAnswer": ".NET Framework",
+      "explanation": "Correct answer is D) .NET Framework."
+    },
+    {
+      "questionText": "Assemblies are used for:",
+      "options": [
+        "Only gaming",
+        "Version control and promoting reuse of code",
+        "Only video",
+        "Only printing"
+      ],
+      "correctAnswer": "Version control and promoting reuse of code",
+      "explanation": "Correct answer is B) Version control and promoting reuse of code."
+    },
+    {
+      "questionText": "Assemblies provide the CLR with:",
+      "options": [
+        "Only fonts",
+        "Only colors",
+        "Information required for type implementation",
+        "Only passwords"
+      ],
+      "correctAnswer": "Information required for type implementation",
+      "explanation": "Correct answer is C) Information required for type implementation."
+    },
+    {
+      "questionText": "An assembly is:",
+      "options": [
+        "A database",
+        "A browser",
+        "A single deployable unit",
+        "Multiple unrelated files"
+      ],
+      "correctAnswer": "A single deployable unit",
+      "explanation": "Correct answer is C) A single deployable unit."
+    },
+    {
+      "questionText": "An assembly can include which file types?",
+      "options": [
+        ".html or .css",
+        ".mp3 or .jpg",
+        ".exe or .dll",
+        ".docx or .xlsx"
+      ],
+      "correctAnswer": ".exe or .dll",
+      "explanation": "Correct answer is C) .exe or .dll."
+    },
+    {
+      "questionText": "Information such as assembly name and version is known as:",
+      "options": [
+        "Assembly metadata",
+        "Assembly view",
+        "Assembly policy",
+        "Assembly cache"
+      ],
+      "correctAnswer": "Assembly metadata",
+      "explanation": "Correct answer is A) Assembly metadata."
+    },
+    {
+      "questionText": "A shared assembly can be used by:",
+      "options": [
+        "No application",
+        "Multiple applications",
+        "Only the OS",
+        "Only one application"
+      ],
+      "correctAnswer": "Multiple applications",
+      "explanation": "Correct answer is B) Multiple applications."
+    },
+    {
+      "questionText": "To use an assembly exclusively for one application, you install a:",
+      "options": [
+        "Global assembly",
+        "Network assembly",
+        "Side-by-side assembly as a private assembly",
+        "Strong-named shared assembly"
+      ],
+      "correctAnswer": "Side-by-side assembly as a private assembly",
+      "explanation": "Correct answer is C) Side-by-side assembly as a private assembly."
+    },
+    {
+      "questionText": "The Global Assembly Cache (GAC) is:",
+      "options": [
+        "A database",
+        "A central repository for shared assemblies in the .NET Framework",
+        "A browser cache",
+        "A hardware cache"
+      ],
+      "correctAnswer": "A central repository for shared assemblies in the .NET Framework",
+      "explanation": "Correct answer is B) A central repository for shared assemblies in the .NET Framework."
+    },
+    {
+      "questionText": "Applications depending on a shared assembly in the GAC:",
+      "options": [
+        "Must copy it",
+        "Cannot access it",
+        "Use the same disk files and need no configuration to locate it",
+        "Need separate copies"
+      ],
+      "correctAnswer": "Use the same disk files and need no configuration to locate it",
+      "explanation": "Correct answer is C) Use the same disk files and need no configuration to locate it."
+    },
+    {
+      "questionText": "An administrative advantage of assembly sharing is that:",
+      "options": [
+        "Policies are ignored",
+        "Each app needs separate policy",
+        "Nothing applies",
+        "Security policies and configuration applied to a shared assembly affect all applications that depend on it"
+      ],
+      "correctAnswer": "Security policies and configuration applied to a shared assembly affect all applications that depend on it",
+      "explanation": "Correct answer is D) Security policies and configuration applied to a shared assembly affect all applications that depend on it."
+    },
+    {
+      "questionText": "The simplest assembly is:",
+      "options": [
+        "A single file with a simple name",
+        "A multifile assembly",
+        "A GAC assembly",
+        "A network assembly"
+      ],
+      "correctAnswer": "A single file with a simple name",
+      "explanation": "Correct answer is A) A single file with a simple name."
+    },
+    {
+      "questionText": "A single-file simple assembly:",
+      "options": [
+        "Must be placed in the GAC",
+        "Cannot be loaded",
+        "Has no version checking and is uninstalled by removing its directory",
+        "Always has version checks"
+      ],
+      "correctAnswer": "Has no version checking and is uninstalled by removing its directory",
+      "explanation": "Correct answer is C) Has no version checking and is uninstalled by removing its directory."
+    },
+    {
+      "questionText": "For a shared assembly, developers should:",
+      "options": [
+        "Provide a strong name and deploy it in the GAC",
+        "Store it only locally",
+        "Delete it",
+        "Avoid naming it"
+      ],
+      "correctAnswer": "Provide a strong name and deploy it in the GAC",
+      "explanation": "Correct answer is A) Provide a strong name and deploy it in the GAC."
+    },
+    {
+      "questionText": "A multifile assembly can be created using:",
+      "options": [
+        "Various code modules and resource files",
+        "Only images",
+        "Only one file",
+        "Only SQL"
+      ],
+      "correctAnswer": "Various code modules and resource files",
+      "explanation": "Correct answer is A) Various code modules and resource files."
+    },
+    {
+      "questionText": "In the walkthrough, the class library project is named:",
+      "options": [
+        "Azure",
+        "Utility",
+        "StudentServices",
+        "ConvertType"
+      ],
+      "correctAnswer": "Utility",
+      "explanation": "Correct answer is B) Utility."
+    },
+    {
+      "questionText": "Which project type is selected to create the assembly?",
+      "options": [
+        "Class Library (.NET Framework)",
+        "Windows Forms only",
+        "Web API",
+        "Console App only"
+      ],
+      "correctAnswer": "Class Library (.NET Framework)",
+      "explanation": "Correct answer is A) Class Library (.NET Framework)."
+    },
+    {
+      "questionText": "The ConvertType class exposes a method that converts:",
+      "options": [
+        "A date to a string",
+        "A file to a database",
+        "A string to an integer (StringToInt)",
+        "An integer to a string"
+      ],
+      "correctAnswer": "A string to an integer (StringToInt)",
+      "explanation": "Correct answer is C) A string to an integer (StringToInt)."
+    },
+    {
+      "questionText": "What does StringToInt return when conversion fails?",
+      "options": [
+        "null",
+        "-1",
+        "An exception",
+        "The default value 0"
+      ],
+      "correctAnswer": "The default value 0",
+      "explanation": "Correct answer is D) The default value 0."
+    },
+    {
+      "questionText": "Which file is opened to set assembly settings?",
+      "options": [
+        "Web.config",
+        "Program.cs",
+        "AssemblyInfo.cs",
+        "App.config"
+      ],
+      "correctAnswer": "AssemblyInfo.cs",
+      "explanation": "Correct answer is C) AssemblyInfo.cs."
+    },
+    {
+      "questionText": "Which attribute sets the assembly's title?",
+      "options": [
+        "AssemblyTitle",
+        "AssemblyFile",
+        "AssemblyLanguage",
+        "AssemblyName"
+      ],
+      "correctAnswer": "AssemblyTitle",
+      "explanation": "Correct answer is A) AssemblyTitle."
+    },
+    {
+      "questionText": "Which of the following is NOT a valid assembly attribute from the session's AssemblyInfo code?",
+      "options": [
+        "AssemblyCompany",
+        "AssemblyLanguage",
+        "AssemblyTitle",
+        "AssemblyProduct"
+      ],
+      "correctAnswer": "AssemblyLanguage",
+      "explanation": "Correct answer is B) AssemblyLanguage."
+    },
+    {
+      "questionText": "The assembly version consists of how many values?",
+      "options": [
+        "Three",
+        "Five",
+        "Four (Major, Minor, Build Number, Revision)",
+        "Two"
+      ],
+      "correctAnswer": "Four (Major, Minor, Build Number, Revision)",
+      "explanation": "Correct answer is C) Four (Major, Minor, Build Number, Revision)."
+    },
+    {
+      "questionText": "Which wildcard character can be used in AssemblyVersion to default the Build and Revision numbers?",
+      "options": [
+        "Question mark (?)",
+        "Asterisk (*)",
+        "Hash (#)",
+        "Percent (%)"
+      ],
+      "correctAnswer": "Asterisk (*)",
+      "explanation": "Correct answer is B) Asterisk (*)."
+    },
+    {
+      "questionText": "Building the class library generates:",
+      "options": [
+        "An .mp3 file",
+        "A .dll file",
+        "A .docx file",
+        "An .html file"
+      ],
+      "correctAnswer": "A .dll file",
+      "explanation": "Correct answer is B) A .dll file."
+    },
+    {
+      "questionText": "The built DLL is placed in which path?",
+      "options": [
+        "..\\bin\\Debug\\Utility.dll",
+        "..\\App_Data\\Utility.dll",
+        "..\\obj\\Utility.exe",
+        "..\\Views\\Utility.dll"
+      ],
+      "correctAnswer": "..\\bin\\Debug\\Utility.dll",
+      "explanation": "Correct answer is A) ..\\bin\\Debug\\Utility.dll."
+    },
+    {
+      "questionText": "To use the Utility assembly in an Azure Function app, a developer should:",
+      "options": [
+        "Delete it",
+        "Rename it",
+        "Add an assembly reference and use the using declaration",
+        "Copy code by hand"
+      ],
+      "correctAnswer": "Add an assembly reference and use the using declaration",
+      "explanation": "Correct answer is C) Add an assembly reference and use the using declaration."
+    },
+    {
+      "questionText": "In the Azure Function sample, which attribute defines the HTTP trigger?",
+      "options": [
+        "[HttpTrigger]",
+        "[Authorize]",
+        "[DataContract]",
+        "[Route]"
+      ],
+      "correctAnswer": "[HttpTrigger]",
+      "explanation": "Correct answer is A) [HttpTrigger]."
+    },
+    {
+      "questionText": "Where can an assembly be deployed so that the CLR can find it?",
+      "options": [
+        "Only in the registry",
+        "Only in the cloud",
+        "Only on USB",
+        "In the application directory, on an HTTP server, or in the GAC"
+      ],
+      "correctAnswer": "In the application directory, on an HTTP server, or in the GAC",
+      "explanation": "Correct answer is D) In the application directory, on an HTTP server, or in the GAC."
+    },
+    {
+      "questionText": "Subdirectories of the application root for assemblies are named according to:",
+      "options": [
+        "Language/culture",
+        "Version number only",
+        "Company name",
+        "Date"
+      ],
+      "correctAnswer": "Language/culture",
+      "explanation": "Correct answer is A) Language/culture."
+    },
+    {
+      "questionText": "An assembly deployed on an HTTP server must have:",
+      "options": [
+        "A strong name",
+        "A .txt extension",
+        "No name",
+        "A password"
+      ],
+      "correctAnswer": "A strong name",
+      "explanation": "Correct answer is A) A strong name."
+    },
+    {
+      "questionText": "For an assembly deployed on an HTTP server, users point to it in the:",
+      "options": [
+        "Web.config's appSettings only",
+        "codebase section of the application's configuration file",
+        "Registry",
+        "Global.asax"
+      ],
+      "correctAnswer": "codebase section of the application's configuration file",
+      "explanation": "Correct answer is B) codebase section of the application's configuration file."
+    },
+    {
+      "questionText": "To share an assembly with multiple applications, it should be deployed in the:",
+      "options": [
+        "Global assembly cache",
+        "Desktop folder",
+        "Downloads folder",
+        "Temp folder"
+      ],
+      "correctAnswer": "Global assembly cache",
+      "explanation": "Correct answer is A) Global assembly cache."
+    },
+    {
+      "questionText": "Assemblies loaded from an intranet share automatically receive which zone evidence?",
+      "options": [
+        "Internet",
+        "Untrusted",
+        "Restricted",
+        "MyComputer ('This PC')"
+      ],
+      "correctAnswer": "MyComputer ('This PC')",
+      "explanation": "Correct answer is D) MyComputer ('This PC')."
+    },
+    {
+      "questionText": "Which rule applies to library assemblies loaded from a network share?",
+      "options": [
+        "They must be in a subfolder",
+        "They must be in the GAC",
+        "They must be in the registry",
+        "They should be in the same folder as the executable assembly"
+      ],
+      "correctAnswer": "They should be in the same folder as the executable assembly",
+      "explanation": "Correct answer is D) They should be in the same folder as the executable assembly."
+    },
+    {
+      "questionText": "Library assemblies located in a subfolder when loaded from a network share:",
+      "options": [
+        "Are deleted",
+        "Are always full trust",
+        "Are not given the full-trust grant set",
+        "Are encrypted"
+      ],
+      "correctAnswer": "Are not given the full-trust grant set",
+      "explanation": "Correct answer is C) Are not given the full-trust grant set."
+    },
+    {
+      "questionText": "Reverting to the former Intranet policy can be done by setting:",
+      "options": [
+        "A password",
+        "A DLL name",
+        "A Web.config value",
+        "A registry key applicable to all applications on the computer"
+      ],
+      "correctAnswer": "A registry key applicable to all applications on the computer",
+      "explanation": "Correct answer is D) A registry key applicable to all applications on the computer."
+    },
+    {
+      "questionText": "Which tool is used to view and modify the GAC and download cache?",
+      "options": [
+        "Postman",
+        "Notepad",
+        "SSMS",
+        "gacutil (GAC tool)"
+      ],
+      "correctAnswer": "gacutil (GAC tool)",
+      "explanation": "Correct answer is D) gacutil (GAC tool)."
+    },
+    {
+      "questionText": "How is the GAC tool run?",
+      "options": [
+        "Using the Visual Studio Command Prompt or Developer Command Prompt",
+        "Through Paint",
+        "Through a browser",
+        "Through Excel"
+      ],
+      "correctAnswer": "Using the Visual Studio Command Prompt or Developer Command Prompt",
+      "explanation": "Correct answer is A) Using the Visual Studio Command Prompt or Developer Command Prompt."
+    },
+    {
+      "questionText": "Which command lists the assemblies in the GAC?",
+      "options": [
+        "gacutil -d",
+        "gacutil -i",
+        "gacutil -c",
+        "gacutil -l"
+      ],
+      "correctAnswer": "gacutil -l",
+      "explanation": "Correct answer is D) gacutil -l."
+    },
+    {
+      "questionText": "Assembly versioning is defined through attributes in which file?",
+      "options": [
+        "Web.config",
+        "Program.cs",
+        "AssemblyInfo.cs",
+        "Global.asax"
+      ],
+      "correctAnswer": "AssemblyInfo.cs",
+      "explanation": "Correct answer is C) AssemblyInfo.cs."
+    },
+    {
+      "questionText": "Which part of the version is incremented manually for major releases?",
+      "options": [
+        "Major Version",
+        "Build Number",
+        "Revision",
+        "Minor Version"
+      ],
+      "correctAnswer": "Major Version",
+      "explanation": "Correct answer is A) Major Version."
+    },
+    {
+      "questionText": "Which part of the version is usually incremented automatically with each build on the Build Server?",
+      "options": [
+        "Major Version",
+        "Revision",
+        "Build Number",
+        "Minor Version"
+      ],
+      "correctAnswer": "Build Number",
+      "explanation": "Correct answer is C) Build Number."
+    },
+    {
+      "questionText": "Which version part is incremented for QFEs (hotfixes or patches) in production?",
+      "options": [
+        "Build Number",
+        "Revision",
+        "Minor Version",
+        "Major Version"
+      ],
+      "correctAnswer": "Revision",
+      "explanation": "Correct answer is B) Revision."
+    },
+    {
+      "questionText": "QFE stands for:",
+      "options": [
+        "Quick File Exchange",
+        "Query Function Extension",
+        "Quality Feature Engine",
+        "Quick Fix Engineering"
+      ],
+      "correctAnswer": "Quick Fix Engineering",
+      "explanation": "Correct answer is D) Quick Fix Engineering."
+    },
+    {
+      "questionText": "An assembly manifest contains:",
+      "options": [
+        "Only images",
+        "Assembly metadata such as name, version, culture, strong name, list of files, and referenced assemblies",
+        "Only user data",
+        "Only passwords"
+      ],
+      "correctAnswer": "Assembly metadata such as name, version, culture, strong name, list of files, and referenced assemblies",
+      "explanation": "Correct answer is B) Assembly metadata such as name, version, culture, strong name, list of files, and referenced assemblies."
+    },
+    {
+      "questionText": "Where is assembly manifest information stored?",
+      "options": [
+        "In the registry only",
+        "In a portable executable (.exe or .dll) file",
+        "In a Word document",
+        "In a spreadsheet"
+      ],
+      "correctAnswer": "In a portable executable (.exe or .dll) file",
+      "explanation": "Correct answer is B) In a portable executable (.exe or .dll) file."
+    },
+    {
+      "questionText": "Which language code is stored with the manifest in the portable executable file?",
+      "options": [
+        "Only SQL",
+        "Only C source",
+        "Only HTML",
+        "Microsoft Intermediate Language (MSIL)"
+      ],
+      "correctAnswer": "Microsoft Intermediate Language (MSIL)",
+      "explanation": "Correct answer is D) Microsoft Intermediate Language (MSIL)."
+    },
+    {
+      "questionText": "Which of the following is a function of the assembly manifest?",
+      "options": [
+        "Creates VMs",
+        "Lists the files in the assembly, lists dependent assemblies, makes the assembly self-describing",
+        "Compiles code",
+        "Hosts websites"
+      ],
+      "correctAnswer": "Lists the files in the assembly, lists dependent assemblies, makes the assembly self-describing",
+      "explanation": "Correct answer is B) Lists the files in the assembly, lists dependent assemblies, makes the assembly self-describing."
+    },
+    {
+      "questionText": "In the application configuration file, which attribute on <assemblyBinding> redirects binding to a particular .NET Framework version?",
+      "options": [
+        "bindTo",
+        "appliesTo",
+        "redirectTo",
+        "versionTo"
+      ],
+      "correctAnswer": "appliesTo",
+      "explanation": "Correct answer is B) appliesTo."
+    },
+    {
+      "questionText": "In which .NET Framework version was the appliesTo attribute created?",
+      "options": [
+        "1.0",
+        "1.1",
+        "3.5",
+        "2.0"
+      ],
+      "correctAnswer": "1.1",
+      "explanation": "Correct answer is B) 1.1."
+    },
+    {
+      "questionText": "In .NET Framework 1.0, <assemblyBinding> elements are:",
+      "options": [
+        "Ignored",
+        "Applied only to version 2.0",
+        "Applied only with appliesTo",
+        "All applied even if appliesTo is specified"
+      ],
+      "correctAnswer": "All applied even if appliesTo is specified",
+      "explanation": "Correct answer is D) All applied even if appliesTo is specified."
+    },
+    {
+      "questionText": "Elements of <assemblyBinding> are:",
+      "options": [
+        "Order-insensitive",
+        "Ignored",
+        "Random",
+        "Order-sensitive"
+      ],
+      "correctAnswer": "Order-sensitive",
+      "explanation": "Correct answer is D) Order-sensitive."
+    },
+    {
+      "questionText": "If there is a conflict in redirection, which statement is used?",
+      "options": [
+        "The first matching redirection statement in the configuration file",
+        "A random statement",
+        "None",
+        "The last matching statement"
+      ],
+      "correctAnswer": "The first matching redirection statement in the configuration file",
+      "explanation": "Correct answer is A) The first matching redirection statement in the configuration file."
+    },
+    {
+      "questionText": "Which XML section includes the <assemblyBinding> element?",
+      "options": [
+        "<appSettings>",
+        "<connectionStrings>",
+        "<runtime>",
+        "<system.web>"
+      ],
+      "correctAnswer": "<runtime>",
+      "explanation": "Correct answer is C) <runtime>."
+    }
+  ]
+}

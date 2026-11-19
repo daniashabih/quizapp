@@ -1,0 +1,613 @@
+{
+  "category": "Azure",
+  "session": 14,
+  "title": "Session 14: Deploying Web Applications and Services",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "Azure App Service Web apps is a service used to host:",
+      "options": [
+        "Only databases",
+        "Web applications, REST APIs, and mobile backends",
+        "Only VMs",
+        "Only email"
+      ],
+      "correctAnswer": "Web applications, REST APIs, and mobile backends",
+      "explanation": "Correct answer is B) Web applications, REST APIs, and mobile backends."
+    },
+    {
+      "questionText": "Which languages can be used to develop Azure App Service Web apps?",
+      "options": [
+        "C#, Java, PHP, Ruby, Python",
+        "Only COBOL",
+        "Only C",
+        "Only Pascal"
+      ],
+      "correctAnswer": "C#, Java, PHP, Ruby, Python",
+      "explanation": "Correct answer is A) C#, Java, PHP, Ruby, Python."
+    },
+    {
+      "questionText": "Which are the three main benefits of Azure App Services?",
+      "options": [
+        "High-productivity development, fully-managed platform, enterprise-grade apps",
+        "None",
+        "Low cost, no security, manual scaling",
+        "Only hosting, only billing, only logging"
+      ],
+      "correctAnswer": "High-productivity development, fully-managed platform, enterprise-grade apps",
+      "explanation": "Correct answer is A) High-productivity development, fully-managed platform, enterprise-grade apps."
+    },
+    {
+      "questionText": "High-productivity development in App Services includes:",
+      "options": [
+        "Debugging live-site, continuous integration, and Visual Studio IDE",
+        "Printing only",
+        "No tools",
+        "Manual servers only"
+      ],
+      "correctAnswer": "Debugging live-site, continuous integration, and Visual Studio IDE",
+      "explanation": "Correct answer is A) Debugging live-site, continuous integration, and Visual Studio IDE."
+    },
+    {
+      "questionText": "In a fully-managed platform, App Services handles:",
+      "options": [
+        "Only designing",
+        "Only coding",
+        "Only testing",
+        "Infrastructure maintenance and load balancing"
+      ],
+      "correctAnswer": "Infrastructure maintenance and load balancing",
+      "explanation": "Correct answer is D) Infrastructure maintenance and load balancing."
+    },
+    {
+      "questionText": "Which capabilities are easier with App Service's managed platform?",
+      "options": [
+        "Editing videos",
+        "Printing documents",
+        "Adding SSL certificates, SSO, custom domains, identity integration",
+        "Creating spreadsheets"
+      ],
+      "correctAnswer": "Adding SSL certificates, SSO, custom domains, identity integration",
+      "explanation": "Correct answer is C) Adding SSL certificates, SSO, custom domains, identity integration."
+    },
+    {
+      "questionText": "Enterprise-grade apps in App Services benefit from:",
+      "options": [
+        "Global datacenter network, security, and compliance",
+        "Only local servers",
+        "No security",
+        "Only free plans"
+      ],
+      "correctAnswer": "Global datacenter network, security, and compliance",
+      "explanation": "Correct answer is A) Global datacenter network, security, and compliance."
+    },
+    {
+      "questionText": "Which service is integrated with App Service to help secure apps?",
+      "options": [
+        "Azure Event Hubs",
+        "Azure CDN",
+        "Azure Active Directory",
+        "Azure Backup"
+      ],
+      "correctAnswer": "Azure Active Directory",
+      "explanation": "Correct answer is C) Azure Active Directory."
+    },
+    {
+      "questionText": "Web apps in Azure App Service are similar to the earlier:",
+      "options": [
+        "Azure Blobs",
+        "Azure Queues",
+        "Azure Tables",
+        "Azure Websites"
+      ],
+      "correctAnswer": "Azure Websites",
+      "explanation": "Correct answer is D) Azure Websites."
+    },
+    {
+      "questionText": "Web apps key features include:",
+      "options": [
+        "No DevOps",
+        "No scaling",
+        "Built-in autoscale, load balancing, and high availability with auto-patching",
+        "Manual patching only"
+      ],
+      "correctAnswer": "Built-in autoscale, load balancing, and high availability with auto-patching",
+      "explanation": "Correct answer is C) Built-in autoscale, load balancing, and high availability with auto-patching."
+    },
+    {
+      "questionText": "Which of the following templates is available for Web apps?",
+      "options": [
+        "Notepad",
+        "WordPress, Umbraco, Joomla, Drupal",
+        "Photoshop",
+        "Excel"
+      ],
+      "correctAnswer": "WordPress, Umbraco, Joomla, Drupal",
+      "explanation": "Correct answer is B) WordPress, Umbraco, Joomla, Drupal."
+    },
+    {
+      "questionText": "The compute resources that run Web apps are determined by the:",
+      "options": [
+        "App Service plan",
+        "Subscription name",
+        "Storage account",
+        "Resource group only"
+      ],
+      "correctAnswer": "App Service plan",
+      "explanation": "Correct answer is A) App Service plan."
+    },
+    {
+      "questionText": "Mobile Apps in Azure App Service provide:",
+      "options": [
+        "Only printers",
+        "Only game servers",
+        "Only desktop backends",
+        "A custom backend for mobile platforms such as iOS, Windows, Android, Cordova, Xamarin"
+      ],
+      "correctAnswer": "A custom backend for mobile platforms such as iOS, Windows, Android, Cordova, Xamarin",
+      "explanation": "Correct answer is D) A custom backend for mobile platforms such as iOS, Windows, Android, Cordova, Xamarin."
+    },
+    {
+      "questionText": "Which feature of Mobile Apps lets an app work offline?",
+      "options": [
+        "Traffic manager",
+        "Push notifications",
+        "Autoscale",
+        "Native sync experience"
+      ],
+      "correctAnswer": "Native sync experience",
+      "explanation": "Correct answer is D) Native sync experience."
+    },
+    {
+      "questionText": "Mobile Apps support social integration with:",
+      "options": [
+        "Only Skype",
+        "Facebook, Twitter, and Google",
+        "Only LinkedIn",
+        "Only Instagram"
+      ],
+      "correctAnswer": "Facebook, Twitter, and Google",
+      "explanation": "Correct answer is B) Facebook, Twitter, and Google."
+    },
+    {
+      "questionText": "Mobile Apps support long-running background tasks using:",
+      "options": [
+        "Event Hubs",
+        "API Apps",
+        "WebJobs",
+        "Logic Apps"
+      ],
+      "correctAnswer": "WebJobs",
+      "explanation": "Correct answer is C) WebJobs."
+    },
+    {
+      "questionText": "Logic Apps in Azure App Service allow users to:",
+      "options": [
+        "Automate the execution of processes across commercial services, consumers, and on-premises custom APIs",
+        "Compile code",
+        "Edit images",
+        "Manage printers"
+      ],
+      "correctAnswer": "Automate the execution of processes across commercial services, consumers, and on-premises custom APIs",
+      "explanation": "Correct answer is A) Automate the execution of processes across commercial services, consumers, and on-premises custom APIs."
+    },
+    {
+      "questionText": "Which is a key feature of Logic Apps in App Service?",
+      "options": [
+        "Editing PDFs",
+        "Writing hardware drivers",
+        "Creating business processes and workflows visually",
+        "Creating spreadsheets"
+      ],
+      "correctAnswer": "Creating business processes and workflows visually",
+      "explanation": "Correct answer is C) Creating business processes and workflows visually."
+    },
+    {
+      "questionText": "API Apps are used for:",
+      "options": [
+        "Only desktop apps",
+        "Only mobile apps",
+        "Building, consuming, and distributing APIs in the cloud and on-premises",
+        "Only email"
+      ],
+      "correctAnswer": "Building, consuming, and distributing APIs in the cloud and on-premises",
+      "explanation": "Correct answer is C) Building, consuming, and distributing APIs in the cloud and on-premises."
+    },
+    {
+      "questionText": "API Apps secure APIs using:",
+      "options": [
+        "Only cookies",
+        "Only passwords in URLs",
+        "Single Sign-On, Active Directory, and OAuth",
+        "No security"
+      ],
+      "correctAnswer": "Single Sign-On, Active Directory, and OAuth",
+      "explanation": "Correct answer is C) Single Sign-On, Active Directory, and OAuth."
+    },
+    {
+      "questionText": "An App Service plan provides resources that are similar to:",
+      "options": [
+        "A server farm in traditional Web hosting",
+        "A printer",
+        "A phone",
+        "A single laptop"
+      ],
+      "correctAnswer": "A server farm in traditional Web hosting",
+      "explanation": "Correct answer is A) A server farm in traditional Web hosting."
+    },
+    {
+      "questionText": "Each App Service plan defines which of the following?",
+      "options": [
+        "Only the language",
+        "Region, number of VM instances, VM instance size, and pricing tier",
+        "Only the user name",
+        "Only the app name"
+      ],
+      "correctAnswer": "Region, number of VM instances, VM instance size, and pricing tier",
+      "explanation": "Correct answer is B) Region, number of VM instances, VM instance size, and pricing tier."
+    },
+    {
+      "questionText": "Which pricing tiers are listed for App Service plans?",
+      "options": [
+        "Only Premium",
+        "Free, Shared, Basic, Standard, Premium, PremiumV2, Isolated, Consumption",
+        "Only Basic",
+        "Only Free and Paid"
+      ],
+      "correctAnswer": "Free, Shared, Basic, Standard, Premium, PremiumV2, Isolated, Consumption",
+      "explanation": "Correct answer is B) Free, Shared, Basic, Standard, Premium, PremiumV2, Isolated, Consumption."
+    },
+    {
+      "questionText": "Which are the shared compute tiers?",
+      "options": [
+        "Isolated and Consumption",
+        "Free and Shared",
+        "Premium and PremiumV2",
+        "Basic and Standard"
+      ],
+      "correctAnswer": "Free and Shared",
+      "explanation": "Correct answer is B) Free and Shared."
+    },
+    {
+      "questionText": "In shared compute tiers, apps:",
+      "options": [
+        "Run on dedicated VMs",
+        "Always scale out",
+        "Run on dedicated networks",
+        "Run on the same Azure VM as other customers' apps and cannot scale out"
+      ],
+      "correctAnswer": "Run on the same Azure VM as other customers' apps and cannot scale out",
+      "explanation": "Correct answer is D) Run on the same Azure VM as other customers' apps and cannot scale out."
+    },
+    {
+      "questionText": "Which are the dedicated compute tiers?",
+      "options": [
+        "Isolated only",
+        "Consumption only",
+        "Free and Shared",
+        "Basic, Standard, Premium, and PremiumV2"
+      ],
+      "correctAnswer": "Basic, Standard, Premium, and PremiumV2",
+      "explanation": "Correct answer is D) Basic, Standard, Premium, and PremiumV2."
+    },
+    {
+      "questionText": "In dedicated compute tiers, resources are shared only among:",
+      "options": [
+        "Apps in the same App Service plan",
+        "All regions",
+        "All subscriptions",
+        "All customers"
+      ],
+      "correctAnswer": "Apps in the same App Service plan",
+      "explanation": "Correct answer is A) Apps in the same App Service plan."
+    },
+    {
+      "questionText": "The Isolated tier runs apps on:",
+      "options": [
+        "Dedicated Azure VMs on dedicated Azure Virtual Networks",
+        "Local PCs",
+        "Shared networks",
+        "Shared VMs"
+      ],
+      "correctAnswer": "Dedicated Azure VMs on dedicated Azure Virtual Networks",
+      "explanation": "Correct answer is A) Dedicated Azure VMs on dedicated Azure Virtual Networks."
+    },
+    {
+      "questionText": "The Consumption tier:",
+      "options": [
+        "Is only for databases",
+        "Is always free",
+        "Dynamically scales functions depending on workload",
+        "Never scales"
+      ],
+      "correctAnswer": "Dynamically scales functions depending on workload",
+      "explanation": "Correct answer is C) Dynamically scales functions depending on workload."
+    },
+    {
+      "questionText": "Billing for App Service plans is done:",
+      "options": [
+        "Never",
+        "On a per-second basis",
+        "Yearly only",
+        "Monthly only"
+      ],
+      "correctAnswer": "On a per-second basis",
+      "explanation": "Correct answer is B) On a per-second basis."
+    },
+    {
+      "questionText": "Which plans are suitable for production workloads on dedicated VMs?",
+      "options": [
+        "Basic, Standard, and Premium",
+        "Only Consumption",
+        "Only Shared",
+        "Only Free"
+      ],
+      "correctAnswer": "Basic, Standard, and Premium",
+      "explanation": "Correct answer is A) Basic, Standard, and Premium."
+    },
+    {
+      "questionText": "For apps that require a private dedicated Azure environment and secure connection to on-premises network, which plan is suitable?",
+      "options": [
+        "Shared",
+        "Isolated",
+        "Consumption",
+        "Free"
+      ],
+      "correctAnswer": "Isolated",
+      "explanation": "Correct answer is B) Isolated."
+    },
+    {
+      "questionText": "To estimate the price of Azure products, a company should use:",
+      "options": [
+        "The online pricing calculator",
+        "A browser extension only",
+        "Notepad",
+        "A calendar"
+      ],
+      "correctAnswer": "The online pricing calculator",
+      "explanation": "Correct answer is A) The online pricing calculator."
+    },
+    {
+      "questionText": "Azure App Service is described as a fully managed:",
+      "options": [
+        "On-premises tool",
+        "Platform as a Service (PaaS)",
+        "IaaS only",
+        "SaaS only"
+      ],
+      "correctAnswer": "Platform as a Service (PaaS)",
+      "explanation": "Correct answer is B) Platform as a Service (PaaS)."
+    },
+    {
+      "questionText": "Azure App Service incorporates which previous services into a single service?",
+      "options": [
+        "Only Event Hubs",
+        "Mobile Services, Azure Websites, and BizTalk Services",
+        "Only Cosmos DB",
+        "Only Redis"
+      ],
+      "correctAnswer": "Mobile Services, Azure Websites, and BizTalk Services",
+      "explanation": "Correct answer is B) Mobile Services, Azure Websites, and BizTalk Services."
+    },
+    {
+      "questionText": "In the portal, which apps are listed under the Web menu when creating a resource?",
+      "options": [
+        "VM",
+        "Web App, API App, Logic App",
+        "Mobile App",
+        "Function App only"
+      ],
+      "correctAnswer": "Web App, API App, Logic App",
+      "explanation": "Correct answer is B) Web App, API App, Logic App."
+    },
+    {
+      "questionText": "In the portal, which app is listed under the Mobile menu?",
+      "options": [
+        "Logic App",
+        "Web App",
+        "Mobile App",
+        "API App"
+      ],
+      "correctAnswer": "Mobile App",
+      "explanation": "Correct answer is C) Mobile App."
+    },
+    {
+      "questionText": "When creating an ASP.NET Web app for Azure deployment in the walkthrough, authentication is set to:",
+      "options": [
+        "Individual accounts",
+        "Windows Authentication",
+        "No Authentication",
+        "Work or School Accounts"
+      ],
+      "correctAnswer": "No Authentication",
+      "explanation": "Correct answer is C) No Authentication."
+    },
+    {
+      "questionText": "Which Visual Studio menu option is used to run the Web app locally without debugging?",
+      "options": [
+        "Tools > Options",
+        "Debug > Start without Debugging",
+        "Build > Clean",
+        "File > Exit"
+      ],
+      "correctAnswer": "Debug > Start without Debugging",
+      "explanation": "Correct answer is B) Debug > Start without Debugging."
+    },
+    {
+      "questionText": "How is the publish wizard launched in Solution Explorer?",
+      "options": [
+        "Press Ctrl+C",
+        "Double-click Web.config",
+        "Right-click the project and select Publish",
+        "Right-click the Views folder"
+      ],
+      "correctAnswer": "Right-click the project and select Publish",
+      "explanation": "Correct answer is C) Right-click the project and select Publish."
+    },
+    {
+      "questionText": "Which publish target is selected to deploy to Azure Web Apps?",
+      "options": [
+        "Folder",
+        "IIS only",
+        "FTP only",
+        "App Service"
+      ],
+      "correctAnswer": "App Service",
+      "explanation": "Correct answer is D) App Service."
+    },
+    {
+      "questionText": "After a successful deployment of the Web app, the developer has:",
+      "options": [
+        "Only a queue",
+        "Only a database",
+        "Only a VM",
+        "A resource group containing an App Service plan and an Azure Web app with a deployed application"
+      ],
+      "correctAnswer": "A resource group containing an App Service plan and an Azure Web app with a deployed application",
+      "explanation": "Correct answer is D) A resource group containing an App Service plan and an Azure Web app with a deployed application."
+    },
+    {
+      "questionText": "WCF Data Services were formerly known as:",
+      "options": [
+        "ASP.NET Services",
+        "Azure Services",
+        "ADO.NET Data Services",
+        "OData Services"
+      ],
+      "correctAnswer": "ADO.NET Data Services",
+      "explanation": "Correct answer is C) ADO.NET Data Services."
+    },
+    {
+      "questionText": "OData is a:",
+      "options": [
+        "Binary protocol only",
+        "REST-based protocol that allows CRUD operations on resources through URLs",
+        "Database engine",
+        "SOAP-only protocol"
+      ],
+      "correctAnswer": "REST-based protocol that allows CRUD operations on resources through URLs",
+      "explanation": "Correct answer is B) REST-based protocol that allows CRUD operations on resources through URLs."
+    },
+    {
+      "questionText": "WCF Data Services return results in which formats?",
+      "options": [
+        "Only images",
+        "Only PDF",
+        "Only CSV",
+        "XML-based Atom and JSON"
+      ],
+      "correctAnswer": "XML-based Atom and JSON",
+      "explanation": "Correct answer is D) XML-based Atom and JSON."
+    },
+    {
+      "questionText": "OData uses which model of the Entity Framework to expose resources as related entities?",
+      "options": [
+        "Storage Model only",
+        "Mapping Model only",
+        "Entity Data Model",
+        "Code-first model only"
+      ],
+      "correctAnswer": "Entity Data Model",
+      "explanation": "Correct answer is C) Entity Data Model."
+    },
+    {
+      "questionText": "CRUD operations in OData use which standard HTTP methods?",
+      "options": [
+        "FTP methods",
+        "Only POST",
+        "Only GET",
+        "GET, PUT, POST, DELETE"
+      ],
+      "correctAnswer": "GET, PUT, POST, DELETE",
+      "explanation": "Correct answer is D) GET, PUT, POST, DELETE."
+    },
+    {
+      "questionText": "In the WCF Data Service walkthrough, the ASP.NET Web app is named:",
+      "options": [
+        "StudentManagement",
+        "StudentServices",
+        "StudentOData",
+        "WCFDataServiceDemo"
+      ],
+      "correctAnswer": "WCFDataServiceDemo",
+      "explanation": "Correct answer is D) WCFDataServiceDemo."
+    },
+    {
+      "questionText": "Which project template is selected for the WCFDataServiceDemo app?",
+      "options": [
+        "Web Forms",
+        "Empty project",
+        "MVC",
+        "Web API"
+      ],
+      "correctAnswer": "Empty project",
+      "explanation": "Correct answer is B) Empty project."
+    },
+    {
+      "questionText": "Which WCF Data Service item name is created in the walkthrough?",
+      "options": [
+        "Customers.svc",
+        "StudentService.svc",
+        "Orders.svc",
+        "ProductsWcfDataService.svc"
+      ],
+      "correctAnswer": "ProductsWcfDataService.svc",
+      "explanation": "Correct answer is D) ProductsWcfDataService.svc."
+    },
+    {
+      "questionText": "In Visual Studio 2017, the WCF Data Service template:",
+      "options": [
+        "Is always available",
+        "Is deleted",
+        "Is not seen by default and must be added by installing an extension",
+        "Is available only in Visual Studio 6"
+      ],
+      "correctAnswer": "Is not seen by default and must be added by installing an extension",
+      "explanation": "Correct answer is C) Is not seen by default and must be added by installing an extension."
+    },
+    {
+      "questionText": "Which template is used to create a data model from an existing database in the walkthrough?",
+      "options": [
+        "ADO.NET Entity Data Model (EF Designer from database)",
+        "Web Form",
+        "Empty model",
+        "Code First"
+      ],
+      "correctAnswer": "ADO.NET Entity Data Model (EF Designer from database)",
+      "explanation": "Correct answer is A) ADO.NET Entity Data Model (EF Designer from database)."
+    },
+    {
+      "questionText": "In ProductsWcfDataService.svc.cs, which placeholder is replaced with the name of the entity model?",
+      "options": [
+        "<TODO: set port>",
+        "<TODO: connection string>",
+        "<TODO: add namespace>",
+        "<TODO: put your data source class name here>"
+      ],
+      "correctAnswer": "<TODO: put your data source class name here>",
+      "explanation": "Correct answer is D) <TODO: put your data source class name here>."
+    },
+    {
+      "questionText": "Which dialog is used to add a reference to the data service address?",
+      "options": [
+        "Add Service Reference",
+        "Add Page",
+        "Add New Item",
+        "Add Class"
+      ],
+      "correctAnswer": "Add Service Reference",
+      "explanation": "Correct answer is A) Add Service Reference."
+    },
+    {
+      "questionText": "Which option is selected to deploy the WCF data service to Azure in the walkthrough?",
+      "options": [
+        "Publish Azure Application",
+        "Export Profile only",
+        "Deploy to Folder only",
+        "Create ISO"
+      ],
+      "correctAnswer": "Publish Azure Application",
+      "explanation": "Correct answer is A) Publish Azure Application."
+    }
+  ]
+}

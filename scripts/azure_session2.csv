@@ -1,0 +1,55 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,2,Which Microsoft products and services run on the core infrastructure of Microsoft's data centers?,Only Visual Studio,"Bing, MSN, Office 365, Skype, and OneDrive",Only Xbox,Only Windows 10,"Bing, MSN, Office 365, Skype, and OneDrive"
+Azure,2,The features and functionalities of Azure cloud services are accessible through:,The Microsoft Azure portal,Excel,A command-line compiler only,Windows Notepad,The Microsoft Azure portal
+Azure,2,The Azure portal dashboard displays:,Status information about the overall state of deployments and accounts,Antivirus logs,Source code,Only billing receipts,Status information about the overall state of deployments and accounts
+Azure,2,An Azure subscription grants a user access to:,Only Office 365,Only the Azure SDK,Only Visual Studio,Azure services and the Azure portal,Azure services and the Azure portal
+Azure,2,"How many components does each Azure subscription have, as described in the session?",Three,Four,One,Two,Two
+Azure,2,The Azure account component of a subscription is used for:,Compiling applications,Hosting databases only,Reporting resource usage and billing for services,Writing code,Reporting resource usage and billing for services
+Azure,2,Which URL is used to open the Azure portal when creating an account?,http://portal.azure.com,http://www.cloud.local,http://azure.exe,http://sql.azure.org,http://portal.azure.com
+Azure,2,How long is the free trial account for learning and testing described as being available?,12 months,3 months,5 years,1 month,12 months
+Azure,2,What must be provided to create a free trial account?,Company registration only,Nothing,Passport copy only,Credit card number and mobile phone number,Credit card number and mobile phone number
+Azure,2,Which of the following is NOT a key plan for paid Azure subscriptions?,Standard,Free Lifetime,Professional Direct,Developer,Free Lifetime
+Azure,2,Which plan is listed among the key paid Azure subscription plans?,Student,Trial,Premier,Guest,Premier
+Azure,2,What is the purpose of the Microsoft pricing calculator?,To compile code,To delete subscriptions,To create VMs,To calculate estimates based on the services a user may use,To calculate estimates based on the services a user may use
+Azure,2,Into how many panes is the Azure portal interface divided?,Four,One,Three,Two,Two
+Azure,2,The right pane of the Azure portal displays:,Nothing,Context-specific information depending on what is selected in the left pane,Only the dashboard,Only help text,Context-specific information depending on what is selected in the left pane
+Azure,2,Which option in the left pane loads all the services provided by Azure?,Advisor,Dashboard,Monitor,All Services,All Services
+Azure,2,Which of the following is NOT listed among services in the left pane of the portal?,Resource Groups,Photoshop,Load Balancer,Function Apps,Photoshop
+Azure,2,"To manage an existing subscription, which option should be clicked first in the portal?",All Services,Monitor,Advisor,Create a resource,All Services
+Azure,2,"For a free account, which subscription should be selected on the subscription page?",Developer,Standard,Premier,Free Trial,Free Trial
+Azure,2,Which menu options are available on the Subscription Detail page?,"Compile, Run, Debug","Copy, Paste, Cut","Manage, Cancel subscription, Upgrade subscription","Open, Save, Print","Manage, Cancel subscription, Upgrade subscription"
+Azure,2,"In Azure, a manageable item such as a VM, storage account, web app, database, or virtual network is called a:",Gadget,Resource,Template,Dashboard,Resource
+Azure,2,"Which Azure service lets you deploy, update, or delete resources for a solution as a group in a single coordinated operation?",Azure Advisor,Azure Monitor,Azure Resource Manager,Load Balancer,Azure Resource Manager
+Azure,2,Resource Manager management features include:,Only testing,Only billing,"Security, auditing, and tagging",Only compilation,"Security, auditing, and tagging"
+Azure,2,Which option is used to create a resource from the dashboard?,+ Create a resource,Print,Restart portal,Delete all,+ Create a resource
+Azure,2,Which of the following is a commonly used resource listed in the New resource window?,Photoshop,Notepad,Paint,Windows VM,Windows VM
+Azure,2,An Azure VM is generally selected when you need:,Only a database,Only static hosting,Enhanced control over the computing environment,No control over the environment,Enhanced control over the computing environment
+Azure,2,Using an Azure VM offers:,Virtualization without the effort of buying and maintaining physical hardware,No patching ever,Automatic code generation,Free hardware,Virtualization without the effort of buying and maintaining physical hardware
+Azure,2,Which windows appear as options in the Create Virtual Machine window?,"Start, Stop, Pause, Resume","Basics, Size, Settings, Summary","Input, Output, Process, Store","Login, Logout, Save, Exit","Basics, Size, Settings, Summary"
+Azure,2,Which VM version is selected in the walkthrough for creating a Windows VM?,Windows Server 2016 or higher,Windows 95,Windows 3.1,Windows XP,Windows Server 2016 or higher
+Azure,2,"Before clicking Create on the Summary page, the user must:",Select the terms of use check box,Delete the resource group,Restart the portal,Install Visual Studio,Select the terms of use check box
+Azure,2,"After submitting a VM creation, where is the progress notification shown?",A small notification at the right corner of the screen,A pop-up window requiring a restart,The command prompt,An email only,A small notification at the right corner of the screen
+Azure,2,Which important resources are created when a Windows VM is created?,Only Virtual Machine,"Virtual Machine, IP Address, Disc, and Resource Group",Only Disc,Only IP Address,"Virtual Machine, IP Address, Disc, and Resource Group"
+Azure,2,Which Azure data resources are listed among data access technologies?,"Excel, Word, PowerPoint","Photoshop, Illustrator","SQL database, Cosmos DB, data warehouses, data factories",Notepad only,"SQL database, Cosmos DB, data warehouses, data factories"
+Azure,2,Which Azure resource drives applications that deal with small to medium chunks of data?,Azure Data Warehouse,Azure SQL Database,Azure Data Factory only,Azure Search,Azure SQL Database
+Azure,2,Azure SQL Database is a relational ______ based on the Microsoft SQL Server engine.,Software-as-a-Service,Database-as-a-Service (DBaaS),Infrastructure-as-a-Service,Testing-as-a-Service,Database-as-a-Service (DBaaS)
+Azure,2,Which of the following is a feature of Azure SQL Database?,Works only with C,Requires physical servers,Cannot be secured,Need not manage infrastructure,Need not manage infrastructure
+Azure,2,Azure Cosmos DB is described as:,A desktop application,A single-region relational database,"A globally distributed, multi-model database",A text editor,"A globally distributed, multi-model database"
+Azure,2,Cosmos DB offers SLA-backed assurance for which of the following?,Only file sharing,Only printing,"Throughput, latency, availability, consistency",Only color themes,"Throughput, latency, availability, consistency"
+Azure,2,Throughput is a measure of:,The cost of a VM,The size of a database,The number of users,A system's overall performance in sending data through all its components,A system's overall performance in sending data through all its components
+Azure,2,Azure SQL Data Warehouse is a cloud-based:,Email client,Web browser,Text editor,Enterprise Data Warehouse (EDW),Enterprise Data Warehouse (EDW)
+Azure,2,Azure SQL Data Warehouse runs complex queries using:,Massively Parallel Processing (MPP),Single-thread processing only,Manual processing,Random access only,Massively Parallel Processing (MPP)
+Azure,2,Which tool is used to import Big Data into SQL Data Warehouse using simple Transact-SQL queries?,Redis,SoaTest,HDInsight,PolyBase,PolyBase
+Azure,2,Azure Data Factory is a cloud-based:,Game engine,Data integration service,Image editor,Operating system,Data integration service
+Azure,2,Data-driven workflows in Azure Data Factory are called:,Pools,Packages,Piles,Pipelines,Pipelines
+Azure,2,Which of the following is a compute service used by Data Factory to transform data?,Excel,"Azure HDInsight (Hadoop, Spark)",Notepad,Paint,"Azure HDInsight (Hadoop, Spark)"
+Azure,2,Azure Redis Cache is based on:,The open-source Redis cache,MySQL,Oracle cache,A proprietary Windows cache only,The open-source Redis cache
+Azure,2,Redis Cache improves performance by:,Using in-memory as fast storage instead of reading from disk,Doubling the database size,Deleting data,Storing data on tape,Using in-memory as fast storage instead of reading from disk
+Azure,2,Which role does Azure Redis Cache also play?,Operating system,Web browser,Message broker,Compiler,Message broker
+Azure,2,Which of the following is an additional Azure database resource?,Notepad DB,Azure Database for PostgreSQL,Azure Photoshop DB,Paint DB,Azure Database for PostgreSQL
+Azure,2,Which programming languages can Azure application development support without managing infrastructure?,".NET, Python, Java, PHP, Ruby",Only COBOL,Only Pascal,Only C,".NET, Python, Java, PHP, Ruby"
+Azure,2,Which of the following is a feature of Azure application development?,Manual scaling only,Auto-scaling,No GitHub integration,No Linux support,Auto-scaling
+Azure,2,Azure supports automated deployments from:,Only email,Only a USB stick,"GitHub, Visual Studio Team Services, or any Git repo",Only floppy disks,"GitHub, Visual Studio Team Services, or any Git repo"
+Azure,2,Which of the following is a need for cloud testing?,Bugs do not exist in cloud applications,Testing is not required in the cloud,Traditional testing incurs high cost to simulate user activity from various regions,Cloud testing needs no environment,Traditional testing incurs high cost to simulate user activity from various regions
+Azure,2,A limitation of cloud testing is that:,It cannot test applications,It requires no setup,Test results may not be accurate due to dissimilar network performance across providers,It is always free,Test results may not be accurate due to dissimilar network performance across providers
+Azure,2,Which tools are mentioned as helping in cloud testing?,Excel and Word,SoaTest and HP LoadRunner,Chrome and Firefox,Notepad and Paint,SoaTest and HP LoadRunner

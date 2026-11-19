@@ -1,0 +1,602 @@
+{
+  "category": "Azure",
+  "session": 4,
+  "title": "Session 4: Data Access Using ADO.NET",
+  "totalQuestions": 54,
+  "questions": [
+    {
+      "questionText": "ADO.NET is:",
+      "options": [
+        "A text editor",
+        "A Web browser",
+        "A cloud storage provider",
+        "A set of classes that expose data access services for the .NET Framework"
+      ],
+      "correctAnswer": "A set of classes that expose data access services for the .NET Framework",
+      "explanation": "Correct answer is D) A set of classes that expose data access services for the .NET Framework."
+    },
+    {
+      "questionText": "Which data sources can be accessed consistently using ADO.NET?",
+      "options": [
+        "Only Excel",
+        "Only XML",
+        "XML, SQL Server, and sources exposed through ODBC and OLE DB",
+        "Only SQL Server"
+      ],
+      "correctAnswer": "XML, SQL Server, and sources exposed through ODBC and OLE DB",
+      "explanation": "Correct answer is C) XML, SQL Server, and sources exposed through ODBC and OLE DB."
+    },
+    {
+      "questionText": "ADO.NET supports creating which of the following?",
+      "options": [
+        "Only images",
+        "Front-end database clients and middle-layer business components",
+        "Only hardware drivers",
+        "Only operating systems"
+      ],
+      "correctAnswer": "Front-end database clients and middle-layer business components",
+      "explanation": "Correct answer is B) Front-end database clients and middle-layer business components."
+    },
+    {
+      "questionText": "Which of the following can use ADO.NET to connect to a database?",
+      "options": [
+        "Windows applications, ASP.NET Web applications, and console applications",
+        "Only mobile apps",
+        "Only ASP.NET applications",
+        "Only console applications"
+      ],
+      "correctAnswer": "Windows applications, ASP.NET Web applications, and console applications",
+      "explanation": "Correct answer is A) Windows applications, ASP.NET Web applications, and console applications."
+    },
+    {
+      "questionText": "In ADO.NET, what acts as a link between a data source and an application?",
+      "options": [
+        ".NET Framework data providers",
+        "The compiler",
+        "The Web browser",
+        "The firewall"
+      ],
+      "correctAnswer": ".NET Framework data providers",
+      "explanation": "Correct answer is A) .NET Framework data providers."
+    },
+    {
+      "questionText": "A connection object connects to a data source by supplying authentication information in a:",
+      "options": [
+        "Connection string",
+        "Resource group",
+        "Cache policy",
+        "Stored procedure"
+      ],
+      "correctAnswer": "Connection string",
+      "explanation": "Correct answer is A) Connection string."
+    },
+    {
+      "questionText": "Which connection object is used for ODBC data sources?",
+      "options": [
+        "SqlConnection",
+        "OdbcConnection",
+        "OleDbConnection",
+        "OracleConnection"
+      ],
+      "correctAnswer": "OdbcConnection",
+      "explanation": "Correct answer is B) OdbcConnection."
+    },
+    {
+      "questionText": "Which connection object is used for SQL Server?",
+      "options": [
+        "OracleConnection",
+        "SqlConnection",
+        "OdbcConnection",
+        "OleDbConnection"
+      ],
+      "correctAnswer": "SqlConnection",
+      "explanation": "Correct answer is B) SqlConnection."
+    },
+    {
+      "questionText": "Which connection object is used for OLE DB?",
+      "options": [
+        "SqlConnection",
+        "OdbcConnection",
+        "OracleConnection",
+        "OleDbConnection"
+      ],
+      "correctAnswer": "OleDbConnection",
+      "explanation": "Correct answer is D) OleDbConnection."
+    },
+    {
+      "questionText": "Which property of SqlConnection contains the connection string values?",
+      "options": [
+        "Transaction",
+        "DataSource only",
+        "CommandText",
+        "ConnectionString"
+      ],
+      "correctAnswer": "ConnectionString",
+      "explanation": "Correct answer is D) ConnectionString."
+    },
+    {
+      "questionText": "Which class allows creating syntactically correct connection strings at run time?",
+      "options": [
+        "SqlCommand",
+        "TransactionScope",
+        "SqlConnectionStringBuilder",
+        "SqlDataReader"
+      ],
+      "correctAnswer": "SqlConnectionStringBuilder",
+      "explanation": "Correct answer is C) SqlConnectionStringBuilder."
+    },
+    {
+      "questionText": "In Code Snippet 1, which method opens the connection to the SQL Server database?",
+      "options": [
+        "Open()",
+        "Start()",
+        "Connect()",
+        "Begin()"
+      ],
+      "correctAnswer": "Open()",
+      "explanation": "Correct answer is A) Open()."
+    },
+    {
+      "questionText": "The format of a connection string is:",
+      "options": [
+        "A binary file",
+        "A comma-separated list of numbers",
+        "An XML document",
+        "A semicolon-delimited list of key/value parameter pairs"
+      ],
+      "correctAnswer": "A semicolon-delimited list of key/value parameter pairs",
+      "explanation": "Correct answer is D) A semicolon-delimited list of key/value parameter pairs."
+    },
+    {
+      "questionText": "A syntax error in a connection string generates:",
+      "options": [
+        "A compile-time warning only",
+        "No error",
+        "A cache refresh",
+        "A run-time exception"
+      ],
+      "correctAnswer": "A run-time exception",
+      "explanation": "Correct answer is D) A run-time exception."
+    },
+    {
+      "questionText": "In the connection string, which key specifies the database name?",
+      "options": [
+        "Encrypt",
+        "Server",
+        "Initial Catalog",
+        "Password"
+      ],
+      "correctAnswer": "Initial Catalog",
+      "explanation": "Correct answer is C) Initial Catalog."
+    },
+    {
+      "questionText": "In the connection string sample, what does Encrypt=True indicate?",
+      "options": [
+        "Encryption is disabled",
+        "The database is deleted",
+        "The password is shown",
+        "Encryption is used for the connection"
+      ],
+      "correctAnswer": "Encryption is used for the connection",
+      "explanation": "Correct answer is D) Encryption is used for the connection."
+    },
+    {
+      "questionText": "In the sample connection string, the Connection Timeout value is:",
+      "options": [
+        "100",
+        "10",
+        "30",
+        "5"
+      ],
+      "correctAnswer": "30",
+      "explanation": "Correct answer is C) 30."
+    },
+    {
+      "questionText": "Connection strings can be stored in which file in an ASP.NET Web application?",
+      "options": [
+        "Web.config",
+        "Site.css",
+        "Default.aspx",
+        "Global.asax only"
+      ],
+      "correctAnswer": "Web.config",
+      "explanation": "Correct answer is A) Web.config."
+    },
+    {
+      "questionText": "In Web.config, the connection string is placed inside which section?",
+      "options": [
+        "<connectionStrings>",
+        "<runtime>",
+        "<system.web> only",
+        "<appSettings> only"
+      ],
+      "correctAnswer": "<connectionStrings>",
+      "explanation": "Correct answer is A) <connectionStrings>."
+    },
+    {
+      "questionText": "What providerName is used for SQL Server in the Web.config sample?",
+      "options": [
+        "System.Data.OleDb",
+        "System.Data.Oracle",
+        "System.Data.Odbc",
+        "System.Data.SqlClient"
+      ],
+      "correctAnswer": "System.Data.SqlClient",
+      "explanation": "Correct answer is D) System.Data.SqlClient."
+    },
+    {
+      "questionText": "Which object is used to run commands and return results from a data source?",
+      "options": [
+        "DataSet",
+        "DbConnection",
+        "DbCommand",
+        "DataTable"
+      ],
+      "correctAnswer": "DbCommand",
+      "explanation": "Correct answer is C) DbCommand."
+    },
+    {
+      "questionText": "Which property configures the SQL statement run by a command?",
+      "options": [
+        "CommandName",
+        "CommandText",
+        "CommandTimeout",
+        "ConnectionString"
+      ],
+      "correctAnswer": "CommandText",
+      "explanation": "Correct answer is B) CommandText."
+    },
+    {
+      "questionText": "Which method of the DbConnection object creates a command for a specific connection?",
+      "options": [
+        "NewCommand",
+        "CreateCommand",
+        "OpenCommand",
+        "BuildCommand"
+      ],
+      "correctAnswer": "CreateCommand",
+      "explanation": "Correct answer is B) CreateCommand."
+    },
+    {
+      "questionText": "Which command object exists for the SQL Server .NET Framework data provider?",
+      "options": [
+        "OdbcCommand",
+        "SqlCommand",
+        "OracleCommand",
+        "OleDbCommand"
+      ],
+      "correctAnswer": "SqlCommand",
+      "explanation": "Correct answer is B) SqlCommand."
+    },
+    {
+      "questionText": "Which method returns a DataReader object?",
+      "options": [
+        "ExecuteScalar()",
+        "ExecuteReader()",
+        "ExecuteXmlReader()",
+        "ExecuteNonQuery()"
+      ],
+      "correctAnswer": "ExecuteReader()",
+      "explanation": "Correct answer is B) ExecuteReader()."
+    },
+    {
+      "questionText": "Which method returns a single scalar value?",
+      "options": [
+        "ExecuteReader()",
+        "ExecuteXmlReader()",
+        "ExecuteNonQuery()",
+        "ExecuteScalar()"
+      ],
+      "correctAnswer": "ExecuteScalar()",
+      "explanation": "Correct answer is D) ExecuteScalar()."
+    },
+    {
+      "questionText": "Which method executes a command that does not return rows, such as CREATE TABLE or INSERT?",
+      "options": [
+        "ExecuteXmlReader()",
+        "ExecuteScalar()",
+        "ExecuteNonQuery()",
+        "ExecuteReader()"
+      ],
+      "correctAnswer": "ExecuteNonQuery()",
+      "explanation": "Correct answer is C) ExecuteNonQuery()."
+    },
+    {
+      "questionText": "ExecuteXmlReader() is available only for which command object?",
+      "options": [
+        "SqlCommand",
+        "OdbcCommand",
+        "OracleCommand",
+        "OleDbCommand"
+      ],
+      "correctAnswer": "SqlCommand",
+      "explanation": "Correct answer is A) SqlCommand."
+    },
+    {
+      "questionText": "The CommandType enumeration specifies:",
+      "options": [
+        "The size of a database",
+        "How a command string is interpreted",
+        "The number of rows returned",
+        "The connection timeout"
+      ],
+      "correctAnswer": "How a command string is interpreted",
+      "explanation": "Correct answer is B) How a command string is interpreted."
+    },
+    {
+      "questionText": "CommandType.StoredProcedure interprets the command string as:",
+      "options": [
+        "A table name",
+        "An SQL statement",
+        "A stored procedure name",
+        "A connection string"
+      ],
+      "correctAnswer": "A stored procedure name",
+      "explanation": "Correct answer is C) A stored procedure name."
+    },
+    {
+      "questionText": "CommandType.TableDirect interprets the command string as:",
+      "options": [
+        "A file path",
+        "A table name",
+        "A stored procedure",
+        "An SQL statement"
+      ],
+      "correctAnswer": "A table name",
+      "explanation": "Correct answer is B) A table name."
+    },
+    {
+      "questionText": "When ExecuteReader is used with a stored procedure, output parameters and return values cannot be obtained until:",
+      "options": [
+        "The DataReader is closed",
+        "The page loads",
+        "The command is created",
+        "The connection is opened"
+      ],
+      "correctAnswer": "The DataReader is closed",
+      "explanation": "Correct answer is A) The DataReader is closed."
+    },
+    {
+      "questionText": "In the session walkthrough, the ASP.NET Web Form application is named:",
+      "options": [
+        "StudentDB",
+        "StudentManagement",
+        "AzureSQL",
+        "CreateTable"
+      ],
+      "correctAnswer": "StudentManagement",
+      "explanation": "Correct answer is B) StudentManagement."
+    },
+    {
+      "questionText": "Which method is used in the CreateTable page to create the Students table?",
+      "options": [
+        "command.ExecuteScalar()",
+        "command.ExecuteReader()",
+        "command.ExecuteNonQuery()",
+        "command.ExecuteXmlReader()"
+      ],
+      "correctAnswer": "command.ExecuteNonQuery()",
+      "explanation": "Correct answer is C) command.ExecuteNonQuery()."
+    },
+    {
+      "questionText": "Which statement is used in the finally block of the sample code?",
+      "options": [
+        "connection.Close()",
+        "reader.Read()",
+        "command.Execute()",
+        "connection.Open()"
+      ],
+      "correctAnswer": "connection.Close()",
+      "explanation": "Correct answer is A) connection.Close()."
+    },
+    {
+      "questionText": "Why is the Close() method placed inside the finally block?",
+      "options": [
+        "To create a table",
+        "To open the connection again",
+        "To execute a query",
+        "To ensure the connection is closed whether or not an exception occurs"
+      ],
+      "correctAnswer": "To ensure the connection is closed whether or not an exception occurs",
+      "explanation": "Correct answer is D) To ensure the connection is closed whether or not an exception occurs."
+    },
+    {
+      "questionText": "Which SQL statement is used in InsertRecord.aspx.cs to add a student?",
+      "options": [
+        "DELETE FROM [Students]",
+        "DROP TABLE [Students]",
+        "UPDATE [Students]",
+        "INSERT INTO [Students]"
+      ],
+      "correctAnswer": "INSERT INTO [Students]",
+      "explanation": "Correct answer is D) INSERT INTO [Students]."
+    },
+    {
+      "questionText": "Which tool is used to verify the inserted record with a select query?",
+      "options": [
+        "SQL Server Management Studio (SSMS)",
+        "Windows Media Player",
+        "Notepad",
+        "Paint"
+      ],
+      "correctAnswer": "SQL Server Management Studio (SSMS)",
+      "explanation": "Correct answer is A) SQL Server Management Studio (SSMS)."
+    },
+    {
+      "questionText": "A DataReader is a ______ cursor type.",
+      "options": [
+        "Write-only",
+        "Read-write and bidirectional",
+        "Random-access",
+        "Forward-only and read-only"
+      ],
+      "correctAnswer": "Forward-only and read-only",
+      "explanation": "Correct answer is D) Forward-only and read-only."
+    },
+    {
+      "questionText": "Why can paging not be achieved using a DataReader?",
+      "options": [
+        "Because it is encrypted",
+        "Because it is forward-only",
+        "Because it needs a cache",
+        "Because it is write-only"
+      ],
+      "correctAnswer": "Because it is forward-only",
+      "explanation": "Correct answer is B) Because it is forward-only."
+    },
+    {
+      "questionText": "A DataReader is the best option to display data when:",
+      "options": [
+        "Paging is required",
+        "The data needs to be cached",
+        "The data needs to be modified",
+        "It is not required to work on the data"
+      ],
+      "correctAnswer": "It is not required to work on the data",
+      "explanation": "Correct answer is D) It is not required to work on the data."
+    },
+    {
+      "questionText": "DataReader results are kept in the:",
+      "options": [
+        "Server's hard disk",
+        "Client's network buffer",
+        "Registry",
+        "Browser cache only"
+      ],
+      "correctAnswer": "Client's network buffer",
+      "explanation": "Correct answer is B) Client's network buffer."
+    },
+    {
+      "questionText": "Which DataReader method is used to access the next row of results?",
+      "options": [
+        "Next",
+        "Read",
+        "Fetch",
+        "Open"
+      ],
+      "correctAnswer": "Read",
+      "explanation": "Correct answer is B) Read."
+    },
+    {
+      "questionText": "How does a DataReader improve application performance?",
+      "options": [
+        "It duplicates rows",
+        "It stores only one row at a time in memory and returns data as soon as available",
+        "It caches data on disk",
+        "It stores the entire table in memory"
+      ],
+      "correctAnswer": "It stores only one row at a time in memory and returns data as soon as available",
+      "explanation": "Correct answer is B) It stores only one row at a time in memory and returns data as soon as available."
+    },
+    {
+      "questionText": "To retrieve rows using a DataReader, which method is called on the Command object?",
+      "options": [
+        "Command.ExecuteReader",
+        "Command.ExecuteNonQuery",
+        "Command.Fill",
+        "Command.ExecuteScalar"
+      ],
+      "correctAnswer": "Command.ExecuteReader",
+      "explanation": "Correct answer is A) Command.ExecuteReader."
+    },
+    {
+      "questionText": "Which statement is true about ADO.NET transaction support?",
+      "options": [
+        "It supports both single-database and distributed transactions",
+        "It supports no transactions",
+        "It supports only distributed transactions",
+        "It supports only single-database transactions"
+      ],
+      "correctAnswer": "It supports both single-database and distributed transactions",
+      "explanation": "Correct answer is A) It supports both single-database and distributed transactions."
+    },
+    {
+      "questionText": "Which namespace classes are used for the distributed transaction model?",
+      "options": [
+        "System.Transactions",
+        "System.Drawing",
+        "System.IO",
+        "System.Text"
+      ],
+      "correctAnswer": "System.Transactions",
+      "explanation": "Correct answer is A) System.Transactions."
+    },
+    {
+      "questionText": "Which method begins a local transaction on a Connection object?",
+      "options": [
+        "CreateTransaction",
+        "StartTransaction",
+        "BeginTransaction",
+        "OpenTransaction"
+      ],
+      "correctAnswer": "BeginTransaction",
+      "explanation": "Correct answer is C) BeginTransaction."
+    },
+    {
+      "questionText": "The Command object's ______ property enlists a command in a transaction.",
+      "options": [
+        "Transaction",
+        "CommandType",
+        "Connection only",
+        "Parameters"
+      ],
+      "correctAnswer": "Transaction",
+      "explanation": "Correct answer is A) Transaction."
+    },
+    {
+      "questionText": "The scope of a single-connection transaction is limited to:",
+      "options": [
+        "The server farm",
+        "All databases",
+        "The connection",
+        "The whole network"
+      ],
+      "correctAnswer": "The connection",
+      "explanation": "Correct answer is C) The connection."
+    },
+    {
+      "questionText": "In a distributed transaction, if any participant cannot guarantee that changes are permanent:",
+      "options": [
+        "The transaction commits anyway",
+        "The changes are cached",
+        "Only that participant is rolled back",
+        "The complete transaction fails and all changes are rolled back"
+      ],
+      "correctAnswer": "The complete transaction fails and all changes are rolled back",
+      "explanation": "Correct answer is D) The complete transaction fails and all changes are rolled back."
+    },
+    {
+      "questionText": "Which method enlists a connection in a distributed transaction in ADO.NET?",
+      "options": [
+        "EnlistDistributedTransaction only in the newest version",
+        "Dispose",
+        "EnlistTransaction",
+        "Commit"
+      ],
+      "correctAnswer": "EnlistTransaction",
+      "explanation": "Correct answer is C) EnlistTransaction."
+    },
+    {
+      "questionText": "Which method was used in previous ADO.NET versions to explicitly enlist in distributed transactions with an ITransaction instance?",
+      "options": [
+        "BeginTransaction",
+        "Complete",
+        "EnlistDistributedTransaction",
+        "EnlistTransaction"
+      ],
+      "correctAnswer": "EnlistDistributedTransaction",
+      "explanation": "Correct answer is C) EnlistDistributedTransaction."
+    },
+    {
+      "questionText": "For SQL Server, using a System.Transactions transaction automatically results in:",
+      "options": [
+        "No transaction",
+        "A permanent distributed transaction",
+        "Use of a lightweight transaction that can be upgraded to a full distributed transaction",
+        "A cache dependency"
+      ],
+      "correctAnswer": "Use of a lightweight transaction that can be upgraded to a full distributed transaction",
+      "explanation": "Correct answer is C) Use of a lightweight transaction that can be upgraded to a full distributed transaction."
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,12,Azure Load Balancer helps developers to:,Scale their applications and provide high availability,Edit images,Create databases only,Compile code,Scale their applications and provide high availability
+Azure,12,A load balancer accepts inbound flows at its:,Database,Backend only,Frontend and transmits them to backend pool instances based on rules,Browser,Frontend and transmits them to backend pool instances based on rules
+Azure,12,Load balancing of inbound Internet traffic to VMs is called a:,Private load balancer only,Hybrid database,Public load balancer,Static balancer,Public load balancer
+Azure,12,Which type of rule forwards port traffic to specific destination ports on VMs?,Inbound NAT rules,Outbound DNS rules,Cache rules,Policy rules,Inbound NAT rules
+Azure,12,NAT stands for:,Node Address Table,Network Application Transfer,New Access Token,Network Address Translation,Network Address Translation
+Azure,12,"To give outgoing connectivity to VMs within a virtual network, a developer uses:",A VPN only,A DNS server only,A firewall only,A public load balancer,A public load balancer
+Azure,12,Which algorithm does the Azure load balancer use by default to distribute traffic?,5-tuple hash,Least connections only,Round robin only,Random,5-tuple hash
+Azure,12,The 5-tuple hash includes which of the following?,Only ports,Only IP addresses,"Source IP, destination IP, source port, destination port, protocol",Only protocol,"Source IP, destination IP, source port, destination port, protocol"
+Azure,12,Packets belonging to the same traffic flow reach:,Only the first instance,No instance,Different backend instances every time,The same backend instance,The same backend instance
+Azure,12,"If a new flow is started from the same source IP with a different source port, the 5-tuple hash may:",Drop traffic,Always use the same endpoint,Send the traffic to a different backend endpoint,Duplicate traffic,Send the traffic to a different backend endpoint
+Azure,12,The load balancer capabilities for TCP and UDP applications include:,"Port forwarding, automatic reconfiguration, and health probes",Only compilation,Only logging,Only caching,"Port forwarding, automatic reconfiguration, and health probes"
+Azure,12,Health probes in a load balancer are used to:,Compile code,Encrypt data,Detect the health of backend instances,Store data,Detect the health of backend instances
+Azure,12,Azure Application Gateway is a load balancer for:,Incoming Web traffic to Web applications,Only FTP,Only email,Only database traffic,Incoming Web traffic to Web applications
+Azure,12,Traditional load balancers work at which OSI layer?,Layer 1,Layer 4 (transport layer),Layer 2,Layer 7 only,Layer 4 (transport layer)
+Azure,12,Which protocols are involved at OSI layer 4 as mentioned?,SMTP and POP3,HTTP and FTP only,DNS only,TCP and UDP,TCP and UDP
+Azure,12,Application Gateway can perform routing based on:,Only the source IP,Only the port,Only the protocol,URL and more,URL and more
+Azure,12,Which of the following is a feature of Azure Application Gateway?,Only backup,"URL-based routing, multiple-site hosting, session affinity",Only compilation,Only caching,"URL-based routing, multiple-site hosting, session affinity"
+Azure,12,Azure Traffic Manager allows developers to:,Distribute traffic globally,Manage only local traffic,Manage only email traffic,Create databases,Distribute traffic globally
+Azure,12,Azure Traffic Manager depends on:,FTP,DNS,SMTP,RDP,DNS
+Azure,12,Traffic Manager routes traffic by:,Random selection only,Manual assignment,Ignoring health,Checking for healthy endpoints and using a routing algorithm,Checking for healthy endpoints and using a routing algorithm
+Azure,12,"In Traffic Manager, an endpoint is:",A service accessible by the Internet set up in Azure,A user account,A cache,A database table,A service accessible by the Internet set up in Azure
+Azure,12,Traffic Manager can recover quickly from situations such as:,Printer failures,Slow keyboards,Typing errors,Breakdown of an entire Azure region,Breakdown of an entire Azure region
+Azure,12,Which feature allows scheduled maintenance with no downtime?,Stopping all traffic,Perform maintenance without deferment (traffic redirected to other active endpoints),Static caching,Disabling health checks,Perform maintenance without deferment (traffic redirected to other active endpoints)
+Azure,12,Nested Traffic Manager profiles help developers to:,Compile code,Delete endpoints,Create VMs,Combine traffic-routing methods for large and complex deployments,Combine traffic-routing methods for large and complex deployments
+Azure,12,Traffic Manager improves application performance by:,Disabling endpoints,Increasing latency,Ignoring users,Allocating traffic to the endpoint with low network latency,Allocating traffic to the endpoint with low network latency
+Azure,12,Traffic Manager can be used with hybrid applications because it supports:,Only Azure endpoints,Only local endpoints,"External, non-Azure endpoints",No endpoints,"External, non-Azure endpoints"
+Azure,12,Application Insights is a service for:,Hardware management,Billing,Application Performance Management (APM),Compiling,Application Performance Management (APM)
+Azure,12,Application Insights helps developers to:,Create ISO files,Edit documents,Manage printers,Track live Web applications and identify performance problems,Track live Web applications and identify performance problems
+Azure,12,Application Insights supports applications deployed on:,".NET, Node.js, and J2EE",Only .NET,Only Java,Only PHP,".NET, Node.js, and J2EE"
+Azure,12,"For mobile applications, Application Insights can be used together with:",Paint,SQL Server only,Notepad,Visual Studio App Center,Visual Studio App Center
+Azure,12,"To use Application Insights, a developer installs a package in the application and:",Deletes the app,Disables logging,Reinstalls Windows,Configures an Application Insights resource in the Azure portal,Configures an Application Insights resource in the Azure portal
+Azure,12,Which of the following can be configured to periodically send requests to a Web service for monitoring?,Cache policy,Query notification,Web tests,Resource group,Web tests
+Azure,12,Azure Monitor gathers log data and saves it in:,Redis Cache,Log Analytics,Blob storage only,Cosmos DB only,Log Analytics
+Azure,12,Log Analytics provides developers with:,A query language for advanced analytics,Only a compiler,Only a hosting platform,Only a code editor,A query language for advanced analytics
+Azure,12,A log query in Log Analytics can be used for:,"Studying information in the portal, setting alert rules, and retrieving information via the Log Analytics API",Only creating VMs,Only deleting data,Only printing,"Studying information in the portal, setting alert rules, and retrieving information via the Log Analytics API"
+Azure,12,Which Log Analytics feature allows detecting spikes and analyzing their cause?,Syntax highlighting,Tabs,Smart Analytics,Share,Smart Analytics
+Azure,12,Which Log Analytics feature lets developers view previously saved queries and functions?,Query explorer,Tabs,Visualizations,Column selection,Query explorer
+Azure,12,Which feature of Log Analytics helps improve readability of queries?,Share,Syntax highlighting,Possibilities,Smart Analytics,Syntax highlighting
+Azure,12,Which Log Analytics feature allows generating links to queries and pinning them to a shared Azure dashboard?,Share,Tabs,Possibilities,Column selection,Share
+Azure,12,"To configure Application Insights for a hosted Web App, which menu is first selected in the Azure Portal?",Monitor only,App Services,Security Center,Advisor,App Services
+Azure,12,Which button is clicked on the Application Insights page to start a new Application Insights resource?,Refresh only,Delete,Setup Application Insights,Download,Setup Application Insights
+Azure,12,Azure Event Hubs provides an environment that allows to:,Edit documents,Create hardware,Print reports,Stream Big Data,Stream Big Data
+Azure,12,Event Hubs is also called an event:,Deletion service,Ingestion service,Billing service,Compilation service,Ingestion service
+Azure,12,Event Hubs can accept close to how many events per second?,Millions,Tens,Hundreds,One,Millions
+Azure,12,An event ingestor is:,A VM,A web page,An element positioned between event producers and event consumers to separate generation from consumption,A database table,An element positioned between event producers and event consumers to separate generation from consumption
+Azure,12,Which of the following is a use case for Event Hubs?,Only image editing,"Anomaly detection such as fraud, application logging, and real-time dashboarding",Only printing,Only email,"Anomaly detection such as fraud, application logging, and real-time dashboarding"
+Azure,12,Azure Stream Analytics is:,A database,A web browser,An engine that executes events and lets developers analyze large sets of information arriving from various devices,A VM,An engine that executes events and lets developers analyze large sets of information arriving from various devices
+Azure,12,Which is NOT mentioned as a source for Stream Analytics data?,Sensors,Compiler logs only,Social media feeds,Websites,Compiler logs only
+Azure,12,Which of the following is a use case for Stream Analytics?,Creating VMs,IoT sensor fusion and clickstream analytics,Compiling code,Writing documents,IoT sensor fusion and clickstream analytics
+Azure,12,Stream Analytics can be used for geospatial analytics in:,Only gaming,Fleet management and driverless vehicles,Only email,Only printing,Fleet management and driverless vehicles
+Azure,12,Stream Analytics can be used for real-time analysis on:,Only images,Only emails,Point of Sale (PoS) data to regulate inventory and detect anomalies,Only PDFs,Point of Sale (PoS) data to regulate inventory and detect anomalies
+Azure,12,Patterns detected in Stream Analytics can be used to:,Format drives,"Activate alerts, feed data to reporting tools, or store data for future use",Delete data,Stop the Internet,"Activate alerts, feed data to reporting tools, or store data for future use"

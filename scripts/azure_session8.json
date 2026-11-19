@@ -1,0 +1,613 @@
+{
+  "category": "Azure",
+  "session": 8,
+  "title": "Session 8: Security in Web API",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "What are the two important phases of Web API security implementation?",
+      "options": [
+        "Compilation and deployment",
+        "Caching and routing",
+        "Authentication and authorization",
+        "Encryption and compression"
+      ],
+      "correctAnswer": "Authentication and authorization",
+      "explanation": "Correct answer is C) Authentication and authorization."
+    },
+    {
+      "questionText": "Validating a user's identity using a username and password is called:",
+      "options": [
+        "Authorization",
+        "Authentication",
+        "Caching",
+        "Routing"
+      ],
+      "correctAnswer": "Authentication",
+      "explanation": "Correct answer is B) Authentication."
+    },
+    {
+      "questionText": "Determining what an authenticated user is allowed to do (e.g., read but not edit a file) is called:",
+      "options": [
+        "Authorization",
+        "Serialization",
+        "Binding",
+        "Authentication"
+      ],
+      "correctAnswer": "Authorization",
+      "explanation": "Correct answer is A) Authorization."
+    },
+    {
+      "questionText": "In Web API, where is authentication performed?",
+      "options": [
+        "In the browser",
+        "In the controller action",
+        "In the database only",
+        "In the host"
+      ],
+      "correctAnswer": "In the host",
+      "explanation": "Correct answer is D) In the host."
+    },
+    {
+      "questionText": "Which server employs HTTP modules to authenticate users in Web API hosting?",
+      "options": [
+        "Tomcat",
+        "Apache",
+        "Internet Information Server (IIS)",
+        "Nginx"
+      ],
+      "correctAnswer": "Internet Information Server (IIS)",
+      "explanation": "Correct answer is C) Internet Information Server (IIS)."
+    },
+    {
+      "questionText": "The host generates which object for authenticated users?",
+      "options": [
+        "IEnumerable",
+        "IPrincipal",
+        "IQueryable",
+        "IHttpActionResult"
+      ],
+      "correctAnswer": "IPrincipal",
+      "explanation": "Correct answer is B) IPrincipal."
+    },
+    {
+      "questionText": "The principal is appended to the current thread using:",
+      "options": [
+        "Thread.Sleep",
+        "Thread.Start",
+        "Thread.CurrentPrincipal",
+        "Thread.Abort"
+      ],
+      "correctAnswer": "Thread.CurrentPrincipal",
+      "explanation": "Correct answer is C) Thread.CurrentPrincipal."
+    },
+    {
+      "questionText": "What does Identity.IsAuthenticated return when authentication succeeds?",
+      "options": [
+        "true",
+        "false",
+        "0",
+        "null"
+      ],
+      "correctAnswer": "true",
+      "explanation": "Correct answer is A) true."
+    },
+    {
+      "questionText": "Authorization filters are applied:",
+      "options": [
+        "After the controller action",
+        "Only in the browser",
+        "Only at application end",
+        "Prior to the controller action"
+      ],
+      "correctAnswer": "Prior to the controller action",
+      "explanation": "Correct answer is D) Prior to the controller action."
+    },
+    {
+      "questionText": "Which property is used to obtain the current principal from a controller action?",
+      "options": [
+        "ApiController.Context",
+        "ApiController.User",
+        "ApiController.Identity",
+        "ApiController.Request"
+      ],
+      "correctAnswer": "ApiController.User",
+      "explanation": "Correct answer is B) ApiController.User."
+    },
+    {
+      "questionText": "The AuthorizeAttribute filter displays which HTTP error code when authentication is unsuccessful?",
+      "options": [
+        "404",
+        "200",
+        "401",
+        "500"
+      ],
+      "correctAnswer": "401",
+      "explanation": "Correct answer is C) 401."
+    },
+    {
+      "questionText": "The AuthorizeAttribute filter can be applied at which levels?",
+      "options": [
+        "Only action level",
+        "Only controller level",
+        "Only globally",
+        "Globally, at controller level, or at action level"
+      ],
+      "correctAnswer": "Globally, at controller level, or at action level",
+      "explanation": "Correct answer is D) Globally, at controller level, or at action level."
+    },
+    {
+      "questionText": "Which are the two ways to provide security in Web API mentioned in the session?",
+      "options": [
+        "Basic authentication and token-based authentication",
+        "HTTP and HTTPS",
+        "Cookies and sessions",
+        "FTP and SFTP"
+      ],
+      "correctAnswer": "Basic authentication and token-based authentication",
+      "explanation": "Correct answer is A) Basic authentication and token-based authentication."
+    },
+    {
+      "questionText": "In basic authentication, credentials are sent:",
+      "options": [
+        "In a cookie only",
+        "As username and password embedded in a request header",
+        "In a database only",
+        "In the URL only"
+      ],
+      "correctAnswer": "As username and password embedded in a request header",
+      "explanation": "Correct answer is B) As username and password embedded in a request header."
+    },
+    {
+      "questionText": "Token-based authentication works by:",
+      "options": [
+        "Disabling security",
+        "Using only cookies",
+        "Sending a password with every request",
+        "Forwarding a token to the authenticated user for accessing other resources"
+      ],
+      "correctAnswer": "Forwarding a token to the authenticated user for accessing other resources",
+      "explanation": "Correct answer is D) Forwarding a token to the authenticated user for accessing other resources."
+    },
+    {
+      "questionText": "A token has a predefined:",
+      "options": [
+        "Lifetime that determines when it expires",
+        "Color",
+        "Port",
+        "Language"
+      ],
+      "correctAnswer": "Lifetime that determines when it expires",
+      "explanation": "Correct answer is A) Lifetime that determines when it expires."
+    },
+    {
+      "questionText": "OWIN stands for:",
+      "options": [
+        "Online Web Identity Network",
+        "Open Windows Interface Node",
+        "Object Web Integration for .NET",
+        "Open Web Interface for .NET"
+      ],
+      "correctAnswer": "Open Web Interface for .NET",
+      "explanation": "Correct answer is D) Open Web Interface for .NET."
+    },
+    {
+      "questionText": "Which authentication option is selected to implement OWIN token authentication with stored user profiles?",
+      "options": [
+        "Work or School Accounts only",
+        "Windows Authentication",
+        "Individual User Accounts",
+        "No Authentication"
+      ],
+      "correctAnswer": "Individual User Accounts",
+      "explanation": "Correct answer is C) Individual User Accounts."
+    },
+    {
+      "questionText": "Individual User Accounts allows users to:",
+      "options": [
+        "Register or sign in using an existing account for Facebook, Twitter, Google, Microsoft or other providers",
+        "Skip login",
+        "Only use Windows login",
+        "Only use anonymous access"
+      ],
+      "correctAnswer": "Register or sign in using an existing account for Facebook, Twitter, Google, Microsoft or other providers",
+      "explanation": "Correct answer is A) Register or sign in using an existing account for Facebook, Twitter, Google, Microsoft or other providers."
+    },
+    {
+      "questionText": "After creating the application with authentication, which controller appears in the Controllers folder?",
+      "options": [
+        "AccountController",
+        "PaymentController",
+        "LoginController",
+        "StudentController"
+      ],
+      "correctAnswer": "AccountController",
+      "explanation": "Correct answer is A) AccountController."
+    },
+    {
+      "questionText": "By default, where does OWIN authentication create its authentication database?",
+      "options": [
+        "In Redis",
+        "In Azure Cosmos DB",
+        "In the Data (App_Data) folder",
+        "In the cloud automatically"
+      ],
+      "correctAnswer": "In the Data (App_Data) folder",
+      "explanation": "Correct answer is C) In the Data (App_Data) folder."
+    },
+    {
+      "questionText": "In the walkthrough, the connection name for the authentication database is:",
+      "options": [
+        "AzureDb",
+        "DefaultConnection",
+        "AuthDb",
+        "OwinDb"
+      ],
+      "correctAnswer": "DefaultConnection",
+      "explanation": "Correct answer is B) DefaultConnection."
+    },
+    {
+      "questionText": "Which methods of AccountController are visible in the API helper page?",
+      "options": [
+        "None",
+        "Register and Logout",
+        "Token only",
+        "Login only"
+      ],
+      "correctAnswer": "Register and Logout",
+      "explanation": "Correct answer is B) Register and Logout."
+    },
+    {
+      "questionText": "Which setting in Startup.Auth.cs specifies the URL for token generation?",
+      "options": [
+        "ProviderPath",
+        "AuthorizeEndpointPath",
+        "LoginPath",
+        "TokenEndpointPath"
+      ],
+      "correctAnswer": "TokenEndpointPath",
+      "explanation": "Correct answer is D) TokenEndpointPath."
+    },
+    {
+      "questionText": "What is the AccessTokenExpireTimeSpan in the sample code?",
+      "options": [
+        "1 year",
+        "30 minutes",
+        "1 hour",
+        "14 days"
+      ],
+      "correctAnswer": "14 days",
+      "explanation": "Correct answer is D) 14 days."
+    },
+    {
+      "questionText": "In production mode, AllowInsecureHttp should be set to:",
+      "options": [
+        "false",
+        "null",
+        "true",
+        "0"
+      ],
+      "correctAnswer": "false",
+      "explanation": "Correct answer is A) false."
+    },
+    {
+      "questionText": "Which tool is used in the session to generate and test the token?",
+      "options": [
+        "Paint",
+        "Postman",
+        "Excel",
+        "Notepad"
+      ],
+      "correctAnswer": "Postman",
+      "explanation": "Correct answer is B) Postman."
+    },
+    {
+      "questionText": "Before logging in, a user must first:",
+      "options": [
+        "Delete the database",
+        "Install SQL",
+        "Restart IIS",
+        "Register with a unique user ID and password"
+      ],
+      "correctAnswer": "Register with a unique user ID and password",
+      "explanation": "Correct answer is D) Register with a unique user ID and password."
+    },
+    {
+      "questionText": "Which HTTP method is used to register a user in Postman?",
+      "options": [
+        "DELETE",
+        "PUT",
+        "GET",
+        "POST"
+      ],
+      "correctAnswer": "POST",
+      "explanation": "Correct answer is D) POST."
+    },
+    {
+      "questionText": "What response code indicates that the registration API executed successfully?",
+      "options": [
+        "200",
+        "500",
+        "401",
+        "404"
+      ],
+      "correctAnswer": "200",
+      "explanation": "Correct answer is A) 200."
+    },
+    {
+      "questionText": "The login response includes which of the following?",
+      "options": [
+        "Access token, expiry, token type",
+        "Only a cookie",
+        "Only a password",
+        "Only an email"
+      ],
+      "correctAnswer": "Access token, expiry, token type",
+      "explanation": "Correct answer is A) Access token, expiry, token type."
+    },
+    {
+      "questionText": "How many tables are created by OWIN in the Azure database, and how many begin with AspNet?",
+      "options": [
+        "Three, none begin with AspNet",
+        "Ten, all begin with AspNet",
+        "Six, five begin with AspNet",
+        "Six, all begin with AspNet"
+      ],
+      "correctAnswer": "Six, five begin with AspNet",
+      "explanation": "Correct answer is C) Six, five begin with AspNet."
+    },
+    {
+      "questionText": "Which method is overridden to implement custom authorization logic in a class derived from AuthorizeAttribute?",
+      "options": [
+        "IsAuthorized",
+        "HandleRequest",
+        "Validate",
+        "OnActionExecuting"
+      ],
+      "correctAnswer": "IsAuthorized",
+      "explanation": "Correct answer is A) IsAuthorized."
+    },
+    {
+      "questionText": "IsAuthorized returns a Boolean where true means:",
+      "options": [
+        "The database is down",
+        "The token expired",
+        "The user is blocked",
+        "The user is authorized"
+      ],
+      "correctAnswer": "The user is authorized",
+      "explanation": "Correct answer is D) The user is authorized."
+    },
+    {
+      "questionText": "Which method of AuthorizeAttribute allows custom logic when authorization fails?",
+      "options": [
+        "OnException",
+        "Dispose",
+        "HandleUnauthorizedRequest",
+        "Reset"
+      ],
+      "correctAnswer": "HandleUnauthorizedRequest",
+      "explanation": "Correct answer is C) HandleUnauthorizedRequest."
+    },
+    {
+      "questionText": "Which namespace should the custom filter derive from for Web API?",
+      "options": [
+        "System.Web.Http",
+        "System.IO",
+        "System.Data",
+        "System.Web.Mvc"
+      ],
+      "correctAnswer": "System.Web.Http",
+      "explanation": "Correct answer is A) System.Web.Http."
+    },
+    {
+      "questionText": "The [Authorize(Roles = \"Supervisor\")] attribute means:",
+      "options": [
+        "Only users in the Supervisor role can access the controller or its actions",
+        "Nobody can access",
+        "Only anonymous users can access",
+        "Everyone can access"
+      ],
+      "correctAnswer": "Only users in the Supervisor role can access the controller or its actions",
+      "explanation": "Correct answer is A) Only users in the Supervisor role can access the controller or its actions."
+    },
+    {
+      "questionText": "The [AllowAnonymous] attribute:",
+      "options": [
+        "Encrypts data",
+        "Blocks all users",
+        "Lets a user access a controller or action without authentication",
+        "Requires a role"
+      ],
+      "correctAnswer": "Lets a user access a controller or action without authentication",
+      "explanation": "Correct answer is C) Lets a user access a controller or action without authentication."
+    },
+    {
+      "questionText": "CORS stands for:",
+      "options": [
+        "Cross Origin Resource Sharing",
+        "Central Origin Routing Service",
+        "Cross Object Resource Sync",
+        "Cached Origin Resource Server"
+      ],
+      "correctAnswer": "Cross Origin Resource Sharing",
+      "explanation": "Correct answer is A) Cross Origin Resource Sharing."
+    },
+    {
+      "questionText": "CORS is a standard of which organization?",
+      "options": [
+        "Microsoft only",
+        "ISO only",
+        "World Wide Web Consortium (W3C)",
+        "IEEE only"
+      ],
+      "correctAnswer": "World Wide Web Consortium (W3C)",
+      "explanation": "Correct answer is C) World Wide Web Consortium (W3C)."
+    },
+    {
+      "questionText": "CORS allows a server to:",
+      "options": [
+        "Decline all requests",
+        "Disable HTTP",
+        "Accept some cross-origin requests while declining others",
+        "Accept all requests always"
+      ],
+      "correctAnswer": "Accept some cross-origin requests while declining others",
+      "explanation": "Correct answer is C) Accept some cross-origin requests while declining others."
+    },
+    {
+      "questionText": "Which technique was used earlier for cross-domain calls before CORS?",
+      "options": [
+        "RPC",
+        "SOAP",
+        "FTP",
+        "JSONP (JSON with Padding)"
+      ],
+      "correctAnswer": "JSONP (JSON with Padding)",
+      "explanation": "Correct answer is D) JSONP (JSON with Padding)."
+    },
+    {
+      "questionText": "Which NuGet package is installed to enable CORS in Web API?",
+      "options": [
+        "Microsoft.AspNet.Odata",
+        "Microsoft.AspNet.WebApi.Cors",
+        "EntityFramework",
+        "MySql.Data.Entity"
+      ],
+      "correctAnswer": "Microsoft.AspNet.WebApi.Cors",
+      "explanation": "Correct answer is B) Microsoft.AspNet.WebApi.Cors."
+    },
+    {
+      "questionText": "Which minimum version of Web API is required for the CORS package?",
+      "options": [
+        "Web API 0.5",
+        "Web API 1.0",
+        "Any version",
+        "Web API 2.0 or later"
+      ],
+      "correctAnswer": "Web API 2.0 or later",
+      "explanation": "Correct answer is D) Web API 2.0 or later."
+    },
+    {
+      "questionText": "Which line in WebApiConfig.Register enables CORS?",
+      "options": [
+        "config.AllowCors()",
+        "config.EnableCors()",
+        "config.UseCors()",
+        "config.CorsOn()"
+      ],
+      "correctAnswer": "config.EnableCors()",
+      "explanation": "Correct answer is B) config.EnableCors()."
+    },
+    {
+      "questionText": "The [EnableCors] attribute takes which parameters?",
+      "options": [
+        "Only headers",
+        "Only origins",
+        "origins, headers, and methods",
+        "users and roles"
+      ],
+      "correctAnswer": "origins, headers, and methods",
+      "explanation": "Correct answer is C) origins, headers, and methods."
+    },
+    {
+      "questionText": "For the origins parameter, you should use:",
+      "options": [
+        "The database name",
+        "Any random text",
+        "The URI where the WebClient application was deployed",
+        "The server password"
+      ],
+      "correctAnswer": "The URI where the WebClient application was deployed",
+      "explanation": "Correct answer is C) The URI where the WebClient application was deployed."
+    },
+    {
+      "questionText": "XSRF/CSRF stands for:",
+      "options": [
+        "Cross-Site Request Foundation",
+        "Cross-Site Reporting Forgery",
+        "Cross-Site Response Forgery",
+        "Cross-Site Request Forgery"
+      ],
+      "correctAnswer": "Cross-Site Request Forgery",
+      "explanation": "Correct answer is D) Cross-Site Request Forgery."
+    },
+    {
+      "questionText": "XSRF has high chances when Web applications use:",
+      "options": [
+        "No authentication",
+        "Only tokens in headers",
+        "Cookies to authenticate users",
+        "Only SSL"
+      ],
+      "correctAnswer": "Cookies to authenticate users",
+      "explanation": "Correct answer is C) Cookies to authenticate users."
+    },
+    {
+      "questionText": "Why are browsers vulnerable to XSRF with cookies?",
+      "options": [
+        "Cookies expire immediately",
+        "Cookies are sent to the Web app with every request, regardless of how the request is generated",
+        "Cookies are never sent",
+        "Cookies are encrypted"
+      ],
+      "correctAnswer": "Cookies are sent to the Web app with every request, regardless of how the request is generated",
+      "explanation": "Correct answer is B) Cookies are sent to the Web app with every request, regardless of how the request is generated."
+    },
+    {
+      "questionText": "Which authentication method can also be prone to XSRF?",
+      "options": [
+        "No authentication",
+        "Basic authentication",
+        "Public access",
+        "Anonymous"
+      ],
+      "correctAnswer": "Basic authentication",
+      "explanation": "Correct answer is B) Basic authentication."
+    },
+    {
+      "questionText": "In the authorization filter walkthrough, which tables are NOT included in the Entity Data Model?",
+      "options": [
+        "Student table",
+        "AspNet tables",
+        "None",
+        "All tables"
+      ],
+      "correctAnswer": "AspNet tables",
+      "explanation": "Correct answer is B) AspNet tables."
+    },
+    {
+      "questionText": "Adding [Authorize] before the StudentController does what?",
+      "options": [
+        "Deletes the controller",
+        "Secures all methods so login is required",
+        "Disables CORS",
+        "Makes all methods anonymous"
+      ],
+      "correctAnswer": "Secures all methods so login is required",
+      "explanation": "Correct answer is B) Secures all methods so login is required."
+    },
+    {
+      "questionText": "Which method is marked [AllowAnonymous] in the example?",
+      "options": [
+        "GetAll()",
+        "Delete()",
+        "Modify()",
+        "Create()"
+      ],
+      "correctAnswer": "GetAll()",
+      "explanation": "Correct answer is A) GetAll()."
+    },
+    {
+      "questionText": "Why does Create() fail without a token?",
+      "options": [
+        "The database is offline",
+        "The controller is marked [Authorize] and requires login",
+        "The route is wrong",
+        "The method is deprecated"
+      ],
+      "correctAnswer": "The controller is marked [Authorize] and requires login",
+      "explanation": "Correct answer is B) The controller is marked [Authorize] and requires login."
+    }
+  ]
+}

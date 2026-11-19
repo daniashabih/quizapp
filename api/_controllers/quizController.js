@@ -12,6 +12,8 @@ const isMemoryCategoryMatch = (memCategory, targetCategory) => {
     if (b === 'csharp' || b === 'c sharp') return a === 'c#';
     const isMongo = (val) => val === 'mongodb' || val === 'mongo db' || val === 'mongo';
     if (isMongo(a) && isMongo(b)) return true;
+    const isAzure = (val) => val === 'azure' || val === 'microsoft azure' || val === 'ms azure' || val === 'windows azure';
+    if (isAzure(a) && isAzure(b)) return true;
     return a === b || a.includes(b) || b.includes(a);
 };
 

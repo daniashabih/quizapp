@@ -1,0 +1,613 @@
+{
+  "category": "Azure",
+  "session": 7,
+  "title": "Session 7: Design and Implementation of Web API",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "ASP.NET Web API is a framework that:",
+      "options": [
+        "Allows producing HTTP services accessible to different clients, including browsers and mobile devices",
+        "Only builds desktop applications",
+        "Only manages databases",
+        "Only builds games"
+      ],
+      "correctAnswer": "Allows producing HTTP services accessible to different clients, including browsers and mobile devices",
+      "explanation": "Correct answer is A) Allows producing HTTP services accessible to different clients, including browsers and mobile devices."
+    },
+    {
+      "questionText": "Web API responses can be sent back using which content types by default?",
+      "options": [
+        "JSON and XML",
+        "Only images",
+        "Only HTML",
+        "Only PDF"
+      ],
+      "correctAnswer": "JSON and XML",
+      "explanation": "Correct answer is A) JSON and XML."
+    },
+    {
+      "questionText": "Web API is an ideal platform for building:",
+      "options": [
+        "Only desktop forms",
+        "Operating systems",
+        "RESTful applications on the .NET Framework",
+        "Only SOAP-only services"
+      ],
+      "correctAnswer": "RESTful applications on the .NET Framework",
+      "explanation": "Correct answer is C) RESTful applications on the .NET Framework."
+    },
+    {
+      "questionText": "JSON stands for:",
+      "options": [
+        "Java Standard Object Network",
+        "JavaScript Object Notation",
+        "JavaScript Online Node",
+        "Joint Syntax Object Notation"
+      ],
+      "correctAnswer": "JavaScript Object Notation",
+      "explanation": "Correct answer is B) JavaScript Object Notation."
+    },
+    {
+      "questionText": "Web API is considered to be a part of:",
+      "options": [
+        "The core ASP.NET platform, not the MVC Framework",
+        "Silverlight",
+        "The MVC Framework only",
+        "Windows Forms"
+      ],
+      "correctAnswer": "The core ASP.NET platform, not the MVC Framework",
+      "explanation": "Correct answer is A) The core ASP.NET platform, not the MVC Framework."
+    },
+    {
+      "questionText": "Which of the following attributes of MVC is part of ASP.NET Web API?",
+      "options": [
+        "Only Razor",
+        "Only views",
+        "Routing, controllers, filters, model binders",
+        "Only master pages"
+      ],
+      "correctAnswer": "Routing, controllers, filters, model binders",
+      "explanation": "Correct answer is C) Routing, controllers, filters, model binders."
+    },
+    {
+      "questionText": "HTTP is the protocol used to:",
+      "options": [
+        "Store databases",
+        "Print documents",
+        "Communicate over the Web",
+        "Compile code"
+      ],
+      "correctAnswer": "Communicate over the Web",
+      "explanation": "Correct answer is C) Communicate over the Web."
+    },
+    {
+      "questionText": "When a user enters a URL in a browser, what is sent to the application on the server?",
+      "options": [
+        "An HTTP request",
+        "A database dump",
+        "An email",
+        "An FTP file"
+      ],
+      "correctAnswer": "An HTTP request",
+      "explanation": "Correct answer is A) An HTTP request."
+    },
+    {
+      "questionText": "Which of the following is an HTTP request header that specifies the domain name of the application whose resource is being accessed?",
+      "options": [
+        "Accept",
+        "Host",
+        "Keep-Alive",
+        "Connection"
+      ],
+      "correctAnswer": "Host",
+      "explanation": "Correct answer is B) Host."
+    },
+    {
+      "questionText": "Which HTTP request header specifies the MIME types the client expects in the response?",
+      "options": [
+        "Keep-Alive",
+        "Content-Type only",
+        "Host",
+        "Accept"
+      ],
+      "correctAnswer": "Accept",
+      "explanation": "Correct answer is D) Accept."
+    },
+    {
+      "questionText": "Which header value indicates the server should use the same connection for subsequent communication?",
+      "options": [
+        "keep-alive (Connection header)",
+        "Accept-Language",
+        "close",
+        "Host"
+      ],
+      "correctAnswer": "keep-alive (Connection header)",
+      "explanation": "Correct answer is A) keep-alive (Connection header)."
+    },
+    {
+      "questionText": "An HTTP response contains:",
+      "options": [
+        "Only a body",
+        "Only a status code",
+        "Response headers and a response body along with a status code",
+        "Only headers"
+      ],
+      "correctAnswer": "Response headers and a response body along with a status code",
+      "explanation": "Correct answer is C) Response headers and a response body along with a status code."
+    },
+    {
+      "questionText": "Which response header specifies the type of content the response contains?",
+      "options": [
+        "Host",
+        "Accept",
+        "User-Agent",
+        "Content-Type"
+      ],
+      "correctAnswer": "Content-Type",
+      "explanation": "Correct answer is D) Content-Type."
+    },
+    {
+      "questionText": "A Content-Type value of text/html tells the browser to render the response body as:",
+      "options": [
+        "JSON",
+        "HTML",
+        "An image",
+        "Plain XML"
+      ],
+      "correctAnswer": "HTML",
+      "explanation": "Correct answer is B) HTML."
+    },
+    {
+      "questionText": "In the walkthrough, the new ASP.NET Web Application is named:",
+      "options": [
+        "StudentServices",
+        "WebAPIHelper",
+        "StudentManagement",
+        "StudentOData"
+      ],
+      "correctAnswer": "StudentServices",
+      "explanation": "Correct answer is A) StudentServices."
+    },
+    {
+      "questionText": "When Web API is selected as the project type in Visual Studio, what does it also include?",
+      "options": [
+        "Only WCF",
+        "Only Entity Framework",
+        "MVC with API Explorer helper pages",
+        "Only SOAP"
+      ],
+      "correctAnswer": "MVC with API Explorer helper pages",
+      "explanation": "Correct answer is C) MVC with API Explorer helper pages."
+    },
+    {
+      "questionText": "Which type of controller is added to the Controllers folder in the walkthrough?",
+      "options": [
+        "Web API 2 Controller",
+        "Windows Form Controller",
+        "Silverlight Controller",
+        "WCF Controller"
+      ],
+      "correctAnswer": "Web API 2 Controller",
+      "explanation": "Correct answer is A) Web API 2 Controller."
+    },
+    {
+      "questionText": "Which model class is created to hold the attributes needed to create a student?",
+      "options": [
+        "StudentModel",
+        "EditStudentModel",
+        "StudentEntity",
+        "CreateStudentModel"
+      ],
+      "correctAnswer": "CreateStudentModel",
+      "explanation": "Correct answer is D) CreateStudentModel."
+    },
+    {
+      "questionText": "Which HTTP method attribute is used with the Create() action to insert a record?",
+      "options": [
+        "[HttpDelete]",
+        "[HttpPost]",
+        "[HttpGet]",
+        "[HttpPut]"
+      ],
+      "correctAnswer": "[HttpPost]",
+      "explanation": "Correct answer is B) [HttpPost]."
+    },
+    {
+      "questionText": "Which attribute is used on GetAll() to retrieve the list of students?",
+      "options": [
+        "[HttpPut]",
+        "[HttpGet]",
+        "[HttpPost]",
+        "[HttpDelete]"
+      ],
+      "correctAnswer": "[HttpGet]",
+      "explanation": "Correct answer is B) [HttpGet]."
+    },
+    {
+      "questionText": "Which method of the context saves the inserted record to the database?",
+      "options": [
+        "Commit()",
+        "SaveChanges()",
+        "Flush()",
+        "Update()"
+      ],
+      "correctAnswer": "SaveChanges()",
+      "explanation": "Correct answer is B) SaveChanges()."
+    },
+    {
+      "questionText": "Which return type is used in the sample actions?",
+      "options": [
+        "IHttpActionResult",
+        "ActionResult only",
+        "string only",
+        "void only"
+      ],
+      "correctAnswer": "IHttpActionResult",
+      "explanation": "Correct answer is A) IHttpActionResult."
+    },
+    {
+      "questionText": "Which third-party tool is mentioned for testing Web APIs?",
+      "options": [
+        "Postman",
+        "Excel",
+        "Notepad",
+        "Paint"
+      ],
+      "correctAnswer": "Postman",
+      "explanation": "Correct answer is A) Postman."
+    },
+    {
+      "questionText": "In Postman, how is JSON data passed to create a student with the POST method?",
+      "options": [
+        "In a cookie",
+        "As raw content in the request body",
+        "In the URL only",
+        "In a header only"
+      ],
+      "correctAnswer": "As raw content in the request body",
+      "explanation": "Correct answer is B) As raw content in the request body."
+    },
+    {
+      "questionText": "In Web API, which part of the request is used to select an action?",
+      "options": [
+        "The HTTP method",
+        "The IP address",
+        "The URI method only",
+        "The browser type"
+      ],
+      "correctAnswer": "The HTTP method",
+      "explanation": "Correct answer is A) The HTTP method."
+    },
+    {
+      "questionText": "ASP.NET MVC uses which element to select an action?",
+      "options": [
+        "The port",
+        "The URI",
+        "The cookies",
+        "The HTTP method only"
+      ],
+      "correctAnswer": "The URI",
+      "explanation": "Correct answer is B) The URI."
+    },
+    {
+      "questionText": "A controller in Web API is:",
+      "options": [
+        "A database table",
+        "A browser extension",
+        "A configuration file",
+        "A class that can manage HTTP requests, with public methods called actions"
+      ],
+      "correctAnswer": "A class that can manage HTTP requests, with public methods called actions",
+      "explanation": "Correct answer is D) A class that can manage HTTP requests, with public methods called actions."
+    },
+    {
+      "questionText": "The routing table is used to:",
+      "options": [
+        "Store database records",
+        "Cache static content",
+        "Decide which action should be called for a request",
+        "Compile code"
+      ],
+      "correctAnswer": "Decide which action should be called for a request",
+      "explanation": "Correct answer is C) Decide which action should be called for a request."
+    },
+    {
+      "questionText": "Where is the default Web API route defined?",
+      "options": [
+        "WebApiConfig.cs in the App_Start folder",
+        "Global.asax only",
+        "Web.config only",
+        "Startup.cs in Models"
+      ],
+      "correctAnswer": "WebApiConfig.cs in the App_Start folder",
+      "explanation": "Correct answer is A) WebApiConfig.cs in the App_Start folder."
+    },
+    {
+      "questionText": "What is the default route template for Web API?",
+      "options": [
+        "api/{action}",
+        "{controller}/{action}/{id}",
+        "api/{controller}/{id}",
+        "home/index"
+      ],
+      "correctAnswer": "api/{controller}/{id}",
+      "explanation": "Correct answer is C) api/{controller}/{id}."
+    },
+    {
+      "questionText": "What happens if the request URI does not match any route template?",
+      "options": [
+        "The server restarts",
+        "A 404 error is displayed",
+        "A 500 error always",
+        "A 200 response is returned"
+      ],
+      "correctAnswer": "A 404 error is displayed",
+      "explanation": "Correct answer is B) A 404 error is displayed."
+    },
+    {
+      "questionText": "In the default route, 'api' is:",
+      "options": [
+        "A controller",
+        "An action",
+        "A placeholder variable",
+        "The actual path segment"
+      ],
+      "correctAnswer": "The actual path segment",
+      "explanation": "Correct answer is D) The actual path segment."
+    },
+    {
+      "questionText": "In the default route, {controller} and {id} are:",
+      "options": [
+        "Query strings",
+        "Placeholder variables",
+        "Fixed segments",
+        "HTTP methods"
+      ],
+      "correctAnswer": "Placeholder variables",
+      "explanation": "Correct answer is B) Placeholder variables."
+    },
+    {
+      "questionText": "Attribute routing uses which attribute to define route templates on actions?",
+      "options": [
+        "[HttpPost]",
+        "[Authorize]",
+        "[Display]",
+        "[Route]"
+      ],
+      "correctAnswer": "[Route]",
+      "explanation": "Correct answer is D) [Route]."
+    },
+    {
+      "questionText": "Which route template is shown as an example of hierarchy of resources in attribute routing?",
+      "options": [
+        "api/{controller}/{id}",
+        "students/{id}",
+        "students/{studentId}/marks",
+        "home/index"
+      ],
+      "correctAnswer": "students/{studentId}/marks",
+      "explanation": "Correct answer is C) students/{studentId}/marks."
+    },
+    {
+      "questionText": "Which HTTP method attribute is used for the Modify() action?",
+      "options": [
+        "[HttpDelete]",
+        "[HttpPut]",
+        "[HttpGet]",
+        "[HttpPost]"
+      ],
+      "correctAnswer": "[HttpPut]",
+      "explanation": "Correct answer is B) [HttpPut]."
+    },
+    {
+      "questionText": "Which attribute is used on the Delete() action?",
+      "options": [
+        "[HttpPut]",
+        "[HttpPost]",
+        "[HttpDelete]",
+        "[HttpGet]"
+      ],
+      "correctAnswer": "[HttpDelete]",
+      "explanation": "Correct answer is C) [HttpDelete]."
+    },
+    {
+      "questionText": "In Modify(), how is the entity marked as changed?",
+      "options": [
+        "context.Add(student)",
+        "context.Entry(student).State = EntityState.Modified",
+        "context.Refresh()",
+        "context.Delete(student)"
+      ],
+      "correctAnswer": "context.Entry(student).State = EntityState.Modified",
+      "explanation": "Correct answer is B) context.Entry(student).State = EntityState.Modified."
+    },
+    {
+      "questionText": "In Delete(), which method removes the student from the DbSet?",
+      "options": [
+        "_context.Students.Remove(...)",
+        "_context.Students.Find(...)",
+        "_context.Students.Add(...)",
+        "_context.Students.Clear(...)"
+      ],
+      "correctAnswer": "_context.Students.Remove(...)",
+      "explanation": "Correct answer is A) _context.Students.Remove(...)."
+    },
+    {
+      "questionText": "CRUD operations in Web API correspond to:",
+      "options": [
+        "Cache, Remove, Update, Deploy",
+        "Connect, Retrieve, Use, Dispose",
+        "Copy, Run, Upload, Download",
+        "Create, Read, Update, Delete"
+      ],
+      "correctAnswer": "Create, Read, Update, Delete",
+      "explanation": "Correct answer is D) Create, Read, Update, Delete."
+    },
+    {
+      "questionText": "Which Web API method accepts a Student JSON object as body and is mapped to api/Student with POST?",
+      "options": [
+        "Delete()",
+        "GetAll()",
+        "GetById()",
+        "Create()"
+      ],
+      "correctAnswer": "Create()",
+      "explanation": "Correct answer is D) Create()."
+    },
+    {
+      "questionText": "Dependency injection is used to create:",
+      "options": [
+        "Loosely linked systems where replacing an object is easy",
+        "Only databases",
+        "Tightly coupled systems",
+        "Only static pages"
+      ],
+      "correctAnswer": "Loosely linked systems where replacing an object is easy",
+      "explanation": "Correct answer is A) Loosely linked systems where replacing an object is easy."
+    },
+    {
+      "questionText": "Which of the following are IOC containers?",
+      "options": [
+        "Ninject, Unity, CastleWindsor, StructureMap",
+        "Chrome, Firefox",
+        "Excel, Word",
+        "Postman, Fiddler"
+      ],
+      "correctAnswer": "Ninject, Unity, CastleWindsor, StructureMap",
+      "explanation": "Correct answer is A) Ninject, Unity, CastleWindsor, StructureMap."
+    },
+    {
+      "questionText": "Which are the three methods to reference an object to an external module in dependency injection?",
+      "options": [
+        "Property, Field, Event injection",
+        "Static, Dynamic, Global injection",
+        "Class, Object, Method injection",
+        "Constructor, Setter, and Interface injection"
+      ],
+      "correctAnswer": "Constructor, Setter, and Interface injection",
+      "explanation": "Correct answer is D) Constructor, Setter, and Interface injection."
+    },
+    {
+      "questionText": "In asynchronous actions, the callback function executes on:",
+      "options": [
+        "A new process",
+        "A thread from the Thread pool",
+        "The UI thread only",
+        "A database thread"
+      ],
+      "correctAnswer": "A thread from the Thread pool",
+      "explanation": "Correct answer is B) A thread from the Thread pool."
+    },
+    {
+      "questionText": "Which keyword is used in the GetAllAsync example to wait for ToListAsync()?",
+      "options": [
+        "yield",
+        "lock",
+        "await",
+        "using"
+      ],
+      "correctAnswer": "await",
+      "explanation": "Correct answer is C) await."
+    },
+    {
+      "questionText": "Which namespace must be imported to use Task?",
+      "options": [
+        "System.IO",
+        "System.Net.Mail",
+        "System.Threading.Tasks",
+        "System.Drawing"
+      ],
+      "correctAnswer": "System.Threading.Tasks",
+      "explanation": "Correct answer is C) System.Threading.Tasks."
+    },
+    {
+      "questionText": "OData stands for:",
+      "options": [
+        "Online Data Packet",
+        "Open Data Protocol",
+        "Object Data Policy",
+        "Open Database Provider"
+      ],
+      "correctAnswer": "Open Data Protocol",
+      "explanation": "Correct answer is B) Open Data Protocol."
+    },
+    {
+      "questionText": "OData is built on:",
+      "options": [
+        "RPC",
+        "DCOM",
+        "SOAP only",
+        "REST"
+      ],
+      "correctAnswer": "REST",
+      "explanation": "Correct answer is D) REST."
+    },
+    {
+      "questionText": "OData standard queries include:",
+      "options": [
+        "Only backups",
+        "Only encryption",
+        "Only compiling",
+        "Limiting returned objects, paging, counting, and filtering"
+      ],
+      "correctAnswer": "Limiting returned objects, paging, counting, and filtering",
+      "explanation": "Correct answer is D) Limiting returned objects, paging, counting, and filtering."
+    },
+    {
+      "questionText": "Which OData versions does ASP.NET Web API support?",
+      "options": [
+        "v2 only",
+        "v5 only",
+        "v1 only",
+        "v3 and v4"
+      ],
+      "correctAnswer": "v3 and v4",
+      "explanation": "Correct answer is D) v3 and v4."
+    },
+    {
+      "questionText": "Which NuGet package is installed to add OData support in the walkthrough?",
+      "options": [
+        "System.Data.SQLite",
+        "MySql.Data.Entity",
+        "Microsoft.AspNet.Odata",
+        "Microsoft.Azure.DocumentDB"
+      ],
+      "correctAnswer": "Microsoft.AspNet.Odata",
+      "explanation": "Correct answer is C) Microsoft.AspNet.Odata."
+    },
+    {
+      "questionText": "In the OData walkthrough, which class is used to build the Entity Data Model for the route?",
+      "options": [
+        "HttpConfiguration only",
+        "DbContext",
+        "TransactionScope",
+        "ODataConventionModelBuilder"
+      ],
+      "correctAnswer": "ODataConventionModelBuilder",
+      "explanation": "Correct answer is D) ODataConventionModelBuilder."
+    },
+    {
+      "questionText": "Which attribute enables OData query options (such as $filter) on the GetStudentModels action?",
+      "options": [
+        "[Route]",
+        "[Authorize]",
+        "[EnableQuery]",
+        "[HttpGet] only"
+      ],
+      "correctAnswer": "[EnableQuery]",
+      "explanation": "Correct answer is C) [EnableQuery]."
+    },
+    {
+      "questionText": "The OData controller class derives from:",
+      "options": [
+        "Controller only",
+        "ApiController only",
+        "ODataController",
+        "Page"
+      ],
+      "correctAnswer": "ODataController",
+      "explanation": "Correct answer is C) ODataController."
+    }
+  ]
+}

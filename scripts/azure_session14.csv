@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,14,Azure App Service Web apps is a service used to host:,Only databases,"Web applications, REST APIs, and mobile backends",Only VMs,Only email,"Web applications, REST APIs, and mobile backends"
+Azure,14,Which languages can be used to develop Azure App Service Web apps?,"C#, Java, PHP, Ruby, Python",Only COBOL,Only C,Only Pascal,"C#, Java, PHP, Ruby, Python"
+Azure,14,Which are the three main benefits of Azure App Services?,"High-productivity development, fully-managed platform, enterprise-grade apps",None,"Low cost, no security, manual scaling","Only hosting, only billing, only logging","High-productivity development, fully-managed platform, enterprise-grade apps"
+Azure,14,High-productivity development in App Services includes:,"Debugging live-site, continuous integration, and Visual Studio IDE",Printing only,No tools,Manual servers only,"Debugging live-site, continuous integration, and Visual Studio IDE"
+Azure,14,"In a fully-managed platform, App Services handles:",Only designing,Only coding,Only testing,Infrastructure maintenance and load balancing,Infrastructure maintenance and load balancing
+Azure,14,Which capabilities are easier with App Service's managed platform?,Editing videos,Printing documents,"Adding SSL certificates, SSO, custom domains, identity integration",Creating spreadsheets,"Adding SSL certificates, SSO, custom domains, identity integration"
+Azure,14,Enterprise-grade apps in App Services benefit from:,"Global datacenter network, security, and compliance",Only local servers,No security,Only free plans,"Global datacenter network, security, and compliance"
+Azure,14,Which service is integrated with App Service to help secure apps?,Azure Event Hubs,Azure CDN,Azure Active Directory,Azure Backup,Azure Active Directory
+Azure,14,Web apps in Azure App Service are similar to the earlier:,Azure Blobs,Azure Queues,Azure Tables,Azure Websites,Azure Websites
+Azure,14,Web apps key features include:,No DevOps,No scaling,"Built-in autoscale, load balancing, and high availability with auto-patching",Manual patching only,"Built-in autoscale, load balancing, and high availability with auto-patching"
+Azure,14,Which of the following templates is available for Web apps?,Notepad,"WordPress, Umbraco, Joomla, Drupal",Photoshop,Excel,"WordPress, Umbraco, Joomla, Drupal"
+Azure,14,The compute resources that run Web apps are determined by the:,App Service plan,Subscription name,Storage account,Resource group only,App Service plan
+Azure,14,Mobile Apps in Azure App Service provide:,Only printers,Only game servers,Only desktop backends,"A custom backend for mobile platforms such as iOS, Windows, Android, Cordova, Xamarin","A custom backend for mobile platforms such as iOS, Windows, Android, Cordova, Xamarin"
+Azure,14,Which feature of Mobile Apps lets an app work offline?,Traffic manager,Push notifications,Autoscale,Native sync experience,Native sync experience
+Azure,14,Mobile Apps support social integration with:,Only Skype,"Facebook, Twitter, and Google",Only LinkedIn,Only Instagram,"Facebook, Twitter, and Google"
+Azure,14,Mobile Apps support long-running background tasks using:,Event Hubs,API Apps,WebJobs,Logic Apps,WebJobs
+Azure,14,Logic Apps in Azure App Service allow users to:,"Automate the execution of processes across commercial services, consumers, and on-premises custom APIs",Compile code,Edit images,Manage printers,"Automate the execution of processes across commercial services, consumers, and on-premises custom APIs"
+Azure,14,Which is a key feature of Logic Apps in App Service?,Editing PDFs,Writing hardware drivers,Creating business processes and workflows visually,Creating spreadsheets,Creating business processes and workflows visually
+Azure,14,API Apps are used for:,Only desktop apps,Only mobile apps,"Building, consuming, and distributing APIs in the cloud and on-premises",Only email,"Building, consuming, and distributing APIs in the cloud and on-premises"
+Azure,14,API Apps secure APIs using:,Only cookies,Only passwords in URLs,"Single Sign-On, Active Directory, and OAuth",No security,"Single Sign-On, Active Directory, and OAuth"
+Azure,14,An App Service plan provides resources that are similar to:,A server farm in traditional Web hosting,A printer,A phone,A single laptop,A server farm in traditional Web hosting
+Azure,14,Each App Service plan defines which of the following?,Only the language,"Region, number of VM instances, VM instance size, and pricing tier",Only the user name,Only the app name,"Region, number of VM instances, VM instance size, and pricing tier"
+Azure,14,Which pricing tiers are listed for App Service plans?,Only Premium,"Free, Shared, Basic, Standard, Premium, PremiumV2, Isolated, Consumption",Only Basic,Only Free and Paid,"Free, Shared, Basic, Standard, Premium, PremiumV2, Isolated, Consumption"
+Azure,14,Which are the shared compute tiers?,Isolated and Consumption,Free and Shared,Premium and PremiumV2,Basic and Standard,Free and Shared
+Azure,14,"In shared compute tiers, apps:",Run on dedicated VMs,Always scale out,Run on dedicated networks,Run on the same Azure VM as other customers' apps and cannot scale out,Run on the same Azure VM as other customers' apps and cannot scale out
+Azure,14,Which are the dedicated compute tiers?,Isolated only,Consumption only,Free and Shared,"Basic, Standard, Premium, and PremiumV2","Basic, Standard, Premium, and PremiumV2"
+Azure,14,"In dedicated compute tiers, resources are shared only among:",Apps in the same App Service plan,All regions,All subscriptions,All customers,Apps in the same App Service plan
+Azure,14,The Isolated tier runs apps on:,Dedicated Azure VMs on dedicated Azure Virtual Networks,Local PCs,Shared networks,Shared VMs,Dedicated Azure VMs on dedicated Azure Virtual Networks
+Azure,14,The Consumption tier:,Is only for databases,Is always free,Dynamically scales functions depending on workload,Never scales,Dynamically scales functions depending on workload
+Azure,14,Billing for App Service plans is done:,Never,On a per-second basis,Yearly only,Monthly only,On a per-second basis
+Azure,14,Which plans are suitable for production workloads on dedicated VMs?,"Basic, Standard, and Premium",Only Consumption,Only Shared,Only Free,"Basic, Standard, and Premium"
+Azure,14,"For apps that require a private dedicated Azure environment and secure connection to on-premises network, which plan is suitable?",Shared,Isolated,Consumption,Free,Isolated
+Azure,14,"To estimate the price of Azure products, a company should use:",The online pricing calculator,A browser extension only,Notepad,A calendar,The online pricing calculator
+Azure,14,Azure App Service is described as a fully managed:,On-premises tool,Platform as a Service (PaaS),IaaS only,SaaS only,Platform as a Service (PaaS)
+Azure,14,Azure App Service incorporates which previous services into a single service?,Only Event Hubs,"Mobile Services, Azure Websites, and BizTalk Services",Only Cosmos DB,Only Redis,"Mobile Services, Azure Websites, and BizTalk Services"
+Azure,14,"In the portal, which apps are listed under the Web menu when creating a resource?",VM,"Web App, API App, Logic App",Mobile App,Function App only,"Web App, API App, Logic App"
+Azure,14,"In the portal, which app is listed under the Mobile menu?",Logic App,Web App,Mobile App,API App,Mobile App
+Azure,14,"When creating an ASP.NET Web app for Azure deployment in the walkthrough, authentication is set to:",Individual accounts,Windows Authentication,No Authentication,Work or School Accounts,No Authentication
+Azure,14,Which Visual Studio menu option is used to run the Web app locally without debugging?,Tools > Options,Debug > Start without Debugging,Build > Clean,File > Exit,Debug > Start without Debugging
+Azure,14,How is the publish wizard launched in Solution Explorer?,Press Ctrl+C,Double-click Web.config,Right-click the project and select Publish,Right-click the Views folder,Right-click the project and select Publish
+Azure,14,Which publish target is selected to deploy to Azure Web Apps?,Folder,IIS only,FTP only,App Service,App Service
+Azure,14,"After a successful deployment of the Web app, the developer has:",Only a queue,Only a database,Only a VM,A resource group containing an App Service plan and an Azure Web app with a deployed application,A resource group containing an App Service plan and an Azure Web app with a deployed application
+Azure,14,WCF Data Services were formerly known as:,ASP.NET Services,Azure Services,ADO.NET Data Services,OData Services,ADO.NET Data Services
+Azure,14,OData is a:,Binary protocol only,REST-based protocol that allows CRUD operations on resources through URLs,Database engine,SOAP-only protocol,REST-based protocol that allows CRUD operations on resources through URLs
+Azure,14,WCF Data Services return results in which formats?,Only images,Only PDF,Only CSV,XML-based Atom and JSON,XML-based Atom and JSON
+Azure,14,OData uses which model of the Entity Framework to expose resources as related entities?,Storage Model only,Mapping Model only,Entity Data Model,Code-first model only,Entity Data Model
+Azure,14,CRUD operations in OData use which standard HTTP methods?,FTP methods,Only POST,Only GET,"GET, PUT, POST, DELETE","GET, PUT, POST, DELETE"
+Azure,14,"In the WCF Data Service walkthrough, the ASP.NET Web app is named:",StudentManagement,StudentServices,StudentOData,WCFDataServiceDemo,WCFDataServiceDemo
+Azure,14,Which project template is selected for the WCFDataServiceDemo app?,Web Forms,Empty project,MVC,Web API,Empty project
+Azure,14,Which WCF Data Service item name is created in the walkthrough?,Customers.svc,StudentService.svc,Orders.svc,ProductsWcfDataService.svc,ProductsWcfDataService.svc
+Azure,14,"In Visual Studio 2017, the WCF Data Service template:",Is always available,Is deleted,Is not seen by default and must be added by installing an extension,Is available only in Visual Studio 6,Is not seen by default and must be added by installing an extension
+Azure,14,Which template is used to create a data model from an existing database in the walkthrough?,ADO.NET Entity Data Model (EF Designer from database),Web Form,Empty model,Code First,ADO.NET Entity Data Model (EF Designer from database)
+Azure,14,"In ProductsWcfDataService.svc.cs, which placeholder is replaced with the name of the entity model?",<TODO: set port>,<TODO: connection string>,<TODO: add namespace>,<TODO: put your data source class name here>,<TODO: put your data source class name here>
+Azure,14,Which dialog is used to add a reference to the data service address?,Add Service Reference,Add Page,Add New Item,Add Class,Add Service Reference
+Azure,14,Which option is selected to deploy the WCF data service to Azure in the walkthrough?,Publish Azure Application,Export Profile only,Deploy to Folder only,Create ISO,Publish Azure Application

@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,1,Which statement best describes cloud computing?,A method of hosting all applications on local servers only,A programming language for Web applications,"An approach giving convenient, on-demand access through the Internet to computing resources",A hardware device used to store data locally,"An approach giving convenient, on-demand access through the Internet to computing resources"
+Azure,1,"In cloud computing, services are typically charged based on:",The number of developers,The physical size of the datacenter,Usage,A fixed yearly license,Usage
+Azure,1,What is a datacenter?,A cloud billing model,A type of Web browser,A programming framework,A dedicated storage space used to store computers and related components,A dedicated storage space used to store computers and related components
+Azure,1,Companies that deliver computing services over the Internet are known as:,Cloud proxies,Cloud providers,Cloud consumers,Cloud brokers,Cloud providers
+Azure,1,Services provided by cloud companies through the Internet are called:,Offline services,Desktop services,Cloud services,Local services,Cloud services
+Azure,1,Which of the following is given as an example of a commonly used cloud computing application?,Calculator,Notepad,Paint,Twitter,Twitter
+Azure,1,Utility computing is a concept that allows users to:,Host servers only on-premises,Avoid using the Internet,Use and pay for computing resources on a metered basis,Own all computing hardware,Use and pay for computing resources on a metered basis
+Azure,1,"Why is the word ""cloud"" used in cloud computing?",The Internet has traditionally been represented pictorially as a cloud,It is the name of the first provider,Clouds produce the electricity for datacenters,Servers are physically located in the sky,The Internet has traditionally been represented pictorially as a cloud
+Azure,1,Which is NOT one of the three core reasons organizations adopt cloud computing?,Quick deployment,More economical than local infrastructure,Unlimited scalability,Elimination of the need for the Internet,Elimination of the need for the Internet
+Azure,1,How does cloud computing reduce deployment failures?,By allowing developers to use similar hardware resources across environments,By using different hardware in testing and production,By removing the testing phase,By limiting the number of users,By allowing developers to use similar hardware resources across environments
+Azure,1,"In the case study of 10,000 users growing by another 50,000, the performance problem was caused by:",Hardware limitations,Network security,Cloud misconfiguration,Software bugs,Hardware limitations
+Azure,1,Which are the three cloud service models?,"PaaS, SaaS, TaaS","SaaS, NaaS, IaaS","IaaS, PaaS, SaaS","IaaS, DaaS, CaaS","IaaS, PaaS, SaaS"
+Azure,1,"Because each cloud service model is built on top of another, they are also called:",The cloud tree,The cloud network,The cloud cluster,The cloud computing stack,The cloud computing stack
+Azure,1,Which is the simplest type of cloud computing service?,SaaS,IaaS,PaaS,DaaS,IaaS
+Azure,1,Which of the following is an example of IaaS infrastructure?,Visual Studio Team Services only,Office 365,Gmail,Virtual Machines,Virtual Machines
+Azure,1,Amazon is cited as a popular IaaS provider through which services?,Gmail and Flickr,Dropbox and Twitter,Azure and Office,EC2 and S3,EC2 and S3
+Azure,1,"In which model does the user NOT have to set up or manage network, storage, servers, or databases for development?",Colocation,Physical hosting,PaaS,On-premises,PaaS
+Azure,1,Microsoft Azure is cited as a popular example of:,A programming language,Desktop software,SaaS only,PaaS,PaaS
+Azure,1,Which is given as an example of SaaS by Microsoft?,Visual Studio,Office 365,Cosmos DB,Azure SDK,Office 365
+Azure,1,Gmail is described as a SaaS service because:,It requires installing a server,It requires a physical datacenter,An e-mail client is offered as an Internet service without local installation,It is only for developers,An e-mail client is offered as an Internet service without local installation
+Azure,1,Which of the following is listed among Azure PaaS data and storage offerings in Figure 1.4?,Gmail,Dropbox,Cosmos DB,Flickr,Cosmos DB
+Azure,1,Which of the following is NOT a distinct characteristic of cloud platforms such as Azure?,Geographically distributed datacenters,Fixed hardware that cannot be scaled,Scale on demand,Pay-for-play,Fixed hardware that cannot be scaled
+Azure,1,Cloud platforms reduce upfront ______ costs and incur only ______ costs.,"CapEx, OpEx","OpEx, CapEx","Hardware, software","Tax, license","CapEx, OpEx"
+Azure,1,What does an SLA do in cloud computing?,Provides free hardware,Guarantees a set level of uptime and provides a refund if it is not met,Defines the programming language,Encrypts all data,Guarantees a set level of uptime and provides a refund if it is not met
+Azure,1,Network latency refers to:,A delay in data communication over a network,The speed of a processor,The number of users,The size of a database,A delay in data communication over a network
+Azure,1,Edge caching involves:,Deleting cached data,Distributing content from a local Web server to a caching server nearer to the user,Storing data on the user's desktop only,Encrypting network traffic,Distributing content from a local Web server to a caching server nearer to the user
+Azure,1,What is a precursor to cloud computing mentioned in the session?,Floppy disks,Distributed applications,Mainframes,Spreadsheets,Distributed applications
+Azure,1,Distributed applications are designed to run on:,Multiple computers,Only browsers,Only mobile phones,A single system,Multiple computers
+Azure,1,Which is an example of a distributed application mentioned?,Notepad,Collaboration application,Paint,Calculator,Collaboration application
+Azure,1,Which technologies were used for distributed applications before Web services?,"RMI, RPC, and DCOM",JSON and YAML,SQL and NoSQL,HTML and CSS,"RMI, RPC, and DCOM"
+Azure,1,"Why were older distributed technologies such as RMI, RPC, and DCOM found difficult?",They were too fast,They were free,They were difficult to use or required both client and server to use the same technology,They did not use computers,They were difficult to use or required both client and server to use the same technology
+Azure,1,SOA stands for:,Service Oriented Architecture,Server Oriented Access,System Operations Architecture,Simple Object Application,Service Oriented Architecture
+Azure,1,SOA provides which type of coupling among modules?,No coupling,Loose coupling,Hardware coupling,Tight coupling,Loose coupling
+Azure,1,Loose coupling means:,Modules communicate without being concerned with each other's internal implementation,Modules must use the same language,Modules cannot communicate,Modules share all internal code,Modules communicate without being concerned with each other's internal implementation
+Azure,1,Which are the three key roles in SOA?,"Designer, tester, deployer","Client, router, firewall","Host, proxy, cache","Service provider, service consumer, service broker","Service provider, service consumer, service broker"
+Azure,1,"In SOA, messages are defined using:",Images,Plain text only,Binary only,XML,XML
+Azure,1,Dynamic discovery in SOA is implemented by:,The database,The directory service,The client browser,The firewall,The directory service
+Azure,1,A Web service is best described as:,A database table,A software component accessed by other applications through protocols such as HTTP,A desktop game,A hardware router,A software component accessed by other applications through protocols such as HTTP
+Azure,1,Which is a characteristic of a Web service?,It uses port 21,It can only be used from a browser,It contains only classes used by clients and no user interface,It contains a user interface,It contains only classes used by clients and no user interface
+Azure,1,Which port is used by the Web server to make a Web service available through firewalls?,Port 3389,Port 25,Port 80,Port 21,Port 80
+Azure,1,A Web service can be called using:,Telnet only,FTP only,SMTP only,"HTTP Get, HTTP Post, or SOAP","HTTP Get, HTTP Post, or SOAP"
+Azure,1,Clients of a Web service require a ______ that gathers parameters and results to invoke the service.,Cache,Proxy,Router,Compiler,Proxy
+Azure,1,Which of the following is NOT a Web service terminology listed in the session?,Contract,Ethernet,Consumer,EndPoint,Ethernet
+Azure,1,"In Web services, an EndPoint is:",The URL used to communicate with the Web service,The server that hosts the service,The end user,The service agreement,The URL used to communicate with the Web service
+Azure,1,"In Web service terminology, the Host is:",The URL,The agreement,The end user,The server containing the Web service and the application,The server containing the Web service and the application
+Azure,1,ASP.NET Web services (XML Web services) are considered:,Only for mobile apps,The newest service model,Legacy services not recommended for new applications,Part of Azure SaaS,Legacy services not recommended for new applications
+Azure,1,Which .NET Framework version first included WCF?,2.0,4.5,3.0,3.5,3.0
+Azure,1,ASP.NET Web API is a framework that helps build:,HTTP-based services on top of the .NET Framework,Desktop games only,Operating systems,Hardware drivers,HTTP-based services on top of the .NET Framework
+Azure,1,Microsoft's cloud platform was first unveiled in October 2008 at the Professional Developers Conference under the name:,Azure Services,Microsoft Azure,Cloud OS,Windows Azure,Windows Azure
+Azure,1,When was Windows Azure renamed Microsoft Azure?,2020,2014,2008,2010,2014
+Azure,1,Which are the important components of the Azure platform architecture?,"Compute, Data Services, App Services","Input, Output, Storage","Design, Code, Test","Client, Server, Router","Compute, Data Services, App Services"
+Azure,1,Which Azure features monitors and maintains software and hardware upgrades or failures automatically?,Service Management using the fabric controller,Storage,Windows Server,Development tools,Service Management using the fabric controller
+Azure,1,Azure storage services include which of the following?,"Tables, BLOBs, and queues",Only files,Only images,Only tables,"Tables, BLOBs, and queues"
+Azure,1,Microsoft Azure provides assured availability of:,95%,90%,100% uptime,99.95% uptime,99.95% uptime
+Azure,1,"Which Azure component maintains application instances, applies OS patches, and recovers instances after crashes?",Connect,Edge cache,Fabric Controller,Cosmos DB,Fabric Controller

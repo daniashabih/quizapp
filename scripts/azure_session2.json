@@ -1,0 +1,602 @@
+{
+  "category": "Azure",
+  "session": 2,
+  "title": "Session 2: Understanding Microsoft Azure Cloud Services",
+  "totalQuestions": 54,
+  "questions": [
+    {
+      "questionText": "Which Microsoft products and services run on the core infrastructure of Microsoft's data centers?",
+      "options": [
+        "Only Visual Studio",
+        "Bing, MSN, Office 365, Skype, and OneDrive",
+        "Only Xbox",
+        "Only Windows 10"
+      ],
+      "correctAnswer": "Bing, MSN, Office 365, Skype, and OneDrive",
+      "explanation": "Correct answer is B) Bing, MSN, Office 365, Skype, and OneDrive."
+    },
+    {
+      "questionText": "The features and functionalities of Azure cloud services are accessible through:",
+      "options": [
+        "The Microsoft Azure portal",
+        "Excel",
+        "A command-line compiler only",
+        "Windows Notepad"
+      ],
+      "correctAnswer": "The Microsoft Azure portal",
+      "explanation": "Correct answer is A) The Microsoft Azure portal."
+    },
+    {
+      "questionText": "The Azure portal dashboard displays:",
+      "options": [
+        "Status information about the overall state of deployments and accounts",
+        "Antivirus logs",
+        "Source code",
+        "Only billing receipts"
+      ],
+      "correctAnswer": "Status information about the overall state of deployments and accounts",
+      "explanation": "Correct answer is A) Status information about the overall state of deployments and accounts."
+    },
+    {
+      "questionText": "An Azure subscription grants a user access to:",
+      "options": [
+        "Only Office 365",
+        "Only the Azure SDK",
+        "Only Visual Studio",
+        "Azure services and the Azure portal"
+      ],
+      "correctAnswer": "Azure services and the Azure portal",
+      "explanation": "Correct answer is D) Azure services and the Azure portal."
+    },
+    {
+      "questionText": "How many components does each Azure subscription have, as described in the session?",
+      "options": [
+        "Three",
+        "Four",
+        "One",
+        "Two"
+      ],
+      "correctAnswer": "Two",
+      "explanation": "Correct answer is D) Two."
+    },
+    {
+      "questionText": "The Azure account component of a subscription is used for:",
+      "options": [
+        "Compiling applications",
+        "Hosting databases only",
+        "Reporting resource usage and billing for services",
+        "Writing code"
+      ],
+      "correctAnswer": "Reporting resource usage and billing for services",
+      "explanation": "Correct answer is C) Reporting resource usage and billing for services."
+    },
+    {
+      "questionText": "Which URL is used to open the Azure portal when creating an account?",
+      "options": [
+        "http://portal.azure.com",
+        "http://www.cloud.local",
+        "http://azure.exe",
+        "http://sql.azure.org"
+      ],
+      "correctAnswer": "http://portal.azure.com",
+      "explanation": "Correct answer is A) http://portal.azure.com."
+    },
+    {
+      "questionText": "How long is the free trial account for learning and testing described as being available?",
+      "options": [
+        "12 months",
+        "3 months",
+        "5 years",
+        "1 month"
+      ],
+      "correctAnswer": "12 months",
+      "explanation": "Correct answer is A) 12 months."
+    },
+    {
+      "questionText": "What must be provided to create a free trial account?",
+      "options": [
+        "Company registration only",
+        "Nothing",
+        "Passport copy only",
+        "Credit card number and mobile phone number"
+      ],
+      "correctAnswer": "Credit card number and mobile phone number",
+      "explanation": "Correct answer is D) Credit card number and mobile phone number."
+    },
+    {
+      "questionText": "Which of the following is NOT a key plan for paid Azure subscriptions?",
+      "options": [
+        "Standard",
+        "Free Lifetime",
+        "Professional Direct",
+        "Developer"
+      ],
+      "correctAnswer": "Free Lifetime",
+      "explanation": "Correct answer is B) Free Lifetime."
+    },
+    {
+      "questionText": "Which plan is listed among the key paid Azure subscription plans?",
+      "options": [
+        "Student",
+        "Trial",
+        "Premier",
+        "Guest"
+      ],
+      "correctAnswer": "Premier",
+      "explanation": "Correct answer is C) Premier."
+    },
+    {
+      "questionText": "What is the purpose of the Microsoft pricing calculator?",
+      "options": [
+        "To compile code",
+        "To delete subscriptions",
+        "To create VMs",
+        "To calculate estimates based on the services a user may use"
+      ],
+      "correctAnswer": "To calculate estimates based on the services a user may use",
+      "explanation": "Correct answer is D) To calculate estimates based on the services a user may use."
+    },
+    {
+      "questionText": "Into how many panes is the Azure portal interface divided?",
+      "options": [
+        "Four",
+        "One",
+        "Three",
+        "Two"
+      ],
+      "correctAnswer": "Two",
+      "explanation": "Correct answer is D) Two."
+    },
+    {
+      "questionText": "The right pane of the Azure portal displays:",
+      "options": [
+        "Nothing",
+        "Context-specific information depending on what is selected in the left pane",
+        "Only the dashboard",
+        "Only help text"
+      ],
+      "correctAnswer": "Context-specific information depending on what is selected in the left pane",
+      "explanation": "Correct answer is B) Context-specific information depending on what is selected in the left pane."
+    },
+    {
+      "questionText": "Which option in the left pane loads all the services provided by Azure?",
+      "options": [
+        "Advisor",
+        "Dashboard",
+        "Monitor",
+        "All Services"
+      ],
+      "correctAnswer": "All Services",
+      "explanation": "Correct answer is D) All Services."
+    },
+    {
+      "questionText": "Which of the following is NOT listed among services in the left pane of the portal?",
+      "options": [
+        "Resource Groups",
+        "Photoshop",
+        "Load Balancer",
+        "Function Apps"
+      ],
+      "correctAnswer": "Photoshop",
+      "explanation": "Correct answer is B) Photoshop."
+    },
+    {
+      "questionText": "To manage an existing subscription, which option should be clicked first in the portal?",
+      "options": [
+        "All Services",
+        "Monitor",
+        "Advisor",
+        "Create a resource"
+      ],
+      "correctAnswer": "All Services",
+      "explanation": "Correct answer is A) All Services."
+    },
+    {
+      "questionText": "For a free account, which subscription should be selected on the subscription page?",
+      "options": [
+        "Developer",
+        "Standard",
+        "Premier",
+        "Free Trial"
+      ],
+      "correctAnswer": "Free Trial",
+      "explanation": "Correct answer is D) Free Trial."
+    },
+    {
+      "questionText": "Which menu options are available on the Subscription Detail page?",
+      "options": [
+        "Compile, Run, Debug",
+        "Copy, Paste, Cut",
+        "Manage, Cancel subscription, Upgrade subscription",
+        "Open, Save, Print"
+      ],
+      "correctAnswer": "Manage, Cancel subscription, Upgrade subscription",
+      "explanation": "Correct answer is C) Manage, Cancel subscription, Upgrade subscription."
+    },
+    {
+      "questionText": "In Azure, a manageable item such as a VM, storage account, web app, database, or virtual network is called a:",
+      "options": [
+        "Gadget",
+        "Resource",
+        "Template",
+        "Dashboard"
+      ],
+      "correctAnswer": "Resource",
+      "explanation": "Correct answer is B) Resource."
+    },
+    {
+      "questionText": "Which Azure service lets you deploy, update, or delete resources for a solution as a group in a single coordinated operation?",
+      "options": [
+        "Azure Advisor",
+        "Azure Monitor",
+        "Azure Resource Manager",
+        "Load Balancer"
+      ],
+      "correctAnswer": "Azure Resource Manager",
+      "explanation": "Correct answer is C) Azure Resource Manager."
+    },
+    {
+      "questionText": "Resource Manager management features include:",
+      "options": [
+        "Only testing",
+        "Only billing",
+        "Security, auditing, and tagging",
+        "Only compilation"
+      ],
+      "correctAnswer": "Security, auditing, and tagging",
+      "explanation": "Correct answer is C) Security, auditing, and tagging."
+    },
+    {
+      "questionText": "Which option is used to create a resource from the dashboard?",
+      "options": [
+        "+ Create a resource",
+        "Print",
+        "Restart portal",
+        "Delete all"
+      ],
+      "correctAnswer": "+ Create a resource",
+      "explanation": "Correct answer is A) + Create a resource."
+    },
+    {
+      "questionText": "Which of the following is a commonly used resource listed in the New resource window?",
+      "options": [
+        "Photoshop",
+        "Notepad",
+        "Paint",
+        "Windows VM"
+      ],
+      "correctAnswer": "Windows VM",
+      "explanation": "Correct answer is D) Windows VM."
+    },
+    {
+      "questionText": "An Azure VM is generally selected when you need:",
+      "options": [
+        "Only a database",
+        "Only static hosting",
+        "Enhanced control over the computing environment",
+        "No control over the environment"
+      ],
+      "correctAnswer": "Enhanced control over the computing environment",
+      "explanation": "Correct answer is C) Enhanced control over the computing environment."
+    },
+    {
+      "questionText": "Using an Azure VM offers:",
+      "options": [
+        "Virtualization without the effort of buying and maintaining physical hardware",
+        "No patching ever",
+        "Automatic code generation",
+        "Free hardware"
+      ],
+      "correctAnswer": "Virtualization without the effort of buying and maintaining physical hardware",
+      "explanation": "Correct answer is A) Virtualization without the effort of buying and maintaining physical hardware."
+    },
+    {
+      "questionText": "Which windows appear as options in the Create Virtual Machine window?",
+      "options": [
+        "Start, Stop, Pause, Resume",
+        "Basics, Size, Settings, Summary",
+        "Input, Output, Process, Store",
+        "Login, Logout, Save, Exit"
+      ],
+      "correctAnswer": "Basics, Size, Settings, Summary",
+      "explanation": "Correct answer is B) Basics, Size, Settings, Summary."
+    },
+    {
+      "questionText": "Which VM version is selected in the walkthrough for creating a Windows VM?",
+      "options": [
+        "Windows Server 2016 or higher",
+        "Windows 95",
+        "Windows 3.1",
+        "Windows XP"
+      ],
+      "correctAnswer": "Windows Server 2016 or higher",
+      "explanation": "Correct answer is A) Windows Server 2016 or higher."
+    },
+    {
+      "questionText": "Before clicking Create on the Summary page, the user must:",
+      "options": [
+        "Select the terms of use check box",
+        "Delete the resource group",
+        "Restart the portal",
+        "Install Visual Studio"
+      ],
+      "correctAnswer": "Select the terms of use check box",
+      "explanation": "Correct answer is A) Select the terms of use check box."
+    },
+    {
+      "questionText": "After submitting a VM creation, where is the progress notification shown?",
+      "options": [
+        "A small notification at the right corner of the screen",
+        "A pop-up window requiring a restart",
+        "The command prompt",
+        "An email only"
+      ],
+      "correctAnswer": "A small notification at the right corner of the screen",
+      "explanation": "Correct answer is A) A small notification at the right corner of the screen."
+    },
+    {
+      "questionText": "Which important resources are created when a Windows VM is created?",
+      "options": [
+        "Only Virtual Machine",
+        "Virtual Machine, IP Address, Disc, and Resource Group",
+        "Only Disc",
+        "Only IP Address"
+      ],
+      "correctAnswer": "Virtual Machine, IP Address, Disc, and Resource Group",
+      "explanation": "Correct answer is B) Virtual Machine, IP Address, Disc, and Resource Group."
+    },
+    {
+      "questionText": "Which Azure data resources are listed among data access technologies?",
+      "options": [
+        "Excel, Word, PowerPoint",
+        "Photoshop, Illustrator",
+        "SQL database, Cosmos DB, data warehouses, data factories",
+        "Notepad only"
+      ],
+      "correctAnswer": "SQL database, Cosmos DB, data warehouses, data factories",
+      "explanation": "Correct answer is C) SQL database, Cosmos DB, data warehouses, data factories."
+    },
+    {
+      "questionText": "Which Azure resource drives applications that deal with small to medium chunks of data?",
+      "options": [
+        "Azure Data Warehouse",
+        "Azure SQL Database",
+        "Azure Data Factory only",
+        "Azure Search"
+      ],
+      "correctAnswer": "Azure SQL Database",
+      "explanation": "Correct answer is B) Azure SQL Database."
+    },
+    {
+      "questionText": "Azure SQL Database is a relational ______ based on the Microsoft SQL Server engine.",
+      "options": [
+        "Software-as-a-Service",
+        "Database-as-a-Service (DBaaS)",
+        "Infrastructure-as-a-Service",
+        "Testing-as-a-Service"
+      ],
+      "correctAnswer": "Database-as-a-Service (DBaaS)",
+      "explanation": "Correct answer is B) Database-as-a-Service (DBaaS)."
+    },
+    {
+      "questionText": "Which of the following is a feature of Azure SQL Database?",
+      "options": [
+        "Works only with C",
+        "Requires physical servers",
+        "Cannot be secured",
+        "Need not manage infrastructure"
+      ],
+      "correctAnswer": "Need not manage infrastructure",
+      "explanation": "Correct answer is D) Need not manage infrastructure."
+    },
+    {
+      "questionText": "Azure Cosmos DB is described as:",
+      "options": [
+        "A desktop application",
+        "A single-region relational database",
+        "A globally distributed, multi-model database",
+        "A text editor"
+      ],
+      "correctAnswer": "A globally distributed, multi-model database",
+      "explanation": "Correct answer is C) A globally distributed, multi-model database."
+    },
+    {
+      "questionText": "Cosmos DB offers SLA-backed assurance for which of the following?",
+      "options": [
+        "Only file sharing",
+        "Only printing",
+        "Throughput, latency, availability, consistency",
+        "Only color themes"
+      ],
+      "correctAnswer": "Throughput, latency, availability, consistency",
+      "explanation": "Correct answer is C) Throughput, latency, availability, consistency."
+    },
+    {
+      "questionText": "Throughput is a measure of:",
+      "options": [
+        "The cost of a VM",
+        "The size of a database",
+        "The number of users",
+        "A system's overall performance in sending data through all its components"
+      ],
+      "correctAnswer": "A system's overall performance in sending data through all its components",
+      "explanation": "Correct answer is D) A system's overall performance in sending data through all its components."
+    },
+    {
+      "questionText": "Azure SQL Data Warehouse is a cloud-based:",
+      "options": [
+        "Email client",
+        "Web browser",
+        "Text editor",
+        "Enterprise Data Warehouse (EDW)"
+      ],
+      "correctAnswer": "Enterprise Data Warehouse (EDW)",
+      "explanation": "Correct answer is D) Enterprise Data Warehouse (EDW)."
+    },
+    {
+      "questionText": "Azure SQL Data Warehouse runs complex queries using:",
+      "options": [
+        "Massively Parallel Processing (MPP)",
+        "Single-thread processing only",
+        "Manual processing",
+        "Random access only"
+      ],
+      "correctAnswer": "Massively Parallel Processing (MPP)",
+      "explanation": "Correct answer is A) Massively Parallel Processing (MPP)."
+    },
+    {
+      "questionText": "Which tool is used to import Big Data into SQL Data Warehouse using simple Transact-SQL queries?",
+      "options": [
+        "Redis",
+        "SoaTest",
+        "HDInsight",
+        "PolyBase"
+      ],
+      "correctAnswer": "PolyBase",
+      "explanation": "Correct answer is D) PolyBase."
+    },
+    {
+      "questionText": "Azure Data Factory is a cloud-based:",
+      "options": [
+        "Game engine",
+        "Data integration service",
+        "Image editor",
+        "Operating system"
+      ],
+      "correctAnswer": "Data integration service",
+      "explanation": "Correct answer is B) Data integration service."
+    },
+    {
+      "questionText": "Data-driven workflows in Azure Data Factory are called:",
+      "options": [
+        "Pools",
+        "Packages",
+        "Piles",
+        "Pipelines"
+      ],
+      "correctAnswer": "Pipelines",
+      "explanation": "Correct answer is D) Pipelines."
+    },
+    {
+      "questionText": "Which of the following is a compute service used by Data Factory to transform data?",
+      "options": [
+        "Excel",
+        "Azure HDInsight (Hadoop, Spark)",
+        "Notepad",
+        "Paint"
+      ],
+      "correctAnswer": "Azure HDInsight (Hadoop, Spark)",
+      "explanation": "Correct answer is B) Azure HDInsight (Hadoop, Spark)."
+    },
+    {
+      "questionText": "Azure Redis Cache is based on:",
+      "options": [
+        "The open-source Redis cache",
+        "MySQL",
+        "Oracle cache",
+        "A proprietary Windows cache only"
+      ],
+      "correctAnswer": "The open-source Redis cache",
+      "explanation": "Correct answer is A) The open-source Redis cache."
+    },
+    {
+      "questionText": "Redis Cache improves performance by:",
+      "options": [
+        "Using in-memory as fast storage instead of reading from disk",
+        "Doubling the database size",
+        "Deleting data",
+        "Storing data on tape"
+      ],
+      "correctAnswer": "Using in-memory as fast storage instead of reading from disk",
+      "explanation": "Correct answer is A) Using in-memory as fast storage instead of reading from disk."
+    },
+    {
+      "questionText": "Which role does Azure Redis Cache also play?",
+      "options": [
+        "Operating system",
+        "Web browser",
+        "Message broker",
+        "Compiler"
+      ],
+      "correctAnswer": "Message broker",
+      "explanation": "Correct answer is C) Message broker."
+    },
+    {
+      "questionText": "Which of the following is an additional Azure database resource?",
+      "options": [
+        "Notepad DB",
+        "Azure Database for PostgreSQL",
+        "Azure Photoshop DB",
+        "Paint DB"
+      ],
+      "correctAnswer": "Azure Database for PostgreSQL",
+      "explanation": "Correct answer is B) Azure Database for PostgreSQL."
+    },
+    {
+      "questionText": "Which programming languages can Azure application development support without managing infrastructure?",
+      "options": [
+        ".NET, Python, Java, PHP, Ruby",
+        "Only COBOL",
+        "Only Pascal",
+        "Only C"
+      ],
+      "correctAnswer": ".NET, Python, Java, PHP, Ruby",
+      "explanation": "Correct answer is A) .NET, Python, Java, PHP, Ruby."
+    },
+    {
+      "questionText": "Which of the following is a feature of Azure application development?",
+      "options": [
+        "Manual scaling only",
+        "Auto-scaling",
+        "No GitHub integration",
+        "No Linux support"
+      ],
+      "correctAnswer": "Auto-scaling",
+      "explanation": "Correct answer is B) Auto-scaling."
+    },
+    {
+      "questionText": "Azure supports automated deployments from:",
+      "options": [
+        "Only email",
+        "Only a USB stick",
+        "GitHub, Visual Studio Team Services, or any Git repo",
+        "Only floppy disks"
+      ],
+      "correctAnswer": "GitHub, Visual Studio Team Services, or any Git repo",
+      "explanation": "Correct answer is C) GitHub, Visual Studio Team Services, or any Git repo."
+    },
+    {
+      "questionText": "Which of the following is a need for cloud testing?",
+      "options": [
+        "Bugs do not exist in cloud applications",
+        "Testing is not required in the cloud",
+        "Traditional testing incurs high cost to simulate user activity from various regions",
+        "Cloud testing needs no environment"
+      ],
+      "correctAnswer": "Traditional testing incurs high cost to simulate user activity from various regions",
+      "explanation": "Correct answer is C) Traditional testing incurs high cost to simulate user activity from various regions."
+    },
+    {
+      "questionText": "A limitation of cloud testing is that:",
+      "options": [
+        "It cannot test applications",
+        "It requires no setup",
+        "Test results may not be accurate due to dissimilar network performance across providers",
+        "It is always free"
+      ],
+      "correctAnswer": "Test results may not be accurate due to dissimilar network performance across providers",
+      "explanation": "Correct answer is C) Test results may not be accurate due to dissimilar network performance across providers."
+    },
+    {
+      "questionText": "Which tools are mentioned as helping in cloud testing?",
+      "options": [
+        "Excel and Word",
+        "SoaTest and HP LoadRunner",
+        "Chrome and Firefox",
+        "Notepad and Paint"
+      ],
+      "correctAnswer": "SoaTest and HP LoadRunner",
+      "explanation": "Correct answer is B) SoaTest and HP LoadRunner."
+    }
+  ]
+}

@@ -42,7 +42,7 @@ const DEFAULT_CATEGORIES = [
     { name: 'WordPress', sessions: [1, 2, 3] },
     { name: 'Docker', sessions: [1, 2, 3] },
     { name: 'Agile & DevOps', sessions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], questionCount: AGILE_DEVOPS_QUESTIONS.length },
-    { name: 'Azure', sessions: [1, 2, 3] },
+    { name: 'Azure', sessions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] },
     { name: 'SEO', sessions: [1, 2, 3] },
     { name: 'Power BI', sessions: [1, 2, 3] },
     { name: 'Excel', sessions: [1, 2, 3] },

@@ -1,0 +1,613 @@
+{
+  "category": "Azure",
+  "session": 10,
+  "title": "Session 10: Introduction to WCF Services",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "WCF stands for:",
+      "options": [
+        "Windows Cloud Function",
+        "Web Client Foundation",
+        "Windows Communication Foundation",
+        "Web Communication Framework"
+      ],
+      "correctAnswer": "Windows Communication Foundation",
+      "explanation": "Correct answer is C) Windows Communication Foundation."
+    },
+    {
+      "questionText": "WCF is best described as:",
+      "options": [
+        "A cloud billing tool",
+        "A Web browser",
+        "A database engine",
+        "A unified .NET framework for building service-oriented applications"
+      ],
+      "correctAnswer": "A unified .NET framework for building service-oriented applications",
+      "explanation": "Correct answer is D) A unified .NET framework for building service-oriented applications."
+    },
+    {
+      "questionText": "In which .NET Framework version was WCF first introduced?",
+      "options": [
+        "1.0",
+        "2.0",
+        "3.0",
+        "4.5"
+      ],
+      "correctAnswer": "3.0",
+      "explanation": "Correct answer is C) 3.0."
+    },
+    {
+      "questionText": "Which protocols are supported by WCF?",
+      "options": [
+        "Only FTP",
+        "Only SMTP",
+        "Only HTTP",
+        "SOAP with HTTP, TCP/IP, Named pipes"
+      ],
+      "correctAnswer": "SOAP with HTTP, TCP/IP, Named pipes",
+      "explanation": "Correct answer is D) SOAP with HTTP, TCP/IP, Named pipes."
+    },
+    {
+      "questionText": "SOAP is:",
+      "options": [
+        "A programming language",
+        "A database language",
+        "A cloud provider",
+        "A lightweight protocol used to exchange data over distributed environments"
+      ],
+      "correctAnswer": "A lightweight protocol used to exchange data over distributed environments",
+      "explanation": "Correct answer is D) A lightweight protocol used to exchange data over distributed environments."
+    },
+    {
+      "questionText": "SOAP is the underlying layer for:",
+      "options": [
+        "Only Docker",
+        "Only Web API",
+        "Only Cosmos DB",
+        "ASP.NET Web services (ASMX) and WCF"
+      ],
+      "correctAnswer": "ASP.NET Web services (ASMX) and WCF",
+      "explanation": "Correct answer is D) ASP.NET Web services (ASMX) and WCF."
+    },
+    {
+      "questionText": "SOAP is maintained by:",
+      "options": [
+        "ISO",
+        "W3C",
+        "IEEE",
+        "ANSI"
+      ],
+      "correctAnswer": "W3C",
+      "explanation": "Correct answer is B) W3C."
+    },
+    {
+      "questionText": "What does ABC of WCF stand for?",
+      "options": [
+        "Application, Browser, Client",
+        "Address, Behavior, Controller",
+        "Address, Binding, Contract",
+        "Authentication, Binding, Cache"
+      ],
+      "correctAnswer": "Address, Binding, Contract",
+      "explanation": "Correct answer is C) Address, Binding, Contract."
+    },
+    {
+      "questionText": "In WCF, the Address specifies:",
+      "options": [
+        "Where the service resides (URL)",
+        "The security mode",
+        "The operations supported",
+        "How clients communicate"
+      ],
+      "correctAnswer": "Where the service resides (URL)",
+      "explanation": "Correct answer is A) Where the service resides (URL)."
+    },
+    {
+      "questionText": "In WCF, the Binding specifies:",
+      "options": [
+        "The data type",
+        "How clients should communicate (encoding, transport, security, sessions)",
+        "The cache policy",
+        "Where the service resides"
+      ],
+      "correctAnswer": "How clients should communicate (encoding, transport, security, sessions)",
+      "explanation": "Correct answer is B) How clients should communicate (encoding, transport, security, sessions)."
+    },
+    {
+      "questionText": "A service endpoint defines:",
+      "options": [
+        "How the service is exposed to clients",
+        "How the UI looks",
+        "How the database is backed up",
+        "How VMs are created"
+      ],
+      "correctAnswer": "How the service is exposed to clients",
+      "explanation": "Correct answer is A) How the service is exposed to clients."
+    },
+    {
+      "questionText": "Which of the following is a feature provided by WCF?",
+      "options": [
+        "Only encryption",
+        "Security, performance tuning, and hosting environments",
+        "Only hosting",
+        "Only caching"
+      ],
+      "correctAnswer": "Security, performance tuning, and hosting environments",
+      "explanation": "Correct answer is B) Security, performance tuning, and hosting environments."
+    },
+    {
+      "questionText": "WCF combines benefits of which technologies into a single unified model?",
+      "options": [
+        "Only Remoting",
+        "Only Web services",
+        "Remoting, Web services, Enterprise services, WSE standards, Messaging services",
+        "Only SOAP"
+      ],
+      "correctAnswer": "Remoting, Web services, Enterprise services, WSE standards, Messaging services",
+      "explanation": "Correct answer is C) Remoting, Web services, Enterprise services, WSE standards, Messaging services."
+    },
+    {
+      "questionText": "Which are the three main components of a WCF service?",
+      "options": [
+        "Service contracts, host environments, and one or more endpoints",
+        "Tables, queries, indexes",
+        "Servers, clients, routers",
+        "Models, views, controllers"
+      ],
+      "correctAnswer": "Service contracts, host environments, and one or more endpoints",
+      "explanation": "Correct answer is A) Service contracts, host environments, and one or more endpoints."
+    },
+    {
+      "questionText": "In the travel analogy, Address corresponds to:",
+      "options": [
+        "The price",
+        "The mode of travel",
+        "The destination",
+        "The location of the travel agent, station, or airport"
+      ],
+      "correctAnswer": "The location of the travel agent, station, or airport",
+      "explanation": "Correct answer is D) The location of the travel agent, station, or airport."
+    },
+    {
+      "questionText": "In the travel analogy, Contract corresponds to:",
+      "options": [
+        "The ticket color",
+        "The mode of travel",
+        "The address of the station",
+        "The purpose (reaching the destination)"
+      ],
+      "correctAnswer": "The purpose (reaching the destination)",
+      "explanation": "Correct answer is D) The purpose (reaching the destination)."
+    },
+    {
+      "questionText": "A service contract consists of:",
+      "options": [
+        "Only addresses",
+        "Only bindings",
+        "Declarations of methods in an interface",
+        "Only data types"
+      ],
+      "correctAnswer": "Declarations of methods in an interface",
+      "explanation": "Correct answer is C) Declarations of methods in an interface."
+    },
+    {
+      "questionText": "Message contracts use protocols such as SOAP to:",
+      "options": [
+        "Create databases",
+        "Acquire finer control over the message",
+        "Compile code",
+        "Delete messages"
+      ],
+      "correctAnswer": "Acquire finer control over the message",
+      "explanation": "Correct answer is B) Acquire finer control over the message."
+    },
+    {
+      "questionText": "Policies and bindings in WCF:",
+      "options": [
+        "Create user interfaces",
+        "Apply the conditions required to communicate with a service",
+        "Store data",
+        "Compile code"
+      ],
+      "correctAnswer": "Apply the conditions required to communicate with a service",
+      "explanation": "Correct answer is B) Apply the conditions required to communicate with a service."
+    },
+    {
+      "questionText": "Endpoints in WCF are:",
+      "options": [
+        "Cache entries",
+        "URIs exposed to the outside world that clients use to connect",
+        "Databases",
+        "Local files"
+      ],
+      "correctAnswer": "URIs exposed to the outside world that clients use to connect",
+      "explanation": "Correct answer is B) URIs exposed to the outside world that clients use to connect."
+    },
+    {
+      "questionText": "Which of the following is a difference between WCF and Web API?",
+      "options": [
+        "WCF supports TCP, HTTP, UDP, and custom transports; Web API supports only HTTP",
+        "Both support only HTTP",
+        "Web API supports TCP and UDP; WCF supports only HTTP",
+        "Neither supports HTTP"
+      ],
+      "correctAnswer": "WCF supports TCP, HTTP, UDP, and custom transports; Web API supports only HTTP",
+      "explanation": "Correct answer is A) WCF supports TCP, HTTP, UDP, and custom transports; Web API supports only HTTP."
+    },
+    {
+      "questionText": "MTOM stands for:",
+      "options": [
+        "Message Transmission Optimization Mechanism",
+        "Message Transfer Over Mail",
+        "Multiple Transfer Object Model",
+        "Managed Transport Object Method"
+      ],
+      "correctAnswer": "Message Transmission Optimization Mechanism",
+      "explanation": "Correct answer is A) Message Transmission Optimization Mechanism."
+    },
+    {
+      "questionText": "Which standards does WCF support for message security, transactions, and reliable messaging?",
+      "options": [
+        "Only JSON",
+        "Only OData",
+        "Only REST",
+        "WS-* standards"
+      ],
+      "correctAnswer": "WS-* standards",
+      "explanation": "Correct answer is D) WS-* standards."
+    },
+    {
+      "questionText": "WSDL stands for:",
+      "options": [
+        "Windows Service Definition Layer",
+        "Web Services Description Language",
+        "Web Server Data Language",
+        "Web Standard Document Language"
+      ],
+      "correctAnswer": "Web Services Description Language",
+      "explanation": "Correct answer is B) Web Services Description Language."
+    },
+    {
+      "questionText": "WSDL is:",
+      "options": [
+        "A binary file",
+        "A database",
+        "An XML document that defines the Web service and its contract",
+        "A compiler"
+      ],
+      "correctAnswer": "An XML document that defines the Web service and its contract",
+      "explanation": "Correct answer is C) An XML document that defines the Web service and its contract."
+    },
+    {
+      "questionText": "Before creating a service, developers should answer which questions?",
+      "options": [
+        "Only the language",
+        "Only the colors",
+        "Only the price",
+        "What functionality, where it is located, and how to send messages"
+      ],
+      "correctAnswer": "What functionality, where it is located, and how to send messages",
+      "explanation": "Correct answer is D) What functionality, where it is located, and how to send messages."
+    },
+    {
+      "questionText": "What is the name of the WCF project in the walkthrough?",
+      "options": [
+        "StudentOData",
+        "StudentApp",
+        "StudentServices",
+        "StudentWCFServices"
+      ],
+      "correctAnswer": "StudentWCFServices",
+      "explanation": "Correct answer is D) StudentWCFServices."
+    },
+    {
+      "questionText": "By default, the WCF project creates which files that are removed in the walkthrough?",
+      "options": [
+        "Index.cshtml and Layout.cshtml",
+        "Service1.cs and IService1.cs",
+        "Global.asax and Web.config",
+        "Program.cs and Startup.cs"
+      ],
+      "correctAnswer": "Service1.cs and IService1.cs",
+      "explanation": "Correct answer is B) Service1.cs and IService1.cs."
+    },
+    {
+      "questionText": "Which attribute marks a model class in WCF?",
+      "options": [
+        "[ServiceContract]",
+        "[DataContract]",
+        "[OperationContract]",
+        "[HttpGet]"
+      ],
+      "correctAnswer": "[DataContract]",
+      "explanation": "Correct answer is B) [DataContract]."
+    },
+    {
+      "questionText": "Which attribute marks each property in a data contract?",
+      "options": [
+        "[DataMember]",
+        "[Route]",
+        "[OperationContract]",
+        "[ServiceContract]"
+      ],
+      "correctAnswer": "[DataMember]",
+      "explanation": "Correct answer is A) [DataMember]."
+    },
+    {
+      "questionText": "Which attribute is applied to methods in a WCF service interface?",
+      "options": [
+        "[OperationContract]",
+        "[ServiceContract]",
+        "[Authorize]",
+        "[DataContract]"
+      ],
+      "correctAnswer": "[OperationContract]",
+      "explanation": "Correct answer is A) [OperationContract]."
+    },
+    {
+      "questionText": "Which namespace contains ServiceContract and OperationContract?",
+      "options": [
+        "System.ServiceModel",
+        "System.Drawing",
+        "System.Web.Http",
+        "System.Data"
+      ],
+      "correctAnswer": "System.ServiceModel",
+      "explanation": "Correct answer is A) System.ServiceModel."
+    },
+    {
+      "questionText": "In the walkthrough, which binding is used for the main service endpoint?",
+      "options": [
+        "netTcpBinding",
+        "netNamedPipeBinding",
+        "wsHttpBinding",
+        "basicHttpBinding"
+      ],
+      "correctAnswer": "basicHttpBinding",
+      "explanation": "Correct answer is D) basicHttpBinding."
+    },
+    {
+      "questionText": "The Metadata Exchange endpoint is used by the service to:",
+      "options": [
+        "Print reports",
+        "Encrypt data",
+        "Describe itself to clients",
+        "Create databases"
+      ],
+      "correctAnswer": "Describe itself to clients",
+      "explanation": "Correct answer is C) Describe itself to clients."
+    },
+    {
+      "questionText": "Which tool is embedded in Visual Studio for testing WCF services?",
+      "options": [
+        "Postman",
+        "WCF Test Client",
+        "Fiddler",
+        "SSMS"
+      ],
+      "correctAnswer": "WCF Test Client",
+      "explanation": "Correct answer is B) WCF Test Client."
+    },
+    {
+      "questionText": "Each endpoint in WCF configuration consists of how many properties?",
+      "options": [
+        "Four (Address, Binding, Contract, Behaviors)",
+        "Three only",
+        "Two",
+        "Five"
+      ],
+      "correctAnswer": "Four (Address, Binding, Contract, Behaviors)",
+      "explanation": "Correct answer is A) Four (Address, Binding, Contract, Behaviors)."
+    },
+    {
+      "questionText": "Which attribute in the endpoint specifies the binding policy such as wsHttpBinding?",
+      "options": [
+        "binding",
+        "behaviorConfiguration only",
+        "address",
+        "contract"
+      ],
+      "correctAnswer": "binding",
+      "explanation": "Correct answer is A) binding."
+    },
+    {
+      "questionText": "Which categories of information are enclosed in a binding?",
+      "options": [
+        "Classes, objects, and methods",
+        "Protocols, encoding, and transport",
+        "Forms, pages, and controls",
+        "Tables, views, and procedures"
+      ],
+      "correctAnswer": "Protocols, encoding, and transport",
+      "explanation": "Correct answer is B) Protocols, encoding, and transport."
+    },
+    {
+      "questionText": "Which binding suits connecting to services that adapt to WS-I Basic Profile (e.g., ASP.NET Web services)?",
+      "options": [
+        "WSHttpBinding",
+        "NetTcpBinding",
+        "BasicHttpBinding",
+        "NetNamedPipeBinding"
+      ],
+      "correctAnswer": "BasicHttpBinding",
+      "explanation": "Correct answer is C) BasicHttpBinding."
+    },
+    {
+      "questionText": "Which binding is suited for a local network with higher performance than HTTP bindings?",
+      "options": [
+        "NetTcpBinding",
+        "WSHttpBinding",
+        "BasicHttpBinding",
+        "NetMsmqBinding"
+      ],
+      "correctAnswer": "NetTcpBinding",
+      "explanation": "Correct answer is A) NetTcpBinding."
+    },
+    {
+      "questionText": "Which binding connects to other WCF endpoints on the same machine?",
+      "options": [
+        "NetNamedPipeBinding",
+        "WSHttpBinding",
+        "NetTcpBinding",
+        "BasicHttpBinding"
+      ],
+      "correctAnswer": "NetNamedPipeBinding",
+      "explanation": "Correct answer is A) NetNamedPipeBinding."
+    },
+    {
+      "questionText": "Which binding uses queued messages with other WCF endpoints?",
+      "options": [
+        "BasicHttpBinding",
+        "WSHttpBinding",
+        "NetMsmqBinding",
+        "NetTcpBinding"
+      ],
+      "correctAnswer": "NetMsmqBinding",
+      "explanation": "Correct answer is C) NetMsmqBinding."
+    },
+    {
+      "questionText": "A Service Bus works on which concept?",
+      "options": [
+        "Offline",
+        "Multi-tenant",
+        "Peer-to-peer only",
+        "Single-user"
+      ],
+      "correctAnswer": "Multi-tenant",
+      "explanation": "Correct answer is B) Multi-tenant."
+    },
+    {
+      "questionText": "Hybrid applications are:",
+      "options": [
+        "Only desktop applications",
+        "Only mobile applications",
+        "Only static sites",
+        "Enterprise applications based on Azure that may use local components difficult to migrate to the cloud"
+      ],
+      "correctAnswer": "Enterprise applications based on Azure that may use local components difficult to migrate to the cloud",
+      "explanation": "Correct answer is D) Enterprise applications based on Azure that may use local components difficult to migrate to the cloud."
+    },
+    {
+      "questionText": "Relayed messaging offers:",
+      "options": [
+        "Subscriptions, topics, and queues",
+        "Request/response, one-way, peer-to-peer, and direct TCP messaging",
+        "Only SMS",
+        "Only email"
+      ],
+      "correctAnswer": "Request/response, one-way, peer-to-peer, and direct TCP messaging",
+      "explanation": "Correct answer is B) Request/response, one-way, peer-to-peer, and direct TCP messaging."
+    },
+    {
+      "questionText": "Brokered messaging offers:",
+      "options": [
+        "Only request/response",
+        "Only direct TCP",
+        "Subscriptions, topics, and queues (asynchronous messaging)",
+        "Only HTTP"
+      ],
+      "correctAnswer": "Subscriptions, topics, and queues (asynchronous messaging)",
+      "explanation": "Correct answer is C) Subscriptions, topics, and queues (asynchronous messaging)."
+    },
+    {
+      "questionText": "Which section in the namespace page is used to get keys and connection strings?",
+      "options": [
+        "Shared access policies",
+        "Diagnose and solve problems",
+        "Overview",
+        "Activity log"
+      ],
+      "correctAnswer": "Shared access policies",
+      "explanation": "Correct answer is A) Shared access policies."
+    },
+    {
+      "questionText": "Which NuGet package is installed for Service Bus integration in the WCF app?",
+      "options": [
+        "Microsoft.AspNet.Odata",
+        "MySql.Data.Entity",
+        "System.Data.SQLite",
+        "Microsoft Azure Service Bus"
+      ],
+      "correctAnswer": "Microsoft Azure Service Bus",
+      "explanation": "Correct answer is D) Microsoft Azure Service Bus."
+    },
+    {
+      "questionText": "Which binding is used for the Service Bus relay endpoint in the sample?",
+      "options": [
+        "basicHttpBinding",
+        "wsHttpBinding",
+        "netTcpRelayBinding",
+        "netMsmqBinding"
+      ],
+      "correctAnswer": "netTcpRelayBinding",
+      "explanation": "Correct answer is C) netTcpRelayBinding."
+    },
+    {
+      "questionText": "Which tool downloads metadata from running services and saves it locally?",
+      "options": [
+        "Fiddler",
+        "Svcutil.exe",
+        "Postman",
+        "SSMS"
+      ],
+      "correctAnswer": "Svcutil.exe",
+      "explanation": "Correct answer is B) Svcutil.exe."
+    },
+    {
+      "questionText": "Svcutil.exe retrieves metadata using:",
+      "options": [
+        "Only FTP",
+        "Only SQL",
+        "WS-MetadataExchange (and XML Web Service Directory for HTTP/HTTPS)",
+        "Only SMTP"
+      ],
+      "correctAnswer": "WS-MetadataExchange (and XML Web Service Directory for HTTP/HTTPS)",
+      "explanation": "Correct answer is C) WS-MetadataExchange (and XML Web Service Directory for HTTP/HTTPS)."
+    },
+    {
+      "questionText": "Svcutil.exe generates which binding for a service with a BasicHttpContextBinding endpoint?",
+      "options": [
+        "NetTcpBinding",
+        "WSHttpBinding",
+        "None",
+        "BasicHttpBinding with allowCookies set to true"
+      ],
+      "correctAnswer": "BasicHttpBinding with allowCookies set to true",
+      "explanation": "Correct answer is D) BasicHttpBinding with allowCookies set to true."
+    },
+    {
+      "questionText": "Which Svcutil.exe option is used in the sample command to specify the metadata output directory?",
+      "options": [
+        "/d:",
+        "/o:",
+        "/r:",
+        "/t:"
+      ],
+      "correctAnswer": "/d:",
+      "explanation": "Correct answer is A) /d:."
+    },
+    {
+      "questionText": "A proxy class:",
+      "options": [
+        "Compiles code",
+        "Stores data",
+        "Maps parameters to XML elements so clients need not communicate at the SOAP level",
+        "Hosts the Web service"
+      ],
+      "correctAnswer": "Maps parameters to XML elements so clients need not communicate at the SOAP level",
+      "explanation": "Correct answer is C) Maps parameters to XML elements so clients need not communicate at the SOAP level."
+    },
+    {
+      "questionText": "Which Visual Studio feature generates a WCF client proxy?",
+      "options": [
+        "Add Image",
+        "Add Page",
+        "Add Service Reference",
+        "Add Class"
+      ],
+      "correctAnswer": "Add Service Reference",
+      "explanation": "Correct answer is C) Add Service Reference."
+    }
+  ]
+}

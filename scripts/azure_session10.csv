@@ -1,0 +1,56 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,10,WCF stands for:,Windows Cloud Function,Web Client Foundation,Windows Communication Foundation,Web Communication Framework,Windows Communication Foundation
+Azure,10,WCF is best described as:,A cloud billing tool,A Web browser,A database engine,A unified .NET framework for building service-oriented applications,A unified .NET framework for building service-oriented applications
+Azure,10,In which .NET Framework version was WCF first introduced?,1.0,2.0,3.0,4.5,3.0
+Azure,10,Which protocols are supported by WCF?,Only FTP,Only SMTP,Only HTTP,"SOAP with HTTP, TCP/IP, Named pipes","SOAP with HTTP, TCP/IP, Named pipes"
+Azure,10,SOAP is:,A programming language,A database language,A cloud provider,A lightweight protocol used to exchange data over distributed environments,A lightweight protocol used to exchange data over distributed environments
+Azure,10,SOAP is the underlying layer for:,Only Docker,Only Web API,Only Cosmos DB,ASP.NET Web services (ASMX) and WCF,ASP.NET Web services (ASMX) and WCF
+Azure,10,SOAP is maintained by:,ISO,W3C,IEEE,ANSI,W3C
+Azure,10,What does ABC of WCF stand for?,"Application, Browser, Client","Address, Behavior, Controller","Address, Binding, Contract","Authentication, Binding, Cache","Address, Binding, Contract"
+Azure,10,"In WCF, the Address specifies:",Where the service resides (URL),The security mode,The operations supported,How clients communicate,Where the service resides (URL)
+Azure,10,"In WCF, the Binding specifies:",The data type,"How clients should communicate (encoding, transport, security, sessions)",The cache policy,Where the service resides,"How clients should communicate (encoding, transport, security, sessions)"
+Azure,10,A service endpoint defines:,How the service is exposed to clients,How the UI looks,How the database is backed up,How VMs are created,How the service is exposed to clients
+Azure,10,Which of the following is a feature provided by WCF?,Only encryption,"Security, performance tuning, and hosting environments",Only hosting,Only caching,"Security, performance tuning, and hosting environments"
+Azure,10,WCF combines benefits of which technologies into a single unified model?,Only Remoting,Only Web services,"Remoting, Web services, Enterprise services, WSE standards, Messaging services",Only SOAP,"Remoting, Web services, Enterprise services, WSE standards, Messaging services"
+Azure,10,Which are the three main components of a WCF service?,"Service contracts, host environments, and one or more endpoints","Tables, queries, indexes","Servers, clients, routers","Models, views, controllers","Service contracts, host environments, and one or more endpoints"
+Azure,10,"In the travel analogy, Address corresponds to:",The price,The mode of travel,The destination,"The location of the travel agent, station, or airport","The location of the travel agent, station, or airport"
+Azure,10,"In the travel analogy, Contract corresponds to:",The ticket color,The mode of travel,The address of the station,The purpose (reaching the destination),The purpose (reaching the destination)
+Azure,10,A service contract consists of:,Only addresses,Only bindings,Declarations of methods in an interface,Only data types,Declarations of methods in an interface
+Azure,10,Message contracts use protocols such as SOAP to:,Create databases,Acquire finer control over the message,Compile code,Delete messages,Acquire finer control over the message
+Azure,10,Policies and bindings in WCF:,Create user interfaces,Apply the conditions required to communicate with a service,Store data,Compile code,Apply the conditions required to communicate with a service
+Azure,10,Endpoints in WCF are:,Cache entries,URIs exposed to the outside world that clients use to connect,Databases,Local files,URIs exposed to the outside world that clients use to connect
+Azure,10,Which of the following is a difference between WCF and Web API?,"WCF supports TCP, HTTP, UDP, and custom transports; Web API supports only HTTP",Both support only HTTP,Web API supports TCP and UDP; WCF supports only HTTP,Neither supports HTTP,"WCF supports TCP, HTTP, UDP, and custom transports; Web API supports only HTTP"
+Azure,10,MTOM stands for:,Message Transmission Optimization Mechanism,Message Transfer Over Mail,Multiple Transfer Object Model,Managed Transport Object Method,Message Transmission Optimization Mechanism
+Azure,10,"Which standards does WCF support for message security, transactions, and reliable messaging?",Only JSON,Only OData,Only REST,WS-* standards,WS-* standards
+Azure,10,WSDL stands for:,Windows Service Definition Layer,Web Services Description Language,Web Server Data Language,Web Standard Document Language,Web Services Description Language
+Azure,10,WSDL is:,A binary file,A database,An XML document that defines the Web service and its contract,A compiler,An XML document that defines the Web service and its contract
+Azure,10,"Before creating a service, developers should answer which questions?",Only the language,Only the colors,Only the price,"What functionality, where it is located, and how to send messages","What functionality, where it is located, and how to send messages"
+Azure,10,What is the name of the WCF project in the walkthrough?,StudentOData,StudentApp,StudentServices,StudentWCFServices,StudentWCFServices
+Azure,10,"By default, the WCF project creates which files that are removed in the walkthrough?",Index.cshtml and Layout.cshtml,Service1.cs and IService1.cs,Global.asax and Web.config,Program.cs and Startup.cs,Service1.cs and IService1.cs
+Azure,10,Which attribute marks a model class in WCF?,[ServiceContract],[DataContract],[OperationContract],[HttpGet],[DataContract]
+Azure,10,Which attribute marks each property in a data contract?,[DataMember],[Route],[OperationContract],[ServiceContract],[DataMember]
+Azure,10,Which attribute is applied to methods in a WCF service interface?,[OperationContract],[ServiceContract],[Authorize],[DataContract],[OperationContract]
+Azure,10,Which namespace contains ServiceContract and OperationContract?,System.ServiceModel,System.Drawing,System.Web.Http,System.Data,System.ServiceModel
+Azure,10,"In the walkthrough, which binding is used for the main service endpoint?",netTcpBinding,netNamedPipeBinding,wsHttpBinding,basicHttpBinding,basicHttpBinding
+Azure,10,The Metadata Exchange endpoint is used by the service to:,Print reports,Encrypt data,Describe itself to clients,Create databases,Describe itself to clients
+Azure,10,Which tool is embedded in Visual Studio for testing WCF services?,Postman,WCF Test Client,Fiddler,SSMS,WCF Test Client
+Azure,10,Each endpoint in WCF configuration consists of how many properties?,"Four (Address, Binding, Contract, Behaviors)",Three only,Two,Five,"Four (Address, Binding, Contract, Behaviors)"
+Azure,10,Which attribute in the endpoint specifies the binding policy such as wsHttpBinding?,binding,behaviorConfiguration only,address,contract,binding
+Azure,10,Which categories of information are enclosed in a binding?,"Classes, objects, and methods","Protocols, encoding, and transport","Forms, pages, and controls","Tables, views, and procedures","Protocols, encoding, and transport"
+Azure,10,"Which binding suits connecting to services that adapt to WS-I Basic Profile (e.g., ASP.NET Web services)?",WSHttpBinding,NetTcpBinding,BasicHttpBinding,NetNamedPipeBinding,BasicHttpBinding
+Azure,10,Which binding is suited for a local network with higher performance than HTTP bindings?,NetTcpBinding,WSHttpBinding,BasicHttpBinding,NetMsmqBinding,NetTcpBinding
+Azure,10,Which binding connects to other WCF endpoints on the same machine?,NetNamedPipeBinding,WSHttpBinding,NetTcpBinding,BasicHttpBinding,NetNamedPipeBinding
+Azure,10,Which binding uses queued messages with other WCF endpoints?,BasicHttpBinding,WSHttpBinding,NetMsmqBinding,NetTcpBinding,NetMsmqBinding
+Azure,10,A Service Bus works on which concept?,Offline,Multi-tenant,Peer-to-peer only,Single-user,Multi-tenant
+Azure,10,Hybrid applications are:,Only desktop applications,Only mobile applications,Only static sites,Enterprise applications based on Azure that may use local components difficult to migrate to the cloud,Enterprise applications based on Azure that may use local components difficult to migrate to the cloud
+Azure,10,Relayed messaging offers:,"Subscriptions, topics, and queues","Request/response, one-way, peer-to-peer, and direct TCP messaging",Only SMS,Only email,"Request/response, one-way, peer-to-peer, and direct TCP messaging"
+Azure,10,Brokered messaging offers:,Only request/response,Only direct TCP,"Subscriptions, topics, and queues (asynchronous messaging)",Only HTTP,"Subscriptions, topics, and queues (asynchronous messaging)"
+Azure,10,Which section in the namespace page is used to get keys and connection strings?,Shared access policies,Diagnose and solve problems,Overview,Activity log,Shared access policies
+Azure,10,Which NuGet package is installed for Service Bus integration in the WCF app?,Microsoft.AspNet.Odata,MySql.Data.Entity,System.Data.SQLite,Microsoft Azure Service Bus,Microsoft Azure Service Bus
+Azure,10,Which binding is used for the Service Bus relay endpoint in the sample?,basicHttpBinding,wsHttpBinding,netTcpRelayBinding,netMsmqBinding,netTcpRelayBinding
+Azure,10,Which tool downloads metadata from running services and saves it locally?,Fiddler,Svcutil.exe,Postman,SSMS,Svcutil.exe
+Azure,10,Svcutil.exe retrieves metadata using:,Only FTP,Only SQL,WS-MetadataExchange (and XML Web Service Directory for HTTP/HTTPS),Only SMTP,WS-MetadataExchange (and XML Web Service Directory for HTTP/HTTPS)
+Azure,10,Svcutil.exe generates which binding for a service with a BasicHttpContextBinding endpoint?,NetTcpBinding,WSHttpBinding,None,BasicHttpBinding with allowCookies set to true,BasicHttpBinding with allowCookies set to true
+Azure,10,Which Svcutil.exe option is used in the sample command to specify the metadata output directory?,/d:,/o:,/r:,/t:,/d:
+Azure,10,A proxy class:,Compiles code,Stores data,Maps parameters to XML elements so clients need not communicate at the SOAP level,Hosts the Web service,Maps parameters to XML elements so clients need not communicate at the SOAP level
+Azure,10,Which Visual Studio feature generates a WCF client proxy?,Add Image,Add Page,Add Service Reference,Add Class,Add Service Reference

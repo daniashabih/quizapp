@@ -1,0 +1,613 @@
+{
+  "category": "Azure",
+  "session": 13,
+  "title": "Session 13: Configuring Web Applications for Deployment",
+  "totalQuestions": 55,
+  "questions": [
+    {
+      "questionText": "Azure Web Apps configuration allows storing:",
+      "options": [
+        "Only images",
+        "Only executables",
+        "Key/value string pairs belonging to the Web app's configuration",
+        "Only videos"
+      ],
+      "correctAnswer": "Key/value string pairs belonging to the Web app's configuration",
+      "explanation": "Correct answer is C) Key/value string pairs belonging to the Web app's configuration."
+    },
+    {
+      "questionText": "A security advantage of storing configuration in Azure rather than Web.config is that:",
+      "options": [
+        "Connection strings with passwords are not available as plain text in the web.config file",
+        "Web.config becomes larger",
+        "Passwords are published online",
+        "Settings cannot be changed"
+      ],
+      "correctAnswer": "Connection strings with passwords are not available as plain text in the web.config file",
+      "explanation": "Correct answer is A) Connection strings with passwords are not available as plain text in the web.config file."
+    },
+    {
+      "questionText": "In the Azure portal, which tab lets developers enter configuration key/value pairs for a Website?",
+      "options": [
+        "Dashboard",
+        "App Settings",
+        "Monitor",
+        "Alerts"
+      ],
+      "correctAnswer": "App Settings",
+      "explanation": "Correct answer is B) App Settings."
+    },
+    {
+      "questionText": "Settings can be specified as:",
+      "options": [
+        "Only ConnectionStrings",
+        "Only environment files",
+        "ConnectionStrings or AppSettings",
+        "Only AppSettings"
+      ],
+      "correctAnswer": "ConnectionStrings or AppSettings",
+      "explanation": "Correct answer is C) ConnectionStrings or AppSettings."
+    },
+    {
+      "questionText": "Compared with AppSettings, ConnectionStrings include:",
+      "options": [
+        "Less security",
+        "Only images",
+        "Additional metadata indicating the string is a database connection string",
+        "No values"
+      ],
+      "correctAnswer": "Additional metadata indicating the string is a database connection string",
+      "explanation": "Correct answer is C) Additional metadata indicating the string is a database connection string."
+    },
+    {
+      "questionText": "Which API method should be invoked in the controller when using ConnectionStrings?",
+      "options": [
+        "LoadStrings()",
+        "GetAppSetting()",
+        "ReadConfig()",
+        "GetConnectionString()"
+      ],
+      "correctAnswer": "GetConnectionString()",
+      "explanation": "Correct answer is D) GetConnectionString()."
+    },
+    {
+      "questionText": "Which of the following is available under the Platform settings?",
+      "options": [
+        "Only billing",
+        "Framework versions, Web Sockets, HTTP Version",
+        "Only logging",
+        "Only DNS"
+      ],
+      "correctAnswer": "Framework versions, Web Sockets, HTTP Version",
+      "explanation": "Correct answer is B) Framework versions, Web Sockets, HTTP Version."
+    },
+    {
+      "questionText": "All stored app settings are:",
+      "options": [
+        "Public",
+        "Always plain text",
+        "Always encrypted",
+        "Never stored"
+      ],
+      "correctAnswer": "Always encrypted",
+      "explanation": "Correct answer is C) Always encrypted."
+    },
+    {
+      "questionText": "For .NET apps, AppSettings are:",
+      "options": [
+        "Ignored",
+        "Stored in a database",
+        "Added to the .NET configuration AppSettings at runtime, overriding existing settings",
+        "Stored in the registry"
+      ],
+      "correctAnswer": "Added to the .NET configuration AppSettings at runtime, overriding existing settings",
+      "explanation": "Correct answer is C) Added to the .NET configuration AppSettings at runtime, overriding existing settings."
+    },
+    {
+      "questionText": "For Python, Node, and Java apps, app settings are accessible as:",
+      "options": [
+        "Browser storage",
+        "Cookies",
+        "Environment variables",
+        "Registry keys"
+      ],
+      "correctAnswer": "Environment variables",
+      "explanation": "Correct answer is C) Environment variables."
+    },
+    {
+      "questionText": "For a nested JSON key such as ApplicationInsights:InstrumentationKey on Linux/container apps, the key name becomes:",
+      "options": [
+        "ApplicationInsights-InstrumentationKey",
+        "ApplicationInsights/InstrumentationKey",
+        "ApplicationInsights__InstrumentationKey",
+        "ApplicationInsights.InstrumentationKey"
+      ],
+      "correctAnswer": "ApplicationInsights__InstrumentationKey",
+      "explanation": "Correct answer is C) ApplicationInsights__InstrumentationKey."
+    },
+    {
+      "questionText": "What environment variable prefix is used for SQL Database connection strings?",
+      "options": [
+        "SQLAZURECONNSTR_",
+        "SQLCONNSTR_",
+        "CUSTOMCONNSTR_",
+        "MYSQLCONNSTR_"
+      ],
+      "correctAnswer": "SQLAZURECONNSTR_",
+      "explanation": "Correct answer is A) SQLAZURECONNSTR_."
+    },
+    {
+      "questionText": "What environment variable prefix is used for SQL Server connection strings?",
+      "options": [
+        "DBCONNSTR_",
+        "CUSTOMCONNSTR_",
+        "SQLAZURECONNSTR_",
+        "SQLCONNSTR_"
+      ],
+      "correctAnswer": "SQLCONNSTR_",
+      "explanation": "Correct answer is D) SQLCONNSTR_."
+    },
+    {
+      "questionText": "What environment variable prefix is used for custom connection strings?",
+      "options": [
+        "SQLAZURECONNSTR_",
+        "SQLCONNSTR_",
+        "CUSTOMCONNSTR_",
+        "OTHERCONNSTR_"
+      ],
+      "correctAnswer": "CUSTOMCONNSTR_",
+      "explanation": "Correct answer is C) CUSTOMCONNSTR_."
+    },
+    {
+      "questionText": "A SQL database connection string named connectionstring1 is accessible via which environment variable?",
+      "options": [
+        "CUSTOMCONNSTR_connectionString1",
+        "SQLAZURECONNSTR_connectionString1",
+        "SQLCONNSTR_connectionString1",
+        "APPSETTING_connectionString1"
+      ],
+      "correctAnswer": "SQLAZURECONNSTR_connectionString1",
+      "explanation": "Correct answer is B) SQLAZURECONNSTR_connectionString1."
+    },
+    {
+      "questionText": "In the Default Documents setting, the web page shown in the root URL of a Website is:",
+      "options": [
+        "The first matching file in the list",
+        "The last file in the list",
+        "Randomly chosen",
+        "Always index.html"
+      ],
+      "correctAnswer": "The first matching file in the list",
+      "explanation": "Correct answer is A) The first matching file in the list."
+    },
+    {
+      "questionText": "Handler mappings are used to:",
+      "options": [
+        "Manage DNS",
+        "Create VMs",
+        "Compile code",
+        "Add custom script processors to manage requests for particular file extensions"
+      ],
+      "correctAnswer": "Add custom script processors to manage requests for particular file extensions",
+      "explanation": "Correct answer is D) Add custom script processors to manage requests for particular file extensions."
+    },
+    {
+      "questionText": "Which path refers to the root directory of the app in handler mappings?",
+      "options": [
+        "D:\\data",
+        "D:\\home\\site\\wwwroot",
+        "C:\\Windows",
+        "C:\\inetpub"
+      ],
+      "correctAnswer": "D:\\home\\site\\wwwroot",
+      "explanation": "Correct answer is B) D:\\home\\site\\wwwroot."
+    },
+    {
+      "questionText": "Azure Key Vault is:",
+      "options": [
+        "A hosting platform",
+        "A security-related tool available in the Azure platform",
+        "A load balancer",
+        "A database engine"
+      ],
+      "correctAnswer": "A security-related tool available in the Azure platform",
+      "explanation": "Correct answer is B) A security-related tool available in the Azure platform."
+    },
+    {
+      "questionText": "Before any task can be done with a vault, it must be:",
+      "options": [
+        "Deleted",
+        "Replicated",
+        "Authenticated",
+        "Compiled"
+      ],
+      "correctAnswer": "Authenticated",
+      "explanation": "Correct answer is C) Authenticated."
+    },
+    {
+      "questionText": "Which authentication method for Key Vault is recommended as best practice?",
+      "options": [
+        "Service principal and certificate",
+        "Service principal and secret",
+        "Managed identities for Azure resources",
+        "Anonymous"
+      ],
+      "correctAnswer": "Managed identities for Azure resources",
+      "explanation": "Correct answer is C) Managed identities for Azure resources."
+    },
+    {
+      "questionText": "Which of the following is a way to authenticate Key Vault?",
+      "options": [
+        "Cookies only",
+        "FTP login",
+        "Windows XP login",
+        "Service Principal and Certificate"
+      ],
+      "correctAnswer": "Service Principal and Certificate",
+      "explanation": "Correct answer is D) Service Principal and Certificate."
+    },
+    {
+      "questionText": "Which of the following is a benefit of Azure Key Vault?",
+      "options": [
+        "Certificate management, key management, and secrets management",
+        "Only VM creation",
+        "Only code compilation",
+        "Only logging"
+      ],
+      "correctAnswer": "Certificate management, key management, and secrets management",
+      "explanation": "Correct answer is A) Certificate management, key management, and secrets management."
+    },
+    {
+      "questionText": "Key Vault certificate management involves:",
+      "options": [
+        "Printing certificates",
+        "Compiling certificates",
+        "Provisioning, managing, and deploying public and private SSL/TLS certificates",
+        "Deleting certificates"
+      ],
+      "correctAnswer": "Provisioning, managing, and deploying public and private SSL/TLS certificates",
+      "explanation": "Correct answer is C) Provisioning, managing, and deploying public and private SSL/TLS certificates."
+    },
+    {
+      "questionText": "Azure Key Vault secrets management ensures strict control over access to:",
+      "options": [
+        "Only tables",
+        "Only VMs",
+        "Only images",
+        "Passwords, tokens, API keys, certificates, and other secrets"
+      ],
+      "correctAnswer": "Passwords, tokens, API keys, certificates, and other secrets",
+      "explanation": "Correct answer is D) Passwords, tokens, API keys, certificates, and other secrets."
+    },
+    {
+      "questionText": "Secrets and keys are protected using HSMs validated under which standard?",
+      "options": [
+        "FIPS 140-2 Level 2",
+        "HIPAA only",
+        "ISO 9001",
+        "PCI-DSS only"
+      ],
+      "correctAnswer": "FIPS 140-2 Level 2",
+      "explanation": "Correct answer is A) FIPS 140-2 Level 2."
+    },
+    {
+      "questionText": "HSM stands for:",
+      "options": [
+        "Hybrid Storage Manager",
+        "Hardware Security Module",
+        "High Speed Memory",
+        "Host Server Machine"
+      ],
+      "correctAnswer": "Hardware Security Module",
+      "explanation": "Correct answer is B) Hardware Security Module."
+    },
+    {
+      "questionText": "Centralizing application secrets in Key Vault:",
+      "options": [
+        "Stores secrets in code",
+        "Exposes secrets to everyone",
+        "Controls distribution and reduces chances of accidental exposure",
+        "Deletes secrets"
+      ],
+      "correctAnswer": "Controls distribution and reduces chances of accidental exposure",
+      "explanation": "Correct answer is C) Controls distribution and reduces chances of accidental exposure."
+    },
+    {
+      "questionText": "Which service handles authentication for Key Vault?",
+      "options": [
+        "Azure Backup",
+        "Azure Active Directory",
+        "Azure Monitor",
+        "Azure CDN"
+      ],
+      "correctAnswer": "Azure Active Directory",
+      "explanation": "Correct answer is B) Azure Active Directory."
+    },
+    {
+      "questionText": "Which methods manage authorization for Key Vault?",
+      "options": [
+        "Cookies",
+        "Firewall only",
+        "Load balancer",
+        "Key Vault access policy or Role Based Access Control (RBAC)"
+      ],
+      "correctAnswer": "Key Vault access policy or Role Based Access Control (RBAC)",
+      "explanation": "Correct answer is D) Key Vault access policy or Role Based Access Control (RBAC)."
+    },
+    {
+      "questionText": "RBAC stands for:",
+      "options": [
+        "Resource Based Application Code",
+        "Role Based Access Control",
+        "Remote Backup and Cache",
+        "Random Binary Access Control"
+      ],
+      "correctAnswer": "Role Based Access Control",
+      "explanation": "Correct answer is B) Role Based Access Control."
+    },
+    {
+      "questionText": "To monitor access and usage of Key Vault, you can:",
+      "options": [
+        "Use Notepad",
+        "Delete secrets",
+        "Disable the vault",
+        "Enable Key Vault logging"
+      ],
+      "correctAnswer": "Enable Key Vault logging",
+      "explanation": "Correct answer is D) Enable Key Vault logging."
+    },
+    {
+      "questionText": "Key Vault logs can be configured for:",
+      "options": [
+        "Only printing",
+        "Archiving to a storage account, sending to Log Analytics, or streaming to an event hub",
+        "Only deletion",
+        "Only email"
+      ],
+      "correctAnswer": "Archiving to a storage account, sending to Log Analytics, or streaming to an event hub",
+      "explanation": "Correct answer is B) Archiving to a storage account, sending to Log Analytics, or streaming to an event hub."
+    },
+    {
+      "questionText": "Key Vault contents can be replicated:",
+      "options": [
+        "Nowhere",
+        "Within a region and to a secondary region",
+        "Only within a single rack",
+        "Only to on-premises"
+      ],
+      "correctAnswer": "Within a region and to a secondary region",
+      "explanation": "Correct answer is B) Within a region and to a secondary region."
+    },
+    {
+      "questionText": "Standard administration of Key Vault is available through:",
+      "options": [
+        "Only Excel",
+        "Azure CLI, the portal, and PowerShell",
+        "Only Notepad",
+        "Only Paint"
+      ],
+      "correctAnswer": "Azure CLI, the portal, and PowerShell",
+      "explanation": "Correct answer is B) Azure CLI, the portal, and PowerShell."
+    },
+    {
+      "questionText": "Key Vault can integrate with which Azure services?",
+      "options": [
+        "Web Apps, Disk Encryption, SQL Database, storage accounts, Log Analytics, Event Hubs",
+        "Only Cosmos DB",
+        "None",
+        "Only VMs"
+      ],
+      "correctAnswer": "Web Apps, Disk Encryption, SQL Database, storage accounts, Log Analytics, Event Hubs",
+      "explanation": "Correct answer is A) Web Apps, Disk Encryption, SQL Database, storage accounts, Log Analytics, Event Hubs."
+    },
+    {
+      "questionText": "How many credential types does Azure App Service support for FTP/S and local Git deployment?",
+      "options": [
+        "Two (user-level and app-level)",
+        "One",
+        "Three",
+        "Four"
+      ],
+      "correctAnswer": "Two (user-level and app-level)",
+      "explanation": "Correct answer is A) Two (user-level and app-level)."
+    },
+    {
+      "questionText": "User-level credentials are linked to:",
+      "options": [
+        "A subscription key",
+        "A Microsoft Account",
+        "A specific Web app",
+        "A VM"
+      ],
+      "correctAnswer": "A Microsoft Account",
+      "explanation": "Correct answer is B) A Microsoft Account."
+    },
+    {
+      "questionText": "Can user-level credentials be shared among different users?",
+      "options": [
+        "No, they are never shared",
+        "Only with admins",
+        "Only with co-admins",
+        "Yes, always"
+      ],
+      "correctAnswer": "No, they are never shared",
+      "explanation": "Correct answer is A) No, they are never shared."
+    },
+    {
+      "questionText": "App-level credentials apply to:",
+      "options": [
+        "Only the particular app",
+        "Every subscription",
+        "Every database",
+        "The whole account"
+      ],
+      "correctAnswer": "Only the particular app",
+      "explanation": "Correct answer is A) Only the particular app."
+    },
+    {
+      "questionText": "App-level credentials are generated:",
+      "options": [
+        "Manually by the user",
+        "By Postman",
+        "By Key Vault only",
+        "Automatically during app creation"
+      ],
+      "correctAnswer": "Automatically during app creation",
+      "explanation": "Correct answer is D) Automatically during app creation."
+    },
+    {
+      "questionText": "Where can app-level credentials be found?",
+      "options": [
+        "In the Web.config",
+        "In Notepad",
+        "In the cache",
+        "In the publish profile of the app"
+      ],
+      "correctAnswer": "In the publish profile of the app",
+      "explanation": "Correct answer is D) In the publish profile of the app."
+    },
+    {
+      "questionText": "Can app-level credentials be configured manually?",
+      "options": [
+        "Yes, always",
+        "Only by the Microsoft account",
+        "Only through NuGet",
+        "No, but they can be reset at any time"
+      ],
+      "correctAnswer": "No, but they can be reset at any time",
+      "explanation": "Correct answer is D) No, but they can be reset at any time."
+    },
+    {
+      "questionText": "A publish profile is:",
+      "options": [
+        "An XML file with WebDeploy and FTP-related content",
+        "A database table",
+        "A binary executable",
+        "A cache file"
+      ],
+      "correctAnswer": "An XML file with WebDeploy and FTP-related content",
+      "explanation": "Correct answer is A) An XML file with WebDeploy and FTP-related content."
+    },
+    {
+      "questionText": "For a site named MyIdealSite, the app-level user name is:",
+      "options": [
+        "MyIdealSite@admin",
+        "$MyIdealSite",
+        "admin",
+        "MyIdealSite.com"
+      ],
+      "correctAnswer": "$MyIdealSite",
+      "explanation": "Correct answer is B) $MyIdealSite."
+    },
+    {
+      "questionText": "App-level credentials are typically used by:",
+      "options": [
+        "Casual users who type them each time",
+        "Browsers",
+        "Programs that automate deployment, such as Visual Studio",
+        "Printers"
+      ],
+      "correctAnswer": "Programs that automate deployment, such as Visual Studio",
+      "explanation": "Correct answer is C) Programs that automate deployment, such as Visual Studio."
+    },
+    {
+      "questionText": "A NuGet package is:",
+      "options": [
+        "A single ZIP file with the .nupkg extension",
+        "A .mp3 file",
+        "An .exe file",
+        "A .docx file"
+      ],
+      "correctAnswer": "A single ZIP file with the .nupkg extension",
+      "explanation": "Correct answer is A) A single ZIP file with the .nupkg extension."
+    },
+    {
+      "questionText": "A NuGet package includes:",
+      "options": [
+        "Only images",
+        "Only SQL",
+        "Only videos",
+        "Compiled code (DLLs), additional files, and a manifest with information such as the version number"
+      ],
+      "correctAnswer": "Compiled code (DLLs), additional files, and a manifest with information such as the version number",
+      "explanation": "Correct answer is D) Compiled code (DLLs), additional files, and a manifest with information such as the version number."
+    },
+    {
+      "questionText": "Where can developers find NuGet packages?",
+      "options": [
+        "Only on CDs",
+        "Only in Excel",
+        "Only in Notepad",
+        "nuget.org or the Package Manager UI in Visual Studio"
+      ],
+      "correctAnswer": "nuget.org or the Package Manager UI in Visual Studio",
+      "explanation": "Correct answer is D) nuget.org or the Package Manager UI in Visual Studio."
+    },
+    {
+      "questionText": "NuGet packages on nuget.org are sorted by:",
+      "options": [
+        "Date only",
+        "Total downloads",
+        "Price",
+        "Alphabetical order only"
+      ],
+      "correctAnswer": "Total downloads",
+      "explanation": "Correct answer is B) Total downloads."
+    },
+    {
+      "questionText": "Which method of installing NuGet packages works on Windows only?",
+      "options": [
+        "dotnet.exe CLI",
+        "Package Manager UI on Mac",
+        "Package Manager Console (Install-Package)",
+        "nuget.exe CLI"
+      ],
+      "correctAnswer": "Package Manager Console (Install-Package)",
+      "explanation": "Correct answer is C) Package Manager Console (Install-Package)."
+    },
+    {
+      "questionText": "Which command-line tool uses \"dotnet add package <package_name>\"?",
+      "options": [
+        "dotnet.exe CLI",
+        "nuget.exe CLI",
+        "Package Manager Console",
+        "Visual Studio UI"
+      ],
+      "correctAnswer": "dotnet.exe CLI",
+      "explanation": "Correct answer is A) dotnet.exe CLI."
+    },
+    {
+      "questionText": "Which tool uses \"nuget install <package_name>\"?",
+      "options": [
+        "nuget.exe CLI",
+        "Azure portal",
+        "Package Manager Console",
+        "dotnet.exe CLI"
+      ],
+      "correctAnswer": "nuget.exe CLI",
+      "explanation": "Correct answer is A) nuget.exe CLI."
+    },
+    {
+      "questionText": "Does the nuget.exe CLI install command make changes to packages.config or project files?",
+      "options": [
+        "No",
+        "Yes",
+        "Only the project file",
+        "Only packages.config"
+      ],
+      "correctAnswer": "No",
+      "explanation": "Correct answer is A) No."
+    },
+    {
+      "questionText": "Which Visual Studio command installs a package from the Package Manager Console?",
+      "options": [
+        "Get-Package",
+        "Add-Package",
+        "Load-Package",
+        "Install-Package"
+      ],
+      "correctAnswer": "Install-Package",
+      "explanation": "Correct answer is D) Install-Package."
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+category,session,question_text,option1,option2,option3,option4,correct_answer
+Azure,6,Azure database services allow developers to:,Avoid using databases,Write operating systems,Manage physical servers,Focus time on other crucial tasks instead of managing a database from scratch,Focus time on other crucial tasks instead of managing a database from scratch
+Azure,6,Azure database services offer which of the following?,Only desktop use,No availability guarantees,Enterprise-grade performance with high built-in availability,Only offline access,Enterprise-grade performance with high built-in availability
+Azure,6,Azure Database for MySQL is based on:,The open-source MySQL server engine,The Oracle engine,The SQLite engine,The Cosmos engine,The open-source MySQL server engine
+Azure,6,Azure Database for MySQL is described as a:,Completely managed relational database service,File system,Message queue,Desktop database only,Completely managed relational database service
+Azure,6,Azure Database for MySQL can handle:,No workloads,Mission-critical workloads with high performance and dynamic scalability,Only static pages,Only small workloads,Mission-critical workloads with high performance and dynamic scalability
+Azure,6,Azure Cosmos DB is a:,Local file,Globally distributed database service,Desktop editor,Single-region database,Globally distributed database service
+Azure,6,Cosmos DB uses a single backend to support which data models?,Only graph,Only relational,Only document,"Key-value, document, relational, and graph","Key-value, document, relational, and graph"
+Azure,6,Cosmos DB is sometimes referred to as NewSQL because:,It is relational only,It has no query language,It lacks transactions,"It uses a SQL-like query language and supports ACID transactions, but has no relational data model","It uses a SQL-like query language and supports ACID transactions, but has no relational data model"
+Azure,6,Entity Framework uses which model to access various databases?,A cloud model,A queue model,A file model,A provider model,A provider model
+Azure,6,A data provider represents:,A cloud region,A server farm,A set of libraries that facilitate data operations,A single table,A set of libraries that facilitate data operations
+Azure,6,Which databases use the Oracle data provider?,Excel files,MySQL databases,SQL Server databases,Oracle databases,Oracle databases
+Azure,6,Which databases are mentioned as using the OLE DB data provider?,Only Oracle,Only Cosmos DB,"MySQL, Excel, Access",Only SQL Server,"MySQL, Excel, Access"
+Azure,6,Entity Framework acts as a bond between:,Object-oriented code and the SQL Azure relational database,Hardware and software,Queues and tables,Browsers and servers only,Object-oriented code and the SQL Azure relational database
+Azure,6,Entity Framework is integrated into:,Excel,Visual Studio,Notepad,Paint,Visual Studio
+Azure,6,EF6 is combined with which MySQL component?,MySQL Workbench,MySQL Shell,phpMyAdmin,MySQL Connector/NET,MySQL Connector/NET
+Azure,6,Which NuGet package is installed for EF support with MySQL?,Microsoft.Azure.DocumentDB,EntityFramework.Web,MySql.Data.Entity,System.Data.SQLite,MySql.Data.Entity
+Azure,6,MySQL ADO.NET Connector is described as a:,Completely managed ADO.NET driver,Hardware driver,Query language,Cloud portal,Completely managed ADO.NET driver
+Azure,6,"In the MySQL connection string sample, the providerName is:",System.Data.OleDb,System.Data.SqlClient,MySql.Data.MySqlClient,System.Data.SQLite,MySql.Data.MySqlClient
+Azure,6,"In the MySQL connection string sample, which default MySQL port is used?",3306,443,80,1433,3306
+Azure,6,Which attribute is used on the DbContext class to configure MySQL for EF?,[ActionName],[Required],[Display],[DbConfigurationType(typeof(MySqlEFConfiguration))],[DbConfigurationType(typeof(MySqlEFConfiguration))]
+Azure,6,"In the MySQL DbContext sample, Students is exposed as a:",DataTable,List<string>,DbSet<Student>,Dictionary,DbSet<Student>
+Azure,6,SQLite is described as:,A client-server enterprise database requiring installation,"An autonomous, serverless, zero-configuration transactional SQL database engine",A cloud-only database,A NoSQL document store,"An autonomous, serverless, zero-configuration transactional SQL database engine"
+Azure,6,SQLite code is:,In the public domain and free for any purpose,Available only for Linux,Available only to Azure customers,Proprietary and paid,In the public domain and free for any purpose
+Azure,6,Which NuGet package should be added to use SQLite with EF?,SQLite.Azure,System.SQLite,System.Data.SQLite,Data.SQLite,System.Data.SQLite
+Azure,6,Which tool is mentioned as the simplest way to create/view SQLite files?,DB Browser for SQLite,Excel,Visual Studio Code,SSMS,DB Browser for SQLite
+Azure,6,"In the SQLite DbContext sample, which property of the connection string builder points to the database file?",ServerName,Catalog,Endpoint,DataSource,DataSource
+Azure,6,"In the SQLite DbContext sample, which convention is removed in OnModelCreating?",StoreGeneratedConvention,ForeignKeyConvention,KeyConvention,PluralizingTableNameConvention,PluralizingTableNameConvention
+Azure,6,What is the URL format for addressing Azure queues?,https://<storage account>.queue.core.windows.net/<queue>,https://<queue>.table.core.windows.net,http://queue.azure.exe/<queue>,ftp://<queue>.windows.net,https://<storage account>.queue.core.windows.net/<queue>
+Azure,6,A storage account is used to:,Create firewalls only,Host VMs only,Compile code,Access Azure Storage,Access Azure Storage
+Azure,6,A queue name should be:,Any case,In lowercase only,Numeric only,In uppercase only,In lowercase only
+Azure,6,The maximum size of a queue message is:,1 GB,1 MB,64 KB,1 KB,64 KB
+Azure,6,How long can a message remain in a queue?,One year,Seven days,Forever,One hour,Seven days
+Azure,6,Azure Cosmos DB is provided as which type of solution?,IaaS,PaaS,SaaS only,On-premises only,PaaS
+Azure,6,Azure Cosmos DB can be tried free of cost:,Only with an MSDN subscription,Only with a paid subscription,Without an Azure subscription,Never,Without an Azure subscription
+Azure,6,"Azure Cosmos DB provides assurance for availability, high throughput, low latency, and:",Manual backups,Tunable consistency,No consistency,Fixed consistency only,Tunable consistency
+Azure,6,Cosmos DB is mainly used by which kinds of applications?,Only batch,"Web, mobile, gaming, and IoT",Only desktop,Only mainframe,"Web, mobile, gaming, and IoT"
+Azure,6,"In the Cosmos DB creation steps, the ID field must be:",Unique and in lowercase,Left blank,Numeric only,Uppercase,Unique and in lowercase
+Azure,6,Which menu item is used to select Cosmos DB in the portal?,Security Center,All Services > Azure Cosmos DB,Monitor,Advisor,All Services > Azure Cosmos DB
+Azure,6,Which window is opened after clicking the newly created Cosmos DB?,Login page,Billing page,Help page,Quick start page,Quick start page
+Azure,6,Which tool in the Cosmos DB menu is used to add a collection and view documents?,Dashboard,Data Explorer,Resource Manager,Advisor,Data Explorer
+Azure,6,"In the walkthrough, the collection created in Cosmos DB is named:",Records,Student,Courses,Items only,Student
+Azure,6,Which options are required to connect later to the Cosmos DB database from the Keys page?,Only password,Only port,"URI, Primary Key, and Connection string",Only username,"URI, Primary Key, and Connection string"
+Azure,6,Which NuGet package is installed to integrate Azure Cosmos DB with ASP.NET MVC in the session?,MySql.Data.Entity,EntityFramework,Microsoft.Azure.DocumentDB,System.Data.SQLite,Microsoft.Azure.DocumentDB
+Azure,6,"In Web.config, Cosmos DB settings are added under which section?",<appSettings>,<providers>,<runtime>,<connectionStrings>,<appSettings>
+Azure,6,"The Web.config key ""endpoint"" holds:",The URI value from the Keys page,The database name,The primary key,The collection name,The URI value from the Keys page
+Azure,6,"The Web.config key ""authKey"" holds:",The server name,The primary key value from the Keys page,The URI,The collection name,The primary key value from the Keys page
+Azure,6,Which file from the downloaded sample code is added to the application for Cosmos DB access?,DocumentDBRepository.cs,Global.asax,Startup.cs,Program.cs,DocumentDBRepository.cs
+Azure,6,"In the sample application, the new controller added is named:",StudentInfoController,HomeController,CosmosController,StudentController,StudentInfoController
+Azure,6,"In the Index action of StudentInfoController, items are retrieved using:",SqlCommand.ExecuteReader,CacheItemPolicy,DocumentDBRepository<Student>.GetItemsAsync,DbContext.SaveChanges,DocumentDBRepository<Student>.GetItemsAsync
+Azure,6,The Student list page in the sample application is accessed at which URL path?,/azure/login,/home/about,/student/create,/studentinfo/index,/studentinfo/index
+Azure,6,Which Required attribute message is used for the Student Id in the model?,Please enter Id,Id missing,Student Id is required,Invalid Id,Student Id is required

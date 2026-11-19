@@ -1,0 +1,602 @@
+{
+  "category": "Azure",
+  "session": 3,
+  "title": "Session 3: Data Access Technologies in Azure",
+  "totalQuestions": 54,
+  "questions": [
+    {
+      "questionText": "Caching is a technique in which:",
+      "options": [
+        "Data is encrypted only",
+        "Remote data is stored locally for frequent reuse",
+        "Data is compiled",
+        "Data is permanently deleted"
+      ],
+      "correctAnswer": "Remote data is stored locally for frequent reuse",
+      "explanation": "Correct answer is B) Remote data is stored locally for frequent reuse."
+    },
+    {
+      "questionText": "Which of the following is static content?",
+      "options": [
+        "Server-side logic",
+        "Database queries",
+        "Images, CSS, and JavaScript files",
+        "User session data"
+      ],
+      "correctAnswer": "Images, CSS, and JavaScript files",
+      "explanation": "Correct answer is C) Images, CSS, and JavaScript files."
+    },
+    {
+      "questionText": "Heavy static files can consume approximately what share of a page's total load time?",
+      "options": [
+        "10 percent",
+        "60 percent",
+        "30 percent",
+        "100 percent"
+      ],
+      "correctAnswer": "60 percent",
+      "explanation": "Correct answer is B) 60 percent."
+    },
+    {
+      "questionText": "Which object is used to share common data with multiple action methods by adding it to the cache?",
+      "options": [
+        "Session.Abandon",
+        "Application.Exit",
+        "Response.Redirect",
+        "HttpContext.Cache"
+      ],
+      "correctAnswer": "HttpContext.Cache",
+      "explanation": "Correct answer is D) HttpContext.Cache."
+    },
+    {
+      "questionText": "A cache policy is:",
+      "options": [
+        "A type of CDN",
+        "A set of rules that determine whether a cached copy of a resource can be used for a request",
+        "A firewall rule",
+        "A database backup plan"
+      ],
+      "correctAnswer": "A set of rules that determine whether a cached copy of a resource can be used for a request",
+      "explanation": "Correct answer is B) A set of rules that determine whether a cached copy of a resource can be used for a request."
+    },
+    {
+      "questionText": "An effective cache policy is determined by client cache requirements and:",
+      "options": [
+        "Server's content expiration and revalidation requirements",
+        "The keyboard layout",
+        "Only the browser color scheme",
+        "The user's operating system"
+      ],
+      "correctAnswer": "Server's content expiration and revalidation requirements",
+      "explanation": "Correct answer is A) Server's content expiration and revalidation requirements."
+    },
+    {
+      "questionText": "Using client and server cache requirements ensures:",
+      "options": [
+        "The most conservative cache policy is achieved so the client receives up-to-date content",
+        "The cache is disabled",
+        "Data is duplicated",
+        "The cache never expires"
+      ],
+      "correctAnswer": "The most conservative cache policy is achieved so the client receives up-to-date content",
+      "explanation": "Correct answer is A) The most conservative cache policy is achieved so the client receives up-to-date content."
+    },
+    {
+      "questionText": "Cache expiration policy represents:",
+      "options": [
+        "A list of users",
+        "A database schema",
+        "A network route",
+        "A set of eviction and expiration details for a specific cache entry"
+      ],
+      "correctAnswer": "A set of eviction and expiration details for a specific cache entry",
+      "explanation": "Correct answer is D) A set of eviction and expiration details for a specific cache entry."
+    },
+    {
+      "questionText": "Which two types of expiration policies are available for cache expiration?",
+      "options": [
+        "Local and Remote",
+        "Absolute and Sliding",
+        "Static and Dynamic",
+        "Fast and Slow"
+      ],
+      "correctAnswer": "Absolute and Sliding",
+      "explanation": "Correct answer is B) Absolute and Sliding."
+    },
+    {
+      "questionText": "In Code Snippet 1, the studentList is cached for how long using AbsoluteExpiration?",
+      "options": [
+        "10 minutes",
+        "1 hour",
+        "23 hours and 59 minutes",
+        "24 days"
+      ],
+      "correctAnswer": "23 hours and 59 minutes",
+      "explanation": "Correct answer is C) 23 hours and 59 minutes."
+    },
+    {
+      "questionText": "Which class is used in Code Snippet 1 to define the cache policy?",
+      "options": [
+        "TransactionScope",
+        "SqlDependency",
+        "CacheDependency",
+        "CacheItemPolicy"
+      ],
+      "correctAnswer": "CacheItemPolicy",
+      "explanation": "Correct answer is D) CacheItemPolicy."
+    },
+    {
+      "questionText": "Which object is first created to set up a cache dependency?",
+      "options": [
+        "SqlCommand",
+        "Transaction",
+        "CacheDependency",
+        "DataReader"
+      ],
+      "correctAnswer": "CacheDependency",
+      "explanation": "Correct answer is C) CacheDependency."
+    },
+    {
+      "questionText": "Which method is used to add a dependent cache item with a CacheDependency parameter?",
+      "options": [
+        "Cache.Insert()",
+        "Cache.Clear()",
+        "Cache.Open()",
+        "Cache.Close()"
+      ],
+      "correctAnswer": "Cache.Insert()",
+      "explanation": "Correct answer is A) Cache.Insert()."
+    },
+    {
+      "questionText": "When a dependency object changes, the cached item is:",
+      "options": [
+        "Duplicated",
+        "Automatically invalidated and removed",
+        "Locked permanently",
+        "Encrypted"
+      ],
+      "correctAnswer": "Automatically invalidated and removed",
+      "explanation": "Correct answer is B) Automatically invalidated and removed."
+    },
+    {
+      "questionText": "Which of the following is NOT one of the three types of cache dependency in Table 3.1?",
+      "options": [
+        "Cache dependency on a file",
+        "Cache dependency on cached items",
+        "Cache dependency on SQL",
+        "Cache dependency on server hardware"
+      ],
+      "correctAnswer": "Cache dependency on server hardware",
+      "explanation": "Correct answer is D) Cache dependency on server hardware."
+    },
+    {
+      "questionText": "SQL cache dependency is enabled using which command line tool?",
+      "options": [
+        "aspnet_regsql.exe",
+        "sqlcmd.exe",
+        "aspnet_compiler.exe",
+        "csc.exe"
+      ],
+      "correctAnswer": "aspnet_regsql.exe",
+      "explanation": "Correct answer is A) aspnet_regsql.exe."
+    },
+    {
+      "questionText": "Query notification in ADO.NET means:",
+      "options": [
+        "An application is notified when data changes in the source",
+        "A database is backed up",
+        "A server restarts",
+        "A user logs in"
+      ],
+      "correctAnswer": "An application is notified when data changes in the source",
+      "explanation": "Correct answer is A) An application is notified when data changes in the source."
+    },
+    {
+      "questionText": "Which ADO.NET class provides the low-level implementation of query notifications?",
+      "options": [
+        "SqlCacheDependency",
+        "SqlDataReader",
+        "SqlDependency",
+        "SqlNotificationRequest"
+      ],
+      "correctAnswer": "SqlNotificationRequest",
+      "explanation": "Correct answer is D) SqlNotificationRequest."
+    },
+    {
+      "questionText": "Which class provides a high-level implementation of query notifications?",
+      "options": [
+        "SqlDependency",
+        "SqlConnection",
+        "SqlNotificationRequest",
+        "SqlCommand"
+      ],
+      "correctAnswer": "SqlDependency",
+      "explanation": "Correct answer is A) SqlDependency."
+    },
+    {
+      "questionText": "SqlCacheDependency helper classes are used by:",
+      "options": [
+        "Only desktop games",
+        "Only mobile apps",
+        "Web applications built using ASP.NET 2.0",
+        "Only console applications"
+      ],
+      "correctAnswer": "Web applications built using ASP.NET 2.0",
+      "explanation": "Correct answer is C) Web applications built using ASP.NET 2.0."
+    },
+    {
+      "questionText": "Azure Redis Cache can be used by:",
+      "options": [
+        "Any application, inside or outside Azure",
+        "Only applications inside Azure",
+        "Only desktop applications",
+        "Only Windows services"
+      ],
+      "correctAnswer": "Any application, inside or outside Azure",
+      "explanation": "Correct answer is A) Any application, inside or outside Azure."
+    },
+    {
+      "questionText": "A transaction is:",
+      "options": [
+        "A kind of table",
+        "A single unit of work where either all or none of the operations are performed",
+        "A type of query",
+        "A network protocol"
+      ],
+      "correctAnswer": "A single unit of work where either all or none of the operations are performed",
+      "explanation": "Correct answer is B) A single unit of work where either all or none of the operations are performed."
+    },
+    {
+      "questionText": "If an error occurs in a transaction, the transaction must be:",
+      "options": [
+        "Rolled back",
+        "Committed",
+        "Duplicated",
+        "Ignored"
+      ],
+      "correctAnswer": "Rolled back",
+      "explanation": "Correct answer is A) Rolled back."
+    },
+    {
+      "questionText": "The acronym ACID stands for properties of a transaction. Which set is correct?",
+      "options": [
+        "Access, Control, Integrity, Data",
+        "Atomic, Cached, Indexed, Distributed",
+        "Atomicity, Consistency, Isolation, Durability",
+        "Authentication, Consistency, Integrity, Durability"
+      ],
+      "correctAnswer": "Atomicity, Consistency, Isolation, Durability",
+      "explanation": "Correct answer is C) Atomicity, Consistency, Isolation, Durability."
+    },
+    {
+      "questionText": "Which ACID property assures that a committed transaction remains even when the system fails?",
+      "options": [
+        "Durability",
+        "Atomicity",
+        "Isolation",
+        "Consistency"
+      ],
+      "correctAnswer": "Durability",
+      "explanation": "Correct answer is A) Durability."
+    },
+    {
+      "questionText": "Which ACID property assures independent and transparent transactions?",
+      "options": [
+        "Durability",
+        "Atomicity",
+        "Consistency",
+        "Isolation"
+      ],
+      "correctAnswer": "Isolation",
+      "explanation": "Correct answer is D) Isolation."
+    },
+    {
+      "questionText": "A database transaction consists of an array of statements that:",
+      "options": [
+        "Only read data",
+        "Execute together and either succeed or fail, keeping the database consistent",
+        "Are always ignored",
+        "Run independently"
+      ],
+      "correctAnswer": "Execute together and either succeed or fail, keeping the database consistent",
+      "explanation": "Correct answer is B) Execute together and either succeed or fail, keeping the database consistent."
+    },
+    {
+      "questionText": "A transaction executed on a single data source/database is called a:",
+      "options": [
+        "Remote transaction",
+        "Local transaction",
+        "Elastic transaction",
+        "Distributed transaction"
+      ],
+      "correctAnswer": "Local transaction",
+      "explanation": "Correct answer is B) Local transaction."
+    },
+    {
+      "questionText": "Local transactions are described as being:",
+      "options": [
+        "Two phase",
+        "Three phase",
+        "Multi phase",
+        "Single phase"
+      ],
+      "correctAnswer": "Single phase",
+      "explanation": "Correct answer is D) Single phase."
+    },
+    {
+      "questionText": "Which component of System.Transactions manages local transactions?",
+      "options": [
+        "SqlDependency",
+        "CacheDependency",
+        "Lightweight Transaction Manager (LTM)",
+        "MSDTC only"
+      ],
+      "correctAnswer": "Lightweight Transaction Manager (LTM)",
+      "explanation": "Correct answer is C) Lightweight Transaction Manager (LTM)."
+    },
+    {
+      "questionText": "A transaction that includes more than one data source is called a:",
+      "options": [
+        "Static transaction",
+        "Local transaction",
+        "Simple transaction",
+        "Distributed or elastic transaction"
+      ],
+      "correctAnswer": "Distributed or elastic transaction",
+      "explanation": "Correct answer is D) Distributed or elastic transaction."
+    },
+    {
+      "questionText": "Which coordinator uses System.Transactions classes to manage distributed transactions on the cloud?",
+      "options": [
+        "Resource Manager",
+        "Lightweight Transaction Manager",
+        "Azure Advisor",
+        "Microsoft Distributed Transaction Coordinator (MSDTC)"
+      ],
+      "correctAnswer": "Microsoft Distributed Transaction Coordinator (MSDTC)",
+      "explanation": "Correct answer is D) Microsoft Distributed Transaction Coordinator (MSDTC)."
+    },
+    {
+      "questionText": "Which object is instantiated to create a transaction using System.Transactions?",
+      "options": [
+        "SqlDataAdapter",
+        "DataSet",
+        "TransactionScope",
+        "CacheDependency"
+      ],
+      "correctAnswer": "TransactionScope",
+      "explanation": "Correct answer is C) TransactionScope."
+    },
+    {
+      "questionText": "A transaction in the current thread that is opened by TransactionScope is called a(n):",
+      "options": [
+        "Cached transaction",
+        "Static transaction",
+        "Ambient transaction",
+        "Local database"
+      ],
+      "correctAnswer": "Ambient transaction",
+      "explanation": "Correct answer is C) Ambient transaction."
+    },
+    {
+      "questionText": "To be part of the transaction, ADO.NET connections must be opened:",
+      "options": [
+        "After the transaction is disposed",
+        "Before instantiating TransactionScope",
+        "In another application",
+        "After the TransactionScope is instantiated and before it is disposed"
+      ],
+      "correctAnswer": "After the TransactionScope is instantiated and before it is disposed",
+      "explanation": "Correct answer is D) After the TransactionScope is instantiated and before it is disposed."
+    },
+    {
+      "questionText": "Which method must be called before Dispose to commit the transaction?",
+      "options": [
+        "TransactionScope.Open()",
+        "TransactionScope.Cancel()",
+        "TransactionScope.Complete()",
+        "TransactionScope.Rollback()"
+      ],
+      "correctAnswer": "TransactionScope.Complete()",
+      "explanation": "Correct answer is C) TransactionScope.Complete()."
+    },
+    {
+      "questionText": "Which isolation level is the highest?",
+      "options": [
+        "Repeatable Read",
+        "Serializable",
+        "Read Uncommitted",
+        "Read Committed"
+      ],
+      "correctAnswer": "Serializable",
+      "explanation": "Correct answer is B) Serializable."
+    },
+    {
+      "questionText": "Which isolation level is the lowest and allows dirty reads?",
+      "options": [
+        "Read Uncommitted",
+        "Read Committed",
+        "Serializable",
+        "Repeatable Read"
+      ],
+      "correctAnswer": "Read Uncommitted",
+      "explanation": "Correct answer is A) Read Uncommitted."
+    },
+    {
+      "questionText": "Read Committed isolation level:",
+      "options": [
+        "Allows shared locks and reads only committed data",
+        "Prevents all reads",
+        "Has no locks",
+        "Allows dirty reads"
+      ],
+      "correctAnswer": "Allows shared locks and reads only committed data",
+      "explanation": "Correct answer is A) Allows shared locks and reads only committed data."
+    },
+    {
+      "questionText": "Azure Blob storage is used to store:",
+      "options": [
+        "Unstructured data such as text or binary data",
+        "Only relational tables",
+        "Only SQL queries",
+        "Only queues"
+      ],
+      "correctAnswer": "Unstructured data such as text or binary data",
+      "explanation": "Correct answer is A) Unstructured data such as text or binary data."
+    },
+    {
+      "questionText": "Blob storage objects can be accessed using:",
+      "options": [
+        "Only FTP",
+        "Only email",
+        "HTTP or HTTPS through URLs",
+        "Only Bluetooth"
+      ],
+      "correctAnswer": "HTTP or HTTPS through URLs",
+      "explanation": "Correct answer is C) HTTP or HTTPS through URLs."
+    },
+    {
+      "questionText": "Which of the following is a common use of Blob storage?",
+      "options": [
+        "Storing video and audio for streaming",
+        "Compiling code",
+        "Running stored procedures",
+        "Storing relational joins"
+      ],
+      "correctAnswer": "Storing video and audio for streaming",
+      "explanation": "Correct answer is A) Storing video and audio for streaming."
+    },
+    {
+      "questionText": "Azure Table storage is described as a:",
+      "options": [
+        "Message queue",
+        "Key/attribute store with a schemaless design",
+        "File compiler",
+        "Relational store with fixed schema"
+      ],
+      "correctAnswer": "Key/attribute store with a schemaless design",
+      "explanation": "Correct answer is B) Key/attribute store with a schemaless design."
+    },
+    {
+      "questionText": "What is the size of a single Azure Queue message?",
+      "options": [
+        "1 GB",
+        "64 KB",
+        "1 MB",
+        "10 MB"
+      ],
+      "correctAnswer": "64 KB",
+      "explanation": "Correct answer is B) 64 KB."
+    },
+    {
+      "questionText": "Which is a common use of Azure Queue storage?",
+      "options": [
+        "Running SQL joins",
+        "Processing a backlog of work asynchronously and passing messages from a Web role to a worker role",
+        "Storing images",
+        "Hosting web pages"
+      ],
+      "correctAnswer": "Processing a backlog of work asynchronously and passing messages from a Web role to a worker role",
+      "explanation": "Correct answer is B) Processing a backlog of work asynchronously and passing messages from a Web role to a worker role."
+    },
+    {
+      "questionText": "Azure SQL Database can be used in which two ways?",
+      "options": [
+        "Only IaaS",
+        "Azure SQL (PaaS) Database and SQL Server on Azure VMs (IaaS)",
+        "SaaS and DaaS",
+        "Only PaaS"
+      ],
+      "correctAnswer": "Azure SQL (PaaS) Database and SQL Server on Azure VMs (IaaS)",
+      "explanation": "Correct answer is B) Azure SQL (PaaS) Database and SQL Server on Azure VMs (IaaS)."
+    },
+    {
+      "questionText": "After creating an Azure SQL database server, which action gives access permission for your client machine?",
+      "options": [
+        "Change the OS",
+        "Delete the resource group",
+        "Set server firewall and add client IP",
+        "Restart SSMS"
+      ],
+      "correctAnswer": "Set server firewall and add client IP",
+      "explanation": "Correct answer is C) Set server firewall and add client IP."
+    },
+    {
+      "questionText": "What is the format of the server name used to connect to the Azure database from SSMS?",
+      "options": [
+        "databasename.database.windows.net",
+        "databasename.local",
+        "databasename.azure.exe",
+        "databasename.sql.com"
+      ],
+      "correctAnswer": "databasename.database.windows.net",
+      "explanation": "Correct answer is A) databasename.database.windows.net."
+    },
+    {
+      "questionText": "Which tool is used to connect to the Azure SQL database from a local machine in the session?",
+      "options": [
+        "Task Manager",
+        "SQL Server Management Studio (SSMS)",
+        "Notepad",
+        "Paint"
+      ],
+      "correctAnswer": "SQL Server Management Studio (SSMS)",
+      "explanation": "Correct answer is B) SQL Server Management Studio (SSMS)."
+    },
+    {
+      "questionText": "Cosmos DB is classified as which type of database?",
+      "options": [
+        "Spreadsheet",
+        "Relational only",
+        "NewSQL",
+        "File system"
+      ],
+      "correctAnswer": "NewSQL",
+      "explanation": "Correct answer is C) NewSQL."
+    },
+    {
+      "questionText": "Which data models does Cosmos DB support through one backend?",
+      "options": [
+        "Only relational",
+        "Only key value",
+        "Document, key value, relational, and graph",
+        "Only graph"
+      ],
+      "correctAnswer": "Document, key value, relational, and graph",
+      "explanation": "Correct answer is C) Document, key value, relational, and graph."
+    },
+    {
+      "questionText": "Cosmos DB does not rely on:",
+      "options": [
+        "Query languages",
+        "Networks",
+        "Transactions",
+        "Schemas"
+      ],
+      "correctAnswer": "Schemas",
+      "explanation": "Correct answer is D) Schemas."
+    },
+    {
+      "questionText": "A Content Delivery Network (CDN) is:",
+      "options": [
+        "A programming language",
+        "A VM template",
+        "A database engine",
+        "A distributed network of services that delivers Web content to users"
+      ],
+      "correctAnswer": "A distributed network of services that delivers Web content to users",
+      "explanation": "Correct answer is D) A distributed network of services that delivers Web content to users."
+    },
+    {
+      "questionText": "CDN cached content is stored in locations called:",
+      "options": [
+        "Local disks only",
+        "Backup tapes",
+        "Origin servers only",
+        "Point-of-Presence (POP) on edge servers"
+      ],
+      "correctAnswer": "Point-of-Presence (POP) on edge servers",
+      "explanation": "Correct answer is D) Point-of-Presence (POP) on edge servers."
+    }
+  ]
+}
