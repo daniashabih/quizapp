@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "start": "node api/index.js",
     "db:diagnose": "node scripts/diagnostic.js",
+    "setup:vector-index": "node scripts/setupVectorSearchIndex.js",
     "seed:technologies": "node scripts/seedTechnologies.js",
     "seed:admin": "node scripts/seedAdmin.js",
     "seed:questions": "node scripts/seedQuestions.js",

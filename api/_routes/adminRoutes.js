@@ -1,4 +1,5 @@
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 const { authMiddleware, adminMiddleware } = require('../_middlewares/authMiddleware');
 
@@ -8,8 +9,19 @@ const { getQuestions, createQuestion, updateQuestion, deleteQuestion } = require
 const { getSettings, updateSettings } = require('../_controllers/settingController');
 const gameController = require('../_controllers/gameController');
 const blogController = require('../_controllers/blogController');
+const knowledgeBaseController = require('../_controllers/knowledgeBaseController');
+const verificationController = require('../_controllers/verificationController');
+const { MAX_BOOK_FILE_SIZE_BYTES } = require('../_services/bookExtractorService');
 const Setting = require('../_models/settingModel');
 const prisma = require('../_config/prisma');
+
+const bookUpload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: MAX_BOOK_FILE_SIZE_BYTES,
+        files: 1
+    }
+});
 
 // Enforce authentication & admin role across all /api/admin routes
 router.use(authMiddleware, adminMiddleware);
@@ -199,5 +211,27 @@ router.put('/blog/:id', blogController.adminUpdateArticle);
 router.delete('/blog/:id', blogController.adminDeleteArticle);
 router.patch('/blog/:id/toggle-publish', blogController.adminTogglePublish);
 router.post('/blog/seed', blogController.adminSeedArticles);
+
+// 9. /api/admin/knowledge-base (AI Book Knowledge Base - Admin Protected)
+router.get('/knowledge-base/status', knowledgeBaseController.getKnowledgeBaseStatus);
+router.post('/knowledge-base/setup-vector-index', knowledgeBaseController.setupVectorIndex);
+router.get('/knowledge-base/books', knowledgeBaseController.listBooks);
+router.get('/knowledge-base/books/:id', knowledgeBaseController.getBookDetails);
+router.post('/knowledge-base/books', bookUpload.single('file'), knowledgeBaseController.uploadBook);
+router.post('/knowledge-base/books/init-upload', knowledgeBaseController.initChunkedUpload);
+router.post('/knowledge-base/books/:id/upload-part', bookUpload.single('chunk'), knowledgeBaseController.uploadBookPart);
+router.post('/knowledge-base/books/:id/finalize-upload', knowledgeBaseController.finalizeChunkedUpload);
+router.put('/knowledge-base/books/:id', knowledgeBaseController.updateBookMetadata);
+router.post('/knowledge-base/books/:id/replace', bookUpload.single('file'), knowledgeBaseController.replaceBook);
+router.patch('/knowledge-base/books/:id/toggle', knowledgeBaseController.toggleBookEnabled);
+router.post('/knowledge-base/books/:id/retry', knowledgeBaseController.retryBookProcessing);
+router.delete('/knowledge-base/books/:id', knowledgeBaseController.deleteBook);
+
+// 10. /api/admin/verification-reports (AI Verification Reports & Approval History)
+router.get('/verification-reports', verificationController.getVerificationReports);
+router.get('/verification-reports/history', verificationController.getCorrectionHistory);
+router.post('/verification-reports/:id/approve', verificationController.approveReportCorrection);
+router.post('/verification-reports/:id/dismiss', verificationController.dismissReport);
+router.delete('/verification-reports/:id', verificationController.deleteReport);
 
 module.exports = router;
