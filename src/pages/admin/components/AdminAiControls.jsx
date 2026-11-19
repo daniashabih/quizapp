@@ -215,12 +215,12 @@ export default function AdminAiControls({ standalone = false }) {
                     <p className="font-bold text-[var(--foreground)]">
                         {aiProvider.configured
                             ? `Active Provider: ${String(aiProvider.provider || 'huggingface').toUpperCase()} — Token Secured Server-Side`
-                            : 'HF_TOKEN Not Configured on Server'}
+                            : 'Hugging Face Server Token Not Configured'}
                     </p>
                     <p className="text-[var(--foreground-muted)]">
                         {aiProvider.configured
-                            ? 'API credentials stay strictly in Vercel server environment variables (process.env.HF_TOKEN) and are never sent to browser or Flutter clients.'
-                            : 'Add HF_TOKEN (with Inference Providers permission) in Vercel environment variables to enable live Hugging Face chat verification and embeddings.'}
+                            ? 'API credentials stay strictly in Vercel server environment variables and are never sent to browser or Flutter clients.'
+                            : 'Add your Hugging Face Inference Providers token in Vercel server environment variables to enable live chat verification and embeddings.'}
                     </p>
                 </div>
             </div>

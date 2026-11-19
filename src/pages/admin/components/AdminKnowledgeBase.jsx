@@ -334,11 +334,22 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                 <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800 flex items-start gap-3">
                     <AlertCircle size={18} className="text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                     <div className="text-xs text-amber-900 dark:text-amber-200 space-y-1">
-                        <p className="font-bold">Server AI Provider Key Required for Embeddings & Verification</p>
+                        <p className="font-bold">Server AI Provider Token Required for Embeddings & Verification</p>
                         <p>
-                            Configure <code className="px-1 py-0.5 rounded bg-amber-100 dark:bg-amber-900/50 font-mono">OPENAI_API_KEY</code> or{' '}
-                            <code className="px-1 py-0.5 rounded bg-amber-100 dark:bg-amber-900/50 font-mono">GEMINI_API_KEY</code> in your server environment variables to generate vector embeddings and run book-grounded verification.
+                            Configure your Hugging Face Inference Providers token (recommended) or optional OpenAI / Gemini keys in your Vercel server environment variables to generate vector embeddings and run book-grounded verification.
                         </p>
+                    </div>
+                </div>
+            )}
+
+            {/* Active AI Provider & Embedding Dimension Strip */}
+            {aiProvider && aiProvider.configured && (
+                <div className="p-3.5 rounded-2xl bg-[var(--muted-bg)]/60 border border-[var(--card-border)] flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[var(--foreground-muted)]">
+                        <span>Provider: <strong className="text-[var(--foreground)] uppercase">{aiProvider.provider}</strong></span>
+                        <span>Chat Model: <strong className="font-mono text-[11px] text-[var(--foreground)]">{aiProvider.verificationModel}</strong></span>
+                        <span>Embedding Model: <strong className="font-mono text-[11px] text-[var(--foreground)]">{aiProvider.embeddingModel}</strong></span>
+                        <span>Vector Dimensions: <strong className="text-[var(--foreground)]">{aiProvider.embeddingDimensions || 1024}</strong></span>
                     </div>
                 </div>
             )}
@@ -507,7 +518,19 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                             <span>Extracted Chunks: <strong className="text-[var(--foreground)]">{book.totalChunks || 0}</strong></span>
                                             <span>Indexed Vectors: <strong className="text-emerald-700 dark:text-emerald-400">{book.indexedChunks || 0}</strong></span>
                                             {book.embeddingModel && (
-                                                <span>Model: <strong className="font-mono text-[10px]">{book.embeddingModel}</strong></span>
+                                                <span>
+                                                    Model: <strong className="font-mono text-[10px]">{book.embeddingModel}</strong>
+                                                    {book.embeddingDimensions ? ` (${book.embeddingDimensions}d)` : ''}
+                                                </span>
+                                            )}
+                                            {aiProvider?.embeddingDimensions && book.embeddingDimensions && book.embeddingDimensions !== aiProvider.embeddingDimensions && book.processingStatus === 'Completed' && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRetryBook(book)}
+                                                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700 cursor-pointer"
+                                                >
+                                                    <RotateCcw size={10} /> Re-index ({aiProvider.embeddingDimensions}d)
+                                                </button>
                                             )}
                                         </div>
                                     </div>

@@ -320,8 +320,25 @@ class _AdminKnowledgeBaseScreenState
                       border: Border.all(color: context.warningColor.withValues(alpha: 0.4)),
                     ),
                     child: Text(
-                      'Configure OPENAI_API_KEY or GEMINI_API_KEY on the server to generate vector embeddings and run book verification.',
+                      'Configure your Hugging Face Inference Providers server token (recommended) or OpenAI/Gemini key in Vercel environment variables to generate vector embeddings and run book verification.',
                       style: AppTextStyles.bodySmall.copyWith(color: context.warningColor),
+                    ),
+                  )
+                else
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+                    decoration: BoxDecoration(
+                      color: context.mutedBgColor,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: context.borderColor),
+                    ),
+                    child: Text(
+                      'Provider: ${data.activeProvider.toUpperCase()} · ${data.activeEmbeddingModel} (${data.activeEmbeddingDimensions}d)',
+                      style: AppTextStyles.mono.copyWith(
+                        fontSize: 11,
+                        color: context.textSecondaryColor,
+                      ),
                     ),
                   ),
 

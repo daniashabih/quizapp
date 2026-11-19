@@ -7,12 +7,13 @@ import {
     ShieldCheck, Search, BookOpen, FolderOpen, Upload, Download, FileText, Layers,
     ChevronDown, Sparkles, Sliders, Percent, Shuffle, HelpCircle, AlertCircle,
     CheckCircle2, RefreshCw, Bot, BarChart3, TrendingUp, Award, Activity,
-    Eye, EyeOff, Shield, UserCheck, Wrench, Clock, Volume2, Palette, Gamepad2
+    Eye, EyeOff, Shield, UserCheck, Wrench, Clock, Volume2, Palette, Gamepad2, Cpu
 } from 'lucide-react';
 import AdminGamesManagement from './components/AdminGamesManagement';
 import AdminBlogManagement from './components/AdminBlogManagement';
 import AdminKnowledgeBase from './components/AdminKnowledgeBase';
 import AdminVerificationReports from './components/AdminVerificationReports';
+import AdminAiControls from './components/AdminAiControls';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import dashboardService from '../../services/dashboardService';
@@ -579,6 +580,7 @@ const AdminDashboard = () => {
                     { id: 'overview', label: 'Analytics & Overview', icon: BarChart3 },
                     { id: 'knowledge-base', label: 'AI Knowledge Base', icon: BookOpen, highlight: true },
                     { id: 'verification-reports', label: 'AI Verification Reports', icon: ShieldCheck, highlight: true },
+                    { id: 'ai-controls', label: 'AI Models & Usage', icon: Cpu, highlight: true },
                     { id: 'questions', label: 'Questions Bank', icon: BookOpen, count: stats.totalQuestions || questions.length },
                     { id: 'games', label: 'Mini Games', icon: Gamepad2 },
                     { id: 'blog', label: 'Blog & Articles', icon: FileText },
@@ -909,6 +911,7 @@ const AdminDashboard = () => {
             {/* TAB 1: QUESTIONS BANK */}
             {activeTab === 'knowledge-base' && <AdminKnowledgeBase />}
             {activeTab === 'verification-reports' && <AdminVerificationReports />}
+            {activeTab === 'ai-controls' && <AdminAiControls />}
             {activeTab === 'games' && <AdminGamesManagement />}
             {activeTab === 'blog' && <AdminBlogManagement />}
 
@@ -1337,7 +1340,7 @@ const AdminDashboard = () => {
                                 AI Quiz Generator
                             </h2>
                             <p className="text-xs text-[var(--foreground-muted)]">
-                                Automatically construct high-quality multiple choice questions using AI.
+                                Automatically construct high-quality multiple choice questions using Hugging Face / configured server AI models.
                             </p>
                         </div>
                     </div>

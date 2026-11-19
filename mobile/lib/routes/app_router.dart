@@ -7,6 +7,7 @@ import '../models/quiz_result_model.dart';
 import '../models/app_settings_model.dart';
 import '../providers/auth_provider.dart';
 import '../providers/settings_provider.dart';
+import '../screens/admin/admin_ai_controls_screen.dart';
 import '../screens/admin/admin_ai_generator_screen.dart';
 import '../screens/admin/admin_categories_screen.dart';
 import '../screens/admin/admin_dashboard_screen.dart';
@@ -368,6 +369,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/admin/verification-reports',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const AdminVerificationReportsScreen(),
+      ),
+      GoRoute(
+        path: '/admin/ai-controls',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AdminAiControlsScreen(),
       ),
     ],
   );

@@ -375,8 +375,10 @@ async function getUsageSummary() {
         persistentEstimatedCostUsd: 0
     };
 
+    const hasDbUri = Boolean(String(process.env.MONGODB_URI || '').trim());
+
     try {
-        if (typeof prisma?.questionVerification?.findMany === 'function') {
+        if ((hasDbUri || process.env.NODE_ENV !== 'test') && typeof prisma?.questionVerification?.findMany === 'function') {
             const [verifications, books] = await Promise.all([
                 prisma.questionVerification.findMany({
                     select: { requestCount: true }

@@ -233,4 +233,40 @@ class AiVerificationService {
   Future<void> deleteReport(String reportId) async {
     await apiClient.delete(ApiEndpoints.adminVerificationReportById(reportId));
   }
+
+  /// Admin AI Provider Controls, Diagnostics & Usage
+  Future<AdminAiStatusModel> getAiStatus() async {
+    final response = await apiClient.get(
+      ApiEndpoints.adminAiStatus,
+      options: Options(receiveTimeout: const Duration(seconds: 20)),
+    );
+    return AdminAiStatusModel.fromJson(response.data as Map<String, dynamic>);
+  }
+
+  Future<AdminAiModelsCheckResponse> checkAiModels({bool refresh = false}) async {
+    final response = await apiClient.get(
+      ApiEndpoints.adminAiModelsCheck,
+      queryParameters: refresh ? {'refresh': 'true'} : null,
+      options: Options(receiveTimeout: const Duration(seconds: 25)),
+    );
+    return AdminAiModelsCheckResponse.fromJson(response.data as Map<String, dynamic>);
+  }
+
+  Future<Map<String, dynamic>> testAiModel(Map<String, dynamic> payload) async {
+    final response = await apiClient.post(
+      ApiEndpoints.adminAiTest,
+      data: payload,
+      options: Options(
+        sendTimeout: const Duration(seconds: 20),
+        receiveTimeout: const Duration(seconds: 45),
+      ),
+    );
+    return response.data as Map<String, dynamic>;
+  }
+
+  Future<String> clearAiCache() async {
+    final response = await apiClient.post(ApiEndpoints.adminAiCacheClear);
+    final data = response.data as Map<String, dynamic>;
+    return data['message']?.toString() ?? 'Cleared in-memory AI cache.';
+  }
 }

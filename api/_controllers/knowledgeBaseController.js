@@ -44,7 +44,7 @@ function formatBook(book) {
         totalChunks: book.totalChunks || 0,
         indexedChunks: book.indexedChunks || 0,
         embeddingModel: book.embeddingModel || '',
-        embeddingDimensions: book.embeddingDimensions || 1536,
+        embeddingDimensions: book.embeddingDimensions || getActiveProviderInfo().embeddingDimensions,
         knowledgeVersion: book.knowledgeVersion || 1,
         uploadedBy: book.uploadedBy || '',
         lastIndexedAt: book.lastIndexedAt,

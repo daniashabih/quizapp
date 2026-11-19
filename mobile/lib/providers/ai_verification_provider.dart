@@ -84,3 +84,8 @@ final adminCorrectionHistoryProvider = FutureProvider.autoDispose<List<Correctio
   final service = ref.watch(aiVerificationServiceProvider);
   return service.getCorrectionHistory();
 });
+
+final adminAiStatusProvider = FutureProvider.autoDispose<AdminAiStatusModel>((ref) async {
+  final service = ref.watch(aiVerificationServiceProvider);
+  return service.getAiStatus();
+});

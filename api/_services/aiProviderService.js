@@ -228,7 +228,8 @@ function getHuggingFaceClient() {
             baseURL: cfg.baseUrl,
             apiKey: token,
             timeout: cfg.timeoutMs,
-            maxRetries: 0
+            maxRetries: 0,
+            fetch: (...args) => globalThis.fetch(...args)
         });
         hfClientKey = token;
         hfClientBaseUrl = cfg.baseUrl;
@@ -248,7 +249,8 @@ function getOpenAIClient() {
         openaiInstance = new OpenAI({
             apiKey: key,
             timeout: cfg.timeoutMs,
-            maxRetries: 0
+            maxRetries: 0,
+            fetch: (...args) => globalThis.fetch(...args)
         });
         openaiInstanceKey = key;
     }

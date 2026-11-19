@@ -53,6 +53,7 @@ import Settings from "./pages/settings/Settings";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminKnowledgeBase from "./pages/admin/components/AdminKnowledgeBase";
 import AdminVerificationReports from "./pages/admin/components/AdminVerificationReports";
+import AdminAiControls from "./pages/admin/components/AdminAiControls";
 
 // SEO Dashboard
 import SeoDashboard from "./pages/seo/SeoDashboard";
@@ -191,6 +192,7 @@ function AppRoutes() {
                     <Route index element={<AdminDashboard />} />
                     <Route path="knowledge-base" element={<AdminKnowledgeBase standalone />} />
                     <Route path="verification-reports" element={<AdminVerificationReports standalone />} />
+                    <Route path="ai-controls" element={<AdminAiControls standalone />} />
                 </Route>
 
                 {/* Protected Dashboard Routes */}
