@@ -46,6 +46,26 @@ class HangbugApp extends ConsumerStatefulWidget {
 
 class _HangbugAppState extends ConsumerState<HangbugApp> {
   final ValueNotifier<bool> _snapshotRevealActive = ValueNotifier<bool>(false);
+  SystemUiOverlayStyle? _lastOverlayStyle;
+  bool _logosPrecached = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_logosPrecached) {
+      _logosPrecached = true;
+      precacheImage(
+        const AssetImage('assets/images/branding/hangbug-logo-compact.png'),
+        context,
+      );
+      precacheImage(
+        const AssetImage(
+          'assets/images/branding/hangbug-logo-compact-dark.png',
+        ),
+        context,
+      );
+    }
+  }
 
   @override
   void dispose() {
@@ -67,7 +87,10 @@ class _HangbugAppState extends ConsumerState<HangbugApp> {
         ? AppTheme.darkOverlayStyle
         : AppTheme.lightOverlayStyle;
 
-    SystemChrome.setSystemUIOverlayStyle(overlayStyle);
+    if (_lastOverlayStyle != overlayStyle) {
+      _lastOverlayStyle = overlayStyle;
+      SystemChrome.setSystemUIOverlayStyle(overlayStyle);
+    }
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: overlayStyle,

@@ -15,7 +15,8 @@ function AnimatedThemeGlyph({ isDark }) {
         >
             <Sun
                 size={16}
-                className={`absolute inset-0 m-auto text-[#193D35] ${
+                style={{ color: '#193D35' }}
+                className={`absolute inset-0 m-auto ${
                     !isDark
                         ? 'opacity-100 scale-100 rotate-0'
                         : 'opacity-0 scale-[0.35] rotate-90 pointer-events-none'
@@ -23,7 +24,8 @@ function AnimatedThemeGlyph({ isDark }) {
             />
             <Moon
                 size={16}
-                className={`absolute inset-0 m-auto text-emerald-400 ${
+                style={{ color: '#34D399' }}
+                className={`absolute inset-0 m-auto ${
                     isDark
                         ? 'opacity-100 scale-100 rotate-0'
                         : 'opacity-0 scale-[0.35] -rotate-90 pointer-events-none'
@@ -82,7 +84,7 @@ export default function ThemeToggle({ variant = 'icon', className = '' }) {
             aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
             aria-pressed={isDark}
             title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
-            className={`inline-flex items-center justify-center p-2 rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-all duration-200 active:scale-95 cursor-pointer ${className}`}
+            className={`inline-flex items-center justify-center p-2 rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] transition-colors duration-200 cursor-pointer ${className}`}
         >
             <AnimatedThemeGlyph isDark={isDark} />
         </button>

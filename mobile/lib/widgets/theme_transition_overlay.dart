@@ -168,11 +168,14 @@ class ThemeTransitionViewportState extends State<ThemeTransitionViewport>
         _targetIsDark = targetIsDark;
       });
 
+      Future<void>? applyFuture;
       try {
-        await applyTheme();
+        // Trigger synchronous Riverpod theme state update without stalling frame 0 on disk I/O
+        applyFuture = applyTheme();
         if (mounted) {
           await _controller.forward(from: 0.0);
         }
+        await applyFuture;
       } finally {
         widget.snapshotActiveNotifier?.value = false;
         final imageToDispose = _capturedImage;
@@ -180,6 +183,7 @@ class ThemeTransitionViewportState extends State<ThemeTransitionViewport>
           setState(() {
             _capturedImage = null;
           });
+          _controller.value = 0.0;
           if (imageToDispose != null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               imageToDispose.dispose();
@@ -204,16 +208,19 @@ class ThemeTransitionViewportState extends State<ThemeTransitionViewport>
       _targetIsDark = targetIsDark;
     });
 
+    Future<void>? applyFuture;
     try {
-      await applyTheme();
+      applyFuture = applyTheme();
       if (mounted) {
         await _controller.forward(from: 0.0);
       }
+      await applyFuture;
     } finally {
       if (mounted) {
         setState(() {
           _fallbackWaveActive = false;
         });
+        _controller.value = 0.0;
       }
       _isTransitioning = false;
     }
@@ -245,6 +252,8 @@ class ThemeTransitionViewportState extends State<ThemeTransitionViewport>
                       child: RawImage(
                         image: _capturedImage,
                         fit: BoxFit.fill,
+                        filterQuality: FilterQuality.low,
+                        isAntiAlias: false,
                       ),
                     );
                   },

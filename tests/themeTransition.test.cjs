@@ -16,9 +16,11 @@ test('1. Web ThemeContext implements View Transitions circular reveal, CSS fallb
     assert.match(ctx, /const STORAGE_KEY = 'hangbug-theme'/, 'Preserves hangbug-theme localStorage key');
     assert.match(ctx, /localStorage\.setItem\(STORAGE_KEY, normalized\)/, 'Persists selected theme mode');
 
-    // View Transitions API + atomic flushSync
+    // View Transitions API + atomic flushSync + WAAPI compositor reveal
     assert.match(ctx, /document\.startViewTransition/, 'Uses View Transitions API when supported');
     assert.match(ctx, /flushSync/, 'Uses React flushSync inside startViewTransition for zero-flash snapshot');
+    assert.match(ctx, /transition\.ready/, 'Starts WAAPI circular reveal only after transition.ready');
+    assert.match(ctx, /pseudoElement:\s*'::view-transition-new\(root\)'/, 'Drives ::view-transition-new(root) directly via Web Animations API');
     assert.match(ctx, /--theme-reveal-x/, 'Computes circular reveal X coordinate');
     assert.match(ctx, /--theme-reveal-y/, 'Computes circular reveal Y coordinate');
     assert.match(ctx, /--theme-reveal-r/, 'Computes circular reveal max radius');
@@ -63,7 +65,10 @@ test('3. Web CSS preserves existing Light & Dark palettes while adding GPU circu
     assert.match(css, /--page-bg:\s*#0F1513;/, 'Preserves Dark Mode page background');
     assert.match(css, /--card-bg:\s*#18221E;/, 'Preserves Dark Mode card background');
 
-    // View Transitions + Fallback keyframes & timing
+    // View Transitions + Anti-fluctuation rules + Fallback keyframes & timing
+    assert.match(css, /html\s*\{[^}]*background-color:\s*var\(--page-bg\)/, 'Sets explicit html background-color matching page-bg to prevent root canvas flash');
+    assert.match(css, /::view-transition-group\(root\)\s*\{\s*animation:\s*none;/, 'Disables default UA root group resize animation unconditionally');
+    assert.match(css, /html\.theme-vt-active[\s\S]*transition:\s*none\s*!important/, 'Freezes CSS transitions during View Transition snapshots to prevent flicker');
     assert.match(css, /@keyframes hangbug-theme-reveal/, 'Defines View Transitions circular reveal keyframe');
     assert.match(css, /clip-path:\s*circle\(0px at var\(--theme-reveal-x/, 'Starts circular clip at toggle origin');
     assert.match(css, /transition-duration:\s*450ms\s*!important/, 'Animates Sun/Moon icons in 400-500ms window');

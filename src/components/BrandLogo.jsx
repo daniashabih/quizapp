@@ -4,15 +4,20 @@ import logoCompact from '../assets/branding/hangbug-logo-compact.png';
 import logoCompactDark from '../assets/branding/hangbug-logo-compact-dark.png';
 import logoFull from '../assets/branding/hangbug-logo-full.png';
 import logoDark from '../assets/branding/hangbug-logo-dark.png';
-import { useTheme } from '../context/ThemeContext';
 
 let logosPreloaded = false;
+const preloadedLogoImages = [];
 function preloadAlternateBrandLogos() {
     if (logosPreloaded || typeof window === 'undefined' || typeof Image === 'undefined') return;
     logosPreloaded = true;
     [logoCompact, logoCompactDark, logoFull, logoDark].forEach((src) => {
         const img = new Image();
+        img.decoding = 'sync';
         img.src = src;
+        if (typeof img.decode === 'function') {
+            img.decode().catch(() => {});
+        }
+        preloadedLogoImages.push(img);
     });
 }
 
@@ -48,8 +53,6 @@ export default function BrandLogo({
     className = '',
     imgClassName = '',
 }) {
-    const { isDark } = useTheme();
-    const effectiveDark = dark !== undefined ? dark : isDark;
     const priorityProps = fetchPriority ? { fetchPriority } : {};
 
     useEffect(() => {
@@ -79,10 +82,37 @@ export default function BrandLogo({
 
     if (variant === 'full') {
         const heightClass = FULL_HEIGHT_MAP[size] || FULL_HEIGHT_MAP.md;
+        if (dark === undefined) {
+            return (
+                <div className={`inline-flex items-center shrink-0 ${className}`}>
+                    <img
+                        src={logoFull}
+                        alt="HangBug — Learn · Test · Prove"
+                        width={1024}
+                        height={1024}
+                        loading={loading}
+                        decoding="sync"
+                        {...priorityProps}
+                        className={`${heightClass} w-auto object-contain select-none block dark:hidden ${imgClassName}`}
+                        draggable={false}
+                    />
+                    <img
+                        src={logoDark}
+                        alt="HangBug — Learn · Test · Prove"
+                        width={1024}
+                        height={1024}
+                        loading="eager"
+                        decoding="sync"
+                        className={`${heightClass} w-auto object-contain select-none hidden dark:block ${imgClassName}`}
+                        draggable={false}
+                    />
+                </div>
+            );
+        }
         return (
             <div className={`inline-flex items-center shrink-0 ${className}`}>
                 <img
-                    src={effectiveDark ? logoDark : logoFull}
+                    src={dark ? logoDark : logoFull}
                     alt="HangBug — Learn · Test · Prove"
                     width={1024}
                     height={1024}
@@ -98,10 +128,37 @@ export default function BrandLogo({
 
     // Default: 'compact' horizontal lockup for navbars, sidebars, headers, footers
     const heightClass = COMPACT_HEIGHT_MAP[size] || COMPACT_HEIGHT_MAP.md;
+    if (dark === undefined) {
+        return (
+            <div className={`inline-flex items-center shrink-0 ${className}`}>
+                <img
+                    src={logoCompact}
+                    alt="HangBug developer platform logo"
+                    width={615}
+                    height={212}
+                    loading={loading}
+                    decoding="sync"
+                    {...priorityProps}
+                    className={`${heightClass} w-auto object-contain select-none block dark:hidden ${imgClassName}`}
+                    draggable={false}
+                />
+                <img
+                    src={logoCompactDark}
+                    alt="HangBug developer platform logo"
+                    width={615}
+                    height={212}
+                    loading="eager"
+                    decoding="sync"
+                    className={`${heightClass} w-auto object-contain select-none hidden dark:block ${imgClassName}`}
+                    draggable={false}
+                />
+            </div>
+        );
+    }
     return (
         <div className={`inline-flex items-center shrink-0 ${className}`}>
             <img
-                src={effectiveDark ? logoCompactDark : logoCompact}
+                src={dark ? logoCompactDark : logoCompact}
                 alt="HangBug developer platform logo"
                 width={615}
                 height={212}

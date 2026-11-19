@@ -3,8 +3,9 @@ import { flushSync } from 'react-dom';
 
 const STORAGE_KEY = 'hangbug-theme';
 const VALID_MODES = ['light', 'dark', 'system'];
-const THEME_TRANSITION_DURATION_MS = 600;
+const THEME_TRANSITION_DURATION_MS = 520;
 const THEME_CLEANUP_BUFFER_MS = 60;
+const THEME_REVEAL_EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
 const ThemeContext = createContext({
     theme: 'system',
@@ -115,6 +116,13 @@ function applyThemeToDOM(mode, resolved) {
     if (typeof document === 'undefined') return;
     const isDark = resolved === 'dark';
     const root = document.documentElement;
+    if (
+        root.classList.contains('dark') === isDark &&
+        root.getAttribute('data-theme') === resolved &&
+        root.getAttribute('data-theme-preference') === mode
+    ) {
+        return;
+    }
     if (isDark) {
         root.classList.add('dark');
         root.style.colorScheme = 'dark';
@@ -145,12 +153,12 @@ export const ThemeProvider = ({ children }) => {
     const isTransitioningRef = useRef(false);
     const cleanupTimerRef = useRef(null);
     const activeOverlayRef = useRef(null);
+    const activeAnimationRef = useRef(null);
 
-    themeRef.current = theme;
-    resolvedThemeRef.current = resolvedTheme;
-
-    // Immediately sync DOM classes and attributes when theme or systemTheme changes
+    // Immediately sync refs, DOM classes, and attributes when theme or systemTheme changes
     useIsomorphicLayoutEffect(() => {
+        themeRef.current = theme;
+        resolvedThemeRef.current = resolvedTheme;
         applyThemeToDOM(theme, resolvedTheme);
     }, [theme, resolvedTheme]);
 
@@ -160,13 +168,21 @@ export const ThemeProvider = ({ children }) => {
             if (cleanupTimerRef.current) {
                 window.clearTimeout(cleanupTimerRef.current);
             }
+            if (activeAnimationRef.current) {
+                try {
+                    activeAnimationRef.current.cancel();
+                } catch {
+                    // Ignore already-finished animation cancellation errors
+                }
+                activeAnimationRef.current = null;
+            }
             if (activeOverlayRef.current) {
                 activeOverlayRef.current.remove();
                 activeOverlayRef.current = null;
             }
             if (typeof document !== 'undefined') {
                 const root = document.documentElement;
-                root.classList.remove('theme-vt-active', 'theme-css-transition');
+                root.classList.remove('theme-vt-active', 'theme-vt-css-fallback', 'theme-css-transition');
                 root.removeAttribute('data-theme-transition');
             }
             isTransitioningRef.current = false;
@@ -231,6 +247,8 @@ export const ThemeProvider = ({ children }) => {
 
         const commitThemeChange = () => {
             options.onBeforeUpdate?.();
+            themeRef.current = normalized;
+            resolvedThemeRef.current = nextResolved;
             setTheme(normalized);
             applyThemeToDOM(normalized, nextResolved);
         };
@@ -308,14 +326,16 @@ export const ThemeProvider = ({ children }) => {
                     window.clearTimeout(cleanupTimerRef.current);
                     cleanupTimerRef.current = null;
                 }
-                root.classList.remove('theme-vt-active');
+                activeAnimationRef.current = null;
+                root.classList.remove('theme-vt-active', 'theme-vt-css-fallback');
                 root.removeAttribute('data-theme-transition');
                 isTransitioningRef.current = false;
             };
 
+            // Generous initial failsafe so slow snapshot capture never aborts mid-animation
             cleanupTimerRef.current = window.setTimeout(
                 cleanupViewTransition,
-                THEME_TRANSITION_DURATION_MS + 200
+                THEME_TRANSITION_DURATION_MS + 1500
             );
 
             try {
@@ -324,6 +344,40 @@ export const ThemeProvider = ({ children }) => {
                         commitThemeChange();
                     });
                 });
+
+                Promise.resolve(transition.ready)
+                    .then(() => {
+                        if (cleaned) return;
+                        if (cleanupTimerRef.current) {
+                            window.clearTimeout(cleanupTimerRef.current);
+                        }
+                        cleanupTimerRef.current = window.setTimeout(
+                            cleanupViewTransition,
+                            THEME_TRANSITION_DURATION_MS + 400
+                        );
+
+                        try {
+                            const anim = document.documentElement.animate(
+                                {
+                                    clipPath: [
+                                        `circle(0px at ${x}px ${y}px)`,
+                                        `circle(${maxRadius}px at ${x}px ${y}px)`,
+                                    ],
+                                },
+                                {
+                                    duration: THEME_TRANSITION_DURATION_MS,
+                                    easing: THEME_REVEAL_EASING,
+                                    fill: 'none',
+                                    pseudoElement: '::view-transition-new(root)',
+                                }
+                            );
+                            activeAnimationRef.current = anim;
+                        } catch {
+                            root.classList.add('theme-vt-css-fallback');
+                        }
+                    })
+                    .catch(() => {});
+
                 Promise.resolve(transition.finished)
                     .catch(() => {})
                     .finally(cleanupViewTransition);
