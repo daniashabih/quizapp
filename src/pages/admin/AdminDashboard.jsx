@@ -7,7 +7,7 @@ import {
     ShieldCheck, Search, BookOpen, FolderOpen, Upload, Download, FileText, Layers,
     ChevronDown, Sparkles, Sliders, Percent, Shuffle, HelpCircle, AlertCircle,
     CheckCircle2, RefreshCw, Bot, BarChart3, TrendingUp, Award, Activity,
-    Eye, EyeOff, Shield, UserCheck, Wrench, Clock, Volume2, Palette, Gamepad2, Cpu
+    Eye, EyeOff, Shield, UserCheck, Wrench, Clock, Volume2, Palette, Gamepad2, Cpu, Globe
 } from 'lucide-react';
 import AdminGamesManagement from './components/AdminGamesManagement';
 import AdminBlogManagement from './components/AdminBlogManagement';
@@ -544,6 +544,13 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-2">
+                    <button
+                        type="button"
+                        onClick={() => navigate('/dashboard/seo')}
+                        className="btn-secondary text-xs py-2 cursor-pointer"
+                    >
+                        <Globe size={14} className="text-[#2F806B]" /> SEO &amp; Growth
+                    </button>
                     <div className="relative">
                         <button onClick={() => setIsExportDropdownOpen(!isExportDropdownOpen)} className="btn-secondary text-xs py-2">
                             <Download size={14} /> Export <ChevronDown size={12} />

@@ -665,6 +665,10 @@ function isKnownAppRoute(pathname) {
         const token = clean.slice('/reset-password/'.length);
         return Boolean(token) && !token.includes('/');
     }
+    if (clean.startsWith('/dashboard/seo/')) {
+        const sub = clean.slice('/dashboard/seo/'.length);
+        return Boolean(sub) && !sub.includes('/');
+    }
     if (clean.startsWith('/api/')) return true;
     if (STATIC_PREFIXES.some(prefix => clean.startsWith(prefix))) return true;
     return false;

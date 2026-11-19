@@ -114,7 +114,7 @@ class KnowledgeBookModel {
     this.totalChunks = 0,
     this.indexedChunks = 0,
     this.embeddingModel = '',
-    this.embeddingDimensions = 1024,
+    this.embeddingDimensions = 1536,
     this.createdAt,
   });
 
@@ -149,7 +149,7 @@ class KnowledgeBookModel {
       totalChunks: (json['totalChunks'] is num) ? (json['totalChunks'] as num).toInt() : 0,
       indexedChunks: (json['indexedChunks'] is num) ? (json['indexedChunks'] as num).toInt() : 0,
       embeddingModel: json['embeddingModel']?.toString() ?? '',
-      embeddingDimensions: (json['embeddingDimensions'] is num) ? (json['embeddingDimensions'] as num).toInt() : 1024,
+      embeddingDimensions: (json['embeddingDimensions'] is num) ? (json['embeddingDimensions'] as num).toInt() : 1536,
       createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt'].toString()) : null,
     );
   }

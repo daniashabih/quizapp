@@ -195,6 +195,10 @@ function AppRoutes() {
                     <Route path="ai-controls" element={<AdminAiControls standalone />} />
                 </Route>
 
+                {/* Protected Dedicated SEO & Growth Studio */}
+                <Route path="/dashboard/seo" element={<ProtectedRoute adminOnly><SeoDashboard /></ProtectedRoute>} />
+                <Route path="/dashboard/seo/:section" element={<ProtectedRoute adminOnly><SeoDashboard /></ProtectedRoute>} />
+
                 {/* Protected Dashboard Routes */}
                 <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
                     <Route index element={<UserDashboard />} />
@@ -207,7 +211,6 @@ function AppRoutes() {
                     <Route path="leaderboard/full" element={<Leaderboard mode="full" />} />
                     <Route path="profile" element={<Profile />} />
                     <Route path="settings" element={<Settings />} />
-                    <Route path="seo" element={<ProtectedRoute adminOnly><SeoDashboard /></ProtectedRoute>} />
                     <Route path="admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
                 </Route>
 
