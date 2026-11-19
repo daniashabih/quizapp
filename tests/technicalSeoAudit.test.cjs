@@ -745,3 +745,63 @@ test('29. Soft 404 Prevention: Vercel rewrites, pre-rendered blog/404 artifacts,
         await new Promise((resolve) => server.close(resolve));
     }
 });
+
+test('30. Internal Linking & Orphan Prevention Audit: Zero broken/redirect public links & complete cross-linking', async () => {
+    const landing = readFile('src/pages/Landing.jsx');
+    const footer = readFile('src/components/Footer.jsx');
+    const gamePlayer = readFile('src/pages/games/GamePlayer.jsx');
+    const blogList = readFile('src/pages/blog/BlogList.jsx');
+    const blogDetail = readFile('src/pages/blog/BlogDetail.jsx');
+    const techDetail = readFile('src/pages/quiz/TechnologyDetail.jsx');
+    const leaderboardPage = readFile('src/pages/leaderboard/Leaderboard.jsx');
+    const seoConfig = readFile('src/config/seoPagesConfig.js');
+
+    // 1. No public links to auth-gated/noindex /leaderboard/full
+    assert.ok(!footer.includes('to="/leaderboard/full"'), 'Footer.jsx must NOT link to auth-gated noindex /leaderboard/full');
+    assert.ok(!landing.includes('to="/leaderboard/full"'), 'Landing.jsx must NOT link to auth-gated noindex /leaderboard/full');
+    assert.ok(!seoConfig.includes("to: '/leaderboard/full'"), 'seoPagesConfig.js must NOT link to /leaderboard/full');
+
+    // 2. Footer covers all 14 core DB games and 6 published blog articles cleanly
+    const requiredFooterGames = [
+        'code-puzzle', 'find-the-bug', 'output-predictor', 'code-scramble',
+        'missing-code', 'logic-builder', 'sql-challenge', 'memory-match',
+        'speed-typing', 'code-typing', 'sixty-second-challenge', 'error-free-typing',
+        'syntax-typing', 'word-rain'
+    ];
+    for (const gameSlug of requiredFooterGames) {
+        assert.ok(footer.includes(`to="/games/${gameSlug}"`), `Footer.jsx must link to /games/${gameSlug}`);
+    }
+
+    // 3. GamePlayer maps every technology safely without broken /technologies/:slug URLs
+    assert.ok(!gamePlayer.includes('to={`/technologies/${selectedTechnology}`}'), 'GamePlayer.jsx must NOT emit unvalidated /technologies/${selectedTechnology} links');
+    assert.ok(gamePlayer.includes('resolveGameTechnologyGuide'), 'GamePlayer.jsx must use resolveGameTechnologyGuide');
+
+    // 4. Crawlable anchor elements used for primary page transitions
+    assert.ok(!leaderboardPage.includes('onClick={() => navigate('), 'Leaderboard.jsx Back to Top 5 control must use Link instead of onClick navigate');
+
+    // 5. TechnologyDetail and BlogList avoid duplicate navigation bloat
+    assert.ok(techDetail.includes('resolveGameTechnologyGuide'), 'TechnologyDetail.jsx must connect each technology track with its related study guide');
+    assert.ok(blogList.includes('featuredArticle.slug'), 'BlogList.jsx must prevent duplicating the featured article in the initial grid');
+    assert.ok(blogDetail.includes('sanitizeBlogInternalPath'), 'BlogDetail.jsx must sanitize internal markdown links against unpublished slugs');
+
+    // 6. Runtime BlogPostModel & blogSeoRenderer sanitize legacy DB links and supply fallback related articles
+    const BlogPostModel = require('../api/_models/blogPostModel');
+    const laravelData = await BlogPostModel.getBySlug('laravel-basics-mvc-architecture', { incrementView: false });
+    assert.ok(laravelData && laravelData.article, 'Laravel article must resolve');
+    assert.ok(!laravelData.article.content.includes('mysql-database-tutorial-beginners'), 'Laravel article must not expose broken 404 link to mysql-database-tutorial-beginners');
+
+    const blogSeoRenderer = require('../api/_utils/blogSeoRenderer');
+    const legacyContent = '- Pair with [MySQL Database Tutorial](https://www.hangbug.com/blog/mysql-database-tutorial-beginners).';
+    const sanitizedHtml = blogSeoRenderer.renderMarkdownToHtml(legacyContent, new Set(['html-tutorial-for-beginners', 'laravel-basics-mvc-architecture']));
+    assert.ok(!sanitizedHtml.includes('mysql-database-tutorial-beginners'), 'renderMarkdownToHtml must rewrite unpublished blog links');
+    assert.ok(sanitizedHtml.includes('href="/technologies/mysql"'), 'renderMarkdownToHtml must remap mysql-database-tutorial-beginners to /technologies/mysql');
+
+    const distHome = readFile('dist/index.html');
+    const distGames = readFile('dist/games/index.html');
+    const distBlog = readFile('dist/blog/index.html');
+    assert.ok(distHome.includes('prerender-seo-footer'), 'dist/index.html must include shared static footer links');
+    assert.ok(distGames.includes('href="/games/code-scramble"') && distGames.includes('href="/games/word-rain"'), 'dist/games/index.html must link all published games');
+    assert.ok(!distBlog.includes('href="/blog?category='), 'dist/blog/index.html must not emit duplicate query-string category URLs');
+    const htmlCardMatches = distBlog.match(/href="\/blog\/html-tutorial-for-beginners"/g) || [];
+    assert.ok(htmlCardMatches.length <= 2, `dist/blog/index.html must minimize duplicate links to /blog/html-tutorial-for-beginners (found ${htmlCardMatches.length})`);
+});

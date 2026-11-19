@@ -34,6 +34,20 @@
 - [SQL Challenge](https://www.hangbug.com/games/sql-challenge): Write and debug relational SQL queries under time constraints.
 - [Speed Typing](https://www.hangbug.com/games/speed-typing): Benchmark coding and technical typing speed in WPM.
 - [Code Typing](https://www.hangbug.com/games/code-typing): Practice real-world programming syntax and symbols.
+- [Code Scramble](https://www.hangbug.com/games/code-scramble): Reassemble shuffled programming statements under time limits.
+- [Missing Code](https://www.hangbug.com/games/missing-code): Fill in missing keywords and operators in multi-language snippets.
+- [Logic Builder](https://www.hangbug.com/games/logic-builder): Solve algorithmic flow and condition-ordering puzzles.
+- [Memory Match](https://www.hangbug.com/games/memory-match): Match programming concepts, syntax patterns, and definitions.
+- [Complete The Code](https://www.hangbug.com/games/complete-the-code): Interactive C# method body and keyword completion challenges.
+
+## Published Tutorials & Guides
+
+- [HTML Tutorial for Beginners](https://www.hangbug.com/blog/html-tutorial-for-beginners): Semantic HTML5 structure, forms, accessibility, and SEO basics.
+- [CSS Basics Beginner Guide](https://www.hangbug.com/blog/css-basics-beginners-guide): Selectors, Flexbox, Grid, box model, and responsive design.
+- [JavaScript Fundamentals Guide](https://www.hangbug.com/blog/javascript-fundamentals-beginners-guide): Variables, ES6+ syntax, DOM manipulation, and asynchronous programming.
+- [PHP Programming Beginner Guide](https://www.hangbug.com/blog/php-programming-beginners-guide): Server-side PHP 8 syntax, OOP principles, and secure database queries.
+- [Laravel MVC Architecture](https://www.hangbug.com/blog/laravel-basics-mvc-architecture): Routing, controllers, Blade templates, and Eloquent ORM fundamentals.
+- [Flutter & Dart Mobile Development](https://www.hangbug.com/blog/flutter-dart-mobile-app-development): Reactive widgets, null safety, and cross-platform Android UI building.
 
 ## Documentation & Legal
 

@@ -18,7 +18,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import usePageSeo from '../../hooks/usePageSeo';
-import { getTechnologySeoBySlug, TECHNOLOGY_SEO_SLUGS, SEO_PAGES_CONFIG } from '../../config/seoPagesConfig';
+import { getTechnologySeoBySlug, TECHNOLOGY_SEO_SLUGS, SEO_PAGES_CONFIG, resolveGameTechnologyGuide } from '../../config/seoPagesConfig';
 import { FALLBACK_GAMES, FALLBACK_TECHNOLOGIES } from '../../services/gameService';
 import TechIcon from '../games/components/TechIcon';
 import NotFound from '../NotFound';
@@ -399,18 +399,25 @@ export default function TechnologyDetail() {
                                 </p>
                             </div>
                             <div className="flex items-center gap-2 shrink-0">
-                                <Link
-                                    to={`/games?tech=${defaultGameTechParam}`}
-                                    className="btn-primary text-xs py-2.5 px-4 rounded-xl"
-                                >
-                                    Play {seoConfig.name} Games
-                                </Link>
-                                <Link
-                                    to="/technologies"
-                                    className="btn-secondary text-xs py-2.5 px-4 rounded-xl"
-                                >
-                                    All Quizzes
-                                </Link>
+                                {(() => {
+                                    const guideMeta = resolveGameTechnologyGuide(seoConfig.slug, seoConfig.name);
+                                    return (
+                                        <>
+                                            <Link
+                                                to={guideMeta.blogTo}
+                                                className="btn-primary text-xs py-2.5 px-4 rounded-xl"
+                                            >
+                                                Read {guideMeta.blogLabel}
+                                            </Link>
+                                            <Link
+                                                to={`/games/${supportedGames[0]?.slug || 'code-puzzle'}?tech=${defaultGameTechParam}`}
+                                                className="btn-secondary text-xs py-2.5 px-4 rounded-xl"
+                                            >
+                                                Launch Top Game
+                                            </Link>
+                                        </>
+                                    );
+                                })()}
                             </div>
                         </div>
                     )}
@@ -428,10 +435,10 @@ export default function TechnologyDetail() {
                             </p>
                         </div>
                         <Link
-                            to={`/games?tech=${defaultGameTechParam}`}
+                            to="/games"
                             className="text-xs font-bold text-[#193D35] dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
                         >
-                            Open {seoConfig.name} in Games Hub <ArrowRight size={13} />
+                            Browse All Developer Games <ArrowRight size={13} />
                         </Link>
                     </div>
 
