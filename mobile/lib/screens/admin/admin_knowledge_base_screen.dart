@@ -373,7 +373,7 @@ class _AdminKnowledgeBaseScreenState
                       border: Border.all(color: context.warningColor.withValues(alpha: 0.4)),
                     ),
                     child: Text(
-                      'Configure your Hugging Face Inference Providers server token (recommended) or OpenAI/Gemini key in Vercel environment variables to generate vector embeddings and run book verification.',
+                      'Configure an AI provider key on the server to generate new vector embeddings and run book verification. Existing books remain intact.',
                       style: AppTextStyles.bodySmall.copyWith(color: context.warningColor),
                     ),
                   )
