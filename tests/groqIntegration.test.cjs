@@ -410,6 +410,34 @@ test('Groq RAG verification workflow: correct, incorrect, insufficient_evidence,
                     };
                 }
 
+                if (userContent.includes('declare a block-scoped variable')) {
+                    return {
+                        ok: true,
+                        status: 200,
+                        headers: new Headers(),
+                        json: async () => ({
+                            id: 'chatcmpl-amb',
+                            model: 'llama-3.3-70b-versatile',
+                            choices: [{
+                                message: {
+                                    content: JSON.stringify({
+                                        status: 'ambiguous',
+                                        verifiedAnswer: 'let',
+                                        explanation: 'Both let and const declare block-scoped variables in modern JavaScript.\nThe question does not state whether reassignment is needed.\nAs a result, multiple options match the reference book.',
+                                        confidence: 0.82,
+                                        sourceBook: 'Eloquent JavaScript',
+                                        chapter: 'Chapter 1: Values, Types, and Operators',
+                                        page: '18',
+                                        supportingExcerpt: 'The strict equality operator (===) compares values',
+                                        reason: 'Both let and const declare block-scoped variables without specifying reassignment.'
+                                    })
+                                }
+                            }],
+                            usage: { prompt_tokens: 180, completion_tokens: 70, total_tokens: 250 }
+                        })
+                    };
+                }
+
                 return {
                     ok: true,
                     status: 200,
@@ -509,7 +537,17 @@ test('Groq RAG verification workflow: correct, incorrect, insufficient_evidence,
         assert.equal(correctRes.verification.verification_status, 'verified');
         assert.equal(correctRes.verification.verifiedAnswer, '===');
 
-        // 5. Verify question without relevant evidence -> returns insufficient_evidence without calling LLM unnecessarily
+        // 5. Ambiguous question -> returns status: 'ambiguous' and reason
+        const ambRes = await questionVerificationService.verifyQuestionWithBooks({
+            questionText: 'Which keyword can declare a block-scoped variable with strict equality examples?',
+            options: ['let', 'const', 'var', 'function'],
+            correctAnswer: 'let',
+            technology: 'JavaScript'
+        });
+        assert.equal(ambRes.verification.status, 'ambiguous');
+        assert.ok(ambRes.verification.reason.includes('block-scoped'));
+
+        // 6. Verify question without relevant evidence -> returns insufficient_evidence without calling LLM unnecessarily
         const callsBeforeMissing = groqChatCalls;
         const insuffRes = await questionVerificationService.verifyQuestionWithBooks({
             questionText: 'How does Kubernetes Pod scheduling work?',
@@ -521,6 +559,41 @@ test('Groq RAG verification workflow: correct, incorrect, insufficient_evidence,
         assert.equal(insuffRes.verification.sourceBook, '');
         assert.ok(insuffRes.verification.reason.length > 0);
         assert.equal(groqChatCalls, callsBeforeMissing);
+
+        // 7. Admin diagnostic test endpoint (chat & models modes)
+        const chatDiagRes = createMockRes();
+        await aiController.testAiModels({
+            body: { mode: 'chat', prompt: 'Explain === in JS.' }
+        }, chatDiagRes);
+        assert.equal(chatDiagRes.statusCode, 200);
+        assert.equal(chatDiagRes.body.success, true);
+        assert.equal(chatDiagRes.body.result.provider, 'groq');
+
+        const modelsDiagRes = createMockRes();
+        await aiController.testAiModels({
+            body: { mode: 'models' }
+        }, modelsDiagRes);
+        assert.equal(modelsDiagRes.statusCode, 200);
+        assert.equal(modelsDiagRes.body.result.validated, true);
+        assert.equal(modelsDiagRes.body.result.resolvedModel, 'llama-3.3-70b-versatile');
+
+        // 8. Request validation checks (bad question payload & bad report ID)
+        const badReqRes = createMockRes();
+        await verificationController.verifyQuestion({
+            body: { questionText: '', options: ['OnlyOne'], technology: 'JavaScript' },
+            user: { id: 'u1', role: 'user' }
+        }, badReqRes);
+        assert.equal(badReqRes.statusCode, 400);
+        assert.equal(badReqRes.body.success, false);
+
+        const badIdRes = createMockRes();
+        await verificationController.approveReportCorrection({
+            params: { id: 'not-an-object-id' },
+            body: { correctedAnswer: '===' },
+            user: { id: 'admin1', role: 'admin' }
+        }, badIdRes);
+        assert.equal(badIdRes.statusCode, 400);
+        assert.equal(badIdRes.body.success, false);
     } finally {
         global.fetch = originalFetch;
         aiProviderService.clearInMemoryAiCache();
