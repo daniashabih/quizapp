@@ -1,122 +1,415 @@
 {
-  "category": "Material UI, MongoDB, ReactJS",
-  "session": 1,
-  "title": "Session 1",
-  "totalQuestions": 19,
-  "questions": [
-    {
-      "questionText": "Which of the following is a CSS property that can be used to set the background color of a React component?",
-      "options": ["background-color", "background-image", "background-position", "background-repeat"],
-      "correctAnswer": "background-color",
-      "explanation": "The background-color property sets the background color of an element (written as backgroundColor in React inline styles)."
-    },
-    {
-      "questionText": "Which one of the following is a benefit of using JSX in React?",
-      "options": ["JSX is faster than traditional HTML templates", "JSX provides better code organization and readability", "JSX is easier to learn than HTML and CSS", "JSX is more compatible with older Web browsers"],
-      "correctAnswer": "JSX provides better code organization and readability",
-      "explanation": "JSX lets you write markup alongside component logic, improving code organization and readability."
-    },
-    {
-      "questionText": "Which one of the following is an example of a synthetic event in ReactJS?",
-      "options": ["onClick", "onChange", "onBlur", "All of these"],
-      "correctAnswer": "All of these",
-      "explanation": "onClick, onChange and onBlur are all React SyntheticEvents, a cross-browser wrapper around native browser events."
-    },
-    {
-      "questionText": "Which CSS property is used to adjust the opacity of a React component?",
-      "options": ["Opacity", "Visibility", "Display", "Filter"],
-      "correctAnswer": "Opacity",
-      "explanation": "The opacity property sets the transparency level of an element, from 0 (fully transparent) to 1 (fully opaque)."
-    },
-    {
-      "questionText": "What is the purpose of the \"key\" attribute in ReactJS?",
-      "options": ["To specify the type of element being rendered.", "To provide a unique identifier for a list of elements.", "To control the behavior of a component.", "None of these"],
-      "correctAnswer": "To provide a unique identifier for a list of elements.",
-      "explanation": "Keys give list items a stable identity so React can efficiently determine which items changed, were added or removed."
-    },
-    {
-      "questionText": "Which of the following methods can be used to handle mouse events in a React component?",
-      "options": ["onMouseEnter", "onMouseLeave", "onMouseDown and onMouseUp", "All of these"],
-      "correctAnswer": "All of these",
-      "explanation": "onMouseEnter, onMouseLeave, onMouseDown and onMouseUp are all React mouse event handlers."
-    },
-    {
-      "questionText": "What is the purpose of user visual hierarchy in UI?",
-      "options": ["To create a visually pleasing interface with attractive colors and typography.", "To guide users' attention and prioritize information based on importance.", "To ensure consistent spacing and alignment of UI elements.", "To optimize the UI for different screen sizes and resolutions."],
-      "correctAnswer": "To guide users' attention and prioritize information based on importance.",
-      "explanation": "Visual hierarchy arranges elements so users notice the most important information first."
-    },
-    {
-      "questionText": "Which of the following is an Informational component?",
-      "options": ["Checkbox", "Pagination", "Radio button", "Progress bar"],
-      "correctAnswer": "Progress bar",
-      "explanation": "A progress bar conveys information (task progress). Checkbox and radio button are input controls; pagination is a navigational component."
-    },
-    {
-      "questionText": "What is Material Design?",
-      "options": ["A design language designed by Google", "A programming language for Web development", "A database management tool", "A project management tool"],
-      "correctAnswer": "A design language designed by Google",
-      "explanation": "Material Design is a design language developed by Google in 2014; Material UI implements it for React."
-    },
-    {
-      "questionText": "Which of the following commands is used to find how documents are distributed amongst the shards?",
-      "options": ["addShard", "mongos", "initiate", "getShardDistribution"],
-      "correctAnswer": "getShardDistribution",
-      "explanation": "db.collection.getShardDistribution() prints data and document distribution statistics for a sharded collection across its shards."
-    },
-    {
-      "questionText": "Which of the following command can be used to run under admin database, irrespective of the database currently in use?",
-      "options": ["db.runCommand", "db.adminCommand", "db.auth", "None of these"],
-      "correctAnswer": "db.adminCommand",
-      "explanation": "db.adminCommand() always runs the command against the admin database, regardless of the database currently selected."
-    },
-    {
-      "questionText": "Sharding is ______.",
-      "options": ["Storing all the data in same server", "Storing all the data in multiple servers", "Storing part of the data in one server", "Indexing and storing data across servers"],
-      "correctAnswer": "Storing all the data in multiple servers",
-      "explanation": "Sharding distributes (horizontally partitions) the full data set across multiple servers (shards) to support large data sets and high throughput."
-    },
-    {
-      "questionText": "MongoDB defines indexes at the ______ level.",
-      "options": ["Application", "Collection", "Indexing", "Execution"],
-      "correctAnswer": "Collection",
-      "explanation": "MongoDB defines indexes at the collection level and supports indexes on any field or sub-field of the documents."
-    },
-    {
-      "questionText": "Which of the following method is used to select the first document in MongoDB using Python?",
-      "options": ["find_one", "find_many", "find", "find_all"],
-      "correctAnswer": "find_one",
-      "explanation": "In PyMongo, collection.find_one() returns the first document that matches the query (or the first document in the collection if no filter is given)."
-    },
-    {
-      "questionText": "Which of the following tools helps you view the statistics of inserts and updates in MongoDB?",
-      "options": ["mongostat", "mongodump", "mongofile", "mongoimport"],
-      "correctAnswer": "mongostat",
-      "explanation": "mongostat provides a quick overview of a running mongod/mongos, showing counts of inserts, queries, updates, deletes and more per second."
-    },
-    {
-      "questionText": "Which of the following commands is used to direct a query to the shard server?",
-      "options": ["mongod", "mongoimport", "mongos", "mongosh"],
-      "correctAnswer": "mongos",
-      "explanation": "mongos is the query router for a sharded cluster; it routes client queries to the appropriate shard(s)."
-    },
-    {
-      "questionText": "Which of the following is the name given to the index which exists in every MongoDB collection and prevents duplication of data?",
-      "options": ["Single Key Index", "Compound Index", "MultiKey Index", "Default Index"],
-      "correctAnswer": "Default Index",
-      "explanation": "Every collection has a default unique index on the _id field, which prevents inserting two documents with the same _id value."
-    },
-    {
-      "questionText": "If the _id field in Default_id is not defined, who creates it?",
-      "options": ["Administrator", "Language Driver", "Database", "It is always defined."],
-      "correctAnswer": "Language Driver",
-      "explanation": "If a document is inserted without an _id field, the MongoDB language driver automatically generates an ObjectId for it."
-    },
-    {
-      "questionText": "A MongoDB aggregation pipeline can have ______ number of stages.",
-      "options": ["one", "two", "any", "four"],
-      "correctAnswer": "any",
-      "explanation": "An aggregation pipeline consists of one or more stages, and you can chain any number of stages to process documents."
-    }
-  ]
+    "category": "Material UI, MongoDB, ReactJS",
+    "session": 1,
+    "title": "Session 1",
+    "totalQuestions": 28,
+    "questions": [
+        {
+            "questionText": "Which of the following is a CSS property that can be used to set the background color of a React component?",
+            "options": [
+                "background-color",
+                "background-image",
+                "background-position",
+                "background-repeat"
+            ],
+            "correctAnswer": "background-color",
+            "explanation": "The background-color property sets the background color of an element (written as backgroundColor in React inline styles)."
+        },
+        {
+            "questionText": "Which one of the following is a benefit of using JSX in React?",
+            "options": [
+                "JSX is faster than traditional HTML templates",
+                "JSX provides better code organization and readability",
+                "JSX is easier to learn than HTML and CSS",
+                "JSX is more compatible with older Web browsers"
+            ],
+            "correctAnswer": "JSX provides better code organization and readability",
+            "explanation": "JSX lets you write markup alongside component logic, improving code organization and readability."
+        },
+        {
+            "questionText": "Which one of the following is an example of a synthetic event in ReactJS?",
+            "options": [
+                "onClick",
+                "onChange",
+                "onBlur",
+                "All of these"
+            ],
+            "correctAnswer": "All of these",
+            "explanation": "onClick, onChange and onBlur are all React SyntheticEvents, a cross-browser wrapper around native browser events."
+        },
+        {
+            "questionText": "Which CSS property is used to adjust the opacity of a React component?",
+            "options": [
+                "Opacity",
+                "Visibility",
+                "Display",
+                "Filter"
+            ],
+            "correctAnswer": "Opacity",
+            "explanation": "The opacity property sets the transparency level of an element, from 0 (fully transparent) to 1 (fully opaque)."
+        },
+        {
+            "questionText": "What is the purpose of the \"key\" attribute in ReactJS?",
+            "options": [
+                "To specify the type of element being rendered.",
+                "To provide a unique identifier for a list of elements.",
+                "To control the behavior of a component.",
+                "None of these"
+            ],
+            "correctAnswer": "To provide a unique identifier for a list of elements.",
+            "explanation": "Keys give list items a stable identity so React can efficiently determine which items changed, were added or removed."
+        },
+        {
+            "questionText": "Which of the following methods can be used to handle mouse events in a React component?",
+            "options": [
+                "onMouseEnter",
+                "onMouseLeave",
+                "onMouseDown and onMouseUp",
+                "All of these"
+            ],
+            "correctAnswer": "All of these",
+            "explanation": "onMouseEnter, onMouseLeave, onMouseDown and onMouseUp are all React mouse event handlers."
+        },
+        {
+            "questionText": "What is the purpose of user visual hierarchy in UI?",
+            "options": [
+                "To create a visually pleasing interface with attractive colors and typography.",
+                "To guide users' attention and prioritize information based on importance.",
+                "To ensure consistent spacing and alignment of UI elements.",
+                "To optimize the UI for different screen sizes and resolutions."
+            ],
+            "correctAnswer": "To guide users' attention and prioritize information based on importance.",
+            "explanation": "Visual hierarchy arranges elements so users notice the most important information first."
+        },
+        {
+            "questionText": "Which of the following is an Informational component?",
+            "options": [
+                "Checkbox",
+                "Pagination",
+                "Radio button",
+                "Progress bar"
+            ],
+            "correctAnswer": "Progress bar",
+            "explanation": "A progress bar conveys information (task progress). Checkbox and radio button are input controls; pagination is a navigational component."
+        },
+        {
+            "questionText": "What is Material Design?",
+            "options": [
+                "A design language designed by Google",
+                "A programming language for Web development",
+                "A database management tool",
+                "A project management tool"
+            ],
+            "correctAnswer": "A design language designed by Google",
+            "explanation": "Material Design is a design language developed by Google in 2014; Material UI implements it for React."
+        },
+        {
+            "questionText": "Which of the following commands is used to find how documents are distributed amongst the shards?",
+            "options": [
+                "addShard",
+                "mongos",
+                "initiate",
+                "getShardDistribution"
+            ],
+            "correctAnswer": "getShardDistribution",
+            "explanation": "db.collection.getShardDistribution() prints data and document distribution statistics for a sharded collection across its shards."
+        },
+        {
+            "questionText": "Which of the following command can be used to run under admin database, irrespective of the database currently in use?",
+            "options": [
+                "db.runCommand",
+                "db.adminCommand",
+                "db.auth",
+                "None of these"
+            ],
+            "correctAnswer": "db.adminCommand",
+            "explanation": "db.adminCommand() always runs the command against the admin database, regardless of the database currently selected."
+        },
+        {
+            "questionText": "Sharding is ______.",
+            "options": [
+                "Storing all the data in same server",
+                "Storing all the data in multiple servers",
+                "Storing part of the data in one server",
+                "Indexing and storing data across servers"
+            ],
+            "correctAnswer": "Storing all the data in multiple servers",
+            "explanation": "Sharding distributes (horizontally partitions) the full data set across multiple servers (shards) to support large data sets and high throughput."
+        },
+        {
+            "questionText": "MongoDB defines indexes at the ______ level.",
+            "options": [
+                "Application",
+                "Collection",
+                "Indexing",
+                "Execution"
+            ],
+            "correctAnswer": "Collection",
+            "explanation": "MongoDB defines indexes at the collection level and supports indexes on any field or sub-field of the documents."
+        },
+        {
+            "questionText": "Which of the following method is used to select the first document in MongoDB using Python?",
+            "options": [
+                "find_one",
+                "find_many",
+                "find",
+                "find_all"
+            ],
+            "correctAnswer": "find_one",
+            "explanation": "In PyMongo, collection.find_one() returns the first document that matches the query (or the first document in the collection if no filter is given)."
+        },
+        {
+            "questionText": "Which of the following tools helps you view the statistics of inserts and updates in MongoDB?",
+            "options": [
+                "mongostat",
+                "mongodump",
+                "mongofile",
+                "mongoimport"
+            ],
+            "correctAnswer": "mongostat",
+            "explanation": "mongostat provides a quick overview of a running mongod/mongos, showing counts of inserts, queries, updates, deletes and more per second."
+        },
+        {
+            "questionText": "Which of the following commands is used to direct a query to the shard server?",
+            "options": [
+                "mongod",
+                "mongoimport",
+                "mongos",
+                "mongosh"
+            ],
+            "correctAnswer": "mongos",
+            "explanation": "mongos is the query router for a sharded cluster; it routes client queries to the appropriate shard(s)."
+        },
+        {
+            "questionText": "Which of the following is the name given to the index which exists in every MongoDB collection and prevents duplication of data?",
+            "options": [
+                "Single Key Index",
+                "Compound Index",
+                "MultiKey Index",
+                "Default Index"
+            ],
+            "correctAnswer": "Default Index",
+            "explanation": "Every collection has a default unique index on the _id field, which prevents inserting two documents with the same _id value."
+        },
+        {
+            "questionText": "If the _id field in Default_id is not defined, who creates it?",
+            "options": [
+                "Administrator",
+                "Language Driver",
+                "Database",
+                "It is always defined."
+            ],
+            "correctAnswer": "Language Driver",
+            "explanation": "If a document is inserted without an _id field, the MongoDB language driver automatically generates an ObjectId for it."
+        },
+        {
+            "questionText": "A MongoDB aggregation pipeline can have ______ number of stages.",
+            "options": [
+                "one",
+                "two",
+                "any",
+                "four"
+            ],
+            "correctAnswer": "any",
+            "explanation": "An aggregation pipeline consists of one or more stages, and you can chain any number of stages to process documents."
+        },
+        {
+            "questionText": "Which of the following is an Input control?",
+            "options": [
+                "Button",
+                "Card",
+                "Menu",
+                "Snackbar"
+            ],
+            "correctAnswer": "Button",
+            "explanation": "A button is an input control; card, menu and snackbar are not."
+        },
+        {
+            "questionText": "The design token name that starts with md.sys is a ______.",
+            "options": [
+                "reference token",
+                "system token",
+                "material token",
+                "design token"
+            ],
+            "correctAnswer": "system token",
+            "explanation": "Tokens starting with md.sys are system tokens (md.ref are reference tokens)."
+        },
+        {
+            "questionText": "Which component allows swift navigation between different parts of an application?",
+            "options": [
+                "Input control",
+                "Informational component",
+                "Navigational component",
+                "container"
+            ],
+            "correctAnswer": "Navigational component",
+            "explanation": "Navigational components (menus, tabs, drawers) allow movement between parts of an app."
+        },
+        {
+            "questionText": "Which of the following stages is usually the last stage of an aggregation pipeline?",
+            "options": [
+                "$merge",
+                "$project",
+                "$out",
+                "$skip"
+            ],
+            "correctAnswer": "$out",
+            "explanation": "$out writes the pipeline results to a collection and must be the last stage."
+        },
+        {
+            "questionText": "Which of the following tools is used to bring the JavaScript Object Notation (JSON) files into MongoDB server?",
+            "options": [
+                "mongoversion",
+                "mongodump",
+                "mongoimport",
+                "mongod"
+            ],
+            "correctAnswer": "mongoimport",
+            "explanation": "mongoimport imports JSON, CSV or TSV data into MongoDB."
+        },
+        {
+            "questionText": "Which of the following command can be used to change the field name in a document?",
+            "options": [
+                "$rand",
+                "$rename",
+                "$ceil",
+                "$set"
+            ],
+            "correctAnswer": "$rename",
+            "explanation": "$rename changes the name of a field."
+        },
+        {
+            "questionText": "Which Graphical User Interface (GUI) tool is used to connect to MongoDB?",
+            "options": [
+                "MongoDB Compass",
+                "MongoDB Atlas",
+                "Mongo Import",
+                "Mongo Shell"
+            ],
+            "correctAnswer": "MongoDB Compass",
+            "explanation": "MongoDB Compass is the official GUI for MongoDB."
+        },
+        {
+            "questionText": "An aggregation pipeline stage takes its input from the ______ stage.",
+            "options": [
+                "first",
+                "previous",
+                "last",
+                "second"
+            ],
+            "correctAnswer": "previous",
+            "explanation": "Each stage receives the output of the previous stage."
+        },
+        {
+            "questionText": "After how many days of inactiveness does the Atlas initiate a pause on the clusters?",
+            "options": [
+                "Forty five",
+                "Sixty",
+                "Ninety",
+                "Fifty"
+            ],
+            "correctAnswer": "Sixty",
+            "explanation": "Atlas pauses inactive clusters after 60 days of inactivity."
+        },
+        {
+            "questionText": "What is Material Design used for?",
+            "options": [
+                "Building mobile applications",
+                "To design user friendly products",
+                "Designing hardware devices",
+                "Developing server-side applications"
+            ],
+            "correctAnswer": "To design user friendly products",
+            "explanation": "Material Design is a design system by Google that provides guidelines and components to design user friendly products."
+        },
+        {
+            "questionText": "Material design tokens are created to store the value of ______ in style library.",
+            "options": [
+                "design",
+                "reference",
+                "system",
+                "styles"
+            ],
+            "correctAnswer": "styles",
+            "explanation": "Design tokens are named entities that store style values (colors, typography, shape, etc.) in a style library."
+        },
+        {
+            "questionText": "In Material design, what does the term 'elevation' refer to?",
+            "options": [
+                "The vertical position of an element on the screen",
+                "Leaving the ground or leaving the surface",
+                "The degree of opacity applied to a background color",
+                "The spacing between elements in a layout"
+            ],
+            "correctAnswer": "Leaving the ground or leaving the surface",
+            "explanation": "Elevation is the relative distance of a surface from another along the z-axis, i.e. how far it rises (leaves) the surface beneath it."
+        },
+        {
+            "questionText": "You are designing a fitness tracking app that offers different modes for various activities, such as running, cycling, and swimming. Each mode should have a distinct color scheme to provide a visual differentiation. Which UI design aspect focuses on defining a set of colors and their combinations to create a consistent and visually appealing user interface?",
+            "options": [
+                "Typography System",
+                "Responsive grid system",
+                "Shadow System",
+                "Color system"
+            ],
+            "correctAnswer": "Color system",
+            "explanation": "A color system defines the palette and color combinations used to create a consistent, visually appealing UI."
+        },
+        {
+            "questionText": "Which of the following is required to create a Figma account?",
+            "options": [
+                "Phone number and username",
+                "Email address and password",
+                "Credit card information",
+                "Social media account credentials"
+            ],
+            "correctAnswer": "Email address and password",
+            "explanation": "A Figma account can be created using an email address and password."
+        },
+        {
+            "questionText": "What is Breadcrumb in UI design?",
+            "options": [
+                "A visual representation of a hierarchical navigation path",
+                "A type of input control for selecting multiple options",
+                "A form of progress indicator in multi-step processes",
+                "A design element for displaying alerts or notifications"
+            ],
+            "correctAnswer": "A visual representation of a hierarchical navigation path",
+            "explanation": "Breadcrumbs show the user's location within a site's hierarchy and allow navigation back to parent pages."
+        },
+        {
+            "questionText": "You are designing a file upload feature for a cloud storage application. Users should be able to see the progress of their file upload. Which UI component would be most suitable to visually display the upload progress in this scenario?",
+            "options": [
+                "Progress bars",
+                "Radio buttons",
+                "Drop-down menu",
+                "Slider"
+            ],
+            "correctAnswer": "Progress bars",
+            "explanation": "Progress bars visually indicate how much of a task, such as a file upload, has been completed."
+        },
+        {
+            "questionText": "Which of the following statements is true about UI design language?",
+            "options": [
+                "UI design is about how the product's interfaces look and function",
+                "End goal of UI design is to make the user's interaction as simple and efficient",
+                "It is specific to digital experiences",
+                "All of these"
+            ],
+            "correctAnswer": "All of these",
+            "explanation": "All the listed statements correctly describe UI design."
+        },
+        {
+            "questionText": "Material design reference token stores the value of ______ in the style library.",
+            "options": [
+                "reference style",
+                "system style",
+                "component style",
+                "material design styles"
+            ],
+            "correctAnswer": "reference style",
+            "explanation": "Reference tokens (md.ref.*) hold the raw reference style values available in the style library."
+        }
+    ]
 }
