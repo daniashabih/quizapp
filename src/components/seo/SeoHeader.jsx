@@ -137,7 +137,7 @@ export default function SeoHeader({
 
                         {/* Action buttons */}
                         <div className="flex items-center gap-2">
-                            <ThemeToggle variant="dropdown" />
+                            <ThemeToggle />
 
                             {/* + Create SEO Project Button */}
                             <button

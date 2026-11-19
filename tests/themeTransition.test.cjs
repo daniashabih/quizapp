@@ -32,16 +32,25 @@ test('1. Web ThemeContext implements View Transitions circular reveal, CSS fallb
     assert.match(ctx, /prefers-reduced-motion:\s*reduce/, 'Respects user prefers-reduced-motion preference');
 });
 
-test('2. Web ThemeToggle provides animated Sun & Moon rotation/scale/fade across variants and triggers origin-aware reveals', () => {
+test('2. Web ThemeToggle uses direct single-click icon button (no dropdown) with animated Sun & Moon and origin-aware reveals', () => {
     const toggle = read('src/components/ThemeToggle.jsx');
+    const navbar = read('src/components/Navbar.jsx');
+    const dashboardLayout = read('src/layouts/DashboardLayout.jsx');
+    const seoHeader = read('src/components/seo/SeoHeader.jsx');
+    const quiz = read('src/pages/quiz/Quiz.jsx');
     const settings = read('src/pages/settings/Settings.jsx');
 
     assert.match(toggle, /AnimatedThemeGlyph/, 'Defines AnimatedThemeGlyph for smooth Sun/Moon morphing');
     assert.match(toggle, /theme-toggle-motion/, 'Applies theme-toggle-motion GPU transition class');
-    assert.match(toggle, /data-theme-toggle-trigger="true"/, 'Marks trigger buttons for origin resolution');
-    assert.match(toggle, /originEl:\s*triggerRef\.current/, 'Originates dropdown circular reveal from toggle button');
-    assert.match(toggle, /onClick=\{\(e\) => toggleTheme\(e\)\}/, 'Originates icon toggle reveal from button event');
+    assert.match(toggle, /data-theme-toggle-trigger="true"/, 'Marks trigger button for origin resolution');
+    assert.match(toggle, /variant = 'icon'/, 'Defaults ThemeToggle to direct-click icon button');
+    assert.match(toggle, /onClick=\{\(e\) => toggleTheme\(e\)\}/, 'Originates direct icon button reveal from click event');
     assert.match(toggle, /onClick=\{\(e\) => setThemeMode\(opt\.id, e\)\}/, 'Originates segmented reveal from tapped option');
+    assert.doesNotMatch(toggle, /role="menu"|aria-haspopup="menu"|menuitemradio/, 'Does not render a theme dropdown menu');
+    assert.doesNotMatch(navbar, /variant="dropdown"/, 'Navbar does not use dropdown theme toggle');
+    assert.doesNotMatch(dashboardLayout, /variant="dropdown"/, 'DashboardLayout does not use dropdown theme toggle');
+    assert.doesNotMatch(seoHeader, /variant="dropdown"/, 'SeoHeader does not use dropdown theme toggle');
+    assert.doesNotMatch(quiz, /variant="dropdown"/, 'Quiz header does not use dropdown theme toggle');
     assert.match(settings, /setThemeMode\(opt\.id,\s*e\)/, 'Passes click event from Settings theme cards');
 });
 
@@ -97,6 +106,13 @@ test('5. Mobile Flutter app implements equivalent circular reveal viewport, anim
     const registerDart = read('mobile/lib/screens/auth/register_screen.dart');
     const leaderboardDart = read('mobile/lib/screens/leaderboard/leaderboard_screen.dart');
     const leaderboardFullDart = read('mobile/lib/screens/leaderboard/leaderboard_full_screen.dart');
+    const homeDart = read('mobile/lib/screens/home/home_screen.dart');
+    const exploreDart = read('mobile/lib/screens/explore/explore_screen.dart');
+    const gamesHubDart = read('mobile/lib/screens/games/games_hub_screen.dart');
+    const certificatesDart = read('mobile/lib/screens/certificates/certificates_screen.dart');
+    const profileDart = read('mobile/lib/screens/profile/profile_screen.dart');
+    const quizDart = read('mobile/lib/screens/quiz/quiz_screen.dart');
+    const adminDart = read('mobile/lib/screens/admin/admin_dashboard_screen.dart');
 
     // Colors & persistence preserved
     assert.match(colorsDart, /0xFFFCFAF4/, 'Preserves Mobile Light background color');
@@ -111,11 +127,19 @@ test('5. Mobile Flutter app implements equivalent circular reveal viewport, anim
     assert.match(overlayDart, /disableAnimations/, 'Respects Flutter/OS reduced motion accessibility setting');
     assert.match(toggleDart, /Duration\(milliseconds:\s*450\)/, 'Animates Mobile Sun & Moon icon over 450ms');
     assert.match(toggleDart, /class AnimatedThemeToggleButton/, 'Provides reusable AnimatedThemeToggleButton');
+    assert.doesNotMatch(toggleDart, /PopupMenuButton|DropdownButton/, 'Mobile theme toggle is a direct icon button, not a dropdown');
 
     // Wired across screens
     assert.match(loginDart, /AnimatedThemeToggleButton/, 'LoginScreen uses AnimatedThemeToggleButton');
     assert.match(registerDart, /AnimatedThemeToggleButton/, 'RegisterScreen uses AnimatedThemeToggleButton');
     assert.match(leaderboardDart, /AnimatedThemeToggleButton/, 'LeaderboardScreen uses AnimatedThemeToggleButton');
     assert.match(leaderboardFullDart, /AnimatedThemeToggleButton/, 'LeaderboardFullScreen uses AnimatedThemeToggleButton');
+    assert.match(homeDart, /AnimatedThemeToggleButton/, 'HomeScreen uses AnimatedThemeToggleButton');
+    assert.match(exploreDart, /AnimatedThemeToggleButton/, 'ExploreScreen uses AnimatedThemeToggleButton');
+    assert.match(gamesHubDart, /AnimatedThemeToggleButton/, 'GamesHubScreen uses AnimatedThemeToggleButton');
+    assert.match(certificatesDart, /AnimatedThemeToggleButton/, 'CertificatesScreen uses AnimatedThemeToggleButton');
+    assert.match(profileDart, /AnimatedThemeToggleButton/, 'ProfileScreen uses AnimatedThemeToggleButton');
+    assert.match(quizDart, /AnimatedThemeToggleButton/, 'QuizScreen uses AnimatedThemeToggleButton');
+    assert.match(adminDart, /AnimatedThemeToggleButton/, 'AdminDashboardScreen uses AnimatedThemeToggleButton');
     assert.match(settingsDart, /ThemeTransitionViewport\.maybeOf/, 'SettingsScreen triggers circular reveal when switching theme');
 });

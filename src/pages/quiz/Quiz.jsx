@@ -1035,7 +1035,7 @@ const Quiz = () => {
                     </button>
 
                     {/* Theme Toggle */}
-                    <ThemeToggle variant="dropdown" />
+                    <ThemeToggle />
 
                     {/* Flag / Bookmark Button */}
                     <button

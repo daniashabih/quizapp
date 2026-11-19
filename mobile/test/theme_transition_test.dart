@@ -195,5 +195,62 @@ void main() {
         expect(find.text('DarkActive'), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'AnimatedThemeToggleButton circular variant toggles directly without opening a dropdown menu',
+      (WidgetTester tester) async {
+        SharedPreferences.setMockInitialValues({});
+
+        await tester.pumpWidget(
+          ProviderScope(
+            overrides: [
+              themeModeProvider.overrideWith(
+                (ref) => ThemeModeNotifier(ThemeMode.light),
+              ),
+            ],
+            child: Consumer(
+              builder: (context, ref, _) {
+                final themeMode = ref.watch(themeModeProvider);
+                return MaterialApp(
+                  theme: AppTheme.lightTheme,
+                  darkTheme: AppTheme.darkTheme,
+                  themeMode: themeMode,
+                  builder: (context, child) => ThemeTransitionViewport(
+                    child: child,
+                  ),
+                  home: Scaffold(
+                    appBar: AppBar(
+                      actions: const [
+                        AnimatedThemeToggleButton(
+                          iconSize: 18,
+                          circular: true,
+                          margin: EdgeInsets.only(right: 12),
+                        ),
+                      ],
+                    ),
+                    body: Builder(
+                      builder: (ctx) => Text(
+                        ctx.isDarkMode ? 'DarkActive' : 'LightActive',
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+
+        await tester.pumpAndSettle();
+        expect(find.text('LightActive'), findsOneWidget);
+        expect(find.byType(PopupMenuButton<ThemeMode>), findsNothing);
+
+        await tester.tap(find.byType(AnimatedThemeToggleButton));
+        await tester.pumpAndSettle();
+
+        expect(find.text('DarkActive'), findsOneWidget);
+        expect(find.text('System Default'), findsNothing);
+        expect(await loadSavedThemeMode(), equals(ThemeMode.dark));
+      },
+    );
   });
 }

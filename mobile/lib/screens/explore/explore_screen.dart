@@ -16,6 +16,7 @@ import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
 import '../../widgets/banner_ad_widget.dart';
+import '../../widgets/animated_theme_toggle.dart';
 
 class ExploreScreen extends ConsumerStatefulWidget {
   const ExploreScreen({super.key});
@@ -535,6 +536,11 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
           ),
         ),
         actions: [
+          const AnimatedThemeToggleButton(
+            iconSize: 18,
+            circular: true,
+            margin: EdgeInsets.only(right: 8),
+          ),
           Container(
             width: 36,
             height: 36,

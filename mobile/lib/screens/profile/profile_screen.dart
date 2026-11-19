@@ -7,6 +7,7 @@ import '../../core/constants/app_text_styles.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/dashboard_provider.dart';
 import '../../providers/theme_provider.dart';
+import '../../widgets/animated_theme_toggle.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -37,6 +38,11 @@ class ProfileScreen extends ConsumerWidget {
         titleSpacing: 16,
         title: const Text('My Profile'),
         actions: [
+          const AnimatedThemeToggleButton(
+            iconSize: 18,
+            circular: true,
+            margin: EdgeInsets.only(right: 8),
+          ),
           Container(
             width: 36,
             height: 36,

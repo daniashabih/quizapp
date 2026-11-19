@@ -140,21 +140,31 @@ class AnimatedThemeToggleButton extends ConsumerWidget {
   final double iconSize;
   final Color? lightIconColor;
   final Color? darkIconColor;
+  final bool circular;
+  final double buttonSize;
+  final EdgeInsetsGeometry? margin;
 
   const AnimatedThemeToggleButton({
     super.key,
     this.iconSize = 20,
     this.lightIconColor,
     this.darkIconColor,
+    this.circular = false,
+    this.buttonSize = 36,
+    this.margin,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = context.isDarkMode;
 
-    return Builder(
+    final iconButton = Builder(
       builder: (buttonContext) {
         return IconButton(
+          padding: circular ? EdgeInsets.zero : null,
+          constraints: circular
+              ? BoxConstraints.tightFor(width: buttonSize, height: buttonSize)
+              : null,
           tooltip: isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode',
           icon: AnimatedThemeIcon(
             isDark: isDark,
@@ -180,6 +190,22 @@ class AnimatedThemeToggleButton extends ConsumerWidget {
           },
         );
       },
+    );
+
+    if (!circular) {
+      return iconButton;
+    }
+
+    return Container(
+      width: buttonSize,
+      height: buttonSize,
+      margin: margin,
+      decoration: BoxDecoration(
+        color: context.cardBgColor,
+        shape: BoxShape.circle,
+        border: Border.all(color: context.borderColor),
+      ),
+      child: iconButton,
     );
   }
 }

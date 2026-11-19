@@ -7,6 +7,7 @@ import '../../core/utils/date_formatter.dart';
 import '../../providers/admin_provider.dart';
 import '../../widgets/error_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
+import '../../widgets/animated_theme_toggle.dart';
 
 class AdminDashboardScreen extends ConsumerWidget {
   const AdminDashboardScreen({super.key});
@@ -27,10 +28,16 @@ class AdminDashboardScreen extends ConsumerWidget {
               fit: BoxFit.contain,
             ),
             const SizedBox(width: 10),
-            const Text('Admin Dashboard'),
+            const Flexible(
+              child: Text(
+                'Admin Dashboard',
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
         actions: [
+          const AnimatedThemeToggleButton(iconSize: 20),
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
             tooltip: 'Refresh Metrics',

@@ -13,6 +13,7 @@ import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
 import '../../widgets/banner_ad_widget.dart';
+import '../../widgets/animated_theme_toggle.dart';
 
 class CertificatesScreen extends ConsumerWidget {
   const CertificatesScreen({super.key});
@@ -30,6 +31,11 @@ class CertificatesScreen extends ConsumerWidget {
         titleSpacing: 16,
         title: const Text('My Certificates'),
         actions: [
+          const AnimatedThemeToggleButton(
+            iconSize: 18,
+            circular: true,
+            margin: EdgeInsets.only(right: 8),
+          ),
           Container(
             width: 36,
             height: 36,

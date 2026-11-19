@@ -11,6 +11,7 @@ import '../../services/notification_service.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
 import '../../widgets/banner_ad_widget.dart';
+import '../../widgets/animated_theme_toggle.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   final String category;
@@ -410,6 +411,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
             ],
           ),
           actions: [
+            const AnimatedThemeToggleButton(iconSize: 20),
             if (!state.isLoading && !_isInitializing && state.questions.isNotEmpty) ...[
               IconButton(
                 icon: const Icon(Icons.grid_view_rounded, size: 20),

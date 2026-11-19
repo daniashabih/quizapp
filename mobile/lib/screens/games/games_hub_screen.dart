@@ -9,6 +9,7 @@ import '../../../widgets/error_state_widget.dart';
 import '../../../widgets/loading_state_widget.dart';
 import '../../../widgets/banner_ad_widget.dart';
 import '../../../widgets/tech_logo_widget.dart';
+import '../../widgets/animated_theme_toggle.dart';
 
 class GamesHubScreen extends ConsumerStatefulWidget {
   const GamesHubScreen({super.key});
@@ -217,10 +218,17 @@ class _GamesHubScreenState extends ConsumerState<GamesHubScreen> {
           children: [
             Icon(Icons.sports_esports_rounded, color: context.brandAccentColor, size: 24),
             const SizedBox(width: 8),
-            const Text('Coding & Typing Games', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18)),
+            const Flexible(
+              child: Text(
+                'Coding & Typing Games',
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
         actions: [
+          const AnimatedThemeToggleButton(iconSize: 20),
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
             tooltip: 'Refresh',
