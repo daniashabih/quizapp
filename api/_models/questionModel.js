@@ -119,6 +119,9 @@ const getCategoryVariations = (category) => {
     if (isMongoDbCategory(clean)) {
         return ['MongoDB', 'Mongo DB', 'mongodb', 'mongo db', 'mongo'];
     }
+    if (isAzureCategory(clean)) {
+        return ['Azure', 'Microsoft Azure', 'MS Azure', 'Windows Azure', 'azure', 'microsoft azure', 'ms azure'];
+    }
     const withAnd = clean.replace(/&/g, 'and');
     const withAmp = clean.replace(/\band\b/gi, '&');
     return Array.from(new Set([clean, withAnd, withAmp]));
@@ -320,6 +323,8 @@ const Question = {
                 sessionTitle = MATERIAL_UI_SESSIONS[sNum];
             } else if (isMongoDbCategory(targetCat) && MONGODB_SESSIONS[sNum]) {
                 sessionTitle = MONGODB_SESSIONS[sNum];
+            } else if (isAzureCategory(targetCat) && AZURE_SESSIONS[sNum]) {
+                sessionTitle = AZURE_SESSIONS[sNum];
             }
             return {
                 ...r,
@@ -348,6 +353,7 @@ const Question = {
         const isReactJs = isReactJsCategory(category);
         const isMaterialUi = isMaterialUiCategory(category);
         const isMongoDb = isMongoDbCategory(category);
+        const isAzure = isAzureCategory(category);
 
         let rows = [];
         try {
@@ -403,6 +409,8 @@ const Question = {
                     title = MATERIAL_UI_SESSIONS[sNum];
                 } else if (isMongoDb && MONGODB_SESSIONS[sNum]) {
                     title = MONGODB_SESSIONS[sNum];
+                } else if (isAzure && AZURE_SESSIONS[sNum]) {
+                    title = AZURE_SESSIONS[sNum];
                 }
                 return {
                     session: sNum,

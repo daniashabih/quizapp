@@ -205,6 +205,8 @@ export default function Technologies() {
             if (isMaterialUiQuery && (name === 'material ui' || slug === 'material-ui' || slug === 'materialui')) return true;
             const isMongoDbQuery = q === 'mongo db' || q === 'mongodb' || q === 'mongo';
             if (isMongoDbQuery && (name === 'mongodb' || slug === 'mongodb')) return true;
+            const isAzureQuery = q === 'microsoft azure' || q === 'ms azure' || q === 'windows azure' || q === 'azure';
+            if (isAzureQuery && (name === 'azure' || slug === 'azure')) return true;
             return name.includes(q) || slug.includes(q);
         });
 

@@ -92,6 +92,7 @@ class TechLogoRegistry {
     'cicd': ['devops'],
     'microsoft azure': ['azure'],
     'ms azure': ['azure'],
+    'windows azure': ['azure'],
     'azure': ['azure'],
     'amazon web services': ['aws'],
     'aws': ['aws'],

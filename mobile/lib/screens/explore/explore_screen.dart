@@ -598,6 +598,12 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                       final isMongoDbQuery =
                           q == 'mongo db' || q == 'mongodb' || q == 'mongo';
                       if (isMongoDbQuery && name == 'mongodb') return true;
+                      final isAzureQuery =
+                          q == 'microsoft azure' ||
+                          q == 'ms azure' ||
+                          q == 'windows azure' ||
+                          q == 'azure';
+                      if (isAzureQuery && name == 'azure') return true;
                       return name.contains(q);
                     })
                     .toList();
