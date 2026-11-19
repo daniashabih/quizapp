@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
-import '../../models/ai_verification_model.dart';
 import '../../providers/ai_verification_provider.dart';
 import '../../services/notification_service.dart';
 import '../../widgets/error_state_widget.dart';
@@ -18,7 +17,7 @@ class AdminAiControlsScreen extends ConsumerStatefulWidget {
 
 class _AdminAiControlsScreenState
     extends ConsumerState<AdminAiControlsScreen> {
-  String _testMode = 'chat';
+  String _testMode = 'verification';
   final TextEditingController _promptController = TextEditingController(
     text: 'Explain the HTML <section> tag in 3 concise lines.',
   );
@@ -36,8 +35,6 @@ class _AdminAiControlsScreenState
     text: 'HTML',
   );
 
-  bool _checkingModels = false;
-  AdminAiModelsCheckResponse? _modelsCheck;
   bool _runningTest = false;
   Map<String, dynamic>? _testResult;
   String? _testError;
@@ -51,32 +48,6 @@ class _AdminAiControlsScreenState
     _ragAnswerController.dispose();
     _ragTechController.dispose();
     super.dispose();
-  }
-
-  Future<void> _checkLiveModels() async {
-    if (_checkingModels) return;
-    setState(() => _checkingModels = true);
-    try {
-      final res = await ref
-          .read(aiVerificationServiceProvider)
-          .checkAiModels(refresh: true);
-      if (mounted) {
-        setState(() => _modelsCheck = res);
-        AppNotificationService.success(
-          id: 'ai-model-check-ok',
-          title: 'Models Checked',
-          message: 'Live Hugging Face provider pricing & status loaded.',
-        );
-      }
-    } catch (e) {
-      AppNotificationService.error(
-        id: 'ai-model-check-err',
-        title: 'Check Failed',
-        message: e.toString().replaceFirst('Exception: ', ''),
-      );
-    } finally {
-      if (mounted) setState(() => _checkingModels = false);
-    }
   }
 
   Future<void> _clearCache() async {
@@ -102,8 +73,15 @@ class _AdminAiControlsScreenState
     }
   }
 
-  Future<void> _runLiveTest() async {
+  Future<void> _runLiveTest(bool isConfigured) async {
     if (_runningTest) return;
+    if (!isConfigured && _testMode != 'verification') {
+      setState(() {
+        _testError = 'No active AI provider is configured on the server.';
+      });
+      return;
+    }
+
     setState(() {
       _runningTest = true;
       _testResult = null;
@@ -170,7 +148,7 @@ class _AdminAiControlsScreenState
       ),
       body: statusAsync.when(
         loading: () =>
-            const LoadingStateWidget(message: 'Loading AI provider metrics...'),
+            const LoadingStateWidget(message: 'Loading AI metrics...'),
         error: (err, _) => ErrorStateWidget(
           message: err.toString(),
           onRetry: () => ref.invalidate(adminAiStatusProvider),
@@ -180,7 +158,7 @@ class _AdminAiControlsScreenState
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 36),
             children: [
-              // Security & Token Status Banner (never exposes secret token)
+              // Security & Readiness Banner (never exposes secret token)
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
@@ -201,7 +179,7 @@ class _AdminAiControlsScreenState
                     Icon(
                       status.configured
                           ? Icons.verified_user_rounded
-                          : Icons.warning_amber_rounded,
+                          : Icons.info_outline_rounded,
                       color: status.configured
                           ? context.successColor
                           : context.warningColor,
@@ -214,8 +192,8 @@ class _AdminAiControlsScreenState
                         children: [
                           Text(
                             status.configured
-                                ? 'Active Provider: ${status.provider.toUpperCase()} (Token Secured on Server)'
-                                : 'Hugging Face Server Token Not Configured',
+                                ? 'Active Provider: ${status.provider.toUpperCase()} (Secured on Server)'
+                                : 'No Active AI Provider Configured',
                             style: AppTextStyles.labelBold.copyWith(
                               color: status.configured
                                   ? context.successColor
@@ -225,8 +203,8 @@ class _AdminAiControlsScreenState
                           const SizedBox(height: 3),
                           Text(
                             status.configured
-                                ? 'API credentials are stored strictly in Vercel server environment variables and never transmitted to mobile clients.'
-                                : 'Set your Hugging Face Inference Providers token in Vercel server environment variables to enable chat verification and book embeddings.',
+                                ? 'API credentials stay strictly in server environment variables and are never transmitted to mobile clients.'
+                                : 'Uploaded books, vector chunks, and saved verification reports remain intact. Configure a server AI provider when ready.',
                             style: AppTextStyles.bodySmall.copyWith(
                               color: context.textSecondaryColor,
                             ),
@@ -250,7 +228,7 @@ class _AdminAiControlsScreenState
                     ),
                   ),
                   child: Text(
-                    'Dimension mismatch: ${status.dimensionMismatchCount} book(s) were indexed with a different vector dimension than ${status.embeddingDimensions}d. Re-index them in AI Knowledge Base.',
+                    'Dimension mismatch: ${status.dimensionMismatchCount} book(s) were indexed with a different vector dimension than ${status.embeddingDimensions}d.',
                     style: AppTextStyles.bodySmall.copyWith(
                       color: context.warningColor,
                       fontWeight: FontWeight.w600,
@@ -274,17 +252,13 @@ class _AdminAiControlsScreenState
                   const SizedBox(width: 8),
                   _kpiTile(context, 'Tokens', '${status.totalTokens}'),
                   const SizedBox(width: 8),
-                  _kpiTile(
-                    context,
-                    'Est. USD',
-                    '\$${status.estimatedCostUsd.toStringAsFixed(4)}',
-                  ),
+                  _kpiTile(context, 'Errors', '${status.errors}'),
                 ],
               ),
 
               const SizedBox(height: 12),
 
-              // Active Model Configuration Card
+              // Active Configuration Card
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
@@ -296,22 +270,23 @@ class _AdminAiControlsScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Configured Hugging Face Models',
+                      'AI & Vector Search Configuration',
                       style: AppTextStyles.labelBold.copyWith(fontSize: 13.5),
                     ),
                     const SizedBox(height: 10),
-                    _infoRow(context, 'Primary Chat', status.chatModel),
                     _infoRow(
                       context,
-                      'Checked Fallback',
-                      status.fallbackChatModel.isEmpty
-                          ? 'Disabled'
-                          : status.fallbackChatModel,
+                      'Chat Model',
+                      status.chatModel.isEmpty
+                          ? 'Not Configured'
+                          : status.chatModel,
                     ),
                     _infoRow(
                       context,
                       'Embedding Model',
-                      '${status.embeddingModel} (${status.embeddingDimensions}d · ${status.embeddingProvider})',
+                      status.embeddingModel.isEmpty
+                          ? 'Not Configured (${status.embeddingDimensions}d)'
+                          : '${status.embeddingModel} (${status.embeddingDimensions}d)',
                     ),
                     _infoRow(
                       context,
@@ -320,13 +295,18 @@ class _AdminAiControlsScreenState
                     ),
                     _infoRow(
                       context,
-                      'Resilience',
-                      'Timeout ${status.timeoutMs}ms · Retries ${status.maxRetries}x · Fallbacks ${status.fallbackCalls} · Errors ${status.errors}',
+                      'Indexed Chunks',
+                      '${status.totalIndexedChunks} chunks · ${status.cachedVerificationsCount} saved reports',
                     ),
                     _infoRow(
                       context,
-                      'Caches',
-                      'DB Reports: ${status.cachedVerificationsCount} · Memory: ${status.memoryEmbeddingCacheEntries} emb, ${status.memoryChatCacheEntries} chat',
+                      'Resilience',
+                      'Timeout ${status.timeoutMs}ms · Retries ${status.maxRetries}x',
+                    ),
+                    _infoRow(
+                      context,
+                      'Memory Cache',
+                      '${status.memoryEmbeddingCacheEntries} embeddings · ${status.memoryChatCacheEntries} chats',
                     ),
                   ],
                 ),
@@ -334,124 +314,18 @@ class _AdminAiControlsScreenState
 
               const SizedBox(height: 12),
 
-              // Action Buttons Row: Live Pricing Check & Clear Cache
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: _checkingModels ? null : _checkLiveModels,
-                      icon: _checkingModels
-                          ? const SizedBox(
-                              width: 14,
-                              height: 14,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.bolt_rounded, size: 17),
-                      label: const Text('Check HF Pricing'),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: _clearingCache ? null : _clearCache,
-                      icon: _clearingCache
-                          ? const SizedBox(
-                              width: 14,
-                              height: 14,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.cleaning_services_rounded, size: 16),
-                      label: const Text('Clear Cache'),
-                    ),
-                  ),
-                ],
+              // Clear Cache Button
+              OutlinedButton.icon(
+                onPressed: _clearingCache ? null : _clearCache,
+                icon: _clearingCache
+                    ? const SizedBox(
+                        width: 14,
+                        height: 14,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.cleaning_services_rounded, size: 16),
+                label: const Text('Clear In-Memory Cache'),
               ),
-
-              if (_modelsCheck != null) ...[
-                const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: context.cardBgColor,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: context.borderColor),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Live Hugging Face Availability & Pricing',
-                        style: AppTextStyles.labelBold.copyWith(fontSize: 13),
-                      ),
-                      const SizedBox(height: 8),
-                      ..._modelsCheck!.entries.map(
-                        (entry) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: context.mutedBgColor,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      entry.title,
-                                      style: AppTextStyles.labelBold
-                                          .copyWith(fontSize: 12),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 2,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: (entry.liveFound
-                                                ? context.successColor
-                                                : context.errorColor)
-                                            .withValues(alpha: 0.15),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Text(
-                                        entry.liveFound ? 'LIVE' : 'OFFLINE',
-                                        style: AppTextStyles.labelBold.copyWith(
-                                          fontSize: 10,
-                                          color: entry.liveFound
-                                              ? context.successColor
-                                              : context.errorColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  entry.id,
-                                  style: AppTextStyles.mono
-                                      .copyWith(fontSize: 11),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  entry.details,
-                                  style: AppTextStyles.bodySmall.copyWith(
-                                    color: context.textSecondaryColor,
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
 
               const SizedBox(height: 16),
 
@@ -467,12 +341,12 @@ class _AdminAiControlsScreenState
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Interactive AI Model Tester',
+                      'AI & Book RAG Diagnostic Tester',
                       style: AppTextStyles.labelBold.copyWith(fontSize: 14),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Run live requests against Hugging Face models or uploaded books (does not alter quiz answers).',
+                      'Verify configured AI endpoints or run a book-grounded RAG check (never alters saved quiz answers).',
                       style: AppTextStyles.bodySmall.copyWith(
                         color: context.textSecondaryColor,
                       ),
@@ -483,8 +357,7 @@ class _AdminAiControlsScreenState
                       runSpacing: 6,
                       children: [
                         for (final mode in const [
-                          ('chat', 'Primary Chat'),
-                          ('fallback', 'Fallback'),
+                          ('chat', 'Chat Model'),
                           ('embedding', 'Embedding'),
                           ('verification', 'Book RAG'),
                         ])
@@ -557,7 +430,10 @@ class _AdminAiControlsScreenState
                       ),
                     const SizedBox(height: 12),
                     ElevatedButton.icon(
-                      onPressed: _runningTest ? null : _runLiveTest,
+                      onPressed: (_runningTest ||
+                              (!status.configured && _testMode != 'verification'))
+                          ? null
+                          : () => _runLiveTest(status.configured),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: context.isDarkMode
                             ? AppColors.primaryLight
@@ -579,7 +455,7 @@ class _AdminAiControlsScreenState
                             )
                           : const Icon(Icons.play_arrow_rounded),
                       label: Text(
-                        _runningTest ? 'Running Live Test...' : 'Run Live Test',
+                        _runningTest ? 'Running Test...' : 'Run Diagnostic Test',
                       ),
                     ),
                     if (_testError != null) ...[
@@ -728,7 +604,7 @@ class _AdminAiControlsScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${r['provider'] ?? 'huggingface'} · ${r['model'] ?? ''} · ${r['latencyMs'] ?? 0}ms',
+            '${r['provider'] ?? ''} · ${r['model'] ?? ''} · ${r['latencyMs'] ?? 0}ms',
             style: AppTextStyles.labelBold.copyWith(
               fontSize: 11.5,
               color: context.successColor,
