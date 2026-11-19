@@ -931,18 +931,42 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
         };
     }
 
-    // Analyze link graph & broken internal links
+    // Analyze link graph, redirect links & broken internal links
     const inboundCounts = new Map();
     const brokenLinks = [];
+    const redirectLinks = [];
     const crawledStatusMap = new Map(crawledPages.map(p => [p.path, p.httpStatus]));
+    const redirectSourceSet = new Set([
+        '/privacy', '/resources', '/account-deletion', '/data-deletion',
+        '/quizzes', '/quiz', '/technologies/level', '/technologies/reactjs',
+        '/technologies/react.js', '/technologies/js', '/technologies/html5',
+        '/technologies/css3', '/technologies/fundamentals', '/technologies/programming-logic',
+        '/games/coding-memory-match', '/games/csharp-complete-the-code',
+        '/games/complete-the-code-csharp', '/certificates', '/profile',
+        '/settings', '/leaderboard/full'
+    ]);
 
     for (const page of crawledPages) {
         for (const target of page.internalLinks) {
-            const cleanTarget = target === '/' ? '/' : target.replace(/\/+$/, '');
+            const cleanTarget = target === '/' ? '/' : target.split('?')[0].replace(/\/+$/, '');
             inboundCounts.set(cleanTarget, (inboundCounts.get(cleanTarget) || 0) + 1);
 
+            if (redirectSourceSet.has(cleanTarget)) {
+                redirectLinks.push({
+                    sourcePage: page.path,
+                    targetUrl: cleanTarget
+                });
+            }
+
             const knownStatus = crawledStatusMap.get(cleanTarget);
-            const isValid = knownStatus === 200 || seoController.isKnownAppRoute(cleanTarget) || cleanTarget.startsWith('/blog/') || cleanTarget.startsWith('/games/') || cleanTarget.startsWith('/technologies/');
+            let isValid = knownStatus === 200 || seoController.isKnownAppRoute(cleanTarget);
+            if (!isValid && cleanTarget.startsWith('/blog/')) {
+                const bSlug = cleanTarget.slice('/blog/'.length).toLowerCase();
+                isValid = blogMap.has(bSlug);
+            } else if (!isValid && cleanTarget.startsWith('/games/')) {
+                const gSlug = cleanTarget.slice('/games/'.length).toLowerCase();
+                isValid = gameMap.has(gSlug);
+            }
             if (!isValid || (knownStatus && knownStatus >= 400)) {
                 brokenLinks.push({
                     sourcePage: page.path,
@@ -953,8 +977,9 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
         }
     }
 
+    const noindexRoutesSet = new Set(seoController.NOINDEX_EXACT_ROUTES || []);
     const orphanPages = crawledPages
-        .filter(p => p.path !== '/' && (inboundCounts.get(p.path) || 0) === 0 && !p.path.startsWith('/blog/') && !p.path.startsWith('/games/'))
+        .filter(p => p.path !== '/' && !p.isNoindex && !noindexRoutesSet.has(p.path) && (inboundCounts.get(p.path) || 0) === 0)
         .map(p => p.path);
 
     // Detect page-level SEO issues
@@ -1141,6 +1166,23 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
             affectedUrls: [],
             recommendedAction: 'Maintain cross-links between blog tutorials, quizzes, and coding games.',
             howToFix: 'No action required.',
+            source: sourceLabel
+        }));
+    }
+
+    if (redirectLinks.length > 0) {
+        issues.push(buildIssue({
+            id: 'redirect_internal_links',
+            title: 'Internal Links Pointing to Redirects or Auth Gates',
+            bucket: 'warning',
+            severity: 'Medium',
+            status: 'Needs attention',
+            type: 'linking',
+            whatIsIssue: `${redirectLinks.length} internal link(s) point to alias, redirect, or login-gated paths instead of final canonical URLs.`,
+            whyItMatters: 'Linking directly to final canonical URLs avoids unnecessary redirect hops and preserves crawl equity.',
+            affectedUrls: redirectLinks.slice(0, 20).map(r => ({ url: r.sourcePage, detail: `Links to redirect path ${r.targetUrl}` })),
+            recommendedAction: 'Point internal links directly to final canonical destinations.',
+            howToFix: '1. Replace alias paths (e.g. /technologies/js, /games/coding-memory-match, /leaderboard/full) with canonical URLs.',
             source: sourceLabel
         }));
     }

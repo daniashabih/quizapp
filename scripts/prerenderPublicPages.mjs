@@ -16,6 +16,8 @@ const {
     buildArticleSeoTitle,
     buildArticleSeoDescription,
     applyHeadMetadata,
+    renderStaticNavbarHtml,
+    renderStaticFooterHtml,
     renderVisible404BodyHtml,
     renderCompleteBlogArticleHtml,
     renderCompleteBlogIndexHtml,
@@ -289,36 +291,46 @@ function generateBodyHtml(pageConfig) {
       </section>
     `);
 
-    // Internal navigation links
+    // Internal navigation links (zero inner <div> tags to keep static container parsing exact)
     if (internalLinks.length > 0) {
         sections.push(`
           <nav aria-label="Related Topics and Practice Tracks" class="mt-8 pt-6 border-t border-[var(--border)]">
             <h3 class="text-lg font-semibold text-[var(--foreground)] mb-3">Explore Related Practice Tracks &amp; Resources</h3>
-            <div class="flex flex-wrap gap-3">
-              ${internalLinks.map(l => `<a href="${l.to}" class="text-sm font-medium text-[var(--brand)] hover:underline">${l.label}</a>`).join(' • ')}
-            </div>
+            <p class="flex flex-wrap gap-3">
+              ${internalLinks.map(l => `<a href="${l.to}"${l.rel ? ` rel="${escapeAttr(l.rel)}"` : ''} class="text-sm font-medium text-[var(--brand)] hover:underline">${l.label}</a>`).join(' • ')}
+            </p>
           </nav>
         `);
     }
 
     return `
-      <div id="seo-static-content" class="sr-only">
+      <main id="seo-static-content" class="sr-only">
         ${sections.join('\n')}
-      </div>
+      </main>
     `;
 }
 
 // Generate dedicated, accurate static crawlable HTML block for the homepage (/)
-function generateHomeBodyHtml(pageConfig) {
+function generateHomeBodyHtml(pageConfig, publishedBlogArticles = []) {
     const { h1, introContent, internalLinks = [] } = pageConfig;
-    const gameLinks = GAMES_LIST.slice(0, 14);
+    const gameLinks = GAMES_LIST;
+    const blogLinks = Array.isArray(publishedBlogArticles) && publishedBlogArticles.length > 0
+        ? publishedBlogArticles.filter(a => a && a.slug)
+        : [
+            { slug: 'html-tutorial-for-beginners', title: 'HTML Tutorial for Beginners' },
+            { slug: 'css-basics-beginners-guide', title: 'CSS Basics Beginner Guide' },
+            { slug: 'javascript-fundamentals-beginners-guide', title: 'JavaScript Fundamentals Guide' },
+            { slug: 'php-programming-beginners-guide', title: 'PHP Programming Guide' },
+            { slug: 'laravel-basics-mvc-architecture', title: 'Laravel MVC Architecture' },
+            { slug: 'flutter-dart-mobile-app-development', title: 'Flutter and Dart Development' }
+        ];
 
     return `
       <main id="seo-static-content" class="sr-only">
-        <header>
+        <section>
           <h1>${h1}</h1>
           <p>${introContent}</p>
-        </header>
+        </section>
 
         <section>
           <h2>What is Hangbug?</h2>
@@ -339,7 +351,6 @@ function generateHomeBodyHtml(pageConfig) {
             Start online coding practice across frontend, backend, database, and mobile stacks including HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Python, MongoDB, SQL Server, Node.js, and Programming Fundamentals.
           </p>
           <nav aria-label="Technology Quiz Guides">
-            <a href="/technologies">Browse All Technology Quizzes</a>
             ${internalLinks.filter(l => l.to.startsWith('/technologies/')).map(l => `<a href="${l.to}">${l.label}</a>`).join('\n            ')}
           </nav>
         </section>
@@ -350,31 +361,26 @@ function generateHomeBodyHtml(pageConfig) {
             Alongside programming quizzes, Hangbug offers 20 browser-based coding games and programming challenges to help developers practice programming logic, code comprehension, and keyboard fluency.
           </p>
           <nav aria-label="Coding and Typing Games">
-            <a href="/games">Explore Games Hub</a>
             ${gameLinks.map(g => `<a href="/games/${g.slug}">${g.name}</a>`).join('\n            ')}
+          </nav>
+        </section>
+
+        <section>
+          <h2>Featured Developer Tutorials &amp; Guides</h2>
+          <p>
+            Explore step-by-step engineering tutorials connecting semantic web markup, styling layouts, interactive JavaScript, PHP backends, Laravel MVC architecture, and cross-platform Flutter apps directly with quizzes and coding challenges:
+          </p>
+          <nav aria-label="Published Blog Tutorials">
+            ${blogLinks.map(b => `<a href="/blog/${escapeAttr(b.slug)}">${escapeText(b.title)}</a>`).join('\n            ')}
           </nav>
         </section>
 
         <section>
           <h2>How Hangbug Works &amp; Score-Based Certificates</h2>
           <p>
-            Select a technology track, practice session-based multiple-choice quizzes with instant verification, track accuracy across sessions, and pass with 80% or higher to earn a shareable score-based certificate with a unique verification ID.
+            Select a technology track, practice session-based multiple-choice quizzes with instant verification, track accuracy across sessions, and pass with 80% or higher to earn a shareable score-based certificate with a unique verification ID on the <a href="/certificate/view" rel="nofollow">certificate verification page</a>.
           </p>
         </section>
-
-        <nav aria-label="Primary Public Pages">
-          <h2>Explore Hangbug</h2>
-          <a href="/">Home</a>
-          <a href="/technologies">Technologies</a>
-          <a href="/games">Coding Games</a>
-          <a href="/blog">Blog &amp; Tutorials</a>
-          <a href="/about">About Us</a>
-          <a href="/contact">Contact Us</a>
-          <a href="/leaderboard">Leaderboard</a>
-          <a href="/certificate/view">Verify Certificates</a>
-          <a href="/privacy-policy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
-        </nav>
       </main>
     `;
 }
@@ -487,7 +493,7 @@ function renderPage(page) {
     // 6. Replace entire <div id="root">...</div> container cleanly up to </body> (or trailing <script>)
     html = html.replace(
         /<div id="root">[\s\S]*<\/div>(?=\s*(?:<script|<\/body>))/,
-        () => `<div id="root">\n${bodyHtml}\n    </div>`
+        () => `<div id="root">\n${page.staticHeaderHtml || ''}\n${bodyHtml}\n${page.staticFooterHtml || ''}\n    </div>`
     );
 
     return html;
@@ -521,6 +527,117 @@ let renderedCount = 0;
 fs.rmSync(path.join(DIST_DIR, 'resources'), { recursive: true, force: true });
 fs.rmSync(path.join(DIST_DIR, 'resources.html'), { force: true });
 
+await ensureMarkdownParser();
+const { source: blogSource, articles: fetchedBlogArticles, unpublishedSlugs: earlyUnpublishedSlugs } = await fetchPublishedBlogPostsFromSource({
+    allowRemoteApiFallback: true
+});
+const normalizedPublishedBlogArticles = (fetchedBlogArticles || [])
+    .filter(a => a && typeof a.slug === 'string' && a.slug.trim() && a.isPublished === true)
+    .map(a => ({ ...a, slug: String(a.slug).trim().toLowerCase() }));
+const sharedStaticFooterHtml = renderStaticFooterHtml(normalizedPublishedBlogArticles);
+
+function resolveStaticHeaderForPath(routePath) {
+    if (routePath === '/') return renderStaticNavbarHtml({ activeNav: 'home' });
+    if (routePath.startsWith('/technologies')) return renderStaticNavbarHtml({ activeNav: 'technologies' });
+    if (routePath.startsWith('/games')) return renderStaticNavbarHtml({ activeNav: 'games' });
+    if (routePath.startsWith('/leaderboard')) return renderStaticNavbarHtml({ activeNav: 'leaderboard' });
+    return renderStaticNavbarHtml({ activeNav: null });
+}
+
+function resolveContextualLinksForGame(game) {
+    const slug = game.slug;
+    const isTyping = game.category === 'Typing Games';
+    const isCsharp = slug.startsWith('csharp-') || slug === 'complete-the-code';
+    const gameCrossMap = {
+        'code-puzzle': [
+            { label: 'HTML Quizzes', to: '/technologies/html' },
+            { label: 'CSS Quizzes', to: '/technologies/css' },
+            { label: 'CSS Basics Guide', to: '/blog/css-basics-beginners-guide' },
+            { label: 'Find The Bug', to: '/games/find-the-bug' },
+            { label: 'Code Scramble', to: '/games/code-scramble' }
+        ],
+        'find-the-bug': [
+            { label: 'HTML Quizzes', to: '/technologies/html' },
+            { label: 'PHP Quizzes', to: '/technologies/php' },
+            { label: 'HTML Tutorial', to: '/blog/html-tutorial-for-beginners' },
+            { label: 'Missing Code', to: '/games/missing-code' },
+            { label: 'Output Predictor', to: '/games/output-predictor' }
+        ],
+        'output-predictor': [
+            { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
+            { label: 'Dart Quizzes', to: '/technologies/dart' },
+            { label: 'JavaScript Fundamentals', to: '/blog/javascript-fundamentals-beginners-guide' },
+            { label: 'Logic Builder', to: '/games/logic-builder' },
+            { label: 'Code Puzzle', to: '/games/code-puzzle' }
+        ],
+        'sql-challenge': [
+            { label: 'MySQL Quizzes', to: '/technologies/mysql' },
+            { label: 'MongoDB Quizzes', to: '/technologies/mongodb' },
+            { label: 'Laravel MVC Guide', to: '/blog/laravel-basics-mvc-architecture' },
+            { label: 'Find The Bug', to: '/games/find-the-bug' },
+            { label: 'Memory Match', to: '/games/memory-match' }
+        ],
+        'code-scramble': [
+            { label: 'Flutter Quizzes', to: '/technologies/flutter' },
+            { label: 'Python Quizzes', to: '/technologies/python' },
+            { label: 'Flutter & Dart Guide', to: '/blog/flutter-dart-mobile-app-development' },
+            { label: 'Code Puzzle', to: '/games/code-puzzle' },
+            { label: 'Missing Code', to: '/games/missing-code' }
+        ],
+        'missing-code': [
+            { label: 'PHP Quizzes', to: '/technologies/php' },
+            { label: 'Laravel Quizzes', to: '/technologies/laravel' },
+            { label: 'PHP Programming Guide', to: '/blog/php-programming-beginners-guide' },
+            { label: 'Find The Bug', to: '/games/find-the-bug' },
+            { label: 'Complete The Code', to: '/games/complete-the-code' }
+        ],
+        'logic-builder': [
+            { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' },
+            { label: 'Python Quizzes', to: '/technologies/python' },
+            { label: 'JavaScript Fundamentals', to: '/blog/javascript-fundamentals-beginners-guide' },
+            { label: 'Output Predictor', to: '/games/output-predictor' },
+            { label: 'Code Scramble', to: '/games/code-scramble' }
+        ],
+        'memory-match': [
+            { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' },
+            { label: 'React.js Quizzes', to: '/technologies/react' },
+            { label: 'HTML Tutorial', to: '/blog/html-tutorial-for-beginners' },
+            { label: 'Logic Builder', to: '/games/logic-builder' },
+            { label: 'Word Rain', to: '/games/word-rain' }
+        ]
+    };
+
+    if (gameCrossMap[slug]) return gameCrossMap[slug];
+
+    if (isCsharp) {
+        return [
+            { label: 'Programming Fundamentals & OOP', to: '/technologies/programming-fundamentals' },
+            { label: 'PHP & OOP Guide', to: '/blog/php-programming-beginners-guide' },
+            { label: 'Complete The Code', to: '/games/complete-the-code' },
+            { label: 'C# OOP Challenge', to: '/games/csharp-oop-challenge' },
+            { label: 'C# LINQ Challenge', to: '/games/csharp-linq-challenge' }
+        ].filter(item => item.to !== `/games/${slug}`);
+    }
+
+    if (isTyping) {
+        return [
+            { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
+            { label: 'Python Quizzes', to: '/technologies/python' },
+            { label: 'JavaScript Fundamentals', to: '/blog/javascript-fundamentals-beginners-guide' },
+            { label: 'Speed Typing', to: '/games/speed-typing' },
+            { label: 'Code Typing', to: '/games/code-typing' },
+            { label: '60-Second Challenge', to: '/games/sixty-second-challenge' },
+            { label: 'Syntax Typing', to: '/games/syntax-typing' }
+        ].filter(item => item.to !== `/games/${slug}`);
+    }
+
+    return [
+        { label: 'HTML Quizzes', to: '/technologies/html' },
+        { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
+        { label: 'Code Puzzle', to: '/games/code-puzzle' }
+    ];
+}
+
 // 1. Core Public Pages from SEO_PAGES_CONFIG
 const corePageKeys = [
     'home',
@@ -545,9 +662,11 @@ for (const key of corePageKeys) {
         description: config.description,
         h1: distinctH1,
         includeApplicationSchema: config.path === '/',
+        staticHeaderHtml: resolveStaticHeaderForPath(config.path),
+        staticFooterHtml: sharedStaticFooterHtml,
         bodyHtml:
             config.path === '/'
-                ? generateHomeBodyHtml({ ...config, h1: distinctH1 })
+                ? generateHomeBodyHtml({ ...config, h1: distinctH1 }, normalizedPublishedBlogArticles)
                 : generateBodyHtml({ ...config, h1: distinctH1 })
     };
 
@@ -580,7 +699,7 @@ const additionalPages = [
         ],
         internalLinks: [
             { label: 'Terms of Service', to: '/terms' },
-            { label: 'Delete Account', to: '/delete-account' },
+            { label: 'Delete Account', to: '/delete-account', rel: 'nofollow' },
             { label: 'About Hangbug', to: '/about' },
             { label: 'Contact Support', to: '/contact' }
         ]
@@ -605,7 +724,7 @@ const additionalPages = [
         ],
         internalLinks: [
             { label: 'Privacy Policy', to: '/privacy-policy' },
-            { label: 'Verify Certificates', to: '/certificate/view' },
+            { label: 'Verify Certificates', to: '/certificate/view', rel: 'nofollow' },
             { label: 'About Hangbug', to: '/about' },
             { label: 'Contact Support', to: '/contact' }
         ]
@@ -628,10 +747,11 @@ const additionalPages = [
             'Fair Play & Duplicate Submission Prevention'
         ],
         internalLinks: [
-            { label: 'Practice Technology Quizzes', to: '/technologies' },
-            { label: 'Play Coding Games', to: '/games' },
-            { label: 'Verify Certificate', to: '/certificate/view' },
-            { label: 'About Us', to: '/about' }
+            { label: 'HTML Quizzes', to: '/technologies/html' },
+            { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
+            { label: 'Code Puzzle', to: '/games/code-puzzle' },
+            { label: 'Developer Blog', to: '/blog' },
+            { label: 'Verify Certificate', to: '/certificate/view', rel: 'nofollow' }
         ]
     },
     {
@@ -680,11 +800,10 @@ const additionalPages = [
             'Developer Muscle Memory (Speed Typing, Code Typing, Syntax Typing)'
         ],
         internalLinks: [
-            { label: 'Play Code Puzzle', to: '/games/code-puzzle' },
-            { label: 'Play Find The Bug', to: '/games/find-the-bug' },
-            { label: 'Play SQL Challenge', to: '/games/sql-challenge' },
-            { label: 'Play Speed Typing', to: '/games/speed-typing' },
-            { label: 'Explore Technology Quizzes', to: '/technologies' }
+            ...GAMES_LIST.map(g => ({ label: `Play ${g.name}`, to: `/games/${g.slug}` })),
+            { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
+            { label: 'MySQL Quizzes', to: '/technologies/mysql' },
+            { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' }
         ]
     }
 ];
@@ -695,6 +814,8 @@ for (const p of additionalPages) {
         title: p.title,
         description: p.description,
         h1: p.h1,
+        staticHeaderHtml: resolveStaticHeaderForPath(p.path),
+        staticFooterHtml: sharedStaticFooterHtml,
         ...(p.robots ? { robots: p.robots } : {}),
         ...(p.omitCanonical ? { omitCanonical: true } : {}),
         bodyHtml: generateBodyHtml(p)
@@ -726,6 +847,8 @@ for (const slug of TECH_KEYS) {
         title: config.title,
         description: config.description,
         h1: distinctH1,
+        staticHeaderHtml: resolveStaticHeaderForPath(`/technologies/${slug}`),
+        staticFooterHtml: sharedStaticFooterHtml,
         bodyHtml: generateBodyHtml({
             ...config,
             h1: distinctH1,
@@ -748,6 +871,8 @@ for (const game of GAMES_LIST) {
         description: game.description,
         h1: game.h1,
         includeApplicationSchema: true,
+        staticHeaderHtml: resolveStaticHeaderForPath(`/games/${game.slug}`),
+        staticFooterHtml: sharedStaticFooterHtml,
         softwareApplication: {
             slug: game.slug,
             name: game.name,
@@ -771,11 +896,7 @@ for (const game of GAMES_LIST) {
                 'Keyboard Shortcuts & Fast-Flow Controls',
                 'Adaptive Difficulty & Progressive Challenges'
             ],
-            internalLinks: [
-                { label: 'All Developer Games', to: '/games' },
-                { label: 'Global Leaderboard', to: '/leaderboard' },
-                { label: 'Technology Quizzes', to: '/technologies' }
-            ]
+            internalLinks: resolveContextualLinksForGame(game)
         })
     };
 
@@ -788,16 +909,15 @@ for (const game of GAMES_LIST) {
 
 // 5. Pre-render Blog Index (/blog) & every valid published Blog Article (/blog/:slug) from MongoDB
 async function prerenderBlogSystem() {
-    await ensureMarkdownParser();
     // Clean any stale blog build artifacts so unpublished/deleted articles never persist
     const blogDistDir = path.join(DIST_DIR, 'blog');
     const blogDistFile = path.join(DIST_DIR, 'blog.html');
     fs.rmSync(blogDistDir, { recursive: true, force: true });
     fs.rmSync(blogDistFile, { force: true });
 
-    const { source, articles: fetchedArticles, unpublishedSlugs } = await fetchPublishedBlogPostsFromSource({
-        allowRemoteApiFallback: true
-    });
+    const source = blogSource;
+    const publishedArticles = fetchedBlogArticles;
+    const unpublishedSlugs = earlyUnpublishedSlugs;
 
     if (unpublishedSlugs.length > 0) {
         console.log(`ℹ Excluded ${unpublishedSlugs.length} unpublished blog article(s): ${unpublishedSlugs.join(', ')}`);
@@ -854,7 +974,7 @@ async function prerenderBlogSystem() {
     // 5b. Pre-render every valid published blog article
     for (const article of normalizedArticles) {
         const relatedArticles = findRelatedForArticle(article, normalizedArticles);
-        const renderedHtml = renderCompleteBlogArticleHtml(cleanSpaShell, article, relatedArticles);
+        const renderedHtml = renderCompleteBlogArticleHtml(cleanSpaShell, article, relatedArticles, normalizedArticles);
         writeStaticPage(`/blog/${article.slug}`, renderedHtml);
         const words = countWords(article.content || article.excerpt || '');
         console.log(`✓ Pre-rendered /blog/${article.slug.padEnd(36)} [Source: ${source} | Words: ${words}]`);

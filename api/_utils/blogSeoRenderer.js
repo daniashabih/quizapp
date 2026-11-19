@@ -607,29 +607,56 @@ function renderStaticNavbarHtml({ activeNav = 'blog' } = {}) {
     const blogLinkClass = activeNav === 'blog'
         ? 'px-3.5 py-1.5 rounded-lg bg-[var(--card-bg)] text-[#193D35] dark:text-emerald-300 border border-[var(--card-border)]'
         : 'px-3.5 py-1.5 rounded-lg text-[var(--foreground-secondary)] hover:text-[var(--foreground)]';
+    const techLinkClass = activeNav === 'technologies'
+        ? 'px-3.5 py-1.5 rounded-lg bg-[var(--card-bg)] text-[#193D35] dark:text-emerald-300 border border-[var(--card-border)]'
+        : 'px-3.5 py-1.5 rounded-lg text-[var(--foreground-secondary)] hover:text-[var(--foreground)]';
+    const gamesLinkClass = activeNav === 'games'
+        ? 'px-3.5 py-1.5 rounded-lg bg-[var(--card-bg)] text-[#193D35] dark:text-emerald-300 border border-[var(--card-border)]'
+        : 'px-3.5 py-1.5 rounded-lg text-[var(--foreground-secondary)] hover:text-[var(--foreground)]';
+    const leaderboardLinkClass = activeNav === 'leaderboard'
+        ? 'px-3.5 py-1.5 rounded-lg bg-[var(--card-bg)] text-[#193D35] dark:text-emerald-300 border border-[var(--card-border)]'
+        : 'px-3.5 py-1.5 rounded-lg text-[var(--foreground-secondary)] hover:text-[var(--foreground)]';
+    const homeLinkClass = activeNav === 'home'
+        ? 'px-3.5 py-1.5 rounded-lg bg-[var(--card-bg)] text-[#193D35] dark:text-emerald-300 border border-[var(--card-border)]'
+        : 'px-3.5 py-1.5 rounded-lg text-[var(--foreground-secondary)] hover:text-[var(--foreground)]';
     return `
       <header class="fixed top-0 left-0 right-0 z-50 bg-[var(--nav-bg)] backdrop-blur-md border-b border-[var(--card-border)]">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <a href="/" class="flex items-center gap-2 font-display font-extrabold text-lg text-[var(--foreground)]">
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <a href="/" aria-label="Hangbug Home" class="flex items-center gap-2 font-display font-extrabold text-lg text-[var(--foreground)]">
             <img src="/branding/hangbug-logo-compact.png" alt="HangBug developer platform logo" width="140" height="48" class="h-8 w-auto object-contain" />
           </a>
           <nav aria-label="Primary Navigation" class="hidden md:flex items-center gap-1 bg-[var(--muted-bg)]/80 p-1 rounded-xl border border-[var(--card-border)] text-xs font-semibold">
-            <a href="/" class="px-3.5 py-1.5 rounded-lg text-[var(--foreground-secondary)] hover:text-[var(--foreground)]">Home</a>
-            <a href="/technologies" class="px-3.5 py-1.5 rounded-lg text-[var(--foreground-secondary)] hover:text-[var(--foreground)]">Quizzes</a>
-            <a href="/games" class="px-3.5 py-1.5 rounded-lg text-[var(--foreground-secondary)] hover:text-[var(--foreground)]">Games</a>
+            <a href="/" class="${homeLinkClass}">Home</a>
+            <a href="/technologies" class="${techLinkClass}">Quizzes</a>
+            <a href="/games" class="${gamesLinkClass}">Games</a>
             <a href="/blog" class="${blogLinkClass}">Blog</a>
-            <a href="/leaderboard" class="px-3.5 py-1.5 rounded-lg text-[var(--foreground-secondary)] hover:text-[var(--foreground)]">Leaderboard</a>
+            <a href="/leaderboard" class="${leaderboardLinkClass}">Leaderboard</a>
           </nav>
-          <div class="flex items-center gap-2 text-xs font-semibold">
-            <a href="/login" class="px-3 py-1.5 rounded-xl text-[var(--foreground-secondary)] hover:text-[var(--foreground)]">Sign In</a>
-            <a href="/register" class="btn-primary text-xs py-2 px-4">Get Started</a>
-          </div>
-        </div>
+          <span class="flex items-center gap-2 text-xs font-semibold">
+            <a href="/login" rel="nofollow" class="px-3 py-1.5 rounded-xl text-[var(--foreground-secondary)] hover:text-[var(--foreground)]">Sign In</a>
+            <a href="/register" rel="nofollow" class="btn-primary text-xs py-2 px-4">Get Started</a>
+          </span>
+        </section>
       </header>`;
 }
 
-function renderStaticFooterHtml() {
+const DEFAULT_PUBLISHED_BLOG_LINKS = [
+    { slug: 'html-tutorial-for-beginners', label: 'HTML Tutorial' },
+    { slug: 'css-basics-beginners-guide', label: 'CSS Basics Guide' },
+    { slug: 'javascript-fundamentals-beginners-guide', label: 'JavaScript Fundamentals' },
+    { slug: 'php-programming-beginners-guide', label: 'PHP Programming Guide' },
+    { slug: 'laravel-basics-mvc-architecture', label: 'Laravel MVC Guide' },
+    { slug: 'flutter-dart-mobile-app-development', label: 'Flutter & Dart Guide' }
+];
+
+function renderStaticFooterHtml(publishedArticles = null) {
     const year = new Date().getFullYear();
+    const blogLinks = Array.isArray(publishedArticles) && publishedArticles.length > 0
+        ? publishedArticles
+            .filter(a => a && a.slug && a.isPublished !== false)
+            .slice(0, 10)
+            .map(a => ({ slug: a.slug, label: a.title || a.slug }))
+        : DEFAULT_PUBLISHED_BLOG_LINKS;
     return `
       <footer class="prerender-seo-footer w-full border-t border-[var(--card-border)] bg-[var(--card-bg)] pt-8 pb-6 px-4 sm:px-6 lg:px-8 shrink-0 mt-auto">
         <section class="max-w-7xl mx-auto space-y-6">
@@ -682,12 +709,7 @@ function renderStaticFooterHtml() {
               <p class="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Tutorials &amp; Guides</p>
               <ul class="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
                 <li><a href="/blog" class="hover:text-[var(--foreground)] font-semibold">All Blog Articles</a></li>
-                <li><a href="/blog/html-tutorial-for-beginners" class="hover:text-[var(--foreground)]">HTML Tutorial</a></li>
-                <li><a href="/blog/css-basics-beginners-guide" class="hover:text-[var(--foreground)]">CSS Basics Guide</a></li>
-                <li><a href="/blog/javascript-fundamentals-beginners-guide" class="hover:text-[var(--foreground)]">JavaScript Fundamentals</a></li>
-                <li><a href="/blog/php-programming-beginners-guide" class="hover:text-[var(--foreground)]">PHP Programming Guide</a></li>
-                <li><a href="/blog/laravel-basics-mvc-architecture" class="hover:text-[var(--foreground)]">Laravel MVC Guide</a></li>
-                <li><a href="/blog/flutter-dart-mobile-app-development" class="hover:text-[var(--foreground)]">Flutter &amp; Dart Guide</a></li>
+                ${blogLinks.map(b => `<li><a href="/blog/${escapeAttr(b.slug)}" class="hover:text-[var(--foreground)]">${escapeText(b.label)}</a></li>`).join('\n                ')}
               </ul>
             </section>
             <section class="space-y-2.5">
@@ -711,7 +733,7 @@ function renderStaticFooterHtml() {
       </footer>`;
 }
 
-function renderBlogDetailBodyHtml(article, relatedArticles = [], publishedSlugs = null) {
+function renderBlogDetailBodyHtml(article, relatedArticles = [], publishedSlugs = null, publishedArticles = null) {
     const category = article.category || 'Programming';
     const techPath = resolveTechQuizPath(article.category, article.relatedQuizCategory);
     const hasSpecificTech = techPath !== '/technologies';
@@ -840,7 +862,7 @@ function renderBlogDetailBodyHtml(article, relatedArticles = [], publishedSlugs 
         </section>` : ''}
       </main>
 
-      ${renderStaticFooterHtml()}
+      ${renderStaticFooterHtml(publishedArticles)}
     </div>`;
 }
 
@@ -949,7 +971,7 @@ function renderBlogListBodyHtml({ articles = [], featuredArticle = null, categor
         </section>
       </main>
 
-      ${renderStaticFooterHtml()}
+      ${renderStaticFooterHtml(validArticles)}
     </div>`;
 }
 
@@ -1118,10 +1140,13 @@ function applyHeadMetadata(baseHtml, {
     return html;
 }
 
-function renderCompleteBlogArticleHtml(baseHtml, article, relatedArticles = []) {
+function renderCompleteBlogArticleHtml(baseHtml, article, relatedArticles = [], publishedArticles = null) {
     const meta = buildArticleSeoMeta(article);
     const jsonLd = buildBlogArticleStructuredData(article);
-    const bodyHtml = renderBlogDetailBodyHtml(article, relatedArticles);
+    const publishedSlugSet = Array.isArray(publishedArticles) && publishedArticles.length > 0
+        ? new Set(publishedArticles.map(a => String(a && a.slug ? a.slug : '').toLowerCase()).filter(Boolean))
+        : null;
+    const bodyHtml = renderBlogDetailBodyHtml(article, relatedArticles, publishedSlugSet, publishedArticles);
 
     return applyHeadMetadata(baseHtml, {
         title: meta.title,
@@ -1201,20 +1226,30 @@ function deriveCategoriesFromArticles(articles = []) {
 function findRelatedForArticle(article, allPublished) {
     if (!article) return [];
     const artTags = Array.isArray(article.tags) ? article.tags : [];
-    return allPublished
+    const formatRel = (a) => ({
+        id: a.id,
+        slug: a.slug,
+        title: a.title,
+        excerpt: a.excerpt,
+        category: a.category,
+        readingTimeMinutes: a.readingTimeMinutes,
+        coverGradient: a.coverGradient,
+        publishedAt: a.publishedAt
+    });
+    const matched = allPublished
         .filter(a => a.slug !== article.slug && a.isPublished !== false)
         .filter(a => a.category === article.category || (Array.isArray(a.tags) && a.tags.some(t => artTags.includes(t))))
         .slice(0, 3)
-        .map(a => ({
-            id: a.id,
-            slug: a.slug,
-            title: a.title,
-            excerpt: a.excerpt,
-            category: a.category,
-            readingTimeMinutes: a.readingTimeMinutes,
-            coverGradient: a.coverGradient,
-            publishedAt: a.publishedAt
-        }));
+        .map(formatRel);
+    if (matched.length < 3) {
+        const seen = new Set([article.slug, ...matched.map(m => m.slug)]);
+        const fallback = allPublished
+            .filter(a => a.isPublished !== false && !seen.has(a.slug))
+            .slice(0, 3 - matched.length)
+            .map(formatRel);
+        return [...matched, ...fallback];
+    }
+    return matched;
 }
 
 async function fetchJsonWithTimeout(url, timeoutMs = 8000) {
@@ -1496,6 +1531,8 @@ module.exports = {
     buildBlogArticleStructuredData,
     buildBlogIndexStructuredData,
     renderMarkdownToHtml,
+    renderStaticNavbarHtml,
+    renderStaticFooterHtml,
     renderBlogDetailBodyHtml,
     renderBlogListBodyHtml,
     renderVisible404BodyHtml,
