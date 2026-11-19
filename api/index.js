@@ -70,7 +70,7 @@ app.use((req, res, next) => {
     if (!req.path.startsWith('/api') && req.path.length > 1 && req.path.endsWith('/')) {
         const query = req.url.slice(req.path.length);
         const safePath = '/' + req.path.slice(0, -1).replace(/^\/+/, '');
-        if (!safePath.startsWith('/blog/') && isKnownAppRoute(safePath)) {
+        if (isKnownAppRoute(safePath)) {
             return res.redirect(301, safePath + query);
         }
     }

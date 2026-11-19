@@ -2117,4 +2117,7 @@ const GameModel = {
     }
 };
 
+GameModel.INITIAL_GAMES = INITIAL_GAMES;
+GameModel.GAME_ALIASES = GAME_ALIASES;
+
 module.exports = GameModel;

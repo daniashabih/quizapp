@@ -2,6 +2,7 @@
   "buildCommand": "prisma generate && node scripts/generateSitemap.js && vite build && node scripts/prerenderPublicPages.mjs && node scripts/generateSitemap.js",
   "outputDirectory": "dist",
   "installCommand": "npm install",
+  "trailingSlash": false,
   "functions": {
     "api/index.js": {
       "includeFiles": "{api/**,dist/index.html,dist/404.html,node_modules/.prisma/client/**,node_modules/@prisma/client/**,prisma/**}"

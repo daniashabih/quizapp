@@ -31,7 +31,6 @@ export default function Footer() {
                             <li><Link to="/leaderboard" className="hover:text-[var(--foreground)] transition-colors">Global Leaderboard</Link></li>
                             <li><Link to="/certificate/view" className="hover:text-[var(--foreground)] transition-colors">Verify Certificate</Link></li>
                             <li><Link to="/blog" className="hover:text-[var(--foreground)] transition-colors">Blog &amp; Tutorials</Link></li>
-                            <li><Link to="/resources" className="hover:text-[var(--foreground)] transition-colors">Learning Resources</Link></li>
                             {user ? (
                                 <li><Link to="/dashboard" className="hover:text-[var(--foreground)] transition-colors">Developer Dashboard</Link></li>
                             ) : (

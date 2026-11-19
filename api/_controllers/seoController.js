@@ -977,7 +977,41 @@ async function resolveAppRoute(pathname) {
                 }
             }
         } catch {
-            // Fall through to known route check if DB check fails
+            // Fall through to model fallback / alias resolution if DB check fails
+        }
+
+        const GameModel = require('../_models/gameModel');
+        const aliasMeta = GameModel.GAME_ALIASES && GameModel.GAME_ALIASES[sub];
+        if (aliasMeta) {
+            const targetSlug = aliasMeta.baseSlug || sub;
+            return {
+                statusCode: 200,
+                noindex: false,
+                cleanPath: clean,
+                fromDb: false,
+                meta: {
+                    title: `${aliasMeta.title} — ${aliasMeta.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | Hangbug`,
+                    description: `${aliasMeta.description} Practice interactive coding challenges on Hangbug.`,
+                    canonicalPath: `/games/${targetSlug}`,
+                    h1: aliasMeta.title
+                }
+            };
+        }
+
+        const fallbackGame = (GameModel.INITIAL_GAMES || []).find(g => g.slug === sub && g.isPublished !== false);
+        if (fallbackGame) {
+            return {
+                statusCode: 200,
+                noindex: false,
+                cleanPath: `/games/${fallbackGame.slug}`,
+                fromDb: false,
+                meta: {
+                    title: `${fallbackGame.title} — ${fallbackGame.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | Hangbug`,
+                    description: `${fallbackGame.description} Practice interactive coding challenges on Hangbug.`,
+                    canonicalPath: `/games/${fallbackGame.slug}`,
+                    h1: fallbackGame.title
+                }
+            };
         }
     }
 

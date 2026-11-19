@@ -600,7 +600,6 @@ function renderStaticFooterHtml() {
                 <li><a href="/leaderboard" class="hover:text-[var(--foreground)]">Global Leaderboard</a></li>
                 <li><a href="/certificate/view" class="hover:text-[var(--foreground)]">Verify Certificate</a></li>
                 <li><a href="/blog" class="hover:text-[var(--foreground)]">Blog &amp; Tutorials</a></li>
-                <li><a href="/resources" class="hover:text-[var(--foreground)]">Learning Resources</a></li>
               </ul>
             </div>
             <div class="space-y-2.5">

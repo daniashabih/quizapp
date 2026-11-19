@@ -9,7 +9,6 @@
 - [Coding Games](https://www.hangbug.com/games): Interactive browser-based developer coding and typing challenges.
 - [Leaderboard](https://www.hangbug.com/leaderboard): Global developer rankings and quiz achievements.
 - [Verify Certificates](https://www.hangbug.com/certificate/view): Verify developer completion certificates by certificate ID.
-- [Learning Resources](https://www.hangbug.com/resources): Study roadmaps and guides for web and mobile developers.
 - [Blog & Tutorials](https://www.hangbug.com/blog): Software engineering tutorials, interview preparation, and best practices.
 
 ## Technology Quiz Tracks

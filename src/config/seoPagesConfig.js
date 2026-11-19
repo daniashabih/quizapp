@@ -136,6 +136,7 @@ export const SEO_PAGES_CONFIG = {
         introContent: 'Strengthen your foundation in modern web markup with Hangbug HTML quizzes and interactive syntax challenges. Test your understanding of semantic HTML5 tags, accessible form controls, SEO-friendly heading hierarchies, and document structure through guided practice sessions and bug-spotting games.',
         imageAlt: 'HTML5 semantic markup quiz and frontend coding practice emblem on Hangbug',
         internalLinks: [
+            { label: 'HTML Beginners Tutorial', to: '/blog/html-tutorial-for-beginners' },
             { label: 'CSS Quizzes', to: '/technologies/css' },
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
             { label: 'React.js Quizzes', to: '/technologies/react' },
@@ -177,6 +178,7 @@ export const SEO_PAGES_CONFIG = {
         introContent: 'Master stylesheet architecture and responsive layout engineering with Hangbug CSS quizzes and interactive coding games. Practice evaluating selector specificity, aligning elements with Flexbox and CSS Grid, and debugging common box-model and positioning issues.',
         imageAlt: 'CSS3 stylesheet layout, Flexbox, and Grid quiz badge on Hangbug',
         internalLinks: [
+            { label: 'CSS Basics Beginners Guide', to: '/blog/css-basics-beginners-guide' },
             { label: 'HTML Quizzes', to: '/technologies/html' },
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
             { label: 'React.js Quizzes', to: '/technologies/react' },
@@ -299,6 +301,7 @@ export const SEO_PAGES_CONFIG = {
         introContent: 'Sharpen your backend web development skills with Hangbug PHP quizzes and interactive debugging challenges. Practice core language syntax, associative array manipulation, session management, object-oriented PHP patterns, and secure database querying.',
         imageAlt: 'PHP backend server-side scripting quiz and coding challenge icon on Hangbug',
         internalLinks: [
+            { label: 'PHP Programming Guide', to: '/blog/php-programming-beginners-guide' },
             { label: 'Laravel Quizzes', to: '/technologies/laravel' },
             { label: 'MySQL Quizzes', to: '/technologies/mysql' },
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
@@ -339,6 +342,7 @@ export const SEO_PAGES_CONFIG = {
         introContent: 'Build confidence with modern PHP application architecture through Hangbug Laravel practice and interactive coding games. Explore routing conventions, controller validation, Eloquent ORM queries, database migrations, and Blade component structuring.',
         imageAlt: 'Laravel MVC framework and Eloquent ORM quiz badge on Hangbug',
         internalLinks: [
+            { label: 'Laravel MVC Guide', to: '/blog/laravel-basics-mvc-architecture' },
             { label: 'PHP Quizzes', to: '/technologies/php' },
             { label: 'MySQL Quizzes', to: '/technologies/mysql' },
             { label: 'Play Laravel Code Puzzle', to: '/games/code-puzzle?tech=laravel' },
@@ -459,6 +463,7 @@ export const SEO_PAGES_CONFIG = {
         introContent: 'Practice building declarative, cross-platform user interfaces with Hangbug Flutter coding challenges and quiz tracks. Test your understanding of widget composition, build contexts, layout constraints, state lifecycle methods, and asynchronous UI rendering.',
         imageAlt: 'Flutter cross-platform mobile widget tree practice icon on Hangbug',
         internalLinks: [
+            { label: 'Flutter & Dart App Guide', to: '/blog/flutter-dart-mobile-app-development' },
             { label: 'Dart Quizzes', to: '/technologies/dart' },
             { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' },
             { label: 'Play Flutter Code Puzzle', to: '/games/code-puzzle?tech=flutter' },
@@ -499,6 +504,7 @@ export const SEO_PAGES_CONFIG = {
         introContent: 'Build fluency in the client-optimized language powering Flutter with Hangbug Dart practice and interactive coding games. Work through real Dart snippets involving null-aware operators, Future and Stream pipelines, object-oriented mixins, and collection transformations.',
         imageAlt: 'Dart programming language and null-safe async coding badge on Hangbug',
         internalLinks: [
+            { label: 'Flutter & Dart App Guide', to: '/blog/flutter-dart-mobile-app-development' },
             { label: 'Flutter Quizzes', to: '/technologies/flutter' },
             { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' },
             { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
