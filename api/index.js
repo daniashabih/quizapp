@@ -144,6 +144,7 @@ app.get('/llms-full.txt', (req, res) => {
 
 // Technical SEO 301 Canonical Redirects
 app.get('/privacy', (req, res) => res.redirect(301, '/privacy-policy'));
+app.get('/resources', (req, res) => res.redirect(301, '/blog'));
 app.get('/account-deletion', (req, res) => res.redirect(301, '/delete-account'));
 app.get('/data-deletion', (req, res) => res.redirect(301, '/delete-account'));
 app.get('/quizzes', (req, res) => res.redirect(301, '/technologies'));

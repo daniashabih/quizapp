@@ -14,30 +14,43 @@ const {
 const BASE_URL = 'https://www.hangbug.com';
 const ROOT_DIR = path.resolve(__dirname, '../..');
 
+const CORE_PUBLIC_ROUTES = [
+    { loc: '/', changefreq: 'daily', priority: '1.0', lastmod: '2026-11-17T13:34:27.000Z' },
+    { loc: '/technologies', changefreq: 'daily', priority: '0.9', lastmod: '2026-11-18T12:28:38.000Z' },
+    { loc: '/games', changefreq: 'daily', priority: '0.9', lastmod: '2026-11-17T15:52:06.672Z' },
+    { loc: '/leaderboard', changefreq: 'daily', priority: '0.8', lastmod: '2026-11-13T14:09:48.000Z' },
+    { loc: '/about', changefreq: 'monthly', priority: '0.7', lastmod: '2026-11-10T14:11:47.000Z' },
+    { loc: '/contact', changefreq: 'monthly', priority: '0.7', lastmod: '2026-11-13T14:09:48.000Z' },
+    { loc: '/privacy-policy', changefreq: 'monthly', priority: '0.6', lastmod: '2026-11-13T14:51:33.000Z' },
+    { loc: '/terms', changefreq: 'monthly', priority: '0.6', lastmod: '2026-11-10T14:11:47.000Z' },
+    { loc: '/blog', changefreq: 'daily', priority: '0.9', lastmod: '2026-11-18T17:14:26.781Z' }
+];
+
+const TECHNOLOGY_GUIDE_CONFIGS = [
+    { slug: 'html', matchers: ['html', 'html & css'], defaultPopulated: true, fallbackLastmod: '2026-11-10T13:23:06.010Z' },
+    { slug: 'css', matchers: ['css', 'html & css'], defaultPopulated: false, fallbackLastmod: '2026-11-18T12:28:38.000Z' },
+    { slug: 'javascript', matchers: ['javascript', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
+    { slug: 'react', matchers: ['react.js', 'react'], defaultPopulated: true, fallbackLastmod: '2026-11-19T11:52:22.776Z' },
+    { slug: 'php', matchers: ['php', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
+    { slug: 'laravel', matchers: ['laravel', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
+    { slug: 'mysql', matchers: ['mysql', 'sql', 'sql server', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
+    { slug: 'mongodb', matchers: ['mongodb', 'mongo db'], defaultPopulated: true, fallbackLastmod: '2026-11-19T11:52:22.776Z' },
+    { slug: 'flutter', matchers: ['flutter'], defaultPopulated: false, fallbackLastmod: '2026-11-18T12:28:38.000Z' },
+    { slug: 'dart', matchers: ['dart'], defaultPopulated: true, fallbackLastmod: '2026-11-11T12:35:09.075Z' },
+    { slug: 'python', matchers: ['python'], defaultPopulated: true, fallbackLastmod: '2026-08-18T11:28:57.074Z' },
+    { slug: 'programming-fundamentals', matchers: ['programming fundamentals', 'programming logic', 'oop', 'dsa'], defaultPopulated: false, fallbackLastmod: '2026-11-18T12:28:38.000Z' }
+];
+
 const PUBLIC_ROUTES = [
-    { loc: '/', changefreq: 'daily', priority: '1.0' },
-    { loc: '/technologies', changefreq: 'daily', priority: '0.9' },
-    { loc: '/games', changefreq: 'daily', priority: '0.9' },
-    { loc: '/leaderboard', changefreq: 'daily', priority: '0.8' },
-    { loc: '/about', changefreq: 'monthly', priority: '0.7' },
-    { loc: '/contact', changefreq: 'monthly', priority: '0.7' },
-    { loc: '/privacy-policy', changefreq: 'monthly', priority: '0.6' },
-    { loc: '/terms', changefreq: 'monthly', priority: '0.6' },
-    { loc: '/certificate/view', changefreq: 'monthly', priority: '0.7' },
-    { loc: '/blog', changefreq: 'daily', priority: '0.9' },
-    { loc: '/resources', changefreq: 'monthly', priority: '0.7' },
-    { loc: '/technologies/html', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/css', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/javascript', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/react', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/php', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/laravel', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/mysql', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/mongodb', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/flutter', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/dart', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/python', changefreq: 'weekly', priority: '0.8' },
-    { loc: '/technologies/programming-fundamentals', changefreq: 'weekly', priority: '0.8' }
+    ...CORE_PUBLIC_ROUTES,
+    ...TECHNOLOGY_GUIDE_CONFIGS
+        .filter(t => t.defaultPopulated)
+        .map(t => ({
+            loc: `/technologies/${t.slug}`,
+            changefreq: 'weekly',
+            priority: '0.8',
+            lastmod: t.fallbackLastmod
+        }))
 ];
 
 const GAME_SLUGS = [
@@ -54,14 +67,34 @@ const GAME_SLUGS = [
     'sixty-second-challenge',
     'error-free-typing',
     'syntax-typing',
-    'word-rain',
+    'word-rain'
+];
+
+const RUNTIME_EXTRA_GAME_SLUGS = new Set([
     'csharp-oop-challenge',
     'csharp-collections-challenge',
     'csharp-linq-challenge',
     'csharp-exception-handling',
     'complete-the-code',
     'csharp-quiz-challenge'
-];
+]);
+
+const DEFAULT_GAME_LASTMODS = {
+    'code-puzzle': '2026-11-19T09:31:24.862Z',
+    'find-the-bug': '2026-11-19T09:32:03.978Z',
+    'output-predictor': '2026-11-10T19:39:12.387Z',
+    'code-scramble': '2026-11-02T10:06:19.372Z',
+    'missing-code': '2026-11-02T10:06:19.372Z',
+    'logic-builder': '2026-11-02T10:06:19.372Z',
+    'sql-challenge': '2026-11-02T10:06:19.372Z',
+    'memory-match': '2026-11-10T19:40:09.568Z',
+    'speed-typing': '2026-11-07T13:43:42.301Z',
+    'code-typing': '2026-11-02T10:06:19.372Z',
+    'sixty-second-challenge': '2026-11-07T13:45:08.860Z',
+    'error-free-typing': '2026-11-02T10:06:19.372Z',
+    'syntax-typing': '2026-11-06T12:31:24.352Z',
+    'word-rain': '2026-11-17T15:52:06.672Z'
+};
 
 const BLOG_SLUGS = [
     'html-tutorial-for-beginners',
@@ -69,35 +102,225 @@ const BLOG_SLUGS = [
     'javascript-fundamentals-beginners-guide',
     'php-programming-beginners-guide',
     'laravel-basics-mvc-architecture',
-    'flutter-dart-mobile-app-development',
-    'csharp-programming-beginners-guide',
-    'mysql-database-tutorial-beginners',
-    'programming-interview-questions-beginners',
-    'improve-programming-skills-coding-practice'
+    'flutter-dart-mobile-app-development'
 ];
 
-function buildSitemapXml(extraSlugs = [], extraBlogSlugs = [], options = {}) {
-    const today = new Date().toISOString().split('T')[0];
-    const mergedSlugs = Array.from(
-        new Set(
-            [...GAME_SLUGS, ...(Array.isArray(extraSlugs) ? extraSlugs : [])]
-                .filter(slug => slug && slug !== 'coding-memory-match')
-        )
+const DEFAULT_BLOG_LASTMODS = {
+    'html-tutorial-for-beginners': '2026-11-18T17:14:26.781Z',
+    'css-basics-beginners-guide': '2026-11-18T11:20:16.158Z',
+    'javascript-fundamentals-beginners-guide': '2026-11-18T11:20:14.512Z',
+    'php-programming-beginners-guide': '2026-11-18T11:20:16.092Z',
+    'laravel-basics-mvc-architecture': '2026-11-18T11:20:16.347Z',
+    'flutter-dart-mobile-app-development': '2026-11-18T11:20:14.814Z'
+};
+
+const REDIRECT_OR_EXCLUDED_SITEMAP_PATHS = new Set([
+    '/resources',
+    '/privacy',
+    '/account-deletion',
+    '/data-deletion',
+    '/quizzes',
+    '/quiz',
+    '/technologies/level',
+    '/technologies/reactjs',
+    '/technologies/react.js',
+    '/technologies/js',
+    '/technologies/html5',
+    '/technologies/css3',
+    '/technologies/fundamentals',
+    '/technologies/programming-logic',
+    '/games/coding-memory-match',
+    '/games/csharp-complete-the-code',
+    '/games/complete-the-code-csharp',
+    '/seo',
+    '/admin/seo',
+    '/certificates',
+    '/profile',
+    '/settings'
+]);
+
+function escapeXml(value) {
+    return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+}
+
+function toIsoLastmod(value, fallback = '2026-11-18T12:00:00.000Z') {
+    if (value) {
+        const parsed = new Date(value);
+        if (!Number.isNaN(parsed.getTime())) {
+            return parsed.toISOString();
+        }
+    }
+    if (fallback) {
+        const parsedFallback = new Date(fallback);
+        if (!Number.isNaN(parsedFallback.getTime())) {
+            return parsedFallback.toISOString();
+        }
+    }
+    return '2026-11-18T12:00:00.000Z';
+}
+
+function resolvePopulatedTechnologyRoutes(categoriesWithStats = []) {
+    if (!Array.isArray(categoriesWithStats) || categoriesWithStats.length === 0) {
+        return TECHNOLOGY_GUIDE_CONFIGS
+            .filter(t => t.defaultPopulated)
+            .map(t => ({
+                loc: `/technologies/${t.slug}`,
+                changefreq: 'weekly',
+                priority: '0.8',
+                lastmod: t.fallbackLastmod
+            }));
+    }
+
+    const activeCategories = categoriesWithStats.filter(
+        c => c && c.isEnabled !== false && Number(c.questionCount || 0) > 0
     );
-    const mergedBlogSlugs = Array.isArray(options?.blogSlugsOverride)
-        ? Array.from(new Set(options.blogSlugsOverride.filter(Boolean)))
+
+    const routes = [];
+    for (const guide of TECHNOLOGY_GUIDE_CONFIGS) {
+        const matched = activeCategories.filter(cat => {
+            const cName = String(cat.name || '').toLowerCase();
+            return guide.matchers.some(m => cName === m || cName.includes(m));
+        });
+        if (matched.length === 0) continue;
+
+        let latestMs = 0;
+        for (const cat of matched) {
+            const ts = cat.latestQuestionAt || cat.updatedAt || cat.createdAt;
+            if (ts) {
+                const ms = new Date(ts).getTime();
+                if (!Number.isNaN(ms) && ms > latestMs) latestMs = ms;
+            }
+        }
+
+        routes.push({
+            loc: `/technologies/${guide.slug}`,
+            changefreq: 'weekly',
+            priority: '0.8',
+            lastmod: latestMs > 0 ? new Date(latestMs).toISOString() : guide.fallbackLastmod
+        });
+    }
+    return routes;
+}
+
+function buildSitemapXml(extraSlugs = [], extraBlogSlugs = [], options = {}) {
+    const routeLastmodOverrides = options?.routeLastmodOverrides || {};
+
+    const techRoutes = Array.isArray(options?.techEntriesOverride)
+        ? options.techEntriesOverride
+        : Array.isArray(options?.categoriesWithStats)
+            ? resolvePopulatedTechnologyRoutes(options.categoriesWithStats)
+            : TECHNOLOGY_GUIDE_CONFIGS
+                  .filter(t => t.defaultPopulated)
+                  .map(t => ({
+                      loc: `/technologies/${t.slug}`,
+                      changefreq: 'weekly',
+                      priority: '0.8',
+                      lastmod: t.fallbackLastmod
+                  }));
+
+    const gameEntries = Array.isArray(options?.gameEntriesOverride)
+        ? options.gameEntriesOverride
+              .filter(g => g && g.slug && !GAME_ALIAS_SLUGS.has(String(g.slug).toLowerCase()))
+              .map(g => ({
+                  slug: String(g.slug).trim().toLowerCase(),
+                  lastmod: toIsoLastmod(g.updatedAt || g.createdAt, DEFAULT_GAME_LASTMODS[g.slug] || '2026-11-02T10:06:19.372Z')
+              }))
         : Array.from(
               new Set(
-                  [...BLOG_SLUGS, ...(Array.isArray(extraBlogSlugs) ? extraBlogSlugs : [])]
-                      .filter(Boolean)
+                  [...GAME_SLUGS, ...(Array.isArray(extraSlugs) ? extraSlugs : [])]
+                      .map(s => String(s || '').trim().toLowerCase())
+                      .filter(slug => slug && !GAME_ALIAS_SLUGS.has(slug))
               )
-          );
+          ).map(slug => ({
+              slug,
+              lastmod: DEFAULT_GAME_LASTMODS[slug] || '2026-11-02T10:06:19.372Z'
+          }));
 
-    const urls = [
-        ...PUBLIC_ROUTES.map(r => `  <url>\n    <loc>${BASE_URL}${r.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${r.changefreq}</changefreq>\n    <priority>${r.priority}</priority>\n  </url>`),
-        ...mergedSlugs.map(slug => `  <url>\n    <loc>${BASE_URL}/games/${slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`),
-        ...mergedBlogSlugs.map(slug => `  <url>\n    <loc>${BASE_URL}/blog/${slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`)
+    const blogEntries = Array.isArray(options?.blogEntriesOverride)
+        ? options.blogEntriesOverride
+              .filter(b => b && b.slug)
+              .map(b => ({
+                  slug: String(b.slug).trim().toLowerCase(),
+                  lastmod: toIsoLastmod(b.updatedAt || b.publishedAt || b.createdAt, DEFAULT_BLOG_LASTMODS[b.slug] || '2026-11-18T11:20:16.000Z')
+              }))
+        : Array.isArray(options?.blogSlugsOverride)
+            ? Array.from(new Set(options.blogSlugsOverride.filter(Boolean))).map(slug => ({
+                  slug: String(slug).trim().toLowerCase(),
+                  lastmod: DEFAULT_BLOG_LASTMODS[slug] || '2026-11-18T11:20:16.000Z'
+              }))
+            : Array.from(
+                  new Set(
+                      [...BLOG_SLUGS, ...(Array.isArray(extraBlogSlugs) ? extraBlogSlugs : [])]
+                          .map(s => String(s || '').trim().toLowerCase())
+                          .filter(Boolean)
+                  )
+              ).map(slug => ({
+                  slug,
+                  lastmod: DEFAULT_BLOG_LASTMODS[slug] || '2026-11-18T11:20:16.000Z'
+              }));
+
+    // Derive aggregate hub lastmods from actual content if not explicitly overridden
+    const latestGameMs = gameEntries.reduce((max, g) => Math.max(max, new Date(g.lastmod).getTime() || 0), 0);
+    const latestBlogMs = blogEntries.reduce((max, b) => Math.max(max, new Date(b.lastmod).getTime() || 0), 0);
+    const latestTechMs = techRoutes.reduce((max, t) => Math.max(max, new Date(t.lastmod).getTime() || 0), 0);
+
+    const resolvedCoreRoutes = CORE_PUBLIC_ROUTES.map(r => {
+        let lastmod = routeLastmodOverrides[r.loc] || r.lastmod;
+        if (!routeLastmodOverrides[r.loc]) {
+            if (r.loc === '/games' && latestGameMs > 0) {
+                lastmod = new Date(latestGameMs).toISOString();
+            } else if (r.loc === '/blog' && latestBlogMs > 0) {
+                lastmod = new Date(latestBlogMs).toISOString();
+            } else if (r.loc === '/technologies' && latestTechMs > 0) {
+                lastmod = new Date(latestTechMs).toISOString();
+            }
+        }
+        return { ...r, lastmod: toIsoLastmod(lastmod, r.lastmod) };
+    });
+
+    const rawEntries = [
+        ...resolvedCoreRoutes,
+        ...techRoutes.map(t => ({
+            loc: t.loc,
+            lastmod: toIsoLastmod(t.lastmod),
+            changefreq: t.changefreq || 'weekly',
+            priority: t.priority || '0.8'
+        })),
+        ...gameEntries.map(g => ({
+            loc: `/games/${g.slug}`,
+            lastmod: toIsoLastmod(g.lastmod),
+            changefreq: 'weekly',
+            priority: '0.8'
+        })),
+        ...blogEntries.map(b => ({
+            loc: `/blog/${b.slug}`,
+            lastmod: toIsoLastmod(b.lastmod),
+            changefreq: 'weekly',
+            priority: '0.8'
+        }))
     ];
+
+    const seenLocs = new Set();
+    const urls = [];
+    for (const entry of rawEntries) {
+        const cleanPath = normalizePathname(entry.loc);
+        if (!cleanPath) continue;
+        if (REDIRECT_OR_EXCLUDED_SITEMAP_PATHS.has(cleanPath)) continue;
+        if (isNoindexAppRoute(cleanPath)) continue;
+
+        const fullLoc = `${BASE_URL}${cleanPath === '/' ? '/' : cleanPath}`;
+        if (seenLocs.has(fullLoc)) continue;
+        seenLocs.add(fullLoc);
+
+        urls.push(
+            `  <url>\n    <loc>${escapeXml(fullLoc)}</loc>\n    <lastmod>${escapeXml(entry.lastmod)}</lastmod>\n    <changefreq>${escapeXml(entry.changefreq)}</changefreq>\n    <priority>${escapeXml(entry.priority)}</priority>\n  </url>`
+        );
+    }
 
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
 }
@@ -147,41 +370,103 @@ Sitemap: ${BASE_URL}/sitemap.xml
 }
 
 async function getDynamicSitemap(req, res) {
-    let extraSlugs = [];
-    let extraBlogSlugs = [];
-    let blogSlugsOverride = null;
+    let gameEntriesOverride = null;
+    let blogEntriesOverride = null;
+    let categoriesWithStats = null;
+
     try {
         if (isMongoUriConfigured(process.env.MONGODB_URI)) {
             const prisma = require('../_config/prisma');
             if (prisma) {
-                if (prisma.game) {
-                    const dbGames = await Promise.race([
-                        prisma.game.findMany({ where: { isPublished: true }, select: { slug: true } }),
-                        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
-                    ]);
-                    if (Array.isArray(dbGames)) {
-                        extraSlugs = dbGames.map(g => g.slug).filter(Boolean);
+                if (prisma.game && typeof prisma.game.findMany === 'function') {
+                    try {
+                        const gameQueries = [
+                            typeof prisma.game.count === 'function' ? prisma.game.count() : Promise.resolve(null),
+                            prisma.game.findMany({
+                                where: { isPublished: true },
+                                select: { slug: true, updatedAt: true, createdAt: true },
+                                orderBy: { order: 'asc' }
+                            })
+                        ];
+                        const [totalGames, dbGames] = await Promise.race([
+                            Promise.all(gameQueries),
+                            new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2500))
+                        ]);
+                        if ((totalGames === null || totalGames > 0) && Array.isArray(dbGames) && (totalGames !== null || dbGames.length > 0)) {
+                            gameEntriesOverride = dbGames.filter(g => g && g.slug);
+                        }
+                    } catch {
+                        // Fallback to default game slugs
                     }
                 }
-                if (prisma.blogPost) {
-                    const [totalBlogs, dbBlogPosts] = await Promise.race([
-                        Promise.all([
-                            prisma.blogPost.count(),
-                            prisma.blogPost.findMany({ where: { isPublished: true }, select: { slug: true } })
-                        ]),
-                        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2000))
-                    ]);
-                    if (totalBlogs > 0 && Array.isArray(dbBlogPosts)) {
-                        blogSlugsOverride = dbBlogPosts.map(b => b.slug).filter(Boolean);
+                if (prisma.blogPost && typeof prisma.blogPost.findMany === 'function') {
+                    try {
+                        const [totalBlogs, dbBlogPosts] = await Promise.race([
+                            Promise.all([
+                                typeof prisma.blogPost.count === 'function' ? prisma.blogPost.count() : Promise.resolve(1),
+                                prisma.blogPost.findMany({
+                                    where: { isPublished: true },
+                                    select: { slug: true, updatedAt: true, publishedAt: true, createdAt: true },
+                                    orderBy: [{ order: 'asc' }, { publishedAt: 'desc' }]
+                                })
+                            ]),
+                            new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2500))
+                        ]);
+                        if (totalBlogs > 0 && Array.isArray(dbBlogPosts)) {
+                            blogEntriesOverride = dbBlogPosts.filter(b => b && b.slug);
+                        }
+                    } catch {
+                        // Fallback to default blog slugs
+                    }
+                }
+                if (prisma.category && prisma.question && typeof prisma.category.findMany === 'function' && typeof prisma.question.groupBy === 'function') {
+                    try {
+                        const [cats, qStats] = await Promise.race([
+                            Promise.all([
+                                prisma.category.findMany(),
+                                prisma.question.groupBy({
+                                    by: ['category'],
+                                    _count: { id: true },
+                                    _max: { createdAt: true }
+                                })
+                            ]),
+                            new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2500))
+                        ]);
+                        if (Array.isArray(cats) && Array.isArray(qStats)) {
+                            const qMap = new Map(
+                                qStats.map(q => [
+                                    String(q.category || '').toLowerCase(),
+                                    {
+                                        count: q._count?.id || 0,
+                                        latestQuestionAt: q._max?.createdAt || null
+                                    }
+                                ])
+                            );
+                            categoriesWithStats = cats.map(c => {
+                                const stat = qMap.get(String(c.name || '').toLowerCase());
+                                return {
+                                    name: c.name,
+                                    isEnabled: c.isEnabled !== false,
+                                    questionCount: stat ? stat.count : 0,
+                                    latestQuestionAt: stat ? stat.latestQuestionAt : null
+                                };
+                            });
+                        }
+                    } catch {
+                        // Fallback to default populated technology routes
                     }
                 }
             }
         }
     } catch {
-        // Fallback to static GAME_SLUGS and BLOG_SLUGS if DB is offline
+        // Fallback to deterministic defaults if DB is offline
     }
 
-    const xml = buildSitemapXml(extraSlugs, extraBlogSlugs, { blogSlugsOverride });
+    const xml = buildSitemapXml([], [], {
+        gameEntriesOverride,
+        blogEntriesOverride,
+        categoriesWithStats
+    });
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=43200');
     return res.status(200).send(xml);
@@ -214,7 +499,6 @@ const KNOWN_EXACT_ROUTES = new Set([
     '/technologies',
     '/games',
     '/blog',
-    '/resources',
     '/leaderboard',
     '/leaderboard/full',
     '/about',
@@ -351,7 +635,7 @@ function isKnownAppRoute(pathname) {
         const sub = clean.slice('/games/'.length);
         if (!sub || sub.includes('/')) return false;
         const lower = sub.toLowerCase();
-        return GAME_SLUGS.includes(lower) || GAME_ALIAS_SLUGS.has(lower);
+        return GAME_SLUGS.includes(lower) || RUNTIME_EXTRA_GAME_SLUGS.has(lower) || GAME_ALIAS_SLUGS.has(lower);
     }
     if (clean.startsWith('/blog/')) {
         const sub = clean.slice('/blog/'.length);
@@ -645,35 +929,38 @@ async function resolveAppRoute(pathname) {
         };
     }
 
-    if (isKnownAppRoute(clean)) {
-        return {
-            statusCode: 200,
-            noindex: isNoindexAppRoute(clean),
-            cleanPath: clean,
-            meta: null
-        };
-    }
-
-    // Dynamic DB check for newly created published games
-    try {
-        if (isMongoUriConfigured(process.env.MONGODB_URI)) {
-            const prisma = require('../_config/prisma');
-            if (prisma && clean.startsWith('/games/')) {
-                const sub = clean.slice('/games/'.length).toLowerCase();
-                if (sub && !sub.includes('/') && prisma.game) {
+    // Check DB first for /games/:slug so unpublished DB games return 404 and dynamic DB games work
+    if (clean.startsWith('/games/')) {
+        const sub = clean.slice('/games/'.length).toLowerCase();
+        if (!sub || sub.includes('/')) {
+            return { statusCode: 404, noindex: true, cleanPath: clean };
+        }
+        try {
+            if (isMongoUriConfigured(process.env.MONGODB_URI)) {
+                const prisma = require('../_config/prisma');
+                if (prisma && prisma.game) {
                     const game = await withTimeout(
                         prisma.game.findFirst({
-                            where: { slug: sub, isPublished: true },
+                            where: { slug: sub },
                             select: {
                                 slug: true,
                                 title: true,
                                 description: true,
-                                category: true
+                                category: true,
+                                isPublished: true
                             }
                         })
                     ).catch(() => null);
 
                     if (game) {
+                        if (game.isPublished !== true) {
+                            return {
+                                statusCode: 404,
+                                noindex: true,
+                                cleanPath: clean,
+                                fromDb: true
+                            };
+                        }
                         return {
                             statusCode: 200,
                             noindex: false,
@@ -689,9 +976,18 @@ async function resolveAppRoute(pathname) {
                     }
                 }
             }
+        } catch {
+            // Fall through to known route check if DB check fails
         }
-    } catch {
-        // Safe fallback to 404 when slug is unknown and DB check fails
+    }
+
+    if (isKnownAppRoute(clean)) {
+        return {
+            statusCode: 200,
+            noindex: isNoindexAppRoute(clean),
+            cleanPath: clean,
+            meta: null
+        };
     }
 
     return {
@@ -790,11 +1086,16 @@ function renderStatusHtml(resolution = { statusCode: 404, noindex: true }) {
 
 module.exports = {
     BASE_URL,
+    CORE_PUBLIC_ROUTES,
     PUBLIC_ROUTES,
+    TECHNOLOGY_GUIDE_CONFIGS,
     GAME_SLUGS,
+    RUNTIME_EXTRA_GAME_SLUGS,
     GAME_ALIAS_SLUGS,
     BLOG_SLUGS,
     TECH_SLUGS,
+    resolvePopulatedTechnologyRoutes,
+    toIsoLastmod,
     buildSitemapXml,
     buildRobotsTxt,
     getDynamicSitemap,

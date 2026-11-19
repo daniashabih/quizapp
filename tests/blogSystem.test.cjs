@@ -81,10 +81,10 @@ test('5. Blog Model: getFeaturedArticle() returns featured article', async () =>
     assert.ok(featured.title);
 });
 
-test('6. Technical SEO & Sitemap: buildSitemapXml includes /blog and all 10 article URLs', () => {
+test('6. Technical SEO & Sitemap: buildSitemapXml includes /blog and published article URLs while excluding redirected /resources', () => {
     const xml = buildSitemapXml();
     assert.ok(xml.includes('<loc>https://www.hangbug.com/blog</loc>'), 'Sitemap must contain /blog');
-    assert.ok(xml.includes('<loc>https://www.hangbug.com/resources</loc>'), 'Sitemap must contain /resources');
+    assert.ok(!xml.includes('<loc>https://www.hangbug.com/resources</loc>'), 'Sitemap must NOT contain redirected /resources');
 
     for (const slug of BLOG_SLUGS) {
         assert.ok(
@@ -94,22 +94,19 @@ test('6. Technical SEO & Sitemap: buildSitemapXml includes /blog and all 10 arti
     }
 });
 
-test('7. Technical SEO: isKnownAppRoute recognizes /blog and article slugs', () => {
+test('7. Technical SEO: isKnownAppRoute recognizes /blog and published article slugs', () => {
     assert.strictEqual(isKnownAppRoute('/blog'), true);
     assert.strictEqual(isKnownAppRoute('/blog/'), true);
-    assert.strictEqual(isKnownAppRoute('/resources'), true);
     assert.strictEqual(isKnownAppRoute('/blog/html-tutorial-for-beginners'), true);
     assert.strictEqual(isKnownAppRoute('/blog/javascript-fundamentals-beginners-guide'), true);
-    assert.strictEqual(isKnownAppRoute('/blog/random-slug-article'), true);
     assert.strictEqual(isKnownAppRoute('/invalid/deep/unknown/path'), false);
 });
 
-test('8. Sitemap Synchronization: public/sitemap.xml and dist/sitemap.xml contain all blog articles', () => {
+test('8. Sitemap Synchronization: public/sitemap.xml and dist/sitemap.xml contain published blog articles', () => {
     const publicSitemap = fs.readFileSync(path.join(__dirname, '..', 'public', 'sitemap.xml'), 'utf8');
     assert.ok(publicSitemap.includes('https://www.hangbug.com/blog'));
     assert.ok(publicSitemap.includes('https://www.hangbug.com/blog/html-tutorial-for-beginners'));
     assert.ok(publicSitemap.includes('https://www.hangbug.com/blog/css-basics-beginners-guide'));
-    assert.ok(publicSitemap.includes('https://www.hangbug.com/blog/csharp-programming-beginners-guide'));
 
     const distSitemap = fs.readFileSync(path.join(__dirname, '..', 'dist', 'sitemap.xml'), 'utf8');
     assert.ok(distSitemap.includes('https://www.hangbug.com/blog'));

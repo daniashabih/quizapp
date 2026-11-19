@@ -66,14 +66,14 @@ test('3. Technical SEO: robots.txt properly configured with User-agent, Allow, D
     assert.strictEqual(publicRobots, distRobots, 'public/robots.txt and dist/robots.txt must match');
 });
 
-test('4 & 5. Technical SEO: Dynamic sitemap.xml includes all public pages, technology tracks, and 18 games, excludes private/auth routes', () => {
+test('4 & 5. Technical SEO: Dynamic sitemap.xml includes valid indexable pages, populated tech guides, and 14 published games, excludes private/empty/redirect routes', () => {
     const sitemap = readFile('public/sitemap.xml');
     const distSitemap = readFile('dist/sitemap.xml');
 
     assert.ok(sitemap.startsWith('<?xml'), 'sitemap must be valid XML declaration');
     assert.ok(sitemap.includes('<urlset'), 'sitemap must have urlset root');
 
-    // All core public pages
+    // All valid core & populated technology public pages
     const corePages = [
         'https://www.hangbug.com/',
         'https://www.hangbug.com/technologies',
@@ -83,39 +83,46 @@ test('4 & 5. Technical SEO: Dynamic sitemap.xml includes all public pages, techn
         'https://www.hangbug.com/contact',
         'https://www.hangbug.com/privacy-policy',
         'https://www.hangbug.com/terms',
+        'https://www.hangbug.com/blog',
         'https://www.hangbug.com/technologies/html',
-        'https://www.hangbug.com/technologies/css',
         'https://www.hangbug.com/technologies/javascript',
+        'https://www.hangbug.com/technologies/react',
         'https://www.hangbug.com/technologies/php',
         'https://www.hangbug.com/technologies/laravel',
         'https://www.hangbug.com/technologies/mysql',
-        'https://www.hangbug.com/technologies/flutter',
-        'https://www.hangbug.com/technologies/dart'
+        'https://www.hangbug.com/technologies/mongodb',
+        'https://www.hangbug.com/technologies/dart',
+        'https://www.hangbug.com/technologies/python'
     ];
     for (const url of corePages) {
         assert.ok(sitemap.includes(`<loc>${url}</loc>`), `sitemap must include core page: ${url}`);
     }
 
-    // All 18 games
-    const all18Games = [
+    // All 14 published DB games
+    const published14Games = [
         'code-puzzle', 'find-the-bug', 'output-predictor', 'code-scramble',
         'missing-code', 'logic-builder', 'sql-challenge', 'memory-match',
         'speed-typing', 'code-typing', 'sixty-second-challenge', 'error-free-typing',
-        'syntax-typing', 'word-rain', 'csharp-oop-challenge', 'csharp-collections-challenge',
-        'csharp-linq-challenge', 'csharp-exception-handling'
+        'syntax-typing', 'word-rain'
     ];
-    for (const game of all18Games) {
+    for (const game of published14Games) {
         assert.ok(sitemap.includes(`<loc>https://www.hangbug.com/games/${game}</loc>`), `sitemap must include game: ${game}`);
     }
 
-    // Excluded pages
+    // Excluded private, auth, redirect, empty tech, and non-DB game pages
     const excludedPages = [
         '/login', '/signup', '/register', '/forgot-password', '/reset-password',
         '/delete-account', '/account-deletion', '/data-deletion', '/dashboard',
-        '/admin', '/quiz/start', '/quiz/result', '/privacy'
+        '/admin', '/quiz/start', '/quiz/result', '/privacy',
+        '/resources', '/certificate/view',
+        '/technologies/css', '/technologies/flutter', '/technologies/programming-fundamentals',
+        '/games/csharp-oop-challenge', '/games/csharp-collections-challenge',
+        '/games/csharp-linq-challenge', '/games/csharp-exception-handling',
+        '/games/complete-the-code', '/games/csharp-quiz-challenge',
+        '/games/coding-memory-match'
     ];
     for (const page of excludedPages) {
-        assert.ok(!sitemap.includes(`<loc>https://www.hangbug.com${page}</loc>`), `sitemap must NOT include private/duplicate page: ${page}`);
+        assert.ok(!sitemap.includes(`<loc>https://www.hangbug.com${page}</loc>`), `sitemap must NOT include excluded page: ${page}`);
     }
 
     assert.strictEqual(sitemap, distSitemap, 'public/sitemap.xml and dist/sitemap.xml must match');
@@ -373,12 +380,17 @@ test('18. Brand Identity & AI Overview Accuracy: Official Hangbug title, meta de
     assert.ok(about.includes('How Hangbug Works'), 'AboutUs.jsx must include How Hangbug Works heading');
 });
 
-test('19. Technical SEO: XML sitemap lastmod timestamps and complete public URL coverage', () => {
+test('19. Technical SEO: XML sitemap accurate ISO 8601 lastmod timestamps and strict indexable URL coverage', () => {
     const sitemap = readFile('public/sitemap.xml');
-    assert.ok(sitemap.includes('<lastmod>'), 'sitemap.xml must declare <lastmod> timestamps');
-    assert.ok(sitemap.includes('<loc>https://www.hangbug.com/certificate/view</loc>'), 'sitemap.xml must include /certificate/view');
-    assert.ok(sitemap.includes('<loc>https://www.hangbug.com/games/complete-the-code</loc>'), 'sitemap.xml must include complete-the-code game');
-    assert.ok(sitemap.includes('<loc>https://www.hangbug.com/games/csharp-quiz-challenge</loc>'), 'sitemap.xml must include csharp-quiz-challenge game');
+    const lastmodMatches = [...sitemap.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map(m => m[1]);
+    assert.ok(lastmodMatches.length >= 30, 'sitemap.xml must declare <lastmod> timestamps for all URLs');
+    const uniqueDates = new Set(lastmodMatches);
+    assert.ok(uniqueDates.size > 1, 'sitemap.xml must NOT stamp every URL with the exact same date');
+    for (const lm of lastmodMatches) {
+        assert.ok(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(lm), `lastmod must be valid ISO 8601 UTC: ${lm}`);
+    }
+    assert.ok(!sitemap.includes('<loc>https://www.hangbug.com/certificate/view</loc>'), 'sitemap.xml must exclude noindex /certificate/view');
+    assert.ok(!sitemap.includes('<loc>https://www.hangbug.com/resources</loc>'), 'sitemap.xml must exclude redirected /resources');
 });
 
 test('20. Technical SEO: Vercel routing configuration, API protections, and alias 301 redirects', () => {
@@ -438,9 +450,7 @@ test('23. Technical SEO Audit: Pre-rendered static pages exist with unique title
         'dist/contact/index.html',
         'dist/privacy-policy/index.html',
         'dist/terms/index.html',
-        'dist/certificate/view/index.html',
         'dist/blog/index.html',
-        'dist/resources/index.html',
         'dist/technologies/html/index.html',
         'dist/technologies/javascript/index.html',
         'dist/technologies/react/index.html',

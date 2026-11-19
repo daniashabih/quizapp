@@ -517,13 +517,16 @@ console.log('--- Starting Hangbug Static Pre-rendering for Technical SEO ---');
 
 let renderedCount = 0;
 
+// Remove stale /resources pre-render artifacts (redirects to /blog)
+fs.rmSync(path.join(DIST_DIR, 'resources'), { recursive: true, force: true });
+fs.rmSync(path.join(DIST_DIR, 'resources.html'), { force: true });
+
 // 1. Core Public Pages from SEO_PAGES_CONFIG
 const corePageKeys = [
     'home',
     'technologies',
     'about',
-    'contact',
-    'resources'
+    'contact'
 ];
 
 for (const key of corePageKeys) {
@@ -636,6 +639,8 @@ const additionalPages = [
         title: 'Verify Developer Certificate — Hangbug Skill Verification',
         h1: 'Hangbug Developer Certificate Verification & Credential Lookup',
         description: 'Verify the authenticity of Hangbug developer completion certificates. Look up unique certificate IDs to confirm quiz mastery, score tiers, and completion dates.',
+        robots: 'noindex, nofollow',
+        omitCanonical: true,
         introContent: 'Hangbug provides transparent, instant digital credential verification. Employers, recruiters, and educational institutions can verify the authenticity of any developer certificate issued by Hangbug by entering the certificate identifier below.',
         h2s: [
             'How Certificate Verification Works',
@@ -690,6 +695,8 @@ for (const p of additionalPages) {
         title: p.title,
         description: p.description,
         h1: p.h1,
+        ...(p.robots ? { robots: p.robots } : {}),
+        ...(p.omitCanonical ? { omitCanonical: true } : {}),
         bodyHtml: generateBodyHtml(p)
     };
     const renderedHtml = renderPage(pageDef);

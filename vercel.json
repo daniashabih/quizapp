@@ -24,6 +24,11 @@
       "permanent": true
     },
     {
+      "source": "/resources",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
       "source": "/account-deletion",
       "destination": "/delete-account",
       "permanent": true

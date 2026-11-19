@@ -1142,7 +1142,8 @@ async function fetchPublishedBlogPostsFromSource({ allowRemoteApiFallback = fals
                     prisma.game
                         ? prisma.game.findMany({
                               where: { isPublished: true },
-                              select: { slug: true }
+                              select: { slug: true, updatedAt: true, createdAt: true },
+                              orderBy: { order: 'asc' }
                           }).catch(() => [])
                         : Promise.resolve([])
                 ]);
@@ -1153,6 +1154,7 @@ async function fetchPublishedBlogPostsFromSource({ allowRemoteApiFallback = fals
                         source: 'mongodb',
                         articles: published,
                         unpublishedSlugs: unpublished.map(u => u.slug).filter(Boolean),
+                        games: Array.isArray(dbGames) ? dbGames : [],
                         gameSlugs: Array.isArray(dbGames) ? dbGames.map(g => g.slug).filter(Boolean) : []
                     };
                 }
@@ -1223,7 +1225,138 @@ async function fetchPublishedBlogPostsFromSource({ allowRemoteApiFallback = fals
         source: 'fallback',
         articles: publishedInitial,
         unpublishedSlugs: [],
+        games: [],
         gameSlugs: []
+    };
+}
+
+/**
+ * Fetches full sitemap catalog (published blog posts, published games, and populated quiz categories)
+ * from MongoDB via Prisma, or from the live API when MONGODB_URI is unavailable locally.
+ */
+async function fetchSitemapCatalogFromSource({ allowRemoteApiFallback = true } = {}) {
+    loadEnvIfNeeded();
+
+    const blogResult = await fetchPublishedBlogPostsFromSource({ allowRemoteApiFallback });
+    let games = Array.isArray(blogResult.games) && blogResult.games.length > 0 ? blogResult.games : null;
+    let categoriesWithStats = null;
+
+    if (isMongoUriConfigured(process.env.MONGODB_URI)) {
+        try {
+            const prisma = require('../_config/prisma');
+            if (prisma) {
+                if (!games && prisma.game) {
+                    const [totalGames, dbGames] = await Promise.all([
+                        prisma.game.count(),
+                        prisma.game.findMany({
+                            where: { isPublished: true },
+                            select: { slug: true, updatedAt: true, createdAt: true },
+                            orderBy: { order: 'asc' }
+                        })
+                    ]);
+                    if (totalGames > 0 && Array.isArray(dbGames)) {
+                        games = dbGames;
+                    }
+                }
+                if (prisma.category && prisma.question) {
+                    const [cats, qStats] = await Promise.all([
+                        prisma.category.findMany(),
+                        prisma.question.groupBy({
+                            by: ['category'],
+                            _count: { id: true },
+                            _max: { createdAt: true }
+                        })
+                    ]);
+                    if (Array.isArray(cats) && Array.isArray(qStats)) {
+                        const qMap = new Map(
+                            qStats.map(q => [
+                                String(q.category || '').toLowerCase(),
+                                {
+                                    count: q._count?.id || 0,
+                                    latestQuestionAt: q._max?.createdAt || null
+                                }
+                            ])
+                        );
+                        categoriesWithStats = cats.map(c => {
+                            const stat = qMap.get(String(c.name || '').toLowerCase());
+                            return {
+                                name: c.name,
+                                isEnabled: c.isEnabled !== false,
+                                questionCount: stat ? stat.count : 0,
+                                latestQuestionAt: stat ? stat.latestQuestionAt : null
+                            };
+                        });
+                    }
+                }
+            }
+        } catch (err) {
+            console.warn(`[Sitemap] MongoDB catalog query failed (${err.message}).`);
+        }
+    }
+
+    if (allowRemoteApiFallback && (!games || !categoriesWithStats)) {
+        const remoteBase = (process.env.APP_BASE_URL || BASE_URL).replace(/\/+$/, '');
+        if (!games) {
+            try {
+                const gamesPayload = await fetchJsonWithTimeout(`${remoteBase}/api/games`, 8000);
+                if (gamesPayload && gamesPayload.success && Array.isArray(gamesPayload.data) && gamesPayload.data.length > 0) {
+                    games = gamesPayload.data.filter(g => g && g.slug && g.isPublished !== false);
+                }
+            } catch (err) {
+                console.warn(`[Sitemap] Remote /api/games fetch failed (${err.message}).`);
+            }
+        }
+
+        if (!categoriesWithStats) {
+            try {
+                const catsPayload = await fetchJsonWithTimeout(`${remoteBase}/api/categories`, 8000);
+                if (Array.isArray(catsPayload)) {
+                    const active = catsPayload.filter(c => c && c.isEnabled !== false && Number(c.questionCount || 0) > 0);
+                    const latestByName = new Map();
+                    await Promise.all(
+                        active.map(async (cat) => {
+                            try {
+                                const qs = await fetchJsonWithTimeout(
+                                    `${remoteBase}/api/questions?category=${encodeURIComponent(cat.name)}`,
+                                    8000
+                                );
+                                if (Array.isArray(qs) && qs.length > 0) {
+                                    let maxMs = 0;
+                                    for (const q of qs) {
+                                        const ts = q.createdAt || q.created_at;
+                                        if (ts) {
+                                            const ms = new Date(ts).getTime();
+                                            if (!Number.isNaN(ms) && ms > maxMs) maxMs = ms;
+                                        }
+                                    }
+                                    if (maxMs > 0) {
+                                        latestByName.set(String(cat.name).toLowerCase(), new Date(maxMs).toISOString());
+                                    }
+                                }
+                            } catch {
+                                // Keep null if per-category fetch times out
+                            }
+                        })
+                    );
+
+                    categoriesWithStats = catsPayload.map(c => ({
+                        name: c.name,
+                        isEnabled: c.isEnabled !== false,
+                        questionCount: Number(c.questionCount || 0),
+                        latestQuestionAt: latestByName.get(String(c.name || '').toLowerCase()) || null
+                    }));
+                }
+            } catch (err) {
+                console.warn(`[Sitemap] Remote /api/categories fetch failed (${err.message}).`);
+            }
+        }
+    }
+
+    return {
+        source: blogResult.source,
+        articles: blogResult.articles || [],
+        games,
+        categoriesWithStats
     };
 }
 
@@ -1263,5 +1396,6 @@ module.exports = {
     renderCompleteBlogIndexHtml,
     deriveCategoriesFromArticles,
     findRelatedForArticle,
-    fetchPublishedBlogPostsFromSource
+    fetchPublishedBlogPostsFromSource,
+    fetchSitemapCatalogFromSource
 };

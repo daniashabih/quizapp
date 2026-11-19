@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { buildSitemapXml, buildRobotsTxt } = require('../api/_controllers/seoController');
 const {
-    fetchPublishedBlogPostsFromSource,
+    fetchSitemapCatalogFromSource,
     isMongoUriConfigured
 } = require('../api/_utils/blogSeoRenderer');
 
@@ -11,23 +11,38 @@ const publicDir = path.join(ROOT_DIR, 'public');
 const distDir = path.join(ROOT_DIR, 'dist');
 
 async function main() {
-    let blogSlugsOverride = null;
-    let extraGameSlugs = [];
+    let blogEntriesOverride = null;
+    let gameEntriesOverride = null;
+    let categoriesWithStats = null;
 
     try {
-        const result = await fetchPublishedBlogPostsFromSource({ allowRemoteApiFallback: true });
+        const result = await fetchSitemapCatalogFromSource({ allowRemoteApiFallback: true });
         if ((result.source === 'mongodb' || result.source === 'api') && Array.isArray(result.articles)) {
-            blogSlugsOverride = result.articles.map(a => a.slug).filter(Boolean);
-            extraGameSlugs = Array.isArray(result.gameSlugs) ? result.gameSlugs : [];
-            console.log(`✓ Sitemap loaded ${blogSlugsOverride.length} published blog article(s) from ${result.source}`);
+            blogEntriesOverride = result.articles.filter(a => a && a.slug);
+            console.log(`✓ Sitemap loaded ${blogEntriesOverride.length} published blog article(s) from ${result.source}`);
         } else {
-            console.log(`ℹ Sitemap using fallback static blog list (${result.articles.length} articles)`);
+            console.log(`ℹ Sitemap using fallback static blog list (${(result.articles || []).length} articles)`);
+        }
+
+        if (Array.isArray(result.games) && result.games.length > 0) {
+            gameEntriesOverride = result.games;
+            console.log(`✓ Sitemap loaded ${gameEntriesOverride.length} published game(s)`);
+        }
+
+        if (Array.isArray(result.categoriesWithStats) && result.categoriesWithStats.length > 0) {
+            categoriesWithStats = result.categoriesWithStats;
+            const populatedCount = categoriesWithStats.filter(c => c.isEnabled !== false && Number(c.questionCount || 0) > 0).length;
+            console.log(`✓ Sitemap loaded ${categoriesWithStats.length} category records (${populatedCount} populated)`);
         }
     } catch (err) {
-        console.warn('⚠ Could not fetch dynamic blog slugs for sitemap, using static fallback:', err.message);
+        console.warn('⚠ Could not fetch dynamic sitemap catalog, using deterministic fallback:', err.message);
     }
 
-    const sitemapXml = buildSitemapXml(extraGameSlugs, [], { blogSlugsOverride });
+    const sitemapXml = buildSitemapXml([], [], {
+        blogEntriesOverride,
+        gameEntriesOverride,
+        categoriesWithStats
+    });
     const robotsTxt = buildRobotsTxt();
 
     // 1. Sync public/sitemap.xml
