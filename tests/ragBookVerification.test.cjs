@@ -402,6 +402,18 @@ test('RAG Book Verification System: All 10 End-to-End Scenarios', async () => {
         assert.ok(htmlVerify.verification.supporting_excerpt.includes('anchor'));
         assert.ok(htmlVerify.verification.explanation.includes('Your selected answer ("<a>") is correct'));
 
+        // --- Scenario 1b: Minimal upload (only file + technology, auto-derives title from filename) ---
+        const minimalBook = await createAndQueueBook({
+            buffer: Buffer.from('Chapter 1 Bootstrap Grid\nBootstrap uses a 12-column responsive flexbox grid system.', 'utf8'),
+            originalname: 'bootstrap_grid_handbook.txt',
+            mimetype: 'text/plain',
+            technology: 'Bootstrap',
+            processSync: true
+        });
+        assert.equal(minimalBook.processingStatus, PROCESSING_STATUSES.COMPLETED);
+        assert.equal(minimalBook.title, 'bootstrap grid handbook');
+        assert.equal(minimalBook.author, '');
+
         // --- Scenario 2 & 3: Upload JS book, verify incorrect DB answer & require explicit admin approval ---
         const jsBookText = [
             'Chapter 2 JavaScript Operators and Variables',

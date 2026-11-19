@@ -68,7 +68,7 @@ const aiVerificationService = {
         return res.data;
     },
 
-    uploadBook: async ({ file, title, author, edition, description, publicationYear, technology, onProgress }) => {
+    uploadBook: async ({ file, title = '', author = '', edition = '', description = '', publicationYear = null, technology, onProgress }) => {
         // Use Vercel-safe chunked upload automatically for larger books (>3MB)
         if (file && file.size > CHUNK_UPLOAD_THRESHOLD) {
             const totalParts = Math.ceil(file.size / CHUNK_PART_SIZE);
@@ -77,11 +77,11 @@ const aiVerificationService = {
 
             if (onProgress) onProgress(5);
             const initRes = await axios.post('/admin/knowledge-base/books/init-upload', {
-                title,
-                author,
-                edition,
-                description,
-                publicationYear,
+                ...(title ? { title } : {}),
+                ...(author ? { author } : {}),
+                ...(edition ? { edition } : {}),
+                ...(description ? { description } : {}),
+                ...(publicationYear ? { publicationYear } : {}),
                 technology,
                 fileName: file.name,
                 fileType: ext,
@@ -124,8 +124,8 @@ const aiVerificationService = {
 
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('title', title);
-        formData.append('author', author);
+        if (title) formData.append('title', title);
+        if (author) formData.append('author', author);
         if (edition) formData.append('edition', edition);
         if (description) formData.append('description', description);
         if (publicationYear) formData.append('publicationYear', String(publicationYear));

@@ -73,9 +73,9 @@ class AiVerificationService {
   Future<KnowledgeBookModel> uploadBook({
     required String filePath,
     required String fileName,
-    required String title,
-    required String author,
     required String technology,
+    String title = '',
+    String author = '',
     String edition = '',
     String description = '',
     int? publicationYear,

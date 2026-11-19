@@ -49,11 +49,6 @@ class _AdminKnowledgeBaseScreenState
   }
 
   Future<void> _showUploadSheet(List<String> technologies) async {
-    final titleCtrl = TextEditingController();
-    final authorCtrl = TextEditingController();
-    final editionCtrl = TextEditingController();
-    final yearCtrl = TextEditingController();
-    final descCtrl = TextEditingController();
     String selectedTech = technologies.isNotEmpty ? technologies.first : 'HTML';
     String? pickedPath;
     String? pickedName;
@@ -105,12 +100,6 @@ class _AdminKnowledgeBaseScreenState
                                 setSheetState(() {
                                   pickedPath = f.path;
                                   pickedName = f.name;
-                                  if (titleCtrl.text.trim().isEmpty) {
-                                    titleCtrl.text = f.name
-                                        .replaceAll(RegExp(r'\.[^.]+$'), '')
-                                        .replaceAll(RegExp(r'[_-]+'), ' ')
-                                        .trim();
-                                  }
                                 });
                               }
                             },
@@ -136,56 +125,6 @@ class _AdminKnowledgeBaseScreenState
                               if (val != null) setSheetState(() => selectedTech = val);
                             },
                     ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: titleCtrl,
-                      decoration: const InputDecoration(
-                        labelText: 'Book Title *',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: authorCtrl,
-                      decoration: const InputDecoration(
-                        labelText: 'Author *',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: editionCtrl,
-                            decoration: const InputDecoration(
-                              labelText: 'Edition',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: TextField(
-                            controller: yearCtrl,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: 'Year',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: descCtrl,
-                      maxLines: 2,
-                      decoration: const InputDecoration(
-                        labelText: 'Description',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
@@ -204,25 +143,12 @@ class _AdminKnowledgeBaseScreenState
                                 );
                                 return;
                               }
-                              if (titleCtrl.text.trim().isEmpty || authorCtrl.text.trim().isEmpty) {
-                                AppNotificationService.error(
-                                  id: 'kb-missing-fields',
-                                  title: 'Missing Fields',
-                                  message: 'Book title and author are required.',
-                                );
-                                return;
-                              }
                               setSheetState(() => uploading = true);
                               try {
                                 await ref.read(aiVerificationServiceProvider).uploadBook(
                                       filePath: pickedPath!,
                                       fileName: pickedName!,
-                                      title: titleCtrl.text.trim(),
-                                      author: authorCtrl.text.trim(),
                                       technology: selectedTech,
-                                      edition: editionCtrl.text.trim(),
-                                      description: descCtrl.text.trim(),
-                                      publicationYear: int.tryParse(yearCtrl.text.trim()),
                                     );
                                 if (ctx.mounted) Navigator.of(ctx).pop();
                                 ref.invalidate(adminKnowledgeBaseProvider);
@@ -483,7 +409,11 @@ class _AdminKnowledgeBaseScreenState
           Text(book.title, style: AppTextStyles.labelBold.copyWith(fontSize: 14.5)),
           const SizedBox(height: 2),
           Text(
-            'by ${book.author}${book.edition.isNotEmpty ? ' · ${book.edition}' : ''} · ${book.fileType.toUpperCase()} (${_formatSize(book.fileSize)})',
+            [
+              if (book.author.isNotEmpty) 'by ${book.author}',
+              if (book.edition.isNotEmpty) book.edition,
+              '${book.fileType.toUpperCase()} (${_formatSize(book.fileSize)})',
+            ].join(' · '),
             style: AppTextStyles.bodySmall.copyWith(color: context.textSecondaryColor),
           ),
           if (book.isProcessing) ...[

@@ -273,6 +273,14 @@ function scheduleBookProcessing(bookId, preloadedBuffer = null) {
     });
 }
 
+function deriveTitleFromFileName(fileName) {
+    return String(fileName || 'Reference Book')
+        .replace(/\.[^/.]+$/, '')
+        .replace(/[_-]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim() || 'Reference Book';
+}
+
 /**
  * Create a new book record, store binary securely, and enqueue processing
  */
@@ -280,8 +288,8 @@ async function createAndQueueBook({
     buffer,
     originalname,
     mimetype,
-    title,
-    author,
+    title = '',
+    author = '',
     edition = '',
     description = '',
     publicationYear = null,
@@ -289,21 +297,9 @@ async function createAndQueueBook({
     uploadedBy = '',
     processSync = false
 }) {
-    const cleanTitle = String(title || '').trim();
-    const cleanAuthor = String(author || '').trim();
     const cleanTechnology = String(technology || '').trim();
     const technologyNormalized = normalizeTechnology(cleanTechnology);
 
-    if (!cleanTitle) {
-        const err = new Error('Book title is required.');
-        err.status = 400;
-        throw err;
-    }
-    if (!cleanAuthor) {
-        const err = new Error('Book author is required.');
-        err.status = 400;
-        throw err;
-    }
     if (!cleanTechnology || !technologyNormalized) {
         const err = new Error('Technology/category is required.');
         err.status = 400;
@@ -311,6 +307,8 @@ async function createAndQueueBook({
     }
 
     const validated = validateUploadedBookFile({ buffer, originalname, mimetype });
+    const cleanTitle = String(title || '').trim() || deriveTitleFromFileName(validated.fileName);
+    const cleanAuthor = String(author || '').trim();
 
     const duplicate = await findDuplicateBook({
         fileHash: validated.fileHash,
@@ -324,7 +322,7 @@ async function createAndQueueBook({
         const err = new Error(
             duplicate.reason === 'file_hash'
                 ? `Duplicate upload detected: this exact file already exists as "${duplicate.book.title}".`
-                : `Duplicate book metadata detected: "${duplicate.book.title}" by ${duplicate.book.author} already exists for ${duplicate.book.technology}.`
+                : `Duplicate book detected: "${duplicate.book.title}" already exists for ${duplicate.book.technology}.`
         );
         err.status = 409;
         err.duplicateBookId = duplicate.book.id;

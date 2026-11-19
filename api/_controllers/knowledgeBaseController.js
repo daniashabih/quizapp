@@ -271,14 +271,19 @@ async function initChunkedUpload(req, res) {
             totalParts
         } = req.body || {};
 
-        const cleanTitle = String(title || '').trim();
+        const derivedTitle = String(fileName || 'Reference Book')
+            .replace(/\.[^/.]+$/, '')
+            .replace(/[_-]+/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim() || 'Reference Book';
+        const cleanTitle = String(title || '').trim() || derivedTitle;
         const cleanAuthor = String(author || '').trim();
         const cleanTech = String(technology || '').trim();
         const technologyNormalized = normalizeTechnology(cleanTech);
         const cleanExt = String(fileType || '').toLowerCase().replace('.', '');
 
-        if (!cleanTitle || !cleanAuthor || !cleanTech) {
-            return res.status(400).json({ success: false, message: 'Title, author, and technology are required.' });
+        if (!cleanTech || !technologyNormalized) {
+            return res.status(400).json({ success: false, message: 'Technology/category is required.' });
         }
         if (!['pdf', 'docx', 'txt'].includes(cleanExt)) {
             return res.status(400).json({ success: false, message: 'Only PDF, DOCX, and TXT files are supported.' });
@@ -465,8 +470,8 @@ async function updateBookMetadata(req, res) {
             ? (String(publicationYear).trim() === '' ? null : parseInt(publicationYear, 10))
             : existing.publicationYear;
 
-        if (!nextTitle || !nextAuthor || !nextTechNorm) {
-            return res.status(400).json({ success: false, message: 'Title, author, and technology are required.' });
+        if (!nextTitle || !nextTechNorm) {
+            return res.status(400).json({ success: false, message: 'Title and technology are required.' });
         }
 
         const updated = await prisma.knowledgeBook.update({

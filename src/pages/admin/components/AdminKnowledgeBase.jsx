@@ -69,11 +69,6 @@ export default function AdminKnowledgeBase({ standalone = false }) {
     // Upload Modal State
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [uploadFile, setUploadFile] = useState(null);
-    const [uploadTitle, setUploadTitle] = useState('');
-    const [uploadAuthor, setUploadAuthor] = useState('');
-    const [uploadEdition, setUploadEdition] = useState('');
-    const [uploadDescription, setUploadDescription] = useState('');
-    const [uploadYear, setUploadYear] = useState('');
     const [uploadTechnology, setUploadTechnology] = useState('HTML');
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
@@ -162,17 +157,13 @@ export default function AdminKnowledgeBase({ standalone = false }) {
             return;
         }
         setUploadFile(file);
-        if (!uploadTitle.trim()) {
-            const cleanedName = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]+/g, ' ').trim();
-            setUploadTitle(cleanedName);
-        }
     };
 
     const handleUploadSubmit = async (e) => {
         e.preventDefault();
         if (!uploadFile) return toast.error('Please select a PDF, DOCX, or TXT file.');
-        if (!uploadTitle.trim() || !uploadAuthor.trim() || !uploadTechnology) {
-            return toast.error('Book title, author, and technology are required.');
+        if (!uploadTechnology) {
+            return toast.error('Please select a technology/category.');
         }
 
         setUploading(true);
@@ -180,22 +171,12 @@ export default function AdminKnowledgeBase({ standalone = false }) {
         try {
             const res = await aiVerificationService.uploadBook({
                 file: uploadFile,
-                title: uploadTitle.trim(),
-                author: uploadAuthor.trim(),
-                edition: uploadEdition.trim(),
-                description: uploadDescription.trim(),
-                publicationYear: uploadYear.trim() || null,
                 technology: uploadTechnology,
                 onProgress: (pct) => setUploadProgress(pct)
             });
             toast.success(res?.message || 'Book uploaded and queued for vector indexing!');
             setShowUploadModal(false);
             setUploadFile(null);
-            setUploadTitle('');
-            setUploadAuthor('');
-            setUploadEdition('');
-            setUploadDescription('');
-            setUploadYear('');
             setUploadProgress(0);
             fetchBooks(false);
         } catch (err) {
@@ -482,11 +463,13 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                             <h3 className="text-sm sm:text-base font-display font-bold text-[var(--foreground)] break-words">
                                                 {book.title}
                                             </h3>
-                                            <p className="text-xs text-[var(--foreground-muted)]">
-                                                by <strong className="text-[var(--foreground)]">{book.author}</strong>
-                                                {book.edition ? ` · ${book.edition}` : ''}
-                                                {book.publicationYear ? ` · ${book.publicationYear}` : ''}
-                                            </p>
+                                            {(book.author || book.edition || book.publicationYear) && (
+                                                <p className="text-xs text-[var(--foreground-muted)]">
+                                                    {book.author ? <>by <strong className="text-[var(--foreground)]">{book.author}</strong></> : null}
+                                                    {book.edition ? `${book.author ? ' · ' : ''}${book.edition}` : ''}
+                                                    {book.publicationYear ? `${(book.author || book.edition) ? ' · ' : ''}${book.publicationYear}` : ''}
+                                                </p>
+                                            )}
                                             {book.description && (
                                                 <p className="text-xs text-[var(--foreground-muted)] mt-1 line-clamp-2">{book.description}</p>
                                             )}
@@ -626,79 +609,18 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                 )}
                             </label>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase mb-1">Technology / Category *</label>
-                                    <select
-                                        required
-                                        value={uploadTechnology}
-                                        onChange={(e) => setUploadTechnology(e.target.value)}
-                                        className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
-                                    >
-                                        {technologies.map(t => (
-                                            <option key={t.normalized} value={t.name}>{t.name}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase mb-1">Publication Year</label>
-                                    <input
-                                        type="number"
-                                        min="1970"
-                                        max="2035"
-                                        value={uploadYear}
-                                        onChange={(e) => setUploadYear(e.target.value)}
-                                        placeholder="e.g. 2024"
-                                        className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
-                                    />
-                                </div>
-                            </div>
-
                             <div>
-                                <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase mb-1">Book Title *</label>
-                                <input
-                                    type="text"
+                                <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase mb-1">Technology / Category *</label>
+                                <select
                                     required
-                                    value={uploadTitle}
-                                    onChange={(e) => setUploadTitle(e.target.value)}
-                                    placeholder="e.g. HTML & CSS: Design and Build Websites"
-                                    className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div>
-                                    <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase mb-1">Author *</label>
-                                    <input
-                                        type="text"
-                                        required
-                                        value={uploadAuthor}
-                                        onChange={(e) => setUploadAuthor(e.target.value)}
-                                        placeholder="e.g. Jon Duckett"
-                                        className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase mb-1">Edition</label>
-                                    <input
-                                        type="text"
-                                        value={uploadEdition}
-                                        onChange={(e) => setUploadEdition(e.target.value)}
-                                        placeholder="e.g. 4th Edition"
-                                        className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase mb-1">Description</label>
-                                <textarea
-                                    rows={3}
-                                    value={uploadDescription}
-                                    onChange={(e) => setUploadDescription(e.target.value)}
-                                    placeholder="Brief summary of topics covered in this book..."
-                                    className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
-                                />
+                                    value={uploadTechnology}
+                                    onChange={(e) => setUploadTechnology(e.target.value)}
+                                    className="w-full px-3 py-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
+                                >
+                                    {technologies.map(t => (
+                                        <option key={t.normalized} value={t.name}>{t.name}</option>
+                                    ))}
+                                </select>
                             </div>
 
                             {uploading && (
