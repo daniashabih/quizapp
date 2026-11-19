@@ -77,18 +77,46 @@ class _AdminKnowledgeBaseScreenState
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      'Upload Reference Book',
-                      style: AppTextStyles.displaySmall.copyWith(fontSize: 18),
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 4,
+                        margin: const EdgeInsets.only(bottom: 14),
+                        decoration: BoxDecoration(
+                          color: ctx.borderColor,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'PDF (including scanned OCR), DOCX, or TXT up to 50 MB',
-                      style: AppTextStyles.bodySmall.copyWith(color: ctx.textSecondaryColor),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Upload Reference Book',
+                                style: AppTextStyles.displaySmall.copyWith(fontSize: 18),
+                              ),
+                              const SizedBox(height: 3),
+                              Text(
+                                'PDF (standard or scanned OCR), DOCX, or TXT up to 50 MB',
+                                style: AppTextStyles.bodySmall.copyWith(color: ctx.textSecondaryColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: uploading ? null : () => Navigator.of(ctx).pop(),
+                          icon: const Icon(Icons.close_rounded),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
-                    OutlinedButton.icon(
-                      onPressed: uploading
+                    InkWell(
+                      borderRadius: BorderRadius.circular(16),
+                      onTap: uploading
                           ? null
                           : () async {
                               final picked = await FilePicker.platform.pickFiles(
@@ -103,18 +131,61 @@ class _AdminKnowledgeBaseScreenState
                                 });
                               }
                             },
-                      icon: const Icon(Icons.upload_file_rounded),
-                      label: Text(
-                        pickedName ?? 'Select PDF, DOCX, or TXT File',
-                        overflow: TextOverflow.ellipsis,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                        decoration: BoxDecoration(
+                          color: pickedName != null
+                              ? ctx.successColor.withValues(alpha: 0.08)
+                              : ctx.mutedBgColor.withValues(alpha: 0.7),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: pickedName != null ? ctx.successColor : ctx.borderColor,
+                            width: 1.4,
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Icon(
+                              pickedName != null
+                                  ? Icons.description_rounded
+                                  : Icons.cloud_upload_outlined,
+                              size: 28,
+                              color: pickedName != null ? ctx.successColor : ctx.brandAccentColor,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              pickedName ?? 'Tap to choose PDF, DOCX, or TXT file',
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.labelBold.copyWith(fontSize: 13),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              pickedName != null
+                                  ? 'Ready to upload · Tap to change'
+                                  : 'Scanned PDFs automatically trigger OCR',
+                              style: AppTextStyles.bodySmall.copyWith(
+                                fontSize: 11,
+                                color: pickedName != null
+                                    ? ctx.successColor
+                                    : ctx.textSecondaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 14),
                     DropdownButtonFormField<String>(
                       initialValue: technologies.contains(selectedTech) ? selectedTech : null,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Technology / Category *',
-                        border: OutlineInputBorder(),
+                        filled: true,
+                        fillColor: ctx.mutedBgColor.withValues(alpha: 0.6),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       items: technologies
                           .map((t) => DropdownMenuItem(value: t, child: Text(t)))
@@ -125,12 +196,28 @@ class _AdminKnowledgeBaseScreenState
                               if (val != null) setSheetState(() => selectedTech = val);
                             },
                     ),
-                    const SizedBox(height: 16),
+                    if (uploading) ...[
+                      const SizedBox(height: 14),
+                      const LinearProgressIndicator(),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Uploading securely...',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: ctx.brandAccentColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 18),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ctx.isDarkMode ? AppColors.primaryLight : AppColors.primary,
                         foregroundColor: Colors.white,
-                        minimumSize: const Size.fromHeight(46),
+                        minimumSize: const Size.fromHeight(48),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
                       onPressed: uploading
                           ? null

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import {
     CheckCircle2,
     AlertTriangle,
@@ -435,10 +436,16 @@ export default function AdminVerificationReports({ standalone = false }) {
                 </div>
             )}
 
-            {/* Admin Correction Review & Approval Modal */}
-            {reviewingReport && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/55 backdrop-blur-xs">
-                    <div className="card w-full max-w-2xl rounded-3xl border border-[var(--card-border)] shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
+            {/* Admin Correction Review & Approval Modal (Portaled to document.body) */}
+            {reviewingReport && typeof document !== 'undefined' && createPortal(
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-fade-in"
+                    onClick={() => !submittingApproval && setReviewingReport(null)}
+                >
+                    <div
+                        className="card w-full max-w-2xl rounded-3xl border border-[var(--card-border)] bg-[var(--card-bg)] shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="px-6 py-4 border-b border-[var(--card-border)] flex items-center justify-between">
                             <div>
                                 <h3 className="text-base font-display font-bold text-[var(--foreground)]">Approve AI Correction</h3>
@@ -545,7 +552,8 @@ export default function AdminVerificationReports({ standalone = false }) {
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

@@ -598,7 +598,7 @@ const AdminDashboard = () => {
                             }}
                             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                                 isSelected
-                                    ? 'bg-black text-white shadow-md'
+                                    ? 'bg-[#193D35] text-white shadow-md'
                                     : 'text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)]'
                             }`}
                         >

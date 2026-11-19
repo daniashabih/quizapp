@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import {
     BookOpen,
     Upload,
@@ -18,7 +19,8 @@ import {
     X,
     FileUp,
     Sparkles,
-    ScanText
+    ScanText,
+    ChevronDown
 } from 'lucide-react';
 import { toast } from '../../../services/notificationService';
 import aiVerificationService from '../../../services/aiVerificationService';
@@ -566,108 +568,178 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                 </div>
             )}
 
-            {/* Upload Reference Book Modal */}
-            {showUploadModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/55 backdrop-blur-xs">
-                    <div className="card w-full max-w-xl rounded-3xl border border-[var(--card-border)] shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
-                        <div className="px-6 py-4 border-b border-[var(--card-border)] flex items-center justify-between">
+            {/* Upload Reference Book Modal (Portaled to document.body for full-viewport backdrop) */}
+            {showUploadModal && typeof document !== 'undefined' && createPortal(
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-fade-in"
+                    onClick={() => !uploading && setShowUploadModal(false)}
+                >
+                    <div
+                        className="card w-full max-w-lg rounded-3xl border border-[var(--card-border)] bg-[var(--card-bg)] shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="px-6 py-4 border-b border-[var(--card-border)] flex items-start justify-between gap-4">
                             <div>
-                                <h3 className="text-base font-display font-bold text-[var(--foreground)]">Upload Reference Book</h3>
-                                <p className="text-xs text-[var(--foreground-muted)]">PDF (standard or scanned OCR), DOCX, or TXT up to 50 MB</p>
+                                <h3 className="text-base sm:text-lg font-display font-bold text-[var(--foreground)]">
+                                    Upload Reference Book
+                                </h3>
+                                <p className="text-xs text-[var(--foreground-muted)] mt-0.5">
+                                    PDF (standard or scanned OCR), DOCX, or TXT up to 50 MB
+                                </p>
                             </div>
                             <button
                                 type="button"
-                                onClick={() => !uploading && setShowUploadModal(false)}
-                                className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:bg-[var(--muted-bg)] cursor-pointer"
+                                disabled={uploading}
+                                onClick={() => setShowUploadModal(false)}
+                                aria-label="Close modal"
+                                className="p-1.5 rounded-xl text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--muted-bg)] disabled:opacity-40 transition-colors cursor-pointer shrink-0"
                             >
                                 <X size={18} />
                             </button>
                         </div>
 
-                        <form onSubmit={handleUploadSubmit} className="p-6 space-y-4 overflow-y-auto">
+                        <form onSubmit={handleUploadSubmit} className="p-6 space-y-5 overflow-y-auto">
                             {/* File Drop Area */}
-                            <label className="block p-5 rounded-2xl border-2 border-dashed border-[var(--card-border)] hover:border-[#193D35] bg-[var(--muted-bg)]/50 text-center cursor-pointer transition-all">
-                                <input
-                                    type="file"
-                                    accept=".pdf,.docx,.txt,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                    className="hidden"
-                                    onChange={(e) => handleFileSelect(e.target.files?.[0])}
-                                />
-                                <Upload size={24} className="mx-auto text-[#193D35] dark:text-[#D19A45] mb-2" />
-                                {uploadFile ? (
-                                    <div className="space-y-0.5">
-                                        <p className="text-xs font-bold text-[var(--foreground)] break-all">{uploadFile.name}</p>
-                                        <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
-                                            {formatFileSize(uploadFile.size)} · Ready to upload
-                                        </p>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-0.5">
-                                        <p className="text-xs font-bold text-[var(--foreground)]">Click to choose PDF, DOCX, or TXT file</p>
-                                        <p className="text-[11px] text-[var(--foreground-muted)]">Scanned PDFs automatically trigger OCR processing</p>
-                                    </div>
-                                )}
-                            </label>
-
                             <div>
-                                <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase mb-1">Technology / Category *</label>
-                                <select
-                                    required
-                                    value={uploadTechnology}
-                                    onChange={(e) => setUploadTechnology(e.target.value)}
-                                    className="w-full px-3 py-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
+                                <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase tracking-wider mb-1.5">
+                                    Reference Book File *
+                                </label>
+                                <label
+                                    className={`block p-6 rounded-2xl border-2 border-dashed transition-all text-center ${
+                                        uploading
+                                            ? 'border-[var(--card-border)] bg-[var(--muted-bg)]/40 opacity-80 cursor-not-allowed'
+                                            : uploadFile
+                                                ? 'border-emerald-500/60 bg-emerald-50/40 dark:bg-emerald-950/20 cursor-pointer'
+                                                : 'border-[var(--card-border)] hover:border-[#193D35] bg-[var(--muted-bg)]/50 cursor-pointer'
+                                    }`}
                                 >
-                                    {technologies.map(t => (
-                                        <option key={t.normalized} value={t.name}>{t.name}</option>
-                                    ))}
-                                </select>
+                                    <input
+                                        type="file"
+                                        disabled={uploading}
+                                        accept=".pdf,.docx,.txt,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                        className="hidden"
+                                        onChange={(e) => handleFileSelect(e.target.files?.[0])}
+                                    />
+                                    <div className="w-11 h-11 rounded-2xl bg-[#193D35]/10 dark:bg-[#D19A45]/15 flex items-center justify-center mx-auto mb-3">
+                                        {uploadFile ? (
+                                            <FileText size={22} className="text-emerald-700 dark:text-emerald-400" />
+                                        ) : (
+                                            <Upload size={22} className="text-[#193D35] dark:text-[#D19A45]" />
+                                        )}
+                                    </div>
+                                    {uploadFile ? (
+                                        <div className="space-y-1.5">
+                                            <p className="text-sm font-bold text-[var(--foreground)] break-all px-2">
+                                                {uploadFile.name}
+                                            </p>
+                                            <div className="inline-flex items-center gap-2 text-xs">
+                                                <span className="px-2 py-0.5 rounded-md font-mono font-bold uppercase text-[10px] bg-[#193D35] text-white">
+                                                    {(uploadFile.name.split('.').pop() || 'file').toUpperCase()}
+                                                </span>
+                                                <span className="text-emerald-700 dark:text-emerald-400 font-semibold">
+                                                    {formatFileSize(uploadFile.size)} · Ready to upload
+                                                </span>
+                                            </div>
+                                            {!uploading && (
+                                                <p className="text-[11px] text-[var(--foreground-muted)] pt-0.5">
+                                                    Click anywhere here to choose a different file
+                                                </p>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-1">
+                                            <p className="text-sm font-bold text-[var(--foreground)]">
+                                                Click to choose PDF, DOCX, or TXT file
+                                            </p>
+                                            <p className="text-xs text-[var(--foreground-muted)]">
+                                                Scanned PDFs automatically trigger OCR processing
+                                            </p>
+                                        </div>
+                                    )}
+                                </label>
                             </div>
 
+                            {/* Technology / Category Selector */}
+                            <div>
+                                <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase tracking-wider mb-1.5">
+                                    Technology / Category *
+                                </label>
+                                <div className="relative">
+                                    <select
+                                        required
+                                        disabled={uploading}
+                                        value={uploadTechnology}
+                                        onChange={(e) => setUploadTechnology(e.target.value)}
+                                        className="w-full appearance-none pl-3.5 pr-10 py-2.5 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-sm font-medium text-[var(--foreground)] focus:outline-none focus:border-[#193D35] focus:ring-2 focus:ring-[#193D35]/15 disabled:opacity-60 cursor-pointer"
+                                    >
+                                        {technologies.map(t => (
+                                            <option key={t.normalized} value={t.name}>{t.name}</option>
+                                        ))}
+                                    </select>
+                                    <ChevronDown
+                                        size={16}
+                                        className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Upload Progress */}
                             {uploading && (
-                                <div className="space-y-1">
-                                    <div className="flex justify-between text-[11px] font-bold text-[#193D35] dark:text-[#D19A45]">
-                                        <span>Uploading securely...</span>
-                                        <span>{uploadProgress}%</span>
+                                <div className="p-3.5 rounded-2xl bg-[var(--muted-bg)]/70 border border-[var(--card-border)] space-y-2">
+                                    <div className="flex items-center justify-between text-xs font-bold text-[#193D35] dark:text-[#F3E5C5]">
+                                        <span className="inline-flex items-center gap-1.5">
+                                            <Loader2 size={13} className="animate-spin text-[#D19A45]" />
+                                            <span>Uploading securely...</span>
+                                        </span>
+                                        <span className="font-mono">{uploadProgress}%</span>
                                     </div>
-                                    <div className="w-full h-2 rounded-full bg-[var(--muted-bg)] overflow-hidden">
+                                    <div className="w-full h-2 rounded-full bg-[var(--card-border)]/70 overflow-hidden">
                                         <div
-                                            className="h-full bg-[#193D35] transition-all"
-                                            style={{ width: `${uploadProgress}%` }}
+                                            className="h-full rounded-full bg-gradient-to-r from-[#193D35] to-[#D19A45] transition-all duration-300"
+                                            style={{ width: `${Math.max(4, uploadProgress)}%` }}
                                         />
                                     </div>
                                 </div>
                             )}
 
-                            <div className="flex justify-end gap-2 pt-2">
+                            {/* Footer Buttons */}
+                            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[var(--card-border)]/70">
                                 <button
                                     type="button"
                                     disabled={uploading}
                                     onClick={() => setShowUploadModal(false)}
-                                    className="btn-secondary text-xs py-2 px-4 cursor-pointer"
+                                    className="btn-secondary text-xs sm:text-sm py-2.5 px-4 disabled:opacity-50 cursor-pointer"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    disabled={uploading}
-                                    className="btn-primary text-xs py-2 px-5 inline-flex items-center gap-1.5 cursor-pointer"
+                                    disabled={uploading || !uploadFile}
+                                    className="btn-primary text-xs sm:text-sm py-2.5 px-5 inline-flex items-center gap-2 disabled:opacity-60 cursor-pointer"
                                 >
-                                    {uploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
+                                    {uploading ? <Loader2 size={15} className="animate-spin" /> : <Upload size={15} />}
                                     <span>{uploading ? 'Uploading...' : 'Upload & Index Book'}</span>
                                 </button>
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
-            {/* Edit Metadata Modal */}
-            {editingBook && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/55 backdrop-blur-xs">
-                    <div className="card w-full max-w-lg rounded-3xl border border-[var(--card-border)] shadow-2xl overflow-hidden">
+            {/* Edit Metadata Modal (Portaled to document.body) */}
+            {editingBook && typeof document !== 'undefined' && createPortal(
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-fade-in"
+                    onClick={() => setEditingBook(null)}
+                >
+                    <div
+                        className="card w-full max-w-lg rounded-3xl border border-[var(--card-border)] bg-[var(--card-bg)] shadow-2xl overflow-hidden"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="px-6 py-4 border-b border-[var(--card-border)] flex items-center justify-between">
                             <h3 className="text-base font-display font-bold text-[var(--foreground)]">Edit Book Metadata</h3>
-                            <button type="button" onClick={() => setEditingBook(null)} className="p-1.5 rounded-lg text-[var(--foreground-muted)]">
+                            <button type="button" onClick={() => setEditingBook(null)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:bg-[var(--muted-bg)] cursor-pointer">
                                 <X size={18} />
                             </button>
                         </div>
@@ -687,7 +759,6 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                     <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase mb-1">Author</label>
                                     <input
                                         type="text"
-                                        required
                                         value={editForm.author}
                                         onChange={(e) => setEditForm(f => ({ ...f, author: e.target.value }))}
                                         className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
@@ -695,15 +766,18 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                 </div>
                                 <div>
                                     <label className="block text-[11px] font-bold text-[var(--foreground-muted)] uppercase mb-1">Technology</label>
-                                    <select
-                                        value={editForm.technology}
-                                        onChange={(e) => setEditForm(f => ({ ...f, technology: e.target.value }))}
-                                        className="w-full px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
-                                    >
-                                        {technologies.map(t => (
-                                            <option key={t.normalized} value={t.name}>{t.name}</option>
-                                        ))}
-                                    </select>
+                                    <div className="relative">
+                                        <select
+                                            value={editForm.technology}
+                                            onChange={(e) => setEditForm(f => ({ ...f, technology: e.target.value }))}
+                                            className="w-full appearance-none pl-3 pr-8 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground)]"
+                                        >
+                                            {technologies.map(t => (
+                                                <option key={t.normalized} value={t.name}>{t.name}</option>
+                                            ))}
+                                        </select>
+                                        <ChevronDown size={14} className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+                                    </div>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-3">
@@ -736,21 +810,28 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                 />
                             </div>
                             <div className="flex justify-end gap-2 pt-2">
-                                <button type="button" onClick={() => setEditingBook(null)} className="btn-secondary text-xs py-2 px-4">Cancel</button>
-                                <button type="submit" className="btn-primary text-xs py-2 px-5">Save Changes</button>
+                                <button type="button" onClick={() => setEditingBook(null)} className="btn-secondary text-xs py-2 px-4 cursor-pointer">Cancel</button>
+                                <button type="submit" className="btn-primary text-xs py-2 px-5 cursor-pointer">Save Changes</button>
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
-            {/* Replace Book File Modal */}
-            {replacingBook && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/55 backdrop-blur-xs">
-                    <div className="card w-full max-w-md rounded-3xl border border-[var(--card-border)] shadow-2xl overflow-hidden">
+            {/* Replace Book File Modal (Portaled to document.body) */}
+            {replacingBook && typeof document !== 'undefined' && createPortal(
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-fade-in"
+                    onClick={() => !replacing && setReplacingBook(null)}
+                >
+                    <div
+                        className="card w-full max-w-md rounded-3xl border border-[var(--card-border)] bg-[var(--card-bg)] shadow-2xl overflow-hidden"
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="px-6 py-4 border-b border-[var(--card-border)] flex items-center justify-between">
                             <h3 className="text-base font-display font-bold text-[var(--foreground)]">Replace Book File</h3>
-                            <button type="button" onClick={() => setReplacingBook(null)} className="p-1.5 rounded-lg text-[var(--foreground-muted)]">
+                            <button type="button" disabled={replacing} onClick={() => setReplacingBook(null)} className="p-1.5 rounded-lg text-[var(--foreground-muted)] hover:bg-[var(--muted-bg)] cursor-pointer">
                                 <X size={18} />
                             </button>
                         </div>
@@ -765,15 +846,16 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                 className="w-full text-xs text-[var(--foreground)]"
                             />
                             <div className="flex justify-end gap-2">
-                                <button type="button" onClick={() => setReplacingBook(null)} className="btn-secondary text-xs py-2 px-4">Cancel</button>
-                                <button type="submit" disabled={replacing || !replaceFile} className="btn-primary text-xs py-2 px-5 inline-flex items-center gap-1.5">
+                                <button type="button" disabled={replacing} onClick={() => setReplacingBook(null)} className="btn-secondary text-xs py-2 px-4 cursor-pointer">Cancel</button>
+                                <button type="submit" disabled={replacing || !replaceFile} className="btn-primary text-xs py-2 px-5 inline-flex items-center gap-1.5 cursor-pointer">
                                     {replacing && <Loader2 size={13} className="animate-spin" />}
                                     <span>Replace & Index</span>
                                 </button>
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );

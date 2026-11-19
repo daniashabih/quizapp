@@ -308,6 +308,7 @@ export const AuthProvider = ({ children }) => {
     const value = {
         user,
         isAuthenticated: !!user,
+        isAdmin: String(user?.role || '').toLowerCase() === 'admin',
         loading,
         signup,
         register: signup,

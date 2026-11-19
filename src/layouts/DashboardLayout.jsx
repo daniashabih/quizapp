@@ -25,7 +25,8 @@ import usePageSeo from '../hooks/usePageSeo';
 
 const DashboardLayout = ({ children }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const { user, logout, isAdmin } = useAuth();
+    const { user, logout, isAdmin: authIsAdmin } = useAuth();
+    const isAdmin = Boolean(authIsAdmin || String(user?.role || '').toLowerCase() === 'admin');
     const location = useLocation();
 
     usePageSeo({
