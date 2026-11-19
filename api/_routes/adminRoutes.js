@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
 const { authMiddleware, adminMiddleware } = require('../_middlewares/authMiddleware');
 
@@ -11,9 +12,21 @@ const gameController = require('../_controllers/gameController');
 const blogController = require('../_controllers/blogController');
 const knowledgeBaseController = require('../_controllers/knowledgeBaseController');
 const verificationController = require('../_controllers/verificationController');
+const aiController = require('../_controllers/aiController');
 const { MAX_BOOK_FILE_SIZE_BYTES } = require('../_services/bookExtractorService');
 const Setting = require('../_models/settingModel');
 const prisma = require('../_config/prisma');
+
+const adminAiTestLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: parseInt(process.env.AI_ADMIN_TEST_RATE_LIMIT_MAX || '30', 10) || 30,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: {
+        success: false,
+        message: 'Too many admin AI test requests. Please wait a few minutes and try again.'
+    }
+});
 
 const bookUpload = multer({
     storage: multer.memoryStorage(),
@@ -233,5 +246,12 @@ router.get('/verification-reports/history', verificationController.getCorrection
 router.post('/verification-reports/:id/approve', verificationController.approveReportCorrection);
 router.post('/verification-reports/:id/dismiss', verificationController.dismissReport);
 router.delete('/verification-reports/:id', verificationController.deleteReport);
+
+// 11. /api/admin/ai (Hugging Face Inference Providers Controls, Usage & Diagnostics)
+router.get('/ai/status', aiController.getAiStatus);
+router.get('/ai/usage', aiController.getAiUsage);
+router.get('/ai/models/check', aiController.checkAiModels);
+router.post('/ai/test', adminAiTestLimiter, aiController.testAiModels);
+router.post('/ai/cache/clear', aiController.clearAiCache);
 
 module.exports = router;

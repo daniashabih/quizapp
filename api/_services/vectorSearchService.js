@@ -1,7 +1,14 @@
 const prisma = require('../_config/prisma');
+const { getActiveEmbeddingDimensions } = require('./aiProviderService');
 
 const VECTOR_INDEX_NAME = process.env.MONGODB_VECTOR_INDEX || 'book_chunks_vector_index';
-const VECTOR_DIMENSIONS = parseInt(process.env.AI_EMBEDDING_DIMENSIONS || '1536', 10) || 1536;
+
+function getConfiguredVectorDimensions(explicitDimensions) {
+    if (Number.isFinite(Number(explicitDimensions)) && Number(explicitDimensions) > 0) {
+        return Number(explicitDimensions);
+    }
+    return getActiveEmbeddingDimensions();
+}
 
 /**
  * Compute cosine similarity between two numeric vectors
@@ -27,7 +34,8 @@ function cosineSimilarity(a, b) {
 /**
  * MongoDB Atlas Vector Search Index definition for `knowledge_book_chunks`
  */
-function getAtlasVectorIndexDefinition() {
+function getAtlasVectorIndexDefinition(dimensions) {
+    const numDimensions = getConfiguredVectorDimensions(dimensions);
     return {
         name: VECTOR_INDEX_NAME,
         type: 'vectorSearch',
@@ -36,7 +44,7 @@ function getAtlasVectorIndexDefinition() {
                 {
                     type: 'vector',
                     path: 'embedding',
-                    numDimensions: VECTOR_DIMENSIONS,
+                    numDimensions,
                     similarity: 'cosine'
                 },
                 {
@@ -65,7 +73,7 @@ async function searchRelevantBookChunks({
     queryEmbedding,
     technologiesNormalized,
     limit = 6,
-    minScore = 0.25
+    minScore = parseFloat(process.env.VECTOR_SEARCH_MIN_SCORE || '0.25') || 0.25
 }) {
     if (!Array.isArray(queryEmbedding) || queryEmbedding.length === 0) {
         return { chunks: [], searchMode: 'none' };
@@ -216,21 +224,52 @@ async function searchRelevantBookChunks({
 }
 
 /**
- * Attempt to inspect or create the MongoDB Atlas Vector Search index via $runCommandRaw
+ * Attempt to inspect or create/update the MongoDB Atlas Vector Search index via $runCommandRaw
  */
-async function ensureAtlasVectorSearchIndex() {
-    const indexDef = getAtlasVectorIndexDefinition();
+async function ensureAtlasVectorSearchIndex(dimensions) {
+    const indexDef = getAtlasVectorIndexDefinition(dimensions);
     try {
         const res = await prisma.$runCommandRaw({
             createSearchIndexes: 'knowledge_book_chunks',
             indexes: [indexDef]
         });
-        return { success: true, indexName: VECTOR_INDEX_NAME, response: res };
+        return {
+            success: true,
+            indexName: VECTOR_INDEX_NAME,
+            dimensions: indexDef.definition.fields[0].numDimensions,
+            response: res
+        };
     } catch (err) {
+        const msg = String(err?.message || '');
+        if (/already exists|IndexAlreadyExists/i.test(msg)) {
+            try {
+                const updateRes = await prisma.$runCommandRaw({
+                    updateSearchIndex: 'knowledge_book_chunks',
+                    name: VECTOR_INDEX_NAME,
+                    definition: indexDef.definition
+                });
+                return {
+                    success: true,
+                    updated: true,
+                    indexName: VECTOR_INDEX_NAME,
+                    dimensions: indexDef.definition.fields[0].numDimensions,
+                    response: updateRes
+                };
+            } catch (updateErr) {
+                return {
+                    success: false,
+                    indexName: VECTOR_INDEX_NAME,
+                    dimensions: indexDef.definition.fields[0].numDimensions,
+                    message: `${msg} (Update attempt: ${updateErr.message})`,
+                    definition: indexDef
+                };
+            }
+        }
         return {
             success: false,
             indexName: VECTOR_INDEX_NAME,
-            message: err.message,
+            dimensions: indexDef.definition.fields[0].numDimensions,
+            message: msg,
             definition: indexDef
         };
     }
@@ -238,7 +277,7 @@ async function ensureAtlasVectorSearchIndex() {
 
 module.exports = {
     VECTOR_INDEX_NAME,
-    VECTOR_DIMENSIONS,
+    getConfiguredVectorDimensions,
     cosineSimilarity,
     getAtlasVectorIndexDefinition,
     searchRelevantBookChunks,

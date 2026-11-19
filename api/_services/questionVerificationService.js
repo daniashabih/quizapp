@@ -1,7 +1,13 @@
 const prisma = require('../_config/prisma');
 const Question = require('../_models/questionModel');
 const { normalizeTechnology, resolveQuestionTechnologies } = require('../_utils/ragTechnology');
-const { generateEmbeddings, evaluateQuestionWithEvidence } = require('./aiProviderService');
+const {
+    generateEmbeddings,
+    evaluateQuestionWithEvidence,
+    formatConciseExplanation,
+    getActiveProviderInfo
+} = require('./aiProviderService');
+const { recordAiEvent } = require('./aiUsageService');
 const { searchRelevantBookChunks } = require('./vectorSearchService');
 const { getKnowledgeBaseVersion, PROCESSING_STATUSES } = require('./bookProcessingService');
 const { sha256 } = require('./bookExtractorService');
@@ -143,12 +149,13 @@ function groundVerificationResult({
     }
 
     if (status === 'insufficient_evidence' || !matchedChunk) {
+        const fallbackExplanation = formatConciseExplanation(rawAiResult?.explanation) ||
+            'The uploaded reference books for this technology do not contain enough specific information to verify this question reliably.\nNo answer was guessed outside the uploaded book evidence.\nAsk an administrator to upload an additional reference textbook covering this topic.';
         return {
             verification_status: 'insufficient_evidence',
             original_correct_answer: originalCorrectAnswer,
             verified_correct_answer: '',
-            explanation: String(rawAiResult?.explanation || '').trim() ||
-                'The uploaded reference books for this technology do not contain enough specific information to verify this question reliably. No answer was guessed outside the book evidence. Try uploading an additional reference textbook covering this topic.',
+            explanation: fallbackExplanation,
             source_book: '',
             source_author: '',
             source_chapter: '',
@@ -191,8 +198,8 @@ function groundVerificationResult({
         ? Number(Math.min(1, Math.max(0, confidenceNum)).toFixed(2))
         : Number(Math.min(0.95, Math.max(0.5, matchedChunk.score || 0.75)).toFixed(2));
 
-    const explanation = String(rawAiResult?.explanation || '').trim() ||
-        `According to "${matchedChunk.bookTitle}", the correct answer is "${verifiedAnswer || originalCorrectAnswer}". Review the cited book reference below for the full concept details.`;
+    const explanation = formatConciseExplanation(rawAiResult?.explanation) ||
+        `According to "${matchedChunk.bookTitle}", the correct answer is "${verifiedAnswer || originalCorrectAnswer}".\nReview the cited chapter and page excerpt below for the reference book definition.`;
 
     return {
         verification_status: status,
@@ -358,6 +365,10 @@ async function verifyQuestionWithBooks({
         return {
             cached: false,
             searchMode: 'no_active_books',
+            provider: getActiveProviderInfo().provider,
+            model: '',
+            fallbackUsed: false,
+            latencyMs: 0,
             verification: personalizeExplanationForUserSelection(
                 formatVerificationResponse(saved),
                 userSelectedAnswer,
@@ -366,6 +377,7 @@ async function verifyQuestionWithBooks({
         };
     }
 
+    const activeProvider = getActiveProviderInfo();
     const cacheKey = buildCacheKey({
         questionText: cleanQuestionText,
         options: cleanOptions,
@@ -388,9 +400,22 @@ async function verifyQuestionWithBooks({
                 }
             }).catch(() => {});
 
+            recordAiEvent({
+                operation: 'verify_question',
+                provider: activeProvider.provider,
+                model: activeProvider.verificationModel,
+                cached: true,
+                cacheLayer: 'db',
+                latencyMs: 0
+            });
+
             return {
                 cached: true,
                 searchMode: 'cache',
+                provider: activeProvider.provider,
+                model: activeProvider.verificationModel,
+                fallbackUsed: false,
+                latencyMs: 0,
                 verification: personalizeExplanationForUserSelection(
                     formatVerificationResponse(cachedRecord),
                     userSelectedAnswer,
@@ -403,10 +428,22 @@ async function verifyQuestionWithBooks({
     // 2. Deduplicate concurrent in-flight verification requests for the exact same cacheKey
     if (inFlightVerifications.has(cacheKey)) {
         const sharedResult = await inFlightVerifications.get(cacheKey);
+        recordAiEvent({
+            operation: 'verify_question',
+            provider: sharedResult.provider || activeProvider.provider,
+            model: sharedResult.model || activeProvider.verificationModel,
+            cached: true,
+            cacheLayer: 'deduplicated',
+            latencyMs: 0
+        });
         return {
             cached: true,
             deduplicated: true,
             searchMode: sharedResult.searchMode,
+            provider: sharedResult.provider || activeProvider.provider,
+            model: sharedResult.model || activeProvider.verificationModel,
+            fallbackUsed: Boolean(sharedResult.fallbackUsed),
+            latencyMs: 0,
             verification: personalizeExplanationForUserSelection(
                 sharedResult.verification,
                 userSelectedAnswer,
@@ -416,6 +453,7 @@ async function verifyQuestionWithBooks({
     }
 
     const verificationPromise = (async () => {
+        const startedAt = Date.now();
         // 3. Embed question + options for semantic vector retrieval
         const queryText = [
             `Technology: ${cleanTechnology}`,
@@ -423,18 +461,26 @@ async function verifyQuestionWithBooks({
             `Options: ${cleanOptions.join(' | ')}`
         ].join('\n');
 
-        const [queryEmbedding] = await generateEmbeddings([queryText], { taskType: 'RETRIEVAL_QUERY' });
+        const [queryEmbedding] = await generateEmbeddings([queryText], {
+            taskType: 'RETRIEVAL_QUERY',
+            operation: 'embed_query'
+        });
 
         // 4. Semantic search across active books for this technology via MongoDB Atlas Vector Search
         const searchResult = await searchRelevantBookChunks({
             queryEmbedding,
             technologiesNormalized,
             limit: 6,
-            minScore: 0.25
+            minScore: parseFloat(process.env.VECTOR_SEARCH_MIN_SCORE || '0.25') || 0.25
         });
 
         const evidenceChunks = searchResult.chunks || [];
         let grounded;
+        let aiMeta = {
+            provider: activeProvider.provider,
+            modelUsed: '',
+            fallbackUsed: false
+        };
 
         if (evidenceChunks.length === 0) {
             grounded = groundVerificationResult({
@@ -452,6 +498,16 @@ async function verifyQuestionWithBooks({
                 technology: cleanTechnology,
                 evidenceChunks
             });
+
+            if (rawAi?._meta) {
+                aiMeta = {
+                    provider: rawAi._meta.provider || activeProvider.provider,
+                    modelUsed: rawAi._meta.modelUsed || activeProvider.verificationModel,
+                    fallbackUsed: Boolean(rawAi._meta.fallbackUsed)
+                };
+            } else {
+                aiMeta.modelUsed = activeProvider.verificationModel;
+            }
 
             // 6. Strictly ground citations & status against retrieved chunks
             grounded = groundVerificationResult({
@@ -508,6 +564,10 @@ async function verifyQuestionWithBooks({
 
         return {
             searchMode: searchResult.searchMode,
+            provider: aiMeta.provider,
+            model: aiMeta.modelUsed,
+            fallbackUsed: aiMeta.fallbackUsed,
+            latencyMs: Date.now() - startedAt,
             verification: formatVerificationResponse(saved)
         };
     })();
@@ -518,6 +578,10 @@ async function verifyQuestionWithBooks({
         return {
             cached: false,
             searchMode: result.searchMode,
+            provider: result.provider,
+            model: result.model,
+            fallbackUsed: result.fallbackUsed,
+            latencyMs: result.latencyMs,
             verification: personalizeExplanationForUserSelection(
                 result.verification,
                 userSelectedAnswer,

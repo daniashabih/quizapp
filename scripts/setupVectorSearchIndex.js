@@ -10,13 +10,14 @@ async function main() {
     console.log('=== Hangbug MongoDB Atlas Vector Search Index Setup ===');
     const result = await ensureAtlasVectorSearchIndex();
     if (result.success) {
-        console.log(`Vector Search index "${result.indexName}" created/verified successfully!`);
+        console.log(`Vector Search index "${result.indexName}" (${result.dimensions} dims) ${result.updated ? 'updated' : 'created/verified'} successfully!`);
         console.log(JSON.stringify(result.response, null, 2));
     } else {
         console.warn(`Automatic creation notice: ${result.message}`);
         console.log('\nYou can also create this index manually in MongoDB Atlas UI:');
         console.log('Collection: knowledge_book_chunks');
         console.log(`Index Name: ${result.indexName}`);
+        console.log(`Embedding Dimensions: ${result.dimensions}`);
         console.log('Definition JSON:');
         console.log(JSON.stringify(getAtlasVectorIndexDefinition().definition, null, 2));
     }

@@ -147,7 +147,9 @@ async function processBookById(bookId, { preloadedBuffer = null } = {}) {
             processingProgress: 45
         });
 
-        // Step 2: Reuse existing embeddings by contentHash to avoid redundant AI API costs
+        // Step 2: Reuse existing embeddings by contentHash ONLY if dimensions match the active embedding model
+        const providerInfo = getActiveProviderInfo();
+        const expectedDimensions = providerInfo.embeddingDimensions || 1024;
         const uniqueHashes = Array.from(new Set(chunks.map(c => c.contentHash)));
         const existingEmbeddedChunks = await prisma.knowledgeBookChunk.findMany({
             where: {
@@ -161,7 +163,11 @@ async function processBookById(bookId, { preloadedBuffer = null } = {}) {
 
         const embeddingCache = new Map();
         for (const existing of existingEmbeddedChunks) {
-            if (Array.isArray(existing.embedding) && existing.embedding.length > 0 && !embeddingCache.has(existing.contentHash)) {
+            if (
+                Array.isArray(existing.embedding) &&
+                existing.embedding.length === expectedDimensions &&
+                !embeddingCache.has(existing.contentHash)
+            ) {
                 embeddingCache.set(existing.contentHash, existing.embedding);
             }
         }
@@ -173,8 +179,6 @@ async function processBookById(bookId, { preloadedBuffer = null } = {}) {
             }
         }
 
-        const providerInfo = getActiveProviderInfo();
-
         if (chunksNeedingEmbedding.length > 0) {
             // Embed in batches while updating live progress
             const batchSize = 32;
@@ -183,7 +187,10 @@ async function processBookById(bookId, { preloadedBuffer = null } = {}) {
                 const inputs = batch.map(c =>
                     `${book.technology} | ${book.title} | ${c.chapter}\n${c.chunkText}`
                 );
-                const vectors = await generateEmbeddings(inputs, { taskType: 'RETRIEVAL_DOCUMENT' });
+                const vectors = await generateEmbeddings(inputs, {
+                    taskType: 'RETRIEVAL_DOCUMENT',
+                    operation: 'embed_book'
+                });
                 if (vectors.length !== batch.length) {
                     throw new Error('Embedding count mismatch from AI provider.');
                 }
@@ -239,7 +246,7 @@ async function processBookById(bookId, { preloadedBuffer = null } = {}) {
             processingError: '',
             indexedChunks: indexedCount,
             totalChunks: chunks.length,
-            embeddingModel: providerInfo.embeddingModel || 'text-embedding-3-small',
+            embeddingModel: providerInfo.embeddingModel || 'BAAI/bge-large-en-v1.5',
             embeddingDimensions: dimensions,
             knowledgeVersion: (book.knowledgeVersion || 1) + 1,
             lastIndexedAt: new Date()

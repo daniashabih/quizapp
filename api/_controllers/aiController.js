@@ -1,82 +1,53 @@
-const OpenAI = require('openai');
 const Question = require('../_models/questionModel');
-require('dotenv').config();
+const prisma = require('../_config/prisma');
+const {
+    getHfConfig,
+    getActiveProviderInfo,
+    generateQuizQuestions,
+    inspectHuggingFaceModels,
+    testAiIntegration,
+    clearInMemoryAiCache,
+    getMemoryCacheStats
+} = require('../_services/aiProviderService');
+const { getUsageSummary, CHECKED_HF_MODEL_CATALOG } = require('../_services/aiUsageService');
+const { getAtlasVectorIndexDefinition, VECTOR_INDEX_NAME } = require('../_services/vectorSearchService');
+const { verifyQuestionWithBooks } = require('../_services/questionVerificationService');
+const { PROCESSING_STATUSES } = require('../_services/bookProcessingService');
 
-let openaiClient = null;
-
-const getOpenAIClient = () => {
-    if (!openaiClient) {
-        if (!process.env.OPENAI_API_KEY) {
-            throw new Error('OpenAI API Key not configured');
-        }
-        openaiClient = new OpenAI({
-            apiKey: process.env.OPENAI_API_KEY,
-        });
-    }
-    return openaiClient;
-};
-
+/**
+ * POST /api/questions/generate (Admin)
+ * Generate MCQs using the reusable AI Provider Service (Hugging Face default).
+ */
 const generateQuestions = async (req, res) => {
-    console.log('--- AI Generation Request Received ---');
-    console.log('Body:', req.body);
-
     try {
-        const { topic, count = 5, session = 1 } = req.body;
-        const sessionNum = parseInt(session, 10) || 1;
+        const { topic, count = 5, session = 1 } = req.body || {};
+        const cleanTopic = String(topic || '').trim();
+        const sessionNum = Math.max(1, parseInt(session, 10) || 1);
 
-        if (!process.env.OPENAI_API_KEY) {
-            console.error('Missing OpenAI API Key');
-            return res.status(500).json({ message: 'OpenAI API Key not configured' });
+        if (!cleanTopic) {
+            return res.status(400).json({ message: 'Topic is required.' });
         }
 
-        const openai = getOpenAIClient();
+        const providerInfo = getActiveProviderInfo();
+        if (!providerInfo.configured) {
+            return res.status(503).json({
+                message: 'AI provider not configured. Set HF_TOKEN (recommended), OPENAI_API_KEY, or GEMINI_API_KEY on the server.'
+            });
+        }
 
-        const prompt = `
-            Create ${count} multiple-choice quiz questions about ${topic}.
-            Return ONLY a valid JSON array of objects with this structure:
-            [
-                {
-                    "category": "${topic}",
-                    "session": ${sessionNum},
-                    "question_text": "Question here?",
-                    "options": ["Option A", "Option B", "Option C", "Option D"],
-                    "correct_answer": "Option A"
-                }
-            ]
-            Do not include any markdown formatting like \`\`\`json. Just the raw JSON array.
-        `;
-
-        console.log('Sending request to OpenAI...');
-        const completion = await openai.chat.completions.create({
-            messages: [{ role: "user", content: prompt }],
-            model: "gpt-3.5-turbo",
+        const generated = await generateQuizQuestions({
+            topic: cleanTopic,
+            count,
+            session: sessionNum
         });
 
-        console.log('OpenAI Response received');
-        const content = completion.choices[0].message.content.trim();
-        console.log('Raw Content:', content);
-
-        // Clean up markdown if present (sometimes GPT adds it anyway)
-        const jsonStr = content.replace(/^```json/, '').replace(/```$/, '').trim();
-
-        let questions;
-        try {
-            questions = JSON.parse(jsonStr);
-        } catch (parseError) {
-            console.error('JSON Parse Error:', parseError);
-            console.error('String attempting to parse:', jsonStr);
-            throw new Error('Failed to parse AI response. Try again.');
-        }
-
-        console.log(`Parsed ${questions.length} questions. Saving to DB...`);
-
-        // Save to database (skipping duplicates across the category)
+        const questions = Array.isArray(generated.questions) ? generated.questions : [];
         const savedIds = [];
         const seenNorm = new Set();
         let skippedDuplicates = 0;
 
         for (const q of questions) {
-            const targetCategory = q.category || topic;
+            const targetCategory = q.category || cleanTopic;
             const normText = Question.normalizeQuestionText(q.question_text);
             if (!normText || seenNorm.has(normText)) {
                 skippedDuplicates++;
@@ -99,30 +70,214 @@ const generateQuestions = async (req, res) => {
             savedIds.push(id);
         }
 
-        console.log('All non-duplicate questions saved successfully.');
         res.json({
             message: skippedDuplicates > 0
                 ? `Successfully generated ${savedIds.length} questions (${skippedDuplicates} duplicate(s) skipped)`
                 : `Successfully generated ${savedIds.length} questions`,
             count: savedIds.length,
-            skipped: skippedDuplicates
+            skipped: skippedDuplicates,
+            provider: generated.provider,
+            model: generated.modelUsed,
+            fallbackUsed: Boolean(generated.fallbackUsed)
         });
-
     } catch (error) {
-        console.error('AI Generation Error:', error);
-
-        let errorMessage = 'Failed to generate questions. Check API Key or try again.';
-
-        if (error.response) {
-            // OpenAI API error
-            errorMessage = `OpenAI API Error: ${error.response.data.error.message}`;
-            console.error('OpenAI Error details:', error.response.data);
-        } else if (error.message) {
-            errorMessage = error.message;
-        }
-
-        res.status(500).json({ message: errorMessage });
+        console.error('AI Generation Error:', error.message);
+        res.status(error.status || 500).json({
+            message: error.message || 'Failed to generate questions. Check AI configuration or try again.'
+        });
     }
 };
 
-module.exports = { generateQuestions };
+/**
+ * GET /api/admin/ai/status
+ * Inspect active AI provider, configured models (never tokens), vector index & usage overview.
+ */
+const getAiStatus = async (req, res) => {
+    try {
+        const providerInfo = getActiveProviderInfo();
+        const hfCfg = getHfConfig();
+
+        const [usage, activeBooks] = await Promise.all([
+            getUsageSummary(),
+            prisma.knowledgeBook.findMany({
+                where: {
+                    processingStatus: PROCESSING_STATUSES.COMPLETED
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    technology: true,
+                    embeddingModel: true,
+                    embeddingDimensions: true,
+                    isEnabled: true
+                }
+            }).catch(() => [])
+        ]);
+
+        const dimensionMismatchBooks = activeBooks.filter(
+            b => b.embeddingDimensions && b.embeddingDimensions !== providerInfo.embeddingDimensions
+        );
+
+        res.json({
+            success: true,
+            aiProvider: providerInfo,
+            config: {
+                baseUrl: hfCfg.baseUrl,
+                chatModel: providerInfo.verificationModel,
+                fallbackChatModel: providerInfo.fallbackModel,
+                embeddingModel: providerInfo.embeddingModel,
+                embeddingProvider: hfCfg.embeddingProvider,
+                embeddingFallbackProvider: hfCfg.embeddingFallbackProvider,
+                embeddingDimensions: providerInfo.embeddingDimensions,
+                timeoutMs: hfCfg.timeoutMs,
+                maxRetries: hfCfg.maxRetries,
+                cacheTtlMs: hfCfg.cacheTtlMs,
+                verifyRateLimitMax: parseInt(process.env.AI_VERIFY_RATE_LIMIT_MAX || '40', 10) || 40,
+                adminTestRateLimitMax: parseInt(process.env.AI_ADMIN_TEST_RATE_LIMIT_MAX || '30', 10) || 30,
+                vectorSearchMinScore: parseFloat(process.env.VECTOR_SEARCH_MIN_SCORE || '0.25') || 0.25
+            },
+            vectorIndex: {
+                name: VECTOR_INDEX_NAME,
+                collection: 'knowledge_book_chunks',
+                dimensions: providerInfo.embeddingDimensions,
+                definition: getAtlasVectorIndexDefinition(providerInfo.embeddingDimensions),
+                dimensionMismatchCount: dimensionMismatchBooks.length,
+                dimensionMismatchBooks: dimensionMismatchBooks.map(b => ({
+                    id: b.id,
+                    title: b.title,
+                    technology: b.technology,
+                    embeddingModel: b.embeddingModel,
+                    embeddingDimensions: b.embeddingDimensions
+                }))
+            },
+            cache: getMemoryCacheStats(),
+            usage,
+            checkedModelCatalog: CHECKED_HF_MODEL_CATALOG
+        });
+    } catch (err) {
+        console.error('[Admin AI Status Error]:', err);
+        res.status(500).json({ success: false, message: err.message || 'Failed to load AI status.' });
+    }
+};
+
+/**
+ * GET /api/admin/ai/usage
+ */
+const getAiUsage = async (req, res) => {
+    try {
+        const usage = await getUsageSummary();
+        res.json({
+            success: true,
+            aiProvider: getActiveProviderInfo(),
+            cache: getMemoryCacheStats(),
+            usage
+        });
+    } catch (err) {
+        console.error('[Admin AI Usage Error]:', err);
+        res.status(500).json({ success: false, message: err.message || 'Failed to load AI usage metrics.' });
+    }
+};
+
+/**
+ * GET /api/admin/ai/models/check
+ * Live inspection of Hugging Face Inference Providers availability & pricing for configured models.
+ */
+const checkAiModels = async (req, res) => {
+    try {
+        const forceRefresh = String(req.query?.refresh || '') === 'true';
+        const report = await inspectHuggingFaceModels({ forceRefresh });
+        res.json({
+            success: true,
+            ...report
+        });
+    } catch (err) {
+        console.error('[Admin AI Model Check Error]:', err);
+        res.status(err.status || 500).json({
+            success: false,
+            message: err.message || 'Failed to inspect Hugging Face model availability.'
+        });
+    }
+};
+
+/**
+ * POST /api/admin/ai/test
+ * Test configured Hugging Face chat model, fallback model, embedding model, or book-grounded verification.
+ */
+const testAiModels = async (req, res) => {
+    try {
+        const {
+            mode = 'chat',
+            prompt = '',
+            model = '',
+            questionText = '',
+            options = [],
+            correctAnswer = '',
+            technology = 'HTML',
+            bypassCache = true
+        } = req.body || {};
+
+        const cleanMode = String(mode || 'chat').trim().toLowerCase();
+
+        if (cleanMode === 'verification') {
+            const qText = String(questionText || prompt || '').trim();
+            const qOpts = Array.isArray(options) && options.length >= 2
+                ? options
+                : ['<section>', '<div>', '<span>', '<header>'];
+            const qAns = String(correctAnswer || qOpts[0]).trim();
+            const result = await verifyQuestionWithBooks({
+                questionText: qText,
+                options: qOpts,
+                correctAnswer: qAns,
+                technology: String(technology || 'HTML').trim(),
+                bypassCache: Boolean(bypassCache)
+            });
+            return res.json({
+                success: true,
+                mode: 'verification',
+                ...result
+            });
+        }
+
+        const result = await testAiIntegration({
+            mode: cleanMode,
+            prompt,
+            model
+        });
+
+        res.json({
+            success: true,
+            result
+        });
+    } catch (err) {
+        console.error('[Admin AI Test Error]:', err);
+        res.status(err.status || 500).json({
+            success: false,
+            message: err.message || 'AI diagnostic test failed.'
+        });
+    }
+};
+
+/**
+ * POST /api/admin/ai/cache/clear
+ */
+const clearAiCache = async (req, res) => {
+    try {
+        const cleared = clearInMemoryAiCache();
+        res.json({
+            success: true,
+            message: `Cleared ${cleared.clearedEmbeddings} cached embeddings and ${cleared.clearedChats} cached completions from memory.`,
+            ...cleared
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message || 'Failed to clear AI cache.' });
+    }
+};
+
+module.exports = {
+    generateQuestions,
+    getAiStatus,
+    getAiUsage,
+    checkAiModels,
+    testAiModels,
+    clearAiCache
+};

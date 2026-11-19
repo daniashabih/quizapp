@@ -210,6 +210,35 @@ const aiVerificationService = {
     deleteReport: async (reportId) => {
         const res = await axios.delete(`/admin/verification-reports/${reportId}`, { timeout: 20000 });
         return res.data;
+    },
+
+    // --- Admin AI Provider Controls, Testing & Usage ---
+    getAiStatus: async () => {
+        const res = await axios.get('/admin/ai/status', { timeout: 20000 });
+        return res.data;
+    },
+
+    getAiUsage: async () => {
+        const res = await axios.get('/admin/ai/usage', { timeout: 20000 });
+        return res.data;
+    },
+
+    checkAiModels: async (refresh = false) => {
+        const res = await axios.get('/admin/ai/models/check', {
+            params: refresh ? { refresh: 'true' } : undefined,
+            timeout: 25000
+        });
+        return res.data;
+    },
+
+    testAiModel: async (payload) => {
+        const res = await axios.post('/admin/ai/test', payload, { timeout: 45000 });
+        return res.data;
+    },
+
+    clearAiCache: async () => {
+        const res = await axios.post('/admin/ai/cache/clear', {}, { timeout: 15000 });
+        return res.data;
     }
 };
 

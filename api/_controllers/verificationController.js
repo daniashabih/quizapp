@@ -85,6 +85,10 @@ async function verifyQuestion(req, res) {
             cached: Boolean(result.cached),
             deduplicated: Boolean(result.deduplicated),
             searchMode: result.searchMode,
+            provider: result.provider || '',
+            model: result.model || '',
+            fallbackUsed: Boolean(result.fallbackUsed),
+            latencyMs: result.latencyMs || 0,
             verification: result.verification
         });
     } catch (err) {
