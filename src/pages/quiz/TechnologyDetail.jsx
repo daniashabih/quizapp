@@ -256,6 +256,7 @@ export default function TechnologyDetail() {
                                 </Link>
                                 <Link
                                     to="/certificate/view"
+                                    rel="nofollow"
                                     className="text-xs font-semibold text-[#193D35] dark:text-emerald-400 hover:underline px-2 py-1"
                                 >
                                     How Completion Certificates Work →

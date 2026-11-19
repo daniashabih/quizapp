@@ -601,6 +601,30 @@ export default function BlogList() {
                             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
                                 Reading tutorials is step one. Cement your knowledge with Hangbug's topic-specific programming quizzes, test your speed in 60-Second Challenge, and earn verified developer certificates.
                             </p>
+                            <div className="flex flex-wrap gap-2 pt-1">
+                                {[
+                                    { label: 'HTML Quizzes', to: '/technologies/html' },
+                                    { label: 'CSS Guide', to: '/technologies/css' },
+                                    { label: 'JavaScript', to: '/technologies/javascript' },
+                                    { label: 'React.js', to: '/technologies/react' },
+                                    { label: 'PHP & Laravel', to: '/technologies/laravel' },
+                                    { label: 'MySQL', to: '/technologies/mysql' },
+                                    { label: 'MongoDB', to: '/technologies/mongodb' },
+                                    { label: 'Flutter & Dart', to: '/technologies/flutter' },
+                                    { label: 'Python', to: '/technologies/python' },
+                                    { label: 'Code Puzzle', to: '/games/code-puzzle' },
+                                    { label: 'Find the Bug', to: '/games/find-the-bug' },
+                                    { label: 'SQL Challenge', to: '/games/sql-challenge' }
+                                ].map((item) => (
+                                    <Link
+                                        key={item.to}
+                                        to={item.to}
+                                        className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-[11px] font-semibold text-emerald-100 transition-colors"
+                                    >
+                                        {item.label}
+                                    </Link>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">

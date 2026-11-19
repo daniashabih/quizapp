@@ -163,6 +163,42 @@ function CodeBlock({ code, language }) {
     );
 }
 
+const UNPUBLISHED_BLOG_FALLBACKS = {
+    'mysql-database-tutorial-beginners': '/technologies/mysql',
+    'csharp-programming-beginners-guide': '/technologies',
+    'programming-interview-questions-beginners': '/technologies/programming-fundamentals',
+    'improve-programming-skills-coding-practice': '/games'
+};
+
+function sanitizeBlogInternalPath(rawPath) {
+    if (!rawPath) return '/';
+    const redirectAliases = {
+        '/technologies/reactjs': '/technologies/react',
+        '/technologies/react.js': '/technologies/react',
+        '/technologies/js': '/technologies/javascript',
+        '/technologies/html5': '/technologies/html',
+        '/technologies/css3': '/technologies/css',
+        '/technologies/fundamentals': '/technologies/programming-fundamentals',
+        '/technologies/programming-logic': '/technologies/programming-fundamentals',
+        '/games/coding-memory-match': '/games/memory-match',
+        '/privacy': '/privacy-policy',
+        '/resources': '/blog',
+        '/quizzes': '/technologies',
+        '/quiz': '/technologies',
+        '/leaderboard/full': '/leaderboard'
+    };
+    const [pathOnly, query] = rawPath.split('?');
+    const clean = pathOnly === '/' ? '/' : pathOnly.replace(/\/+$/, '');
+    if (clean.startsWith('/blog/')) {
+        const slug = clean.slice('/blog/'.length).toLowerCase();
+        if (UNPUBLISHED_BLOG_FALLBACKS[slug]) {
+            return UNPUBLISHED_BLOG_FALLBACKS[slug];
+        }
+    }
+    const mapped = redirectAliases[clean.toLowerCase()] || clean;
+    return query ? `${mapped}?${query}` : mapped;
+}
+
 function renderInlineTokens(tokens, keyPrefix = 't') {
     return (tokens || []).map((token, idx) => {
         const key = `${keyPrefix}-${idx}`;
@@ -194,7 +230,8 @@ function renderInlineTokens(tokens, keyPrefix = 't') {
             const href = token.href || '#';
             const isInternal = href.startsWith('/') || href.startsWith(SITE_BASE_URL);
             if (isInternal) {
-                const toPath = href.startsWith(SITE_BASE_URL) ? (href.slice(SITE_BASE_URL.length) || '/') : href;
+                const rawPath = href.startsWith(SITE_BASE_URL) ? (href.slice(SITE_BASE_URL.length) || '/') : href;
+                const toPath = sanitizeBlogInternalPath(rawPath);
                 return (
                     <Link
                         key={key}

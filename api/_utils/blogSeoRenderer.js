@@ -467,7 +467,57 @@ function buildBlogIndexStructuredData(articles = []) {
     };
 }
 
-function renderInlineTokensToHtml(tokens) {
+const UNPUBLISHED_BLOG_FALLBACK_PATHS = {
+    'mysql-database-tutorial-beginners': '/technologies/mysql',
+    'csharp-programming-beginners-guide': '/technologies',
+    'programming-interview-questions-beginners': '/technologies/programming-fundamentals',
+    'improve-programming-skills-coding-practice': '/games',
+    'php-interview-questions': '/technologies/php',
+    'laravel-interview-questions': '/technologies/laravel',
+    '50-html-interview-questions-and-answers': '/technologies/html',
+    '50-css-interview-questions-and-answers': '/technologies/css',
+    'javascript-mcqs-for-beginners': '/technologies/javascript',
+    'mysql-practice-questions': '/technologies/mysql'
+};
+
+function sanitizeInternalBlogHref(rawHref, publishedSlugSet = null) {
+    const href = String(rawHref || '#').trim();
+    if (!isSafeLinkUrl(href)) return null;
+    const isExternal = /^https?:\/\//i.test(href) && !href.startsWith(BASE_URL);
+    if (isExternal) return { href, isExternal: true };
+
+    const rawPath = href.startsWith(BASE_URL) ? (href.slice(BASE_URL.length) || '/') : href;
+    const [pathOnly, query] = rawPath.split('?');
+    const clean = pathOnly === '/' ? '/' : pathOnly.replace(/\/+$/, '');
+    if (clean.startsWith('/blog/')) {
+        const slug = clean.slice('/blog/'.length).toLowerCase();
+        if (UNPUBLISHED_BLOG_FALLBACK_PATHS[slug]) {
+            return { href: UNPUBLISHED_BLOG_FALLBACK_PATHS[slug], isExternal: false };
+        }
+        if (publishedSlugSet && !publishedSlugSet.has(slug)) {
+            return { href: '/blog', isExternal: false };
+        }
+    }
+    const redirectMap = {
+        '/technologies/reactjs': '/technologies/react',
+        '/technologies/react.js': '/technologies/react',
+        '/technologies/js': '/technologies/javascript',
+        '/technologies/html5': '/technologies/html',
+        '/technologies/css3': '/technologies/css',
+        '/technologies/fundamentals': '/technologies/programming-fundamentals',
+        '/technologies/programming-logic': '/technologies/programming-fundamentals',
+        '/games/coding-memory-match': '/games/memory-match',
+        '/privacy': '/privacy-policy',
+        '/resources': '/blog',
+        '/quizzes': '/technologies',
+        '/quiz': '/technologies',
+        '/leaderboard/full': '/leaderboard'
+    };
+    const resolved = redirectMap[clean.toLowerCase()] || clean;
+    return { href: query ? `${resolved}?${query}` : resolved, isExternal: false };
+}
+
+function renderInlineTokensToHtml(tokens, publishedSlugSet = null) {
     return (tokens || [])
         .map((token) => {
             if (token.type === 'text') {
@@ -477,31 +527,29 @@ function renderInlineTokensToHtml(tokens) {
                 return `<code class="px-1.5 py-0.5 rounded bg-[var(--muted-bg)] text-[#193D35] dark:text-emerald-400 font-mono text-xs border border-[var(--card-border)]">${escapeText(token.value)}</code>`;
             }
             if (token.type === 'strong') {
-                return `<strong class="font-bold text-[var(--foreground)]">${renderInlineTokensToHtml(token.tokens)}</strong>`;
+                return `<strong class="font-bold text-[var(--foreground)]">${renderInlineTokensToHtml(token.tokens, publishedSlugSet)}</strong>`;
             }
             if (token.type === 'em') {
-                return `<em class="italic">${renderInlineTokensToHtml(token.tokens)}</em>`;
+                return `<em class="italic">${renderInlineTokensToHtml(token.tokens, publishedSlugSet)}</em>`;
             }
             if (token.type === 'link') {
-                const href = token.href || '#';
-                if (!isSafeLinkUrl(href)) {
-                    return renderInlineTokensToHtml(token.tokens);
+                const resolved = sanitizeInternalBlogHref(token.href, publishedSlugSet);
+                if (!resolved) {
+                    return renderInlineTokensToHtml(token.tokens, publishedSlugSet);
                 }
-                const isExternal = /^https?:\/\//i.test(href) && !href.startsWith(BASE_URL);
-                const normalizedHref = href.startsWith(BASE_URL) ? (href.slice(BASE_URL.length) || '/') : href;
-                const extraAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
-                return `<a href="${escapeAttr(normalizedHref)}"${extraAttrs} class="font-semibold text-[#193D35] dark:text-emerald-400 underline decoration-[#193D35]/40 hover:decoration-[#193D35]">${renderInlineTokensToHtml(token.tokens)}</a>`;
+                const extraAttrs = resolved.isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+                return `<a href="${escapeAttr(resolved.href)}"${extraAttrs} class="font-semibold text-[#193D35] dark:text-emerald-400 underline decoration-[#193D35]/40 hover:decoration-[#193D35]">${renderInlineTokensToHtml(token.tokens, publishedSlugSet)}</a>`;
             }
             return '';
         })
         .join('');
 }
 
-function renderInlineMarkdownToHtml(text) {
-    return renderInlineTokensToHtml(parseInlineTokens(text));
+function renderInlineMarkdownToHtml(text, publishedSlugSet = null) {
+    return renderInlineTokensToHtml(parseInlineTokens(text), publishedSlugSet);
 }
 
-function renderMarkdownToHtml(content) {
+function renderMarkdownToHtml(content, publishedSlugSet = null) {
     const blocks = parseMarkdownBlocks(content);
     if (blocks.length === 0) return '';
 
@@ -519,7 +567,7 @@ function renderMarkdownToHtml(content) {
                   </div>`;
             }
             case 'heading': {
-                const inner = renderInlineMarkdownToHtml(block.text);
+                const inner = renderInlineMarkdownToHtml(block.text, publishedSlugSet);
                 const idAttr = block.id ? ` id="${escapeAttr(block.id)}"` : '';
                 if (block.level === 2) {
                     return `<h2${idAttr} class="text-xl sm:text-2xl font-black text-[var(--foreground)] pt-6 pb-2 border-b border-[var(--card-border)]">${inner}</h2>`;
@@ -532,23 +580,23 @@ function renderMarkdownToHtml(content) {
             case 'hr':
                 return '<hr class="my-8 border-[var(--card-border)]" />';
             case 'blockquote':
-                return `<blockquote class="my-4 pl-4 border-l-4 border-[#193D35] dark:border-emerald-400 bg-[var(--muted-bg)]/50 py-3 pr-4 rounded-r-xl text-sm text-[var(--foreground)] leading-relaxed">${block.lines.map(l => `<p>${renderInlineMarkdownToHtml(l)}</p>`).join('')}</blockquote>`;
+                return `<blockquote class="my-4 pl-4 border-l-4 border-[#193D35] dark:border-emerald-400 bg-[var(--muted-bg)]/50 py-3 pr-4 rounded-r-xl text-sm text-[var(--foreground)] leading-relaxed">${block.lines.map(l => `<p>${renderInlineMarkdownToHtml(l, publishedSlugSet)}</p>`).join('')}</blockquote>`;
             case 'ul':
-                return `<ul class="my-4 space-y-2 list-none pl-1">${block.items.map(item => `<li class="flex items-start gap-2 text-sm text-[var(--foreground)] leading-relaxed"><span class="text-[#193D35] dark:text-emerald-400 mt-1 shrink-0" aria-hidden="true">•</span><span>${renderInlineMarkdownToHtml(item)}</span></li>`).join('')}</ul>`;
+                return `<ul class="my-4 space-y-2 list-none pl-1">${block.items.map(item => `<li class="flex items-start gap-2 text-sm text-[var(--foreground)] leading-relaxed"><span class="text-[#193D35] dark:text-emerald-400 mt-1 shrink-0" aria-hidden="true">•</span><span>${renderInlineMarkdownToHtml(item, publishedSlugSet)}</span></li>`).join('')}</ul>`;
             case 'ol':
-                return `<ol class="my-4 space-y-2 list-decimal pl-6 text-sm text-[var(--foreground)] leading-relaxed">${block.items.map(item => `<li>${renderInlineMarkdownToHtml(item)}</li>`).join('')}</ol>`;
+                return `<ol class="my-4 space-y-2 list-decimal pl-6 text-sm text-[var(--foreground)] leading-relaxed">${block.items.map(item => `<li>${renderInlineMarkdownToHtml(item, publishedSlugSet)}</li>`).join('')}</ol>`;
             case 'table': {
                 const headHtml = block.headers
-                    .map((h, idx) => `<th class="px-4 py-2.5 text-left text-xs font-bold text-[var(--foreground)] border-b border-[var(--card-border)]" style="text-align:${block.alignments[idx] || 'left'}">${renderInlineMarkdownToHtml(h)}</th>`)
+                    .map((h, idx) => `<th class="px-4 py-2.5 text-left text-xs font-bold text-[var(--foreground)] border-b border-[var(--card-border)]" style="text-align:${block.alignments[idx] || 'left'}">${renderInlineMarkdownToHtml(h, publishedSlugSet)}</th>`)
                     .join('');
                 const bodyHtml = block.rows
-                    .map(row => `<tr class="border-b border-[var(--card-border)]/60 last:border-b-0">${row.map((cell, idx) => `<td class="px-4 py-2.5 text-xs sm:text-sm text-[var(--foreground)]" style="text-align:${block.alignments[idx] || 'left'}">${renderInlineMarkdownToHtml(cell)}</td>`).join('')}</tr>`)
+                    .map(row => `<tr class="border-b border-[var(--card-border)]/60 last:border-b-0">${row.map((cell, idx) => `<td class="px-4 py-2.5 text-xs sm:text-sm text-[var(--foreground)]" style="text-align:${block.alignments[idx] || 'left'}">${renderInlineMarkdownToHtml(cell, publishedSlugSet)}</td>`).join('')}</tr>`)
                     .join('');
                 return `<div class="my-6 overflow-x-auto rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)]"><table class="w-full border-collapse text-left"><thead class="bg-[var(--muted-bg)]/60"><tr>${headHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>`;
             }
             case 'paragraph':
             default:
-                return `<p class="text-sm sm:text-base text-[var(--foreground)] leading-relaxed">${renderInlineMarkdownToHtml(block.text)}</p>`;
+                return `<p class="text-sm sm:text-base text-[var(--foreground)] leading-relaxed">${renderInlineMarkdownToHtml(block.text, publishedSlugSet)}</p>`;
         }
     });
 
@@ -583,54 +631,97 @@ function renderStaticNavbarHtml({ activeNav = 'blog' } = {}) {
 function renderStaticFooterHtml() {
     const year = new Date().getFullYear();
     return `
-      <footer class="w-full border-t border-[var(--card-border)] bg-[var(--card-bg)] pt-8 pb-6 px-4 sm:px-6 lg:px-8 shrink-0 mt-auto">
-        <div class="max-w-7xl mx-auto space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="md:col-span-2 space-y-3">
-              <a href="/" class="inline-block font-display font-bold text-base text-[var(--foreground)]">Hangbug</a>
-              <p class="text-xs text-[var(--foreground-muted)] max-w-sm leading-relaxed">
-                Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.
-              </p>
-            </div>
-            <div class="space-y-2.5">
-              <p class="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Platform</p>
-              <ul class="space-y-2 text-xs text-[var(--foreground-muted)] font-medium">
-                <li><a href="/technologies" class="hover:text-[var(--foreground)]">Technologies</a></li>
-                <li><a href="/games" class="hover:text-[var(--foreground)]">Coding &amp; Typing Games</a></li>
-                <li><a href="/leaderboard" class="hover:text-[var(--foreground)]">Global Leaderboard</a></li>
-                <li><a href="/certificate/view" class="hover:text-[var(--foreground)]">Verify Certificate</a></li>
-                <li><a href="/blog" class="hover:text-[var(--foreground)]">Blog &amp; Tutorials</a></li>
+      <footer class="prerender-seo-footer w-full border-t border-[var(--card-border)] bg-[var(--card-bg)] pt-8 pb-6 px-4 sm:px-6 lg:px-8 shrink-0 mt-auto">
+        <section class="max-w-7xl mx-auto space-y-6">
+          <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
+            <section class="space-y-2.5">
+              <p class="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Technologies</p>
+              <ul class="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
+                <li><a href="/technologies" class="hover:text-[var(--foreground)] font-semibold">All Technologies</a></li>
+                <li><a href="/technologies/html" class="hover:text-[var(--foreground)]">HTML Quizzes</a></li>
+                <li><a href="/technologies/css" class="hover:text-[var(--foreground)]">CSS Quizzes</a></li>
+                <li><a href="/technologies/javascript" class="hover:text-[var(--foreground)]">JavaScript Quizzes</a></li>
+                <li><a href="/technologies/react" class="hover:text-[var(--foreground)]">React.js Quizzes</a></li>
+                <li><a href="/technologies/python" class="hover:text-[var(--foreground)]">Python Quizzes</a></li>
+                <li><a href="/technologies/php" class="hover:text-[var(--foreground)]">PHP Quizzes</a></li>
+                <li><a href="/technologies/laravel" class="hover:text-[var(--foreground)]">Laravel Quizzes</a></li>
+                <li><a href="/technologies/mysql" class="hover:text-[var(--foreground)]">MySQL Quizzes</a></li>
+                <li><a href="/technologies/mongodb" class="hover:text-[var(--foreground)]">MongoDB Quizzes</a></li>
+                <li><a href="/technologies/flutter" class="hover:text-[var(--foreground)]">Flutter Quizzes</a></li>
+                <li><a href="/technologies/dart" class="hover:text-[var(--foreground)]">Dart Quizzes</a></li>
+                <li><a href="/technologies/programming-fundamentals" class="hover:text-[var(--foreground)]">Fundamentals &amp; OOP</a></li>
               </ul>
-            </div>
-            <div class="space-y-2.5">
-              <p class="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Company &amp; Legal</p>
-              <ul class="space-y-2 text-xs text-[var(--foreground-muted)] font-medium">
+            </section>
+            <section class="space-y-2.5 lg:col-span-2">
+              <p class="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Coding &amp; Typing Games</p>
+              <ul class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
+                <li><a href="/games" class="hover:text-[var(--foreground)] font-semibold">All Developer Games</a></li>
+                <li><a href="/games/code-puzzle" class="hover:text-[var(--foreground)]">Code Puzzle</a></li>
+                <li><a href="/games/find-the-bug" class="hover:text-[var(--foreground)]">Find The Bug</a></li>
+                <li><a href="/games/output-predictor" class="hover:text-[var(--foreground)]">Output Predictor</a></li>
+                <li><a href="/games/code-scramble" class="hover:text-[var(--foreground)]">Code Scramble</a></li>
+                <li><a href="/games/missing-code" class="hover:text-[var(--foreground)]">Missing Code</a></li>
+                <li><a href="/games/logic-builder" class="hover:text-[var(--foreground)]">Logic Builder</a></li>
+                <li><a href="/games/sql-challenge" class="hover:text-[var(--foreground)]">SQL Challenge</a></li>
+                <li><a href="/games/memory-match" class="hover:text-[var(--foreground)]">Memory Match</a></li>
+                <li><a href="/games/speed-typing" class="hover:text-[var(--foreground)]">Speed Typing</a></li>
+                <li><a href="/games/code-typing" class="hover:text-[var(--foreground)]">Code Typing</a></li>
+                <li><a href="/games/sixty-second-challenge" class="hover:text-[var(--foreground)]">60-Second Challenge</a></li>
+                <li><a href="/games/error-free-typing" class="hover:text-[var(--foreground)]">Error-Free Typing</a></li>
+                <li><a href="/games/syntax-typing" class="hover:text-[var(--foreground)]">Syntax Typing</a></li>
+                <li><a href="/games/word-rain" class="hover:text-[var(--foreground)]">Word Rain</a></li>
+                <li><a href="/games/complete-the-code" class="hover:text-[var(--foreground)]">Complete The Code</a></li>
+                <li><a href="/games/csharp-oop-challenge" class="hover:text-[var(--foreground)]">C# OOP Challenge</a></li>
+                <li><a href="/games/csharp-collections-challenge" class="hover:text-[var(--foreground)]">C# Collections</a></li>
+                <li><a href="/games/csharp-linq-challenge" class="hover:text-[var(--foreground)]">C# LINQ Challenge</a></li>
+                <li><a href="/games/csharp-exception-handling" class="hover:text-[var(--foreground)]">C# Exceptions</a></li>
+                <li><a href="/games/csharp-quiz-challenge" class="hover:text-[var(--foreground)]">C# Quiz Challenge</a></li>
+              </ul>
+            </section>
+            <section class="space-y-2.5">
+              <p class="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Tutorials &amp; Guides</p>
+              <ul class="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
+                <li><a href="/blog" class="hover:text-[var(--foreground)] font-semibold">All Blog Articles</a></li>
+                <li><a href="/blog/html-tutorial-for-beginners" class="hover:text-[var(--foreground)]">HTML Tutorial</a></li>
+                <li><a href="/blog/css-basics-beginners-guide" class="hover:text-[var(--foreground)]">CSS Basics Guide</a></li>
+                <li><a href="/blog/javascript-fundamentals-beginners-guide" class="hover:text-[var(--foreground)]">JavaScript Fundamentals</a></li>
+                <li><a href="/blog/php-programming-beginners-guide" class="hover:text-[var(--foreground)]">PHP Programming Guide</a></li>
+                <li><a href="/blog/laravel-basics-mvc-architecture" class="hover:text-[var(--foreground)]">Laravel MVC Guide</a></li>
+                <li><a href="/blog/flutter-dart-mobile-app-development" class="hover:text-[var(--foreground)]">Flutter &amp; Dart Guide</a></li>
+              </ul>
+            </section>
+            <section class="space-y-2.5">
+              <p class="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Platform &amp; Legal</p>
+              <ul class="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
+                <li><a href="/leaderboard" class="hover:text-[var(--foreground)]">Global Leaderboard</a></li>
                 <li><a href="/about" class="hover:text-[var(--foreground)]">About Hangbug</a></li>
                 <li><a href="/contact" class="hover:text-[var(--foreground)]">Contact Support</a></li>
                 <li><a href="/privacy-policy" class="hover:text-[var(--foreground)]">Privacy Policy</a></li>
                 <li><a href="/terms" class="hover:text-[var(--foreground)]">Terms of Service</a></li>
               </ul>
-            </div>
-          </div>
-          <div class="pt-6 border-t border-[var(--card-border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--foreground-muted)]">
+            </section>
+          </section>
+          <section class="pt-6 border-t border-[var(--card-border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--foreground-muted)]">
             <p>© ${year} Hangbug. All rights reserved.</p>
             <a href="mailto:support@hangbug.com" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--muted-bg)] border border-[var(--card-border)] text-[var(--foreground-muted)]">
               support@hangbug.com
             </a>
-          </div>
-        </div>
+          </section>
+        </section>
       </footer>`;
 }
 
-function renderBlogDetailBodyHtml(article, relatedArticles = []) {
+function renderBlogDetailBodyHtml(article, relatedArticles = [], publishedSlugs = null) {
     const category = article.category || 'Programming';
-    const categoryHref = `/blog?category=${encodeURIComponent(category)}`;
     const techPath = resolveTechQuizPath(article.category, article.relatedQuizCategory);
     const hasSpecificTech = techPath !== '/technologies';
     const publishedIso = toIsoDate(article.publishedAt || article.createdAt);
     const publishedLabel = formatReadableDate(article.publishedAt || article.createdAt);
     const takeaways = Array.isArray(article.keyTakeaways) ? article.keyTakeaways.filter(Boolean) : [];
-    const articleHtml = renderMarkdownToHtml(article.content || '');
+    const publishedSlugSet = publishedSlugs instanceof Set && publishedSlugs.size > 0
+        ? publishedSlugs
+        : null;
+    const articleHtml = renderMarkdownToHtml(article.content || '', publishedSlugSet);
     const relatedList = Array.isArray(relatedArticles) ? relatedArticles.filter(r => r && r.slug) : [];
 
     return `
@@ -643,16 +734,16 @@ function renderBlogDetailBodyHtml(article, relatedArticles = []) {
           <span aria-hidden="true">›</span>
           <a href="/blog" class="hover:text-[var(--foreground)] transition-colors shrink-0">Blog</a>
           <span aria-hidden="true">›</span>
-          <a href="${escapeAttr(categoryHref)}" class="hover:text-[var(--foreground)] transition-colors shrink-0 font-medium">${escapeText(category)}</a>
+          <span class="font-medium shrink-0">${escapeText(category)}</span>
           <span aria-hidden="true">›</span>
           <span class="text-[var(--foreground)] truncate shrink-0 max-w-[240px] font-semibold">${escapeText(article.title)}</span>
         </nav>
 
         <header class="space-y-4">
           <div class="flex flex-wrap items-center gap-2.5">
-            <a href="${escapeAttr(categoryHref)}" class="px-3 py-1 rounded-lg text-xs font-bold border bg-[#193D35]/10 text-[#193D35] dark:text-emerald-400 border-[#193D35]/30">
+            <span class="px-3 py-1 rounded-lg text-xs font-bold border bg-[#193D35]/10 text-[#193D35] dark:text-emerald-400 border-[#193D35]/30">
               ${escapeText(category)}
-            </a>
+            </span>
             <span class="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-[var(--muted-bg)] border border-[var(--card-border)] text-[var(--foreground-muted)]">
               ${escapeText(article.difficulty || 'Beginner')}
             </span>
@@ -729,10 +820,7 @@ function renderBlogDetailBodyHtml(article, relatedArticles = []) {
         ${relatedList.length > 0 ? `
         <section class="space-y-4 pt-6 border-t border-[var(--card-border)]">
           <div class="flex items-center justify-between">
-            <h2 class="text-lg font-bold text-[var(--foreground)]">Related Tutorials in ${escapeText(category)}</h2>
-            <a href="${escapeAttr(categoryHref)}" class="text-xs text-[#193D35] dark:text-emerald-400 hover:underline">
-              View all ${escapeText(category)} articles
-            </a>
+            <h2 class="text-lg font-bold text-[var(--foreground)]">Continue Reading Developer Guides</h2>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             ${relatedList.map(rel => `
@@ -760,6 +848,7 @@ function renderBlogListBodyHtml({ articles = [], featuredArticle = null, categor
     const validArticles = (Array.isArray(articles) ? articles : []).filter(a => a && a.slug && a.title);
     const totalCount = total || validArticles.length;
     const featured = featuredArticle || validArticles.find(a => a.isFeatured) || validArticles[0] || null;
+    const gridArticles = featured ? validArticles.filter(a => a.slug !== featured.slug) : validArticles;
 
     return `
     <div class="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col font-sans transition-colors duration-300">
@@ -786,16 +875,16 @@ function renderBlogListBodyHtml({ articles = [], featuredArticle = null, categor
             <h2 class="text-xs font-bold uppercase tracking-wider text-[var(--foreground-muted)]">Browse by Technology</h2>
             <span class="text-xs text-[var(--foreground-muted)]">${totalCount} ${totalCount === 1 ? 'article' : 'articles'}</span>
           </div>
-          <nav aria-label="Blog Categories" class="flex flex-wrap items-center gap-2">
-            <a href="/blog" class="px-4 py-2 rounded-xl text-xs font-semibold border bg-[#193D35] text-white border-[#193D35]">All Topics (${totalCount})</a>
-            ${categories.map(cat => `<a href="/blog?category=${escapeAttr(encodeURIComponent(cat.name))}" class="px-3.5 py-2 rounded-xl text-xs font-medium border bg-[var(--card-bg)] text-[var(--foreground-muted)] border-[var(--card-border)]">${escapeText(cat.name)} (${escapeText(String(cat.count || 0))})</a>`).join('\n            ')}
-          </nav>
+          <div aria-label="Blog Categories" class="flex flex-wrap items-center gap-2">
+            <span class="px-4 py-2 rounded-xl text-xs font-semibold border bg-[#193D35] text-white border-[#193D35]">All Topics (${totalCount})</span>
+            ${categories.map(cat => `<span class="px-3.5 py-2 rounded-xl text-xs font-medium border bg-[var(--card-bg)] text-[var(--foreground-muted)] border-[var(--card-border)]">${escapeText(cat.name)} (${escapeText(String(cat.count || 0))})</span>`).join('\n            ')}
+          </div>
         </section>` : ''}
 
         ${featured ? `
         <section class="space-y-4">
           <h2 class="text-sm font-bold uppercase tracking-wider text-[var(--foreground-muted)]">Featured Guide</h2>
-          <article class="rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)] p-6 sm:p-8 shadow-md">
+          <article class="relative rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)] p-6 sm:p-8 shadow-md">
             <div class="space-y-3">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="px-2.5 py-1 rounded-lg text-xs font-bold border border-[var(--card-border)]">${escapeText(featured.category)}</span>
@@ -803,11 +892,11 @@ function renderBlogListBodyHtml({ articles = [], featuredArticle = null, categor
                 <span class="text-xs text-[var(--foreground-muted)]">• ${escapeText(formatReadableDate(featured.publishedAt))}</span>
               </div>
               <h3 class="text-2xl sm:text-3xl font-black text-[var(--foreground)] leading-snug">
-                <a href="/blog/${escapeAttr(featured.slug)}">${escapeText(featured.title)}</a>
+                ${escapeText(featured.title)}
               </h3>
               <p class="text-sm text-[var(--foreground-muted)] leading-relaxed">${escapeText(featured.excerpt || '')}</p>
               <div class="pt-2">
-                <a href="/blog/${escapeAttr(featured.slug)}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#193D35] text-white font-semibold text-xs">Read Tutorial →</a>
+                <a href="/blog/${escapeAttr(featured.slug)}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#193D35] text-white font-semibold text-xs after:absolute after:inset-0">Read Tutorial →</a>
               </div>
             </div>
           </article>
@@ -816,23 +905,46 @@ function renderBlogListBodyHtml({ articles = [], featuredArticle = null, categor
         <section class="space-y-6">
           <h2 class="text-lg font-bold text-[var(--foreground)]">Latest Articles &amp; Guides</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            ${validArticles.map(article => `
-            <article class="flex flex-col justify-between rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] p-6">
+            ${gridArticles.map(article => `
+            <article class="relative flex flex-col justify-between rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] p-6">
               <div class="space-y-3.5">
                 <div class="flex items-center justify-between gap-2">
                   <span class="px-2.5 py-0.5 rounded-lg text-[11px] font-bold border border-[var(--card-border)]">${escapeText(article.category)}</span>
                   <span class="text-[11px] text-[var(--foreground-muted)]">${escapeText(String(article.readingTimeMinutes || 8))} min read</span>
                 </div>
                 <h3 class="text-base font-bold text-[var(--foreground)] leading-snug">
-                  <a href="/blog/${escapeAttr(article.slug)}">${escapeText(article.title)}</a>
+                  ${escapeText(article.title)}
                 </h3>
                 <p class="text-xs text-[var(--foreground-muted)] leading-relaxed">${escapeText(article.excerpt || '')}</p>
               </div>
               <div class="pt-4 mt-4 border-t border-[var(--card-border)] flex items-center justify-between text-xs text-[var(--foreground-muted)]">
                 <span class="text-[11px]">${escapeText(formatReadableDate(article.publishedAt))}</span>
-                <a href="/blog/${escapeAttr(article.slug)}" class="font-semibold text-[#193D35] dark:text-emerald-400">Read →</a>
+                <a href="/blog/${escapeAttr(article.slug)}" class="font-semibold text-[#193D35] dark:text-emerald-400 after:absolute after:inset-0">Read →</a>
               </div>
             </article>`).join('\n            ')}
+          </div>
+        </section>
+
+        <section class="rounded-3xl bg-slate-900 border border-emerald-500/30 p-6 sm:p-8 text-white space-y-4">
+          <h2 class="text-xl font-black text-white">Practice What You Learn on Hangbug</h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
+            Apply these tutorials immediately across interactive coding quizzes, debugging games, and developer typing challenges:
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <a href="/technologies/html" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">HTML Quizzes</a>
+            <a href="/technologies/css" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">CSS Quizzes</a>
+            <a href="/technologies/javascript" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">JavaScript Quizzes</a>
+            <a href="/technologies/react" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">React.js Quizzes</a>
+            <a href="/technologies/php" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">PHP Quizzes</a>
+            <a href="/technologies/laravel" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Laravel Quizzes</a>
+            <a href="/technologies/mysql" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">MySQL Quizzes</a>
+            <a href="/technologies/mongodb" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">MongoDB Quizzes</a>
+            <a href="/technologies/flutter" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Flutter Quizzes</a>
+            <a href="/technologies/dart" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Dart Quizzes</a>
+            <a href="/technologies/python" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Python Quizzes</a>
+            <a href="/games/code-puzzle" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Code Puzzle</a>
+            <a href="/games/find-the-bug" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Find the Bug</a>
+            <a href="/games/sql-challenge" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">SQL Challenge</a>
           </div>
         </section>
       </main>
