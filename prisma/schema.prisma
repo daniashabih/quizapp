@@ -531,6 +531,5 @@ model SeoIntegrationSnapshot {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@unique([domain, provider])
-  @@index([domain, provider])
   @@map("seo_integration_snapshots")
 }
