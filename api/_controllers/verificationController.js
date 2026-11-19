@@ -1,5 +1,6 @@
 const prisma = require('../_config/prisma');
 const { normalizeTechnology } = require('../_utils/ragTechnology');
+const { redactSecrets } = require('../_services/aiUsageService');
 const {
     verifyQuestionWithBooks,
     approveVerificationCorrection
@@ -91,10 +92,17 @@ async function verifyQuestion(req, res) {
             verification: result.verification
         });
     } catch (err) {
-        console.error('[AI Question Verification Error]:', err);
-        res.status(err.status || 500).json({
+        const safeMessage = redactSecrets(err?.message || 'Unable to verify this question with reference books right now.');
+        console.error('[AI Question Verification Error]:', safeMessage);
+        if (err?.retryAfterSeconds) {
+            res.set('Retry-After', String(err.retryAfterSeconds));
+        }
+        const status = err?.status && err.status !== 401 && err.status !== 403 ? err.status : 500;
+        res.status(status).json({
             success: false,
-            message: err.message || 'Unable to verify this question with reference books right now.'
+            message: safeMessage,
+            ...(err?.code ? { code: err.code } : {}),
+            ...(err?.retryAfterSeconds ? { retryAfterSeconds: err.retryAfterSeconds } : {})
         });
     }
 }
@@ -198,6 +206,9 @@ async function getCorrectionHistory(req, res) {
 async function approveReportCorrection(req, res) {
     try {
         const { id } = req.params;
+        if (!/^[0-9a-fA-F]{24}$/.test(String(id || ''))) {
+            return res.status(400).json({ success: false, message: 'Invalid verification report ID.' });
+        }
         const { correctedAnswer, correctedExplanation, notes } = req.body || {};
 
         const result = await approveVerificationCorrection({
@@ -216,10 +227,11 @@ async function approveReportCorrection(req, res) {
             updatedQuestionId: result.updatedQuestionId
         });
     } catch (err) {
-        console.error('[Approve Correction Error]:', err);
+        const safeMessage = redactSecrets(err?.message || 'Failed to approve correction.');
+        console.error('[Approve Correction Error]:', safeMessage);
         res.status(err.status || 500).json({
             success: false,
-            message: err.message || 'Failed to approve correction.'
+            message: safeMessage
         });
     }
 }
@@ -230,6 +242,9 @@ async function approveReportCorrection(req, res) {
 async function dismissReport(req, res) {
     try {
         const { id } = req.params;
+        if (!/^[0-9a-fA-F]{24}$/.test(String(id || ''))) {
+            return res.status(400).json({ success: false, message: 'Invalid verification report ID.' });
+        }
         const { notes = '' } = req.body || {};
         const existing = await prisma.questionVerification.findUnique({ where: { id: String(id) } });
         if (!existing) {
@@ -252,8 +267,9 @@ async function dismissReport(req, res) {
             report: formatReport(updated)
         });
     } catch (err) {
-        console.error('[Dismiss Report Error]:', err);
-        res.status(500).json({ success: false, message: err.message || 'Failed to dismiss report.' });
+        const safeMessage = redactSecrets(err?.message || 'Failed to dismiss report.');
+        console.error('[Dismiss Report Error]:', safeMessage);
+        res.status(500).json({ success: false, message: safeMessage });
     }
 }
 
@@ -263,6 +279,9 @@ async function dismissReport(req, res) {
 async function deleteReport(req, res) {
     try {
         const { id } = req.params;
+        if (!/^[0-9a-fA-F]{24}$/.test(String(id || ''))) {
+            return res.status(400).json({ success: false, message: 'Invalid verification report ID.' });
+        }
         const existing = await prisma.questionVerification.findUnique({ where: { id: String(id) } });
         if (!existing) {
             return res.status(404).json({ success: false, message: 'Verification report not found.' });
@@ -271,8 +290,9 @@ async function deleteReport(req, res) {
         await prisma.questionVerification.delete({ where: { id: existing.id } });
         res.json({ success: true, message: 'Verification report removed from cache.' });
     } catch (err) {
-        console.error('[Delete Report Error]:', err);
-        res.status(500).json({ success: false, message: err.message || 'Failed to delete verification report.' });
+        const safeMessage = redactSecrets(err?.message || 'Failed to delete verification report.');
+        console.error('[Delete Report Error]:', safeMessage);
+        res.status(500).json({ success: false, message: safeMessage });
     }
 }
 

@@ -137,7 +137,7 @@ async function searchRelevantBookChunks({
                         author: doc.author || '',
                         edition: doc.edition || '',
                         chapter: doc.chapter || 'General Reference',
-                        pageNumber: Number(doc.pageNumber) || 1,
+                        pageNumber: Number(doc.pageNumber) > 0 ? Number(doc.pageNumber) : null,
                         chunkIndex: Number(doc.chunkIndex) || 0,
                         chunkText: doc.chunkText || '',
                         score: typeof doc.score === 'number' ? doc.score : 0
@@ -208,7 +208,7 @@ async function searchRelevantBookChunks({
             author: chunk.author,
             edition: chunk.edition || '',
             chapter: chunk.chapter || 'General Reference',
-            pageNumber: Number(chunk.pageNumber) || 1,
+            pageNumber: Number(chunk.pageNumber) > 0 ? Number(chunk.pageNumber) : null,
             chunkIndex: Number(chunk.chunkIndex) || 0,
             chunkText: chunk.chunkText,
             score: cosineSimilarity(queryEmbedding, chunk.embedding)
@@ -220,6 +220,125 @@ async function searchRelevantBookChunks({
     return {
         chunks: scored,
         searchMode: 'cosine_fallback'
+    };
+}
+
+const TEXT_STOP_WORDS = new Set([
+    'what', 'which', 'when', 'where', 'who', 'whom', 'whose', 'why', 'how',
+    'the', 'and', 'for', 'with', 'that', 'this', 'from', 'into', 'about',
+    'are', 'was', 'were', 'will', 'can', 'does', 'did', 'has', 'have', 'had',
+    'not', 'but', 'you', 'your', 'use', 'used', 'using', 'following', 'correct',
+    'true', 'false', 'none', 'above', 'all', 'these', 'those', 'between'
+]);
+
+function extractSearchTerms(text) {
+    const matches = String(text || '')
+        .toLowerCase()
+        .match(/<[a-z0-9-]+>|===|!==|==|!=|<=|>=|[a-z0-9_#.+-]{2,}/gi) || [];
+    const seen = new Set();
+    for (const raw of matches) {
+        const tok = raw.toLowerCase();
+        if (!TEXT_STOP_WORDS.has(tok)) {
+            seen.add(tok);
+        }
+    }
+    return Array.from(seen);
+}
+
+/**
+ * Lexical relevance retrieval fallback used ONLY when no embedding API key is configured
+ * (e.g., Groq-only server environments searching existing MongoDB Atlas chunks).
+ */
+async function searchRelevantBookChunksByText({
+    questionText = '',
+    options = [],
+    technologiesNormalized,
+    limit = 6,
+    minScore = 0.18
+}) {
+    const techList = Array.isArray(technologiesNormalized)
+        ? technologiesNormalized.filter(Boolean)
+        : [technologiesNormalized].filter(Boolean);
+
+    if (techList.length === 0) {
+        return { chunks: [], searchMode: 'none' };
+    }
+
+    const questionTerms = extractSearchTerms(questionText);
+    const optionTerms = extractSearchTerms(Array.isArray(options) ? options.join(' ') : '');
+    const allTerms = Array.from(new Set([...questionTerms, ...optionTerms]));
+
+    if (allTerms.length === 0) {
+        return { chunks: [], searchMode: 'text_fallback' };
+    }
+
+    const candidateChunks = await prisma.knowledgeBookChunk.findMany({
+        where: {
+            isActive: true,
+            technologyNormalized: { in: techList }
+        },
+        select: {
+            id: true,
+            bookId: true,
+            technology: true,
+            technologyNormalized: true,
+            bookTitle: true,
+            author: true,
+            edition: true,
+            chapter: true,
+            pageNumber: true,
+            chunkIndex: true,
+            chunkText: true
+        },
+        take: 2500
+    });
+
+    if (!candidateChunks || candidateChunks.length === 0) {
+        return { chunks: [], searchMode: 'text_fallback' };
+    }
+
+    const optExactPhrases = (Array.isArray(options) ? options : [])
+        .map(o => String(o || '').trim().toLowerCase())
+        .filter(o => o.length >= 2);
+
+    const scored = candidateChunks
+        .map(chunk => {
+            const haystack = `${chunk.chapter || ''} ${chunk.chunkText || ''}`.toLowerCase();
+            let qHits = 0;
+            for (const t of questionTerms) {
+                if (haystack.includes(t)) qHits++;
+            }
+            let optHits = 0;
+            for (const o of optExactPhrases) {
+                if (haystack.includes(o)) optHits++;
+            }
+
+            const qRatio = questionTerms.length > 0 ? qHits / questionTerms.length : 0;
+            const optBonus = optExactPhrases.length > 0 ? Math.min(0.35, (optHits / optExactPhrases.length) * 0.35) : 0;
+            const score = qHits === 0 ? 0 : Math.min(1, Number((qRatio * 0.75 + optBonus).toFixed(4)));
+
+            return {
+                id: String(chunk.id),
+                bookId: String(chunk.bookId),
+                technology: chunk.technology,
+                technologyNormalized: chunk.technologyNormalized,
+                bookTitle: chunk.bookTitle,
+                author: chunk.author,
+                edition: chunk.edition || '',
+                chapter: chunk.chapter || 'General Reference',
+                pageNumber: Number(chunk.pageNumber) > 0 ? Number(chunk.pageNumber) : null,
+                chunkIndex: Number(chunk.chunkIndex) || 0,
+                chunkText: chunk.chunkText,
+                score
+            };
+        })
+        .filter(item => item.score >= minScore)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, limit);
+
+    return {
+        chunks: scored,
+        searchMode: 'text_fallback'
     };
 }
 
@@ -370,5 +489,6 @@ module.exports = {
     cosineSimilarity,
     getAtlasVectorIndexDefinition,
     searchRelevantBookChunks,
+    searchRelevantBookChunksByText,
     ensureAtlasVectorSearchIndex
 };

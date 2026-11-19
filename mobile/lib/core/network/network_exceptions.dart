@@ -72,6 +72,12 @@ class NetworkException implements Exception {
               statusCode: status,
               data: resData,
             );
+          case 429:
+            return NetworkException(
+              message: 'Rate limit reached. Please wait a moment and try again.',
+              statusCode: status,
+              data: resData,
+            );
           case 500:
           case 502:
           case 503:

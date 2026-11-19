@@ -444,6 +444,21 @@ class _AdminVerificationReportsScreenState
                   style: AppTextStyles.labelBold.copyWith(fontSize: 10.5, color: statusColor),
                 ),
               ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: context.mutedBgColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  '${report.reviewStatus.toUpperCase()} · ${(report.confidence * 100).round()}%',
+                  style: AppTextStyles.mono.copyWith(
+                    fontSize: 10,
+                    color: context.textSecondaryColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -463,10 +478,20 @@ class _AdminVerificationReportsScreenState
             ),
           const SizedBox(height: 6),
           Text(report.explanation, style: AppTextStyles.bodySmall),
+          if (report.issueDescription.isNotEmpty && report.verificationStatus != 'verified') ...[
+            const SizedBox(height: 6),
+            Text(
+              'Reason: ${report.issueDescription}',
+              style: AppTextStyles.bodySmall.copyWith(
+                fontSize: 11.5,
+                color: context.warningColor,
+              ),
+            ),
+          ],
           if (report.sourceBook.isNotEmpty) ...[
             const SizedBox(height: 6),
             Text(
-              'Source: ${report.sourceBook}${report.sourcePage.isNotEmpty ? ' · Page ${report.sourcePage}' : ''}',
+              'Source: ${report.sourceBook}${report.sourceChapter.isNotEmpty ? ' · ${report.sourceChapter}' : ''}${report.sourcePage.isNotEmpty ? ' · Page ${report.sourcePage}' : ''}',
               style: AppTextStyles.bodySmall.copyWith(
                 fontSize: 11,
                 color: context.brandAccentColor,
@@ -489,14 +514,32 @@ class _AdminVerificationReportsScreenState
                     label: const Text('Review & Approve'),
                   ),
                 ),
-                const SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: () async {
-                    await ref.read(aiVerificationServiceProvider).dismissReport(report.id);
-                    ref.invalidate(adminVerificationReportsProvider);
-                  },
-                  child: const Text('Dismiss'),
-                ),
+                if (report.reviewStatus == 'pending') ...[
+                  const SizedBox(width: 8),
+                  OutlinedButton(
+                    onPressed: () async {
+                      try {
+                        await ref.read(aiVerificationServiceProvider).dismissReport(
+                              report.id,
+                              notes: 'Dismissed by administrator.',
+                            );
+                        ref.invalidate(adminVerificationReportsProvider);
+                        AppNotificationService.info(
+                          id: 'vr-dismissed',
+                          title: 'Report Dismissed',
+                          message: 'Suggested correction rejected without changing quiz answer.',
+                        );
+                      } catch (e) {
+                        AppNotificationService.error(
+                          id: 'vr-dismiss-err',
+                          title: 'Error',
+                          message: e.toString().replaceFirst('Exception: ', ''),
+                        );
+                      }
+                    },
+                    child: const Text('Dismiss'),
+                  ),
+                ],
               ],
             ),
           ],

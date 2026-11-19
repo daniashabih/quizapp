@@ -218,6 +218,14 @@ const aiVerificationService = {
         return res.data;
     },
 
+    getAiModels: async ({ refresh = false } = {}) => {
+        const res = await axios.get('/admin/ai/models', {
+            params: refresh ? { refresh: '1' } : {},
+            timeout: 20000
+        });
+        return res.data;
+    },
+
     getAiUsage: async () => {
         const res = await axios.get('/admin/ai/usage', { timeout: 20000 });
         return res.data;

@@ -1,6 +1,7 @@
 const prisma = require('../_config/prisma');
 const { normalizeTechnology } = require('../_utils/ragTechnology');
 const { generateEmbeddings, getActiveProviderInfo } = require('./aiProviderService');
+const { redactSecrets } = require('./aiUsageService');
 const {
     validateUploadedBookFile,
     extractBookDocument,
@@ -258,10 +259,11 @@ async function processBookById(bookId, { preloadedBuffer = null } = {}) {
             generatedEmbeddings: chunksNeedingEmbedding.length
         };
     } catch (err) {
-        console.error(`[BookProcessing] Book ${bookId} failed:`, err.message);
+        const safeErr = redactSecrets(err?.message || 'Unknown processing error');
+        console.error(`[BookProcessing] Book ${bookId} failed:`, safeErr);
         await updateBookStatus(bookId, {
             processingStatus: PROCESSING_STATUSES.FAILED,
-            processingError: String(err.message || 'Unknown processing error').slice(0, 1000)
+            processingError: safeErr.slice(0, 1000)
         }).catch(() => {});
         throw err;
     } finally {

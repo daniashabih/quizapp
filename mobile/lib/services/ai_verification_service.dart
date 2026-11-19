@@ -251,6 +251,15 @@ class AiVerificationService {
     return AdminAiStatusModel.fromJson(response.data as Map<String, dynamic>);
   }
 
+  Future<Map<String, dynamic>> getAiModels({bool refresh = false}) async {
+    final response = await apiClient.get(
+      ApiEndpoints.adminAiModels,
+      queryParameters: refresh ? {'refresh': '1'} : null,
+      options: Options(receiveTimeout: const Duration(seconds: 20)),
+    );
+    return response.data as Map<String, dynamic>;
+  }
+
   Future<Map<String, dynamic>> testAiModel(Map<String, dynamic> payload) async {
     final response = await apiClient.post(
       ApiEndpoints.adminAiTest,

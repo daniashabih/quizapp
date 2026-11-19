@@ -25,6 +25,11 @@ const TEST_MODES = [
         hint: 'Runs a diagnostic prompt against the configured server chat model'
     },
     {
+        id: 'models',
+        label: 'Available Models',
+        hint: 'Retrieves live active models from Groq models endpoint and validates GROQ_MODEL'
+    },
+    {
         id: 'embedding',
         label: 'Embedding Vector',
         hint: 'Generates a normalized vector using the configured embedding model'
@@ -104,6 +109,8 @@ export default function AdminAiControls({ standalone = false }) {
                     technology: ragTechnology.trim() || 'HTML',
                     bypassCache: true
                 };
+            } else if (testMode === 'models') {
+                payload = { mode: 'models' };
             } else {
                 payload = {
                     mode: testMode,
@@ -122,6 +129,8 @@ export default function AdminAiControls({ standalone = false }) {
     };
 
     const aiProvider = statusData?.aiProvider || {};
+    const providers = statusData?.providers || {};
+    const modelValidation = statusData?.modelValidation || null;
     const config = statusData?.config || {};
     const vectorIndex = statusData?.vectorIndex || {};
     const usage = statusData?.usage || {};
@@ -182,7 +191,7 @@ export default function AdminAiControls({ standalone = false }) {
                 <div className="text-xs space-y-1 flex-1 min-w-0">
                     <p className="font-bold text-[var(--foreground)]">
                         {isConfigured
-                            ? `Active Provider: ${String(aiProvider.provider || '').toUpperCase()} — Credentials Secured Server-Side`
+                            ? `Active Provider: ${String(providers.chatProvider || aiProvider.provider || '').toUpperCase()}${providers.embeddingProvider && providers.embeddingProvider !== (providers.chatProvider || aiProvider.provider) ? ` (Chat) · ${String(providers.embeddingProvider).toUpperCase()} (Embeddings)` : ''} — Credentials Secured Server-Side`
                             : 'No Active AI Provider Configured on Server'}
                     </p>
                     <p className="text-[var(--foreground-muted)]">
@@ -190,6 +199,13 @@ export default function AdminAiControls({ standalone = false }) {
                             ? 'API credentials stay strictly in server environment variables and are never sent to browser or mobile clients.'
                             : 'Existing uploaded books, vector chunks, and saved verification reports remain intact. Configure a server AI provider in Vercel environment variables when ready to run live inference.'}
                     </p>
+                    {modelValidation && (
+                        <p className={`text-[11px] font-semibold ${modelValidation.valid ? 'text-emerald-700 dark:text-emerald-300' : 'text-red-600 dark:text-red-400'}`}>
+                            {modelValidation.valid
+                                ? `Model "${modelValidation.resolvedModel}" validated (${modelValidation.availableChatModelsCount || 0} chat models available).`
+                                : `Model validation warning: ${modelValidation.error}`}
+                        </p>
+                    )}
                 </div>
             </div>
 
@@ -221,10 +237,10 @@ export default function AdminAiControls({ standalone = false }) {
                 <div className="card p-4 rounded-2xl border border-[var(--card-border)] space-y-1">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--foreground-muted)]">Book Embedding Model</span>
                     <p className="text-xs font-mono font-bold text-[var(--foreground)] break-all">
-                        {config.embeddingModel || 'Not Configured'}
+                        {config.embeddingModel || 'Text Fallback (Existing Books)'}
                     </p>
                     <p className="text-[11px] text-[var(--foreground-muted)]">
-                        {config.embeddingDimensions || 1536} dimensions
+                        {config.embeddingModel ? `${config.embeddingDimensions || 1536} dimensions` : 'No embedding key; existing chunks remain searchable'}
                     </p>
                 </div>
 
@@ -354,6 +370,10 @@ export default function AdminAiControls({ standalone = false }) {
                                 />
                             </div>
                         </div>
+                    ) : testMode === 'models' ? (
+                        <div className="p-3 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs text-[var(--foreground-muted)]">
+                            Fetches active models from Groq&apos;s <code className="font-mono">/models</code> endpoint and validates <code className="font-mono">GROQ_MODEL</code>.
+                        </div>
                     ) : (
                         <div>
                             <label className="block text-[11px] font-bold uppercase text-[var(--foreground-muted)] mb-1">Test Prompt / Input Text</label>
@@ -428,6 +448,22 @@ export default function AdminAiControls({ standalone = false }) {
                                         <p className="text-[var(--foreground-muted)] truncate">
                                             Sample[0..5]: [{(testResult.result.sampleValues || []).join(', ')}]
                                         </p>
+                                    </div>
+                                ) : testResult.result.mode === 'models' ? (
+                                    <div className="space-y-2 text-[11px]">
+                                        <p>
+                                            Resolved Model: <strong className="font-mono">{testResult.result.resolvedModel || testResult.result.configuredModel}</strong>
+                                            {testResult.result.validated ? ' (Validated)' : ''}
+                                        </p>
+                                        {Array.isArray(testResult.result.chatModels) && testResult.result.chatModels.length > 0 && (
+                                            <div className="flex flex-wrap gap-1.5">
+                                                {testResult.result.chatModels.map(m => (
+                                                    <span key={m} className="px-2 py-0.5 rounded-md bg-[var(--card-bg)] border border-[var(--card-border)] font-mono text-[10px]">
+                                                        {m}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 ) : (
                                     <>

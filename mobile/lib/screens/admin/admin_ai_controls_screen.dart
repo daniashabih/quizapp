@@ -106,6 +106,8 @@ class _AdminAiControlsScreenState
               : _ragTechController.text.trim(),
           'bypassCache': true,
         };
+      } else if (_testMode == 'models') {
+        payload = {'mode': 'models'};
       } else {
         payload = {
           'mode': _testMode,
@@ -192,7 +194,7 @@ class _AdminAiControlsScreenState
                         children: [
                           Text(
                             status.configured
-                                ? 'Active Provider: ${status.provider.toUpperCase()} (Secured on Server)'
+                                ? 'Active Provider: ${(status.chatProvider.isNotEmpty ? status.chatProvider : status.provider).toUpperCase()}${status.embeddingProvider.isNotEmpty && status.embeddingProvider != status.chatProvider ? ' (Chat) · ${status.embeddingProvider.toUpperCase()} (Embeddings)' : ''} (Secured on Server)'
                                 : 'No Active AI Provider Configured',
                             style: AppTextStyles.labelBold.copyWith(
                               color: status.configured
@@ -209,6 +211,21 @@ class _AdminAiControlsScreenState
                               color: context.textSecondaryColor,
                             ),
                           ),
+                          if (status.modelValid != null) ...[
+                            const SizedBox(height: 4),
+                            Text(
+                              status.modelValid == true
+                                  ? 'Model validated (${status.availableChatModelsCount} chat models available).'
+                                  : 'Model validation warning: ${status.modelValidationError}',
+                              style: AppTextStyles.bodySmall.copyWith(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: status.modelValid == true
+                                    ? context.successColor
+                                    : context.errorColor,
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ),
@@ -285,7 +302,7 @@ class _AdminAiControlsScreenState
                       context,
                       'Embedding Model',
                       status.embeddingModel.isEmpty
-                          ? 'Not Configured (${status.embeddingDimensions}d)'
+                          ? 'Text Fallback (Existing Books)'
                           : '${status.embeddingModel} (${status.embeddingDimensions}d)',
                     ),
                     _infoRow(
@@ -358,6 +375,7 @@ class _AdminAiControlsScreenState
                       children: [
                         for (final mode in const [
                           ('chat', 'Chat Model'),
+                          ('models', 'Models'),
                           ('embedding', 'Embedding'),
                           ('verification', 'Book RAG'),
                         ])
@@ -417,7 +435,22 @@ class _AdminAiControlsScreenState
                           ),
                         ),
                       ),
-                    ] else
+                    ] else if (_testMode == 'models')
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: context.mutedBgColor,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: context.borderColor),
+                        ),
+                        child: Text(
+                          'Retrieves live models from Groq /models endpoint and validates GROQ_MODEL.',
+                          style: AppTextStyles.bodySmall.copyWith(
+                            color: context.textSecondaryColor,
+                          ),
+                        ),
+                      )
+                    else
                       TextField(
                         controller: _promptController,
                         maxLines: 3,
@@ -614,6 +647,11 @@ class _AdminAiControlsScreenState
           if (r['mode'] == 'embedding')
             Text(
               'Dimensions: ${r['dimensions']} (expected ${r['expectedDimensions']}) · Norm: ${r['vectorNorm']}\nSample: ${r['sampleValues']}',
+              style: AppTextStyles.mono.copyWith(fontSize: 11.5),
+            )
+          else if (r['mode'] == 'models')
+            Text(
+              'Resolved: ${r['resolvedModel'] ?? r['configuredModel'] ?? ''}${r['validated'] == true ? ' (Validated)' : ''}\nChat models (${r['chatModelsCount'] ?? 0}): ${((r['chatModels'] as List?) ?? []).join(', ')}',
               style: AppTextStyles.mono.copyWith(fontSize: 11.5),
             )
           else

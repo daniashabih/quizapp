@@ -246,10 +246,12 @@ router.get('/verification-reports', verificationController.getVerificationReport
 router.get('/verification-reports/history', verificationController.getCorrectionHistory);
 router.post('/verification-reports/:id/approve', verificationController.approveReportCorrection);
 router.post('/verification-reports/:id/dismiss', verificationController.dismissReport);
+router.post('/verification-reports/:id/reject', verificationController.dismissReport);
 router.delete('/verification-reports/:id', verificationController.deleteReport);
 
 // 11. /api/admin/ai (AI Controls, Usage & Diagnostics)
 router.get('/ai/status', aiController.getAiStatus);
+router.get('/ai/models', aiController.getAiModels);
 router.get('/ai/usage', aiController.getAiUsage);
 router.post('/ai/test', adminAiTestLimiter, aiController.testAiModels);
 router.post('/ai/cache/clear', aiController.clearAiCache);

@@ -3,12 +3,17 @@ const prisma = require('../_config/prisma');
 const {
     getRuntimeSettings,
     getActiveProviderInfo,
+    getDetailedProviderInfo,
+    fetchGroqModels,
+    resolveAndValidateGroqModel,
+    getGroqBaseUrl,
+    GROQ_PREFERRED_MODELS,
     generateQuizQuestions,
     testAiIntegration,
     clearInMemoryAiCache,
     getMemoryCacheStats
 } = require('../_services/aiProviderService');
-const { getUsageSummary } = require('../_services/aiUsageService');
+const { getUsageSummary, redactSecrets } = require('../_services/aiUsageService');
 const { getAtlasVectorIndexDefinition, VECTOR_INDEX_NAME } = require('../_services/vectorSearchService');
 const { verifyQuestionWithBooks } = require('../_services/questionVerificationService');
 const { PROCESSING_STATUSES } = require('../_services/bookProcessingService');
@@ -79,9 +84,15 @@ const generateQuestions = async (req, res) => {
             model: generated.modelUsed
         });
     } catch (error) {
-        console.error('AI Generation Error:', error.message);
-        res.status(error.status || 500).json({
-            message: error.message || 'Failed to generate questions. Check AI configuration or try again.'
+        const safeMessage = redactSecrets(error?.message || 'Failed to generate questions. Check AI configuration or try again.');
+        console.error('AI Generation Error:', safeMessage);
+        if (error?.retryAfterSeconds) {
+            res.set('Retry-After', String(error.retryAfterSeconds));
+        }
+        const status = error?.status && error.status !== 401 && error.status !== 403 ? error.status : 500;
+        res.status(status).json({
+            message: safeMessage,
+            ...(error?.code ? { code: error.code } : {})
         });
     }
 };
@@ -93,6 +104,7 @@ const generateQuestions = async (req, res) => {
 const getAiStatus = async (req, res) => {
     try {
         const providerInfo = getActiveProviderInfo();
+        const detailedProvider = getDetailedProviderInfo();
         const runtime = getRuntimeSettings();
 
         const [usage, activeBooks] = await Promise.all([
@@ -112,6 +124,26 @@ const getAiStatus = async (req, res) => {
             }).catch(() => [])
         ]);
 
+        let modelValidation = null;
+        if (detailedProvider.chatProvider === 'groq') {
+            try {
+                const resolved = await resolveAndValidateGroqModel(detailedProvider.verificationModel, { forceRefresh: false });
+                modelValidation = {
+                    valid: true,
+                    validated: resolved.validated,
+                    resolvedModel: resolved.modelId,
+                    availableChatModelsCount: resolved.availableModels.length
+                };
+            } catch (valErr) {
+                modelValidation = {
+                    valid: false,
+                    validated: true,
+                    resolvedModel: detailedProvider.verificationModel,
+                    error: redactSecrets(valErr?.message || 'Groq model validation failed.')
+                };
+            }
+        }
+
         const dimensionMismatchBooks = activeBooks.filter(
             b => b.embeddingDimensions && b.embeddingDimensions !== providerInfo.embeddingDimensions
         );
@@ -119,6 +151,14 @@ const getAiStatus = async (req, res) => {
         res.json({
             success: true,
             aiProvider: providerInfo,
+            providers: {
+                chatProvider: detailedProvider.chatProvider,
+                embeddingProvider: detailedProvider.embeddingProvider,
+                chatConfigured: detailedProvider.chatConfigured,
+                embeddingConfigured: detailedProvider.embeddingConfigured,
+                groqBaseUrl: detailedProvider.chatProvider === 'groq' ? detailedProvider.groqBaseUrl : ''
+            },
+            ...(modelValidation ? { modelValidation } : {}),
             config: {
                 chatModel: providerInfo.verificationModel || '',
                 embeddingModel: providerInfo.embeddingModel || '',
@@ -148,8 +188,72 @@ const getAiStatus = async (req, res) => {
             usage
         });
     } catch (err) {
-        console.error('[Admin AI Status Error]:', err);
-        res.status(500).json({ success: false, message: err.message || 'Failed to load AI status.' });
+        const safeMessage = redactSecrets(err?.message || 'Failed to load AI status.');
+        console.error('[Admin AI Status Error]:', safeMessage);
+        res.status(500).json({ success: false, message: safeMessage });
+    }
+};
+
+/**
+ * GET /api/admin/ai/models
+ * Retrieve and validate available Groq models from `https://api.groq.com/openai/v1/models`.
+ */
+const getAiModels = async (req, res) => {
+    try {
+        const forceRefresh = String(req.query?.refresh || '') === '1' || String(req.query?.refresh || '').toLowerCase() === 'true';
+        const detailed = getDetailedProviderInfo();
+
+        if (!detailed.groqConfigured && detailed.chatProvider !== 'groq') {
+            return res.json({
+                success: true,
+                provider: detailed.chatProvider || detailed.provider,
+                configuredModel: detailed.verificationModel || '',
+                resolvedModel: detailed.verificationModel || '',
+                modelValid: Boolean(detailed.verificationModel),
+                recommendedModels: GROQ_PREFERRED_MODELS,
+                models: [],
+                message: 'Live model catalog endpoint is active for Groq when GROQ_API_KEY is configured.'
+            });
+        }
+
+        const catalog = await fetchGroqModels({ forceRefresh });
+        let modelValid = true;
+        let validationError = '';
+        let resolvedModel = detailed.verificationModel;
+
+        try {
+            const check = await resolveAndValidateGroqModel(detailed.groqConfiguredModel || '', { forceRefresh: false });
+            resolvedModel = check.modelId;
+        } catch (err) {
+            modelValid = false;
+            validationError = redactSecrets(err?.message || 'Configured Groq model is unavailable.');
+        }
+
+        res.json({
+            success: true,
+            provider: 'groq',
+            baseUrl: getGroqBaseUrl(),
+            configuredModel: detailed.groqConfiguredModel || resolvedModel,
+            resolvedModel,
+            modelValid,
+            ...(validationError ? { validationError } : {}),
+            recommendedModels: GROQ_PREFERRED_MODELS,
+            cached: catalog.cached,
+            fetchedAt: catalog.fetchedAt,
+            models: catalog.chatModels
+        });
+    } catch (err) {
+        const safeMessage = redactSecrets(err?.message || 'Failed to fetch AI models.');
+        console.error('[Admin AI Models Error]:', safeMessage);
+        if (err?.retryAfterSeconds) {
+            res.set('Retry-After', String(err.retryAfterSeconds));
+        }
+        const status = err?.status && err.status !== 401 && err.status !== 403 ? err.status : 502;
+        res.status(status).json({
+            success: false,
+            message: safeMessage,
+            ...(err?.code ? { code: err.code } : {})
+        });
     }
 };
 
@@ -189,6 +293,12 @@ const testAiModels = async (req, res) => {
         } = req.body || {};
 
         const cleanMode = String(mode || 'chat').trim().toLowerCase();
+        if (!['chat', 'embedding', 'verification', 'models'].includes(cleanMode)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid test mode. Supported modes: chat, embedding, verification, models.'
+            });
+        }
 
         if (cleanMode === 'verification') {
             const qText = String(questionText || prompt || '').trim();
@@ -213,7 +323,7 @@ const testAiModels = async (req, res) => {
         const result = await testAiIntegration({
             mode: cleanMode,
             prompt,
-            model
+            model: String(model || '').trim().slice(0, 120)
         });
 
         res.json({
@@ -221,10 +331,16 @@ const testAiModels = async (req, res) => {
             result
         });
     } catch (err) {
-        console.error('[Admin AI Test Error]:', err);
-        res.status(err.status || 500).json({
+        const safeMessage = redactSecrets(err?.message || 'AI diagnostic test failed.');
+        console.error('[Admin AI Test Error]:', safeMessage);
+        if (err?.retryAfterSeconds) {
+            res.set('Retry-After', String(err.retryAfterSeconds));
+        }
+        const status = err?.status && err.status !== 401 && err.status !== 403 ? err.status : 500;
+        res.status(status).json({
             success: false,
-            message: err.message || 'AI diagnostic test failed.'
+            message: safeMessage,
+            ...(err?.code ? { code: err.code } : {})
         });
     }
 };
@@ -241,13 +357,14 @@ const clearAiCache = async (req, res) => {
             ...cleared
         });
     } catch (err) {
-        res.status(500).json({ success: false, message: err.message || 'Failed to clear AI cache.' });
+        res.status(500).json({ success: false, message: redactSecrets(err?.message || 'Failed to clear AI cache.') });
     }
 };
 
 module.exports = {
     generateQuestions,
     getAiStatus,
+    getAiModels,
     getAiUsage,
     testAiModels,
     clearAiCache

@@ -46,24 +46,40 @@ class AiVerificationResult {
   }
 
   factory AiVerificationResult.fromJson(Map<String, dynamic> json, {bool cached = false}) {
+    final rawStatus = json['verification_status']?.toString() ??
+        json['verificationStatus']?.toString() ??
+        json['status']?.toString() ??
+        'insufficient_evidence';
+    final normalizedStatus = rawStatus == 'correct' ? 'verified' : rawStatus;
+
     return AiVerificationResult(
       id: json['id']?.toString() ?? '',
-      verificationStatus: json['verification_status']?.toString() ??
-          json['verificationStatus']?.toString() ??
-          'insufficient_evidence',
+      verificationStatus: normalizedStatus,
       originalCorrectAnswer: json['original_correct_answer']?.toString() ??
           json['originalCorrectAnswer']?.toString() ??
           '',
       verifiedCorrectAnswer: json['verified_correct_answer']?.toString() ??
           json['verifiedCorrectAnswer']?.toString() ??
+          json['verifiedAnswer']?.toString() ??
           '',
       explanation: json['explanation']?.toString() ?? '',
       sourceBook: json['source_book']?.toString() ?? json['sourceBook']?.toString() ?? '',
       sourceAuthor: json['source_author']?.toString() ?? json['sourceAuthor']?.toString() ?? '',
-      sourceChapter: json['source_chapter']?.toString() ?? json['sourceChapter']?.toString() ?? '',
-      sourcePage: json['source_page']?.toString() ?? json['sourcePage']?.toString() ?? '',
-      supportingExcerpt: json['supporting_excerpt']?.toString() ?? json['supportingExcerpt']?.toString() ?? '',
-      issueDescription: json['issue_description']?.toString() ?? json['issueDescription']?.toString() ?? '',
+      sourceChapter: json['source_chapter']?.toString() ??
+          json['sourceChapter']?.toString() ??
+          json['chapter']?.toString() ??
+          '',
+      sourcePage: json['source_page']?.toString() ??
+          json['sourcePage']?.toString() ??
+          json['page']?.toString() ??
+          '',
+      supportingExcerpt: json['supporting_excerpt']?.toString() ??
+          json['supportingExcerpt']?.toString() ??
+          '',
+      issueDescription: json['issue_description']?.toString() ??
+          json['issueDescription']?.toString() ??
+          json['reason']?.toString() ??
+          '',
       suggestedCorrection: json['suggested_correction']?.toString() ?? json['suggestedCorrection']?.toString() ?? '',
       confidence: (json['confidence'] is num) ? (json['confidence'] as num).toDouble() : 0.0,
       cached: cached,
@@ -414,6 +430,12 @@ class AdminAiEventModel {
 class AdminAiStatusModel {
   final bool configured;
   final String provider;
+  final String chatProvider;
+  final String embeddingProvider;
+  final bool embeddingConfigured;
+  final bool? modelValid;
+  final String modelValidationError;
+  final int availableChatModelsCount;
   final String chatModel;
   final String embeddingModel;
   final int embeddingDimensions;
@@ -434,6 +456,12 @@ class AdminAiStatusModel {
   const AdminAiStatusModel({
     required this.configured,
     required this.provider,
+    this.chatProvider = '',
+    this.embeddingProvider = '',
+    this.embeddingConfigured = false,
+    this.modelValid,
+    this.modelValidationError = '',
+    this.availableChatModelsCount = 0,
     required this.chatModel,
     required this.embeddingModel,
     required this.embeddingDimensions,
@@ -454,6 +482,8 @@ class AdminAiStatusModel {
 
   factory AdminAiStatusModel.fromJson(Map<String, dynamic> json) {
     final aiProvider = (json['aiProvider'] as Map<String, dynamic>?) ?? {};
+    final providers = (json['providers'] as Map<String, dynamic>?) ?? {};
+    final modelValidation = (json['modelValidation'] as Map<String, dynamic>?);
     final config = (json['config'] as Map<String, dynamic>?) ?? {};
     final vectorIndex = (json['vectorIndex'] as Map<String, dynamic>?) ?? {};
     final cache = (json['cache'] as Map<String, dynamic>?) ?? {};
@@ -465,6 +495,13 @@ class AdminAiStatusModel {
     return AdminAiStatusModel(
       configured: aiProvider['configured'] == true,
       provider: aiProvider['provider']?.toString() ?? '',
+      chatProvider: providers['chatProvider']?.toString() ?? aiProvider['provider']?.toString() ?? '',
+      embeddingProvider: providers['embeddingProvider']?.toString() ?? '',
+      embeddingConfigured: providers['embeddingConfigured'] == true ||
+          (config['embeddingModel']?.toString().isNotEmpty ?? false),
+      modelValid: modelValidation?['valid'] as bool?,
+      modelValidationError: modelValidation?['error']?.toString() ?? '',
+      availableChatModelsCount: (modelValidation?['availableChatModelsCount'] as num?)?.toInt() ?? 0,
       chatModel: config['chatModel']?.toString() ?? aiProvider['verificationModel']?.toString() ?? '',
       embeddingModel: config['embeddingModel']?.toString() ?? aiProvider['embeddingModel']?.toString() ?? '',
       embeddingDimensions: (config['embeddingDimensions'] as num?)?.toInt() ?? 1536,

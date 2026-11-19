@@ -5,10 +5,14 @@ const {
     generateEmbeddings,
     evaluateQuestionWithEvidence,
     formatConciseExplanation,
-    getActiveProviderInfo
+    getActiveProviderInfo,
+    getDetailedProviderInfo
 } = require('./aiProviderService');
 const { recordAiEvent } = require('./aiUsageService');
-const { searchRelevantBookChunks } = require('./vectorSearchService');
+const {
+    searchRelevantBookChunks,
+    searchRelevantBookChunksByText
+} = require('./vectorSearchService');
 const { getKnowledgeBaseVersion, PROCESSING_STATUSES } = require('./bookProcessingService');
 const { sha256 } = require('./bookExtractorService');
 
@@ -126,7 +130,10 @@ function groundVerificationResult({
     originalCorrectAnswer,
     options
 }) {
-    let status = String(rawAiResult?.verification_status || '').trim().toLowerCase();
+    let status = String(rawAiResult?.status ?? rawAiResult?.verification_status ?? '').trim().toLowerCase();
+    if (status === 'correct') {
+        status = 'verified';
+    }
     if (!VALID_VERIFICATION_STATUSES.has(status)) {
         status = 'insufficient_evidence';
     }
@@ -136,10 +143,13 @@ function groundVerificationResult({
         status = 'insufficient_evidence';
     }
 
+    const rawSourceBook = rawAiResult?.sourceBook ?? rawAiResult?.source_book ?? '';
+    const rawReason = String(rawAiResult?.reason ?? rawAiResult?.issue_description ?? '').trim();
+
     // Find the best matching retrieved chunk cited by the AI (or fall back to top-scoring retrieved chunk)
     let matchedChunk = evidenceChunks[0] || null;
-    if (rawAiResult?.source_book && evidenceChunks.length > 1) {
-        const targetBook = normalizeTextForCache(rawAiResult.source_book);
+    if (rawSourceBook && evidenceChunks.length > 1) {
+        const targetBook = normalizeTextForCache(rawSourceBook);
         const found = evidenceChunks.find(c =>
             normalizeTextForCache(c.bookTitle) === targetBook ||
             normalizeTextForCache(c.bookTitle).includes(targetBook) ||
@@ -161,27 +171,37 @@ function groundVerificationResult({
             source_chapter: '',
             source_page: '',
             supporting_excerpt: '',
-            issue_description: String(rawAiResult?.issue_description || '').trim() ||
-                'Insufficient reference book coverage for this question.',
+            issue_description: rawReason || 'Insufficient reference book coverage for this question.',
             suggested_correction: '',
             confidence: Math.min(0.4, Math.max(0, Number(rawAiResult?.confidence) || 0.2))
         };
     }
 
     // Ground verified_correct_answer to an actual option in the question
-    let verifiedAnswer = resolveAnswerText(options, rawAiResult?.verified_correct_answer || '');
+    const rawVerifiedAnswer = rawAiResult?.verifiedAnswer ?? rawAiResult?.verified_correct_answer ?? '';
+    let verifiedAnswer = resolveAnswerText(options, rawVerifiedAnswer);
+    const matchesOriginal = Boolean(
+        verifiedAnswer &&
+        originalCorrectAnswer &&
+        normalizeTextForCache(verifiedAnswer) === normalizeTextForCache(originalCorrectAnswer)
+    );
+    const matchesProvidedOption = Boolean(
+        verifiedAnswer &&
+        Array.isArray(options) &&
+        options.some(o => normalizeTextForCache(o) === normalizeTextForCache(verifiedAnswer))
+    );
+
     if (status === 'verified' && !verifiedAnswer) {
         verifiedAnswer = originalCorrectAnswer;
+    } else if (status === 'verified' && matchesProvidedOption && !matchesOriginal) {
+        status = 'incorrect';
     }
-    if (status === 'incorrect' && (!verifiedAnswer || normalizeTextForCache(verifiedAnswer) === normalizeTextForCache(originalCorrectAnswer))) {
-        // If AI flagged incorrect but verified answer matches original, downgrade to ambiguous or verified cleanly
-        if (verifiedAnswer && normalizeTextForCache(verifiedAnswer) === normalizeTextForCache(originalCorrectAnswer)) {
-            status = 'verified';
-        }
+    if (status === 'incorrect' && matchesOriginal) {
+        status = 'verified';
     }
 
     // Ground supporting excerpt to actual text from retrieved chunks (never fabricated quotes)
-    let excerpt = String(rawAiResult?.supporting_excerpt || '').trim();
+    let excerpt = String(rawAiResult?.supportingExcerpt ?? rawAiResult?.supporting_excerpt ?? '').trim();
     const allChunkTextNorm = evidenceChunks.map(c => normalizeTextForCache(c.chunkText)).join(' ');
     if (excerpt) {
         const probe = normalizeTextForCache(excerpt).slice(0, 48);
@@ -201,6 +221,10 @@ function groundVerificationResult({
     const explanation = formatConciseExplanation(rawAiResult?.explanation) ||
         `According to "${matchedChunk.bookTitle}", the correct answer is "${verifiedAnswer || originalCorrectAnswer}".\nReview the cited chapter and page excerpt below for the reference book definition.`;
 
+    const resolvedPage = (matchedChunk.pageNumber !== null && matchedChunk.pageNumber !== undefined && Number(matchedChunk.pageNumber) > 0)
+        ? String(matchedChunk.pageNumber)
+        : '';
+
     return {
         verification_status: status,
         original_correct_answer: originalCorrectAnswer,
@@ -210,11 +234,11 @@ function groundVerificationResult({
         source_book: matchedChunk.bookTitle,
         source_author: matchedChunk.author,
         source_chapter: matchedChunk.chapter || 'General Reference',
-        source_page: String(matchedChunk.pageNumber || 1),
+        source_page: resolvedPage,
         supporting_excerpt: excerpt,
         issue_description: status === 'verified'
             ? ''
-            : (String(rawAiResult?.issue_description || '').trim() ||
+            : (rawReason ||
                 (status === 'incorrect'
                     ? `Database answer "${originalCorrectAnswer}" conflicts with reference book evidence supporting "${verifiedAnswer}".`
                     : 'Multiple options may be valid or the question wording is ambiguous based on the reference book.')),
@@ -229,14 +253,30 @@ function groundVerificationResult({
 }
 
 function formatVerificationResponse(record) {
+    const internalStatus = record.verificationStatus || 'insufficient_evidence';
+    const externalStatus = internalStatus === 'verified' ? 'correct' : internalStatus;
+    const reasonText = internalStatus === 'verified'
+        ? ''
+        : (record.issueDescription || (internalStatus === 'insufficient_evidence' ? record.explanation : ''));
+
     return {
         id: record.id,
         question_id: record.questionId || '',
         technology: record.technology,
-        verification_status: record.verificationStatus,
+        // Structured JSON fields
+        status: externalStatus,
+        verifiedAnswer: record.verifiedCorrectAnswer || '',
+        explanation: record.explanation,
+        confidence: typeof record.confidence === 'number' ? record.confidence : 0,
+        sourceBook: record.sourceBook || '',
+        chapter: record.sourceChapter || '',
+        page: record.sourcePage || '',
+        supportingExcerpt: record.supportingExcerpt || '',
+        reason: reasonText,
+        // Legacy / DB-aligned fields preserved for full compatibility
+        verification_status: internalStatus,
         original_correct_answer: record.originalCorrectAnswer,
         verified_correct_answer: record.verifiedCorrectAnswer || '',
-        explanation: record.explanation,
         source_book: record.sourceBook || '',
         source_author: record.sourceAuthor || '',
         source_chapter: record.sourceChapter || '',
@@ -244,7 +284,6 @@ function formatVerificationResponse(record) {
         supporting_excerpt: record.supportingExcerpt || '',
         issue_description: record.issueDescription || '',
         suggested_correction: record.suggestedCorrection || '',
-        confidence: typeof record.confidence === 'number' ? record.confidence : 0,
         review_status: record.reviewStatus || 'pending',
         updated_at: record.updatedAt || record.createdAt
     };
@@ -289,13 +328,18 @@ async function verifyQuestionWithBooks({
         err.status = 400;
         throw err;
     }
-    if (cleanOptions.length < 2) {
-        const err = new Error('At least 2 answer options are required for verification.');
+    if (cleanQuestionText.length > 4000) {
+        const err = new Error('questionText exceeds maximum allowed length (4000 characters).');
         err.status = 400;
         throw err;
     }
-    if (!cleanTechnology) {
-        const err = new Error('technology/category is required for verification.');
+    if (cleanOptions.length < 2 || cleanOptions.length > 10) {
+        const err = new Error('Between 2 and 10 answer options are required for verification.');
+        err.status = 400;
+        throw err;
+    }
+    if (!cleanTechnology || cleanTechnology.length > 120) {
+        const err = new Error('A valid technology/category is required for verification.');
         err.status = 400;
         throw err;
     }
@@ -451,36 +495,59 @@ async function verifyQuestionWithBooks({
 
     const verificationPromise = (async () => {
         const startedAt = Date.now();
-        // 3. Embed question + options for semantic vector retrieval
-        const queryText = [
-            `Technology: ${cleanTechnology}`,
-            `Question: ${cleanQuestionText}`,
-            `Options: ${cleanOptions.join(' | ')}`
-        ].join('\n');
+        const detailedProvider = getDetailedProviderInfo();
+        if (!detailedProvider.chatConfigured) {
+            const err = new Error('AI verification provider is not configured on the server.');
+            err.status = 503;
+            err.code = 'AI_PROVIDER_UNCONFIGURED';
+            throw err;
+        }
 
-        const [queryEmbedding] = await generateEmbeddings([queryText], {
-            taskType: 'RETRIEVAL_QUERY',
-            operation: 'embed_query'
-        });
+        let searchResult;
+        if (detailedProvider.embeddingConfigured) {
+            // 3. Embed question + options for semantic vector retrieval
+            const queryText = [
+                `Technology: ${cleanTechnology}`,
+                `Question: ${cleanQuestionText}`,
+                `Options: ${cleanOptions.join(' | ')}`
+            ].join('\n');
 
-        // 4. Semantic search across active books for this technology via MongoDB Atlas Vector Search
-        const searchResult = await searchRelevantBookChunks({
-            queryEmbedding,
-            technologiesNormalized,
-            limit: 6,
-            minScore: parseFloat(process.env.VECTOR_SEARCH_MIN_SCORE || '0.25') || 0.25
-        });
+            const [queryEmbedding] = await generateEmbeddings([queryText], {
+                taskType: 'RETRIEVAL_QUERY',
+                operation: 'embed_query'
+            });
+
+            // 4. Semantic search across active books for this technology via MongoDB Atlas Vector Search
+            searchResult = await searchRelevantBookChunks({
+                queryEmbedding,
+                technologiesNormalized,
+                limit: 6,
+                minScore: parseFloat(process.env.VECTOR_SEARCH_MIN_SCORE || '0.25') || 0.25
+            });
+        } else {
+            // Fallback retrieval over existing MongoDB chunks when only Groq chat is configured (no embedding API key)
+            searchResult = await searchRelevantBookChunksByText({
+                questionText: cleanQuestionText,
+                options: cleanOptions,
+                technologiesNormalized,
+                limit: 6
+            });
+        }
 
         const evidenceChunks = searchResult.chunks || [];
         let grounded;
         let aiMeta = {
-            provider: activeProvider.provider,
+            provider: detailedProvider.chatProvider || activeProvider.provider,
             modelUsed: ''
         };
 
         if (evidenceChunks.length === 0) {
             grounded = groundVerificationResult({
-                rawAiResult: { verification_status: 'insufficient_evidence', confidence: 0.1 },
+                rawAiResult: {
+                    status: 'insufficient_evidence',
+                    reason: `No relevant passages found in uploaded ${cleanTechnology} reference books for this question.`,
+                    confidence: 0.1
+                },
                 evidenceChunks: [],
                 originalCorrectAnswer: cleanCorrectAnswer,
                 options: cleanOptions
@@ -497,11 +564,11 @@ async function verifyQuestionWithBooks({
 
             if (rawAi?._meta) {
                 aiMeta = {
-                    provider: rawAi._meta.provider || activeProvider.provider,
-                    modelUsed: rawAi._meta.modelUsed || activeProvider.verificationModel
+                    provider: rawAi._meta.provider || detailedProvider.chatProvider || activeProvider.provider,
+                    modelUsed: rawAi._meta.modelUsed || detailedProvider.verificationModel || activeProvider.verificationModel
                 };
             } else {
-                aiMeta.modelUsed = activeProvider.verificationModel;
+                aiMeta.modelUsed = detailedProvider.verificationModel || activeProvider.verificationModel;
             }
 
             // 6. Strictly ground citations & status against retrieved chunks
@@ -597,7 +664,14 @@ async function approveVerificationCorrection({
     notes = '',
     adminUser
 }) {
-    const report = await prisma.questionVerification.findUnique({ where: { id: String(reportId) } });
+    const cleanReportId = String(reportId || '').trim();
+    if (!/^[0-9a-fA-F]{24}$/.test(cleanReportId)) {
+        const err = new Error('Invalid verification report ID.');
+        err.status = 400;
+        throw err;
+    }
+
+    const report = await prisma.questionVerification.findUnique({ where: { id: cleanReportId } });
     if (!report) {
         const err = new Error('Verification report not found.');
         err.status = 404;

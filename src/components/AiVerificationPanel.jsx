@@ -94,9 +94,17 @@ export default function AiVerificationPanel({
         }
     };
 
-    const statusKey = activeResult?.verification_status || 'insufficient_evidence';
+    const rawStatus = activeResult?.verification_status || activeResult?.status || 'insufficient_evidence';
+    const statusKey = rawStatus === 'correct' ? 'verified' : rawStatus;
     const statusInfo = STATUS_META[statusKey] || STATUS_META.insufficient_evidence;
     const StatusIcon = statusInfo.icon;
+    const verifiedAnswerText = activeResult?.verified_correct_answer || activeResult?.verifiedAnswer || '';
+    const originalAnswerText = activeResult?.original_correct_answer || '';
+    const issueReasonText = activeResult?.issue_description || activeResult?.reason || '';
+    const sourceBookText = activeResult?.source_book || activeResult?.sourceBook || '';
+    const sourceChapterText = activeResult?.source_chapter || activeResult?.chapter || '';
+    const sourcePageText = activeResult?.source_page || activeResult?.page || '';
+    const supportingExcerptText = activeResult?.supporting_excerpt || activeResult?.supportingExcerpt || '';
 
     return (
         <div
@@ -185,24 +193,24 @@ export default function AiVerificationPanel({
             {!loading && activeResult && (
                 <div className={`p-4 space-y-3 border-t ${statusInfo.borderClass}`}>
                     {/* Verified Answer Highlight */}
-                    {activeResult.verified_correct_answer && (
+                    {verifiedAnswerText && (
                         <div className="flex flex-col sm:flex-row sm:items-center gap-2 p-3 rounded-xl bg-[var(--muted-bg)]/70 border border-[var(--card-border)]">
                             <div className="flex-1 min-w-0">
                                 <span className="block text-[10px] font-bold uppercase tracking-wider text-[var(--foreground-muted)]">
                                     {statusKey === 'incorrect' ? 'Book-Verified Correct Answer' : 'Verified Answer'}
                                 </span>
                                 <span className="text-xs sm:text-sm font-bold text-[#193D35] dark:text-emerald-300 break-words">
-                                    {activeResult.verified_correct_answer}
+                                    {verifiedAnswerText}
                                 </span>
                             </div>
 
-                            {statusKey === 'incorrect' && activeResult.original_correct_answer && (
+                            {statusKey === 'incorrect' && originalAnswerText && (
                                 <div className="sm:text-right border-t sm:border-t-0 sm:border-l border-[var(--card-border)] pt-2 sm:pt-0 sm:pl-3">
                                     <span className="block text-[10px] font-bold uppercase tracking-wider text-red-600 dark:text-red-400">
                                         Stored Quiz Answer
                                     </span>
                                     <span className="text-xs font-semibold text-red-700 dark:text-red-300 line-through break-words">
-                                        {activeResult.original_correct_answer}
+                                        {originalAnswerText}
                                     </span>
                                 </div>
                             )}
@@ -217,38 +225,38 @@ export default function AiVerificationPanel({
                     </div>
 
                     {/* Issue Note when Incorrect or Ambiguous */}
-                    {(statusKey === 'incorrect' || statusKey === 'ambiguous') && activeResult.issue_description && (
+                    {(statusKey === 'incorrect' || statusKey === 'ambiguous') && issueReasonText && (
                         <div className="p-2.5 rounded-xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 text-[11px] text-amber-900 dark:text-amber-200">
                             <strong className="font-bold">Flagged for Admin Review: </strong>
-                            {activeResult.issue_description}
+                            {issueReasonText}
                         </div>
                     )}
 
                     {/* Reference Book Citation Metadata */}
-                    {activeResult.source_book && (
+                    {sourceBookText && (
                         <div className="pt-2 border-t border-[var(--card-border)]/70 flex flex-col gap-2">
                             <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-[var(--foreground-muted)]">
                                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1 min-w-0">
                                     <span className="inline-flex items-center gap-1 font-bold text-[var(--foreground)]">
                                         <BookOpen size={12} className="text-[#193D35] dark:text-[#D19A45] shrink-0" />
-                                        <span className="break-words">{activeResult.source_book}</span>
+                                        <span className="break-words">{sourceBookText}</span>
                                     </span>
                                     {activeResult.source_author && (
                                         <span>by {activeResult.source_author}</span>
                                     )}
-                                    {activeResult.source_chapter && (
+                                    {sourceChapterText && (
                                         <span className="px-2 py-0.5 rounded-md bg-[var(--muted-bg)] border border-[var(--card-border)] font-medium">
-                                            {activeResult.source_chapter}
+                                            {sourceChapterText}
                                         </span>
                                     )}
-                                    {activeResult.source_page && (
+                                    {sourcePageText && (
                                         <span className="px-2 py-0.5 rounded-md bg-[#F3E5C5]/70 dark:bg-[#D19A45]/20 text-[#193D35] dark:text-[#F3E5C5] font-mono font-bold">
-                                            Page {activeResult.source_page}
+                                            Page {sourcePageText}
                                         </span>
                                     )}
                                 </div>
 
-                                {activeResult.supporting_excerpt && (
+                                {supportingExcerptText && (
                                     <button
                                         type="button"
                                         onClick={() => setIsReferenceOpen(prev => !prev)}
@@ -263,12 +271,12 @@ export default function AiVerificationPanel({
                             </div>
 
                             {/* Expandable Supporting Excerpt */}
-                            {isReferenceOpen && activeResult.supporting_excerpt && (
+                            {isReferenceOpen && supportingExcerptText && (
                                 <blockquote
                                     data-testid="book-reference-excerpt"
                                     className="p-3 rounded-xl bg-[var(--muted-bg)]/80 border-l-4 border-l-[#D19A45] border border-[var(--card-border)] text-xs text-[var(--foreground)] italic leading-relaxed break-words"
                                 >
-                                    “{activeResult.supporting_excerpt}”
+                                    “{supportingExcerptText}”
                                 </blockquote>
                             )}
                         </div>

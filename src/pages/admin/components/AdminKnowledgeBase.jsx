@@ -359,7 +359,7 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[var(--foreground-muted)]">
                         <span>Provider: <strong className="text-[var(--foreground)] uppercase">{aiProvider.provider}</strong></span>
                         <span>Chat Model: <strong className="font-mono text-[11px] text-[var(--foreground)]">{aiProvider.verificationModel}</strong></span>
-                        <span>Embedding Model: <strong className="font-mono text-[11px] text-[var(--foreground)]">{aiProvider.embeddingModel}</strong></span>
+                        <span>Embedding Model: <strong className="font-mono text-[11px] text-[var(--foreground)]">{aiProvider.embeddingModel || 'Text fallback (existing books)'}</strong></span>
                         <span>Vector Dimensions: <strong className="text-[var(--foreground)]">{aiProvider.embeddingDimensions || 1536}</strong></span>
                     </div>
                 </div>

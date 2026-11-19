@@ -1,10 +1,20 @@
 const prisma = require('../_config/prisma');
 
 function redactSecrets(input) {
-    return String(input || '')
+    let text = String(input || '')
+        .replace(/\bgsk_[A-Za-z0-9_-]{10,}/g, 'gsk_[REDACTED]')
         .replace(/\bsk-[A-Za-z0-9_-]{12,}\b/g, 'sk-[REDACTED]')
         .replace(/\bAIza[A-Za-z0-9_-]{15,}\b/g, 'AIza[REDACTED]')
-        .replace(/Bearer\s+[A-Za-z0-9._-]{10,}/gi, 'Bearer [REDACTED]');
+        .replace(/Bearer\s+[A-Za-z0-9._-]{10,}/gi, 'Bearer [REDACTED]')
+        .replace(/([?&]key=)[^&\s]+/gi, '$1[REDACTED]');
+
+    for (const envKey of ['GROQ_API_KEY', 'OPENAI_API_KEY', 'GEMINI_API_KEY']) {
+        const secretVal = String(process.env[envKey] || '').trim();
+        if (secretVal.length >= 8 && text.includes(secretVal)) {
+            text = text.split(secretVal).join('[REDACTED]');
+        }
+    }
+    return text;
 }
 
 function getUtcDateKey() {

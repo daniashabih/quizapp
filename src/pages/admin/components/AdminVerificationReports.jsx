@@ -366,6 +366,12 @@ export default function AdminVerificationReports({ standalone = false }) {
                                             {report.explanation}
                                         </p>
 
+                                        {report.issueDescription && report.verificationStatus !== 'verified' && (
+                                            <p className="text-[11px] text-amber-800 dark:text-amber-300 bg-amber-50/70 dark:bg-amber-950/25 border border-amber-200 dark:border-amber-800/50 px-3 py-2 rounded-xl">
+                                                <strong>Reason / Issue:</strong> {report.issueDescription}
+                                            </p>
+                                        )}
+
                                         {report.sourceBook && (
                                             <div className="flex flex-wrap items-center gap-2 text-[11px] text-[var(--foreground-muted)] pt-2 border-t border-[var(--card-border)]/70">
                                                 <BookOpen size={12} className="text-[#193D35] dark:text-[#D19A45]" />

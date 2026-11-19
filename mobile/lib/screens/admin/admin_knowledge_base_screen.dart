@@ -387,7 +387,9 @@ class _AdminKnowledgeBaseScreenState
                       border: Border.all(color: context.borderColor),
                     ),
                     child: Text(
-                      'Provider: ${data.activeProvider.toUpperCase()} · ${data.activeEmbeddingModel} (${data.activeEmbeddingDimensions}d)',
+                      data.activeEmbeddingModel.isNotEmpty
+                          ? 'Provider: ${data.activeProvider.toUpperCase()} · ${data.activeEmbeddingModel} (${data.activeEmbeddingDimensions}d)'
+                          : 'Provider: ${data.activeProvider.toUpperCase()} · Text fallback (existing books)',
                       style: AppTextStyles.mono.copyWith(
                         fontSize: 11,
                         color: context.textSecondaryColor,
