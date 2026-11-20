@@ -652,6 +652,7 @@ test('RAG Book Verification System: All 10 End-to-End Scenarios', async () => {
         );
     } finally {
         setAiProviderOverride(null);
+        await terminateOcrWorker();
         mockDb.restore();
     }
 });
