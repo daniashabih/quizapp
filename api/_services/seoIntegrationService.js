@@ -521,18 +521,257 @@ async function fetchJsonWithTimeout(url, options = {}, timeoutMs = 10000) {
     }
 }
 
-async function fetchSearchConsolePerformance(config, dateRange) {
-    const gscProperty = config.gscProperty || (config.siteUrl ? `${config.siteUrl}/` : '');
-    const hasCreds = Boolean((config.googleServiceAccountEmail && config.googlePrivateKey) || config.googleAccessToken);
+async function listSearchConsoleSites(token) {
+    const data = await fetchJsonWithTimeout('https://www.googleapis.com/webmasters/v3/sites', {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    }, 10000);
 
-    if (!hasCreds || !gscProperty) {
+    const rawEntries = Array.isArray(data?.siteEntry) ? data.siteEntry : [];
+    return rawEntries
+        .filter((entry) => entry && entry.siteUrl)
+        .map((entry) => {
+            const siteUrl = String(entry.siteUrl).trim();
+            const permissionLevel = String(entry.permissionLevel || 'siteUnverifiedUser').trim();
+            const isDomainProperty = siteUrl.toLowerCase().startsWith('sc-domain:');
+            const hasAccess = VERIFIED_GSC_PERMISSION_LEVELS.has(permissionLevel);
+            return {
+                siteUrl,
+                permissionLevel,
+                isDomainProperty,
+                hasAccess
+            };
+        })
+        .sort((a, b) => {
+            if (a.siteUrl.toLowerCase() === DEFAULT_GSC_PROPERTY) return -1;
+            if (b.siteUrl.toLowerCase() === DEFAULT_GSC_PROPERTY) return 1;
+            if (a.hasAccess !== b.hasAccess) return a.hasAccess ? -1 : 1;
+            if (a.isDomainProperty !== b.isDomainProperty) return a.isDomainProperty ? -1 : 1;
+            return a.siteUrl.localeCompare(b.siteUrl);
+        });
+}
+
+function resolvePropertyAgainstSitesList(rawConfiguredProperty, sites = []) {
+    const raw = String(rawConfiguredProperty || '').trim();
+    const normalized = normalizeGscPropertyIdentifier(raw) || DEFAULT_GSC_PROPERTY;
+    const domainEntry = sites.find((s) => s.siteUrl.toLowerCase() === DEFAULT_GSC_PROPERTY) || null;
+
+    // 1. If a URL-prefix property was explicitly configured and exists in sites.list, use its exact URL from Google's Sites API
+    if (/^https?:\/\//i.test(raw)) {
+        const cleanRaw = raw.replace(/\/+$/, '').toLowerCase();
+        const urlPrefixMatch = sites.find(
+            (s) => !s.isDomainProperty && s.siteUrl.replace(/\/+$/, '').toLowerCase() === cleanRaw
+        );
+        if (urlPrefixMatch) {
+            return {
+                targetProperty: urlPrefixMatch.siteUrl,
+                matchedEntry: urlPrefixMatch,
+                hasDomainProperty: Boolean(domainEntry)
+            };
+        }
+
+        // If the configured value was a legacy Hangbug URL (e.g. http://hangbug.com or https://www.hangbug.com/)
+        // and the account's actual property in sites.list is the Domain property sc-domain:hangbug.com, use sc-domain:hangbug.com
+        if (isLegacyHangbugUrlCandidate(raw)) {
+            if (domainEntry) {
+                return {
+                    targetProperty: domainEntry.siteUrl,
+                    matchedEntry: domainEntry,
+                    hasDomainProperty: true
+                };
+            }
+            if (/^http:\/\/(www\.)?hangbug\.com\/?$/i.test(raw)) {
+                return {
+                    targetProperty: DEFAULT_GSC_PROPERTY,
+                    matchedEntry: null,
+                    hasDomainProperty: false
+                };
+            }
+        }
+
+        return {
+            targetProperty: normalized,
+            matchedEntry: null,
+            hasDomainProperty: Boolean(domainEntry)
+        };
+    }
+
+    // 2. Domain property (e.g. sc-domain:hangbug.com or bare hangbug.com normalized to sc-domain:hangbug.com)
+    const exactMatch = sites.find((s) => s.siteUrl.toLowerCase() === normalized.toLowerCase()) || null;
+    if (exactMatch) {
+        return {
+            targetProperty: exactMatch.siteUrl,
+            matchedEntry: exactMatch,
+            hasDomainProperty: Boolean(domainEntry)
+        };
+    }
+
+    return {
+        targetProperty: normalized,
+        matchedEntry: null,
+        hasDomainProperty: Boolean(domainEntry)
+    };
+}
+
+async function verifySearchConsoleServiceAccount(config) {
+    const cleanDomain = normalizeDomain(config.domain);
+    const saEmail = String(config.googleServiceAccountEmail || '').trim();
+    const hasCreds = Boolean((saEmail && config.googlePrivateKey) || config.googleAccessToken);
+    const candidateInput = config.rawGscProperty || config.gscProperty || DEFAULT_GSC_PROPERTY;
+    const defaultTarget = /^http:\/\/(www\.)?hangbug\.com\/?$/i.test(String(candidateInput).trim())
+        ? DEFAULT_GSC_PROPERTY
+        : (normalizeGscPropertyIdentifier(candidateInput) || DEFAULT_GSC_PROPERTY);
+
+    if (!hasCreds) {
+        const unconfigured = {
+            authenticated: false,
+            authStatus: 'Not Configured',
+            serviceAccountEmail: saEmail,
+            availableProperties: [],
+            selectedProperty: defaultTarget,
+            permissionLevel: null,
+            propertyVerified: false,
+            hasDomainProperty: false,
+            message: 'Google Search Console is not connected yet. Paste your Google Service Account JSON key in Settings and grant its client_email access in Google Search Console.'
+        };
+        memoryVerifications.set(cleanDomain, unconfigured);
+        return unconfigured;
+    }
+
+    let token;
+    try {
+        token = await getGoogleAccessToken(config, [GSC_READONLY_SCOPE]);
+        if (!token) {
+            throw new Error('No access token returned from Service Account credentials.');
+        }
+    } catch (authErr) {
+        const failedAuth = {
+            authenticated: false,
+            authStatus: 'Authentication Failed',
+            serviceAccountEmail: saEmail,
+            availableProperties: [],
+            selectedProperty: defaultTarget,
+            permissionLevel: null,
+            propertyVerified: false,
+            hasDomainProperty: false,
+            message: `Google Service Account authentication failed: ${authErr.message}. Verify your Service Account Email and Private Key JSON.`
+        };
+        memoryVerifications.set(cleanDomain, failedAuth);
+        return failedAuth;
+    }
+
+    let sites = [];
+    try {
+        sites = await listSearchConsoleSites(token);
+    } catch (sitesErr) {
+        const failedSites = {
+            authenticated: false,
+            authStatus: 'Authentication Failed',
+            serviceAccountEmail: saEmail,
+            availableProperties: [],
+            selectedProperty: defaultTarget,
+            permissionLevel: null,
+            propertyVerified: false,
+            hasDomainProperty: false,
+            message: `Google Search Console Sites API (sites.list) request failed: ${sitesErr.message}. Ensure the Google Search Console API is enabled in your Google Cloud project.`
+        };
+        memoryVerifications.set(cleanDomain, failedSites);
+        return failedSites;
+    }
+
+    const { targetProperty, matchedEntry, hasDomainProperty } = resolvePropertyAgainstSitesList(candidateInput, sites);
+
+    if (!matchedEntry) {
+        const emailLabel = saEmail || 'your service account client_email';
+        const availableSummary = sites.length > 0
+            ? ` Accessible properties returned by sites.list: ${sites.map((s) => `${s.siteUrl} (${s.permissionLevel})`).join(', ')}.`
+            : ' Google Search Console sites.list returned 0 accessible properties for this service account.';
+        const missingMsg = `Property "${targetProperty}" was not found in Google Search Console sites.list for service account "${emailLabel}". Open Google Search Console -> Settings -> Users and permissions for property "${targetProperty}" (Domain property hangbug.com) and add "${emailLabel}" with Restricted or Full permission.${availableSummary}`;
+
+        const missingResult = {
+            authenticated: true,
+            authStatus: 'Authenticated',
+            serviceAccountEmail: saEmail,
+            availableProperties: sites,
+            selectedProperty: targetProperty,
+            permissionLevel: null,
+            propertyVerified: false,
+            hasDomainProperty,
+            token,
+            message: missingMsg
+        };
+        memoryVerifications.set(cleanDomain, { ...missingResult, token: undefined });
+        return missingResult;
+    }
+
+    if (!matchedEntry.hasAccess) {
+        const emailLabel = saEmail || 'service account';
+        const insufficientMsg = `Service account "${emailLabel}" has insufficient Google Search Console permission level "${matchedEntry.permissionLevel}" for property "${matchedEntry.siteUrl}". Please grant Restricted (siteRestrictedUser) or Full (siteFullUser) permission in Google Search Console -> Settings -> Users and permissions.`;
+
+        const insufficientResult = {
+            authenticated: true,
+            authStatus: 'Authenticated',
+            serviceAccountEmail: saEmail,
+            availableProperties: sites,
+            selectedProperty: matchedEntry.siteUrl,
+            permissionLevel: matchedEntry.permissionLevel,
+            propertyVerified: false,
+            hasDomainProperty,
+            token,
+            message: insufficientMsg
+        };
+        memoryVerifications.set(cleanDomain, { ...insufficientResult, token: undefined });
+        return insufficientResult;
+    }
+
+    // Persist canonical property identifier from sites.list (e.g. sc-domain:hangbug.com) if config had a legacy value
+    if (config.gscProperty !== matchedEntry.siteUrl) {
+        config.gscProperty = matchedEntry.siteUrl;
+        config.rawGscProperty = matchedEntry.siteUrl;
+        if (memoryConfigs.has(cleanDomain)) {
+            memoryConfigs.set(cleanDomain, {
+                ...memoryConfigs.get(cleanDomain),
+                gscProperty: matchedEntry.siteUrl
+            });
+        }
+    }
+
+    const verifiedResult = {
+        authenticated: true,
+        authStatus: 'Authenticated',
+        serviceAccountEmail: saEmail,
+        availableProperties: sites,
+        selectedProperty: matchedEntry.siteUrl,
+        permissionLevel: matchedEntry.permissionLevel,
+        propertyVerified: true,
+        hasDomainProperty,
+        token,
+        message: `Authenticated as ${saEmail || 'Service Account'}. Verified ${matchedEntry.permissionLevel} access to ${matchedEntry.siteUrl}.`
+    };
+    memoryVerifications.set(cleanDomain, { ...verifiedResult, token: undefined });
+    return verifiedResult;
+}
+
+async function fetchSearchConsolePerformance(config, dateRange) {
+    const verification = await verifySearchConsoleServiceAccount(config);
+    const gscProperty = verification.selectedProperty;
+
+    if (!verification.authenticated || !verification.propertyVerified) {
         return {
             connected: false,
+            authenticated: verification.authenticated,
+            authStatus: verification.authStatus,
+            serviceAccountEmail: verification.serviceAccountEmail,
             source: 'Google Search Console',
-            property: gscProperty || null,
+            property: gscProperty || DEFAULT_GSC_PROPERTY,
+            permissionLevel: verification.permissionLevel,
+            availableProperties: verification.availableProperties,
             dateRange,
             comparisonAvailable: false,
-            reason: 'Google Search Console is not connected yet. Add your Google Service Account JSON (or OAuth token) and verified GSC Property URL in Settings to load real search clicks, impressions, CTR, average position, queries, and sitemap indexing data.',
+            reason: verification.message,
             summary: null,
             timeseries: [],
             topQueries: [],
@@ -544,7 +783,7 @@ async function fetchSearchConsolePerformance(config, dateRange) {
     }
 
     try {
-        const token = await getGoogleAccessToken(config, ['https://www.googleapis.com/auth/webmasters.readonly']);
+        const token = verification.token;
         const encodedSite = encodeURIComponent(gscProperty);
         const searchApiUrl = `https://www.googleapis.com/webmasters/v3/sites/${encodedSite}/searchAnalytics/query`;
         const sitemapsUrl = `https://www.googleapis.com/webmasters/v3/sites/${encodedSite}/sitemaps`;
@@ -718,8 +957,13 @@ async function fetchSearchConsolePerformance(config, dateRange) {
 
         const result = {
             connected: true,
+            authenticated: true,
+            authStatus: 'Authenticated',
+            serviceAccountEmail: verification.serviceAccountEmail,
             source: 'Google Search Console (Verified)',
             property: gscProperty,
+            permissionLevel: verification.permissionLevel,
+            availableProperties: verification.availableProperties,
             dateRange,
             comparisonAvailable,
             reason: null,
@@ -753,14 +997,20 @@ async function fetchSearchConsolePerformance(config, dateRange) {
         await saveSnapshot(config.domain, `gsc_${dateRange.range}`, result, 'Google Search Console API');
         return result;
     } catch (err) {
+        const saEmail = verification.serviceAccountEmail || config.googleServiceAccountEmail || 'service account';
         return {
             connected: false,
+            authenticated: verification.authenticated,
+            authStatus: verification.authStatus,
+            serviceAccountEmail: saEmail,
             error: true,
             source: 'Google Search Console',
             property: gscProperty,
+            permissionLevel: verification.permissionLevel,
+            availableProperties: verification.availableProperties,
             dateRange,
             comparisonAvailable: false,
-            reason: `Google Search Console API request failed: ${err.message}. Check your Service Account permissions for ${gscProperty} in Google Search Console.`,
+            reason: `Google Search Console API request failed for property "${gscProperty}": ${err.message}. Ensure service account "${saEmail}" is added in Google Search Console -> Settings -> Users and permissions for "${gscProperty}".`,
             summary: null,
             timeseries: [],
             topQueries: [],
@@ -773,18 +1023,20 @@ async function fetchSearchConsolePerformance(config, dateRange) {
 }
 
 async function inspectUrlInSearchConsole(config, targetUrl) {
-    const gscProperty = config.gscProperty || (config.siteUrl ? `${config.siteUrl}/` : '');
-    const hasCreds = Boolean((config.googleServiceAccountEmail && config.googlePrivateKey) || config.googleAccessToken);
+    const verification = await verifySearchConsoleServiceAccount(config);
+    const gscProperty = verification.selectedProperty;
 
-    if (!hasCreds || !gscProperty) {
+    if (!verification.authenticated || !verification.propertyVerified) {
         return {
             gscConnected: false,
-            reason: 'Google Search Console API is not connected; showing live Hangbug crawlability inspection only.'
+            property: gscProperty,
+            permissionLevel: verification.permissionLevel,
+            reason: verification.message || 'Google Search Console API is not connected; showing live Hangbug crawlability inspection only.'
         };
     }
 
     try {
-        const token = await getGoogleAccessToken(config, ['https://www.googleapis.com/auth/webmasters.readonly']);
+        const token = verification.token;
         const data = await fetchJsonWithTimeout('https://searchconsole.googleapis.com/v1/urlInspection/index:inspect', {
             method: 'POST',
             headers: {
@@ -801,6 +1053,8 @@ async function inspectUrlInSearchConsole(config, targetUrl) {
         const idx = data?.inspectionResult?.indexStatusResult || {};
         return {
             gscConnected: true,
+            property: gscProperty,
+            permissionLevel: verification.permissionLevel,
             verdict: idx.verdict || 'VERDICT_UNSPECIFIED',
             coverageState: idx.coverageState || '',
             indexingState: idx.indexingState || '',
@@ -813,7 +1067,9 @@ async function inspectUrlInSearchConsole(config, targetUrl) {
         };
     } catch (err) {
         return {
-            gscConnected: true,
+            gscConnected: false,
+            property: gscProperty,
+            permissionLevel: verification.permissionLevel,
             error: err.message
         };
     }
@@ -1291,8 +1547,14 @@ async function testIntegrationConnection(domain, target) {
         return {
             ok: Boolean(res.connected),
             provider: 'Google Search Console',
+            authenticated: Boolean(res.authenticated),
+            authStatus: res.authStatus || 'Not Configured',
+            serviceAccountEmail: res.serviceAccountEmail || config.googleServiceAccountEmail || '',
+            property: res.property || DEFAULT_GSC_PROPERTY,
+            permissionLevel: res.permissionLevel || null,
+            availableProperties: Array.isArray(res.availableProperties) ? res.availableProperties : [],
             message: res.connected
-                ? `Connected to ${res.property}. Found ${res.topQueries.length} queries and ${res.sitemaps.length} sitemap(s).`
+                ? `Connected to ${res.property} (permissionLevel: ${res.permissionLevel}). Found ${res.topQueries.length} queries and ${res.sitemaps.length} sitemap(s).`
                 : res.reason
         };
     }
@@ -1334,10 +1596,17 @@ async function testIntegrationConnection(domain, target) {
 module.exports = {
     DEFAULT_DOMAIN,
     DEFAULT_SITE_URL,
+    DEFAULT_GSC_PROPERTY,
     DEFAULT_GA4_MEASUREMENT_ID,
     DEFAULT_GA4_STREAM_ID,
+    GSC_READONLY_SCOPE,
+    VERIFIED_GSC_PERMISSION_LEVELS,
     normalizeDomain,
     buildSiteUrl,
+    normalizeGscPropertyIdentifier,
+    listSearchConsoleSites,
+    resolvePropertyAgainstSitesList,
+    verifySearchConsoleServiceAccount,
     getProjectConfig,
     sanitizeConfigForClient,
     saveProjectConfig,

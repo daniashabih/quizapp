@@ -4,6 +4,7 @@ const {
     getProjectConfig,
     sanitizeConfigForClient,
     saveProjectConfig,
+    verifySearchConsoleServiceAccount,
     resolveDateRange,
     fetchSearchConsolePerformance,
     inspectUrlInSearchConsole,
@@ -388,7 +389,15 @@ exports.getSeoDashboard = async (req, res) => {
         res.json({
             success: true,
             data: {
-                project: sanitizeConfigForClient(config),
+                project: sanitizeConfigForClient(config, gscData ? {
+                    authenticated: Boolean(gscData.authenticated || gscData.connected),
+                    authStatus: gscData.authStatus || (gscData.connected ? 'Authenticated' : undefined),
+                    selectedProperty: gscData.property || config.gscProperty,
+                    propertyVerified: Boolean(gscData.connected),
+                    permissionLevel: gscData.permissionLevel || null,
+                    availableProperties: gscData.availableProperties || [],
+                    message: gscData.reason || ''
+                } : null),
                 overview,
                 healthScore: latestAudit?.scoreBreakdown || null,
                 searchPerformance: gscData,
@@ -672,9 +681,13 @@ exports.getSeoSettings = async (req, res) => {
     try {
         const domain = normalizeDomain(req.query.domain || DEFAULT_DOMAIN);
         const config = await getProjectConfig(domain);
+        const verification = await verifySearchConsoleServiceAccount(config);
+        if (verification.propertyVerified && verification.selectedProperty && config.rawGscProperty !== verification.selectedProperty) {
+            await saveProjectConfig(domain, { gscProperty: verification.selectedProperty });
+        }
         res.json({
             success: true,
-            settings: sanitizeConfigForClient(config)
+            settings: sanitizeConfigForClient(config, verification)
         });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -686,10 +699,14 @@ exports.updateSeoSettings = async (req, res) => {
         const domain = normalizeDomain(req.body?.domain || req.query.domain || DEFAULT_DOMAIN);
         const saved = await saveProjectConfig(domain, req.body || {});
         const merged = await getProjectConfig(saved.domain || domain);
+        const verification = await verifySearchConsoleServiceAccount(merged);
+        if (verification.propertyVerified && verification.selectedProperty && merged.rawGscProperty !== verification.selectedProperty) {
+            await saveProjectConfig(domain, { gscProperty: verification.selectedProperty });
+        }
         res.json({
             success: true,
             message: 'SEO integration & crawler settings saved.',
-            settings: sanitizeConfigForClient(merged)
+            settings: sanitizeConfigForClient(merged, verification)
         });
     } catch (error) {
         res.status(400).json({

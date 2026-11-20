@@ -933,7 +933,7 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
   final TextEditingController _psiKeyCtrl = TextEditingController();
   late String _crawlFreq;
   bool _saving = false;
-  String? _testMessage;
+  Map<String, dynamic>? _testResult;
 
   @override
   void initState() {
@@ -943,13 +943,15 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
       text: s['siteUrl']?.toString() ?? 'https://www.hangbug.com',
     );
     _gscCtrl = TextEditingController(
-      text: s['gscProperty']?.toString() ?? '',
+      text: s['gscProperty']?.toString() ?? 'sc-domain:hangbug.com',
     );
     _ga4Ctrl = TextEditingController(
       text: s['ga4PropertyId']?.toString() ?? '',
     );
     _saEmailCtrl = TextEditingController(
-      text: s['googleServiceAccountEmailMasked']?.toString() ?? '',
+      text: s['googleServiceAccountEmail']?.toString() ??
+          s['googleServiceAccountEmailMasked']?.toString() ??
+          '',
     );
     _crawlFreq = s['crawlFrequency']?.toString() ?? 'daily';
   }
@@ -997,14 +999,41 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
     final res = await widget.onTest(target);
     if (mounted) {
       setState(() {
-        _testMessage =
-            '${res['provider'] ?? target}: ${res['message'] ?? 'Tested'}';
+        _testResult = res;
+        if (target == 'gsc' && res['property'] != null) {
+          _gscCtrl.text = res['property'].toString();
+        }
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final s = widget.initialSettings;
+    final authStatus = _testResult?['authStatus']?.toString() ??
+        s['gscAuthStatus']?.toString() ??
+        (s['hasGoogleServiceAccount'] == true
+            ? 'Authenticated'
+            : 'Not Configured');
+    final saEmail = _testResult?['serviceAccountEmail']?.toString() ??
+        s['googleServiceAccountEmail']?.toString() ??
+        (_saEmailCtrl.text.isNotEmpty
+            ? _saEmailCtrl.text
+            : (s['googleServiceAccountEmailMasked']?.toString() ??
+                'Not configured'));
+    final selectedProp = _testResult?['property']?.toString() ??
+        (_gscCtrl.text.isNotEmpty
+            ? _gscCtrl.text
+            : (s['gscProperty']?.toString() ?? 'sc-domain:hangbug.com'));
+    final permLevel = _testResult?['permissionLevel']?.toString() ??
+        s['gscPermissionLevel']?.toString() ??
+        (s['gscPropertyVerified'] == true ? 'Verified' : 'Not verified');
+    final availableProps = ((_testResult?['availableProperties'] as List?) ??
+            (s['gscAvailableProperties'] as List?) ??
+            [])
+        .whereType<Map<String, dynamic>>()
+        .toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -1026,16 +1055,91 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
             ),
           ],
         ),
-        if (_testMessage != null) ...[
+        const SizedBox(height: 10),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: SeoColors.cardBg(context),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: SeoColors.border(context)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Google Search Console Verification',
+                style: AppTextStyles.labelBold.copyWith(
+                  fontSize: 13.5,
+                  color: SeoColors.textPrimary(context),
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Authentication Status: $authStatus',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              Text(
+                'Service Account Email: $saEmail',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              Text(
+                'Selected Property: $selectedProp',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              Text(
+                'Google Permission Level: $permLevel',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Available Search Console Properties (${availableProps.length}):',
+                style: const TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              if (availableProps.isEmpty)
+                Text(
+                  s['gscVerificationMessage']?.toString() ??
+                      'Add $saEmail to Google Search Console Users & permissions for sc-domain:hangbug.com.',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: SeoColors.textMuted(context),
+                  ),
+                )
+              else
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 4,
+                  children: availableProps.map((p) {
+                    final siteUrl = p['siteUrl']?.toString() ?? '';
+                    final pLevel = p['permissionLevel']?.toString() ?? '';
+                    return ActionChip(
+                      label: Text(
+                        '$siteUrl ($pLevel)',
+                        style: const TextStyle(fontSize: 11),
+                      ),
+                      onPressed: () {
+                        setState(() => _gscCtrl.text = siteUrl);
+                      },
+                    );
+                  }).toList(),
+                ),
+            ],
+          ),
+        ),
+        if (_testResult != null) ...[
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: SeoColors.mintSurface(context),
+              color: _testResult!['ok'] == true
+                  ? SeoColors.mintSurface(context)
+                  : const Color(0xFFFEF5E7),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              _testMessage!,
+              'Test Connection Result — ${_testResult!['provider'] ?? 'Integration'}: ${_testResult!['message'] ?? 'Tested'}',
               style: const TextStyle(fontSize: 12),
             ),
           ),
@@ -1060,7 +1164,7 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
                 controller: _gscCtrl,
                 decoration: const InputDecoration(
                   labelText: 'Google Search Console Property',
-                  hintText: 'https://www.hangbug.com/',
+                  hintText: 'sc-domain:hangbug.com',
                 ),
               ),
               const SizedBox(height: 10),
