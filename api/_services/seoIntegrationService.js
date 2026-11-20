@@ -4,9 +4,11 @@ const prisma = require('../_config/prisma');
 const DEFAULT_DOMAIN = 'www.hangbug.com';
 const DEFAULT_SITE_URL = 'https://www.hangbug.com';
 const DEFAULT_GSC_PROPERTY = 'sc-domain:hangbug.com';
+const DEFAULT_GA4_PROPERTY_ID = '561909161';
 const DEFAULT_GA4_MEASUREMENT_ID = 'G-BSZBBFZZH0';
 const DEFAULT_GA4_STREAM_ID = '16254821680';
 const GSC_READONLY_SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
+const GA4_READONLY_SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 const VERIFIED_GSC_PERMISSION_LEVELS = new Set([
     'siteOwner',
     'siteFullUser',
@@ -17,6 +19,7 @@ const VERIFIED_GSC_PERMISSION_LEVELS = new Set([
 const memoryConfigs = new Map();
 const memorySnapshots = new Map();
 const memoryVerifications = new Map();
+const memoryGa4Verifications = new Map();
 
 function normalizeDomain(input) {
     const raw = String(input || DEFAULT_DOMAIN).trim().toLowerCase();
@@ -89,6 +92,62 @@ function isLegacyHangbugUrlCandidate(rawProperty) {
     );
 }
 
+/**
+ * Validates and normalizes a GA4 numeric Property ID.
+ * - Strips optional `properties/` prefix.
+ * - Rejects frontend Measurement IDs (`G-XXXX`) and non-numeric strings.
+ * - Returns `{ valid, propertyId, resourceName, errorCategory, message }`.
+ */
+function validateAndNormalizeGa4PropertyId(rawInput, measurementId = DEFAULT_GA4_MEASUREMENT_ID) {
+    const raw = String(rawInput ?? '').trim();
+    if (!raw) {
+        return {
+            valid: false,
+            propertyId: '',
+            resourceName: '',
+            errorCategory: 'invalid_property_id',
+            message: `GA4 Numeric Property ID is not configured. Enter your numeric GA4 Property ID (e.g. ${DEFAULT_GA4_PROPERTY_ID}); keep Measurement ID (${measurementId}) for frontend tracking only.`
+        };
+    }
+
+    const stripped = raw.replace(/^properties\//i, '').trim();
+    if (/^G-[A-Z0-9]+$/i.test(stripped) || /^UA-\d+/i.test(stripped)) {
+        return {
+            valid: false,
+            propertyId: stripped,
+            resourceName: '',
+            errorCategory: 'invalid_property_id',
+            message: `Invalid GA4 Property ID: "${raw}" is a frontend Measurement ID (used only for browser gtag tracking). Enter the numeric GA4 Property ID (e.g. ${DEFAULT_GA4_PROPERTY_ID}).`
+        };
+    }
+
+    if (!/^\d+$/.test(stripped)) {
+        return {
+            valid: false,
+            propertyId: stripped,
+            resourceName: '',
+            errorCategory: 'invalid_property_id',
+            message: `Invalid GA4 Property ID "${raw}". A GA4 Property ID must be numeric (e.g. ${DEFAULT_GA4_PROPERTY_ID}) and resolves to properties/NUMERIC_PROPERTY_ID.`
+        };
+    }
+
+    return {
+        valid: true,
+        propertyId: stripped,
+        resourceName: `properties/${stripped}`,
+        errorCategory: null,
+        message: ''
+    };
+}
+
+function formatDurationSeconds(totalSeconds) {
+    const sec = Math.max(0, Math.round(Number(totalSeconds) || 0));
+    const mins = Math.floor(sec / 60);
+    const rem = sec % 60;
+    if (mins === 0) return `${rem}s`;
+    return `${mins}m ${rem}s`;
+}
+
 function maskEmail(email) {
     const raw = String(email || '').trim();
     if (!raw || !raw.includes('@')) return '';
@@ -109,7 +168,7 @@ function getEnvDefaults(domain = DEFAULT_DOMAIN) {
         projectName: 'Hangbug',
         siteUrl: buildSiteUrl(cleanDomain),
         gscProperty: normalizeGscPropertyIdentifier(process.env.GSC_SITE_URL || DEFAULT_GSC_PROPERTY),
-        ga4PropertyId: String(process.env.GA4_PROPERTY_ID || '').trim(),
+        ga4PropertyId: String(process.env.GA4_PROPERTY_ID || DEFAULT_GA4_PROPERTY_ID).replace(/^properties\//i, '').trim(),
         ga4MeasurementId: String(process.env.GA4_MEASUREMENT_ID || DEFAULT_GA4_MEASUREMENT_ID).trim(),
         googleServiceAccountEmail: String(
             process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || process.env.GSC_CLIENT_EMAIL || ''
@@ -181,9 +240,10 @@ async function getProjectConfig(domain = DEFAULT_DOMAIN) {
     return merged;
 }
 
-function sanitizeConfigForClient(config, verificationInput = null) {
+function sanitizeConfigForClient(config, verificationInput = null, ga4VerificationInput = null) {
     const cleanDomain = normalizeDomain(config.domain);
     const verification = verificationInput || memoryVerifications.get(cleanDomain) || null;
+    const ga4Verification = ga4VerificationInput || memoryGa4Verifications.get(cleanDomain) || null;
     const hasGoogleServiceAccount = Boolean(config.googleServiceAccountEmail && config.googlePrivateKey);
     const hasGoogleCredentials = hasGoogleServiceAccount || Boolean(config.googleAccessToken);
     const resolvedProperty = verification?.selectedProperty
@@ -194,7 +254,14 @@ function sanitizeConfigForClient(config, verificationInput = null) {
     const gscPropertyVerified = verification ? Boolean(verification.propertyVerified) : false;
     const gscAuthStatus = verification?.authStatus
         || (hasGoogleCredentials ? 'Credentials Saved (Click Test GSC to verify)' : 'Not Configured');
-    const ga4Configured = Boolean(hasGoogleCredentials && config.ga4PropertyId);
+
+    const rawGa4Prop = String(config.ga4PropertyId || '').replace(/^properties\//i, '').trim();
+    const ga4VerifiedConnected = ga4Verification ? Boolean(ga4Verification.connected) : false;
+    const ga4ConnectionStatus = ga4VerifiedConnected
+        ? 'Connected'
+        : ga4Verification?.errorCategory
+            ? 'Connection Error'
+            : (hasGoogleCredentials && rawGa4Prop ? 'Configured (Click Test GA4 Connection to verify)' : 'Not Connected');
 
     return {
         domain: config.domain,
@@ -207,9 +274,15 @@ function sanitizeConfigForClient(config, verificationInput = null) {
         gscPermissionLevel: verification?.permissionLevel || null,
         gscAvailableProperties: Array.isArray(verification?.availableProperties) ? verification.availableProperties : [],
         gscVerificationMessage: verification?.message || '',
-        ga4PropertyId: config.ga4PropertyId || '',
+        ga4PropertyId: rawGa4Prop,
+        ga4ResourceName: rawGa4Prop ? `properties/${rawGa4Prop}` : '',
         ga4MeasurementId: config.ga4MeasurementId || DEFAULT_GA4_MEASUREMENT_ID,
         ga4StreamId: DEFAULT_GA4_STREAM_ID,
+        ga4Connected: ga4VerifiedConnected,
+        ga4ConnectionStatus,
+        ga4LastSyncedAt: ga4Verification?.syncedAt || null,
+        ga4VerificationMessage: ga4Verification?.message || '',
+        ga4ErrorCategory: ga4Verification?.errorCategory || null,
         googleServiceAccountEmail: config.googleServiceAccountEmail || '',
         googleServiceAccountEmailMasked: maskEmail(config.googleServiceAccountEmail),
         hasGoogleServiceAccount,
@@ -228,7 +301,11 @@ function sanitizeConfigForClient(config, verificationInput = null) {
             gscConnected: gscPropertyVerified,
             gscAuthenticated: Boolean(verification?.authenticated),
             gscPermissionLevel: verification?.permissionLevel || null,
-            ga4Connected: ga4Configured,
+            ga4Connected: ga4VerifiedConnected,
+            ga4ConnectionStatus,
+            ga4PropertyId: rawGa4Prop,
+            ga4ResourceName: rawGa4Prop ? `properties/${rawGa4Prop}` : '',
+            ga4LastSyncedAt: ga4Verification?.syncedAt || null,
             ga4TagMeasurementId: config.ga4MeasurementId || DEFAULT_GA4_MEASUREMENT_ID,
             pagespeedReady: true,
             pagespeedHasKey: Boolean(config.pagespeedApiKey),
@@ -251,7 +328,7 @@ async function saveProjectConfig(domain, updates = {}) {
         gscProperty: updates.gscProperty !== undefined
             ? (normalizeGscPropertyIdentifier(updates.gscProperty) || DEFAULT_GSC_PROPERTY)
             : (normalizeGscPropertyIdentifier(current.gscProperty) || DEFAULT_GSC_PROPERTY),
-        ga4PropertyId: updates.ga4PropertyId !== undefined ? String(updates.ga4PropertyId).trim() : current.ga4PropertyId,
+        ga4PropertyId: current.ga4PropertyId,
         ga4MeasurementId: updates.ga4MeasurementId !== undefined ? String(updates.ga4MeasurementId).trim() || DEFAULT_GA4_MEASUREMENT_ID : current.ga4MeasurementId,
         googleServiceAccountEmail: updates.googleServiceAccountEmail !== undefined
             ? (isMaskedPlaceholder(updates.googleServiceAccountEmail) ? current.googleServiceAccountEmail : String(updates.googleServiceAccountEmail).trim())
@@ -280,6 +357,19 @@ async function saveProjectConfig(domain, updates = {}) {
         crawlFrequency: ['hourly', 'daily', 'weekly', 'manual'].includes(updates.crawlFrequency) ? updates.crawlFrequency : current.crawlFrequency,
         maxCrawlPages: updates.maxCrawlPages !== undefined ? Math.min(120, Math.max(10, parseInt(updates.maxCrawlPages, 10) || 60)) : current.maxCrawlPages
     };
+
+    if (updates.ga4PropertyId !== undefined) {
+        const rawGa4 = String(updates.ga4PropertyId).trim();
+        if (rawGa4) {
+            const check = validateAndNormalizeGa4PropertyId(rawGa4, next.ga4MeasurementId);
+            if (!check.valid) {
+                throw new Error(check.message);
+            }
+            next.ga4PropertyId = check.propertyId;
+        } else {
+            next.ga4PropertyId = '';
+        }
+    }
 
     // Allow pasting full Google Service Account JSON directly
     if (updates.googleServiceAccountJson && String(updates.googleServiceAccountJson).trim()) {
@@ -414,8 +504,9 @@ function resolveDateRange(range = '28d', customStart = '', customEnd = '') {
     let days = 28;
     if (range === '7d') days = 7;
     else if (range === '28d') days = 28;
-    else if (range === '3m') days = 90;
+    else if (range === '3m' || range === '90d') days = 90;
     else if (range === '6m') days = 180;
+    else if (range === '12m' || range === '1y') days = 365;
     else if (range === 'custom' && customStart && customEnd) {
         const parsedStart = new Date(`${customStart}T00:00:00Z`);
         const parsedEnd = new Date(`${customEnd}T00:00:00Z`);
@@ -445,7 +536,7 @@ function resolveDateRange(range = '28d', customStart = '', customEnd = '') {
     prevStart.setUTCDate(prevStart.getUTCDate() - (days - 1));
 
     return {
-        range: ['7d', '28d', '3m', '6m'].includes(range) ? range : '28d',
+        range: ['7d', '28d', '3m', '90d', '6m', '12m'].includes(range) ? range : '28d',
         days,
         startDate: start.toISOString().slice(0, 10),
         endDate: end.toISOString().slice(0, 10),
@@ -1075,64 +1166,239 @@ async function inspectUrlInSearchConsole(config, targetUrl) {
     }
 }
 
-async function fetchGa4Performance(config, dateRange) {
-    const measurementId = config.ga4MeasurementId || DEFAULT_GA4_MEASUREMENT_ID;
-    const hasCreds = Boolean((config.googleServiceAccountEmail && config.googlePrivateKey) || config.googleAccessToken);
-    const propertyId = String(config.ga4PropertyId || '').replace(/^properties\//, '').trim();
+function classifyGa4ApiError(err, { propertyId, serviceAccountEmail, measurementId = DEFAULT_GA4_MEASUREMENT_ID } = {}) {
+    const rawMsg = String(err?.message || '').trim();
+    const lower = rawMsg.toLowerCase();
+    const status = Number(err?.status || 0);
+    const payloadStr = JSON.stringify(err?.payload || {}).toLowerCase();
+    const saLabel = serviceAccountEmail || 'configured service account';
+    const propLabel = propertyId ? `properties/${propertyId}` : 'your GA4 property';
 
-    if (!hasCreds || !propertyId) {
+    if (
+        err?.isCredentialError
+        || lower.includes('private_key')
+        || lower.includes('decoder routines')
+        || lower.includes('pem')
+        || lower.includes('invalid_grant')
+        || lower.includes('invalid_client')
+        || lower.includes('failed to mint google oauth2 access token')
+    ) {
+        return {
+            errorCategory: 'invalid_credentials',
+            message: `Invalid Google Service Account JSON credentials: ${rawMsg}. Verify your Service Account Email and Private Key in Settings.`
+        };
+    }
+
+    if (
+        (status === 403 || lower.includes('403'))
+        && (
+            lower.includes('service_disabled')
+            || payloadStr.includes('service_disabled')
+            || lower.includes('analyticsdata.googleapis.com')
+            || lower.includes('has not been used in project')
+            || lower.includes('is disabled')
+        )
+    ) {
+        return {
+            errorCategory: 'api_disabled',
+            message: `Google Analytics Data API is disabled in the Service Account's Google Cloud project. Open Google Cloud Console -> APIs & Services -> Library and enable "Google Analytics Data API" (analyticsdata.googleapis.com).`
+        };
+    }
+
+    if (
+        status === 403
+        || lower.includes('permission')
+        || lower.includes('sufficient permissions')
+        || payloadStr.includes('permission_denied')
+    ) {
+        return {
+            errorCategory: 'missing_permission',
+            message: `Missing service account permission: Service account "${saLabel}" does not have Viewer access to GA4 property ${propLabel}. Open Google Analytics -> Admin -> Property Access Management for property ${propertyId || ''} and grant "${saLabel}" at least the Viewer role.`
+        };
+    }
+
+    if (
+        status === 429
+        || lower.includes('quota')
+        || lower.includes('rate limit')
+        || lower.includes('resource_exhausted')
+        || payloadStr.includes('resource_exhausted')
+    ) {
+        return {
+            errorCategory: 'quota_exceeded',
+            message: `Google Analytics Data API quota exceeded for ${propLabel}: ${rawMsg}. Please wait a few minutes before retrying.`
+        };
+    }
+
+    if (
+        status === 400
+        || status === 404
+        || lower.includes('invalid_argument')
+        || lower.includes('not found')
+        || lower.includes('property')
+    ) {
+        return {
+            errorCategory: 'invalid_property_id',
+            message: `Invalid GA4 Property ID (${propLabel}): ${rawMsg}. Verify the numeric Property ID in Google Analytics -> Admin -> Property Details (never use the Measurement ID ${measurementId}).`
+        };
+    }
+
+    return {
+        errorCategory: 'api_error',
+        message: `GA4 Data API request failed for ${propLabel}: ${rawMsg}`
+    };
+}
+
+async function fetchGa4Performance(config, dateRange) {
+    const cleanDomain = normalizeDomain(config.domain);
+    const measurementId = config.ga4MeasurementId || DEFAULT_GA4_MEASUREMENT_ID;
+    const saEmail = String(config.googleServiceAccountEmail || '').trim();
+    const hasCreds = Boolean((saEmail && config.googlePrivateKey) || config.googleAccessToken);
+    const propCheck = validateAndNormalizeGa4PropertyId(config.ga4PropertyId, measurementId);
+
+    if (!hasCreds) {
+        const reason = `GA4 tracking tag (${measurementId}) is active on Hangbug, but Google Service Account JSON credentials are not configured yet for server-side GA4 Data API reporting.`;
+        memoryGa4Verifications.set(cleanDomain, {
+            connected: false,
+            propertyId: propCheck.propertyId,
+            resourceName: propCheck.resourceName,
+            measurementId,
+            serviceAccountEmail: saEmail,
+            errorCategory: 'invalid_credentials',
+            syncedAt: null,
+            message: reason
+        });
         return {
             connected: false,
             measurementId,
             streamId: DEFAULT_GA4_STREAM_ID,
+            propertyId: propCheck.propertyId,
+            resourceName: propCheck.resourceName,
+            serviceAccountEmail: saEmail,
+            errorCategory: 'invalid_credentials',
             tagVerified: true,
             source: 'Google Analytics 4',
-            reason: `GA4 tracking tag (${measurementId}) is installed on Hangbug, but the GA4 Property ID and Google Service Account credentials are not connected yet for server-side reporting.`,
+            reason,
             summary: null,
             topLandingPages: [],
+            trafficSources: [],
+            countries: [],
+            devices: [],
             dailyTraffic: [],
             syncedAt: null
         };
     }
 
+    if (!propCheck.valid) {
+        memoryGa4Verifications.set(cleanDomain, {
+            connected: false,
+            propertyId: propCheck.propertyId,
+            resourceName: '',
+            measurementId,
+            serviceAccountEmail: saEmail,
+            errorCategory: propCheck.errorCategory,
+            syncedAt: null,
+            message: propCheck.message
+        });
+        return {
+            connected: false,
+            error: true,
+            measurementId,
+            streamId: DEFAULT_GA4_STREAM_ID,
+            propertyId: propCheck.propertyId,
+            resourceName: '',
+            serviceAccountEmail: saEmail,
+            errorCategory: propCheck.errorCategory,
+            tagVerified: true,
+            source: 'Google Analytics 4',
+            reason: propCheck.message,
+            summary: null,
+            topLandingPages: [],
+            trafficSources: [],
+            countries: [],
+            devices: [],
+            dailyTraffic: [],
+            syncedAt: null
+        };
+    }
+
+    const propertyId = propCheck.propertyId;
+    const resourceName = propCheck.resourceName;
+
     try {
-        const token = await getGoogleAccessToken(config, ['https://www.googleapis.com/auth/analytics.readonly']);
-        const endpoint = `https://analyticsdata.googleapis.com/v1beta/properties/${encodeURIComponent(propertyId)}:runReport`;
+        let token;
+        try {
+            token = await getGoogleAccessToken(config, [GA4_READONLY_SCOPE]);
+            if (!token) {
+                throw new Error('Failed to mint Google Analytics Data API access token from Service Account JSON.');
+            }
+        } catch (credErr) {
+            credErr.isCredentialError = true;
+            throw credErr;
+        }
+
+        const endpoint = `https://analyticsdata.googleapis.com/v1beta/${resourceName}:runReport`;
         const headers = {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
         };
 
-        const organicFilter = {
-            filter: {
-                fieldName: 'sessionDefaultChannelGroup',
-                stringFilter: {
-                    matchType: 'EXACT',
-                    value: 'Organic Search'
-                }
-            }
-        };
-
-        const [dailyRes, landingRes] = await Promise.all([
+        const [
+            totalsCurrRes,
+            totalsPrevRes,
+            dailyRes,
+            landingRes,
+            sourcesRes,
+            countriesRes,
+            devicesRes
+        ] = await Promise.all([
             fetchJsonWithTimeout(endpoint, {
                 method: 'POST',
                 headers,
                 body: JSON.stringify({
-                    dateRanges: [
-                        { startDate: dateRange.startDate, endDate: dateRange.endDate, name: 'current' },
-                        { startDate: dateRange.prevStartDate, endDate: dateRange.prevEndDate, name: 'previous' }
-                    ],
+                    dateRanges: [{ startDate: dateRange.startDate, endDate: dateRange.endDate }],
+                    metrics: [
+                        { name: 'activeUsers' },
+                        { name: 'totalUsers' },
+                        { name: 'sessions' },
+                        { name: 'newUsers' },
+                        { name: 'screenPageViews' },
+                        { name: 'bounceRate' },
+                        { name: 'userEngagementDuration' },
+                        { name: 'engagedSessions' },
+                        { name: 'engagementRate' }
+                    ]
+                })
+            }),
+            fetchJsonWithTimeout(endpoint, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    dateRanges: [{ startDate: dateRange.prevStartDate, endDate: dateRange.prevEndDate }],
+                    metrics: [
+                        { name: 'activeUsers' },
+                        { name: 'totalUsers' },
+                        { name: 'sessions' },
+                        { name: 'newUsers' },
+                        { name: 'screenPageViews' }
+                    ]
+                })
+            }).catch(() => ({ rows: [] })),
+            fetchJsonWithTimeout(endpoint, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    dateRanges: [{ startDate: dateRange.startDate, endDate: dateRange.endDate }],
                     dimensions: [{ name: 'date' }],
                     metrics: [
                         { name: 'sessions' },
                         { name: 'activeUsers' },
                         { name: 'engagedSessions' },
-                        { name: 'engagementRate' }
+                        { name: 'screenPageViews' }
                     ],
-                    dimensionFilter: organicFilter,
                     orderBys: [{ dimension: { dimensionName: 'date' } }]
                 })
-            }),
+            }).catch(() => ({ rows: [] })),
             fetchJsonWithTimeout(endpoint, {
                 method: 'POST',
                 headers,
@@ -1142,89 +1408,257 @@ async function fetchGa4Performance(config, dateRange) {
                     metrics: [
                         { name: 'sessions' },
                         { name: 'activeUsers' },
+                        { name: 'screenPageViews' },
+                        { name: 'bounceRate' },
                         { name: 'engagementRate' }
                     ],
-                    dimensionFilter: organicFilter,
                     limit: 25
                 })
-            })
+            }).catch(() => ({ rows: [] })),
+            fetchJsonWithTimeout(endpoint, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    dateRanges: [{ startDate: dateRange.startDate, endDate: dateRange.endDate }],
+                    dimensions: [{ name: 'sessionDefaultChannelGroup' }],
+                    metrics: [
+                        { name: 'sessions' },
+                        { name: 'activeUsers' },
+                        { name: 'newUsers' },
+                        { name: 'screenPageViews' },
+                        { name: 'engagementRate' }
+                    ],
+                    limit: 15
+                })
+            }).catch(() => ({ rows: [] })),
+            fetchJsonWithTimeout(endpoint, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    dateRanges: [{ startDate: dateRange.startDate, endDate: dateRange.endDate }],
+                    dimensions: [{ name: 'country' }],
+                    metrics: [
+                        { name: 'activeUsers' },
+                        { name: 'totalUsers' },
+                        { name: 'sessions' }
+                    ],
+                    limit: 20
+                })
+            }).catch(() => ({ rows: [] })),
+            fetchJsonWithTimeout(endpoint, {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    dateRanges: [{ startDate: dateRange.startDate, endDate: dateRange.endDate }],
+                    dimensions: [{ name: 'deviceCategory' }],
+                    metrics: [
+                        { name: 'activeUsers' },
+                        { name: 'sessions' },
+                        { name: 'screenPageViews' }
+                    ],
+                    limit: 10
+                })
+            }).catch(() => ({ rows: [] }))
         ]);
 
-        const dailyMap = new Map();
-        let currSessions = 0;
-        let currUsers = 0;
-        let currEngaged = 0;
-        let prevSessions = 0;
-        let prevUsers = 0;
+        const currRow = totalsCurrRes?.rows?.[0]?.metricValues || [];
+        const prevRow = totalsPrevRes?.rows?.[0]?.metricValues || [];
 
-        for (const row of (dailyRes.rows || [])) {
+        const activeUsers = Number(currRow[0]?.value || 0);
+        const totalUsers = Number(currRow[1]?.value || 0);
+        const sessions = Number(currRow[2]?.value || 0);
+        const newUsers = Number(currRow[3]?.value || 0);
+        const pageViews = Number(currRow[4]?.value || 0);
+        const bounceRate = Number((Number(currRow[5]?.value || 0) * 100).toFixed(1));
+        const engagementDurationSec = Number(currRow[6]?.value || 0);
+        const engagedSessions = Number(currRow[7]?.value || 0);
+        const engagementRate = currRow[8]?.value !== undefined
+            ? Number((Number(currRow[8].value) * 100).toFixed(1))
+            : (sessions > 0 ? Number(((engagedSessions / sessions) * 100).toFixed(1)) : 0);
+
+        const avgEngagementTimeSec = activeUsers > 0
+            ? Number((engagementDurationSec / activeUsers).toFixed(1))
+            : (sessions > 0 ? Number((engagementDurationSec / sessions).toFixed(1)) : 0);
+        const avgEngagementTimeFormatted = formatDurationSeconds(avgEngagementTimeSec);
+
+        const prevActiveUsers = prevRow.length > 0 ? Number(prevRow[0]?.value || 0) : null;
+        const prevTotalUsers = prevRow.length > 0 ? Number(prevRow[1]?.value || 0) : null;
+        const prevSessions = prevRow.length > 0 ? Number(prevRow[2]?.value || 0) : null;
+
+        const dailyTraffic = (dailyRes.rows || []).map((row) => {
             const rawDate = row.dimensionValues?.[0]?.value || '';
             const formattedDate = rawDate.length === 8
                 ? `${rawDate.slice(0, 4)}-${rawDate.slice(4, 6)}-${rawDate.slice(6, 8)}`
                 : rawDate;
-            const dateRangeName = row.dimensionValues?.[1]?.value || 'current';
-            const sessions = Number(row.metricValues?.[0]?.value || 0);
-            const users = Number(row.metricValues?.[1]?.value || 0);
-            const engaged = Number(row.metricValues?.[2]?.value || 0);
+            const s = Number(row.metricValues?.[0]?.value || 0);
+            const u = Number(row.metricValues?.[1]?.value || 0);
+            const eng = Number(row.metricValues?.[2]?.value || 0);
+            const pv = Number(row.metricValues?.[3]?.value || 0);
+            return {
+                date: formattedDate,
+                sessions: s,
+                activeUsers: u,
+                organicSessions: s,
+                organicUsers: u,
+                engagedSessions: eng,
+                pageViews: pv
+            };
+        });
 
-            if (dateRangeName === 'previous') {
-                prevSessions += sessions;
-                prevUsers += users;
-            } else {
-                currSessions += sessions;
-                currUsers += users;
-                currEngaged += engaged;
-                dailyMap.set(formattedDate, {
-                    date: formattedDate,
-                    organicSessions: sessions,
-                    organicUsers: users,
-                    engagedSessions: engaged
-                });
-            }
-        }
+        const topLandingPages = (landingRes.rows || []).map((row) => {
+            const p = row.dimensionValues?.[0]?.value || '/';
+            const s = Number(row.metricValues?.[0]?.value || 0);
+            const u = Number(row.metricValues?.[1]?.value || 0);
+            const pv = Number(row.metricValues?.[2]?.value || 0);
+            const br = Number((Number(row.metricValues?.[3]?.value || 0) * 100).toFixed(1));
+            const er = Number((Number(row.metricValues?.[4]?.value || 0) * 100).toFixed(1));
+            return {
+                path: p,
+                sessions: s,
+                users: u,
+                activeUsers: u,
+                pageViews: pv,
+                bounceRate: br,
+                engagementRate: er
+            };
+        });
 
-        const topLandingPages = (landingRes.rows || []).map(row => ({
-            path: row.dimensionValues?.[0]?.value || '/',
+        const rawSources = (sourcesRes.rows || []).map((row) => ({
+            channel: row.dimensionValues?.[0]?.value || 'Unassigned',
             sessions: Number(row.metricValues?.[0]?.value || 0),
-            users: Number(row.metricValues?.[1]?.value || 0),
-            engagementRate: Number((Number(row.metricValues?.[2]?.value || 0) * 100).toFixed(1))
+            activeUsers: Number(row.metricValues?.[1]?.value || 0),
+            newUsers: Number(row.metricValues?.[2]?.value || 0),
+            pageViews: Number(row.metricValues?.[3]?.value || 0),
+            engagementRate: Number((Number(row.metricValues?.[4]?.value || 0) * 100).toFixed(1))
         }));
+        const totalSourceSessions = rawSources.reduce((acc, r) => acc + r.sessions, 0) || sessions;
+        const trafficSources = rawSources.map((r) => ({
+            ...r,
+            sharePct: totalSourceSessions > 0 ? Number(((r.sessions / totalSourceSessions) * 100).toFixed(1)) : 0
+        }));
+
+        const organicChannel = trafficSources.find((s) => s.channel.toLowerCase() === 'organic search');
+        const organicSessions = organicChannel ? organicChannel.sessions : sessions;
+        const organicUsers = organicChannel ? organicChannel.activeUsers : activeUsers;
+
+        const rawCountries = (countriesRes.rows || []).map((row) => ({
+            country: row.dimensionValues?.[0]?.value || 'Unknown',
+            activeUsers: Number(row.metricValues?.[0]?.value || 0),
+            totalUsers: Number(row.metricValues?.[1]?.value || 0),
+            sessions: Number(row.metricValues?.[2]?.value || 0)
+        }));
+        const totalCountryUsers = rawCountries.reduce((acc, c) => acc + c.activeUsers, 0) || activeUsers;
+        const countries = rawCountries.map((c) => ({
+            ...c,
+            sharePct: totalCountryUsers > 0 ? Number(((c.activeUsers / totalCountryUsers) * 100).toFixed(1)) : 0
+        }));
+
+        const rawDevices = (devicesRes.rows || []).map((row) => {
+            const dev = String(row.dimensionValues?.[0]?.value || 'other').toLowerCase();
+            return {
+                device: dev,
+                label: dev.charAt(0).toUpperCase() + dev.slice(1),
+                activeUsers: Number(row.metricValues?.[0]?.value || 0),
+                sessions: Number(row.metricValues?.[1]?.value || 0),
+                pageViews: Number(row.metricValues?.[2]?.value || 0)
+            };
+        });
+        const totalDeviceSessions = rawDevices.reduce((acc, d) => acc + d.sessions, 0) || sessions;
+        const devices = rawDevices.map((d) => ({
+            ...d,
+            sharePct: totalDeviceSessions > 0 ? Number(((d.sessions / totalDeviceSessions) * 100).toFixed(1)) : 0
+        }));
+
+        const hasData = Boolean(totalUsers > 0 || sessions > 0 || pageViews > 0);
+        const syncedAt = new Date().toISOString();
 
         const result = {
             connected: true,
+            hasData,
+            noDataMessage: hasData
+                ? null
+                : `Connected to GA4 property ${resourceName}, but no available reporting data was found for ${dateRange.startDate} to ${dateRange.endDate}.`,
             measurementId,
             streamId: DEFAULT_GA4_STREAM_ID,
             propertyId,
+            resourceName,
+            serviceAccountEmail: saEmail,
             tagVerified: true,
             source: 'Google Analytics 4 Data API (Verified)',
             reason: null,
             summary: {
-                organicSessions: currSessions,
-                organicUsers: currUsers,
-                engagedSessions: currEngaged,
-                engagementRate: currSessions > 0 ? Number(((currEngaged / currSessions) * 100).toFixed(1)) : 0,
-                sessionsChangePct: pctDelta(currSessions, prevSessions),
-                usersChangePct: pctDelta(currUsers, prevUsers)
+                activeUsers,
+                totalUsers,
+                sessions,
+                newUsers,
+                pageViews,
+                bounceRate,
+                avgEngagementTimeSec,
+                avgEngagementTimeFormatted,
+                engagedSessions,
+                engagementRate,
+                organicSessions,
+                organicUsers,
+                sessionsChangePct: pctDelta(sessions, prevSessions),
+                usersChangePct: pctDelta(activeUsers, prevActiveUsers),
+                totalUsersChangePct: pctDelta(totalUsers, prevTotalUsers)
             },
-            dailyTraffic: Array.from(dailyMap.values()),
+            dailyTraffic,
             topLandingPages,
-            syncedAt: new Date().toISOString()
+            trafficSources,
+            countries,
+            devices,
+            syncedAt
         };
+
+        memoryGa4Verifications.set(cleanDomain, {
+            connected: true,
+            propertyId,
+            resourceName,
+            measurementId,
+            serviceAccountEmail: saEmail,
+            errorCategory: null,
+            syncedAt,
+            message: `Connected to GA4 Property ${resourceName} (Tag: ${measurementId}).`
+        });
 
         await saveSnapshot(config.domain, `ga4_${dateRange.range}`, result, 'Google Analytics 4 Data API');
         return result;
     } catch (err) {
+        const classified = classifyGa4ApiError(err, {
+            propertyId,
+            serviceAccountEmail: saEmail,
+            measurementId
+        });
+
+        memoryGa4Verifications.set(cleanDomain, {
+            connected: false,
+            propertyId,
+            resourceName,
+            measurementId,
+            serviceAccountEmail: saEmail,
+            errorCategory: classified.errorCategory,
+            syncedAt: null,
+            message: classified.message
+        });
+
         return {
             connected: false,
             error: true,
+            errorCategory: classified.errorCategory,
             measurementId,
             streamId: DEFAULT_GA4_STREAM_ID,
             propertyId,
+            resourceName,
+            serviceAccountEmail: saEmail,
             tagVerified: true,
             source: 'Google Analytics 4',
-            reason: `GA4 Data API request failed: ${err.message}. Ensure the Service Account has Viewer access to GA4 Property ${propertyId}.`,
+            reason: classified.message,
             summary: null,
             topLandingPages: [],
+            trafficSources: [],
+            countries: [],
+            devices: [],
             dailyTraffic: [],
             syncedAt: null
         };
@@ -1563,8 +1997,15 @@ async function testIntegrationConnection(domain, target) {
         return {
             ok: Boolean(res.connected),
             provider: 'Google Analytics 4',
+            propertyId: res.propertyId || '',
+            resourceName: res.resourceName || '',
+            measurementId: res.measurementId || DEFAULT_GA4_MEASUREMENT_ID,
+            serviceAccountEmail: res.serviceAccountEmail || config.googleServiceAccountEmail || '',
+            syncedAt: res.syncedAt || null,
+            errorCategory: res.errorCategory || null,
+            summary: res.summary || null,
             message: res.connected
-                ? `Connected to GA4 Property ${res.propertyId} (${res.measurementId}).`
+                ? `Connected to GA4 Property ${res.resourceName} (Tag: ${res.measurementId}). Retrieved ${res.summary.activeUsers} active users, ${res.summary.totalUsers} total users, ${res.summary.sessions} sessions, and ${res.summary.pageViews} page views.`
                 : res.reason
         };
     }
@@ -1597,13 +2038,18 @@ module.exports = {
     DEFAULT_DOMAIN,
     DEFAULT_SITE_URL,
     DEFAULT_GSC_PROPERTY,
+    DEFAULT_GA4_PROPERTY_ID,
     DEFAULT_GA4_MEASUREMENT_ID,
     DEFAULT_GA4_STREAM_ID,
     GSC_READONLY_SCOPE,
+    GA4_READONLY_SCOPE,
     VERIFIED_GSC_PERMISSION_LEVELS,
     normalizeDomain,
     buildSiteUrl,
     normalizeGscPropertyIdentifier,
+    validateAndNormalizeGa4PropertyId,
+    classifyGa4ApiError,
+    formatDurationSeconds,
     listSearchConsoleSites,
     resolvePropertyAgainstSitesList,
     verifySearchConsoleServiceAccount,

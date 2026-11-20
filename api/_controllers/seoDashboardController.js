@@ -389,15 +389,28 @@ exports.getSeoDashboard = async (req, res) => {
         res.json({
             success: true,
             data: {
-                project: sanitizeConfigForClient(config, gscData ? {
-                    authenticated: Boolean(gscData.authenticated || gscData.connected),
-                    authStatus: gscData.authStatus || (gscData.connected ? 'Authenticated' : undefined),
-                    selectedProperty: gscData.property || config.gscProperty,
-                    propertyVerified: Boolean(gscData.connected),
-                    permissionLevel: gscData.permissionLevel || null,
-                    availableProperties: gscData.availableProperties || [],
-                    message: gscData.reason || ''
-                } : null),
+                project: sanitizeConfigForClient(
+                    config,
+                    gscData ? {
+                        authenticated: Boolean(gscData.authenticated || gscData.connected),
+                        authStatus: gscData.authStatus || (gscData.connected ? 'Authenticated' : undefined),
+                        selectedProperty: gscData.property || config.gscProperty,
+                        propertyVerified: Boolean(gscData.connected),
+                        permissionLevel: gscData.permissionLevel || null,
+                        availableProperties: gscData.availableProperties || [],
+                        message: gscData.reason || ''
+                    } : null,
+                    ga4Data ? {
+                        connected: Boolean(ga4Data.connected),
+                        propertyId: ga4Data.propertyId || config.ga4PropertyId,
+                        resourceName: ga4Data.resourceName || '',
+                        measurementId: ga4Data.measurementId || config.ga4MeasurementId,
+                        serviceAccountEmail: ga4Data.serviceAccountEmail || config.googleServiceAccountEmail,
+                        errorCategory: ga4Data.errorCategory || null,
+                        syncedAt: ga4Data.syncedAt || null,
+                        message: ga4Data.reason || ''
+                    } : null
+                ),
                 overview,
                 healthScore: latestAudit?.scoreBreakdown || null,
                 searchPerformance: gscData,
@@ -681,13 +694,26 @@ exports.getSeoSettings = async (req, res) => {
     try {
         const domain = normalizeDomain(req.query.domain || DEFAULT_DOMAIN);
         const config = await getProjectConfig(domain);
-        const verification = await verifySearchConsoleServiceAccount(config);
+        const [verification, ga4Res] = await Promise.all([
+            verifySearchConsoleServiceAccount(config),
+            fetchGa4Performance(config, resolveDateRange('7d')).catch(() => null)
+        ]);
         if (verification.propertyVerified && verification.selectedProperty && config.rawGscProperty !== verification.selectedProperty) {
             await saveProjectConfig(domain, { gscProperty: verification.selectedProperty });
         }
+        const ga4Ver = ga4Res ? {
+            connected: Boolean(ga4Res.connected),
+            propertyId: ga4Res.propertyId || config.ga4PropertyId,
+            resourceName: ga4Res.resourceName || '',
+            measurementId: ga4Res.measurementId || config.ga4MeasurementId,
+            serviceAccountEmail: ga4Res.serviceAccountEmail || config.googleServiceAccountEmail,
+            errorCategory: ga4Res.errorCategory || null,
+            syncedAt: ga4Res.syncedAt || null,
+            message: ga4Res.reason || ''
+        } : null;
         res.json({
             success: true,
-            settings: sanitizeConfigForClient(config, verification)
+            settings: sanitizeConfigForClient(config, verification, ga4Ver)
         });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -699,14 +725,27 @@ exports.updateSeoSettings = async (req, res) => {
         const domain = normalizeDomain(req.body?.domain || req.query.domain || DEFAULT_DOMAIN);
         const saved = await saveProjectConfig(domain, req.body || {});
         const merged = await getProjectConfig(saved.domain || domain);
-        const verification = await verifySearchConsoleServiceAccount(merged);
+        const [verification, ga4Res] = await Promise.all([
+            verifySearchConsoleServiceAccount(merged),
+            fetchGa4Performance(merged, resolveDateRange('7d')).catch(() => null)
+        ]);
         if (verification.propertyVerified && verification.selectedProperty && merged.rawGscProperty !== verification.selectedProperty) {
             await saveProjectConfig(domain, { gscProperty: verification.selectedProperty });
         }
+        const ga4Ver = ga4Res ? {
+            connected: Boolean(ga4Res.connected),
+            propertyId: ga4Res.propertyId || merged.ga4PropertyId,
+            resourceName: ga4Res.resourceName || '',
+            measurementId: ga4Res.measurementId || merged.ga4MeasurementId,
+            serviceAccountEmail: ga4Res.serviceAccountEmail || merged.googleServiceAccountEmail,
+            errorCategory: ga4Res.errorCategory || null,
+            syncedAt: ga4Res.syncedAt || null,
+            message: ga4Res.reason || ''
+        } : null;
         res.json({
             success: true,
             message: 'SEO integration & crawler settings saved.',
-            settings: sanitizeConfigForClient(merged, verification)
+            settings: sanitizeConfigForClient(merged, verification, ga4Ver)
         });
     } catch (error) {
         res.status(400).json({
