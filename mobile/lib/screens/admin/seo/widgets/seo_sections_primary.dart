@@ -90,9 +90,7 @@ class _SeoOverviewTabState extends State<SeoOverviewTab> {
                 runSpacing: 6,
                 children: [
                   SeoStatusBadge(
-                    status: gscOk
-                        ? 'Search Console: Connected'
-                        : 'GSC: ${data.integrations['gscStatusLabel'] ?? 'Not Connected'}',
+                    status: gscOk ? 'Search Console: Verified' : 'GSC: Not Connected',
                   ),
                   SeoStatusBadge(
                     status: ga4Ok ? 'GA4 API: Verified' : 'GA4 Tag Active',
@@ -418,65 +416,6 @@ class SeoSearchPerformanceTab extends StatelessWidget {
             labels: data.searchTimeseries.map((e) => e.date).toList(),
             color: SeoColors.accentGreen,
           ),
-          const SizedBox(height: 14),
-          _GscBreakdownCard(
-            title: 'Top Queries',
-            items: (sp['topQueries'] as List? ?? [])
-                .whereType<Map<String, dynamic>>()
-                .take(8)
-                .map(
-                  (q) => (
-                    q['keyword']?.toString() ?? '',
-                    '${q['clicks'] ?? 0} clicks · ${q['impressions'] ?? 0} impr · ${q['ctr'] ?? 0}% CTR · Pos ${q['position'] ?? '-'}',
-                  ),
-                )
-                .toList(),
-            emptyMessage: 'No search queries recorded for this date range.',
-          ),
-          const SizedBox(height: 12),
-          _GscBreakdownCard(
-            title: 'Top Pages',
-            items: (sp['topPages'] as List? ?? [])
-                .whereType<Map<String, dynamic>>()
-                .take(8)
-                .map(
-                  (p) => (
-                    p['path']?.toString() ?? p['url']?.toString() ?? '/',
-                    '${p['clicks'] ?? 0} clicks · ${p['impressions'] ?? 0} impr · ${p['ctr'] ?? 0}% CTR · Pos ${p['position'] ?? '-'}',
-                  ),
-                )
-                .toList(),
-            emptyMessage: 'No page performance recorded for this date range.',
-          ),
-          const SizedBox(height: 12),
-          _GscBreakdownCard(
-            title: 'Country Performance',
-            items: (sp['countryPerformance'] as List? ?? [])
-                .whereType<Map<String, dynamic>>()
-                .take(8)
-                .map(
-                  (c) => (
-                    '${c['countryName'] ?? c['country'] ?? 'Unknown'} (${c['country'] ?? ''})',
-                    '${c['clicks'] ?? 0} clicks · ${c['impressions'] ?? 0} impr · ${c['ctr'] ?? 0}% CTR · Pos ${c['position'] ?? '-'}',
-                  ),
-                )
-                .toList(),
-            emptyMessage: 'No country performance returned for this date range.',
-          ),
-          const SizedBox(height: 12),
-          _GscBreakdownCard(
-            title: 'Device Performance',
-            items: (sp['devicePerformance'] as List? ?? [])
-                .whereType<Map<String, dynamic>>()
-                .map(
-                  (d) => (
-                    '${d['label'] ?? d['device'] ?? 'Device'} (${d['clicksSharePct'] ?? 0}% clicks)',
-                    '${d['clicks'] ?? 0} clicks · ${d['impressions'] ?? 0} impr · ${d['ctr'] ?? 0}% CTR · Pos ${d['position'] ?? '-'}',
-                  ),
-                )
-                .toList(),
-            emptyMessage: 'No device performance returned for this date range.',
-          ),
         ],
         const SizedBox(height: 16),
         Container(
@@ -515,7 +454,7 @@ class SeoSearchPerformanceTab extends StatelessWidget {
               else
                 Text(
                   ga4['reason']?.toString() ??
-                      'GA4 Measurement ID G-BSZBBFZZH0 is active. Configure GA4 Property ID in Settings to enable server-side reporting.',
+                      'GA4 Measurement ID G-BSZBBFZZH0 is active. Connect GA4 Property ID & Service Account in Settings.',
                   style: TextStyle(
                     fontSize: 12,
                     color: SeoColors.textMuted(context),
@@ -525,80 +464,6 @@ class SeoSearchPerformanceTab extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _GscBreakdownCard extends StatelessWidget {
-  final String title;
-  final List<(String, String)> items;
-  final String emptyMessage;
-
-  const _GscBreakdownCard({
-    required this.title,
-    required this.items,
-    required this.emptyMessage,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: SeoColors.cardBg(context),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: SeoColors.border(context)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: AppTextStyles.labelBold.copyWith(
-              fontSize: 14,
-              color: SeoColors.textPrimary(context),
-            ),
-          ),
-          const SizedBox(height: 8),
-          if (items.isEmpty)
-            Text(
-              emptyMessage,
-              style: TextStyle(
-                fontSize: 12,
-                color: SeoColors.textMuted(context),
-              ),
-            )
-          else
-            ...items.map(
-              (row) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      row.$1,
-                      style: TextStyle(
-                        fontSize: 12.5,
-                        fontWeight: FontWeight.w600,
-                        color: SeoColors.textPrimary(context),
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      row.$2,
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: SeoColors.textMuted(context),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-        ],
-      ),
     );
   }
 }

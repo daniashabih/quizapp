@@ -37,9 +37,6 @@ const bookUpload = multer({
     }
 });
 
-// Public OAuth 2.0 callback for Google Search Console (authenticated & CSRF-protected via signed state JWT)
-router.get('/seo/gsc/oauth/callback', seoDashboardController.handleGscOAuthCallback);
-
 // Enforce authentication & admin role across all /api/admin routes
 router.use(authMiddleware, adminMiddleware);
 
@@ -277,10 +274,5 @@ router.get('/seo/settings', seoDashboardController.getSeoSettings);
 router.put('/seo/settings', seoDashboardController.updateSeoSettings);
 router.post('/seo/integrations/test', seoDashboardController.testSeoIntegration);
 router.post('/seo/backlinks/import', seoDashboardController.importBacklinks);
-router.get('/seo/gsc/oauth/authorize', seoDashboardController.getGscOAuthAuthorizeUrl);
-router.get('/seo/gsc/properties', seoDashboardController.getGscProperties);
-router.put('/seo/gsc/property', seoDashboardController.selectGscProperty);
-router.post('/seo/gsc/refresh', seoDashboardController.refreshGscData);
-router.post('/seo/gsc/disconnect', seoDashboardController.disconnectGscAccount);
 
 module.exports = router;

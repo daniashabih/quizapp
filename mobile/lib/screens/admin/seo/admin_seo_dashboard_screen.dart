@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../models/seo_dashboard_model.dart';
 import '../../../providers/seo_provider.dart';
@@ -21,31 +20,9 @@ class AdminSeoDashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _AdminSeoDashboardScreenState
-    extends ConsumerState<AdminSeoDashboardScreen> with WidgetsBindingObserver {
+    extends ConsumerState<AdminSeoDashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _runningAudit = false;
-  bool _awaitingGoogleOAuthReturn = false;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed && _awaitingGoogleOAuthReturn) {
-      _awaitingGoogleOAuthReturn = false;
-      ref.invalidate(seoSettingsProvider);
-      ref.invalidate(seoDashboardProvider);
-    }
-  }
 
   Future<void> _runAudit() async {
     if (_runningAudit) return;
@@ -251,140 +228,7 @@ class _AdminSeoDashboardScreenState
 
   Future<Map<String, dynamic>> _testIntegration(String target) async {
     final domain = ref.read(seoDomainProvider);
-    final res = await ref.read(seoServiceProvider).testIntegration(domain, target);
-    if (target == 'gsc') {
-      ref.invalidate(seoSettingsProvider);
-    }
-    return res;
-  }
-
-  Future<void> _connectGoogleSearchConsole() async {
-    try {
-      final domain = ref.read(seoDomainProvider);
-      final res = await ref
-          .read(seoServiceProvider)
-          .getGscOAuthAuthorizeUrl(domain: domain, platform: 'mobile');
-      final authUrl = res['authUrl']?.toString() ?? '';
-      if (authUrl.isEmpty) {
-        throw Exception(
-          res['message']?.toString() ??
-              'Unable to generate Google OAuth authorization URL.',
-        );
-      }
-      final uri = Uri.parse(authUrl);
-      _awaitingGoogleOAuthReturn = true;
-      final launched = await launchUrl(
-        uri,
-        mode: LaunchMode.externalApplication,
-      );
-      if (!launched) {
-        _awaitingGoogleOAuthReturn = false;
-        throw Exception('Could not open browser for Google authorization.');
-      }
-    } catch (e) {
-      AppNotificationService.error(
-        id: 'seo-gsc-auth-err',
-        title: 'Google OAuth Failed',
-        message: e.toString().replaceFirst('Exception: ', ''),
-      );
-    }
-  }
-
-  Future<void> _fetchGscProperties() async {
-    try {
-      final domain = ref.read(seoDomainProvider);
-      final res =
-          await ref.read(seoServiceProvider).getGscProperties(domain: domain);
-      ref.invalidate(seoSettingsProvider);
-      final count = (res['properties'] as List?)?.length ?? 0;
-      AppNotificationService.success(
-        id: 'seo-gsc-props-ok',
-        title: 'Properties Loaded',
-        message: 'Found $count Search Console propert${count == 1 ? 'y' : 'ies'}.',
-      );
-    } catch (e) {
-      ref.invalidate(seoSettingsProvider);
-      AppNotificationService.error(
-        id: 'seo-gsc-props-err',
-        title: 'Fetch Properties Failed',
-        message: e.toString().replaceFirst('Exception: ', ''),
-      );
-    }
-  }
-
-  Future<void> _selectGscProperty(String property) async {
-    try {
-      final domain = ref.read(seoDomainProvider);
-      final res = await ref
-          .read(seoServiceProvider)
-          .selectGscProperty(domain, property);
-      ref.invalidate(seoSettingsProvider);
-      ref.invalidate(seoDashboardProvider);
-      AppNotificationService.success(
-        id: 'seo-gsc-prop-ok',
-        title: 'Property Verified',
-        message: res['message']?.toString() ?? 'Search Console property saved.',
-      );
-    } catch (e) {
-      AppNotificationService.error(
-        id: 'seo-gsc-prop-err',
-        title: 'Verification Failed',
-        message: e.toString().replaceFirst('Exception: ', ''),
-      );
-    }
-  }
-
-  Future<void> _refreshGscData() async {
-    try {
-      final domain = ref.read(seoDomainProvider);
-      final range = ref.read(seoDateRangeProvider);
-      final res = await ref
-          .read(seoServiceProvider)
-          .refreshGscData(domain, range: range);
-      ref.invalidate(seoSettingsProvider);
-      ref.invalidate(seoDashboardProvider);
-      if (res['success'] == true) {
-        AppNotificationService.success(
-          id: 'seo-gsc-refresh-ok',
-          title: 'Search Console Synced',
-          message: res['message']?.toString() ?? 'Refreshed Search Console data.',
-        );
-      } else {
-        AppNotificationService.error(
-          id: 'seo-gsc-refresh-warn',
-          title: 'Sync Incomplete',
-          message: res['message']?.toString() ?? 'Could not sync Search Console.',
-        );
-      }
-    } catch (e) {
-      AppNotificationService.error(
-        id: 'seo-gsc-refresh-err',
-        title: 'Refresh Failed',
-        message: e.toString().replaceFirst('Exception: ', ''),
-      );
-    }
-  }
-
-  Future<void> _disconnectGscAccount() async {
-    try {
-      final domain = ref.read(seoDomainProvider);
-      final res =
-          await ref.read(seoServiceProvider).disconnectGscAccount(domain);
-      ref.invalidate(seoSettingsProvider);
-      ref.invalidate(seoDashboardProvider);
-      AppNotificationService.info(
-        id: 'seo-gsc-disc-ok',
-        title: 'Disconnected',
-        message:
-            res['message']?.toString() ?? 'Google Search Console disconnected.',
-      );
-    } catch (e) {
-      AppNotificationService.error(
-        id: 'seo-gsc-disc-err',
-        title: 'Disconnect Failed',
-        message: e.toString().replaceFirst('Exception: ', ''),
-      );
-    }
+    return ref.read(seoServiceProvider).testIntegration(domain, target);
   }
 
   Widget _buildActiveTab(
@@ -461,11 +305,6 @@ class _AdminSeoDashboardScreenState
             initialSettings: settings,
             onSave: _saveSettings,
             onTest: _testIntegration,
-            onConnectGoogleAccount: _connectGoogleSearchConsole,
-            onFetchGscProperties: _fetchGscProperties,
-            onSelectGscProperty: _selectGscProperty,
-            onRefreshGscData: _refreshGscData,
-            onDisconnectGscAccount: _disconnectGscAccount,
           ),
         );
       default:

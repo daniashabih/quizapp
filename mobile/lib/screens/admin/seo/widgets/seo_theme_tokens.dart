@@ -118,7 +118,7 @@ class SeoStatusBadge extends StatelessWidget {
     Color fg;
     Color border;
 
-    if (s == 'critical' || s.contains('revoked')) {
+    if (s == 'critical') {
       bg = isDark ? const Color(0xFF2D1618) : const Color(0xFFFCEEED);
       fg = isDark ? AppColors.darkError : const Color(0xFFB91C1C);
       border = isDark ? const Color(0xFF7F1D1D) : const Color(0xFFF8C9C6);
@@ -126,16 +126,11 @@ class SeoStatusBadge extends StatelessWidget {
         s == 'needs improvement' ||
         s == 'warning' ||
         s == 'medium' ||
-        s == 'high' ||
-        s.contains('expired')) {
+        s == 'high') {
       bg = isDark ? const Color(0xFF2C2212) : const Color(0xFFFEF5E7);
       fg = isDark ? AppColors.darkWarning : const Color(0xFFB45309);
       border = isDark ? const Color(0xFF78350F) : const Color(0xFFF8DFB6);
-    } else if (s == 'good' ||
-        s == 'verified' ||
-        s == 'passed' ||
-        s == 'connected' ||
-        s == 'search console: connected') {
+    } else if (s == 'good' || s == 'verified' || s == 'passed') {
       bg = SeoColors.mintSurface(context);
       fg = SeoColors.primaryBrand(context);
       border = isDark ? const Color(0xFF2F806B) : SeoColors.mintBorder;
