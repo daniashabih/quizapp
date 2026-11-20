@@ -3,8 +3,10 @@ process.env.HANGBUG_ALLOW_AI_TEST_OVERRIDE = '1';
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const { createCanvas } = require('@napi-rs/canvas');
 const prisma = require('../api/_config/prisma');
 const { setAiProviderOverride } = require('../api/_services/aiProviderService');
+const { terminateOcrWorker } = require('../api/_services/ocrService');
 const {
     createAndQueueBook,
     replaceBookFile,
@@ -500,9 +502,38 @@ test('RAG Book Verification System: All 10 End-to-End Scenarios', async () => {
         });
         assert.equal(outOfTopicRes.verification.verification_status, 'insufficient_evidence');
 
-        // --- Scenario 6: Scanned PDF OCR support ---
-        // Minimal valid PDF header with no extractable text layer -> triggers OCR
-        const scannedPdfBuf = Buffer.from('%PDF-1.4\n1 0 obj\n<< /Type /Catalog >>\nendobj\n%%EOF\n', 'latin1');
+        // --- Scenario 6: Scanned PDF OCR support (real free PDF.js + Tesseract.js OCR, no Gemini API key) ---
+        const scanCanvas = createCanvas(1100, 700);
+        const scanCtx = scanCanvas.getContext('2d');
+        scanCtx.fillStyle = '#FFFFFF';
+        scanCtx.fillRect(0, 0, 1100, 700);
+        scanCtx.fillStyle = '#111111';
+        scanCtx.font = 'bold 38px Arial, sans-serif';
+        scanCtx.fillText('Chapter 1 Scanned CSS Flexbox Guide', 70, 140);
+        scanCtx.font = '30px Arial, sans-serif';
+        scanCtx.fillText('In CSS Flexbox, justify-content aligns flex items', 70, 220);
+        scanCtx.fillText('along the main axis, whereas align-items aligns', 70, 275);
+        scanCtx.fillText('items along the cross axis.', 70, 330);
+        const scanJpeg = scanCanvas.toBuffer('image/jpeg', 90);
+        const drawOp = 'q\n612 0 0 390 0 200 cm\n/Im0 Do\nQ\n';
+        const pdfParts = [Buffer.from('%PDF-1.4\n', 'latin1')];
+        const pdfOffsets = [0];
+        const pushObj = (id, body) => {
+            pdfOffsets[id] = pdfParts.reduce((s, b) => s + b.length, 0);
+            pdfParts.push(Buffer.from(`${id} 0 obj\n`, 'latin1'), Buffer.isBuffer(body) ? body : Buffer.from(body, 'latin1'), Buffer.from('\nendobj\n', 'latin1'));
+        };
+        pushObj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+        pushObj(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+        pushObj(3, '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>');
+        pushObj(4, Buffer.concat([Buffer.from(`<< /Type /XObject /Subtype /Image /Width 1100 /Height 700 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${scanJpeg.length} >>\nstream\n`, 'latin1'), scanJpeg, Buffer.from('\nendstream', 'latin1')]));
+        pushObj(5, `<< /Length ${drawOp.length} >>\nstream\n${drawOp}\nendstream`);
+        const xrefStart = pdfParts.reduce((s, b) => s + b.length, 0);
+        let xrefStr = `xref\n0 6\n0000000000 65535 f \n`;
+        for (let i = 1; i <= 5; i++) xrefStr += `${String(pdfOffsets[i]).padStart(10, '0')} 00000 n \n`;
+        xrefStr += `trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF\n`;
+        pdfParts.push(Buffer.from(xrefStr, 'latin1'));
+        const scannedPdfBuf = Buffer.concat(pdfParts);
+
         const scannedBook = await createAndQueueBook({
             buffer: scannedPdfBuf,
             originalname: 'scanned-css-flexbox.pdf',
