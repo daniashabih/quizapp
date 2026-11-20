@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_text_styles.dart';
 import '../../../../models/seo_dashboard_model.dart';
@@ -517,12 +519,18 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
 class SeoBacklinksTab extends StatefulWidget {
   final SeoDashboardPayload data;
   final Future<void> Function(List<Map<String, dynamic>> items) onImportLinks;
+  final Future<void> Function(String csvText, String fileName)? onImportCsv;
+  final Future<void> Function()? onClearImport;
+  final Future<Map<String, dynamic>> Function()? onTestOpenPageRank;
   final VoidCallback onOpenSettings;
 
   const SeoBacklinksTab({
     super.key,
     required this.data,
     required this.onImportLinks,
+    this.onImportCsv,
+    this.onClearImport,
+    this.onTestOpenPageRank,
     required this.onOpenSettings,
   });
 
@@ -532,8 +540,12 @@ class SeoBacklinksTab extends StatefulWidget {
 
 class _SeoBacklinksTabState extends State<SeoBacklinksTab> {
   final TextEditingController _csvCtrl = TextEditingController();
+  String _selectedFileName = '';
   bool _showImporter = false;
   bool _importing = false;
+  bool _clearing = false;
+  bool _testingOpr = false;
+  String _gscSubTab = 'domains';
 
   @override
   void dispose() {
@@ -541,57 +553,298 @@ class _SeoBacklinksTabState extends State<SeoBacklinksTab> {
     super.dispose();
   }
 
-  Future<void> _submitImport() async {
-    final lines = _csvCtrl.text
-        .split('\n')
-        .map((e) => e.trim())
-        .where((e) => e.isNotEmpty)
-        .toList();
-    final items = <Map<String, dynamic>>[];
-    for (final line in lines) {
-      final parts = line.split(',').map((p) => p.trim()).toList();
-      if (parts.isNotEmpty && parts[0].isNotEmpty) {
-        items.add({
-          'referringDomain': parts[0],
-          'linksCount': parts.length > 1 ? (int.tryParse(parts[1]) ?? 1) : 1,
-          'targetPage': parts.length > 2 ? parts[2] : '/',
-          'anchorText': parts.length > 3 ? parts[3] : '',
-        });
+  Future<void> _pickCsvFile() async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: const ['csv', 'txt'],
+        withData: true,
+      );
+      if (result != null && result.files.isNotEmpty) {
+        final file = result.files.first;
+        final bytes = file.bytes;
+        if (bytes != null) {
+          final content = utf8.decode(bytes, allowMalformed: true);
+          if (mounted) {
+            setState(() {
+              _selectedFileName = file.name;
+              _csvCtrl.text = content;
+            });
+          }
+        }
       }
+    } catch (_) {
+      // Ignore picker cancel/error
     }
-    if (items.isEmpty) return;
+  }
+
+  Future<void> _submitImport() async {
+    final rawText = _csvCtrl.text.trim();
+    if (rawText.isEmpty) return;
 
     setState(() => _importing = true);
     try {
-      await widget.onImportLinks(items);
+      if (widget.onImportCsv != null) {
+        await widget.onImportCsv!(
+          rawText,
+          _selectedFileName.isNotEmpty
+              ? _selectedFileName
+              : 'gsc-links-export.csv',
+        );
+      } else {
+        final lines = rawText
+            .split('\n')
+            .map((e) => e.trim())
+            .where((e) => e.isNotEmpty)
+            .toList();
+        final items = <Map<String, dynamic>>[];
+        for (final line in lines) {
+          final parts = line.split(',').map((p) => p.trim()).toList();
+          if (parts.isNotEmpty && parts[0].isNotEmpty) {
+            items.add({
+              'referringDomain': parts[0],
+              'linksCount':
+                  parts.length > 1 ? (int.tryParse(parts[1]) ?? 1) : 1,
+              'targetPage': parts.length > 2 ? parts[2] : '/',
+              'anchorText': parts.length > 3 ? parts[3] : '',
+            });
+          }
+        }
+        if (items.isNotEmpty) {
+          await widget.onImportLinks(items);
+        }
+      }
       if (mounted) {
         _csvCtrl.clear();
-        setState(() => _showImporter = false);
+        setState(() {
+          _selectedFileName = '';
+          _showImporter = false;
+        });
       }
     } finally {
       if (mounted) setState(() => _importing = false);
     }
   }
 
+  Future<void> _triggerTestOpr() async {
+    if (_testingOpr || widget.onTestOpenPageRank == null) return;
+    setState(() => _testingOpr = true);
+    try {
+      await widget.onTestOpenPageRank!();
+    } finally {
+      if (mounted) setState(() => _testingOpr = false);
+    }
+  }
+
+  Future<void> _triggerClearImport() async {
+    if (_clearing || widget.onClearImport == null) return;
+    setState(() => _clearing = true);
+    try {
+      await widget.onClearImport!();
+    } finally {
+      if (mounted) setState(() => _clearing = false);
+    }
+  }
+
+  Widget _buildOverviewCard(
+    BuildContext context, {
+    required String title,
+    required String value,
+    required String badge,
+    required String explanation,
+    required String footer,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: SeoColors.cardBg(context),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: SeoColors.border(context)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w700,
+                  color: SeoColors.textMuted(context),
+                ),
+              ),
+              SeoStatusBadge(status: badge),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            value,
+            style: AppTextStyles.displaySmall.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+              color: SeoColors.textPrimary(context),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            explanation,
+            style: TextStyle(
+              fontSize: 11.5,
+              height: 1.35,
+              color: SeoColors.textMuted(context),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            footer,
+            style: TextStyle(
+              fontSize: 10.5,
+              fontWeight: FontWeight.w600,
+              color: SeoColors.primaryBrand(context),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bl = widget.data.backlinks;
-    final connected = bl['connected'] == true;
-    final summary = bl['summary'] as Map<String, dynamic>? ?? {};
-    final list = (bl['referringDomainsList'] as List? ?? [])
+    final opr = bl['openPageRank'] as Map<String, dynamic>? ?? {};
+    final gscImport = bl['gscLinksImport'] as Map<String, dynamic>? ?? {};
+    final explanations =
+        bl['metricExplanations'] as Map<String, dynamic>? ?? {};
+
+    final connectionStatus = opr['connectionStatus']?.toString() ??
+        bl['connectionStatus']?.toString() ??
+        'Not Configured';
+    final isOprConnected =
+        connectionStatus == 'Connected' && opr['connected'] == true;
+
+    final oprScore = opr['score'];
+    final globalRank = opr['globalRank'];
+    final oprReferringDomains = opr['referringDomains'];
+    final quota = opr['quota'] as Map<String, dynamic>?;
+    final history = (opr['history'] as List? ?? [])
         .whereType<Map<String, dynamic>>()
         .toList();
+    final historySummary =
+        opr['historySummary'] as Map<String, dynamic>? ?? {};
+
+    final gscAvailable = gscImport['available'] == true;
+    final externalDomains = ((gscImport['externalLinkingDomains'] as List?) ??
+            (bl['referringDomainsList'] as List?) ??
+            [])
+        .whereType<Map<String, dynamic>>()
+        .toList();
+    final targetPages = ((gscImport['targetPages'] as List?) ??
+            (bl['targetPagesList'] as List?) ??
+            [])
+        .whereType<Map<String, dynamic>>()
+        .toList();
+    final linkingPages = ((gscImport['linkingPages'] as List?) ??
+            (bl['linkingPagesList'] as List?) ??
+            [])
+        .whereType<Map<String, dynamic>>()
+        .toList();
+
+    final quotaDisplay = (quota != null && quota['domainsRemaining'] != null)
+        ? '${quota['domainsRemaining']} / ${quota['monthlyDomainLimit'] ?? 30000} remaining'
+        : (isOprConnected ? 'Quota active' : 'Available after connection');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        OutlinedButton.icon(
-          onPressed: () => setState(() => _showImporter = !_showImporter),
-          icon: const Icon(Icons.upload_file_rounded, size: 18),
-          label: Text(
-            _showImporter ? 'Hide GSC Links Importer' : 'Import GSC Links Export',
+        // 1. OpenPageRank Connection Status & Action Header
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: SeoColors.cardBg(context),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: SeoColors.border(context)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Backlink Overview & OpenPageRank',
+                      style: AppTextStyles.labelBold.copyWith(
+                        fontSize: 15,
+                        color: SeoColors.textPrimary(context),
+                      ),
+                    ),
+                  ),
+                  SeoStatusBadge(status: connectionStatus),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Domain: ${opr['domain'] ?? 'hangbug.com'} · Last Data Update: ${opr['syncedAt'] ?? bl['lastDataUpdate'] ?? 'Not synced yet'}${opr['asOf'] != null ? ' · Release: ${opr['asOf']}' : ''}',
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: SeoColors.textMuted(context),
+                ),
+              ),
+              if (!isOprConnected &&
+                  (opr['message']?.toString().isNotEmpty == true ||
+                      bl['reason']?.toString().isNotEmpty == true)) ...[
+                const SizedBox(height: 8),
+                Text(
+                  opr['message']?.toString() ?? bl['reason']?.toString() ?? '',
+                  style: const TextStyle(
+                    fontSize: 11.5,
+                    color: Color(0xFFB45309),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  if (widget.onTestOpenPageRank != null)
+                    OutlinedButton.icon(
+                      onPressed: _testingOpr ? null : _triggerTestOpr,
+                      icon: const Icon(Icons.bolt_rounded, size: 16),
+                      label: Text(
+                        _testingOpr ? 'Testing...' : 'Test Connection',
+                      ),
+                    ),
+                  OutlinedButton.icon(
+                    onPressed: () =>
+                        setState(() => _showImporter = !_showImporter),
+                    icon: const Icon(Icons.upload_file_rounded, size: 16),
+                    label: Text(
+                      _showImporter
+                          ? 'Hide GSC Links Importer'
+                          : 'Import Google Search Console Links Report',
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: widget.onOpenSettings,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: SeoColors.primaryDarkGreen,
+                      foregroundColor: Colors.white,
+                    ),
+                    icon: const Icon(Icons.settings_rounded, size: 16),
+                    label: const Text('API Settings'),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
+
+        // 2. Manual Google Search Console Links Importer
         if (_showImporter) ...[
           const SizedBox(height: 10),
           Container(
@@ -605,10 +858,27 @@ class _SeoBacklinksTabState extends State<SeoBacklinksTab> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Format: domain.com, linksCount, /target, anchorText',
+                  'Import Google Search Console Links Report (Official CSV)',
+                  style: AppTextStyles.labelBold.copyWith(
+                    color: SeoColors.textPrimary(context),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Upload your official Google Search Console Links CSV export or paste CSV rows. Preserves original source and import date as a static snapshot (not live backlink data).',
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 11.5,
                     color: SeoColors.textMuted(context),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                OutlinedButton.icon(
+                  onPressed: _pickCsvFile,
+                  icon: const Icon(Icons.folder_open_rounded, size: 16),
+                  label: Text(
+                    _selectedFileName.isNotEmpty
+                        ? 'Selected: $_selectedFileName'
+                        : 'Select Official GSC CSV File',
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -616,7 +886,8 @@ class _SeoBacklinksTabState extends State<SeoBacklinksTab> {
                   controller: _csvCtrl,
                   maxLines: 4,
                   decoration: const InputDecoration(
-                    hintText: 'github.com, 4, /, Hangbug Quizzes',
+                    hintText:
+                        'Source page,Target page\nhttps://github.com/org/repo,https://www.hangbug.com/technologies/javascript',
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -627,87 +898,363 @@ class _SeoBacklinksTabState extends State<SeoBacklinksTab> {
                     foregroundColor: Colors.white,
                     minimumSize: const Size.fromHeight(42),
                   ),
-                  child: Text(_importing ? 'Importing...' : 'Save Links'),
-                ),
-              ],
-            ),
-          ),
-        ],
-        const SizedBox(height: 12),
-        if (!connected)
-          SeoEmptyIntegrationCard(
-            title: 'No Backlink Provider Connected',
-            description: bl['reason']?.toString() ??
-                'Import a GSC Links export or configure OpenPageRank in Settings.',
-            source: 'Google Search Console Links / OpenPageRank',
-            onConfigure: widget.onOpenSettings,
-          )
-        else ...[
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: SeoColors.cardBg(context),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: SeoColors.border(context)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Referring Domains: ${summary['referringDomains'] ?? '—'}',
-                      style: AppTextStyles.labelBold,
-                    ),
-                    if (bl['isEstimated'] == true)
-                      const SeoStatusBadge(status: 'Estimated'),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Total Backlinks: ${summary['totalBacklinks'] ?? '—'} · Source: ${bl['source'] ?? ''}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: SeoColors.textMuted(context),
+                  child: Text(
+                    _importing ? 'Importing CSV...' : 'Import GSC Links Report',
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 10),
-          ...list.map((d) => Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: SeoColors.cardBg(context),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: SeoColors.border(context)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        '${d['referringDomain']} → ${d['targetPage']}',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      '${d['linksCount']} link(s)',
-                      style: TextStyle(
-                        fontSize: 11.5,
-                        color: SeoColors.primaryBrand(context),
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              )),
         ],
+
+        const SizedBox(height: 12),
+
+        // 3. Backlink Overview Metric Cards (with Simple-Language Explanations)
+        _buildOverviewCard(
+          context,
+          title: 'OpenPageRank Score (0–10)',
+          value: isOprConnected && oprScore != null
+              ? '$oprScore / 10'
+              : connectionStatus,
+          badge: isOprConnected ? 'Connected' : connectionStatus,
+          explanation: explanations['openPageRankScore']?.toString() ??
+              "An external estimate of your website's authority based on its link graph. It is not a Google ranking score.",
+          footer:
+              'Source: OpenPageRank API${opr['asOf'] != null ? ' · Release ${opr['asOf']}' : ''}',
+        ),
+        _buildOverviewCard(
+          context,
+          title: 'Global Domain Rank',
+          value: isOprConnected && globalRank != null
+              ? '#$globalRank'
+              : connectionStatus,
+          badge: 'Link Graph Rank',
+          explanation: explanations['globalDomainRank']?.toString() ??
+              "Your website's estimated global position in the OpenPageRank link graph (#1 is highest worldwide).",
+          footer: 'Source: OpenPageRank Link Graph',
+        ),
+        _buildOverviewCard(
+          context,
+          title: 'Referring Domains (OpenPageRank)',
+          value: isOprConnected && oprReferringDomains != null
+              ? '$oprReferringDomains'
+              : connectionStatus,
+          badge: 'Provider Estimate',
+          explanation: explanations['referringDomains']?.toString() ??
+              'The number of linking domains reported by the selected data provider. This is an authority-weighted count from OpenPageRank, not a complete verified backlink count.',
+          footer:
+              'Source: OpenPageRank (referring_domains) · Not a full backlink count',
+        ),
+        _buildOverviewCard(
+          context,
+          title: 'API Usage & Remaining Quota',
+          value: quotaDisplay,
+          badge: quota?['tier']?.toString().toUpperCase() ?? 'QUOTA',
+          explanation: explanations['apiQuota']?.toString() ??
+              "Your OpenPageRank plan's monthly domain lookup usage and remaining quota.",
+          footer: quota?['domainsUsed'] != null
+              ? 'Domains used this month: ${quota!['domainsUsed']} · RPM limit: ${quota['requestsPerMinute'] ?? 60}'
+              : 'Monthly OpenPageRank quota allowance',
+        ),
+
+        // 4. Historical Authority Chart & Measured vs Estimated Breakdown
+        const SizedBox(height: 6),
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: SeoColors.cardBg(context),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: SeoColors.border(context)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Monthly Authority History',
+                      style: AppTextStyles.labelBold.copyWith(
+                        fontSize: 14.5,
+                        color: SeoColors.textPrimary(context),
+                      ),
+                    ),
+                  ),
+                  SeoStatusBadge(
+                    status: historySummary['growthStatus']?.toString() ??
+                        'History',
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                explanations['monthlyAuthorityHistory']?.toString() ??
+                    'Monthly authority scores (0–10). Measured months come from Common Crawl releases; Estimated months are linearly interpolated.',
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: SeoColors.textMuted(context),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Availability: ${historySummary['totalMonths'] ?? 0} months · Measured: ${historySummary['measuredMonthsCount'] ?? 0} · Estimated: ${historySummary['estimatedMonthsCount'] ?? 0}',
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w700,
+                  color: SeoColors.primaryBrand(context),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'MoM Change: ${historySummary['monthOverMonthChange'] ?? 'N/A'} · 12M YoY Change: ${historySummary['yearOverYearChange'] ?? 'N/A'} · All-Time Change: ${historySummary['allTimeChange'] ?? 'N/A'}',
+                style: const TextStyle(
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 10),
+              SeoTrendChart(
+                title: 'OpenPageRank Monthly Authority (0–10)',
+                values: history
+                    .map((h) =>
+                        (h['open_page_rank'] is num)
+                            ? (h['open_page_rank'] as num).toDouble()
+                            : 0.0)
+                    .toList(),
+                labels:
+                    history.map((h) => h['date']?.toString() ?? '').toList(),
+                color: SeoColors.primaryDarkGreen,
+              ),
+              if (history.isNotEmpty) ...[
+                const SizedBox(height: 10),
+                Text(
+                  'Recent Monthly Authority Points (Measured vs Estimated):',
+                  style: const TextStyle(
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                ...history.reversed.take(6).map((pt) {
+                  final isEst = pt['estimated'] == true;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '${pt['date']} — Score: ${pt['open_page_rank']}/10',
+                          style: const TextStyle(
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SeoStatusBadge(
+                          status: isEst
+                              ? 'Estimated (Interpolated)'
+                              : 'Measured (Release)',
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ],
+            ],
+          ),
+        ),
+
+        // 5. Imported Google Search Console Links Report Section
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: SeoColors.cardBg(context),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: SeoColors.border(context)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Imported Google Search Console Links Report',
+                      style: AppTextStyles.labelBold.copyWith(
+                        fontSize: 14.5,
+                        color: SeoColors.textPrimary(context),
+                      ),
+                    ),
+                  ),
+                  SeoStatusBadge(
+                    status: gscAvailable ? 'Static CSV Snapshot' : 'No CSV',
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                gscImport['disclosure']?.toString() ??
+                    'Upload an official Google Search Console Links CSV export to inspect external linking domains, target pages, and available linking-page details.',
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: SeoColors.textMuted(context),
+                ),
+              ),
+              if (gscAvailable) ...[
+                const SizedBox(height: 8),
+                Text(
+                  'Original Source: ${gscImport['originalSource'] ?? 'Google Search Console Links CSV'} · File: ${gscImport['fileName'] ?? 'gsc-links-export.csv'}',
+                  style: const TextStyle(
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  'Imported Report Date: ${gscImport['importedAt'] ?? 'Recent'}',
+                  style: TextStyle(
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w600,
+                    color: SeoColors.primaryBrand(context),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      ChoiceChip(
+                        label: Text(
+                          'External Domains (${externalDomains.length})',
+                        ),
+                        selected: _gscSubTab == 'domains',
+                        onSelected: (_) =>
+                            setState(() => _gscSubTab = 'domains'),
+                      ),
+                      const SizedBox(width: 6),
+                      ChoiceChip(
+                        label: Text('Target Pages (${targetPages.length})'),
+                        selected: _gscSubTab == 'targets',
+                        onSelected: (_) =>
+                            setState(() => _gscSubTab = 'targets'),
+                      ),
+                      const SizedBox(width: 6),
+                      ChoiceChip(
+                        label: Text('Linking Pages (${linkingPages.length})'),
+                        selected: _gscSubTab == 'pages',
+                        onSelected: (_) => setState(() => _gscSubTab = 'pages'),
+                      ),
+                      if (widget.onClearImport != null) ...[
+                        const SizedBox(width: 8),
+                        ActionChip(
+                          label: Text(_clearing ? 'Clearing...' : 'Clear CSV'),
+                          onPressed: _clearing ? null : _triggerClearImport,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                if (_gscSubTab == 'domains')
+                  ...externalDomains.take(30).map((d) => Container(
+                        margin: const EdgeInsets.only(bottom: 6),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: SeoColors.scaffoldBg(context),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: SeoColors.border(context)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '${d['referringDomain']} → ${d['targetPage'] ?? '/'}',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              '${d['linksCount']} link(s)',
+                              style: TextStyle(
+                                fontSize: 11.5,
+                                color: SeoColors.primaryBrand(context),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                if (_gscSubTab == 'targets')
+                  ...targetPages.take(30).map((t) => Container(
+                        margin: const EdgeInsets.only(bottom: 6),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: SeoColors.scaffoldBg(context),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: SeoColors.border(context)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '${t['targetPage']}',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              '${t['linksCount']} links · ${t['linkingDomainsCount']} domains',
+                              style: TextStyle(
+                                fontSize: 11.5,
+                                color: SeoColors.primaryBrand(context),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                if (_gscSubTab == 'pages')
+                  ...linkingPages.take(30).map((lp) => Container(
+                        margin: const EdgeInsets.only(bottom: 6),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: SeoColors.scaffoldBg(context),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: SeoColors.border(context)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${lp['linkingPage']}',
+                              style: const TextStyle(
+                                fontSize: 11.5,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Target: ${lp['targetPage']}${lp['anchorText']?.toString().isNotEmpty == true ? ' · Anchor: ${lp['anchorText']}' : ''}',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: SeoColors.textMuted(context),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+              ],
+            ],
+          ),
+        ),
       ],
     );
   }

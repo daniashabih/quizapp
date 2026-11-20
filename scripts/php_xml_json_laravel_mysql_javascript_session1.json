@@ -12,7 +12,8 @@
         "Mathematical",
         "Date/Time"
       ],
-      "correctAnswer": "Mathematical"
+      "correctAnswer": "Mathematical",
+      "explanation": "Mathematical functions in SQL (such as ABS(), ROUND(), CEIL(), FLOOR(), POW(), and MOD()) are numeric functions that take input values as arguments, perform calculations, and return numeric results."
     },
     {
       "questionText": "The _____ FUNCTION command is used to remove a function (if it exists) from the database.",
@@ -22,7 +23,8 @@
         "SUBDATE",
         "REGEXP_INSTR"
       ],
-      "correctAnswer": "DROP"
+      "correctAnswer": "DROP",
+      "explanation": "In MySQL/SQL, the DROP FUNCTION [IF EXISTS] function_name; command is used to permanently remove a stored function from the database."
     },
     {
       "questionText": "_____ clause is used in SELECT statements to define filter conditions for a group of rows.",
@@ -32,7 +34,8 @@
         "HAVE_TO",
         "HAVING"
       ],
-      "correctAnswer": "HAVING"
+      "correctAnswer": "HAVING",
+      "explanation": "The HAVING clause is used in SELECT statements (typically with GROUP BY) to specify filter conditions for a group of rows or aggregate values, whereas WHERE filters individual rows before grouping."
     },
     {
       "questionText": "In which of the following ways does the replication topology manager help?",
@@ -42,7 +45,8 @@
         "Supports automatic failure of master",
         "All of these"
       ],
-      "correctAnswer": "All of these"
+      "correctAnswer": "All of these",
+      "explanation": "A replication topology manager stores the replication topology and its status, enables GUI/CUI/API interfaces to check status and perform operations, and supports automatic failover of the master."
     },
     {
       "questionText": "In _______ partitioning, data distribution is done on the basis of predefined number of partitions.",
@@ -52,7 +56,8 @@
         "Range",
         "Key"
       ],
-      "correctAnswer": "Hash"
+      "correctAnswer": "Hash",
+      "explanation": "In HASH partitioning (PARTITION BY HASH(expr) PARTITIONS num), MySQL distributes data evenly across a predefined number of partitions based on the hash/modulus of a user-defined expression."
     },
     {
       "questionText": "Only after a _____ operation is performed in a particular transaction, changes of the respective can be read or seen by other transaction.",
@@ -62,7 +67,8 @@
         "DONE",
         "FINAL"
       ],
-      "correctAnswer": "COMMIT"
+      "correctAnswer": "COMMIT",
+      "explanation": "A COMMIT operation permanently saves all changes made in the current transaction so they become visible to other transactions."
     },
     {
       "questionText": "Which MySQL Database backup is created by copying the database files?",
@@ -72,7 +78,8 @@
         "Physical backup",
         "Hot backup"
       ],
-      "correctAnswer": "Physical backup"
+      "correctAnswer": "Physical backup",
+      "explanation": "A physical backup is created by directly copying raw database directories and files (data files, log files, and configuration files), whereas a logical backup exports SQL statements using tools like mysqldump."
     },
     {
       "questionText": "The _____ is used to select all the rows from the table.",
@@ -82,7 +89,8 @@
         "Question mark",
         "Asterisk symbol"
       ],
-      "correctAnswer": "Asterisk symbol"
+      "correctAnswer": "Asterisk symbol",
+      "explanation": "In SQL (SELECT * FROM table_name;), the asterisk symbol (*) wildcard is used to select all columns and rows from a table."
     },
     {
       "questionText": "Which keyword is used to retrieve records by checking the possible values from a given column?",
@@ -92,7 +100,8 @@
         "IN",
         "GAIN"
       ],
-      "correctAnswer": "IN"
+      "correctAnswer": "IN",
+      "explanation": "The IN keyword in a WHERE clause (WHERE column_name IN (val1, val2, ...)) retrieves records by checking whether a column's value matches any value in a specified list of possible values."
     },
     {
       "questionText": "A _____ clause with a single expression fetches unique values from one column.",
@@ -102,7 +111,8 @@
         "SELECT",
         "EXP"
       ],
-      "correctAnswer": "DISTINCT"
+      "correctAnswer": "DISTINCT",
+      "explanation": "The DISTINCT clause (SELECT DISTINCT column_name) eliminates duplicate values and fetches only unique values from a column."
     },
     {
       "questionText": "Which feature is used to combine and retrieve data from more than one table?",
@@ -112,7 +122,8 @@
         "MySQL RET",
         "MySQL ADD"
       ],
-      "correctAnswer": "MySQL JOIN"
+      "correctAnswer": "MySQL JOIN",
+      "explanation": "MySQL JOIN is used in SELECT queries to combine and retrieve related data from two or more tables based on a related column between them."
     },
     {
       "questionText": "When subqueries are used along with JOINS, the subquery is written using the _____ clause.",
@@ -122,7 +133,8 @@
         "WITH",
         "FROM"
       ],
-      "correctAnswer": "FROM"
+      "correctAnswer": "FROM",
+      "explanation": "When subqueries (derived tables) are used along with JOINs, the subquery is placed in the FROM clause and assigned an alias so it can be joined with other tables."
     },
     {
       "questionText": "Which is the default JOIN clause?",
@@ -132,7 +144,8 @@
         "INNER JOIN",
         "OUTER JOIN"
       ],
-      "correctAnswer": "INNER JOIN"
+      "correctAnswer": "INNER JOIN",
+      "explanation": "INNER JOIN is the default JOIN clause in SQL/MySQL; using the JOIN keyword without a prefix automatically performs an INNER JOIN."
     },
     {
       "questionText": "A ___ is a nested query inside another query.",
@@ -142,7 +155,8 @@
         "Onequery",
         "Nestquery"
       ],
-      "correctAnswer": "Subquery"
+      "correctAnswer": "Subquery",
+      "explanation": "A subquery (or inner query) is a query nested inside another SQL query such as SELECT, INSERT, UPDATE, or DELETE."
     },
     {
       "questionText": "Which single row operator checks values less than the values returned by the subquery?",
@@ -152,7 +166,8 @@
         "More Than (>)",
         "Less Than Equal To (<=)"
       ],
-      "correctAnswer": "Less Than (<)"
+      "correctAnswer": "Less Than (<)",
+      "explanation": "The single-row comparison operator Less Than (<) checks for values strictly less than the single value returned by the subquery."
     },
     {
       "questionText": "Which multiple row operator returns the values less than the highest value of the list returned by the subquery?",
@@ -162,7 +177,8 @@
         "<ALL",
         "<ANY"
       ],
-      "correctAnswer": "<ANY"
+      "correctAnswer": "<ANY",
+      "explanation": "The multiple-row operator <ANY returns values that are less than at least one value in the subquery list, which means less than the highest (maximum) value returned by the subquery."
     },
     {
       "questionText": "_______ in MySQL can be defined as a program that performs independent operations.",
@@ -172,7 +188,8 @@
         "Application",
         "Management"
       ],
-      "correctAnswer": "Functions"
+      "correctAnswer": "Functions",
+      "explanation": "In MySQL, Functions are reusable stored or built-in programs that perform independent operations or calculations and return a value."
     },
     {
       "questionText": "________ is an example of social media.",
@@ -422,7 +439,8 @@
         "SGML",
         "HTML"
       ],
-      "correctAnswer": "SGML"
+      "correctAnswer": "SGML",
+      "explanation": "XML inherited Document Type Definitions (DTDs) from SGML (Standard Generalized Markup Language, ISO 8879), which is the international standard for defining markup languages."
     },
     {
       "questionText": "Match the following (minOccurs, maxOccurs) with the number of times the element can occur:\n\nLeft:\nA1) 0,1\nA2) 1,1\nA3) 0,*\nA4) 1,*\n\nMatches:\nB1) 0 or 1\nB2) At least once\nB3) 1\nB4) Infinite",
@@ -442,7 +460,8 @@
         "A1-B4, A2-B2, A3-B1, A4-B3",
         "A1-B2, A2-B4, A3-B3, A4-B1"
       ],
-      "correctAnswer": "A1-B3, A2-B1, A3-B4, A4-B2"
+      "correctAnswer": "A1-B3, A2-B1, A3-B4, A4-B2",
+      "explanation": "In XML Schema (XSD) facets: fractionDigits (A1) specifies the number of fractional digits in a numeric type (B3); Enumeration (A2) specifies an allowable value in an enumerated list (B1); whiteSpace (A3) specifies how whitespace should be treated within the type (B4); and pattern (A4) restricts string types using regular expressions (B2)."
     },
     {
       "questionText": "Which of the following does the code below represent?\n\n<xs:complexType name=\"Books\">\n <xs:simpleContent>\n <xs:extension base=\"xs:string\">\n <xs:attribute name=\"BookCode\" type=\"xs:positiveInteger\"/>\n </xs:extension>\n </xs:simpleContent>\n</xs:complexType>",
@@ -452,7 +471,8 @@
         "Only Elements",
         "Only Text"
       ],
-      "correctAnswer": "Only Text"
+      "correctAnswer": "Only Text",
+      "explanation": "In XML Schema (XSD), a complexType with <xs:simpleContent> and <xs:extension base=\"xs:string\"> combined with an <xs:attribute> defines a complex element that contains Only Text (character data) and attributes, with no child elements."
     },
     {
       "questionText": "Which of the following MIME types is the unofficial one for JSON?",
@@ -942,7 +962,8 @@
         "C",
         "ECMAScript"
       ],
-      "correctAnswer": "JavaScript"
+      "correctAnswer": "JavaScript",
+      "explanation": "JSON (JavaScript Object Notation) is derived from the JavaScript programming language (specifically JavaScript object literal syntax, standardized under ECMAScript)."
     },
     {
       "questionText": "JSON _____ specifies the rules that define the structure of a JSON document.",
@@ -952,7 +973,8 @@
         "Metadata",
         "Hyper Schema"
       ],
-      "correctAnswer": "Schema"
+      "correctAnswer": "Schema",
+      "explanation": "JSON Schema specifies the rules, data types, and constraints that define and validate the structure of a JSON document."
     },
     {
       "questionText": "Which of the following JSON data structures can be sorted?",
@@ -962,7 +984,8 @@
         "Object",
         "Array"
       ],
-      "correctAnswer": "Array"
+      "correctAnswer": "Array",
+      "explanation": "In JSON, an Array is an ordered collection of values enclosed in square brackets [], which allows its elements to be indexed and sorted, unlike JSON objects which are unordered sets of key/value pairs."
     },
     {
       "questionText": "Which of the following string types is used to represent a page break especially while printing, and as a part of text value or a URL respectively?",
@@ -972,7 +995,8 @@
         "Form feed, Solidus",
         "Form feed, Reverse solidus"
       ],
-      "correctAnswer": "Form feed, Solidus"
+      "correctAnswer": "Form feed, Solidus",
+      "explanation": "In JSON string escape sequences, Form feed (\\f) represents a page break (especially while printing), and Solidus (\\/ or forward slash /) is used as part of a text value or a Uniform Resource Locator (URL)."
     },
     {
       "questionText": "Which of the following are valid JSON statements?",
@@ -982,7 +1006,8 @@
         "{\"p\": [] \"x\":1}",
         "{1:\"X\", \"X\":1}"
       ],
-      "correctAnswer": "{}"
+      "correctAnswer": "{}",
+      "explanation": "An empty object {} is a valid JSON statement. The other options contain syntax errors such as unclosed string quotes, a missing comma between key/value pairs, or unquoted numeric keys."
     },
     {
       "questionText": "Which of the following are characteristics of the object data type? (Select all that apply)",
@@ -992,7 +1017,8 @@
         "Key/value pairs are separated by semicolons (;)",
         "Non-sequential (unordered) set of key/value pairs enclosed in curly braces {} separated by commas with colon after keys"
       ],
-      "correctAnswer": "Non-sequential (unordered) set of key/value pairs enclosed in curly braces {} separated by commas with colon after keys"
+      "correctAnswer": "Non-sequential (unordered) set of key/value pairs enclosed in curly braces {} separated by commas with colon after keys",
+      "explanation": "A JSON object is a non-sequential (unordered) set of key/value pairs, enclosed in curly braces {}, where each key/value pair is separated by a comma (,) and every key is followed by a colon (:). Square brackets [] are used for JSON arrays."
     },
     {
       "questionText": "Match the following:\n\nLeft:\nA1) List\nA2) Set\nA3) Map\nA4) Schema\n\nMatches:\nB1) Accepts data in the form of key and value pairs and each key is distinct.\nB2) Sets attributes to be used by the next transaction.\nB3) The elements follow a defined order and copies or duplicates are allowed.\nB4) Specifies the rules that define the structure of a JSON document.",
@@ -1002,7 +1028,8 @@
         "A1-B2, A2-B1, A3-B3, A4-B4",
         "A1-B4, A2-B2, A3-B1, A4-B3"
       ],
-      "correctAnswer": "A1-B3, A2-B2, A3-B1, A4-B4"
+      "correctAnswer": "A1-B3, A2-B2, A3-B1, A4-B4",
+      "explanation": "A1 (List) matches B3 (elements follow a defined order and duplicates are allowed); A2 (Set) matches B2 (sets attributes to be used by the next transaction); A3 (Map) matches B1 (accepts data as key/value pairs where each key is distinct); and A4 (Schema) matches B4 (specifies the rules that define the structure of a JSON document)."
     },
     {
       "questionText": "An _____ in XML is a placeholder that consists of a name and a value.",
@@ -1012,7 +1039,8 @@
         "ENTITY",
         "Root element"
       ],
-      "correctAnswer": "ENTITY"
+      "correctAnswer": "ENTITY",
+      "explanation": "In XML, an ENTITY is a placeholder (storage unit) that consists of a name and an associated replacement value."
     },
     {
       "questionText": "Match the following (1,2,3,4) with (a,b,c,d):\n1. <xsl:template match=\"Greeting\">\n2. <xsl:template match=\"P//EM\">\n3. <xsl:template match=\"/\">\n4. <xsl:template match=\"Product\"> ... <xsl:apply-templates select=\"@Units\"/>\n\na) Matching by ancestry\nb) Matching by attribute\nc) Matching by name\nd) Matching by root",
@@ -1022,7 +1050,8 @@
         "a-4, b-3, c-2, d-1",
         "a-2, b-4, c-1, d-3"
       ],
-      "correctAnswer": "a-2, b-4, c-1, d-3"
+      "correctAnswer": "a-2, b-4, c-1, d-3",
+      "explanation": "In XSLT templates: (2) match=\"P//EM\" matches EM descendants inside P (a - Matching by ancestry); (4) select=\"@Units\" matches the Units attribute (b - Matching by attribute); (1) match=\"Greeting\" matches elements by tag name (c - Matching by name); and (3) match=\"/\" matches the document root (d - Matching by root)."
     },
     {
       "questionText": "_______ refers to adherence to basic XML syntax rules while _______ refers to adherence to the DTDs too.",
@@ -1032,7 +1061,8 @@
         "Internal DTDs, Validity",
         "Well-formed, Internal DTDs"
       ],
-      "correctAnswer": "Well-formed, Validity"
+      "correctAnswer": "Well-formed, Validity",
+      "explanation": "Well-formed refers to an XML document adhering to basic XML syntax rules (such as proper tag closure, nesting, and a single root element), while Validity refers to adherence to the rules defined in its DTD (or XML Schema) as well."
     },
     {
       "questionText": "Which of the following does the syntax <!ELEMENT element-name (child-name*)> represent?",
@@ -1042,7 +1072,8 @@
         "Zero or More Occurrences",
         "Zero or One Occurrences"
       ],
-      "correctAnswer": "Zero or More Occurrences"
+      "correctAnswer": "Zero or More Occurrences",
+      "explanation": "In an XML DTD element declaration, the asterisk (*) quantifier after child-name specifies that the child element can occur zero or more times inside element-name."
     },
     {
       "questionText": "The _______ tool is an automation tool that helps to create models, views, and controllers pre-filled with a template.",

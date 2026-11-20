@@ -8,87 +8,104 @@ const questions = [
     {
         questionText: "_______ functions in SQL are the numeric functions that are used to perform calculations by taking input values as arguments.",
         options: ["Numerical", "NULL", "Mathematical", "Date/Time"],
-        correctAnswer: "Mathematical"
+        correctAnswer: "Mathematical",
+        explanation: "Mathematical functions in SQL (such as ABS(), ROUND(), CEIL(), FLOOR(), POW(), and MOD()) are numeric functions that take input values as arguments, perform calculations, and return numeric results."
     },
     {
         questionText: "The _____ FUNCTION command is used to remove a function (if it exists) from the database.",
         options: ["DISC", "DROP", "SUBDATE", "REGEXP_INSTR"],
-        correctAnswer: "DROP"
+        correctAnswer: "DROP",
+        explanation: "In MySQL/SQL, the DROP FUNCTION [IF EXISTS] function_name; command is used to permanently remove a stored function from the database."
     },
     {
         questionText: "_____ clause is used in SELECT statements to define filter conditions for a group of rows.",
         options: ["HIDDEN", "HAD", "HAVE_TO", "HAVING"],
-        correctAnswer: "HAVING"
+        correctAnswer: "HAVING",
+        explanation: "The HAVING clause is used in SELECT statements (typically with GROUP BY) to specify filter conditions for a group of rows or aggregate values, whereas WHERE filters individual rows before grouping."
     },
     {
         questionText: "In which of the following ways does the replication topology manager help?",
         options: ["Store topology and its status", "Lets GUI, CUI, API to check status and perform required operations", "Supports automatic failure of master", "All of these"],
-        correctAnswer: "All of these"
+        correctAnswer: "All of these",
+        explanation: "A replication topology manager stores the replication topology and its status, enables GUI/CUI/API interfaces to check status and perform operations, and supports automatic failover of the master."
     },
     {
         questionText: "In _______ partitioning, data distribution is done on the basis of predefined number of partitions.",
         options: ["List", "Hash", "Range", "Key"],
-        correctAnswer: "Hash"
+        correctAnswer: "Hash",
+        explanation: "In HASH partitioning (PARTITION BY HASH(expr) PARTITIONS num), MySQL distributes data evenly across a predefined number of partitions based on the hash/modulus of a user-defined expression."
     },
     {
         questionText: "Only after a _____ operation is performed in a particular transaction, changes of the respective can be read or seen by other transaction.",
         options: ["COMMIT", "CONSTANT", "DONE", "FINAL"],
-        correctAnswer: "COMMIT"
+        correctAnswer: "COMMIT",
+        explanation: "A COMMIT operation permanently saves all changes made in the current transaction so they become visible to other transactions."
     },
     {
         questionText: "Which MySQL Database backup is created by copying the database files?",
         options: ["Logical backup by using MySQLdump", "Partial backup", "Physical backup", "Hot backup"],
-        correctAnswer: "Physical backup"
+        correctAnswer: "Physical backup",
+        explanation: "A physical backup is created by directly copying raw database directories and files (data files, log files, and configuration files), whereas a logical backup exports SQL statements using tools like mysqldump."
     },
     {
         questionText: "The _____ is used to select all the rows from the table.",
         options: ["Dollar symbol", "Hash symbol", "Question mark", "Asterisk symbol"],
-        correctAnswer: "Asterisk symbol"
+        correctAnswer: "Asterisk symbol",
+        explanation: "In SQL (SELECT * FROM table_name;), the asterisk symbol (*) wildcard is used to select all columns and rows from a table."
     },
     {
         questionText: "Which keyword is used to retrieve records by checking the possible values from a given column?",
         options: ["CHECK", "CALC", "IN", "GAIN"],
-        correctAnswer: "IN"
+        correctAnswer: "IN",
+        explanation: "The IN keyword in a WHERE clause (WHERE column_name IN (val1, val2, ...)) retrieves records by checking whether a column's value matches any value in a specified list of possible values."
     },
     {
         questionText: "A _____ clause with a single expression fetches unique values from one column.",
         options: ["BETWEEN", "DISTINCT", "SELECT", "EXP"],
-        correctAnswer: "DISTINCT"
+        correctAnswer: "DISTINCT",
+        explanation: "The DISTINCT clause (SELECT DISTINCT column_name) eliminates duplicate values and fetches only unique values from a column."
     },
     {
         questionText: "Which feature is used to combine and retrieve data from more than one table?",
         options: ["MySQL JOIN", "MySQL LINK", "MySQL RET", "MySQL ADD"],
-        correctAnswer: "MySQL JOIN"
+        correctAnswer: "MySQL JOIN",
+        explanation: "MySQL JOIN is used in SELECT queries to combine and retrieve related data from two or more tables based on a related column between them."
     },
     {
         questionText: "When subqueries are used along with JOINS, the subquery is written using the _____ clause.",
         options: ["SET", "ATTACH", "WITH", "FROM"],
-        correctAnswer: "FROM"
+        correctAnswer: "FROM",
+        explanation: "When subqueries (derived tables) are used along with JOINs, the subquery is placed in the FROM clause and assigned an alias so it can be joined with other tables."
     },
     {
         questionText: "Which is the default JOIN clause?",
         options: ["CROSS JOIN", "SELF JOIN", "INNER JOIN", "OUTER JOIN"],
-        correctAnswer: "INNER JOIN"
+        correctAnswer: "INNER JOIN",
+        explanation: "INNER JOIN is the default JOIN clause in SQL/MySQL; using the JOIN keyword without a prefix automatically performs an INNER JOIN."
     },
     {
         questionText: "A ___ is a nested query inside another query.",
         options: ["Setquery", "Subquery", "Onequery", "Nestquery"],
-        correctAnswer: "Subquery"
+        correctAnswer: "Subquery",
+        explanation: "A subquery (or inner query) is a query nested inside another SQL query such as SELECT, INSERT, UPDATE, or DELETE."
     },
     {
         questionText: "Which single row operator checks values less than the values returned by the subquery?",
         options: ["Less Than (<)", "Equal To (=)", "More Than (>)", "Less Than Equal To (<=)"],
-        correctAnswer: "Less Than (<)"
+        correctAnswer: "Less Than (<)",
+        explanation: "The single-row comparison operator Less Than (<) checks for values strictly less than the single value returned by the subquery."
     },
     {
         questionText: "Which multiple row operator returns the values less than the highest value of the list returned by the subquery?",
         options: [">ALL", ">ANY", "<ALL", "<ANY"],
-        correctAnswer: "<ANY"
+        correctAnswer: "<ANY",
+        explanation: "The multiple-row operator <ANY returns values that are less than at least one value in the subquery list, which means less than the highest (maximum) value returned by the subquery."
     },
     {
         questionText: "_______ in MySQL can be defined as a program that performs independent operations.",
         options: ["Functions", "Programmes", "Application", "Management"],
-        correctAnswer: "Functions"
+        correctAnswer: "Functions",
+        explanation: "In MySQL, Functions are reusable stored or built-in programs that perform independent operations or calculations and return a value."
     },
     {
         questionText: "________ is an example of social media.",

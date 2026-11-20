@@ -84,6 +84,19 @@ export default function SeoOverviewSection({ data, onNavigate, onInspectIssue })
                     >
                         PageSpeed: Ready
                     </button>
+                    <button
+                        type="button"
+                        onClick={() => onNavigate('backlinks')}
+                        className={`px-2.5 py-1 rounded-full font-semibold border cursor-pointer transition-colors ${
+                            integrations.openPageRankConnected
+                                ? 'bg-[#E5F2EC] text-[#193D35] border-[#BBE0CE] dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800/60'
+                                : integrations.openPageRankStatus === 'Invalid API Key' || integrations.openPageRankStatus === 'Quota Exceeded'
+                                    ? 'bg-[#FCEEED] text-[#B91C1C] border-[#F8C9C6] dark:bg-red-950/50 dark:text-red-300 dark:border-red-800/60'
+                                    : 'bg-[#F7F8F6] text-[#75817C] border-[#E4EAE6] dark:bg-[#1F2D27] dark:text-[#8FA69C] dark:border-[#2A3832]'
+                        }`}
+                    >
+                        OpenPageRank: {integrations.openPageRankStatus || 'Not Configured'}
+                    </button>
                 </div>
             </div>
 

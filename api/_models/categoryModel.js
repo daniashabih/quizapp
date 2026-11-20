@@ -47,7 +47,8 @@ const DEFAULT_CATEGORIES = [
     { name: 'Power BI', sessions: [1, 2, 3] },
     { name: 'Excel', sessions: [1, 2, 3] },
     { name: 'C#', sessions: CSHARP_SESSION_NUMBERS, questionCount: CSHARP_QUIZ_QUESTIONS.length },
-    { name: 'Material UI', sessions: [1, 2, 3] }
+    { name: 'Material UI', sessions: [1, 2, 3] },
+    { name: 'PHP, XML JSON, Laravel, MySQL, JavaScript', sessions: [1], questionCount: 149 }
 ];
 
 const Category = {

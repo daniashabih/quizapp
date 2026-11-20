@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hangbug/core/theme/app_theme.dart';
 import 'package:hangbug/models/seo_dashboard_model.dart';
 import 'package:hangbug/screens/admin/seo/widgets/seo_charts.dart';
+import 'package:hangbug/screens/admin/seo/widgets/seo_sections_secondary.dart';
 import 'package:hangbug/screens/admin/seo/widgets/seo_theme_tokens.dart';
 
 void main() {
@@ -177,5 +178,101 @@ void main() {
     expect(find.text('88'), findsOneWidget);
     expect(find.text('Organic Traffic'), findsOneWidget);
     expect(find.text('Not connected'), findsOneWidget);
+  });
+
+  testWidgets(
+      'SeoTechnicalTab renders cached PageSpeed reports, mobile & desktop performance, and quota exhaustion message without zeroing scores',
+      (WidgetTester tester) async {
+    final payload = SeoDashboardPayload.fromJson({
+      'success': true,
+      'data': {
+        'project': {
+          'domain': 'www.hangbug.com',
+          'siteUrl': 'https://www.hangbug.com',
+          'integrations': {
+            'pagespeedHasKey': true,
+            'pagespeedQuotaExhausted': true,
+          },
+        },
+        'overview': {
+          'domain': 'www.hangbug.com',
+          'siteUrl': 'https://www.hangbug.com',
+          'metrics': [],
+        },
+        'healthScore': {'overall': 92, 'categories': []},
+        'technical': {
+          'pageSpeed': {
+            'status': 'Good',
+            'lastAuditedAt': '2026-11-20T12:00:00.000Z',
+            'nextRetryAt': '2026-11-21T08:00:00.000Z',
+            'mobile': {
+              'url': 'https://www.hangbug.com/',
+              'path': '/',
+              'strategy': 'mobile',
+              'checkedAt': '2026-11-20T12:00:00.000Z',
+              'scores': {
+                'performance': 91,
+                'accessibility': 96,
+                'bestPractices': 95,
+                'seo': 100,
+              },
+              'coreWebVitals': {
+                'lcp': {'displayValue': '1.8 s', 'status': 'Good'},
+              },
+            },
+            'desktop': {
+              'url': 'https://www.hangbug.com/',
+              'path': '/',
+              'strategy': 'desktop',
+              'checkedAt': '2026-11-20T12:05:00.000Z',
+              'scores': {
+                'performance': 98,
+                'accessibility': 97,
+                'bestPractices': 100,
+                'seo': 100,
+              },
+              'coreWebVitals': {
+                'lcp': {'displayValue': '0.9 s', 'status': 'Good'},
+              },
+            },
+            'quotaState': {
+              'exhausted': true,
+              'errorCategory': 'daily_quota_exceeded',
+              'userMessage':
+                  'Google PageSpeed API daily quota has been reached. Previously cached reports are still available. Please try again after the quota resets.',
+              'message':
+                  "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com'.",
+              'projectNumber': '583797351490',
+              'nextRetryAt': '2026-11-21T08:00:00.000Z',
+            },
+          },
+        },
+      },
+    });
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.lightTheme,
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: SeoTechnicalTab(
+              data: payload,
+              onRunPageSpeed: (url, strategy, {bool forceRefresh = false}) async {},
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(
+      find.text(
+        'Google PageSpeed API daily quota has been reached. Previously cached reports are still available. Please try again after the quota resets.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.textContaining('Mobile Performance: 91/100'), findsOneWidget);
+    expect(find.textContaining('Desktop Performance: 98/100'), findsOneWidget);
+    expect(find.textContaining('Cached Report (Quota Fallback)'), findsOneWidget);
+    expect(find.textContaining('Next Available Retry: 2026-11-21T08:00:00.000Z'), findsOneWidget);
   });
 }

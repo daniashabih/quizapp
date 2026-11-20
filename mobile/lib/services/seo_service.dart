@@ -167,11 +167,16 @@ class SeoService {
 
   Future<Map<String, dynamic>> testIntegration(
     String domain,
-    String target,
-  ) async {
+    String target, {
+    String? apiKey,
+  }) async {
     final response = await apiClient.post(
       ApiEndpoints.adminSeoTestIntegration,
-      data: {'domain': domain, 'target': target},
+      data: {
+        'domain': domain,
+        'target': target,
+        if (apiKey != null && apiKey.trim().isNotEmpty) 'apiKey': apiKey.trim(),
+      },
       options: Options(receiveTimeout: const Duration(seconds: 30)),
     );
     final data = response.data as Map<String, dynamic>;
@@ -188,5 +193,33 @@ class SeoService {
     );
     final data = response.data as Map<String, dynamic>;
     return data['message']?.toString() ?? 'Backlinks imported.';
+  }
+
+  Future<String> importBacklinksCsv({
+    String domain = 'www.hangbug.com',
+    required String csvText,
+    String fileName = 'gsc-links-export.csv',
+  }) async {
+    final response = await apiClient.post(
+      ApiEndpoints.adminSeoImportBacklinks,
+      data: {
+        'domain': domain,
+        'csvText': csvText,
+        'fileName': fileName,
+      },
+    );
+    final data = response.data as Map<String, dynamic>;
+    return data['message']?.toString() ?? 'Google Search Console Links CSV imported.';
+  }
+
+  Future<String> clearImportedBacklinks({
+    String domain = 'www.hangbug.com',
+  }) async {
+    final response = await apiClient.delete(
+      ApiEndpoints.adminSeoImportBacklinks,
+      queryParameters: {'domain': domain},
+    );
+    final data = response.data as Map<String, dynamic>;
+    return data['message']?.toString() ?? 'Cleared imported GSC Links report.';
   }
 }

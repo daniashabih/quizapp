@@ -213,6 +213,50 @@ class _AdminSeoDashboardScreenState
     }
   }
 
+  Future<void> _importBacklinksCsv(String csvText, String fileName) async {
+    try {
+      final domain = ref.read(seoDomainProvider);
+      final msg = await ref.read(seoServiceProvider).importBacklinksCsv(
+            domain: domain,
+            csvText: csvText,
+            fileName: fileName,
+          );
+      ref.invalidate(seoDashboardProvider);
+      AppNotificationService.success(
+        id: 'seo-bl-csv-ok',
+        title: 'GSC Links Report Imported',
+        message: msg,
+      );
+    } catch (e) {
+      AppNotificationService.error(
+        id: 'seo-bl-csv-err',
+        title: 'CSV Import Failed',
+        message: e.toString().replaceFirst('Exception: ', ''),
+      );
+    }
+  }
+
+  Future<void> _clearImportedBacklinks() async {
+    try {
+      final domain = ref.read(seoDomainProvider);
+      final msg = await ref
+          .read(seoServiceProvider)
+          .clearImportedBacklinks(domain: domain);
+      ref.invalidate(seoDashboardProvider);
+      AppNotificationService.info(
+        id: 'seo-bl-clear-ok',
+        title: 'Snapshot Cleared',
+        message: msg,
+      );
+    } catch (e) {
+      AppNotificationService.error(
+        id: 'seo-bl-clear-err',
+        title: 'Clear Failed',
+        message: e.toString().replaceFirst('Exception: ', ''),
+      );
+    }
+  }
+
   Future<void> _saveSettings(Map<String, dynamic> payload) async {
     try {
       final domain = ref.read(seoDomainProvider);
@@ -234,9 +278,16 @@ class _AdminSeoDashboardScreenState
     }
   }
 
-  Future<Map<String, dynamic>> _testIntegration(String target) async {
+  Future<Map<String, dynamic>> _testIntegration(
+    String target, {
+    String? apiKey,
+  }) async {
     final domain = ref.read(seoDomainProvider);
-    return ref.read(seoServiceProvider).testIntegration(domain, target);
+    final res = await ref
+        .read(seoServiceProvider)
+        .testIntegration(domain, target, apiKey: apiKey);
+    ref.invalidate(seoDashboardProvider);
+    return res;
   }
 
   Widget _buildActiveTab(
@@ -280,6 +331,9 @@ class _AdminSeoDashboardScreenState
         return SeoBacklinksTab(
           data: data,
           onImportLinks: _importBacklinks,
+          onImportCsv: _importBacklinksCsv,
+          onClearImport: _clearImportedBacklinks,
+          onTestOpenPageRank: () => _testIntegration('openpagerank'),
           onOpenSettings: () =>
               ref.read(seoActiveSectionProvider.notifier).state = 'settings',
         );

@@ -80,10 +80,15 @@ async function syncToLive() {
             const existingSession = existing.session || 1;
             const existingExp = existing.explanation || '';
             const targetExp = q.explanation || existingExp;
+            const existingAns = existing.correct_answer || existing.correctAnswer || '';
+            const existingOpts = Array.isArray(existing.options)
+                ? existing.options
+                : (typeof existing.options === 'string' ? JSON.parse(existing.options) : []);
             const needsMove = existingSession !== SESSION_NUMBER;
             const needsExplanationSync = Boolean(targetExp) && targetExp !== existingExp;
+            const needsAnswerSync = existingAns !== q.correctAnswer || JSON.stringify(existingOpts) !== JSON.stringify(q.options);
 
-            if (!needsMove && !needsExplanationSync) {
+            if (!needsMove && !needsExplanationSync && !needsAnswerSync) {
                 skipped++;
                 continue;
             }
@@ -109,6 +114,9 @@ async function syncToLive() {
                 if (needsMove) {
                     console.log(`  [${i + 1}/${questions.length}] 🔄 Moved Session ${existingSession} -> Session ${SESSION_NUMBER}: "${q.questionText.substring(0, 45)}..."`);
                     moved++;
+                } else if (needsAnswerSync) {
+                    console.log(`  [${i + 1}/${questions.length}] 🔄 Updated answer/options: "${q.questionText.substring(0, 45)}..."`);
+                    updated++;
                 } else {
                     console.log(`  [${i + 1}/${questions.length}] 🔄 Updated explanation: "${q.questionText.substring(0, 45)}..."`);
                     updated++;
