@@ -36,4 +36,6 @@ class DateFormatter {
       return 'Recently';
     }
   }
+
+  static String formatRelativeFromString(String? dateStr) => timeAgo(dateStr);
 }
