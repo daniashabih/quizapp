@@ -13,6 +13,7 @@ const blogController = require('../_controllers/blogController');
 const knowledgeBaseController = require('../_controllers/knowledgeBaseController');
 const verificationController = require('../_controllers/verificationController');
 const aiController = require('../_controllers/aiController');
+const bookQuizController = require('../_controllers/bookQuizController');
 const seoDashboardController = require('../_controllers/seoDashboardController');
 const { MAX_BOOK_FILE_SIZE_BYTES } = require('../_services/bookExtractorService');
 const Setting = require('../_models/settingModel');
@@ -275,5 +276,24 @@ router.put('/seo/settings', seoDashboardController.updateSeoSettings);
 router.post('/seo/integrations/test', seoDashboardController.testSeoIntegration);
 router.post('/seo/backlinks/import', seoDashboardController.importBacklinks);
 router.delete('/seo/backlinks/import', seoDashboardController.clearImportedBacklinks);
+
+// Admin PDF Book -> Session-Wise AI MCQ Generator Routes
+router.get('/book-quiz/jobs', bookQuizController.listJobs);
+router.post('/book-quiz/jobs/upload', bookUpload.single('file'), bookQuizController.uploadPdfDirect);
+router.post('/book-quiz/jobs/init-upload', bookQuizController.initChunkedPdfUpload);
+router.get('/book-quiz/jobs/:id', bookQuizController.getJobDetails);
+router.delete('/book-quiz/jobs/:id', bookQuizController.deleteJob);
+router.post('/book-quiz/jobs/:id/upload-part', bookUpload.single('chunk'), bookQuizController.uploadPdfPart);
+router.post('/book-quiz/jobs/:id/finalize-upload', bookQuizController.finalizeChunkedPdfUpload);
+router.post('/book-quiz/jobs/:id/extract-step', bookQuizController.runExtractStep);
+router.post('/book-quiz/jobs/:id/start', bookQuizController.startGeneration);
+router.post('/book-quiz/jobs/:id/step', bookQuizController.runGenerationStep);
+router.post('/book-quiz/jobs/:id/pause', bookQuizController.pauseGeneration);
+router.post('/book-quiz/jobs/:id/resume', bookQuizController.resumeGeneration);
+router.post('/book-quiz/jobs/:id/sessions/:sessionNumber/retry', bookQuizController.retryFailedSession);
+router.get('/book-quiz/jobs/:id/questions', bookQuizController.previewQuestions);
+router.patch('/book-quiz/jobs/:id/sessions/:sessionNumber/questions/:uid', bookQuizController.updateStagedQuestion);
+router.post('/book-quiz/jobs/:id/upload-questions', bookQuizController.uploadApprovedQuestions);
+router.post('/book-quiz/jobs/:id/cancel', bookQuizController.cancelProcessing);
 
 module.exports = router;
