@@ -249,12 +249,6 @@ test('RAG Book Verification System: All 10 End-to-End Scenarios', async () => {
             embeddingCallCount += texts.length;
             return texts.map(deterministicEmbed);
         },
-        ocrPdfWithMultimodalAI: async () => ([
-            {
-                pageNumber: 1,
-                text: 'Chapter 1 Scanned CSS Flexbox Guide\nIn CSS Flexbox, justify-content aligns flex items along the main axis, whereas align-items aligns items along the cross axis.'
-            }
-        ]),
         evaluateQuestionWithEvidence: async ({ questionText, options, originalCorrectAnswer, evidenceChunks }) => {
             llmCallCount++;
             const top = evidenceChunks[0];
