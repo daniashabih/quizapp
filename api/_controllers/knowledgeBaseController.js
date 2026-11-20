@@ -1,6 +1,7 @@
 const prisma = require('../_config/prisma');
 const { normalizeTechnology, getSupportedTechnologies } = require('../_utils/ragTechnology');
-const { getActiveProviderInfo } = require('../_services/aiProviderService');
+const { getDetailedProviderInfo } = require('../_services/aiProviderService');
+const { redactSecrets } = require('../_services/aiUsageService');
 const {
     getAtlasVectorIndexDefinition,
     ensureAtlasVectorSearchIndex,
@@ -8,13 +9,22 @@ const {
 } = require('../_services/vectorSearchService');
 const {
     PROCESSING_STATUSES,
+    PROCESSING_STAGES,
+    IN_PROGRESS_STATUS_LIST,
+    DEFAULT_STEP_TIME_BUDGET_MS,
+    isServerlessRuntime,
+    isInProgressStatus,
+    inferProcessingStage,
+    isBookProcessingStalled,
     createAndQueueBook,
     replaceBookFile,
+    runBookProcessingStep,
     processBookById,
     scheduleBookProcessing,
     findDuplicateBook
 } = require('../_services/bookProcessingService');
 const {
+    normalizeBuffer,
     validateUploadedBookFile,
     sanitizeFileName,
     sha256,
@@ -22,6 +32,17 @@ const {
 } = require('../_services/bookExtractorService');
 
 function formatBook(book) {
+    const inferredStage = inferProcessingStage(book);
+    const stalled = isBookProcessingStalled(book);
+    const inProgress = isInProgressStatus(book.processingStatus);
+    const resolvedEmbeddingMode = book.embeddingMode ||
+        (book.embeddingModel === 'text-fallback'
+            ? 'text_fallback'
+            : (book.embeddingDimensions > 0 ? 'vector' : (book.indexedChunks > 0 ? 'text_fallback' : '')));
+    const resolvedEmbeddingDimensions = book.embeddingDimensions !== null && book.embeddingDimensions !== undefined
+        ? Number(book.embeddingDimensions)
+        : (resolvedEmbeddingMode === 'text_fallback' ? 0 : getDetailedProviderInfo().embeddingDimensions);
+
     return {
         id: book.id,
         title: book.title,
@@ -37,14 +58,22 @@ function formatBook(book) {
         fileHash: book.fileHash,
         isEnabled: book.isEnabled !== false,
         processingStatus: book.processingStatus,
+        processingStage: inferredStage,
         processingProgress: book.processingProgress || 0,
         processingError: book.processingError || '',
+        processingAttempts: book.processingAttempts || 0,
+        extractedPagesCount: book.extractedPagesCount || 0,
+        embeddedChunksCount: book.embeddedChunksCount || 0,
+        embeddingMode: resolvedEmbeddingMode,
+        isStalled: stalled,
+        canResume: (inProgress && stalled) || book.processingStatus === PROCESSING_STATUSES.FAILED,
+        lastHeartbeatAt: book.processingHeartbeatAt || book.updatedAt || book.createdAt,
         ocrUsed: Boolean(book.ocrUsed),
         totalPages: book.totalPages || 0,
         totalChunks: book.totalChunks || 0,
         indexedChunks: book.indexedChunks || 0,
         embeddingModel: book.embeddingModel || '',
-        embeddingDimensions: book.embeddingDimensions || getActiveProviderInfo().embeddingDimensions,
+        embeddingDimensions: resolvedEmbeddingDimensions,
         knowledgeVersion: book.knowledgeVersion || 1,
         uploadedBy: book.uploadedBy || '',
         lastIndexedAt: book.lastIndexedAt,
@@ -68,7 +97,7 @@ async function getKnowledgeBaseStatus(req, res) {
             prisma.knowledgeBook.count({ where: { processingStatus: PROCESSING_STATUSES.FAILED } })
         ]);
 
-        const aiProvider = getActiveProviderInfo();
+        const aiProvider = getDetailedProviderInfo();
         res.json({
             success: true,
             aiProvider,
@@ -143,15 +172,7 @@ async function listBooks(req, res) {
         const summary = {
             totalBooks: allBooksSummary.length,
             activeBooks: allBooksSummary.filter(b => b.isEnabled && b.processingStatus === PROCESSING_STATUSES.COMPLETED).length,
-            processingBooks: allBooksSummary.filter(b =>
-                [
-                    PROCESSING_STATUSES.UPLOADED,
-                    PROCESSING_STATUSES.PROCESSING,
-                    PROCESSING_STATUSES.EXTRACTING_TEXT,
-                    PROCESSING_STATUSES.GENERATING_EMBEDDINGS,
-                    PROCESSING_STATUSES.INDEXING
-                ].includes(b.processingStatus)
-            ).length,
+            processingBooks: allBooksSummary.filter(b => IN_PROGRESS_STATUS_LIST.includes(b.processingStatus)).length,
             failedBooks: allBooksSummary.filter(b => b.processingStatus === PROCESSING_STATUSES.FAILED).length,
             totalPages: allBooksSummary.reduce((sum, b) => sum + (b.totalPages || 0), 0),
             totalIndexedChunks: allBooksSummary.reduce((sum, b) => sum + (b.indexedChunks || 0), 0)
@@ -162,7 +183,7 @@ async function listBooks(req, res) {
             books: books.map(formatBook),
             summary,
             technologies,
-            aiProvider: getActiveProviderInfo()
+            aiProvider: getDetailedProviderInfo()
         });
     } catch (err) {
         console.error('[KnowledgeBase List Error]:', err);
@@ -235,9 +256,11 @@ async function uploadBook(req, res) {
 
         res.status(processSync ? 201 : 202).json({
             success: true,
+            requiresStepProcessing: !processSync,
+            processingMode: isServerlessRuntime() ? 'resumable_step_endpoint' : 'background_and_step',
             message: processSync
                 ? 'Reference book uploaded and indexed successfully.'
-                : 'Reference book uploaded! Background text extraction and vector indexing has started.',
+                : 'Reference book uploaded! Starting document extraction and indexing...',
             book: formatBook(book)
         });
     } catch (err) {
@@ -333,7 +356,11 @@ async function initChunkedUpload(req, res) {
                 totalParts: Number(totalParts) || 1,
                 isEnabled: true,
                 processingStatus: PROCESSING_STATUSES.UPLOADED,
-                processingProgress: 2,
+                processingStage: PROCESSING_STAGES.UPLOADED,
+                processingProgress: 5,
+                processingError: '',
+                processingLockId: '',
+                processingHeartbeatAt: new Date(),
                 uploadedBy: req.user?.email || req.user?.name || 'admin'
             }
         });
@@ -399,8 +426,14 @@ async function finalizeChunkedUpload(req, res) {
         if (parts.length === 0) {
             return res.status(400).json({ success: false, message: 'No uploaded file chunks found.' });
         }
+        if (book.totalParts > 0 && parts.length < book.totalParts) {
+            return res.status(400).json({
+                success: false,
+                message: `Incomplete file upload: received ${parts.length} of ${book.totalParts} parts. Please retry the upload.`
+            });
+        }
 
-        const fullBuffer = Buffer.concat(parts.map(p => Buffer.from(p.data)));
+        const fullBuffer = Buffer.concat(parts.map(p => normalizeBuffer(p.data)));
         const validated = validateUploadedBookFile({
             buffer: fullBuffer,
             originalname: book.fileName,
@@ -411,6 +444,7 @@ async function finalizeChunkedUpload(req, res) {
             where: { fileHash: validated.fileHash, id: { not: book.id } }
         });
         if (dupHash) {
+            await prisma.knowledgeBookFilePart.deleteMany({ where: { bookId: book.id } }).catch(() => {});
             await prisma.knowledgeBook.delete({ where: { id: book.id } }).catch(() => {});
             return res.status(409).json({
                 success: false,
@@ -425,25 +459,90 @@ async function finalizeChunkedUpload(req, res) {
                 fileSize: validated.fileSize,
                 totalParts: parts.length,
                 processingStatus: PROCESSING_STATUSES.UPLOADED,
-                processingProgress: 5
+                processingStage: PROCESSING_STAGES.UPLOADED,
+                processingProgress: 10,
+                processingError: '',
+                processingLockId: '',
+                processingLockedAt: null,
+                processingHeartbeatAt: new Date()
             }
         });
 
         const processSync = String(req.query?.sync || req.body?.sync || '') === 'true';
         if (processSync) {
-            const result = await processBookById(book.id, { preloadedBuffer: fullBuffer });
+            const result = await processBookById(book.id, { preloadedBuffer: fullBuffer, forceReextract: true });
             return res.json({ success: true, book: formatBook(result.book) });
         }
 
         scheduleBookProcessing(book.id, fullBuffer);
         res.status(202).json({
             success: true,
-            message: 'Upload finalized. Background extraction and indexing started.',
+            requiresStepProcessing: true,
+            processingMode: isServerlessRuntime() ? 'resumable_step_endpoint' : 'background_and_step',
+            message: 'Upload finalized. Starting document extraction and indexing...',
             book: formatBook(updated)
         });
     } catch (err) {
         console.error('[KnowledgeBase Finalize Upload Error]:', err);
         res.status(err.status || 500).json({ success: false, message: err.message || 'Failed to finalize upload.' });
+    }
+}
+
+/**
+ * POST /api/admin/knowledge-base/books/:id/process-step
+ * POST /api/admin/knowledge-base/books/:id/resume
+ * Executes one resumable, lock-protected, time-bounded processing step (Vercel-safe).
+ */
+async function processBookStep(req, res) {
+    try {
+        const { id } = req.params;
+        const requestedBudget = parseInt(req.body?.timeBudgetMs ?? req.query?.timeBudgetMs ?? '', 10);
+        const timeBudgetMs = Number.isFinite(requestedBudget)
+            ? Math.min(30000, Math.max(5000, requestedBudget))
+            : DEFAULT_STEP_TIME_BUDGET_MS;
+        const forceReextract = Boolean(req.body?.forceReextract || req.query?.forceReextract === 'true');
+
+        const result = await runBookProcessingStep(String(id), {
+            timeBudgetMs,
+            forceReextract
+        });
+
+        res.json({
+            success: true,
+            done: Boolean(result.done),
+            locked: Boolean(result.locked),
+            alreadyCompleted: Boolean(result.alreadyCompleted),
+            needsMoreSteps: Boolean(result.needsMoreSteps),
+            stage: result.stage || inferProcessingStage(result.book),
+            progress: result.progress ?? result.book?.processingProgress ?? 0,
+            reusedEmbeddings: result.reusedEmbeddings || 0,
+            generatedEmbeddings: result.generatedEmbeddings || 0,
+            book: formatBook(result.book)
+        });
+    } catch (err) {
+        if (err?.status === 404) {
+            return res.status(404).json({ success: false, message: err.message || 'Reference book not found.' });
+        }
+
+        console.error('[KnowledgeBase Process Step Error]:', redactSecrets(err?.message || 'Processing error'));
+        const failedBook = await prisma.knowledgeBook.findUnique({ where: { id: String(req.params.id) } }).catch(() => null);
+        if (failedBook) {
+            return res.status(200).json({
+                success: false,
+                done: true,
+                failed: true,
+                needsMoreSteps: false,
+                message: failedBook.processingError || err.message || 'Book processing failed.',
+                book: formatBook(failedBook)
+            });
+        }
+
+        res.status(err.status || 500).json({
+            success: false,
+            done: true,
+            failed: true,
+            message: err.message || 'Failed to process reference book step.'
+        });
     }
 }
 
@@ -532,6 +631,7 @@ async function replaceBook(req, res) {
         res.status(result.skippedReembedding || processSync ? 200 : 202).json({
             success: true,
             skippedReembedding: Boolean(result.skippedReembedding),
+            requiresStepProcessing: !result.skippedReembedding && !processSync,
             message: result.message || 'Replacement book uploaded and queued for indexing.',
             book: formatBook(result.book)
         });
@@ -581,7 +681,7 @@ async function toggleBookEnabled(req, res) {
 
 /**
  * POST /api/admin/knowledge-base/books/:id/retry
- * Retry processing a failed (or re-index an existing) book
+ * Retry processing a failed, stalled, or completed (re-index) book safely.
  */
 async function retryBookProcessing(req, res) {
     try {
@@ -592,18 +692,47 @@ async function retryBookProcessing(req, res) {
         }
 
         const processSync = String(req.query?.sync || req.body?.sync || '') === 'true';
+        const forceReextract = Boolean(
+            req.body?.forceReextract ||
+            req.query?.forceReextract === 'true' ||
+            req.body?.mode === 'reindex'
+        );
+
+        const existingChunks = await prisma.knowledgeBookChunk.findMany({
+            where: { bookId: existing.id },
+            select: { id: true }
+        });
+
+        const canResumeFromEmbeddings = !forceReextract &&
+            existingChunks.length > 0 &&
+            existing.processingStatus !== PROCESSING_STATUSES.COMPLETED;
+
+        const nextStage = canResumeFromEmbeddings
+            ? PROCESSING_STAGES.GENERATING_EMBEDDINGS
+            : PROCESSING_STAGES.UPLOADED;
+        const nextStatus = canResumeFromEmbeddings
+            ? PROCESSING_STATUSES.GENERATING_EMBEDDINGS
+            : PROCESSING_STATUSES.UPLOADED;
+        const nextProgress = canResumeFromEmbeddings
+            ? Math.max(70, Math.min(89, existing.processingProgress || 70))
+            : 10;
 
         const updated = await prisma.knowledgeBook.update({
             where: { id: existing.id },
             data: {
-                processingStatus: PROCESSING_STATUSES.PROCESSING,
-                processingProgress: 5,
-                processingError: ''
+                processingStatus: nextStatus,
+                processingStage: nextStage,
+                processingProgress: nextProgress,
+                processingError: '',
+                processingLockId: '',
+                processingLockedAt: null,
+                processingHeartbeatAt: new Date(),
+                processingAttempts: 0
             }
         });
 
         if (processSync) {
-            const result = await processBookById(existing.id);
+            const result = await processBookById(existing.id, { forceReextract: !canResumeFromEmbeddings });
             return res.json({
                 success: true,
                 message: 'Book re-processed successfully.',
@@ -616,7 +745,10 @@ async function retryBookProcessing(req, res) {
         scheduleBookProcessing(existing.id);
         res.status(202).json({
             success: true,
-            message: 'Retry started in background.',
+            requiresStepProcessing: true,
+            message: canResumeFromEmbeddings
+                ? 'Resuming embedding generation from saved chunks...'
+                : 'Re-processing started.',
             book: formatBook(updated)
         });
     } catch (err) {
@@ -674,6 +806,7 @@ module.exports = {
     initChunkedUpload,
     uploadBookPart,
     finalizeChunkedUpload,
+    processBookStep,
     updateBookMetadata,
     replaceBook,
     toggleBookEnabled,

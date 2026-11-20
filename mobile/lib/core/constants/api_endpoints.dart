@@ -90,6 +90,7 @@ class ApiEndpoints {
   static String adminKnowledgeBaseBookById(String id) => '/admin/knowledge-base/books/$id';
   static String adminKnowledgeBaseBookUploadPart(String id) => '/admin/knowledge-base/books/$id/upload-part';
   static String adminKnowledgeBaseBookFinalizeUpload(String id) => '/admin/knowledge-base/books/$id/finalize-upload';
+  static String adminKnowledgeBaseBookProcessStep(String id) => '/admin/knowledge-base/books/$id/process-step';
   static String adminKnowledgeBaseBookToggle(String id) => '/admin/knowledge-base/books/$id/toggle';
   static String adminKnowledgeBaseBookRetry(String id) => '/admin/knowledge-base/books/$id/retry';
   static String adminKnowledgeBaseBookReplace(String id) => '/admin/knowledge-base/books/$id/replace';

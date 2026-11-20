@@ -604,7 +604,7 @@ class _DialogSurfaceShell extends StatelessWidget {
                             ),
                           ],
 
-                          if (bodyExtra != null) bodyExtra!,
+                          ?bodyExtra,
 
                           if (errorText != null &&
                               errorText!.trim().isNotEmpty) ...[
@@ -976,10 +976,12 @@ class _HangbugStandardDialogCardState
       errorText: _errorText,
       isLoading: _isLoading,
       onClose: () => Navigator.of(context).pop(false),
-      footer: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      footer: Wrap(
+        alignment: WrapAlignment.end,
+        spacing: 10,
+        runSpacing: 8,
         children: [
-          if (widget.showCancel) ...[
+          if (widget.showCancel)
             OutlinedButton(
               style: _resolveActionStyle(HangbugActionVariant.secondary, isDark),
               onPressed: _isLoading
@@ -987,8 +989,6 @@ class _HangbugStandardDialogCardState
                   : () => Navigator.of(context).pop(false),
               child: Text(widget.cancelText),
             ),
-            const SizedBox(width: 10),
-          ],
           ElevatedButton(
             style: _resolveActionStyle(widget.confirmVariant, isDark),
             onPressed: (_isLoading || !_phraseMatched) ? null : _handleConfirm,
@@ -1166,8 +1166,10 @@ class _HangbugPromptDialogCardState extends State<_HangbugPromptDialogCard> {
           ),
         ],
       ),
-      footer: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      footer: Wrap(
+        alignment: WrapAlignment.end,
+        spacing: 10,
+        runSpacing: 8,
         children: [
           OutlinedButton(
             style: _resolveActionStyle(HangbugActionVariant.secondary, isDark),
@@ -1176,7 +1178,6 @@ class _HangbugPromptDialogCardState extends State<_HangbugPromptDialogCard> {
                 : () => Navigator.of(context).pop(null),
             child: Text(widget.cancelText),
           ),
-          const SizedBox(width: 10),
           ElevatedButton(
             style: _resolveActionStyle(HangbugActionVariant.primary, isDark),
             onPressed: _isLoading ? null : _handleSubmit,

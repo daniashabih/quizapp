@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const os = require('os');
 const path = require('path');
 const mammoth = require('mammoth');
 const { ocrPdfWithMultimodalAI } = require('./aiProviderService');
@@ -14,6 +15,43 @@ const ALLOWED_MIME_MAP = {
     ]),
     txt: new Set(['text/plain', 'text/markdown', 'application/octet-stream'])
 };
+
+let cachedPdfjsLib = null;
+
+/**
+ * Load PDF.js statically so Vercel's Node File Tracer (NFT) always bundles both
+ * pdf.js and pdf.worker.js without relying on pdf-parse's dynamic require string.
+ */
+function loadPdfjsLib() {
+    if (cachedPdfjsLib) return cachedPdfjsLib;
+
+    try {
+        // Explicit static reference so Vercel NFT traces the companion fake-worker bundle
+        require.resolve('pdf-parse/lib/pdf.js/v1.10.100/build/pdf.worker.js');
+    } catch {
+        // Worker file check is best-effort
+    }
+
+    const pdfjsLib = require('pdf-parse/lib/pdf.js/v1.10.100/build/pdf.js');
+    pdfjsLib.disableWorker = true;
+    cachedPdfjsLib = pdfjsLib;
+    return pdfjsLib;
+}
+
+/**
+ * Normalize Buffer / Uint8Array / ArrayBuffer into a standard Node Buffer.
+ */
+function normalizeBuffer(input) {
+    if (!input) return Buffer.alloc(0);
+    if (Buffer.isBuffer(input)) return input;
+    if (input instanceof Uint8Array) return Buffer.from(input.buffer, input.byteOffset, input.byteLength);
+    if (input instanceof ArrayBuffer) return Buffer.from(input);
+    if (Array.isArray(input)) return Buffer.from(input);
+    if (typeof input === 'object' && input.type === 'Buffer' && Array.isArray(input.data)) {
+        return Buffer.from(input.data);
+    }
+    return Buffer.from(input);
+}
 
 /**
  * Sanitize filename to prevent path traversal or injection
@@ -31,16 +69,51 @@ function sha256(input) {
 }
 
 /**
+ * Check if buffer starts with UTF-16 BOM
+ */
+function detectUtf16Bom(buf) {
+    if (!buf || buf.length < 2) return null;
+    if (buf[0] === 0xFF && buf[1] === 0xFE) return 'utf16le';
+    if (buf[0] === 0xFE && buf[1] === 0xFF) return 'utf16be';
+    return null;
+}
+
+/**
+ * Decode TXT file buffer cleanly (supports UTF-8 with/without BOM and UTF-16LE/BE).
+ */
+function decodeTextBuffer(buf) {
+    const utf16 = detectUtf16Bom(buf);
+    if (utf16 === 'utf16le') {
+        return buf.subarray(2).toString('utf16le');
+    }
+    if (utf16 === 'utf16be') {
+        const swapped = Buffer.from(buf.subarray(2));
+        for (let i = 0; i + 1 < swapped.length; i += 2) {
+            const tmp = swapped[i];
+            swapped[i] = swapped[i + 1];
+            swapped[i + 1] = tmp;
+        }
+        return swapped.toString('utf16le');
+    }
+    let text = buf.toString('utf8');
+    if (text.charCodeAt(0) === 0xFEFF) {
+        text = text.slice(1);
+    }
+    return text;
+}
+
+/**
  * Inspect magic bytes & validate uploaded reference book securely
  */
 function validateUploadedBookFile({ buffer, originalname, mimetype }) {
-    if (!Buffer.isBuffer(buffer) || buffer.length === 0) {
+    const fileBuffer = normalizeBuffer(buffer);
+    if (!Buffer.isBuffer(fileBuffer) || fileBuffer.length === 0) {
         const err = new Error('Uploaded file is empty or missing.');
         err.status = 400;
         throw err;
     }
 
-    if (buffer.length > MAX_BOOK_FILE_SIZE_BYTES) {
+    if (fileBuffer.length > MAX_BOOK_FILE_SIZE_BYTES) {
         const maxMb = Math.round(MAX_BOOK_FILE_SIZE_BYTES / (1024 * 1024));
         const err = new Error(`File exceeds maximum allowed size of ${maxMb} MB.`);
         err.status = 413;
@@ -65,27 +138,31 @@ function validateUploadedBookFile({ buffer, originalname, mimetype }) {
 
     // Magic-byte signature verification
     if (ext === 'pdf') {
-        const header = buffer.subarray(0, 8).toString('latin1');
+        // PDF header %PDF- must appear near start of file (PDF spec allows small leading preamble up to 1024 bytes)
+        const header = fileBuffer.subarray(0, Math.min(fileBuffer.length, 1024)).toString('latin1');
         if (!header.includes('%PDF-')) {
             const err = new Error('Invalid PDF file signature. Please upload a genuine PDF document.');
             err.status = 400;
             throw err;
         }
     } else if (ext === 'docx') {
-        const isZip = buffer.length >= 4 && buffer[0] === 0x50 && buffer[1] === 0x4B &&
-            (buffer[2] === 0x03 || buffer[2] === 0x05 || buffer[2] === 0x07);
+        const isZip = fileBuffer.length >= 4 && fileBuffer[0] === 0x50 && fileBuffer[1] === 0x4B &&
+            (fileBuffer[2] === 0x03 || fileBuffer[2] === 0x05 || fileBuffer[2] === 0x07);
         if (!isZip) {
             const err = new Error('Invalid DOCX file signature. Please upload a valid .docx file.');
             err.status = 400;
             throw err;
         }
     } else if (ext === 'txt') {
-        // Reject binary files disguised as .txt
-        const sample = buffer.subarray(0, Math.min(buffer.length, 4096));
-        if (sample.includes(0x00)) {
-            const err = new Error('Invalid TXT file: binary content detected.');
-            err.status = 400;
-            throw err;
+        // Reject binary files disguised as .txt (allow valid UTF-16 BOM text files)
+        const utf16 = detectUtf16Bom(fileBuffer);
+        if (!utf16) {
+            const sample = fileBuffer.subarray(0, Math.min(fileBuffer.length, 4096));
+            if (sample.includes(0x00)) {
+                const err = new Error('Invalid TXT file: binary content detected.');
+                err.status = 400;
+                throw err;
+            }
         }
     }
 
@@ -93,8 +170,8 @@ function validateUploadedBookFile({ buffer, originalname, mimetype }) {
         fileName: safeName,
         fileType: ext,
         mimeType: cleanMime,
-        fileSize: buffer.length,
-        fileHash: sha256(buffer)
+        fileSize: fileBuffer.length,
+        fileHash: sha256(fileBuffer)
     };
 }
 
@@ -103,6 +180,7 @@ function validateUploadedBookFile({ buffer, originalname, mimetype }) {
  */
 function sanitizeExtractedContent(text) {
     return String(text || '')
+        .replace(/\uFEFF/g, '')
         .replace(/\u0000/g, '')
         .replace(/[\x01-\x08\x0B\x0C\x0E-\x1F\x7F]/g, ' ')
         .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -145,7 +223,7 @@ function detectHeadingInText(text, fallbackChapter = '') {
  */
 function extractEmbeddedImagesFromPdf(pdfBuffer) {
     const images = [];
-    const maxImages = 30;
+    const maxImages = process.env.VERCEL ? 6 : 20;
 
     // 1. Scan for JPEG images (SOI: FF D8 FF ... EOI: FF D9)
     let offset = 0;
@@ -188,8 +266,20 @@ function extractEmbeddedImagesFromPdf(pdfBuffer) {
     return images;
 }
 
+function withPromiseTimeout(promise, ms, label = 'Operation') {
+    let timer;
+    return Promise.race([
+        promise,
+        new Promise((_, reject) => {
+            timer = setTimeout(() => {
+                reject(new Error(`${label} timed out after ${ms}ms.`));
+            }, ms);
+        })
+    ]).finally(() => clearTimeout(timer));
+}
+
 /**
- * Run OCR on a scanned PDF using multimodal AI (if configured) or Tesseract.js on embedded page images.
+ * Run OCR on a scanned PDF using multimodal AI (if configured) or bounded Tesseract.js on embedded page images.
  */
 async function performScannedPdfOcr(pdfBuffer) {
     // Strategy 1: Multimodal AI native PDF OCR (fastest & highest accuracy in serverless)
@@ -205,7 +295,7 @@ async function performScannedPdfOcr(pdfBuffer) {
         console.warn('[Book OCR] Multimodal PDF OCR fallback:', err.message);
     }
 
-    // Strategy 2: Extract embedded page images & run local Tesseract.js OCR
+    // Strategy 2: Extract embedded page images & run bounded local Tesseract.js OCR
     const embeddedImages = extractEmbeddedImagesFromPdf(pdfBuffer);
     if (embeddedImages.length === 0) {
         return { pages: [], ocrEngine: 'none' };
@@ -218,10 +308,24 @@ async function performScannedPdfOcr(pdfBuffer) {
         return { pages: [], ocrEngine: 'unavailable' };
     }
 
+    const ocrStartedAt = Date.now();
+    const totalOcrBudgetMs = process.env.VERCEL ? 15000 : 45000;
+    const perImageTimeoutMs = process.env.VERCEL ? 8000 : 15000;
     const ocrPages = [];
+
     for (let i = 0; i < embeddedImages.length; i++) {
+        if (Date.now() - ocrStartedAt > totalOcrBudgetMs) {
+            console.warn(`[Book OCR] Stopped Tesseract fallback after ${totalOcrBudgetMs}ms budget (${ocrPages.length} pages extracted).`);
+            break;
+        }
         try {
-            const { data } = await Tesseract.recognize(embeddedImages[i].buffer, 'eng');
+            const { data } = await withPromiseTimeout(
+                Tesseract.recognize(embeddedImages[i].buffer, 'eng', {
+                    cachePath: os.tmpdir()
+                }),
+                perImageTimeoutMs,
+                `OCR page ${i + 1}`
+            );
             const cleanText = sanitizeExtractedContent(data?.text || '');
             if (cleanText) {
                 ocrPages.push({
@@ -238,180 +342,262 @@ async function performScannedPdfOcr(pdfBuffer) {
 }
 
 /**
- * Extract structured pages with chapter titles and page numbers from PDF, DOCX, or TXT.
+ * Format PDF.js textContent items into clean line-aware text.
  */
-async function extractBookDocument(buffer, fileType, { onProgress } = {}) {
-    const ext = String(fileType || '').toLowerCase();
-    let pages = [];
-    let ocrUsed = false;
-
-    if (ext === 'pdf') {
-        // Load pdf-parse lazily from lib/pdf-parse.js to avoid pdf-parse's notorious test-file read on index.js
-        let pdfParse;
-        try {
-            pdfParse = require('pdf-parse/lib/pdf-parse.js');
-        } catch {
-            pdfParse = require('pdf-parse');
+function renderPdfTextContent(textContent) {
+    const items = Array.isArray(textContent?.items) ? textContent.items : [];
+    let lastY = null;
+    let text = '';
+    for (const item of items) {
+        const str = typeof item?.str === 'string' ? item.str : '';
+        const curY = item?.transform?.[5];
+        if (lastY !== null && curY !== undefined && Math.abs(lastY - curY) > 5) {
+            text += '\n';
+        } else if (text && str && !text.endsWith(' ') && !text.endsWith('\n') && !str.startsWith(' ')) {
+            text += ' ';
         }
+        text += str;
+        if (curY !== undefined) lastY = curY;
+    }
+    return sanitizeExtractedContent(text);
+}
 
-        const pageTexts = [];
-        const options = {
-            pagerender: (pageData) => {
-                return pageData.getTextContent({
+/**
+ * Extract raw pages & page count from a PDF buffer using static PDF.js (Vercel-safe).
+ */
+async function extractPdfRawPages(fileBuffer, { onPageProgress, onProgress } = {}) {
+    let rawPages = [];
+    let reportedNumPages = 0;
+    let parseError = null;
+    let doc = null;
+
+    try {
+        const pdfjsLib = loadPdfjsLib();
+        const uint8 = new Uint8Array(fileBuffer.buffer, fileBuffer.byteOffset, fileBuffer.byteLength);
+        doc = await pdfjsLib.getDocument(uint8);
+        reportedNumPages = Number(doc?.numPages) || 0;
+
+        for (let pageNum = 1; pageNum <= reportedNumPages; pageNum++) {
+            try {
+                const pageData = await doc.getPage(pageNum);
+                const textContent = await pageData.getTextContent({
                     normalizeWhitespace: false,
                     disableCombineTextItems: false
-                }).then((textContent) => {
-                    let lastY = null;
-                    let text = '';
-                    for (const item of textContent.items) {
-                        const curY = item.transform?.[5];
-                        if (lastY !== null && curY !== undefined && Math.abs(lastY - curY) > 5) {
-                            text += '\n';
-                        } else if (text && !text.endsWith(' ') && !text.endsWith('\n')) {
-                            text += ' ';
-                        }
-                        text += item.str;
-                        if (curY !== undefined) lastY = curY;
-                    }
-                    pageTexts.push(sanitizeExtractedContent(text));
-                    return text;
                 });
+                const cleanPageText = renderPdfTextContent(textContent);
+                rawPages.push({ pageNumber: pageNum, text: cleanPageText });
+            } catch (pageErr) {
+                console.warn(`[PDF Extract] Warning on page ${pageNum}/${reportedNumPages}:`, pageErr.message);
+                rawPages.push({ pageNumber: pageNum, text: '' });
             }
-        };
 
-        let pdfMeta = { numpages: 0 };
-        try {
-            pdfMeta = await pdfParse(buffer, options);
-        } catch (parseErr) {
-            console.warn('[PDF Extract] Primary parser warning, checking OCR fallback:', parseErr.message);
+            if (onPageProgress) {
+                await onPageProgress({ currentPage: pageNum, totalPages: reportedNumPages });
+            }
+        }
+    } catch (err) {
+        parseError = err;
+        const errName = String(err?.name || '');
+        const errMsg = String(err?.message || '');
+
+        if (/PasswordException|password/i.test(`${errName} ${errMsg}`)) {
+            throw new Error('This PDF is password-protected or encrypted. Please upload an unlocked PDF document.');
         }
 
-        const numPages = Math.max(pageTexts.length, pdfMeta?.numpages || 0, 1);
-        const rawPages = pageTexts.length > 0
-            ? pageTexts.map((txt, idx) => ({ pageNumber: idx + 1, text: txt }))
-            : [{ pageNumber: 1, text: sanitizeExtractedContent(pdfMeta?.text || '') }];
-
-        const totalAlphaNum = rawPages.reduce((sum, p) => sum + p.text.replace(/[^a-zA-Z0-9]/g, '').length, 0);
-        const avgCharsPerPage = totalAlphaNum / numPages;
-        const sparsePageCount = rawPages.filter(p => p.text.replace(/[^a-zA-Z0-9]/g, '').length < 25).length;
-        const looksScanned = avgCharsPerPage < 40 || (rawPages.length >= 1 && sparsePageCount / rawPages.length >= 0.7);
-
-        if (looksScanned) {
-            if (onProgress) await onProgress('Extracting Text (OCR for scanned PDF)');
-            const ocrResult = await performScannedPdfOcr(buffer);
-            if (ocrResult.pages.length > 0) {
-                pages = ocrResult.pages;
-                ocrUsed = true;
-            } else if (totalAlphaNum >= 15) {
-                pages = rawPages.filter(p => p.text.length > 0);
-            } else {
-                throw new Error(
-                    'This PDF appears to be a scanned image document with no extractable text layer. Configure GEMINI_API_KEY for cloud OCR or ensure the PDF contains standard embedded page images.'
-                );
-            }
-        } else {
-            pages = rawPages.filter(p => p.text.length > 0);
+        console.warn('[PDF Extract] Primary PDF.js parser warning:', errMsg);
+    } finally {
+        if (doc && typeof doc.destroy === 'function') {
+            await doc.destroy().catch(() => {});
         }
-    } else if (ext === 'docx') {
-        const htmlResult = await mammoth.convertToHtml({ buffer });
-        const html = String(htmlResult?.value || '');
+    }
 
-        // Parse headings and paragraphs in order to preserve chapter/section structure
-        const blockRegex = /<(h[1-4]|p|li|tr)[^>]*>([\s\S]*?)<\/\1>/gi;
-        const blocks = [];
-        let match;
-        while ((match = blockRegex.exec(html)) !== null) {
-            const tag = match[1].toLowerCase();
-            const text = sanitizeExtractedContent(
-                match[2]
-                    .replace(/<br\s*\/?>/gi, '\n')
-                    .replace(/<[^>]+>/g, ' ')
-                    .replace(/&nbsp;/g, ' ')
-                    .replace(/&amp;/g, '&')
-                    .replace(/&lt;/g, '<')
-                    .replace(/&gt;/g, '>')
-                    .replace(/&quot;/g, '"')
-                    .replace(/&#39;/g, "'")
+    const numPages = Math.max(reportedNumPages, rawPages.length, 1);
+    const totalAlphaNum = rawPages.reduce((sum, p) => sum + p.text.replace(/[^a-zA-Z0-9]/g, '').length, 0);
+    const avgCharsPerPage = totalAlphaNum / numPages;
+    const sparsePageCount = rawPages.filter(p => p.text.replace(/[^a-zA-Z0-9]/g, '').length < 25).length;
+    const looksScanned = rawPages.length === 0 ||
+        avgCharsPerPage < 40 ||
+        (rawPages.length >= 1 && sparsePageCount / rawPages.length >= 0.7);
+
+    if (looksScanned) {
+        if (onProgress) await onProgress('Extracting Text (OCR for scanned PDF)');
+        const ocrResult = await performScannedPdfOcr(fileBuffer);
+        if (ocrResult.pages.length > 0) {
+            return {
+                pages: ocrResult.pages,
+                detectedPageCount: Math.max(reportedNumPages, ocrResult.pages.length),
+                ocrUsed: true
+            };
+        }
+
+        if (totalAlphaNum >= 15) {
+            return {
+                pages: rawPages.filter(p => p.text.length > 0),
+                detectedPageCount: Math.max(reportedNumPages, rawPages.length),
+                ocrUsed: false
+            };
+        }
+
+        if (parseError) {
+            throw new Error(
+                `Unable to extract text from this PDF (${parseError.message || 'corrupted or unsupported PDF structure'}). Please re-export the PDF or upload a DOCX/TXT version.`
             );
-            if (text) {
-                blocks.push({ isHeading: tag.startsWith('h'), text });
-            }
         }
 
-        if (blocks.length === 0) {
-            const rawRes = await mammoth.extractRawText({ buffer });
+        throw new Error(
+            'This PDF appears to be a scanned image document with no extractable text layer. Configure GEMINI_API_KEY for cloud OCR or upload a text-based PDF, DOCX, or TXT file.'
+        );
+    }
+
+    return {
+        pages: rawPages.filter(p => p.text.length > 0),
+        detectedPageCount: Math.max(reportedNumPages, rawPages.length),
+        ocrUsed: false
+    };
+}
+
+/**
+ * Extract raw pages from DOCX buffer via mammoth.
+ */
+async function extractDocxRawPages(fileBuffer) {
+    let html = '';
+    try {
+        const htmlResult = await mammoth.convertToHtml({ buffer: fileBuffer });
+        html = String(htmlResult?.value || '');
+    } catch (err) {
+        throw new Error(`Unable to read DOCX file (${err.message || 'corrupted archive'}). Please upload a valid .docx document.`);
+    }
+
+    const blockRegex = /<(h[1-4]|p|li|tr)[^>]*>([\s\S]*?)<\/\1>/gi;
+    const blocks = [];
+    let match;
+    while ((match = blockRegex.exec(html)) !== null) {
+        const tag = match[1].toLowerCase();
+        const text = sanitizeExtractedContent(
+            match[2]
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/<[^>]+>/g, ' ')
+                .replace(/&nbsp;/g, ' ')
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'")
+        );
+        if (text) {
+            blocks.push({ isHeading: tag.startsWith('h'), text });
+        }
+    }
+
+    if (blocks.length === 0) {
+        try {
+            const rawRes = await mammoth.extractRawText({ buffer: fileBuffer });
             const rawText = sanitizeExtractedContent(rawRes?.value || '');
             if (rawText) {
                 blocks.push({ isHeading: false, text: rawText });
             }
+        } catch (err) {
+            throw new Error(`Unable to extract text from DOCX file (${err.message}).`);
         }
-
-        // Paginate into logical pages (~2200 chars each) while preserving chapter heading
-        let currentPage = 1;
-        let currentChapter = '';
-        let currentBuf = '';
-        for (const block of blocks) {
-            if (block.isHeading) {
-                if (currentBuf.trim()) {
-                    pages.push({ pageNumber: currentPage, chapter: currentChapter, text: currentBuf.trim() });
-                    if (currentBuf.length >= 1600) currentPage++;
-                    currentBuf = '';
-                }
-                currentChapter = block.text.slice(0, 120);
-                currentBuf = `${block.text}\n`;
-            } else {
-                if (currentBuf.length + block.text.length > 2400 && currentBuf.trim()) {
-                    pages.push({ pageNumber: currentPage, chapter: currentChapter, text: currentBuf.trim() });
-                    currentPage++;
-                    currentBuf = '';
-                }
-                currentBuf += (currentBuf ? '\n' : '') + block.text;
-            }
-        }
-        if (currentBuf.trim()) {
-            pages.push({ pageNumber: currentPage, chapter: currentChapter, text: currentBuf.trim() });
-        }
-    } else if (ext === 'txt') {
-        const rawText = buffer.toString('utf8');
-        // Respect explicit form-feed (\f) page breaks if present
-        if (rawText.includes('\f')) {
-            const splitPages = rawText.split('\f');
-            splitPages.forEach((txt, idx) => {
-                const clean = sanitizeExtractedContent(txt);
-                if (clean) {
-                    pages.push({ pageNumber: idx + 1, text: clean });
-                }
-            });
-        } else {
-            const clean = sanitizeExtractedContent(rawText);
-            const paragraphs = clean.split(/\n{2,}/).filter(Boolean);
-            let currentPage = 1;
-            let buf = '';
-            for (const para of paragraphs) {
-                if (buf.length + para.length > 2400 && buf.trim()) {
-                    pages.push({ pageNumber: currentPage, text: buf.trim() });
-                    currentPage++;
-                    buf = '';
-                }
-                buf += (buf ? '\n\n' : '') + para;
-            }
-            if (buf.trim()) {
-                pages.push({ pageNumber: currentPage, text: buf.trim() });
-            }
-        }
-    } else {
-        throw new Error(`Unsupported file format: ${ext}`);
     }
 
-    // Carry forward chapter/heading annotations across pages
+    if (blocks.length === 0) {
+        throw new Error('This DOCX file contains no readable text.');
+    }
+
+    // Paginate into logical pages (~2400 chars each) while preserving chapter heading
+    const pages = [];
+    let currentPage = 1;
+    let currentChapter = '';
+    let currentBuf = '';
+    for (const block of blocks) {
+        if (block.isHeading) {
+            if (currentBuf.trim()) {
+                pages.push({ pageNumber: currentPage, chapter: currentChapter, text: currentBuf.trim() });
+                if (currentBuf.length >= 1600) currentPage++;
+                currentBuf = '';
+            }
+            currentChapter = block.text.slice(0, 120);
+            currentBuf = `${block.text}\n`;
+        } else {
+            if (currentBuf.length + block.text.length > 2400 && currentBuf.trim()) {
+                pages.push({ pageNumber: currentPage, chapter: currentChapter, text: currentBuf.trim() });
+                currentPage++;
+                currentBuf = '';
+            }
+            currentBuf += (currentBuf ? '\n' : '') + block.text;
+        }
+    }
+    if (currentBuf.trim()) {
+        pages.push({ pageNumber: currentPage, chapter: currentChapter, text: currentBuf.trim() });
+    }
+
+    return {
+        pages,
+        detectedPageCount: Math.max(...pages.map(p => p.pageNumber), pages.length),
+        ocrUsed: false
+    };
+}
+
+/**
+ * Extract raw pages from TXT buffer.
+ */
+function extractTxtRawPages(fileBuffer) {
+    const rawText = decodeTextBuffer(fileBuffer);
+    const pages = [];
+
+    if (rawText.includes('\f')) {
+        const splitPages = rawText.split('\f');
+        splitPages.forEach((txt, idx) => {
+            const clean = sanitizeExtractedContent(txt);
+            if (clean) {
+                pages.push({ pageNumber: idx + 1, text: clean });
+            }
+        });
+    } else {
+        const clean = sanitizeExtractedContent(rawText);
+        if (!clean) {
+            throw new Error('This TXT file contains no readable text.');
+        }
+        const paragraphs = clean.split(/\n{2,}/).filter(Boolean);
+        let currentPage = 1;
+        let buf = '';
+        for (const para of paragraphs) {
+            if (buf.length + para.length > 2400 && buf.trim()) {
+                pages.push({ pageNumber: currentPage, text: buf.trim() });
+                currentPage++;
+                buf = '';
+            }
+            buf += (buf ? '\n\n' : '') + para;
+        }
+        if (buf.trim()) {
+            pages.push({ pageNumber: currentPage, text: buf.trim() });
+        }
+    }
+
+    if (pages.length === 0) {
+        throw new Error('This TXT file contains no readable text.');
+    }
+
+    return {
+        pages,
+        detectedPageCount: Math.max(...pages.map(p => p.pageNumber), pages.length),
+        ocrUsed: false
+    };
+}
+
+/**
+ * Clean, normalize, count pages, and enrich extracted pages with chapter headings.
+ */
+function prepareExtractedPages(rawPages, detectedPageCount = 0) {
     let activeChapter = '';
-    const enrichedPages = pages
+    const enrichedPages = (Array.isArray(rawPages) ? rawPages : [])
         .map((p, idx) => {
-            const cleanText = sanitizeExtractedContent(p.text);
-            const detected = p.chapter || detectHeadingInText(cleanText, activeChapter);
+            const cleanText = sanitizeExtractedContent(p?.text || '');
+            const detected = p?.chapter || detectHeadingInText(cleanText, activeChapter);
             if (detected) activeChapter = detected;
             return {
-                pageNumber: Number(p.pageNumber) || idx + 1,
+                pageNumber: Number(p?.pageNumber) || idx + 1,
                 chapter: activeChapter || 'General Reference',
                 text: cleanText
             };
@@ -422,11 +608,42 @@ async function extractBookDocument(buffer, fileType, { onProgress } = {}) {
         throw new Error('No readable text could be extracted from this book file.');
     }
 
-    const totalPages = Math.max(...enrichedPages.map(p => p.pageNumber), enrichedPages.length);
+    const maxPageNum = Math.max(...enrichedPages.map(p => p.pageNumber), enrichedPages.length);
+    const totalPages = Math.max(Number(detectedPageCount) || 0, maxPageNum);
+
     return {
         pages: enrichedPages,
-        totalPages,
-        ocrUsed
+        totalPages
+    };
+}
+
+/**
+ * Extract structured pages with chapter titles and page numbers from PDF, DOCX, or TXT.
+ */
+async function extractBookDocument(buffer, fileType, { onProgress, onPageProgress } = {}) {
+    const fileBuffer = normalizeBuffer(buffer);
+    if (!fileBuffer || fileBuffer.length === 0) {
+        throw new Error('Book file buffer is empty or unreadable.');
+    }
+
+    const ext = String(fileType || '').toLowerCase().replace('.', '').trim();
+    let rawResult;
+
+    if (ext === 'pdf') {
+        rawResult = await extractPdfRawPages(fileBuffer, { onProgress, onPageProgress });
+    } else if (ext === 'docx') {
+        rawResult = await extractDocxRawPages(fileBuffer);
+    } else if (ext === 'txt') {
+        rawResult = extractTxtRawPages(fileBuffer);
+    } else {
+        throw new Error(`Unsupported file format: ${ext || 'unknown'}. Only PDF, DOCX, and TXT files are supported.`);
+    }
+
+    const prepared = prepareExtractedPages(rawResult.pages, rawResult.detectedPageCount);
+    return {
+        pages: prepared.pages,
+        totalPages: prepared.totalPages,
+        ocrUsed: Boolean(rawResult.ocrUsed)
     };
 }
 
@@ -508,10 +725,12 @@ function chunkExtractedPages(pages, { targetSize = 1100, minSize = 160, overlap 
 
 module.exports = {
     MAX_BOOK_FILE_SIZE_BYTES,
+    normalizeBuffer,
     sanitizeFileName,
     sha256,
     validateUploadedBookFile,
     sanitizeExtractedContent,
+    prepareExtractedPages,
     extractBookDocument,
     chunkExtractedPages,
     extractEmbeddedImagesFromPdf

@@ -24,6 +24,9 @@ class _AdminKnowledgeBaseScreenState
   final TextEditingController _searchController = TextEditingController();
   Timer? _pollTimer;
   bool _syncingIndex = false;
+  final Set<String> _steppingBookIds = {};
+  final Set<String> _autoAttemptedBookIds = {};
+  final Map<String, KnowledgeBookModel> _liveBookOverrides = {};
 
   Future<void> _handleSyncVectorIndex() async {
     if (_syncingIndex) return;
@@ -64,8 +67,103 @@ class _AdminKnowledgeBaseScreenState
     super.dispose();
   }
 
+  Future<void> _driveBookProcessing(
+    String bookId, {
+    bool forceReextract = false,
+    bool showToasts = true,
+  }) async {
+    if (bookId.isEmpty || _steppingBookIds.contains(bookId)) return;
+    _steppingBookIds.add(bookId);
+
+    int consecutiveErrors = 0;
+    int stepCount = 0;
+    const maxSteps = 45;
+
+    try {
+      while (mounted && stepCount < maxSteps) {
+        stepCount++;
+        try {
+          final res = await ref.read(aiVerificationServiceProvider).processBookStep(
+                bookId,
+                forceReextract: stepCount == 1 && forceReextract,
+              );
+          consecutiveErrors = 0;
+
+          final rawBook = res['book'];
+          if (rawBook is Map<String, dynamic> && mounted) {
+            final updatedBook = KnowledgeBookModel.fromJson(rawBook);
+            setState(() {
+              _liveBookOverrides[bookId] = updatedBook;
+            });
+          }
+
+          if (res['failed'] == true) {
+            if (showToasts && mounted) {
+              AppNotificationService.error(
+                id: 'kb-step-fail-$bookId',
+                title: 'Book Processing Failed',
+                message: res['message']?.toString() ?? 'Document processing failed.',
+              );
+            }
+            break;
+          }
+
+          if (res['done'] == true || res['needsMoreSteps'] != true) {
+            final finalBook = _liveBookOverrides[bookId];
+            if (showToasts && mounted && finalBook?.processingStatus == 'Completed') {
+              AppNotificationService.success(
+                id: 'kb-step-done-$bookId',
+                title: 'Book Ready',
+                message:
+                    '"${finalBook!.title}" indexed (${finalBook.totalPages} pages, ${finalBook.indexedChunks} chunks).',
+              );
+            }
+            break;
+          }
+
+          final delayMs = res['locked'] == true ? 2000 : 350;
+          await Future.delayed(Duration(milliseconds: delayMs));
+        } catch (e) {
+          consecutiveErrors++;
+          if (consecutiveErrors >= 3) {
+            if (showToasts && mounted) {
+              AppNotificationService.error(
+                id: 'kb-step-err-$bookId',
+                title: 'Processing Interrupted',
+                message:
+                    '${e.toString().replaceFirst('Exception: ', '')} Tap Resume to continue.',
+              );
+            }
+            break;
+          }
+          await Future.delayed(Duration(milliseconds: 1500 * consecutiveErrors));
+        }
+      }
+    } finally {
+      _steppingBookIds.remove(bookId);
+      if (mounted) {
+        setState(() {
+          _liveBookOverrides.remove(bookId);
+        });
+        ref.invalidate(adminKnowledgeBaseProvider);
+      }
+    }
+  }
+
   void _syncPolling(List<KnowledgeBookModel> books) {
-    final hasActive = books.any((b) => b.isProcessing);
+    final activeBooks = books.where((b) => b.isProcessing).toList();
+    for (final book in activeBooks) {
+      if (!_steppingBookIds.contains(book.id) && !_autoAttemptedBookIds.contains(book.id)) {
+        _autoAttemptedBookIds.add(book.id);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _driveBookProcessing(book.id, showToasts: true);
+          }
+        });
+      }
+    }
+
+    final hasActive = activeBooks.isNotEmpty;
     if (hasActive && _pollTimer == null) {
       _pollTimer = Timer.periodic(const Duration(seconds: 3), (_) {
         if (mounted) ref.invalidate(adminKnowledgeBaseProvider);
@@ -266,7 +364,9 @@ class _AdminKnowledgeBaseScreenState
                               }
                               setSheetState(() => uploading = true);
                               try {
-                                await ref.read(aiVerificationServiceProvider).uploadBook(
+                                final uploadedBook = await ref
+                                    .read(aiVerificationServiceProvider)
+                                    .uploadBook(
                                       filePath: pickedPath!,
                                       fileName: pickedName!,
                                       technology: selectedTech,
@@ -276,8 +376,12 @@ class _AdminKnowledgeBaseScreenState
                                 AppNotificationService.success(
                                   id: 'kb-upload-ok',
                                   title: 'Book Uploaded',
-                                  message: 'Background extraction and vector indexing started.',
+                                  message: 'Starting text extraction and indexing...',
                                 );
+                                if (uploadedBook.id.isNotEmpty) {
+                                  _autoAttemptedBookIds.add(uploadedBook.id);
+                                  unawaited(_driveBookProcessing(uploadedBook.id, showToasts: true));
+                                }
                               } catch (e) {
                                 setSheetState(() => uploading = false);
                                 AppNotificationService.error(
@@ -349,7 +453,10 @@ class _AdminKnowledgeBaseScreenState
           onRetry: () => ref.invalidate(adminKnowledgeBaseProvider),
         ),
         data: (data) {
-          _syncPolling(data.books);
+          final mergedBooks = data.books
+              .map((b) => _liveBookOverrides[b.id] ?? b)
+              .toList();
+          _syncPolling(mergedBooks);
           return RefreshIndicator(
             onRefresh: () async => ref.invalidate(adminKnowledgeBaseProvider),
             child: ListView(
@@ -369,9 +476,9 @@ class _AdminKnowledgeBaseScreenState
                       style: AppTextStyles.bodySmall.copyWith(color: context.warningColor),
                     ),
                   )
-                else
+                else ...[
                   Container(
-                    margin: const EdgeInsets.only(bottom: 12),
+                    margin: const EdgeInsets.only(bottom: 8),
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
                     decoration: BoxDecoration(
                       color: context.mutedBgColor,
@@ -381,13 +488,31 @@ class _AdminKnowledgeBaseScreenState
                     child: Text(
                       data.activeEmbeddingModel.isNotEmpty
                           ? 'Provider: ${data.activeProvider.toUpperCase()} · ${data.activeEmbeddingModel} (${data.activeEmbeddingDimensions}d)'
-                          : 'Provider: ${data.activeProvider.toUpperCase()} · Text fallback (existing books)',
+                          : 'Provider: ${data.activeProvider.toUpperCase()} · Text fallback mode (no embedding API key)',
                       style: AppTextStyles.mono.copyWith(
                         fontSize: 11,
                         color: context.textSecondaryColor,
                       ),
                     ),
                   ),
+                  if (!data.embeddingConfigured)
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(11),
+                      decoration: BoxDecoration(
+                        color: Colors.lightBlue.withValues(alpha: 0.10),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.lightBlue.withValues(alpha: 0.35)),
+                      ),
+                      child: Text(
+                        'Groq handles chat verification only. New books are extracted, chunked, and searchable in Text Fallback mode. Add OPENAI_API_KEY or GEMINI_API_KEY on the server to enable 1536d Atlas Vector Search embeddings.',
+                        style: AppTextStyles.bodySmall.copyWith(
+                          fontSize: 11.5,
+                          color: context.textSecondaryColor,
+                        ),
+                      ),
+                    ),
+                ],
 
                 // Summary KPI Row
                 Row(
@@ -449,7 +574,7 @@ class _AdminKnowledgeBaseScreenState
                 ),
                 const SizedBox(height: 14),
 
-                if (data.books.isEmpty)
+                if (mergedBooks.isEmpty)
                   Container(
                     padding: const EdgeInsets.all(24),
                     alignment: Alignment.center,
@@ -465,7 +590,7 @@ class _AdminKnowledgeBaseScreenState
                     ),
                   )
                 else
-                  ...data.books.map((book) => _buildBookCard(context, book)),
+                  ...mergedBooks.map((book) => _buildBookCard(context, book, data)),
               ],
             ),
           );
@@ -496,12 +621,21 @@ class _AdminKnowledgeBaseScreenState
     );
   }
 
-  Widget _buildBookCard(BuildContext context, KnowledgeBookModel book) {
+  Widget _buildBookCard(
+    BuildContext context,
+    KnowledgeBookModel book,
+    KnowledgeBaseListResponse kbData,
+  ) {
     final statusColor = book.processingStatus == 'Completed'
         ? context.successColor
         : book.processingStatus == 'Failed'
             ? context.errorColor
             : context.warningColor;
+    final canUpgradeVectors = kbData.embeddingConfigured &&
+        book.processingStatus == 'Completed' &&
+        (book.embeddingMode == 'text_fallback' ||
+            (book.embeddingDimensions > 0 &&
+                book.embeddingDimensions != kbData.activeEmbeddingDimensions));
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -564,39 +698,119 @@ class _AdminKnowledgeBaseScreenState
               if (book.author.isNotEmpty) 'by ${book.author}',
               if (book.edition.isNotEmpty) book.edition,
               '${book.fileType.toUpperCase()} (${_formatSize(book.fileSize)})',
+              if (book.embeddingMode == 'text_fallback' && book.processingStatus == 'Completed')
+                'Text Fallback',
             ].join(' · '),
             style: AppTextStyles.bodySmall.copyWith(color: context.textSecondaryColor),
           ),
           if (book.isProcessing) ...[
             const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${book.processingStatus}...',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: context.textSecondaryColor,
+                  ),
+                ),
+                Text(
+                  '${book.processingProgress}%',
+                  style: AppTextStyles.mono.copyWith(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: context.brandAccentColor,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
             LinearProgressIndicator(value: (book.processingProgress / 100).clamp(0.05, 1.0)),
           ],
           if (book.processingStatus == 'Failed' && book.processingError.isNotEmpty) ...[
             const SizedBox(height: 8),
-            Text(
-              book.processingError,
-              style: AppTextStyles.bodySmall.copyWith(color: context.errorColor),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: context.errorColor.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: context.errorColor.withValues(alpha: 0.3)),
+              ),
+              child: Text(
+                book.processingError,
+                style: AppTextStyles.bodySmall.copyWith(color: context.errorColor),
+              ),
             ),
           ],
           const SizedBox(height: 10),
           Row(
             children: [
-              Text(
-                'Pages: ${book.totalPages} · Chunks: ${book.indexedChunks}/${book.totalChunks}${book.ocrUsed ? ' · OCR' : ''}',
-                style: AppTextStyles.bodySmall.copyWith(
-                  fontSize: 11,
-                  color: context.textSecondaryColor,
+              Expanded(
+                child: Text(
+                  'Pages: ${book.totalPages} · Chunks: ${book.indexedChunks}/${book.totalChunks}${book.ocrUsed ? ' · OCR' : ''}',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    fontSize: 11,
+                    color: context.textSecondaryColor,
+                  ),
                 ),
               ),
-              const Spacer(),
+              if (book.isProcessing && (book.canResume || book.isStalled))
+                TextButton.icon(
+                  onPressed: () {
+                    _autoAttemptedBookIds.add(book.id);
+                    unawaited(_driveBookProcessing(book.id, showToasts: true));
+                  },
+                  icon: const Icon(Icons.play_arrow_rounded, size: 16),
+                  label: const Text('Resume'),
+                ),
               if (book.processingStatus == 'Failed')
                 TextButton.icon(
                   onPressed: () async {
-                    await ref.read(aiVerificationServiceProvider).retryBookProcessing(book.id);
-                    ref.invalidate(adminKnowledgeBaseProvider);
+                    try {
+                      await ref.read(aiVerificationServiceProvider).retryBookProcessing(book.id);
+                      ref.invalidate(adminKnowledgeBaseProvider);
+                      _autoAttemptedBookIds.add(book.id);
+                      unawaited(_driveBookProcessing(book.id, showToasts: true));
+                    } catch (e) {
+                      AppNotificationService.error(
+                        id: 'kb-retry-err',
+                        title: 'Retry Failed',
+                        message: e.toString().replaceFirst('Exception: ', ''),
+                      );
+                    }
                   },
                   icon: const Icon(Icons.refresh_rounded, size: 16),
                   label: const Text('Retry'),
+                ),
+              if (canUpgradeVectors)
+                TextButton.icon(
+                  onPressed: () async {
+                    try {
+                      await ref
+                          .read(aiVerificationServiceProvider)
+                          .retryBookProcessing(book.id, mode: 'reindex');
+                      ref.invalidate(adminKnowledgeBaseProvider);
+                      _autoAttemptedBookIds.add(book.id);
+                      unawaited(
+                        _driveBookProcessing(
+                          book.id,
+                          forceReextract: true,
+                          showToasts: true,
+                        ),
+                      );
+                    } catch (e) {
+                      AppNotificationService.error(
+                        id: 'kb-reindex-err',
+                        title: 'Re-index Failed',
+                        message: e.toString().replaceFirst('Exception: ', ''),
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.auto_awesome_rounded, size: 15),
+                  label: const Text('Vectorize'),
                 ),
               IconButton(
                 icon: Icon(Icons.delete_outline_rounded, color: context.errorColor, size: 20),

@@ -524,6 +524,28 @@ async function verifyQuestionWithBooks({
                 limit: 6,
                 minScore: parseFloat(process.env.VECTOR_SEARCH_MIN_SCORE || '0.25') || 0.25
             });
+
+            // If vector search returned 0 matches, check whether active text-fallback books exist for this technology
+            if (!searchResult.chunks || searchResult.chunks.length === 0) {
+                const textFallbackBooks = await prisma.knowledgeBook.findMany({
+                    where: {
+                        technologyNormalized: { in: technologiesNormalized },
+                        isEnabled: true,
+                        processingStatus: PROCESSING_STATUSES.COMPLETED,
+                        embeddingMode: 'text_fallback'
+                    },
+                    select: { id: true }
+                }).catch(() => []);
+
+                if (Array.isArray(textFallbackBooks) && textFallbackBooks.length > 0) {
+                    searchResult = await searchRelevantBookChunksByText({
+                        questionText: cleanQuestionText,
+                        options: cleanOptions,
+                        technologiesNormalized,
+                        limit: 6
+                    });
+                }
+            }
         } else {
             // Fallback retrieval over existing MongoDB chunks when only Groq chat is configured (no embedding API key)
             searchResult = await searchRelevantBookChunksByText({

@@ -100,8 +100,14 @@ class KnowledgeBookModel {
   final int fileSize;
   final bool isEnabled;
   final String processingStatus;
+  final String processingStage;
   final int processingProgress;
   final String processingError;
+  final int extractedPagesCount;
+  final int embeddedChunksCount;
+  final String embeddingMode;
+  final bool isStalled;
+  final bool canResume;
   final bool ocrUsed;
   final int totalPages;
   final int totalChunks;
@@ -123,8 +129,14 @@ class KnowledgeBookModel {
     this.fileSize = 0,
     this.isEnabled = true,
     this.processingStatus = 'Uploaded',
+    this.processingStage = 'uploaded',
     this.processingProgress = 0,
     this.processingError = '',
+    this.extractedPagesCount = 0,
+    this.embeddedChunksCount = 0,
+    this.embeddingMode = '',
+    this.isStalled = false,
+    this.canResume = false,
     this.ocrUsed = false,
     this.totalPages = 0,
     this.totalChunks = 0,
@@ -138,6 +150,8 @@ class KnowledgeBookModel {
         'Uploaded',
         'Processing',
         'Extracting Text',
+        'Preparing Content',
+        'Generating Chunks',
         'Generating Embeddings',
         'Indexing',
       }.contains(processingStatus);
@@ -158,14 +172,20 @@ class KnowledgeBookModel {
       fileSize: (json['fileSize'] is num) ? (json['fileSize'] as num).toInt() : 0,
       isEnabled: json['isEnabled'] != false,
       processingStatus: json['processingStatus']?.toString() ?? 'Uploaded',
+      processingStage: json['processingStage']?.toString() ?? 'uploaded',
       processingProgress: (json['processingProgress'] is num) ? (json['processingProgress'] as num).toInt() : 0,
       processingError: json['processingError']?.toString() ?? '',
+      extractedPagesCount: (json['extractedPagesCount'] is num) ? (json['extractedPagesCount'] as num).toInt() : 0,
+      embeddedChunksCount: (json['embeddedChunksCount'] is num) ? (json['embeddedChunksCount'] as num).toInt() : 0,
+      embeddingMode: json['embeddingMode']?.toString() ?? '',
+      isStalled: json['isStalled'] == true,
+      canResume: json['canResume'] == true,
       ocrUsed: json['ocrUsed'] == true,
       totalPages: (json['totalPages'] is num) ? (json['totalPages'] as num).toInt() : 0,
       totalChunks: (json['totalChunks'] is num) ? (json['totalChunks'] as num).toInt() : 0,
       indexedChunks: (json['indexedChunks'] is num) ? (json['indexedChunks'] as num).toInt() : 0,
       embeddingModel: json['embeddingModel']?.toString() ?? '',
-      embeddingDimensions: (json['embeddingDimensions'] is num) ? (json['embeddingDimensions'] as num).toInt() : 1536,
+      embeddingDimensions: (json['embeddingDimensions'] is num) ? (json['embeddingDimensions'] as num).toInt() : 0,
       createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt'].toString()) : null,
     );
   }
@@ -181,6 +201,7 @@ class KnowledgeBaseListResponse {
   final int totalPages;
   final int totalIndexedChunks;
   final bool aiProviderConfigured;
+  final bool embeddingConfigured;
   final String activeProvider;
   final String activeVerificationModel;
   final String activeEmbeddingModel;
@@ -196,6 +217,7 @@ class KnowledgeBaseListResponse {
     this.totalPages = 0,
     this.totalIndexedChunks = 0,
     this.aiProviderConfigured = true,
+    this.embeddingConfigured = false,
     this.activeProvider = '',
     this.activeVerificationModel = '',
     this.activeEmbeddingModel = '',
@@ -207,6 +229,7 @@ class KnowledgeBaseListResponse {
     final rawTechs = (json['technologies'] as List?) ?? [];
     final summary = (json['summary'] as Map<String, dynamic>?) ?? {};
     final aiProvider = (json['aiProvider'] as Map<String, dynamic>?) ?? {};
+    final embedModel = aiProvider['embeddingModel']?.toString() ?? '';
 
     return KnowledgeBaseListResponse(
       books: rawBooks.map((e) => KnowledgeBookModel.fromJson(e as Map<String, dynamic>)).toList(),
@@ -221,9 +244,10 @@ class KnowledgeBaseListResponse {
       totalPages: (summary['totalPages'] as num?)?.toInt() ?? 0,
       totalIndexedChunks: (summary['totalIndexedChunks'] as num?)?.toInt() ?? 0,
       aiProviderConfigured: aiProvider['configured'] != false,
-      activeProvider: aiProvider['provider']?.toString() ?? '',
+      embeddingConfigured: aiProvider['embeddingConfigured'] == true || embedModel.isNotEmpty,
+      activeProvider: aiProvider['chatProvider']?.toString() ?? aiProvider['provider']?.toString() ?? '',
       activeVerificationModel: aiProvider['verificationModel']?.toString() ?? '',
-      activeEmbeddingModel: aiProvider['embeddingModel']?.toString() ?? '',
+      activeEmbeddingModel: embedModel,
       activeEmbeddingDimensions: (aiProvider['embeddingDimensions'] as num?)?.toInt() ?? 1536,
     );
   }

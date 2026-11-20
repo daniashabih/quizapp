@@ -39,6 +39,10 @@ function getGroqApiKey() {
     return String(process.env.GROQ_API_KEY || '').trim();
 }
 
+function getGeminiApiKey() {
+    return String(process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || '').trim();
+}
+
 function setAiProviderOverride(override) {
     if (process.env.NODE_ENV !== 'test' && !process.env.HANGBUG_ALLOW_AI_TEST_OVERRIDE) {
         throw new Error('AI provider override is only allowed in test environments.');
@@ -61,7 +65,7 @@ function resolveProviders() {
 
     const hasGroq = Boolean(getGroqApiKey());
     const hasOpenAI = Boolean(process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.trim());
-    const hasGemini = Boolean(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim());
+    const hasGemini = Boolean(getGeminiApiKey());
 
     const groqModel = String(process.env.GROQ_MODEL || '').trim() || DEFAULT_GROQ_MODEL;
     const openaiEmbeddingModel = process.env.OPENAI_EMBEDDING_MODEL || 'text-embedding-3-small';
@@ -614,14 +618,16 @@ async function generateEmbeddings(texts, { taskType = 'RETRIEVAL_DOCUMENT', bypa
         if (embedProvider === 'openai') {
             const client = getOpenAIClient();
             const batchSize = 64;
+            const supportsDimensions = /^text-embedding-3/i.test(embedModel);
             for (let i = 0; i < missingTexts.length; i += batchSize) {
                 const batch = missingTexts.slice(i, i + batchSize);
+                const payload = {
+                    model: embedModel,
+                    input: batch,
+                    ...(supportsDimensions ? { dimensions: embedDims } : {})
+                };
                 const response = await withRetry(
-                    () => client.embeddings.create({
-                        model: embedModel,
-                        input: batch,
-                        dimensions: embedDims
-                    }),
+                    () => client.embeddings.create(payload),
                     runtime.maxRetries
                 );
                 const sorted = [...response.data].sort((a, b) => a.index - b.index);
@@ -631,7 +637,7 @@ async function generateEmbeddings(texts, { taskType = 'RETRIEVAL_DOCUMENT', bypa
                 reportedTokens += Number(response.usage?.total_tokens || 0);
             }
         } else {
-            const apiKey = String(process.env.GEMINI_API_KEY || '').trim();
+            const apiKey = getGeminiApiKey();
             const batchSize = 32;
             for (let i = 0; i < missingTexts.length; i += batchSize) {
                 const batch = missingTexts.slice(i, i + batchSize);
@@ -900,7 +906,7 @@ async function createChatCompletion({
                 totalTokens: Number(completion?.usage?.total_tokens) || 0
             };
         } else {
-            const apiKey = String(process.env.GEMINI_API_KEY || '').trim();
+            const apiKey = getGeminiApiKey();
             const sysMessage = messages.find(m => m.role === 'system')?.content || '';
             const userMessage = messages.filter(m => m.role !== 'system').map(m => m.content).join('\n\n');
             const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(activeModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
@@ -1271,7 +1277,7 @@ async function ocrPdfWithMultimodalAI(pdfBuffer) {
         return testProviderOverride.ocrPdfWithMultimodalAI(pdfBuffer);
     }
 
-    const geminiKey = String(process.env.GEMINI_API_KEY || '').trim();
+    const geminiKey = getGeminiApiKey();
     if (!geminiKey) return null;
 
     if (!pdfBuffer || pdfBuffer.length > 18 * 1024 * 1024) return null;

@@ -20,7 +20,8 @@ import {
     FileUp,
     Sparkles,
     ScanText,
-    ChevronDown
+    ChevronDown,
+    Play
 } from 'lucide-react';
 import { toast } from '../../../services/notificationService';
 import { dialog } from '../../../services/dialogService';
@@ -30,6 +31,8 @@ const IN_PROGRESS_STATUSES = new Set([
     'Uploaded',
     'Processing',
     'Extracting Text',
+    'Preparing Content',
+    'Generating Chunks',
     'Generating Embeddings',
     'Indexing'
 ]);
@@ -38,6 +41,8 @@ const STATUS_BADGES = {
     Uploaded: 'bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800',
     Processing: 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800',
     'Extracting Text': 'bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800',
+    'Preparing Content': 'bg-fuchsia-50 dark:bg-fuchsia-950/40 text-fuchsia-700 dark:text-fuchsia-300 border-fuchsia-200 dark:border-fuchsia-800',
+    'Generating Chunks': 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800',
     'Generating Embeddings': 'bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800',
     Indexing: 'bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800',
     Completed: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
@@ -97,6 +102,16 @@ export default function AdminKnowledgeBase({ standalone = false }) {
     const [vectorIndexNotice, setVectorIndexNotice] = useState(null);
 
     const pollIntervalRef = useRef(null);
+    const steppingBookIdsRef = useRef(new Set());
+    const autoAttemptedIdsRef = useRef(new Set());
+    const isMountedRef = useRef(true);
+
+    useEffect(() => {
+        isMountedRef.current = true;
+        return () => {
+            isMountedRef.current = false;
+        };
+    }, []);
 
     const fetchBooks = useCallback(async (silent = false) => {
         if (!silent) setLoading(true);
@@ -106,7 +121,7 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                 status: statusFilter,
                 search: searchQuery
             });
-            if (res?.success) {
+            if (res?.success && isMountedRef.current) {
                 setBooks(Array.isArray(res.books) ? res.books : []);
                 if (res.summary) setSummary(res.summary);
                 if (Array.isArray(res.technologies)) {
@@ -122,21 +137,84 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                 toast.error(err?.response?.data?.message || 'Failed to load AI Knowledge Base books.');
             }
         } finally {
-            if (!silent) setLoading(false);
+            if (!silent && isMountedRef.current) setLoading(false);
         }
     }, [techFilter, statusFilter, searchQuery, uploadTechnology]);
+
+    const driveBookProcessing = useCallback(async (bookId, { forceReextract = false, showCompletionToast = true } = {}) => {
+        if (!bookId || steppingBookIdsRef.current.has(bookId)) return;
+        steppingBookIdsRef.current.add(bookId);
+
+        let consecutiveErrors = 0;
+        let stepCount = 0;
+        const maxSteps = 45;
+
+        try {
+            while (isMountedRef.current && stepCount < maxSteps) {
+                stepCount++;
+                try {
+                    const res = await aiVerificationService.processBookStep(bookId, {
+                        ...(stepCount === 1 && forceReextract ? { forceReextract: true } : {})
+                    });
+                    consecutiveErrors = 0;
+
+                    if (res?.book && isMountedRef.current) {
+                        setBooks(prev => prev.map(b => (b.id === bookId ? res.book : b)));
+                    }
+
+                    if (res?.failed) {
+                        if (showCompletionToast && res?.message) {
+                            toast.error(res.message);
+                        }
+                        break;
+                    }
+
+                    if (res?.done || !res?.needsMoreSteps) {
+                        if (showCompletionToast && res?.book?.processingStatus === 'Completed') {
+                            toast.success(`"${res.book.title}" processed (${res.book.totalPages} pages, ${res.book.indexedChunks} chunks)!`);
+                        }
+                        break;
+                    }
+
+                    // Brief pause between steps (slightly longer if another worker holds the lock)
+                    await new Promise(resolve => setTimeout(resolve, res?.locked ? 2000 : 350));
+                } catch (err) {
+                    consecutiveErrors++;
+                    if (consecutiveErrors >= 3) {
+                        const msg = err?.response?.data?.message || err?.message || 'Processing interrupted. Click Resume to continue.';
+                        if (showCompletionToast) toast.error(msg);
+                        break;
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 1500 * consecutiveErrors));
+                }
+            }
+        } finally {
+            steppingBookIdsRef.current.delete(bookId);
+            if (isMountedRef.current) {
+                fetchBooks(true);
+            }
+        }
+    }, [fetchBooks]);
 
     useEffect(() => {
         fetchBooks(false);
     }, [fetchBooks]);
 
-    // Live polling whenever any book is in a background processing state
+    // Auto-drive & live-poll any in-progress or previously stalled books (Vercel-safe resumable runner)
     useEffect(() => {
-        const hasActiveJobs = books.some(b => IN_PROGRESS_STATUSES.has(b.processingStatus));
-        if (hasActiveJobs) {
+        const activeBooks = books.filter(b => IN_PROGRESS_STATUSES.has(b.processingStatus));
+
+        for (const book of activeBooks) {
+            if (!steppingBookIdsRef.current.has(book.id) && !autoAttemptedIdsRef.current.has(book.id)) {
+                autoAttemptedIdsRef.current.add(book.id);
+                driveBookProcessing(book.id, { showCompletionToast: true });
+            }
+        }
+
+        if (activeBooks.length > 0) {
             pollIntervalRef.current = setInterval(() => {
                 fetchBooks(true);
-            }, 2500);
+            }, 3000);
         } else if (pollIntervalRef.current) {
             clearInterval(pollIntervalRef.current);
             pollIntervalRef.current = null;
@@ -147,7 +225,7 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                 pollIntervalRef.current = null;
             }
         };
-    }, [books, fetchBooks]);
+    }, [books, fetchBooks, driveBookProcessing]);
 
     const handleFileSelect = (file) => {
         if (!file) return;
@@ -178,11 +256,16 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                 technology: uploadTechnology,
                 onProgress: (pct) => setUploadProgress(pct)
             });
-            toast.success(res?.message || 'Book uploaded and queued for vector indexing!');
+            toast.success(res?.message || 'Book uploaded! Starting text extraction and indexing...');
             setShowUploadModal(false);
             setUploadFile(null);
             setUploadProgress(0);
-            fetchBooks(false);
+            await fetchBooks(false);
+            const uploadedId = res?.book?.id;
+            if (uploadedId && res?.requiresStepProcessing !== false) {
+                autoAttemptedIdsRef.current.add(uploadedId);
+                driveBookProcessing(uploadedId, { showCompletionToast: true });
+            }
         } catch (err) {
             toast.error(err?.response?.data?.message || err?.message || 'Failed to upload book.');
         } finally {
@@ -200,14 +283,25 @@ export default function AdminKnowledgeBase({ standalone = false }) {
         }
     };
 
-    const handleRetryBook = async (book) => {
+    const handleRetryBook = async (book, { mode = 'resume' } = {}) => {
         try {
-            const res = await aiVerificationService.retryBookProcessing(book.id);
-            toast.info(res?.message || 'Re-processing started.');
-            fetchBooks(true);
+            const res = await aiVerificationService.retryBookProcessing(book.id, { mode });
+            toast.info(res?.message || 'Processing started.');
+            await fetchBooks(true);
+            autoAttemptedIdsRef.current.add(book.id);
+            driveBookProcessing(book.id, {
+                forceReextract: mode === 'reindex',
+                showCompletionToast: true
+            });
         } catch (err) {
             toast.error(err?.response?.data?.message || 'Failed to retry processing.');
         }
+    };
+
+    const handleResumeBook = async (book) => {
+        autoAttemptedIdsRef.current.add(book.id);
+        toast.info(`Resuming "${book.title}"...`);
+        driveBookProcessing(book.id, { showCompletionToast: true });
     };
 
     const handleDeleteBook = async (book) => {
@@ -266,11 +360,16 @@ export default function AdminKnowledgeBase({ standalone = false }) {
         if (!replacingBook || !replaceFile) return toast.error('Select a replacement file first.');
         setReplacing(true);
         try {
-            const res = await aiVerificationService.replaceBookFile(replacingBook.id, replaceFile);
+            const targetBookId = replacingBook.id;
+            const res = await aiVerificationService.replaceBookFile(targetBookId, replaceFile);
             toast.success(res?.message || 'Book file replaced.');
             setReplacingBook(null);
             setReplaceFile(null);
-            fetchBooks(false);
+            await fetchBooks(false);
+            if (!res?.skippedReembedding && res?.requiresStepProcessing !== false) {
+                autoAttemptedIdsRef.current.add(targetBookId);
+                driveBookProcessing(targetBookId, { showCompletionToast: true });
+            }
         } catch (err) {
             toast.error(err?.response?.data?.message || 'Failed to replace book file.');
         } finally {
@@ -366,13 +465,31 @@ export default function AdminKnowledgeBase({ standalone = false }) {
 
             {/* Active AI Provider & Embedding Dimension Strip */}
             {aiProvider && aiProvider.configured && (
-                <div className="p-3.5 rounded-2xl bg-[var(--muted-bg)]/60 border border-[var(--card-border)] flex flex-wrap items-center justify-between gap-2 text-xs">
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[var(--foreground-muted)]">
-                        <span>Provider: <strong className="text-[var(--foreground)] uppercase">{aiProvider.provider}</strong></span>
-                        <span>Chat Model: <strong className="font-mono text-[11px] text-[var(--foreground)]">{aiProvider.verificationModel}</strong></span>
-                        <span>Embedding Model: <strong className="font-mono text-[11px] text-[var(--foreground)]">{aiProvider.embeddingModel || 'Text fallback (existing books)'}</strong></span>
-                        <span>Vector Dimensions: <strong className="text-[var(--foreground)]">{aiProvider.embeddingDimensions || 1536}</strong></span>
+                <div className="space-y-2.5">
+                    <div className="p-3.5 rounded-2xl bg-[var(--muted-bg)]/60 border border-[var(--card-border)] flex flex-wrap items-center justify-between gap-2 text-xs">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[var(--foreground-muted)]">
+                            <span>Chat Provider: <strong className="text-[var(--foreground)] uppercase">{aiProvider.chatProvider || aiProvider.provider}</strong></span>
+                            <span>Chat Model: <strong className="font-mono text-[11px] text-[var(--foreground)]">{aiProvider.verificationModel}</strong></span>
+                            <span>
+                                Embedding Model:{' '}
+                                <strong className="font-mono text-[11px] text-[var(--foreground)]">
+                                    {aiProvider.embeddingModel || 'Text fallback mode (no embedding API key)'}
+                                </strong>
+                            </span>
+                            <span>Vector Dimensions: <strong className="text-[var(--foreground)]">{aiProvider.embeddingDimensions || 1536}</strong></span>
+                        </div>
                     </div>
+                    {aiProvider.embeddingConfigured === false && (
+                        <div className="p-3.5 rounded-2xl bg-sky-50 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-800 flex items-start gap-2.5 text-xs text-sky-900 dark:text-sky-200">
+                            <AlertCircle size={16} className="text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+                            <div>
+                                <p className="font-bold">Text Fallback Indexing Active (Groq handles chat only)</p>
+                                <p className="mt-0.5 text-sky-800 dark:text-sky-300">
+                                    Books are extracted, chunked, and immediately searchable by text. To enable MongoDB Atlas Vector Search embeddings, configure <code className="font-mono font-bold">OPENAI_API_KEY</code> or <code className="font-mono font-bold">GEMINI_API_KEY</code> in your server environment variables, then click <strong>Generate Vectors</strong> on any book.
+                                </p>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -454,7 +571,7 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                     className="px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs font-semibold text-[var(--foreground)]"
                 >
                     <option value="all">All Statuses</option>
-                    {['Uploaded', 'Processing', 'Extracting Text', 'Generating Embeddings', 'Indexing', 'Completed', 'Failed'].map(st => (
+                    {['Uploaded', 'Processing', 'Extracting Text', 'Preparing Content', 'Generating Chunks', 'Generating Embeddings', 'Indexing', 'Completed', 'Failed'].map(st => (
                         <option key={st} value={st}>{st}</option>
                     ))}
                 </select>
@@ -565,27 +682,50 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-[var(--foreground-muted)] pt-1">
                                             <span>Pages: <strong className="text-[var(--foreground)]">{book.totalPages || 0}</strong></span>
                                             <span>Extracted Chunks: <strong className="text-[var(--foreground)]">{book.totalChunks || 0}</strong></span>
-                                            <span>Indexed Vectors: <strong className="text-emerald-700 dark:text-emerald-400">{book.indexedChunks || 0}</strong></span>
-                                            {book.embeddingModel && (
+                                            <span>
+                                                {book.embeddingMode === 'text_fallback' ? 'Indexed Text Chunks:' : 'Indexed Vectors:'}{' '}
+                                                <strong className="text-emerald-700 dark:text-emerald-400">{book.indexedChunks || 0}</strong>
+                                            </span>
+                                            {book.embeddingMode === 'text_fallback' && book.processingStatus === 'Completed' ? (
+                                                <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-100 dark:bg-sky-950/50 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
+                                                    Text Fallback Mode
+                                                </span>
+                                            ) : book.embeddingModel ? (
                                                 <span>
                                                     Model: <strong className="font-mono text-[10px]">{book.embeddingModel}</strong>
                                                     {book.embeddingDimensions ? ` (${book.embeddingDimensions}d)` : ''}
                                                 </span>
-                                            )}
-                                            {aiProvider?.embeddingDimensions && book.embeddingDimensions && book.embeddingDimensions !== aiProvider.embeddingDimensions && book.processingStatus === 'Completed' && (
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleRetryBook(book)}
-                                                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700 cursor-pointer"
-                                                >
-                                                    <RotateCcw size={10} /> Re-index ({aiProvider.embeddingDimensions}d)
-                                                </button>
-                                            )}
+                                            ) : null}
+                                            {aiProvider?.embeddingConfigured &&
+                                                book.processingStatus === 'Completed' &&
+                                                (book.embeddingMode === 'text_fallback' ||
+                                                    (aiProvider?.embeddingDimensions && book.embeddingDimensions !== aiProvider.embeddingDimensions)) && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleRetryBook(book, { mode: 'reindex' })}
+                                                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700 cursor-pointer"
+                                                    >
+                                                        <RotateCcw size={10} />{' '}
+                                                        {book.embeddingMode === 'text_fallback'
+                                                            ? `Generate Vectors (${aiProvider.embeddingDimensions || 1536}d)`
+                                                            : `Re-index (${aiProvider.embeddingDimensions}d)`}
+                                                    </button>
+                                                )}
                                         </div>
                                     </div>
 
                                     {/* Right Actions */}
                                     <div className="flex flex-wrap items-center gap-2 shrink-0">
+                                        {isProcessing && (book.canResume || book.isStalled) && (
+                                            <button
+                                                type="button"
+                                                onClick={() => handleResumeBook(book)}
+                                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#193D35] hover:bg-[#132f29] text-white cursor-pointer"
+                                                title="Resume interrupted processing from the last saved stage"
+                                            >
+                                                <Play size={13} /> Resume
+                                            </button>
+                                        )}
                                         {book.processingStatus === 'Failed' && (
                                             <button
                                                 type="button"

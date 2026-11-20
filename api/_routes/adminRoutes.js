@@ -235,6 +235,8 @@ router.post('/knowledge-base/books', bookUpload.single('file'), knowledgeBaseCon
 router.post('/knowledge-base/books/init-upload', knowledgeBaseController.initChunkedUpload);
 router.post('/knowledge-base/books/:id/upload-part', bookUpload.single('chunk'), knowledgeBaseController.uploadBookPart);
 router.post('/knowledge-base/books/:id/finalize-upload', knowledgeBaseController.finalizeChunkedUpload);
+router.post('/knowledge-base/books/:id/process-step', knowledgeBaseController.processBookStep);
+router.post('/knowledge-base/books/:id/resume', knowledgeBaseController.processBookStep);
 router.put('/knowledge-base/books/:id', knowledgeBaseController.updateBookMetadata);
 router.post('/knowledge-base/books/:id/replace', bookUpload.single('file'), knowledgeBaseController.replaceBook);
 router.patch('/knowledge-base/books/:id/toggle', knowledgeBaseController.toggleBookEnabled);

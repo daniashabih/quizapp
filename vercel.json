@@ -5,7 +5,8 @@
   "trailingSlash": false,
   "functions": {
     "api/index.js": {
-      "includeFiles": "{api/**,dist/index.html,dist/404.html,node_modules/.prisma/client/**,node_modules/@prisma/client/**,prisma/**}"
+      "maxDuration": 60,
+      "includeFiles": "{api/**,dist/index.html,dist/404.html,node_modules/.prisma/client/**,node_modules/@prisma/client/**,node_modules/pdf-parse/lib/pdf.js/v1.10.100/**,prisma/**}"
     }
   },
   "redirects": [

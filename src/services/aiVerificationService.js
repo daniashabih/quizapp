@@ -163,8 +163,13 @@ const aiVerificationService = {
         return res.data;
     },
 
-    retryBookProcessing: async (bookId) => {
-        const res = await axios.post(`/admin/knowledge-base/books/${bookId}/retry`, {}, { timeout: 30000 });
+    processBookStep: async (bookId, payload = {}) => {
+        const res = await axios.post(`/admin/knowledge-base/books/${bookId}/process-step`, payload, { timeout: 55000 });
+        return res.data;
+    },
+
+    retryBookProcessing: async (bookId, payload = {}) => {
+        const res = await axios.post(`/admin/knowledge-base/books/${bookId}/retry`, payload, { timeout: 30000 });
         return res.data;
     },
 

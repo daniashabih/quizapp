@@ -170,8 +170,28 @@ class AiVerificationService {
     );
   }
 
-  Future<void> retryBookProcessing(String bookId) async {
-    await apiClient.post(ApiEndpoints.adminKnowledgeBaseBookRetry(bookId));
+  Future<Map<String, dynamic>> processBookStep(
+    String bookId, {
+    bool forceReextract = false,
+  }) async {
+    final response = await apiClient.post(
+      ApiEndpoints.adminKnowledgeBaseBookProcessStep(bookId),
+      data: {
+        if (forceReextract) 'forceReextract': true,
+      },
+      options: Options(receiveTimeout: const Duration(seconds: 55)),
+    );
+    return (response.data as Map<String, dynamic>?) ?? const {};
+  }
+
+  Future<void> retryBookProcessing(
+    String bookId, {
+    String mode = 'resume',
+  }) async {
+    await apiClient.post(
+      ApiEndpoints.adminKnowledgeBaseBookRetry(bookId),
+      data: {'mode': mode},
+    );
   }
 
   Future<void> deleteBook(String bookId) async {
