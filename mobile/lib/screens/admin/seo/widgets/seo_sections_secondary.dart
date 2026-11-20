@@ -946,7 +946,9 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
       text: s['gscProperty']?.toString() ?? 'sc-domain:hangbug.com',
     );
     _ga4Ctrl = TextEditingController(
-      text: s['ga4PropertyId']?.toString() ?? '',
+      text: s['ga4PropertyId']?.toString().isNotEmpty == true
+          ? s['ga4PropertyId'].toString()
+          : '561909161',
     );
     _saEmailCtrl = TextEditingController(
       text: s['googleServiceAccountEmail']?.toString() ??
@@ -1033,6 +1035,20 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
             [])
         .whereType<Map<String, dynamic>>()
         .toList();
+    final ga4MeasurementId =
+        s['ga4MeasurementId']?.toString() ?? 'G-BSZBBFZZH0';
+    final ga4NumericId = _ga4Ctrl.text.isNotEmpty
+        ? _ga4Ctrl.text
+        : (s['ga4PropertyId']?.toString() ?? '561909161');
+    final ga4Status = (_testResult?['provider'] == 'Google Analytics 4')
+        ? (_testResult?['ok'] == true ? 'Connected' : 'Connection Error')
+        : (s['ga4Connected'] == true
+            ? 'Connected'
+            : (s['ga4ConnectionStatus']?.toString() ?? 'Not Connected'));
+    final ga4LastSync = (_testResult?['provider'] == 'Google Analytics 4' &&
+            _testResult?['syncedAt'] != null)
+        ? _testResult!['syncedAt'].toString()
+        : (s['ga4LastSyncedAt']?.toString() ?? 'Not synced yet');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1047,7 +1063,7 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
             ),
             OutlinedButton(
               onPressed: () => _handleTest('ga4'),
-              child: const Text('Test GA4'),
+              child: const Text('Test GA4 Connection'),
             ),
             OutlinedButton(
               onPressed: () => _handleTest('pagespeed'),
@@ -1125,6 +1141,48 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
                     );
                   }).toList(),
                 ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: SeoColors.cardBg(context),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: SeoColors.border(context)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Google Analytics 4 Integration',
+                style: AppTextStyles.labelBold.copyWith(
+                  fontSize: 13.5,
+                  color: SeoColors.textPrimary(context),
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Measurement ID: $ga4MeasurementId',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              Text(
+                'Numeric Property ID: $ga4NumericId (properties/$ga4NumericId)',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              Text(
+                'Service Account Email: $saEmail',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              Text(
+                'Connection Status: $ga4Status',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              Text(
+                'Last Successful Sync: $ga4LastSync',
+                style: const TextStyle(fontSize: 11.5),
+              ),
             ],
           ),
         ),

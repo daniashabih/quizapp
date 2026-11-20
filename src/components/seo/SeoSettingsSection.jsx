@@ -9,10 +9,13 @@ import {
     Globe,
     Mail,
     KeyRound,
-    ShieldCheck
+    ShieldCheck,
+    Activity,
+    Clock
 } from 'lucide-react';
 import seoService from '../../services/seoService';
 import { toast } from '../../services/notificationService';
+import { formatSeoTimestamp } from './seoUtils';
 
 function normalizeClientGscProperty(raw) {
     const val = String(raw || '').trim();
@@ -40,7 +43,7 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
         projectName: 'Hangbug',
         siteUrl: 'https://www.hangbug.com',
         gscProperty: 'sc-domain:hangbug.com',
-        ga4PropertyId: '',
+        ga4PropertyId: '561909161',
         ga4MeasurementId: 'G-BSZBBFZZH0',
         googleServiceAccountEmail: '',
         googlePrivateKey: '',
@@ -64,7 +67,7 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
             projectName: s.projectName || 'Hangbug',
             siteUrl: s.siteUrl || `https://${domain}`,
             gscProperty: s.gscProperty || 'sc-domain:hangbug.com',
-            ga4PropertyId: s.ga4PropertyId || '',
+            ga4PropertyId: s.ga4PropertyId || '561909161',
             ga4MeasurementId: s.ga4MeasurementId || 'G-BSZBBFZZH0',
             googleServiceAccountEmail: s.googleServiceAccountEmail || s.googleServiceAccountEmailMasked || '',
             backlinkProvider: s.backlinkProvider || 'none',
@@ -179,6 +182,16 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                 if (result.property) {
                     setForm((prev) => ({ ...prev, gscProperty: result.property }));
                 }
+            } else if (target === 'ga4') {
+                setFlags((prev) => ({
+                    ...prev,
+                    ga4Connected: Boolean(result.ok),
+                    ga4ConnectionStatus: result.ok ? 'Connected' : 'Connection Error',
+                    ga4PropertyId: result.propertyId || prev.ga4PropertyId,
+                    ga4ResourceName: result.resourceName || prev.ga4ResourceName,
+                    ga4LastSyncedAt: result.syncedAt || prev.ga4LastSyncedAt,
+                    ga4VerificationMessage: result.message || prev.ga4VerificationMessage
+                }));
             }
         } catch (err) {
             setTestResult({
@@ -229,7 +242,7 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                     <div className="flex flex-wrap gap-2 text-xs">
                         {[
                             { id: 'gsc', label: 'Test GSC' },
-                            { id: 'ga4', label: 'Test GA4' },
+                            { id: 'ga4', label: 'Test GA4 Connection' },
                             { id: 'pagespeed', label: 'Test PageSpeed' },
                             { id: 'backlinks', label: 'Test Backlinks' }
                         ].map((btn) => (
@@ -362,10 +375,92 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                                     ) : null}
                                 </p>
                             )}
+                            {testResult.resourceName && (
+                                <p className="text-[11px]">
+                                    GA4 Resource: <code className="font-mono font-bold">{testResult.resourceName}</code>
+                                    {testResult.measurementId ? (
+                                        <> · Frontend Tag: <code className="font-mono font-bold">{testResult.measurementId}</code></>
+                                    ) : null}
+                                </p>
+                            )}
                             <p className="leading-relaxed">{testResult.message}</p>
                         </div>
                     </div>
                 )}
+            </div>
+
+            {/* Google Analytics 4 Server-Side Integration Status Card */}
+            <div className="bg-white dark:bg-[#18221E] rounded-2xl border border-[#E4EAE6] dark:border-[#2A3832] p-5 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E4EAE6] dark:border-[#2A3832]">
+                    <div className="flex items-center gap-2.5">
+                        <Activity size={17} className="text-[#2F806B]" />
+                        <div>
+                            <h2 className="text-sm font-display font-bold text-[#17221F] dark:text-[#F3F6F4]">
+                                Google Analytics 4 Server-Side Integration
+                            </h2>
+                            <p className="text-xs text-[#75817C] dark:text-[#8FA69C]">
+                                Reuses the stored Google Service Account JSON with read-only scope <code className="font-mono">analytics.readonly</code> against <code className="font-mono">properties/{form.ga4PropertyId || flags.ga4PropertyId || '561909161'}</code>.
+                            </p>
+                        </div>
+                    </div>
+                    <button
+                        type="button"
+                        disabled={Boolean(testingTarget)}
+                        onClick={() => handleTest('ga4')}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50"
+                    >
+                        <Zap size={13} />
+                        <span>{testingTarget === 'ga4' ? 'Testing GA4...' : 'Test GA4 Connection'}</span>
+                    </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">Measurement ID</p>
+                        <p className="mt-1.5 font-mono font-bold text-[#17221F] dark:text-[#F3F6F4]">
+                            {form.ga4MeasurementId || flags.ga4MeasurementId || 'G-BSZBBFZZH0'}
+                        </p>
+                        <p className="mt-0.5 text-[10px] text-[#75817C]">Frontend tracking only</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">Numeric Property ID</p>
+                        <p className="mt-1.5 font-mono font-bold text-[#17221F] dark:text-[#F3F6F4]">
+                            {form.ga4PropertyId || flags.ga4PropertyId || '561909161'}
+                        </p>
+                        <p className="mt-0.5 text-[10px] font-mono text-[#2F806B]">
+                            properties/{form.ga4PropertyId || flags.ga4PropertyId || '561909161'}
+                        </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">Service Account Email</p>
+                        <p className="mt-1.5 font-mono text-[11px] font-semibold text-[#17221F] dark:text-[#F3F6F4] break-all">
+                            {serviceAccountEmailDisplay}
+                        </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">Connection Status</p>
+                        <p className={`mt-1.5 font-bold ${
+                            flags.ga4Connected
+                                ? 'text-[#2F806B] dark:text-emerald-300'
+                                : 'text-[#B45309] dark:text-amber-300'
+                        }`}>
+                            {flags.ga4Connected ? 'Connected' : (flags.ga4ConnectionStatus || 'Not Connected')}
+                        </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <div className="flex items-center gap-1 text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">
+                            <Clock size={11} className="text-[#2F806B]" />
+                            <span>Last Successful Sync</span>
+                        </div>
+                        <p className="mt-1.5 font-semibold text-[#17221F] dark:text-[#F3F6F4]">
+                            {flags.ga4LastSyncedAt ? formatSeoTimestamp(flags.ga4LastSyncedAt) : 'Not synced yet'}
+                        </p>
+                    </div>
+                </div>
             </div>
 
             {/* Settings Form */}

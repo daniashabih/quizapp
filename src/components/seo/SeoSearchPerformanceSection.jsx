@@ -6,8 +6,9 @@ import { getSeoTelemetrySnapshot } from '../../utils/analytics';
 const PRESET_RANGES = [
     { id: '7d', label: 'Last 7 days' },
     { id: '28d', label: 'Last 28 days' },
-    { id: '3m', label: 'Last 3 months' },
+    { id: '3m', label: 'Last 90 days' },
     { id: '6m', label: 'Last 6 months' },
+    { id: '12m', label: 'Last 12 months' },
     { id: 'custom', label: 'Custom range' }
 ];
 
@@ -235,67 +236,201 @@ export default function SeoSearchPerformanceSection({
                     <div className="flex items-center gap-2">
                         <Activity size={17} className="text-[#2F806B]" />
                         <h3 className="text-sm font-display font-bold text-[#17221F] dark:text-[#F3F6F4]">
-                            Google Analytics 4 — Organic Traffic &amp; Engagement
+                            Google Analytics 4 — Traffic, Engagement &amp; Audience Breakdown
                         </h3>
                     </div>
-                    <span className="text-[11px] font-semibold text-[#193D35] dark:text-emerald-300 bg-[#E5F2EC] dark:bg-[#1F352E] px-2.5 py-1 rounded-full">
-                        Tag ID: {ga4.measurementId || 'G-BSZBBFZZH0'}
-                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                        {ga4.propertyId && (
+                            <span className="text-[11px] font-mono font-semibold text-[#193D35] dark:text-emerald-300 bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832] px-2.5 py-1 rounded-full">
+                                Property: properties/{ga4.propertyId}
+                            </span>
+                        )}
+                        <span className="text-[11px] font-semibold text-[#193D35] dark:text-emerald-300 bg-[#E5F2EC] dark:bg-[#1F352E] px-2.5 py-1 rounded-full">
+                            Tag ID: {ga4.measurementId || 'G-BSZBBFZZH0'}
+                        </span>
+                    </div>
                 </div>
 
                 {ga4.connected && ga4.summary ? (
-                    <div className="pt-4 space-y-5">
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div className="pt-4 space-y-6">
+                        {ga4.noDataMessage && (
+                            <div className="p-3.5 rounded-xl bg-[#FEF5E7] dark:bg-amber-950/40 border border-[#F8DFB6] dark:border-amber-800/70 text-xs text-[#B45309] dark:text-amber-300">
+                                {ga4.noDataMessage}
+                            </div>
+                        )}
+
+                        {/* 7 Core GA4 KPI Cards */}
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
                             <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
-                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">Organic Sessions</p>
+                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">Active Users</p>
                                 <p className="text-xl font-display font-bold text-[#17221F] dark:text-[#F3F6F4] mt-1">
-                                    {ga4.summary.organicSessions.toLocaleString('en-US')}
+                                    {(ga4.summary.activeUsers ?? ga4.summary.organicUsers ?? 0).toLocaleString('en-US')}
                                 </p>
                             </div>
                             <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
-                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">Active Organic Users</p>
+                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">Total Users</p>
                                 <p className="text-xl font-display font-bold text-[#17221F] dark:text-[#F3F6F4] mt-1">
-                                    {ga4.summary.organicUsers.toLocaleString('en-US')}
+                                    {(ga4.summary.totalUsers ?? 0).toLocaleString('en-US')}
                                 </p>
                             </div>
                             <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
-                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">Engaged Sessions</p>
+                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">Sessions</p>
                                 <p className="text-xl font-display font-bold text-[#17221F] dark:text-[#F3F6F4] mt-1">
-                                    {ga4.summary.engagedSessions.toLocaleString('en-US')}
+                                    {(ga4.summary.sessions ?? ga4.summary.organicSessions ?? 0).toLocaleString('en-US')}
                                 </p>
                             </div>
                             <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
-                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">Engagement Rate</p>
+                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">New Users</p>
+                                <p className="text-xl font-display font-bold text-[#17221F] dark:text-[#F3F6F4] mt-1">
+                                    {(ga4.summary.newUsers ?? 0).toLocaleString('en-US')}
+                                </p>
+                            </div>
+                            <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">Page Views</p>
+                                <p className="text-xl font-display font-bold text-[#17221F] dark:text-[#F3F6F4] mt-1">
+                                    {(ga4.summary.pageViews ?? 0).toLocaleString('en-US')}
+                                </p>
+                            </div>
+                            <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">Bounce Rate</p>
+                                <p className="text-xl font-display font-bold text-[#17221F] dark:text-[#F3F6F4] mt-1">
+                                    {ga4.summary.bounceRate ?? 0}%
+                                </p>
+                            </div>
+                            <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">Avg Engagement</p>
                                 <p className="text-xl font-display font-bold text-[#2F806B] dark:text-emerald-300 mt-1">
-                                    {ga4.summary.engagementRate}%
+                                    {ga4.summary.avgEngagementTimeFormatted || '0s'}
                                 </p>
                             </div>
                         </div>
 
-                        {Array.isArray(ga4.topLandingPages) && ga4.topLandingPages.length > 0 && (
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-left text-xs">
-                                    <thead>
-                                        <tr className="border-b border-[#E4EAE6] dark:border-[#2A3832] text-[#75817C] dark:text-[#8FA69C]">
-                                            <th className="py-2 pr-4 font-semibold">Organic Landing Page</th>
-                                            <th className="py-2 px-3 font-semibold text-right">Sessions</th>
-                                            <th className="py-2 px-3 font-semibold text-right">Active Users</th>
-                                            <th className="py-2 pl-3 font-semibold text-right">Engagement Rate</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-[#E4EAE6] dark:divide-[#2A3832]">
-                                        {ga4.topLandingPages.slice(0, 10).map((lp) => (
-                                            <tr key={lp.path}>
-                                                <td className="py-2.5 pr-4 font-mono text-[#17221F] dark:text-[#F3F6F4]">{lp.path}</td>
-                                                <td className="py-2.5 px-3 text-right font-semibold">{lp.sessions}</td>
-                                                <td className="py-2.5 px-3 text-right">{lp.users}</td>
-                                                <td className="py-2.5 pl-3 text-right text-[#2F806B] font-semibold">{lp.engagementRate}%</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                        {/* Top Landing Pages & Traffic Sources */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                            <div className="p-4 rounded-xl bg-[#F7F8F6]/60 dark:bg-[#141D19]/70 border border-[#E4EAE6] dark:border-[#2A3832]">
+                                <h4 className="text-xs font-bold text-[#17221F] dark:text-[#F3F6F4] mb-3">
+                                    Top Landing Pages
+                                </h4>
+                                {Array.isArray(ga4.topLandingPages) && ga4.topLandingPages.length > 0 ? (
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left text-xs">
+                                            <thead>
+                                                <tr className="border-b border-[#E4EAE6] dark:border-[#2A3832] text-[#75817C] dark:text-[#8FA69C]">
+                                                    <th className="py-2 pr-3 font-semibold">Landing Page</th>
+                                                    <th className="py-2 px-2 font-semibold text-right">Sessions</th>
+                                                    <th className="py-2 px-2 font-semibold text-right">Users</th>
+                                                    <th className="py-2 pl-2 font-semibold text-right">Engagement</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-[#E4EAE6] dark:divide-[#2A3832]">
+                                                {ga4.topLandingPages.slice(0, 10).map((lp) => (
+                                                    <tr key={lp.path}>
+                                                        <td className="py-2 pr-3 font-mono text-[11px] text-[#17221F] dark:text-[#F3F6F4] max-w-[200px] truncate" title={lp.path}>{lp.path}</td>
+                                                        <td className="py-2 px-2 text-right font-semibold">{lp.sessions}</td>
+                                                        <td className="py-2 px-2 text-right">{lp.activeUsers ?? lp.users}</td>
+                                                        <td className="py-2 pl-2 text-right text-[#2F806B] font-semibold">{lp.engagementRate}%</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <p className="text-xs text-[#75817C]">No landing page rows returned for this date range.</p>
+                                )}
                             </div>
-                        )}
+
+                            <div className="p-4 rounded-xl bg-[#F7F8F6]/60 dark:bg-[#141D19]/70 border border-[#E4EAE6] dark:border-[#2A3832]">
+                                <h4 className="text-xs font-bold text-[#17221F] dark:text-[#F3F6F4] mb-3">
+                                    Traffic Sources (Default Channel Group)
+                                </h4>
+                                {Array.isArray(ga4.trafficSources) && ga4.trafficSources.length > 0 ? (
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left text-xs">
+                                            <thead>
+                                                <tr className="border-b border-[#E4EAE6] dark:border-[#2A3832] text-[#75817C] dark:text-[#8FA69C]">
+                                                    <th className="py-2 pr-3 font-semibold">Channel</th>
+                                                    <th className="py-2 px-2 font-semibold text-right">Sessions</th>
+                                                    <th className="py-2 px-2 font-semibold text-right">Active Users</th>
+                                                    <th className="py-2 pl-2 font-semibold text-right">Share</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-[#E4EAE6] dark:divide-[#2A3832]">
+                                                {ga4.trafficSources.map((src) => (
+                                                    <tr key={src.channel}>
+                                                        <td className="py-2 pr-3 font-semibold text-[#17221F] dark:text-[#F3F6F4]">{src.channel}</td>
+                                                        <td className="py-2 px-2 text-right font-semibold">{src.sessions}</td>
+                                                        <td className="py-2 px-2 text-right">{src.activeUsers}</td>
+                                                        <td className="py-2 pl-2 text-right text-[#2F806B] font-semibold">{src.sharePct}%</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <p className="text-xs text-[#75817C]">No traffic source rows returned for this date range.</p>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Country-wise Visitors & Device Categories */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                            <div className="p-4 rounded-xl bg-[#F7F8F6]/60 dark:bg-[#141D19]/70 border border-[#E4EAE6] dark:border-[#2A3832]">
+                                <h4 className="text-xs font-bold text-[#17221F] dark:text-[#F3F6F4] mb-3">
+                                    Country-Wise Visitors
+                                </h4>
+                                {Array.isArray(ga4.countries) && ga4.countries.length > 0 ? (
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-left text-xs">
+                                            <thead>
+                                                <tr className="border-b border-[#E4EAE6] dark:border-[#2A3832] text-[#75817C] dark:text-[#8FA69C]">
+                                                    <th className="py-2 pr-3 font-semibold">Country</th>
+                                                    <th className="py-2 px-2 font-semibold text-right">Active Users</th>
+                                                    <th className="py-2 px-2 font-semibold text-right">Sessions</th>
+                                                    <th className="py-2 pl-2 font-semibold text-right">Share</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-[#E4EAE6] dark:divide-[#2A3832]">
+                                                {ga4.countries.slice(0, 10).map((c) => (
+                                                    <tr key={c.country}>
+                                                        <td className="py-2 pr-3 font-medium text-[#17221F] dark:text-[#F3F6F4]">{c.country}</td>
+                                                        <td className="py-2 px-2 text-right font-semibold">{c.activeUsers}</td>
+                                                        <td className="py-2 px-2 text-right">{c.sessions}</td>
+                                                        <td className="py-2 pl-2 text-right text-[#2F806B] font-semibold">{c.sharePct}%</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ) : (
+                                    <p className="text-xs text-[#75817C]">No country rows returned for this date range.</p>
+                                )}
+                            </div>
+
+                            <div className="p-4 rounded-xl bg-[#F7F8F6]/60 dark:bg-[#141D19]/70 border border-[#E4EAE6] dark:border-[#2A3832]">
+                                <h4 className="text-xs font-bold text-[#17221F] dark:text-[#F3F6F4] mb-3">
+                                    Device Categories
+                                </h4>
+                                {Array.isArray(ga4.devices) && ga4.devices.length > 0 ? (
+                                    <div className="space-y-2.5">
+                                        {ga4.devices.map((d) => (
+                                            <div key={d.device} className="p-3 rounded-xl bg-white dark:bg-[#18221E] border border-[#E4EAE6] dark:border-[#2A3832]">
+                                                <div className="flex items-center justify-between text-xs mb-1">
+                                                    <span className="font-bold text-[#17221F] dark:text-[#F3F6F4]">{d.label}</span>
+                                                    <span className="font-semibold text-[#2F806B] dark:text-emerald-300">{d.sharePct}% of sessions</span>
+                                                </div>
+                                                <div className="flex flex-wrap gap-4 text-[11px] text-[#75817C] dark:text-[#8FA69C]">
+                                                    <span>Active Users: <strong className="text-[#17221F] dark:text-[#F3F6F4]">{d.activeUsers}</strong></span>
+                                                    <span>Sessions: <strong className="text-[#17221F] dark:text-[#F3F6F4]">{d.sessions}</strong></span>
+                                                    <span>Page Views: <strong className="text-[#17221F] dark:text-[#F3F6F4]">{d.pageViews}</strong></span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-xs text-[#75817C]">No device category rows returned for this date range.</p>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 ) : (
                     <div className="pt-4 space-y-4">

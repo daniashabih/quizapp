@@ -310,8 +310,9 @@ class SeoSearchPerformanceTab extends StatelessWidget {
     final rangeOptions = [
       ('7d', '7 Days'),
       ('28d', '28 Days'),
-      ('3m', '3 Months'),
+      ('3m', '90 Days'),
       ('6m', '6 Months'),
+      ('12m', '12 Months'),
       ('custom', 'Custom'),
     ];
 
@@ -438,20 +439,29 @@ class SeoSearchPerformanceTab extends StatelessWidget {
                     ),
                   ),
                   SeoStatusBadge(
-                    status: ga4Connected ? 'Verified' : 'Tag Active / API Off',
+                    status: ga4Connected ? 'Connected' : 'Tag Active / API Off',
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              if (ga4Connected)
+              if (ga4Connected) ...[
                 Text(
-                  'Organic Sessions: ${ga4Summary['organicSessions'] ?? 0} · Active Users: ${ga4Summary['organicUsers'] ?? 0} · Engagement Rate: ${ga4Summary['engagementRate'] ?? 0}%',
+                  'Active Users: ${ga4Summary['activeUsers'] ?? ga4Summary['organicUsers'] ?? 0} · Total Users: ${ga4Summary['totalUsers'] ?? 0} · Sessions: ${ga4Summary['sessions'] ?? ga4Summary['organicSessions'] ?? 0} · New Users: ${ga4Summary['newUsers'] ?? 0}',
                   style: TextStyle(
                     fontSize: 12.5,
+                    fontWeight: FontWeight.w600,
                     color: SeoColors.textPrimary(context),
                   ),
-                )
-              else
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Page Views: ${ga4Summary['pageViews'] ?? 0} · Bounce Rate: ${ga4Summary['bounceRate'] ?? 0}% · Avg Engagement: ${ga4Summary['avgEngagementTimeFormatted'] ?? '0s'}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: SeoColors.textMuted(context),
+                  ),
+                ),
+              ] else
                 Text(
                   ga4['reason']?.toString() ??
                       'GA4 Measurement ID G-BSZBBFZZH0 is active. Connect GA4 Property ID & Service Account in Settings.',
