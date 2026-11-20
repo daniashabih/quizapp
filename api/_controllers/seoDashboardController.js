@@ -5,6 +5,12 @@ const {
     sanitizeConfigForClient,
     saveProjectConfig,
     resolveDateRange,
+    buildGscOAuthAuthorizationUrl,
+    verifyGscOAuthState,
+    exchangeGscOAuthCode,
+    listSearchConsoleProperties,
+    selectAndVerifySearchConsoleProperty,
+    disconnectSearchConsole,
     fetchSearchConsolePerformance,
     inspectUrlInSearchConsole,
     fetchGa4Performance,
@@ -385,10 +391,12 @@ exports.getSeoDashboard = async (req, res) => {
             ...targetKeywords.map(k => k.keyword)
         ];
 
+        const freshConfig = await getProjectConfig(domain);
+
         res.json({
             success: true,
             data: {
-                project: sanitizeConfigForClient(config),
+                project: sanitizeConfigForClient(freshConfig),
                 overview,
                 healthScore: latestAudit?.scoreBreakdown || null,
                 searchPerformance: gscData,
@@ -730,6 +738,241 @@ exports.importBacklinks = async (req, res) => {
         res.status(400).json({
             success: false,
             message: error.message || 'Failed to import backlinks.'
+        });
+    }
+};
+
+function escapeHtml(str) {
+    return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function renderMobileOAuthHtml({ ok, title, message, accountEmail = '', selectedProperty = '' }) {
+    const accent = ok ? '#193D35' : '#B91C1C';
+    const badgeBg = ok ? '#E5F2EC' : '#FCEEED';
+    const badgeText = ok ? 'Connected' : 'Authorization Failed';
+    return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>${escapeHtml(title)} — Hangbug</title>
+  <style>
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F7F8F6;color:#17221F;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;box-sizing:border-box}
+    .card{max-width:460px;width:100%;background:#FFFFFF;border:1px solid #E4EAE6;border-radius:20px;padding:28px;box-shadow:0 6px 24px rgba(25,61,53,0.08)}
+    .badge{display:inline-block;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700;background:${badgeBg};color:${accent};margin-bottom:14px}
+    h1{font-size:20px;margin:0 0 10px;color:#17221F}
+    p{font-size:14px;line-height:1.55;color:#52615B;margin:0 0 14px}
+    .meta{background:#F7F8F6;border:1px solid #E4EAE6;border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:16px}
+    .meta div{margin:4px 0}
+    .btn{display:inline-block;text-decoration:none;background:#193D35;color:#fff;padding:11px 18px;border-radius:12px;font-size:13px;font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">${escapeHtml(badgeText)}</div>
+    <h1>${escapeHtml(title)}</h1>
+    <p>${escapeHtml(message)}</p>
+    ${(accountEmail || selectedProperty) ? `<div class="meta">${accountEmail ? `<div><strong>Google Account:</strong> ${escapeHtml(accountEmail)}</div>` : ''}${selectedProperty ? `<div><strong>Verified Property:</strong> ${escapeHtml(selectedProperty)}</div>` : ''}</div>` : ''}
+    <p>You can close this browser tab and return to the Hangbug app, then tap <strong>Refresh</strong> in SEO Settings.</p>
+    <a class="btn" href="/dashboard/seo/settings">Open Web SEO Settings</a>
+  </div>
+</body>
+</html>`;
+}
+
+exports.getGscOAuthAuthorizeUrl = async (req, res) => {
+    try {
+        const domain = normalizeDomain(req.query.domain || DEFAULT_DOMAIN);
+        const platform = String(req.query.platform || 'web').toLowerCase() === 'mobile' ? 'mobile' : 'web';
+        const result = buildGscOAuthAuthorizationUrl({
+            domain,
+            platform,
+            userId: req.user?.id || '',
+            userEmail: req.user?.email || ''
+        });
+        res.setHeader('Cache-Control', 'no-store');
+        res.json({
+            success: true,
+            authUrl: result.authUrl,
+            redirectUri: result.redirectUri
+        });
+    } catch (error) {
+        res.status(error.status || 400).json({
+            success: false,
+            code: error.code || 'GSC_OAUTH_ERROR',
+            message: error.message || 'Unable to initiate Google Search Console OAuth authorization.'
+        });
+    }
+};
+
+exports.handleGscOAuthCallback = async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+
+    const oauthError = String(req.query.error || '').trim();
+    const stateRaw = String(req.query.state || '').trim();
+    const code = String(req.query.code || '').trim();
+
+    let stateInfo = { domain: DEFAULT_DOMAIN, platform: 'web' };
+    try {
+        stateInfo = verifyGscOAuthState(stateRaw);
+    } catch (stateErr) {
+        if (String(req.query.platform || '').toLowerCase() === 'mobile') {
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            return res.status(400).send(renderMobileOAuthHtml({
+                ok: false,
+                title: 'Google Authorization Failed',
+                message: stateErr.message
+            }));
+        }
+        return res.redirect(302, `/dashboard/seo/settings?gsc_oauth=error&message=${encodeURIComponent(stateErr.message)}`);
+    }
+
+    if (oauthError) {
+        const readableErr = oauthError === 'access_denied'
+            ? 'Google Search Console authorization was cancelled or denied.'
+            : `Google OAuth returned error: ${oauthError}`;
+        if (stateInfo.platform === 'mobile') {
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            return res.status(200).send(renderMobileOAuthHtml({
+                ok: false,
+                title: 'Google Authorization Cancelled',
+                message: readableErr
+            }));
+        }
+        return res.redirect(
+            302,
+            `/dashboard/seo/settings?gsc_oauth=error&domain=${encodeURIComponent(stateInfo.domain)}&message=${encodeURIComponent(readableErr)}`
+        );
+    }
+
+    try {
+        const result = await exchangeGscOAuthCode({
+            domain: stateInfo.domain,
+            code
+        });
+
+        if (stateInfo.platform === 'mobile') {
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            return res.status(200).send(renderMobileOAuthHtml({
+                ok: true,
+                title: 'Google Search Console Connected',
+                message: result.propertyVerified
+                    ? 'Your Google account is authorized and your Hangbug Search Console property is verified.'
+                    : 'Your Google account is authorized. Return to Hangbug SEO Settings to select and verify your Search Console property.',
+                accountEmail: result.accountEmail,
+                selectedProperty: result.selectedProperty
+            }));
+        }
+
+        const statusFlag = result.propertyVerified ? 'connected' : 'select_property';
+        return res.redirect(
+            302,
+            `/dashboard/seo/settings?gsc_oauth=${statusFlag}&domain=${encodeURIComponent(stateInfo.domain)}`
+        );
+    } catch (error) {
+        const msg = error.message || 'Failed to complete Google Search Console OAuth authorization.';
+        if (stateInfo.platform === 'mobile') {
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            return res.status(error.status || 400).send(renderMobileOAuthHtml({
+                ok: false,
+                title: 'Connection Failed',
+                message: msg
+            }));
+        }
+        return res.redirect(
+            302,
+            `/dashboard/seo/settings?gsc_oauth=error&domain=${encodeURIComponent(stateInfo.domain)}&message=${encodeURIComponent(msg)}`
+        );
+    }
+};
+
+exports.getGscProperties = async (req, res) => {
+    try {
+        const domain = normalizeDomain(req.query.domain || DEFAULT_DOMAIN);
+        const result = await listSearchConsoleProperties(domain);
+        res.setHeader('Cache-Control', 'no-store');
+        res.json({
+            success: true,
+            ...result
+        });
+    } catch (error) {
+        const domain = normalizeDomain(req.query.domain || DEFAULT_DOMAIN);
+        const latest = await getProjectConfig(domain).catch(() => null);
+        res.status(error.status || 400).json({
+            success: false,
+            code: error.code || 'GSC_PROPERTIES_ERROR',
+            connectionStatus: error.connectionStatus || (latest ? sanitizeConfigForClient(latest).gscConnectionStatus : 'not_connected'),
+            message: error.message || 'Unable to retrieve Google Search Console properties.',
+            settings: latest ? sanitizeConfigForClient(latest) : undefined
+        });
+    }
+};
+
+exports.selectGscProperty = async (req, res) => {
+    try {
+        const domain = normalizeDomain(req.body?.domain || req.query.domain || DEFAULT_DOMAIN);
+        const property = String(req.body?.property || req.body?.gscProperty || '').trim();
+        const result = await selectAndVerifySearchConsoleProperty(domain, property);
+        res.json({
+            success: true,
+            message: `Verified and saved Search Console property: ${result.property}`,
+            ...result
+        });
+    } catch (error) {
+        res.status(error.status || 400).json({
+            success: false,
+            code: error.code || 'GSC_PROPERTY_VERIFY_ERROR',
+            message: error.message || 'Unable to verify selected Search Console property.'
+        });
+    }
+};
+
+exports.refreshGscData = async (req, res) => {
+    try {
+        const domain = normalizeDomain(req.body?.domain || req.query.domain || DEFAULT_DOMAIN);
+        const range = String(req.body?.range || req.query.range || '28d').trim();
+        const dateRange = resolveDateRange(range);
+        const config = await getProjectConfig(domain);
+
+        const searchPerformance = await fetchSearchConsolePerformance(config, dateRange);
+        const updatedConfig = await getProjectConfig(domain);
+
+        res.json({
+            success: Boolean(searchPerformance.connected),
+            message: searchPerformance.connected
+                ? `Synced Google Search Console data for ${searchPerformance.property}.`
+                : searchPerformance.reason,
+            searchPerformance,
+            settings: sanitizeConfigForClient(updatedConfig)
+        });
+    } catch (error) {
+        res.status(error.status || 400).json({
+            success: false,
+            message: error.message || 'Failed to refresh Google Search Console data.'
+        });
+    }
+};
+
+exports.disconnectGscAccount = async (req, res) => {
+    try {
+        const domain = normalizeDomain(req.body?.domain || req.query.domain || DEFAULT_DOMAIN);
+        const result = await disconnectSearchConsole(domain);
+        res.json({
+            success: true,
+            message: 'Google Search Console account disconnected.',
+            ...result
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message || 'Unable to disconnect Google Search Console account.'
         });
     }
 };

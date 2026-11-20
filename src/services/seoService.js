@@ -75,6 +75,49 @@ const seoService = {
     importBacklinks: async (domain, items) => {
         const res = await axios.post('/admin/seo/backlinks/import', { domain, items }, { timeout: 20000 });
         return res.data;
+    },
+
+    getGscOAuthAuthorizeUrl: async (domain = 'www.hangbug.com', platform = 'web') => {
+        const res = await axios.get('/admin/seo/gsc/oauth/authorize', {
+            params: { domain, platform },
+            timeout: 15000
+        });
+        return res.data;
+    },
+
+    getGscProperties: async (domain = 'www.hangbug.com') => {
+        const res = await axios.get('/admin/seo/gsc/properties', {
+            params: { domain },
+            timeout: 20000
+        });
+        return res.data;
+    },
+
+    selectGscProperty: async (domain = 'www.hangbug.com', property) => {
+        const res = await axios.put(
+            '/admin/seo/gsc/property',
+            { domain, property },
+            { timeout: 20000 }
+        );
+        return res.data;
+    },
+
+    refreshGscData: async (domain = 'www.hangbug.com', range = '28d') => {
+        const res = await axios.post(
+            '/admin/seo/gsc/refresh',
+            { domain, range },
+            { timeout: 30000 }
+        );
+        return res.data;
+    },
+
+    disconnectGscAccount: async (domain = 'www.hangbug.com') => {
+        const res = await axios.post(
+            '/admin/seo/gsc/disconnect',
+            { domain },
+            { timeout: 20000 }
+        );
+        return res.data;
     }
 };
 
