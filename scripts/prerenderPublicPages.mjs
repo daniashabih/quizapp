@@ -916,7 +916,6 @@ async function prerenderBlogSystem() {
     fs.rmSync(blogDistFile, { force: true });
 
     const source = blogSource;
-    const publishedArticles = fetchedBlogArticles;
     const unpublishedSlugs = earlyUnpublishedSlugs;
 
     if (unpublishedSlugs.length > 0) {
@@ -924,7 +923,7 @@ async function prerenderBlogSystem() {
     }
 
     // Strictly filter to published articles with valid slugs
-    const publishedArticles = (fetchedArticles || []).filter(
+    const publishedArticles = (fetchedBlogArticles || []).filter(
         a => a && typeof a.slug === 'string' && a.slug.trim() && a.isPublished === true
     );
 
