@@ -298,7 +298,7 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                             { id: 'gsc', label: 'Test GSC' },
                             { id: 'ga4', label: 'Test GA4 Connection' },
                             { id: 'pagespeed', label: 'Test PageSpeed' },
-                            { id: 'backlinks', label: 'Test Backlinks' }
+                            { id: 'openpagerank', label: 'Test OpenPageRank' }
                         ].map((btn) => (
                             <button
                                 key={btn.id}
@@ -517,6 +517,117 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                 </div>
             </div>
 
+            {/* OpenPageRank Domain Authority & Referring Domains Integration Status Card */}
+            <div className="bg-white dark:bg-[#18221E] rounded-2xl border border-[#E4EAE6] dark:border-[#2A3832] p-5 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E4EAE6] dark:border-[#2A3832]">
+                    <div className="flex items-center gap-2.5">
+                        <Link2 size={17} className="text-[#2F806B]" />
+                        <div>
+                            <h2 className="text-sm font-display font-bold text-[#17221F] dark:text-[#F3F6F4]">
+                                OpenPageRank Domain Authority &amp; Referring Domains Integration
+                            </h2>
+                            <p className="text-xs text-[#75817C] dark:text-[#8FA69C]">
+                                Connects to <code className="font-mono">POST https://openpagerank.keywordseverywhere.com/v1/domains/bulk</code> using <code className="font-mono">Authorization: Bearer YOUR_API_KEY</code> (<code className="font-mono">OPENPAGERANK_API_KEY</code>).
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                        <button
+                            type="button"
+                            disabled={Boolean(testingTarget)}
+                            onClick={() => handleTest('openpagerank')}
+                            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50"
+                        >
+                            <Zap size={13} />
+                            <span>{testingTarget === 'openpagerank' ? 'Testing OpenPageRank...' : 'Test Connection'}</span>
+                        </button>
+                        {(flags.hasOpenPageRankApiKey || flags.hasBacklinkProviderKey) && (
+                            <button
+                                type="button"
+                                disabled={saving}
+                                onClick={handleRemoveOpenPageRankKey}
+                                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#F8C9C6] dark:border-red-800/60 bg-[#FCEEED] dark:bg-red-950/40 text-[#B91C1C] dark:text-red-300 text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50"
+                            >
+                                <Trash2 size={13} />
+                                <span>Remove API Key</span>
+                            </button>
+                        )}
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">Connection Status</p>
+                        <p className={`mt-1.5 font-bold ${
+                            flags.openPageRankStatus === 'Connected'
+                                ? 'text-[#2F806B] dark:text-emerald-300'
+                                : flags.openPageRankStatus === 'Invalid API Key' || flags.openPageRankStatus === 'Quota Exceeded'
+                                    ? 'text-[#B91C1C] dark:text-red-300'
+                                    : flags.openPageRankStatus === 'Provider Unavailable'
+                                        ? 'text-[#B45309] dark:text-amber-300'
+                                        : 'text-[#75817C] dark:text-[#8FA69C]'
+                        }`}>
+                            {flags.openPageRankStatus || 'Not Configured'}
+                        </p>
+                        <p className="mt-0.5 text-[10px] text-[#75817C]">Verified only on real API call</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">API Key Storage</p>
+                        <p className="mt-1.5 font-semibold text-[#17221F] dark:text-[#F3F6F4]">
+                            {flags.hasOpenPageRankApiKey || flags.hasBacklinkProviderKey
+                                ? 'Stored securely on backend'
+                                : 'Not Configured'}
+                        </p>
+                        <p className="mt-0.5 text-[10px] font-mono text-[#2F806B]">
+                            OPENPAGERANK_API_KEY
+                        </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">Remaining Domain Quota</p>
+                        <p className="mt-1.5 font-bold text-[#17221F] dark:text-[#F3F6F4]">
+                            {flags.openPageRankQuota?.domainsRemaining !== null && flags.openPageRankQuota?.domainsRemaining !== undefined
+                                ? `${Number(flags.openPageRankQuota.domainsRemaining).toLocaleString('en-US')} / ${Number(flags.openPageRankQuota.monthlyDomainLimit || 30000).toLocaleString('en-US')}`
+                                : 'Available when connected'}
+                        </p>
+                        <p className="mt-0.5 text-[10px] text-[#75817C]">
+                            {flags.openPageRankQuota?.requestsPerMinute
+                                ? `${flags.openPageRankQuota.requestsPerMinute} req/min limit`
+                                : 'Monthly domain lookups'}
+                        </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">Data Release (as_of)</p>
+                        <p className="mt-1.5 font-mono font-bold text-[#17221F] dark:text-[#F3F6F4]">
+                            {flags.openPageRankAsOf || 'Pending'}
+                        </p>
+                        <p className="mt-0.5 text-[10px] text-[#75817C]">Common Crawl release date</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <div className="flex items-center gap-1 text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">
+                            <Clock size={11} className="text-[#2F806B]" />
+                            <span>Last Data Update</span>
+                        </div>
+                        <p className="mt-1.5 font-semibold text-[#17221F] dark:text-[#F3F6F4]">
+                            {flags.openPageRankLastSyncedAt ? formatSeoTimestamp(flags.openPageRankLastSyncedAt) : 'Not synced yet'}
+                        </p>
+                    </div>
+                </div>
+
+                {flags.openPageRankMessage && (
+                    <div className={`p-3 rounded-xl border text-xs ${
+                        flags.openPageRankStatus === 'Connected'
+                            ? 'bg-[#E5F2EC]/80 border-[#BBE0CE] text-[#193D35] dark:bg-emerald-950/40 dark:border-emerald-800/60 dark:text-emerald-300'
+                            : 'bg-[#F7F8F6] border-[#E4EAE6] text-[#75817C] dark:bg-[#141D19] dark:border-[#2A3832] dark:text-[#8FA69C]'
+                    }`}>
+                        {flags.openPageRankMessage}
+                    </div>
+                )}
+            </div>
+
             {/* Settings Form */}
             <form onSubmit={handleSave} className="bg-white dark:bg-[#18221E] rounded-2xl border border-[#E4EAE6] dark:border-[#2A3832] p-5 sm:p-6 space-y-6">
                 <div className="flex items-center gap-2 pb-3 border-b border-[#E4EAE6] dark:border-[#2A3832]">
@@ -695,20 +806,47 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                             onChange={(e) => setForm({ ...form, backlinkProvider: e.target.value })}
                             className="w-full px-3.5 py-2 rounded-xl border border-[#E4EAE6] dark:border-[#2A3832] bg-[#F7F8F6] dark:bg-[#141D19]"
                         >
-                            <option value="none">None (Use GSC Links Import)</option>
                             <option value="openpagerank">OpenPageRank API</option>
+                            <option value="none">None (GSC Links CSV Import Only)</option>
                         </select>
                     </div>
 
                     <div>
-                        <label className="block font-semibold mb-1">Backlink Provider API Key</label>
+                        <div className="flex items-center justify-between mb-1">
+                            <label className="block font-semibold">
+                                OpenPageRank API Key (<code className="font-mono">OPENPAGERANK_API_KEY</code>)
+                            </label>
+                            {(flags.hasOpenPageRankApiKey || flags.hasBacklinkProviderKey) && (
+                                <button
+                                    type="button"
+                                    onClick={handleRemoveOpenPageRankKey}
+                                    className="text-[11px] font-semibold text-[#B91C1C] hover:underline cursor-pointer"
+                                >
+                                    Remove Key
+                                </button>
+                            )}
+                        </div>
                         <input
                             type="password"
-                            value={form.backlinkProviderKey}
-                            onChange={(e) => setForm({ ...form, backlinkProviderKey: e.target.value })}
-                            placeholder={flags.hasBacklinkProviderKey ? '•••••••• (Saved)' : 'Optional API key'}
+                            value={form.openPageRankApiKey || form.backlinkProviderKey}
+                            onChange={(e) => setForm({
+                                ...form,
+                                openPageRankApiKey: e.target.value,
+                                backlinkProviderKey: e.target.value,
+                                backlinkProvider: 'openpagerank'
+                            })}
+                            placeholder={
+                                flags.openPageRankKeySource === 'env:OPENPAGERANK_API_KEY'
+                                    ? '•••••••• (Loaded from OPENPAGERANK_API_KEY env)'
+                                    : (flags.hasOpenPageRankApiKey || flags.hasBacklinkProviderKey)
+                                        ? '•••••••• (Stored securely on backend)'
+                                        : 'Enter OpenPageRank API key (opr_live_...)'
+                            }
                             className="w-full px-3.5 py-2 rounded-xl border border-[#E4EAE6] dark:border-[#2A3832] bg-[#F7F8F6] dark:bg-[#141D19]"
                         />
+                        <p className="mt-1 text-[11px] text-[#75817C] dark:text-[#8FA69C]">
+                            Stored securely on the backend; never exposed to frontend JavaScript, API responses, or logs.
+                        </p>
                     </div>
 
                     <div>
