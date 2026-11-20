@@ -2,7 +2,7 @@
   "category": "PHP, XML JSON, Laravel, MySQL, JavaScript",
   "session": 1,
   "title": "Session 1: Full-Stack Web Development & DBMS (MySQL, Web/JS, XML & JSON, Laravel, PHP)",
-  "totalQuestions": 149,
+  "totalQuestions": 164,
   "questions": [
     {
       "questionText": "_______ functions in SQL are the numeric functions that are used to perform calculations by taking input values as arguments.",
@@ -439,8 +439,7 @@
         "SGML",
         "HTML"
       ],
-      "correctAnswer": "SGML",
-      "explanation": "XML inherited Document Type Definitions (DTDs) from SGML (Standard Generalized Markup Language, ISO 8879), which is the international standard for defining markup languages."
+      "correctAnswer": "SGML"
     },
     {
       "questionText": "Match the following (minOccurs, maxOccurs) with the number of times the element can occur:\n\nLeft:\nA1) 0,1\nA2) 1,1\nA3) 0,*\nA4) 1,*\n\nMatches:\nB1) 0 or 1\nB2) At least once\nB3) 1\nB4) Infinite",
@@ -460,8 +459,7 @@
         "A1-B4, A2-B2, A3-B1, A4-B3",
         "A1-B2, A2-B4, A3-B3, A4-B1"
       ],
-      "correctAnswer": "A1-B3, A2-B1, A3-B4, A4-B2",
-      "explanation": "In XML Schema (XSD) facets: fractionDigits (A1) specifies the number of fractional digits in a numeric type (B3); Enumeration (A2) specifies an allowable value in an enumerated list (B1); whiteSpace (A3) specifies how whitespace should be treated within the type (B4); and pattern (A4) restricts string types using regular expressions (B2)."
+      "correctAnswer": "A1-B3, A2-B1, A3-B4, A4-B2"
     },
     {
       "questionText": "Which of the following does the code below represent?\n\n<xs:complexType name=\"Books\">\n <xs:simpleContent>\n <xs:extension base=\"xs:string\">\n <xs:attribute name=\"BookCode\" type=\"xs:positiveInteger\"/>\n </xs:extension>\n </xs:simpleContent>\n</xs:complexType>",
@@ -471,8 +469,7 @@
         "Only Elements",
         "Only Text"
       ],
-      "correctAnswer": "Only Text",
-      "explanation": "In XML Schema (XSD), a complexType with <xs:simpleContent> and <xs:extension base=\"xs:string\"> combined with an <xs:attribute> defines a complex element that contains Only Text (character data) and attributes, with no child elements."
+      "correctAnswer": "Only Text"
     },
     {
       "questionText": "Which of the following MIME types is the unofficial one for JSON?",
@@ -962,8 +959,7 @@
         "C",
         "ECMAScript"
       ],
-      "correctAnswer": "JavaScript",
-      "explanation": "JSON (JavaScript Object Notation) is derived from the JavaScript programming language (specifically JavaScript object literal syntax, standardized under ECMAScript)."
+      "correctAnswer": "JavaScript"
     },
     {
       "questionText": "JSON _____ specifies the rules that define the structure of a JSON document.",
@@ -973,8 +969,7 @@
         "Metadata",
         "Hyper Schema"
       ],
-      "correctAnswer": "Schema",
-      "explanation": "JSON Schema specifies the rules, data types, and constraints that define and validate the structure of a JSON document."
+      "correctAnswer": "Schema"
     },
     {
       "questionText": "Which of the following JSON data structures can be sorted?",
@@ -984,8 +979,7 @@
         "Object",
         "Array"
       ],
-      "correctAnswer": "Array",
-      "explanation": "In JSON, an Array is an ordered collection of values enclosed in square brackets [], which allows its elements to be indexed and sorted, unlike JSON objects which are unordered sets of key/value pairs."
+      "correctAnswer": "Array"
     },
     {
       "questionText": "Which of the following string types is used to represent a page break especially while printing, and as a part of text value or a URL respectively?",
@@ -995,8 +989,7 @@
         "Form feed, Solidus",
         "Form feed, Reverse solidus"
       ],
-      "correctAnswer": "Form feed, Solidus",
-      "explanation": "In JSON string escape sequences, Form feed (\\f) represents a page break (especially while printing), and Solidus (\\/ or forward slash /) is used as part of a text value or a Uniform Resource Locator (URL)."
+      "correctAnswer": "Form feed, Solidus"
     },
     {
       "questionText": "Which of the following are valid JSON statements?",
@@ -1006,8 +999,7 @@
         "{\"p\": [] \"x\":1}",
         "{1:\"X\", \"X\":1}"
       ],
-      "correctAnswer": "{}",
-      "explanation": "An empty object {} is a valid JSON statement. The other options contain syntax errors such as unclosed string quotes, a missing comma between key/value pairs, or unquoted numeric keys."
+      "correctAnswer": "{}"
     },
     {
       "questionText": "Which of the following are characteristics of the object data type? (Select all that apply)",
@@ -1017,8 +1009,7 @@
         "Key/value pairs are separated by semicolons (;)",
         "Non-sequential (unordered) set of key/value pairs enclosed in curly braces {} separated by commas with colon after keys"
       ],
-      "correctAnswer": "Non-sequential (unordered) set of key/value pairs enclosed in curly braces {} separated by commas with colon after keys",
-      "explanation": "A JSON object is a non-sequential (unordered) set of key/value pairs, enclosed in curly braces {}, where each key/value pair is separated by a comma (,) and every key is followed by a colon (:). Square brackets [] are used for JSON arrays."
+      "correctAnswer": "Non-sequential (unordered) set of key/value pairs enclosed in curly braces {} separated by commas with colon after keys"
     },
     {
       "questionText": "Match the following:\n\nLeft:\nA1) List\nA2) Set\nA3) Map\nA4) Schema\n\nMatches:\nB1) Accepts data in the form of key and value pairs and each key is distinct.\nB2) Sets attributes to be used by the next transaction.\nB3) The elements follow a defined order and copies or duplicates are allowed.\nB4) Specifies the rules that define the structure of a JSON document.",
@@ -1028,8 +1019,7 @@
         "A1-B2, A2-B1, A3-B3, A4-B4",
         "A1-B4, A2-B2, A3-B1, A4-B3"
       ],
-      "correctAnswer": "A1-B3, A2-B2, A3-B1, A4-B4",
-      "explanation": "A1 (List) matches B3 (elements follow a defined order and duplicates are allowed); A2 (Set) matches B2 (sets attributes to be used by the next transaction); A3 (Map) matches B1 (accepts data as key/value pairs where each key is distinct); and A4 (Schema) matches B4 (specifies the rules that define the structure of a JSON document)."
+      "correctAnswer": "A1-B3, A2-B2, A3-B1, A4-B4"
     },
     {
       "questionText": "An _____ in XML is a placeholder that consists of a name and a value.",
@@ -1039,8 +1029,7 @@
         "ENTITY",
         "Root element"
       ],
-      "correctAnswer": "ENTITY",
-      "explanation": "In XML, an ENTITY is a placeholder (storage unit) that consists of a name and an associated replacement value."
+      "correctAnswer": "ENTITY"
     },
     {
       "questionText": "Match the following (1,2,3,4) with (a,b,c,d):\n1. <xsl:template match=\"Greeting\">\n2. <xsl:template match=\"P//EM\">\n3. <xsl:template match=\"/\">\n4. <xsl:template match=\"Product\"> ... <xsl:apply-templates select=\"@Units\"/>\n\na) Matching by ancestry\nb) Matching by attribute\nc) Matching by name\nd) Matching by root",
@@ -1050,8 +1039,7 @@
         "a-4, b-3, c-2, d-1",
         "a-2, b-4, c-1, d-3"
       ],
-      "correctAnswer": "a-2, b-4, c-1, d-3",
-      "explanation": "In XSLT templates: (2) match=\"P//EM\" matches EM descendants inside P (a - Matching by ancestry); (4) select=\"@Units\" matches the Units attribute (b - Matching by attribute); (1) match=\"Greeting\" matches elements by tag name (c - Matching by name); and (3) match=\"/\" matches the document root (d - Matching by root)."
+      "correctAnswer": "a-2, b-4, c-1, d-3"
     },
     {
       "questionText": "_______ refers to adherence to basic XML syntax rules while _______ refers to adherence to the DTDs too.",
@@ -1061,8 +1049,7 @@
         "Internal DTDs, Validity",
         "Well-formed, Internal DTDs"
       ],
-      "correctAnswer": "Well-formed, Validity",
-      "explanation": "Well-formed refers to an XML document adhering to basic XML syntax rules (such as proper tag closure, nesting, and a single root element), while Validity refers to adherence to the rules defined in its DTD (or XML Schema) as well."
+      "correctAnswer": "Well-formed, Validity"
     },
     {
       "questionText": "Which of the following does the syntax <!ELEMENT element-name (child-name*)> represent?",
@@ -1072,8 +1059,7 @@
         "Zero or More Occurrences",
         "Zero or One Occurrences"
       ],
-      "correctAnswer": "Zero or More Occurrences",
-      "explanation": "In an XML DTD element declaration, the asterisk (*) quantifier after child-name specifies that the child element can occur zero or more times inside element-name."
+      "correctAnswer": "Zero or More Occurrences"
     },
     {
       "questionText": "The _______ tool is an automation tool that helps to create models, views, and controllers pre-filled with a template.",
@@ -1554,6 +1540,171 @@
       ],
       "correctAnswer": "yield and sections",
       "explanation": "In Laravel Blade templating, the master layout defines placeholders using the @yield directive, which are replaced by the content enclosed within the @section directive of extending child templates."
+    },
+    {
+      "questionText": "How does the constructor method help in JavaScript classes?",
+      "options": [
+        "It defines a static method",
+        "It initializes object properties when a class instance is created",
+        "It removes an object's properties",
+        "It is used to inherit methods from another class"
+      ],
+      "correctAnswer": "It initializes object properties when a class instance is created",
+      "explanation": "The constructor method is a special method for creating and initializing an object instance created with a class. When a new instance is instantiated via the new operator, the constructor executes automatically to initialize object properties."
+    },
+    {
+      "questionText": "In a switch statement, what happens if the break statement is omitted from a case block?",
+      "options": [
+        "The program exits the switch statement immediately",
+        "The next case executes regardless of match",
+        "The program throws an error",
+        "The first case is always executed"
+      ],
+      "correctAnswer": "The next case executes regardless of match",
+      "explanation": "In a JavaScript switch statement, omitting the break statement causes execution to 'fall through' into the subsequent case block, executing it regardless of whether its condition matches the switch expression."
+    },
+    {
+      "questionText": "What does Object-Oriented Programming (OOP) help achieve in JavaScript?",
+      "options": [
+        "Faster execution speed",
+        "Structuring code using objects and classes",
+        "Eliminating the requirement for functions",
+        "Running JavaScript without a browser"
+      ],
+      "correctAnswer": "Structuring code using objects and classes",
+      "explanation": "Object-Oriented Programming (OOP) in JavaScript enables developers to structure, organize, and modularize code using objects and classes, encapsulating state and behavior into reusable patterns."
+    },
+    {
+      "questionText": "What does the super keyword do in JavaScript?",
+      "options": [
+        "Calls the constructor or methods of a parent class",
+        "Enables access properties from the parent class",
+        "Creates a deep copy of an object",
+        "Prevents method overriding in child classes"
+      ],
+      "correctAnswer": "Calls the constructor or methods of a parent class",
+      "explanation": "The super keyword is used in derived classes to call the constructor of the parent class (super(...)) or invoke methods of the parent class (super.methodName())."
+    },
+    {
+      "questionText": "filter() method is used for _______, ________, and ________.",
+      "options": [
+        "Enabling data manipulation and transformation",
+        "Selecting users whose active property is true.",
+        "Working with nested data gets simpler",
+        "Mapping structures get difficult"
+      ],
+      "correctAnswer": "Enabling data manipulation and transformation",
+      "explanation": "In JavaScript, Array.prototype.filter() creates a shallow copy of an array filtered down to only elements that pass the predicate test, enabling non-destructive data manipulation, selection of specific records (such as active items), and cleaner manipulation of nested datasets."
+    },
+    {
+      "questionText": "What role does the call stack play in JavaScript's event loop?",
+      "options": [
+        "Stores function calls in execution order",
+        "Handles background API requests",
+        "Manages asynchronous tasks only",
+        "Queues microtasks for execution"
+      ],
+      "correctAnswer": "Stores function calls in execution order",
+      "explanation": "The call stack in JavaScript is a LIFO (Last-In, First-Out) data structure that tracks active function calls and executes them in order. The event loop monitors the call stack and transfers queued asynchronous callbacks to the stack only when the stack is empty."
+    },
+    {
+      "questionText": "What is the purpose of the getter method in JavaScript classes?",
+      "options": [
+        "Provides direct write access to properties",
+        "Creates a new property dynamically",
+        "Converts an object to a string",
+        "Retrieves the value of a property without calling it similar to a function"
+      ],
+      "correctAnswer": "Retrieves the value of a property without calling it similar to a function",
+      "explanation": "In JavaScript classes, a getter (get propName()) binds an object property to a function that executes when the property is accessed, allowing computed or encapsulated values to be retrieved using standard dot notation without appending parentheses like a regular function call."
+    },
+    {
+      "questionText": "What does the Object.fromEntries() method do in JavaScript?",
+      "options": [
+        "Converts an object into a Map",
+        "Converts a Map into a plain object",
+        "Takes an iterable of key-value pairs and returns a new object",
+        "Creates an object with default values"
+      ],
+      "correctAnswer": "Takes an iterable of key-value pairs and returns a new object",
+      "explanation": "The Object.fromEntries() static method transforms an iterable of key-value pairs (such as an Array of entries or a Map) into a plain JavaScript object. It is the reverse operation of Object.entries()."
+    },
+    {
+      "questionText": "How does the ternary operator improve JavaScript code readability?",
+      "options": [
+        "By reducing if-else blocks into a single line",
+        "Can reduce the number of code lines",
+        "By handling null values automatically",
+        "By allowing multiple conditions"
+      ],
+      "correctAnswer": "By reducing if-else blocks into a single line",
+      "explanation": "The conditional (ternary) operator (condition ? exprIfTrue : exprIfFalse) improves code readability by reducing multi-line if-else assignment blocks into a concise, single-line expression."
+    },
+    {
+      "questionText": "Which of the following statements are true with respect to dynamic import improving performance in JavaScript applications?\na. By loading JavaScript modules only when required\nb. By bundling all modules together\nc. Useful for large applications\nd. By removing dependencies from JavaScript code",
+      "options": [
+        "a and b",
+        "a and c",
+        "b and d",
+        "a and d"
+      ],
+      "correctAnswer": "a and c",
+      "explanation": "Dynamic import (import()) improves JavaScript performance by loading code modules asynchronously only when required (code splitting / lazy loading), which reduces the initial bundle size and initial page load time, making it especially beneficial for large-scale web applications."
+    },
+    {
+      "questionText": "In an API response, which JavaScript feature ensures missing values are handled gracefully?",
+      "options": [
+        "switch statements",
+        "Optional Chaining and Nullish Coalescing",
+        "Regular Expressions",
+        "String Manipulation"
+      ],
+      "correctAnswer": "Optional Chaining and Nullish Coalescing",
+      "explanation": "Optional chaining (?.) safely reads deeply nested properties without throwing TypeError when an intermediate property is null or undefined, while nullish coalescing (??) provides a clean default value when an expression resolves to null or undefined."
+    },
+    {
+      "questionText": "Which JavaScript feature allows executing tasks asynchronously without blocking the main thread?",
+      "options": [
+        "Promises",
+        "Web APIs",
+        "Event Loop",
+        "All of the above"
+      ],
+      "correctAnswer": "All of the above",
+      "explanation": "JavaScript's asynchronous non-blocking model works through the collaboration of Web APIs (which handle asynchronous operations in background threads), Promises (which manage asynchronous control flow and outcomes), and the Event Loop (which pushes completed callbacks onto the call stack)."
+    },
+    {
+      "questionText": "Which JavaScript method converts a Map into a plain object?",
+      "options": [
+        "Object.toMap()",
+        "Object.entries()",
+        "Object.fromEntries()",
+        "Object.assign()"
+      ],
+      "correctAnswer": "Object.fromEntries()",
+      "explanation": "Object.fromEntries(map) takes an iterable like a Map and converts its key-value pairs into the properties of a plain JavaScript object."
+    },
+    {
+      "questionText": "How do static methods differ from regular class methods in JavaScript?",
+      "options": [
+        "They can be accessed without creating an instance of the class",
+        "They can only be used in child classes",
+        "They modify private fields directly",
+        "They cannot access or modify instance properties or methods"
+      ],
+      "correctAnswer": "They can be accessed without creating an instance of the class",
+      "explanation": "Static methods (defined with the static keyword) are called directly on the class itself rather than on instances of the class, meaning they can be accessed without instantiating an object using new."
+    },
+    {
+      "questionText": "What is the default depth for flattening an array using Array.flat()?",
+      "options": [
+        "1",
+        "2",
+        "Infinity",
+        "0"
+      ],
+      "correctAnswer": "1",
+      "explanation": "By default, Array.prototype.flat() flattens nested arrays to a depth of 1 (array.flat(1)). To recursively flatten all levels, you can pass Infinity as the depth parameter."
     }
   ]
 }

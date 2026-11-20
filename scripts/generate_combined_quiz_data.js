@@ -911,6 +911,171 @@ const questions = [
         ],
         correctAnswer: "yield and sections",
         explanation: "In Laravel Blade templating, the master layout defines placeholders using the @yield directive, which are replaced by the content enclosed within the @section directive of extending child templates."
+    },
+    {
+        questionText: "How does the constructor method help in JavaScript classes?",
+        options: [
+            "It defines a static method",
+            "It initializes object properties when a class instance is created",
+            "It removes an object's properties",
+            "It is used to inherit methods from another class"
+        ],
+        correctAnswer: "It initializes object properties when a class instance is created",
+        explanation: "The constructor method is a special method for creating and initializing an object instance created with a class. When a new instance is instantiated via the new operator, the constructor executes automatically to initialize object properties."
+    },
+    {
+        questionText: "In a switch statement, what happens if the break statement is omitted from a case block?",
+        options: [
+            "The program exits the switch statement immediately",
+            "The next case executes regardless of match",
+            "The program throws an error",
+            "The first case is always executed"
+        ],
+        correctAnswer: "The next case executes regardless of match",
+        explanation: "In a JavaScript switch statement, omitting the break statement causes execution to 'fall through' into the subsequent case block, executing it regardless of whether its condition matches the switch expression."
+    },
+    {
+        questionText: "What does Object-Oriented Programming (OOP) help achieve in JavaScript?",
+        options: [
+            "Faster execution speed",
+            "Structuring code using objects and classes",
+            "Eliminating the requirement for functions",
+            "Running JavaScript without a browser"
+        ],
+        correctAnswer: "Structuring code using objects and classes",
+        explanation: "Object-Oriented Programming (OOP) in JavaScript enables developers to structure, organize, and modularize code using objects and classes, encapsulating state and behavior into reusable patterns."
+    },
+    {
+        questionText: "What does the super keyword do in JavaScript?",
+        options: [
+            "Calls the constructor or methods of a parent class",
+            "Enables access properties from the parent class",
+            "Creates a deep copy of an object",
+            "Prevents method overriding in child classes"
+        ],
+        correctAnswer: "Calls the constructor or methods of a parent class",
+        explanation: "The super keyword is used in derived classes to call the constructor of the parent class (super(...)) or invoke methods of the parent class (super.methodName())."
+    },
+    {
+        questionText: "filter() method is used for _______, ________, and ________.",
+        options: [
+            "Enabling data manipulation and transformation",
+            "Selecting users whose active property is true.",
+            "Working with nested data gets simpler",
+            "Mapping structures get difficult"
+        ],
+        correctAnswer: "Enabling data manipulation and transformation",
+        explanation: "In JavaScript, Array.prototype.filter() creates a shallow copy of an array filtered down to only elements that pass the predicate test, enabling non-destructive data manipulation, selection of specific records (such as active items), and cleaner manipulation of nested datasets."
+    },
+    {
+        questionText: "What role does the call stack play in JavaScript's event loop?",
+        options: [
+            "Stores function calls in execution order",
+            "Handles background API requests",
+            "Manages asynchronous tasks only",
+            "Queues microtasks for execution"
+        ],
+        correctAnswer: "Stores function calls in execution order",
+        explanation: "The call stack in JavaScript is a LIFO (Last-In, First-Out) data structure that tracks active function calls and executes them in order. The event loop monitors the call stack and transfers queued asynchronous callbacks to the stack only when the stack is empty."
+    },
+    {
+        questionText: "What is the purpose of the getter method in JavaScript classes?",
+        options: [
+            "Provides direct write access to properties",
+            "Creates a new property dynamically",
+            "Converts an object to a string",
+            "Retrieves the value of a property without calling it similar to a function"
+        ],
+        correctAnswer: "Retrieves the value of a property without calling it similar to a function",
+        explanation: "In JavaScript classes, a getter (get propName()) binds an object property to a function that executes when the property is accessed, allowing computed or encapsulated values to be retrieved using standard dot notation without appending parentheses like a regular function call."
+    },
+    {
+        questionText: "What does the Object.fromEntries() method do in JavaScript?",
+        options: [
+            "Converts an object into a Map",
+            "Converts a Map into a plain object",
+            "Takes an iterable of key-value pairs and returns a new object",
+            "Creates an object with default values"
+        ],
+        correctAnswer: "Takes an iterable of key-value pairs and returns a new object",
+        explanation: "The Object.fromEntries() static method transforms an iterable of key-value pairs (such as an Array of entries or a Map) into a plain JavaScript object. It is the reverse operation of Object.entries()."
+    },
+    {
+        questionText: "How does the ternary operator improve JavaScript code readability?",
+        options: [
+            "By reducing if-else blocks into a single line",
+            "Can reduce the number of code lines",
+            "By handling null values automatically",
+            "By allowing multiple conditions"
+        ],
+        correctAnswer: "By reducing if-else blocks into a single line",
+        explanation: "The conditional (ternary) operator (condition ? exprIfTrue : exprIfFalse) improves code readability by reducing multi-line if-else assignment blocks into a concise, single-line expression."
+    },
+    {
+        questionText: "Which of the following statements are true with respect to dynamic import improving performance in JavaScript applications?\na. By loading JavaScript modules only when required\nb. By bundling all modules together\nc. Useful for large applications\nd. By removing dependencies from JavaScript code",
+        options: [
+            "a and b",
+            "a and c",
+            "b and d",
+            "a and d"
+        ],
+        correctAnswer: "a and c",
+        explanation: "Dynamic import (import()) improves JavaScript performance by loading code modules asynchronously only when required (code splitting / lazy loading), which reduces the initial bundle size and initial page load time, making it especially beneficial for large-scale web applications."
+    },
+    {
+        questionText: "In an API response, which JavaScript feature ensures missing values are handled gracefully?",
+        options: [
+            "switch statements",
+            "Optional Chaining and Nullish Coalescing",
+            "Regular Expressions",
+            "String Manipulation"
+        ],
+        correctAnswer: "Optional Chaining and Nullish Coalescing",
+        explanation: "Optional chaining (?.) safely reads deeply nested properties without throwing TypeError when an intermediate property is null or undefined, while nullish coalescing (??) provides a clean default value when an expression resolves to null or undefined."
+    },
+    {
+        questionText: "Which JavaScript feature allows executing tasks asynchronously without blocking the main thread?",
+        options: [
+            "Promises",
+            "Web APIs",
+            "Event Loop",
+            "All of the above"
+        ],
+        correctAnswer: "All of the above",
+        explanation: "JavaScript's asynchronous non-blocking model works through the collaboration of Web APIs (which handle asynchronous operations in background threads), Promises (which manage asynchronous control flow and outcomes), and the Event Loop (which pushes completed callbacks onto the call stack)."
+    },
+    {
+        questionText: "Which JavaScript method converts a Map into a plain object?",
+        options: [
+            "Object.toMap()",
+            "Object.entries()",
+            "Object.fromEntries()",
+            "Object.assign()"
+        ],
+        correctAnswer: "Object.fromEntries()",
+        explanation: "Object.fromEntries(map) takes an iterable like a Map and converts its key-value pairs into the properties of a plain JavaScript object."
+    },
+    {
+        questionText: "How do static methods differ from regular class methods in JavaScript?",
+        options: [
+            "They can be accessed without creating an instance of the class",
+            "They can only be used in child classes",
+            "They modify private fields directly",
+            "They cannot access or modify instance properties or methods"
+        ],
+        correctAnswer: "They can be accessed without creating an instance of the class",
+        explanation: "Static methods (defined with the static keyword) are called directly on the class itself rather than on instances of the class, meaning they can be accessed without instantiating an object using new."
+    },
+    {
+        questionText: "What is the default depth for flattening an array using Array.flat()?",
+        options: [
+            "1",
+            "2",
+            "Infinity",
+            "0"
+        ],
+        correctAnswer: "1",
+        explanation: "By default, Array.prototype.flat() flattens nested arrays to a depth of 1 (array.flat(1)). To recursively flatten all levels, you can pass Infinity as the depth parameter."
     }
 ];
 

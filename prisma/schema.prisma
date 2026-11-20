@@ -31,6 +31,11 @@ model Question {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   category      String
   session       Int?     @default(1)
+  sessionTitle  String?  @default("") @map("session_title")
+  topic         String?  @default("")
+  difficulty    String?  @default("")
+  sourcePage    String?  @default("") @map("source_page")
+  sourceBook    String?  @default("") @map("source_book")
   questionText  String   @map("question_text")
   options       String
   correctAnswer String   @map("correct_answer")
@@ -570,4 +575,117 @@ model SeoIntegrationSnapshot {
 
   @@unique([domain, provider])
   @@map("seo_integration_snapshots")
+}
+
+model BookQuizJob {
+  id                      String             @id @default(auto()) @map("_id") @db.ObjectId
+  fileName                String             @map("file_name")
+  fileSize                Int                @default(0) @map("file_size")
+  fileHash                String             @map("file_hash")
+  mimeType                String             @default("application/pdf") @map("mime_type")
+  totalParts              Int                @default(0) @map("total_parts")
+  category                String
+  categoryNormalized      String             @map("category_normalized")
+  targetPerSession        Int                @default(50) @map("target_per_session")
+  status                  String             @default("uploaded")
+  stageMessage            String?            @default("") @map("stage_message")
+  totalPages              Int                @default(0) @map("total_pages")
+  extractedPagesCount     Int                @default(0) @map("extracted_pages_count")
+  ocrRequired             Boolean            @default(false) @map("ocr_required")
+  ocrProcessedPages       Int                @default(0) @map("ocr_processed_pages")
+  ocrTotalPages           Int                @default(0) @map("ocr_total_pages")
+  totalSessions           Int                @default(0) @map("total_sessions")
+  completedSessions       Int                @default(0) @map("completed_sessions")
+  failedSessions          Int                @default(0) @map("failed_sessions")
+  totalQuestionsGenerated Int                @default(0) @map("total_questions_generated")
+  totalQuestionsVerified  Int                @default(0) @map("total_questions_verified")
+  totalQuestionsRejected  Int                @default(0) @map("total_questions_rejected")
+  totalQuestionsUploaded  Int                @default(0) @map("total_questions_uploaded")
+  verificationSummaryJson String?            @default("{}") @map("verification_summary_json")
+  uploadStatus            String             @default("not_uploaded") @map("upload_status")
+  progressPercent         Int                @default(0) @map("progress_percent")
+  activeSessionNumber     Int?               @map("active_session_number")
+  lastError               String?            @default("") @map("last_error")
+  processingLockId        String?            @default("") @map("processing_lock_id")
+  processingLockedAt      DateTime?          @map("processing_locked_at")
+  processingHeartbeatAt   DateTime?          @map("processing_heartbeat_at")
+  createdBy               String?            @default("") @map("created_by")
+  aiProvider              String?            @default("") @map("ai_provider")
+  aiModel                 String?            @default("") @map("ai_model")
+  createdAt               DateTime           @default(now()) @map("created_at")
+  updatedAt               DateTime           @updatedAt @map("updated_at")
+  fileParts               BookQuizFilePart[]
+  pages                   BookQuizPage[]
+  sessions                BookQuizSession[]
+
+  @@index([categoryNormalized, createdAt])
+  @@index([status])
+  @@index([fileHash])
+  @@map("book_quiz_jobs")
+}
+
+model BookQuizFilePart {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  jobId     String      @map("job_id") @db.ObjectId
+  partIndex Int         @map("part_index")
+  data      Bytes
+  createdAt DateTime    @default(now()) @map("created_at")
+  job       BookQuizJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([jobId, partIndex])
+  @@index([jobId])
+  @@map("book_quiz_file_parts")
+}
+
+model BookQuizPage {
+  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  jobId            String      @map("job_id") @db.ObjectId
+  pageNumber       Int         @map("page_number")
+  extractionMethod String      @default("text") @map("extraction_method")
+  status           String      @default("pending")
+  text             String      @default("")
+  charCount        Int         @default(0) @map("char_count")
+  ocrAttempts      Int         @default(0) @map("ocr_attempts")
+  ocrError         String?     @default("") @map("ocr_error")
+  createdAt        DateTime    @default(now()) @map("created_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
+  job              BookQuizJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([jobId, pageNumber])
+  @@index([jobId, status])
+  @@map("book_quiz_pages")
+}
+
+model BookQuizSession {
+  id                  String      @id @default(auto()) @map("_id") @db.ObjectId
+  jobId               String      @map("job_id") @db.ObjectId
+  sessionNumber       Int         @map("session_number")
+  title               String
+  startPage           Int         @default(1) @map("start_page")
+  endPage             Int         @default(1) @map("end_page")
+  topicsJson          String      @default("[]") @map("topics_json")
+  contentText         String      @default("") @map("content_text")
+  contentCharCount    Int         @default(0) @map("content_char_count")
+  targetCount         Int         @default(50) @map("target_count")
+  generatedCount      Int         @default(0) @map("generated_count")
+  verifiedCount       Int         @default(0) @map("verified_count")
+  rejectedCount       Int         @default(0) @map("rejected_count")
+  uploadedCount       Int         @default(0) @map("uploaded_count")
+  easyCount           Int         @default(0) @map("easy_count")
+  mediumCount         Int         @default(0) @map("medium_count")
+  hardCount           Int         @default(0) @map("hard_count")
+  status              String      @default("pending")
+  verificationStatus  String      @default("pending") @map("verification_status")
+  uploadStatus        String      @default("not_uploaded") @map("upload_status")
+  batchAttempts       Int         @default(0) @map("batch_attempts")
+  consecutiveFailures Int         @default(0) @map("consecutive_failures")
+  lastError           String?     @default("") @map("last_error")
+  questionsJson       String      @default("[]") @map("questions_json")
+  createdAt           DateTime    @default(now()) @map("created_at")
+  updatedAt           DateTime    @updatedAt @map("updated_at")
+  job                 BookQuizJob @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([jobId, sessionNumber])
+  @@index([jobId, status])
+  @@map("book_quiz_sessions")
 }

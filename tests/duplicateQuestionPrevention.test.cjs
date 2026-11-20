@@ -29,7 +29,7 @@ test('1. Question.normalizeQuestionText normalizes underscores, whitespace, and 
     assert.equal(a, 'php variables must start with a _.');
 });
 
-test('2. PHP, XML JSON, Laravel, MySQL, JavaScript holds all 149 unique questions in Session 1 with Session 2 merged', () => {
+test('2. PHP, XML JSON, Laravel, MySQL, JavaScript holds all 164 unique questions in Session 1 with Session 2 merged', () => {
     const s1 = JSON.parse(
         fs.readFileSync(path.join(__dirname, '..', 'scripts', 'php_xml_json_laravel_mysql_javascript_session1.json'), 'utf8')
     );
@@ -52,7 +52,7 @@ test('2. PHP, XML JSON, Laravel, MySQL, JavaScript holds all 149 unique question
     }
 
     assert.equal(s1.session, 1);
-    assert.equal(s1.questions.length, 149);
+    assert.equal(s1.questions.length, 164);
     assert.equal(s2.questions.length, 0);
 });
 
