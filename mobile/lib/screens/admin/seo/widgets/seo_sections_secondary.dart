@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_text_styles.dart';
+import '../../../../core/utils/date_formatter.dart';
 import '../../../../models/seo_dashboard_model.dart';
 import 'seo_charts.dart';
 import 'seo_theme_tokens.dart';
@@ -910,6 +911,11 @@ class SeoSettingsTab extends StatefulWidget {
   final Map<String, dynamic> initialSettings;
   final Future<void> Function(Map<String, dynamic> payload) onSave;
   final Future<Map<String, dynamic>> Function(String target) onTest;
+  final Future<void> Function() onConnectGoogleAccount;
+  final Future<void> Function() onFetchGscProperties;
+  final Future<void> Function(String property) onSelectGscProperty;
+  final Future<void> Function() onRefreshGscData;
+  final Future<void> Function() onDisconnectGscAccount;
 
   const SeoSettingsTab({
     super.key,
@@ -917,6 +923,11 @@ class SeoSettingsTab extends StatefulWidget {
     required this.initialSettings,
     required this.onSave,
     required this.onTest,
+    required this.onConnectGoogleAccount,
+    required this.onFetchGscProperties,
+    required this.onSelectGscProperty,
+    required this.onRefreshGscData,
+    required this.onDisconnectGscAccount,
   });
 
   @override
@@ -925,14 +936,18 @@ class SeoSettingsTab extends StatefulWidget {
 
 class _SeoSettingsTabState extends State<SeoSettingsTab> {
   late final TextEditingController _siteUrlCtrl;
-  late final TextEditingController _gscCtrl;
   late final TextEditingController _ga4Ctrl;
-  late final TextEditingController _saEmailCtrl;
-  final TextEditingController _saKeyCtrl = TextEditingController();
   final TextEditingController _psiKeyCtrl = TextEditingController();
   late String _crawlFreq;
+  String _selectedGscProperty = '';
   bool _saving = false;
-  String? _testMessage;
+  bool _connectingGsc = false;
+  bool _fetchingProps = false;
+  bool _savingProp = false;
+  bool _refreshingGsc = false;
+  bool _disconnectingGsc = false;
+  String? _testingTarget;
+  Map<String, dynamic>? _testResult;
 
   @override
   void initState() {
@@ -941,25 +956,29 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
     _siteUrlCtrl = TextEditingController(
       text: s['siteUrl']?.toString() ?? 'https://www.hangbug.com',
     );
-    _gscCtrl = TextEditingController(
-      text: s['gscProperty']?.toString() ?? '',
-    );
     _ga4Ctrl = TextEditingController(
       text: s['ga4PropertyId']?.toString() ?? '',
     );
-    _saEmailCtrl = TextEditingController(
-      text: s['googleServiceAccountEmailMasked']?.toString() ?? '',
-    );
     _crawlFreq = s['crawlFrequency']?.toString() ?? 'daily';
+    _selectedGscProperty = s['gscProperty']?.toString() ?? '';
+  }
+
+  @override
+  void didUpdateWidget(covariant SeoSettingsTab oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialSettings != widget.initialSettings) {
+      final s = widget.initialSettings;
+      final incomingProp = s['gscProperty']?.toString() ?? '';
+      if (incomingProp.isNotEmpty || _selectedGscProperty.isEmpty) {
+        _selectedGscProperty = incomingProp;
+      }
+    }
   }
 
   @override
   void dispose() {
     _siteUrlCtrl.dispose();
-    _gscCtrl.dispose();
     _ga4Ctrl.dispose();
-    _saEmailCtrl.dispose();
-    _saKeyCtrl.dispose();
     _psiKeyCtrl.dispose();
     super.dispose();
   }
@@ -970,17 +989,12 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
     try {
       await widget.onSave({
         'siteUrl': _siteUrlCtrl.text.trim(),
-        'gscProperty': _gscCtrl.text.trim(),
         'ga4PropertyId': _ga4Ctrl.text.trim(),
-        'googleServiceAccountEmail': _saEmailCtrl.text.trim(),
-        if (_saKeyCtrl.text.trim().isNotEmpty)
-          'googlePrivateKey': _saKeyCtrl.text.trim(),
         if (_psiKeyCtrl.text.trim().isNotEmpty)
           'pagespeedApiKey': _psiKeyCtrl.text.trim(),
         'crawlFrequency': _crawlFreq,
       });
       if (mounted) {
-        _saKeyCtrl.clear();
         _psiKeyCtrl.clear();
       }
     } finally {
@@ -989,53 +1003,154 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
   }
 
   Future<void> _handleTest(String target) async {
-    final res = await widget.onTest(target);
-    if (mounted) {
-      setState(() {
-        _testMessage =
-            '${res['provider'] ?? target}: ${res['message'] ?? 'Tested'}';
-      });
+    if (_testingTarget != null) return;
+    setState(() {
+      _testingTarget = target;
+      _testResult = null;
+    });
+    try {
+      final res = await widget.onTest(target);
+      if (mounted) {
+        setState(() => _testResult = res);
+      }
+    } finally {
+      if (mounted) setState(() => _testingTarget = null);
+    }
+  }
+
+  Future<void> _handleConnectGsc() async {
+    if (_connectingGsc) return;
+    setState(() => _connectingGsc = true);
+    try {
+      await widget.onConnectGoogleAccount();
+    } finally {
+      if (mounted) setState(() => _connectingGsc = false);
+    }
+  }
+
+  Future<void> _handleFetchProperties() async {
+    if (_fetchingProps) return;
+    setState(() => _fetchingProps = true);
+    try {
+      await widget.onFetchGscProperties();
+    } finally {
+      if (mounted) setState(() => _fetchingProps = false);
+    }
+  }
+
+  Future<void> _handleVerifyProperty() async {
+    if (_savingProp || _selectedGscProperty.isEmpty) return;
+    setState(() => _savingProp = true);
+    try {
+      await widget.onSelectGscProperty(_selectedGscProperty);
+    } finally {
+      if (mounted) setState(() => _savingProp = false);
+    }
+  }
+
+  Future<void> _handleRefreshGsc() async {
+    if (_refreshingGsc) return;
+    setState(() => _refreshingGsc = true);
+    try {
+      await widget.onRefreshGscData();
+    } finally {
+      if (mounted) setState(() => _refreshingGsc = false);
+    }
+  }
+
+  Future<void> _handleDisconnectGsc() async {
+    if (_disconnectingGsc) return;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Disconnect Google Account?'),
+        content: const Text(
+          'This will revoke and remove the stored Google Search Console OAuth tokens for this property.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFB91C1C),
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Disconnect'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    setState(() => _disconnectingGsc = true);
+    try {
+      await widget.onDisconnectGscAccount();
+      if (mounted) {
+        setState(() {
+          _selectedGscProperty = '';
+          _testResult = null;
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _disconnectingGsc = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final s = widget.initialSettings;
+    final gscStatus = s['gscConnectionStatus']?.toString() ?? 'not_connected';
+    final gscStatusLabel =
+        s['gscConnectionStatusLabel']?.toString() ?? 'Not Connected';
+    final isConnected = gscStatus == 'connected';
+    final isDisconnected = gscStatus == 'not_connected';
+    final accountEmail = s['gscAccountEmail']?.toString() ?? '';
+    final gscProperty = s['gscProperty']?.toString() ?? '';
+    final propertyVerified = s['gscPropertyVerified'] == true;
+    final lastSyncedAt = s['gscLastSyncedAt']?.toString();
+    final lastError = s['gscLastError']?.toString() ?? '';
+    final oauthConfigured = s['gscOAuthConfigured'] != false;
+    final availableProps = (s['gscAvailableProperties'] as List? ?? [])
+        .whereType<Map<String, dynamic>>()
+        .toList();
+
+    final validDropdownValues = availableProps
+        .map((p) => p['siteUrl']?.toString() ?? '')
+        .where((u) => u.isNotEmpty)
+        .toList();
+    final effectiveDropdownValue =
+        validDropdownValues.contains(_selectedGscProperty)
+            ? _selectedGscProperty
+            : (validDropdownValues.contains(gscProperty) ? gscProperty : null);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            OutlinedButton(
-              onPressed: () => _handleTest('gsc'),
-              child: const Text('Test GSC'),
-            ),
-            OutlinedButton(
-              onPressed: () => _handleTest('ga4'),
-              child: const Text('Test GA4'),
-            ),
-            OutlinedButton(
-              onPressed: () => _handleTest('pagespeed'),
-              child: const Text('Test PageSpeed'),
-            ),
-          ],
-        ),
-        if (_testMessage != null) ...[
-          const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: SeoColors.mintSurface(context),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              _testMessage!,
-              style: const TextStyle(fontSize: 12),
+        // Security Banner
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: SeoColors.mintSurface(context),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: SeoColors.accentGreen.withValues(alpha: 0.35),
             ),
           ),
-        ],
+          child: Text(
+            'Google Search Console uses Google OAuth 2.0 (webmasters.readonly). No service account JSON keys are required, and tokens are stored encrypted on the server.',
+            style: TextStyle(
+              fontSize: 11.5,
+              height: 1.4,
+              color: SeoColors.textPrimary(context),
+            ),
+          ),
+        ),
         const SizedBox(height: 14),
+
+        // Google Search Console Integration Card
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
@@ -1046,38 +1161,334 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Google Search Console Integration',
+                      style: AppTextStyles.labelBold.copyWith(
+                        fontSize: 15,
+                        color: SeoColors.textPrimary(context),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  SeoStatusBadge(status: gscStatusLabel),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Connect your Google account via OAuth 2.0 and verify access to hangbug.com (supports sc-domain:hangbug.com).',
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: SeoColors.textMuted(context),
+                ),
+              ),
+              if (!oauthConfigured) ...[
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFEF5E7),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: const Color(0xFFF8DFB6)),
+                  ),
+                  child: const Text(
+                    'Server environment variables GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_REDIRECT_URI must be configured before connecting.',
+                    style: TextStyle(fontSize: 11.5, color: Color(0xFFB45309)),
+                  ),
+                ),
+              ],
+              if (lastError.isNotEmpty &&
+                  (gscStatus == 'expired' ||
+                      gscStatus == 'revoked' ||
+                      !propertyVerified)) ...[
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFEF5E7),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: const Color(0xFFF8DFB6)),
+                  ),
+                  child: Text(
+                    lastError,
+                    style: const TextStyle(
+                      fontSize: 11.5,
+                      color: Color(0xFFB45309),
+                    ),
+                  ),
+                ),
+              ],
+              if (!isDisconnected) ...[
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: SeoColors.scaffoldBg(context),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: SeoColors.border(context)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _GscMetaRow(
+                        label: 'Google Account',
+                        value: accountEmail.isNotEmpty
+                            ? accountEmail
+                            : 'Not available',
+                      ),
+                      const SizedBox(height: 6),
+                      _GscMetaRow(
+                        label: 'Selected Property',
+                        value: gscProperty.isNotEmpty
+                            ? '$gscProperty (${propertyVerified ? 'Verified' : 'Unverified'})'
+                            : 'Not selected',
+                      ),
+                      const SizedBox(height: 6),
+                      _GscMetaRow(
+                        label: 'Last Sync',
+                        value: lastSyncedAt != null && lastSyncedAt.isNotEmpty
+                            ? DateFormatter.formatRelativeFromString(lastSyncedAt)
+                            : 'Not synced yet',
+                      ),
+                      const SizedBox(height: 6),
+                      _GscMetaRow(
+                        label: 'Status',
+                        value: gscStatusLabel,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: _connectingGsc ? null : _handleConnectGsc,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: SeoColors.primaryDarkGreen,
+                      foregroundColor: Colors.white,
+                    ),
+                    icon: const Icon(Icons.link_rounded, size: 16),
+                    label: Text(
+                      _connectingGsc
+                          ? 'Opening Google...'
+                          : (isConnected
+                              ? 'Reconnect Google Account'
+                              : 'Connect Google Account'),
+                    ),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: (_testingTarget != null || isDisconnected)
+                        ? null
+                        : () => _handleTest('gsc'),
+                    icon: const Icon(Icons.bolt_rounded, size: 16),
+                    label: Text(
+                      _testingTarget == 'gsc'
+                          ? 'Testing...'
+                          : 'Test Connection',
+                    ),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed:
+                        (_refreshingGsc || !isConnected || !propertyVerified)
+                            ? null
+                            : _handleRefreshGsc,
+                    icon: const Icon(Icons.refresh_rounded, size: 16),
+                    label: Text(
+                      _refreshingGsc ? 'Refreshing...' : 'Refresh Data',
+                    ),
+                  ),
+                  if (!isDisconnected)
+                    OutlinedButton.icon(
+                      onPressed:
+                          _disconnectingGsc ? null : _handleDisconnectGsc,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: const Color(0xFFB91C1C),
+                        side: const BorderSide(color: Color(0xFFF8C9C6)),
+                      ),
+                      icon: const Icon(Icons.link_off_rounded, size: 16),
+                      label: Text(
+                        _disconnectingGsc ? 'Disconnecting...' : 'Disconnect',
+                      ),
+                    ),
+                ],
+              ),
+
+              // Search Console Property Dropdown & Verification
+              if (isConnected) ...[
+                const SizedBox(height: 14),
+                Divider(color: SeoColors.border(context)),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Search Console Property',
+                      style: AppTextStyles.labelBold.copyWith(
+                        fontSize: 13,
+                        color: SeoColors.textPrimary(context),
+                      ),
+                    ),
+                    TextButton.icon(
+                      onPressed: _fetchingProps ? null : _handleFetchProperties,
+                      icon: const Icon(Icons.sync_rounded, size: 15),
+                      label: Text(
+                        _fetchingProps ? 'Loading...' : 'Fetch Properties',
+                      ),
+                    ),
+                  ],
+                ),
+                if (availableProps.isEmpty)
+                  Text(
+                    'No Search Console properties found for this account yet. Tap "Fetch Properties" after adding access in Google Search Console.',
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      color: SeoColors.textMuted(context),
+                    ),
+                  )
+                else ...[
+                  DropdownButtonFormField<String>(
+                    initialValue: effectiveDropdownValue,
+                    isExpanded: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Select verified property',
+                      isDense: true,
+                    ),
+                    items: availableProps.map((prop) {
+                      final siteUrl = prop['siteUrl']?.toString() ?? '';
+                      final perm = prop['permissionLevel']?.toString() ?? '';
+                      final isDomain = prop['isDomainProperty'] == true;
+                      final hasAccess = prop['hasAccess'] == true;
+                      return DropdownMenuItem<String>(
+                        value: siteUrl,
+                        enabled: hasAccess,
+                        child: Text(
+                          '$siteUrl (${isDomain ? 'Domain' : 'URL'} · $perm${hasAccess ? '' : ' — No Access'})',
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (v) {
+                      if (v != null) {
+                        setState(() => _selectedGscProperty = v);
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton.icon(
+                    onPressed: (_savingProp || _selectedGscProperty.isEmpty)
+                        ? null
+                        : _handleVerifyProperty,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: SeoColors.primaryDarkGreen,
+                      foregroundColor: Colors.white,
+                      minimumSize: const Size.fromHeight(40),
+                    ),
+                    icon: const Icon(Icons.verified_user_rounded, size: 16),
+                    label: Text(
+                      _savingProp ? 'Verifying...' : 'Verify & Save Property',
+                    ),
+                  ),
+                ],
+              ],
+
+              const SizedBox(height: 12),
+              Divider(color: SeoColors.border(context)),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  OutlinedButton(
+                    onPressed: _testingTarget != null
+                        ? null
+                        : () => _handleTest('ga4'),
+                    child: Text(
+                      _testingTarget == 'ga4' ? 'Testing...' : 'Test GA4',
+                    ),
+                  ),
+                  OutlinedButton(
+                    onPressed: _testingTarget != null
+                        ? null
+                        : () => _handleTest('pagespeed'),
+                    child: Text(
+                      _testingTarget == 'pagespeed'
+                          ? 'Testing...'
+                          : 'Test PageSpeed',
+                    ),
+                  ),
+                  OutlinedButton(
+                    onPressed: _testingTarget != null
+                        ? null
+                        : () => _handleTest('backlinks'),
+                    child: Text(
+                      _testingTarget == 'backlinks'
+                          ? 'Testing...'
+                          : 'Test Backlinks',
+                    ),
+                  ),
+                ],
+              ),
+              if (_testResult != null) ...[
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: _testResult!['ok'] == true
+                        ? SeoColors.mintSurface(context)
+                        : const Color(0xFFFEF5E7),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    '${_testResult!['provider'] ?? 'Integration'}: ${_testResult!['message'] ?? 'Tested'}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: _testResult!['ok'] == true
+                          ? SeoColors.textPrimary(context)
+                          : const Color(0xFFB45309),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+
+        // GA4, PageSpeed & Crawler Settings Card
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: SeoColors.cardBg(context),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: SeoColors.border(context)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'GA4, PageSpeed & Crawler Settings',
+                style: AppTextStyles.labelBold.copyWith(
+                  fontSize: 14,
+                  color: SeoColors.textPrimary(context),
+                ),
+              ),
+              const SizedBox(height: 10),
               TextField(
                 controller: _siteUrlCtrl,
                 decoration: const InputDecoration(labelText: 'Site URL'),
               ),
               const SizedBox(height: 10),
               TextField(
-                controller: _gscCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Google Search Console Property',
-                  hintText: 'https://www.hangbug.com/',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
                 controller: _ga4Ctrl,
                 decoration: const InputDecoration(
                   labelText: 'GA4 Numeric Property ID',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _saEmailCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Google Service Account Email',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _saKeyCtrl,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'New Private Key (blank keeps existing)',
                 ),
               ),
               const SizedBox(height: 10),
@@ -1120,6 +1531,43 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
                 child: Text(_saving ? 'Saving...' : 'Save SEO Settings'),
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _GscMetaRow extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const _GscMetaRow({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 112,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 11.5,
+              fontWeight: FontWeight.w600,
+              color: SeoColors.textMuted(context),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: TextStyle(
+              fontSize: 11.5,
+              fontWeight: FontWeight.w600,
+              color: SeoColors.textPrimary(context),
+            ),
           ),
         ),
       ],
