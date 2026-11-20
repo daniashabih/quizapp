@@ -19,10 +19,12 @@ const DEFAULT_PAGE_TIMEOUT_MS = parseInt(
     process.env.OCR_PAGE_TIMEOUT_MS || (process.env.VERCEL ? '16000' : '25000'),
     10
 ) || 18000;
-const DEFAULT_BATCH_PAGES = parseInt(
-    process.env.OCR_BATCH_PAGES || (process.env.VERCEL ? '3' : '5'),
-    10
-) || 3;
+function getDefaultBatchPages() {
+    const raw = process.env.OCR_BATCH_PAGES || (process.env.VERCEL ? '3' : '5');
+    return Math.max(1, parseInt(raw, 10) || 3);
+}
+
+const DEFAULT_BATCH_PAGES = getDefaultBatchPages();
 
 let cachedPdfjs = null;
 let sharedWorkerPromise = null;
@@ -130,7 +132,7 @@ function getOcrEngineInfo() {
             : 'Tesseract.js LSTM + PDF.js (Self-Hosted Free OCR)',
         language: DEFAULT_OCR_LANGUAGE,
         bundledTrainedData: Boolean(bundledLangPath),
-        batchPages: DEFAULT_BATCH_PAGES,
+        batchPages: getDefaultBatchPages(),
         externalWorkerConfigured: workerCfg.configured
     };
 }
@@ -974,6 +976,7 @@ module.exports = {
     MIN_SEARCHABLE_PAGE_ALPHANUM,
     MIN_OCR_PAGE_ALPHANUM,
     DEFAULT_BATCH_PAGES,
+    getDefaultBatchPages,
     DEFAULT_PAGE_TIMEOUT_MS,
     NodeCanvasFactory,
     getOcrEngineInfo,

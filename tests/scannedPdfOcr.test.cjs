@@ -246,7 +246,7 @@ function installFullMockPrisma() {
                 if (where.technologyNormalized && b.technologyNormalized !== where.technologyNormalized) return false;
                 if (where.isEnabled !== undefined && b.isEnabled !== where.isEnabled) return false;
                 if (where.processingStatus && b.processingStatus !== where.processingStatus) return false;
-                if (where.id?.not && b.id === where.id.not) continue;
+                if (where.id?.not && b.id === where.id.not) return false;
                 return true;
             });
         },
@@ -696,12 +696,14 @@ test('4. DOCX and TXT extraction remain fully intact and searchable', async () =
     }
 });
 
-test('5. Large Scanned PDF (8 pages): Batched resumable OCR saves progress per batch, recovers from stale lock, and avoids duplicate page extraction', async () => {
+test('5. Large Scanned PDF (10 pages): Batched resumable OCR saves progress per batch, recovers from stale lock, and avoids duplicate page extraction', async () => {
     const mockDb = installFullMockPrisma();
+    const prevBatchPages = process.env.OCR_BATCH_PAGES;
+    process.env.OCR_BATCH_PAGES = '3';
     try {
         await withGroqOnlyEnv(async () => {
             const pageSpecs = [];
-            for (let p = 1; p <= 8; p++) {
+            for (let p = 1; p <= 10; p++) {
                 pageSpecs.push({
                     type: 'scanned',
                     lines: [
@@ -724,9 +726,9 @@ test('5. Large Scanned PDF (8 pages): Batched resumable OCR saves progress per b
 
             // Drive step-by-step with bounded timeBudgetMs so it executes in multiple resumable batches!
             const step1 = await runBookProcessingStep(book.id, { timeBudgetMs: 12000 });
-            assert.equal(step1.done, false, '8-page scanned PDF must pause cleanly across resumable batches');
+            assert.equal(step1.done, false, '10-page scanned PDF must pause cleanly across resumable batches');
             assert.equal(step1.needsMoreSteps, true);
-            assert.ok(step1.book.ocrProcessedPages >= 1 && step1.book.ocrProcessedPages < 8);
+            assert.ok(step1.book.ocrProcessedPages >= 1 && step1.book.ocrProcessedPages <= 3);
 
             const processedAfterStep1 = step1.book.ocrProcessedPages;
 
@@ -756,31 +758,33 @@ test('5. Large Scanned PDF (8 pages): Batched resumable OCR saves progress per b
 
             assert.equal(current.done, true);
             assert.equal(current.book.processingStatus, PROCESSING_STATUSES.COMPLETED);
-            assert.equal(current.book.totalPages, 8);
-            assert.equal(current.book.ocrProcessedPages, 8);
-            assert.equal(current.book.textExtractedPages, 8);
+            assert.equal(current.book.totalPages, 10);
+            assert.equal(current.book.ocrProcessedPages, 10);
+            assert.equal(current.book.textExtractedPages, 10);
             assert.equal(current.book.ocrFailedPages, 0);
             assert.equal(current.book.indexedVectors, 0);
-            assert.ok(steps >= 3, `Expected multi-batch processing, got ${steps} steps`);
+            assert.ok(steps >= 4, `Expected >= 4 resumable batches for 10 pages @ 3/batch, got ${steps} steps`);
 
-            // Verify ZERO duplicate page extraction across all 8 pages!
+            // Verify ZERO duplicate page extraction across all 10 pages!
             const persistedPages = mockDb.state.pages.get(book.id);
-            assert.equal(persistedPages.length, 8);
+            assert.equal(persistedPages.length, 10);
             for (const pg of persistedPages) {
                 assert.equal(pg.status, 'ocr_completed');
                 assert.ok(pg.ocrAttempts <= 2, `Page ${pg.pageNumber} should not be duplicated across batches (attempts=${pg.ocrAttempts})`);
             }
 
-            // Verify page 8 content is searchable with exact page number 8
+            // Verify page 10 content is searchable with exact page number 10
             const hit = await searchRelevantBookChunksByText({
-                questionText: 'consistent hashing partition tolerance token 888',
+                questionText: 'consistent hashing partition tolerance token 1110',
                 technologiesNormalized: [book.technologyNormalized]
             });
             assert.ok(hit.chunks.length >= 1);
-            assert.equal(hit.chunks[0].pageNumber, 8);
-            assert.ok(processedAfterStep1 < 8);
+            assert.equal(hit.chunks[0].pageNumber, 10);
+            assert.ok(processedAfterStep1 < 10);
         });
     } finally {
+        if (prevBatchPages === undefined) delete process.env.OCR_BATCH_PAGES;
+        else process.env.OCR_BATCH_PAGES = prevBatchPages;
         mockDb.restore();
     }
 });

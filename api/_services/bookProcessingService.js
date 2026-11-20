@@ -16,7 +16,7 @@ const {
     sha256
 } = require('./bookExtractorService');
 const {
-    DEFAULT_BATCH_PAGES,
+    getDefaultBatchPages,
     getOcrEngineInfo,
     analyzePdfPages,
     runOcrOnPdfPages,
@@ -94,11 +94,11 @@ function shouldUseTestFallbackPageStore() {
     if (!prisma.knowledgeBookPage || typeof prisma.knowledgeBookPage.findMany !== 'function') {
         return true;
     }
-    // If a legacy unit test replaced prisma.knowledgeBook with a plain mock object without mocking prisma.knowledgeBookPage,
-    // avoid hitting a real/unconfigured MongoDB connection for knowledgeBookPage.
-    const bookModelIsMock = prisma.knowledgeBook && prisma.knowledgeBook.constructor === Object;
-    const pageModelIsMock = prisma.knowledgeBookPage && prisma.knowledgeBookPage.constructor === Object;
-    return bookModelIsMock && !pageModelIsMock;
+    // Real Prisma delegates expose `.aggregate` & `.groupBy`; lightweight test mocks do not.
+    // If a test mocked prisma.knowledgeBook without mocking prisma.knowledgeBookPage, use the in-memory page store.
+    const bookIsRealPrisma = typeof prisma.knowledgeBook?.aggregate === 'function';
+    const pageIsRealPrisma = typeof prisma.knowledgeBookPage?.aggregate === 'function';
+    return !bookIsRealPrisma && pageIsRealPrisma;
 }
 
 async function listBookPages(bookId) {
@@ -827,7 +827,7 @@ async function runBookProcessingStep(bookId, {
 
                 const elapsedMs = Date.now() - stepStartedAt;
                 const remainingBudgetMs = timeBudgetMs > 0 ? Math.max(8000, timeBudgetMs - elapsedMs) : 0;
-                const maxPagesPerBatch = timeBudgetMs > 0 ? DEFAULT_BATCH_PAGES : 0;
+                const maxPagesPerBatch = timeBudgetMs > 0 ? getDefaultBatchPages() : 0;
                 const totalOcrTargets = Math.max(1, initialStats.ocrTotalPages);
 
                 const ocrBatchResult = await runOcrOnPdfPages(
