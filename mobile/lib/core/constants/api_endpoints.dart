@@ -93,7 +93,9 @@ class ApiEndpoints {
   static String adminKnowledgeBaseBookProcessStep(String id) => '/admin/knowledge-base/books/$id/process-step';
   static String adminKnowledgeBaseBookToggle(String id) => '/admin/knowledge-base/books/$id/toggle';
   static String adminKnowledgeBaseBookRetry(String id) => '/admin/knowledge-base/books/$id/retry';
+  static String adminKnowledgeBaseBookRetryOcr(String id) => '/admin/knowledge-base/books/$id/retry-ocr';
   static String adminKnowledgeBaseBookReplace(String id) => '/admin/knowledge-base/books/$id/replace';
+  static const String adminKnowledgeBaseSearch = '/admin/knowledge-base/search';
 
   // AI Verification Reports & Approval History
   static const String adminVerificationReports = '/admin/verification-reports';

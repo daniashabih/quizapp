@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: hangbug-ocr-worker
+    runtime: docker
+    rootDir: ocr-worker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: OCR_WORKER_SECRET
+        generateValue: true
+      - key: OCR_DPI
+        value: "200"
+      - key: OCR_PAGE_TIMEOUT_MS
+        value: "25000"

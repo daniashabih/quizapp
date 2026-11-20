@@ -228,6 +228,7 @@ router.post('/blog/seed', blogController.adminSeedArticles);
 
 // 9. /api/admin/knowledge-base (AI Book Knowledge Base - Admin Protected)
 router.get('/knowledge-base/status', knowledgeBaseController.getKnowledgeBaseStatus);
+router.get('/knowledge-base/search', knowledgeBaseController.searchKnowledgeBase);
 router.post('/knowledge-base/setup-vector-index', knowledgeBaseController.setupVectorIndex);
 router.get('/knowledge-base/books', knowledgeBaseController.listBooks);
 router.get('/knowledge-base/books/:id', knowledgeBaseController.getBookDetails);
@@ -241,6 +242,7 @@ router.put('/knowledge-base/books/:id', knowledgeBaseController.updateBookMetada
 router.post('/knowledge-base/books/:id/replace', bookUpload.single('file'), knowledgeBaseController.replaceBook);
 router.patch('/knowledge-base/books/:id/toggle', knowledgeBaseController.toggleBookEnabled);
 router.post('/knowledge-base/books/:id/retry', knowledgeBaseController.retryBookProcessing);
+router.post('/knowledge-base/books/:id/retry-ocr', knowledgeBaseController.retryBookOcr);
 router.delete('/knowledge-base/books/:id', knowledgeBaseController.deleteBook);
 
 // 10. /api/admin/verification-reports (AI Verification Reports & Approval History)

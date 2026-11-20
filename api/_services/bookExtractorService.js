@@ -1,8 +1,12 @@
 const crypto = require('crypto');
-const os = require('os');
 const path = require('path');
 const mammoth = require('mammoth');
-const { ocrPdfWithMultimodalAI } = require('./aiProviderService');
+const {
+    analyzePdfPages,
+    runOcrOnPdfPages,
+    cleanOcrText,
+    getOcrEngineInfo
+} = require('./ocrService');
 
 const MAX_BOOK_FILE_SIZE_BYTES = (parseInt(process.env.MAX_BOOK_FILE_SIZE_MB || '50', 10) || 50) * 1024 * 1024;
 const ALLOWED_EXTENSIONS = new Set(['pdf', 'docx', 'txt']);
@@ -15,28 +19,6 @@ const ALLOWED_MIME_MAP = {
     ]),
     txt: new Set(['text/plain', 'text/markdown', 'application/octet-stream'])
 };
-
-let cachedPdfjsLib = null;
-
-/**
- * Load PDF.js statically so Vercel's Node File Tracer (NFT) always bundles both
- * pdf.js and pdf.worker.js without relying on pdf-parse's dynamic require string.
- */
-function loadPdfjsLib() {
-    if (cachedPdfjsLib) return cachedPdfjsLib;
-
-    try {
-        // Explicit static reference so Vercel NFT traces the companion fake-worker bundle
-        require.resolve('pdf-parse/lib/pdf.js/v1.10.100/build/pdf.worker.js');
-    } catch {
-        // Worker file check is best-effort
-    }
-
-    const pdfjsLib = require('pdf-parse/lib/pdf.js/v1.10.100/build/pdf.js');
-    pdfjsLib.disableWorker = true;
-    cachedPdfjsLib = pdfjsLib;
-    return pdfjsLib;
-}
 
 /**
  * Normalize Buffer / Uint8Array / ArrayBuffer into a standard Node Buffer.
@@ -138,7 +120,6 @@ function validateUploadedBookFile({ buffer, originalname, mimetype }) {
 
     // Magic-byte signature verification
     if (ext === 'pdf') {
-        // PDF header %PDF- must appear near start of file (PDF spec allows small leading preamble up to 1024 bytes)
         const header = fileBuffer.subarray(0, Math.min(fileBuffer.length, 1024)).toString('latin1');
         if (!header.includes('%PDF-')) {
             const err = new Error('Invalid PDF file signature. Please upload a genuine PDF document.');
@@ -154,7 +135,6 @@ function validateUploadedBookFile({ buffer, originalname, mimetype }) {
             throw err;
         }
     } else if (ext === 'txt') {
-        // Reject binary files disguised as .txt (allow valid UTF-16 BOM text files)
         const utf16 = detectUtf16Bom(fileBuffer);
         if (!utf16) {
             const sample = fileBuffer.subarray(0, Math.min(fileBuffer.length, 4096));
@@ -199,18 +179,15 @@ function detectHeadingInText(text, fallbackChapter = '') {
     for (const line of lines.slice(0, 12)) {
         if (line.length < 3 || line.length > 130) continue;
 
-        // Explicit Chapter / Unit / Module / Lesson / Section markers
         if (/^(chapter|unit|module|part|section|lesson)\s+([0-9ivxlcdm]+)([\s:.\-–—]+.*)?$/i.test(line)) {
             return line.slice(0, 120);
         }
 
-        // Markdown headings (# Heading)
         const mdMatch = line.match(/^#{1,4}\s+(.+)$/);
         if (mdMatch && mdMatch[1].trim().length >= 3) {
             return mdMatch[1].trim().slice(0, 120);
         }
 
-        // Numbered technical heading e.g. "3.2 Semantic HTML Elements"
         if (/^\d+(\.\d+){0,2}\s+[A-Z][A-Za-z0-9\s,&:/()\-+#]{2,80}$/.test(line) && !line.endsWith('.')) {
             return line.slice(0, 120);
         }
@@ -219,13 +196,12 @@ function detectHeadingInText(text, fallbackChapter = '') {
 }
 
 /**
- * Extract embedded JPEG/PNG images directly from PDF binary streams for local OCR on scanned PDFs
+ * Extract embedded JPEG/PNG images directly from PDF binary streams (diagnostic utility).
  */
 function extractEmbeddedImagesFromPdf(pdfBuffer) {
     const images = [];
     const maxImages = process.env.VERCEL ? 6 : 20;
 
-    // 1. Scan for JPEG images (SOI: FF D8 FF ... EOI: FF D9)
     let offset = 0;
     while (offset < pdfBuffer.length - 4 && images.length < maxImages) {
         if (pdfBuffer[offset] === 0xFF && pdfBuffer[offset + 1] === 0xD8 && pdfBuffer[offset + 2] === 0xFF) {
@@ -247,7 +223,6 @@ function extractEmbeddedImagesFromPdf(pdfBuffer) {
         }
     }
 
-    // 2. Scan for PNG images (89 50 4E 47 0D 0A 1A 0A ... IEND AE 42 60 82)
     const pngSig = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
     const pngEnd = Buffer.from([0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82]);
     let pngOffset = 0;
@@ -266,193 +241,83 @@ function extractEmbeddedImagesFromPdf(pdfBuffer) {
     return images;
 }
 
-function withPromiseTimeout(promise, ms, label = 'Operation') {
-    let timer;
-    return Promise.race([
-        promise,
-        new Promise((_, reject) => {
-            timer = setTimeout(() => {
-                reject(new Error(`${label} timed out after ${ms}ms.`));
-            }, ms);
-        })
-    ]).finally(() => clearTimeout(timer));
-}
-
 /**
- * Run OCR on a scanned PDF using multimodal AI (if configured) or bounded Tesseract.js on embedded page images.
- */
-async function performScannedPdfOcr(pdfBuffer) {
-    // Strategy 1: Multimodal AI native PDF OCR (fastest & highest accuracy in serverless)
-    try {
-        const aiPages = await ocrPdfWithMultimodalAI(pdfBuffer);
-        if (Array.isArray(aiPages) && aiPages.length > 0) {
-            const totalChars = aiPages.reduce((sum, p) => sum + sanitizeExtractedContent(p.text).length, 0);
-            if (totalChars >= 30) {
-                return { pages: aiPages, ocrEngine: 'multimodal_ai' };
-            }
-        }
-    } catch (err) {
-        console.warn('[Book OCR] Multimodal PDF OCR fallback:', err.message);
-    }
-
-    // Strategy 2: Extract embedded page images & run bounded local Tesseract.js OCR
-    const embeddedImages = extractEmbeddedImagesFromPdf(pdfBuffer);
-    if (embeddedImages.length === 0) {
-        return { pages: [], ocrEngine: 'none' };
-    }
-
-    let Tesseract;
-    try {
-        Tesseract = require('tesseract.js');
-    } catch {
-        return { pages: [], ocrEngine: 'unavailable' };
-    }
-
-    const ocrStartedAt = Date.now();
-    const totalOcrBudgetMs = process.env.VERCEL ? 15000 : 45000;
-    const perImageTimeoutMs = process.env.VERCEL ? 8000 : 15000;
-    const ocrPages = [];
-
-    for (let i = 0; i < embeddedImages.length; i++) {
-        if (Date.now() - ocrStartedAt > totalOcrBudgetMs) {
-            console.warn(`[Book OCR] Stopped Tesseract fallback after ${totalOcrBudgetMs}ms budget (${ocrPages.length} pages extracted).`);
-            break;
-        }
-        try {
-            const { data } = await withPromiseTimeout(
-                Tesseract.recognize(embeddedImages[i].buffer, 'eng', {
-                    cachePath: os.tmpdir()
-                }),
-                perImageTimeoutMs,
-                `OCR page ${i + 1}`
-            );
-            const cleanText = sanitizeExtractedContent(data?.text || '');
-            if (cleanText) {
-                ocrPages.push({
-                    pageNumber: i + 1,
-                    text: cleanText
-                });
-            }
-        } catch (pageErr) {
-            console.warn(`[Book OCR] Tesseract failed on embedded image ${i + 1}:`, pageErr.message);
-        }
-    }
-
-    return { pages: ocrPages, ocrEngine: 'tesseract.js' };
-}
-
-/**
- * Format PDF.js textContent items into clean line-aware text.
- */
-function renderPdfTextContent(textContent) {
-    const items = Array.isArray(textContent?.items) ? textContent.items : [];
-    let lastY = null;
-    let text = '';
-    for (const item of items) {
-        const str = typeof item?.str === 'string' ? item.str : '';
-        const curY = item?.transform?.[5];
-        if (lastY !== null && curY !== undefined && Math.abs(lastY - curY) > 5) {
-            text += '\n';
-        } else if (text && str && !text.endsWith(' ') && !text.endsWith('\n') && !str.startsWith(' ')) {
-            text += ' ';
-        }
-        text += str;
-        if (curY !== undefined) lastY = curY;
-    }
-    return sanitizeExtractedContent(text);
-}
-
-/**
- * Extract raw pages & page count from a PDF buffer using static PDF.js (Vercel-safe).
+ * Extract raw pages & page count from a PDF buffer using PDF.js + free self-hosted OCR
+ * (handles normal searchable PDFs, scanned image PDFs, and mixed PDFs seamlessly).
  */
 async function extractPdfRawPages(fileBuffer, { onPageProgress, onProgress } = {}) {
-    let rawPages = [];
-    let reportedNumPages = 0;
-    let parseError = null;
-    let doc = null;
-
+    let analysis;
     try {
-        const pdfjsLib = loadPdfjsLib();
-        const uint8 = new Uint8Array(fileBuffer.buffer, fileBuffer.byteOffset, fileBuffer.byteLength);
-        doc = await pdfjsLib.getDocument(uint8);
-        reportedNumPages = Number(doc?.numPages) || 0;
-
-        for (let pageNum = 1; pageNum <= reportedNumPages; pageNum++) {
-            try {
-                const pageData = await doc.getPage(pageNum);
-                const textContent = await pageData.getTextContent({
-                    normalizeWhitespace: false,
-                    disableCombineTextItems: false
-                });
-                const cleanPageText = renderPdfTextContent(textContent);
-                rawPages.push({ pageNumber: pageNum, text: cleanPageText });
-            } catch (pageErr) {
-                console.warn(`[PDF Extract] Warning on page ${pageNum}/${reportedNumPages}:`, pageErr.message);
-                rawPages.push({ pageNumber: pageNum, text: '' });
-            }
-
-            if (onPageProgress) {
-                await onPageProgress({ currentPage: pageNum, totalPages: reportedNumPages });
-            }
-        }
+        if (onProgress) await onProgress('Detecting PDF type');
+        analysis = await analyzePdfPages(fileBuffer, { onPageProgress });
     } catch (err) {
-        parseError = err;
-        const errName = String(err?.name || '');
-        const errMsg = String(err?.message || '');
-
-        if (/PasswordException|password/i.test(`${errName} ${errMsg}`)) {
-            throw new Error('This PDF is password-protected or encrypted. Please upload an unlocked PDF document.');
+        const msg = String(err?.message || 'corrupted or unsupported PDF structure');
+        if (/password-protected|encrypted/i.test(msg)) {
+            throw err;
         }
+        throw new Error(
+            `Unable to extract text from this PDF (${msg}). Please re-export the PDF or upload a DOCX/TXT version.`
+        );
+    }
 
-        console.warn('[PDF Extract] Primary PDF.js parser warning:', errMsg);
-    } finally {
-        if (doc && typeof doc.destroy === 'function') {
-            await doc.destroy().catch(() => {});
+    const pagesByNumber = new Map();
+    const ocrPendingPages = [];
+
+    for (const page of analysis.pages) {
+        if (page.needsOcr) {
+            ocrPendingPages.push(page.pageNumber);
+        } else if (page.text && page.text.length >= 10) {
+            pagesByNumber.set(page.pageNumber, {
+                pageNumber: page.pageNumber,
+                text: sanitizeExtractedContent(page.text),
+                extractionMethod: 'text'
+            });
         }
     }
 
-    const numPages = Math.max(reportedNumPages, rawPages.length, 1);
-    const totalAlphaNum = rawPages.reduce((sum, p) => sum + p.text.replace(/[^a-zA-Z0-9]/g, '').length, 0);
-    const avgCharsPerPage = totalAlphaNum / numPages;
-    const sparsePageCount = rawPages.filter(p => p.text.replace(/[^a-zA-Z0-9]/g, '').length < 25).length;
-    const looksScanned = rawPages.length === 0 ||
-        avgCharsPerPage < 40 ||
-        (rawPages.length >= 1 && sparsePageCount / rawPages.length >= 0.7);
+    let ocrUsed = false;
+    let ocrFailedPages = 0;
+    let ocrEngine = 'none';
 
-    if (looksScanned) {
-        if (onProgress) await onProgress('Extracting Text (OCR for scanned PDF)');
-        const ocrResult = await performScannedPdfOcr(fileBuffer);
-        if (ocrResult.pages.length > 0) {
-            return {
-                pages: ocrResult.pages,
-                detectedPageCount: Math.max(reportedNumPages, ocrResult.pages.length),
-                ocrUsed: true
-            };
+    if (ocrPendingPages.length > 0) {
+        if (onProgress) await onProgress('Running OCR on scanned PDF pages');
+        const ocrRun = await runOcrOnPdfPages(fileBuffer, ocrPendingPages, {
+            timeBudgetMs: 0,
+            maxPagesPerBatch: 0
+        });
+        ocrEngine = ocrRun.engine || getOcrEngineInfo().primaryEngine;
+
+        for (const res of ocrRun.results) {
+            if (res.ok && res.text && res.text.length >= 10) {
+                ocrUsed = true;
+                pagesByNumber.set(res.pageNumber, {
+                    pageNumber: res.pageNumber,
+                    text: sanitizeExtractedContent(cleanOcrText(res.text)),
+                    extractionMethod: 'ocr'
+                });
+            } else {
+                ocrFailedPages++;
+            }
         }
+    }
 
-        if (totalAlphaNum >= 15) {
-            return {
-                pages: rawPages.filter(p => p.text.length > 0),
-                detectedPageCount: Math.max(reportedNumPages, rawPages.length),
-                ocrUsed: false
-            };
-        }
+    const sortedPages = Array.from(pagesByNumber.values())
+        .sort((a, b) => a.pageNumber - b.pageNumber);
 
-        if (parseError) {
-            throw new Error(
-                `Unable to extract text from this PDF (${parseError.message || 'corrupted or unsupported PDF structure'}). Please re-export the PDF or upload a DOCX/TXT version.`
-            );
-        }
-
+    if (sortedPages.length === 0) {
         throw new Error(
-            'This PDF appears to be a scanned image document with no extractable text layer. Configure GEMINI_API_KEY for cloud OCR or upload a text-based PDF, DOCX, or TXT file.'
+            `No readable text could be extracted from this PDF after OCR (${analysis.totalPages} page${analysis.totalPages === 1 ? '' : 's'} checked). Verify scan legibility or try Retry OCR.`
         );
     }
 
     return {
-        pages: rawPages.filter(p => p.text.length > 0),
-        detectedPageCount: Math.max(reportedNumPages, rawPages.length),
-        ocrUsed: false
+        pages: sortedPages,
+        detectedPageCount: Math.max(analysis.totalPages, sortedPages.length),
+        ocrUsed,
+        ocrRequired: analysis.ocrRequired,
+        ocrEngine,
+        ocrFailedPages,
+        documentType: analysis.documentType
     };
 }
 
@@ -505,7 +370,6 @@ async function extractDocxRawPages(fileBuffer) {
         throw new Error('This DOCX file contains no readable text.');
     }
 
-    // Paginate into logical pages (~2400 chars each) while preserving chapter heading
     const pages = [];
     let currentPage = 1;
     let currentChapter = '';
@@ -535,7 +399,10 @@ async function extractDocxRawPages(fileBuffer) {
     return {
         pages,
         detectedPageCount: Math.max(...pages.map(p => p.pageNumber), pages.length),
-        ocrUsed: false
+        ocrUsed: false,
+        ocrRequired: false,
+        ocrEngine: 'none',
+        ocrFailedPages: 0
     };
 }
 
@@ -582,7 +449,10 @@ function extractTxtRawPages(fileBuffer) {
     return {
         pages,
         detectedPageCount: Math.max(...pages.map(p => p.pageNumber), pages.length),
-        ocrUsed: false
+        ocrUsed: false,
+        ocrRequired: false,
+        ocrEngine: 'none',
+        ocrFailedPages: 0
     };
 }
 
@@ -643,7 +513,11 @@ async function extractBookDocument(buffer, fileType, { onProgress, onPageProgres
     return {
         pages: prepared.pages,
         totalPages: prepared.totalPages,
-        ocrUsed: Boolean(rawResult.ocrUsed)
+        ocrUsed: Boolean(rawResult.ocrUsed),
+        ocrRequired: Boolean(rawResult.ocrRequired),
+        ocrEngine: rawResult.ocrEngine || 'none',
+        ocrFailedPages: Number(rawResult.ocrFailedPages) || 0,
+        documentType: rawResult.documentType || ext
     };
 }
 
@@ -674,7 +548,6 @@ function chunkExtractedPages(pages, { targetSize = 1100, minSize = 160, overlap 
             continue;
         }
 
-        // Split by paragraphs first, then sentences if a paragraph is too long
         const paragraphs = text.split(/\n{2,}/).filter(Boolean);
         let current = '';
 

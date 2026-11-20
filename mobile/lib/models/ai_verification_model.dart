@@ -104,11 +104,21 @@ class KnowledgeBookModel {
   final int processingProgress;
   final String processingError;
   final int extractedPagesCount;
+  final int textExtractedPages;
   final int embeddedChunksCount;
+  final int indexedVectors;
   final String embeddingMode;
   final bool isStalled;
   final bool canResume;
+  final bool canRetryOcr;
   final bool ocrUsed;
+  final bool ocrRequired;
+  final String ocrStatus;
+  final String ocrEngine;
+  final int ocrTotalPages;
+  final int ocrProcessedPages;
+  final int ocrFailedPages;
+  final String ocrCurrentPhase;
   final int totalPages;
   final int totalChunks;
   final int indexedChunks;
@@ -133,11 +143,21 @@ class KnowledgeBookModel {
     this.processingProgress = 0,
     this.processingError = '',
     this.extractedPagesCount = 0,
+    this.textExtractedPages = 0,
     this.embeddedChunksCount = 0,
+    this.indexedVectors = 0,
     this.embeddingMode = '',
     this.isStalled = false,
     this.canResume = false,
+    this.canRetryOcr = false,
     this.ocrUsed = false,
+    this.ocrRequired = false,
+    this.ocrStatus = 'not_required',
+    this.ocrEngine = '',
+    this.ocrTotalPages = 0,
+    this.ocrProcessedPages = 0,
+    this.ocrFailedPages = 0,
+    this.ocrCurrentPhase = '',
     this.totalPages = 0,
     this.totalChunks = 0,
     this.indexedChunks = 0,
@@ -149,6 +169,9 @@ class KnowledgeBookModel {
   bool get isProcessing => const {
         'Uploaded',
         'Processing',
+        'Detecting PDF Type',
+        'OCR Required',
+        'OCR Processing',
         'Extracting Text',
         'Preparing Content',
         'Generating Chunks',
@@ -156,7 +179,32 @@ class KnowledgeBookModel {
         'Indexing',
       }.contains(processingStatus);
 
+  bool get isScannedPdf =>
+      ocrRequired ||
+      ocrUsed ||
+      ocrTotalPages > 0 ||
+      processingStatus == 'OCR Required' ||
+      processingStatus == 'OCR Processing';
+
+  int get effectiveIndexedVectors =>
+      embeddingMode == 'vector' ? indexedVectors : 0;
+
   factory KnowledgeBookModel.fromJson(Map<String, dynamic> json) {
+    final extractedPages =
+        (json['textExtractedPages'] is num)
+            ? (json['textExtractedPages'] as num).toInt()
+            : ((json['extractedPagesCount'] is num)
+                ? (json['extractedPagesCount'] as num).toInt()
+                : 0);
+    final embeddedCount =
+        (json['embeddedChunksCount'] is num)
+            ? (json['embeddedChunksCount'] as num).toInt()
+            : 0;
+    final vectors =
+        (json['indexedVectors'] is num)
+            ? (json['indexedVectors'] as num).toInt()
+            : embeddedCount;
+
     return KnowledgeBookModel(
       id: json['id']?.toString() ?? '',
       title: json['title']?.toString() ?? '',
@@ -175,12 +223,22 @@ class KnowledgeBookModel {
       processingStage: json['processingStage']?.toString() ?? 'uploaded',
       processingProgress: (json['processingProgress'] is num) ? (json['processingProgress'] as num).toInt() : 0,
       processingError: json['processingError']?.toString() ?? '',
-      extractedPagesCount: (json['extractedPagesCount'] is num) ? (json['extractedPagesCount'] as num).toInt() : 0,
-      embeddedChunksCount: (json['embeddedChunksCount'] is num) ? (json['embeddedChunksCount'] as num).toInt() : 0,
+      extractedPagesCount: extractedPages,
+      textExtractedPages: extractedPages,
+      embeddedChunksCount: embeddedCount,
+      indexedVectors: vectors,
       embeddingMode: json['embeddingMode']?.toString() ?? '',
       isStalled: json['isStalled'] == true,
       canResume: json['canResume'] == true,
+      canRetryOcr: json['canRetryOcr'] == true,
       ocrUsed: json['ocrUsed'] == true,
+      ocrRequired: json['ocrRequired'] == true || json['ocrUsed'] == true,
+      ocrStatus: json['ocrStatus']?.toString() ?? 'not_required',
+      ocrEngine: json['ocrEngine']?.toString() ?? '',
+      ocrTotalPages: (json['ocrTotalPages'] is num) ? (json['ocrTotalPages'] as num).toInt() : 0,
+      ocrProcessedPages: (json['ocrProcessedPages'] is num) ? (json['ocrProcessedPages'] as num).toInt() : 0,
+      ocrFailedPages: (json['ocrFailedPages'] is num) ? (json['ocrFailedPages'] as num).toInt() : 0,
+      ocrCurrentPhase: json['ocrCurrentPhase']?.toString() ?? '',
       totalPages: (json['totalPages'] is num) ? (json['totalPages'] as num).toInt() : 0,
       totalChunks: (json['totalChunks'] is num) ? (json['totalChunks'] as num).toInt() : 0,
       indexedChunks: (json['indexedChunks'] is num) ? (json['indexedChunks'] as num).toInt() : 0,
@@ -200,12 +258,14 @@ class KnowledgeBaseListResponse {
   final int failedBooks;
   final int totalPages;
   final int totalIndexedChunks;
+  final int totalIndexedVectors;
   final bool aiProviderConfigured;
   final bool embeddingConfigured;
   final String activeProvider;
   final String activeVerificationModel;
   final String activeEmbeddingModel;
   final int activeEmbeddingDimensions;
+  final String ocrEngineLabel;
 
   const KnowledgeBaseListResponse({
     required this.books,
@@ -216,12 +276,14 @@ class KnowledgeBaseListResponse {
     this.failedBooks = 0,
     this.totalPages = 0,
     this.totalIndexedChunks = 0,
+    this.totalIndexedVectors = 0,
     this.aiProviderConfigured = true,
     this.embeddingConfigured = false,
     this.activeProvider = '',
     this.activeVerificationModel = '',
     this.activeEmbeddingModel = '',
     this.activeEmbeddingDimensions = 1536,
+    this.ocrEngineLabel = 'Tesseract.js LSTM + PDF.js (Free)',
   });
 
   factory KnowledgeBaseListResponse.fromJson(Map<String, dynamic> json) {
@@ -229,6 +291,7 @@ class KnowledgeBaseListResponse {
     final rawTechs = (json['technologies'] as List?) ?? [];
     final summary = (json['summary'] as Map<String, dynamic>?) ?? {};
     final aiProvider = (json['aiProvider'] as Map<String, dynamic>?) ?? {};
+    final ocrEngine = (json['ocrEngine'] as Map<String, dynamic>?) ?? {};
     final embedModel = aiProvider['embeddingModel']?.toString() ?? '';
 
     return KnowledgeBaseListResponse(
@@ -243,12 +306,14 @@ class KnowledgeBaseListResponse {
       failedBooks: (summary['failedBooks'] as num?)?.toInt() ?? 0,
       totalPages: (summary['totalPages'] as num?)?.toInt() ?? 0,
       totalIndexedChunks: (summary['totalIndexedChunks'] as num?)?.toInt() ?? 0,
+      totalIndexedVectors: (summary['totalIndexedVectors'] as num?)?.toInt() ?? 0,
       aiProviderConfigured: aiProvider['configured'] != false,
       embeddingConfigured: aiProvider['embeddingConfigured'] == true || embedModel.isNotEmpty,
       activeProvider: aiProvider['chatProvider']?.toString() ?? aiProvider['provider']?.toString() ?? '',
       activeVerificationModel: aiProvider['verificationModel']?.toString() ?? '',
       activeEmbeddingModel: embedModel,
       activeEmbeddingDimensions: (aiProvider['embeddingDimensions'] as num?)?.toInt() ?? 1536,
+      ocrEngineLabel: ocrEngine['engineLabel']?.toString() ?? 'Tesseract.js LSTM + PDF.js (Free)',
     );
   }
 }

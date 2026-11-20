@@ -326,6 +326,14 @@ model KnowledgeBook {
   embeddedChunksCount   Int                     @default(0) @map("embedded_chunks_count")
   embeddingMode         String?                 @default("") @map("embedding_mode")
   ocrUsed               Boolean                 @default(false) @map("ocr_used")
+  ocrRequired           Boolean                 @default(false) @map("ocr_required")
+  ocrStatus             String?                 @default("not_required") @map("ocr_status")
+  ocrEngine             String?                 @default("") @map("ocr_engine")
+  ocrTotalPages         Int                     @default(0) @map("ocr_total_pages")
+  ocrProcessedPages     Int                     @default(0) @map("ocr_processed_pages")
+  ocrFailedPages        Int                     @default(0) @map("ocr_failed_pages")
+  textExtractedPages    Int                     @default(0) @map("text_extracted_pages")
+  ocrCurrentPhase       String?                 @default("") @map("ocr_current_phase")
   totalPages           Int                     @default(0) @map("total_pages")
   totalChunks          Int                     @default(0) @map("total_chunks")
   indexedChunks        Int                     @default(0) @map("indexed_chunks")
@@ -338,11 +346,33 @@ model KnowledgeBook {
   updatedAt            DateTime                @updatedAt @map("updated_at")
   chunks               KnowledgeBookChunk[]
   fileParts            KnowledgeBookFilePart[]
+  pages                KnowledgeBookPage[]
 
   @@index([technologyNormalized, isEnabled])
   @@index([fileHash])
   @@index([processingStatus])
   @@map("knowledge_books")
+}
+
+model KnowledgeBookPage {
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  bookId           String        @map("book_id") @db.ObjectId
+  pageNumber       Int           @map("page_number")
+  extractionMethod String        @default("text") @map("extraction_method")
+  status           String        @default("pending")
+  chapter          String?       @default("")
+  text             String        @default("")
+  charCount        Int           @default(0) @map("char_count")
+  ocrConfidence    Float?        @default(0) @map("ocr_confidence")
+  ocrAttempts      Int           @default(0) @map("ocr_attempts")
+  ocrError         String?       @default("") @map("ocr_error")
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
+  book             KnowledgeBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([bookId, pageNumber])
+  @@index([bookId, status])
+  @@map("knowledge_book_pages")
 }
 
 model KnowledgeBookFilePart {

@@ -77,7 +77,7 @@ class _AdminKnowledgeBaseScreenState
 
     int consecutiveErrors = 0;
     int stepCount = 0;
-    const maxSteps = 45;
+    const maxSteps = 300;
 
     try {
       while (mounted && stepCount < maxSteps) {
@@ -487,8 +487,8 @@ class _AdminKnowledgeBaseScreenState
                     ),
                     child: Text(
                       data.activeEmbeddingModel.isNotEmpty
-                          ? 'Provider: ${data.activeProvider.toUpperCase()} · ${data.activeEmbeddingModel} (${data.activeEmbeddingDimensions}d)'
-                          : 'Provider: ${data.activeProvider.toUpperCase()} · Text fallback mode (no embedding API key)',
+                          ? 'Provider: ${data.activeProvider.toUpperCase()} · ${data.activeEmbeddingModel} (${data.activeEmbeddingDimensions}d)\nOCR: ${data.ocrEngineLabel}'
+                          : 'Provider: ${data.activeProvider.toUpperCase()} · Text fallback mode (no embedding API key)\nOCR: ${data.ocrEngineLabel}',
                       style: AppTextStyles.mono.copyWith(
                         fontSize: 11,
                         color: context.textSecondaryColor,
@@ -505,7 +505,7 @@ class _AdminKnowledgeBaseScreenState
                         border: Border.all(color: Colors.lightBlue.withValues(alpha: 0.35)),
                       ),
                       child: Text(
-                        'Groq handles chat verification only. New books are extracted, chunked, and searchable in Text Fallback mode. Add OPENAI_API_KEY or GEMINI_API_KEY on the server to enable 1536d Atlas Vector Search embeddings.',
+                        'Text Fallback Mode Active (Groq chat · Free OCR). Scanned and searchable PDFs are extracted, chunked, and searchable by text. Indexed vector count stays 0 until an embedding API key is configured.',
                         style: AppTextStyles.bodySmall.copyWith(
                           fontSize: 11.5,
                           color: context.textSecondaryColor,
@@ -521,9 +521,9 @@ class _AdminKnowledgeBaseScreenState
                     const SizedBox(width: 8),
                     _miniStat(context, 'Active', '${data.activeBooks}'),
                     const SizedBox(width: 8),
-                    _miniStat(context, 'Pages', '${data.totalPages}'),
-                    const SizedBox(width: 8),
                     _miniStat(context, 'Chunks', '${data.totalIndexedChunks}'),
+                    const SizedBox(width: 8),
+                    _miniStat(context, 'Vectors', '${data.totalIndexedVectors}'),
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -630,12 +630,29 @@ class _AdminKnowledgeBaseScreenState
         ? context.successColor
         : book.processingStatus == 'Failed'
             ? context.errorColor
-            : context.warningColor;
+            : (book.processingStatus == 'OCR Required' ||
+                    book.processingStatus == 'OCR Processing')
+                ? Colors.deepPurple
+                : context.warningColor;
     final canUpgradeVectors = kbData.embeddingConfigured &&
         book.processingStatus == 'Completed' &&
         (book.embeddingMode == 'text_fallback' ||
             (book.embeddingDimensions > 0 &&
                 book.embeddingDimensions != kbData.activeEmbeddingDimensions));
+    final isScannedPdf = book.isScannedPdf;
+    final isOcrActive =
+        book.processingStatus == 'OCR Processing' || book.ocrStatus == 'processing';
+    final int pagesProcessed = isScannedPdf
+        ? (book.ocrProcessedPages +
+                ((book.textExtractedPages -
+                        (book.ocrProcessedPages - book.ocrFailedPages).clamp(0, book.totalPages))
+                    .clamp(0, book.totalPages)))
+            .clamp(0, book.totalPages > 0 ? book.totalPages : book.ocrProcessedPages)
+        : book.textExtractedPages;
+    final int vectorsCount = book.effectiveIndexedVectors;
+    final bool showRetryOcr = book.canRetryOcr ||
+        (book.fileType.toLowerCase() == 'pdf' &&
+            (book.processingStatus == 'Failed' || book.ocrFailedPages > 0));
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -662,17 +679,38 @@ class _AdminKnowledgeBaseScreenState
                 ),
               ),
               const SizedBox(width: 6),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: statusColor.withValues(alpha: 0.14),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  book.processingStatus,
-                  style: AppTextStyles.labelBold.copyWith(fontSize: 10.5, color: statusColor),
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: statusColor.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    book.processingStatus,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.labelBold.copyWith(fontSize: 10.5, color: statusColor),
+                  ),
                 ),
               ),
+              if (isScannedPdf) ...[
+                const SizedBox(width: 6),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    isOcrActive ? 'OCR Processing' : 'OCR Required',
+                    style: AppTextStyles.labelBold.copyWith(
+                      fontSize: 10,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                ),
+              ],
               const Spacer(),
               Switch(
                 value: book.isEnabled,
@@ -699,7 +737,7 @@ class _AdminKnowledgeBaseScreenState
               if (book.edition.isNotEmpty) book.edition,
               '${book.fileType.toUpperCase()} (${_formatSize(book.fileSize)})',
               if (book.embeddingMode == 'text_fallback' && book.processingStatus == 'Completed')
-                'Text Fallback',
+                'Text Fallback Mode',
             ].join(' · '),
             style: AppTextStyles.bodySmall.copyWith(color: context.textSecondaryColor),
           ),
@@ -708,16 +746,25 @@ class _AdminKnowledgeBaseScreenState
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  '${book.processingStatus}...',
-                  style: AppTextStyles.bodySmall.copyWith(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: context.textSecondaryColor,
+                Expanded(
+                  child: Text(
+                    book.ocrCurrentPhase.isNotEmpty
+                        ? book.ocrCurrentPhase
+                        : '${book.processingStatus}...',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.bodySmall.copyWith(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: context.textSecondaryColor,
+                    ),
                   ),
                 ),
+                const SizedBox(width: 8),
                 Text(
-                  '${book.processingProgress}%',
+                  isScannedPdf && book.totalPages > 0
+                      ? '$pagesProcessed/${book.totalPages} pg · ${book.processingProgress}%'
+                      : '${book.processingProgress}%',
                   style: AppTextStyles.mono.copyWith(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
@@ -746,17 +793,49 @@ class _AdminKnowledgeBaseScreenState
             ),
           ],
           const SizedBox(height: 10),
-          Row(
+          Wrap(
+            spacing: 10,
+            runSpacing: 4,
             children: [
-              Expanded(
-                child: Text(
-                  'Pages: ${book.totalPages} · Chunks: ${book.indexedChunks}/${book.totalChunks}${book.ocrUsed ? ' · OCR' : ''}',
+              if (isScannedPdf) ...[
+                Text(
+                  'Pages Processed: $pagesProcessed/${book.totalPages}',
+                  style: AppTextStyles.bodySmall.copyWith(fontSize: 11, color: context.textSecondaryColor),
+                ),
+                Text(
+                  'Extracted Text Pages: ${book.textExtractedPages}',
+                  style: AppTextStyles.bodySmall.copyWith(fontSize: 11, color: context.successColor),
+                ),
+                Text(
+                  'OCR Failed Pages: ${book.ocrFailedPages}',
                   style: AppTextStyles.bodySmall.copyWith(
                     fontSize: 11,
-                    color: context.textSecondaryColor,
+                    color: book.ocrFailedPages > 0 ? context.errorColor : context.textSecondaryColor,
                   ),
                 ),
+              ] else
+                Text(
+                  'Pages: ${book.totalPages}',
+                  style: AppTextStyles.bodySmall.copyWith(fontSize: 11, color: context.textSecondaryColor),
+                ),
+              Text(
+                'Extracted Chunks: ${book.totalChunks}',
+                style: AppTextStyles.bodySmall.copyWith(fontSize: 11, color: context.textSecondaryColor),
               ),
+              Text(
+                'Indexed Vectors: $vectorsCount',
+                style: AppTextStyles.bodySmall.copyWith(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: vectorsCount > 0 ? context.successColor : context.textSecondaryColor,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
               if (book.isProcessing && (book.canResume || book.isStalled))
                 TextButton.icon(
                   onPressed: () {
@@ -766,7 +845,26 @@ class _AdminKnowledgeBaseScreenState
                   icon: const Icon(Icons.play_arrow_rounded, size: 16),
                   label: const Text('Resume'),
                 ),
-              if (book.processingStatus == 'Failed')
+              if (showRetryOcr && !book.isProcessing)
+                TextButton.icon(
+                  onPressed: () async {
+                    try {
+                      await ref.read(aiVerificationServiceProvider).retryBookOcr(book.id);
+                      ref.invalidate(adminKnowledgeBaseProvider);
+                      _autoAttemptedBookIds.add(book.id);
+                      unawaited(_driveBookProcessing(book.id, showToasts: true));
+                    } catch (e) {
+                      AppNotificationService.error(
+                        id: 'kb-retry-ocr-err',
+                        title: 'Retry OCR Failed',
+                        message: e.toString().replaceFirst('Exception: ', ''),
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.document_scanner_rounded, size: 16),
+                  label: const Text('Retry OCR'),
+                ),
+              if (book.processingStatus == 'Failed' && book.fileType.toLowerCase() != 'pdf')
                 TextButton.icon(
                   onPressed: () async {
                     try {

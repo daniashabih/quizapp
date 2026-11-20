@@ -5,8 +5,11 @@ const { redactSecrets } = require('../_services/aiUsageService');
 const {
     getAtlasVectorIndexDefinition,
     ensureAtlasVectorSearchIndex,
+    searchRelevantBookChunks,
+    searchRelevantBookChunksByText,
     VECTOR_INDEX_NAME
 } = require('../_services/vectorSearchService');
+const { getOcrEngineInfo } = require('../_services/ocrService');
 const {
     PROCESSING_STATUSES,
     PROCESSING_STAGES,
@@ -16,9 +19,12 @@ const {
     isInProgressStatus,
     inferProcessingStage,
     isBookProcessingStalled,
+    listBookPages,
+    deleteBookPages,
     createAndQueueBook,
     replaceBookFile,
     runBookProcessingStep,
+    prepareRetryBookOcr,
     processBookById,
     scheduleBookProcessing,
     findDuplicateBook
@@ -42,6 +48,12 @@ function formatBook(book) {
     const resolvedEmbeddingDimensions = book.embeddingDimensions !== null && book.embeddingDimensions !== undefined
         ? Number(book.embeddingDimensions)
         : (resolvedEmbeddingMode === 'text_fallback' ? 0 : getDetailedProviderInfo().embeddingDimensions);
+    const isVectorIndexed = resolvedEmbeddingMode === 'vector' && resolvedEmbeddingDimensions > 0;
+    const indexedVectors = isVectorIndexed ? (book.embeddedChunksCount || 0) : 0;
+    const ocrRequired = Boolean(book.ocrRequired || book.ocrUsed);
+    const ocrFailedPages = book.ocrFailedPages || 0;
+    const isPdf = String(book.fileType || '').toLowerCase() === 'pdf';
+    const textExtractedPages = book.textExtractedPages || book.extractedPagesCount || 0;
 
     return {
         id: book.id,
@@ -62,13 +74,27 @@ function formatBook(book) {
         processingProgress: book.processingProgress || 0,
         processingError: book.processingError || '',
         processingAttempts: book.processingAttempts || 0,
-        extractedPagesCount: book.extractedPagesCount || 0,
-        embeddedChunksCount: book.embeddedChunksCount || 0,
+        extractedPagesCount: textExtractedPages,
+        textExtractedPages,
+        embeddedChunksCount: indexedVectors,
+        indexedVectors,
         embeddingMode: resolvedEmbeddingMode,
         isStalled: stalled,
         canResume: (inProgress && stalled) || book.processingStatus === PROCESSING_STATUSES.FAILED,
+        canRetryOcr: isPdf && (
+            book.processingStatus === PROCESSING_STATUSES.FAILED ||
+            ocrFailedPages > 0 ||
+            (ocrRequired && book.processingStatus !== PROCESSING_STATUSES.COMPLETED)
+        ),
         lastHeartbeatAt: book.processingHeartbeatAt || book.updatedAt || book.createdAt,
         ocrUsed: Boolean(book.ocrUsed),
+        ocrRequired,
+        ocrStatus: book.ocrStatus || (book.ocrUsed ? 'completed' : 'not_required'),
+        ocrEngine: book.ocrEngine || '',
+        ocrTotalPages: book.ocrTotalPages || 0,
+        ocrProcessedPages: book.ocrProcessedPages || 0,
+        ocrFailedPages,
+        ocrCurrentPhase: book.ocrCurrentPhase || '',
         totalPages: book.totalPages || 0,
         totalChunks: book.totalChunks || 0,
         indexedChunks: book.indexedChunks || 0,
@@ -101,6 +127,7 @@ async function getKnowledgeBaseStatus(req, res) {
         res.json({
             success: true,
             aiProvider,
+            ocrEngine: getOcrEngineInfo(),
             vectorIndex: {
                 name: VECTOR_INDEX_NAME,
                 collection: 'knowledge_book_chunks',
@@ -164,7 +191,11 @@ async function listBooks(req, res) {
                     isEnabled: true,
                     processingStatus: true,
                     totalPages: true,
-                    indexedChunks: true
+                    indexedChunks: true,
+                    embeddedChunksCount: true,
+                    embeddingMode: true,
+                    embeddingDimensions: true,
+                    ocrRequired: true
                 }
             })
         ]);
@@ -173,9 +204,16 @@ async function listBooks(req, res) {
             totalBooks: allBooksSummary.length,
             activeBooks: allBooksSummary.filter(b => b.isEnabled && b.processingStatus === PROCESSING_STATUSES.COMPLETED).length,
             processingBooks: allBooksSummary.filter(b => IN_PROGRESS_STATUS_LIST.includes(b.processingStatus)).length,
+            ocrProcessingBooks: allBooksSummary.filter(b =>
+                [PROCESSING_STATUSES.OCR_REQUIRED, PROCESSING_STATUSES.OCR_PROCESSING].includes(b.processingStatus)
+            ).length,
             failedBooks: allBooksSummary.filter(b => b.processingStatus === PROCESSING_STATUSES.FAILED).length,
             totalPages: allBooksSummary.reduce((sum, b) => sum + (b.totalPages || 0), 0),
-            totalIndexedChunks: allBooksSummary.reduce((sum, b) => sum + (b.indexedChunks || 0), 0)
+            totalIndexedChunks: allBooksSummary.reduce((sum, b) => sum + (b.indexedChunks || 0), 0),
+            totalIndexedVectors: allBooksSummary.reduce((sum, b) => {
+                const isVec = b.embeddingMode === 'vector' && (b.embeddingDimensions || 0) > 0;
+                return sum + (isVec ? (b.embeddedChunksCount || 0) : 0);
+            }, 0)
         };
 
         res.json({
@@ -183,7 +221,8 @@ async function listBooks(req, res) {
             books: books.map(formatBook),
             summary,
             technologies,
-            aiProvider: getDetailedProviderInfo()
+            aiProvider: getDetailedProviderInfo(),
+            ocrEngine: getOcrEngineInfo()
         });
     } catch (err) {
         console.error('[KnowledgeBase List Error]:', err);
@@ -202,24 +241,36 @@ async function getBookDetails(req, res) {
             return res.status(404).json({ success: false, message: 'Reference book not found.' });
         }
 
-        const sampleChunks = await prisma.knowledgeBookChunk.findMany({
-            where: { bookId: book.id },
-            select: {
-                id: true,
-                chapter: true,
-                pageNumber: true,
-                chunkIndex: true,
-                chunkText: true,
-                createdAt: true
-            },
-            orderBy: { chunkIndex: 'asc' },
-            take: 10
-        });
+        const [sampleChunks, bookPages] = await Promise.all([
+            prisma.knowledgeBookChunk.findMany({
+                where: { bookId: book.id },
+                select: {
+                    id: true,
+                    chapter: true,
+                    pageNumber: true,
+                    chunkIndex: true,
+                    chunkText: true,
+                    createdAt: true
+                },
+                orderBy: { chunkIndex: 'asc' },
+                take: 10
+            }),
+            listBookPages(book.id).catch(() => [])
+        ]);
 
         res.json({
             success: true,
             book: formatBook(book),
-            sampleChunks
+            sampleChunks,
+            pages: bookPages.map(p => ({
+                pageNumber: p.pageNumber,
+                extractionMethod: p.extractionMethod,
+                status: p.status,
+                charCount: p.charCount || (p.text || '').length,
+                ocrConfidence: p.ocrConfidence || 0,
+                ocrAttempts: p.ocrAttempts || 0,
+                ocrError: p.ocrError || ''
+            }))
         });
     } catch (err) {
         console.error('[KnowledgeBase Detail Error]:', err);
@@ -692,11 +743,40 @@ async function retryBookProcessing(req, res) {
         }
 
         const processSync = String(req.query?.sync || req.body?.sync || '') === 'true';
+        const mode = String(req.body?.mode || req.query?.mode || '').trim().toLowerCase();
         const forceReextract = Boolean(
             req.body?.forceReextract ||
             req.query?.forceReextract === 'true' ||
-            req.body?.mode === 'reindex'
+            mode === 'reindex'
         );
+
+        if (mode === 'retry_ocr' || (String(existing.fileType || '').toLowerCase() === 'pdf' && existing.ocrRequired && !forceReextract && existing.processingStatus === PROCESSING_STATUSES.FAILED)) {
+            const prep = await prepareRetryBookOcr(existing.id, {
+                forceFullOcr: Boolean(req.body?.forceFullOcr || req.query?.forceFullOcr === 'true')
+            });
+            if (processSync) {
+                const result = await processBookById(existing.id, { forceReextract: false });
+                return res.json({
+                    success: true,
+                    mode: prep.mode,
+                    message: 'OCR retry and indexing completed successfully.',
+                    reusedEmbeddings: result.reusedEmbeddings,
+                    generatedEmbeddings: result.generatedEmbeddings,
+                    book: formatBook(result.book)
+                });
+            }
+            scheduleBookProcessing(existing.id);
+            return res.status(202).json({
+                success: true,
+                requiresStepProcessing: true,
+                mode: prep.mode,
+                pagesQueued: prep.pagesQueued,
+                message: prep.mode === 'retry_failed_pages'
+                    ? `Retrying OCR for ${prep.pagesQueued} pending/failed page(s)...`
+                    : 'Restarting full scanned PDF OCR processing...',
+                book: formatBook(prep.book)
+            });
+        }
 
         const existingChunks = await prisma.knowledgeBookChunk.findMany({
             where: { bookId: existing.id },
@@ -758,6 +838,98 @@ async function retryBookProcessing(req, res) {
 }
 
 /**
+ * POST /api/admin/knowledge-base/books/:id/retry-ocr
+ * Retry OCR for failed or partial scanned PDF books without duplicating already extracted pages.
+ */
+async function retryBookOcr(req, res) {
+    try {
+        const { id } = req.params;
+        const processSync = String(req.query?.sync || req.body?.sync || '') === 'true';
+        const forceFullOcr = Boolean(req.body?.forceFullOcr || req.query?.forceFullOcr === 'true');
+
+        const prep = await prepareRetryBookOcr(String(id), { forceFullOcr });
+
+        if (processSync) {
+            const result = await processBookById(String(id), { forceReextract: false });
+            return res.json({
+                success: true,
+                mode: prep.mode,
+                pagesQueued: prep.pagesQueued,
+                message: 'OCR retry and indexing completed successfully.',
+                reusedEmbeddings: result.reusedEmbeddings,
+                generatedEmbeddings: result.generatedEmbeddings,
+                book: formatBook(result.book)
+            });
+        }
+
+        scheduleBookProcessing(String(id));
+        res.status(202).json({
+            success: true,
+            requiresStepProcessing: true,
+            mode: prep.mode,
+            pagesQueued: prep.pagesQueued,
+            message: prep.mode === 'retry_failed_pages'
+                ? `Retrying OCR for ${prep.pagesQueued} failed/pending page(s)...`
+                : 'Restarting full OCR extraction...',
+            book: formatBook(prep.book)
+        });
+    } catch (err) {
+        console.error('[KnowledgeBase Retry OCR Error]:', err);
+        res.status(err.status || 500).json({ success: false, message: err.message || 'Failed to retry OCR.' });
+    }
+}
+
+/**
+ * GET /api/admin/knowledge-base/search
+ * Search extracted & indexed book chunks (supports both vector search and text fallback mode).
+ */
+async function searchKnowledgeBase(req, res) {
+    try {
+        const query = String(req.query?.q || req.query?.query || '').trim();
+        const technology = String(req.query?.technology || '').trim();
+        const limit = Math.min(20, Math.max(1, parseInt(req.query?.limit || '8', 10) || 8));
+
+        if (!query) {
+            return res.status(400).json({ success: false, message: 'Search query (q) is required.' });
+        }
+
+        let techList = [];
+        if (technology && technology !== 'all') {
+            techList = [normalizeTechnology(technology)].filter(Boolean);
+        } else {
+            const activeBooks = await prisma.knowledgeBook.findMany({
+                where: { isEnabled: true, processingStatus: PROCESSING_STATUSES.COMPLETED },
+                select: { technologyNormalized: true }
+            });
+            techList = Array.from(new Set(activeBooks.map(b => b.technologyNormalized).filter(Boolean)));
+        }
+
+        if (techList.length === 0) {
+            return res.json({ success: true, searchMode: 'text_fallback', results: [] });
+        }
+
+        const result = await searchRelevantBookChunksByText({
+            questionText: query,
+            options: [],
+            technologiesNormalized: techList,
+            limit,
+            minScore: 0.1
+        });
+
+        res.json({
+            success: true,
+            query,
+            searchMode: result.searchMode,
+            count: result.chunks.length,
+            results: result.chunks
+        });
+    } catch (err) {
+        console.error('[KnowledgeBase Search Error]:', err);
+        res.status(500).json({ success: false, message: err.message || 'Knowledge base search failed.' });
+    }
+}
+
+/**
  * DELETE /api/admin/knowledge-base/books/:id
  */
 async function deleteBook(req, res) {
@@ -768,16 +940,17 @@ async function deleteBook(req, res) {
             return res.status(404).json({ success: false, message: 'Reference book not found.' });
         }
 
-        // Explicitly clean up chunks & binary parts before deleting parent book
+        // Explicitly clean up chunks, extracted pages & binary parts before deleting parent book
         await Promise.all([
             prisma.knowledgeBookChunk.deleteMany({ where: { bookId: existing.id } }),
-            prisma.knowledgeBookFilePart.deleteMany({ where: { bookId: existing.id } })
+            prisma.knowledgeBookFilePart.deleteMany({ where: { bookId: existing.id } }),
+            deleteBookPages(existing.id)
         ]);
         await prisma.knowledgeBook.delete({ where: { id: existing.id } });
 
         res.json({
             success: true,
-            message: `"${existing.title}" and all its indexed vector chunks were deleted.`
+            message: `"${existing.title}" and all its indexed chunks were deleted.`
         });
     } catch (err) {
         console.error('[KnowledgeBase Delete Error]:', err);
@@ -811,6 +984,8 @@ module.exports = {
     replaceBook,
     toggleBookEnabled,
     retryBookProcessing,
+    retryBookOcr,
+    searchKnowledgeBase,
     deleteBook,
     setupVectorIndex
 };

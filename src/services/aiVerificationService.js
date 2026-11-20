@@ -173,6 +173,18 @@ const aiVerificationService = {
         return res.data;
     },
 
+    retryBookOcr: async (bookId, payload = {}) => {
+        const res = await axios.post(`/admin/knowledge-base/books/${bookId}/retry-ocr`, payload, { timeout: 30000 });
+        return res.data;
+    },
+
+    searchKnowledgeBase: async ({ q, technology = 'all', limit = 8 } = {}) => {
+        const params = { q, limit };
+        if (technology && technology !== 'all') params.technology = technology;
+        const res = await axios.get('/admin/knowledge-base/search', { params, timeout: 20000 });
+        return res.data;
+    },
+
     deleteBook: async (bookId) => {
         const res = await axios.delete(`/admin/knowledge-base/books/${bookId}`, { timeout: 20000 });
         return res.data;

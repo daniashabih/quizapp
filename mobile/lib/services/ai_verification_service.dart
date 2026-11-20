@@ -194,6 +194,19 @@ class AiVerificationService {
     );
   }
 
+  Future<Map<String, dynamic>> retryBookOcr(
+    String bookId, {
+    bool forceFullOcr = false,
+  }) async {
+    final response = await apiClient.post(
+      ApiEndpoints.adminKnowledgeBaseBookRetryOcr(bookId),
+      data: {
+        if (forceFullOcr) 'forceFullOcr': true,
+      },
+    );
+    return (response.data as Map<String, dynamic>?) ?? const {};
+  }
+
   Future<void> deleteBook(String bookId) async {
     await apiClient.delete(ApiEndpoints.adminKnowledgeBaseBookById(bookId));
   }

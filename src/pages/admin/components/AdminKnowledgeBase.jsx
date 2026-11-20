@@ -30,6 +30,9 @@ import aiVerificationService from '../../../services/aiVerificationService';
 const IN_PROGRESS_STATUSES = new Set([
     'Uploaded',
     'Processing',
+    'Detecting PDF Type',
+    'OCR Required',
+    'OCR Processing',
     'Extracting Text',
     'Preparing Content',
     'Generating Chunks',
@@ -40,6 +43,9 @@ const IN_PROGRESS_STATUSES = new Set([
 const STATUS_BADGES = {
     Uploaded: 'bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800',
     Processing: 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800',
+    'Detecting PDF Type': 'bg-cyan-50 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800',
+    'OCR Required': 'bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800',
+    'OCR Processing': 'bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-700',
     'Extracting Text': 'bg-violet-50 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-800',
     'Preparing Content': 'bg-fuchsia-50 dark:bg-fuchsia-950/40 text-fuchsia-700 dark:text-fuchsia-300 border-fuchsia-200 dark:border-fuchsia-800',
     'Generating Chunks': 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800',
@@ -60,13 +66,16 @@ export default function AdminKnowledgeBase({ standalone = false }) {
     const [books, setBooks] = useState([]);
     const [technologies, setTechnologies] = useState([]);
     const [aiProvider, setAiProvider] = useState(null);
+    const [ocrEngine, setOcrEngine] = useState(null);
     const [summary, setSummary] = useState({
         totalBooks: 0,
         activeBooks: 0,
         processingBooks: 0,
+        ocrProcessingBooks: 0,
         failedBooks: 0,
         totalPages: 0,
-        totalIndexedChunks: 0
+        totalIndexedChunks: 0,
+        totalIndexedVectors: 0
     });
 
     const [loading, setLoading] = useState(true);
@@ -131,6 +140,7 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                     }
                 }
                 if (res.aiProvider) setAiProvider(res.aiProvider);
+                if (res.ocrEngine) setOcrEngine(res.ocrEngine);
             }
         } catch (err) {
             if (!silent) {
@@ -147,7 +157,7 @@ export default function AdminKnowledgeBase({ standalone = false }) {
 
         let consecutiveErrors = 0;
         let stepCount = 0;
-        const maxSteps = 45;
+        const maxSteps = 300;
 
         try {
             while (isMountedRef.current && stepCount < maxSteps) {
@@ -295,6 +305,21 @@ export default function AdminKnowledgeBase({ standalone = false }) {
             });
         } catch (err) {
             toast.error(err?.response?.data?.message || 'Failed to retry processing.');
+        }
+    };
+
+    const handleRetryOcr = async (book, { forceFullOcr = false } = {}) => {
+        try {
+            const res = await aiVerificationService.retryBookOcr(book.id, { forceFullOcr });
+            toast.info(res?.message || 'Retrying OCR processing...');
+            await fetchBooks(true);
+            autoAttemptedIdsRef.current.add(book.id);
+            driveBookProcessing(book.id, {
+                forceReextract: false,
+                showCompletionToast: true
+            });
+        } catch (err) {
+            toast.error(err?.response?.data?.message || 'Failed to retry OCR.');
         }
     };
 
@@ -476,16 +501,22 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                     {aiProvider.embeddingModel || 'Text fallback mode (no embedding API key)'}
                                 </strong>
                             </span>
-                            <span>Vector Dimensions: <strong className="text-[var(--foreground)]">{aiProvider.embeddingDimensions || 1536}</strong></span>
+                            <span>Vector Dimensions: <strong className="text-[var(--foreground)]">{aiProvider.embeddingConfigured ? (aiProvider.embeddingDimensions || 1536) : 0}</strong></span>
+                            <span>
+                                OCR Engine:{' '}
+                                <strong className="text-emerald-700 dark:text-emerald-400">
+                                    {ocrEngine?.engineLabel || 'Tesseract.js LSTM + PDF.js (Free)'}
+                                </strong>
+                            </span>
                         </div>
                     </div>
                     {aiProvider.embeddingConfigured === false && (
                         <div className="p-3.5 rounded-2xl bg-sky-50 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-800 flex items-start gap-2.5 text-xs text-sky-900 dark:text-sky-200">
                             <AlertCircle size={16} className="text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
                             <div>
-                                <p className="font-bold">Text Fallback Indexing Active (Groq handles chat only)</p>
+                                <p className="font-bold">Text Fallback Mode Active (Groq handles chat · Free OCR active)</p>
                                 <p className="mt-0.5 text-sky-800 dark:text-sky-300">
-                                    Books are extracted, chunked, and immediately searchable by text. To enable MongoDB Atlas Vector Search embeddings, configure <code className="font-mono font-bold">OPENAI_API_KEY</code> or <code className="font-mono font-bold">GEMINI_API_KEY</code> in your server environment variables, then click <strong>Generate Vectors</strong> on any book.
+                                    Both normal and scanned PDFs are extracted with free open-source OCR, chunked, and immediately searchable by text in MongoDB. Indexed vector count remains 0 until an embedding API key is configured.
                                 </p>
                             </div>
                         </div>
@@ -527,8 +558,8 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                     { label: 'Active & Ready', value: summary.activeBooks, icon: CheckCircle2, color: 'text-emerald-600 dark:text-emerald-400' },
                     { label: 'Processing', value: summary.processingBooks, icon: Loader2, color: 'text-amber-600 dark:text-amber-400' },
                     { label: 'Failed', value: summary.failedBooks, icon: AlertCircle, color: 'text-red-500' },
-                    { label: 'Total Pages', value: summary.totalPages, icon: FileText, color: 'text-[#193D35] dark:text-[#F3E5C5]' },
-                    { label: 'Vector Chunks', value: summary.totalIndexedChunks, icon: Layers, color: 'text-[#D19A45]' }
+                    { label: 'Extracted Chunks', value: summary.totalIndexedChunks, icon: FileText, color: 'text-[#193D35] dark:text-[#F3E5C5]' },
+                    { label: 'Indexed Vectors', value: summary.totalIndexedVectors ?? 0, icon: Layers, color: 'text-[#D19A45]' }
                 ].map(card => {
                     const Icon = card.icon;
                     return (
@@ -571,7 +602,7 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                     className="px-3 py-2 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)] text-xs font-semibold text-[var(--foreground)]"
                 >
                     <option value="all">All Statuses</option>
-                    {['Uploaded', 'Processing', 'Extracting Text', 'Preparing Content', 'Generating Chunks', 'Generating Embeddings', 'Indexing', 'Completed', 'Failed'].map(st => (
+                    {['Uploaded', 'Detecting PDF Type', 'OCR Required', 'OCR Processing', 'Extracting Text', 'Preparing Content', 'Generating Chunks', 'Generating Embeddings', 'Indexing', 'Completed', 'Failed'].map(st => (
                         <option key={st} value={st}>{st}</option>
                     ))}
                 </select>
@@ -605,6 +636,29 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                     {books.map(book => {
                         const isProcessing = IN_PROGRESS_STATUSES.has(book.processingStatus);
                         const statusClass = STATUS_BADGES[book.processingStatus] || STATUS_BADGES.Uploaded;
+                        const isScannedPdf = Boolean(
+                            book.ocrRequired ||
+                            book.ocrUsed ||
+                            book.processingStatus === 'OCR Required' ||
+                            book.processingStatus === 'OCR Processing' ||
+                            (book.ocrTotalPages || 0) > 0
+                        );
+                        const isOcrActive = book.processingStatus === 'OCR Processing' || book.ocrStatus === 'processing';
+                        const totalPagesCount = book.totalPages || 0;
+                        const pagesProcessedCount = isScannedPdf
+                            ? Math.min(totalPagesCount || (book.ocrProcessedPages || 0), (book.ocrProcessedPages || 0) + Math.max(0, (book.textExtractedPages || 0) - Math.max(0, (book.ocrProcessedPages || 0) - (book.ocrFailedPages || 0))))
+                            : (book.textExtractedPages || book.extractedPagesCount || 0);
+                        const extractedTextPagesCount = book.textExtractedPages ?? book.extractedPagesCount ?? 0;
+                        const ocrFailedPagesCount = book.ocrFailedPages || 0;
+                        const indexedVectorsCount = book.embeddingMode === 'vector'
+                            ? (book.indexedVectors ?? book.embeddedChunksCount ?? 0)
+                            : 0;
+                        const showRetryOcr = Boolean(
+                            book.canRetryOcr ||
+                            (String(book.fileType || '').toLowerCase() === 'pdf' &&
+                                (book.processingStatus === 'Failed' || ocrFailedPagesCount > 0))
+                        );
+
                         return (
                             <div
                                 key={book.id}
@@ -626,9 +680,10 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                             <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase bg-[var(--muted-bg)] text-[var(--foreground-muted)] border border-[var(--card-border)]">
                                                 {book.fileType} · {formatFileSize(book.fileSize)}
                                             </span>
-                                            {book.ocrUsed && (
+                                            {isScannedPdf && (
                                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-100 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
-                                                    <ScanText size={11} /> OCR
+                                                    <ScanText size={11} />
+                                                    {isOcrActive ? 'OCR Processing' : 'OCR Required'}
                                                 </span>
                                             )}
                                             {!book.isEnabled && (
@@ -656,10 +711,17 @@ export default function AdminKnowledgeBase({ standalone = false }) {
 
                                         {/* Processing Progress Bar */}
                                         {isProcessing && (
-                                            <div className="space-y-1 max-w-md">
-                                                <div className="flex justify-between text-[10px] font-bold text-[var(--foreground-muted)]">
-                                                    <span>{book.processingStatus}...</span>
-                                                    <span>{book.processingProgress || 0}%</span>
+                                            <div className="space-y-1 max-w-lg">
+                                                <div className="flex justify-between gap-2 text-[10px] font-bold text-[var(--foreground-muted)]">
+                                                    <span className="truncate">
+                                                        {book.ocrCurrentPhase || `${book.processingStatus}...`}
+                                                    </span>
+                                                    <span className="shrink-0 font-mono">
+                                                        {totalPagesCount > 0 && isScannedPdf
+                                                            ? `${pagesProcessedCount}/${totalPagesCount} pages · `
+                                                            : ''}
+                                                        {book.processingProgress || 0}%
+                                                    </span>
                                                 </div>
                                                 <div className="w-full h-1.5 rounded-full bg-[var(--muted-bg)] overflow-hidden">
                                                     <div
@@ -678,19 +740,44 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                             </div>
                                         )}
 
-                                        {/* Metrics Strip */}
+                                        {/* Metrics Strip (includes dedicated Scanned PDF OCR stats) */}
                                         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-[var(--foreground-muted)] pt-1">
-                                            <span>Pages: <strong className="text-[var(--foreground)]">{book.totalPages || 0}</strong></span>
+                                            {isScannedPdf ? (
+                                                <>
+                                                    <span>
+                                                        Pages Processed:{' '}
+                                                        <strong className="text-[var(--foreground)]">
+                                                            {pagesProcessedCount} / {totalPagesCount}
+                                                        </strong>
+                                                    </span>
+                                                    <span>
+                                                        Extracted Text Pages:{' '}
+                                                        <strong className="text-emerald-700 dark:text-emerald-400">
+                                                            {extractedTextPagesCount}
+                                                        </strong>
+                                                    </span>
+                                                    <span>
+                                                        OCR Failed Pages:{' '}
+                                                        <strong className={ocrFailedPagesCount > 0 ? 'text-red-600 dark:text-red-400' : 'text-[var(--foreground)]'}>
+                                                            {ocrFailedPagesCount}
+                                                        </strong>
+                                                    </span>
+                                                </>
+                                            ) : (
+                                                <span>Pages: <strong className="text-[var(--foreground)]">{totalPagesCount}</strong></span>
+                                            )}
                                             <span>Extracted Chunks: <strong className="text-[var(--foreground)]">{book.totalChunks || 0}</strong></span>
                                             <span>
-                                                {book.embeddingMode === 'text_fallback' ? 'Indexed Text Chunks:' : 'Indexed Vectors:'}{' '}
-                                                <strong className="text-emerald-700 dark:text-emerald-400">{book.indexedChunks || 0}</strong>
+                                                Indexed Vectors:{' '}
+                                                <strong className={indexedVectorsCount > 0 ? 'text-emerald-700 dark:text-emerald-400' : 'text-[var(--foreground)]'}>
+                                                    {indexedVectorsCount}
+                                                </strong>
                                             </span>
                                             {book.embeddingMode === 'text_fallback' && book.processingStatus === 'Completed' ? (
                                                 <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-100 dark:bg-sky-950/50 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
-                                                    Text Fallback Mode
+                                                    Text Fallback Mode ({book.indexedChunks || 0} searchable chunks)
                                                 </span>
-                                            ) : book.embeddingModel ? (
+                                            ) : book.embeddingModel && indexedVectorsCount > 0 ? (
                                                 <span>
                                                     Model: <strong className="font-mono text-[10px]">{book.embeddingModel}</strong>
                                                     {book.embeddingDimensions ? ` (${book.embeddingDimensions}d)` : ''}
@@ -721,12 +808,22 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                                                 type="button"
                                                 onClick={() => handleResumeBook(book)}
                                                 className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-[#193D35] hover:bg-[#132f29] text-white cursor-pointer"
-                                                title="Resume interrupted processing from the last saved stage"
+                                                title="Resume interrupted processing from the last saved page/stage"
                                             >
                                                 <Play size={13} /> Resume
                                             </button>
                                         )}
-                                        {book.processingStatus === 'Failed' && (
+                                        {showRetryOcr && !isProcessing && (
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRetryOcr(book)}
+                                                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white cursor-pointer"
+                                                title="Retry OCR on failed or pending scanned PDF pages without duplicating completed pages"
+                                            >
+                                                <ScanText size={13} /> Retry OCR
+                                            </button>
+                                        )}
+                                        {book.processingStatus === 'Failed' && String(book.fileType || '').toLowerCase() !== 'pdf' && (
                                             <button
                                                 type="button"
                                                 onClick={() => handleRetryBook(book)}
