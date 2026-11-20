@@ -126,4 +126,9 @@ class ApiEndpoints {
   static const String adminSeoSettings = '/admin/seo/settings';
   static const String adminSeoTestIntegration = '/admin/seo/integrations/test';
   static const String adminSeoImportBacklinks = '/admin/seo/backlinks/import';
+  static const String adminSeoGscOAuthAuthorize = '/admin/seo/gsc/oauth/authorize';
+  static const String adminSeoGscProperties = '/admin/seo/gsc/properties';
+  static const String adminSeoGscProperty = '/admin/seo/gsc/property';
+  static const String adminSeoGscRefresh = '/admin/seo/gsc/refresh';
+  static const String adminSeoGscDisconnect = '/admin/seo/gsc/disconnect';
 }
