@@ -87,6 +87,11 @@ const isAzureCategory = (category) => {
     );
 };
 
+const isWordPressCategory = (category) => {
+    const lower = String(category || '').trim().toLowerCase();
+    return lower === 'wordpress' || lower === 'word press';
+};
+
 const parseOptions = (opts) => {
     if (Array.isArray(opts)) return opts;
     if (typeof opts === 'string') {
@@ -121,6 +126,9 @@ const getCategoryVariations = (category) => {
     }
     if (isAzureCategory(clean)) {
         return ['Azure', 'Microsoft Azure', 'MS Azure', 'Windows Azure', 'azure', 'microsoft azure', 'ms azure'];
+    }
+    if (isWordPressCategory(clean)) {
+        return ['WordPress', 'wordpress', 'Word Press'];
     }
     const withAnd = clean.replace(/&/g, 'and');
     const withAmp = clean.replace(/\band\b/gi, '&');
@@ -180,13 +188,41 @@ const Question = {
     },
 
     create: async (data) => {
-        const { category, session, question_text, options, correct_answer, explanation } = data;
+        const {
+            category,
+            session,
+            session_title,
+            sessionTitle,
+            topic,
+            difficulty,
+            source_page,
+            sourcePage,
+            source_book,
+            sourceBook,
+            question_text,
+            options,
+            correct_answer,
+            explanation
+        } = data;
         const serializedOptions = typeof options === 'string' ? options : JSON.stringify(Array.isArray(options) ? options : []);
         const sessionNum = parseInt(session, 10) || 1;
+        const resolvedSessionTitle = String(session_title ?? sessionTitle ?? '').trim();
+        const resolvedTopic = String(topic ?? '').trim();
+        const resolvedDifficulty = String(difficulty ?? '').trim();
+        const resolvedSourcePage = source_page !== undefined && source_page !== null
+            ? String(source_page).trim()
+            : (sourcePage !== undefined && sourcePage !== null ? String(sourcePage).trim() : '');
+        const resolvedSourceBook = String(source_book ?? sourceBook ?? '').trim();
+
         const result = await prisma.question.create({
             data: {
                 category,
                 session: sessionNum,
+                sessionTitle: resolvedSessionTitle,
+                topic: resolvedTopic,
+                difficulty: resolvedDifficulty,
+                sourcePage: resolvedSourcePage,
+                sourceBook: resolvedSourceBook,
                 questionText: question_text,
                 options: serializedOptions,
                 correctAnswer: correct_answer,
@@ -213,6 +249,13 @@ const Question = {
         const merged = rows.map(r => ({
             ...r,
             session: r.session || 1,
+            sessionTitle: r.sessionTitle || '',
+            topic: r.topic || '',
+            difficulty: r.difficulty || '',
+            sourcePage: r.sourcePage || '',
+            source_page: r.sourcePage || '',
+            sourceBook: r.sourceBook || '',
+            source_book: r.sourceBook || '',
             options: parseOptions(r.options),
             question_text: r.questionText,
             correct_answer: r.correctAnswer,
@@ -316,20 +359,28 @@ const Question = {
         return rows.map(r => {
             const sNum = r.session || 1;
             const targetCat = r.category || category;
-            let sessionTitle;
-            if (isReactJsCategory(targetCat) && REACTJS_SESSIONS[sNum]) {
-                sessionTitle = REACTJS_SESSIONS[sNum];
-            } else if (isMaterialUiCategory(targetCat) && MATERIAL_UI_SESSIONS[sNum]) {
-                sessionTitle = MATERIAL_UI_SESSIONS[sNum];
-            } else if (isMongoDbCategory(targetCat) && MONGODB_SESSIONS[sNum]) {
-                sessionTitle = MONGODB_SESSIONS[sNum];
-            } else if (isAzureCategory(targetCat) && AZURE_SESSIONS[sNum]) {
-                sessionTitle = AZURE_SESSIONS[sNum];
+            let sessionTitle = r.sessionTitle ? String(r.sessionTitle).trim() : '';
+            if (!sessionTitle) {
+                if (isReactJsCategory(targetCat) && REACTJS_SESSIONS[sNum]) {
+                    sessionTitle = REACTJS_SESSIONS[sNum];
+                } else if (isMaterialUiCategory(targetCat) && MATERIAL_UI_SESSIONS[sNum]) {
+                    sessionTitle = MATERIAL_UI_SESSIONS[sNum];
+                } else if (isMongoDbCategory(targetCat) && MONGODB_SESSIONS[sNum]) {
+                    sessionTitle = MONGODB_SESSIONS[sNum];
+                } else if (isAzureCategory(targetCat) && AZURE_SESSIONS[sNum]) {
+                    sessionTitle = AZURE_SESSIONS[sNum];
+                }
             }
             return {
                 ...r,
                 session: sNum,
                 ...(sessionTitle ? { sessionTitle } : {}),
+                topic: r.topic || '',
+                difficulty: r.difficulty || '',
+                sourcePage: r.sourcePage || '',
+                source_page: r.sourcePage || '',
+                sourceBook: r.sourceBook || '',
+                source_book: r.sourceBook || '',
                 options: parseOptions(r.options),
                 question_text: r.questionText,
                 correct_answer: r.correctAnswer,
@@ -367,18 +418,30 @@ const Question = {
                 }
             }
 
-            rows = await prisma.question.findMany({
-                where,
-                select: { session: true }
-            });
+            try {
+                rows = await prisma.question.findMany({
+                    where,
+                    select: { session: true, sessionTitle: true }
+                });
+            } catch {
+                rows = await prisma.question.findMany({
+                    where,
+                    select: { session: true }
+                });
+            }
         } catch {
             // DB fallback
         }
 
         const sessionCountMap = {};
+        const dbSessionTitleMap = {};
         rows.forEach(r => {
             const s = r.session || 1;
             sessionCountMap[s] = (sessionCountMap[s] || 0) + 1;
+            const dbTitle = String(r.sessionTitle || '').trim();
+            if (dbTitle && !dbSessionTitleMap[s]) {
+                dbSessionTitleMap[s] = dbTitle;
+            }
         });
 
         if (isAgileDevOps && Object.keys(sessionCountMap).length < 16) {
@@ -398,19 +461,21 @@ const Question = {
         const sessions = Object.keys(sessionCountMap)
             .map(s => {
                 const sNum = parseInt(s, 10);
-                let title = `Session ${sNum}`;
-                if (isAgileDevOps && AGILE_DEVOPS_SESSIONS[sNum]) {
-                    title = AGILE_DEVOPS_SESSIONS[sNum];
-                } else if (isCSharp && CSHARP_QUIZ_SESSIONS[sNum]) {
-                    title = CSHARP_QUIZ_SESSIONS[sNum];
-                } else if (isReactJs && REACTJS_SESSIONS[sNum]) {
-                    title = REACTJS_SESSIONS[sNum];
-                } else if (isMaterialUi && MATERIAL_UI_SESSIONS[sNum]) {
-                    title = MATERIAL_UI_SESSIONS[sNum];
-                } else if (isMongoDb && MONGODB_SESSIONS[sNum]) {
-                    title = MONGODB_SESSIONS[sNum];
-                } else if (isAzure && AZURE_SESSIONS[sNum]) {
-                    title = AZURE_SESSIONS[sNum];
+                let title = dbSessionTitleMap[sNum] || `Session ${sNum}`;
+                if (!dbSessionTitleMap[sNum]) {
+                    if (isAgileDevOps && AGILE_DEVOPS_SESSIONS[sNum]) {
+                        title = AGILE_DEVOPS_SESSIONS[sNum];
+                    } else if (isCSharp && CSHARP_QUIZ_SESSIONS[sNum]) {
+                        title = CSHARP_QUIZ_SESSIONS[sNum];
+                    } else if (isReactJs && REACTJS_SESSIONS[sNum]) {
+                        title = REACTJS_SESSIONS[sNum];
+                    } else if (isMaterialUi && MATERIAL_UI_SESSIONS[sNum]) {
+                        title = MATERIAL_UI_SESSIONS[sNum];
+                    } else if (isMongoDb && MONGODB_SESSIONS[sNum]) {
+                        title = MONGODB_SESSIONS[sNum];
+                    } else if (isAzure && AZURE_SESSIONS[sNum]) {
+                        title = AZURE_SESSIONS[sNum];
+                    }
                 }
                 return {
                     session: sNum,
@@ -436,14 +501,40 @@ const Question = {
     },
 
     update: async (id, data) => {
-        const { category, session, question_text, options, correct_answer, explanation } = data;
+        const {
+            category,
+            session,
+            session_title,
+            sessionTitle,
+            topic,
+            difficulty,
+            source_page,
+            sourcePage,
+            source_book,
+            sourceBook,
+            question_text,
+            options,
+            correct_answer,
+            explanation
+        } = data;
         const serializedOptions = typeof options === 'string' ? options : JSON.stringify(Array.isArray(options) ? options : []);
         const updateData = {
             category,
             questionText: question_text,
             options: serializedOptions,
             correctAnswer: correct_answer,
-            ...(explanation !== undefined ? { explanation: explanation || '' } : {})
+            ...(explanation !== undefined ? { explanation: explanation || '' } : {}),
+            ...(session_title !== undefined || sessionTitle !== undefined
+                ? { sessionTitle: String(session_title ?? sessionTitle ?? '').trim() }
+                : {}),
+            ...(topic !== undefined ? { topic: String(topic || '').trim() } : {}),
+            ...(difficulty !== undefined ? { difficulty: String(difficulty || '').trim() } : {}),
+            ...(source_page !== undefined || sourcePage !== undefined
+                ? { sourcePage: String(source_page ?? sourcePage ?? '').trim() }
+                : {}),
+            ...(source_book !== undefined || sourceBook !== undefined
+                ? { sourceBook: String(source_book ?? sourceBook ?? '').trim() }
+                : {})
         };
         if (session !== undefined && session !== null && !isNaN(parseInt(session, 10))) {
             updateData.session = parseInt(session, 10);

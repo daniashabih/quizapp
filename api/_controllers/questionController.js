@@ -13,12 +13,14 @@ async function ensureCategoryExists(categoryName) {
     const clean = String(categoryName).trim();
     try {
         const existing = await Category.findByName(clean);
-        if (!existing) {
+        if (!existing || /^(mem_)?cat_/.test(String(existing.id || ''))) {
             await Category.create(clean);
             console.log(`[Category Auto-Sync] Added new category '${clean}' to categories table.`);
         }
     } catch (err) {
-        console.warn(`[Category Auto-Sync Warning] Could not ensure category '${clean}':`, err.message);
+        if (!/unique|duplicate|already exists|P2002/i.test(String(err?.message || ''))) {
+            console.warn(`[Category Auto-Sync Warning] Could not ensure category '${clean}':`, err.message);
+        }
     }
 }
 
@@ -128,7 +130,22 @@ function parseQuestionsFromHtml(html) {
 
 const createQuestion = async (req, res) => {
     try {
-        const { category, session, question_text, options, correct_answer, explanation } = req.body;
+        const {
+            category,
+            session,
+            session_title,
+            sessionTitle,
+            topic,
+            difficulty,
+            source_page,
+            sourcePage,
+            source_book,
+            sourceBook,
+            question_text,
+            options,
+            correct_answer,
+            explanation
+        } = req.body;
 
         // Basic validation
         if (!category || !question_text || !options || !correct_answer) {
@@ -148,7 +165,19 @@ const createQuestion = async (req, res) => {
         await ensureCategoryExists(category);
 
         const sessionNum = parseInt(session, 10) || 1;
-        const id = await Question.create({ category, session: sessionNum, question_text, options, correct_answer, explanation });
+        const id = await Question.create({
+            category,
+            session: sessionNum,
+            session_title: session_title ?? sessionTitle,
+            topic,
+            difficulty,
+            source_page: source_page ?? sourcePage,
+            source_book: source_book ?? sourceBook,
+            question_text,
+            options,
+            correct_answer,
+            explanation
+        });
         res.status(201).json({ message: 'Question created', id });
     } catch (error) {
         console.error('Create Question Error:', error);

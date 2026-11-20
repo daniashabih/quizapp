@@ -99,7 +99,10 @@ const TECHNOLOGY_ALIASES = {
     'agile': 'agile & devops',
     'devops': 'agile & devops',
     'power bi': 'power bi',
-    'powerbi': 'power bi'
+    'powerbi': 'power bi',
+    'wordpress': 'wordpress',
+    'word press': 'wordpress',
+    'wp': 'wordpress'
 };
 
 function normalizeTechnology(name) {
@@ -166,7 +169,8 @@ function resolveQuestionTechnologies(category, questionText = '') {
             json: /\b(json|json\.stringify|json\.parse|key-value pair|application\/json)\b/i,
             flutter: /\b(flutter|widget|statelesswidget|statefulwidget|scaffold|buildcontext|pubspec)\b/i,
             dart: /\b(dart|future<|stream<|mixin|late |final |null safety|async\*)\b/i,
-            csharp: /\b(c#|csharp|\.net|linq|namespace|ienumerable|async task|delegate)\b/i
+            csharp: /\b(c#|csharp|\.net|linq|namespace|ienumerable|async task|delegate)\b/i,
+            wordpress: /\b(wordpress|wp-admin|wp-content|gutenberg|shortcode|register_post_type|wp_query|woocommerce|yoast)\b/i
         };
         for (const tech of matches) {
             const pattern = keywordMap[tech];
