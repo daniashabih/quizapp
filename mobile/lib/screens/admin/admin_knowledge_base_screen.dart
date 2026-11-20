@@ -8,6 +8,7 @@ import '../../models/ai_verification_model.dart';
 import '../../providers/ai_verification_provider.dart';
 import '../../services/notification_service.dart';
 import '../../widgets/error_state_widget.dart';
+import '../../widgets/hangbug_dialog.dart';
 import '../../widgets/loading_state_widget.dart';
 
 class AdminKnowledgeBaseScreen extends ConsumerStatefulWidget {
@@ -38,20 +39,11 @@ class _AdminKnowledgeBaseScreenState
           message: msg,
         );
       } else if (mounted) {
-        await showDialog<void>(
-          context: context,
-          builder: (dCtx) => AlertDialog(
-            title: const Text('Atlas Vector Index Notice'),
-            content: SingleChildScrollView(
-              child: Text(msg, style: AppTextStyles.bodySmall),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(dCtx).pop(),
-                child: const Text('OK'),
-              ),
-            ],
-          ),
+        await HangbugDialog.info(
+          context,
+          title: 'Atlas Vector Index Notice',
+          message: msg,
+          confirmText: 'OK',
         );
       }
     } catch (e) {
@@ -609,28 +601,23 @@ class _AdminKnowledgeBaseScreenState
               IconButton(
                 icon: Icon(Icons.delete_outline_rounded, color: context.errorColor, size: 20),
                 onPressed: () async {
-                  final ok = await showDialog<bool>(
-                    context: context,
-                    builder: (dCtx) => AlertDialog(
-                      title: const Text('Delete Book?'),
-                      content: Text('Delete "${book.title}" and all indexed chunks?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(dCtx).pop(false),
-                          child: const Text('Cancel'),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(backgroundColor: context.errorColor),
-                          onPressed: () => Navigator.of(dCtx).pop(true),
-                          child: const Text('Delete'),
-                        ),
-                      ],
-                    ),
+                  await HangbugDialog.confirmDelete(
+                    context,
+                    title: 'Delete Knowledge Book?',
+                    message: 'Delete this book and all of its indexed vector chunks from the knowledge base?',
+                    itemName: book.title,
+                    confirmText: 'Delete Book',
+                    loadingText: 'Deleting...',
+                    permanent: true,
+                    onConfirm: () async {
+                      await ref.read(aiVerificationServiceProvider).deleteBook(book.id);
+                      ref.invalidate(adminKnowledgeBaseProvider);
+                      AppNotificationService.success(
+                        title: 'Book deleted',
+                        message: '"${book.title}" has been removed.',
+                      );
+                    },
                   );
-                  if (ok == true) {
-                    await ref.read(aiVerificationServiceProvider).deleteBook(book.id);
-                    ref.invalidate(adminKnowledgeBaseProvider);
-                  }
                 },
               ),
             ],

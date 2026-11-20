@@ -35,6 +35,8 @@
     color: #0A0E0C;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.25s ease,
+                color 0.25s ease,
                 box-shadow 0.2s ease,
                 border-color 0.2s ease;
     animation: hbToastSlideIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -102,10 +104,10 @@
 }
 
 .hb-toast-info .hb-toast-accent-bar {
-    background: linear-gradient(180deg, #42665B 0%, #193D35 100%);
+    background: linear-gradient(180deg, #2563EB 0%, #3B82F6 100%);
 }
 .dark .hb-toast-info .hb-toast-accent-bar {
-    background: linear-gradient(180deg, #6EE7B7 0%, #34D399 100%);
+    background: linear-gradient(180deg, #60A5FA 0%, #3B82F6 100%);
 }
 
 .hb-toast-loading .hb-toast-accent-bar {
@@ -161,14 +163,14 @@
 }
 
 .hb-toast-icon-info {
-    background: rgba(66, 102, 91, 0.1);
-    color: #193D35;
-    border: 1px solid rgba(66, 102, 91, 0.18);
+    background: rgba(37, 99, 235, 0.1);
+    color: #2563EB;
+    border: 1px solid rgba(37, 99, 235, 0.22);
 }
 .dark .hb-toast-icon-info {
-    background: rgba(110, 231, 183, 0.13);
-    color: #6EE7B7;
-    border: 1px solid rgba(110, 231, 183, 0.24);
+    background: rgba(96, 165, 250, 0.14);
+    color: #60A5FA;
+    border: 1px solid rgba(96, 165, 250, 0.26);
 }
 
 .hb-toast-icon-loading {

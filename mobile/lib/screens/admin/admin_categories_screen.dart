@@ -6,9 +6,9 @@ import '../../models/category_model.dart';
 import '../../providers/admin_provider.dart';
 import '../../providers/dashboard_provider.dart';
 import '../../services/notification_service.dart';
-import '../../widgets/app_text_field.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
+import '../../widgets/hangbug_dialog.dart';
 import '../../widgets/loading_state_widget.dart';
 import '../../widgets/tech_logo_widget.dart';
 
@@ -162,89 +162,62 @@ class AdminCategoriesScreen extends ConsumerWidget {
   }
 
   void _confirmDeleteCategory(BuildContext context, WidgetRef ref, CategoryModel cat) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Delete Category?'),
-        content: Text('Are you sure you want to delete "${cat.name}" and all its questions? This cannot be undone.'),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () async {
-              Navigator.of(ctx).pop();
-              final success = await ref.read(adminControllerProvider.notifier).deleteCategory(cat.id);
-              if (context.mounted) {
-                if (success) {
-                  AppNotificationService.success(
-                    title: 'Category deleted',
-                    message: 'Category "${cat.name}" has been removed.',
-                  );
-                } else {
-                  AppNotificationService.error(
-                    title: 'Deletion failed',
-                    message: 'Failed to delete category.',
-                  );
-                }
-              }
-            },
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
+    HangbugDialog.confirmDelete(
+      context,
+      title: 'Delete Category?',
+      message: 'Are you sure you want to delete this category and all of its questions?',
+      itemName: cat.name,
+      confirmText: 'Delete Category',
+      loadingText: 'Deleting...',
+      permanent: true,
+      onConfirm: () async {
+        final success = await ref
+            .read(adminControllerProvider.notifier)
+            .deleteCategory(cat.id);
+        if (success) {
+          AppNotificationService.success(
+            title: 'Category deleted',
+            message: 'Category "${cat.name}" has been removed.',
+          );
+        } else {
+          AppNotificationService.error(
+            title: 'Deletion failed',
+            message: 'Failed to delete category.',
+          );
+          throw Exception('Failed to delete category.');
+        }
+      },
     );
   }
 
   void _openAddCategoryDialog(BuildContext context, WidgetRef ref) {
-    final controller = TextEditingController();
-    final formKey = GlobalKey<FormState>();
-
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        title: const Text('Add New Category'),
-        content: Form(
-          key: formKey,
-          child: AppTextField(
-            label: 'Category Name',
-            controller: controller,
-            hint: 'e.g. Flutter, Docker, TypeScript',
-            validator: (v) => v?.trim().isEmpty == true ? 'Category name is required' : null,
-          ),
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () async {
-              if (!formKey.currentState!.validate()) return;
-              Navigator.of(ctx).pop();
-              final success = await ref.read(adminControllerProvider.notifier).createCategory(controller.text.trim());
-              if (context.mounted) {
-                if (success) {
-                  AppNotificationService.success(
-                    title: 'Category created',
-                    message: 'New category has been added successfully.',
-                  );
-                } else {
-                  AppNotificationService.error(
-                    title: 'Creation failed',
-                    message: 'Failed to create category.',
-                  );
-                }
-              }
-            },
-            child: const Text('Create'),
-          ),
-        ],
-      ),
+    HangbugDialog.prompt(
+      context,
+      title: 'Add New Category',
+      message: 'Create a new technology track for quizzes and questions.',
+      label: 'Category Name',
+      hint: 'e.g. Flutter, Docker, TypeScript',
+      confirmText: 'Create Category',
+      loadingText: 'Creating...',
+      validator: (v) =>
+          v.trim().isEmpty ? 'Category name is required' : null,
+      onSubmit: (value) async {
+        final success = await ref
+            .read(adminControllerProvider.notifier)
+            .createCategory(value);
+        if (success) {
+          AppNotificationService.success(
+            title: 'Category created',
+            message: 'New category has been added successfully.',
+          );
+        } else {
+          AppNotificationService.error(
+            title: 'Creation failed',
+            message: 'Failed to create category.',
+          );
+          throw Exception('Failed to create category.');
+        }
+      },
     );
   }
 }

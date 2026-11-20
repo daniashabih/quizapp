@@ -32,6 +32,7 @@ import {
     AlertCircle
 } from 'lucide-react';
 import { toast } from '../../../services/notificationService';
+import { dialog } from '../../../services/dialogService';
 import gameService, { FALLBACK_TECH_CATEGORIES, FALLBACK_TECHNOLOGIES } from '../../../services/gameService';
 import GameArtwork from '../../games/components/GameArtwork';
 import TechIcon from '../../games/components/TechIcon';
@@ -361,16 +362,31 @@ export const AdminGamesManagement = () => {
     };
 
     const handleDeleteGame = async (game) => {
-        if (!window.confirm(`Are you sure you want to delete "${game.title}"?`)) return;
-        try {
-            const res = await gameService.adminDeleteGame(game.id || game.slug);
-            if (res.success) {
-                toast.success('Game removed.');
-                fetchGames();
-            }
-        } catch {
-            toast.error('Failed to delete game.');
-        }
+        await dialog.confirmDelete({
+            title: 'Delete Game?',
+            message: 'Are you sure you want to permanently delete this game?',
+            itemName: game.title,
+            confirmText: 'Delete Game',
+            loadingText: 'Deleting...',
+            permanent: true,
+            onConfirm: async () => {
+                try {
+                    const res = await gameService.adminDeleteGame(game.id || game.slug);
+                    if (res.success) {
+                        toast.success('Game removed.');
+                        fetchGames();
+                    } else {
+                        const msg = res.message || 'Failed to delete game.';
+                        toast.error(msg);
+                        throw new Error(msg);
+                    }
+                } catch (err) {
+                    const msg = err?.response?.data?.message || err?.message || 'Failed to delete game.';
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     // -------------------------------------------------------------
@@ -434,16 +450,31 @@ export const AdminGamesManagement = () => {
     };
 
     const handleDeleteCategory = async (cat) => {
-        if (!window.confirm(`Are you sure you want to delete category "${cat.name}"?`)) return;
-        try {
-            const res = await gameService.adminDeleteTechCategory(cat.id || cat.slug);
-            if (res.success) {
-                toast.success('Category deleted.');
-                fetchCategories();
-            }
-        } catch {
-            toast.error('Failed to delete category.');
-        }
+        await dialog.confirmDelete({
+            title: 'Delete Game Category?',
+            message: 'Are you sure you want to permanently delete this technology category?',
+            itemName: cat.name,
+            confirmText: 'Delete Category',
+            loadingText: 'Deleting...',
+            permanent: true,
+            onConfirm: async () => {
+                try {
+                    const res = await gameService.adminDeleteTechCategory(cat.id || cat.slug);
+                    if (res.success) {
+                        toast.success('Category deleted.');
+                        fetchCategories();
+                    } else {
+                        const msg = res.message || 'Failed to delete category.';
+                        toast.error(msg);
+                        throw new Error(msg);
+                    }
+                } catch (err) {
+                    const msg = err?.response?.data?.message || err?.message || 'Failed to delete category.';
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     // -------------------------------------------------------------
@@ -527,16 +558,31 @@ export const AdminGamesManagement = () => {
     };
 
     const handleDeleteTech = async (tech) => {
-        if (!window.confirm(`Are you sure you want to delete technology "${tech.name}"?`)) return;
-        try {
-            const res = await gameService.adminDeleteTechnology(tech.id || tech.slug);
-            if (res.success) {
-                toast.success('Technology removed.');
-                fetchTechnologies();
-            }
-        } catch {
-            toast.error('Failed to delete technology.');
-        }
+        await dialog.confirmDelete({
+            title: 'Delete Technology?',
+            message: 'Are you sure you want to permanently delete this technology from the gaming platform?',
+            itemName: tech.name,
+            confirmText: 'Delete Technology',
+            loadingText: 'Deleting...',
+            permanent: true,
+            onConfirm: async () => {
+                try {
+                    const res = await gameService.adminDeleteTechnology(tech.id || tech.slug);
+                    if (res.success) {
+                        toast.success('Technology removed.');
+                        fetchTechnologies();
+                    } else {
+                        const msg = res.message || 'Failed to delete technology.';
+                        toast.error(msg);
+                        throw new Error(msg);
+                    }
+                } catch (err) {
+                    const msg = err?.response?.data?.message || err?.message || 'Failed to delete technology.';
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     // -------------------------------------------------------------
@@ -612,16 +658,31 @@ export const AdminGamesManagement = () => {
     };
 
     const handleDeleteChallenge = async (ch) => {
-        if (!window.confirm(`Delete challenge "${ch.title}"?`)) return;
-        try {
-            const res = await gameService.adminDeleteChallenge(ch.id);
-            if (res.success) {
-                toast.success('Challenge deleted.');
-                fetchChallenges();
-            }
-        } catch {
-            toast.error('Failed to delete challenge.');
-        }
+        await dialog.confirmDelete({
+            title: 'Delete Challenge?',
+            message: 'Are you sure you want to permanently delete this coding challenge?',
+            itemName: ch.title,
+            confirmText: 'Delete Challenge',
+            loadingText: 'Deleting...',
+            permanent: true,
+            onConfirm: async () => {
+                try {
+                    const res = await gameService.adminDeleteChallenge(ch.id);
+                    if (res.success) {
+                        toast.success('Challenge deleted.');
+                        fetchChallenges();
+                    } else {
+                        const msg = res.message || 'Failed to delete challenge.';
+                        toast.error(msg);
+                        throw new Error(msg);
+                    }
+                } catch (err) {
+                    const msg = err?.response?.data?.message || err?.message || 'Failed to delete challenge.';
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     // Filtered lists

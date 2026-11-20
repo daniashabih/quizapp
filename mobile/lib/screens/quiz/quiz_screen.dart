@@ -13,6 +13,7 @@ import '../../widgets/loading_state_widget.dart';
 import '../../widgets/banner_ad_widget.dart';
 import '../../widgets/animated_theme_toggle.dart';
 import '../../widgets/ai_verification_panel.dart';
+import '../../widgets/hangbug_dialog.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   final String category;
@@ -87,100 +88,84 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
   }
 
   void _showQuitConfirmation() {
-    showDialog(
-      context: context,
-      builder: (dialogCtx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text(AppStrings.quitQuizTitle),
-        content: const Text(
+    HangbugDialog.choice<String>(
+      context,
+      type: HangbugDialogType.warning,
+      title: AppStrings.quitQuizTitle,
+      message:
           'Would you like to save your progress to resume later, or discard this attempt?',
+      actions: [
+        HangbugDialogAction<String>(
+          label: 'Save Progress & Exit',
+          value: 'save',
+          variant: HangbugActionVariant.primary,
+          loadingText: 'Saving...',
+          onPressed: () async {
+            await ref.read(quizProvider.notifier).saveAndExit();
+          },
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogCtx).pop(),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            style: TextButton.styleFrom(foregroundColor: context.errorColor),
-            onPressed: () async {
-              Navigator.of(dialogCtx).pop();
-              await ref.read(quizProvider.notifier).discardCurrentAttempt();
-              if (mounted) {
-                ref.invalidate(inProgressAttemptsProvider);
-                context.go('/explore');
-              }
-            },
-            child: const Text('Discard'),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.brandAccentColor,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () async {
-              Navigator.of(dialogCtx).pop();
-              await ref.read(quizProvider.notifier).saveAndExit();
-              if (mounted) {
-                ref.invalidate(inProgressAttemptsProvider);
-                context.go('/explore');
-                AppNotificationService.success(
-                  id: 'mobile-quiz-progress-saved',
-                  title: 'Progress saved',
-                  message:
-                      'Your progress has been saved! You can continue your quiz anytime.',
-                );
-              }
-            },
-            child: const Text('Save Progress & Exit'),
-          ),
-        ],
-      ),
-    );
+        HangbugDialogAction<String>(
+          label: 'Discard Attempt',
+          value: 'discard',
+          variant: HangbugActionVariant.ghostDanger,
+          loadingText: 'Discarding...',
+          onPressed: () async {
+            await ref.read(quizProvider.notifier).discardCurrentAttempt();
+          },
+        ),
+        const HangbugDialogAction<String>(
+          label: 'Cancel',
+          value: 'cancel',
+          variant: HangbugActionVariant.secondary,
+        ),
+      ],
+    ).then((choice) {
+      if (!mounted) return;
+      if (choice == 'save') {
+        ref.invalidate(inProgressAttemptsProvider);
+        context.go('/explore');
+        AppNotificationService.success(
+          id: 'mobile-quiz-progress-saved',
+          title: 'Progress saved',
+          message:
+              'Your progress has been saved! You can continue your quiz anytime.',
+        );
+      } else if (choice == 'discard') {
+        ref.invalidate(inProgressAttemptsProvider);
+        context.go('/explore');
+      }
+    });
   }
 
   void _showSubmitConfirmation(int answered, int total) {
     if (_isSubmitting) return;
+    final unanswered = total - answered;
+    dynamic submittedResult;
 
-    showDialog(
-      context: context,
-      builder: (dialogCtx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text(AppStrings.submitQuizTitle),
-        content: Text(
+    HangbugDialog.warning(
+      context,
+      title: AppStrings.submitQuizTitle,
+      message:
           'You answered $answered of $total questions.\n\n'
-          '${total - answered > 0 ? "⚠️ ${total - answered} question(s) remain unanswered." : "All questions have been evaluated and locked."}',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogCtx).pop(),
-            child: const Text('Review Answers'),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.isDarkMode
-                  ? AppColors.primaryLight
-                  : AppColors.primary,
-              foregroundColor: Colors.white,
-              minimumSize: const Size(100, 40),
-            ),
-            onPressed: () async {
-              Navigator.of(dialogCtx).pop();
-              if (_isSubmitting) return;
-              setState(() => _isSubmitting = true);
-
-              final result = await ref.read(quizProvider.notifier).submitQuiz();
-              if (mounted) {
-                setState(() => _isSubmitting = false);
-                if (result != null) {
-                  context.go('/quiz/results', extra: result);
-                }
-              }
-            },
-            child: const Text('Submit Now'),
-          ),
-        ],
-      ),
-    );
+          '${unanswered > 0 ? "$unanswered question(s) remain unanswered." : "All questions have been evaluated and locked."}',
+      confirmText: 'Submit Now',
+      cancelText: 'Review Answers',
+      loadingText: 'Submitting...',
+      confirmVariant: HangbugActionVariant.primary,
+      onConfirm: () async {
+        if (_isSubmitting) return;
+        setState(() => _isSubmitting = true);
+        try {
+          submittedResult = await ref.read(quizProvider.notifier).submitQuiz();
+        } finally {
+          if (mounted) setState(() => _isSubmitting = false);
+        }
+      },
+    ).then((confirmed) {
+      if (confirmed && mounted && submittedResult != null) {
+        context.go('/quiz/results', extra: submittedResult);
+      }
+    });
   }
 
   void _showQuestionNavigator(QuizState state) {

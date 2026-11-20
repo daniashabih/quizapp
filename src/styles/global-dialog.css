@@ -1,0 +1,702 @@
+/* ===================================================================
+   Hangbug — Premium Global Alert, Confirmation & Input Dialog System
+   Light & Dark Theme Cohesive Design
+   =================================================================== */
+
+.hb-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99990;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(10, 18, 15, 0.48);
+    backdrop-filter: blur(7px) saturate(130%);
+    -webkit-backdrop-filter: blur(7px) saturate(130%);
+    animation: hbDialogBackdropIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transition: background-color 0.25s ease;
+    overflow-y: auto;
+}
+
+.dark .hb-dialog-backdrop {
+    background: rgba(4, 9, 7, 0.7);
+}
+
+.hb-dialog-backdrop.hb-dialog-exit {
+    animation: hbDialogBackdropOut 0.18s cubic-bezier(0.4, 0, 1, 1) forwards;
+    pointer-events: none;
+}
+
+.hb-dialog-card {
+    position: relative;
+    width: 100%;
+    max-width: 448px;
+    border-radius: 22px;
+    background: #FFFFFF;
+    border: 1px solid rgba(25, 61, 53, 0.13);
+    box-shadow:
+        0 24px 60px -12px rgba(15, 35, 30, 0.24),
+        0 8px 20px -4px rgba(15, 35, 30, 0.1),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+    color: #0A0E0C;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+    animation: hbDialogCardIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+    outline: none;
+}
+
+.hb-dialog-card.hb-dialog-prompt {
+    max-width: 472px;
+}
+
+.dark .hb-dialog-card {
+    background: #18221E;
+    border: 1px solid rgba(52, 211, 153, 0.16);
+    box-shadow:
+        0 28px 68px -12px rgba(0, 0, 0, 0.72),
+        0 10px 24px -4px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+    color: #F3F6F4;
+}
+
+.hb-dialog-backdrop.hb-dialog-exit .hb-dialog-card {
+    animation: hbDialogCardOut 0.18s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* Subtle top accent strip */
+.hb-dialog-top-accent {
+    height: 3.5px;
+    width: 100%;
+}
+
+.hb-dialog-success .hb-dialog-top-accent {
+    background: linear-gradient(90deg, #15803D 0%, #10B981 100%);
+}
+.dark .hb-dialog-success .hb-dialog-top-accent {
+    background: linear-gradient(90deg, #34D399 0%, #10B981 100%);
+}
+
+.hb-dialog-error .hb-dialog-top-accent,
+.hb-dialog-delete .hb-dialog-top-accent {
+    background: linear-gradient(90deg, #DC2626 0%, #EF4444 100%);
+}
+.dark .hb-dialog-error .hb-dialog-top-accent,
+.dark .hb-dialog-delete .hb-dialog-top-accent {
+    background: linear-gradient(90deg, #F87171 0%, #EF4444 100%);
+}
+
+.hb-dialog-warning .hb-dialog-top-accent {
+    background: linear-gradient(90deg, #D97706 0%, #D19A45 100%);
+}
+.dark .hb-dialog-warning .hb-dialog-top-accent {
+    background: linear-gradient(90deg, #FBBF24 0%, #D97706 100%);
+}
+
+.hb-dialog-info .hb-dialog-top-accent {
+    background: linear-gradient(90deg, #2563EB 0%, #3B82F6 100%);
+}
+.dark .hb-dialog-info .hb-dialog-top-accent {
+    background: linear-gradient(90deg, #60A5FA 0%, #3B82F6 100%);
+}
+
+.hb-dialog-prompt .hb-dialog-top-accent {
+    background: linear-gradient(90deg, #193D35 0%, #42665B 100%);
+}
+.dark .hb-dialog-prompt .hb-dialog-top-accent {
+    background: linear-gradient(90deg, #34D399 0%, #10B981 100%);
+}
+
+/* Body Padding & Layout */
+.hb-dialog-body {
+    padding: 1.5rem 1.5rem 1.25rem;
+}
+
+.hb-dialog-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9375rem;
+}
+
+/* Semantic Icon Badge */
+.hb-dialog-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.hb-dialog-icon-success {
+    background: rgba(16, 185, 129, 0.11);
+    color: #15803D;
+    border: 1px solid rgba(16, 185, 129, 0.24);
+}
+.dark .hb-dialog-icon-success {
+    background: rgba(52, 211, 153, 0.14);
+    color: #34D399;
+    border: 1px solid rgba(52, 211, 153, 0.28);
+}
+
+.hb-dialog-icon-error,
+.hb-dialog-icon-delete {
+    background: rgba(220, 38, 38, 0.1);
+    color: #DC2626;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+}
+.dark .hb-dialog-icon-error,
+.dark .hb-dialog-icon-delete {
+    background: rgba(248, 113, 113, 0.14);
+    color: #F87171;
+    border: 1px solid rgba(248, 113, 113, 0.28);
+}
+
+.hb-dialog-icon-warning {
+    background: rgba(217, 119, 6, 0.12);
+    color: #B45309;
+    border: 1px solid rgba(217, 119, 6, 0.26);
+}
+.dark .hb-dialog-icon-warning {
+    background: rgba(251, 191, 36, 0.14);
+    color: #FBBF24;
+    border: 1px solid rgba(251, 191, 36, 0.28);
+}
+
+.hb-dialog-icon-info {
+    background: rgba(37, 99, 235, 0.1);
+    color: #2563EB;
+    border: 1px solid rgba(37, 99, 235, 0.22);
+}
+.dark .hb-dialog-icon-info {
+    background: rgba(96, 165, 250, 0.14);
+    color: #60A5FA;
+    border: 1px solid rgba(96, 165, 250, 0.28);
+}
+
+.hb-dialog-icon-prompt {
+    background: rgba(25, 61, 53, 0.09);
+    color: #193D35;
+    border: 1px solid rgba(25, 61, 53, 0.18);
+}
+.dark .hb-dialog-icon-prompt {
+    background: rgba(52, 211, 153, 0.14);
+    color: #34D399;
+    border: 1px solid rgba(52, 211, 153, 0.28);
+}
+
+.hb-dialog-heading-wrap {
+    flex: 1;
+    min-width: 0;
+    padding-top: 2px;
+}
+
+.hb-dialog-title {
+    margin: 0;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: #0A0E0C;
+}
+
+.dark .hb-dialog-title {
+    color: #F3F6F4;
+}
+
+.hb-dialog-message {
+    margin: 0.45rem 0 0 0;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.55;
+    color: #3D4D46;
+    word-break: break-word;
+    white-space: pre-line;
+}
+
+.dark .hb-dialog-message {
+    color: #B8CEC5;
+}
+
+/* Close X button */
+.hb-dialog-close {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: #6B7B74;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin: -2px -4px 0 0;
+    transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.hb-dialog-close:hover:not(:disabled) {
+    background: rgba(25, 61, 53, 0.08);
+    color: #193D35;
+}
+
+.dark .hb-dialog-close {
+    color: #8FA69C;
+}
+
+.dark .hb-dialog-close:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.08);
+    color: #F3F6F4;
+}
+
+.hb-dialog-close:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Highlighted Item Chip (e.g. target record name) */
+.hb-dialog-item-pill {
+    margin-top: 0.875rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: 12px;
+    background: #F4EFE6;
+    border: 1px solid #DCD8CE;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #0A0E0C;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    word-break: break-word;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.dark .hb-dialog-item-pill {
+    background: #141D19;
+    border-color: #2A3832;
+    color: #F3F6F4;
+}
+
+/* Permanent Action Notice Box */
+.hb-dialog-notice {
+    margin-top: 0.875rem;
+    padding: 0.6875rem 0.875rem;
+    border-radius: 12px;
+    font-size: 0.78125rem;
+    font-weight: 500;
+    line-height: 1.45;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.hb-dialog-notice-danger {
+    background: rgba(220, 38, 38, 0.07);
+    border: 1px solid rgba(220, 38, 38, 0.18);
+    color: #991B1B;
+}
+.dark .hb-dialog-notice-danger {
+    background: rgba(248, 113, 113, 0.1);
+    border-color: rgba(248, 113, 113, 0.25);
+    color: #FCA5A5;
+}
+
+.hb-dialog-notice-info {
+    background: rgba(37, 99, 235, 0.07);
+    border: 1px solid rgba(37, 99, 235, 0.18);
+    color: #1E40AF;
+}
+.dark .hb-dialog-notice-info {
+    background: rgba(96, 165, 250, 0.1);
+    border-color: rgba(96, 165, 250, 0.24);
+    color: #93C5FD;
+}
+
+/* Inline API Error Banner (keeps dialog open on failed operation) */
+.hb-dialog-error-banner {
+    margin-top: 0.875rem;
+    padding: 0.7rem 0.875rem;
+    border-radius: 12px;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    color: #B91C1C;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.45;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    animation: hbDialogShake 0.28s ease;
+}
+
+.dark .hb-dialog-error-banner {
+    background: rgba(239, 68, 68, 0.14);
+    border-color: rgba(248, 113, 113, 0.3);
+    color: #FCA5A5;
+}
+
+/* Custom Input / Prompt Fields */
+.hb-dialog-fields {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.hb-dialog-field-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #2B3934;
+    margin-bottom: 0.375rem;
+}
+
+.dark .hb-dialog-field-label {
+    color: #B8CEC5;
+}
+
+.hb-dialog-input {
+    width: 100%;
+    padding: 0.65rem 0.875rem;
+    border-radius: 12px;
+    border: 1.5px solid #DCD8CE;
+    background: #FCFAF4;
+    color: #0A0E0C;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    outline: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.dark .hb-dialog-input {
+    background: #141D19;
+    border-color: #2E3E37;
+    color: #F3F6F4;
+}
+
+.hb-dialog-input::placeholder {
+    color: #7A8882;
+}
+
+.dark .hb-dialog-input::placeholder {
+    color: #6B8178;
+}
+
+.hb-dialog-input:focus {
+    background: #FFFFFF;
+    border-color: #193D35;
+    box-shadow: 0 0 0 3.5px rgba(25, 61, 53, 0.13);
+}
+
+.dark .hb-dialog-input:focus {
+    background: #1B2722;
+    border-color: #34D399;
+    box-shadow: 0 0 0 3.5px rgba(52, 211, 153, 0.16);
+}
+
+.hb-dialog-input.hb-dialog-input-error {
+    border-color: #DC2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.dark .hb-dialog-input.hb-dialog-input-error {
+    border-color: #F87171;
+    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.16);
+}
+
+.hb-dialog-field-error {
+    margin: 0.35rem 0 0 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #DC2626;
+}
+
+.dark .hb-dialog-field-error {
+    color: #F87171;
+}
+
+/* Footer Actions */
+.hb-dialog-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.625rem;
+    padding: 0.9375rem 1.5rem 1.25rem;
+    background: #FAF8F2;
+    border-top: 1px solid rgba(25, 61, 53, 0.08);
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.dark .hb-dialog-footer {
+    background: rgba(15, 21, 19, 0.55);
+    border-top-color: rgba(52, 211, 153, 0.1);
+}
+
+.hb-dialog-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 40px;
+    padding: 0.5625rem 1.125rem;
+    border-radius: 12px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 0.84375rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition:
+        background-color 0.16s ease,
+        border-color 0.16s ease,
+        color 0.16s ease,
+        box-shadow 0.16s ease,
+        transform 0.14s ease,
+        opacity 0.16s ease;
+    outline: none;
+}
+
+.hb-dialog-btn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(25, 61, 53, 0.24);
+}
+.dark .hb-dialog-btn:focus-visible {
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.28);
+}
+
+.hb-dialog-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.hb-dialog-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Cancel Button */
+.hb-dialog-btn-cancel {
+    background: #FFFFFF;
+    color: #2B3934;
+    border-color: #DCD8CE;
+}
+
+.hb-dialog-btn-cancel:hover:not(:disabled) {
+    background: #F4EFE6;
+    border-color: #C7C1B5;
+    color: #0A0E0C;
+}
+
+.dark .hb-dialog-btn-cancel {
+    background: #222E29;
+    color: #D5E3DD;
+    border-color: #2E3E37;
+}
+
+.dark .hb-dialog-btn-cancel:hover:not(:disabled) {
+    background: #2A3832;
+    border-color: #3D5249;
+    color: #F3F6F4;
+}
+
+/* Primary (Hangbug Green) Confirm Button */
+.hb-dialog-btn-primary,
+.hb-dialog-btn-success {
+    background: #193D35;
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(25, 61, 53, 0.22);
+}
+
+.hb-dialog-btn-primary:hover:not(:disabled),
+.hb-dialog-btn-success:hover:not(:disabled) {
+    background: #25544A;
+    box-shadow: 0 6px 16px rgba(25, 61, 53, 0.28);
+}
+
+.dark .hb-dialog-btn-primary,
+.dark .hb-dialog-btn-success {
+    background: #10B981;
+    color: #062118;
+    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.26);
+}
+
+.dark .hb-dialog-btn-primary:hover:not(:disabled),
+.dark .hb-dialog-btn-success:hover:not(:disabled) {
+    background: #34D399;
+    box-shadow: 0 6px 18px rgba(52, 211, 153, 0.34);
+}
+
+/* Danger (Red) Delete / Error Button */
+.hb-dialog-btn-danger {
+    background: #DC2626;
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.26);
+}
+
+.hb-dialog-btn-danger:hover:not(:disabled) {
+    background: #B91C1C;
+    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.32);
+}
+
+.hb-dialog-btn-danger:focus-visible {
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
+}
+
+.dark .hb-dialog-btn-danger {
+    background: #EF4444;
+    color: #FFFFFF;
+    box-shadow: 0 2px 10px rgba(239, 68, 68, 0.3);
+}
+
+.dark .hb-dialog-btn-danger:hover:not(:disabled) {
+    background: #DC2626;
+    box-shadow: 0 6px 18px rgba(239, 68, 68, 0.36);
+}
+
+/* Warning (Amber) Continue Button */
+.hb-dialog-btn-warning {
+    background: #D97706;
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.24);
+}
+
+.hb-dialog-btn-warning:hover:not(:disabled) {
+    background: #B45309;
+    box-shadow: 0 6px 16px rgba(217, 119, 6, 0.3);
+}
+
+.dark .hb-dialog-btn-warning {
+    background: #F59E0B;
+    color: #1A1202;
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.26);
+}
+
+.dark .hb-dialog-btn-warning:hover:not(:disabled) {
+    background: #FBBF24;
+    box-shadow: 0 6px 18px rgba(251, 191, 36, 0.34);
+}
+
+/* Info (Blue) OK Button */
+.hb-dialog-btn-info {
+    background: #2563EB;
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.24);
+}
+
+.hb-dialog-btn-info:hover:not(:disabled) {
+    background: #1D4ED8;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}
+
+.dark .hb-dialog-btn-info {
+    background: #3B82F6;
+    color: #FFFFFF;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.28);
+}
+
+.dark .hb-dialog-btn-info:hover:not(:disabled) {
+    background: #60A5FA;
+    color: #081529;
+}
+
+/* Spinner inside Confirm Button */
+.hb-dialog-spinner {
+    width: 15px;
+    height: 15px;
+    animation: hbDialogSpin 0.8s linear infinite;
+}
+
+/* Animations */
+@keyframes hbDialogBackdropIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes hbDialogBackdropOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes hbDialogCardIn {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@keyframes hbDialogCardOut {
+    0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(0, 6px, 0) scale(0.96);
+    }
+}
+
+@keyframes hbDialogSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes hbDialogShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+/* Mobile Responsive Layout */
+@media (max-width: 640px) {
+    .hb-dialog-backdrop {
+        padding: 0.875rem;
+        align-items: center;
+    }
+
+    .hb-dialog-card {
+        border-radius: 20px;
+        max-width: 100%;
+    }
+
+    .hb-dialog-body {
+        padding: 1.25rem 1.25rem 1.125rem;
+    }
+
+    .hb-dialog-header {
+        gap: 0.75rem;
+    }
+
+    .hb-dialog-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+    }
+
+    .hb-dialog-title {
+        font-size: 1rem;
+    }
+
+    .hb-dialog-footer {
+        padding: 0.875rem 1.25rem 1.125rem;
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+
+    .hb-dialog-btn {
+        width: 100%;
+        min-height: 44px;
+    }
+}

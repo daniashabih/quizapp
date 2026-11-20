@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import axios from 'axios';
 import { toast } from '../../services/notificationService';
+import { dialog } from '../../services/dialogService';
 import {
     Plus, Trash2, Save, X, Edit2, Users,
     ShieldCheck, Search, BookOpen, FolderOpen, Upload, Download, FileText, Layers,
@@ -300,13 +301,25 @@ const AdminDashboard = () => {
     };
 
     const handleDeleteQuestion = async (id) => {
-        if (!window.confirm("Delete this question permanently?")) return;
-        try {
-            await axios.delete(`/questions/${id}`);
-            toast.success("Question deleted.");
-            fetchQuestions();
-            fetchAnalytics();
-        } catch { toast.error("Failed to delete."); }
+        await dialog.confirmDelete({
+            title: 'Delete Question?',
+            message: 'Are you sure you want to delete this question from the question bank?',
+            confirmText: 'Delete Question',
+            loadingText: 'Deleting...',
+            permanent: true,
+            onConfirm: async () => {
+                try {
+                    await axios.delete(`/questions/${id}`);
+                    toast.success("Question deleted.");
+                    fetchQuestions();
+                    fetchAnalytics();
+                } catch (err) {
+                    const msg = err.response?.data?.message || "Failed to delete question.";
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     const handleAddOrUpdateCategory = async (e) => {
@@ -367,30 +380,53 @@ const AdminDashboard = () => {
     };
 
     const handleDeleteUser = async (userId) => {
-        if (!window.confirm("Are you sure you want to delete this user from the database?")) return;
-        try {
-            await axios.delete(`/admin/users/${userId}`);
-            toast.success("User deleted successfully.");
-            await fetchUsers();
-            fetchAnalytics();
-        } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to delete user.");
-        }
+        const target = allUsers.find(u => u.id === userId);
+        await dialog.confirmDelete({
+            title: 'Delete User Account?',
+            message: 'Are you sure you want to permanently remove this user from the database?',
+            itemName: target ? `${target.name || 'User'} (${target.email})` : '',
+            confirmText: 'Delete User',
+            loadingText: 'Deleting...',
+            permanent: true,
+            onConfirm: async () => {
+                try {
+                    await axios.delete(`/admin/users/${userId}`);
+                    toast.success("User deleted successfully.");
+                    await fetchUsers();
+                    fetchAnalytics();
+                } catch (err) {
+                    const msg = err.response?.data?.message || "Failed to delete user.";
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     const handleToggleUserRole = async (targetUser) => {
         const currentRole = String(targetUser.role || '').trim().toLowerCase() === 'admin' ? 'admin' : 'user';
         const nextRole = currentRole === 'admin' ? 'user' : 'admin';
-        const actionVerb = nextRole === 'admin' ? 'promote this user to Admin' : 'demote this admin to User';
-        if (!window.confirm(`Are you sure you want to ${actionVerb} (${targetUser.name || targetUser.email})?`)) return;
-        try {
-            const res = await axios.put(`/admin/users/${targetUser.id}/role`, { role: nextRole });
-            toast.success(res.data?.message || `User role updated to ${nextRole}.`);
-            setAllUsers(prev => prev.map(u => u.id === targetUser.id ? { ...u, role: nextRole } : u));
-            await fetchUsers();
-        } catch (err) {
-            toast.error(err.response?.data?.message || "Failed to update user role.");
-        }
+        const isPromote = nextRole === 'admin';
+        const actionVerb = isPromote ? 'promote this user to Admin' : 'demote this admin to User';
+        await dialog.warning({
+            title: isPromote ? 'Promote to Administrator?' : 'Demote to Standard User?',
+            message: `Are you sure you want to ${actionVerb}?`,
+            itemName: targetUser.name ? `${targetUser.name} (${targetUser.email})` : targetUser.email,
+            confirmText: isPromote ? 'Promote to Admin' : 'Demote to User',
+            loadingText: 'Updating role...',
+            onConfirm: async () => {
+                try {
+                    const res = await axios.put(`/admin/users/${targetUser.id}/role`, { role: nextRole });
+                    toast.success(res.data?.message || `User role updated to ${nextRole}.`);
+                    setAllUsers(prev => prev.map(u => u.id === targetUser.id ? { ...u, role: nextRole } : u));
+                    await fetchUsers();
+                } catch (err) {
+                    const msg = err.response?.data?.message || "Failed to update user role.";
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     const handleToggleCategory = async (cat) => {

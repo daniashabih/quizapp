@@ -17,6 +17,7 @@ import {
     FileCheck2
 } from 'lucide-react';
 import { toast } from '../../../services/notificationService';
+import { dialog } from '../../../services/dialogService';
 import aiVerificationService from '../../../services/aiVerificationService';
 
 const STATUS_CONFIG = {
@@ -139,14 +140,26 @@ export default function AdminVerificationReports({ standalone = false }) {
     };
 
     const handleDeleteReport = async (report) => {
-        if (!window.confirm('Remove this verification record from cache?')) return;
-        try {
-            await aiVerificationService.deleteReport(report.id);
-            toast.success('Verification record deleted.');
-            fetchReports();
-        } catch (err) {
-            toast.error(err?.response?.data?.message || 'Failed to delete record.');
-        }
+        await dialog.confirmDelete({
+            title: 'Remove Verification Record?',
+            message: 'Are you sure you want to remove this AI verification record from the cache?',
+            itemName: report.questionText ? report.questionText.slice(0, 90) : '',
+            confirmText: 'Remove Record',
+            loadingText: 'Removing...',
+            permanent: false,
+            permanentNotice: 'This removes the cached verification report. The question can be re-verified anytime.',
+            onConfirm: async () => {
+                try {
+                    await aiVerificationService.deleteReport(report.id);
+                    toast.success('Verification record deleted.');
+                    fetchReports();
+                } catch (err) {
+                    const msg = err?.response?.data?.message || 'Failed to delete record.';
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     return (

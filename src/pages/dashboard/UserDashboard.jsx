@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from '../../services/notificationService';
+import { dialog } from '../../services/dialogService';
 import dashboardService from '../../services/dashboardService';
 import attemptService from '../../services/attemptService';
 import usePageSeo from '../../hooks/usePageSeo';
@@ -188,20 +189,29 @@ export default function UserDashboard() {
 
     const handleDiscardQuiz = async (id, category, session) => {
         const sessText = session === 0 ? 'All Sessions' : `Session ${session}`;
-        if (!window.confirm(`Discard saved progress for ${category} (${sessText})? This attempt will be removed.`)) {
-            return;
-        }
-        try {
-            await attemptService.discardAttempt(id);
-            toast.success('Unfinished quiz attempt discarded.');
-            setDashboardData(prev => ({
-                ...prev,
-                inProgressQuizzes: (prev?.inProgressQuizzes || []).filter(q => q.id !== id)
-            }));
-        } catch (err) {
-            console.error('Error discarding attempt:', err);
-            toast.error('Failed to discard quiz attempt.');
-        }
+        await dialog.confirmDelete({
+            title: 'Discard Saved Progress?',
+            message: 'Are you sure you want to discard your saved quiz progress? This saved attempt will be permanently removed.',
+            itemName: `${category} (${sessText})`,
+            confirmText: 'Discard Progress',
+            loadingText: 'Discarding...',
+            permanent: true,
+            onConfirm: async () => {
+                try {
+                    await attemptService.discardAttempt(id);
+                    toast.success('Unfinished quiz attempt discarded.');
+                    setDashboardData(prev => ({
+                        ...prev,
+                        inProgressQuizzes: (prev?.inProgressQuizzes || []).filter(q => q.id !== id)
+                    }));
+                } catch (err) {
+                    console.error('Error discarding attempt:', err);
+                    const msg = err?.response?.data?.message || 'Failed to discard quiz attempt.';
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     return (

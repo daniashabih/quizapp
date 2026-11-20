@@ -10,6 +10,7 @@ import '../../widgets/app_button.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
+import '../../widgets/hangbug_dialog.dart';
 import '../../widgets/loading_state_widget.dart';
 
 class AdminQuestionsScreen extends ConsumerStatefulWidget {
@@ -229,39 +230,30 @@ class _AdminQuestionsScreenState extends ConsumerState<AdminQuestionsScreen> {
   }
 
   void _confirmDeleteQuestion(QuestionModel q) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Delete Question?'),
-        content: Text('Are you sure you want to delete this question from ${q.category}?'),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () async {
-              Navigator.of(ctx).pop();
-              final success = await ref.read(adminControllerProvider.notifier).deleteQuestion(q.id);
-              if (mounted) {
-                if (success) {
-                  AppNotificationService.success(
-                    title: 'Question deleted',
-                    message: 'Question deleted successfully.',
-                  );
-                } else {
-                  AppNotificationService.error(
-                    title: 'Deletion failed',
-                    message: 'Failed to delete question.',
-                  );
-                }
-              }
-            },
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
+    HangbugDialog.confirmDelete(
+      context,
+      title: 'Delete Question?',
+      message: 'Are you sure you want to permanently delete this question from ${q.category}?',
+      confirmText: 'Delete Question',
+      loadingText: 'Deleting...',
+      permanent: true,
+      onConfirm: () async {
+        final success = await ref
+            .read(adminControllerProvider.notifier)
+            .deleteQuestion(q.id);
+        if (success) {
+          AppNotificationService.success(
+            title: 'Question deleted',
+            message: 'Question deleted successfully.',
+          );
+        } else {
+          AppNotificationService.error(
+            title: 'Deletion failed',
+            message: 'Failed to delete question.',
+          );
+          throw Exception('Failed to delete question.');
+        }
+      },
     );
   }
 

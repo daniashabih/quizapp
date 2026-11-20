@@ -9,6 +9,7 @@ import '../../providers/auth_provider.dart';
 import '../../services/notification_service.dart';
 import '../../widgets/empty_state_widget.dart';
 import '../../widgets/error_state_widget.dart';
+import '../../widgets/hangbug_dialog.dart';
 import '../../widgets/loading_state_widget.dart';
 
 class AdminUsersScreen extends ConsumerStatefulWidget {
@@ -168,39 +169,31 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
   }
 
   void _confirmDeleteUser(UserModel user) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Delete User Account?'),
-        content: Text('Are you sure you want to permanently delete user "${user.name}" (${user.email})?'),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.error,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () async {
-              Navigator.of(ctx).pop();
-              final success = await ref.read(adminControllerProvider.notifier).deleteUser(user.id);
-              if (mounted) {
-                if (success) {
-                  AppNotificationService.success(
-                    title: 'User deleted',
-                    message: 'User account "${user.name}" has been removed.',
-                  );
-                } else {
-                  AppNotificationService.error(
-                    title: 'Deletion failed',
-                    message: 'Failed to delete user.',
-                  );
-                }
-              }
-            },
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
+    HangbugDialog.confirmDelete(
+      context,
+      title: 'Delete User Account?',
+      message: 'Are you sure you want to permanently remove this user from the database?',
+      itemName: '${user.name} (${user.email})',
+      confirmText: 'Delete User',
+      loadingText: 'Deleting...',
+      permanent: true,
+      onConfirm: () async {
+        final success = await ref
+            .read(adminControllerProvider.notifier)
+            .deleteUser(user.id);
+        if (success) {
+          AppNotificationService.success(
+            title: 'User deleted',
+            message: 'User account "${user.name}" has been removed.',
+          );
+        } else {
+          AppNotificationService.error(
+            title: 'Deletion failed',
+            message: 'Failed to delete user.',
+          );
+          throw Exception('Failed to delete user.');
+        }
+      },
     );
   }
 }

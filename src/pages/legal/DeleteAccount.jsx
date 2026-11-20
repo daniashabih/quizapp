@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from '../../services/notificationService';
+import { dialog } from '../../services/dialogService';
 import {
     Trash2,
     AlertTriangle,
@@ -60,19 +61,30 @@ export default function DeleteAccount() {
 
     // Handle authenticated live deletion
     const handleLiveDelete = async () => {
-        const confirmed = window.confirm(
-            'Are you sure you want to permanently delete your HangBug account? All quiz results, certificates, and profile data will be permanently erased immediately.'
-        );
-        if (!confirmed) return;
+        const confirmed = await dialog.confirmDelete({
+            title: 'Permanently Delete Your Account?',
+            message: 'All quiz results, earned certificates, rankings, and profile data will be erased immediately from Hangbug servers.',
+            itemName: user?.email ? `${user.name || 'Account'} (${user.email})` : '',
+            confirmText: 'Permanently Delete',
+            loadingText: 'Deleting account...',
+            permanent: true,
+            confirmPhrase: 'DELETE',
+            confirmPhraseLabel: 'Type DELETE to confirm permanent account removal',
+            onConfirm: async () => {
+                setDeletingLive(true);
+                try {
+                    await deleteAccount();
+                } catch (err) {
+                    const msg = err?.response?.data?.message || err?.message || 'Failed to delete account. Please try again.';
+                    throw new Error(msg);
+                } finally {
+                    setDeletingLive(false);
+                }
+            },
+        });
 
-        setDeletingLive(true);
-        try {
-            await deleteAccount();
+        if (confirmed) {
             navigate('/');
-        } catch {
-            // Toast shown in AuthContext
-        } finally {
-            setDeletingLive(false);
         }
     };
 

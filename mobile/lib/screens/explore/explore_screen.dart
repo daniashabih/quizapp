@@ -17,6 +17,7 @@ import '../../widgets/error_state_widget.dart';
 import '../../widgets/loading_state_widget.dart';
 import '../../widgets/banner_ad_widget.dart';
 import '../../widgets/animated_theme_toggle.dart';
+import '../../widgets/hangbug_dialog.dart';
 
 class ExploreScreen extends ConsumerStatefulWidget {
   const ExploreScreen({super.key});
@@ -67,47 +68,33 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
     final category = quiz['category'] ?? quiz['technology'] ?? 'Quiz';
     final session = quiz['session']?.toString() ?? '1';
 
-    showDialog(
-      context: context,
-      builder: (dialogCtx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        title: const Text('Discard Saved Progress?'),
-        content: Text(
-          'Discard saved progress for $category (Session $session)? This specific quiz attempt will be deleted.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogCtx).pop(),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.errorColor,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            onPressed: () async {
-              Navigator.of(dialogCtx).pop();
-              final success = await ref
-                  .read(quizRepositoryProvider)
-                  .discardAttempt(id);
-              if (success) {
-                ref.invalidate(inProgressAttemptsProvider);
-                if (mounted) {
-                  AppNotificationService.info(
-                    id: 'mobile-discard-attempt',
-                    title: 'Attempt discarded',
-                    message: 'Quiz progress discarded.',
-                  );
-                }
-              }
-            },
-            child: const Text('Discard'),
-          ),
-        ],
-      ),
+    HangbugDialog.confirmDelete(
+      context,
+      title: 'Discard Saved Progress?',
+      message: 'Are you sure you want to discard your saved progress? This specific quiz attempt will be permanently deleted.',
+      itemName: '$category (Session $session)',
+      confirmText: 'Discard',
+      loadingText: 'Discarding...',
+      permanent: true,
+      onConfirm: () async {
+        final success = await ref
+            .read(quizRepositoryProvider)
+            .discardAttempt(id);
+        if (success) {
+          ref.invalidate(inProgressAttemptsProvider);
+          AppNotificationService.info(
+            id: 'mobile-discard-attempt',
+            title: 'Attempt discarded',
+            message: 'Quiz progress discarded.',
+          );
+        } else {
+          AppNotificationService.error(
+            title: 'Discard failed',
+            message: 'Failed to discard saved attempt.',
+          );
+          throw Exception('Failed to discard saved attempt.');
+        }
+      },
     );
   }
 

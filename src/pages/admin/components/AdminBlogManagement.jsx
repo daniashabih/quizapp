@@ -19,6 +19,7 @@ import {
     Flame
 } from 'lucide-react';
 import { toast } from '../../../services/notificationService';
+import { dialog } from '../../../services/dialogService';
 import blogService from '../../../services/blogService';
 import { INITIAL_BLOG_ARTICLES } from '../../../services/blogArticles';
 
@@ -44,7 +45,6 @@ export default function AdminBlogManagement() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingArticle, setEditingArticle] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
-    const [deleteModalArticle, setDeleteModalArticle] = useState(null);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -201,30 +201,51 @@ export default function AdminBlogManagement() {
         }
     };
 
-    const handleDeleteArticle = async () => {
-        if (!deleteModalArticle) return;
-        try {
-            await blogService.adminDeleteArticle(deleteModalArticle.id || deleteModalArticle.slug);
-            toast.success('Article deleted.');
-            setDeleteModalArticle(null);
-            fetchArticles();
-        } catch (err) {
-            toast.error('Failed to delete article.');
-        }
+    const handleDeleteArticle = async (article) => {
+        if (!article) return;
+        await dialog.confirmDelete({
+            title: 'Delete Article?',
+            message: 'Are you sure you want to permanently delete this blog article?',
+            itemName: article.title,
+            confirmText: 'Delete Article',
+            loadingText: 'Deleting...',
+            permanent: true,
+            onConfirm: async () => {
+                try {
+                    await blogService.adminDeleteArticle(article.id || article.slug);
+                    toast.success('Article deleted.');
+                    fetchArticles();
+                } catch (err) {
+                    const msg = err?.response?.data?.message || 'Failed to delete article.';
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     const handleSeedArticles = async () => {
-        if (!window.confirm('Sync default 10 educational tutorials to MongoDB Atlas?')) return;
-        setIsSeeding(true);
-        try {
-            const res = await blogService.adminSeedArticles();
-            toast.success(res.message || 'Initial articles synchronized!');
-            fetchArticles();
-        } catch (err) {
-            toast.error('Error synchronizing default articles.');
-        } finally {
-            setIsSeeding(false);
-        }
+        await dialog.confirm({
+            type: 'info',
+            title: 'Sync Default Tutorials?',
+            message: 'Sync the default 10 educational tutorials to MongoDB Atlas? Existing articles will be preserved.',
+            confirmText: 'Sync Tutorials',
+            loadingText: 'Syncing...',
+            onConfirm: async () => {
+                setIsSeeding(true);
+                try {
+                    const res = await blogService.adminSeedArticles();
+                    toast.success(res.message || 'Initial articles synchronized!');
+                    fetchArticles();
+                } catch (err) {
+                    const msg = err?.response?.data?.message || 'Error synchronizing default articles.';
+                    toast.error(msg);
+                    throw new Error(msg);
+                } finally {
+                    setIsSeeding(false);
+                }
+            },
+        });
     };
 
     // Calculate metrics
@@ -385,7 +406,7 @@ export default function AdminBlogManagement() {
                                                     <Edit2 size={13} />
                                                 </button>
                                                 <button
-                                                    onClick={() => setDeleteModalArticle(article)}
+                                                    onClick={() => handleDeleteArticle(article)}
                                                     className="p-1.5 rounded-lg border border-[var(--card-border)] hover:border-red-500 text-[var(--foreground-muted)] hover:text-red-500 transition-colors"
                                                     title="Delete article"
                                                 >
@@ -595,37 +616,6 @@ export default function AdminBlogManagement() {
                                 </button>
                             </div>
                         </form>
-                    </div>
-                </div>
-            )}
-
-            {/* Delete Confirmation Modal */}
-            {deleteModalArticle && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-                    <div className="w-full max-w-md rounded-3xl bg-[var(--card-bg)] border border-[var(--card-border)] p-6 space-y-4 shadow-2xl">
-                        <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
-                            <Trash2 size={24} />
-                        </div>
-                        <div className="text-center space-y-1">
-                            <h3 className="text-base font-bold text-[var(--foreground)]">Delete Article</h3>
-                            <p className="text-xs text-[var(--foreground-muted)]">
-                                Are you sure you want to permanently delete <strong>{deleteModalArticle.title}</strong>?
-                            </p>
-                        </div>
-                        <div className="flex items-center justify-end gap-2 pt-2">
-                            <button
-                                onClick={() => setDeleteModalArticle(null)}
-                                className="btn-secondary text-xs py-2 px-4"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={handleDeleteArticle}
-                                className="px-4 py-2 rounded-xl bg-red-600 text-white font-bold text-xs hover:bg-red-700 transition-colors"
-                            >
-                                Confirm Delete
-                            </button>
-                        </div>
                     </div>
                 </div>
             )}

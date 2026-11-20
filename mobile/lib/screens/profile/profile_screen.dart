@@ -8,6 +8,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/dashboard_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../widgets/animated_theme_toggle.dart';
+import '../../widgets/hangbug_dialog.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -752,39 +753,21 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   void _confirmSignOut(BuildContext context, WidgetRef ref) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        title: const Text('Sign Out'),
-        content: Text(
-          'Are you sure you want to sign out of ${AppConfig.appName}?',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.errorColor,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            onPressed: () async {
-              Navigator.of(ctx).pop();
-              await ref.read(authProvider.notifier).logout();
-              if (context.mounted) {
-                context.go('/login');
-              }
-            },
-            child: const Text('Sign Out'),
-          ),
-        ],
-      ),
-    );
+    HangbugDialog.warning(
+      context,
+      title: 'Sign Out',
+      message: 'Are you sure you want to sign out of ${AppConfig.appName}?',
+      confirmText: 'Sign Out',
+      loadingText: 'Signing out...',
+      confirmVariant: HangbugActionVariant.danger,
+      onConfirm: () async {
+        await ref.read(authProvider.notifier).logout();
+      },
+    ).then((confirmed) {
+      if (confirmed && context.mounted) {
+        context.go('/login');
+      }
+    });
   }
 }
 

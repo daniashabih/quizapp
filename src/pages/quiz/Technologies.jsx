@@ -8,6 +8,7 @@ import {
     ListChecks, Zap, AlertCircle, RefreshCw, Clock, Trash2, BookmarkCheck, PlayCircle
 } from 'lucide-react';
 import { toast } from '../../services/notificationService';
+import { dialog } from '../../services/dialogService';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
@@ -97,17 +98,26 @@ export default function Technologies() {
 
     const handleDiscardSavedAttempt = async (quiz) => {
         const title = quiz.quizTitle || `${quiz.category || quiz.technology} (Session ${quiz.session})`;
-        if (!window.confirm(`Discard saved progress for ${title}? This will delete this specific saved attempt.`)) {
-            return;
-        }
-        try {
-            await attemptService.discardAttempt(quiz.id);
-            setSavedAttempts(prev => prev.filter(q => q.id !== quiz.id));
-            toast.success('Saved quiz attempt discarded.');
-        } catch (err) {
-            console.error('Failed to discard attempt:', err);
-            toast.error('Failed to discard saved attempt.');
-        }
+        await dialog.confirmDelete({
+            title: 'Discard Saved Progress?',
+            message: 'Are you sure you want to discard your saved progress? This specific saved attempt will be permanently deleted.',
+            itemName: title,
+            confirmText: 'Discard Attempt',
+            loadingText: 'Discarding...',
+            permanent: true,
+            onConfirm: async () => {
+                try {
+                    await attemptService.discardAttempt(quiz.id);
+                    setSavedAttempts(prev => prev.filter(q => q.id !== quiz.id));
+                    toast.success('Saved quiz attempt discarded.');
+                } catch (err) {
+                    console.error('Failed to discard attempt:', err);
+                    const msg = err?.response?.data?.message || 'Failed to discard saved attempt.';
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     const fetchCategories = useCallback(async () => {

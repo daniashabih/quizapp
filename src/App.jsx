@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import './styles/custom-toast.css';
+import './styles/global-dialog.css';
 import { HangbugToastViewport } from "./components/CustomToast";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import { DialogProvider } from "./context/DialogContext";
 import { SettingsProvider, useSettings } from "./context/SettingsContext";
 import MaintenanceScreen from "./components/MaintenanceScreen";
 import SplashScreen from "./components/SplashScreen";
@@ -223,12 +225,14 @@ function AppRoutes() {
 
 function AppContent() {
     return (
-        <AuthProvider>
-            <SettingsProvider>
-                <AppRoutes />
-                <HangbugToastViewport />
-            </SettingsProvider>
-        </AuthProvider>
+        <DialogProvider>
+            <AuthProvider>
+                <SettingsProvider>
+                    <AppRoutes />
+                    <HangbugToastViewport />
+                </SettingsProvider>
+            </AuthProvider>
+        </DialogProvider>
     );
 }
 

@@ -9,6 +9,7 @@ import '../../providers/theme_provider.dart';
 import '../../services/notification_service.dart';
 import '../../widgets/animated_theme_toggle.dart';
 import '../../widgets/app_button.dart';
+import '../../widgets/hangbug_dialog.dart';
 import '../../widgets/theme_transition_overlay.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -523,96 +524,41 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   void _confirmAccountDeletion() {
-    final confirmationController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (ctx) => StatefulBuilder(
-        builder: (dialogCtx, setDialogState) {
-          final isConfirmed =
-              confirmationController.text.trim().toUpperCase() == 'DELETE';
-
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            title: Row(
-              children: [
-                Icon(Icons.delete_forever_rounded, color: context.errorColor),
-                const SizedBox(width: 8),
-                const Text('Delete Account?'),
-              ],
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Are you absolutely sure? All your data, quiz scores, and verified certificates will be permanently removed from ${AppConfig.appName} servers.\n\n'
-                  'To confirm, type DELETE below:',
-                  style: AppTextStyles.bodyMedium,
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: confirmationController,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    hintText: 'Type DELETE',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 10,
-                    ),
-                  ),
-                  onChanged: (val) {
-                    setDialogState(() {});
-                  },
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: const Text('Cancel'),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: context.errorColor,
-                  foregroundColor: Colors.white,
-                ),
-                onPressed: isConfirmed
-                    ? () async {
-                        Navigator.of(ctx).pop();
-                        final success = await ref
-                            .read(authProvider.notifier)
-                            .deleteAccount();
-                        if (!mounted) return;
-                        if (success) {
-                          AppNotificationService.success(
-                            id: 'mobile-account-deleted',
-                            title: 'Account deleted',
-                            message:
-                                'Your account and associated data have been permanently deleted.',
-                          );
-                          context.go('/login');
-                        } else {
-                          AppNotificationService.error(
-                            id: 'mobile-account-delete-error',
-                            title: 'Deletion failed',
-                            message: ref.read(authProvider).error ??
-                                'Failed to delete account. Please try again.',
-                          );
-                        }
-                      }
-                    : null,
-                child: const Text('Permanently Delete'),
-              ),
-            ],
+    HangbugDialog.confirmDelete(
+      context,
+      title: 'Delete Account?',
+      message:
+          'All your data, quiz scores, and verified certificates will be permanently removed from ${AppConfig.appName} servers.',
+      confirmText: 'Permanently Delete',
+      loadingText: 'Deleting account...',
+      permanent: true,
+      confirmPhrase: 'DELETE',
+      confirmPhraseLabel: 'To confirm, type DELETE below',
+      onConfirm: () async {
+        final success =
+            await ref.read(authProvider.notifier).deleteAccount();
+        if (success) {
+          AppNotificationService.success(
+            id: 'mobile-account-deleted',
+            title: 'Account deleted',
+            message:
+                'Your account and associated data have been permanently deleted.',
           );
-        },
-      ),
-    );
+        } else {
+          final errMsg = ref.read(authProvider).error ??
+              'Failed to delete account. Please try again.';
+          AppNotificationService.error(
+            id: 'mobile-account-delete-error',
+            title: 'Deletion failed',
+            message: errMsg,
+          );
+          throw Exception(errMsg);
+        }
+      },
+    ).then((confirmed) {
+      if (confirmed && mounted) {
+        context.go('/login');
+      }
+    });
   }
 }

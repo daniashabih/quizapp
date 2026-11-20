@@ -178,14 +178,16 @@ class _HangbugToastCardState extends State<HangbugToastCard>
         );
       case HangbugNotificationType.info:
         return _ToastVisualPalette(
-          accentColor: isDark ? const Color(0xFF6EE7B7) : AppColors.secondary,
+          accentColor:
+              isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
           iconBgColor: isDark
-              ? const Color(0xFF6EE7B7).withValues(alpha: 0.13)
-              : AppColors.secondary.withValues(alpha: 0.1),
+              ? const Color(0xFF60A5FA).withValues(alpha: 0.14)
+              : const Color(0xFF2563EB).withValues(alpha: 0.1),
           iconBorderColor: isDark
-              ? const Color(0xFF6EE7B7).withValues(alpha: 0.24)
-              : AppColors.secondary.withValues(alpha: 0.18),
-          iconColor: isDark ? const Color(0xFF6EE7B7) : AppColors.primary,
+              ? const Color(0xFF60A5FA).withValues(alpha: 0.26)
+              : const Color(0xFF2563EB).withValues(alpha: 0.22),
+          iconColor:
+              isDark ? const Color(0xFF60A5FA) : const Color(0xFF2563EB),
           icon: Icons.info_outline_rounded,
         );
     }

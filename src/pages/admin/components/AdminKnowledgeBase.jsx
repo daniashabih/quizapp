@@ -23,6 +23,7 @@ import {
     ChevronDown
 } from 'lucide-react';
 import { toast } from '../../../services/notificationService';
+import { dialog } from '../../../services/dialogService';
 import aiVerificationService from '../../../services/aiVerificationService';
 
 const IN_PROGRESS_STATUSES = new Set([
@@ -210,16 +211,26 @@ export default function AdminKnowledgeBase({ standalone = false }) {
     };
 
     const handleDeleteBook = async (book) => {
-        if (!window.confirm(`Delete "${book.title}" and all ${book.indexedChunks || 0} indexed chunks permanently?`)) {
-            return;
-        }
-        try {
-            const res = await aiVerificationService.deleteBook(book.id);
-            toast.success(res?.message || 'Book deleted.');
-            fetchBooks(false);
-        } catch (err) {
-            toast.error(err?.response?.data?.message || 'Failed to delete book.');
-        }
+        const chunkCount = book.indexedChunks || 0;
+        await dialog.confirmDelete({
+            title: 'Delete Knowledge Book?',
+            message: `Delete this book along with all ${chunkCount} indexed vector chunk${chunkCount === 1 ? '' : 's'} from the knowledge base?`,
+            itemName: book.title,
+            confirmText: 'Delete Book',
+            loadingText: 'Deleting...',
+            permanent: true,
+            onConfirm: async () => {
+                try {
+                    const res = await aiVerificationService.deleteBook(book.id);
+                    toast.success(res?.message || 'Book deleted.');
+                    fetchBooks(false);
+                } catch (err) {
+                    const msg = err?.response?.data?.message || 'Failed to delete book.';
+                    toast.error(msg);
+                    throw new Error(msg);
+                }
+            },
+        });
     };
 
     const openEditModal = (book) => {
