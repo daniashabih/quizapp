@@ -274,5 +274,6 @@ router.get('/seo/settings', seoDashboardController.getSeoSettings);
 router.put('/seo/settings', seoDashboardController.updateSeoSettings);
 router.post('/seo/integrations/test', seoDashboardController.testSeoIntegration);
 router.post('/seo/backlinks/import', seoDashboardController.importBacklinks);
+router.delete('/seo/backlinks/import', seoDashboardController.clearImportedBacklinks);
 
 module.exports = router;

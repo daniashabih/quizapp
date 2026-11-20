@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const { JWT } = require('google-auth-library');
 const prisma = require('../_config/prisma');
 
@@ -9,6 +10,27 @@ const DEFAULT_GA4_MEASUREMENT_ID = 'G-BSZBBFZZH0';
 const DEFAULT_GA4_STREAM_ID = '16254821680';
 const GSC_READONLY_SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
 const GA4_READONLY_SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
+const OPENPAGERANK_API_BASE_URL = 'https://openpagerank.keywordseverywhere.com';
+const OPENPAGERANK_BULK_ENDPOINT = `${OPENPAGERANK_API_BASE_URL}/v1/domains/bulk`;
+const OPENPAGERANK_USAGE_ENDPOINT = `${OPENPAGERANK_API_BASE_URL}/v1/usage`;
+const OPENPAGERANK_CLEARED_SENTINEL = '__CLEARED__';
+const OPENPAGERANK_STATUS = {
+    CONNECTED: 'Connected',
+    INVALID_KEY: 'Invalid API Key',
+    QUOTA_EXCEEDED: 'Quota Exceeded',
+    UNAVAILABLE: 'Provider Unavailable',
+    NOT_CONFIGURED: 'Not Configured'
+};
+const PAGESPEED_API_SERVICE = 'pagespeedonline.googleapis.com';
+const PAGESPEED_EXPECTED_PROJECT_NUMBER = '583797351490';
+const PAGESPEED_CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours minimum cache TTL
+const PAGESPEED_DEFAULT_THROTTLE_MS = 1200;
+const PAGESPEED_DEFAULT_MAX_RPM = 15;
+const PAGESPEED_DEFAULT_MAX_RETRIES = 2;
+const PAGESPEED_DEFAULT_BACKOFF_MS = 600;
+const PAGESPEED_QUOTA_EXHAUSTED_MESSAGE =
+    'Google PageSpeed API daily quota has been reached. Previously cached reports are still available. Please try again after the quota resets.';
+
 const VERIFIED_GSC_PERMISSION_LEVELS = new Set([
     'siteOwner',
     'siteFullUser',
@@ -20,10 +42,23 @@ const memoryConfigs = new Map();
 const memorySnapshots = new Map();
 const memoryVerifications = new Map();
 const memoryGa4Verifications = new Map();
+const memoryOprVerifications = new Map();
+const memoryPageSpeedQuotaStates = new Map();
+const inFlightPageSpeedRequests = new Map();
+const pageSpeedRequestTimestamps = [];
+let lastPageSpeedRequestAt = 0;
+let pageSpeedThrottleChain = Promise.resolve();
 
 function normalizeDomain(input) {
     const raw = String(input || DEFAULT_DOMAIN).trim().toLowerCase();
     return raw.replace(/^https?:\/\//, '').replace(/\/.*$/, '') || DEFAULT_DOMAIN;
+}
+
+function normalizeRootDomain(input) {
+    const clean = normalizeDomain(input)
+        .replace(/:\d+$/, '')
+        .replace(/^www\./i, '');
+    return clean || 'hangbug.com';
 }
 
 function buildSiteUrl(domain) {
@@ -161,6 +196,134 @@ function isMaskedPlaceholder(value) {
     return s.startsWith('••••') || s === '********';
 }
 
+function resolvePageSpeedApiKey(config = {}) {
+    const envPrimary = String(process.env.PAGESPEED_API_KEY || '').trim();
+    const dbKey = String(config?.pagespeedApiKey || '').trim();
+    const envLegacy = String(process.env.GOOGLE_PAGESPEED_API_KEY || '').trim();
+
+    let key = '';
+    let source = 'none';
+
+    if (envPrimary && !isMaskedPlaceholder(envPrimary)) {
+        key = envPrimary;
+        source = 'env:PAGESPEED_API_KEY';
+    } else if (dbKey && !isMaskedPlaceholder(dbKey)) {
+        key = dbKey;
+        source = 'settings:seo_project_configs';
+    } else if (envLegacy && !isMaskedPlaceholder(envLegacy)) {
+        key = envLegacy;
+        source = 'env:GOOGLE_PAGESPEED_API_KEY';
+    }
+
+    const fingerprint = key
+        ? crypto.createHash('sha256').update(key).digest('hex').slice(0, 12)
+        : '';
+
+    return {
+        key,
+        hasKey: Boolean(key),
+        source,
+        fingerprint
+    };
+}
+
+function redactPageSpeedApiKey(input, rawKey = '') {
+    let text = String(input ?? '');
+    if (!text) return '';
+
+    const candidates = [
+        rawKey,
+        process.env.PAGESPEED_API_KEY,
+        process.env.GOOGLE_PAGESPEED_API_KEY
+    ]
+        .map((v) => String(v || '').trim())
+        .filter((v) => v.length >= 6);
+
+    for (const secret of candidates) {
+        text = text.split(secret).join('[REDACTED_API_KEY]');
+    }
+
+    // Also scrub any key=... query parameter or AIza... token if present in error messages
+    text = text.replace(/([?&]key=)[^&\s"']+/gi, '$1[REDACTED_API_KEY]');
+    return text;
+}
+
+function resolveOpenPageRankApiKey(config = {}, overrideKey = undefined) {
+    if (overrideKey !== undefined && overrideKey !== null) {
+        const trimmedOverride = String(overrideKey).trim();
+        if (trimmedOverride && !isMaskedPlaceholder(trimmedOverride)) {
+            return {
+                key: trimmedOverride,
+                hasKey: true,
+                source: 'override'
+            };
+        }
+    }
+
+    const dbKey = String(config?.backlinkProviderKey || '').trim();
+    if (dbKey === OPENPAGERANK_CLEARED_SENTINEL) {
+        return {
+            key: '',
+            hasKey: false,
+            source: 'none'
+        };
+    }
+
+    if (dbKey && !isMaskedPlaceholder(dbKey)) {
+        const envKey = String(process.env.OPENPAGERANK_API_KEY || '').trim();
+        return {
+            key: dbKey,
+            hasKey: true,
+            source: dbKey === envKey ? 'env:OPENPAGERANK_API_KEY' : 'settings:seo_project_configs'
+        };
+    }
+
+    const envPrimary = String(process.env.OPENPAGERANK_API_KEY || '').trim();
+    if (envPrimary && !isMaskedPlaceholder(envPrimary)) {
+        return {
+            key: envPrimary,
+            hasKey: true,
+            source: 'env:OPENPAGERANK_API_KEY'
+        };
+    }
+
+    const envLegacy = String(process.env.SEO_BACKLINK_PROVIDER_KEY || '').trim();
+    if (envLegacy && !isMaskedPlaceholder(envLegacy)) {
+        return {
+            key: envLegacy,
+            hasKey: true,
+            source: 'env:SEO_BACKLINK_PROVIDER_KEY'
+        };
+    }
+
+    return {
+        key: '',
+        hasKey: false,
+        source: 'none'
+    };
+}
+
+function redactOpenPageRankApiKey(input, rawKey = '') {
+    let text = String(input ?? '');
+    if (!text) return '';
+
+    const candidates = [
+        rawKey,
+        process.env.OPENPAGERANK_API_KEY,
+        process.env.SEO_BACKLINK_PROVIDER_KEY
+    ]
+        .map((v) => String(v || '').trim())
+        .filter((v) => v.length >= 6 && v !== OPENPAGERANK_CLEARED_SENTINEL);
+
+    for (const secret of candidates) {
+        text = text.split(secret).join('[REDACTED_OPR_KEY]');
+    }
+
+    text = text.replace(/\bopr_(?:live|test)_[a-zA-Z0-9_-]+/gi, '[REDACTED_OPR_KEY]');
+    text = text.replace(/(Authorization:\s*Bearer\s+)[^\s"']+/gi, '$1[REDACTED_OPR_KEY]');
+    return text;
+}
+
 function getEnvDefaults(domain = DEFAULT_DOMAIN) {
     const cleanDomain = normalizeDomain(domain);
     return {
@@ -178,7 +341,7 @@ function getEnvDefaults(domain = DEFAULT_DOMAIN) {
         ).trim(),
         googleAccessToken: String(process.env.GSC_ACCESS_TOKEN || '').trim(),
         pagespeedApiKey: String(
-            process.env.GOOGLE_PAGESPEED_API_KEY || process.env.PAGESPEED_API_KEY || ''
+            process.env.PAGESPEED_API_KEY || process.env.GOOGLE_PAGESPEED_API_KEY || ''
         ).trim(),
         keywordProvider: String(process.env.SEO_KEYWORD_PROVIDER || 'none').trim().toLowerCase(),
         keywordProviderKey: String(process.env.SEO_KEYWORD_PROVIDER_KEY || '').trim(),
@@ -214,6 +377,27 @@ async function getProjectConfig(domain = DEFAULT_DOMAIN) {
         dbRecord = memoryConfigs.get(cleanDomain);
     }
 
+    const dbBacklinkKey = dbRecord?.backlinkProviderKey !== undefined && dbRecord?.backlinkProviderKey !== null
+        ? String(dbRecord.backlinkProviderKey).trim()
+        : '';
+    let resolvedBacklinkKey;
+    let resolvedBacklinkProvider;
+
+    if (dbBacklinkKey === OPENPAGERANK_CLEARED_SENTINEL) {
+        resolvedBacklinkKey = OPENPAGERANK_CLEARED_SENTINEL;
+        resolvedBacklinkProvider = 'none';
+    } else if (dbBacklinkKey) {
+        resolvedBacklinkKey = dbBacklinkKey;
+        resolvedBacklinkProvider = (dbRecord?.backlinkProvider && dbRecord.backlinkProvider !== 'none')
+            ? dbRecord.backlinkProvider
+            : 'openpagerank';
+    } else {
+        resolvedBacklinkKey = envDefaults.backlinkProviderKey;
+        resolvedBacklinkProvider = resolvedBacklinkKey
+            ? 'openpagerank'
+            : (dbRecord?.backlinkProvider || envDefaults.backlinkProvider);
+    }
+
     const merged = {
         ...envDefaults,
         ...(dbRecord || {}),
@@ -226,11 +410,11 @@ async function getProjectConfig(domain = DEFAULT_DOMAIN) {
         googleServiceAccountEmail: dbRecord?.googleServiceAccountEmail || envDefaults.googleServiceAccountEmail,
         googlePrivateKey: dbRecord?.googlePrivateKey || envDefaults.googlePrivateKey,
         googleAccessToken: dbRecord?.googleAccessToken || envDefaults.googleAccessToken,
-        pagespeedApiKey: dbRecord?.pagespeedApiKey || envDefaults.pagespeedApiKey,
+        pagespeedApiKey: String(process.env.PAGESPEED_API_KEY || '').trim() || dbRecord?.pagespeedApiKey || envDefaults.pagespeedApiKey,
         keywordProvider: dbRecord?.keywordProvider || envDefaults.keywordProvider,
         keywordProviderKey: dbRecord?.keywordProviderKey || envDefaults.keywordProviderKey,
-        backlinkProvider: dbRecord?.backlinkProvider || envDefaults.backlinkProvider,
-        backlinkProviderKey: dbRecord?.backlinkProviderKey || envDefaults.backlinkProviderKey,
+        backlinkProvider: resolvedBacklinkProvider,
+        backlinkProviderKey: resolvedBacklinkKey,
         aiVisibilityProvider: dbRecord?.aiVisibilityProvider || envDefaults.aiVisibilityProvider,
         aiVisibilityProviderKey: dbRecord?.aiVisibilityProviderKey || envDefaults.aiVisibilityProviderKey,
         crawlFrequency: dbRecord?.crawlFrequency || envDefaults.crawlFrequency,
@@ -240,10 +424,14 @@ async function getProjectConfig(domain = DEFAULT_DOMAIN) {
     return merged;
 }
 
-function sanitizeConfigForClient(config, verificationInput = null, ga4VerificationInput = null) {
+function sanitizeConfigForClient(config, verificationInput = null, ga4VerificationInput = null, oprVerificationInput = null) {
     const cleanDomain = normalizeDomain(config.domain);
     const verification = verificationInput || memoryVerifications.get(cleanDomain) || null;
     const ga4Verification = ga4VerificationInput || memoryGa4Verifications.get(cleanDomain) || null;
+    const oprVerification = oprVerificationInput || memoryOprVerifications.get(cleanDomain) || null;
+    const psiKeyInfo = resolvePageSpeedApiKey(config);
+    const oprKeyInfo = resolveOpenPageRankApiKey(config);
+    const psiQuotaState = memoryPageSpeedQuotaStates.get(cleanDomain) || null;
     const hasGoogleServiceAccount = Boolean(config.googleServiceAccountEmail && config.googlePrivateKey);
     const hasGoogleCredentials = hasGoogleServiceAccount || Boolean(config.googleAccessToken);
     const resolvedProperty = verification?.selectedProperty
@@ -262,6 +450,12 @@ function sanitizeConfigForClient(config, verificationInput = null, ga4Verificati
         : ga4Verification?.errorCategory
             ? 'Connection Error'
             : (hasGoogleCredentials && rawGa4Prop ? 'Configured (Click Test GA4 Connection to verify)' : 'Not Connected');
+
+    // Only show Connected after a successful real OpenPageRank API request
+    const openPageRankStatus = !oprKeyInfo.hasKey
+        ? OPENPAGERANK_STATUS.NOT_CONFIGURED
+        : (oprVerification?.connectionStatus || OPENPAGERANK_STATUS.NOT_CONFIGURED);
+    const openPageRankConnected = openPageRankStatus === OPENPAGERANK_STATUS.CONNECTED;
 
     return {
         domain: config.domain,
@@ -288,11 +482,22 @@ function sanitizeConfigForClient(config, verificationInput = null, ga4Verificati
         hasGoogleServiceAccount,
         hasGoogleAccessToken: Boolean(config.googleAccessToken),
         hasGoogleCredentials,
-        hasPagespeedApiKey: Boolean(config.pagespeedApiKey),
+        hasPagespeedApiKey: psiKeyInfo.hasKey,
+        pagespeedApiKeySource: psiKeyInfo.source,
+        pagespeedQuotaExhausted: Boolean(psiQuotaState?.exhausted),
+        pagespeedNextRetryAt: psiQuotaState?.nextRetryAt || null,
         keywordProvider: config.keywordProvider || 'none',
         hasKeywordProviderKey: Boolean(config.keywordProviderKey),
-        backlinkProvider: config.backlinkProvider || 'none',
-        hasBacklinkProviderKey: Boolean(config.backlinkProviderKey),
+        backlinkProvider: oprKeyInfo.hasKey ? 'openpagerank' : (config.backlinkProvider || 'none'),
+        hasBacklinkProviderKey: oprKeyInfo.hasKey,
+        hasOpenPageRankApiKey: oprKeyInfo.hasKey,
+        openPageRankKeySource: oprKeyInfo.source,
+        openPageRankStatus,
+        openPageRankConnected,
+        openPageRankMessage: oprVerification?.message || '',
+        openPageRankLastSyncedAt: oprVerification?.syncedAt || null,
+        openPageRankAsOf: oprVerification?.asOf || null,
+        openPageRankQuota: oprVerification?.quota || null,
         aiVisibilityProvider: config.aiVisibilityProvider || 'none',
         hasAiVisibilityProviderKey: Boolean(config.aiVisibilityProviderKey),
         crawlFrequency: config.crawlFrequency || 'daily',
@@ -307,10 +512,15 @@ function sanitizeConfigForClient(config, verificationInput = null, ga4Verificati
             ga4ResourceName: rawGa4Prop ? `properties/${rawGa4Prop}` : '',
             ga4LastSyncedAt: ga4Verification?.syncedAt || null,
             ga4TagMeasurementId: config.ga4MeasurementId || DEFAULT_GA4_MEASUREMENT_ID,
-            pagespeedReady: true,
-            pagespeedHasKey: Boolean(config.pagespeedApiKey),
+            pagespeedReady: psiKeyInfo.hasKey && !psiQuotaState?.exhausted,
+            pagespeedHasKey: psiKeyInfo.hasKey,
+            pagespeedKeySource: psiKeyInfo.source,
+            pagespeedQuotaExhausted: Boolean(psiQuotaState?.exhausted),
+            pagespeedNextRetryAt: psiQuotaState?.nextRetryAt || null,
             keywordProviderConnected: config.keywordProvider !== 'none' && Boolean(config.keywordProviderKey),
-            backlinkProviderConnected: config.backlinkProvider !== 'none' && Boolean(config.backlinkProviderKey),
+            backlinkProviderConnected: openPageRankConnected,
+            openPageRankConnected,
+            openPageRankStatus,
             aiVisibilityConnected: config.aiVisibilityProvider !== 'none' && Boolean(config.aiVisibilityProviderKey)
         },
         updatedAt: config.updatedAt || null
@@ -320,6 +530,33 @@ function sanitizeConfigForClient(config, verificationInput = null, ga4Verificati
 async function saveProjectConfig(domain, updates = {}) {
     const cleanDomain = normalizeDomain(domain);
     const current = await getProjectConfig(cleanDomain);
+
+    const rawOprKeyUpdate = updates.openPageRankApiKey !== undefined
+        ? updates.openPageRankApiKey
+        : updates.backlinkProviderKey;
+    const shouldClearOprKey = Boolean(
+        updates.clearOpenPageRankApiKey
+        || updates.removeOpenPageRankApiKey
+        || updates.clearBacklinkProviderKey
+    );
+
+    let nextBacklinkKey = current.backlinkProviderKey;
+    let nextBacklinkProvider = updates.backlinkProvider !== undefined
+        ? String(updates.backlinkProvider).trim().toLowerCase()
+        : current.backlinkProvider;
+
+    if (shouldClearOprKey) {
+        nextBacklinkKey = OPENPAGERANK_CLEARED_SENTINEL;
+        nextBacklinkProvider = 'none';
+        memoryOprVerifications.delete(cleanDomain);
+    } else if (rawOprKeyUpdate !== undefined) {
+        const trimmedKey = String(rawOprKeyUpdate || '').trim();
+        if (trimmedKey && !isMaskedPlaceholder(trimmedKey)) {
+            nextBacklinkKey = trimmedKey;
+            nextBacklinkProvider = 'openpagerank';
+            memoryOprVerifications.delete(cleanDomain);
+        }
+    }
 
     const next = {
         domain: cleanDomain,
@@ -346,10 +583,8 @@ async function saveProjectConfig(domain, updates = {}) {
         keywordProviderKey: updates.keywordProviderKey !== undefined
             ? (updates.clearKeywordProviderKey ? '' : (isMaskedPlaceholder(updates.keywordProviderKey) || !String(updates.keywordProviderKey).trim() ? current.keywordProviderKey : String(updates.keywordProviderKey).trim()))
             : current.keywordProviderKey,
-        backlinkProvider: updates.backlinkProvider !== undefined ? String(updates.backlinkProvider).trim().toLowerCase() : current.backlinkProvider,
-        backlinkProviderKey: updates.backlinkProviderKey !== undefined
-            ? (updates.clearBacklinkProviderKey ? '' : (isMaskedPlaceholder(updates.backlinkProviderKey) || !String(updates.backlinkProviderKey).trim() ? current.backlinkProviderKey : String(updates.backlinkProviderKey).trim()))
-            : current.backlinkProviderKey,
+        backlinkProvider: nextBacklinkProvider,
+        backlinkProviderKey: nextBacklinkKey,
         aiVisibilityProvider: updates.aiVisibilityProvider !== undefined ? String(updates.aiVisibilityProvider).trim().toLowerCase() : current.aiVisibilityProvider,
         aiVisibilityProviderKey: updates.aiVisibilityProviderKey !== undefined
             ? (updates.clearAiVisibilityProviderKey ? '' : (isMaskedPlaceholder(updates.aiVisibilityProviderKey) || !String(updates.aiVisibilityProviderKey).trim() ? current.aiVisibilityProviderKey : String(updates.aiVisibilityProviderKey).trim()))
@@ -604,6 +839,9 @@ async function fetchJsonWithTimeout(url, options = {}, timeoutMs = 10000) {
             const err = new Error(msg);
             err.status = res.status;
             err.payload = json;
+            err.retryAfter = res.headers && typeof res.headers.get === 'function'
+                ? res.headers.get('retry-after')
+                : null;
             throw err;
         }
         return json;
@@ -1675,55 +1913,826 @@ function classifyCwvMetric(metric, numericValue) {
     return 'Good';
 }
 
-async function runPageSpeedInsights(config, targetUrl, strategy = 'mobile') {
-    const allowedOrigin = (config.siteUrl || DEFAULT_SITE_URL).replace(/\/+$/, '');
-    let safeUrl = targetUrl || allowedOrigin;
-    if (safeUrl.startsWith('/')) {
-        safeUrl = `${allowedOrigin}${safeUrl}`;
+function validatePageSpeedApiKey(rawKey) {
+    const key = String(rawKey ?? '').trim();
+    if (!key) {
+        return {
+            valid: false,
+            errorCategory: 'missing_api_key',
+            httpStatus: 400,
+            userMessage:
+                'Google PageSpeed API key (PAGESPEED_API_KEY) is not configured on the backend. Add PAGESPEED_API_KEY to your server environment variables to run authenticated PageSpeed Insights audits.',
+            message:
+                'PAGESPEED_API_KEY is missing. Configure PAGESPEED_API_KEY in backend environment variables (or SEO Settings) before running live PageSpeed audits.'
+        };
+    }
+
+    if (isMaskedPlaceholder(key) || /\s/.test(key) || key.length < 16 || key.length > 128 || !/^[A-Za-z0-9_-]+$/.test(key)) {
+        return {
+            valid: false,
+            errorCategory: 'invalid_api_key',
+            httpStatus: 400,
+            userMessage:
+                'The configured Google PageSpeed API key (PAGESPEED_API_KEY) is invalid. Verify that a valid Google Cloud API key is set on the backend.',
+            message:
+                'Invalid PAGESPEED_API_KEY format. Expected a valid server-side Google Cloud API key.'
+        };
+    }
+
+    return {
+        valid: true,
+        errorCategory: null,
+        httpStatus: 200,
+        userMessage: '',
+        message: ''
+    };
+}
+
+function validateAndNormalizePageSpeedUrl(config = {}, targetUrl = '') {
+    const allowedOrigin = String(config?.siteUrl || DEFAULT_SITE_URL).trim().replace(/\/+$/, '');
+    const rawTarget = String(targetUrl ?? '').trim();
+    let candidate = rawTarget || `${allowedOrigin}/`;
+
+    if (/\s/.test(candidate)) {
+        return {
+            valid: false,
+            errorCategory: 'invalid_url',
+            httpStatus: 400,
+            canonicalUrl: '',
+            normalizedPath: '',
+            userMessage: 'Invalid URL for PageSpeed audit. URLs cannot contain spaces.',
+            message: 'Invalid target URL for PageSpeed check (contains whitespace).'
+        };
+    }
+
+    if (/^(javascript|data|mailto|tel|ftp|file):/i.test(candidate)) {
+        return {
+            valid: false,
+            errorCategory: 'invalid_url',
+            httpStatus: 400,
+            canonicalUrl: '',
+            normalizedPath: '',
+            userMessage: 'Invalid URL scheme for PageSpeed audit. Only HTTP/HTTPS Hangbug URLs are allowed.',
+            message: 'Invalid target URL protocol for PageSpeed check.'
+        };
+    }
+
+    if (candidate.startsWith('/')) {
+        if (candidate.startsWith('//')) {
+            return {
+                valid: false,
+                errorCategory: 'invalid_url',
+                httpStatus: 400,
+                canonicalUrl: '',
+                normalizedPath: '',
+                userMessage: 'Invalid protocol-relative URL for PageSpeed audit.',
+                message: 'Invalid target URL for PageSpeed check.'
+            };
+        }
+        candidate = `${allowedOrigin}${candidate}`;
+    } else if (!/^https?:\/\//i.test(candidate)) {
+        return {
+            valid: false,
+            errorCategory: 'invalid_url',
+            httpStatus: 400,
+            canonicalUrl: '',
+            normalizedPath: '',
+            userMessage: 'Invalid target URL for PageSpeed audit. Select a Hangbug page path (e.g. / or /technologies) or a full https://www.hangbug.com URL.',
+            message: 'Invalid target URL for PageSpeed check.'
+        };
     }
 
     let parsed;
     try {
-        parsed = new URL(safeUrl);
+        parsed = new URL(candidate);
     } catch {
-        throw new Error('Invalid target URL for PageSpeed check.');
+        return {
+            valid: false,
+            errorCategory: 'invalid_url',
+            httpStatus: 400,
+            canonicalUrl: '',
+            normalizedPath: '',
+            userMessage: 'Invalid target URL for PageSpeed audit.',
+            message: 'Invalid target URL for PageSpeed check.'
+        };
     }
 
-    const allowedHost = normalizeDomain(config.domain);
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+        return {
+            valid: false,
+            errorCategory: 'invalid_url',
+            httpStatus: 400,
+            canonicalUrl: '',
+            normalizedPath: '',
+            userMessage: 'Invalid URL protocol for PageSpeed audit.',
+            message: 'Invalid target URL protocol for PageSpeed check.'
+        };
+    }
+
+    const allowedHost = normalizeDomain(config?.domain || DEFAULT_DOMAIN);
     const targetHost = normalizeDomain(parsed.hostname);
-    if (targetHost !== allowedHost && targetHost !== 'www.hangbug.com' && targetHost !== 'hangbug.com') {
-        throw new Error(`PageSpeed checks are restricted to your configured domain (${allowedHost}).`);
+    if (
+        !targetHost
+        || (targetHost !== allowedHost && targetHost !== 'www.hangbug.com' && targetHost !== 'hangbug.com')
+    ) {
+        return {
+            valid: false,
+            errorCategory: 'invalid_url',
+            httpStatus: 400,
+            canonicalUrl: '',
+            normalizedPath: '',
+            userMessage: `PageSpeed checks are restricted to your configured Hangbug domain (${allowedHost}).`,
+            message: `PageSpeed checks are restricted to your configured domain (${allowedHost}).`
+        };
     }
 
-    const cleanStrategy = strategy === 'desktop' ? 'desktop' : 'mobile';
-    const params = new URLSearchParams({
-        url: parsed.toString(),
-        strategy: cleanStrategy
+    const cleanPathname = !parsed.pathname || parsed.pathname === '/'
+        ? '/'
+        : parsed.pathname.replace(/\/+$/, '');
+    const canonicalUrl = `${parsed.origin}${cleanPathname}`;
+
+    return {
+        valid: true,
+        errorCategory: null,
+        httpStatus: 200,
+        canonicalUrl,
+        normalizedPath: cleanPathname,
+        userMessage: '',
+        message: ''
+    };
+}
+
+function extractGoogleProjectNumberFromError(err) {
+    const details = err?.payload?.error?.details;
+    if (Array.isArray(details)) {
+        for (const item of details) {
+            const consumer = String(item?.metadata?.consumer || '');
+            const consumerMatch = consumer.match(/projects\/(\d+)/i) || consumer.match(/project_number:(\d+)/i);
+            if (consumerMatch) {
+                return consumerMatch[1];
+            }
+        }
+    }
+
+    const rawText = `${err?.message || ''} ${JSON.stringify(err?.payload || {})}`;
+    const match =
+        rawText.match(/project_number:(\d{6,20})/i)
+        || rawText.match(/projects\/(\d{6,20})/i)
+        || rawText.match(/\bproject\s+(\d{6,20})\b/i);
+    return match ? match[1] : null;
+}
+
+function computeNextDailyQuotaResetIso(nowInput = new Date(), retryAfterHeader = null) {
+    const now = nowInput instanceof Date ? nowInput : new Date(nowInput);
+    if (retryAfterHeader !== null && retryAfterHeader !== undefined && String(retryAfterHeader).trim() !== '') {
+        const raw = String(retryAfterHeader).trim();
+        if (/^\d+$/.test(raw)) {
+            const secs = Math.max(1, parseInt(raw, 10));
+            return new Date(now.getTime() + secs * 1000).toISOString();
+        }
+        const parsedDate = new Date(raw);
+        if (!Number.isNaN(parsedDate.getTime()) && parsedDate.getTime() > now.getTime()) {
+            return parsedDate.toISOString();
+        }
+    }
+
+    // Google Cloud daily API quotas reset at midnight Pacific Time (America/Los_Angeles, UTC-8 / UTC-7)
+    const nextReset = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 8, 0, 0, 0));
+    if (nextReset.getTime() <= now.getTime()) {
+        nextReset.setUTCDate(nextReset.getUTCDate() + 1);
+    }
+    return nextReset.toISOString();
+}
+
+function computeNextRateLimitRetryIso(nowInput = new Date(), retryAfterHeader = null, fallbackSeconds = 60) {
+    const now = nowInput instanceof Date ? nowInput : new Date(nowInput);
+    if (retryAfterHeader !== null && retryAfterHeader !== undefined && String(retryAfterHeader).trim() !== '') {
+        const raw = String(retryAfterHeader).trim();
+        if (/^\d+$/.test(raw)) {
+            const secs = Math.max(1, parseInt(raw, 10));
+            return new Date(now.getTime() + secs * 1000).toISOString();
+        }
+        const parsedDate = new Date(raw);
+        if (!Number.isNaN(parsedDate.getTime()) && parsedDate.getTime() > now.getTime()) {
+            return parsedDate.toISOString();
+        }
+    }
+    return new Date(now.getTime() + fallbackSeconds * 1000).toISOString();
+}
+
+function classifyPageSpeedApiError(err, context = {}) {
+    const rawKey = context.rawKey || '';
+    const rawMsg = redactPageSpeedApiKey(err?.message || '', rawKey).trim();
+    const lower = rawMsg.toLowerCase();
+    const status = Number(err?.status || err?.httpStatus || 0);
+    const redactedPayloadStr = redactPageSpeedApiKey(JSON.stringify(err?.payload || {}), rawKey);
+    const payloadLower = redactedPayloadStr.toLowerCase();
+    const detectedProject = extractGoogleProjectNumberFromError(err) || context.detectedProjectNumber || null;
+    const expectedProject = String(
+        context.expectedProjectNumber
+        || process.env.GOOGLE_CLOUD_PROJECT_NUMBER
+        || process.env.PAGESPEED_PROJECT_NUMBER
+        || PAGESPEED_EXPECTED_PROJECT_NUMBER
+    ).trim();
+
+    if (err?.errorCategory === 'missing_api_key') {
+        return {
+            errorCategory: 'missing_api_key',
+            httpStatus: 400,
+            retryable: false,
+            isQuotaError: false,
+            isDailyQuota: false,
+            apiEnabled: null,
+            projectVerified: false,
+            projectNumber: detectedProject,
+            expectedProjectNumber: expectedProject,
+            nextRetryAt: null,
+            userMessage:
+                err.userMessage
+                || 'Google PageSpeed API key (PAGESPEED_API_KEY) is not configured on the backend. Add PAGESPEED_API_KEY to your server environment variables to run authenticated PageSpeed Insights audits.',
+            message: rawMsg || 'PAGESPEED_API_KEY is missing on the backend.'
+        };
+    }
+
+    if (err?.errorCategory === 'invalid_url') {
+        return {
+            errorCategory: 'invalid_url',
+            httpStatus: 400,
+            retryable: false,
+            isQuotaError: false,
+            isDailyQuota: false,
+            apiEnabled: true,
+            projectVerified: true,
+            projectNumber: detectedProject,
+            expectedProjectNumber: expectedProject,
+            nextRetryAt: null,
+            userMessage: err.userMessage || rawMsg || 'Invalid target URL for PageSpeed audit.',
+            message: rawMsg || 'Invalid target URL for PageSpeed check.'
+        };
+    }
+
+    if (
+        err?.errorCategory === 'invalid_api_key'
+        || lower.includes('api key not valid')
+        || lower.includes('api_key_invalid')
+        || payloadLower.includes('api_key_invalid')
+        || payloadLower.includes('keyinvalid')
+        || payloadLower.includes('api_key_service_blocked')
+        || payloadLower.includes('api_key_http_referrer_blocked')
+        || payloadLower.includes('api_key_ip_address_blocked')
+        || payloadLower.includes('iprefererblocked')
+        || lower.includes('bad api key')
+    ) {
+        return {
+            errorCategory: 'invalid_api_key',
+            httpStatus: status === 403 ? 403 : 400,
+            retryable: false,
+            isQuotaError: false,
+            isDailyQuota: false,
+            apiEnabled: null,
+            projectVerified: false,
+            projectNumber: detectedProject,
+            expectedProjectNumber: expectedProject,
+            nextRetryAt: null,
+            userMessage:
+                'The configured Google PageSpeed API key (PAGESPEED_API_KEY) is invalid or restricted. Verify that PAGESPEED_API_KEY is a valid backend API key for Google Cloud project '
+                + `${expectedProject} with PageSpeed Insights API permitted.`,
+            message: `Invalid Google PageSpeed API key: ${rawMsg || 'API_KEY_INVALID'}`
+        };
+    }
+
+    // If an explicit expected project number is enforced and the error consumer belongs to a different Google Cloud project
+    if (
+        context.enforceProjectMatch
+        && expectedProject
+        && detectedProject
+        && detectedProject !== expectedProject
+    ) {
+        return {
+            errorCategory: 'invalid_api_key',
+            httpStatus: 403,
+            retryable: false,
+            isQuotaError: false,
+            isDailyQuota: false,
+            apiEnabled: null,
+            projectVerified: false,
+            projectNumber: detectedProject,
+            expectedProjectNumber: expectedProject,
+            nextRetryAt: null,
+            userMessage:
+                `The configured PAGESPEED_API_KEY belongs to Google Cloud project ${detectedProject}, which does not match the expected project ${expectedProject}.`,
+            message:
+                `Google Cloud project mismatch: key belongs to project ${detectedProject}, expected project ${expectedProject}.`
+        };
+    }
+
+    // API disabled in Google Cloud project
+    if (
+        err?.errorCategory === 'api_disabled'
+        || (
+            (status === 403 || lower.includes('403') || payloadLower.includes('permission_denied'))
+            && (
+                lower.includes('service_disabled')
+                || payloadLower.includes('service_disabled')
+                || payloadLower.includes('accessnotconfigured')
+                || lower.includes('has not been used in project')
+                || lower.includes('is disabled')
+                || (lower.includes('pagespeedonline.googleapis.com') && lower.includes('enable'))
+            )
+        )
+    ) {
+        const projLabel = detectedProject || expectedProject;
+        return {
+            errorCategory: 'api_disabled',
+            httpStatus: 403,
+            retryable: false,
+            isQuotaError: false,
+            isDailyQuota: false,
+            apiEnabled: false,
+            projectVerified: !detectedProject || detectedProject === expectedProject,
+            projectNumber: projLabel,
+            expectedProjectNumber: expectedProject,
+            nextRetryAt: null,
+            userMessage:
+                `PageSpeed Insights API (${PAGESPEED_API_SERVICE}) is disabled in Google Cloud project ${projLabel}. Enable "PageSpeed Insights API" in Google Cloud Console -> APIs & Services -> Library.`,
+            message:
+                `PageSpeed Insights API (${PAGESPEED_API_SERVICE}) is disabled for Google Cloud project ${projLabel}: ${rawMsg}`
+        };
+    }
+
+    // Daily quota exhausted vs Requests-per-minute limit
+    const isQuotaOr429 =
+        status === 429
+        || err?.errorCategory === 'daily_quota_exceeded'
+        || err?.errorCategory === 'rate_limit_exceeded'
+        || lower.includes('quota exceeded')
+        || lower.includes('rate limit')
+        || lower.includes('too many requests')
+        || payloadLower.includes('resource_exhausted')
+        || payloadLower.includes('ratelimitexceeded')
+        || payloadLower.includes('dailylimitexceeded')
+        || payloadLower.includes('quotaexceeded')
+        || payloadLower.includes('userratelimitexceeded');
+
+    if (isQuotaOr429) {
+        const isPerMinuteOnly =
+            err?.errorCategory === 'rate_limit_exceeded'
+            || (
+                !lower.includes('per day')
+                && !payloadLower.includes('perday')
+                && !payloadLower.includes('1/d/')
+                && !payloadLower.includes('dailylimitexceeded')
+                && (
+                    lower.includes('per minute')
+                    || lower.includes('per 100 seconds')
+                    || lower.includes('per second')
+                    || lower.includes('requests-per-minute')
+                    || payloadLower.includes('perminute')
+                    || payloadLower.includes('1/min/')
+                    || payloadLower.includes('100s')
+                )
+            );
+
+        const isDaily =
+            err?.errorCategory === 'daily_quota_exceeded'
+            || (
+                !isPerMinuteOnly
+                && (
+                    lower.includes('queries per day')
+                    || lower.includes('per day')
+                    || lower.includes('daily quota')
+                    || payloadLower.includes('defaultperdayperproject')
+                    || payloadLower.includes('queriesperday')
+                    || payloadLower.includes('1/d/{project}')
+                    || payloadLower.includes('dailylimitexceeded')
+                )
+            );
+
+        const projLabel = detectedProject || expectedProject;
+        if (isDaily) {
+            const nextRetryAt = err?.nextRetryAt || computeNextDailyQuotaResetIso(new Date(), err?.retryAfter);
+            return {
+                errorCategory: 'daily_quota_exceeded',
+                httpStatus: 429,
+                retryable: false,
+                isQuotaError: true,
+                isDailyQuota: true,
+                apiEnabled: true,
+                projectVerified: !detectedProject || detectedProject === expectedProject,
+                projectNumber: projLabel,
+                expectedProjectNumber: expectedProject,
+                quotaMetric: 'Queries',
+                quotaLimit: 'Queries per day',
+                serviceName: PAGESPEED_API_SERVICE,
+                nextRetryAt,
+                userMessage: PAGESPEED_QUOTA_EXHAUSTED_MESSAGE,
+                message:
+                    rawMsg
+                    || `Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service '${PAGESPEED_API_SERVICE}' (Project: ${projLabel}).`
+            };
+        }
+
+        const nextRetryAt = err?.nextRetryAt || computeNextRateLimitRetryIso(new Date(), err?.retryAfter, 60);
+        return {
+            errorCategory: 'rate_limit_exceeded',
+            httpStatus: 429,
+            retryable: true,
+            isQuotaError: true,
+            isDailyQuota: false,
+            apiEnabled: true,
+            projectVerified: !detectedProject || detectedProject === expectedProject,
+            projectNumber: projLabel,
+            expectedProjectNumber: expectedProject,
+            quotaMetric: 'Queries',
+            quotaLimit: 'Queries per minute',
+            serviceName: PAGESPEED_API_SERVICE,
+            nextRetryAt,
+            userMessage:
+                'Google PageSpeed API requests-per-minute rate limit has been reached. Previously cached reports remain available. Please wait briefly before retrying.',
+            message:
+                rawMsg
+                || `Requests-per-minute rate limit reached for service '${PAGESPEED_API_SERVICE}'.`
+        };
+    }
+
+    // Invalid URL rejected by Google PageSpeed upstream
+    if (
+        status === 400
+        && (
+            lower.includes('invalid url')
+            || lower.includes('invalid_argument')
+            || payloadLower.includes('invalid_argument')
+            || lower.includes('dns_failure')
+            || lower.includes('unable to resolve')
+        )
+    ) {
+        return {
+            errorCategory: 'invalid_url',
+            httpStatus: 400,
+            retryable: false,
+            isQuotaError: false,
+            isDailyQuota: false,
+            apiEnabled: true,
+            projectVerified: true,
+            projectNumber: detectedProject,
+            expectedProjectNumber: expectedProject,
+            nextRetryAt: null,
+            userMessage: `Google PageSpeed Insights could not resolve the target URL: ${rawMsg}`,
+            message: `Invalid target URL for PageSpeed check: ${rawMsg}`
+        };
+    }
+
+    // Network errors, timeouts, or upstream 5xx errors
+    const nextRetryAt = computeNextRateLimitRetryIso(new Date(), err?.retryAfter, 30);
+    return {
+        errorCategory: 'network_error',
+        httpStatus: status >= 500 && status < 600 ? status : 503,
+        retryable: true,
+        isQuotaError: false,
+        isDailyQuota: false,
+        apiEnabled: null,
+        projectVerified: null,
+        projectNumber: detectedProject,
+        expectedProjectNumber: expectedProject,
+        nextRetryAt,
+        userMessage:
+            'A network error or timeout occurred while contacting Google PageSpeed Insights. Previously cached reports are still available.',
+        message: `PageSpeed Insights network/upstream error: ${rawMsg || 'Network request failed'}`
+    };
+}
+
+function getPrioritizedAuditableUrls(config = {}, latestAudit = null, pagespeedSnapData = null) {
+    const siteUrl = String(config?.siteUrl || DEFAULT_SITE_URL).trim().replace(/\/+$/, '');
+    const byUrl = pagespeedSnapData?.byUrl || {};
+    const byPath = pagespeedSnapData?.byPath || {};
+
+    const buildEntry = (pathStr, label, category, priority) => {
+        const cleanPath = !pathStr || pathStr === '/' ? '/' : pathStr.replace(/\/+$/, '');
+        const fullUrl = `${siteUrl}${cleanPath}`;
+        const urlCache = byUrl[fullUrl] || byPath[cleanPath] || (
+            cleanPath === '/' && (pagespeedSnapData?.mobile?.url === fullUrl || pagespeedSnapData?.desktop?.url === fullUrl)
+                ? {
+                    mobile: pagespeedSnapData?.mobile?.url === fullUrl ? pagespeedSnapData.mobile : null,
+                    desktop: pagespeedSnapData?.desktop?.url === fullUrl ? pagespeedSnapData.desktop : null
+                }
+                : null
+        );
+        const mobileCached = urlCache?.mobile || null;
+        const desktopCached = urlCache?.desktop || null;
+        return {
+            path: cleanPath,
+            url: fullUrl,
+            label,
+            category,
+            priority,
+            hasMobileCache: Boolean(mobileCached),
+            hasDesktopCache: Boolean(desktopCached),
+            mobilePerformance: typeof mobileCached?.scores?.performance === 'number' ? mobileCached.scores.performance : null,
+            desktopPerformance: typeof desktopCached?.scores?.performance === 'number' ? desktopCached.scores.performance : null,
+            lastAuditedAt: mobileCached?.checkedAt || desktopCached?.checkedAt || null
+        };
+    };
+
+    const items = [];
+    const seenPaths = new Set();
+    const addUnique = (pathStr, label, category, priority) => {
+        const cleanPath = !pathStr || pathStr === '/' ? '/' : pathStr.replace(/\/+$/, '');
+        if (seenPaths.has(cleanPath)) return;
+        seenPaths.add(cleanPath);
+        items.push(buildEntry(cleanPath, label, category, priority));
+    };
+
+    // Priority 1: Homepage
+    addUnique('/', '/ (Homepage)', 'Homepage', 1);
+
+    // Priority 2: Important Technology Pages
+    addUnique('/technologies', '/technologies (Technologies Hub)', 'Important Technology Pages', 2);
+    const defaultTechPages = [
+        ['/technologies/javascript', 'JavaScript Quiz & Track (/technologies/javascript)'],
+        ['/technologies/react', 'React.js Quiz & Track (/technologies/react)'],
+        ['/technologies/python', 'Python Quiz & Track (/technologies/python)'],
+        ['/technologies/html', 'HTML5 Quiz & Track (/technologies/html)'],
+        ['/technologies/css', 'CSS3 Quiz & Track (/technologies/css)'],
+        ['/technologies/php', 'PHP Quiz & Track (/technologies/php)'],
+        ['/technologies/laravel', 'Laravel Quiz & Track (/technologies/laravel)'],
+        ['/technologies/mysql', 'MySQL Quiz & Track (/technologies/mysql)'],
+        ['/technologies/mongodb', 'MongoDB Quiz & Track (/technologies/mongodb)'],
+        ['/technologies/csharp', 'C# & .NET Quiz & Track (/technologies/csharp)'],
+        ['/technologies/flutter', 'Flutter Quiz & Track (/technologies/flutter)'],
+        ['/technologies/dart', 'Dart Quiz & Track (/technologies/dart)']
+    ];
+    for (const [p, lbl] of defaultTechPages) {
+        addUnique(p, lbl, 'Important Technology Pages', 2);
+    }
+
+    const inventory = latestAudit?.summary?.urlInventory || [];
+    for (const inv of inventory) {
+        if (inv?.path && inv.path.startsWith('/technologies/')) {
+            addUnique(inv.path, `${inv.title || inv.path} (${inv.path})`, 'Important Technology Pages', 2);
+        }
+    }
+
+    // Priority 3: Published Blog Articles
+    addUnique('/blog', '/blog (Tutorials & Articles Hub)', 'Published Blog Articles', 3);
+    const articles = latestAudit?.summary?.contentReport?.bestPerformingArticles || [];
+    for (const art of articles.slice(0, 20)) {
+        if (art?.slug) {
+            const p = `/blog/${art.slug}`;
+            addUnique(p, `${art.title || art.slug} (${p})`, 'Published Blog Articles', 3);
+        }
+    }
+    for (const inv of inventory) {
+        if (inv?.path && inv.path.startsWith('/blog/')) {
+            addUnique(inv.path, `${inv.title || inv.path} (${inv.path})`, 'Published Blog Articles', 3);
+        }
+    }
+
+    // Priority 4: Important Public Game Pages
+    addUnique('/games', '/games (Interactive Coding Games Hub)', 'Important Public Game Pages', 4);
+    const defaultGamePages = [
+        ['/games/memory-match', 'Coding Memory Match (/games/memory-match)'],
+        ['/games/code-jumble', 'Code Jumble (/games/code-jumble)'],
+        ['/games/bug-hunter', 'Bug Hunter (/games/bug-hunter)'],
+        ['/games/syntax-sprint', 'Syntax Sprint (/games/syntax-sprint)'],
+        ['/games/sql-builder', 'SQL Query Builder (/games/sql-builder)'],
+        ['/games/output-predictor', 'Output Predictor (/games/output-predictor)']
+    ];
+    for (const [p, lbl] of defaultGamePages) {
+        addUnique(p, lbl, 'Important Public Game Pages', 4);
+    }
+    for (const inv of inventory) {
+        if (inv?.path && inv.path.startsWith('/games/')) {
+            addUnique(inv.path, `${inv.title || inv.path} (${inv.path})`, 'Important Public Game Pages', 4);
+        }
+    }
+
+    return items;
+}
+
+function isPageSpeedEntryFresh(entry, cacheTtlMs = PAGESPEED_CACHE_TTL_MS, nowMs = Date.now()) {
+    if (!entry || !entry.checkedAt) return false;
+    const checkedMs = Date.parse(entry.checkedAt);
+    if (Number.isNaN(checkedMs)) return false;
+    return nowMs - checkedMs < cacheTtlMs;
+}
+
+function buildPageSpeedDashboardView({ config = {}, pagespeedSnap = null, latestAudit = null } = {}) {
+    const cleanDomain = normalizeDomain(config?.domain || DEFAULT_DOMAIN);
+    const siteUrl = String(config?.siteUrl || DEFAULT_SITE_URL).trim().replace(/\/+$/, '');
+    const homepageUrl = `${siteUrl}/`;
+    const snapData = pagespeedSnap?.data || {};
+    const keyInfo = resolvePageSpeedApiKey(config);
+
+    const byUrl = { ...(snapData.byUrl || {}) };
+    const byPath = { ...(snapData.byPath || {}) };
+
+    // Ensure any legacy top-level mobile/desktop snapshots are indexed in byUrl/byPath
+    for (const strat of ['mobile', 'desktop']) {
+        const legacy = snapData[strat];
+        if (legacy && legacy.url) {
+            let normPath = '/';
+            try {
+                const u = new URL(legacy.url);
+                normPath = !u.pathname || u.pathname === '/' ? '/' : u.pathname.replace(/\/+$/, '');
+            } catch {
+                normPath = '/';
+            }
+            const canonUrl = `${siteUrl}${normPath}`;
+            if (!byUrl[canonUrl]) byUrl[canonUrl] = { url: canonUrl, path: normPath, mobile: null, desktop: null };
+            if (!byUrl[canonUrl][strat]) byUrl[canonUrl][strat] = legacy;
+            if (!byPath[normPath]) byPath[normPath] = { url: canonUrl, path: normPath, mobile: null, desktop: null };
+            if (!byPath[normPath][strat]) byPath[normPath][strat] = legacy;
+        }
+    }
+
+    const homeEntry = byUrl[homepageUrl] || byPath['/'] || null;
+    const mobileReport = snapData.mobile || homeEntry?.mobile || null;
+    const desktopReport = snapData.desktop || homeEntry?.desktop || null;
+
+    const memQuota = memoryPageSpeedQuotaStates.get(cleanDomain) || null;
+    const rawQuota = memQuota || snapData.quotaState || null;
+    let quotaState = null;
+    if (rawQuota) {
+        const resetPassed = rawQuota.nextRetryAt && Date.now() >= Date.parse(rawQuota.nextRetryAt);
+        const keyChanged = rawQuota.keyFingerprint && keyInfo.fingerprint && rawQuota.keyFingerprint !== keyInfo.fingerprint;
+        if (!resetPassed && !keyChanged) {
+            quotaState = {
+                exhausted: Boolean(rawQuota.exhausted),
+                errorCategory: rawQuota.errorCategory || null,
+                userMessage: rawQuota.userMessage || (rawQuota.exhausted ? PAGESPEED_QUOTA_EXHAUSTED_MESSAGE : null),
+                message: rawQuota.message || null,
+                projectNumber: rawQuota.projectNumber || null,
+                detectedAt: rawQuota.detectedAt || null,
+                nextRetryAt: rawQuota.nextRetryAt || null
+            };
+        }
+    }
+
+    const lastError = snapData.lastError || null;
+    const hasAnyCachedReport = Boolean(
+        mobileReport
+        || desktopReport
+        || Object.values(byUrl).some((entry) => Boolean(entry?.mobile || entry?.desktop))
+    );
+
+    const mobilePerf = typeof mobileReport?.scores?.performance === 'number' ? mobileReport.scores.performance : null;
+    const desktopPerf = typeof desktopReport?.scores?.performance === 'number' ? desktopReport.scores.performance : null;
+    const lastAuditedAt =
+        snapData.lastAuditedAt
+        || mobileReport?.checkedAt
+        || desktopReport?.checkedAt
+        || pagespeedSnap?.syncedAt
+        || null;
+
+    let status = 'Not checked';
+    if (quotaState?.exhausted && !hasAnyCachedReport) {
+        status = 'Quota Exceeded';
+    } else if (mobilePerf !== null) {
+        status = mobilePerf >= 85 ? 'Good' : mobilePerf >= 50 ? 'Needs attention' : 'Critical';
+    } else if (desktopPerf !== null) {
+        status = desktopPerf >= 85 ? 'Good' : desktopPerf >= 50 ? 'Needs attention' : 'Critical';
+    } else if (lastError?.errorCategory) {
+        status = 'Needs attention';
+    }
+
+    const mobileFresh = isPageSpeedEntryFresh(mobileReport);
+    const desktopFresh = isPageSpeedEntryFresh(desktopReport);
+    const cacheStatus = hasAnyCachedReport
+        ? (quotaState?.exhausted
+            ? 'cached_quota_fallback'
+            : (mobileFresh || desktopFresh ? 'cached' : 'cached_stale'))
+        : 'empty';
+
+    let explanation;
+    if (quotaState?.exhausted) {
+        explanation = PAGESPEED_QUOTA_EXHAUSTED_MESSAGE;
+    } else if (hasAnyCachedReport) {
+        explanation = `Measured via Google PageSpeed Insights (Last audit: ${lastAuditedAt || 'recent'} · Cached for 24 hours).`;
+    } else if (!keyInfo.hasKey) {
+        explanation = 'Configure PAGESPEED_API_KEY on the backend and select a URL to run an on-demand Google PageSpeed Insights audit.';
+    } else {
+        explanation = 'PageSpeed Insights has not been run yet. Select an individual URL and click "Run PageSpeed Check" to measure Mobile or Desktop performance.';
+    }
+
+    const auditableUrls = getPrioritizedAuditableUrls(config, latestAudit, {
+        ...snapData,
+        byUrl,
+        byPath,
+        mobile: mobileReport,
+        desktop: desktopReport
     });
-    params.append('category', 'performance');
-    params.append('category', 'accessibility');
-    params.append('category', 'best-practices');
-    params.append('category', 'seo');
-    if (config.pagespeedApiKey) {
-        params.append('key', config.pagespeedApiKey);
+
+    return {
+        status,
+        mobile: mobileReport,
+        desktop: desktopReport,
+        mobilePerformance: mobilePerf,
+        desktopPerformance: desktopPerf,
+        byUrl,
+        byPath,
+        auditableUrls,
+        lastAuditedAt,
+        lastAuditedUrl: snapData.lastAuditedUrl || mobileReport?.url || desktopReport?.url || null,
+        lastAuditedStrategy: snapData.lastAuditedStrategy || (mobileReport ? 'mobile' : desktopReport ? 'desktop' : null),
+        cachedResultStatus: hasAnyCachedReport
+            ? (quotaState?.exhausted
+                ? 'Cached Report (Quota Exhausted Fallback)'
+                : (mobileFresh || desktopFresh ? 'Cached (24h TTL Active)' : 'Cached Report Available'))
+            : 'No Cached Report',
+        cacheStatus,
+        hasCachedReport: hasAnyCachedReport,
+        cacheTtlMs: PAGESPEED_CACHE_TTL_MS,
+        cacheTtlHours: 24,
+        apiKeyConfigured: keyInfo.hasKey,
+        apiKeySource: keyInfo.source,
+        expectedProjectNumber: PAGESPEED_EXPECTED_PROJECT_NUMBER,
+        quotaState,
+        lastError,
+        nextRetryAt: quotaState?.nextRetryAt || lastError?.nextRetryAt || null,
+        explanation
+    };
+}
+
+function sleepMs(ms) {
+    if (!ms || ms <= 0) return Promise.resolve();
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function acquirePageSpeedThrottleSlot({
+    throttleMs = PAGESPEED_DEFAULT_THROTTLE_MS,
+    maxRequestsPerMinute = PAGESPEED_DEFAULT_MAX_RPM
+} = {}) {
+    const now = Date.now();
+    // Prune timestamps older than 60s
+    while (pageSpeedRequestTimestamps.length > 0 && now - pageSpeedRequestTimestamps[0] >= 60000) {
+        pageSpeedRequestTimestamps.shift();
     }
 
-    const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params.toString()}`;
-    const data = await fetchJsonWithTimeout(apiUrl, { method: 'GET' }, 30000);
+    if (maxRequestsPerMinute > 0 && pageSpeedRequestTimestamps.length >= maxRequestsPerMinute) {
+        const oldest = pageSpeedRequestTimestamps[0];
+        const retryAtIso = new Date(oldest + 60000).toISOString();
+        const rateErr = new Error(
+            `Google PageSpeed request throttled: reached ${maxRequestsPerMinute} requests per minute limit.`
+        );
+        rateErr.status = 429;
+        rateErr.errorCategory = 'rate_limit_exceeded';
+        rateErr.nextRetryAt = retryAtIso;
+        throw rateErr;
+    }
+
+    let releaseNext;
+    const prevChain = pageSpeedThrottleChain;
+    pageSpeedThrottleChain = new Promise((resolve) => {
+        releaseNext = resolve;
+    });
+
+    await prevChain;
+    try {
+        const elapsed = Date.now() - lastPageSpeedRequestAt;
+        if (lastPageSpeedRequestAt > 0 && throttleMs > 0 && elapsed < throttleMs) {
+            await sleepMs(throttleMs - elapsed);
+        }
+        lastPageSpeedRequestAt = Date.now();
+        pageSpeedRequestTimestamps.push(lastPageSpeedRequestAt);
+    } finally {
+        releaseNext();
+    }
+}
+
+function parseLighthousePayload(data, canonicalUrl, normalizedPath, cleanStrategy, nowIso, cacheTtlMs) {
     const lhr = data?.lighthouseResult || {};
     const cats = lhr.categories || {};
     const audits = lhr.audits || {};
 
-    const lcpMs = audits['largest-contentful-paint']?.numericValue ?? null;
-    const clsVal = audits['cumulative-layout-shift']?.numericValue ?? null;
-    const fcpMs = audits['first-contentful-paint']?.numericValue ?? null;
-    const tbtMs = audits['total-blocking-time']?.numericValue ?? null;
-    const ttfbMs = audits['server-response-time']?.numericValue ?? null;
-    const speedIndexMs = audits['speed-index']?.numericValue ?? null;
+    const toValidScore = (rawScore) => {
+        if (typeof rawScore !== 'number' || Number.isNaN(rawScore)) return null;
+        return Math.max(0, Math.min(100, Math.round(rawScore * 100)));
+    };
+
+    const lcpMs = typeof audits['largest-contentful-paint']?.numericValue === 'number'
+        ? audits['largest-contentful-paint'].numericValue
+        : null;
+    const clsVal = typeof audits['cumulative-layout-shift']?.numericValue === 'number'
+        ? audits['cumulative-layout-shift'].numericValue
+        : null;
+    const fcpMs = typeof audits['first-contentful-paint']?.numericValue === 'number'
+        ? audits['first-contentful-paint'].numericValue
+        : null;
+    const tbtMs = typeof audits['total-blocking-time']?.numericValue === 'number'
+        ? audits['total-blocking-time'].numericValue
+        : null;
+    const ttfbMs = typeof audits['server-response-time']?.numericValue === 'number'
+        ? audits['server-response-time'].numericValue
+        : null;
+    const speedIndexMs = typeof audits['speed-index']?.numericValue === 'number'
+        ? audits['speed-index'].numericValue
+        : null;
 
     // Extract field INP if CrUX metrics exist
     const fieldMetrics = data?.loadingExperience?.metrics || {};
-    const inpFieldMs = fieldMetrics?.INTERACTION_TO_NEXT_PAINT?.percentile ?? null;
+    const inpFieldMs = typeof fieldMetrics?.INTERACTION_TO_NEXT_PAINT?.percentile === 'number'
+        ? fieldMetrics.INTERACTION_TO_NEXT_PAINT.percentile
+        : null;
 
     const extractAuditPass = (id) => {
         const a = audits[id];
@@ -1738,34 +2747,52 @@ async function runPageSpeedInsights(config, targetUrl, strategy = 'mobile') {
         };
     };
 
-    const result = {
-        url: parsed.toString(),
+    const checkedMs = Date.parse(nowIso);
+    const expiresAt = new Date(checkedMs + cacheTtlMs).toISOString();
+
+    return {
+        url: canonicalUrl,
+        path: normalizedPath,
         strategy: cleanStrategy,
         source: 'Google PageSpeed Insights / Lighthouse',
-        checkedAt: new Date().toISOString(),
+        checkedAt: nowIso,
+        cachedAt: nowIso,
+        expiresAt,
+        fromCache: false,
+        cacheStatus: 'fresh',
         scores: {
-            performance: cats.performance?.score !== undefined ? Math.round(cats.performance.score * 100) : null,
-            accessibility: cats.accessibility?.score !== undefined ? Math.round(cats.accessibility.score * 100) : null,
-            bestPractices: cats['best-practices']?.score !== undefined ? Math.round(cats['best-practices'].score * 100) : null,
-            seo: cats.seo?.score !== undefined ? Math.round(cats.seo.score * 100) : null
+            performance: toValidScore(cats.performance?.score),
+            accessibility: toValidScore(cats.accessibility?.score),
+            bestPractices: toValidScore(cats['best-practices']?.score),
+            seo: toValidScore(cats.seo?.score)
         },
         coreWebVitals: {
             lcp: {
                 label: 'Largest Contentful Paint (LCP)',
                 valueMs: lcpMs !== null ? Math.round(lcpMs) : null,
-                displayValue: audits['largest-contentful-paint']?.displayValue || (lcpMs !== null ? `${(lcpMs / 1000).toFixed(2)} s` : 'Unavailable'),
+                displayValue:
+                    audits['largest-contentful-paint']?.displayValue
+                    || (lcpMs !== null ? `${(lcpMs / 1000).toFixed(2)} s` : 'Unavailable'),
                 status: classifyCwvMetric('lcp', lcpMs)
             },
             cls: {
                 label: 'Cumulative Layout Shift (CLS)',
                 value: clsVal !== null ? Number(clsVal.toFixed(3)) : null,
-                displayValue: audits['cumulative-layout-shift']?.displayValue || (clsVal !== null ? String(clsVal.toFixed(3)) : 'Unavailable'),
+                displayValue:
+                    audits['cumulative-layout-shift']?.displayValue
+                    || (clsVal !== null ? String(clsVal.toFixed(3)) : 'Unavailable'),
                 status: classifyCwvMetric('cls', clsVal)
             },
             inp: {
-                label: inpFieldMs !== null ? 'Interaction to Next Paint (INP - Field)' : 'Total Blocking Time (TBT - Lab INP proxy)',
+                label:
+                    inpFieldMs !== null
+                        ? 'Interaction to Next Paint (INP - Field)'
+                        : 'Total Blocking Time (TBT - Lab INP proxy)',
                 valueMs: inpFieldMs !== null ? Math.round(inpFieldMs) : (tbtMs !== null ? Math.round(tbtMs) : null),
-                displayValue: inpFieldMs !== null ? `${Math.round(inpFieldMs)} ms` : (audits['total-blocking-time']?.displayValue || 'Unavailable'),
+                displayValue:
+                    inpFieldMs !== null
+                        ? `${Math.round(inpFieldMs)} ms`
+                        : (audits['total-blocking-time']?.displayValue || 'Unavailable'),
                 status: classifyCwvMetric('inp', inpFieldMs !== null ? inpFieldMs : tbtMs),
                 isProxy: inpFieldMs === null
             },
@@ -1799,124 +2826,1510 @@ async function runPageSpeedInsights(config, targetUrl, strategy = 'mobile') {
             extractAuditPass('offscreen-images')
         ].filter(Boolean)
     };
-
-    const existingSnap = await getSnapshot(config.domain, 'pagespeed');
-    const byStrategy = { ...(existingSnap?.data || {}), [cleanStrategy]: result };
-    await saveSnapshot(config.domain, 'pagespeed', byStrategy, 'Google PageSpeed Insights API');
-
-    return byStrategy;
 }
 
-async function getBacklinksData(config) {
-    const imported = await getSnapshot(config.domain, 'gsc_backlinks');
-    if (imported?.data) {
+function createClassifiedPageSpeedError(classified, { cachedReport = null, pagespeedView = null } = {}) {
+    const err = new Error(classified.userMessage || classified.message || 'PageSpeed Insights request failed.');
+    err.status = classified.httpStatus || 500;
+    err.httpStatus = classified.httpStatus || 500;
+    err.errorCategory = classified.errorCategory || 'api_error';
+    err.userMessage = classified.userMessage || err.message;
+    err.technicalDetail = classified.message || err.message;
+    err.isQuotaError = Boolean(classified.isQuotaError);
+    err.isDailyQuota = Boolean(classified.isDailyQuota);
+    err.retryable = Boolean(classified.retryable);
+    err.nextRetryAt = classified.nextRetryAt || null;
+    err.projectNumber = classified.projectNumber || null;
+    err.expectedProjectNumber = classified.expectedProjectNumber || PAGESPEED_EXPECTED_PROJECT_NUMBER;
+    err.apiEnabled = classified.apiEnabled ?? null;
+    err.projectVerified = classified.projectVerified ?? null;
+    err.cachedReport = cachedReport || null;
+    err.hasCachedReport = Boolean(cachedReport || pagespeedView?.hasCachedReport);
+    err.pagespeed = pagespeedView || null;
+    return err;
+}
+
+async function runPageSpeedInsights(config = {}, targetUrl = '', strategy = 'mobile', options = {}) {
+    const cleanDomain = normalizeDomain(config?.domain || DEFAULT_DOMAIN);
+    const cleanStrategy = String(strategy || 'mobile').toLowerCase() === 'desktop' ? 'desktop' : 'mobile';
+    const forceRefresh = Boolean(options?.forceRefresh);
+    const cacheTtlMs = Number(options?.cacheTtlMs) > 0 ? Number(options.cacheTtlMs) : PAGESPEED_CACHE_TTL_MS;
+    const throttleMs = options?.throttleMs !== undefined
+        ? Math.max(0, Number(options.throttleMs) || 0)
+        : (process.env.PAGESPEED_THROTTLE_MS !== undefined ? Math.max(0, Number(process.env.PAGESPEED_THROTTLE_MS) || 0) : PAGESPEED_DEFAULT_THROTTLE_MS);
+    const maxRequestsPerMinute = options?.maxRequestsPerMinute !== undefined
+        ? Math.max(1, Number(options.maxRequestsPerMinute) || PAGESPEED_DEFAULT_MAX_RPM)
+        : PAGESPEED_DEFAULT_MAX_RPM;
+    const maxRetries = options?.maxRetries !== undefined
+        ? Math.max(0, Number(options.maxRetries) || 0)
+        : PAGESPEED_DEFAULT_MAX_RETRIES;
+    const baseBackoffMs = options?.baseBackoffMs !== undefined
+        ? Math.max(0, Number(options.baseBackoffMs) || 0)
+        : PAGESPEED_DEFAULT_BACKOFF_MS;
+    const enforceProjectMatch = Boolean(options?.enforceProjectMatch);
+    const expectedProjectNumber = String(
+        options?.expectedProjectNumber
+        || config?.googleCloudProjectNumber
+        || process.env.GOOGLE_CLOUD_PROJECT_NUMBER
+        || process.env.PAGESPEED_PROJECT_NUMBER
+        || PAGESPEED_EXPECTED_PROJECT_NUMBER
+    ).trim();
+
+    // 1. Validate & normalize target URL
+    const urlCheck = validateAndNormalizePageSpeedUrl(config, targetUrl);
+    if (!urlCheck.valid) {
+        const existingSnap = await getSnapshot(cleanDomain, 'pagespeed');
+        const view = buildPageSpeedDashboardView({ config, pagespeedSnap: existingSnap });
+        const classified = classifyPageSpeedApiError(urlCheck, { expectedProjectNumber });
+        throw createClassifiedPageSpeedError(classified, { pagespeedView: view });
+    }
+
+    const { canonicalUrl, normalizedPath } = urlCheck;
+
+    // 2. Check 24-hour cache by URL and device strategy before making any network calls
+    const existingSnap = await getSnapshot(cleanDomain, 'pagespeed');
+    const snapData = existingSnap?.data || {};
+    const existingByUrl = snapData.byUrl || {};
+    const existingByPath = snapData.byPath || {};
+    const cachedUrlGroup = existingByUrl[canonicalUrl] || existingByPath[normalizedPath] || null;
+    const legacyStrategyMatch =
+        snapData[cleanStrategy]?.url === canonicalUrl ? snapData[cleanStrategy] : null;
+    const cachedEntry = cachedUrlGroup?.[cleanStrategy] || legacyStrategyMatch || null;
+
+    if (!forceRefresh && isPageSpeedEntryFresh(cachedEntry, cacheTtlMs)) {
+        const cachedResult = {
+            ...cachedEntry,
+            fromCache: true,
+            cacheStatus: 'cached'
+        };
+        const otherStrategy = cleanStrategy === 'mobile' ? 'desktop' : 'mobile';
+        const otherResult = cachedUrlGroup?.[otherStrategy]
+            || (snapData[otherStrategy]?.url === canonicalUrl ? snapData[otherStrategy] : snapData[otherStrategy])
+            || null;
+        const view = buildPageSpeedDashboardView({
+            config,
+            pagespeedSnap: {
+                data: {
+                    ...snapData,
+                    [cleanStrategy]: cachedResult,
+                    ...(otherResult ? { [otherStrategy]: otherResult } : {})
+                },
+                syncedAt: existingSnap?.syncedAt
+            }
+        });
         return {
-            connected: true,
-            isEstimated: false,
-            source: imported.source || 'Google Search Console Links Export',
-            syncedAt: imported.syncedAt,
-            reason: null,
-            ...imported.data
+            ...view,
+            [cleanStrategy]: cachedResult,
+            activeResult: cachedResult,
+            fromCache: true,
+            deduplicated: false,
+            cacheStatus: 'cached'
         };
     }
 
-    if (config.backlinkProvider === 'openpagerank' && config.backlinkProviderKey) {
-        try {
-            const targetDomain = normalizeDomain(config.domain).replace(/^www\./, '');
-            const res = await fetchJsonWithTimeout(
-                `https://openpagerank.com/api/v1.0/getPageRank?domains[]=${encodeURIComponent(targetDomain)}`,
-                {
-                    method: 'GET',
-                    headers: { 'API-OPR': config.backlinkProviderKey }
-                },
-                8000
-            );
-            const entry = Array.isArray(res?.response) ? res.response[0] : null;
-            if (entry) {
-                const data = {
-                    connected: true,
-                    isEstimated: true,
-                    source: 'OpenPageRank API (Estimated)',
-                    syncedAt: new Date().toISOString(),
-                    reason: null,
-                    summary: {
-                        referringDomains: null,
-                        totalBacklinks: null,
-                        domainRankScore: entry.page_rank_decimal ?? entry.page_rank_integer ?? null,
-                        globalRank: entry.rank ? Number(entry.rank) : null
-                    },
-                    referringDomainsList: [],
-                    topAnchors: [],
-                    note: 'OpenPageRank provides domain authority ranking; detailed referring domain URLs require a GSC Links export.'
-                };
-                await saveSnapshot(config.domain, 'backlink_opr', data, 'OpenPageRank API');
-                return data;
+    // 3. Deduplicate simultaneous in-flight requests for the same domain + URL + strategy
+    const inflightKey = `${cleanDomain}::${canonicalUrl}::${cleanStrategy}`;
+    if (inFlightPageSpeedRequests.has(inflightKey)) {
+        const sharedResult = await inFlightPageSpeedRequests.get(inflightKey);
+        return {
+            ...sharedResult,
+            deduplicated: true
+        };
+    }
+
+    // 4. Resolve and validate server-side PAGESPEED_API_KEY
+    const keyInfo = resolvePageSpeedApiKey(config);
+    const keyValidation = validatePageSpeedApiKey(keyInfo.key);
+    if (!keyValidation.valid) {
+        const classified = classifyPageSpeedApiError(keyValidation, {
+            rawKey: keyInfo.key,
+            expectedProjectNumber
+        });
+        const errorState = {
+            errorCategory: classified.errorCategory,
+            userMessage: classified.userMessage,
+            message: classified.message,
+            projectNumber: classified.projectNumber,
+            detectedAt: new Date().toISOString(),
+            nextRetryAt: null
+        };
+        const updatedSnapData = {
+            ...snapData,
+            lastError: errorState
+        };
+        await saveSnapshot(cleanDomain, 'pagespeed', updatedSnapData, 'Google PageSpeed Insights API');
+        const view = buildPageSpeedDashboardView({
+            config,
+            pagespeedSnap: { data: updatedSnapData, syncedAt: new Date().toISOString() }
+        });
+        throw createClassifiedPageSpeedError(classified, {
+            cachedReport: cachedEntry,
+            pagespeedView: view
+        });
+    }
+
+    // 5. Check if daily quota is currently exhausted for this key (do NOT repeatedly retry daily quota exhaustion!)
+    const memQuota = memoryPageSpeedQuotaStates.get(cleanDomain) || snapData.quotaState || null;
+    if (
+        memQuota
+        && memQuota.exhausted
+        && memQuota.errorCategory === 'daily_quota_exceeded'
+        && (!memQuota.keyFingerprint || memQuota.keyFingerprint === keyInfo.fingerprint)
+        && memQuota.nextRetryAt
+        && Date.now() < Date.parse(memQuota.nextRetryAt)
+    ) {
+        const classified = classifyPageSpeedApiError(
+            {
+                status: 429,
+                errorCategory: 'daily_quota_exceeded',
+                message: memQuota.message || PAGESPEED_QUOTA_EXHAUSTED_MESSAGE,
+                nextRetryAt: memQuota.nextRetryAt
+            },
+            {
+                rawKey: keyInfo.key,
+                detectedProjectNumber: memQuota.projectNumber,
+                expectedProjectNumber
             }
-        } catch (err) {
-            return {
-                connected: false,
-                error: true,
-                isEstimated: true,
-                source: 'OpenPageRank API',
-                reason: `Backlink provider error: ${err.message}`,
-                summary: null,
-                referringDomainsList: [],
-                topAnchors: []
+        );
+        const view = buildPageSpeedDashboardView({
+            config,
+            pagespeedSnap: { data: snapData, syncedAt: existingSnap?.syncedAt }
+        });
+        throw createClassifiedPageSpeedError(classified, {
+            cachedReport: cachedEntry,
+            pagespeedView: view
+        });
+    }
+
+    // 6. Execute live PageSpeed Insights request with throttling and exponential backoff for temporary errors
+    const executeLiveRequest = async () => {
+        const params = new URLSearchParams({
+            url: canonicalUrl,
+            strategy: cleanStrategy
+        });
+        params.append('category', 'performance');
+        params.append('category', 'accessibility');
+        params.append('category', 'best-practices');
+        params.append('category', 'seo');
+        params.append('key', keyInfo.key);
+
+        const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params.toString()}`;
+
+        let lastClassified = null;
+        for (let attempt = 0; attempt <= maxRetries; attempt++) {
+            try {
+                await acquirePageSpeedThrottleSlot({ throttleMs, maxRequestsPerMinute });
+                const data = await fetchJsonWithTimeout(apiUrl, { method: 'GET' }, 30000);
+                const nowIso = new Date().toISOString();
+                const parsedResult = parseLighthousePayload(
+                    data,
+                    canonicalUrl,
+                    normalizedPath,
+                    cleanStrategy,
+                    nowIso,
+                    cacheTtlMs
+                );
+
+                // Clear any previous quota/error states on success
+                memoryPageSpeedQuotaStates.delete(cleanDomain);
+
+                const latestSnap = await getSnapshot(cleanDomain, 'pagespeed');
+                const latestData = latestSnap?.data || {};
+                const nextByUrl = { ...(latestData.byUrl || {}) };
+                const nextByPath = { ...(latestData.byPath || {}) };
+
+                const existingUrlEntry = nextByUrl[canonicalUrl] || nextByPath[normalizedPath] || {
+                    url: canonicalUrl,
+                    path: normalizedPath,
+                    mobile: null,
+                    desktop: null
+                };
+
+                const updatedUrlEntry = {
+                    ...existingUrlEntry,
+                    url: canonicalUrl,
+                    path: normalizedPath,
+                    [cleanStrategy]: parsedResult
+                };
+
+                nextByUrl[canonicalUrl] = updatedUrlEntry;
+                nextByPath[normalizedPath] = updatedUrlEntry;
+
+                const otherStrategy = cleanStrategy === 'mobile' ? 'desktop' : 'mobile';
+                const topOther = updatedUrlEntry[otherStrategy] || latestData[otherStrategy] || null;
+
+                const nextSnapshotPayload = {
+                    ...latestData,
+                    [cleanStrategy]: parsedResult,
+                    ...(topOther ? { [otherStrategy]: topOther } : {}),
+                    byUrl: nextByUrl,
+                    byPath: nextByPath,
+                    lastAuditedUrl: canonicalUrl,
+                    lastAuditedPath: normalizedPath,
+                    lastAuditedStrategy: cleanStrategy,
+                    lastAuditedAt: nowIso,
+                    quotaState: null,
+                    lastError: null
+                };
+
+                await saveSnapshot(cleanDomain, 'pagespeed', nextSnapshotPayload, 'Google PageSpeed Insights API');
+
+                const view = buildPageSpeedDashboardView({
+                    config,
+                    pagespeedSnap: { data: nextSnapshotPayload, syncedAt: nowIso }
+                });
+
+                return {
+                    ...view,
+                    [cleanStrategy]: parsedResult,
+                     ...(updatedUrlEntry[otherStrategy] ? { [otherStrategy]: updatedUrlEntry[otherStrategy] } : {}),
+                    activeResult: parsedResult,
+                    fromCache: false,
+                    deduplicated: false,
+                    cacheStatus: 'fresh'
+                };
+            } catch (rawErr) {
+                const classified = classifyPageSpeedApiError(rawErr, {
+                    rawKey: keyInfo.key,
+                    expectedProjectNumber,
+                    enforceProjectMatch
+                });
+                lastClassified = classified;
+
+                // Never retry daily quota exhaustion, invalid key, missing key, API disabled, or invalid URL
+                if (!classified.retryable || classified.errorCategory === 'daily_quota_exceeded') {
+                    break;
+                }
+
+                // Exponential backoff for temporary errors (network_error, rate_limit_exceeded)
+                if (attempt < maxRetries) {
+                    const backoffDelay = baseBackoffMs * Math.pow(2, attempt);
+                    await sleepMs(backoffDelay);
+                }
+            }
+        }
+
+        // Persist error / quota state while preserving all previously cached reports
+        const latestSnap = await getSnapshot(cleanDomain, 'pagespeed');
+        const latestData = latestSnap?.data || snapData || {};
+        const nowIso = new Date().toISOString();
+
+        const errorState = {
+            errorCategory: lastClassified.errorCategory,
+            userMessage: lastClassified.userMessage,
+            message: lastClassified.message,
+            projectNumber: lastClassified.projectNumber,
+            expectedProjectNumber: lastClassified.expectedProjectNumber,
+            isQuotaError: Boolean(lastClassified.isQuotaError),
+            isDailyQuota: Boolean(lastClassified.isDailyQuota),
+            detectedAt: nowIso,
+            nextRetryAt: lastClassified.nextRetryAt || null
+        };
+
+        let nextQuotaState = latestData.quotaState || null;
+        if (lastClassified.errorCategory === 'daily_quota_exceeded') {
+            nextQuotaState = {
+                exhausted: true,
+                errorCategory: 'daily_quota_exceeded',
+                userMessage: PAGESPEED_QUOTA_EXHAUSTED_MESSAGE,
+                message: lastClassified.message,
+                projectNumber: lastClassified.projectNumber,
+                keyFingerprint: keyInfo.fingerprint,
+                detectedAt: nowIso,
+                nextRetryAt: lastClassified.nextRetryAt
             };
+            memoryPageSpeedQuotaStates.set(cleanDomain, nextQuotaState);
+        } else if (lastClassified.errorCategory === 'rate_limit_exceeded') {
+            nextQuotaState = {
+                exhausted: false,
+                errorCategory: 'rate_limit_exceeded',
+                userMessage: lastClassified.userMessage,
+                message: lastClassified.message,
+                projectNumber: lastClassified.projectNumber,
+                keyFingerprint: keyInfo.fingerprint,
+                detectedAt: nowIso,
+                nextRetryAt: lastClassified.nextRetryAt
+            };
+        }
+
+        const updatedSnapData = {
+            ...latestData,
+            quotaState: nextQuotaState,
+            lastError: errorState
+        };
+
+        await saveSnapshot(cleanDomain, 'pagespeed', updatedSnapData, 'Google PageSpeed Insights API');
+
+        const view = buildPageSpeedDashboardView({
+            config,
+            pagespeedSnap: { data: updatedSnapData, syncedAt: latestSnap?.syncedAt || nowIso }
+        });
+
+        throw createClassifiedPageSpeedError(lastClassified, {
+            cachedReport: cachedEntry,
+            pagespeedView: view
+        });
+    };
+
+    const requestPromise = executeLiveRequest();
+    inFlightPageSpeedRequests.set(inflightKey, requestPromise);
+
+    try {
+        return await requestPromise;
+    } finally {
+        inFlightPageSpeedRequests.delete(inflightKey);
+    }
+}
+
+function resetPageSpeedState(domain = null) {
+    if (domain) {
+        const clean = normalizeDomain(domain);
+        memoryPageSpeedQuotaStates.delete(clean);
+        memorySnapshots.delete(`${clean}::pagespeed`);
+        for (const key of inFlightPageSpeedRequests.keys()) {
+            if (key.startsWith(`${clean}::`)) {
+                inFlightPageSpeedRequests.delete(key);
+            }
+        }
+    } else {
+        memoryPageSpeedQuotaStates.clear();
+        inFlightPageSpeedRequests.clear();
+        for (const key of memorySnapshots.keys()) {
+            if (key.endsWith('::pagespeed')) {
+                memorySnapshots.delete(key);
+            }
+        }
+    }
+    pageSpeedRequestTimestamps.length = 0;
+    lastPageSpeedRequestAt = 0;
+    pageSpeedThrottleChain = Promise.resolve();
+}
+
+function getHeaderCaseInsensitive(headers, targetName) {
+    if (!headers) return null;
+    const lowerTarget = String(targetName || '').toLowerCase();
+    if (typeof headers.get === 'function') {
+        const direct = headers.get(targetName) ?? headers.get(lowerTarget);
+        if (direct !== null && direct !== undefined) return direct;
+    }
+    if (typeof headers.entries === 'function') {
+        for (const [k, v] of headers.entries()) {
+            if (String(k).toLowerCase() === lowerTarget) return v;
+        }
+    }
+    if (typeof headers === 'object') {
+        for (const [k, v] of Object.entries(headers)) {
+            if (String(k).toLowerCase() === lowerTarget) return v;
+        }
+    }
+    return null;
+}
+
+function parseOpenPageRankQuotaHeaders(headers, usageBody = null) {
+    const parseNum = (val) => {
+        if (val === null || val === undefined || String(val).trim() === '') return null;
+        const n = Number(val);
+        return Number.isFinite(n) ? n : null;
+    };
+
+    const parseUnixIso = (val) => {
+        const n = parseNum(val);
+        if (n === null || n <= 0) return null;
+        const ms = n > 1e12 ? n : n * 1000;
+        const d = new Date(ms);
+        return Number.isNaN(d.getTime()) ? null : d.toISOString();
+    };
+
+    const headerLimit = parseNum(getHeaderCaseInsensitive(headers, 'x-domains-limit'));
+    const headerRemaining = parseNum(getHeaderCaseInsensitive(headers, 'x-domains-remaining'));
+    const headerResetIso = parseUnixIso(getHeaderCaseInsensitive(headers, 'x-domains-reset'));
+    const headerRpmLimit = parseNum(getHeaderCaseInsensitive(headers, 'x-ratelimit-limit'));
+    const headerRpmRemaining = parseNum(getHeaderCaseInsensitive(headers, 'x-ratelimit-remaining'));
+    const headerRpmResetIso = parseUnixIso(getHeaderCaseInsensitive(headers, 'x-ratelimit-reset'));
+    const headerRetryAfter = parseNum(getHeaderCaseInsensitive(headers, 'retry-after'));
+    const meteringHeader = getHeaderCaseInsensitive(headers, 'x-opr-metering');
+
+    const monthlyDomainLimit = usageBody?.monthly_domain_limit !== undefined
+        ? parseNum(usageBody.monthly_domain_limit)
+        : headerLimit;
+    const domainsRemaining = usageBody?.domains_remaining !== undefined
+        ? parseNum(usageBody.domains_remaining)
+        : headerRemaining;
+    const domainsUsed = usageBody?.domains_used !== undefined
+        ? parseNum(usageBody.domains_used)
+        : (monthlyDomainLimit !== null && domainsRemaining !== null
+            ? Math.max(0, monthlyDomainLimit - domainsRemaining)
+            : null);
+    const resetsAt = usageBody?.resets_at || headerResetIso || null;
+    const requestsPerMinute = usageBody?.requests_per_minute !== undefined
+        ? parseNum(usageBody.requests_per_minute)
+        : headerRpmLimit;
+    const tier = usageBody?.tier ? String(usageBody.tier) : null;
+    const metering = meteringHeader ? String(meteringHeader).trim() : 'normal';
+
+    if (
+        monthlyDomainLimit === null
+        && domainsRemaining === null
+        && domainsUsed === null
+        && requestsPerMinute === null
+        && headerRpmRemaining === null
+        && !tier
+    ) {
+        return null;
+    }
+
+    const usagePct = (monthlyDomainLimit && monthlyDomainLimit > 0 && domainsUsed !== null)
+        ? Number(((domainsUsed / monthlyDomainLimit) * 100).toFixed(2))
+        : null;
+
+    return {
+        available: true,
+        tier: tier || 'standard',
+        monthlyDomainLimit,
+        domainsUsed,
+        domainsRemaining,
+        usagePct,
+        resetsAt,
+        requestsPerMinute,
+        rateLimitRemaining: headerRpmRemaining,
+        rateLimitResetsAt: headerRpmResetIso,
+        retryAfterSeconds: headerRetryAfter,
+        metering
+    };
+}
+
+function buildOpenPageRankHistorySummary(rawHistory = [], currentScore = null, found = false, domain = 'hangbug.com') {
+    const cleanSeries = (Array.isArray(rawHistory) ? rawHistory : [])
+        .filter((item) => item && item.date && item.open_page_rank !== null && item.open_page_rank !== undefined)
+        .map((item) => {
+            const score = Number(Number(item.open_page_rank).toFixed(2));
+            const estimated = Boolean(item.estimated);
+            return {
+                date: String(item.date).trim(),
+                open_page_rank: score,
+                score,
+                estimated,
+                dataType: estimated ? 'Estimated' : 'Measured'
+            };
+        })
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+    const totalMonths = cleanSeries.length;
+    const measuredMonthsCount = cleanSeries.filter((p) => !p.estimated).length;
+    const estimatedMonthsCount = cleanSeries.filter((p) => p.estimated).length;
+
+    if (totalMonths === 0) {
+        return {
+            history: [],
+            summary: {
+                available: false,
+                totalMonths: 0,
+                measuredMonthsCount: 0,
+                estimatedMonthsCount: 0,
+                startDate: null,
+                endDate: null,
+                earliestScore: null,
+                latestScore: currentScore,
+                previousMonthScore: null,
+                monthOverMonthChange: null,
+                threeMonthChange: null,
+                sixMonthChange: null,
+                yearOverYearChange: null,
+                allTimeChange: null,
+                peakScore: currentScore,
+                peakDate: null,
+                lowestScore: currentScore,
+                lowestDate: null,
+                trendDirection: 'insufficient_data',
+                growthStatus: 'No Historical Series Available',
+                availabilityNote: found
+                    ? `Domain ${domain} was found in OpenPageRank, but no monthly historical series is available yet.`
+                    : `Domain ${domain} does not yet have monthly historical data in the OpenPageRank link graph.`
+            }
+        };
+    }
+
+    const first = cleanSeries[0];
+    const last = cleanSeries[totalMonths - 1];
+    const prevMonth = totalMonths >= 2 ? cleanSeries[totalMonths - 2] : null;
+    const threeMonthsAgo = totalMonths >= 4 ? cleanSeries[totalMonths - 4] : null;
+    const sixMonthsAgo = totalMonths >= 7 ? cleanSeries[totalMonths - 7] : null;
+    const twelveMonthsAgo = totalMonths >= 13 ? cleanSeries[totalMonths - 13] : null;
+
+    const delta = (curr, prev) => (prev !== null && prev !== undefined ? Number((curr - prev).toFixed(2)) : null);
+
+    const monthOverMonthChange = prevMonth ? delta(last.open_page_rank, prevMonth.open_page_rank) : null;
+    const threeMonthChange = threeMonthsAgo ? delta(last.open_page_rank, threeMonthsAgo.open_page_rank) : null;
+    const sixMonthChange = sixMonthsAgo ? delta(last.open_page_rank, sixMonthsAgo.open_page_rank) : null;
+    const yearOverYearChange = twelveMonthsAgo ? delta(last.open_page_rank, twelveMonthsAgo.open_page_rank) : null;
+    const allTimeChange = totalMonths >= 2 ? delta(last.open_page_rank, first.open_page_rank) : null;
+
+    let peak = first;
+    let lowest = first;
+    for (const pt of cleanSeries) {
+        if (pt.open_page_rank >= peak.open_page_rank) peak = pt;
+        if (pt.open_page_rank < lowest.open_page_rank) lowest = pt;
+    }
+
+    const primaryDelta = yearOverYearChange ?? threeMonthChange ?? monthOverMonthChange ?? allTimeChange;
+    let trendDirection = 'stable';
+    let growthStatus = 'Stable Authority';
+    if (primaryDelta !== null) {
+        if (primaryDelta > 0) {
+            trendDirection = 'growth';
+            growthStatus = `Authority Growth (+${primaryDelta.toFixed(2)})`;
+        } else if (primaryDelta < 0) {
+            trendDirection = 'decline';
+            growthStatus = `Authority Decline (${primaryDelta.toFixed(2)})`;
         }
     }
 
     return {
-        connected: false,
-        isEstimated: false,
-        source: 'Backlinks',
-        syncedAt: null,
-        reason: 'Google Search Console does not expose external backlinks via its public Search Analytics API, and no external backlink provider is connected. Import your verified GSC Links export or configure OpenPageRank in Settings to inspect referring domains and backlinks.',
-        summary: null,
-        referringDomainsList: [],
-        topAnchors: []
+        history: cleanSeries,
+        summary: {
+            available: true,
+            totalMonths,
+            measuredMonthsCount,
+            estimatedMonthsCount,
+            startDate: first.date,
+            endDate: last.date,
+            earliestScore: first.open_page_rank,
+            latestScore: last.open_page_rank,
+            previousMonthScore: prevMonth ? prevMonth.open_page_rank : null,
+            monthOverMonthChange,
+            threeMonthChange,
+            sixMonthChange,
+            yearOverYearChange,
+            allTimeChange,
+            peakScore: peak.open_page_rank,
+            peakDate: peak.date,
+            lowestScore: lowest.open_page_rank,
+            lowestDate: lowest.date,
+            trendDirection,
+            growthStatus,
+            availabilityNote: `${totalMonths} monthly data point(s) from ${first.date} to ${last.date}: ${measuredMonthsCount} Measured month(s) (Common Crawl release) and ${estimatedMonthsCount} Estimated month(s) (linearly interpolated).`
+        }
     };
 }
 
-async function importGscBacklinks(domain, items = []) {
-    const cleanItems = (Array.isArray(items) ? items : [])
-        .map(row => ({
-            referringDomain: String(row.referringDomain || row.domain || '').trim(),
-            linksCount: Math.max(1, parseInt(row.linksCount || row.links || '1', 10) || 1),
-            targetPage: String(row.targetPage || row.target || '/').trim(),
-            anchorText: String(row.anchorText || row.anchor || '').trim()
-        }))
-        .filter(r => Boolean(r.referringDomain));
+function classifyOpenPageRankError({ status = 0, payload = null, errorMessage = '', rawKey = '' } = {}) {
+    const errObj = payload?.error && typeof payload.error === 'object' ? payload.error : {};
+    const errType = String(errObj.type || '').trim().toLowerCase();
+    const rawApiMsg = redactOpenPageRankApiKey(errObj.message || payload?.message || errorMessage || '', rawKey).trim();
+    const lowerMsg = rawApiMsg.toLowerCase();
 
-    if (cleanItems.length === 0) {
-        throw new Error('Provide at least one valid referring domain row.');
+    if (
+        status === 401
+        || errType === 'authentication_error'
+        || lowerMsg.includes('invalid opr api key')
+        || lowerMsg.includes('missing opr api key')
+        || lowerMsg.includes('invalid api key')
+    ) {
+        return {
+            connectionStatus: OPENPAGERANK_STATUS.INVALID_KEY,
+            errorType: errType || 'authentication_error',
+            httpStatus: 401,
+            message: 'Invalid OpenPageRank API key. Open your Keywords Everywhere account → OpenPageRank tab, generate an OpenPageRank API key (opr_live_...), and save it in SEO & Growth → Settings.'
+        };
     }
 
-    const totalBacklinks = cleanItems.reduce((sum, r) => sum + r.linksCount, 0);
-    const uniqueDomains = new Set(cleanItems.map(r => r.referringDomain.toLowerCase()));
+    if (status === 403 || errType === 'address_error') {
+        return {
+            connectionStatus: OPENPAGERANK_STATUS.INVALID_KEY,
+            errorType: errType || 'address_error',
+            httpStatus: 403,
+            message: `OpenPageRank API key rejected for this server IP address (403 address_error). ${rawApiMsg || 'Free OpenPageRank keys must have the caller IPv4 address bound on the Keywords Everywhere OpenPageRank account page.'}`
+        };
+    }
+
+    if (
+        status === 429
+        || errType === 'quota_error'
+        || errType === 'rate_limit_error'
+        || lowerMsg.includes('quota')
+        || lowerMsg.includes('rate limit')
+        || lowerMsg.includes('monthly domain limit')
+    ) {
+        return {
+            connectionStatus: OPENPAGERANK_STATUS.QUOTA_EXCEEDED,
+            errorType: errType || 'quota_error',
+            httpStatus: 429,
+            message: `OpenPageRank quota or rate limit exceeded (429 ${errType || 'quota_error'}). ${rawApiMsg || 'Monthly domain limit reached or too many requests per minute.'}`
+        };
+    }
+
+    return {
+        connectionStatus: OPENPAGERANK_STATUS.UNAVAILABLE,
+        errorType: errType || 'provider_unavailable',
+        httpStatus: status || 503,
+        message: `OpenPageRank provider is currently unavailable${status ? ` (HTTP ${status})` : ''}: ${rawApiMsg || 'Unable to reach https://openpagerank.keywordseverywhere.com/v1/domains/bulk.'}`
+    };
+}
+
+async function fetchOpenPageRankHttp(url, options = {}, timeoutMs = 12000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+        const res = await fetch(url, {
+            ...options,
+            signal: controller.signal
+        });
+        const text = await res.text();
+        let json = null;
+        try {
+            json = JSON.parse(text);
+        } catch {
+            json = { raw: text };
+        }
+        return {
+            ok: Boolean(res.ok),
+            status: Number(res.status || (res.ok ? 200 : 500)),
+            headers: res.headers || null,
+            json
+        };
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+async function fetchOpenPageRankData(config = {}, options = {}) {
+    const cleanDomain = normalizeDomain(config.domain || DEFAULT_DOMAIN);
+    const targetDomain = normalizeRootDomain(cleanDomain);
+    const includeHistory = options.includeHistory !== false;
+    const keyInfo = resolveOpenPageRankApiKey(config, options.overrideApiKey);
+
+    if (!keyInfo.hasKey) {
+        const unconfigured = {
+            connected: false,
+            connectionStatus: OPENPAGERANK_STATUS.NOT_CONFIGURED,
+            provider: 'OpenPageRank',
+            endpoint: OPENPAGERANK_BULK_ENDPOINT,
+            domain: targetDomain,
+            found: false,
+            asOf: null,
+            syncedAt: null,
+            isEstimated: true,
+            openPageRankScore: null,
+            rank: null,
+            referringDomains: null,
+            history: [],
+            historySummary: buildOpenPageRankHistorySummary([], null, false, targetDomain).summary,
+            quota: null,
+            errorType: null,
+            keySource: 'none',
+            reason: 'OpenPageRank API key is not configured. Add your OpenPageRank API key under SEO & Growth → Settings (or set OPENPAGERANK_API_KEY on the backend) and click Test Connection.',
+            message: 'OpenPageRank API key is not configured.'
+        };
+        if (options.overrideApiKey === undefined) {
+            memoryOprVerifications.set(cleanDomain, unconfigured);
+        }
+        return unconfigured;
+    }
+
+    const authHeaders = {
+        Authorization: `Bearer ${keyInfo.key}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+    };
+
+    try {
+        const bulkRes = await fetchOpenPageRankHttp(
+            OPENPAGERANK_BULK_ENDPOINT,
+            {
+                method: 'POST',
+                headers: authHeaders,
+                body: JSON.stringify({
+                    domains: [targetDomain],
+                    include_history: Boolean(includeHistory)
+                })
+            },
+            12000
+        );
+
+        let usageBody = null;
+        if (bulkRes.ok && options.fetchUsage !== false) {
+            try {
+                const usageRes = await fetchOpenPageRankHttp(
+                    OPENPAGERANK_USAGE_ENDPOINT,
+                    {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${keyInfo.key}`,
+                            Accept: 'application/json'
+                        }
+                    },
+                    5000
+                );
+                if (usageRes.ok && usageRes.json && typeof usageRes.json === 'object') {
+                    usageBody = usageRes.json;
+                }
+            } catch {
+                // Optional /v1/usage enrichment; headers on /v1/domains/bulk already provide domain quota
+            }
+        }
+
+        const quota = parseOpenPageRankQuotaHeaders(bulkRes.headers, usageBody);
+
+        if (!bulkRes.ok) {
+            const classified = classifyOpenPageRankError({
+                status: bulkRes.status,
+                payload: bulkRes.json,
+                rawKey: keyInfo.key
+            });
+            const failedResult = {
+                connected: false,
+                connectionStatus: classified.connectionStatus,
+                provider: 'OpenPageRank',
+                endpoint: OPENPAGERANK_BULK_ENDPOINT,
+                domain: targetDomain,
+                found: false,
+                asOf: null,
+                syncedAt: null,
+                isEstimated: true,
+                openPageRankScore: null,
+                rank: null,
+                referringDomains: null,
+                history: [],
+                historySummary: buildOpenPageRankHistorySummary([], null, false, targetDomain).summary,
+                quota,
+                errorType: classified.errorType,
+                httpStatus: classified.httpStatus,
+                keySource: keyInfo.source,
+                reason: classified.message,
+                message: classified.message
+            };
+            if (options.overrideApiKey === undefined) {
+                memoryOprVerifications.set(cleanDomain, failedResult);
+            }
+            return failedResult;
+        }
+
+        const payload = bulkRes.json || {};
+        const results = Array.isArray(payload.results) ? payload.results : [];
+        const entry = results.find((r) => normalizeRootDomain(r?.domain || '') === targetDomain) || results[0] || null;
+        const found = Boolean(entry?.found);
+        const openPageRankScore = entry?.open_page_rank !== null && entry?.open_page_rank !== undefined
+            ? Number(Number(entry.open_page_rank).toFixed(2))
+            : null;
+        const rank = entry?.rank !== null && entry?.rank !== undefined
+            ? Number(entry.rank)
+            : null;
+        const referringDomains = entry?.referring_domains !== null && entry?.referring_domains !== undefined
+            ? Number(entry.referring_domains)
+            : null;
+        const asOf = payload.as_of ? String(payload.as_of).trim() : null;
+        const syncedAt = new Date().toISOString();
+
+        const { history, summary: historySummary } = buildOpenPageRankHistorySummary(
+            entry?.history || [],
+            openPageRankScore,
+            found,
+            targetDomain
+        );
+
+        const successMessage = found
+            ? `Connected to OpenPageRank for ${targetDomain}. Score: ${openPageRankScore ?? 'N/A'}/10 · Global Rank: ${rank ? `#${rank.toLocaleString('en-US')}` : 'N/A'} · Referring Domains (OPR): ${referringDomains !== null ? referringDomains.toLocaleString('en-US') : 'N/A'}.`
+            : `Connected to OpenPageRank API (as of ${asOf || 'latest release'}). Domain ${targetDomain} is not yet indexed in the Common Crawl domain graph (found: false).`;
+
+        const successResult = {
+            connected: true,
+            connectionStatus: OPENPAGERANK_STATUS.CONNECTED,
+            provider: 'OpenPageRank',
+            endpoint: OPENPAGERANK_BULK_ENDPOINT,
+            domain: entry?.domain || targetDomain,
+            found,
+            asOf,
+            count: payload.count ?? results.length,
+            invalid: Array.isArray(payload.invalid) ? payload.invalid : [],
+            syncedAt,
+            isEstimated: true,
+            openPageRankScore,
+            rank,
+            referringDomains,
+            history,
+            historySummary,
+            quota,
+            errorType: null,
+            keySource: keyInfo.source,
+            reason: null,
+            message: successMessage
+        };
+
+        if (options.overrideApiKey === undefined) {
+            memoryOprVerifications.set(cleanDomain, successResult);
+            await saveSnapshot(cleanDomain, 'backlink_opr', successResult, 'OpenPageRank API');
+        }
+
+        return successResult;
+    } catch (err) {
+        const classified = classifyOpenPageRankError({
+            status: Number(err?.status || 0),
+            payload: err?.payload || null,
+            errorMessage: err?.message || 'Network request failed',
+            rawKey: keyInfo.key
+        });
+        const errorResult = {
+            connected: false,
+            connectionStatus: classified.connectionStatus,
+            provider: 'OpenPageRank',
+            endpoint: OPENPAGERANK_BULK_ENDPOINT,
+            domain: targetDomain,
+            found: false,
+            asOf: null,
+            syncedAt: null,
+            isEstimated: true,
+            openPageRankScore: null,
+            rank: null,
+            referringDomains: null,
+            history: [],
+            historySummary: buildOpenPageRankHistorySummary([], null, false, targetDomain).summary,
+            quota: null,
+            errorType: classified.errorType,
+            httpStatus: classified.httpStatus,
+            keySource: keyInfo.source,
+            reason: classified.message,
+            message: classified.message
+        };
+        if (options.overrideApiKey === undefined) {
+            memoryOprVerifications.set(cleanDomain, errorResult);
+        }
+        return errorResult;
+    }
+}
+
+function splitCsvRow(line = '', delimiter = ',') {
+    const out = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i += 1) {
+        const ch = line[i];
+        if (ch === '"') {
+            if (inQuotes && line[i + 1] === '"') {
+                current += '"';
+                i += 1;
+            } else {
+                inQuotes = !inQuotes;
+            }
+        } else if (ch === delimiter && !inQuotes) {
+            out.push(current.trim());
+            current = '';
+        } else {
+            current += ch;
+        }
+    }
+    out.push(current.trim());
+    return out.map((cell) => cell.replace(/^"|"$/g, '').trim());
+}
+
+function normalizeHangbugTargetPage(rawTarget = '', defaultDomain = DEFAULT_DOMAIN) {
+    const raw = String(rawTarget || '').trim();
+    if (!raw) return { path: '/', fullUrl: `https://${normalizeDomain(defaultDomain)}/` };
+
+    if (/^https?:\/\//i.test(raw)) {
+        try {
+            const parsed = new URL(raw);
+            const pathOnly = parsed.pathname || '/';
+            return {
+                path: pathOnly,
+                fullUrl: parsed.toString()
+            };
+        } catch {
+            return { path: raw, fullUrl: raw };
+        }
+    }
+
+    const cleanPath = raw.startsWith('/') ? raw : `/${raw}`;
+    return {
+        path: cleanPath,
+        fullUrl: `https://${normalizeDomain(defaultDomain)}${cleanPath}`
+    };
+}
+
+function extractExternalDomainAndUrl(rawSource = '', hangbugRoot = 'hangbug.com') {
+    const raw = String(rawSource || '').trim();
+    if (!raw) return { referringDomain: '', linkingPage: '' };
+
+    if (/^https?:\/\//i.test(raw)) {
+        try {
+            const parsed = new URL(raw);
+            const host = parsed.hostname.toLowerCase().replace(/^www\./, '');
+            if (!host || host === hangbugRoot || host === `www.${hangbugRoot}`) {
+                return { referringDomain: '', linkingPage: '' };
+            }
+            return {
+                referringDomain: host,
+                linkingPage: parsed.toString()
+            };
+        } catch {
+            // Fall through
+        }
+    }
+
+    // Check if it looks like a domain or domain/path without scheme
+    const withoutScheme = raw.replace(/^\/\//, '');
+    const slashIdx = withoutScheme.indexOf('/');
+    const hostCandidate = (slashIdx >= 0 ? withoutScheme.slice(0, slashIdx) : withoutScheme)
+        .toLowerCase()
+        .replace(/:\d+$/, '')
+        .replace(/^www\./, '');
+
+    if (/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(hostCandidate) && hostCandidate !== hangbugRoot) {
+        return {
+            referringDomain: hostCandidate,
+            linkingPage: slashIdx >= 0 && withoutScheme.slice(slashIdx).length > 1
+                ? `https://${withoutScheme}`
+                : ''
+        };
+    }
+
+    return { referringDomain: '', linkingPage: '' };
+}
+
+function parseGscLinksCsv(csvText = '', defaultDomain = DEFAULT_DOMAIN) {
+    const cleanText = String(csvText || '').replace(/^\uFEFF/, '').trim();
+    if (!cleanText) {
+        return { rows: [], detectedFormat: 'empty' };
+    }
+
+    const rawLines = cleanText
+        .split(/\r?\n/)
+        .map((l) => l.trim())
+        .filter((l) => Boolean(l) && !l.startsWith('#'));
+
+    if (rawLines.length === 0) {
+        return { rows: [], detectedFormat: 'empty' };
+    }
+
+    const sampleLine = rawLines[0];
+    const delimiter = sampleLine.includes('\t') && !sampleLine.includes(',')
+        ? '\t'
+        : (sampleLine.includes(';') && !sampleLine.includes(',') ? ';' : ',');
+
+    const firstRowCells = splitCsvRow(rawLines[0], delimiter);
+    const lowerFirst = firstRowCells.map((c) => c.toLowerCase());
+
+    const HEADER_KEYWORDS = [
+        'domain', 'referring', 'linking site', 'source page', 'linking page',
+        'target page', 'target url', 'external links', 'links', 'linked pages',
+        'linking sites', 'anchor', 'first seen', 'top linking', 'top linked'
+    ];
+    const hasHeader = lowerFirst.some((cell) => HEADER_KEYWORDS.some((kw) => cell.includes(kw)));
+
+    const hangbugRoot = normalizeRootDomain(defaultDomain);
+    const dataLines = hasHeader ? rawLines.slice(1) : rawLines;
+    const parsedRows = [];
+
+    // Identify column indices when header is present
+    let colSourceDomain = -1;
+    let colSourceUrl = -1;
+    let colTargetUrl = -1;
+    let colLinksCount = -1;
+    let colLinkedPagesCount = -1;
+    let colLinkingSitesCount = -1;
+    let colAnchor = -1;
+    let colDate = -1;
+
+    if (hasHeader) {
+        lowerFirst.forEach((h, idx) => {
+            if (colSourceUrl === -1 && (h.includes('source page') || h.includes('linking page') || h.includes('source url') || h === 'from')) {
+                colSourceUrl = idx;
+            } else if (colSourceDomain === -1 && (h.includes('linking site') || h.includes('referring') || h.includes('external domain') || h === 'domain' || h === 'site')) {
+                colSourceDomain = idx;
+            } else if (colTargetUrl === -1 && (h.includes('target') || h.includes('linked page') || h.includes('destination') || h === 'to' || h === 'page')) {
+                colTargetUrl = idx;
+            } else if (colLinksCount === -1 && (h.includes('external links') || h.includes('incoming links') || h.includes('link count') || h === 'links' || h === 'backlinks')) {
+                colLinksCount = idx;
+            } else if (colLinkedPagesCount === -1 && h.includes('linked pages')) {
+                colLinkedPagesCount = idx;
+            } else if (colLinkingSitesCount === -1 && (h.includes('linking sites') || h.includes('linking domains'))) {
+                colLinkingSitesCount = idx;
+            } else if (colAnchor === -1 && (h.includes('anchor') || h.includes('link text'))) {
+                colAnchor = idx;
+            } else if (colDate === -1 && (h.includes('first seen') || h.includes('last seen') || h.includes('date') || h.includes('discovered'))) {
+                colDate = idx;
+            }
+        });
+    }
+
+    for (const line of dataLines) {
+        const cells = splitCsvRow(line, delimiter);
+        if (cells.length === 0 || cells.every((c) => !c)) continue;
+
+        let referringDomain = '';
+        let linkingPage = '';
+        let targetPage = '';
+        let fullTargetUrl = '';
+        let linksCount = 1;
+        let linkedPagesCount = null;
+        let linkingSitesCount = null;
+        let anchorText = '';
+        let firstSeen = '';
+
+        if (hasHeader && (colSourceDomain !== -1 || colSourceUrl !== -1 || colTargetUrl !== -1)) {
+            if (colSourceUrl !== -1 && cells[colSourceUrl]) {
+                const ext = extractExternalDomainAndUrl(cells[colSourceUrl], hangbugRoot);
+                referringDomain = ext.referringDomain;
+                linkingPage = ext.linkingPage || cells[colSourceUrl];
+            }
+            if (colSourceDomain !== -1 && cells[colSourceDomain]) {
+                const ext = extractExternalDomainAndUrl(cells[colSourceDomain], hangbugRoot);
+                if (ext.referringDomain) referringDomain = ext.referringDomain;
+                if (!linkingPage && ext.linkingPage) linkingPage = ext.linkingPage;
+            }
+            if (colTargetUrl !== -1 && cells[colTargetUrl]) {
+                const normTarget = normalizeHangbugTargetPage(cells[colTargetUrl], defaultDomain);
+                targetPage = normTarget.path;
+                fullTargetUrl = normTarget.fullUrl;
+            }
+            if (colLinksCount !== -1 && cells[colLinksCount]) {
+                const n = parseInt(String(cells[colLinksCount]).replace(/,/g, ''), 10);
+                if (Number.isFinite(n) && n > 0) linksCount = n;
+            }
+            if (colLinkedPagesCount !== -1 && cells[colLinkedPagesCount]) {
+                const n = parseInt(String(cells[colLinkedPagesCount]).replace(/,/g, ''), 10);
+                if (Number.isFinite(n) && n > 0) linkedPagesCount = n;
+            }
+            if (colLinkingSitesCount !== -1 && cells[colLinkingSitesCount]) {
+                const n = parseInt(String(cells[colLinkingSitesCount]).replace(/,/g, ''), 10);
+                if (Number.isFinite(n) && n > 0) linkingSitesCount = n;
+            }
+            if (colAnchor !== -1 && cells[colAnchor]) {
+                anchorText = cells[colAnchor];
+            }
+            if (colDate !== -1 && cells[colDate]) {
+                firstSeen = cells[colDate];
+            }
+        } else {
+            // Heuristic row parsing for headerless CSVs or custom GSC exports:
+            // Format 1: sourceUrl, targetUrl (e.g. GSC "Latest links" without standard header)
+            // Format 2: domain.com, linksCount, /target-page, anchorText, linkingPageUrl
+            // Format 3: https://www.hangbug.com/page, externalLinksCount, linkingSitesCount
+            const firstCell = cells[0] || '';
+            const secondCell = cells[1] || '';
+            const thirdCell = cells[2] || '';
+            const fourthCell = cells[3] || '';
+            const fifthCell = cells[4] || '';
+
+            const firstExt = extractExternalDomainAndUrl(firstCell, hangbugRoot);
+            if (firstExt.referringDomain) {
+                referringDomain = firstExt.referringDomain;
+                linkingPage = firstExt.linkingPage;
+
+                const secondAsInt = parseInt(secondCell.replace(/,/g, ''), 10);
+                if (Number.isFinite(secondAsInt) && /^\d+$/.test(secondCell.replace(/,/g, ''))) {
+                    linksCount = Math.max(1, secondAsInt);
+                    const thirdAsInt = parseInt(thirdCell.replace(/,/g, ''), 10);
+                    if (thirdCell && Number.isFinite(thirdAsInt) && /^\d+$/.test(thirdCell.replace(/,/g, ''))) {
+                        linkedPagesCount = thirdAsInt;
+                    } else if (thirdCell) {
+                        const normT = normalizeHangbugTargetPage(thirdCell, defaultDomain);
+                        targetPage = normT.path;
+                        fullTargetUrl = normT.fullUrl;
+                    }
+                    if (fourthCell) {
+                        if (/^https?:\/\//i.test(fourthCell) && !linkingPage) {
+                            linkingPage = fourthCell;
+                        } else {
+                            anchorText = fourthCell;
+                        }
+                    }
+                    if (fifthCell && !linkingPage && /^https?:\/\//i.test(fifthCell)) {
+                        linkingPage = fifthCell;
+                    }
+                } else if (secondCell) {
+                    const normT = normalizeHangbugTargetPage(secondCell, defaultDomain);
+                    targetPage = normT.path;
+                    fullTargetUrl = normT.fullUrl;
+                    if (thirdCell) {
+                        const thirdInt = parseInt(thirdCell.replace(/,/g, ''), 10);
+                        if (Number.isFinite(thirdInt) && /^\d+$/.test(thirdCell.replace(/,/g, ''))) {
+                            linksCount = Math.max(1, thirdInt);
+                        } else {
+                            anchorText = thirdCell;
+                        }
+                    }
+                }
+            } else if (firstCell.startsWith('/') || firstCell.toLowerCase().includes(hangbugRoot)) {
+                const normT = normalizeHangbugTargetPage(firstCell, defaultDomain);
+                targetPage = normT.path;
+                fullTargetUrl = normT.fullUrl;
+                const secondInt = parseInt(secondCell.replace(/,/g, ''), 10);
+                if (Number.isFinite(secondInt) && secondInt > 0) linksCount = secondInt;
+                const thirdInt = parseInt(thirdCell.replace(/,/g, ''), 10);
+                if (Number.isFinite(thirdInt) && thirdInt > 0) linkingSitesCount = thirdInt;
+            }
+        }
+
+        if (referringDomain || targetPage) {
+            parsedRows.push({
+                referringDomain,
+                linkingPage,
+                targetPage: targetPage || '/',
+                fullTargetUrl: fullTargetUrl || normalizeHangbugTargetPage(targetPage || '/', defaultDomain).fullUrl,
+                hasExplicitTarget: Boolean(targetPage),
+                linksCount: Math.max(1, Number(linksCount) || 1),
+                linkedPagesCount,
+                linkingSitesCount,
+                anchorText,
+                firstSeen
+            });
+        }
+    }
+
+    return {
+        rows: parsedRows,
+        detectedFormat: hasHeader ? 'gsc_csv_with_header' : 'csv_rows'
+    };
+}
+
+async function importGscBacklinks(domain, input = []) {
+    const cleanDomain = normalizeDomain(domain);
+    let rawRows = [];
+    let fileName = 'gsc-links-export.csv';
+    let reportDate = null;
+
+    if (Array.isArray(input)) {
+        rawRows = input.map((row) => {
+            const ext = extractExternalDomainAndUrl(
+                row.linkingPage || row.sourceUrl || row.referringDomain || row.domain || '',
+                normalizeRootDomain(cleanDomain)
+            );
+            const tRaw = row.targetPage || row.target || '';
+            const normTarget = normalizeHangbugTargetPage(tRaw || '/', cleanDomain);
+            return {
+                referringDomain: ext.referringDomain || String(row.referringDomain || row.domain || '').trim().toLowerCase(),
+                linkingPage: String(row.linkingPage || row.sourceUrl || ext.linkingPage || '').trim(),
+                targetPage: normTarget.path,
+                fullTargetUrl: normTarget.fullUrl,
+                hasExplicitTarget: Boolean(tRaw),
+                linksCount: Math.max(1, parseInt(row.linksCount || row.links || '1', 10) || 1),
+                linkedPagesCount: row.linkedPagesCount ? Number(row.linkedPagesCount) : null,
+                linkingSitesCount: row.linkingSitesCount ? Number(row.linkingSitesCount) : null,
+                anchorText: String(row.anchorText || row.anchor || '').trim(),
+                firstSeen: String(row.firstSeen || row.date || '').trim()
+            };
+        }).filter((r) => Boolean(r.referringDomain || r.hasExplicitTarget));
+    } else if (input && typeof input === 'object') {
+        if (input.fileName) fileName = String(input.fileName).trim() || fileName;
+        if (input.reportDate) reportDate = String(input.reportDate).trim();
+        if (input.csvText && String(input.csvText).trim()) {
+            const parsed = parseGscLinksCsv(input.csvText, cleanDomain);
+            rawRows.push(...parsed.rows);
+        }
+        if (Array.isArray(input.items) && input.items.length > 0) {
+            for (const row of input.items) {
+                const ext = extractExternalDomainAndUrl(
+                    row.linkingPage || row.sourceUrl || row.referringDomain || row.domain || '',
+                    normalizeRootDomain(cleanDomain)
+                );
+                const tRaw = row.targetPage || row.target || '';
+                const normTarget = normalizeHangbugTargetPage(tRaw || '/', cleanDomain);
+                if (ext.referringDomain || String(row.referringDomain || row.domain || '').trim() || tRaw) {
+                    rawRows.push({
+                        referringDomain: ext.referringDomain || String(row.referringDomain || row.domain || '').trim().toLowerCase(),
+                        linkingPage: String(row.linkingPage || row.sourceUrl || ext.linkingPage || '').trim(),
+                        targetPage: normTarget.path,
+                        fullTargetUrl: normTarget.fullUrl,
+                        hasExplicitTarget: Boolean(tRaw),
+                        linksCount: Math.max(1, parseInt(row.linksCount || row.links || '1', 10) || 1),
+                        linkedPagesCount: row.linkedPagesCount ? Number(row.linkedPagesCount) : null,
+                        linkingSitesCount: row.linkingSitesCount ? Number(row.linkingSitesCount) : null,
+                        anchorText: String(row.anchorText || row.anchor || '').trim(),
+                        firstSeen: String(row.firstSeen || row.date || '').trim()
+                    });
+                }
+            }
+        }
+    }
+
+    if (rawRows.length === 0) {
+        throw new Error('Provide at least one valid Google Search Console Links CSV row (external linking domain or target page).');
+    }
+
+    // Aggregate external linking domains
+    const domainMap = new Map();
+    const targetMap = new Map();
+    const linkingPages = [];
     const anchorCounts = {};
-    cleanItems.forEach(r => {
+
+    for (const r of rawRows) {
+        const refDom = String(r.referringDomain || '').trim().toLowerCase();
+        const tPath = String(r.targetPage || '/').trim();
+        const tFull = r.fullTargetUrl || normalizeHangbugTargetPage(tPath, cleanDomain).fullUrl;
+
+        if (refDom) {
+            const existingDom = domainMap.get(refDom) || {
+                referringDomain: refDom,
+                linksCount: 0,
+                linkedPagesCount: null,
+                targetPagesSet: new Set(),
+                linkingPagesSet: new Set(),
+                anchorsSet: new Set()
+            };
+            existingDom.linksCount += r.linksCount;
+            if (r.linkedPagesCount !== null && r.linkedPagesCount !== undefined) {
+                existingDom.linkedPagesCount = Math.max(existingDom.linkedPagesCount || 0, r.linkedPagesCount);
+            }
+            if (r.hasExplicitTarget || tPath) {
+                existingDom.targetPagesSet.add(tPath);
+            }
+            if (r.linkingPage) {
+                existingDom.linkingPagesSet.add(r.linkingPage);
+            }
+            if (r.anchorText) {
+                existingDom.anchorsSet.add(r.anchorText);
+            }
+            domainMap.set(refDom, existingDom);
+        }
+
+        if (r.hasExplicitTarget || !refDom || tPath) {
+            const existingTarget = targetMap.get(tPath) || {
+                targetPage: tPath,
+                fullUrl: tFull,
+                linksCount: 0,
+                explicitLinkingSitesCount: null,
+                linkingDomainsSet: new Set(),
+                linkingPagesSet: new Set()
+            };
+            existingTarget.linksCount += r.linksCount;
+            if (r.linkingSitesCount !== null && r.linkingSitesCount !== undefined) {
+                existingTarget.explicitLinkingSitesCount = Math.max(existingTarget.explicitLinkingSitesCount || 0, r.linkingSitesCount);
+            }
+            if (refDom) {
+                existingTarget.linkingDomainsSet.add(refDom);
+            }
+            if (r.linkingPage) {
+                existingTarget.linkingPagesSet.add(r.linkingPage);
+            }
+            targetMap.set(tPath, existingTarget);
+        }
+
+        if (r.linkingPage || r.anchorText || r.firstSeen || (refDom && r.hasExplicitTarget)) {
+            linkingPages.push({
+                linkingPage: r.linkingPage || `https://${refDom}`,
+                hasFullSourceUrl: Boolean(r.linkingPage),
+                referringDomain: refDom || 'External Site',
+                targetPage: tPath,
+                fullTargetUrl: tFull,
+                linksCount: r.linksCount,
+                anchorText: r.anchorText || '',
+                firstSeen: r.firstSeen || ''
+            });
+        }
+
         if (r.anchorText) {
             anchorCounts[r.anchorText] = (anchorCounts[r.anchorText] || 0) + r.linksCount;
         }
-    });
+    }
 
+    const externalLinkingDomains = Array.from(domainMap.values())
+        .map((d) => {
+            const targetPages = Array.from(d.targetPagesSet);
+            return {
+                referringDomain: d.referringDomain,
+                linksCount: d.linksCount,
+                linkedPagesCount: d.linkedPagesCount || targetPages.length || 1,
+                targetPage: targetPages[0] || '/',
+                targetPages,
+                linkingPages: Array.from(d.linkingPagesSet).slice(0, 10),
+                anchorText: Array.from(d.anchorsSet)[0] || '',
+                anchorTexts: Array.from(d.anchorsSet)
+            };
+        })
+        .sort((a, b) => b.linksCount - a.linksCount)
+        .slice(0, 200);
+
+    const targetPages = Array.from(targetMap.values())
+        .map((t) => {
+            const linkingDomains = Array.from(t.linkingDomainsSet);
+            return {
+                targetPage: t.targetPage,
+                fullUrl: t.fullUrl,
+                linksCount: t.linksCount,
+                linkingDomainsCount: t.explicitLinkingSitesCount || linkingDomains.length || 1,
+                linkingDomains: linkingDomains.slice(0, 25),
+                sampleLinkingPages: Array.from(t.linkingPagesSet).slice(0, 10)
+            };
+        })
+        .sort((a, b) => b.linksCount - a.linksCount)
+        .slice(0, 200);
+
+    const topAnchors = Object.entries(anchorCounts)
+        .map(([anchor, count]) => ({ anchor, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 30);
+
+    const totalBacklinks = externalLinkingDomains.length > 0
+        ? externalLinkingDomains.reduce((sum, r) => sum + r.linksCount, 0)
+        : targetPages.reduce((sum, t) => sum + t.linksCount, 0);
+
+    const importedAt = new Date().toISOString();
     const payload = {
+        available: true,
+        isLive: false,
+        originalSource: 'Google Search Console Links Report (Manual CSV Import)',
+        fileName,
+        importedAt,
+        reportDate: reportDate || importedAt,
+        disclosure: 'Manual Google Search Console Links CSV import. This is a static report snapshot preserved with its original source and import date, not live real-time backlink data.',
         summary: {
-            referringDomains: uniqueDomains.size,
+            referringDomains: externalLinkingDomains.length,
             totalBacklinks,
+            targetPagesCount: targetPages.length,
+            linkingPagesCount: linkingPages.length,
             domainRankScore: null,
             globalRank: null
         },
-        referringDomainsList: cleanItems.slice(0, 100),
-        topAnchors: Object.entries(anchorCounts)
-            .map(([anchor, count]) => ({ anchor, count }))
-            .sort((a, b) => b.count - a.count)
-            .slice(0, 20)
+        externalLinkingDomains,
+        referringDomainsList: externalLinkingDomains.slice(0, 100),
+        targetPages,
+        linkingPages: linkingPages.slice(0, 200),
+        topAnchors
     };
 
-    await saveSnapshot(domain, 'gsc_backlinks', payload, 'Google Search Console Links Export (Imported)');
+    await saveSnapshot(cleanDomain, 'gsc_backlinks', payload, 'Google Search Console Links Report (Manual CSV Import)');
     return payload;
+}
+
+async function clearGscBacklinks(domain = DEFAULT_DOMAIN) {
+    const cleanDomain = normalizeDomain(domain);
+    memorySnapshots.delete(`${cleanDomain}::gsc_backlinks`);
+    try {
+        if (prisma && prisma.seoIntegrationSnapshot && typeof prisma.seoIntegrationSnapshot.delete === 'function') {
+            await prisma.seoIntegrationSnapshot.delete({
+                where: {
+                    domain_provider: {
+                        domain: cleanDomain,
+                        provider: 'gsc_backlinks'
+                    }
+                }
+            });
+        }
+    } catch {
+        // Ignore if already absent
+    }
+    return { cleared: true };
+}
+
+async function getBacklinksData(config) {
+    const cleanDomain = normalizeDomain(config?.domain || DEFAULT_DOMAIN);
+    const [oprData, importedSnap] = await Promise.all([
+        fetchOpenPageRankData(config),
+        getSnapshot(cleanDomain, 'gsc_backlinks')
+    ]);
+
+    const rawImported = importedSnap?.data && (
+        Array.isArray(importedSnap.data.externalLinkingDomains)
+        || Array.isArray(importedSnap.data.referringDomainsList)
+        || Array.isArray(importedSnap.data.targetPages)
+    )
+        ? importedSnap.data
+        : null;
+
+    const gscImport = rawImported
+        ? {
+            available: true,
+            isLive: false,
+            originalSource: rawImported.originalSource || importedSnap.source || 'Google Search Console Links Report (Manual CSV Import)',
+            fileName: rawImported.fileName || 'gsc-links-export.csv',
+            importedAt: rawImported.importedAt || importedSnap.syncedAt || null,
+            reportDate: rawImported.reportDate || rawImported.importedAt || importedSnap.syncedAt || null,
+            disclosure: rawImported.disclosure || 'Manual Google Search Console Links CSV import. This is a static report snapshot preserved with its original source and import date, not live real-time backlink data.',
+            summary: {
+                referringDomains: rawImported.summary?.referringDomains ?? (rawImported.externalLinkingDomains || rawImported.referringDomainsList || []).length,
+                totalBacklinks: rawImported.summary?.totalBacklinks ?? null,
+                targetPagesCount: rawImported.summary?.targetPagesCount ?? (rawImported.targetPages || []).length,
+                linkingPagesCount: rawImported.summary?.linkingPagesCount ?? (rawImported.linkingPages || []).length
+            },
+            externalLinkingDomains: rawImported.externalLinkingDomains || rawImported.referringDomainsList || [],
+            targetPages: rawImported.targetPages || [],
+            linkingPages: rawImported.linkingPages || [],
+            topAnchors: rawImported.topAnchors || []
+        }
+        : null;
+
+    const hasOpr = Boolean(oprData.connected);
+    const hasGscCsv = Boolean(gscImport && gscImport.available);
+    const syncedAt = oprData.syncedAt || gscImport?.importedAt || null;
+
+    let sourceLabel = 'Not Connected';
+    if (hasOpr && hasGscCsv) {
+        sourceLabel = 'OpenPageRank API + Google Search Console Links CSV (Manual Import)';
+    } else if (hasOpr) {
+        sourceLabel = 'OpenPageRank API (External Domain Authority & Referring Domains)';
+    } else if (hasGscCsv) {
+        sourceLabel = 'Google Search Console Links CSV (Manual Import Snapshot)';
+    }
+
+    return {
+        connected: Boolean(hasOpr || hasGscCsv),
+        connectionStatus: oprData.connectionStatus,
+        openPageRankConnected: hasOpr,
+        gscImportAvailable: hasGscCsv,
+        isEstimated: hasOpr,
+        source: sourceLabel,
+        syncedAt,
+        lastDataUpdate: syncedAt,
+        reason: !hasOpr ? oprData.reason : null,
+        openPageRank: {
+            connected: hasOpr,
+            connectionStatus: oprData.connectionStatus,
+            provider: 'OpenPageRank',
+            endpoint: OPENPAGERANK_BULK_ENDPOINT,
+            domain: oprData.domain,
+            found: oprData.found,
+            asOf: oprData.asOf,
+            syncedAt: oprData.syncedAt,
+            score: oprData.openPageRankScore,
+            maxScore: 10,
+            globalRank: oprData.rank,
+            referringDomains: oprData.referringDomains,
+            history: oprData.history,
+            historySummary: oprData.historySummary,
+            quota: oprData.quota,
+            errorType: oprData.errorType || null,
+            keySource: oprData.keySource || 'none',
+            message: oprData.message || oprData.reason || ''
+        },
+        gscLinksImport: gscImport || {
+            available: false,
+            isLive: false,
+            originalSource: 'Google Search Console Links Report (Manual CSV Import)',
+            fileName: null,
+            importedAt: null,
+            reportDate: null,
+            disclosure: 'Upload an official Google Search Console Links CSV export to inspect external linking domains, target pages, and available linking-page details.',
+            summary: null,
+            externalLinkingDomains: [],
+            targetPages: [],
+            linkingPages: [],
+            topAnchors: []
+        },
+        metricExplanations: {
+            openPageRankScore: "An external estimate of your website's authority based on its link graph. It is not a Google ranking score.",
+            globalDomainRank: "Your website's estimated global position compared with other domains in the OpenPageRank link graph (#1 is the highest authority worldwide).",
+            referringDomains: "The number of linking domains reported by the selected data provider. OpenPageRank's referring_domains metric is an authority-weighted linking domain count from Common Crawl, not a complete verified backlink count.",
+            monthlyAuthorityHistory: "Monthly historical authority scores (0–10) from OpenPageRank. Measured months correspond to actual Common Crawl releases, while Estimated months are linearly interpolated between releases.",
+            apiQuota: "Your OpenPageRank plan's monthly domain lookup usage, remaining domain quota, and per-minute rate limit balance.",
+            gscLinksReport: "A static snapshot manually imported from your official Google Search Console Links CSV export, preserving the original source and import date."
+        },
+        summary: {
+            domainRankScore: oprData.openPageRankScore,
+            openPageRankScore: oprData.openPageRankScore,
+            globalRank: oprData.rank,
+            referringDomains: hasOpr && oprData.referringDomains !== null
+                ? oprData.referringDomains
+                : (gscImport?.summary?.referringDomains ?? null),
+            openPageRankReferringDomains: oprData.referringDomains,
+            gscImportedReferringDomains: gscImport?.summary?.referringDomains ?? null,
+            // Do not label OpenPageRank's referring_domains value as a complete verified backlink count
+            totalBacklinks: gscImport?.summary?.totalBacklinks ?? null
+        },
+        referringDomainsList: gscImport?.externalLinkingDomains || [],
+        targetPagesList: gscImport?.targetPages || [],
+        linkingPagesList: gscImport?.linkingPages || [],
+        topAnchors: gscImport?.topAnchors || []
+    };
 }
 
 async function getAiVisibilityData(config, readinessChecks = []) {
@@ -1972,7 +4385,7 @@ async function getAiVisibilityData(config, readinessChecks = []) {
     };
 }
 
-async function testIntegrationConnection(domain, target) {
+async function testIntegrationConnection(domain, target, options = {}) {
     const config = await getProjectConfig(domain);
     const dateRange = resolveDateRange('7d');
 
@@ -2010,24 +4423,59 @@ async function testIntegrationConnection(domain, target) {
         };
     }
     if (target === 'pagespeed') {
-        const res = await runPageSpeedInsights(config, config.siteUrl, 'mobile');
-        const perf = res?.mobile?.scores?.performance;
-        return {
-            ok: perf !== null && perf !== undefined,
-            provider: 'Google PageSpeed Insights',
-            message: perf !== null && perf !== undefined
-                ? `Live Lighthouse mobile check succeeded for ${config.siteUrl} (Performance: ${perf}/100).`
-                : 'PageSpeed Insights responded without a performance score.'
-        };
+        const keyInfo = resolvePageSpeedApiKey(config);
+        try {
+            const res = await runPageSpeedInsights(config, config.siteUrl, 'mobile');
+            const perf = res?.mobile?.scores?.performance;
+            return {
+                ok: perf !== null && perf !== undefined,
+                provider: 'Google PageSpeed Insights',
+                apiKeyConfigured: keyInfo.hasKey,
+                apiKeySource: keyInfo.source,
+                fromCache: Boolean(res?.fromCache),
+                checkedAt: res?.mobile?.checkedAt || null,
+                mobilePerformance: perf ?? null,
+                desktopPerformance: res?.desktop?.scores?.performance ?? null,
+                message: perf !== null && perf !== undefined
+                    ? `PageSpeed Insights mobile check succeeded for ${config.siteUrl} (Performance: ${perf}/100${res?.fromCache ? ' · Cached 24h report' : ''}).`
+                    : 'PageSpeed Insights responded without a performance score.'
+            };
+        } catch (err) {
+            return {
+                ok: false,
+                provider: 'Google PageSpeed Insights',
+                apiKeyConfigured: keyInfo.hasKey,
+                apiKeySource: keyInfo.source,
+                errorCategory: err.errorCategory || 'api_error',
+                isQuotaError: Boolean(err.isQuotaError),
+                isDailyQuota: Boolean(err.isDailyQuota),
+                projectNumber: err.projectNumber || null,
+                nextRetryAt: err.nextRetryAt || null,
+                hasCachedReport: Boolean(err.hasCachedReport),
+                message: err.userMessage || err.message || 'PageSpeed Insights test failed.'
+            };
+        }
     }
-    if (target === 'backlinks') {
-        const res = await getBacklinksData(config);
+    if (target === 'openpagerank' || target === 'backlinks') {
+        const oprRes = await fetchOpenPageRankData(config, {
+            overrideApiKey: options.apiKey,
+            includeHistory: true
+        });
         return {
-            ok: Boolean(res.connected),
-            provider: 'Backlink Provider',
-            message: res.connected
-                ? `Connected to ${res.source}.`
-                : res.reason
+            ok: Boolean(oprRes.connected),
+            provider: 'OpenPageRank',
+            connectionStatus: oprRes.connectionStatus,
+            domain: oprRes.domain,
+            found: oprRes.found,
+            asOf: oprRes.asOf,
+            syncedAt: oprRes.syncedAt,
+            openPageRankScore: oprRes.openPageRankScore,
+            globalRank: oprRes.rank,
+            referringDomains: oprRes.referringDomains,
+            historyMonths: oprRes.history ? oprRes.history.length : 0,
+            quota: oprRes.quota || null,
+            errorType: oprRes.errorType || null,
+            message: oprRes.message || oprRes.reason
         };
     }
 
@@ -2043,12 +4491,40 @@ module.exports = {
     DEFAULT_GA4_STREAM_ID,
     GSC_READONLY_SCOPE,
     GA4_READONLY_SCOPE,
+    OPENPAGERANK_API_BASE_URL,
+    OPENPAGERANK_BULK_ENDPOINT,
+    OPENPAGERANK_USAGE_ENDPOINT,
+    OPENPAGERANK_CLEARED_SENTINEL,
+    OPENPAGERANK_STATUS,
+    PAGESPEED_API_SERVICE,
+    PAGESPEED_EXPECTED_PROJECT_NUMBER,
+    PAGESPEED_CACHE_TTL_MS,
+    PAGESPEED_QUOTA_EXHAUSTED_MESSAGE,
     VERIFIED_GSC_PERMISSION_LEVELS,
     normalizeDomain,
+    normalizeRootDomain,
     buildSiteUrl,
     normalizeGscPropertyIdentifier,
     validateAndNormalizeGa4PropertyId,
     classifyGa4ApiError,
+    resolvePageSpeedApiKey,
+    redactPageSpeedApiKey,
+    resolveOpenPageRankApiKey,
+    redactOpenPageRankApiKey,
+    parseOpenPageRankQuotaHeaders,
+    buildOpenPageRankHistorySummary,
+    classifyOpenPageRankError,
+    fetchOpenPageRankData,
+    parseGscLinksCsv,
+    validatePageSpeedApiKey,
+    validateAndNormalizePageSpeedUrl,
+    extractGoogleProjectNumberFromError,
+    computeNextDailyQuotaResetIso,
+    computeNextRateLimitRetryIso,
+    classifyPageSpeedApiError,
+    getPrioritizedAuditableUrls,
+    buildPageSpeedDashboardView,
+    resetPageSpeedState,
     formatDurationSeconds,
     listSearchConsoleSites,
     resolvePropertyAgainstSitesList,
@@ -2065,6 +4541,7 @@ module.exports = {
     runPageSpeedInsights,
     getBacklinksData,
     importGscBacklinks,
+    clearGscBacklinks,
     getAiVisibilityData,
     testIntegrationConnection,
     classifySearchIntent

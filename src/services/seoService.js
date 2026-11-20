@@ -16,8 +16,8 @@ const seoService = {
         return res.data;
     },
 
-    runPageSpeed: async ({ domain = 'www.hangbug.com', url = '', strategy = 'mobile' } = {}) => {
-        const res = await axios.post('/admin/seo/pagespeed/run', { domain, url, strategy }, { timeout: 45000 });
+    runPageSpeed: async ({ domain = 'www.hangbug.com', url = '', strategy = 'mobile', forceRefresh = false } = {}) => {
+        const res = await axios.post('/admin/seo/pagespeed/run', { domain, url, strategy, forceRefresh }, { timeout: 45000 });
         return res.data;
     },
 
@@ -67,13 +67,28 @@ const seoService = {
         return res.data;
     },
 
-    testIntegration: async (domain, target) => {
-        const res = await axios.post('/admin/seo/integrations/test', { domain, target }, { timeout: 30000 });
+    testIntegration: async (domain, target, options = {}) => {
+        const res = await axios.post(
+            '/admin/seo/integrations/test',
+            { domain, target, ...options },
+            { timeout: 30000 }
+        );
         return res.data;
     },
 
-    importBacklinks: async (domain, items) => {
-        const res = await axios.post('/admin/seo/backlinks/import', { domain, items }, { timeout: 20000 });
+    importBacklinks: async (domain, payload) => {
+        const body = Array.isArray(payload)
+            ? { domain, items: payload }
+            : { domain, ...(payload || {}) };
+        const res = await axios.post('/admin/seo/backlinks/import', body, { timeout: 25000 });
+        return res.data;
+    },
+
+    clearImportedBacklinks: async (domain = 'www.hangbug.com') => {
+        const res = await axios.delete('/admin/seo/backlinks/import', {
+            params: { domain },
+            timeout: 15000
+        });
         return res.data;
     }
 };

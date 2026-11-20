@@ -4,10 +4,14 @@ import '../../../../models/seo_dashboard_model.dart';
 import 'seo_charts.dart';
 import 'seo_theme_tokens.dart';
 
+const String kPageSpeedQuotaExhaustedMessage =
+    'Google PageSpeed API daily quota has been reached. Previously cached reports are still available. Please try again after the quota resets.';
+
 /// 7. TECHNICAL SEO TAB
 class SeoTechnicalTab extends StatefulWidget {
   final SeoDashboardPayload data;
-  final Future<void> Function(String url, String strategy) onRunPageSpeed;
+  final Future<void> Function(String url, String strategy, {bool forceRefresh})
+      onRunPageSpeed;
 
   const SeoTechnicalTab({
     super.key,
@@ -24,24 +28,169 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
   String _targetPath = '/';
   bool _runningPsi = false;
 
-  Future<void> _triggerPsi() async {
+  Map<String, dynamic> _resolveUrlCache(Map<String, dynamic> psi) {
+    final byPath = psi['byPath'] as Map<String, dynamic>? ?? {};
+    final byUrl = psi['byUrl'] as Map<String, dynamic>? ?? {};
+    final fullUrl = '${widget.data.siteUrl}$_targetPath';
+
+    if (byPath[_targetPath] is Map<String, dynamic>) {
+      return byPath[_targetPath] as Map<String, dynamic>;
+    }
+    if (byUrl[fullUrl] is Map<String, dynamic>) {
+      return byUrl[fullUrl] as Map<String, dynamic>;
+    }
+
+    final topMobile = psi['mobile'] as Map<String, dynamic>?;
+    final topDesktop = psi['desktop'] as Map<String, dynamic>?;
+    final mobileMatch = topMobile != null &&
+        (topMobile['path'] == _targetPath ||
+            topMobile['url'] == fullUrl ||
+            _targetPath == '/');
+    final desktopMatch = topDesktop != null &&
+        (topDesktop['path'] == _targetPath ||
+            topDesktop['url'] == fullUrl ||
+            _targetPath == '/');
+
+    return {
+      'url': fullUrl,
+      'path': _targetPath,
+      'mobile': mobileMatch ? topMobile : null,
+      'desktop': desktopMatch ? topDesktop : null,
+    };
+  }
+
+  Future<void> _triggerPsi({
+    required bool hasExistingCache,
+    required String? lastCheckedAt,
+  }) async {
     if (_runningPsi) return;
+    bool forceRefresh = false;
+
+    if (hasExistingCache) {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Confirm Live PageSpeed Refresh'),
+          content: Text(
+            'A cached $_strategy report for $_targetPath '
+            '${lastCheckedAt != null ? "from $lastCheckedAt " : ""}'
+            'is already available (24-hour cache). Running a live refresh will consume Google PageSpeed API quota. Proceed?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: const Text('Keep Cached Report'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: SeoColors.primaryDarkGreen,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: const Text('Confirm Live Refresh'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed != true) return;
+      forceRefresh = true;
+    }
+
     setState(() => _runningPsi = true);
     try {
-      await widget.onRunPageSpeed(_targetPath, _strategy);
+      await widget.onRunPageSpeed(
+        _targetPath,
+        _strategy,
+        forceRefresh: forceRefresh,
+      );
     } finally {
       if (mounted) setState(() => _runningPsi = false);
     }
+  }
+
+  List<Map<String, String>> _buildPrioritizedDropdownItems(
+    Map<String, dynamic> psi,
+  ) {
+    final rawList = psi['auditableUrls'] as List?;
+    if (rawList != null && rawList.isNotEmpty) {
+      final seen = <String>{};
+      final items = <Map<String, String>>[];
+      for (final entry in rawList.whereType<Map<String, dynamic>>()) {
+        final p = entry['path']?.toString() ?? '/';
+        if (seen.add(p)) {
+          final hasCache = entry['hasMobileCache'] == true ||
+              entry['hasDesktopCache'] == true;
+          final label = entry['label']?.toString() ?? p;
+          items.add({
+            'path': p,
+            'label': hasCache ? '$label [Cached]' : label,
+          });
+        }
+      }
+      if (items.isNotEmpty) return items;
+    }
+
+    return const [
+      {'path': '/', 'label': '/ (Homepage)'},
+      {'path': '/technologies', 'label': '/technologies (Tech Hub)'},
+      {
+        'path': '/technologies/javascript',
+        'label': '/technologies/javascript'
+      },
+      {'path': '/technologies/react', 'label': '/technologies/react'},
+      {'path': '/technologies/python', 'label': '/technologies/python'},
+      {'path': '/technologies/html', 'label': '/technologies/html'},
+      {'path': '/technologies/css', 'label': '/technologies/css'},
+      {'path': '/technologies/csharp', 'label': '/technologies/csharp'},
+      {'path': '/blog', 'label': '/blog (Published Articles)'},
+      {'path': '/games', 'label': '/games (Public Games Hub)'},
+      {'path': '/games/memory-match', 'label': '/games/memory-match'},
+      {'path': '/games/code-jumble', 'label': '/games/code-jumble'},
+      {'path': '/games/bug-hunter', 'label': '/games/bug-hunter'},
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     final tech = widget.data.technical;
     final psi = tech['pageSpeed'] as Map<String, dynamic>? ?? {};
-    final activePsi = (_strategy == 'desktop' ? psi['desktop'] : psi['mobile'])
-        as Map<String, dynamic>?;
+    final urlCache = _resolveUrlCache(psi);
+    final mobilePsi = urlCache['mobile'] as Map<String, dynamic>?;
+    final desktopPsi = urlCache['desktop'] as Map<String, dynamic>?;
+    final activePsi = _strategy == 'desktop' ? desktopPsi : mobilePsi;
     final cwv = activePsi?['coreWebVitals'] as Map<String, dynamic>? ?? {};
     final scores = activePsi?['scores'] as Map<String, dynamic>? ?? {};
+
+    final mobilePerf = (mobilePsi?['scores'] as Map<String, dynamic>?)?['performance'];
+    final desktopPerf = (desktopPsi?['scores'] as Map<String, dynamic>?)?['performance'];
+
+    final quotaState = psi['quotaState'] as Map<String, dynamic>?;
+    final lastError = psi['lastError'] as Map<String, dynamic>?;
+    final activeError =
+        (quotaState != null && (quotaState['exhausted'] == true || quotaState['errorCategory'] != null))
+            ? quotaState
+            : lastError;
+    final isDailyQuotaExhausted = quotaState?['exhausted'] == true ||
+        activeError?['errorCategory'] == 'daily_quota_exceeded';
+    final nextRetryAt = activeError?['nextRetryAt']?.toString() ??
+        psi['nextRetryAt']?.toString();
+
+    final lastAuditDate = activePsi?['checkedAt']?.toString() ??
+        mobilePsi?['checkedAt']?.toString() ??
+        desktopPsi?['checkedAt']?.toString() ??
+        psi['lastAuditedAt']?.toString();
+
+    final cachedStatus = activePsi != null
+        ? (isDailyQuotaExhausted
+            ? 'Cached Report (Quota Fallback)'
+            : 'Cached (24h TTL Active)')
+        : ((mobilePsi != null || desktopPsi != null)
+            ? 'Cached (${mobilePsi != null ? "Mobile" : "Desktop"} Available)'
+            : 'No Cached Report');
+
+    final dropdownItems = _buildPrioritizedDropdownItems(psi);
+    final selectedExists = dropdownItems.any((e) => e['path'] == _targetPath);
+    final effectiveSelected = selectedExists ? _targetPath : '/';
 
     final checks = [
       ('HTTP Status Codes', tech['httpStatusCodes']),
@@ -72,15 +221,19 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Page Speed & Core Web Vitals',
-                    style: AppTextStyles.labelBold.copyWith(
-                      fontSize: 15,
-                      color: SeoColors.textPrimary(context),
+                  Expanded(
+                    child: Text(
+                      'Page Speed & Core Web Vitals',
+                      style: AppTextStyles.labelBold.copyWith(
+                        fontSize: 15,
+                        color: SeoColors.textPrimary(context),
+                      ),
                     ),
                   ),
                   SeoStatusBadge(
-                    status: (tech['coreWebVitals']?['status'] ?? 'Not checked')
+                    status: (tech['coreWebVitals']?['status'] ??
+                            psi['status'] ??
+                            'Not checked')
                         .toString(),
                   ),
                 ],
@@ -91,25 +244,28 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
                   Expanded(
                     child: InputDecorator(
                       decoration: const InputDecoration(
-                        labelText: 'URL',
+                        labelText: 'Prioritized URL',
                         isDense: true,
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       ),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
-                          value: _targetPath,
+                          value: effectiveSelected,
+                          isExpanded: true,
                           isDense: true,
-                          items: const [
-                            DropdownMenuItem(value: '/', child: Text('/ (Home)')),
-                            DropdownMenuItem(
-                                value: '/technologies',
-                                child: Text('/technologies')),
-                            DropdownMenuItem(
-                                value: '/games', child: Text('/games')),
-                            DropdownMenuItem(
-                                value: '/blog', child: Text('/blog')),
-                          ],
+                          items: dropdownItems
+                              .map(
+                                (item) => DropdownMenuItem<String>(
+                                  value: item['path'],
+                                  child: Text(
+                                    item['label'] ?? item['path'] ?? '/',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ),
+                              )
+                              .toList(),
                           onChanged: (v) =>
                               setState(() => _targetPath = v ?? '/'),
                         ),
@@ -131,8 +287,118 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
                 ],
               ),
               const SizedBox(height: 10),
+              // Summary metrics: Last Audit Date, Cached Result Status, Mobile & Desktop Performance
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: SeoColors.scaffoldBg(context),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: SeoColors.border(context)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Last Audit Date: ${lastAuditDate ?? "Not audited yet"}',
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w600,
+                        color: SeoColors.textPrimary(context),
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      'Cached Result Status: $cachedStatus',
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w600,
+                        color: SeoColors.primaryBrand(context),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Mobile Performance: ${mobilePerf is num ? "$mobilePerf/100" : "Not audited"}',
+                            style: const TextStyle(
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Desktop Performance: ${desktopPerf is num ? "$desktopPerf/100" : "Not audited"}',
+                            style: const TextStyle(
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              if (activeError != null) ...[
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFEF5E7),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFFF8DFB6)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        isDailyQuotaExhausted
+                            ? kPageSpeedQuotaExhaustedMessage
+                            : (activeError['userMessage']?.toString() ??
+                                activeError['message']?.toString() ??
+                                'PageSpeed API notice'),
+                        style: const TextStyle(
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF92400E),
+                        ),
+                      ),
+                      if (activeError['message'] != null) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          'Error Details (${activeError['errorCategory'] ?? 'api_error'}): ${activeError['message']}',
+                          style: const TextStyle(
+                            fontSize: 10.5,
+                            color: Color(0xFF92400E),
+                          ),
+                        ),
+                      ],
+                      if (nextRetryAt != null && nextRetryAt.isNotEmpty) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          'Next Available Retry: $nextRetryAt',
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF92400E),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+              const SizedBox(height: 10),
               ElevatedButton.icon(
-                onPressed: _runningPsi ? null : _triggerPsi,
+                onPressed: (_runningPsi ||
+                        (isDailyQuotaExhausted && activePsi != null))
+                    ? null
+                    : () => _triggerPsi(
+                          hasExistingCache: activePsi != null,
+                          lastCheckedAt: activePsi?['checkedAt']?.toString(),
+                        ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: SeoColors.primaryDarkGreen,
                   foregroundColor: Colors.white,
@@ -148,14 +414,18 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
                         ),
                       )
                     : const Icon(Icons.speed_rounded, size: 18),
-                label: Text(_runningPsi
-                    ? 'Running PageSpeed Insights...'
-                    : 'Run PageSpeed Check'),
+                label: Text(
+                  _runningPsi
+                      ? 'Running PageSpeed Insights...'
+                      : activePsi != null
+                          ? 'Refresh PageSpeed Audit'
+                          : 'Run PageSpeed Check',
+                ),
               ),
               if (activePsi != null) ...[
                 const SizedBox(height: 14),
                 Text(
-                  'Performance: ${scores['performance'] ?? '—'} · Accessibility: ${scores['accessibility'] ?? '—'} · SEO: ${scores['seo'] ?? '—'}',
+                  'Performance: ${scores['performance'] ?? '—'} · Accessibility: ${scores['accessibility'] ?? '—'} · Best Practices: ${scores['bestPractices'] ?? '—'} · SEO: ${scores['seo'] ?? '—'}',
                   style: TextStyle(
                     fontSize: 12.5,
                     fontWeight: FontWeight.w700,
@@ -185,8 +455,10 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
               ] else ...[
                 const SizedBox(height: 10),
                 Text(
-                  psi['explanation']?.toString() ??
-                      'Run PageSpeed Check to measure live LCP, CLS, INP, and Lighthouse scores.',
+                  isDailyQuotaExhausted
+                      ? kPageSpeedQuotaExhaustedMessage
+                      : (psi['explanation']?.toString() ??
+                          'Run PageSpeed Check to measure live LCP, CLS, INP, and Lighthouse scores.'),
                   style: TextStyle(
                     fontSize: 11.5,
                     color: SeoColors.textMuted(context),

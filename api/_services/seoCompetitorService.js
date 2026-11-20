@@ -1,5 +1,11 @@
 const prisma = require('../_config/prisma');
-const { DEFAULT_DOMAIN, normalizeDomain } = require('./seoIntegrationService');
+const {
+    DEFAULT_DOMAIN,
+    OPENPAGERANK_BULK_ENDPOINT,
+    normalizeDomain,
+    normalizeRootDomain,
+    resolveOpenPageRankApiKey
+} = require('./seoIntegrationService');
 
 const memoryCompetitors = new Map();
 
@@ -75,36 +81,44 @@ async function probeCompetitorPublicSignals(competitorDomain, hangbugTopics = []
 
     // Optional verified OpenPageRank lookup if configured
     let thirdPartyDomainRank = null;
+    let thirdPartyGlobalRank = null;
+    let thirdPartyReferringDomains = null;
     let thirdPartySource = null;
-    if (config?.backlinkProvider === 'openpagerank' && config?.backlinkProviderKey) {
+    const oprKeyInfo = resolveOpenPageRankApiKey(config || {});
+    if (oprKeyInfo.hasKey) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 6000);
         try {
-            const oprRes = await fetchPublicText(
-                `https://openpagerank.com/api/v1.0/getPageRank?domains[]=${encodeURIComponent(clean.replace(/^www\./, ''))}`,
-                5000
-            );
-            // Note: OpenPageRank requires API-OPR header, skip if fetchPublicText didn't pass header; do authenticated call:
-            if (!oprRes.ok) {
-                const controller = new AbortController();
-                const timer = setTimeout(() => controller.abort(), 5000);
-                try {
-                    const r = await fetch(
-                        `https://openpagerank.com/api/v1.0/getPageRank?domains[]=${encodeURIComponent(clean.replace(/^www\./, ''))}`,
-                        { headers: { 'API-OPR': config.backlinkProviderKey }, signal: controller.signal }
-                    );
-                    if (r.ok) {
-                        const json = await r.json();
-                        const row = json?.response?.[0];
-                        if (row && row.page_rank_decimal !== undefined) {
-                            thirdPartyDomainRank = Number(row.page_rank_decimal);
-                            thirdPartySource = 'OpenPageRank (Estimated)';
-                        }
-                    }
-                } finally {
-                    clearTimeout(timer);
+            const targetRoot = normalizeRootDomain(clean);
+            const r = await fetch(OPENPAGERANK_BULK_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${oprKeyInfo.key}`,
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+                },
+                body: JSON.stringify({
+                    domains: [targetRoot],
+                    include_history: false
+                }),
+                signal: controller.signal
+            });
+            if (r.ok) {
+                const json = await r.json();
+                const row = Array.isArray(json?.results) ? json.results[0] : null;
+                if (row && row.found && row.open_page_rank !== null && row.open_page_rank !== undefined) {
+                    thirdPartyDomainRank = Number(row.open_page_rank);
+                    thirdPartyGlobalRank = row.rank !== null && row.rank !== undefined ? Number(row.rank) : null;
+                    thirdPartyReferringDomains = row.referring_domains !== null && row.referring_domains !== undefined
+                        ? Number(row.referring_domains)
+                        : null;
+                    thirdPartySource = 'OpenPageRank API (Estimated)';
                 }
             }
         } catch {
             // ignore provider failure
+        } finally {
+            clearTimeout(timer);
         }
     }
 
@@ -128,11 +142,13 @@ async function probeCompetitorPublicSignals(competitorDomain, hangbugTopics = []
             isEstimated: true,
             source: thirdPartySource || 'No third-party keyword/backlink provider connected',
             domainAuthorityScore: thirdPartyDomainRank,
+            globalDomainRank: thirdPartyGlobalRank,
+            referringDomains: thirdPartyReferringDomains,
             estimatedOrganicKeywords: null,
             estimatedBacklinks: null,
             explanation: thirdPartySource
-                ? 'Domain score fetched from OpenPageRank (Estimated). Organic keyword counts require a connected keyword research API.'
-                : 'Keyword visibility and backlink totals are unavailable until a verified third-party SEO provider is configured in Settings. Topic coverage and sitemap checks above are measured directly.'
+                ? 'Domain score and referring domains fetched from OpenPageRank (Estimated). Organic keyword counts require a connected keyword research API.'
+                : 'Keyword visibility and domain authority are unavailable until a verified third-party SEO provider is configured in Settings. Topic coverage and sitemap checks above are measured directly.'
         },
         source: homeRes.ok ? `Live Public Crawl (${clean})` : 'Public Probe Unreachable',
         checkedAt: new Date().toISOString()

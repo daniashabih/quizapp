@@ -10,8 +10,12 @@ const {
     inspectUrlInSearchConsole,
     fetchGa4Performance,
     runPageSpeedInsights,
+    buildPageSpeedDashboardView,
+    redactPageSpeedApiKey,
+    fetchOpenPageRankData,
     getBacklinksData,
     importGscBacklinks,
+    clearGscBacklinks,
     getAiVisibilityData,
     testIntegrationConnection,
     getSnapshot
@@ -151,62 +155,80 @@ function buildOverviewMetrics({ config, latestAudit, previousAudit, gscData, ga4
         };
 
     // Referring Domains & Backlinks
-    const refDomainsAvailable = backlinksData?.connected && backlinksData.summary?.referringDomains !== null && backlinksData.summary?.referringDomains !== undefined;
-    const backlinksAvailable = backlinksData?.connected && backlinksData.summary?.totalBacklinks !== null && backlinksData.summary?.totalBacklinks !== undefined;
+    const oprConnected = Boolean(backlinksData?.openPageRank?.connected);
+    const gscImportAvailable = Boolean(backlinksData?.gscLinksImport?.available);
+    const refDomainsVal = backlinksData?.summary?.referringDomains;
+    const refDomainsAvailable = Boolean(backlinksData?.connected && refDomainsVal !== null && refDomainsVal !== undefined);
+    const gscTotalBacklinks = backlinksData?.gscLinksImport?.summary?.totalBacklinks ?? backlinksData?.summary?.totalBacklinks ?? null;
+    const backlinksAvailable = Boolean(gscImportAvailable && gscTotalBacklinks !== null && gscTotalBacklinks !== undefined);
 
     const referringDomainsMetric = refDomainsAvailable
         ? {
             key: 'referringDomains',
             label: 'Referring Domains',
-            explanation: 'Unique external domains linking to Hangbug.',
+            explanation: 'The number of linking domains reported by the selected data provider.',
             available: true,
-            value: backlinksData.summary.referringDomains,
-            formattedValue: Number(backlinksData.summary.referringDomains).toLocaleString('en-US'),
+            value: refDomainsVal,
+            formattedValue: Number(refDomainsVal).toLocaleString('en-US'),
             trend: null,
-            isEstimated: Boolean(backlinksData.isEstimated),
-            source: backlinksData.source,
+            isEstimated: oprConnected,
+            source: oprConnected ? 'OpenPageRank API' : 'GSC Links CSV Import',
             updatedAt: backlinksData.syncedAt
         }
         : {
             key: 'referringDomains',
             label: 'Referring Domains',
-            explanation: 'Unique websites linking back to Hangbug.',
+            explanation: 'The number of linking domains reported by the selected data provider.',
             available: false,
             value: null,
-            formattedValue: 'Not connected',
-            unavailabilityReason: backlinksData?.reason || 'Import a Google Search Console Links export or connect a backlink provider in Settings.',
+            formattedValue: backlinksData?.openPageRank?.connectionStatus || 'Not connected',
+            unavailabilityReason: backlinksData?.reason || 'Connect OpenPageRank in Settings or import a Google Search Console Links CSV report.',
             trend: null,
             isEstimated: false,
-            source: 'GSC Links / Backlink Provider',
+            source: 'OpenPageRank / GSC Links CSV',
             updatedAt: null
         };
 
     const backlinksMetric = backlinksAvailable
         ? {
             key: 'backlinks',
-            label: 'Backlinks',
-            explanation: 'Total inbound hyperlinks pointing to Hangbug from external sites.',
+            label: 'Imported GSC Links',
+            explanation: 'External links reported in your manually imported Google Search Console Links CSV snapshot.',
             available: true,
-            value: backlinksData.summary.totalBacklinks,
-            formattedValue: Number(backlinksData.summary.totalBacklinks).toLocaleString('en-US'),
-            trend: null,
-            isEstimated: Boolean(backlinksData.isEstimated),
-            source: backlinksData.source,
-            updatedAt: backlinksData.syncedAt
-        }
-        : {
-            key: 'backlinks',
-            label: 'Backlinks',
-            explanation: 'Total inbound links discovered pointing to Hangbug.',
-            available: false,
-            value: null,
-            formattedValue: 'Not connected',
-            unavailabilityReason: backlinksData?.reason || 'Import a Google Search Console Links export or connect a backlink provider in Settings.',
+            value: gscTotalBacklinks,
+            formattedValue: Number(gscTotalBacklinks).toLocaleString('en-US'),
             trend: null,
             isEstimated: false,
-            source: 'GSC Links / Backlink Provider',
-            updatedAt: null
-        };
+            source: 'GSC Links CSV (Manual Import)',
+            updatedAt: backlinksData?.gscLinksImport?.importedAt || backlinksData.syncedAt
+        }
+        : oprConnected && backlinksData?.openPageRank?.score !== null && backlinksData?.openPageRank?.score !== undefined
+            ? {
+                key: 'backlinks',
+                label: 'OpenPageRank Score',
+                explanation: "An external estimate of your website's authority based on its link graph. It is not a Google ranking score.",
+                available: true,
+                value: backlinksData.openPageRank.score,
+                formattedValue: `${backlinksData.openPageRank.score}/10`,
+                trend: backlinksData?.openPageRank?.historySummary?.monthOverMonthChange ?? null,
+                trendUnit: '',
+                isEstimated: true,
+                source: 'OpenPageRank API',
+                updatedAt: backlinksData.openPageRank.syncedAt
+            }
+            : {
+                key: 'backlinks',
+                label: 'OpenPageRank Score',
+                explanation: "An external estimate of your website's authority based on its link graph. It is not a Google ranking score.",
+                available: false,
+                value: null,
+                formattedValue: backlinksData?.openPageRank?.connectionStatus || 'Not Configured',
+                unavailabilityReason: backlinksData?.reason || 'Configure OpenPageRank in Settings or import a Google Search Console Links CSV export.',
+                trend: null,
+                isEstimated: false,
+                source: 'OpenPageRank API',
+                updatedAt: null
+            };
 
     const lastUpdateCandidates = [latestAudit?.createdAt, gscData?.syncedAt, ga4Data?.syncedAt].filter(Boolean);
     const lastDataUpdate = lastUpdateCandidates.sort().reverse()[0] || new Date().toISOString();
@@ -386,6 +408,13 @@ exports.getSeoDashboard = async (req, res) => {
             ...targetKeywords.map(k => k.keyword)
         ];
 
+        const pageSpeedView = buildPageSpeedDashboardView({
+            config,
+            pagespeedSnap,
+            latestAudit
+        });
+        const activeCwvReport = pageSpeedView.mobile || pageSpeedView.desktop || null;
+
         res.json({
             success: true,
             data: {
@@ -409,7 +438,8 @@ exports.getSeoDashboard = async (req, res) => {
                         errorCategory: ga4Data.errorCategory || null,
                         syncedAt: ga4Data.syncedAt || null,
                         message: ga4Data.reason || ''
-                    } : null
+                    } : null,
+                    backlinksData?.openPageRank || null
                 ),
                 overview,
                 healthScore: latestAudit?.scoreBreakdown || null,
@@ -449,31 +479,24 @@ exports.getSeoDashboard = async (req, res) => {
                 },
                 technical: {
                     ...(latestAudit?.summary?.technicalReport || {}),
-                    pageSpeed: pagespeedSnap?.data
-                        ? {
-                            status: pagespeedSnap.data.mobile?.scores?.performance >= 85 ? 'Good' : 'Needs attention',
-                            mobile: pagespeedSnap.data.mobile || null,
-                            desktop: pagespeedSnap.data.desktop || null,
-                            explanation: `Measured via Google PageSpeed Insights (${pagespeedSnap.syncedAt || 'recent'}).`
-                        }
-                        : (latestAudit?.summary?.technicalReport?.pageSpeed || { status: 'Not checked', mobile: null, desktop: null }),
-                    coreWebVitals: pagespeedSnap?.data?.mobile
+                    pageSpeed: pageSpeedView,
+                    coreWebVitals: activeCwvReport
                         ? {
                             status: [
-                                pagespeedSnap.data.mobile.coreWebVitals?.lcp?.status,
-                                pagespeedSnap.data.mobile.coreWebVitals?.cls?.status,
-                                pagespeedSnap.data.mobile.coreWebVitals?.inp?.status
+                                activeCwvReport.coreWebVitals?.lcp?.status,
+                                activeCwvReport.coreWebVitals?.cls?.status,
+                                activeCwvReport.coreWebVitals?.inp?.status
                             ].includes('Critical')
                                 ? 'Critical'
                                 : [
-                                    pagespeedSnap.data.mobile.coreWebVitals?.lcp?.status,
-                                    pagespeedSnap.data.mobile.coreWebVitals?.cls?.status,
-                                    pagespeedSnap.data.mobile.coreWebVitals?.inp?.status
+                                    activeCwvReport.coreWebVitals?.lcp?.status,
+                                    activeCwvReport.coreWebVitals?.cls?.status,
+                                    activeCwvReport.coreWebVitals?.inp?.status
                                 ].includes('Needs attention')
                                     ? 'Needs attention'
                                     : 'Good',
-                            metrics: pagespeedSnap.data.mobile.coreWebVitals,
-                            checkedAt: pagespeedSnap.data.mobile.checkedAt,
+                            metrics: activeCwvReport.coreWebVitals,
+                            checkedAt: activeCwvReport.checkedAt,
                             explanation: 'Measured Core Web Vitals (LCP, CLS, INP/TBT, FCP, TTFB) from Google PageSpeed Insights.'
                         }
                         : (latestAudit?.summary?.technicalReport?.coreWebVitals || { status: 'Not checked', metrics: null }),
@@ -485,17 +508,17 @@ exports.getSeoDashboard = async (req, res) => {
                 competitors: {
                     items: competitors,
                     hangbugTopicsCount: Array.from(new Set(hangbugTopics)).length,
-                    thirdPartyConnected: config.backlinkProvider !== 'none' && Boolean(config.backlinkProviderKey),
+                    thirdPartyConnected: Boolean(backlinksData?.openPageRank?.connected),
                     explanation: 'Competitor comparisons combine direct public crawls (titles, sitemaps, topic coverage) with verified third-party APIs when configured. No competitor statistics are estimated without a connected provider.'
                 },
                 recommendations
             }
         });
     } catch (error) {
-        console.error('[SEO Dashboard Controller Error]:', error);
+        console.error('[SEO Dashboard Controller Error]:', redactPageSpeedApiKey(error?.message || 'Dashboard load error'));
         res.status(500).json({
             success: false,
-            message: error.message || 'Unable to load SEO dashboard data.'
+            message: redactPageSpeedApiKey(error?.message || 'Unable to load SEO dashboard data.')
         });
     }
 };
@@ -521,10 +544,10 @@ exports.runAudit = async (req, res) => {
             audit: auditRun
         });
     } catch (error) {
-        console.error('[SEO Run Audit Error]:', error);
+        console.error('[SEO Run Audit Error]:', redactPageSpeedApiKey(error?.message || 'Audit error'));
         res.status(500).json({
             success: false,
-            message: error.message || 'Failed to run SEO audit.'
+            message: redactPageSpeedApiKey(error?.message || 'Failed to run SEO audit.')
         });
     }
 };
@@ -534,19 +557,43 @@ exports.runPageSpeed = async (req, res) => {
         const domain = normalizeDomain(req.body?.domain || DEFAULT_DOMAIN);
         const targetUrl = String(req.body?.url || '').trim();
         const strategy = String(req.body?.strategy || 'mobile').toLowerCase() === 'desktop' ? 'desktop' : 'mobile';
+        const forceRefresh = Boolean(req.body?.forceRefresh);
         const config = await getProjectConfig(domain);
 
-        const result = await runPageSpeedInsights(config, targetUrl || config.siteUrl, strategy);
+        const result = await runPageSpeedInsights(config, targetUrl || config.siteUrl, strategy, {
+            forceRefresh
+        });
+        const fromCache = Boolean(result?.fromCache);
+        const deduplicated = Boolean(result?.deduplicated);
+
         res.json({
             success: true,
-            message: `Live ${strategy} PageSpeed check completed.`,
+            fromCache,
+            deduplicated,
+            cacheStatus: result?.cacheStatus || (fromCache ? 'cached' : 'fresh'),
+            message: fromCache
+                ? `Loaded cached ${strategy} PageSpeed report (valid for 24 hours).`
+                : `Live ${strategy} PageSpeed check completed.`,
             pagespeed: result
         });
     } catch (error) {
-        console.error('[SEO PageSpeed Error]:', error);
-        res.status(error.status || 500).json({
+        const safeMessage = redactPageSpeedApiKey(error?.userMessage || error?.message || 'PageSpeed Insights request failed.');
+        const safeTechnical = redactPageSpeedApiKey(error?.technicalDetail || error?.message || '');
+        console.error('[SEO PageSpeed Error]:', safeTechnical || safeMessage);
+        res.status(error?.status || error?.httpStatus || 500).json({
             success: false,
-            message: error.message || 'PageSpeed Insights request failed.'
+            errorCategory: error?.errorCategory || 'api_error',
+            isQuotaError: Boolean(error?.isQuotaError),
+            isDailyQuota: Boolean(error?.isDailyQuota),
+            retryable: Boolean(error?.retryable),
+            message: safeMessage,
+            userMessage: safeMessage,
+            technicalDetail: safeTechnical,
+            nextRetryAt: error?.nextRetryAt || null,
+            projectNumber: error?.projectNumber || null,
+            hasCachedReport: Boolean(error?.hasCachedReport),
+            cachedReport: error?.cachedReport || null,
+            pagespeed: error?.pagespeed || null
         });
     }
 };
@@ -694,9 +741,10 @@ exports.getSeoSettings = async (req, res) => {
     try {
         const domain = normalizeDomain(req.query.domain || DEFAULT_DOMAIN);
         const config = await getProjectConfig(domain);
-        const [verification, ga4Res] = await Promise.all([
+        const [verification, ga4Res, oprRes] = await Promise.all([
             verifySearchConsoleServiceAccount(config),
-            fetchGa4Performance(config, resolveDateRange('7d')).catch(() => null)
+            fetchGa4Performance(config, resolveDateRange('7d')).catch(() => null),
+            fetchOpenPageRankData(config).catch(() => null)
         ]);
         if (verification.propertyVerified && verification.selectedProperty && config.rawGscProperty !== verification.selectedProperty) {
             await saveProjectConfig(domain, { gscProperty: verification.selectedProperty });
@@ -713,7 +761,7 @@ exports.getSeoSettings = async (req, res) => {
         } : null;
         res.json({
             success: true,
-            settings: sanitizeConfigForClient(config, verification, ga4Ver)
+            settings: sanitizeConfigForClient(config, verification, ga4Ver, oprRes)
         });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -725,9 +773,10 @@ exports.updateSeoSettings = async (req, res) => {
         const domain = normalizeDomain(req.body?.domain || req.query.domain || DEFAULT_DOMAIN);
         const saved = await saveProjectConfig(domain, req.body || {});
         const merged = await getProjectConfig(saved.domain || domain);
-        const [verification, ga4Res] = await Promise.all([
+        const [verification, ga4Res, oprRes] = await Promise.all([
             verifySearchConsoleServiceAccount(merged),
-            fetchGa4Performance(merged, resolveDateRange('7d')).catch(() => null)
+            fetchGa4Performance(merged, resolveDateRange('7d')).catch(() => null),
+            fetchOpenPageRankData(merged).catch(() => null)
         ]);
         if (verification.propertyVerified && verification.selectedProperty && merged.rawGscProperty !== verification.selectedProperty) {
             await saveProjectConfig(domain, { gscProperty: verification.selectedProperty });
@@ -745,7 +794,7 @@ exports.updateSeoSettings = async (req, res) => {
         res.json({
             success: true,
             message: 'SEO integration & crawler settings saved.',
-            settings: sanitizeConfigForClient(merged, verification, ga4Ver)
+            settings: sanitizeConfigForClient(merged, verification, ga4Ver, oprRes)
         });
     } catch (error) {
         res.status(400).json({
@@ -759,7 +808,9 @@ exports.testSeoIntegration = async (req, res) => {
     try {
         const domain = normalizeDomain(req.body?.domain || DEFAULT_DOMAIN);
         const target = String(req.body?.target || '').trim().toLowerCase();
-        const result = await testIntegrationConnection(domain, target);
+        const result = await testIntegrationConnection(domain, target, {
+            apiKey: req.body?.apiKey
+        });
         res.json({
             success: result.ok,
             result
@@ -775,17 +826,45 @@ exports.testSeoIntegration = async (req, res) => {
 exports.importBacklinks = async (req, res) => {
     try {
         const domain = normalizeDomain(req.body?.domain || DEFAULT_DOMAIN);
+        const csvText = req.body?.csvText || '';
+        const fileName = req.body?.fileName || '';
+        const reportDate = req.body?.reportDate || '';
         const items = req.body?.items || [];
-        const saved = await importGscBacklinks(domain, items);
+        const hasCsvInput = Boolean(csvText && String(csvText).trim());
+        const saved = await importGscBacklinks(
+            domain,
+            hasCsvInput || fileName || reportDate
+                ? { csvText, fileName, reportDate, items }
+                : items
+        );
+        const domCount = saved.summary?.referringDomains ?? 0;
+        const targetCount = saved.summary?.targetPagesCount ?? 0;
+        const linksCount = saved.summary?.totalBacklinks ?? 0;
         res.json({
             success: true,
-            message: `Imported ${saved.summary.referringDomains} referring domain(s) (${saved.summary.totalBacklinks} links).`,
+            message: `Imported Google Search Console Links report (${domCount} external linking domain(s), ${targetCount} target page(s), ${linksCount} link(s)).`,
             backlinks: saved
         });
     } catch (error) {
         res.status(400).json({
             success: false,
             message: error.message || 'Failed to import backlinks.'
+        });
+    }
+};
+
+exports.clearImportedBacklinks = async (req, res) => {
+    try {
+        const domain = normalizeDomain(req.body?.domain || req.query.domain || DEFAULT_DOMAIN);
+        await clearGscBacklinks(domain);
+        res.json({
+            success: true,
+            message: 'Cleared imported Google Search Console Links CSV report.'
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message || 'Unable to clear imported GSC Links report.'
         });
     }
 };

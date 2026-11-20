@@ -11,7 +11,9 @@ import {
     KeyRound,
     ShieldCheck,
     Activity,
-    Clock
+    Clock,
+    Link2,
+    Trash2
 } from 'lucide-react';
 import seoService from '../../services/seoService';
 import { toast } from '../../services/notificationService';
@@ -49,8 +51,9 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
         googlePrivateKey: '',
         googleServiceAccountJson: '',
         pagespeedApiKey: '',
-        backlinkProvider: 'none',
+        backlinkProvider: 'openpagerank',
         backlinkProviderKey: '',
+        openPageRankApiKey: '',
         keywordProvider: 'none',
         keywordProviderKey: '',
         crawlFrequency: 'daily',
@@ -128,8 +131,14 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                 ...(form.googlePrivateKey ? { googlePrivateKey: form.googlePrivateKey } : {}),
                 ...(form.googleServiceAccountJson ? { googleServiceAccountJson: form.googleServiceAccountJson } : {}),
                 ...(form.pagespeedApiKey ? { pagespeedApiKey: form.pagespeedApiKey } : {}),
-                backlinkProvider: form.backlinkProvider,
-                ...(form.backlinkProviderKey ? { backlinkProviderKey: form.backlinkProviderKey } : {}),
+                backlinkProvider: (form.openPageRankApiKey || form.backlinkProviderKey)
+                    ? 'openpagerank'
+                    : form.backlinkProvider,
+                ...(form.openPageRankApiKey
+                    ? { openPageRankApiKey: form.openPageRankApiKey, backlinkProviderKey: form.openPageRankApiKey }
+                    : form.backlinkProviderKey
+                        ? { backlinkProviderKey: form.backlinkProviderKey }
+                        : {}),
                 keywordProvider: form.keywordProvider,
                 ...(form.keywordProviderKey ? { keywordProviderKey: form.keywordProviderKey } : {}),
                 crawlFrequency: form.crawlFrequency,
@@ -147,6 +156,7 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                     googleServiceAccountJson: '',
                     pagespeedApiKey: '',
                     backlinkProviderKey: '',
+                    openPageRankApiKey: '',
                     keywordProviderKey: ''
                 }));
                 if (onDataUpdated) await onDataUpdated();
@@ -158,11 +168,45 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
         }
     };
 
+    const handleRemoveOpenPageRankKey = async () => {
+        setSaving(true);
+        try {
+            const res = await seoService.updateSettings(domain, {
+                clearOpenPageRankApiKey: true,
+                clearBacklinkProviderKey: true,
+                backlinkProvider: 'none'
+            });
+            if (res?.success) {
+                toast.info('OpenPageRank API key removed.');
+                applySettings(res.settings || {});
+                setForm((prev) => ({
+                    ...prev,
+                    backlinkProvider: 'none',
+                    backlinkProviderKey: '',
+                    openPageRankApiKey: ''
+                }));
+                setTestResult(null);
+                if (onDataUpdated) await onDataUpdated();
+            }
+        } catch (err) {
+            toast.error(err?.response?.data?.message || 'Failed to remove OpenPageRank API key.');
+        } finally {
+            setSaving(false);
+        }
+    };
+
     const handleTest = async (target) => {
         setTestingTarget(target);
         setTestResult(null);
         try {
-            const res = await seoService.testIntegration(domain, target);
+            const pendingOprKey = (target === 'openpagerank' || target === 'backlinks')
+                ? (form.openPageRankApiKey || form.backlinkProviderKey || '').trim()
+                : '';
+            const res = await seoService.testIntegration(
+                domain,
+                target,
+                pendingOprKey ? { apiKey: pendingOprKey } : {}
+            );
             const result = res?.result || { ok: false, provider: target, message: 'No response' };
             setTestResult(result);
             if (target === 'gsc') {
@@ -191,6 +235,16 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                     ga4ResourceName: result.resourceName || prev.ga4ResourceName,
                     ga4LastSyncedAt: result.syncedAt || prev.ga4LastSyncedAt,
                     ga4VerificationMessage: result.message || prev.ga4VerificationMessage
+                }));
+            } else if (target === 'openpagerank' || target === 'backlinks') {
+                setFlags((prev) => ({
+                    ...prev,
+                    openPageRankConnected: Boolean(result.ok),
+                    openPageRankStatus: result.connectionStatus || (result.ok ? 'Connected' : 'Provider Unavailable'),
+                    openPageRankMessage: result.message || prev.openPageRankMessage,
+                    openPageRankLastSyncedAt: result.syncedAt || prev.openPageRankLastSyncedAt,
+                    openPageRankAsOf: result.asOf || prev.openPageRankAsOf,
+                    openPageRankQuota: result.quota || prev.openPageRankQuota
                 }));
             }
         } catch (err) {
@@ -614,15 +668,24 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                     <div>
                         <label className="block font-semibold mb-1">
-                            PageSpeed API Key (Optional)
+                            PageSpeed API Key (<code className="font-mono">PAGESPEED_API_KEY</code>)
                         </label>
                         <input
                             type="password"
                             value={form.pagespeedApiKey}
                             onChange={(e) => setForm({ ...form, pagespeedApiKey: e.target.value })}
-                            placeholder={flags.hasPagespeedApiKey ? '•••••••• (Saved)' : 'Increases PageSpeed quota'}
+                            placeholder={
+                                flags.pagespeedApiKeySource === 'env:PAGESPEED_API_KEY'
+                                    ? '•••••••• (Loaded from PAGESPEED_API_KEY env)'
+                                    : flags.hasPagespeedApiKey
+                                        ? '•••••••• (Saved on backend)'
+                                        : 'Server-side Google Cloud API key'
+                            }
                             className="w-full px-3.5 py-2 rounded-xl border border-[#E4EAE6] dark:border-[#2A3832] bg-[#F7F8F6] dark:bg-[#141D19]"
                         />
+                        <p className="mt-1 text-[11px] text-[#75817C] dark:text-[#8FA69C]">
+                            Used exclusively on the backend; never returned to the browser.
+                        </p>
                     </div>
 
                     <div>

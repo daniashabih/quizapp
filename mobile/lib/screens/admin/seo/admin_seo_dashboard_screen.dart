@@ -70,12 +70,19 @@ class _AdminSeoDashboardScreenState
     }
   }
 
-  Future<void> _runPageSpeed(String url, String strategy) async {
+  Future<void> _runPageSpeed(
+    String url,
+    String strategy, {
+    bool forceRefresh = false,
+  }) async {
     try {
       final domain = ref.read(seoDomainProvider);
-      final msg = await ref
-          .read(seoServiceProvider)
-          .runPageSpeed(domain: domain, url: url, strategy: strategy);
+      final msg = await ref.read(seoServiceProvider).runPageSpeed(
+            domain: domain,
+            url: url,
+            strategy: strategy,
+            forceRefresh: forceRefresh,
+          );
       ref.invalidate(seoDashboardProvider);
       AppNotificationService.success(
         id: 'seo-psi-ok',
@@ -83,9 +90,10 @@ class _AdminSeoDashboardScreenState
         message: msg,
       );
     } catch (e) {
+      ref.invalidate(seoDashboardProvider);
       AppNotificationService.error(
         id: 'seo-psi-err',
-        title: 'PageSpeed Failed',
+        title: 'PageSpeed Notice',
         message: e.toString().replaceFirst('Exception: ', ''),
       );
     }

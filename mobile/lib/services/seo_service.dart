@@ -52,10 +52,16 @@ class SeoService {
     String domain = 'www.hangbug.com',
     String url = '/',
     String strategy = 'mobile',
+    bool forceRefresh = false,
   }) async {
     final response = await apiClient.post(
       ApiEndpoints.adminSeoPageSpeedRun,
-      data: {'domain': domain, 'url': url, 'strategy': strategy},
+      data: {
+        'domain': domain,
+        'url': url,
+        'strategy': strategy,
+        'forceRefresh': forceRefresh,
+      },
       options: Options(receiveTimeout: const Duration(seconds: 45)),
     );
     final data = response.data as Map<String, dynamic>;
