@@ -2,7 +2,7 @@
     "category": "Material UI, MongoDB, ReactJS",
     "session": 1,
     "title": "Session 1",
-    "totalQuestions": 28,
+    "totalQuestions": 61,
     "questions": [
         {
             "questionText": "Which of the following is a CSS property that can be used to set the background color of a React component?",
@@ -575,6 +575,105 @@
             ],
             "correctAnswer": "Fetch API is a more flexible alternative to traditional XMLHttpRequest, and Axios is a popular library for making HTTP requests",
             "explanation": "Fetch API is a modern built-in browser interface replacing XMLHttpRequest, whereas Axios is a third-party library for making HTTP requests."
+        },
+        {
+            "questionText": "What is the purpose of UI Design language?",
+            "options": [
+                "To establish a consistent visual style across different platforms and devices.",
+                "To optimize Website performance and loading speed.",
+                "To provide guidelines for coding and programming UI elements.",
+                "To automate the design process and generate UI layouts."
+            ],
+            "correctAnswer": "To establish a consistent visual style across different platforms and devices.",
+            "explanation": "A UI design language defines visual principles, patterns, and components to maintain a consistent look and feel across different platforms and devices."
+        },
+        {
+            "questionText": "What are the roles and responsibilities of a UI Designer?",
+            "options": [
+                "Create the screens",
+                "Create the visual hierarchy in design",
+                "Conduct user testing for user feedback to refine designs",
+                "All of these"
+            ],
+            "correctAnswer": "All of these",
+            "explanation": "A UI Designer creates screens, establishes visual hierarchy in the interface, and conducts user testing to gather feedback and refine designs."
+        },
+        {
+            "questionText": "You are designing a product showcase section for an e-commerce Website. You want to display multiple product images in a visually appealing and interactive way, allowing users to navigate through them. Which UI component would be most suitable to showcase multiple product images with interactive navigation?",
+            "options": [
+                "Drop-down menu",
+                "Checkboxes",
+                "Progress bar",
+                "Carousels"
+            ],
+            "correctAnswer": "Carousels",
+            "explanation": "Carousels display multiple images or slides in an interactive, visually appealing container that users can browse using arrows, indicators, or swipe gestures."
+        },
+        {
+            "questionText": "Which of the following is true about Figma?",
+            "options": [
+                "Figma is a programming language for UI design",
+                "Figma is used for creating 3D models and animations",
+                "Figma helps UI teams to build components together",
+                "Figma is only available for Windows operating system"
+            ],
+            "correctAnswer": "Figma helps UI teams to build components together",
+            "explanation": "Figma is a collaborative, cloud-based UI/UX design tool that enables teams to design interfaces and build reusable component libraries together in real time."
+        },
+        {
+            "questionText": "What is pagination in context of UI?",
+            "options": [
+                "The process of organizing content into sections or categories.",
+                "The technique of loading content dynamically as the user scrolls.",
+                "The method of breaking long content into multiple pages or screens.",
+                "The practice of designing visually appealing page layouts."
+            ],
+            "correctAnswer": "The method of breaking long content into multiple pages or screens.",
+            "explanation": "Pagination divides large lists or long content into separate numbered pages or screens so users can navigate through items easily."
+        },
+        {
+            "questionText": "____ is data-driven, ____ is looks-driven.",
+            "options": [
+                "UI and UX",
+                "UX and UI",
+                "UX Research and UI Research",
+                "UI Research and UX Research"
+            ],
+            "correctAnswer": "UX and UI",
+            "explanation": "UX (User Experience) is data-driven—focusing on user research, usability, and behavior—whereas UI (User Interface) is looks-driven, focusing on visual presentation and aesthetics."
+        },
+        {
+            "questionText": "You are designing a Website for an e-commerce platform that sells various products. Users should be able to browse different categories and easily navigate between product pages. Which navigational component would be most appropriate to use in this scenario?",
+            "options": [
+                "Drop-down menu",
+                "Hamburger menu",
+                "Breadcrumb",
+                "Tab"
+            ],
+            "correctAnswer": "Drop-down menu",
+            "explanation": "A drop-down menu allows e-commerce users to browse product categories and subcategories from the navigation bar and easily move between product pages."
+        },
+        {
+            "questionText": "What are the two additional colors that Material Design allows when creating a color system using Figma?",
+            "options": [
+                "Primary and secondary colors",
+                "Success and error colors",
+                "Light and dark shades",
+                "Warm and cool tones"
+            ],
+            "correctAnswer": "Success and error colors",
+            "explanation": "Beyond primary, secondary, and neutral tones, Material Design's color system in Figma allows adding semantic success and error colors to communicate status and feedback."
+        },
+        {
+            "questionText": "What is the purpose of Material design Grid system?",
+            "options": [
+                "To define typography styles",
+                "To manage color schemes",
+                "To handle user input",
+                "To create responsive layouts"
+            ],
+            "correctAnswer": "To create responsive layouts",
+            "explanation": "Material Design's responsive layout grid adapts to different screen sizes and orientations to create consistent, responsive layouts."
         }
     ]
 }
