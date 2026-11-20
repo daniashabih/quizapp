@@ -94,18 +94,22 @@ function resolveBundledLangPath() {
         return customPath;
     }
 
+    const candidates = [
+        path.join(process.cwd(), 'node_modules', '@tesseract.js-data', 'eng', '4.0.0_best_int'),
+        path.resolve(__dirname, '..', '..', 'node_modules', '@tesseract.js-data', 'eng', '4.0.0_best_int')
+    ];
+
     try {
         const pkgDir = path.dirname(require.resolve('@tesseract.js-data/eng/package.json'));
-        const bestIntDir = path.join(pkgDir, '4.0.0_best_int');
-        if (fs.existsSync(path.join(bestIntDir, 'eng.traineddata.gz'))) {
-            return bestIntDir;
-        }
-        const defaultDir = path.join(pkgDir, '4.0.0');
-        if (fs.existsSync(path.join(defaultDir, 'eng.traineddata.gz'))) {
-            return defaultDir;
-        }
+        candidates.unshift(path.join(pkgDir, '4.0.0_best_int'), path.join(pkgDir, '4.0.0'));
     } catch {
-        // Fallback to Tesseract.js default CDN only if local package is absent
+        // Package metadata may be omitted in minimal serverless traces; fall back to direct directory checks
+    }
+
+    for (const dir of candidates) {
+        if (dir && fs.existsSync(path.join(dir, 'eng.traineddata.gz'))) {
+            return dir;
+        }
     }
 
     return null;
@@ -158,17 +162,38 @@ async function loadModernPdfjs() {
 }
 
 function resolvePdfjsAssetPaths() {
+    const roots = [
+        path.join(process.cwd(), 'node_modules', 'pdfjs-dist'),
+        path.resolve(__dirname, '..', '..', 'node_modules', 'pdfjs-dist')
+    ];
+
     try {
-        const pkgDir = path.dirname(require.resolve('pdfjs-dist/package.json'));
-        const standardFontDataUrl = path.join(pkgDir, 'standard_fonts') + path.sep;
-        const cMapUrl = path.join(pkgDir, 'cmaps') + path.sep;
-        return {
-            standardFontDataUrl: fs.existsSync(standardFontDataUrl) ? standardFontDataUrl : undefined,
-            cMapUrl: fs.existsSync(cMapUrl) ? cMapUrl : undefined
-        };
+        const workerPath = require.resolve('pdfjs-dist/legacy/build/pdf.worker.mjs');
+        roots.unshift(path.resolve(path.dirname(workerPath), '..', '..'));
     } catch {
-        return { standardFontDataUrl: undefined, cMapUrl: undefined };
+        // Ignore
     }
+
+    try {
+        roots.unshift(path.dirname(require.resolve('pdfjs-dist/package.json')));
+    } catch {
+        // Ignore
+    }
+
+    let standardFontDataUrl;
+    let cMapUrl;
+    for (const root of roots) {
+        if (!standardFontDataUrl) {
+            const sf = path.join(root, 'standard_fonts') + path.sep;
+            if (fs.existsSync(sf)) standardFontDataUrl = sf;
+        }
+        if (!cMapUrl) {
+            const cm = path.join(root, 'cmaps') + path.sep;
+            if (fs.existsSync(cm)) cMapUrl = cm;
+        }
+    }
+
+    return { standardFontDataUrl, cMapUrl };
 }
 
 /**
