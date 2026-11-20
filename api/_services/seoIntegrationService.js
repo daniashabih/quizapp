@@ -3,12 +3,20 @@ const prisma = require('../_config/prisma');
 
 const DEFAULT_DOMAIN = 'www.hangbug.com';
 const DEFAULT_SITE_URL = 'https://www.hangbug.com';
+const DEFAULT_GSC_PROPERTY = 'sc-domain:hangbug.com';
 const DEFAULT_GA4_MEASUREMENT_ID = 'G-BSZBBFZZH0';
 const DEFAULT_GA4_STREAM_ID = '16254821680';
+const GSC_READONLY_SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
+const VERIFIED_GSC_PERMISSION_LEVELS = new Set([
+    'siteOwner',
+    'siteFullUser',
+    'siteRestrictedUser'
+]);
 
 // In-memory fallback stores if Prisma client is not yet regenerated or DB is offline in tests
 const memoryConfigs = new Map();
 const memorySnapshots = new Map();
+const memoryVerifications = new Map();
 
 function normalizeDomain(input) {
     const raw = String(input || DEFAULT_DOMAIN).trim().toLowerCase();
@@ -18,6 +26,67 @@ function normalizeDomain(input) {
 function buildSiteUrl(domain) {
     const clean = normalizeDomain(domain);
     return `https://${clean}`;
+}
+
+/**
+ * Normalizes a Search Console property identifier.
+ * - Domain properties ALWAYS use the exact `sc-domain:<root-domain>` format (e.g. `sc-domain:hangbug.com`)
+ *   and are NEVER converted into `http://...` or `https://...`.
+ * - Bare domains without a scheme (e.g. `hangbug.com` or `www.hangbug.com`) are treated as Domain properties
+ *   (`sc-domain:hangbug.com`), never `http://hangbug.com`.
+ * - Explicit URL-prefix properties starting with `https://` or `http://` preserve their scheme and trailing slash.
+ */
+function normalizeGscPropertyIdentifier(input) {
+    const raw = String(input || '').trim();
+    if (!raw) return '';
+
+    if (/^sc-domain:/i.test(raw)) {
+        let domainPart = raw
+            .replace(/^sc-domain:\s*/i, '')
+            .trim()
+            .toLowerCase()
+            .replace(/^https?:\/\//, '')
+            .replace(/\/.*$/, '');
+        if (domainPart === 'www.hangbug.com') {
+            domainPart = 'hangbug.com';
+        }
+        return domainPart ? `sc-domain:${domainPart}` : DEFAULT_GSC_PROPERTY;
+    }
+
+    if (/^https?:\/\//i.test(raw)) {
+        // Explicit URL-prefix property; never allow accidental http://hangbug.com when Hangbug uses sc-domain:hangbug.com
+        try {
+            const parsed = new URL(raw);
+            if (!parsed.pathname || parsed.pathname === '/') {
+                return `${parsed.protocol}//${parsed.host}/`;
+            }
+            return parsed.toString();
+        } catch {
+            return raw;
+        }
+    }
+
+    // Bare domain (e.g. "hangbug.com"): format as Domain property sc-domain:hangbug.com, NEVER http://hangbug.com
+    let bareDomain = raw.toLowerCase().replace(/\/.*$/, '');
+    if (bareDomain === 'www.hangbug.com') {
+        bareDomain = 'hangbug.com';
+    }
+    return bareDomain ? `sc-domain:${bareDomain}` : DEFAULT_GSC_PROPERTY;
+}
+
+function isLegacyHangbugUrlCandidate(rawProperty) {
+    const s = String(rawProperty || '').trim().toLowerCase().replace(/\/+$/, '');
+    return (
+        !s
+        || s === 'hangbug.com'
+        || s === 'www.hangbug.com'
+        || s === 'http://hangbug.com'
+        || s === 'https://hangbug.com'
+        || s === 'http://www.hangbug.com'
+        || s === 'https://www.hangbug.com'
+        || s === 'sc-domain:hangbug.com'
+        || s === 'sc-domain:www.hangbug.com'
+    );
 }
 
 function maskEmail(email) {
@@ -39,7 +108,7 @@ function getEnvDefaults(domain = DEFAULT_DOMAIN) {
         domain: cleanDomain,
         projectName: 'Hangbug',
         siteUrl: buildSiteUrl(cleanDomain),
-        gscProperty: String(process.env.GSC_SITE_URL || '').trim(),
+        gscProperty: normalizeGscPropertyIdentifier(process.env.GSC_SITE_URL || DEFAULT_GSC_PROPERTY),
         ga4PropertyId: String(process.env.GA4_PROPERTY_ID || '').trim(),
         ga4MeasurementId: String(process.env.GA4_MEASUREMENT_ID || DEFAULT_GA4_MEASUREMENT_ID).trim(),
         googleServiceAccountEmail: String(
@@ -91,7 +160,8 @@ async function getProjectConfig(domain = DEFAULT_DOMAIN) {
         ...(dbRecord || {}),
         domain: cleanDomain,
         siteUrl: (dbRecord?.siteUrl || envDefaults.siteUrl).replace(/\/+$/, ''),
-        gscProperty: dbRecord?.gscProperty || envDefaults.gscProperty,
+        gscProperty: normalizeGscPropertyIdentifier(dbRecord?.gscProperty || envDefaults.gscProperty || DEFAULT_GSC_PROPERTY),
+        rawGscProperty: dbRecord?.gscProperty || envDefaults.gscProperty || DEFAULT_GSC_PROPERTY,
         ga4PropertyId: dbRecord?.ga4PropertyId || envDefaults.ga4PropertyId,
         ga4MeasurementId: dbRecord?.ga4MeasurementId || envDefaults.ga4MeasurementId,
         googleServiceAccountEmail: dbRecord?.googleServiceAccountEmail || envDefaults.googleServiceAccountEmail,
@@ -111,20 +181,36 @@ async function getProjectConfig(domain = DEFAULT_DOMAIN) {
     return merged;
 }
 
-function sanitizeConfigForClient(config) {
+function sanitizeConfigForClient(config, verificationInput = null) {
+    const cleanDomain = normalizeDomain(config.domain);
+    const verification = verificationInput || memoryVerifications.get(cleanDomain) || null;
     const hasGoogleServiceAccount = Boolean(config.googleServiceAccountEmail && config.googlePrivateKey);
     const hasGoogleCredentials = hasGoogleServiceAccount || Boolean(config.googleAccessToken);
-    const gscConfigured = Boolean(hasGoogleCredentials && (config.gscProperty || config.siteUrl));
+    const resolvedProperty = verification?.selectedProperty
+        || normalizeGscPropertyIdentifier(config.gscProperty)
+        || DEFAULT_GSC_PROPERTY;
+
+    // Do not display a successful connection merely because JSON credentials exist; require verified property access
+    const gscPropertyVerified = verification ? Boolean(verification.propertyVerified) : false;
+    const gscAuthStatus = verification?.authStatus
+        || (hasGoogleCredentials ? 'Credentials Saved (Click Test GSC to verify)' : 'Not Configured');
     const ga4Configured = Boolean(hasGoogleCredentials && config.ga4PropertyId);
 
     return {
         domain: config.domain,
         projectName: config.projectName || 'Hangbug',
         siteUrl: config.siteUrl || buildSiteUrl(config.domain),
-        gscProperty: config.gscProperty || '',
+        gscProperty: resolvedProperty,
+        gscAuthStatus,
+        gscAuthenticated: Boolean(verification?.authenticated),
+        gscPropertyVerified,
+        gscPermissionLevel: verification?.permissionLevel || null,
+        gscAvailableProperties: Array.isArray(verification?.availableProperties) ? verification.availableProperties : [],
+        gscVerificationMessage: verification?.message || '',
         ga4PropertyId: config.ga4PropertyId || '',
         ga4MeasurementId: config.ga4MeasurementId || DEFAULT_GA4_MEASUREMENT_ID,
         ga4StreamId: DEFAULT_GA4_STREAM_ID,
+        googleServiceAccountEmail: config.googleServiceAccountEmail || '',
         googleServiceAccountEmailMasked: maskEmail(config.googleServiceAccountEmail),
         hasGoogleServiceAccount,
         hasGoogleAccessToken: Boolean(config.googleAccessToken),
@@ -139,7 +225,9 @@ function sanitizeConfigForClient(config) {
         crawlFrequency: config.crawlFrequency || 'daily',
         maxCrawlPages: Number(config.maxCrawlPages) || 60,
         integrations: {
-            gscConnected: gscConfigured,
+            gscConnected: gscPropertyVerified,
+            gscAuthenticated: Boolean(verification?.authenticated),
+            gscPermissionLevel: verification?.permissionLevel || null,
             ga4Connected: ga4Configured,
             ga4TagMeasurementId: config.ga4MeasurementId || DEFAULT_GA4_MEASUREMENT_ID,
             pagespeedReady: true,
@@ -160,7 +248,9 @@ async function saveProjectConfig(domain, updates = {}) {
         domain: cleanDomain,
         projectName: updates.projectName !== undefined ? String(updates.projectName).trim() || 'Hangbug' : current.projectName,
         siteUrl: updates.siteUrl !== undefined ? String(updates.siteUrl).trim().replace(/\/+$/, '') || buildSiteUrl(cleanDomain) : current.siteUrl,
-        gscProperty: updates.gscProperty !== undefined ? String(updates.gscProperty).trim() : current.gscProperty,
+        gscProperty: updates.gscProperty !== undefined
+            ? (normalizeGscPropertyIdentifier(updates.gscProperty) || DEFAULT_GSC_PROPERTY)
+            : (normalizeGscPropertyIdentifier(current.gscProperty) || DEFAULT_GSC_PROPERTY),
         ga4PropertyId: updates.ga4PropertyId !== undefined ? String(updates.ga4PropertyId).trim() : current.ga4PropertyId,
         ga4MeasurementId: updates.ga4MeasurementId !== undefined ? String(updates.ga4MeasurementId).trim() || DEFAULT_GA4_MEASUREMENT_ID : current.ga4MeasurementId,
         googleServiceAccountEmail: updates.googleServiceAccountEmail !== undefined
