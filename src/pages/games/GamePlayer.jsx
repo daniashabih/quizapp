@@ -50,14 +50,39 @@ import ErrorFreeTypingEngine from './engines/ErrorFreeTypingEngine';
 import SyntaxTypingEngine from './engines/SyntaxTypingEngine';
 import WordRainEngine from './engines/WordRainEngine';
 
+const GAME_ALIAS_CANONICAL_SLUGS = {
+    'coding-memory-match': 'memory-match',
+    'csharp-complete-the-code': 'complete-the-code',
+    'complete-the-code-csharp': 'complete-the-code',
+    'quiz-challenge-csharp': 'csharp-quiz-challenge',
+    'csharp-quiz': 'csharp-quiz-challenge',
+    'csharp-code-puzzle': 'code-puzzle',
+    'code-puzzle-csharp': 'code-puzzle',
+    'find-the-bug-csharp': 'find-the-bug',
+    'csharp-find-the-bug': 'find-the-bug',
+    'csharp-output-predictor': 'output-predictor',
+    'output-predictor-csharp': 'output-predictor',
+    'csharp-code-scramble': 'code-scramble',
+    'code-scramble-csharp': 'code-scramble',
+    'csharp-missing-code': 'missing-code',
+    'missing-code-csharp': 'missing-code',
+    'csharp-logic-builder': 'logic-builder',
+    'logic-builder-csharp': 'logic-builder',
+    'csharp-speed-typing': 'speed-typing',
+    'csharp-syntax-typing': 'syntax-typing',
+    'csharp-code-typing': 'code-typing',
+    'csharp-accuracy-challenge': 'error-free-typing'
+};
+
 export const GamePlayer = () => {
     const { slug } = useParams();
+    const cleanSlug = String(slug || '').toLowerCase().trim();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const { user } = useAuth();
 
     // Parse technology and difficulty from query params
-    const defaultTechBySlug = (slug?.startsWith('csharp-') || slug?.endsWith('-csharp')) ? 'csharp' : 'all';
+    const defaultTechBySlug = (cleanSlug.startsWith('csharp-') || cleanSlug.endsWith('-csharp')) ? 'csharp' : 'all';
     const queryTech = searchParams.get('tech') || searchParams.get('technology') || defaultTechBySlug;
     const queryDifficulty = searchParams.get('difficulty') || 'All Levels';
 
@@ -78,15 +103,24 @@ export const GamePlayer = () => {
 
     // Canonical redirect for legacy / non-standard slugs
     useEffect(() => {
-        if (slug === 'coding-memory-match') {
+        if (cleanSlug === 'coding-memory-match') {
             navigate('/games/memory-match', { replace: true });
-        } else if (slug === 'csharp-complete-the-code' || slug === 'complete-the-code-csharp') {
+        } else if (cleanSlug === 'csharp-complete-the-code' || cleanSlug === 'complete-the-code-csharp') {
             navigate('/games/complete-the-code', { replace: true });
         }
-    }, [slug, navigate]);
+    }, [cleanSlug, navigate]);
 
-    const fallbackGame = useMemo(() => FALLBACK_GAMES.find(g => g.slug === slug) || null, [slug]);
-    const seoGame = game || fallbackGame;
+    const fallbackGame = useMemo(() => {
+        const direct = FALLBACK_GAMES.find(g => g.slug === cleanSlug);
+        if (direct) return direct;
+        const aliasedBase = GAME_ALIAS_CANONICAL_SLUGS[cleanSlug];
+        return aliasedBase ? (FALLBACK_GAMES.find(g => g.slug === aliasedBase) || null) : null;
+    }, [cleanSlug]);
+    const matchedGame = game && String(game.slug || '').toLowerCase() === cleanSlug ? game : null;
+    const seoGame = matchedGame || fallbackGame;
+    const canonicalGameSlug = seoGame
+        ? (seoGame.baseSlug || GAME_ALIAS_CANONICAL_SLUGS[cleanSlug] || seoGame.slug || cleanSlug)
+        : '';
 
     // Technical SEO: Dynamic Title, Description, and Canonical URL for each game
     usePageSeo({
@@ -97,9 +131,16 @@ export const GamePlayer = () => {
         description: seoGame?.description
             ? `${seoGame.description} Practice interactive coding challenges on Hangbug.`
             : 'Play interactive coding and typing games on Hangbug to sharpen programming logic and keyboard speed.',
-        canonicalPath: seoGame ? `/games/${seoGame.baseSlug || seoGame.slug || slug || ''}` : undefined,
+        canonicalPath: canonicalGameSlug ? `/games/${canonicalGameSlug}` : undefined,
         noindex: !seoGame,
         disableStructuredData: !seoGame,
+        includeApplicationSchema: Boolean(canonicalGameSlug),
+        softwareApplication: canonicalGameSlug && seoGame ? {
+            slug: canonicalGameSlug,
+            name: seoGame.title,
+            category: seoGame.category,
+            description: seoGame.description
+        } : null,
         ogType: 'website'
     });
 
@@ -156,8 +197,9 @@ export const GamePlayer = () => {
     // Fetch game details
     const fetchGame = useCallback(async () => {
         setLoading(true);
+        setGame(null);
         try {
-            const res = await gameService.getGameBySlug(slug);
+            const res = await gameService.getGameBySlug(cleanSlug);
             if (res.success && res.data) {
                 setGame(res.data);
                 setPersonalBest(res.data.userHighScore || 0);
@@ -165,8 +207,8 @@ export const GamePlayer = () => {
                 if (!hasTrackedGameStartRef.current) {
                     hasTrackedGameStartRef.current = true;
                     trackGameStart({
-                        slug: res.data.slug || slug,
-                        name: res.data.title || res.data.name || slug,
+                        slug: res.data.slug || cleanSlug,
+                        name: res.data.title || res.data.name || cleanSlug,
                         category: res.data.category || 'Educational'
                     });
                 }
@@ -184,7 +226,7 @@ export const GamePlayer = () => {
             setLoading(false);
             gameStartTimeRef.current = Date.now();
         }
-    }, [slug, fallbackGame]);
+    }, [cleanSlug, fallbackGame]);
 
     useEffect(() => {
         fetchGame();
