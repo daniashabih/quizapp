@@ -10,7 +10,7 @@ import {
     CheckCircle2,
     ShieldCheck
 } from 'lucide-react';
-import { formatSeoTimestamp, getStatusBadgeClasses } from './seoUtils';
+import { formatSeoTimestamp, getStatusBadgeClasses, formatAffectedUrlLabel } from './seoUtils';
 
 const BUCKETS = [
     { id: 'all', label: 'All Findings', icon: ShieldCheck },
@@ -202,14 +202,18 @@ export default function SeoAuditSection({ data, isAuditing, onRunAudit, onInspec
                             {Array.isArray(issue.affectedUrls) && issue.affectedUrls.length > 0 && (
                                 <div className="mt-3 flex flex-wrap items-center gap-1.5 text-[11px]">
                                     <span className="text-[#75817C] dark:text-[#8FA69C] font-medium">Affected URLs:</span>
-                                    {issue.affectedUrls.slice(0, 4).map((u, idx) => (
-                                        <span
-                                            key={`${u.url}-${idx}`}
-                                            className="px-2 py-0.5 rounded-md bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832] font-mono text-[#17221F] dark:text-[#F3F6F4]"
-                                        >
-                                            {u.url}
-                                        </span>
-                                    ))}
+                                    {issue.affectedUrls.slice(0, 4).map((u, idx) => {
+                                        const displayLabel = formatAffectedUrlLabel(u);
+                                        return (
+                                            <span
+                                                key={`${displayLabel}-${idx}`}
+                                                title={u.detail || u.url}
+                                                className="px-2 py-0.5 rounded-md bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832] font-mono text-[#17221F] dark:text-[#F3F6F4]"
+                                            >
+                                                {displayLabel}
+                                            </span>
+                                        );
+                                    })}
                                     {issue.affectedUrls.length > 4 && (
                                         <button
                                             type="button"

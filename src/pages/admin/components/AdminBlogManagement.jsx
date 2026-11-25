@@ -22,6 +22,7 @@ import { toast } from '../../../services/notificationService';
 import { dialog } from '../../../services/dialogService';
 import blogService from '../../../services/blogService';
 import { INITIAL_BLOG_ARTICLES } from '../../../services/blogArticles';
+import { formatBlogSeoTitle } from '../../../config/seoPagesConfig';
 
 const CATEGORIES = [
     'HTML', 'CSS', 'JavaScript', 'PHP', 'Laravel', 'MySQL',
@@ -154,7 +155,7 @@ export default function AdminBlogManagement() {
             ...prev,
             title: val,
             slug: !editingArticle ? val.toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_-]+/g, '-').replace(/^-+|-+$/g, '') : prev.slug,
-            seoTitle: !editingArticle ? `${val} | Hangbug` : prev.seoTitle
+            seoTitle: !editingArticle ? (val.trim() ? formatBlogSeoTitle('', val) : '') : prev.seoTitle
         }));
     };
 
@@ -558,11 +559,23 @@ export default function AdminBlogManagement() {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="font-bold text-[var(--foreground)]">SEO Title</label>
+                                    <div className="flex items-center justify-between gap-2">
+                                        <label className="font-bold text-[var(--foreground)]">SEO Title</label>
+                                        <span className={`text-[11px] font-medium ${
+                                            formData.seoTitle.trim().length >= 45 && formData.seoTitle.trim().length <= 60
+                                                ? 'text-emerald-600 dark:text-emerald-400'
+                                                : formData.seoTitle.trim().length > 60
+                                                    ? 'text-amber-600 dark:text-amber-400'
+                                                    : 'text-[var(--foreground-muted)]'
+                                        }`}>
+                                            {formData.seoTitle.trim().length} chars (45–60 optimal)
+                                        </span>
+                                    </div>
                                     <input
                                         type="text"
                                         value={formData.seoTitle}
                                         onChange={(e) => setFormData({ ...formData, seoTitle: e.target.value })}
+                                        placeholder="Primary keyword title | Hangbug (45–60 chars)"
                                         className="w-full px-3 py-2 rounded-xl bg-[var(--input-bg)] border border-[var(--input-border)] text-xs text-[var(--foreground)]"
                                     />
                                 </div>

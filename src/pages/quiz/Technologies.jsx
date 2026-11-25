@@ -12,6 +12,8 @@ import { dialog } from '../../services/dialogService';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
+import SEO_PAGES_CONFIG from '../../config/seoPagesConfig';
+import { getTechnologySeoBySlug } from '../../config/seoPagesConfig';
 import { useAuth } from '../../context/AuthContext';
 import attemptService from '../../services/attemptService';
 import TechLogo from '../../components/TechLogo';
@@ -37,14 +39,38 @@ export default function Technologies() {
     const navigate = useNavigate();
     const location = useLocation();
     const isDashboard = location.pathname.startsWith('/dashboard');
+    const [categories, setCategories] = useState([]);
+
+    const activeTechItems = (Array.isArray(categories) ? categories : [])
+        .filter(c => c && c.isEnabled !== false && Number(c.questionCount || 0) > 0)
+        .map(c => {
+            const seoTrack = getTechnologySeoBySlug(c.slug || c.name);
+            return {
+                name: c.name,
+                url: seoTrack ? seoTrack.path : '/technologies',
+                description: `${c.name} programming quizzes (${c.questionCount} questions)`
+            };
+        });
 
     usePageSeo({
-        title: 'Choose Your Tech Stack — Programming & Framework Quizzes | Hangbug',
+        title: isDashboard
+            ? 'Dashboard Practice Quizzes & Tech Tracks | Hangbug'
+            : SEO_PAGES_CONFIG.technologies.title,
         description: 'Practice interactive technology MCQ quizzes on Hangbug across HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Node.js, SQL Server, and Python.',
         canonicalPath: isDashboard ? undefined : '/technologies',
-        noindex: isDashboard
+        noindex: isDashboard,
+        disableStructuredData: isDashboard,
+        schemaType: 'WebPage',
+        breadcrumbs: isDashboard ? undefined : [
+            { name: 'Home', path: '/' },
+            { name: 'Technologies', path: '/technologies' }
+        ],
+        itemList: !isDashboard && activeTechItems.length > 0 ? {
+            name: 'Hangbug Technology Quiz Tracks',
+            description: 'Interactive programming and web development MCQ quiz tracks on Hangbug.',
+            items: activeTechItems
+        } : null
     });
-    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
@@ -231,7 +257,7 @@ export default function Technologies() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
                 <div className="badge-emerald mx-auto mb-3"><Sparkles size={12} /> Technologies</div>
-                <h1 className="text-3xl lg:text-4xl font-display font-extrabold text-[var(--foreground)] mb-2">Choose Your <span className="text-black underline decoration-black/20 underline-offset-4">Stack</span></h1>
+                <h1 className="text-3xl lg:text-4xl font-display font-extrabold text-[var(--foreground)] mb-2">Choose Your <span className="underline decoration-current/25 underline-offset-4">Tech Stack</span> <span className="block sm:inline text-xl lg:text-2xl font-bold text-[var(--foreground-muted)]">— Programming &amp; Technology Quizzes</span></h1>
                 <p className="text-sm text-[var(--foreground-muted)] max-w-2xl mx-auto">
                     Practice interactive technology MCQ quizzes on Hangbug across HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Node.js, SQL Server, and Python. Select a technology below to choose a session and start your quiz.
                 </p>

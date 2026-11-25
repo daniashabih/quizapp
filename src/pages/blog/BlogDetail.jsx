@@ -21,7 +21,7 @@ import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
 import blogService from '../../services/blogService';
 import { INITIAL_BLOG_ARTICLES } from '../../services/blogArticles';
-import { getTechnologySeoBySlug } from '../../config/seoPagesConfig';
+import { getTechnologySeoBySlug, formatBlogSeoTitle, SEO_NOT_FOUND_TITLE } from '../../config/seoPagesConfig';
 import {
     decodeHtmlEntities,
     parseInlineTokens,
@@ -440,7 +440,7 @@ export default function BlogDetail() {
         ? article
         : null;
     const seoDescription = activeArticle ? buildArticleSeoDescription(activeArticle) : '';
-    const seoTitle = activeArticle ? ((activeArticle.seoTitle || '').trim() || `${activeArticle.title} | Hangbug`) : '';
+    const seoTitle = activeArticle ? formatBlogSeoTitle(activeArticle.seoTitle, activeArticle.title) : '';
     const coverImageUrl = activeArticle ? resolveCoverImageUrl(activeArticle.coverImage) : undefined;
     const datePublishedIso = activeArticle ? toIsoDate(activeArticle.publishedAt || activeArticle.createdAt) : undefined;
     const dateModifiedIso = activeArticle ? toIsoDate(activeArticle.updatedAt || activeArticle.publishedAt || activeArticle.createdAt, datePublishedIso) : undefined;
@@ -450,7 +450,7 @@ export default function BlogDetail() {
     // Dynamic SEO Configuration
     usePageSeo({
         skip: loading && !activeArticle,
-        title: activeArticle ? seoTitle : '404: Page Not Found — HangBug',
+        title: activeArticle ? seoTitle : SEO_NOT_FOUND_TITLE,
         description: activeArticle
             ? seoDescription
             : "The page you are looking for doesn't exist, has been removed, or was moved to another URL.",
@@ -465,7 +465,7 @@ export default function BlogDetail() {
             { name: 'Home', path: '/' },
             { name: 'Blog', path: '/blog' },
             ...(activeArticle.category ? [{ name: activeArticle.category, path: `/blog?category=${encodeURIComponent(activeArticle.category)}` }] : []),
-            { name: activeArticle.title, path: `/blog/${activeArticle.slug}` }
+            { name: activeArticle.title, path: `/blog/${canonicalBlogSlug}` }
         ] : undefined,
         article: activeArticle ? {
             headline: activeArticle.title,

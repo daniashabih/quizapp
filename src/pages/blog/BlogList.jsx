@@ -75,16 +75,6 @@ function readEmbeddedBlogListData() {
 }
 
 export default function BlogList() {
-    usePageSeo({
-        title: 'Programming & Web Development Blog: Tutorials & Guides | Hangbug',
-        description: 'Learn programming step-by-step with practical tutorials, coding guides, and interview prep on HTML, CSS, JavaScript, PHP, Laravel, Flutter, C#, and databases.',
-        canonicalPath: '/blog',
-        breadcrumbs: [
-            { name: 'Home', path: '/' },
-            { name: 'Blog', path: '/blog' }
-        ]
-    });
-
     const [searchParams, setSearchParams] = useSearchParams();
     const activeCategory = searchParams.get('category') || 'All';
     const searchQuery = searchParams.get('q') || '';
@@ -103,6 +93,34 @@ export default function BlogList() {
         return total > 0 ? Math.ceil(total / 9) : 1;
     });
     const [totalArticles, setTotalArticles] = useState(() => initialEmbedded?.total || 0);
+
+    const schemaSourceArticles = (featuredArticle || articles.length > 0)
+        ? [
+            ...(featuredArticle ? [featuredArticle] : []),
+            ...articles.filter(a => a && a.slug && a.slug !== featuredArticle?.slug)
+        ]
+        : INITIAL_BLOG_ARTICLES.filter(a => a && a.isPublished !== false).slice(0, 9);
+
+    usePageSeo({
+        title: 'Programming Blog: Developer Tutorials & Guides | Hangbug',
+        description: 'Learn programming step-by-step with practical tutorials, coding guides, and interview prep on HTML, CSS, JavaScript, PHP, Laravel, Flutter, C#, and databases.',
+        canonicalPath: '/blog',
+        schemaType: 'WebPage',
+        breadcrumbs: [
+            { name: 'Home', path: '/' },
+            { name: 'Blog', path: '/blog' }
+        ],
+        itemList: schemaSourceArticles.length > 0
+            ? {
+                name: 'Hangbug Programming Tutorials & Developer Guides',
+                items: schemaSourceArticles.map(a => ({
+                    name: a.title,
+                    url: `/blog/${a.slug}`,
+                    description: a.seoDescription || a.excerpt || ''
+                }))
+            }
+            : undefined
+    });
 
     // Fetch categories with counts
     useEffect(() => {
@@ -261,7 +279,8 @@ export default function BlogList() {
                             <span>Hangbug Educational Blog &amp; Guides</span>
                         </div>
                         <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-[var(--foreground)] leading-tight">
-                            Learn Programming <span className="text-[#193D35] dark:text-emerald-400">Step by Step</span>
+                            Learn Programming <span className="text-[#193D35] dark:text-emerald-400">Step by Step</span>{' '}
+                            <span className="block sm:inline text-xl sm:text-3xl font-bold text-[var(--foreground-muted)]">— Tutorials &amp; Coding Guides</span>
                         </h1>
                         <p className="text-sm sm:text-base text-[var(--foreground-muted)] leading-relaxed">
                             In-depth programming tutorials, clean code architectures, practical beginner guides, and software engineering interview questions designed to help you write cleaner code and master modern technologies.

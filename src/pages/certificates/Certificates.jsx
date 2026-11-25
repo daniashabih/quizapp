@@ -8,7 +8,7 @@ import usePageSeo from '../../hooks/usePageSeo';
 
 export default function Certificates() {
     usePageSeo({
-        title: 'My Certificates — HangBug',
+        title: 'My Verified Programming Certificates — Hangbug',
         noindex: true
     });
     const [searchQuery, setSearchQuery] = useState('');
@@ -100,7 +100,7 @@ export default function Certificates() {
                 <div className="w-16 h-16 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
                     <AlertCircle size={32} />
                 </div>
-                <h2 className="text-xl font-bold text-[var(--foreground)]">Unable to load certificates</h2>
+                <h1 className="text-xl font-bold text-[var(--foreground)]">Unable to Load Earned Certificates</h1>
                 <p className="text-sm text-[var(--foreground-muted)]">
                     We could not retrieve your certificate records from MongoDB.
                 </p>
@@ -115,7 +115,7 @@ export default function Certificates() {
         <div className="max-w-6xl mx-auto space-y-6 animate-fade-up">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl lg:text-3xl font-display font-bold text-[var(--foreground)]">My Certificates</h1>
+                    <h1 className="text-2xl lg:text-3xl font-display font-bold text-[var(--foreground)]">My Earned Certificates &amp; Verified Credentials</h1>
                     <p className="text-sm text-[var(--foreground-muted)] mt-1">
                         {earnedCount} {earnedCount === 1 ? 'certificate' : 'certificates'} earned · Best score: {bestScore}%
                     </p>

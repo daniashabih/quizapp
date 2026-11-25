@@ -566,6 +566,18 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
           final map = entry.$2 as Map<String, dynamic>? ?? {};
           final status = map['status']?.toString() ?? 'Not checked';
           final explanation = map['explanation']?.toString() ?? '';
+          final schemasDetected = (map['schemasDetected'] as List? ?? [])
+              .map((e) => e.toString())
+              .where((e) => e.isNotEmpty)
+              .toList();
+          final affectedUrls = (map['affectedUrls'] as List? ?? [])
+              .whereType<Map>()
+              .map((e) => {
+                    'url': e['url']?.toString() ?? '',
+                    'detail': e['detail']?.toString() ?? '',
+                  })
+              .where((e) => (e['url'] ?? '').isNotEmpty)
+              .toList();
           return Container(
             margin: const EdgeInsets.only(bottom: 10),
             padding: const EdgeInsets.all(14),
@@ -597,6 +609,54 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
                     color: SeoColors.textMuted(context),
                   ),
                 ),
+                if (schemasDetected.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: schemasDetected
+                        .map(
+                          (schema) => Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: SeoColors.mintSurface(context),
+                              borderRadius: BorderRadius.circular(8),
+                              border:
+                                  Border.all(color: SeoColors.border(context)),
+                            ),
+                            child: Text(
+                              schema,
+                              style: TextStyle(
+                                fontSize: 10.5,
+                                fontWeight: FontWeight.w600,
+                                color: SeoColors.textPrimary(context),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
+                if (affectedUrls.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  ...affectedUrls.take(5).map(
+                        (item) {
+                          final detail = item['detail'] ?? '';
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 3),
+                            child: Text(
+                              '• ${item['url']}${detail.isNotEmpty ? ' — $detail' : ''}',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontFamily: 'monospace',
+                                color: SeoColors.textMuted(context),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                ],
               ],
             ),
           );
@@ -1806,6 +1866,12 @@ class _SeoRecommendationsTabState extends State<SeoRecommendationsTab> {
                       color: SeoColors.primaryBrand(context),
                     ),
                   ),
+                  if (rec.affectedPages.isNotEmpty)
+                    SeoAffectedChipsWrap(
+                      label: 'Affected pages:',
+                      items: rec.affectedPages,
+                      maxVisible: 4,
+                    ),
                 ],
               ),
             )),

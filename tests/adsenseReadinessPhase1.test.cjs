@@ -98,13 +98,14 @@ test('5. usePageSeo hook verification: exists and handles title, meta descriptio
 });
 
 test('6. Route-specific SEO metadata applied across all specified public pages', () => {
+    const seoConfigCode = fs.readFileSync(path.join(ROOT_DIR, 'src', 'config', 'seoPagesConfig.js'), 'utf8');
     const pages = [
         { file: 'src/pages/Landing.jsx', title: 'Learn Programming & Practice Tech Quizzes Online | Hangbug' },
-        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug – Technology Learning, Tech Quizzes & Skill Assessment Platform' },
-        { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — Hangbug' },
+        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug — Coding Quizzes & Tech Learning Platform' },
+        { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — Hangbug Coding Quiz Platform' },
         { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy' },
         { file: 'src/pages/legal/TermsOfService.jsx', title: 'Terms of Service — Hangbug Platform Terms & Conditions' },
-        { file: 'src/pages/quiz/Technologies.jsx', title: 'Choose Your Tech Stack — Programming & Framework Quizzes | Hangbug' },
+        { file: 'src/pages/quiz/Technologies.jsx', title: 'SEO_PAGES_CONFIG.technologies.title', configTitle: 'Technology Quizzes & Coding Practice Tracks | Hangbug' },
         { file: 'src/pages/games/GamesHub.jsx', title: 'Coding & Typing Games for Developers — Hangbug Games Hub' },
         { file: 'src/pages/leaderboard/Leaderboard.jsx', title: 'Global Developer Leaderboard & Rankings — Hangbug' }
     ];
@@ -113,6 +114,9 @@ test('6. Route-specific SEO metadata applied across all specified public pages',
         const content = fs.readFileSync(path.join(ROOT_DIR, page.file), 'utf8');
         assert.ok(content.includes('usePageSeo'), `${page.file} must import and use usePageSeo`);
         assert.ok(content.includes(page.title), `${page.file} must specify unique title: ${page.title}`);
+        if (page.configTitle) {
+            assert.ok(seoConfigCode.includes(page.configTitle), `seoPagesConfig.js must specify unique title: ${page.configTitle}`);
+        }
     }
 });
 

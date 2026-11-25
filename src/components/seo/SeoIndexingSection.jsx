@@ -198,9 +198,28 @@ export default function SeoIndexingSection({ data, domain, onNavigate }) {
                             <p className="font-bold text-[#193D35] dark:text-emerald-300">Live Crawl Inspection</p>
                             <p>URL: <span className="font-mono">{inspectionResult.crawl?.url}</span></p>
                             <p>HTTP Status: <strong>{inspectionResult.crawl?.httpStatus}</strong> ({inspectionResult.crawl?.responseTimeMs} ms)</p>
-                            <p>Title: <strong>{inspectionResult.crawl?.title || 'Missing'}</strong></p>
+                            <p>
+                                Title: <strong>{inspectionResult.crawl?.title || 'Missing'}</strong>
+                                {inspectionResult.crawl?.title ? (
+                                    <span className="ml-1.5 text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">
+                                        ({inspectionResult.crawl?.titleLength ?? inspectionResult.crawl.title.length} chars)
+                                    </span>
+                                ) : null}
+                            </p>
                             <p>Canonical: <span className="font-mono">{inspectionResult.crawl?.canonicalUrl || 'Missing'}</span></p>
                             <p>Robots Meta: <strong>{inspectionResult.crawl?.robotsMeta || 'none'}</strong>{inspectionResult.crawl?.xRobotsTag ? ` · X-Robots-Tag: ${inspectionResult.crawl.xRobotsTag}` : ''} · In Sitemap: <strong>{inspectionResult.crawl?.inSitemap ? 'Yes' : 'No'}</strong></p>
+                            <p>
+                                Structured Data (#hangbug-jsonld):{' '}
+                                <strong>
+                                    {inspectionResult.crawl?.isNoindex
+                                        ? (inspectionResult.crawl?.hasJsonLd ? 'Present on Noindex (Strip)' : 'Omitted (Noindex)')
+                                        : (inspectionResult.crawl?.hasJsonLd && inspectionResult.crawl?.jsonLdValid
+                                            ? `Valid (${(inspectionResult.crawl?.jsonLdTypes || []).join(', ') || 'Schema.org'})`
+                                            : inspectionResult.crawl?.hasJsonLd
+                                                ? 'Malformed JSON-LD'
+                                                : 'Missing #hangbug-jsonld')}
+                                </strong>
+                            </p>
                         </div>
                         <div className="space-y-1.5">
                             <p className="font-bold text-[#193D35] dark:text-emerald-300">Google Search Console URL Inspection</p>

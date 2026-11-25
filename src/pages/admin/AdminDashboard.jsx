@@ -45,7 +45,7 @@ const defaultQuizOptions = {
 
 const AdminDashboard = () => {
     usePageSeo({
-        title: 'Administrator Console — HangBug',
+        title: 'Admin Console: Questions & Platform Control — Hangbug',
         noindex: true
     });
     const { user } = useAuth();
@@ -955,7 +955,7 @@ const AdminDashboard = () => {
             {activeTab === 'knowledge-base' && <AdminKnowledgeBase />}
             {activeTab === 'verification-reports' && <AdminVerificationReports />}
             {activeTab === 'ai-controls' && <AdminAiControls />}
-            {activeTab === 'games' && <AdminGamesManagement />}
+            {activeTab === 'games' && <AdminGamesManagement embedded />}
             {activeTab === 'blog' && <AdminBlogManagement />}
 
             {activeTab === 'questions' && (

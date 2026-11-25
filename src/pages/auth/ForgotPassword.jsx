@@ -13,7 +13,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ForgotPassword() {
     usePageSeo({
-        title: 'Forgot Password — HangBug',
+        title: 'Forgot Password Recovery — Hangbug Developer Account',
         description: 'Reset your HangBug account password securely.',
         noindex: true
     });
@@ -100,7 +100,7 @@ export default function ForgotPassword() {
                         <div className="text-center mb-6">
                             <BrandLogo variant="mark" size="md" className="mx-auto mb-3" />
                             <h1 className="text-2xl sm:text-3xl font-display font-bold text-[var(--foreground)] mb-1">
-                                Forgot Password?
+                                Reset Access to Your HangBug Account
                             </h1>
                             <p className="text-xs sm:text-sm text-[var(--foreground-secondary)] max-w-xs mx-auto">
                                 Enter your registered email address and we'll send you a link to reset your password.

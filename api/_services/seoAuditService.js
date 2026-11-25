@@ -2,9 +2,14 @@ const fs = require('fs');
 const path = require('path');
 const prisma = require('../_config/prisma');
 const seoController = require('../_controllers/seoController');
+const Category = require('../_models/categoryModel');
+const Question = require('../_models/questionModel');
+const { AGILE_DEVOPS_QUESTIONS } = require('../_models/agileDevopsQuestionsData');
+const { CSHARP_QUIZ_QUESTIONS } = require('../_models/csharpQuizQuestionsData');
 const GameModel = require('../_models/gameModel');
 const { INITIAL_BLOG_ARTICLES } = require('../_models/blogArticles/initialBlogArticles');
-const { isMongoUriConfigured } = require('../_utils/blogSeoRenderer');
+const { getHighDemandPackName, getHighDemandPack } = require('../_models/techQuestions');
+const { isMongoUriConfigured, buildArticleSeoTitle, formatGameSeoTitle } = require('../_utils/blogSeoRenderer');
 const {
     DEFAULT_DOMAIN,
     normalizeDomain,
@@ -87,13 +92,23 @@ function extractHtmlSeoSignals(html = '', pagePath = '/') {
     for (const m of jsonLdMatches) {
         try {
             const parsed = JSON.parse(m[1]);
-            const nodes = Array.isArray(parsed['@graph']) ? parsed['@graph'] : [parsed];
+            const contextStr = String(parsed?.['@context'] || '').toLowerCase();
+            const nodes = Array.isArray(parsed?.['@graph']) ? parsed['@graph'] : [parsed];
+            const blockTypes = [];
             for (const n of nodes) {
                 if (n && n['@type']) {
-                    if (Array.isArray(n['@type'])) jsonLdTypes.push(...n['@type']);
-                    else jsonLdTypes.push(String(n['@type']));
+                    if (Array.isArray(n['@type'])) {
+                        blockTypes.push(...n['@type'].map(t => String(t).trim()).filter(Boolean));
+                    } else {
+                        const typeStr = String(n['@type']).trim();
+                        if (typeStr) blockTypes.push(typeStr);
+                    }
                 }
             }
+            if (!contextStr.includes('schema.org') || blockTypes.length === 0) {
+                jsonLdValid = false;
+            }
+            jsonLdTypes.push(...blockTypes);
         } catch {
             jsonLdValid = false;
         }
@@ -311,19 +326,7 @@ async function gatherPlatformCatalog() {
         games = (GameModel.INITIAL_GAMES || []).filter(g => g.isPublished !== false);
     }
 
-    const qMap = new Map();
-    for (const q of questionStats) {
-        if (q.category) {
-            qMap.set(String(q.category).toLowerCase(), q._count?._all || 0);
-        }
-    }
-
-    const enrichedCategories = categories.map(c => ({
-        id: c.id,
-        name: c.name,
-        isEnabled: c.isEnabled !== false,
-        questionCount: qMap.get(String(c.name || '').toLowerCase()) || 0
-    }));
+    const enrichedCategories = enrichCategoriesWithQuestionCounts(categories, questionStats);
 
     return {
         dbConnected,
@@ -331,6 +334,181 @@ async function gatherPlatformCatalog() {
         blogPosts,
         games
     };
+}
+
+/**
+ * Normalizes MongoDB question groupBy counts and merges static dataset minimums
+ * (Agile & DevOps, C#) to match Category.getAll() and Question.getCategoryVariations().
+ */
+function buildNormalizedQuestionCountMap(questionStats = []) {
+    const qMap = new Map();
+    for (const q of questionStats || []) {
+        if (!q || !q.category) continue;
+        const norm = Category.normalize(q.category);
+        const count = Number(q?._count?._all ?? q?.count ?? 0);
+        qMap.set(norm, (qMap.get(norm) || 0) + count);
+    }
+
+    const agileNorm = Category.normalize('Agile & DevOps');
+    qMap.set(agileNorm, Math.max(qMap.get(agileNorm) || 0, AGILE_DEVOPS_QUESTIONS.length));
+
+    const csharpKeys = ['C#', 'csharp', 'c sharp'].map(k => Category.normalize(k));
+    const maxCsharp = Math.max(
+        CSHARP_QUIZ_QUESTIONS.length,
+        ...csharpKeys.map(k => qMap.get(k) || 0)
+    );
+    for (const k of csharpKeys) {
+        qMap.set(k, maxCsharp);
+    }
+
+    return qMap;
+}
+
+function resolveCategoryQuestionCount(categoryName, qMap) {
+    const primaryNorm = Category.normalize(categoryName);
+    const variations = typeof Question.getCategoryVariations === 'function'
+        ? Question.getCategoryVariations(categoryName)
+        : [categoryName];
+    const normalizedKeys = Array.from(
+        new Set([primaryNorm, ...variations.map(v => Category.normalize(v))].filter(Boolean))
+    );
+
+    if (normalizedKeys.length === 0) return 0;
+
+    if (primaryNorm === 'c#' || primaryNorm === 'csharp' || primaryNorm === 'c sharp') {
+        return Math.max(...normalizedKeys.map(k => qMap.get(k) || 0));
+    }
+
+    let total = 0;
+    for (const key of normalizedKeys) {
+        total += qMap.get(key) || 0;
+    }
+    return total;
+}
+
+function enrichCategoriesWithQuestionCounts(categories = [], questionStats = []) {
+    const qMap = buildNormalizedQuestionCountMap(questionStats);
+    return (categories || []).map(c => {
+        const packName = getHighDemandPackName(c.name);
+        const packQuestions = packName ? getHighDemandPack(packName) : [];
+        return {
+            id: c.id,
+            name: c.name,
+            isEnabled: c.isEnabled !== false,
+            questionCount: resolveCategoryQuestionCount(c.name, qMap),
+            hasStarterPack: Boolean(packName),
+            starterPackCount: packQuestions.length
+        };
+    });
+}
+
+function slugifyTechCategory(name = '') {
+    return String(name || '')
+        .trim()
+        .toLowerCase()
+        .replace(/#/g, 'sharp')
+        .replace(/\./g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+function resolveEmptyTechCategoryTarget(categoryName, allCategories = []) {
+    const cleanName = String(categoryName || '').trim();
+    const normName = Category.normalize(cleanName);
+    const guides = Array.isArray(seoController.TECHNOLOGY_GUIDE_CONFIGS)
+        ? seoController.TECHNOLOGY_GUIDE_CONFIGS
+        : [];
+
+    const matchedGuide = guides.find(guide =>
+        Array.isArray(guide.matchers) &&
+        guide.matchers.some(m => Category.normalize(m) === normName)
+    ) || null;
+
+    if (matchedGuide) {
+        const guidePath = `/technologies/${matchedGuide.slug}`;
+        const populatedSiblings = (allCategories || []).filter(other => {
+            if (!other || other.isEnabled === false || Number(other.questionCount || 0) <= 0) return false;
+            const oNorm = Category.normalize(other.name);
+            if (oNorm === normName) return false;
+            return matchedGuide.matchers.some(m => {
+                const mNorm = Category.normalize(m);
+                return oNorm === mNorm || oNorm.includes(mNorm);
+            });
+        });
+
+        let detail = `Category "${cleanName}" has 0 questions · Guide ${guidePath} exists; add quiz questions to publish sessions`;
+        if (populatedSiblings.length > 0) {
+            const topSibling = populatedSiblings[0];
+            const isAliasDuplicate = matchedGuide.matchers.some(m => Category.normalize(m) === Category.normalize(topSibling.name));
+            detail = isAliasDuplicate
+                ? `Category "${cleanName}" has 0 questions · ${guidePath} is already populated via "${topSibling.name}" (${topSibling.questionCount} questions)`
+                : `Category "${cleanName}" has 0 questions · ${guidePath} currently served via "${topSibling.name}" (${topSibling.questionCount} questions)`;
+        }
+
+        return {
+            url: guidePath,
+            label: `${cleanName} (${guidePath})`,
+            categoryName: cleanName,
+            detail
+        };
+    }
+
+    const isCombined = cleanName.includes(',');
+    const suggestedSlug = !isCombined ? slugifyTechCategory(cleanName) : '';
+    const detail = suggestedSlug
+        ? `Category "${cleanName}" has 0 questions · Add quiz questions & a /technologies/${suggestedSlug} guide (or disable if unused)`
+        : `Category "${cleanName}" has 0 questions · Combined track with no quiz questions (add questions or disable if unused)`;
+
+    return {
+        url: '/technologies',
+        label: `${cleanName} (/technologies)`,
+        categoryName: cleanName,
+        detail
+    };
+}
+
+function buildEmptyTechCategoriesIssue(emptyTechCategories = [], allCategories = []) {
+    return buildIssue({
+        id: 'empty_tech_categories_opportunity',
+        title: 'Technology Tracks Ready for Quiz Questions & Landing Guides',
+        bucket: 'opportunity',
+        severity: 'Low',
+        status: 'Needs attention',
+        type: 'content',
+        whatIsIssue: `${emptyTechCategories.length} enabled category record(s) in MongoDB currently have 0 quiz questions.`,
+        whyItMatters: 'Publishing populated quiz sessions and dedicated /technologies/:slug guides lets Hangbug capture search demand for those stacks.',
+        affectedUrls: emptyTechCategories.map(c => resolveEmptyTechCategoryTarget(c.name, allCategories)),
+        recommendedAction: 'Add quiz questions via Admin -> Questions Bank or AI Generator for high-demand technologies (or disable unused/duplicate categories).',
+        howToFix: '1. Populate at least 15–25 verified questions for active technologies (or disable duplicate/unused category records).\n2. Add a corresponding entry in seoPagesConfig.js and seoController.js for new tracks.',
+        source: 'MongoDB Categories & Questions'
+    });
+}
+
+function hydrateAuditIssues(issues = []) {
+    if (!Array.isArray(issues)) return [];
+    return issues.map(issue => {
+        if (!issue || issue.id !== 'empty_tech_categories_opportunity' || !Array.isArray(issue.affectedUrls)) {
+            return issue;
+        }
+        return {
+            ...issue,
+            affectedUrls: issue.affectedUrls.map(item => {
+                if (!item || (item.label && item.categoryName)) return item;
+                const match = String(item.detail || '').match(/Category\s+"([^"]+)"/i);
+                if (match && match[1]) {
+                    const resolved = resolveEmptyTechCategoryTarget(match[1]);
+                    return {
+                        ...item,
+                        url: item.url || resolved.url,
+                        label: item.label || resolved.label,
+                        categoryName: item.categoryName || resolved.categoryName,
+                        detail: item.detail || resolved.detail
+                    };
+                }
+                return item;
+            })
+        };
+    });
 }
 
 function readPublicFileSafe(relPath) {
@@ -437,8 +615,9 @@ function buildLocalPageSignalsFromConfig(pagePath, seoPageMap, blogMap, gameMap)
         const slug = clean.slice('/blog/'.length);
         const art = blogMap.get(slug);
         if (art) {
-            const title = art.seoTitle || `${art.title} | Hangbug`;
+            const title = buildArticleSeoTitle(art);
             const desc = art.seoDescription || art.excerpt || '';
+            const canonicalSlug = String(art.slug || slug).trim().toLowerCase();
             const words = String(art.content || '').replace(/[#`*>\-\n]+/g, ' ').split(/\s+/).filter(Boolean).length;
             return {
                 path: clean,
@@ -446,7 +625,7 @@ function buildLocalPageSignalsFromConfig(pagePath, seoPageMap, blogMap, gameMap)
                 titleLength: title.length,
                 metaDescription: desc,
                 metaDescriptionLength: desc.length,
-                canonicalUrl: art.canonicalUrl || `https://www.hangbug.com/blog/${slug}`,
+                canonicalUrl: `https://www.hangbug.com/blog/${canonicalSlug}`,
                 robotsMeta: 'index, follow',
                 isNoindex: false,
                 hasViewport: true,
@@ -473,7 +652,7 @@ function buildLocalPageSignalsFromConfig(pagePath, seoPageMap, blogMap, gameMap)
         const slug = clean.slice('/games/'.length);
         const game = gameMap.get(slug);
         if (game) {
-            const title = `${game.title} — ${game.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | Hangbug`;
+            const title = formatGameSeoTitle(game.title, game.category);
             const desc = `${game.description || ''} Practice interactive coding challenges on Hangbug.`.trim();
             return {
                 path: clean,
@@ -486,7 +665,7 @@ function buildLocalPageSignalsFromConfig(pagePath, seoPageMap, blogMap, gameMap)
                 isNoindex: false,
                 hasViewport: true,
                 h1Count: 1,
-                h1Text: game.title || '',
+                h1Text: game.title ? seoController.buildGameDescriptiveH1(game.title, game.category) : '',
                 h2Count: 2,
                 h3Count: 2,
                 hasJsonLd: true,
@@ -535,7 +714,13 @@ async function inspectSinglePage({ siteUrl, pagePath, useLiveHttp, seoPageMap, b
             // Note: renderStatusHtml for core pages uses base spa-shell unless prerendered or blog SSR
             const isGenericSpaShell = configFallback && (!parsed.h1Text || parsed.wordCount < 40);
             signals = isGenericSpaShell
-                ? { ...parsed, ...configFallback, hasJsonLd: parsed.hasJsonLd || configFallback.hasJsonLd }
+                ? {
+                    ...parsed,
+                    ...configFallback,
+                    hasJsonLd: parsed.hasJsonLd,
+                    jsonLdValid: parsed.jsonLdValid,
+                    jsonLdTypes: parsed.jsonLdTypes
+                }
                 : parsed;
 
             if (!httpResult || !httpResult.ok) {
@@ -584,10 +769,18 @@ async function inspectSinglePage({ siteUrl, pagePath, useLiveHttp, seoPageMap, b
     }
 
     const expectedCanonical = `https://www.hangbug.com${clean === '/' ? '/' : clean}`;
-    const canonicalValid = Boolean(
-        signals.canonicalUrl &&
-        (signals.canonicalUrl === expectedCanonical || signals.canonicalUrl === fullUrl)
+    const isNoindexRoute = Boolean(
+        signals.isNoindex ||
+        (httpResult.xRobotsTag && httpResult.xRobotsTag.toLowerCase().includes('noindex')) ||
+        httpResult.finalStatus === 404 ||
+        seoController.isNoindexAppRoute(clean)
     );
+    const canonicalValid = isNoindexRoute
+        ? !signals.canonicalUrl
+        : Boolean(
+              signals.canonicalUrl &&
+              (signals.canonicalUrl === expectedCanonical || signals.canonicalUrl === fullUrl)
+          );
 
     return {
         ...signals,
@@ -636,6 +829,15 @@ function buildIssue({
     };
 }
 
+function hasValidDescriptiveH1(page) {
+    const h1 = String(page?.h1Text || '').trim();
+    const title = String(page?.title || '').trim();
+    if (page?.h1Count !== 1 || !h1) return false;
+    if (title && h1.toLowerCase() === title.toLowerCase()) return false;
+    if (h1.length < 8) return false;
+    return true;
+}
+
 function buildHealthScores({
     crawledPages,
     robotsAnalysis,
@@ -676,9 +878,9 @@ function buildHealthScores({
     }
 
     // 2. On-page SEO (20%)
-    const goodTitleCount = crawledPages.filter(p => p.titleLength >= 25 && p.titleLength <= 72).length;
+    const goodTitleCount = crawledPages.filter(p => p.titleLength >= 30 && p.titleLength <= 65).length;
     const goodDescCount = crawledPages.filter(p => p.metaDescriptionLength >= 60 && p.metaDescriptionLength <= 175).length;
-    const singleH1Count = crawledPages.filter(p => p.h1Count === 1 && p.h1Text.toLowerCase() !== p.title.toLowerCase()).length;
+    const singleH1Count = crawledPages.filter(hasValidDescriptiveH1).length;
     const imgAltOkCount = crawledPages.filter(p => p.imagesMissingAlt === 0).length;
     const ogOkCount = crawledPages.filter(p => p.hasOgTags).length;
 
@@ -1001,6 +1203,7 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
     const errorStatusPages = crawledPages.filter(p => p.httpStatus >= 400 || p.httpStatus === 0);
     const missingMetaPages = crawledPages.filter(p => !p.metaDescription || p.metaDescriptionLength < 40);
     const missingTitlePages = crawledPages.filter(p => !p.title || p.titleLength < 10);
+    const suboptimalTitlePages = crawledPages.filter(p => p.title && p.titleLength >= 10 && (p.titleLength < 30 || p.titleLength > 65));
 
     const titleMap = new Map();
     for (const p of crawledPages) {
@@ -1016,7 +1219,7 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
         }
     }
 
-    const h1Issues = crawledPages.filter(p => p.h1Count !== 1 || (p.h1Text && p.title && p.h1Text.toLowerCase() === p.title.toLowerCase()));
+    const h1Issues = crawledPages.filter(p => !hasValidDescriptiveH1(p));
     const canonicalIssues = crawledPages.filter(p => !p.canonicalValid);
     const structuredDataIssues = crawledPages.filter(p => !p.hasJsonLd || !p.jsonLdValid);
     const imageAltIssues = crawledPages.filter(p => p.imagesMissingAlt > 0);
@@ -1243,23 +1446,24 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
         }));
     }
 
-    if (missingTitlePages.length > 0 || duplicateTitles.length > 0) {
+    if (missingTitlePages.length > 0 || duplicateTitles.length > 0 || suboptimalTitlePages.length > 0) {
         const titleUrls = [
             ...missingTitlePages.map(p => ({ url: p.path, detail: 'Missing or too-short <title>' })),
+            ...suboptimalTitlePages.map(p => ({ url: p.path, detail: `Title length ${p.titleLength} chars (recommended 45–60)` })),
             ...duplicateTitles.flatMap(d => d.paths.map(pathStr => ({ url: pathStr, detail: `Duplicate title: "${d.title}"` })))
         ];
         issues.push(buildIssue({
             id: 'title_tag_issues',
-            title: 'Missing or Duplicate Page Titles',
+            title: 'Missing, Duplicate, or Suboptimal Page Titles',
             bucket: 'warning',
             severity: 'High',
             status: 'Needs attention',
             type: 'on-page',
-            whatIsIssue: `${titleUrls.length} page(s) have missing or duplicate <title> tags.`,
-            whyItMatters: 'Page titles are one of the strongest ranking and CTR signals. Duplicate titles cause pages to compete against each other in search.',
+            whatIsIssue: `${titleUrls.length} page(s) have missing, duplicate, or out-of-range <title> tags.`,
+            whyItMatters: 'Page titles are one of the strongest ranking and CTR signals. Duplicate or poorly sized titles hurt search relevance and competition.',
             affectedUrls: titleUrls,
             recommendedAction: 'Give every page a distinct title (around 45–60 characters) with its primary topic keyword.',
-            howToFix: '1. Update title in usePageSeo({ title: ... }) or src/config/seoPagesConfig.js.\n2. For blog articles, set unique seoTitle values in Blog Management.',
+            howToFix: '1. Update title in usePageSeo({ title: ... }) or src/config/seoPagesConfig.js.\n2. For blog articles, set unique seoTitle values (45–60 chars) in Blog Management.',
             source: sourceLabel
         }));
     } else {
@@ -1321,7 +1525,16 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
             type: 'on-page',
             whatIsIssue: `${h1Issues.length} page(s) either lack an <h1>, have multiple <h1> tags, or repeat the exact <title> text in <h1>.`,
             whyItMatters: 'A single clear <h1> helps search engines and screen readers understand the main subject of the page.',
-            affectedUrls: h1Issues.map(p => ({ url: p.path, detail: p.h1Count === 0 ? 'Missing <h1>' : p.h1Count > 1 ? `${p.h1Count} <h1> tags found` : '<h1> duplicates <title>' })),
+            affectedUrls: h1Issues.map(p => ({
+                url: p.path,
+                detail: p.h1Count === 0
+                    ? 'Missing <h1>'
+                    : p.h1Count > 1
+                        ? `${p.h1Count} <h1> tags found`
+                        : (p.title && p.h1Text && p.h1Text.toLowerCase() === p.title.toLowerCase())
+                            ? '<h1> duplicates <title>'
+                            : '<h1> is too brief or generic'
+            })),
             recommendedAction: 'Use exactly one descriptive <h1> per page that complements rather than duplicates the <title>.',
             howToFix: '1. Inspect the page JSX heading tags.\n2. Replace extra <h1> tags with <h2> and ensure the primary hero heading uses <h1>.',
             source: sourceLabel
@@ -1413,20 +1626,7 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
     }
 
     if (emptyTechCategories.length > 0) {
-        issues.push(buildIssue({
-            id: 'empty_tech_categories_opportunity',
-            title: 'Technology Tracks Ready for Quiz Questions & Landing Guides',
-            bucket: 'opportunity',
-            severity: 'Low',
-            status: 'Needs attention',
-            type: 'content',
-            whatIsIssue: `${emptyTechCategories.length} enabled category record(s) in MongoDB currently have 0 quiz questions.`,
-            whyItMatters: 'Publishing populated quiz sessions and dedicated /technologies/:slug guides lets Hangbug capture search demand for those stacks.',
-            affectedUrls: emptyTechCategories.map(c => ({ url: `/technologies`, detail: `Category "${c.name}" has 0 questions` })),
-            recommendedAction: 'Add quiz questions via Admin -> Questions Bank or AI Generator for high-demand technologies.',
-            howToFix: '1. Populate at least 15–25 verified questions for the technology.\n2. Add a corresponding entry in seoPagesConfig.js and seoController.js.',
-            source: 'MongoDB Categories & Questions'
-        }));
+        issues.push(buildEmptyTechCategoriesIssue(emptyTechCategories, catalog.categories));
     }
 
     if (blogMissingKeywords.length > 0) {
@@ -1647,9 +1847,16 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
         ],
         duplicateOrMissingTitles: [
             ...missingTitlePages.map(p => ({ url: p.path, reason: 'Missing or too short' })),
+            ...suboptimalTitlePages.map(p => ({ url: p.path, reason: `Suboptimal title length (${p.titleLength} chars; recommended 45–60)` })),
             ...duplicateTitles.flatMap(d => d.paths.map(pathStr => ({ url: pathStr, reason: `Duplicate: ${d.title}` })))
         ],
-        technologyCoverage: catalog.categories.slice(0, 40),
+        technologyCoverage: catalog.categories.slice(0, 50),
+        technologyCoverageSummary: {
+            totalEnabled: catalog.categories.filter(c => c.isEnabled !== false).length,
+            populatedCount: catalog.categories.filter(c => c.isEnabled !== false && c.questionCount > 0).length,
+            emptyCount: emptyTechCategories.length,
+            lowCoverageCount: catalog.categories.filter(c => c.isEnabled !== false && c.questionCount > 0 && c.questionCount < 15).length
+        },
         source: `MongoDB Blog/Category Data + ${sourceLabel}`,
         updatedAt: new Date().toISOString()
     };
@@ -1831,13 +2038,18 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
 
 function hydrateAuditRunRecord(row) {
     if (!row) return null;
-    if (row.summary && row.issues) return row;
+    if (row.summary && row.issues) {
+        return {
+            ...row,
+            issues: hydrateAuditIssues(row.issues)
+        };
+    }
     let scoreBreakdown = {};
     let summary = {};
     let issues = [];
     try { scoreBreakdown = JSON.parse(row.scoreBreakdownJson || '{}'); } catch { /* ignore */ }
     try { summary = JSON.parse(row.summaryJson || '{}'); } catch { /* ignore */ }
-    try { issues = JSON.parse(row.issuesJson || '[]'); } catch { /* ignore */ }
+    try { issues = hydrateAuditIssues(JSON.parse(row.issuesJson || '[]')); } catch { /* ignore */ }
     return {
         id: row.id,
         domain: row.domain,
@@ -1915,7 +2127,7 @@ async function buildPrioritizedRecommendations(domain = DEFAULT_DOMAIN, auditRun
     const cleanDomain = normalizeDomain(domain);
     const baseRecs = [];
 
-    const issues = auditRun?.issues || [];
+    const issues = hydrateAuditIssues(auditRun?.issues || []);
     for (const issue of issues) {
         if (issue.bucket === 'passed') continue;
         const priority = issue.severity === 'Critical'
@@ -1932,7 +2144,7 @@ async function buildPrioritizedRecommendations(domain = DEFAULT_DOMAIN, auditRun
             priority,
             explanation: issue.whatIsIssue,
             expectedBenefit: issue.whyItMatters,
-            affectedPages: (issue.affectedUrls || []).map(u => u.url),
+            affectedPages: (issue.affectedUrls || []).map(u => u.label || u.url),
             suggestedAction: issue.recommendedAction,
             howToFix: issue.howToFix,
             source: issue.source
@@ -2109,5 +2321,9 @@ module.exports = {
     inspectTargetUrlLive,
     extractHtmlSeoSignals,
     analyzeRobotsTxt,
-    parseSitemapXmlUrls
+    parseSitemapXmlUrls,
+    enrichCategoriesWithQuestionCounts,
+    resolveEmptyTechCategoryTarget,
+    buildEmptyTechCategoriesIssue,
+    hydrateAuditIssues
 };

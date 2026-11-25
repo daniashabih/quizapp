@@ -145,6 +145,17 @@ test('5. Backend SEO Audit Engine & Routes: Runs deterministic audit without fak
         undefined,
         `Public audit must not raise accidental_noindex; got: ${JSON.stringify(accidentalNoindexIssue?.affectedUrls || [])}`
     );
+    const titleTagIssue = run.issues.find(i => i.id === 'title_tag_issues');
+    assert.strictEqual(
+        titleTagIssue,
+        undefined,
+        `Public audit must not raise title_tag_issues; got: ${JSON.stringify(titleTagIssue?.affectedUrls || [])}`
+    );
+    assert.strictEqual(
+        run.content.duplicateOrMissingTitles.length,
+        0,
+        `Expected zero duplicate/missing/suboptimal title issues, got: ${JSON.stringify(run.content.duplicateOrMissingTitles)}`
+    );
     for (const issue of run.issues) {
         assert.ok(issue.whatIsIssue && issue.whyItMatters && issue.recommendedAction && issue.howToFix);
         assert.ok(['Critical', 'Needs attention', 'Good', 'Not checked'].includes(issue.status));
@@ -158,4 +169,179 @@ test('6. Backend Competitor Validator blocks localhost/private domains', () => {
     assert.strictEqual(isValidPublicDomain('localhost'), false);
     assert.strictEqual(isValidPublicDomain('127.0.0.1'), false);
     assert.strictEqual(isValidPublicDomain('192.168.1.1'), false);
+});
+
+test('7. Backend SEO Audit normalizes category counts and emits distinct labels/URLs for empty technology tracks', async () => {
+    const auditService = require('../api/_services/seoAuditService');
+
+    const enriched = auditService.enrichCategoriesWithQuestionCounts(
+        [
+            { id: '1', name: 'Agile and DevOps', isEnabled: true },
+            { id: '2', name: 'C#', isEnabled: true },
+            { id: '3', name: 'Material-UI', isEnabled: true },
+            { id: '4', name: 'Mongo DB', isEnabled: true },
+            { id: '5', name: 'React.js', isEnabled: true },
+            { id: '6', name: 'React', isEnabled: true },
+            { id: '7', name: 'CSS', isEnabled: true },
+            { id: '8', name: 'Angular', isEnabled: true }
+        ],
+        [
+            { category: 'Material UI', _count: { _all: 150 } },
+            { category: 'MongoDB', _count: { _all: 350 } },
+            { category: 'ReactJS', _count: { _all: 399 } }
+        ]
+    );
+
+    const byName = new Map(enriched.map(c => [c.name, c.questionCount]));
+    assert.ok(byName.get('Agile and DevOps') >= 900, 'Agile and DevOps must resolve Agile & DevOps static/DB count');
+    assert.ok(byName.get('C#') >= 700, 'C# must resolve static C# question bank count');
+    assert.strictEqual(byName.get('Material-UI'), 150);
+    assert.strictEqual(byName.get('Mongo DB'), 350);
+    assert.strictEqual(byName.get('React.js'), 399);
+    assert.strictEqual(byName.get('React'), 0);
+    assert.strictEqual(byName.get('CSS'), 0);
+    assert.strictEqual(byName.get('Angular'), 0);
+
+    const emptyCats = enriched.filter(c => c.isEnabled && c.questionCount === 0);
+    const issue = auditService.buildEmptyTechCategoriesIssue(emptyCats, enriched);
+    assert.strictEqual(issue.affectedCount, 3);
+    assert.deepStrictEqual(
+        issue.affectedUrls.map(u => u.label),
+        ['React (/technologies/react)', 'CSS (/technologies/css)', 'Angular (/technologies)']
+    );
+    assert.deepStrictEqual(
+        issue.affectedUrls.map(u => u.url),
+        ['/technologies/react', '/technologies/css', '/technologies']
+    );
+    assert.ok(issue.affectedUrls[0].detail.includes('React.js'));
+
+    // Legacy stored audit issues lacking `label` are hydrated cleanly
+    const hydrated = auditService.hydrateAuditIssues([
+        {
+            id: 'empty_tech_categories_opportunity',
+            affectedUrls: [
+                { url: '/technologies', detail: 'Category "CSS" has 0 questions' },
+                { url: '/technologies', detail: 'Category "Angular" has 0 questions' }
+            ]
+        }
+    ]);
+    assert.strictEqual(hydrated[0].affectedUrls[0].url, '/technologies/css');
+    assert.strictEqual(hydrated[0].affectedUrls[0].label, 'CSS (/technologies/css)');
+    assert.strictEqual(hydrated[0].affectedUrls[1].url, '/technologies');
+    assert.strictEqual(hydrated[0].affectedUrls[1].label, 'Angular (/technologies)');
+
+    // Recommendations propagate distinct labels instead of repeating /technologies
+    const recs = await auditService.buildPrioritizedRecommendations('www.hangbug.com', { issues: [issue] });
+    const rec = recs.items.find(r => r.recKey === 'audit_empty_tech_categories_opportunity');
+    assert.ok(rec);
+    assert.deepStrictEqual(rec.affectedPages, [
+        'React (/technologies/react)',
+        'CSS (/technologies/css)',
+        'Angular (/technologies)'
+    ]);
+
+    // Web UI components must render formatAffectedUrlLabel
+    const webAudit = read('src/components/seo/SeoAuditSection.jsx');
+    const webModal = read('src/components/seo/SeoIssueDetailModal.jsx');
+    const webUtils = read('src/components/seo/seoUtils.js');
+    assert.ok(webUtils.includes('formatAffectedUrlLabel'));
+    assert.ok(webAudit.includes('formatAffectedUrlLabel'));
+    assert.ok(webModal.includes('formatAffectedUrlLabel'));
+});
+
+test('7. All public routes, tech tracks, games, and seeded articles have distinct 45–60 character titles', async () => {
+    const seoConfigMod = await import(
+        require('node:url').pathToFileURL(
+            require('node:path').join(__dirname, '..', 'src', 'config', 'seoPagesConfig.js')
+        ).href
+    );
+    const { SEO_PAGES_CONFIG, formatGameSeoTitle, formatBlogSeoTitle } = seoConfigMod;
+    const { INITIAL_BLOG_ARTICLES } = require('../api/_models/blogArticles/initialBlogArticles');
+    const { INITIAL_GAMES } = require('../api/_models/gameModel');
+    const { buildArticleSeoTitle } = require('../api/_utils/blogSeoRenderer');
+
+    const seenTitles = new Set();
+
+    for (const [key, entry] of Object.entries(SEO_PAGES_CONFIG)) {
+        assert.ok(entry && entry.title, `Missing title for SEO_PAGES_CONFIG.${key}`);
+        assert.ok(
+            entry.title.length >= 45 && entry.title.length <= 60,
+            `SEO_PAGES_CONFIG.${key} title length ${entry.title.length} outside 45–60: ${entry.title}`
+        );
+        assert.notStrictEqual(
+            entry.title.toLowerCase(),
+            String(entry.h1 || '').toLowerCase(),
+            `SEO_PAGES_CONFIG.${key} title must differ from H1`
+        );
+        const lower = entry.title.toLowerCase();
+        assert.ok(!seenTitles.has(lower), `Duplicate title in SEO_PAGES_CONFIG.${key}: ${entry.title}`);
+        seenTitles.add(lower);
+    }
+
+    for (const game of INITIAL_GAMES) {
+        const title = formatGameSeoTitle(game.title, game.category);
+        assert.ok(
+            title.length >= 45 && title.length <= 60,
+            `Game ${game.slug} title length ${title.length} outside 45–60: ${title}`
+        );
+        const lower = title.toLowerCase();
+        assert.ok(!seenTitles.has(lower), `Duplicate game title for ${game.slug}: ${title}`);
+        seenTitles.add(lower);
+    }
+
+    for (const article of INITIAL_BLOG_ARTICLES) {
+        const title = buildArticleSeoTitle(article);
+        assert.strictEqual(title, formatBlogSeoTitle(article.seoTitle, article.title));
+        assert.ok(
+            title.length >= 45 && title.length <= 60,
+            `Article ${article.slug} title length ${title.length} outside 45–60: ${title}`
+        );
+        const lower = title.toLowerCase();
+        assert.ok(!seenTitles.has(lower), `Duplicate article title for ${article.slug}: ${title}`);
+        seenTitles.add(lower);
+    }
+});
+
+test('8. Structured Data SSR, Audit Validation & Web/Mobile JSON-LD Visibility Parity', async () => {
+    const auditService = require('../api/_services/seoAuditService');
+    const seoController = require('../api/_controllers/seoController');
+
+    // Audit parser rejects empty or missing-@context JSON-LD
+    const emptyJsonLd = auditService.extractHtmlSeoSignals(
+        '<html><head><title>Sample Hangbug Page Title For Test</title><script type="application/ld+json">{}</script></head><body><h1>Heading</h1></body></html>',
+        '/sample'
+    );
+    assert.strictEqual(emptyJsonLd.hasJsonLd, true);
+    assert.strictEqual(emptyJsonLd.jsonLdValid, false, 'Empty JSON-LD object must be flagged invalid');
+
+    // SSR injects #hangbug-jsonld for public routes and passes structured_data audit cleanly
+    for (const p of ['/', '/technologies', '/technologies/javascript', '/games', '/games/code-puzzle', '/blog', '/about', '/contact']) {
+        const res = await seoController.resolveAppRoute(p);
+        const html = seoController.renderStatusHtml(res);
+        assert.ok(
+            /<script id="hangbug-jsonld" type="application\/ld\+json">[\s\S]*?"@context"\s*:\s*"https:\/\/schema\.org"[\s\S]*?<\/script>/i.test(html),
+            `SSR output for ${p} must inject #hangbug-jsonld`
+        );
+    }
+
+    const run = await auditService.runFullSeoAudit({
+        domain: 'www.hangbug.com',
+        useLiveHttp: false
+    });
+    const structuredDataGap = run.issues.find(i => i.id === 'structured_data_gaps');
+    assert.strictEqual(
+        structuredDataGap,
+        undefined,
+        `Public audit must have zero structured_data_gaps; got: ${JSON.stringify(structuredDataGap?.affectedUrls || [])}`
+    );
+    assert.strictEqual(run.technical.structuredData.status, 'Good');
+
+    // Web & Mobile UI parity for JSON-LD inspection and schema list
+    const webIndexing = read('src/components/seo/SeoIndexingSection.jsx');
+    const mobilePrimary = read('mobile/lib/screens/admin/seo/widgets/seo_sections_primary.dart');
+    const mobileSecondary = read('mobile/lib/screens/admin/seo/widgets/seo_sections_secondary.dart');
+
+    assert.ok(webIndexing.includes('#hangbug-jsonld') && webIndexing.includes('jsonLdTypes'), 'Web SeoIndexingSection must display #hangbug-jsonld status');
+    assert.ok(mobilePrimary.includes('JSON-LD:') && mobilePrimary.includes('jsonLdTypes'), 'Mobile SeoIndexingTab must display JSON-LD status');
+    assert.ok(mobileSecondary.includes("map['schemasDetected']") && mobileSecondary.includes("map['affectedUrls']"), 'Mobile SeoTechnicalTab must display schemasDetected and affectedUrls');
 });

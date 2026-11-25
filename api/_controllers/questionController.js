@@ -1,5 +1,17 @@
 const Question = require('../_models/questionModel');
 const Category = require('../_models/categoryModel');
+const prisma = require('../_config/prisma');
+const { AGILE_DEVOPS_QUESTIONS } = require('../_models/agileDevopsQuestionsData');
+const { CSHARP_QUIZ_QUESTIONS } = require('../_models/csharpQuizQuestionsData');
+const {
+    HIGH_DEMAND_TECH_NAMES,
+    getHighDemandPackName,
+    getHighDemandPack
+} = require('../_models/techQuestions');
+const {
+    normalizeCategoryKey,
+    resolveCategoryQuestionStats
+} = require('../_utils/categoryMatching');
 
 const fs = require('fs');
 const { Readable } = require('stream');
@@ -275,12 +287,21 @@ const importQuestions = async (req, res) => {
 
                     await ensureCategoryExists(category);
 
+                    const explanation = q.explanation || q.Explanation || '';
+                    const difficulty = q.difficulty || q.Difficulty || '';
+                    const topic = q.topic || q.Topic || '';
+                    const sessionTitle = q.session_title || q.sessionTitle || q.SessionTitle || '';
+
                     await Question.create({ 
                         category, 
                         session,
+                        session_title: sessionTitle,
+                        topic,
+                        difficulty,
                         question_text, 
                         options, 
-                        correct_answer
+                        correct_answer,
+                        explanation
                     });
                     seenSet.add(normText);
                     results.success++;
@@ -505,4 +526,216 @@ const exportQuestions = async (req, res) => {
     }
 };
 
-module.exports = { createQuestion, importQuestions, exportQuestions, getQuestions, getCategorySessions, deleteQuestion, updateQuestion, checkNewQuestions };
+async function computeQuestionCoverageSummary() {
+    const [categories, questionStats] = await Promise.all([
+        prisma.category.findMany({ orderBy: { name: 'asc' } }).catch(() => []),
+        prisma.question.groupBy({
+            by: ['category'],
+            _count: { _all: true },
+            _max: { createdAt: true }
+        }).catch(() => [])
+    ]);
+
+    const enriched = resolveCategoryQuestionStats(categories, questionStats, {
+        'Agile & DevOps': AGILE_DEVOPS_QUESTIONS.length,
+        'C#': CSHARP_QUIZ_QUESTIONS.length
+    }).map(item => {
+        const packName = getHighDemandPackName(item.name);
+        const packQuestions = packName ? getHighDemandPack(packName) : [];
+        return {
+            ...item,
+            hasStarterPack: Boolean(packName),
+            starterPackName: packName,
+            starterPackCount: packQuestions.length
+        };
+    });
+
+    const existingNormSet = new Set(enriched.map(c => normalizeCategoryKey(c.name)));
+    for (const packName of HIGH_DEMAND_TECH_NAMES) {
+        if (!existingNormSet.has(normalizeCategoryKey(packName))) {
+            const packQuestions = getHighDemandPack(packName);
+            enriched.push({
+                id: `pack_${normalizeCategoryKey(packName).replace(/[^a-z0-9]/g, '_')}`,
+                name: packName,
+                isEnabled: true,
+                directQuestionCount: 0,
+                questionCount: 0,
+                coveredByAlias: null,
+                latestQuestionAt: null,
+                hasStarterPack: true,
+                starterPackName: packName,
+                starterPackCount: packQuestions.length,
+                missingCategoryRecord: true
+            });
+        }
+    }
+
+    const enabled = enriched.filter(c => c.isEnabled !== false);
+    const emptyCategories = enabled.filter(c => c.questionCount === 0);
+    const lowCoverageCategories = enabled.filter(c => c.questionCount > 0 && c.questionCount < 15);
+    const populatedCategories = enabled.filter(c => c.questionCount > 0);
+    const aliasCoveredCategories = enabled.filter(c => Boolean(c.coveredByAlias));
+
+    return {
+        totalCategories: enabled.length,
+        populatedCount: populatedCategories.length,
+        emptyCount: emptyCategories.length,
+        lowCoverageCount: lowCoverageCategories.length,
+        aliasCoveredCount: aliasCoveredCategories.length,
+        availableStarterPacks: HIGH_DEMAND_TECH_NAMES,
+        emptyCategories,
+        lowCoverageCategories,
+        categories: enriched
+    };
+}
+
+const getQuestionCoverage = async (req, res) => {
+    try {
+        const coverage = await computeQuestionCoverageSummary();
+        res.json({ success: true, ...coverage });
+    } catch (error) {
+        console.error('Question Coverage Error:', error);
+        res.status(500).json({ success: false, message: 'Failed to inspect question coverage' });
+    }
+};
+
+const seedHighDemandQuestions = async (req, res) => {
+    try {
+        const { categories: requestedCategories, onlyEmpty = true } = req.body || {};
+        const coverage = await computeQuestionCoverageSummary();
+
+        let targetPackNames = [];
+        if (Array.isArray(requestedCategories) && requestedCategories.length > 0) {
+            targetPackNames = Array.from(
+                new Set(
+                    requestedCategories
+                        .map(c => getHighDemandPackName(c))
+                        .filter(Boolean)
+                )
+            );
+            if (targetPackNames.length === 0) {
+                return res.status(400).json({
+                    success: false,
+                    message: `No curated starter pack matched requested categories. Available packs: ${HIGH_DEMAND_TECH_NAMES.join(', ')}`
+                });
+            }
+        } else if (onlyEmpty) {
+            targetPackNames = coverage.emptyCategories
+                .filter(c => c.hasStarterPack && c.starterPackName)
+                .map(c => c.starterPackName);
+            targetPackNames = Array.from(new Set(targetPackNames));
+            if (targetPackNames.length === 0) {
+                // Fall back to any packs that have < 15 questions if none are at 0
+                targetPackNames = Array.from(
+                    new Set(
+                        coverage.lowCoverageCategories
+                            .filter(c => c.hasStarterPack && c.starterPackName)
+                            .map(c => c.starterPackName)
+                    )
+                );
+            }
+        } else {
+            targetPackNames = [...HIGH_DEMAND_TECH_NAMES];
+        }
+
+        if (targetPackNames.length === 0) {
+            return res.json({
+                success: true,
+                message: 'All curated high-demand technology tracks already have verified questions.',
+                inserted: 0,
+                skipped: 0,
+                resultsByCategory: []
+            });
+        }
+
+        let totalInserted = 0;
+        let totalSkipped = 0;
+        const resultsByCategory = [];
+
+        for (const packName of targetPackNames) {
+            const packQuestions = getHighDemandPack(packName);
+            if (!packQuestions.length) continue;
+
+            // Reuse existing category casing in DB if present and ensure enabled
+            const existingCat = await Category.findByName(packName);
+            const targetCategoryName = existingCat && !/^(mem_)?cat_/.test(String(existingCat.id || ''))
+                ? existingCat.name
+                : packName;
+
+            await ensureCategoryExists(targetCategoryName);
+            if (existingCat && existingCat.id && !/^(mem_)?cat_/.test(String(existingCat.id)) && existingCat.isEnabled === false) {
+                await Category.update(existingCat.id, { isEnabled: true }).catch(() => {});
+            }
+
+            const existingRows = await Question.getFiltered({ category: targetCategoryName });
+            const seenNorm = new Set(
+                existingRows.map(item => Question.normalizeQuestionText(item.question_text || item.questionText))
+            );
+
+            let catInserted = 0;
+            let catSkipped = 0;
+
+            for (const q of packQuestions) {
+                const normText = Question.normalizeQuestionText(q.questionText);
+                if (!normText || seenNorm.has(normText)) {
+                    catSkipped++;
+                    continue;
+                }
+
+                await Question.create({
+                    category: targetCategoryName,
+                    session: q.session || 1,
+                    session_title: q.sessionTitle || '',
+                    topic: q.topic || '',
+                    difficulty: q.difficulty || 'beginner',
+                    question_text: q.questionText,
+                    options: q.options,
+                    correct_answer: q.correctAnswer,
+                    explanation: q.explanation || ''
+                });
+
+                seenNorm.add(normText);
+                catInserted++;
+            }
+
+            totalInserted += catInserted;
+            totalSkipped += catSkipped;
+            resultsByCategory.push({
+                category: targetCategoryName,
+                inserted: catInserted,
+                skipped: catSkipped,
+                totalInPack: packQuestions.length
+            });
+        }
+
+        res.json({
+            success: true,
+            message: totalInserted > 0
+                ? `Added ${totalInserted} verified questions across ${resultsByCategory.filter(r => r.inserted > 0).length} high-demand track(s)${totalSkipped > 0 ? ` (${totalSkipped} duplicate(s) skipped)` : ''}.`
+                : `All ${totalSkipped} questions were already present in MongoDB.`,
+            inserted: totalInserted,
+            skipped: totalSkipped,
+            resultsByCategory
+        });
+    } catch (error) {
+        console.error('Seed High Demand Questions Error:', error);
+        res.status(500).json({
+            success: false,
+            message: error?.message || 'Failed to populate high-demand quiz questions'
+        });
+    }
+};
+
+module.exports = {
+    createQuestion,
+    importQuestions,
+    exportQuestions,
+    getQuestions,
+    getCategorySessions,
+    deleteQuestion,
+    updateQuestion,
+    checkNewQuestions,
+    getQuestionCoverage,
+    seedHighDemandQuestions,
+    computeQuestionCoverageSummary
+};

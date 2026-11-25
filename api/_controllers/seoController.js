@@ -3,13 +3,29 @@ const path = require('path');
 const {
     ensureMarkdownParser,
     isMongoUriConfigured,
+    buildArticleSeoTitle,
+    formatSeoTitleWithBrand,
+    formatGameSeoTitle,
     renderCompleteBlogArticleHtml,
     renderCompleteBlogIndexHtml,
+    renderStaticFooterHtml,
     renderVisible404BodyHtml,
     applyHeadMetadata,
     findRelatedForArticle,
     deriveCategoriesFromArticles
 } = require('../_utils/blogSeoRenderer');
+const {
+    GAMES_SEO_LIST,
+    GAMES_SEO_MAP,
+    TECH_SEO_KEYS,
+    resolveStaticHeaderForPath,
+    generatePublicBodyHtml,
+    generateHomeBodyHtml,
+    buildGameBodyHtml,
+    buildPublicPageStructuredDataFallback,
+    resolveCoreFallbackMeta,
+    renderPublicPageHtml
+} = require('../_utils/publicPageSeoRenderer');
 
 const BASE_URL = 'https://www.hangbug.com';
 const ROOT_DIR = path.resolve(__dirname, '../..');
@@ -38,7 +54,19 @@ const TECHNOLOGY_GUIDE_CONFIGS = [
     { slug: 'flutter', matchers: ['flutter'], defaultPopulated: true, fallbackLastmod: '2026-11-18T12:28:38.000Z' },
     { slug: 'dart', matchers: ['dart'], defaultPopulated: true, fallbackLastmod: '2026-11-11T12:35:09.075Z' },
     { slug: 'python', matchers: ['python'], defaultPopulated: true, fallbackLastmod: '2026-08-18T11:28:57.074Z' },
-    { slug: 'programming-fundamentals', matchers: ['programming fundamentals', 'programming logic', 'oop', 'dsa'], defaultPopulated: true, fallbackLastmod: '2026-11-18T12:28:38.000Z' }
+    { slug: 'programming-fundamentals', matchers: ['programming fundamentals', 'programming logic', 'oop', 'dsa'], defaultPopulated: true, fallbackLastmod: '2026-11-18T12:28:38.000Z' },
+    { slug: 'typescript', matchers: ['typescript', 'ts'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'nextjs', matchers: ['next.js', 'nextjs', 'next js'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'docker', matchers: ['docker'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'sql', matchers: ['sql'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'tailwindcss', matchers: ['tailwind css', 'tailwindcss', 'tailwind'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'git', matchers: ['git'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'github', matchers: ['github'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'angular', matchers: ['angular', 'angularjs', 'angular js'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'vue', matchers: ['vue', 'vue.js', 'vuejs', 'vue js'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'django', matchers: ['django'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'bootstrap', matchers: ['bootstrap'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' },
+    { slug: 'wordpress', matchers: ['wordpress', 'word press'], defaultPopulated: false, fallbackLastmod: '2026-11-25T12:00:00.000Z' }
 ];
 
 const PUBLIC_ROUTES = [
@@ -445,23 +473,12 @@ async function getDynamicSitemap(req, res) {
                             new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2500))
                         ]);
                         if (Array.isArray(cats) && Array.isArray(qStats)) {
-                            const qMap = new Map(
-                                qStats.map(q => [
-                                    String(q.category || '').toLowerCase(),
-                                    {
-                                        count: q._count?.id || 0,
-                                        latestQuestionAt: q._max?.createdAt || null
-                                    }
-                                ])
-                            );
-                            categoriesWithStats = cats.map(c => {
-                                const stat = qMap.get(String(c.name || '').toLowerCase());
-                                return {
-                                    name: c.name,
-                                    isEnabled: c.isEnabled !== false,
-                                    questionCount: stat ? stat.count : 0,
-                                    latestQuestionAt: stat ? stat.latestQuestionAt : null
-                                };
+                            const { resolveCategoryQuestionStats } = require('../_utils/categoryMatching');
+                            const { AGILE_DEVOPS_QUESTIONS } = require('../_models/agileDevopsQuestionsData');
+                            const { CSHARP_QUIZ_QUESTIONS } = require('../_models/csharpQuizQuestionsData');
+                            categoriesWithStats = resolveCategoryQuestionStats(cats, qStats, {
+                                'Agile & DevOps': AGILE_DEVOPS_QUESTIONS.length,
+                                'C#': CSHARP_QUIZ_QUESTIONS.length
                             });
                         }
                     } catch {
@@ -545,8 +562,11 @@ const KNOWN_EXACT_ROUTES = new Set([
 const TECH_SLUGS = new Set([
     'html', 'css', 'javascript', 'react', 'php', 'laravel',
     'mysql', 'mongodb', 'flutter', 'dart', 'python', 'programming-fundamentals',
+    'typescript', 'nextjs', 'docker', 'sql', 'tailwindcss', 'git',
+    'github', 'angular', 'vue', 'django', 'bootstrap', 'wordpress',
     // Aliases
-    'reactjs', 'react.js', 'js', 'html5', 'css3', 'fundamentals', 'programming-logic'
+    'reactjs', 'react.js', 'js', 'html5', 'css3', 'fundamentals', 'programming-logic',
+    'ts', 'next.js', 'next', 'tailwind', 'tailwind-css', 'angularjs', 'vuejs', 'vue.js'
 ]);
 
 const GAME_ALIAS_SLUGS = new Set([
@@ -602,8 +622,456 @@ const NOINDEX_EXACT_ROUTES = new Set([
     '/quiz/result'
 ]);
 
+const SEO_DASHBOARD_SECTION_META = {
+    overview: {
+        title: 'SEO Overview & Organic Growth Studio — Hangbug',
+        h1: 'SEO Overview & Organic Growth Studio'
+    },
+    'search-performance': {
+        title: 'SEO Search Performance Analytics — Hangbug Studio',
+        h1: 'SEO Search Performance Analytics'
+    },
+    keywords: {
+        title: 'SEO Keyword Research & Topic Rankings — Hangbug',
+        h1: 'SEO Keyword Research & Topic Rankings'
+    },
+    audit: {
+        title: 'SEO Website Technical & On-Page Audit — Hangbug',
+        h1: 'SEO Website Technical & On-Page Audit'
+    },
+    indexing: {
+        title: 'SEO Page Indexing & Coverage Monitor — Hangbug',
+        h1: 'SEO Page Indexing & Coverage Monitor'
+    },
+    content: {
+        title: 'SEO Content Quality & Heading Analysis — Hangbug',
+        h1: 'SEO Content Quality & Heading Analysis'
+    },
+    technical: {
+        title: 'SEO Technical Core Web Vitals & Schema — Hangbug',
+        h1: 'SEO Technical Core Web Vitals & Schema'
+    },
+    backlinks: {
+        title: 'SEO Backlink Authority & Domain Profile — Hangbug',
+        h1: 'SEO Backlink Authority & Domain Profile'
+    },
+    'ai-visibility': {
+        title: 'SEO AI Search Visibility & Citations — Hangbug',
+        h1: 'SEO AI Search Visibility & Citations'
+    },
+    competitors: {
+        title: 'SEO Competitor Benchmarking & Gap Analysis — Hangbug',
+        h1: 'SEO Competitor Benchmarking & Gap Analysis'
+    },
+    recommendations: {
+        title: 'SEO Actionable Growth Recommendations — Hangbug',
+        h1: 'SEO Actionable Growth Recommendations'
+    },
+    settings: {
+        title: 'SEO Dashboard Integrations & Settings — Hangbug',
+        h1: 'SEO Dashboard Integrations & Settings'
+    }
+};
+
+const NOINDEX_ROUTE_META = {
+    '/login': {
+        title: 'Sign In to Your Developer Account — Hangbug Quizzes',
+        description: 'Sign in to your Hangbug developer account to save quiz progress, track streaks, and earn verified programming certificates.',
+        h1: 'Sign In to Your Hangbug Coding Account'
+    },
+    '/register': {
+        title: 'Create Free Developer Account — Hangbug Coding Quizzes',
+        description: 'Create your free Hangbug account to practice technology quizzes, play coding games, and build verifiable software engineering credentials.',
+        h1: 'Create Your Free Hangbug Developer Account'
+    },
+    '/signup': {
+        title: 'Create Free Developer Account — Hangbug Coding Quizzes',
+        description: 'Create your free Hangbug account to practice technology quizzes, play coding games, and build verifiable software engineering credentials.',
+        h1: 'Create Your Free Hangbug Developer Account'
+    },
+    '/forgot-password': {
+        title: 'Forgot Password Recovery — Hangbug Developer Account',
+        description: 'Request a secure password reset link for your Hangbug developer account.',
+        h1: 'Reset Access to Your Hangbug Account'
+    },
+    '/reset-password': {
+        title: 'Set New Account Password — Hangbug Account Recovery',
+        description: 'Set a new secure password for your Hangbug developer account.',
+        h1: 'Create a New Account Password'
+    },
+    '/delete-account': {
+        title: 'Account Deletion & Data Removal Request — Hangbug',
+        description: 'Permanently delete your Hangbug developer account, quiz history, and associated personal data.',
+        h1: 'Delete Your Hangbug Account & Data'
+    },
+    '/account-deletion': {
+        title: 'Account Deletion & Data Removal Request — Hangbug',
+        description: 'Permanently delete your Hangbug developer account, quiz history, and associated personal data.',
+        h1: 'Delete Your Hangbug Account & Data'
+    },
+    '/data-deletion': {
+        title: 'Account Deletion & Data Removal Request — Hangbug',
+        description: 'Permanently delete your Hangbug developer account, quiz history, and associated personal data.',
+        h1: 'Delete Your Hangbug Account & Data'
+    },
+    '/certificate/view': {
+        title: 'Verify Developer Certificate — Hangbug Skill Verification',
+        description: 'Verify the authenticity of Hangbug developer completion certificates by credential ID.',
+        h1: 'Hangbug Developer Certificate Verification & Credential Lookup'
+    },
+    '/leaderboard/full': {
+        title: 'Full Global Developer Leaderboard Directory — Hangbug',
+        description: 'View complete ranked developer standings, accuracy percentages, and completed quiz totals on Hangbug.',
+        h1: 'All Ranked Developer Performers Worldwide'
+    },
+    '/quiz/start': {
+        title: 'Interactive Quiz Session in Progress — Hangbug',
+        description: 'Complete focused multiple-choice technical quiz questions with instant verification and explanations.',
+        h1: 'Active Coding Quiz Practice Session'
+    },
+    '/quiz/result': {
+        title: 'Coding Quiz Performance & Answer Results — Hangbug',
+        description: 'Review your quiz score, accuracy metrics, and detailed answer explanations on Hangbug.',
+        h1: 'Your Coding Quiz Performance & Explanations'
+    },
+    '/dashboard': {
+        title: 'Developer Overview & Learning Progress — Hangbug',
+        description: 'Track completed technology quizzes, daily coding streaks, earned certificates, and skill accuracy.',
+        h1: 'Your Hangbug Learning Progress & Quiz History'
+    },
+    '/dashboard/technologies': {
+        title: 'Dashboard Practice Quizzes & Tech Tracks — Hangbug',
+        description: 'Browse programming language and framework tracks inside your Hangbug dashboard.',
+        h1: 'Dashboard Technology Quizzes & Practice Tracks'
+    },
+    '/dashboard/quizzes': {
+        title: 'Active Dashboard Quiz Practice Sessions — Hangbug',
+        description: 'Resume in-progress quizzes and review recent practice assessments on Hangbug.',
+        h1: 'Your In-Progress & Completed Coding Quizzes'
+    },
+    '/dashboard/certificates': {
+        title: 'My Verified Programming Certificates — Hangbug',
+        description: 'Download and share your earned score-based technology completion certificates.',
+        h1: 'My Earned Certificates & Verified Credentials'
+    },
+    '/dashboard/leaderboard': {
+        title: 'Dashboard Developer Standings & Ranks — Hangbug',
+        description: 'Compare quiz accuracy, completed sessions, and community standings.',
+        h1: 'Top 5 Performers — Global Developer Leaderboard'
+    },
+    '/dashboard/leaderboard/full': {
+        title: 'Full Dashboard Developer Leaderboard Ranks — Hangbug',
+        description: 'Explore complete global developer leaderboard rankings.',
+        h1: 'All Ranked Developer Performers Worldwide'
+    },
+    '/dashboard/profile': {
+        title: 'Developer Profile & Coding Credentials — Hangbug',
+        description: 'Manage your public developer profile, bio, and completed skill tracks on Hangbug.',
+        h1: 'Developer Profile & Skill Mastery Overview'
+    },
+    '/dashboard/settings': {
+        title: 'Account Theme Settings & Preferences — Hangbug',
+        description: 'Update your Hangbug theme, notification preferences, and account security settings.',
+        h1: 'Account Settings & Security Preferences'
+    },
+    '/dashboard/seo': {
+        title: SEO_DASHBOARD_SECTION_META.overview.title,
+        description: 'Inspect Hangbug search health, canonical coverage, structured data, and editorial SEO audits.',
+        h1: SEO_DASHBOARD_SECTION_META.overview.h1
+    },
+    '/admin': {
+        title: 'Admin Console: Questions & Platform Control — Hangbug',
+        description: 'Manage Hangbug quizzes, coding games, blog tutorials, AI verification, and platform settings.',
+        h1: 'Hangbug Platform & Content Administration'
+    },
+    '/admin/knowledge-base': {
+        title: 'Admin Knowledge Base & PDF RAG Library — Hangbug',
+        description: 'Manage indexed AI knowledge base documentation and training entries.',
+        h1: 'AI Knowledge Base Management'
+    },
+    '/admin/verification-reports': {
+        title: 'Admin AI Verification Reports & Audits — Hangbug',
+        description: 'Inspect automated question quality checks and verification reports.',
+        h1: 'AI Question Verification Reports'
+    },
+    '/admin/ai-controls': {
+        title: 'Admin AI Models, Embeddings & Usage — Hangbug',
+        description: 'Configure AI generation providers, rate limits, and model usage telemetry.',
+        h1: 'AI Models, Providers & Usage Controls'
+    },
+    '/dashboard/admin': {
+        title: 'Dashboard Admin Controls & Site Operations — Hangbug',
+        description: 'Manage Hangbug quizzes, coding games, blog tutorials, and platform operations.',
+        h1: 'Hangbug Platform & Content Operations'
+    }
+};
+
 let cachedSpaShellHtml = null;
 let cachedInitialBlogMap = null;
+let cachedSeoConfigModule = null;
+let cachedStructuredDataModule = null;
+
+async function ensureFrontendSeoModules() {
+    if (!cachedSeoConfigModule) {
+        try {
+            cachedSeoConfigModule = await import('../../src/config/seoPagesConfig.js');
+        } catch {
+            cachedSeoConfigModule = null;
+        }
+    }
+    if (!cachedStructuredDataModule) {
+        try {
+            cachedStructuredDataModule = await import('../../src/utils/structuredData.js');
+        } catch {
+            cachedStructuredDataModule = null;
+        }
+    }
+    return {
+        seoConfig: cachedSeoConfigModule,
+        structuredData: cachedStructuredDataModule
+    };
+}
+
+function buildGameDescriptiveH1(title, category) {
+    const cleanTitle = String(title || 'Coding Challenge').trim();
+    const descriptor = category === 'Typing Games'
+        ? 'Developer Typing Speed & Accuracy Challenge'
+        : 'Interactive Coding Practice Game';
+    return `${cleanTitle}: ${descriptor}`;
+}
+
+function buildSsrStructuredData(structuredData, options = {}) {
+    if (structuredData && typeof structuredData.buildPageStructuredData === 'function') {
+        const built = structuredData.buildPageStructuredData(options);
+        if (built) return built;
+    }
+    return buildPublicPageStructuredDataFallback({
+        title: options.title,
+        description: options.description,
+        canonicalPath: options.canonicalPath,
+        includeApplicationSchema: options.includeApplicationSchema,
+        softwareApplication: options.softwareApplication
+    });
+}
+
+function buildGameRouteMeta(canonicalSlug, game, structuredData, descriptionText = null) {
+    const cleanCanonicalSlug = String(canonicalSlug || game.slug || '').trim().toLowerCase();
+    const gameTitle = formatGameSeoTitle(game.title, game.category);
+    const gameDesc = descriptionText !== null ? descriptionText : (game.description || '');
+    const canonicalPath = `/games/${cleanCanonicalSlug}`;
+    const richGameMeta = GAMES_SEO_MAP.get(cleanCanonicalSlug);
+    const softwareApplication = {
+        slug: cleanCanonicalSlug,
+        name: game.title,
+        category: game.category,
+        description: gameDesc
+    };
+    const jsonLd = buildSsrStructuredData(structuredData, {
+        title: gameTitle,
+        description: gameDesc,
+        canonicalPath,
+        schemaType: 'WebPage',
+        breadcrumbs: [
+            { name: 'Home', path: '/' },
+            { name: 'Games', path: '/games' },
+            { name: game.title || 'Coding Game', path: canonicalPath }
+        ],
+        includeApplicationSchema: true,
+        softwareApplication
+    });
+
+    return {
+        isGame: true,
+        canonicalSlug: cleanCanonicalSlug,
+        name: game.title,
+        category: game.category,
+        title: gameTitle,
+        description: gameDesc,
+        canonicalPath,
+        h1: richGameMeta ? richGameMeta.h1 : buildGameDescriptiveH1(game.title, game.category),
+        h2s: [`How ${game.title} Works`, 'Skills and Concepts Trained'],
+        h3s: ['Interactive Practice & Instant Feedback'],
+        internalLinks: [
+            { label: 'Explore All Coding Games', to: '/games' },
+            { label: 'Browse Technology Quizzes', to: '/technologies' }
+        ],
+        includeApplicationSchema: true,
+        softwareApplication,
+        jsonLd
+    };
+}
+
+function ensureDistinctH1(rawH1, title) {
+    const cleanTitle = String(title || '').trim();
+    let candidate = String(rawH1 || '').trim();
+    if (!candidate || (cleanTitle && candidate.toLowerCase() === cleanTitle.toLowerCase())) {
+        const stripped = cleanTitle
+            .replace(/^Hangbug\s*[–—\-|:]\s*/i, '')
+            .replace(/\s*[|–—-]\s*Hangbug$/i, '')
+            .trim();
+        candidate = stripped && stripped.toLowerCase() !== cleanTitle.toLowerCase()
+            ? stripped
+            : (cleanTitle ? `${cleanTitle} — Developer Guide` : 'Hangbug Developer Practice Platform');
+    }
+    if (cleanTitle && candidate.toLowerCase() === cleanTitle.toLowerCase()) {
+        return `${candidate} Overview`;
+    }
+    return candidate;
+}
+
+function resolveNoindexRouteMeta(cleanPath) {
+    if (cleanPath.startsWith('/dashboard/seo')) {
+        const section = cleanPath.slice('/dashboard/seo'.length).replace(/^\/+/, '');
+        const secMeta = SEO_DASHBOARD_SECTION_META[section] || SEO_DASHBOARD_SECTION_META.overview;
+        return {
+            ...NOINDEX_ROUTE_META['/dashboard/seo'],
+            title: secMeta.title,
+            h1: secMeta.h1
+        };
+    }
+    if (NOINDEX_ROUTE_META[cleanPath]) {
+        return NOINDEX_ROUTE_META[cleanPath];
+    }
+    if (cleanPath.startsWith('/reset-password/')) {
+        return NOINDEX_ROUTE_META['/reset-password'];
+    }
+    if (cleanPath.startsWith('/dashboard/')) {
+        return NOINDEX_ROUTE_META['/dashboard'];
+    }
+    if (cleanPath.startsWith('/admin/')) {
+        return NOINDEX_ROUTE_META['/admin'];
+    }
+    return null;
+}
+
+function resolveConfigPageMeta(cleanPath, seoConfig, structuredData) {
+    if (!seoConfig || !seoConfig.SEO_PAGES_CONFIG) {
+        return resolveCoreFallbackMeta(cleanPath);
+    }
+    const allConfigs = Object.entries(seoConfig.SEO_PAGES_CONFIG);
+
+    let cfg = null;
+    if (cleanPath.startsWith('/technologies/')) {
+        const sub = cleanPath.slice('/technologies/'.length);
+        if (typeof seoConfig.getTechnologySeoBySlug === 'function') {
+            cfg = seoConfig.getTechnologySeoBySlug(sub);
+        }
+    } else {
+        for (const [key, entry] of allConfigs) {
+            if (key === 'resources') continue;
+            if (entry && entry.path === cleanPath) {
+                cfg = entry;
+                break;
+            }
+        }
+    }
+
+    if (!cfg || !cfg.title) return null;
+
+    const canonicalPath = cfg.path || cleanPath;
+    const h1 = ensureDistinctH1(cfg.h1, cfg.title);
+
+    let breadcrumbs;
+    let itemList = null;
+    if (cleanPath.startsWith('/technologies/') && cfg.name) {
+        breadcrumbs = [
+            { name: 'Home', path: '/' },
+            { name: 'Technologies', path: '/technologies' },
+            { name: `${cfg.name} Quizzes`, path: canonicalPath }
+        ];
+    } else if (canonicalPath === '/technologies') {
+        breadcrumbs = [
+            { name: 'Home', path: '/' },
+            { name: 'Technologies', path: '/technologies' }
+        ];
+        if (typeof seoConfig.getTechnologySeoBySlug === 'function') {
+            const techItems = TECH_SEO_KEYS
+                .map(slug => seoConfig.getTechnologySeoBySlug(slug))
+                .filter(Boolean)
+                .map(t => ({
+                    name: `${t.name} Quizzes`,
+                    url: `https://www.hangbug.com${t.path}`,
+                    description: t.description
+                }));
+            if (techItems.length > 0) {
+                itemList = {
+                    name: 'Hangbug Technology Quiz Tracks',
+                    description: cfg.description || '',
+                    items: techItems
+                };
+            }
+        }
+    } else if (canonicalPath === '/games') {
+        breadcrumbs = [
+            { name: 'Home', path: '/' },
+            { name: 'Games', path: '/games' }
+        ];
+        if (Array.isArray(GAMES_SEO_LIST) && GAMES_SEO_LIST.length > 0) {
+            itemList = {
+                name: 'Hangbug Coding & Typing Games',
+                description: cfg.description || '',
+                items: GAMES_SEO_LIST.map(g => ({
+                    name: g.name,
+                    url: `https://www.hangbug.com/games/${g.slug}`,
+                    description: g.description
+                }))
+            };
+        }
+    }
+
+    const jsonLd = buildSsrStructuredData(structuredData, {
+        title: cfg.title,
+        description: cfg.description || '',
+        canonicalPath,
+        schemaType: 'WebPage',
+        breadcrumbs,
+        includeApplicationSchema: canonicalPath === '/' || canonicalPath === '/games',
+        itemList
+    });
+
+    return {
+        title: cfg.title,
+        description: cfg.description || '',
+        canonicalPath,
+        h1,
+        primaryKeyword: cfg.primaryKeyword || '',
+        secondaryKeywords: Array.isArray(cfg.secondaryKeywords) ? cfg.secondaryKeywords : [],
+        introContent: cfg.introContent || cfg.description || '',
+        h2s: Array.isArray(cfg.h2s) ? cfg.h2s : [],
+        h3s: Array.isArray(cfg.h3s) ? cfg.h3s : [],
+        internalLinks: Array.isArray(cfg.internalLinks) ? cfg.internalLinks : [],
+        includeApplicationSchema: canonicalPath === '/' || canonicalPath === '/games',
+        jsonLd
+    };
+}
+
+function renderSemanticPageBodyHtml(meta) {
+    const h1Text = ensureDistinctH1(meta.h1, meta.title);
+    const intro = meta.introContent || meta.description || '';
+    const h2s = Array.isArray(meta.h2s) ? meta.h2s : [];
+    const h3s = Array.isArray(meta.h3s) ? meta.h3s : [];
+    const links = Array.isArray(meta.internalLinks) ? meta.internalLinks : [];
+
+    const sectionsHtml = h2s.length > 0
+        ? h2s.map(h2 => `<section class="space-y-2"><h2 class="text-xl font-bold">${escapeHtmlText(h2)}</h2><p class="text-sm leading-relaxed">${escapeHtmlText(intro)}</p></section>`).join('\n')
+        : '';
+
+    const subSectionsHtml = h3s.length > 0
+        ? `<section class="space-y-2">${h3s.map(h3 => `<h3 class="text-base font-semibold">${escapeHtmlText(h3)}</h3>`).join('\n')}</section>`
+        : '';
+
+    const linksHtml = links.length > 0
+        ? `<nav aria-label="Related resources" class="pt-4 border-t"><ul class="flex flex-wrap gap-3">${links.filter(l => l && l.to && l.label).map(l => `<li><a href="${escapeHtmlAttr(l.to)}"${l.rel ? ` rel="${escapeHtmlAttr(l.rel)}"` : ''}>${escapeHtmlText(l.label)}</a></li>`).join('\n')}</ul></nav>`
+        : '';
+
+    return `<main class="max-w-4xl mx-auto px-4 py-16 space-y-6">
+        <h1 class="text-3xl font-extrabold">${escapeHtmlText(h1Text)}</h1>
+        ${intro ? `<p class="text-base leading-relaxed">${escapeHtmlText(intro)}</p>` : ''}
+        ${sectionsHtml}
+        ${subSectionsHtml}
+        ${linksHtml}
+    </main>`;
+}
 
 function normalizePathname(pathname) {
     if (!pathname || typeof pathname !== 'string') return '';
@@ -816,6 +1284,7 @@ async function resolveBlogIndexMeta() {
 
 async function resolveAppRoute(pathname) {
     await ensureMarkdownParser();
+    const { seoConfig, structuredData } = await ensureFrontendSeoModules();
     const clean = normalizePathname(pathname);
     if (!clean) {
         return { statusCode: 404, noindex: true, cleanPath: '/' };
@@ -890,17 +1359,19 @@ async function resolveAppRoute(pathname) {
                             2000
                         ).catch(() => []);
 
+                        const canonicalSlug = String(article.slug || sub).trim().toLowerCase();
+                        const normalizedArticle = { ...article, slug: canonicalSlug };
                         return {
                             statusCode: 200,
                             noindex: false,
-                            cleanPath: `/blog/${article.slug}`,
+                            cleanPath: `/blog/${canonicalSlug}`,
                             fromDb: true,
                             meta: {
-                                title: article.seoTitle || `${article.title} | Hangbug`,
-                                description: article.seoDescription || article.excerpt || '',
-                                canonicalPath: `/blog/${article.slug}`,
-                                h1: article.title,
-                                article,
+                                title: buildArticleSeoTitle(normalizedArticle),
+                                description: normalizedArticle.seoDescription || normalizedArticle.excerpt || '',
+                                canonicalPath: `/blog/${canonicalSlug}`,
+                                h1: normalizedArticle.title,
+                                article: normalizedArticle,
                                 relatedArticles
                             }
                         };
@@ -928,17 +1399,18 @@ async function resolveAppRoute(pathname) {
         if (fallbackArticle && fallbackArticle.isPublished !== false) {
             const { INITIAL_BLOG_ARTICLES } = require('../_models/blogArticles/initialBlogArticles');
             const relatedArticles = findRelatedForArticle(fallbackArticle, INITIAL_BLOG_ARTICLES || []);
+            const canonicalFallbackSlug = String(fallbackArticle.slug || sub).trim().toLowerCase();
             return {
                 statusCode: 200,
                 noindex: false,
-                cleanPath: `/blog/${fallbackArticle.slug}`,
+                cleanPath: `/blog/${canonicalFallbackSlug}`,
                 fromDb: false,
                 meta: {
-                    title: fallbackArticle.seoTitle || `${fallbackArticle.title} | Hangbug`,
+                    title: buildArticleSeoTitle(fallbackArticle),
                     description: fallbackArticle.seoDescription || fallbackArticle.excerpt || '',
-                    canonicalPath: `/blog/${fallbackArticle.slug}`,
+                    canonicalPath: `/blog/${canonicalFallbackSlug}`,
                     h1: fallbackArticle.title,
-                    article: fallbackArticle,
+                    article: { ...fallbackArticle, slug: canonicalFallbackSlug },
                     relatedArticles
                 }
             };
@@ -983,17 +1455,15 @@ async function resolveAppRoute(pathname) {
                                 fromDb: true
                             };
                         }
+                        const GameModelRef = require('../_models/gameModel');
+                        const aliasForDbSlug = GameModelRef.GAME_ALIASES && GameModelRef.GAME_ALIASES[sub];
+                        const canonicalSlug = (aliasForDbSlug && aliasForDbSlug.baseSlug) || String(game.slug || sub).trim().toLowerCase();
                         return {
                             statusCode: 200,
                             noindex: false,
-                            cleanPath: `/games/${game.slug}`,
+                            cleanPath: `/games/${canonicalSlug}`,
                             fromDb: true,
-                            meta: {
-                                title: `${game.title} — ${game.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | Hangbug`,
-                                description: game.description || '',
-                                canonicalPath: `/games/${game.slug}`,
-                                h1: game.title
-                            }
+                            meta: buildGameRouteMeta(canonicalSlug, game, structuredData, game.description || '')
                         };
                     }
                 }
@@ -1005,44 +1475,50 @@ async function resolveAppRoute(pathname) {
         const GameModel = require('../_models/gameModel');
         const aliasMeta = GameModel.GAME_ALIASES && GameModel.GAME_ALIASES[sub];
         if (aliasMeta) {
-            const targetSlug = aliasMeta.baseSlug || sub;
+            const targetSlug = String(aliasMeta.baseSlug || sub).trim().toLowerCase();
             return {
                 statusCode: 200,
                 noindex: false,
                 cleanPath: clean,
                 fromDb: false,
-                meta: {
-                    title: `${aliasMeta.title} — ${aliasMeta.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | Hangbug`,
-                    description: `${aliasMeta.description} Practice interactive coding challenges on Hangbug.`,
-                    canonicalPath: `/games/${targetSlug}`,
-                    h1: aliasMeta.title
-                }
+                meta: buildGameRouteMeta(
+                    targetSlug,
+                    aliasMeta,
+                    structuredData,
+                    `${aliasMeta.description} Practice interactive coding challenges on Hangbug.`
+                )
             };
         }
 
         const fallbackGame = (GameModel.INITIAL_GAMES || []).find(g => g.slug === sub && g.isPublished !== false);
         if (fallbackGame) {
+            const canonicalFallbackSlug = String(fallbackGame.slug || sub).trim().toLowerCase();
             return {
                 statusCode: 200,
                 noindex: false,
-                cleanPath: `/games/${fallbackGame.slug}`,
+                cleanPath: `/games/${canonicalFallbackSlug}`,
                 fromDb: false,
-                meta: {
-                    title: `${fallbackGame.title} — ${fallbackGame.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | Hangbug`,
-                    description: `${fallbackGame.description} Practice interactive coding challenges on Hangbug.`,
-                    canonicalPath: `/games/${fallbackGame.slug}`,
-                    h1: fallbackGame.title
-                }
+                meta: buildGameRouteMeta(
+                    canonicalFallbackSlug,
+                    fallbackGame,
+                    structuredData,
+                    `${fallbackGame.description} Practice interactive coding challenges on Hangbug.`
+                )
             };
         }
     }
 
     if (isKnownAppRoute(clean)) {
+        const noindex = isNoindexAppRoute(clean);
+        const meta = noindex
+            ? resolveNoindexRouteMeta(clean)
+            : resolveConfigPageMeta(clean, seoConfig, structuredData);
+
         return {
             statusCode: 200,
-            noindex: isNoindexAppRoute(clean),
+            noindex,
             cleanPath: clean,
-            meta: null
+            meta
         };
     }
 
@@ -1082,12 +1558,12 @@ function renderStatusHtml(resolution = { statusCode: 404, noindex: true }) {
     const baseHtml = loadSpaShellHtml();
     if (!baseHtml) {
         return resolution.statusCode === 404
-            ? '<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="robots" content="noindex, nofollow" /><title>404: Page Not Found — HangBug</title></head><body><h1>404 — Page Not Found</h1></body></html>'
+            ? '<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="robots" content="noindex, nofollow" /><title>404 Page Not Found — Hangbug Programming Quizzes</title></head><body><h1>Oops! Lost in the Code? — Page Could Not Be Found</h1></body></html>'
             : '<!doctype html><html lang="en"><head><meta charset="UTF-8" /><title>Hangbug</title></head><body><div id="root"></div></body></html>';
     }
 
     if (resolution.statusCode === 404) {
-        const errorTitle = '404: Page Not Found — HangBug';
+        const errorTitle = '404 Page Not Found — Hangbug Programming Quizzes';
         const errorDesc = "The page you are looking for doesn't exist, has been removed, or was moved to another URL.";
 
         return applyHeadMetadata(baseHtml, {
@@ -1118,26 +1594,92 @@ function renderStatusHtml(resolution = { statusCode: 404, noindex: true }) {
         : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';
     html = replaceOrInsertMeta(html, 'name', 'robots', robotsDirective);
 
-    if (resolution.meta && resolution.meta.title) {
-        const { title, description, canonicalPath, h1 } = resolution.meta;
-        const canonicalHref = `${BASE_URL}${canonicalPath === '/' ? '/' : canonicalPath}`;
+    if (resolution.noindex) {
+        if (resolution.meta && resolution.meta.title) {
+            const bodyHtml = renderSemanticPageBodyHtml(resolution.meta);
+            return applyHeadMetadata(html, {
+                title: resolution.meta.title,
+                description: resolution.meta.description || '',
+                robots: 'noindex, nofollow',
+                omitCanonical: true,
+                jsonLd: null,
+                bodyHtml
+            });
+        }
 
-        return applyHeadMetadata(html, {
-            title,
-            description,
-            canonicalUrl: canonicalHref,
-            robots: robotsDirective,
-            ogType: 'website',
-            bodyHtml: `<main class="max-w-4xl mx-auto px-4 py-16"><h1>${escapeHtmlText(h1 || title)}</h1><p>${escapeHtmlText(description || '')}</p></main>`
-        });
-    } else if (resolution.noindex) {
         // Private / auth / dashboard routes: remove homepage canonical & homepage JSON-LD
         html = html.replace(/<link\s+rel="canonical"[^>]*>\s*/gi, '');
+        html = html.replace(/<meta\s+property="og:url"[^>]*>\s*/gi, '');
+        html = html.replace(/<meta\s+name="twitter:url"[^>]*>\s*/gi, '');
         html = html.replace(/<script id="hangbug-jsonld" type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi, '');
         html = replaceRootFallbackHtml(html, '');
+        return html;
     }
 
-    return html;
+    const indexablePath = resolution.cleanPath || '/';
+    const resolvedMeta = (resolution.meta && resolution.meta.title)
+        ? resolution.meta
+        : resolveCoreFallbackMeta(indexablePath);
+
+    if (resolvedMeta && resolvedMeta.title) {
+        const canonicalPath = resolvedMeta.canonicalPath || indexablePath;
+        const resolvedBodyHtml = resolvedMeta.isGame
+            ? buildGameBodyHtml(
+                {
+                    slug: resolvedMeta.canonicalSlug || canonicalPath.replace(/^\/games\//, ''),
+                    name: resolvedMeta.name || resolvedMeta.title,
+                    category: resolvedMeta.category || 'Coding Games',
+                    description: resolvedMeta.description || ''
+                },
+                {
+                    canonicalSlug: resolvedMeta.canonicalSlug,
+                    title: resolvedMeta.title,
+                    h1: resolvedMeta.h1,
+                    description: resolvedMeta.description
+                }
+            )
+            : (canonicalPath === '/'
+                ? generateHomeBodyHtml({ ...resolvedMeta, h1: ensureDistinctH1(resolvedMeta.h1, resolvedMeta.title) })
+                : generatePublicBodyHtml({ ...resolvedMeta, h1: ensureDistinctH1(resolvedMeta.h1, resolvedMeta.title) }));
+
+        const resolvedJsonLd = resolvedMeta.jsonLd || buildSsrStructuredData(cachedStructuredDataModule, {
+            title: resolvedMeta.title,
+            description: resolvedMeta.description || '',
+            canonicalPath,
+            schemaType: 'WebPage',
+            includeApplicationSchema: Boolean(resolvedMeta.includeApplicationSchema || canonicalPath === '/' || canonicalPath === '/games'),
+            softwareApplication: resolvedMeta.softwareApplication || null
+        });
+
+        return renderPublicPageHtml(baseHtml, {
+            path: indexablePath,
+            canonicalPath,
+            title: resolvedMeta.title,
+            description: resolvedMeta.description || '',
+            robots: robotsDirective,
+            ogType: 'website',
+            omitCanonical: false,
+            omitJsonLd: false,
+            includeApplicationSchema: Boolean(resolvedMeta.includeApplicationSchema || canonicalPath === '/' || canonicalPath === '/games'),
+            softwareApplication: resolvedMeta.softwareApplication || null,
+            jsonLd: resolvedJsonLd,
+            staticHeaderHtml: resolveStaticHeaderForPath(canonicalPath),
+            staticFooterHtml: renderStaticFooterHtml(),
+            bodyHtml: resolvedBodyHtml
+        });
+    }
+
+    // Defensive canonical enforcement for any indexable route without explicit metadata
+    return renderPublicPageHtml(baseHtml, {
+        path: indexablePath,
+        canonicalPath: indexablePath,
+        title: 'Hangbug — Interactive Tech Quizzes & Coding Games',
+        robots: robotsDirective,
+        omitCanonical: false,
+        omitJsonLd: false,
+        staticHeaderHtml: resolveStaticHeaderForPath(indexablePath),
+        staticFooterHtml: renderStaticFooterHtml()
+    });
 }
 
 module.exports = {
@@ -1160,6 +1702,8 @@ module.exports = {
     normalizePathname,
     isKnownAppRoute,
     isNoindexAppRoute,
+    buildGameDescriptiveH1,
+    ensureDistinctH1,
     resolveAppRoute,
     findPrerenderedFile,
     renderStatusHtml

@@ -73,7 +73,7 @@ function resolveCorrectOptionIndex(opts, rawCorrect) {
 
 const Quiz = () => {
     usePageSeo({
-        title: 'Quiz Session in Progress — HangBug',
+        title: 'Interactive Quiz Session in Progress — Hangbug',
         noindex: true
     });
     const location = useLocation();
@@ -875,7 +875,7 @@ const Quiz = () => {
                     </div>
                 </div>
                 <div className="text-center space-y-1">
-                    <h3 className="text-base font-display font-bold text-[var(--foreground)]">Initializing Session</h3>
+                    <h1 className="text-base font-display font-bold text-[var(--foreground)]">Initializing {selectedCategory} Quiz Session</h1>
                     <p className="text-xs text-[var(--foreground-muted)]">Loading questions for {selectedCategory}...</p>
                 </div>
             </div>
@@ -889,7 +889,7 @@ const Quiz = () => {
                     <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto">
                         <AlertCircle size={30} className="text-red-500" />
                     </div>
-                    <h2 className="text-xl font-display font-bold text-[var(--foreground)]">Unable to Load Quiz</h2>
+                    <h1 className="text-xl font-display font-bold text-[var(--foreground)]">Unable to Load {selectedCategory} Quiz</h1>
                     <p className="text-xs text-[var(--foreground-muted)]">{loadError}</p>
                     <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
                         <button onClick={startFreshQuiz} className="btn-primary text-xs py-2.5 px-6 inline-flex items-center gap-1.5 cursor-pointer">
@@ -911,7 +911,7 @@ const Quiz = () => {
                     <div className="w-16 h-16 rounded-2xl bg-[var(--muted-bg)] border border-[var(--card-border)] flex items-center justify-center mx-auto">
                         <HelpCircle size={30} className="text-[var(--foreground-muted)]" />
                     </div>
-                    <h2 className="text-xl font-display font-bold text-[var(--foreground)]">No Questions Found</h2>
+                    <h1 className="text-xl font-display font-bold text-[var(--foreground)]">No {selectedCategory} Quiz Questions Found</h1>
                     <p className="text-xs text-[var(--foreground-muted)]">
                         No questions available for {selectedCategory} in <strong className="text-[var(--foreground)]">Session {selectedSession}</strong>. Try choosing another session or create questions in Admin dashboard.
                     </p>
@@ -959,10 +959,11 @@ const Quiz = () => {
                     <div className="h-4 sm:h-5 w-px bg-[var(--card-border)] hidden sm:block shrink-0" />
 
                     <div className="min-w-0 flex items-center gap-1.5 sm:gap-2">
-                        <span className="font-display font-extrabold text-xs sm:text-sm text-[var(--foreground)] flex items-center gap-1.5 truncate">
+                        <h1 className="font-display font-extrabold text-xs sm:text-sm text-[var(--foreground)] flex items-center gap-1.5 truncate m-0">
                             <BookOpen size={15} className="text-[#193D35] shrink-0" />
                             <span className="truncate max-w-[90px] xs:max-w-[140px] sm:max-w-none">{selectedCategory}</span>
-                        </span>
+                            <span className="hidden sm:inline font-semibold text-[var(--foreground-muted)] shrink-0">Practice Quiz</span>
+                        </h1>
                         <span
                             className="inline-flex px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-wider shrink-0"
                             title={selectedSessionTitle || undefined}

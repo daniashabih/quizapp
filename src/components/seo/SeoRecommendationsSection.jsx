@@ -172,6 +172,11 @@ export default function SeoRecommendationsSection({ data, domain, onDataUpdated 
                                                 {p}
                                             </span>
                                         ))}
+                                        {rec.affectedPages.length > 6 && (
+                                            <span className="text-[#2F806B] dark:text-emerald-400 font-semibold">
+                                                +{rec.affectedPages.length - 6} more
+                                            </span>
+                                        )}
                                     </div>
                                 )}
                             </div>

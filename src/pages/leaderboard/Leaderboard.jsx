@@ -22,13 +22,25 @@ const LeaderboardPage = ({ mode: propMode }) => {
 
     usePageSeo({
         title: isFullMode
-            ? 'Complete Global Developer Leaderboard & Directory — Hangbug'
-            : 'Global Developer Leaderboard & Rankings — Hangbug',
+            ? (isDashboard
+                ? 'Full Dashboard Developer Leaderboard Ranks — Hangbug'
+                : 'Full Global Developer Leaderboard Directory — Hangbug')
+            : (isDashboard
+                ? 'Dashboard Developer Standings & Ranks — Hangbug'
+                : 'Global Developer Leaderboard & Rankings — Hangbug'),
         description: isFullMode
             ? 'Explore the complete directory of ranked software engineers and learners worldwide on Hangbug.'
             : 'See top ranked software engineers and learners worldwide. Track XP, accuracy, quiz streaks, and score-based certificates on Hangbug.',
         canonicalPath: (isDashboard || isFullMode) ? undefined : '/leaderboard',
-        noindex: isDashboard || isFullMode
+        noindex: isDashboard || isFullMode,
+        disableStructuredData: isDashboard || isFullMode,
+        schemaType: 'WebPage',
+        breadcrumbs: (isDashboard || isFullMode)
+            ? undefined
+            : [
+                { name: 'Home', path: '/' },
+                { name: 'Leaderboard', path: '/leaderboard' }
+            ]
     });
 
     // Requirement 3: Full Leaderboard requires authentication.
@@ -103,9 +115,9 @@ const LeaderboardPage = ({ mode: propMode }) => {
     if (isFullMode && authLoading) {
         return (
             <div className={`min-h-screen flex items-center justify-center ${isDark ? 'bg-[#0D1117] text-white' : 'bg-[#FAF8F5] text-slate-800'}`}>
-                <div className="flex flex-col items-center gap-3">
+                <div className="flex flex-col items-center gap-3 text-center">
                     <div className="w-8 h-8 border-3 border-[#285A4D] border-t-transparent rounded-full animate-spin" />
-                    <p className="text-sm font-medium">Verifying access...</p>
+                    <h1 className="text-sm font-semibold">Verifying Access to Developer Leaderboard</h1>
                 </div>
             </div>
         );
@@ -118,7 +130,7 @@ const LeaderboardPage = ({ mode: propMode }) => {
                     <div className="w-12 h-12 rounded-full bg-emerald-500/15 text-emerald-500 flex items-center justify-center mx-auto">
                         <Lock className="w-6 h-6" />
                     </div>
-                    <h1 className="text-xl font-bold">Sign In Required</h1>
+                    <h1 className="text-xl font-bold">Sign In Required for Full Developer Leaderboard</h1>
                     <p className="text-sm text-[var(--foreground-secondary)]">
                         Redirecting you to sign in to access the complete developer leaderboard...
                     </p>
@@ -163,7 +175,7 @@ const LeaderboardPage = ({ mode: propMode }) => {
                             isDark ? 'text-[#F0F6FC]' : 'text-[#1A1D1C]'
                         }`}
                     >
-                        {isFullMode ? 'All Ranked Performers' : 'Top 5 Performers'}
+                        {isFullMode ? 'All Ranked Developer Performers Worldwide' : 'Top 5 Performers — Global Developer Leaderboard'}
                     </h1>
 
                     <p

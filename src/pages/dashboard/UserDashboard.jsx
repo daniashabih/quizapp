@@ -42,7 +42,7 @@ function formatTimeAgo(date) {
 
 export default function UserDashboard() {
     usePageSeo({
-        title: 'Developer Overview — HangBug',
+        title: 'Developer Overview & Learning Progress — Hangbug',
         noindex: true
     });
     const { user, updateUser } = useAuth();
@@ -136,7 +136,7 @@ export default function UserDashboard() {
                 <div className="w-16 h-16 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
                     <AlertCircle size={32} />
                 </div>
-                <h2 className="text-xl font-bold text-[var(--foreground)]">Unable to load dashboard data</h2>
+                <h1 className="text-xl font-bold text-[var(--foreground)]">Unable to Load Developer Dashboard Data</h1>
                 <p className="text-sm text-[var(--foreground-muted)]">
                     We encountered an issue fetching your real-time statistics from MongoDB.
                 </p>

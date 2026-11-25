@@ -30,7 +30,12 @@ export default function PrivacyPolicy() {
     usePageSeo({
         title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy',
         description: 'Understand how Hangbug collects, utilizes, stores, and protects user data, authentication credentials, and advertising cookie disclosures.',
-        canonicalPath: '/privacy-policy'
+        canonicalPath: '/privacy-policy',
+        schemaType: 'WebPage',
+        breadcrumbs: [
+            { name: 'Home', path: '/' },
+            { name: 'Privacy Policy', path: '/privacy-policy' }
+        ]
     });
 
     useEffect(() => {
@@ -61,7 +66,7 @@ export default function PrivacyPolicy() {
                         <ShieldCheck size={14} /> Official Policy
                     </div>
                     <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--foreground)] tracking-tight mb-2">
-                        Privacy Policy
+                        Hangbug Privacy Policy &amp; Personal Data Protection
                     </h1>
                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)] mb-4">
                         Last Updated: <span className="font-semibold text-[var(--foreground)]">{lastUpdated}</span>

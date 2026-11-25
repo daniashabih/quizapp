@@ -11,7 +11,7 @@ import usePageSeo from '../../hooks/usePageSeo';
 
 export default function ResetPassword() {
     usePageSeo({
-        title: 'Reset Password — HangBug',
+        title: 'Set New Account Password — Hangbug Account Recovery',
         description: 'Set a new secure password for your HangBug account.',
         noindex: true
     });
@@ -181,7 +181,7 @@ export default function ResetPassword() {
                         {verifying && (
                             <div className="text-center py-10">
                                 <div className="w-8 h-8 border-3 border-[#193D35]/20 border-t-[#193D35] rounded-full animate-spin mx-auto mb-4" />
-                                <h2 className="text-base font-semibold text-[var(--foreground)]">Verifying reset link...</h2>
+                                <h1 className="text-base font-semibold text-[var(--foreground)]">Verifying Password Reset Link...</h1>
                                 <p className="text-xs text-[var(--foreground-secondary)] mt-1">Please wait while we validate your security token.</p>
                             </div>
                         )}
@@ -193,7 +193,7 @@ export default function ResetPassword() {
                                     <AlertTriangle size={24} className="text-amber-600" />
                                 </div>
                                 <h1 className="text-xl font-display font-bold text-[var(--foreground)] mb-1">
-                                    Invalid or Expired Link
+                                    Invalid or Expired Reset Link
                                 </h1>
                                 <p className="text-xs sm:text-sm text-[var(--foreground-secondary)] mb-6 leading-relaxed">
                                     {tokenError || 'This password reset link is invalid, expired, or has already been used.'}
@@ -243,7 +243,7 @@ export default function ResetPassword() {
                                 <div className="text-center mb-6">
                                     <BrandLogo variant="mark" size="md" className="mx-auto mb-3" />
                                     <h1 className="text-2xl sm:text-3xl font-display font-bold text-[var(--foreground)] mb-1">
-                                        Reset Your Password
+                                        Create a New Account Password
                                     </h1>
                                     <p className="text-xs sm:text-sm text-[var(--foreground-secondary)]">
                                         Choose a strong new password for your Hangbug account.

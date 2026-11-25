@@ -1132,18 +1132,24 @@ async function evaluateQuestionWithEvidence({
 /**
  * Reusable quiz question generator backed by configured server AI provider.
  */
-async function generateQuizQuestions({ topic, count = 5, session = 1 }) {
+async function generateQuizQuestions({ topic, count = 5, session = 1, difficulty = 'mixed' }) {
     const cleanTopic = String(topic || '').trim();
     const safeCount = Math.min(20, Math.max(1, parseInt(count, 10) || 5));
     const sessionNum = Math.max(1, parseInt(session, 10) || 1);
+    const cleanDiff = String(difficulty || 'mixed').trim().toLowerCase();
+    const diffClause = ['beginner', 'intermediate', 'expert'].includes(cleanDiff)
+        ? `Target "${cleanDiff}" difficulty level across all questions.`
+        : 'Include a practical mix of beginner, intermediate, and expert difficulty questions.';
 
     const prompt = [
         `Create ${safeCount} multiple-choice programming quiz questions about "${cleanTopic}".`,
+        diffClause,
         'Return ONLY a valid JSON array of objects with this exact structure:',
         '[',
         '  {',
         `    "category": "${cleanTopic}",`,
         `    "session": ${sessionNum},`,
+        `    "difficulty": "${['beginner', 'intermediate', 'expert'].includes(cleanDiff) ? cleanDiff : 'intermediate'}",`,
         '    "question_text": "Clear technical question?",',
         '    "options": ["Option A", "Option B", "Option C", "Option D"],',
         '    "correct_answer": "Exact matching text of one option",',
@@ -1159,7 +1165,7 @@ async function generateQuizQuestions({ topic, count = 5, session = 1 }) {
             { role: 'user', content: prompt }
         ],
         temperature: 0.3,
-        maxTokens: Math.min(2400, 320 * safeCount),
+        maxTokens: Math.min(4096, 360 * safeCount),
         operation: 'generate_questions',
         useCache: false
     });

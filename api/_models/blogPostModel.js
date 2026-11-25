@@ -1,5 +1,6 @@
 const prisma = require('../_config/prisma');
 const { INITIAL_BLOG_ARTICLES } = require('./blogArticles/initialBlogArticles');
+const { buildArticleSeoTitle } = require('../_utils/blogSeoRenderer');
 
 const BLOG_CATEGORIES = [
     { name: 'HTML', slug: 'html', description: 'Semantic markup, modern HTML5, and accessible structure.' },
@@ -549,7 +550,7 @@ const BlogPostModel = {
             authorAvatar: data.authorAvatar || 'HB',
             coverGradient: data.coverGradient || 'gradient-indigo',
             coverImage: data.coverImage || '/branding/hangbug-logo-full.png',
-            seoTitle: data.seoTitle || `${title} | Hangbug`,
+            seoTitle: data.seoTitle || buildArticleSeoTitle({ title }),
             seoDescription: data.seoDescription || excerpt,
             seoKeywords: Array.isArray(data.seoKeywords) ? data.seoKeywords : tags,
             canonicalUrl: data.canonicalUrl || `https://www.hangbug.com/blog/${slug}`,

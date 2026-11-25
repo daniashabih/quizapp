@@ -10,7 +10,7 @@ import {
     ExternalLink,
     ShieldAlert
 } from 'lucide-react';
-import { getStatusBadgeClasses, formatSeoTimestamp } from './seoUtils';
+import { getStatusBadgeClasses, formatSeoTimestamp, formatAffectedUrlLabel } from './seoUtils';
 
 /**
  * Plain-English 6-Part SEO Report Detail Modal:
@@ -114,11 +114,12 @@ export default function SeoIssueDetailModal({ issue, siteUrl = 'https://www.hang
                             <div className="border border-[#E4EAE6] dark:border-[#2A3832] rounded-xl divide-y divide-[#E4EAE6] dark:divide-[#2A3832] max-h-48 overflow-y-auto">
                                 {issue.affectedUrls.map((item, idx) => {
                                     const href = item.url?.startsWith('http') ? item.url : `${siteUrl}${item.url?.startsWith('/') ? '' : '/'}${item.url || ''}`;
+                                    const displayLabel = formatAffectedUrlLabel(item);
                                     return (
-                                        <div key={`${item.url}-${idx}`} className="px-3.5 py-2.5 flex items-center justify-between gap-3 text-xs">
+                                        <div key={`${displayLabel}-${idx}`} className="px-3.5 py-2.5 flex items-center justify-between gap-3 text-xs">
                                             <div className="min-w-0">
                                                 <p className="font-mono font-medium text-[#17221F] dark:text-[#F3F6F4] truncate">
-                                                    {item.url}
+                                                    {displayLabel}
                                                 </p>
                                                 {item.detail && (
                                                     <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C] mt-0.5">

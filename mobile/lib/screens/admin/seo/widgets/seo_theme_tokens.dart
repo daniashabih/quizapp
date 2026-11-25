@@ -168,3 +168,79 @@ class SeoStatusBadge extends StatelessWidget {
     );
   }
 }
+
+class SeoAffectedChipsWrap extends StatelessWidget {
+  final String label;
+  final List<String> items;
+  final int maxVisible;
+  final VoidCallback? onMoreTap;
+
+  const SeoAffectedChipsWrap({
+    super.key,
+    required this.label,
+    required this.items,
+    this.maxVisible = 4,
+    this.onMoreTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (items.isEmpty) return const SizedBox.shrink();
+    final visible = items.take(maxVisible).toList();
+    final remaining = items.length - visible.length;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Wrap(
+        spacing: 6,
+        runSpacing: 6,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: SeoColors.textMuted(context),
+            ),
+          ),
+          ...visible.map(
+            (text) => Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              decoration: BoxDecoration(
+                color: SeoColors.scaffoldBg(context),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: SeoColors.border(context)),
+              ),
+              child: Text(
+                text,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 10.5,
+                  fontFamily: 'monospace',
+                  color: SeoColors.textPrimary(context),
+                ),
+              ),
+            ),
+          ),
+          if (remaining > 0)
+            GestureDetector(
+              onTap: onMoreTap,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                child: Text(
+                  '+$remaining more',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: SeoColors.primaryBrand(context),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

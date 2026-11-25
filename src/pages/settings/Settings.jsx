@@ -5,7 +5,7 @@ import usePageSeo from '../../hooks/usePageSeo';
 
 const Settings = () => {
     usePageSeo({
-        title: 'Account Settings & Preferences — HangBug',
+        title: 'Account Theme Settings & Preferences — Hangbug',
         noindex: true
     });
     const { theme, resolvedTheme, setThemeMode } = useTheme();

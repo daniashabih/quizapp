@@ -2,7 +2,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import { SEO_PAGES_CONFIG, getTechnologySeoBySlug } from '../src/config/seoPagesConfig.js';
+import {
+    SEO_PAGES_CONFIG,
+    getTechnologySeoBySlug,
+    formatGameSeoTitle,
+    SEO_NOT_FOUND_TITLE
+} from '../src/config/seoPagesConfig.js';
 import { buildPageStructuredData } from '../src/utils/structuredData.js';
 
 import {
@@ -21,6 +26,7 @@ const {
     renderVisible404BodyHtml,
     renderCompleteBlogArticleHtml,
     renderCompleteBlogIndexHtml,
+    safeJsonForScriptTag,
     deriveCategoriesFromArticles,
     findRelatedForArticle,
     fetchPublishedBlogPostsFromSource
@@ -51,7 +57,7 @@ const GAMES_LIST = [
         slug: 'code-puzzle',
         name: 'Code Puzzle',
         category: 'Coding Games',
-        title: 'Code Puzzle — Interactive Algorithm Arrangement Game | Hangbug',
+        title: formatGameSeoTitle('Code Puzzle', 'Coding Games'),
         h1: 'Code Puzzle: Master Algorithm Logic by Arranging Code Blocks',
         description: 'Reconstruct scrambled code blocks into functioning algorithms. Test and improve your algorithmic thinking, syntax understanding, and control flow intuition on Hangbug.'
     },
@@ -59,7 +65,7 @@ const GAMES_LIST = [
         slug: 'find-the-bug',
         name: 'Find The Bug',
         category: 'Coding Games',
-        title: 'Find The Bug — Developer Code Inspection & Debugging Challenge | Hangbug',
+        title: formatGameSeoTitle('Find The Bug', 'Coding Games'),
         h1: 'Find The Bug: Spot Hidden Syntax & Runtime Errors in Real Code',
         description: 'Sharpen your code review skills by identifying subtle syntax bugs, logical errors, off-by-one indices, and type mismatches across multi-language snippets on Hangbug.'
     },
@@ -67,7 +73,7 @@ const GAMES_LIST = [
         slug: 'output-predictor',
         name: 'Output Predictor',
         category: 'Coding Games',
-        title: 'Output Predictor — Mental Code Execution & Tracing Game | Hangbug',
+        title: formatGameSeoTitle('Output Predictor', 'Coding Games'),
         h1: 'Output Predictor: Mentally Trace Code & Predict Console Output',
         description: 'Test your understanding of scopes, closures, operator precedence, and type coercion by mentally executing code and predicting the exact program output.'
     },
@@ -75,7 +81,7 @@ const GAMES_LIST = [
         slug: 'code-scramble',
         name: 'Code Scramble',
         category: 'Coding Games',
-        title: 'Code Scramble — Programming Syntax Unscrambling Game | Hangbug',
+        title: formatGameSeoTitle('Code Scramble', 'Coding Games'),
         h1: 'Code Scramble: Piece Together Scrambled Statements & Logic',
         description: 'Solve code sequencing challenges under time constraints. Reassemble shuffled statement lines into working methods and verify your programming flow.'
     },
@@ -83,7 +89,7 @@ const GAMES_LIST = [
         slug: 'missing-code',
         name: 'Missing Code',
         category: 'Coding Games',
-        title: 'Missing Code — Fill in the Blank Programming Challenge | Hangbug',
+        title: formatGameSeoTitle('Missing Code', 'Coding Games'),
         h1: 'Missing Code: Fill in Critical Keywords, Operators & Syntax',
         description: 'Complete truncated code snippets by inserting missing keywords, method calls, and operators to restore full program compilation and functionality.'
     },
@@ -91,7 +97,7 @@ const GAMES_LIST = [
         slug: 'logic-builder',
         name: 'Logic Builder',
         category: 'Coding Games',
-        title: 'Logic Builder — Interactive Computational Thinking Game | Hangbug',
+        title: formatGameSeoTitle('Logic Builder', 'Coding Games'),
         h1: 'Logic Builder: Construct Step-by-Step Problem Solving Workflows',
         description: 'Assemble conditional branching, looping, and state transformations to solve complex computational puzzles and enhance your core software engineering logic.'
     },
@@ -99,7 +105,7 @@ const GAMES_LIST = [
         slug: 'sql-challenge',
         name: 'SQL Challenge',
         category: 'Coding Games',
-        title: 'SQL Challenge — Interactive Relational Database Query Game | Hangbug',
+        title: formatGameSeoTitle('SQL Challenge', 'Coding Games'),
         h1: 'SQL Challenge: Solve Real Relational Queries & Database Puzzles',
         description: 'Practice writing relational SQL queries against dynamic schemas. Formulate JOINs, GROUP BY aggregations, WHERE filters, and subqueries against simulated databases.'
     },
@@ -107,7 +113,7 @@ const GAMES_LIST = [
         slug: 'memory-match',
         name: 'Memory Match',
         category: 'Coding Games',
-        title: 'Coding Memory Match — Technical Concept Pairing Game | Hangbug',
+        title: formatGameSeoTitle('Memory Match', 'Coding Games'),
         h1: 'Coding Memory Match: Pair Programming Terms, Syntax & Concepts',
         description: 'Boost technical recall by matching programming concepts with their corresponding code implementations, time complexities, and architectural definitions.'
     },
@@ -115,7 +121,7 @@ const GAMES_LIST = [
         slug: 'speed-typing',
         name: 'Speed Typing',
         category: 'Typing Games',
-        title: 'Developer Speed Typing — Technical Keystroke & WPM Challenge | Hangbug',
+        title: formatGameSeoTitle('Speed Typing', 'Typing Games'),
         h1: 'Speed Typing: Benchmark Your Developer Keystrokes & WPM',
         description: 'Measure your coding typing speed and raw typing accuracy with developer-centric prose, variable names, and technical terminology in words per minute.'
     },
@@ -123,7 +129,7 @@ const GAMES_LIST = [
         slug: 'code-typing',
         name: 'Code Typing',
         category: 'Typing Games',
-        title: 'Code Typing — Real Syntax, Symbols & Brackets Typing Practice | Hangbug',
+        title: formatGameSeoTitle('Code Typing', 'Typing Games'),
         h1: 'Code Typing: Type Real Syntax, Braces, Arrows & Operators',
         description: 'Train muscle memory for programming symbols including brackets, arrow functions, semicolons, and operators using real code samples across diverse languages.'
     },
@@ -131,7 +137,7 @@ const GAMES_LIST = [
         slug: 'sixty-second-challenge',
         name: '60-Second Challenge',
         category: 'Typing Games',
-        title: '60-Second Typing Sprint — Rapid Developer Speed Test | Hangbug',
+        title: formatGameSeoTitle('60-Second Challenge', 'Typing Games'),
         h1: '60-Second Challenge: Fast-Paced Coding Typing Sprints',
         description: 'Push your coding throughput to the limit with high-intensity 60-second sprints. Maximize accurate keystrokes under strict time pressure.'
     },
@@ -139,7 +145,7 @@ const GAMES_LIST = [
         slug: 'error-free-typing',
         name: 'Error-Free Typing',
         category: 'Typing Games',
-        title: 'Error-Free Typing — Zero-Mistake Developer Accuracy Challenge | Hangbug',
+        title: formatGameSeoTitle('Error-Free Typing', 'Typing Games'),
         h1: 'Error-Free Typing: Practice Pure Precision & Flawless Accuracy',
         description: 'Cultivate precision typing where a single miskeyed character interrupts the streak. Perfect your rhythm for cleaner, error-free production code.'
     },
@@ -147,7 +153,7 @@ const GAMES_LIST = [
         slug: 'syntax-typing',
         name: 'Syntax Typing',
         category: 'Typing Games',
-        title: 'Syntax Typing — Language-Specific Keywords & Structure Practice | Hangbug',
+        title: formatGameSeoTitle('Syntax Typing', 'Typing Games'),
         h1: 'Syntax Typing: Master Language-Specific Keywords & Grammar',
         description: 'Focus exclusively on language keywords, type annotations, imports, and declarative syntax across JavaScript, Python, Dart, C#, and PHP.'
     },
@@ -155,7 +161,7 @@ const GAMES_LIST = [
         slug: 'word-rain',
         name: 'Word Rain',
         category: 'Typing Games',
-        title: 'Word Rain — Fast Arcade Developer Typing Game | Hangbug',
+        title: formatGameSeoTitle('Word Rain', 'Typing Games'),
         h1: 'Word Rain: Intercept Falling Coding Terms Before They Hit Bottom',
         description: 'Type falling software development keywords and technical concepts before they reach the ground. Fast-paced arcade action designed to sharpen keyboard reaction speed.'
     },
@@ -163,7 +169,7 @@ const GAMES_LIST = [
         slug: 'csharp-oop-challenge',
         name: 'C# OOP Challenge',
         category: 'Coding Games',
-        title: 'C# OOP Challenge — Object-Oriented Principles Practice | Hangbug',
+        title: formatGameSeoTitle('C# OOP Challenge', 'Coding Games'),
         h1: 'C# OOP Challenge: Master Classes, Interfaces, Inheritance & Polymorphism',
         description: 'Explore C# object-oriented programming with interactive challenges covering encapsulation, abstract classes, polymorphism, interfaces, and virtual method overrides.'
     },
@@ -171,7 +177,7 @@ const GAMES_LIST = [
         slug: 'csharp-collections-challenge',
         name: 'C# Collections Challenge',
         category: 'Coding Games',
-        title: 'C# Collections Challenge — Generic Lists, Dictionaries & Queues | Hangbug',
+        title: formatGameSeoTitle('C# Collections Challenge', 'Coding Games'),
         h1: 'C# Collections Challenge: Practice Generic Lists, Dictionaries & Sets',
         description: 'Practice working with .NET generic collections, including List<T>, Dictionary<TKey, TValue>, Queue<T>, Stack<T>, and HashSet<T> with practical manipulation tasks.'
     },
@@ -179,7 +185,7 @@ const GAMES_LIST = [
         slug: 'csharp-linq-challenge',
         name: 'C# LINQ Challenge',
         category: 'Coding Games',
-        title: 'C# LINQ Challenge — Language Integrated Query Practice | Hangbug',
+        title: formatGameSeoTitle('C# LINQ Challenge', 'Coding Games'),
         h1: 'C# LINQ Challenge: Write Fluent Queries, Select, Where & GroupBy',
         description: 'Master .NET LINQ expressions with hands-on transformation puzzles. Practice Select, Where, OrderBy, GroupBy, Any, All, and complex method chaining.'
     },
@@ -187,7 +193,7 @@ const GAMES_LIST = [
         slug: 'csharp-exception-handling',
         name: 'C# Exception Handling',
         category: 'Coding Games',
-        title: 'C# Exception Handling Challenge — Try Catch Finally & Filters | Hangbug',
+        title: formatGameSeoTitle('C# Exception Handling', 'Coding Games'),
         h1: 'C# Exception Handling: Build Resilient Error Management Workflows',
         description: 'Learn robust exception handling patterns in C# using try, catch, finally, when filter clauses, custom exception types, and proper resource disposal.'
     },
@@ -195,7 +201,7 @@ const GAMES_LIST = [
         slug: 'complete-the-code',
         name: 'Complete The Code',
         category: 'Coding Games',
-        title: 'Complete The Code — Interactive Method Implementation Game | Hangbug',
+        title: formatGameSeoTitle('Complete The Code', 'Coding Games'),
         h1: 'Complete The Code: Supply Missing Method Bodies & Return Logic',
         description: 'Implement missing function bodies, return statements, and loop boundaries to make automated unit tests pass in this interactive coding challenge.'
     },
@@ -203,7 +209,7 @@ const GAMES_LIST = [
         slug: 'csharp-quiz-challenge',
         name: 'C# Quiz Challenge',
         category: 'Coding Games',
-        title: 'C# Quiz Challenge — Rapid .NET Framework Knowledge Test | Hangbug',
+        title: formatGameSeoTitle('C# Quiz Challenge', 'Coding Games'),
         h1: 'C# Quiz Challenge: Rapid .NET Runtime, CLR & Language Knowledge',
         description: 'Fast-paced multi-round quiz evaluating your grasp of modern C#, memory management, garbage collection, value vs reference types, and async Tasks.'
     }
@@ -416,8 +422,10 @@ function renderPage(page) {
         title,
         description,
         schemaType = 'WebPage',
+        breadcrumbs,
         includeApplicationSchema = false,
         softwareApplication = null,
+        itemList = null,
         article = null,
         ogType = 'website',
         robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
@@ -472,22 +480,26 @@ function renderPage(page) {
 
     // 5. Update or remove JSON-LD structured data script
     if (omitJsonLd) {
-        html = html.replace(/<script id="hangbug-jsonld" type="application\/ld\+json">[\s\S]*?<\/script>\s*/, '');
+        html = html.replace(/<script id="hangbug-jsonld" type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi, '');
     } else {
         const structuredData = buildPageStructuredData({
             title,
             description,
             canonicalPath: routePath,
             schemaType,
+            breadcrumbs,
             includeApplicationSchema,
             softwareApplication,
+            itemList,
             article
         });
-        const jsonLdString = JSON.stringify(structuredData, null, 2);
-        html = html.replace(
-            /<script id="hangbug-jsonld" type="application\/ld\+json">[\s\S]*?<\/script>/,
-            () => `<script id="hangbug-jsonld" type="application/ld+json">\n${jsonLdString}\n    </script>`
-        );
+        const jsonLdString = safeJsonForScriptTag(structuredData);
+        const jsonLdTag = `<script id="hangbug-jsonld" type="application/ld+json">\n${jsonLdString}\n    </script>`;
+        if (/<script id="hangbug-jsonld"[^>]*>[\s\S]*?<\/script>/i.test(html)) {
+            html = html.replace(/<script id="hangbug-jsonld"[^>]*>[\s\S]*?<\/script>/i, () => jsonLdTag);
+        } else {
+            html = html.replace('</head>', () => `    ${jsonLdTag}\n  </head>`);
+        }
     }
 
     // 6. Replace entire <div id="root">...</div> container cleanly up to </body> (or trailing <script>)
@@ -642,8 +654,12 @@ function resolveContextualLinksForGame(game) {
 const corePageKeys = [
     'home',
     'technologies',
+    'games',
+    'leaderboard',
     'about',
-    'contact'
+    'contact',
+    'privacyPolicy',
+    'terms'
 ];
 
 for (const key of corePageKeys) {
@@ -652,8 +668,48 @@ for (const key of corePageKeys) {
 
     // Ensure H1 is distinct from title
     let distinctH1 = config.h1;
-    if (distinctH1 === config.title) {
+    if (!distinctH1 || distinctH1.toLowerCase() === String(config.title || '').toLowerCase()) {
         distinctH1 = config.title.replace(/^Hangbug\s*[–—-]\s*/, '').replace(/\s*[|–—-]\s*Hangbug$/, '');
+    }
+
+    const coreBreadcrumbsMap = {
+        '/': [{ name: 'Home', path: '/' }],
+        '/technologies': [{ name: 'Home', path: '/' }, { name: 'Technologies', path: '/technologies' }],
+        '/games': [{ name: 'Home', path: '/' }, { name: 'Games', path: '/games' }],
+        '/leaderboard': [{ name: 'Home', path: '/' }, { name: 'Leaderboard', path: '/leaderboard' }],
+        '/about': [{ name: 'Home', path: '/' }, { name: 'About Us', path: '/about' }],
+        '/contact': [{ name: 'Home', path: '/' }, { name: 'Contact Support', path: '/contact' }],
+        '/privacy-policy': [{ name: 'Home', path: '/' }, { name: 'Privacy Policy', path: '/privacy-policy' }],
+        '/terms': [{ name: 'Home', path: '/' }, { name: 'Terms of Service', path: '/terms' }]
+    };
+
+    let coreItemList = null;
+    if (config.path === '/technologies') {
+        const techItems = TECH_KEYS
+            .map(slug => getTechnologySeoBySlug(slug))
+            .filter(Boolean)
+            .map(t => ({
+                name: `${t.name} Quizzes`,
+                url: `${BASE_URL}${t.path}`,
+                description: t.description
+            }));
+        if (techItems.length > 0) {
+            coreItemList = {
+                name: 'Hangbug Technology Quiz Tracks',
+                description: config.description,
+                items: techItems
+            };
+        }
+    } else if (config.path === '/games') {
+        coreItemList = {
+            name: 'Hangbug Coding & Typing Games',
+            description: config.description,
+            items: GAMES_LIST.map(g => ({
+                name: g.name,
+                url: `${BASE_URL}/games/${g.slug}`,
+                description: g.description
+            }))
+        };
     }
 
     const pageDef = {
@@ -661,7 +717,10 @@ for (const key of corePageKeys) {
         title: config.title,
         description: config.description,
         h1: distinctH1,
-        includeApplicationSchema: config.path === '/',
+        schemaType: 'WebPage',
+        breadcrumbs: coreBreadcrumbsMap[config.path],
+        includeApplicationSchema: config.path === '/' || config.path === '/games',
+        itemList: coreItemList,
         staticHeaderHtml: resolveStaticHeaderForPath(config.path),
         staticFooterHtml: sharedStaticFooterHtml,
         bodyHtml:
@@ -677,83 +736,8 @@ for (const key of corePageKeys) {
     renderedCount++;
 }
 
-// 2. Additional Core Legal & Utility Pages
+// 2. Additional Utility Pages (Noindex)
 const additionalPages = [
-    {
-        path: '/privacy-policy',
-        title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy',
-        h1: 'Hangbug Privacy Policy & Personal Data Protection',
-        description: 'Read the official Hangbug Privacy Policy detailing our transparent data collection, cookie usage, account privacy standards, and user data rights.',
-        introContent: 'Hangbug is dedicated to safeguarding your personal data and respecting your privacy rights. This policy transparently explains what data we collect, why we collect it, how your session information is stored, and the strict controls you have over your account information.',
-        h2s: [
-            'Data Collection & Transparent Processing',
-            'Authentication Security & Google Sign-In',
-            'Cookies, Local Storage & Advertising Compliance',
-            'Your Rights: Access, Export & Permanent Account Deletion'
-        ],
-        h3s: [
-            'Personal Information Collected (Email, Display Name, Quiz Scores)',
-            'Session Tokens & Anti-Tampering Cookies',
-            'Google Identity Services Privacy Assurances',
-            'Self-Service Account Deletion within 24 Hours'
-        ],
-        internalLinks: [
-            { label: 'Terms of Service', to: '/terms' },
-            { label: 'Delete Account', to: '/delete-account', rel: 'nofollow' },
-            { label: 'About Hangbug', to: '/about' },
-            { label: 'Contact Support', to: '/contact' }
-        ]
-    },
-    {
-        path: '/terms',
-        title: 'Terms of Service — Hangbug Platform Terms & Conditions',
-        h1: 'Hangbug Platform Terms and Conditions of Service',
-        description: 'Review the Hangbug Terms of Service governing quiz taking, developer certificate issuance, community integrity, intellectual property, and platform usage.',
-        introContent: 'These Terms of Service govern your access to and use of Hangbug, including our technology quizzes, coding mini-games, leaderboard scoring, and digital developer certificates. By accessing Hangbug, you agree to comply with these terms.',
-        h2s: [
-            'Acceptable Use & Academic Integrity',
-            'Digital Developer Certificate Authenticity & Verification',
-            'Account Security & Authenticated Access',
-            'Intellectual Property & Platform Guidelines'
-        ],
-        h3s: [
-            'Fair Assessment Practices & Ban on Automated Solvers',
-            'Verifiable Certificate Issuance & LinkedIn Sharing Standards',
-            'User Responsibilities for Profile Security',
-            'Open Access Learning Philosophy'
-        ],
-        internalLinks: [
-            { label: 'Privacy Policy', to: '/privacy-policy' },
-            { label: 'Verify Certificates', to: '/certificate/view', rel: 'nofollow' },
-            { label: 'About Hangbug', to: '/about' },
-            { label: 'Contact Support', to: '/contact' }
-        ]
-    },
-    {
-        path: '/leaderboard',
-        title: 'Global Developer Leaderboard & Rankings — Hangbug',
-        h1: 'Global Developer Rankings, Quiz Leaderboards & Top Scorers',
-        description: 'View the global Hangbug developer leaderboard. Track top scores, accuracy rankings, completed quiz sessions, and earned technology certificates.',
-        introContent: 'The Hangbug Leaderboard recognizes top engineering talent worldwide based on quiz accuracy, consecutive practice streaks, and verified technical mastery across frontend, backend, mobile, and database development tracks.',
-        h2s: [
-            'How Developer Rankings Are Calculated',
-            'Scoring Criteria, Accuracy & Speed Multipliers',
-            'Weekly & All-Time Developer Standings',
-            'Climbing the Leaderboard Through Consistent Practice'
-        ],
-        h3s: [
-            'Quiz Accuracy & Verified Session Completions',
-            'Streak Retention & Active Engagement Points',
-            'Fair Play & Duplicate Submission Prevention'
-        ],
-        internalLinks: [
-            { label: 'HTML Quizzes', to: '/technologies/html' },
-            { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
-            { label: 'Code Puzzle', to: '/games/code-puzzle' },
-            { label: 'Developer Blog', to: '/blog' },
-            { label: 'Verify Certificate', to: '/certificate/view', rel: 'nofollow' }
-        ]
-    },
     {
         path: '/certificate/view',
         title: 'Verify Developer Certificate — Hangbug Skill Verification',
@@ -780,31 +764,6 @@ const additionalPages = [
             { label: 'About Hangbug Certificates', to: '/about' },
             { label: 'Contact Support', to: '/contact' }
         ]
-    },
-    {
-        path: '/games',
-        title: 'Coding & Typing Games for Developers — Hangbug Games Hub',
-        h1: 'Interactive Coding and Typing Challenges for Software Developers',
-        description: 'Play 20 interactive developer mini-games on Hangbug. Practice algorithm logic, debug code snippets, predict console outputs, write SQL queries, and boost your coding typing speed.',
-        introContent: 'Elevate your programming skills beyond traditional quizzes with Hangbug interactive developer games. Engage with hands-on challenges designed to strengthen debugging speed, algorithmic pattern recognition, and keyboard dexterity.',
-        h2s: [
-            'Featured Coding & Problem Solving Games',
-            'Developer Keystroke & Typing Accuracy Challenges',
-            'Why Interactive Games Accelerate Software Mastery',
-            'Connecting Games with Technology Quiz Tracks'
-        ],
-        h3s: [
-            'Algorithmic Logic (Code Puzzle, Logic Builder, Complete The Code)',
-            'Code Inspection & Debugging (Find The Bug, Output Predictor)',
-            'Relational Query Practice (SQL Challenge)',
-            'Developer Muscle Memory (Speed Typing, Code Typing, Syntax Typing)'
-        ],
-        internalLinks: [
-            ...GAMES_LIST.map(g => ({ label: `Play ${g.name}`, to: `/games/${g.slug}` })),
-            { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
-            { label: 'MySQL Quizzes', to: '/technologies/mysql' },
-            { label: 'Programming Fundamentals', to: '/technologies/programming-fundamentals' }
-        ]
     }
 ];
 
@@ -818,6 +777,7 @@ for (const p of additionalPages) {
         staticFooterHtml: sharedStaticFooterHtml,
         ...(p.robots ? { robots: p.robots } : {}),
         ...(p.omitCanonical ? { omitCanonical: true } : {}),
+        ...(p.robots && p.robots.includes('noindex') ? { omitJsonLd: true } : {}),
         bodyHtml: generateBodyHtml(p)
     };
     const renderedHtml = renderPage(pageDef);
@@ -847,6 +807,12 @@ for (const slug of TECH_KEYS) {
         title: config.title,
         description: config.description,
         h1: distinctH1,
+        schemaType: 'WebPage',
+        breadcrumbs: [
+            { name: 'Home', path: '/' },
+            { name: 'Technologies', path: '/technologies' },
+            { name: `${config.name || config.badge || slug} Quizzes`, path: `/technologies/${slug}` }
+        ],
         staticHeaderHtml: resolveStaticHeaderForPath(`/technologies/${slug}`),
         staticFooterHtml: sharedStaticFooterHtml,
         bodyHtml: generateBodyHtml({
@@ -865,11 +831,18 @@ for (const slug of TECH_KEYS) {
 
 // 4. All 20 Developer Games
 for (const game of GAMES_LIST) {
+    const resolvedGameTitle = formatGameSeoTitle(game.name, game.category);
     const pageDef = {
         path: `/games/${game.slug}`,
-        title: game.title,
+        title: resolvedGameTitle,
         description: game.description,
         h1: game.h1,
+        schemaType: 'WebPage',
+        breadcrumbs: [
+            { name: 'Home', path: '/' },
+            { name: 'Games', path: '/games' },
+            { name: game.name, path: `/games/${game.slug}` }
+        ],
         includeApplicationSchema: true,
         staticHeaderHtml: resolveStaticHeaderForPath(`/games/${game.slug}`),
         staticFooterHtml: sharedStaticFooterHtml,
@@ -880,7 +853,7 @@ for (const game of GAMES_LIST) {
             description: game.description
         },
         bodyHtml: generateBodyHtml({
-            title: game.title,
+            title: resolvedGameTitle,
             h1: game.h1,
             description: game.description,
             primaryKeyword: `${game.name} game`,
@@ -935,10 +908,10 @@ async function prerenderBlogSystem() {
 
         let resolvedTitle = buildArticleSeoTitle(article);
         if (seenTitles.has(resolvedTitle.toLowerCase())) {
-            const disambiguator = article.category && !resolvedTitle.toLowerCase().includes(article.category.toLowerCase())
-                ? `${article.title} (${article.category}) | Hangbug`
-                : `${article.title} — ${article.slug} | Hangbug`;
-            resolvedTitle = disambiguator;
+            const rawBase = article.category && !String(article.title || '').toLowerCase().includes(article.category.toLowerCase())
+                ? `${article.title} (${article.category})`
+                : `${article.title} ${article.slug}`;
+            resolvedTitle = buildArticleSeoTitle({ title: rawBase });
         }
         seenTitles.add(resolvedTitle.toLowerCase());
         article.seoTitle = resolvedTitle;
@@ -985,7 +958,7 @@ await prerenderBlogSystem();
 
 // 6. Generate static 404.html error shell with noindex metadata for missing static files on Vercel
 const notFoundHtml = applyHeadMetadata(cleanSpaShell, {
-    title: '404: Page Not Found — HangBug',
+    title: SEO_NOT_FOUND_TITLE,
     description: "The page you are looking for doesn't exist, has been removed, or was moved to another URL.",
     robots: 'noindex, nofollow',
     omitCanonical: true,

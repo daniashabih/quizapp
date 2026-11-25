@@ -35,7 +35,12 @@ export default function Landing() {
     usePageSeo({
         title: 'Learn Programming & Practice Tech Quizzes Online | Hangbug',
         description: 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.',
-        canonicalPath: '/'
+        canonicalPath: '/',
+        schemaType: 'WebPage',
+        includeApplicationSchema: true,
+        breadcrumbs: [
+            { name: 'Home', path: '/' }
+        ]
     });
     const [searchQuery, setSearchQuery] = useState('');
     const [activeTab, setActiveTab] = useState('assessment');

@@ -100,12 +100,16 @@ export default function TechnologyDetail() {
         description: seoConfig
             ? seoConfig.description
             : 'Practice programming quizzes and interactive coding games on Hangbug.',
-        primaryKeyword: seoConfig?.primaryKeyword,
-        secondaryKeywords: seoConfig?.secondaryKeywords,
         canonicalPath: seoConfig ? seoConfig.path : undefined,
         noindex: !seoConfig,
         disableStructuredData: !seoConfig,
-        ogImageAlt: seoConfig ? seoConfig.imageAlt : 'Hangbug Technology Quiz & Practice Track'
+        ogImageAlt: seoConfig ? seoConfig.imageAlt : 'Hangbug Technology Quiz & Practice Track',
+        schemaType: 'WebPage',
+        breadcrumbs: seoConfig ? [
+            { name: 'Home', path: '/' },
+            { name: 'Technologies', path: '/technologies' },
+            { name: seoConfig.name, path: seoConfig.path }
+        ] : undefined
     });
 
     useEffect(() => {

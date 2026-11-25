@@ -38,9 +38,14 @@ const COVERED_TECHNOLOGIES = [
 
 export default function AboutUs() {
     usePageSeo({
-        title: 'About Hangbug – Technology Learning, Tech Quizzes & Skill Assessment Platform',
+        title: 'About Hangbug — Coding Quizzes & Tech Learning Platform',
         description: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
-        canonicalPath: '/about'
+        canonicalPath: '/about',
+        schemaType: 'WebPage',
+        breadcrumbs: [
+            { name: 'Home', path: '/' },
+            { name: 'About Us', path: '/about' }
+        ]
     });
 
     useEffect(() => {
@@ -65,7 +70,7 @@ export default function AboutUs() {
                         <Sparkles size={14} /> Official Platform Overview
                     </div>
                     <h1 className="text-3xl sm:text-5xl font-display font-extrabold text-[var(--foreground)] tracking-tight mb-4 max-w-3xl mx-auto leading-tight">
-                        About Hangbug – <span className="text-[#193D35]">Technology Learning &amp; Skill Assessment Platform</span>
+                        About Hangbug: <span className="text-[#193D35]">Interactive Coding Quizzes, Games &amp; Skill Practice</span>
                     </h1>
                     <p className="text-sm sm:text-base text-[var(--foreground-muted)] max-w-2xl mx-auto leading-relaxed">
                         Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.

@@ -38,7 +38,7 @@ const OFFICIAL_DESCRIPTION =
     'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.';
 const DEFAULT_LOGO_URL = 'https://www.hangbug.com/branding/hangbug-logo-full.png';
 const SUPPORT_EMAIL = 'support@hangbug.com';
-const BLOG_LIST_TITLE = 'Programming & Web Development Blog: Tutorials & Guides | Hangbug';
+const BLOG_LIST_TITLE = 'Programming Blog: Developer Tutorials & Guides | Hangbug';
 const BLOG_LIST_DESCRIPTION =
     'Learn programming step-by-step with practical tutorials, coding guides, and interview prep on HTML, CSS, JavaScript, PHP, Laravel, Flutter, C#, and databases.';
 
@@ -206,10 +206,57 @@ function buildArticleSeoDescription(article) {
     return `${article?.title || 'Programming Guide'} — Developer tutorial and practical guide on Hangbug.`;
 }
 
+function clipSeoPhrase(text, maxLength) {
+    const clean = String(text || '').replace(/\s+/g, ' ').trim();
+    if (!clean || clean.length <= maxLength) return clean;
+    const sliced = clean.slice(0, maxLength);
+    const lastSpace = sliced.lastIndexOf(' ');
+    const base = lastSpace >= Math.floor(maxLength * 0.5) ? sliced.slice(0, lastSpace) : sliced;
+    return base.replace(/[.:,;—\-–|]+$/, '').trim() || sliced.trim();
+}
+
+function formatSeoTitleWithBrand(rawTitle, brand = SITE_NAME, maxLength = 60) {
+    const clean = String(rawTitle || '').replace(/\s+/g, ' ').trim();
+    if (!clean) return `Developer Tutorials & Coding Guides | ${brand}`;
+    if (/\s+[|—\-]\s*hangbug/i.test(clean) && clean.length <= maxLength) {
+        return clean;
+    }
+    const withoutBrand = clean.replace(/\s*[|—\-]\s*hangbug.*$/i, '').trim() || clean;
+    const suffix = ` | ${brand}`;
+    if (`${withoutBrand}${suffix}`.length <= maxLength) {
+        return `${withoutBrand}${suffix}`;
+    }
+    const maxTopicLength = Math.max(12, maxLength - suffix.length);
+    return `${clipSeoPhrase(withoutBrand, maxTopicLength)}${suffix}`;
+}
+
+function formatGameSeoTitle(rawTitle = '', category = '') {
+    const title = String(rawTitle || '').trim();
+    if (!title) return 'Play Developer Coding & Typing Games Online | Hangbug';
+    const isTyping = String(category || '').toLowerCase().includes('typing');
+    const longSuffix = isTyping
+        ? ' — Developer Typing Challenge | Hangbug'
+        : ' — Interactive Coding Game | Hangbug';
+    if (`${title}${longSuffix}`.length <= 60) {
+        return `${title}${longSuffix}`;
+    }
+    const shortSuffix = isTyping ? ' — Typing Game | Hangbug' : ' — Coding Game | Hangbug';
+    if (`${title}${shortSuffix}`.length <= 60) {
+        return `${title}${shortSuffix}`;
+    }
+    return formatSeoTitleWithBrand(title);
+}
+
 function buildArticleSeoTitle(article) {
+    const rawTitle = String(article?.title || 'Article').trim();
     const seoTitle = typeof article?.seoTitle === 'string' ? article.seoTitle.trim() : '';
-    if (seoTitle) return seoTitle;
-    return `${article?.title || 'Article'} | Hangbug`;
+    if (seoTitle) {
+        if (seoTitle.toLowerCase() === rawTitle.toLowerCase()) {
+            return formatSeoTitleWithBrand(seoTitle);
+        }
+        return seoTitle.length <= 60 ? seoTitle : formatSeoTitleWithBrand(seoTitle);
+    }
+    return formatSeoTitleWithBrand(rawTitle);
 }
 
 function isOrganizationAuthor(authorName) {
@@ -883,7 +930,7 @@ function renderBlogListBodyHtml({ articles = [], featuredArticle = null, categor
               <span>Hangbug Educational Blog &amp; Guides</span>
             </div>
             <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-[var(--foreground)] leading-tight">
-              Learn Programming <span class="text-[#193D35] dark:text-emerald-400">Step by Step</span>
+              Learn Programming <span class="text-[#193D35] dark:text-emerald-400">Step by Step</span> <span class="block sm:inline text-xl sm:text-3xl font-bold text-[var(--foreground-muted)]">— Tutorials &amp; Coding Guides</span>
             </h1>
             <p class="text-sm sm:text-base text-[var(--foreground-muted)] leading-relaxed">
               In-depth programming tutorials, clean code architectures, practical beginner guides, and software engineering interview questions designed to help you write cleaner code and master modern technologies.
@@ -985,8 +1032,8 @@ function renderVisible404BodyHtml() {
             <span>HTTP 404 — Page Not Found</span>
           </div>
           <div class="space-y-2">
-            <h1 class="text-6xl sm:text-7xl font-display font-black tracking-tight text-[var(--foreground)]">404</h1>
-            <h2 class="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)]">Oops! Lost in the Code?</h2>
+            <p class="text-6xl sm:text-7xl font-display font-black tracking-tight text-[var(--foreground)]" aria-hidden="true">404</p>
+            <h1 class="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)]">Oops! Lost in the Code? — Page Could Not Be Found</h1>
             <p class="text-xs sm:text-sm text-[var(--foreground-muted)] max-w-sm mx-auto leading-relaxed">
               The page or resource you are trying to access does not exist, has been moved, or is temporarily unavailable.
             </p>
@@ -1509,6 +1556,9 @@ async function fetchSitemapCatalogFromSource({ allowRemoteApiFallback = true } =
 module.exports = {
     BASE_URL,
     SITE_HOME_URL,
+    SITE_NAME,
+    SITE_ALTERNATE_NAME,
+    OFFICIAL_DESCRIPTION,
     DEFAULT_LOGO_URL,
     BLOG_LIST_TITLE,
     BLOG_LIST_DESCRIPTION,
@@ -1526,8 +1576,13 @@ module.exports = {
     formatReadableDate,
     buildArticleSeoDescription,
     buildArticleSeoTitle,
+    formatSeoTitleWithBrand,
+    formatGameSeoTitle,
     buildArticleBreadcrumbs,
     buildArticleSeoMeta,
+    buildOrganizationNode,
+    buildWebSiteNode,
+    buildBreadcrumbListNode,
     buildBlogArticleStructuredData,
     buildBlogIndexStructuredData,
     renderMarkdownToHtml,

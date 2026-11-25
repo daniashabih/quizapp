@@ -40,12 +40,6 @@ const CATEGORIES = [
 const DIFFICULTIES = ['All Levels', 'Beginner', 'Intermediate', 'Advanced'];
 
 export const GamesHub = () => {
-    usePageSeo({
-        title: 'Coding & Typing Games for Developers — Hangbug Games Hub',
-        description: 'Sharpen your coding logic, syntax memory, and typing speed on Hangbug with interactive browser games including Code Puzzle, Find the Bug, and Speed Typing.',
-        canonicalPath: '/games'
-    });
-
     const { user } = useAuth();
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -57,6 +51,34 @@ export const GamesHub = () => {
 
     // Data State
     const [games, setGames] = useState([]);
+
+    const gameSchemaItems = useMemo(() => {
+        const list = games.length > 0 ? games : FALLBACK_GAMES;
+        return list
+            .filter(g => g && g.slug && g.isPublished !== false)
+            .map(g => ({
+                name: g.title,
+                url: `/games/${g.slug}`,
+                description: g.description
+            }));
+    }, [games]);
+
+    usePageSeo({
+        title: 'Coding & Typing Games for Developers — Hangbug Games Hub',
+        description: 'Sharpen your coding logic, syntax memory, and typing speed on Hangbug with interactive browser games including Code Puzzle, Find the Bug, and Speed Typing.',
+        canonicalPath: '/games',
+        schemaType: 'WebPage',
+        includeApplicationSchema: true,
+        breadcrumbs: [
+            { name: 'Home', path: '/' },
+            { name: 'Games', path: '/games' }
+        ],
+        itemList: gameSchemaItems.length > 0 ? {
+            name: 'Hangbug Coding & Typing Games',
+            description: 'Interactive coding and typing challenges for software developers.',
+            items: gameSchemaItems
+        } : null
+    });
     const [featuredGame, setFeaturedGame] = useState(null);
     const [categoryCounts, setCategoryCounts] = useState({});
     const [userStats, setUserStats] = useState(null);
@@ -255,7 +277,7 @@ export const GamesHub = () => {
                             <Gamepad2 size={14} /> Hangbug Arcade
                         </div>
                         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-[var(--foreground)]">
-                            Games
+                            Interactive Coding &amp; Typing Games for Developers
                         </h1>
                         <p className="text-sm sm:text-base text-[var(--foreground-muted)] font-medium mt-1">
                             Learn, Play and Challenge Yourself

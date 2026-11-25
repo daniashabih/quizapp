@@ -26,6 +26,7 @@ import {
 import { toast } from '../../../services/notificationService';
 import { dialog } from '../../../services/dialogService';
 import aiVerificationService from '../../../services/aiVerificationService';
+import usePageSeo from '../../../hooks/usePageSeo';
 
 const IN_PROGRESS_STATUSES = new Set([
     'Uploaded',
@@ -63,6 +64,12 @@ function formatFileSize(bytes = 0) {
 }
 
 export default function AdminKnowledgeBase({ standalone = false }) {
+    const HeadingTag = standalone ? 'h1' : 'h2';
+    usePageSeo({
+        title: 'Admin Knowledge Base & PDF RAG Library — Hangbug',
+        noindex: true,
+        skip: !standalone
+    });
     const [books, setBooks] = useState([]);
     const [technologies, setTechnologies] = useState([]);
     const [aiProvider, setAiProvider] = useState(null);
@@ -436,9 +443,9 @@ export default function AdminKnowledgeBase({ standalone = false }) {
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#F3E5C5] dark:bg-[#D19A45]/20 text-[#193D35] dark:text-[#F3E5C5] border border-[#E2D0A6] dark:border-[#D19A45]/40 mb-2">
                         <Sparkles size={12} /> RAG Source of Truth
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)]">
+                    <HeadingTag className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)]">
                         AI Knowledge Base
-                    </h2>
+                    </HeadingTag>
                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)] mt-0.5">
                         Upload authoritative reference books (PDF, DOCX, TXT) indexed into MongoDB Atlas Vector Search.
                     </p>

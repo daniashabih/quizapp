@@ -45,10 +45,10 @@ export default function DeleteAccount() {
     const [openFaq, setOpenFaq] = useState(null);
 
     usePageSeo({
-        title: 'Account Deletion & Data Removal Request — HangBug',
+        title: 'Account Deletion & Data Removal Request — Hangbug',
         description: 'Submit an account deletion and personal data removal request on the HangBug platform in compliance with Google Play Store policies.',
-        canonicalPath: '/delete-account',
-        noindex: true
+        noindex: true,
+        disableStructuredData: true
     });
 
     useEffect(() => {

@@ -355,6 +355,7 @@ const INITIAL_GAMES = [
 ];
 
 const GAME_ALIASES = {
+    'coding-memory-match': { baseSlug: 'memory-match', title: 'Coding Memory Match', defaultTech: 'all', category: 'Coding Games', description: 'Match programming concepts and syntax with their correct definitions and code outputs.' },
     'csharp-complete-the-code': { baseSlug: 'complete-the-code', title: 'C# Complete the Code', defaultTech: 'csharp', category: 'Coding Games', description: 'Complete incomplete C# programs by selecting or entering missing code.' },
     'complete-the-code-csharp': { baseSlug: 'complete-the-code', title: 'C# Complete the Code', defaultTech: 'csharp', category: 'Coding Games', description: 'Complete incomplete C# programs by selecting or entering missing code.' },
     'csharp-quiz-challenge': { baseSlug: 'csharp-quiz-challenge', title: 'C# Quiz Challenge', defaultTech: 'csharp', category: 'Coding Games', description: 'Test your understanding of C#.' },

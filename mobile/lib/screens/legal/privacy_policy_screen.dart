@@ -16,11 +16,14 @@ class PrivacyPolicyScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'HangBug Privacy Policy',
-              style: AppTextStyles.displaySmall.copyWith(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            Semantics(
+              header: true,
+              child: Text(
+                'HangBug Privacy Policy & Personal Data Protection',
+                style: AppTextStyles.displaySmall.copyWith(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 6),

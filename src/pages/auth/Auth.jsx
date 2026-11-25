@@ -94,12 +94,15 @@ export default function Auth({ initialMode = 'login' }) {
     const [isSignUp, setIsSignUp] = useState(initialMode === 'signup');
 
     usePageSeo({
-        title: isSignUp ? 'Create an Account — HangBug' : 'Sign In to Your Account — HangBug',
+        title: isSignUp
+            ? 'Create Free Developer Account — Hangbug Coding Quizzes'
+            : 'Sign In to Your Developer Account — Hangbug Quizzes',
         description: isSignUp
             ? 'Create your HangBug account to test your programming skills and earn verified certificates.'
             : 'Sign in to HangBug to practice web development quizzes, track your progress, and view certificates.',
         canonicalPath: isSignUp ? '/register' : '/login',
-        noindex: true
+        noindex: true,
+        disableStructuredData: true
     });
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');

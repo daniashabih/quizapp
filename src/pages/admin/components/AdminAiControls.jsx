@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { toast } from '../../../services/notificationService';
 import aiVerificationService from '../../../services/aiVerificationService';
+import usePageSeo from '../../../hooks/usePageSeo';
 
 const TEST_MODES = [
     {
@@ -42,6 +43,12 @@ const TEST_MODES = [
 ];
 
 export default function AdminAiControls({ standalone = false }) {
+    const HeadingTag = standalone ? 'h1' : 'h2';
+    usePageSeo({
+        title: 'Admin AI Models, Embeddings & Usage — Hangbug',
+        noindex: true,
+        skip: !standalone
+    });
     const [statusData, setStatusData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [clearingCache, setClearingCache] = useState(false);
@@ -147,9 +154,9 @@ export default function AdminAiControls({ standalone = false }) {
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#F3E5C5] dark:bg-[#D19A45]/20 text-[#193D35] dark:text-[#F3E5C5] border border-[#E2D0A6] dark:border-[#D19A45]/40 mb-2">
                         <Cpu size={12} /> Hangbug AI Engine
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)]">
+                    <HeadingTag className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)]">
                         AI Models & Usage
-                    </h2>
+                    </HeadingTag>
                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)] mt-0.5">
                         Inspect active server AI configuration, MongoDB Atlas Vector Search status, cache metrics, and run verification diagnostics.
                     </p>

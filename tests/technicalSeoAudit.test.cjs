@@ -11,15 +11,16 @@ function readFile(relPath) {
 }
 
 test('1. Technical SEO: Unique titles and meta descriptions for public pages', () => {
+    const seoConfigContent = readFile('src/config/seoPagesConfig.js');
     const publicPages = [
         { file: 'src/pages/Landing.jsx', title: 'Learn Programming & Practice Tech Quizzes Online | Hangbug' },
-        { file: 'src/pages/quiz/Technologies.jsx', title: 'Choose Your Tech Stack — Programming & Framework Quizzes | Hangbug' },
+        { file: 'src/pages/quiz/Technologies.jsx', title: 'SEO_PAGES_CONFIG.technologies.title', configTitle: 'Technology Quizzes & Coding Practice Tracks | Hangbug' },
         { file: 'src/pages/quiz/TechnologyDetail.jsx', title: 'Technology Quizzes & Coding Practice | Hangbug' },
         { file: 'src/pages/games/GamesHub.jsx', title: 'Coding & Typing Games for Developers — Hangbug Games Hub' },
-        { file: 'src/pages/games/GamePlayer.jsx', title: 'Developer Typing Challenge' },
+        { file: 'src/pages/games/GamePlayer.jsx', title: 'formatGameSeoTitle(', configTitle: 'Developer Typing Challenge' },
         { file: 'src/pages/leaderboard/Leaderboard.jsx', title: 'Global Developer Leaderboard & Rankings — Hangbug' },
-        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug – Technology Learning, Tech Quizzes & Skill Assessment Platform' },
-        { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — Hangbug' },
+        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug — Coding Quizzes & Tech Learning Platform' },
+        { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — Hangbug Coding Quiz Platform' },
         { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy' },
         { file: 'src/pages/legal/TermsOfService.jsx', title: 'Terms of Service — Hangbug Platform Terms & Conditions' },
         { file: 'src/pages/certificates/CertificateView.jsx', title: 'Verify Developer Certificate — Hangbug Skill Verification' }
@@ -29,6 +30,9 @@ test('1. Technical SEO: Unique titles and meta descriptions for public pages', (
         const content = readFile(page.file);
         assert.ok(content.includes('usePageSeo'), `${page.file} must invoke usePageSeo`);
         assert.ok(content.includes(page.title), `${page.file} must include expected title snippet: ${page.title}`);
+        if (page.configTitle) {
+            assert.ok(seoConfigContent.includes(page.configTitle), `src/config/seoPagesConfig.js must include expected title snippet: ${page.configTitle}`);
+        }
     }
 });
 
@@ -809,4 +813,69 @@ test('30. Internal Linking & Orphan Prevention Audit: Zero broken/redirect publi
     assert.ok(!distBlog.includes('href="/blog?category='), 'dist/blog/index.html must not emit duplicate query-string category URLs');
     const htmlCardMatches = distBlog.match(/href="\/blog\/html-tutorial-for-beginners"/g) || [];
     assert.ok(htmlCardMatches.length <= 2, `dist/blog/index.html must minimize duplicate links to /blog/html-tutorial-for-beginners (found ${htmlCardMatches.length})`);
+});
+
+test('31. Structured Data Coverage: Public pages pass schemaType/breadcrumbs/article/itemList to usePageSeo() and SSR injects #hangbug-jsonld', async () => {
+    const publicSchemaPages = [
+        { file: 'src/pages/Landing.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:', 'includeApplicationSchema:'] },
+        { file: 'src/pages/quiz/Technologies.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:', 'itemList:'] },
+        { file: 'src/pages/quiz/TechnologyDetail.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:'] },
+        { file: 'src/pages/games/GamesHub.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:', 'includeApplicationSchema:', 'itemList:'] },
+        { file: 'src/pages/games/GamePlayer.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:', 'softwareApplication:'] },
+        { file: 'src/pages/blog/BlogList.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:', 'itemList:'] },
+        { file: 'src/pages/blog/BlogDetail.jsx', checks: ["schemaType: 'Article'", 'article:', 'breadcrumbs:'] },
+        { file: 'src/pages/leaderboard/Leaderboard.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:', 'disableStructuredData:'] },
+        { file: 'src/pages/legal/AboutUs.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:'] },
+        { file: 'src/pages/legal/ContactUs.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:'] },
+        { file: 'src/pages/legal/PrivacyPolicy.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:'] },
+        { file: 'src/pages/legal/TermsOfService.jsx', checks: ["schemaType: 'WebPage'", 'breadcrumbs:'] }
+    ];
+
+    for (const page of publicSchemaPages) {
+        const content = readFile(page.file);
+        for (const snippet of page.checks) {
+            assert.ok(content.includes(snippet), `${page.file} must pass ${snippet} to usePageSeo()`);
+        }
+    }
+
+    for (const noindexFile of ['src/pages/auth/Auth.jsx', 'src/pages/certificates/CertificateView.jsx', 'src/pages/legal/DeleteAccount.jsx']) {
+        const content = readFile(noindexFile);
+        assert.ok(content.includes('disableStructuredData: true'), `${noindexFile} must pass disableStructuredData: true`);
+    }
+
+    const { validateStructuredData } = await import(
+        require('node:url').pathToFileURL(path.join(ROOT_DIR, 'src', 'utils', 'structuredData.js')).href
+    );
+    const seoController = require('../api/_controllers/seoController');
+
+    const indexableSsrRoutes = [
+        '/',
+        '/technologies',
+        '/technologies/javascript',
+        '/games',
+        '/games/code-puzzle',
+        '/leaderboard',
+        '/about',
+        '/contact',
+        '/privacy-policy',
+        '/terms',
+        '/blog',
+        '/blog/html-tutorial-for-beginners'
+    ];
+
+    for (const routePath of indexableSsrRoutes) {
+        const resolution = await seoController.resolveAppRoute(routePath);
+        assert.strictEqual(resolution.statusCode, 200, `${routePath} must resolve with 200`);
+        assert.strictEqual(resolution.noindex, false, `${routePath} must be indexable`);
+        const html = seoController.renderStatusHtml(resolution);
+        const match = html.match(/<script id="hangbug-jsonld" type="application\/ld\+json">([\s\S]*?)<\/script>/i);
+        assert.ok(match && match[1], `${routePath} SSR HTML must inject #hangbug-jsonld`);
+        const parsed = JSON.parse(match[1]);
+        const validation = validateStructuredData(parsed);
+        assert.strictEqual(validation.valid, true, `${routePath} SSR JSON-LD invalid: ${validation.errors.join('; ')}`);
+    }
+
+    const noindexResolution = await seoController.resolveAppRoute('/login');
+    const noindexHtml = seoController.renderStatusHtml(noindexResolution);
+    assert.ok(!/<script id="hangbug-jsonld"/i.test(noindexHtml), '/login noindex SSR HTML must omit #hangbug-jsonld');
 });

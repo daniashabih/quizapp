@@ -404,7 +404,7 @@ export function buildSoftwareApplicationSchema(options = {}) {
  */
 export function buildProfilePageSchema({
     url = `${SITE_URL}/dashboard/profile`,
-    title = 'Developer Profile — HangBug',
+    title = 'Developer Profile & Coding Credentials — Hangbug',
     description = 'Manage your personal information and view your developer quiz activity and skill mastery on HangBug.',
     breadcrumbId,
     profile = {}
@@ -471,7 +471,7 @@ export function buildItemListSchema({ url = SITE_HOME_URL, name, description, it
             '@type': 'ListItem',
             position: idx + 1,
             name: item.name.trim(),
-            url: normalizeCanonicalUrl(item.url || pageUrl),
+            url: normalizeCanonicalUrl(item.url || item.path || pageUrl),
             ...(item.description ? { description: item.description } : {})
         }))
     };
@@ -585,29 +585,31 @@ export function buildPageStructuredData({
     }
 
     // 5. Article Schema strictly for genuine blog articles
-    if ((schemaType === 'Article' || article) && article) {
-        const articleNode = buildArticleSchema({
-            ...article,
-            url: pageUrl,
-            description: article.description || resolvedDescription,
-            image: article.image || ogImage || LOGO_URL
-        });
-        if (articleNode) {
-            mainEntityId = articleNode['@id'];
-            graph.push(
-                buildWebPageSchema({
-                    url: pageUrl,
-                    title: resolvedTitle,
-                    description: resolvedDescription,
-                    image: ogImage || LOGO_URL,
-                    breadcrumbId: breadcrumbSchema['@id'],
-                    mainEntityId,
-                    datePublished: article.datePublished || datePublished,
-                    dateModified: article.dateModified || dateModified
-                })
-            );
-            graph.push(articleNode);
-        }
+    const articleNode =
+        (schemaType === 'Article' || article) && article
+            ? buildArticleSchema({
+                  ...article,
+                  url: pageUrl,
+                  description: article.description || resolvedDescription,
+                  image: article.image || ogImage || LOGO_URL
+              })
+            : null;
+
+    if (articleNode) {
+        mainEntityId = articleNode['@id'];
+        graph.push(
+            buildWebPageSchema({
+                url: pageUrl,
+                title: resolvedTitle,
+                description: resolvedDescription,
+                image: ogImage || LOGO_URL,
+                breadcrumbId: breadcrumbSchema['@id'],
+                mainEntityId,
+                datePublished: article.datePublished || datePublished,
+                dateModified: article.dateModified || dateModified
+            })
+        );
+        graph.push(articleNode);
     } else if (schemaType === 'ProfilePage' || profile) {
         // 7. ProfilePage Schema where appropriate
         graph.push(

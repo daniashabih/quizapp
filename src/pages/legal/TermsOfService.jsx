@@ -9,7 +9,12 @@ export default function TermsOfService() {
     usePageSeo({
         title: 'Terms of Service — Hangbug Platform Terms & Conditions',
         description: 'Review the Hangbug Terms of Service governing platform usage, score-based certificate verification, intellectual property, and community guidelines.',
-        canonicalPath: '/terms'
+        canonicalPath: '/terms',
+        schemaType: 'WebPage',
+        breadcrumbs: [
+            { name: 'Home', path: '/' },
+            { name: 'Terms of Service', path: '/terms' }
+        ]
     });
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -35,7 +40,7 @@ export default function TermsOfService() {
                         <Scale size={14} /> Legal Agreement
                     </div>
                     <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--foreground)] tracking-tight mb-2">
-                        Terms of Service
+                        Hangbug Platform Terms and Conditions of Service
                     </h1>
                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">
                         Last updated: <span className="font-semibold text-[var(--foreground)]">{lastUpdated}</span>

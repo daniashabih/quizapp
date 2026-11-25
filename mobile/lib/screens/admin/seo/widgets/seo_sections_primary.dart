@@ -962,6 +962,15 @@ class _SeoAuditTabState extends State<SeoAuditTab> {
                     color: SeoColors.primaryBrand(context),
                   ),
                 ),
+                if (issue.affectedUrls.isNotEmpty)
+                  SeoAffectedChipsWrap(
+                    label: 'Affected URLs:',
+                    items: issue.affectedUrls
+                        .map((u) => u.displayLabel)
+                        .toList(),
+                    maxVisible: 4,
+                    onMoreTap: () => showSeoIssueDetailSheet(context, issue),
+                  ),
               ],
             ),
           ),
@@ -1137,12 +1146,32 @@ class _SeoIndexingTabState extends State<SeoIndexingTab> {
               ),
               if (_inspection != null) ...[
                 const SizedBox(height: 12),
-                Text(
-                  'HTTP ${_inspection!['crawl']?['httpStatus']} · Title: ${_inspection!['crawl']?['title'] ?? '—'}\nCanonical: ${_inspection!['crawl']?['canonicalUrl'] ?? '—'}\nRobots: ${_formatRobotsStatus(_inspection!['crawl'])} · Sitemap: ${_inspection!['crawl']?['inSitemap'] == true ? 'Listed' : 'Excluded'}',
-                  style: TextStyle(
-                    fontSize: 11.5,
-                    color: SeoColors.textPrimary(context),
-                  ),
+                Builder(
+                  builder: (context) {
+                    final crawl = _inspection!['crawl'] as Map<String, dynamic>?;
+                    final rawTitle = crawl?['title']?.toString() ?? '';
+                    final titleLen = (crawl?['titleLength'] as num?)?.toInt() ?? rawTitle.length;
+                    final titleDisplay = rawTitle.isNotEmpty ? '$rawTitle ($titleLen chars)' : '—';
+                    final hasJsonLd = crawl?['hasJsonLd'] == true;
+                    final jsonLdValid = crawl?['jsonLdValid'] == true;
+                    final isNoindex = crawl?['isNoindex'] == true;
+                    final jsonLdTypes = (crawl?['jsonLdTypes'] as List? ?? [])
+                        .map((e) => e.toString())
+                        .where((e) => e.isNotEmpty)
+                        .toList();
+                    final jsonLdStatus = isNoindex
+                        ? (hasJsonLd ? 'Present on Noindex' : 'Omitted (Noindex)')
+                        : (hasJsonLd && jsonLdValid
+                            ? 'Valid (${jsonLdTypes.isNotEmpty ? jsonLdTypes.join(', ') : 'Schema.org'})'
+                            : (hasJsonLd ? 'Invalid JSON-LD' : 'Missing #hangbug-jsonld'));
+                    return Text(
+                      'HTTP ${crawl?['httpStatus']} · Title: $titleDisplay\nCanonical: ${crawl?['canonicalUrl'] ?? '—'}\nRobots: ${_formatRobotsStatus(crawl)} · Sitemap: ${crawl?['inSitemap'] == true ? 'Listed' : 'Excluded'}\nJSON-LD: $jsonLdStatus',
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        color: SeoColors.textPrimary(context),
+                      ),
+                    );
+                  },
                 ),
               ],
             ],
@@ -1172,7 +1201,7 @@ class _SeoIndexingTabState extends State<SeoIndexingTab> {
                           ),
                         ),
                         Text(
-                          'Words: ${u['wordCount'] ?? 0} · Canonical: ${u['canonicalValid'] == true ? 'Valid' : 'Check'} · ${u['isNoindex'] == true ? 'Noindex' : (u['inSitemap'] == true ? 'Sitemap' : 'Not in Sitemap')}',
+                          'Words: ${u['wordCount'] ?? 0} · Canonical: ${u['canonicalValid'] == true ? 'Valid' : 'Check'} · JSON-LD: ${u['isNoindex'] == true ? 'Noindex' : (u['hasJsonLd'] == true && u['jsonLdValid'] == true ? 'Valid' : 'Missing')} · ${u['isNoindex'] == true ? 'Noindex' : (u['inSitemap'] == true ? 'Sitemap' : 'Not in Sitemap')}',
                           style: TextStyle(
                             fontSize: 10.5,
                             color: SeoColors.textMuted(context),
@@ -1312,6 +1341,70 @@ class SeoContentTab extends StatelessWidget {
                 ],
               ),
             )),
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: SeoColors.cardBg(context),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: SeoColors.border(context)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Meta Description & Title Audit',
+                style: AppTextStyles.labelBold.copyWith(
+                  color: SeoColors.textPrimary(context),
+                ),
+              ),
+              const SizedBox(height: 8),
+              if (missingMeta.isEmpty && dupTitles.isEmpty)
+                Text(
+                  'Zero missing meta descriptions and zero missing or duplicate page titles detected.',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: SeoColors.primaryDarkGreen,
+                  ),
+                )
+              else ...[
+                ...missingMeta.whereType<Map>().map((m) => Container(
+                      margin: const EdgeInsets.only(bottom: 6),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: SeoColors.badgeAmberBg(context),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: SeoColors.badgeAmberBorder(context)),
+                      ),
+                      child: Text(
+                        '${m['url'] ?? ''} — Missing/short meta description (${m['currentLength'] ?? 0} chars)',
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          color: SeoColors.badgeAmberText(context),
+                        ),
+                      ),
+                    )),
+                ...dupTitles.whereType<Map>().map((t) => Container(
+                      margin: const EdgeInsets.only(bottom: 6),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: SeoColors.badgeRedBg(context),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: SeoColors.badgeRedBorder(context)),
+                      ),
+                      child: Text(
+                        '${t['url'] ?? ''} — ${t['reason'] ?? 'Missing or duplicate title'}',
+                        style: TextStyle(
+                          fontSize: 11.5,
+                          color: SeoColors.badgeRedText(context),
+                        ),
+                      ),
+                    )),
+              ],
+            ],
+          ),
+        ),
         const SizedBox(height: 12),
         Container(
           padding: const EdgeInsets.all(14),

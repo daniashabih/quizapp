@@ -8,9 +8,14 @@ import usePageSeo from '../../hooks/usePageSeo';
 
 export default function ContactUs() {
     usePageSeo({
-        title: 'Contact Support & Inquiries — Hangbug',
+        title: 'Contact Support & Inquiries — Hangbug Coding Quiz Platform',
         description: 'Get in touch with the Hangbug team for questions regarding technology quizzes, score-based certificates, coding games, or technical support.',
-        canonicalPath: '/contact'
+        canonicalPath: '/contact',
+        schemaType: 'WebPage',
+        breadcrumbs: [
+            { name: 'Home', path: '/' },
+            { name: 'Contact Support', path: '/contact' }
+        ]
     });
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -58,7 +63,7 @@ export default function ContactUs() {
                         <Mail size={14} /> Support &amp; Inquiries
                     </div>
                     <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-[var(--foreground)] tracking-tight mb-2">
-                        Get in Touch with Hangbug
+                        Get in Touch with the Hangbug Support Team
                     </h1>
                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)] max-w-lg mx-auto">
                         Have a question about Hangbug technology quizzes, coding games, score-based certificates, or platform feedback? We would love to hear from you.

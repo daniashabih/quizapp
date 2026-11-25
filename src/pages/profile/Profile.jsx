@@ -12,7 +12,7 @@ import usePageSeo from '../../hooks/usePageSeo';
 
 export default function Profile() {
     usePageSeo({
-        title: 'Developer Profile — HangBug',
+        title: 'Developer Profile & Coding Credentials — Hangbug',
         noindex: true
     });
     const { user, updateUser } = useAuth();

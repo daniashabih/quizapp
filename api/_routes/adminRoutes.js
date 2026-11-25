@@ -6,7 +6,14 @@ const { authMiddleware, adminMiddleware } = require('../_middlewares/authMiddlew
 
 const { getAllUsers } = require('../_controllers/authController');
 const { getCategories, createCategory, updateCategory, deleteCategory } = require('../_controllers/categoryController');
-const { getQuestions, createQuestion, updateQuestion, deleteQuestion } = require('../_controllers/questionController');
+const {
+    getQuestions,
+    createQuestion,
+    updateQuestion,
+    deleteQuestion,
+    getQuestionCoverage,
+    seedHighDemandQuestions
+} = require('../_controllers/questionController');
 const { getSettings, updateSettings } = require('../_controllers/settingController');
 const gameController = require('../_controllers/gameController');
 const blogController = require('../_controllers/blogController');
@@ -152,6 +159,8 @@ router.put('/technologies/:id', updateCategory);
 router.delete('/technologies/:id', deleteCategory);
 
 // 3. /api/admin/questions
+router.get('/questions/coverage', getQuestionCoverage);
+router.post('/questions/seed-high-demand', seedHighDemandQuestions);
 router.get('/questions', getQuestions);
 router.post('/questions', createQuestion);
 router.put('/questions/:id', updateQuestion);

@@ -74,7 +74,8 @@ const SUPPORTED_GAME_SLUGS = [
     { slug: 'sixty-second-challenge', label: '60s Sprint' }
 ];
 
-export const AdminGamesManagement = () => {
+export const AdminGamesManagement = ({ embedded = false }) => {
+    const HeadingTag = embedded ? 'h2' : 'h1';
     // Current Active Admin Tab: 'games' | 'categories' | 'technologies' | 'challenges' | 'stats'
     const [activeTab, setActiveTab] = useState('games');
 
@@ -709,9 +710,9 @@ export const AdminGamesManagement = () => {
                                 <Sparkles size={12} /> Technology Gaming Platform
                             </span>
                         </div>
-                        <h1 className="text-2xl sm:text-3xl font-black text-[var(--foreground)] tracking-tight">
+                        <HeadingTag className="text-2xl sm:text-3xl font-black text-[var(--foreground)] tracking-tight">
                             Games & Technology Management
-                        </h1>
+                        </HeadingTag>
                         <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">
                             Manage mini-games, technology categories, authentic programming challenges, and user participation.
                         </p>

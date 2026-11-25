@@ -23,6 +23,38 @@ import { useAuth } from '../context/AuthContext';
 import BrandLogo from '../components/BrandLogo';
 import ThemeToggle from '../components/ThemeToggle';
 import usePageSeo from '../hooks/usePageSeo';
+import { getSeoSectionTitle } from '../components/seo/seoUtils';
+
+const resolveDashboardRouteTitle = (pathname = '') => {
+    const clean = String(pathname || '').replace(/\/+$/, '') || '/dashboard';
+    if (clean.startsWith('/dashboard/seo')) {
+        const section = clean.slice('/dashboard/seo'.length).replace(/^\/+/, '') || 'overview';
+        return getSeoSectionTitle(section);
+    }
+    if (clean === '/admin/knowledge-base') return 'Admin Knowledge Base & PDF RAG Library — Hangbug';
+    if (clean === '/admin/verification-reports') return 'Admin AI Verification Reports & Audits — Hangbug';
+    if (clean === '/admin/ai-controls') return 'Admin AI Models, Embeddings & Usage — Hangbug';
+    if (clean.startsWith('/admin')) return 'Admin Console: Questions & Platform Control — Hangbug';
+    if (clean.startsWith('/dashboard/technologies') || clean.startsWith('/dashboard/quizzes')) {
+        return 'Dashboard Practice Quizzes & Tech Tracks — Hangbug';
+    }
+    if (clean.startsWith('/dashboard/certificates') || clean.startsWith('/certificates')) {
+        return 'My Verified Programming Certificates — Hangbug';
+    }
+    if (clean.startsWith('/dashboard/leaderboard/full')) {
+        return 'Full Dashboard Developer Leaderboard Ranks — Hangbug';
+    }
+    if (clean.startsWith('/dashboard/leaderboard')) {
+        return 'Dashboard Developer Standings & Ranks — Hangbug';
+    }
+    if (clean.startsWith('/dashboard/profile') || clean.startsWith('/profile')) {
+        return 'Developer Profile & Coding Credentials — Hangbug';
+    }
+    if (clean.startsWith('/dashboard/settings') || clean.startsWith('/settings')) {
+        return 'Account Theme Settings & Preferences — Hangbug';
+    }
+    return 'Developer Overview & Learning Progress — Hangbug';
+};
 
 const DashboardLayout = ({ children }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -31,9 +63,7 @@ const DashboardLayout = ({ children }) => {
     const location = useLocation();
 
     usePageSeo({
-        title: location.pathname.startsWith('/admin')
-            ? 'Administrator Console — HangBug'
-            : 'Developer Dashboard — HangBug',
+        title: resolveDashboardRouteTitle(location.pathname),
         noindex: true
     });
 

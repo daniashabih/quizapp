@@ -8,7 +8,7 @@ import { useSettings } from '../../context/SettingsContext';
 
 export default function Result() {
     usePageSeo({
-        title: 'Quiz Session Results — HangBug',
+        title: 'Coding Quiz Performance & Answer Results — Hangbug',
         noindex: true
     });
     const location = useLocation();
@@ -107,7 +107,9 @@ export default function Result() {
                                 </div>
                                 {passed && <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#D19A45] flex items-center justify-center shadow-md"><Sparkles size={12} className="text-white" /></div>}
                             </div>
-                            <h1 className="text-2xl lg:text-3xl font-display font-extrabold text-[var(--foreground)] mb-1">{passed ? 'Congratulations!' : 'Keep Going!'}</h1>
+                            <h1 className="text-2xl lg:text-3xl font-display font-extrabold text-[var(--foreground)] mb-1">
+                                {passed ? `Congratulations! ${assessmentLabel} Passed` : `Keep Practicing ${assessmentLabel}`}
+                            </h1>
                             <p className="text-[var(--foreground-muted)] text-xs mb-4">{passed ? `You passed ${assessmentLabel}!` : 'Review and try again.'}</p>
 
                             {/* Circular Score */}

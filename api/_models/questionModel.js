@@ -1,6 +1,7 @@
 const prisma = require('../_config/prisma');
 const { AGILE_DEVOPS_QUESTIONS, AGILE_DEVOPS_SESSIONS } = require('./agileDevopsQuestionsData');
 const { CSHARP_QUIZ_QUESTIONS, CSHARP_QUIZ_SESSIONS } = require('./csharpQuizQuestionsData');
+const { getCategoryVariations } = require('../_utils/categoryMatching');
 
 const CSHARP_SESSION_NUMBERS = Object.keys(CSHARP_QUIZ_SESSIONS)
     .map(s => parseInt(s, 10))
@@ -108,35 +109,9 @@ const normalizeQuestionText = (text) => {
         .replace(/\s+/g, ' ');
 };
 
-const getCategoryVariations = (category) => {
-    if (!category) return [];
-    const clean = String(category).trim();
-    const lower = clean.toLowerCase();
-    if (lower === 'c#' || lower === 'csharp' || lower === 'c sharp') {
-        return ['C#', 'csharp', 'c sharp', 'CSharp'];
-    }
-    if (lower === 'react.js' || lower === 'react js' || lower === 'reactjs') {
-        return ['React.js', 'React JS', 'ReactJS', 'react.js', 'react js', 'reactjs'];
-    }
-    if (isMaterialUiCategory(clean)) {
-        return ['Material UI', 'Material-UI', 'MaterialUI', 'MUI', 'material ui', 'materialui', 'mui'];
-    }
-    if (isMongoDbCategory(clean)) {
-        return ['MongoDB', 'Mongo DB', 'mongodb', 'mongo db', 'mongo'];
-    }
-    if (isAzureCategory(clean)) {
-        return ['Azure', 'Microsoft Azure', 'MS Azure', 'Windows Azure', 'azure', 'microsoft azure', 'ms azure'];
-    }
-    if (isWordPressCategory(clean)) {
-        return ['WordPress', 'wordpress', 'Word Press'];
-    }
-    const withAnd = clean.replace(/&/g, 'and');
-    const withAmp = clean.replace(/\band\b/gi, '&');
-    return Array.from(new Set([clean, withAnd, withAmp]));
-};
-
 const Question = {
     normalizeQuestionText,
+    getCategoryVariations,
 
     findDuplicate: async ({ category, question_text, excludeId } = {}) => {
         const target = normalizeQuestionText(question_text);

@@ -69,7 +69,7 @@ export default function SeoHeader({
 
                         <div className="flex items-center flex-wrap gap-2 mt-0.5">
                             <h1 className="text-base sm:text-lg font-display font-bold text-[#17221F] dark:text-[#F3F6F4] tracking-tight">
-                                {activeSectionLabel}
+                                {activeSectionLabel} — Search Performance &amp; Audit
                             </h1>
 
                             {/* Domain Selector */}

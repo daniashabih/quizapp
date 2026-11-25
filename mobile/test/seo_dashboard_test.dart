@@ -345,9 +345,168 @@ void main() {
 
     expect(find.text('/technologies/javascript'), findsOneWidget);
     expect(find.textContaining('Sitemap'), findsAtLeastNWidgets(1));
+    expect(find.textContaining('JSON-LD:'), findsAtLeastNWidgets(1));
     expect(find.text('/private-leak'), findsOneWidget);
-    expect(find.textContaining('Noindex'), findsOneWidget);
+    expect(find.textContaining('Noindex'), findsAtLeastNWidgets(1));
     expect(find.text('Good'), findsAtLeastNWidgets(1));
     expect(find.text('Critical'), findsOneWidget);
+  });
+
+  testWidgets(
+      'SeoTechnicalTab renders structuredData schemasDetected and affectedUrls',
+      (WidgetTester tester) async {
+    final payload = SeoDashboardPayload.fromJson({
+      'success': true,
+      'data': {
+        'project': {
+          'domain': 'www.hangbug.com',
+          'siteUrl': 'https://www.hangbug.com',
+          'integrations': {},
+        },
+        'technical': {
+          'structuredData': {
+            'status': 'Good',
+            'schemasDetected': [
+              'Organization',
+              'WebSite',
+              'BreadcrumbList',
+              'SoftwareApplication',
+            ],
+            'affectedUrls': [
+              {
+                'url': '/games/code-puzzle',
+                'detail': 'Verified #hangbug-jsonld',
+              },
+            ],
+            'explanation':
+                'Schema.org JSON-LD blocks checked across public pages.',
+          },
+        },
+      },
+    });
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.lightTheme,
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: SeoTechnicalTab(
+              data: payload,
+              onRunPageSpeed: (url, strategy, {bool forceRefresh = false}) async {},
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Structured Data'), findsOneWidget);
+    expect(find.text('Organization'), findsOneWidget);
+    expect(find.text('SoftwareApplication'), findsOneWidget);
+    expect(find.textContaining('/games/code-puzzle'), findsOneWidget);
+  });
+
+  test('SeoAffectedUrl resolves explicit label and legacy /technologies category detail', () {
+    final explicit = SeoAffectedUrl.fromJson({
+      'url': '/technologies/css',
+      'label': 'CSS (/technologies/css)',
+      'detail': 'Category "CSS" has 0 questions',
+    });
+    expect(explicit.displayLabel, equals('CSS (/technologies/css)'));
+
+    final legacy = SeoAffectedUrl.fromJson({
+      'url': '/technologies',
+      'detail': 'Category "Angular" has 0 questions',
+    });
+    expect(legacy.displayLabel, equals('Angular (/technologies)'));
+
+    final standard = SeoAffectedUrl.fromJson({
+      'url': '/blog/html-tutorial',
+      'detail': 'Missing keywords',
+    });
+    expect(standard.displayLabel, equals('/blog/html-tutorial'));
+  });
+
+  testWidgets(
+      'SeoAuditTab displays distinct Affected URLs chips and +N more overflow',
+      (WidgetTester tester) async {
+    final payload = SeoDashboardPayload.fromJson({
+      'success': true,
+      'data': {
+        'project': {
+          'domain': 'www.hangbug.com',
+          'siteUrl': 'https://www.hangbug.com',
+        },
+        'audit': {
+          'pagesScanned': 25,
+          'issues': [
+            {
+              'id': 'empty_tech_categories_opportunity',
+              'title': 'Technology Tracks Ready for Quiz Questions & Landing Guides',
+              'bucket': 'opportunity',
+              'severity': 'Low',
+              'status': 'Needs attention',
+              'type': 'content',
+              'whatIsIssue':
+                  '5 enabled category record(s) in MongoDB currently have 0 quiz questions.',
+              'whyItMatters': 'Capture search demand.',
+              'affectedUrls': [
+                {
+                  'url': '/technologies',
+                  'label': 'Angular (/technologies)',
+                  'detail': 'Category "Angular" has 0 questions',
+                },
+                {
+                  'url': '/technologies',
+                  'label': 'Bootstrap (/technologies)',
+                  'detail': 'Category "Bootstrap" has 0 questions',
+                },
+                {
+                  'url': '/technologies/css',
+                  'label': 'CSS (/technologies/css)',
+                  'detail': 'Category "CSS" has 0 questions',
+                },
+                {
+                  'url': '/technologies',
+                  'label': 'Django (/technologies)',
+                  'detail': 'Category "Django" has 0 questions',
+                },
+                {
+                  'url': '/technologies/flutter',
+                  'label': 'Flutter (/technologies/flutter)',
+                  'detail': 'Category "Flutter" has 0 questions',
+                },
+              ],
+              'affectedCount': 5,
+              'recommendedAction': 'Add quiz questions.',
+              'howToFix': 'Populate questions.',
+              'source': 'MongoDB Categories & Questions',
+            },
+          ],
+        },
+      },
+    });
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.lightTheme,
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: SeoAuditTab(
+              data: payload,
+              isAuditing: false,
+              onRunAudit: () {},
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('Affected URLs:'), findsOneWidget);
+    expect(find.text('Angular (/technologies)'), findsOneWidget);
+    expect(find.text('Bootstrap (/technologies)'), findsOneWidget);
+    expect(find.text('CSS (/technologies/css)'), findsOneWidget);
+    expect(find.text('Django (/technologies)'), findsOneWidget);
+    expect(find.text('+1 more'), findsOneWidget);
+    expect(find.text('/technologies'), findsNothing);
   });
 }

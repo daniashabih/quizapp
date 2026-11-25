@@ -16,11 +16,14 @@ class TermsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'HangBug Terms of Service',
-              style: AppTextStyles.displaySmall.copyWith(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            Semantics(
+              header: true,
+              child: Text(
+                'HangBug Platform Terms & Conditions of Service',
+                style: AppTextStyles.displaySmall.copyWith(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 6),

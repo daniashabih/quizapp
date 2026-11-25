@@ -205,10 +205,13 @@ export function usePageSeo({
             (Boolean(resolvedCanonicalPath) || schemaType === 'ProfilePage' || Boolean(article));
 
         if (shouldEmitSchema) {
+            const schemaCanonicalPath =
+                resolvedCanonicalPath ||
+                (schemaType === 'ProfilePage' ? '/dashboard/profile' : '/');
             const jsonLd = buildPageStructuredData({
                 title,
                 description,
-                canonicalPath: resolvedCanonicalPath || '/',
+                canonicalPath: schemaCanonicalPath,
                 ogImage: imageToUse,
                 schemaType,
                 breadcrumbs,

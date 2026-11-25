@@ -19,19 +19,19 @@ import SeoAiVisibilitySection from '../../components/seo/SeoAiVisibilitySection'
 import SeoCompetitorsSection from '../../components/seo/SeoCompetitorsSection';
 import SeoRecommendationsSection from '../../components/seo/SeoRecommendationsSection';
 import SeoSettingsSection from '../../components/seo/SeoSettingsSection';
-import { SEO_NAV_ITEMS } from '../../components/seo/seoUtils';
+import { SEO_NAV_ITEMS, getSeoSectionTitle } from '../../components/seo/seoUtils';
 
 export default function SeoDashboard() {
-    usePageSeo({
-        title: 'SEO & Growth Studio — Hangbug',
-        noindex: true
-    });
-
     const { section } = useParams();
     const navigate = useNavigate();
 
     const validSection = SEO_NAV_ITEMS.some(item => item.id === section) ? section : 'overview';
     const [activeSection, setActiveSection] = useState(validSection);
+
+    usePageSeo({
+        title: getSeoSectionTitle(activeSection),
+        noindex: true
+    });
     const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
     const [domain, setDomain] = useState('www.hangbug.com');

@@ -24,7 +24,7 @@ import {
 import { toast } from '../../services/notificationService';
 import { useAuth } from '../../context/AuthContext';
 import usePageSeo from '../../hooks/usePageSeo';
-import { resolveGameTechnologyGuide } from '../../config/seoPagesConfig';
+import { resolveGameTechnologyGuide, formatGameSeoTitle } from '../../config/seoPagesConfig';
 import gameService, { FALLBACK_GAMES, FALLBACK_TECHNOLOGIES } from '../../services/gameService';
 import TechIcon from './components/TechIcon';
 import gameAudio from '../../utils/gameAudio';
@@ -126,14 +126,20 @@ export const GamePlayer = () => {
     usePageSeo({
         skip: loading && !seoGame,
         title: seoGame
-            ? `${seoGame.title} — ${seoGame.category === 'Typing Games' ? 'Developer Typing Challenge' : 'Interactive Coding Game'} | Hangbug`
-            : 'Developer Game Challenge — Hangbug Games',
+            ? formatGameSeoTitle(seoGame.title, seoGame.category)
+            : 'Play Developer Coding & Typing Games Online | Hangbug',
         description: seoGame?.description
             ? `${seoGame.description} Practice interactive coding challenges on Hangbug.`
             : 'Play interactive coding and typing games on Hangbug to sharpen programming logic and keyboard speed.',
         canonicalPath: canonicalGameSlug ? `/games/${canonicalGameSlug}` : undefined,
         noindex: !seoGame,
         disableStructuredData: !seoGame,
+        schemaType: 'WebPage',
+        breadcrumbs: canonicalGameSlug && seoGame ? [
+            { name: 'Home', path: '/' },
+            { name: 'Games', path: '/games' },
+            { name: seoGame.title, path: `/games/${canonicalGameSlug}` }
+        ] : undefined,
         includeApplicationSchema: Boolean(canonicalGameSlug),
         softwareApplication: canonicalGameSlug && seoGame ? {
             slug: canonicalGameSlug,
@@ -446,7 +452,7 @@ export const GamePlayer = () => {
         );
     }
 
-    const activeGame = game || fallbackGame;
+    const activeGame = matchedGame || fallbackGame;
     if (!activeGame) return <NotFound />;
 
     const isTyping = activeGame.category === 'Typing Games';
@@ -473,7 +479,12 @@ export const GamePlayer = () => {
                         </Link>
                         <div>
                             <div className="flex items-center gap-2">
-                                <h1 className="text-base sm:text-lg font-black tracking-tight">{activeGame.title}</h1>
+                                <h1 className="text-base sm:text-lg font-black tracking-tight flex items-center gap-1.5 min-w-0">
+                                    <span className="truncate">{activeGame.title}</span>
+                                    <span className="hidden sm:inline text-xs font-semibold text-[var(--foreground-muted)] whitespace-nowrap">
+                                        — {activeGame.category === 'Typing Games' ? 'Developer Typing Practice' : 'Interactive Coding Challenge'}
+                                    </span>
+                                </h1>
                                 {activeGame.badge && (
                                     <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                                         {activeGame.badge}

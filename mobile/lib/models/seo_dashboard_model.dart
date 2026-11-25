@@ -202,14 +202,32 @@ class SeoKeywordRow {
 class SeoAffectedUrl {
   final String url;
   final String detail;
+  final String label;
 
-  const SeoAffectedUrl({required this.url, this.detail = ''});
+  const SeoAffectedUrl({
+    required this.url,
+    this.detail = '',
+    this.label = '',
+  });
+
+  String get displayLabel {
+    if (label.isNotEmpty) return label;
+    if (url == '/technologies' && detail.isNotEmpty) {
+      final match = RegExp(r'Category\s+"([^"]+)"', caseSensitive: false)
+          .firstMatch(detail);
+      if (match != null && (match.group(1) ?? '').isNotEmpty) {
+        return '${match.group(1)} ($url)';
+      }
+    }
+    return url;
+  }
 
   factory SeoAffectedUrl.fromJson(dynamic raw) {
-    if (raw is Map<String, dynamic>) {
+    if (raw is Map) {
       return SeoAffectedUrl(
         url: raw['url']?.toString() ?? '',
         detail: raw['detail']?.toString() ?? '',
+        label: raw['label']?.toString() ?? '',
       );
     }
     return SeoAffectedUrl(url: raw?.toString() ?? '');

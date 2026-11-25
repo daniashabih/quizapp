@@ -7,7 +7,7 @@ import usePageSeo from '../hooks/usePageSeo';
 
 export default function NotFound() {
     usePageSeo({
-        title: '404: Page Not Found — HangBug',
+        title: '404 Page Not Found — Hangbug Programming Quizzes',
         description: "The page you are looking for doesn't exist, has been removed, or was moved to another URL.",
         noindex: true,
         disableStructuredData: true
@@ -27,12 +27,12 @@ export default function NotFound() {
 
                     {/* 404 Big Display */}
                     <div className="space-y-2">
-                        <h1 className="text-6xl sm:text-7xl font-display font-black tracking-tight text-[var(--foreground)]">
+                        <p aria-hidden="true" className="text-6xl sm:text-7xl font-display font-black tracking-tight text-[var(--foreground)]">
                             404
+                        </p>
+                        <h1 className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)]">
+                            Oops! Lost in the Code? — Page Could Not Be Found
                         </h1>
-                        <h2 className="text-xl sm:text-2xl font-display font-bold text-[var(--foreground)]">
-                            Oops! Lost in the Code?
-                        </h2>
                         <p className="text-xs sm:text-sm text-[var(--foreground-muted)] max-w-sm mx-auto leading-relaxed">
                             The page or resource you are trying to access does not exist, has been moved, or is temporarily unavailable.
                         </p>

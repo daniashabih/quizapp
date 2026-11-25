@@ -1,4 +1,5 @@
 const Question = require('../_models/questionModel');
+const Category = require('../_models/categoryModel');
 const prisma = require('../_config/prisma');
 const {
     getRuntimeSettings,
@@ -24,7 +25,7 @@ const { PROCESSING_STATUSES } = require('../_services/bookProcessingService');
  */
 const generateQuestions = async (req, res) => {
     try {
-        const { topic, count = 5, session = 1 } = req.body || {};
+        const { topic, count = 5, session = 1, difficulty = 'mixed' } = req.body || {};
         const cleanTopic = String(topic || '').trim();
         const sessionNum = Math.max(1, parseInt(session, 10) || 1);
 
@@ -39,19 +40,27 @@ const generateQuestions = async (req, res) => {
             });
         }
 
+        // Preserve canonical DB category casing when generating for an existing technology track
+        const existingCat = await Category.findByName(cleanTopic).catch(() => null);
+        const canonicalTopic = existingCat && !/^(mem_)?cat_/.test(String(existingCat.id || ''))
+            ? existingCat.name
+            : cleanTopic;
+
         const generated = await generateQuizQuestions({
-            topic: cleanTopic,
+            topic: canonicalTopic,
             count,
-            session: sessionNum
+            session: sessionNum,
+            difficulty
         });
 
         const questions = Array.isArray(generated.questions) ? generated.questions : [];
         const savedIds = [];
         const seenNorm = new Set();
+        const ensuredCategories = new Set();
         let skippedDuplicates = 0;
 
         for (const q of questions) {
-            const targetCategory = q.category || cleanTopic;
+            const targetCategory = canonicalTopic || q.category || cleanTopic;
             const normText = Question.normalizeQuestionText(q.question_text);
             if (!normText || seenNorm.has(normText)) {
                 skippedDuplicates++;
@@ -65,10 +74,18 @@ const generateQuestions = async (req, res) => {
                 skippedDuplicates++;
                 continue;
             }
+            if (!ensuredCategories.has(targetCategory.toLowerCase())) {
+                const catCheck = await Category.findByName(targetCategory).catch(() => null);
+                if (!catCheck || /^(mem_)?cat_/.test(String(catCheck.id || ''))) {
+                    await Category.create(targetCategory).catch(() => {});
+                }
+                ensuredCategories.add(targetCategory.toLowerCase());
+            }
             const id = await Question.create({
                 ...q,
                 category: targetCategory,
-                session: sessionNum
+                session: sessionNum,
+                difficulty: q.difficulty || (difficulty && difficulty !== 'mixed' ? difficulty : '')
             });
             seenNorm.add(normText);
             savedIds.push(id);
@@ -76,10 +93,11 @@ const generateQuestions = async (req, res) => {
 
         res.json({
             message: skippedDuplicates > 0
-                ? `Successfully generated ${savedIds.length} questions (${skippedDuplicates} duplicate(s) skipped)`
-                : `Successfully generated ${savedIds.length} questions`,
+                ? `Successfully generated ${savedIds.length} questions for ${canonicalTopic} (${skippedDuplicates} duplicate(s) skipped)`
+                : `Successfully generated ${savedIds.length} questions for ${canonicalTopic}`,
             count: savedIds.length,
             skipped: skippedDuplicates,
+            category: canonicalTopic,
             provider: generated.provider,
             model: generated.modelUsed
         });

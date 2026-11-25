@@ -13,6 +13,25 @@ export const SEO_NAV_ITEMS = [
     { id: 'settings', label: 'Settings' }
 ];
 
+export const SEO_SECTION_TITLES = {
+    overview: 'SEO Overview & Organic Growth Studio — Hangbug',
+    'search-performance': 'SEO Search Performance Analytics — Hangbug Studio',
+    keywords: 'SEO Keyword Research & Topic Rankings — Hangbug',
+    audit: 'SEO Website Technical & On-Page Audit — Hangbug',
+    indexing: 'SEO Page Indexing & Coverage Monitor — Hangbug',
+    content: 'SEO Content Quality & Heading Analysis — Hangbug',
+    technical: 'SEO Technical Core Web Vitals & Schema — Hangbug',
+    backlinks: 'SEO Backlink Authority & Domain Profile — Hangbug',
+    'ai-visibility': 'SEO AI Search Visibility & Citations — Hangbug',
+    competitors: 'SEO Competitor Benchmarking & Gap Analysis — Hangbug',
+    recommendations: 'SEO Actionable Growth Recommendations — Hangbug',
+    settings: 'SEO Dashboard Integrations & Settings — Hangbug'
+};
+
+export function getSeoSectionTitle(section = 'overview') {
+    return SEO_SECTION_TITLES[section] || SEO_SECTION_TITLES.overview;
+}
+
 export function getStatusBadgeClasses(status = '') {
     const s = String(status || '').toLowerCase();
     if (s === 'critical') {
@@ -78,4 +97,19 @@ export function getScoreTierInfo(score = 0) {
         stroke: '#C96155',
         bgClass: 'bg-[#FCEEED] text-[#B91C1C] dark:bg-red-950/60 dark:text-red-300'
     };
+}
+
+export function formatAffectedUrlLabel(item) {
+    if (!item) return '';
+    if (typeof item === 'string') return item;
+    if (item.label) return item.label;
+    const url = item.url || '';
+    const detail = item.detail || '';
+    if (url === '/technologies' && detail) {
+        const match = detail.match(/Category\s+"([^"]+)"/i);
+        if (match && match[1]) {
+            return `${match[1]} (${url})`;
+        }
+    }
+    return url;
 }

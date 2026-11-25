@@ -97,8 +97,8 @@ void showSeoIssueDetailSheet(BuildContext context, SeoAuditIssue issue) {
                             ? 'No affected pages — check passed.'
                             : issue.affectedUrls
                                 .map((u) => u.detail.isNotEmpty
-                                    ? '${u.url} — ${u.detail}'
-                                    : u.url)
+                                    ? '${u.displayLabel} — ${u.detail}'
+                                    : u.displayLabel)
                                 .join('\n'),
                         isMonospace: issue.affectedUrls.isNotEmpty,
                       ),

@@ -27,8 +27,8 @@ export default function CertificateView() {
     usePageSeo({
         title: 'Verify Developer Certificate — Hangbug Skill Verification',
         description: 'Verify the authentic developer credentials, test scores, and issue dates of Hangbug skill assessment certificates.',
-        canonicalPath: '/certificate/view',
-        noindex: true
+        noindex: true,
+        disableStructuredData: true
     });
 
     useEffect(() => {
@@ -95,7 +95,7 @@ export default function CertificateView() {
                 <Navbar />
                 <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
                     <Loader2 size={36} className="animate-spin text-[#193D35] mb-3" />
-                    <p className="text-sm font-semibold text-[var(--foreground-muted)]">Verifying certificate authentic credentials...</p>
+                    <h1 className="text-sm font-semibold text-[var(--foreground-muted)]">Verifying Developer Certificate Credentials</h1>
                 </div>
                 <Footer />
             </div>
@@ -109,7 +109,7 @@ export default function CertificateView() {
                 <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
                     <div className="p-8 rounded-3xl card border border-red-500/20 max-w-md w-full space-y-4">
                         <AlertCircle size={40} className="text-red-500 mx-auto" />
-                        <h1 className="text-xl font-display font-bold text-[var(--foreground)]">Invalid Certificate</h1>
+                        <h1 className="text-xl font-display font-bold text-[var(--foreground)]">Invalid or Unverified Developer Certificate</h1>
                         <p className="text-xs text-[var(--foreground-muted)]">{certError}</p>
                         <Link to="/" className="btn-primary text-xs py-2.5 justify-center">Return to Home</Link>
                     </div>
@@ -152,7 +152,7 @@ export default function CertificateView() {
                             <BrandLogo variant="mark" size="lg" className="mx-auto mb-4" />
                             <div className="w-24 h-1 bg-[#D19A45] mx-auto mb-6 rounded-full" />
                             <h1 className="px-4 py-1.5 rounded-full text-xs font-bold bg-[#F3E5C5] text-[#193D35] border border-[#E2D0A6] uppercase tracking-widest inline-block">
-                                Certificate of Completion
+                                Hangbug Certificate of Completion — Verified Developer Credential
                             </h1>
                         </div>
 
