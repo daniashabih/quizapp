@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     Play,
     RefreshCw,
@@ -8,7 +9,9 @@ import {
     AlertTriangle,
     Lightbulb,
     CheckCircle2,
-    ShieldCheck
+    ShieldCheck,
+    Sparkles,
+    BookOpen
 } from 'lucide-react';
 import { formatSeoTimestamp, getStatusBadgeClasses, formatAffectedUrlLabel } from './seoUtils';
 
@@ -189,13 +192,31 @@ export default function SeoAuditSection({ data, isAuditing, onRunAudit, onInspec
                                         {issue.whatIsIssue} {issue.whyItMatters}
                                     </p>
                                 </div>
-                                <div className="p-3 rounded-xl bg-[#E5F2EC]/50 dark:bg-[#1F352E]/50">
-                                    <span className="block text-[10px] font-bold uppercase tracking-wider text-[#193D35] dark:text-emerald-300 mb-1">
-                                        Recommended Fix
-                                    </span>
-                                    <p className="text-[#17221F] dark:text-[#B8CEC5] leading-relaxed">
-                                        {issue.recommendedAction}
-                                    </p>
+                                <div className="p-3 rounded-xl bg-[#E5F2EC]/50 dark:bg-[#1F352E]/50 flex flex-col justify-between gap-2.5">
+                                    <div>
+                                        <span className="block text-[10px] font-bold uppercase tracking-wider text-[#193D35] dark:text-emerald-300 mb-1">
+                                            Recommended Fix
+                                        </span>
+                                        <p className="text-[#17221F] dark:text-[#B8CEC5] leading-relaxed">
+                                            {issue.recommendedAction}
+                                        </p>
+                                    </div>
+                                    {issue.id === 'empty_tech_categories_opportunity' && (
+                                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                                            <Link
+                                                to="/admin?tab=ai&count=15"
+                                                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#193D35] hover:bg-[#2F806B] text-white text-[11px] font-semibold transition-colors"
+                                            >
+                                                <Sparkles size={11} /> Open AI Generator
+                                            </Link>
+                                            <Link
+                                                to="/admin?tab=questions"
+                                                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832] hover:border-[#2F806B] text-[#193D35] dark:text-emerald-300 text-[11px] font-semibold transition-colors"
+                                            >
+                                                <BookOpen size={11} /> Questions Bank
+                                            </Link>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 

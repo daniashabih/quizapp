@@ -16,7 +16,7 @@ import AdminKnowledgeBase from './components/AdminKnowledgeBase';
 import AdminVerificationReports from './components/AdminVerificationReports';
 import AdminAiControls from './components/AdminAiControls';
 import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import dashboardService from '../../services/dashboardService';
 import settingsService from '../../services/settingsService';
 import usePageSeo from '../../hooks/usePageSeo';
@@ -50,8 +50,9 @@ const AdminDashboard = () => {
     });
     const { user } = useAuth();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
-    const [activeTab, setActiveTab] = useState('overview');
+    const [activeTab, setActiveTab] = useState(() => searchParams.get('tab') || 'overview');
     const [period, setPeriod] = useState('30d');
 
     // Analytics State
@@ -97,11 +98,18 @@ const AdminDashboard = () => {
     const [newCategory, setNewCategory] = useState('');
     const [editingCategoryId, setEditingCategoryId] = useState(null);
 
-    // AI Generation State
-    const [aiTopic, setAiTopic] = useState('');
+    // AI Generation & Tech Coverage State
+    const [aiTopic, setAiTopic] = useState(() => searchParams.get('topic') || '');
     const [aiSession, setAiSession] = useState(1);
-    const [aiCount, setAiCount] = useState(5);
+    const [aiCount, setAiCount] = useState(() => {
+        const raw = parseInt(searchParams.get('count') || '5', 10);
+        return [3, 5, 10, 15, 20].includes(raw) ? raw : 5;
+    });
+    const [aiDifficulty, setAiDifficulty] = useState('mixed');
     const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+    const [coverageSummary, setCoverageSummary] = useState(null);
+    const [isSeedingHighDemand, setIsSeedingHighDemand] = useState(false);
+    const [seedingCategoryName, setSeedingCategoryName] = useState(null);
 
     const fetchSettings = useCallback(async () => {
         setLoadingSettings(true);
@@ -161,6 +169,17 @@ const AdminDashboard = () => {
         }
     };
 
+    const fetchQuestionCoverage = useCallback(async () => {
+        try {
+            const res = await axios.get('/admin/questions/coverage');
+            if (res.data?.success) {
+                setCoverageSummary(res.data);
+            }
+        } catch {
+            // Optional admin coverage helper; fallback gracefully to categories state
+        }
+    }, []);
+
     const fetchUsers = async () => {
         try {
             const res = await axios.get('/auth/users');
@@ -181,8 +200,38 @@ const AdminDashboard = () => {
         fetchAnalytics();
         fetchQuestions();
         fetchCategories();
+        fetchQuestionCoverage();
         if (activeTab === 'users') fetchUsers();
-    }, [user, navigate, activeTab, fetchAnalytics, fetchSettings]);
+    }, [user, navigate, activeTab, fetchAnalytics, fetchSettings, fetchQuestionCoverage]);
+
+    useEffect(() => {
+        const tabParam = searchParams.get('tab');
+        const topicParam = searchParams.get('topic');
+        const countParam = searchParams.get('count');
+        const categoryParam = searchParams.get('category');
+        const openNewParam = searchParams.get('openNew');
+
+        if (tabParam) {
+            setActiveTab(tabParam);
+        }
+        if (topicParam) {
+            setAiTopic(topicParam);
+        }
+        if (countParam) {
+            const parsedCount = parseInt(countParam, 10);
+            if ([3, 5, 10, 15, 20].includes(parsedCount)) {
+                setAiCount(parsedCount);
+            }
+        }
+        if (categoryParam) {
+            setSelectedCategoryFilter(categoryParam);
+            setCategory(categoryParam);
+        }
+        if (openNewParam === '1' || openNewParam === 'true') {
+            setEditingQuestionId(null);
+            setIsFormOpen(true);
+        }
+    }, [searchParams]);
 
     const handleSaveQuizOptions = async (e) => {
         e.preventDefault();
@@ -195,7 +244,7 @@ const AdminDashboard = () => {
         }
     };
 
-    const openQuestionModal = (question = null) => {
+    const openQuestionModal = (question = null, overrideCategory = null) => {
         if (question) {
             setEditingQuestionId(question.id);
             setCategory(question.category);
@@ -205,7 +254,6 @@ const AdminDashboard = () => {
             if (typeof parsedOptions === 'string') {
                 try { parsedOptions = JSON.parse(parsedOptions); } catch { parsedOptions = ['', '', '', '']; }
             }
-            setOptions(Array.isArray(parsedOptions) && parsedOptions.length >= 2 ? parsedOptions : ['', '', '', '']);
             const safeOptions = Array.isArray(parsedOptions) && parsedOptions.length >= 2 ? parsedOptions : ['', '', '', ''];
             setOptions(safeOptions);
             const rawCorrect = String(question.correct_answer || '').trim();
@@ -235,7 +283,11 @@ const AdminDashboard = () => {
             setOptions(['', '', '', '']);
             setCorrectAnswer('');
             setExplanation('');
-            if (categories.length > 0) setCategory(categories[0].name);
+            if (overrideCategory) {
+                setCategory(overrideCategory);
+            } else if (categories.length > 0) {
+                setCategory(categories[0].name);
+            }
         }
         setIsFormOpen(true);
     };
@@ -294,6 +346,7 @@ const AdminDashboard = () => {
             setIsFormOpen(false);
             fetchQuestions();
             fetchCategories();
+            fetchQuestionCoverage();
             fetchAnalytics();
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to save question.");
@@ -312,6 +365,8 @@ const AdminDashboard = () => {
                     await axios.delete(`/questions/${id}`);
                     toast.success("Question deleted.");
                     fetchQuestions();
+                    fetchCategories();
+                    fetchQuestionCoverage();
                     fetchAnalytics();
                 } catch (err) {
                     const msg = err.response?.data?.message || "Failed to delete question.";
@@ -336,6 +391,7 @@ const AdminDashboard = () => {
             setNewCategory('');
             setEditingCategoryId(null);
             await fetchCategories();
+            fetchQuestionCoverage();
             fetchAnalytics();
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to save category.");
@@ -370,6 +426,7 @@ const AdminDashboard = () => {
             await Promise.all([
                 fetchCategories(),
                 fetchQuestions(),
+                fetchQuestionCoverage(),
                 fetchAnalytics()
             ]);
         } catch (err) {
@@ -435,6 +492,7 @@ const AdminDashboard = () => {
             await axios.put(`/categories/${cat.id}`, { isEnabled: nextStatus });
             toast.success(`Category "${cat.name}" is now ${nextStatus ? 'active' : 'disabled'}.`);
             await fetchCategories();
+            fetchQuestionCoverage();
         } catch (err) {
             toast.error(err.response?.data?.message || "Failed to update category status.");
         }
@@ -448,10 +506,13 @@ const AdminDashboard = () => {
             const res = await axios.post('/questions/generate', {
                 topic: aiTopic,
                 session: parseInt(aiSession, 10) || 1,
-                count: Number(aiCount)
+                count: Number(aiCount),
+                difficulty: aiDifficulty
             });
             toast.success(res.data.message || `Generated ${aiCount} questions for ${aiTopic}!`);
             fetchQuestions();
+            fetchCategories();
+            fetchQuestionCoverage();
             fetchAnalytics();
             setActiveTab('questions');
         } catch (err) {
@@ -459,6 +520,41 @@ const AdminDashboard = () => {
         } finally {
             setIsGeneratingAi(false);
         }
+    };
+
+    const handleSeedHighDemand = async (targetCategories = null) => {
+        const isSingle = Array.isArray(targetCategories) && targetCategories.length === 1;
+        setIsSeedingHighDemand(true);
+        setSeedingCategoryName(isSingle ? targetCategories[0] : 'ALL');
+        try {
+            const res = await axios.post('/admin/questions/seed-high-demand', {
+                ...(Array.isArray(targetCategories) && targetCategories.length > 0
+                    ? { categories: targetCategories, onlyEmpty: false }
+                    : { onlyEmpty: true })
+            });
+            toast.success(res.data?.message || 'High-demand quiz questions populated!');
+            await Promise.all([
+                fetchQuestions(),
+                fetchCategories(),
+                fetchQuestionCoverage(),
+                fetchAnalytics()
+            ]);
+            if (isSingle) {
+                setSelectedCategoryFilter(targetCategories[0]);
+            }
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Failed to populate starter questions.');
+        } finally {
+            setIsSeedingHighDemand(false);
+            setSeedingCategoryName(null);
+        }
+    };
+
+    const launchAiGeneratorForTopic = (topicName, recommendedCount = 15) => {
+        setAiTopic(topicName);
+        setAiSession(1);
+        setAiCount(recommendedCount);
+        setActiveTab('ai');
     };
 
     const handleImportQuestions = async (e) => {
@@ -476,6 +572,7 @@ const AdminDashboard = () => {
             setImportFile(null);
             fetchQuestions();
             fetchCategories();
+            fetchQuestionCoverage();
             fetchAnalytics();
         } catch (error) {
             toast.error(error.response?.data?.message || "Import failed.");
@@ -960,6 +1057,89 @@ const AdminDashboard = () => {
 
             {activeTab === 'questions' && (
                 <div className="space-y-4">
+                    {/* High-Demand Technology Coverage & Quick Gap Filler */}
+                    {(() => {
+                        const emptyList = coverageSummary?.emptyCategories
+                            || categories.filter(c => c.isEnabled !== false && Number(c.questionCount || 0) === 0);
+                        const seedableEmpty = emptyList.filter(c => c.hasStarterPack !== false && c.starterPackName);
+                        if (!emptyList || emptyList.length === 0) return null;
+                        return (
+                            <div className="card p-4 rounded-2xl border border-[#BBE0CE] dark:border-[#2A3832] bg-[#E5F2EC]/45 dark:bg-[#193D35]/20 space-y-3">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                    <div>
+                                        <div className="flex items-center gap-2">
+                                            <Sparkles size={15} className="text-[#193D35] dark:text-emerald-300" />
+                                            <h3 className="text-xs sm:text-sm font-display font-bold text-[#17221F] dark:text-[#F3F6F4]">
+                                                {emptyList.length} Enabled Technology Track(s) Have 0 Questions
+                                            </h3>
+                                        </div>
+                                        <p className="text-[11px] text-[var(--foreground-muted)] mt-0.5">
+                                            Populate curated 25-question verified packs or jump straight into AI Generator / New Question for any empty track.
+                                        </p>
+                                    </div>
+                                    {seedableEmpty.length > 0 && (
+                                        <button
+                                            type="button"
+                                            disabled={isSeedingHighDemand}
+                                            onClick={() => handleSeedHighDemand()}
+                                            className="btn-primary text-xs py-2 px-3.5 shrink-0 cursor-pointer"
+                                        >
+                                            {isSeedingHighDemand && seedingCategoryName === 'ALL' ? (
+                                                <><RefreshCw size={13} className="animate-spin" /> Populating...</>
+                                            ) : (
+                                                <><Sparkles size={13} /> Populate {seedableEmpty.length} High-Demand Tracks</>
+                                            )}
+                                        </button>
+                                    )}
+                                </div>
+                                <div className="flex flex-wrap gap-2">
+                                    {emptyList.slice(0, 18).map((c) => {
+                                        const hasPack = Boolean(c.hasStarterPack && c.starterPackName);
+                                        const isBusy = isSeedingHighDemand && seedingCategoryName === c.name;
+                                        return (
+                                            <div
+                                                key={c.id || c.name}
+                                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] text-[11px]"
+                                            >
+                                                <span className="font-bold text-[var(--foreground)]">{c.name}</span>
+                                                <span className="px-1.5 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 text-[10px] font-bold">
+                                                    0 Qs
+                                                </span>
+                                                {hasPack && (
+                                                    <button
+                                                        type="button"
+                                                        disabled={isSeedingHighDemand}
+                                                        onClick={() => handleSeedHighDemand([c.starterPackName || c.name])}
+                                                        className="px-2 py-0.5 rounded-lg bg-[#193D35] hover:bg-[#2F806B] text-white font-semibold cursor-pointer"
+                                                        title={`Insert ${c.starterPackCount || 25} verified ${c.name} questions`}
+                                                    >
+                                                        {isBusy ? '...' : `+${c.starterPackCount || 25} Pack`}
+                                                    </button>
+                                                )}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => launchAiGeneratorForTopic(c.name, 15)}
+                                                    className="px-2 py-0.5 rounded-lg bg-[#E5F2EC] dark:bg-[#1F352E] text-[#193D35] dark:text-emerald-300 font-semibold hover:opacity-85 cursor-pointer"
+                                                    title={`Generate ${c.name} questions with AI`}
+                                                >
+                                                    AI
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => openQuestionModal(null, c.name)}
+                                                    className="px-1.5 py-0.5 rounded-lg border border-[var(--card-border)] text-[var(--foreground-muted)] hover:text-[var(--foreground)] font-semibold cursor-pointer"
+                                                    title={`Add manual question to ${c.name}`}
+                                                >
+                                                    +1
+                                                </button>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        );
+                    })()}
+
                     {/* Search, Category & Session Filter Bar */}
                     <div className="card p-3.5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs border border-[var(--card-border)] bg-[var(--card-bg)]">
                         <div className="flex flex-wrap items-center gap-2.5 flex-1">
@@ -1389,19 +1569,60 @@ const AdminDashboard = () => {
                     </div>
 
                     <form onSubmit={handleGenerateAiQuestions} className="space-y-4">
+                        {(() => {
+                            const gapTracks = (coverageSummary?.emptyCategories || categories.filter(c => c.isEnabled !== false && Number(c.questionCount || 0) === 0))
+                                .slice(0, 16);
+                            const lowTracks = (coverageSummary?.lowCoverageCategories || categories.filter(c => c.isEnabled !== false && Number(c.questionCount || 0) > 0 && Number(c.questionCount || 0) < 15))
+                                .slice(0, 6);
+                            const quickTracks = [...gapTracks, ...lowTracks];
+                            if (quickTracks.length === 0) return null;
+                            return (
+                                <div className="p-3.5 rounded-xl bg-[#E5F2EC]/55 dark:bg-[#193D35]/20 border border-[#BBE0CE] dark:border-[#2A3832] space-y-2">
+                                    <div className="flex items-center justify-between gap-2">
+                                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#193D35] dark:text-emerald-300">
+                                            High-Demand Tracks Needing Questions
+                                        </span>
+                                        <span className="text-[10px] text-[var(--foreground-muted)]">Click a track to auto-fill</span>
+                                    </div>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {quickTracks.map((t) => {
+                                            const selected = aiTopic.trim().toLowerCase() === String(t.name || '').trim().toLowerCase();
+                                            return (
+                                                <button
+                                                    key={t.id || t.name}
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setAiTopic(t.name);
+                                                        if (aiCount < 15) setAiCount(15);
+                                                    }}
+                                                    className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-colors cursor-pointer ${
+                                                        selected
+                                                            ? 'bg-[#193D35] text-white border-[#193D35]'
+                                                            : 'bg-[var(--card-bg)] text-[var(--foreground)] border-[var(--card-border)] hover:border-[#2F806B]'
+                                                    }`}
+                                                >
+                                                    {t.name} ({t.questionCount || 0})
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            );
+                        })()}
+
                         <div className="space-y-1.5">
                             <label className="input-label">Target Category / Topic</label>
                             <input
                                 type="text"
                                 value={aiTopic}
                                 onChange={(e) => setAiTopic(e.target.value)}
-                                placeholder="e.g. JavaScript Async/Await, Python Data Structures, SQL Joins..."
+                                placeholder="e.g. TypeScript, Next.js, Docker, SQL, Laravel, Flutter..."
                                 className="input-field text-xs py-2.5"
                                 required
                             />
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div className="space-y-1.5">
                                 <label className="input-label">Session Number</label>
                                 <input
@@ -1423,8 +1644,24 @@ const AdminDashboard = () => {
                                     className="input-field text-xs py-2.5"
                                 >
                                     <option value={3}>3 Questions</option>
-                                    <option value={5}>5 Questions (Recommended)</option>
+                                    <option value={5}>5 Questions</option>
                                     <option value={10}>10 Questions</option>
+                                    <option value={15}>15 Questions (SEO Recommended)</option>
+                                    <option value={20}>20 Questions (Full Track)</option>
+                                </select>
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <label className="input-label">Difficulty</label>
+                                <select
+                                    value={aiDifficulty}
+                                    onChange={(e) => setAiDifficulty(e.target.value)}
+                                    className="input-field text-xs py-2.5"
+                                >
+                                    <option value="mixed">Mixed (Beginner to Expert)</option>
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="expert">Expert</option>
                                 </select>
                             </div>
                         </div>

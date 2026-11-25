@@ -17,6 +17,9 @@ export default function SeoContentSection({ data, onNavigate }) {
     const needsImprovement = content.contentNeedingImprovement || [];
     const missingMeta = content.missingMetaDescriptions || [];
     const titleIssues = content.duplicateOrMissingTitles || [];
+    const techCoverage = Array.isArray(content.technologyCoverage) ? content.technologyCoverage : [];
+    const emptyTechTracks = techCoverage.filter(c => c.isEnabled !== false && Number(c.questionCount || 0) === 0);
+    const populatedTechTracks = techCoverage.filter(c => c.isEnabled !== false && Number(c.questionCount || 0) > 0);
 
     return (
         <div className="space-y-6 animate-fade-up">
@@ -254,6 +257,74 @@ export default function SeoContentSection({ data, onNavigate }) {
                     )}
                 </div>
             </div>
+
+            {/* Technology Quiz Track Coverage */}
+            {techCoverage.length > 0 && (
+                <div className="bg-white dark:bg-[#18221E] rounded-2xl border border-[#E4EAE6] dark:border-[#2A3832] p-5 space-y-4">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <h3 className="text-sm font-display font-bold text-[#17221F] dark:text-[#F3F6F4]">
+                                Technology Track Quiz Coverage ({populatedTechTracks.length} Populated · {emptyTechTracks.length} Empty)
+                            </h3>
+                            <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">
+                                Enabled MongoDB categories and live quiz question counts. Populate 0-question tracks via Questions Bank or AI Generator.
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Link
+                                to="/admin?tab=questions"
+                                className="px-3 py-1.5 rounded-xl border border-[#E4EAE6] dark:border-[#2A3832] bg-[#F7F8F6] dark:bg-[#141D19] text-xs font-semibold text-[#193D35] dark:text-emerald-300 hover:border-[#2F806B]"
+                            >
+                                Questions Bank
+                            </Link>
+                            <Link
+                                to="/admin?tab=ai&count=15"
+                                className="px-3 py-1.5 rounded-xl bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold"
+                            >
+                                AI Generator
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 text-xs">
+                        {techCoverage.filter(c => c.isEnabled !== false).map((cat) => {
+                            const count = Number(cat.questionCount || 0);
+                            const isEmpty = count === 0;
+                            const isLow = count > 0 && count < 15;
+                            return (
+                                <div
+                                    key={cat.id || cat.name}
+                                    className={`p-3 rounded-xl border flex flex-col justify-between gap-2 ${
+                                        isEmpty
+                                            ? 'bg-[#FEF5E7]/70 dark:bg-amber-950/25 border-[#F8DFB6] dark:border-amber-800/40'
+                                            : isLow
+                                                ? 'bg-[#F7F8F6] dark:bg-[#141D19] border-[#E4EAE6] dark:border-[#2A3832]'
+                                                : 'bg-[#E5F2EC]/45 dark:bg-[#1F352E]/40 border-[#BBE0CE] dark:border-[#2A3832]'
+                                    }`}
+                                >
+                                    <div className="min-w-0">
+                                        <p className="font-semibold text-[#17221F] dark:text-[#F3F6F4] truncate">{cat.name}</p>
+                                        <p className={`text-[11px] font-bold mt-0.5 ${
+                                            isEmpty ? 'text-[#B45309]' : isLow ? 'text-[#75817C]' : 'text-[#2F806B]'
+                                        }`}>
+                                            {count} Qs
+                                        </p>
+                                    </div>
+                                    {isEmpty && (
+                                        <Link
+                                            to={`/admin?tab=ai&topic=${encodeURIComponent(cat.name)}&count=15`}
+                                            className="text-[11px] font-semibold text-[#193D35] dark:text-emerald-300 hover:underline inline-flex items-center gap-1"
+                                        >
+                                            <span>Fill via AI</span>
+                                            <ExternalLink size={10} />
+                                        </Link>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

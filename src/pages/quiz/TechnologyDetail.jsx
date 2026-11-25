@@ -83,6 +83,66 @@ const TOPIC_DETAILS = {
         'Evaluate boolean expressions, truth tables, conditional branching, loop invariants, and recursion base cases.',
         'Apply the four pillars of Object-Oriented Programming: encapsulation, abstraction, inheritance, and polymorphism.',
         'Analyze core data structures (arrays, stacks, queues, linked lists, trees, hash maps) and Big-O time/space complexity.'
+    ],
+    typescript: [
+        'Eliminate runtime surprises using interfaces, literal unions, readonly modifiers, unknown vs. any, and narrowing predicates.',
+        'Compose reusable generic APIs with constraints, Pick/Omit/Partial/Record utility types, and discriminated union switches.',
+        'Leverage advanced compiler safety including satisfies, as const assertions, conditional infer, mapped types, and strict indexed access.'
+    ],
+    nextjs: [
+        'Structure Next.js App Router segments using shared layout.tsx wrappers, dynamic [slug] routes, Route Groups, and Metadata APIs.',
+        'Separate React Server Components from interactive "use client" boundaries, streaming Suspense loading.tsx, and Server Actions.',
+        'Optimize production caching, revalidateTag/revalidatePath invalidation, Edge middleware, next/font, and dynamic sitemaps.'
+    ],
+    docker: [
+        'Build deterministic Docker images and map container ports cleanly using COPY, .dockerignore, exec-form CMD/ENTRYPOINT, and flags.',
+        'Persist database state with named volumes, debug live containers, and orchestrate multi-service stacks via Compose healthchecks.',
+        'Shrink production image size and attack surface with layer-cache ordering, multi-stage builds, BuildKit secrets, and non-root USERs.'
+    ],
+    sql: [
+        'Write accurate SELECT queries following SQL logical execution order, NULL-safe IS NULL predicates, and INNER vs. LEFT JOIN filtering.',
+        'Compute conditional aggregates using GROUP BY, HAVING, CASE expressions, EXISTS, and ACID transactional boundaries.',
+        'Tune query performance with window functions (ROW_NUMBER, RANK, DENSE_RANK), CTEs, SARGable predicates, and composite B-Tree indexes.'
+    ],
+    tailwindcss: [
+        'Compose responsive layouts using Tailwind CSS spacing scales, typography helpers, color opacity modifiers, and flex/grid gap utilities.',
+        'Stack dark mode, responsive min-width breakpoints, and parent/sibling state modifiers with group-hover and peer-invalid.',
+        'Use arbitrary values/properties cleanly, understand @apply bundle trade-offs, and avoid dynamic template-string class purges.'
+    ],
+    git: [
+        'Navigate Working Directory, Staging Index, and repository HEAD cleanly using git status, git diff --staged, git switch, and git fetch.',
+        'Combine branches safely via merge vs. rebase, undo shared commits with git revert, stash WIP edits, and resolve conflicts.',
+        'Rescue lost local commits with git reflog, isolate regressions in O(log N) via git bisect, manage worktrees, and push with --force-with-lease.'
+    ],
+    github: [
+        'Collaborate across repositories using forks, Draft Pull Requests, closing issue keywords, semantic Releases, and GitHub CLI (gh).',
+        'Enforce team engineering quality with Branch Protection Rulesets, CODEOWNERS reviewers, suggestion blocks, and Dependabot.',
+        'Harden GitHub Actions CI/CD pipelines with minimal GITHUB_TOKEN permissions, SHA-pinned actions, OIDC auth, and secret scanning.'
+    ],
+    angular: [
+        'Build modern standalone Angular components using property/event binding, @for/@if control flow, pipes, and input/output contracts.',
+        'Inject shared singleton services cleanly with inject(), cancel stale HTTP streams via switchMap, and guard lazy routes.',
+        'Boost UI responsiveness using reactive Angular Signals, OnPush change detection, typed nonNullable forms, and @defer viewport blocks.'
+    ],
+    vue: [
+        'Structure Vue 3 Single-File Components with script setup, v-if vs. v-show, keyed v-for lists, slots, and scoped CSS.',
+        'Manage reactive state accurately using ref vs. reactive, toRefs, memoized computed properties, watch/watchEffect, and defineModel.',
+        'Scale Vue apps with Pinia storeToRefs, Vue Router navigation guards, defineAsyncComponent, Teleport, and v-memo optimization.'
+    ],
+    django: [
+        'Organize MVT applications with clean path converters, Django Template inheritance, CSRF protection, static files, and Django Admin.',
+        'Eliminate N+1 queries using select_related and prefetch_related, and perform race-safe atomic updates with F() and Q() expressions.',
+        'Harden production backends with transaction.on_commit hooks, DRF serializer optimization, async ORM calls, and proxy TLS headers.'
+    ],
+    bootstrap: [
+        'Architect responsive 12-column Flexbox grids across xs–xxl breakpoints with logical RTL spacing (ms/me) and g-* gutters.',
+        'Implement accessible Bootstrap 5 forms, floating labels, responsive navbars, equal-height cards, and data-bs-* modals.',
+        'Customize Bootstrap themes efficiently via --bs-* CSS variables, Sass !default variable ordering, $utilities maps, and tree shaking.'
+    ],
+    wordpress: [
+        'Navigate the WordPress Template Hierarchy, build upgrade-safe child themes, enqueue scripts properly, and register Custom Post Types.',
+        'Extend WordPress cleanly using Action vs. Filter hooks, return-safe shortcodes, wp_reset_postdata(), Transients, and block.json.',
+        'Protect sites against CSRF, XSS, and SQLi using nonces, current_user_can(), late escaping, $wpdb->prepare(), and REST permission_callback.'
     ]
 };
 
@@ -197,7 +257,11 @@ export default function TechnologyDetail() {
         new Set(techGameEntries.flatMap(t => t.supportedGames || []))
     );
 
-    const supportedGames = FALLBACK_GAMES.filter(g => supportedGameSlugs.includes(g.slug));
+    const effectiveGameSlugs = supportedGameSlugs.length > 0
+        ? supportedGameSlugs
+        : ['code-puzzle', 'find-the-bug', 'output-predictor', 'code-typing', 'syntax-typing', 'speed-typing'];
+
+    const supportedGames = FALLBACK_GAMES.filter(g => effectiveGameSlugs.includes(g.slug));
     const defaultGameTechParam =
         seoConfig.slug === 'programming-fundamentals' ? 'programming-logic' : seoConfig.slug;
 

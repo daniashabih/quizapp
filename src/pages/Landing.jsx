@@ -16,7 +16,7 @@ const CORE_TECHNOLOGIES = [
     { name: 'HTML', slug: 'html', category: 'Frontend Markup' },
     { name: 'CSS', slug: 'css', category: 'Stylesheets & Layouts' },
     { name: 'JavaScript', slug: 'javascript', category: 'Web Scripting & ES6+' },
-    { name: 'Bootstrap', slug: null, category: 'Responsive CSS Framework' },
+    { name: 'Bootstrap', slug: 'bootstrap', category: 'Responsive CSS Framework' },
     { name: 'jQuery', slug: null, category: 'DOM & Event Library' },
     { name: 'PHP', slug: 'php', category: 'Server-Side Scripting' },
     { name: 'Laravel', slug: 'laravel', category: 'PHP MVC Framework' },

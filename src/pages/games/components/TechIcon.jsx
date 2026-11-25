@@ -33,6 +33,26 @@ export const TechIcon = ({ slug, className = 'w-5 h-5', style }) => {
             return <Palette className={className} style={{ color: '#1572B6', ...style }} />;
         case 'javascript':
             return <FileCode className={className} style={{ color: '#F7DF1E', ...style }} />;
+        case 'typescript':
+            return <FileCode className={className} style={{ color: '#3178C6', ...style }} />;
+        case 'nextjs':
+            return <Globe className={className} style={{ color: '#111827', ...style }} />;
+        case 'angular':
+            return <Flame className={className} style={{ color: '#DD0031', ...style }} />;
+        case 'vue':
+            return <Layout className={className} style={{ color: '#42B883', ...style }} />;
+        case 'tailwindcss':
+            return <Palette className={className} style={{ color: '#06B6D4', ...style }} />;
+        case 'django':
+            return <Server className={className} style={{ color: '#092E20', ...style }} />;
+        case 'wordpress':
+            return <Globe className={className} style={{ color: '#21759B', ...style }} />;
+        case 'docker':
+            return <Box className={className} style={{ color: '#2496ED', ...style }} />;
+        case 'git':
+            return <Cpu className={className} style={{ color: '#F05032', ...style }} />;
+        case 'github':
+            return <Code2 className={className} style={{ color: '#24292F', ...style }} />;
         case 'bootstrap':
             return <Layout className={className} style={{ color: '#7952B3', ...style }} />;
         case 'jquery':

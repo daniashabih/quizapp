@@ -17,6 +17,7 @@ import { getTechnologySeoBySlug } from '../../config/seoPagesConfig';
 import { useAuth } from '../../context/AuthContext';
 import attemptService from '../../services/attemptService';
 import TechLogo from '../../components/TechLogo';
+import { TECHNOLOGY_SEO_SLUGS, SEO_PAGES_CONFIG } from '../../config/seoPagesConfig';
 
 function formatTimeAgo(date) {
     if (!date) return 'Recently';
@@ -444,20 +445,11 @@ export default function Technologies() {
                     </p>
                 </div>
                 <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-4xl mx-auto">
-                    {[
-                        { name: 'HTML', slug: 'html' },
-                        { name: 'CSS', slug: 'css' },
-                        { name: 'JavaScript', slug: 'javascript' },
-                        { name: 'React.js', slug: 'react' },
-                        { name: 'PHP', slug: 'php' },
-                        { name: 'Laravel', slug: 'laravel' },
-                        { name: 'MySQL', slug: 'mysql' },
-                        { name: 'MongoDB', slug: 'mongodb' },
-                        { name: 'Flutter', slug: 'flutter' },
-                        { name: 'Dart', slug: 'dart' },
-                        { name: 'Python', slug: 'python' },
-                        { name: 'Programming Fundamentals', slug: 'programming-fundamentals' }
-                    ].map(t => (
+                    {TECHNOLOGY_SEO_SLUGS.map(slug => {
+                        const cfg = SEO_PAGES_CONFIG[slug];
+                        if (!cfg) return null;
+                        return { name: cfg.name, slug: cfg.slug };
+                    }).filter(Boolean).map(t => (
                         <Link
                             key={t.slug}
                             to={`/technologies/${t.slug}`}

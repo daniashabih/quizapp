@@ -1,5 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { Link } from 'react-router-dom';
 import {
     X,
     AlertTriangle,
@@ -8,7 +9,9 @@ import {
     Wrench,
     CheckCircle2,
     ExternalLink,
-    ShieldAlert
+    ShieldAlert,
+    Sparkles,
+    BookOpen
 } from 'lucide-react';
 import { getStatusBadgeClasses, formatSeoTimestamp, formatAffectedUrlLabel } from './seoUtils';
 
@@ -171,15 +174,35 @@ export default function SeoIssueDetailModal({ issue, siteUrl = 'https://www.hang
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-3.5 border-t border-[#E4EAE6] dark:border-[#2A3832] bg-[#F7F8F6] dark:bg-[#141D19] flex items-center justify-between gap-3 text-[11px] text-[#75817C] dark:text-[#8FA69C]">
+                <div className="px-6 py-3.5 border-t border-[#E4EAE6] dark:border-[#2A3832] bg-[#F7F8F6] dark:bg-[#141D19] flex flex-wrap items-center justify-between gap-3 text-[11px] text-[#75817C] dark:text-[#8FA69C]">
                     <span>Source: {issue.source || 'Hangbug SEO Crawler'} · Checked {formatSeoTimestamp(issue.checkedAt)}</span>
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        className="px-4 py-1.5 rounded-lg bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold transition-colors cursor-pointer"
-                    >
-                        Close
-                    </button>
+                    <div className="flex items-center gap-2">
+                        {issue.id === 'empty_tech_categories_opportunity' && (
+                            <>
+                                <Link
+                                    to="/admin?tab=questions"
+                                    onClick={onClose}
+                                    className="px-3 py-1.5 rounded-lg border border-[#E4EAE6] dark:border-[#2A3832] bg-white dark:bg-[#18221E] text-[#193D35] dark:text-emerald-300 text-xs font-semibold inline-flex items-center gap-1 hover:border-[#2F806B]"
+                                >
+                                    <BookOpen size={12} /> Questions Bank
+                                </Link>
+                                <Link
+                                    to="/admin?tab=ai&count=15"
+                                    onClick={onClose}
+                                    className="px-3 py-1.5 rounded-lg bg-[#2F806B] hover:bg-[#193D35] text-white text-xs font-semibold inline-flex items-center gap-1"
+                                >
+                                    <Sparkles size={12} /> AI Generator
+                                </Link>
+                            </>
+                        )}
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="px-4 py-1.5 rounded-lg bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold transition-colors cursor-pointer"
+                        >
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -415,14 +415,25 @@ function slugifyTechCategory(name = '') {
 function resolveEmptyTechCategoryTarget(categoryName, allCategories = []) {
     const cleanName = String(categoryName || '').trim();
     const normName = Category.normalize(cleanName);
+    const slugGuess = slugifyTechCategory(cleanName);
     const guides = Array.isArray(seoController.TECHNOLOGY_GUIDE_CONFIGS)
         ? seoController.TECHNOLOGY_GUIDE_CONFIGS
         : [];
 
-    const matchedGuide = guides.find(guide =>
-        Array.isArray(guide.matchers) &&
-        guide.matchers.some(m => Category.normalize(m) === normName)
-    ) || null;
+    const matchedGuide =
+        guides.find(guide =>
+            guide.slug === slugGuess ||
+            (Array.isArray(guide.matchers) && guide.matchers[0] && Category.normalize(guide.matchers[0]) === normName)
+        ) ||
+        guides.find(guide =>
+            Array.isArray(guide.matchers) &&
+            guide.matchers.some(m => Category.normalize(m) === normName)
+        ) ||
+        null;
+
+    const packName = getHighDemandPackName(cleanName);
+    const packCount = packName ? getHighDemandPack(packName).length : 0;
+    const starterHint = packCount > 0 ? ` (${packCount} starter questions ready to seed)` : '';
 
     if (matchedGuide) {
         const guidePath = `/technologies/${matchedGuide.slug}`;
@@ -436,13 +447,13 @@ function resolveEmptyTechCategoryTarget(categoryName, allCategories = []) {
             });
         });
 
-        let detail = `Category "${cleanName}" has 0 questions · Guide ${guidePath} exists; add quiz questions to publish sessions`;
+        let detail = `Category "${cleanName}" has 0 questions · Guide ${guidePath} exists; add quiz questions to publish sessions${starterHint}`;
         if (populatedSiblings.length > 0) {
             const topSibling = populatedSiblings[0];
             const isAliasDuplicate = matchedGuide.matchers.some(m => Category.normalize(m) === Category.normalize(topSibling.name));
             detail = isAliasDuplicate
-                ? `Category "${cleanName}" has 0 questions · ${guidePath} is already populated via "${topSibling.name}" (${topSibling.questionCount} questions)`
-                : `Category "${cleanName}" has 0 questions · ${guidePath} currently served via "${topSibling.name}" (${topSibling.questionCount} questions)`;
+                ? `Category "${cleanName}" has 0 questions · ${guidePath} is already populated via "${topSibling.name}" (${topSibling.questionCount} questions)${starterHint}`
+                : `Category "${cleanName}" has 0 questions · ${guidePath} currently served via "${topSibling.name}" (${topSibling.questionCount} questions)${starterHint}`;
         }
 
         return {
@@ -454,9 +465,9 @@ function resolveEmptyTechCategoryTarget(categoryName, allCategories = []) {
     }
 
     const isCombined = cleanName.includes(',');
-    const suggestedSlug = !isCombined ? slugifyTechCategory(cleanName) : '';
+    const suggestedSlug = !isCombined ? slugGuess : '';
     const detail = suggestedSlug
-        ? `Category "${cleanName}" has 0 questions · Add quiz questions & a /technologies/${suggestedSlug} guide (or disable if unused)`
+        ? `Category "${cleanName}" has 0 questions · Add quiz questions & a /technologies/${suggestedSlug} guide (or disable if unused)${starterHint}`
         : `Category "${cleanName}" has 0 questions · Combined track with no quiz questions (add questions or disable if unused)`;
 
     return {

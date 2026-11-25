@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { CheckSquare, Square, CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { CheckSquare, Square, CheckCircle2, Sparkles, BookOpen } from 'lucide-react';
 import seoService from '../../services/seoService';
 import { toast } from '../../services/notificationService';
 import { getPriorityBadgeClasses } from './seoUtils';
@@ -158,9 +159,27 @@ export default function SeoRecommendationsSection({ data, domain, onDataUpdated 
                                         <span className="block text-[10px] font-bold uppercase text-[#75817C] mb-1">Expected Benefit</span>
                                         <p className="text-[#17221F] dark:text-[#B8CEC5] leading-relaxed">{rec.expectedBenefit}</p>
                                     </div>
-                                    <div className="p-3 rounded-xl bg-[#E5F2EC]/50 dark:bg-[#1F352E]/50">
-                                        <span className="block text-[10px] font-bold uppercase text-[#193D35] dark:text-emerald-300 mb-1">Suggested Action</span>
-                                        <p className="text-[#17221F] dark:text-[#F3F6F4] leading-relaxed">{rec.suggestedAction}</p>
+                                    <div className="p-3 rounded-xl bg-[#E5F2EC]/50 dark:bg-[#1F352E]/50 space-y-2">
+                                        <div>
+                                            <span className="block text-[10px] font-bold uppercase text-[#193D35] dark:text-emerald-300 mb-1">Suggested Action</span>
+                                            <p className="text-[#17221F] dark:text-[#F3F6F4] leading-relaxed">{rec.suggestedAction}</p>
+                                        </div>
+                                        {rec.recKey === 'audit_empty_tech_categories_opportunity' && (
+                                            <div className="flex flex-wrap gap-1.5 pt-1">
+                                                <Link
+                                                    to="/admin?tab=ai&count=15"
+                                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#193D35] hover:bg-[#2F806B] text-white text-[11px] font-semibold"
+                                                >
+                                                    <Sparkles size={11} /> AI Generator
+                                                </Link>
+                                                <Link
+                                                    to="/admin?tab=questions"
+                                                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832] text-[#193D35] dark:text-emerald-300 text-[11px] font-semibold"
+                                                >
+                                                    <BookOpen size={11} /> Questions Bank
+                                                </Link>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
