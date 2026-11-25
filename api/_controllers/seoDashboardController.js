@@ -439,7 +439,8 @@ exports.getSeoDashboard = async (req, res) => {
                         syncedAt: ga4Data.syncedAt || null,
                         message: ga4Data.reason || ''
                     } : null,
-                    backlinksData?.openPageRank || null
+                    backlinksData?.openPageRank || null,
+                    pagespeedSnap
                 ),
                 overview,
                 healthScore: latestAudit?.scoreBreakdown || null,
@@ -741,10 +742,11 @@ exports.getSeoSettings = async (req, res) => {
     try {
         const domain = normalizeDomain(req.query.domain || DEFAULT_DOMAIN);
         const config = await getProjectConfig(domain);
-        const [verification, ga4Res, oprRes] = await Promise.all([
+        const [verification, ga4Res, oprRes, pagespeedSnap] = await Promise.all([
             verifySearchConsoleServiceAccount(config),
             fetchGa4Performance(config, resolveDateRange('7d')).catch(() => null),
-            fetchOpenPageRankData(config).catch(() => null)
+            fetchOpenPageRankData(config).catch(() => null),
+            getSnapshot(domain, 'pagespeed').catch(() => null)
         ]);
         if (verification.propertyVerified && verification.selectedProperty && config.rawGscProperty !== verification.selectedProperty) {
             await saveProjectConfig(domain, { gscProperty: verification.selectedProperty });
@@ -761,10 +763,10 @@ exports.getSeoSettings = async (req, res) => {
         } : null;
         res.json({
             success: true,
-            settings: sanitizeConfigForClient(config, verification, ga4Ver, oprRes)
+            settings: sanitizeConfigForClient(config, verification, ga4Ver, oprRes, pagespeedSnap)
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(500).json({ success: false, message: redactPageSpeedApiKey(error?.message || 'Unable to load SEO settings.') });
     }
 };
 
@@ -773,10 +775,11 @@ exports.updateSeoSettings = async (req, res) => {
         const domain = normalizeDomain(req.body?.domain || req.query.domain || DEFAULT_DOMAIN);
         const saved = await saveProjectConfig(domain, req.body || {});
         const merged = await getProjectConfig(saved.domain || domain);
-        const [verification, ga4Res, oprRes] = await Promise.all([
+        const [verification, ga4Res, oprRes, pagespeedSnap] = await Promise.all([
             verifySearchConsoleServiceAccount(merged),
             fetchGa4Performance(merged, resolveDateRange('7d')).catch(() => null),
-            fetchOpenPageRankData(merged).catch(() => null)
+            fetchOpenPageRankData(merged).catch(() => null),
+            getSnapshot(domain, 'pagespeed').catch(() => null)
         ]);
         if (verification.propertyVerified && verification.selectedProperty && merged.rawGscProperty !== verification.selectedProperty) {
             await saveProjectConfig(domain, { gscProperty: verification.selectedProperty });
@@ -794,12 +797,12 @@ exports.updateSeoSettings = async (req, res) => {
         res.json({
             success: true,
             message: 'SEO integration & crawler settings saved.',
-            settings: sanitizeConfigForClient(merged, verification, ga4Ver, oprRes)
+            settings: sanitizeConfigForClient(merged, verification, ga4Ver, oprRes, pagespeedSnap)
         });
     } catch (error) {
         res.status(400).json({
             success: false,
-            message: error.message || 'Unable to save SEO settings.'
+            message: redactPageSpeedApiKey(error?.message || 'Unable to save SEO settings.')
         });
     }
 };
@@ -818,7 +821,7 @@ exports.testSeoIntegration = async (req, res) => {
     } catch (error) {
         res.status(400).json({
             success: false,
-            message: error.message || 'Integration test failed.'
+            message: redactPageSpeedApiKey(error?.message || 'Integration test failed.')
         });
     }
 };

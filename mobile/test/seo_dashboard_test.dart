@@ -191,6 +191,8 @@ void main() {
           'siteUrl': 'https://www.hangbug.com',
           'integrations': {
             'pagespeedHasKey': true,
+            'pagespeedConnected': false,
+            'pagespeedConnectionStatus': 'Quota Exceeded',
             'pagespeedQuotaExhausted': true,
           },
         },
@@ -258,6 +260,11 @@ void main() {
             child: SeoTechnicalTab(
               data: payload,
               onRunPageSpeed: (url, strategy, {bool forceRefresh = false}) async {},
+              onTestPageSpeedConnection: () async => {
+                'ok': true,
+                'connectionStatus': 'Connected',
+                'message': 'Verified mobile and desktop',
+              },
             ),
           ),
         ),
@@ -273,6 +280,8 @@ void main() {
     expect(find.textContaining('Mobile Performance: 91/100'), findsOneWidget);
     expect(find.textContaining('Desktop Performance: 98/100'), findsOneWidget);
     expect(find.textContaining('Cached Report (Quota Fallback)'), findsOneWidget);
+    expect(find.textContaining('API: Quota Exceeded'), findsOneWidget);
+    expect(find.text('Test PageSpeed Connection'), findsOneWidget);
     expect(find.textContaining('Next Available Retry: 2026-11-21T08:00:00.000Z'), findsOneWidget);
   });
 }

@@ -631,3 +631,103 @@ test('10. Request throttling, network error backoff, prioritized URLs, and no au
     assert.ok(categories.has('Important Public Game Pages'), 'Must prioritize Important Public Game Pages');
 });
 
+test('11. Test PageSpeed Connection tests both Mobile & Desktop live for https://www.hangbug.com/, updates accurate connection status, and never exposes API key', async () => {
+    // Unconfigured state
+    delete process.env.PAGESPEED_API_KEY;
+    delete process.env.GOOGLE_PAGESPEED_API_KEY;
+    const unconfiguredCfg = await seoIntegration.getProjectConfig(TEST_DOMAIN);
+    const unconfiguredSanitized = seoIntegration.sanitizeConfigForClient(unconfiguredCfg);
+    assert.strictEqual(unconfiguredSanitized.pagespeedConnected, false);
+    assert.strictEqual(unconfiguredSanitized.pagespeedConnectionStatus, 'Not Configured');
+
+    // Configured but not tested yet
+    process.env.PAGESPEED_API_KEY = VALID_TEST_API_KEY;
+    const configuredCfg = await seoIntegration.getProjectConfig(TEST_DOMAIN);
+    const configuredSanitized = seoIntegration.sanitizeConfigForClient(configuredCfg);
+    assert.strictEqual(configuredSanitized.hasPagespeedApiKey, true);
+    assert.strictEqual(configuredSanitized.pagespeedConnected, false);
+    assert.strictEqual(configuredSanitized.pagespeedConnectionStatus, 'Configured (Not Tested)');
+
+    // Seed a stale/cached mobile report first to verify Test Connection forces live API calls for BOTH mobile & desktop
+    global.fetch = async () => makeJsonResponse(makeLighthousePayload({
+        url: 'https://www.hangbug.com/',
+        strategy: 'mobile',
+        performance: 0.71
+    }));
+    await seoIntegration.runPageSpeedInsights(configuredCfg, 'https://www.hangbug.com/', 'mobile', { throttleMs: 0 });
+
+    const liveCalls = [];
+    global.fetch = async (url) => {
+        const parsed = new URL(url);
+        const strategy = parsed.searchParams.get('strategy');
+        liveCalls.push({
+            endpoint: `${parsed.origin}${parsed.pathname}`,
+            target: parsed.searchParams.get('url'),
+            strategy,
+            key: parsed.searchParams.get('key')
+        });
+        return makeJsonResponse(makeLighthousePayload({
+            url: 'https://www.hangbug.com/',
+            strategy,
+            performance: strategy === 'mobile' ? 0.84 : 0.97
+        }));
+    };
+
+    const testResult = await seoIntegration.testIntegrationConnection(TEST_DOMAIN, 'pagespeed', {
+        throttleMs: 0
+    });
+
+    assert.strictEqual(testResult.ok, true);
+    assert.strictEqual(testResult.connectionStatus, 'Connected');
+    assert.strictEqual(testResult.apiEnabled, true);
+    assert.strictEqual(testResult.fromCache, false);
+    assert.strictEqual(testResult.targetUrl, 'https://www.hangbug.com/');
+    assert.deepStrictEqual(testResult.testedStrategies, ['mobile', 'desktop']);
+    assert.strictEqual(testResult.mobilePerformance, 84);
+    assert.strictEqual(testResult.desktopPerformance, 97);
+    assert.ok(!JSON.stringify(testResult).includes(VALID_TEST_API_KEY), 'Connection test response must never expose API key');
+
+    assert.strictEqual(liveCalls.length, 2, 'Test PageSpeed Connection must test BOTH mobile and desktop live');
+    assert.ok(liveCalls.every((c) => c.endpoint === 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'));
+    assert.ok(liveCalls.every((c) => c.target === 'https://www.hangbug.com/'));
+    assert.ok(liveCalls.every((c) => c.key === VALID_TEST_API_KEY));
+    assert.ok(liveCalls.some((c) => c.strategy === 'mobile'));
+    assert.ok(liveCalls.some((c) => c.strategy === 'desktop'));
+
+    const postSnap = await seoIntegration.getSnapshot(TEST_DOMAIN, 'pagespeed');
+    const postSanitized = seoIntegration.sanitizeConfigForClient(configuredCfg, null, null, null, postSnap);
+    assert.strictEqual(postSanitized.pagespeedConnected, true);
+    assert.strictEqual(postSanitized.pagespeedConnectionStatus, 'Connected');
+    assert.strictEqual(postSanitized.pagespeedApiEnabled, true);
+    assert.strictEqual(postSanitized.pagespeedMobilePerformance, 84);
+    assert.strictEqual(postSanitized.pagespeedDesktopPerformance, 97);
+
+    // Meaningful errors from testIntegrationConnection for API disabled & invalid key
+    global.fetch = async () => makeJsonResponse({
+        error: {
+            code: 403,
+            message: 'PageSpeed Insights API has not been used in project 123456 before or it is disabled.',
+            status: 'PERMISSION_DENIED',
+            details: [{ reason: 'SERVICE_DISABLED', metadata: { consumer: 'projects/123456' } }]
+        }
+    }, 403);
+    const disabledRes = await seoIntegration.testIntegrationConnection(TEST_DOMAIN, 'pagespeed', { throttleMs: 0 });
+    assert.strictEqual(disabledRes.ok, false);
+    assert.strictEqual(disabledRes.errorCategory, 'api_disabled');
+    assert.strictEqual(disabledRes.connectionStatus, 'API Not Enabled');
+    assert.strictEqual(disabledRes.apiEnabled, false);
+
+    // Verify Web & Mobile UI do not hardcode "PageSpeed: Ready" and expose "Test PageSpeed Connection"
+    const webOverview = fs.readFileSync(path.join(ROOT, 'src/components/seo/SeoOverviewSection.jsx'), 'utf8');
+    const webSettings = fs.readFileSync(path.join(ROOT, 'src/components/seo/SeoSettingsSection.jsx'), 'utf8');
+    const webTechnical = fs.readFileSync(path.join(ROOT, 'src/components/seo/SeoTechnicalSection.jsx'), 'utf8');
+    const mobilePrimary = fs.readFileSync(path.join(ROOT, 'mobile/lib/screens/admin/seo/widgets/seo_sections_primary.dart'), 'utf8');
+    const mobileSecondary = fs.readFileSync(path.join(ROOT, 'mobile/lib/screens/admin/seo/widgets/seo_sections_secondary.dart'), 'utf8');
+
+    assert.ok(!webOverview.includes('PageSpeed: Ready'), 'Web Overview must display real status instead of hardcoded PageSpeed: Ready');
+    assert.ok(!mobilePrimary.includes('PageSpeed: Ready'), 'Mobile Overview must display real status instead of hardcoded PageSpeed: Ready');
+    assert.ok(webSettings.includes('Test PageSpeed Connection'));
+    assert.ok(webTechnical.includes('Test PageSpeed Connection'));
+    assert.ok(mobileSecondary.includes('Test PageSpeed Connection'));
+});
+

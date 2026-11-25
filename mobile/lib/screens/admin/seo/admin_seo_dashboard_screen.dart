@@ -287,6 +287,7 @@ class _AdminSeoDashboardScreenState
         .read(seoServiceProvider)
         .testIntegration(domain, target, apiKey: apiKey);
     ref.invalidate(seoDashboardProvider);
+    ref.invalidate(seoSettingsProvider);
     return res;
   }
 
@@ -326,7 +327,11 @@ class _AdminSeoDashboardScreenState
       case 'content':
         return SeoContentTab(data: data);
       case 'technical':
-        return SeoTechnicalTab(data: data, onRunPageSpeed: _runPageSpeed);
+        return SeoTechnicalTab(
+          data: data,
+          onRunPageSpeed: _runPageSpeed,
+          onTestPageSpeedConnection: () => _testIntegration('pagespeed'),
+        );
       case 'backlinks':
         return SeoBacklinksTab(
           data: data,

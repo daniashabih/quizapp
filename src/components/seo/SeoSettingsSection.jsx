@@ -13,7 +13,8 @@ import {
     Activity,
     Clock,
     Link2,
-    Trash2
+    Trash2,
+    Gauge
 } from 'lucide-react';
 import seoService from '../../services/seoService';
 import { toast } from '../../services/notificationService';
@@ -236,6 +237,23 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                     ga4LastSyncedAt: result.syncedAt || prev.ga4LastSyncedAt,
                     ga4VerificationMessage: result.message || prev.ga4VerificationMessage
                 }));
+            } else if (target === 'pagespeed') {
+                setFlags((prev) => ({
+                    ...prev,
+                    hasPagespeedApiKey: result.apiKeyConfigured ?? prev.hasPagespeedApiKey,
+                    pagespeedApiKeySource: result.apiKeySource || prev.pagespeedApiKeySource,
+                    pagespeedConnected: Boolean(result.ok),
+                    pagespeedConnectionStatus: result.connectionStatus || (result.ok ? 'Connected' : 'Connection Error'),
+                    pagespeedApiEnabled: result.apiEnabled ?? prev.pagespeedApiEnabled,
+                    pagespeedLastTestedAt: result.checkedAt || prev.pagespeedLastTestedAt,
+                    pagespeedMobilePerformance: result.mobilePerformance ?? prev.pagespeedMobilePerformance,
+                    pagespeedDesktopPerformance: result.desktopPerformance ?? prev.pagespeedDesktopPerformance,
+                    pagespeedVerificationMessage: result.message || prev.pagespeedVerificationMessage,
+                    pagespeedErrorCategory: result.errorCategory || null,
+                    pagespeedQuotaExhausted: Boolean(result.isDailyQuota || result.errorCategory === 'daily_quota_exceeded'),
+                    pagespeedNextRetryAt: result.nextRetryAt || null
+                }));
+                if (onDataUpdated) await onDataUpdated();
             } else if (target === 'openpagerank' || target === 'backlinks') {
                 setFlags((prev) => ({
                     ...prev,
@@ -297,7 +315,7 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                         {[
                             { id: 'gsc', label: 'Test GSC' },
                             { id: 'ga4', label: 'Test GA4 Connection' },
-                            { id: 'pagespeed', label: 'Test PageSpeed' },
+                            { id: 'pagespeed', label: 'Test PageSpeed Connection' },
                             { id: 'openpagerank', label: 'Test OpenPageRank' }
                         ].map((btn) => (
                             <button
@@ -434,6 +452,16 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                                     GA4 Resource: <code className="font-mono font-bold">{testResult.resourceName}</code>
                                     {testResult.measurementId ? (
                                         <> · Frontend Tag: <code className="font-mono font-bold">{testResult.measurementId}</code></>
+                                    ) : null}
+                                </p>
+                            )}
+                            {testResult.provider === 'Google PageSpeed Insights' && (
+                                <p className="text-[11px]">
+                                    Target URL: <code className="font-mono font-bold">{testResult.targetUrl || 'https://www.hangbug.com/'}</code>
+                                    {' · '}Mobile: <strong>{typeof testResult.mobilePerformance === 'number' ? `${testResult.mobilePerformance}/100` : 'Unavailable'}</strong>
+                                    {' · '}Desktop: <strong>{typeof testResult.desktopPerformance === 'number' ? `${testResult.desktopPerformance}/100` : 'Unavailable'}</strong>
+                                    {testResult.errorCategory ? (
+                                        <> · Error: <code className="font-mono font-bold">{testResult.errorCategory}</code></>
                                     ) : null}
                                 </p>
                             )}
@@ -624,6 +652,114 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                             : 'bg-[#F7F8F6] border-[#E4EAE6] text-[#75817C] dark:bg-[#141D19] dark:border-[#2A3832] dark:text-[#8FA69C]'
                     }`}>
                         {flags.openPageRankMessage}
+                    </div>
+                )}
+            </div>
+
+            {/* Google PageSpeed Insights API v5 Integration Status Card */}
+            <div className="bg-white dark:bg-[#18221E] rounded-2xl border border-[#E4EAE6] dark:border-[#2A3832] p-5 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E4EAE6] dark:border-[#2A3832]">
+                    <div className="flex items-center gap-2.5">
+                        <Gauge size={17} className="text-[#2F806B]" />
+                        <div>
+                            <h2 className="text-sm font-display font-bold text-[#17221F] dark:text-[#F3F6F4]">
+                                Google PageSpeed Insights API v5 Integration
+                            </h2>
+                            <p className="text-xs text-[#75817C] dark:text-[#8FA69C]">
+                                Reads <code className="font-mono">PAGESPEED_API_KEY</code> securely on the backend and verifies both Mobile &amp; Desktop strategies for <code className="font-mono">https://www.hangbug.com/</code>.
+                            </p>
+                        </div>
+                    </div>
+                    <button
+                        type="button"
+                        disabled={Boolean(testingTarget)}
+                        onClick={() => handleTest('pagespeed')}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50"
+                    >
+                        <Zap size={13} />
+                        <span>{testingTarget === 'pagespeed' ? 'Testing Mobile & Desktop...' : 'Test PageSpeed Connection'}</span>
+                    </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">Connection Status</p>
+                        <p className={`mt-1.5 font-bold ${
+                            flags.pagespeedConnectionStatus === 'Connected'
+                                ? 'text-[#2F806B] dark:text-emerald-300'
+                                : ['Invalid API Key', 'API Not Enabled', 'Quota Exceeded', 'Connection Error'].includes(flags.pagespeedConnectionStatus)
+                                    ? 'text-[#B91C1C] dark:text-red-300'
+                                    : flags.pagespeedConnectionStatus === 'Configured (Not Tested)'
+                                        ? 'text-[#B45309] dark:text-amber-300'
+                                        : 'text-[#75817C] dark:text-[#8FA69C]'
+                        }`}>
+                            {flags.pagespeedConnectionStatus || (flags.hasPagespeedApiKey ? 'Configured (Not Tested)' : 'Not Configured')}
+                        </p>
+                        <p className="mt-0.5 text-[10px] text-[#75817C]">Verified only on real API v5 call</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">API Key Source</p>
+                        <p className="mt-1.5 font-semibold text-[#17221F] dark:text-[#F3F6F4]">
+                            {flags.hasPagespeedApiKey
+                                ? (flags.pagespeedApiKeySource === 'env:PAGESPEED_API_KEY'
+                                    ? 'Backend Env Variable'
+                                    : 'Stored securely on backend')
+                                : 'Not Configured'}
+                        </p>
+                        <p className="mt-0.5 text-[10px] font-mono text-[#2F806B]">
+                            PAGESPEED_API_KEY
+                        </p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">API Enabled</p>
+                        <p className={`mt-1.5 font-bold ${
+                            flags.pagespeedApiEnabled === true
+                                ? 'text-[#2F806B] dark:text-emerald-300'
+                                : flags.pagespeedApiEnabled === false
+                                    ? 'text-[#B91C1C] dark:text-red-300'
+                                    : 'text-[#75817C] dark:text-[#8FA69C]'
+                        }`}>
+                            {flags.pagespeedApiEnabled === true
+                                ? 'Enabled'
+                                : flags.pagespeedApiEnabled === false
+                                    ? 'Not Enabled'
+                                    : 'Pending Test'}
+                        </p>
+                        <p className="mt-0.5 text-[10px] font-mono text-[#75817C]">pagespeedonline v5</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <p className="text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">Mobile / Desktop Score</p>
+                        <p className="mt-1.5 font-bold text-[#17221F] dark:text-[#F3F6F4]">
+                            {typeof flags.pagespeedMobilePerformance === 'number' || typeof flags.pagespeedDesktopPerformance === 'number'
+                                ? `M: ${typeof flags.pagespeedMobilePerformance === 'number' ? flags.pagespeedMobilePerformance : '—'} · D: ${typeof flags.pagespeedDesktopPerformance === 'number' ? flags.pagespeedDesktopPerformance : '—'}`
+                                : 'Pending Test'}
+                        </p>
+                        <p className="mt-0.5 text-[10px] text-[#75817C]">https://www.hangbug.com/</p>
+                    </div>
+
+                    <div className="p-3.5 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832]">
+                        <div className="flex items-center gap-1 text-[11px] font-semibold text-[#75817C] dark:text-[#8FA69C]">
+                            <Clock size={11} className="text-[#2F806B]" />
+                            <span>Last Connection Test</span>
+                        </div>
+                        <p className="mt-1.5 font-semibold text-[#17221F] dark:text-[#F3F6F4]">
+                            {flags.pagespeedLastTestedAt ? formatSeoTimestamp(flags.pagespeedLastTestedAt) : 'Not tested yet'}
+                        </p>
+                    </div>
+                </div>
+
+                {flags.pagespeedVerificationMessage && (
+                    <div className={`p-3 rounded-xl border text-xs ${
+                        flags.pagespeedConnected
+                            ? 'bg-[#E5F2EC]/80 border-[#BBE0CE] text-[#193D35] dark:bg-emerald-950/40 dark:border-emerald-800/60 dark:text-emerald-300'
+                            : ['Invalid API Key', 'API Not Enabled', 'Quota Exceeded', 'Connection Error', 'Not Configured'].includes(flags.pagespeedConnectionStatus)
+                                ? 'bg-[#FEF5E7] border-[#F8DFB6] text-[#92400E] dark:bg-amber-950/40 dark:border-amber-800/60 dark:text-amber-300'
+                                : 'bg-[#F7F8F6] border-[#E4EAE6] text-[#75817C] dark:bg-[#141D19] dark:border-[#2A3832] dark:text-[#8FA69C]'
+                    }`}>
+                        {flags.pagespeedVerificationMessage}
                     </div>
                 )}
             </div>

@@ -43,11 +43,32 @@ const memorySnapshots = new Map();
 const memoryVerifications = new Map();
 const memoryGa4Verifications = new Map();
 const memoryOprVerifications = new Map();
+const memoryPageSpeedVerifications = new Map();
 const memoryPageSpeedQuotaStates = new Map();
+const pageSpeedSnapshotLocks = new Map();
 const inFlightPageSpeedRequests = new Map();
 const pageSpeedRequestTimestamps = [];
 let lastPageSpeedRequestAt = 0;
 let pageSpeedThrottleChain = Promise.resolve();
+
+async function withPageSpeedSnapshotLock(domain, fn) {
+    const cleanDomain = normalizeDomain(domain);
+    const prev = pageSpeedSnapshotLocks.get(cleanDomain) || Promise.resolve();
+    let release;
+    const next = new Promise((resolve) => {
+        release = resolve;
+    });
+    pageSpeedSnapshotLocks.set(cleanDomain, next);
+    await prev;
+    try {
+        return await fn();
+    } finally {
+        release();
+        if (pageSpeedSnapshotLocks.get(cleanDomain) === next) {
+            pageSpeedSnapshotLocks.delete(cleanDomain);
+        }
+    }
+}
 
 function normalizeDomain(input) {
     const raw = String(input || DEFAULT_DOMAIN).trim().toLowerCase();
@@ -245,6 +266,7 @@ function redactPageSpeedApiKey(input, rawKey = '') {
 
     // Also scrub any key=... query parameter or AIza... token if present in error messages
     text = text.replace(/([?&]key=)[^&\s"']+/gi, '$1[REDACTED_API_KEY]');
+    text = text.replace(/\bAIza[A-Za-z0-9_-]{16,}\b/g, '[REDACTED_API_KEY]');
     return text;
 }
 
@@ -424,14 +446,165 @@ async function getProjectConfig(domain = DEFAULT_DOMAIN) {
     return merged;
 }
 
-function sanitizeConfigForClient(config, verificationInput = null, ga4VerificationInput = null, oprVerificationInput = null) {
+function mapPageSpeedErrorCategoryToStatus(errorCategory) {
+    if (errorCategory === 'missing_api_key') return 'Not Configured';
+    if (errorCategory === 'invalid_api_key') return 'Invalid API Key';
+    if (errorCategory === 'api_disabled') return 'API Not Enabled';
+    if (errorCategory === 'daily_quota_exceeded' || errorCategory === 'rate_limit_exceeded') return 'Quota Exceeded';
+    return 'Connection Error';
+}
+
+function resolvePageSpeedConnectionStatus({
+    config = {},
+    keyInfo = null,
+    pagespeedSnap = null,
+    verificationInput = null
+} = {}) {
+    const cleanDomain = normalizeDomain(config?.domain || DEFAULT_DOMAIN);
+    const psiKeyInfo = keyInfo || resolvePageSpeedApiKey(config);
+    const memSnap = memorySnapshots.get(`${cleanDomain}::pagespeed`) || null;
+    const snapObj = (verificationInput && verificationInput.data)
+        ? verificationInput
+        : (pagespeedSnap || memSnap || null);
+    const snapData = snapObj?.data || {};
+    const directVer = (
+        verificationInput
+        && !verificationInput.data
+        && (verificationInput.connectionStatus !== undefined || verificationInput.connected !== undefined)
+    )
+        ? verificationInput
+        : null;
+
+    const matchesKey = (entry) => Boolean(
+        entry
+        && (!entry.keyFingerprint || !psiKeyInfo.fingerprint || entry.keyFingerprint === psiKeyInfo.fingerprint)
+    );
+
+    const rawMemQuota = memoryPageSpeedQuotaStates.get(cleanDomain) || null;
+    const rawSnapQuota = snapData.quotaState || null;
+    const candidateQuota = matchesKey(rawMemQuota)
+        ? rawMemQuota
+        : (matchesKey(rawSnapQuota) ? rawSnapQuota : null);
+    const quotaResetPassed = candidateQuota?.nextRetryAt && Date.now() >= Date.parse(candidateQuota.nextRetryAt);
+    const activeQuota = candidateQuota && !quotaResetPassed ? candidateQuota : null;
+
+    const memVer = memoryPageSpeedVerifications.get(cleanDomain) || null;
+    const snapVer = snapData.connectionVerification || null;
+    const candidateVer = directVer
+        || (matchesKey(memVer) ? memVer : (matchesKey(snapVer) ? snapVer : null));
+
+    const rawLastError = snapData.lastError || null;
+    const matchingLastError = matchesKey(rawLastError) ? rawLastError : null;
+
+    const mobilePerf = typeof candidateVer?.mobilePerformance === 'number'
+        ? candidateVer.mobilePerformance
+        : (typeof snapData.mobile?.scores?.performance === 'number' ? snapData.mobile.scores.performance : null);
+    const desktopPerf = typeof candidateVer?.desktopPerformance === 'number'
+        ? candidateVer.desktopPerformance
+        : (typeof snapData.desktop?.scores?.performance === 'number' ? snapData.desktop.scores.performance : null);
+
+    if (!psiKeyInfo.hasKey) {
+        return {
+            connected: false,
+            connectionStatus: 'Not Configured',
+            apiEnabled: null,
+            errorCategory: 'missing_api_key',
+            quotaExhausted: false,
+            nextRetryAt: null,
+            lastTestedAt: candidateVer?.checkedAt || matchingLastError?.detectedAt || null,
+            mobilePerformance: mobilePerf,
+            desktopPerformance: desktopPerf,
+            isError: true,
+            message: 'PAGESPEED_API_KEY is not configured on the backend environment variables.'
+        };
+    }
+
+    if (activeQuota?.exhausted) {
+        return {
+            connected: false,
+            connectionStatus: 'Quota Exceeded',
+            apiEnabled: true,
+            errorCategory: activeQuota.errorCategory || 'daily_quota_exceeded',
+            quotaExhausted: true,
+            nextRetryAt: activeQuota.nextRetryAt || null,
+            lastTestedAt: activeQuota.detectedAt || candidateVer?.checkedAt || null,
+            mobilePerformance: mobilePerf,
+            desktopPerformance: desktopPerf,
+            isError: true,
+            message: activeQuota.userMessage || PAGESPEED_QUOTA_EXHAUSTED_MESSAGE
+        };
+    }
+
+    const verTime = candidateVer?.checkedAt ? Date.parse(candidateVer.checkedAt) || 0 : 0;
+    const errTime = matchingLastError?.detectedAt ? Date.parse(matchingLastError.detectedAt) || 0 : 0;
+
+    if (candidateVer && (!matchingLastError || verTime >= errTime)) {
+        const isConn = Boolean(candidateVer.connected);
+        const statusLabel = candidateVer.connectionStatus
+            || (isConn ? 'Connected' : mapPageSpeedErrorCategoryToStatus(candidateVer.errorCategory));
+        return {
+            connected: isConn,
+            connectionStatus: statusLabel,
+            apiEnabled: candidateVer.apiEnabled !== undefined ? candidateVer.apiEnabled : (isConn ? true : null),
+            errorCategory: isConn ? null : (candidateVer.errorCategory || null),
+            quotaExhausted: false,
+            nextRetryAt: candidateVer.nextRetryAt || null,
+            lastTestedAt: candidateVer.checkedAt || null,
+            mobilePerformance: mobilePerf,
+            desktopPerformance: desktopPerf,
+            isError: !isConn,
+            message: candidateVer.message || ''
+        };
+    }
+
+    if (matchingLastError?.errorCategory) {
+        const cat = matchingLastError.errorCategory;
+        return {
+            connected: false,
+            connectionStatus: mapPageSpeedErrorCategoryToStatus(cat),
+            apiEnabled: cat === 'api_disabled' ? false : (cat === 'daily_quota_exceeded' || cat === 'rate_limit_exceeded' ? true : null),
+            errorCategory: cat,
+            quotaExhausted: Boolean(matchingLastError.isDailyQuota),
+            nextRetryAt: matchingLastError.nextRetryAt || null,
+            lastTestedAt: matchingLastError.detectedAt || null,
+            mobilePerformance: mobilePerf,
+            desktopPerformance: desktopPerf,
+            isError: true,
+            message: matchingLastError.userMessage || matchingLastError.message || ''
+        };
+    }
+
+    return {
+        connected: false,
+        connectionStatus: 'Configured (Not Tested)',
+        apiEnabled: null,
+        errorCategory: null,
+        quotaExhausted: false,
+        nextRetryAt: null,
+        lastTestedAt: null,
+        mobilePerformance: mobilePerf,
+        desktopPerformance: desktopPerf,
+        isError: false,
+        message: 'PAGESPEED_API_KEY is configured on the backend. Click "Test PageSpeed Connection" to verify Mobile and Desktop API access.'
+    };
+}
+
+function sanitizeConfigForClient(config, verificationInput = null, ga4VerificationInput = null, oprVerificationInput = null, pagespeedVerificationInput = null) {
     const cleanDomain = normalizeDomain(config.domain);
     const verification = verificationInput || memoryVerifications.get(cleanDomain) || null;
     const ga4Verification = ga4VerificationInput || memoryGa4Verifications.get(cleanDomain) || null;
     const oprVerification = oprVerificationInput || memoryOprVerifications.get(cleanDomain) || null;
     const psiKeyInfo = resolvePageSpeedApiKey(config);
     const oprKeyInfo = resolveOpenPageRankApiKey(config);
-    const psiQuotaState = memoryPageSpeedQuotaStates.get(cleanDomain) || null;
+    const psiConn = resolvePageSpeedConnectionStatus({
+        config,
+        keyInfo: psiKeyInfo,
+        pagespeedSnap: pagespeedVerificationInput?.data ? pagespeedVerificationInput : null,
+        verificationInput: pagespeedVerificationInput
+    });
+    const psiQuotaState = psiConn.quotaExhausted
+        ? { exhausted: true, nextRetryAt: psiConn.nextRetryAt }
+        : (memoryPageSpeedQuotaStates.get(cleanDomain) || null);
     const hasGoogleServiceAccount = Boolean(config.googleServiceAccountEmail && config.googlePrivateKey);
     const hasGoogleCredentials = hasGoogleServiceAccount || Boolean(config.googleAccessToken);
     const resolvedProperty = verification?.selectedProperty
@@ -484,8 +657,16 @@ function sanitizeConfigForClient(config, verificationInput = null, ga4Verificati
         hasGoogleCredentials,
         hasPagespeedApiKey: psiKeyInfo.hasKey,
         pagespeedApiKeySource: psiKeyInfo.source,
-        pagespeedQuotaExhausted: Boolean(psiQuotaState?.exhausted),
-        pagespeedNextRetryAt: psiQuotaState?.nextRetryAt || null,
+        pagespeedConnected: psiConn.connected,
+        pagespeedConnectionStatus: psiConn.connectionStatus,
+        pagespeedApiEnabled: psiConn.apiEnabled,
+        pagespeedLastTestedAt: psiConn.lastTestedAt,
+        pagespeedMobilePerformance: psiConn.mobilePerformance,
+        pagespeedDesktopPerformance: psiConn.desktopPerformance,
+        pagespeedVerificationMessage: psiConn.message,
+        pagespeedErrorCategory: psiConn.errorCategory,
+        pagespeedQuotaExhausted: Boolean(psiConn.quotaExhausted || psiQuotaState?.exhausted),
+        pagespeedNextRetryAt: psiConn.nextRetryAt || psiQuotaState?.nextRetryAt || null,
         keywordProvider: config.keywordProvider || 'none',
         hasKeywordProviderKey: Boolean(config.keywordProviderKey),
         backlinkProvider: oprKeyInfo.hasKey ? 'openpagerank' : (config.backlinkProvider || 'none'),
@@ -512,11 +693,19 @@ function sanitizeConfigForClient(config, verificationInput = null, ga4Verificati
             ga4ResourceName: rawGa4Prop ? `properties/${rawGa4Prop}` : '',
             ga4LastSyncedAt: ga4Verification?.syncedAt || null,
             ga4TagMeasurementId: config.ga4MeasurementId || DEFAULT_GA4_MEASUREMENT_ID,
-            pagespeedReady: psiKeyInfo.hasKey && !psiQuotaState?.exhausted,
+            pagespeedConnected: psiConn.connected,
+            pagespeedConnectionStatus: psiConn.connectionStatus,
+            pagespeedApiEnabled: psiConn.apiEnabled,
+            pagespeedLastTestedAt: psiConn.lastTestedAt,
+            pagespeedMobilePerformance: psiConn.mobilePerformance,
+            pagespeedDesktopPerformance: psiConn.desktopPerformance,
+            pagespeedErrorCategory: psiConn.errorCategory,
+            pagespeedVerificationMessage: psiConn.message,
+            pagespeedReady: psiKeyInfo.hasKey && !psiConn.quotaExhausted && psiConn.connectionStatus !== 'Invalid API Key' && psiConn.connectionStatus !== 'API Not Enabled',
             pagespeedHasKey: psiKeyInfo.hasKey,
             pagespeedKeySource: psiKeyInfo.source,
-            pagespeedQuotaExhausted: Boolean(psiQuotaState?.exhausted),
-            pagespeedNextRetryAt: psiQuotaState?.nextRetryAt || null,
+            pagespeedQuotaExhausted: Boolean(psiConn.quotaExhausted || psiQuotaState?.exhausted),
+            pagespeedNextRetryAt: psiConn.nextRetryAt || psiQuotaState?.nextRetryAt || null,
             keywordProviderConnected: config.keywordProvider !== 'none' && Boolean(config.keywordProviderKey),
             backlinkProviderConnected: openPageRankConnected,
             openPageRankConnected,
@@ -556,6 +745,11 @@ async function saveProjectConfig(domain, updates = {}) {
             nextBacklinkProvider = 'openpagerank';
             memoryOprVerifications.delete(cleanDomain);
         }
+    }
+
+    if (updates.pagespeedApiKey !== undefined || updates.clearPagespeedApiKey) {
+        memoryPageSpeedVerifications.delete(cleanDomain);
+        memoryPageSpeedQuotaStates.delete(cleanDomain);
     }
 
     const next = {
@@ -2128,12 +2322,13 @@ function classifyPageSpeedApiError(err, context = {}) {
     const redactedPayloadStr = redactPageSpeedApiKey(JSON.stringify(err?.payload || {}), rawKey);
     const payloadLower = redactedPayloadStr.toLowerCase();
     const detectedProject = extractGoogleProjectNumberFromError(err) || context.detectedProjectNumber || null;
-    const expectedProject = String(
+    const explicitExpectedProject = String(
         context.expectedProjectNumber
         || process.env.GOOGLE_CLOUD_PROJECT_NUMBER
         || process.env.PAGESPEED_PROJECT_NUMBER
-        || PAGESPEED_EXPECTED_PROJECT_NUMBER
+        || ''
     ).trim();
+    const expectedProject = explicitExpectedProject || PAGESPEED_EXPECTED_PROJECT_NUMBER;
 
     if (err?.errorCategory === 'missing_api_key') {
         return {
@@ -2174,15 +2369,22 @@ function classifyPageSpeedApiError(err, context = {}) {
     if (
         err?.errorCategory === 'invalid_api_key'
         || lower.includes('api key not valid')
+        || lower.includes('api key expired')
         || lower.includes('api_key_invalid')
         || payloadLower.includes('api_key_invalid')
+        || payloadLower.includes('api_key_expired')
         || payloadLower.includes('keyinvalid')
+        || payloadLower.includes('keyexpired')
         || payloadLower.includes('api_key_service_blocked')
         || payloadLower.includes('api_key_http_referrer_blocked')
         || payloadLower.includes('api_key_ip_address_blocked')
         || payloadLower.includes('iprefererblocked')
+        || ((lower.includes('referer') || lower.includes('referrer')) && lower.includes('blocked'))
         || lower.includes('bad api key')
     ) {
+        const projectSuffix = explicitExpectedProject
+            ? ` for Google Cloud project ${explicitExpectedProject}`
+            : '';
         return {
             errorCategory: 'invalid_api_key',
             httpStatus: status === 403 ? 403 : 400,
@@ -2195,8 +2397,7 @@ function classifyPageSpeedApiError(err, context = {}) {
             expectedProjectNumber: expectedProject,
             nextRetryAt: null,
             userMessage:
-                'The configured Google PageSpeed API key (PAGESPEED_API_KEY) is invalid or restricted. Verify that PAGESPEED_API_KEY is a valid backend API key for Google Cloud project '
-                + `${expectedProject} with PageSpeed Insights API permitted.`,
+                `The configured Google PageSpeed API key (PAGESPEED_API_KEY) is invalid or restricted. Verify that PAGESPEED_API_KEY is a valid backend API key${projectSuffix} with PageSpeed Insights API permitted.`,
             message: `Invalid Google PageSpeed API key: ${rawMsg || 'API_KEY_INVALID'}`
         };
     }
@@ -2241,7 +2442,8 @@ function classifyPageSpeedApiError(err, context = {}) {
             )
         )
     ) {
-        const projLabel = detectedProject || expectedProject;
+        const projLabel = detectedProject || explicitExpectedProject || null;
+        const projPhrase = projLabel ? ` in Google Cloud project ${projLabel}` : '';
         return {
             errorCategory: 'api_disabled',
             httpStatus: 403,
@@ -2250,13 +2452,13 @@ function classifyPageSpeedApiError(err, context = {}) {
             isDailyQuota: false,
             apiEnabled: false,
             projectVerified: !detectedProject || detectedProject === expectedProject,
-            projectNumber: projLabel,
+            projectNumber: projLabel || expectedProject,
             expectedProjectNumber: expectedProject,
             nextRetryAt: null,
             userMessage:
-                `PageSpeed Insights API (${PAGESPEED_API_SERVICE}) is disabled in Google Cloud project ${projLabel}. Enable "PageSpeed Insights API" in Google Cloud Console -> APIs & Services -> Library.`,
+                `PageSpeed Insights API (${PAGESPEED_API_SERVICE}) is not enabled${projPhrase}. Enable "PageSpeed Insights API" in Google Cloud Console -> APIs & Services -> Library.`,
             message:
-                `PageSpeed Insights API (${PAGESPEED_API_SERVICE}) is disabled for Google Cloud project ${projLabel}: ${rawMsg}`
+                `PageSpeed Insights API (${PAGESPEED_API_SERVICE}) is disabled${projLabel ? ` for Google Cloud project ${projLabel}` : ''}: ${rawMsg}`
         };
     }
 
@@ -2379,6 +2581,24 @@ function classifyPageSpeedApiError(err, context = {}) {
             nextRetryAt: null,
             userMessage: `Google PageSpeed Insights could not resolve the target URL: ${rawMsg}`,
             message: `Invalid target URL for PageSpeed check: ${rawMsg}`
+        };
+    }
+
+    // Other HTTP 4xx errors from Google PageSpeed API
+    if (status >= 400 && status < 500) {
+        return {
+            errorCategory: 'api_error',
+            httpStatus: status,
+            retryable: false,
+            isQuotaError: false,
+            isDailyQuota: false,
+            apiEnabled: null,
+            projectVerified: null,
+            projectNumber: detectedProject,
+            expectedProjectNumber: expectedProject,
+            nextRetryAt: null,
+            userMessage: rawMsg || `Google PageSpeed Insights API returned HTTP ${status}.`,
+            message: `PageSpeed Insights API error (HTTP ${status}): ${rawMsg || 'Request rejected'}`
         };
     }
 
@@ -2568,7 +2788,14 @@ function buildPageSpeedDashboardView({ config = {}, pagespeedSnap = null, latest
         }
     }
 
-    const lastError = snapData.lastError || null;
+    const rawLastError = snapData.lastError || null;
+    const lastErrorKeyChanged = rawLastError?.keyFingerprint && keyInfo.fingerprint && rawLastError.keyFingerprint !== keyInfo.fingerprint;
+    const lastError = lastErrorKeyChanged ? null : rawLastError;
+    const connStatus = resolvePageSpeedConnectionStatus({
+        config,
+        keyInfo,
+        pagespeedSnap: { data: snapData, syncedAt: pagespeedSnap?.syncedAt }
+    });
     const hasAnyCachedReport = Boolean(
         mobileReport
         || desktopReport
@@ -2610,6 +2837,8 @@ function buildPageSpeedDashboardView({ config = {}, pagespeedSnap = null, latest
         explanation = `Measured via Google PageSpeed Insights (Last audit: ${lastAuditedAt || 'recent'} · Cached for 24 hours).`;
     } else if (!keyInfo.hasKey) {
         explanation = 'Configure PAGESPEED_API_KEY on the backend and select a URL to run an on-demand Google PageSpeed Insights audit.';
+    } else if (lastError?.userMessage) {
+        explanation = lastError.userMessage;
     } else {
         explanation = 'PageSpeed Insights has not been run yet. Select an individual URL and click "Run PageSpeed Check" to measure Mobile or Desktop performance.';
     }
@@ -2624,6 +2853,12 @@ function buildPageSpeedDashboardView({ config = {}, pagespeedSnap = null, latest
 
     return {
         status,
+        connected: connStatus.connected,
+        connectionStatus: connStatus.connectionStatus,
+        apiEnabled: connStatus.apiEnabled,
+        lastTestedAt: connStatus.lastTestedAt,
+        verificationMessage: connStatus.message,
+        errorCategory: connStatus.errorCategory,
         mobile: mobileReport,
         desktop: desktopReport,
         mobilePerformance: mobilePerf,
@@ -2945,22 +3180,43 @@ async function runPageSpeedInsights(config = {}, targetUrl = '', strategy = 'mob
             rawKey: keyInfo.key,
             expectedProjectNumber
         });
+        const detectedAt = new Date().toISOString();
         const errorState = {
             errorCategory: classified.errorCategory,
             userMessage: classified.userMessage,
             message: classified.message,
             projectNumber: classified.projectNumber,
-            detectedAt: new Date().toISOString(),
+            keyFingerprint: keyInfo.fingerprint,
+            detectedAt,
             nextRetryAt: null
         };
-        const updatedSnapData = {
-            ...snapData,
-            lastError: errorState
+        const verificationRecord = {
+            connected: false,
+            connectionStatus: mapPageSpeedErrorCategoryToStatus(classified.errorCategory),
+            apiEnabled: classified.apiEnabled ?? null,
+            errorCategory: classified.errorCategory,
+            keyFingerprint: keyInfo.fingerprint,
+            checkedAt: detectedAt,
+            nextRetryAt: null,
+            message: classified.userMessage
         };
-        await saveSnapshot(cleanDomain, 'pagespeed', updatedSnapData, 'Google PageSpeed Insights API');
+        memoryPageSpeedVerifications.set(cleanDomain, verificationRecord);
+
+        const updatedSnapData = await withPageSpeedSnapshotLock(cleanDomain, async () => {
+            const latestSnap = await getSnapshot(cleanDomain, 'pagespeed');
+            const latestData = latestSnap?.data || snapData || {};
+            const nextData = {
+                ...latestData,
+                lastError: errorState,
+                connectionVerification: verificationRecord
+            };
+            await saveSnapshot(cleanDomain, 'pagespeed', nextData, 'Google PageSpeed Insights API');
+            return nextData;
+        });
+
         const view = buildPageSpeedDashboardView({
             config,
-            pagespeedSnap: { data: updatedSnapData, syncedAt: new Date().toISOString() }
+            pagespeedSnap: { data: updatedSnapData, syncedAt: detectedAt }
         });
         throw createClassifiedPageSpeedError(classified, {
             cachedReport: cachedEntry,
@@ -3019,7 +3275,7 @@ async function runPageSpeedInsights(config = {}, targetUrl = '', strategy = 'mob
         for (let attempt = 0; attempt <= maxRetries; attempt++) {
             try {
                 await acquirePageSpeedThrottleSlot({ throttleMs, maxRequestsPerMinute });
-                const data = await fetchJsonWithTimeout(apiUrl, { method: 'GET' }, 30000);
+                const data = await fetchJsonWithTimeout(apiUrl, { method: 'GET' }, 45000);
                 const nowIso = new Date().toISOString();
                 const parsedResult = parseLighthousePayload(
                     data,
@@ -3033,46 +3289,75 @@ async function runPageSpeedInsights(config = {}, targetUrl = '', strategy = 'mob
                 // Clear any previous quota/error states on success
                 memoryPageSpeedQuotaStates.delete(cleanDomain);
 
-                const latestSnap = await getSnapshot(cleanDomain, 'pagespeed');
-                const latestData = latestSnap?.data || {};
-                const nextByUrl = { ...(latestData.byUrl || {}) };
-                const nextByPath = { ...(latestData.byPath || {}) };
+                const { nextSnapshotPayload, updatedUrlEntry, otherStrategy } = await withPageSpeedSnapshotLock(cleanDomain, async () => {
+                    const latestSnap = await getSnapshot(cleanDomain, 'pagespeed');
+                    const latestData = latestSnap?.data || {};
+                    const nextByUrl = { ...(latestData.byUrl || {}) };
+                    const nextByPath = { ...(latestData.byPath || {}) };
 
-                const existingUrlEntry = nextByUrl[canonicalUrl] || nextByPath[normalizedPath] || {
-                    url: canonicalUrl,
-                    path: normalizedPath,
-                    mobile: null,
-                    desktop: null
-                };
+                    const existingUrlEntry = nextByUrl[canonicalUrl] || nextByPath[normalizedPath] || {
+                        url: canonicalUrl,
+                        path: normalizedPath,
+                        mobile: null,
+                        desktop: null
+                    };
 
-                const updatedUrlEntry = {
-                    ...existingUrlEntry,
-                    url: canonicalUrl,
-                    path: normalizedPath,
-                    [cleanStrategy]: parsedResult
-                };
+                    const nextUrlEntry = {
+                        ...existingUrlEntry,
+                        url: canonicalUrl,
+                        path: normalizedPath,
+                        [cleanStrategy]: parsedResult
+                    };
 
-                nextByUrl[canonicalUrl] = updatedUrlEntry;
-                nextByPath[normalizedPath] = updatedUrlEntry;
+                    nextByUrl[canonicalUrl] = nextUrlEntry;
+                    nextByPath[normalizedPath] = nextUrlEntry;
 
-                const otherStrategy = cleanStrategy === 'mobile' ? 'desktop' : 'mobile';
-                const topOther = updatedUrlEntry[otherStrategy] || latestData[otherStrategy] || null;
+                    const otherStrat = cleanStrategy === 'mobile' ? 'desktop' : 'mobile';
+                    const topOther = nextUrlEntry[otherStrat] || latestData[otherStrat] || null;
+                    const existingVer = latestData.connectionVerification || {};
+                    const mobilePerf = cleanStrategy === 'mobile'
+                        ? parsedResult.scores.performance
+                        : (typeof topOther?.scores?.performance === 'number' ? topOther.scores.performance : (existingVer.mobilePerformance ?? null));
+                    const desktopPerf = cleanStrategy === 'desktop'
+                        ? parsedResult.scores.performance
+                        : (typeof topOther?.scores?.performance === 'number' ? topOther.scores.performance : (existingVer.desktopPerformance ?? null));
 
-                const nextSnapshotPayload = {
-                    ...latestData,
-                    [cleanStrategy]: parsedResult,
-                    ...(topOther ? { [otherStrategy]: topOther } : {}),
-                    byUrl: nextByUrl,
-                    byPath: nextByPath,
-                    lastAuditedUrl: canonicalUrl,
-                    lastAuditedPath: normalizedPath,
-                    lastAuditedStrategy: cleanStrategy,
-                    lastAuditedAt: nowIso,
-                    quotaState: null,
-                    lastError: null
-                };
+                    const verificationRecord = {
+                        connected: true,
+                        connectionStatus: 'Connected',
+                        apiEnabled: true,
+                        errorCategory: null,
+                        keyFingerprint: keyInfo.fingerprint,
+                        checkedAt: nowIso,
+                        targetUrl: canonicalUrl,
+                        mobilePerformance: mobilePerf,
+                        desktopPerformance: desktopPerf,
+                        message: `Google PageSpeed Insights API v5 verified for ${canonicalUrl}.`
+                    };
+                    memoryPageSpeedVerifications.set(cleanDomain, verificationRecord);
 
-                await saveSnapshot(cleanDomain, 'pagespeed', nextSnapshotPayload, 'Google PageSpeed Insights API');
+                    const payload = {
+                        ...latestData,
+                        [cleanStrategy]: parsedResult,
+                        ...(topOther ? { [otherStrat]: topOther } : {}),
+                        byUrl: nextByUrl,
+                        byPath: nextByPath,
+                        lastAuditedUrl: canonicalUrl,
+                        lastAuditedPath: normalizedPath,
+                        lastAuditedStrategy: cleanStrategy,
+                        lastAuditedAt: nowIso,
+                        quotaState: null,
+                        lastError: null,
+                        connectionVerification: verificationRecord
+                    };
+
+                    await saveSnapshot(cleanDomain, 'pagespeed', payload, 'Google PageSpeed Insights API');
+                    return {
+                        nextSnapshotPayload: payload,
+                        updatedUrlEntry: nextUrlEntry,
+                        otherStrategy: otherStrat
+                    };
+                });
 
                 const view = buildPageSpeedDashboardView({
                     config,
@@ -3082,7 +3367,7 @@ async function runPageSpeedInsights(config = {}, targetUrl = '', strategy = 'mob
                 return {
                     ...view,
                     [cleanStrategy]: parsedResult,
-                     ...(updatedUrlEntry[otherStrategy] ? { [otherStrategy]: updatedUrlEntry[otherStrategy] } : {}),
+                    ...(updatedUrlEntry[otherStrategy] ? { [otherStrategy]: updatedUrlEntry[otherStrategy] } : {}),
                     activeResult: parsedResult,
                     fromCache: false,
                     deduplicated: false,
@@ -3110,59 +3395,79 @@ async function runPageSpeedInsights(config = {}, targetUrl = '', strategy = 'mob
         }
 
         // Persist error / quota state while preserving all previously cached reports
-        const latestSnap = await getSnapshot(cleanDomain, 'pagespeed');
-        const latestData = latestSnap?.data || snapData || {};
         const nowIso = new Date().toISOString();
-
         const errorState = {
             errorCategory: lastClassified.errorCategory,
             userMessage: lastClassified.userMessage,
             message: lastClassified.message,
             projectNumber: lastClassified.projectNumber,
             expectedProjectNumber: lastClassified.expectedProjectNumber,
+            keyFingerprint: keyInfo.fingerprint,
             isQuotaError: Boolean(lastClassified.isQuotaError),
             isDailyQuota: Boolean(lastClassified.isDailyQuota),
             detectedAt: nowIso,
             nextRetryAt: lastClassified.nextRetryAt || null
         };
 
-        let nextQuotaState = latestData.quotaState || null;
-        if (lastClassified.errorCategory === 'daily_quota_exceeded') {
-            nextQuotaState = {
-                exhausted: true,
-                errorCategory: 'daily_quota_exceeded',
-                userMessage: PAGESPEED_QUOTA_EXHAUSTED_MESSAGE,
-                message: lastClassified.message,
-                projectNumber: lastClassified.projectNumber,
-                keyFingerprint: keyInfo.fingerprint,
-                detectedAt: nowIso,
-                nextRetryAt: lastClassified.nextRetryAt
-            };
-            memoryPageSpeedQuotaStates.set(cleanDomain, nextQuotaState);
-        } else if (lastClassified.errorCategory === 'rate_limit_exceeded') {
-            nextQuotaState = {
-                exhausted: false,
-                errorCategory: 'rate_limit_exceeded',
-                userMessage: lastClassified.userMessage,
-                message: lastClassified.message,
-                projectNumber: lastClassified.projectNumber,
-                keyFingerprint: keyInfo.fingerprint,
-                detectedAt: nowIso,
-                nextRetryAt: lastClassified.nextRetryAt
-            };
-        }
-
-        const updatedSnapData = {
-            ...latestData,
-            quotaState: nextQuotaState,
-            lastError: errorState
+        const verificationRecord = {
+            connected: false,
+            connectionStatus: mapPageSpeedErrorCategoryToStatus(lastClassified.errorCategory),
+            apiEnabled: lastClassified.apiEnabled ?? null,
+            errorCategory: lastClassified.errorCategory,
+            keyFingerprint: keyInfo.fingerprint,
+            checkedAt: nowIso,
+            nextRetryAt: lastClassified.nextRetryAt || null,
+            message: lastClassified.userMessage
         };
+        memoryPageSpeedVerifications.set(cleanDomain, verificationRecord);
 
-        await saveSnapshot(cleanDomain, 'pagespeed', updatedSnapData, 'Google PageSpeed Insights API');
+        const { updatedSnapData, syncedAt } = await withPageSpeedSnapshotLock(cleanDomain, async () => {
+            const latestSnap = await getSnapshot(cleanDomain, 'pagespeed');
+            const latestData = latestSnap?.data || snapData || {};
+
+            let nextQuotaState = latestData.quotaState || null;
+            if (lastClassified.errorCategory === 'daily_quota_exceeded') {
+                nextQuotaState = {
+                    exhausted: true,
+                    errorCategory: 'daily_quota_exceeded',
+                    userMessage: PAGESPEED_QUOTA_EXHAUSTED_MESSAGE,
+                    message: lastClassified.message,
+                    projectNumber: lastClassified.projectNumber,
+                    keyFingerprint: keyInfo.fingerprint,
+                    detectedAt: nowIso,
+                    nextRetryAt: lastClassified.nextRetryAt
+                };
+                memoryPageSpeedQuotaStates.set(cleanDomain, nextQuotaState);
+            } else if (lastClassified.errorCategory === 'rate_limit_exceeded') {
+                nextQuotaState = {
+                    exhausted: false,
+                    errorCategory: 'rate_limit_exceeded',
+                    userMessage: lastClassified.userMessage,
+                    message: lastClassified.message,
+                    projectNumber: lastClassified.projectNumber,
+                    keyFingerprint: keyInfo.fingerprint,
+                    detectedAt: nowIso,
+                    nextRetryAt: lastClassified.nextRetryAt
+                };
+            }
+
+            const nextData = {
+                ...latestData,
+                quotaState: nextQuotaState,
+                lastError: errorState,
+                connectionVerification: verificationRecord
+            };
+
+            await saveSnapshot(cleanDomain, 'pagespeed', nextData, 'Google PageSpeed Insights API');
+            return {
+                updatedSnapData: nextData,
+                syncedAt: latestSnap?.syncedAt || nowIso
+            };
+        });
 
         const view = buildPageSpeedDashboardView({
             config,
-            pagespeedSnap: { data: updatedSnapData, syncedAt: latestSnap?.syncedAt || nowIso }
+            pagespeedSnap: { data: updatedSnapData, syncedAt }
         });
 
         throw createClassifiedPageSpeedError(lastClassified, {
@@ -3185,6 +3490,8 @@ function resetPageSpeedState(domain = null) {
     if (domain) {
         const clean = normalizeDomain(domain);
         memoryPageSpeedQuotaStates.delete(clean);
+        memoryPageSpeedVerifications.delete(clean);
+        pageSpeedSnapshotLocks.delete(clean);
         memorySnapshots.delete(`${clean}::pagespeed`);
         for (const key of inFlightPageSpeedRequests.keys()) {
             if (key.startsWith(`${clean}::`)) {
@@ -3193,6 +3500,8 @@ function resetPageSpeedState(domain = null) {
         }
     } else {
         memoryPageSpeedQuotaStates.clear();
+        memoryPageSpeedVerifications.clear();
+        pageSpeedSnapshotLocks.clear();
         inFlightPageSpeedRequests.clear();
         for (const key of memorySnapshots.keys()) {
             if (key.endsWith('::pagespeed')) {
@@ -4423,38 +4732,183 @@ async function testIntegrationConnection(domain, target, options = {}) {
         };
     }
     if (target === 'pagespeed') {
+        const cleanDomain = normalizeDomain(domain);
         const keyInfo = resolvePageSpeedApiKey(config);
-        try {
-            const res = await runPageSpeedInsights(config, config.siteUrl, 'mobile');
-            const perf = res?.mobile?.scores?.performance;
-            return {
-                ok: perf !== null && perf !== undefined,
-                provider: 'Google PageSpeed Insights',
-                apiKeyConfigured: keyInfo.hasKey,
-                apiKeySource: keyInfo.source,
-                fromCache: Boolean(res?.fromCache),
-                checkedAt: res?.mobile?.checkedAt || null,
-                mobilePerformance: perf ?? null,
-                desktopPerformance: res?.desktop?.scores?.performance ?? null,
-                message: perf !== null && perf !== undefined
-                    ? `PageSpeed Insights mobile check succeeded for ${config.siteUrl} (Performance: ${perf}/100${res?.fromCache ? ' · Cached 24h report' : ''}).`
-                    : 'PageSpeed Insights responded without a performance score.'
-            };
-        } catch (err) {
+        const rawTargetUrl = options.url || (
+            (cleanDomain === 'hangbug.com' || cleanDomain === 'www.hangbug.com')
+                ? `${DEFAULT_SITE_URL}/`
+                : config.siteUrl
+        );
+        const urlCheck = validateAndNormalizePageSpeedUrl(config, rawTargetUrl);
+        if (!urlCheck.valid) {
             return {
                 ok: false,
                 provider: 'Google PageSpeed Insights',
+                connectionStatus: 'Connection Error',
                 apiKeyConfigured: keyInfo.hasKey,
                 apiKeySource: keyInfo.source,
-                errorCategory: err.errorCategory || 'api_error',
-                isQuotaError: Boolean(err.isQuotaError),
-                isDailyQuota: Boolean(err.isDailyQuota),
-                projectNumber: err.projectNumber || null,
-                nextRetryAt: err.nextRetryAt || null,
-                hasCachedReport: Boolean(err.hasCachedReport),
-                message: err.userMessage || err.message || 'PageSpeed Insights test failed.'
+                apiEnabled: null,
+                authenticated: false,
+                targetUrl: rawTargetUrl,
+                testedStrategies: ['mobile', 'desktop'],
+                errorCategory: 'invalid_url',
+                mobilePerformance: null,
+                desktopPerformance: null,
+                message: redactPageSpeedApiKey(urlCheck.userMessage || urlCheck.message, keyInfo.key)
             };
         }
+
+        const canonicalTargetUrl = urlCheck.canonicalUrl;
+        const psiOpts = {
+            forceRefresh: true,
+            throttleMs: options.throttleMs,
+            maxRequestsPerMinute: options.maxRequestsPerMinute,
+            maxRetries: options.maxRetries !== undefined ? options.maxRetries : 1,
+            baseBackoffMs: options.baseBackoffMs
+        };
+
+        const buildFailurePayload = (err, { mobileReport = null, desktopReport = null } = {}) => {
+            const errCat = err?.errorCategory || 'api_error';
+            const connStatus = mapPageSpeedErrorCategoryToStatus(errCat);
+            const mobilePerf = typeof mobileReport?.scores?.performance === 'number' ? mobileReport.scores.performance : null;
+            const desktopPerf = typeof desktopReport?.scores?.performance === 'number' ? desktopReport.scores.performance : null;
+            const baseMsg = redactPageSpeedApiKey(
+                err?.userMessage || err?.message || 'PageSpeed Insights test failed.',
+                keyInfo.key
+            );
+            const partialNote = (mobilePerf !== null && desktopPerf === null)
+                ? ` (Mobile succeeded: ${mobilePerf}/100; Desktop failed.)`
+                : (desktopPerf !== null && mobilePerf === null)
+                    ? ` (Desktop succeeded: ${desktopPerf}/100; Mobile failed.)`
+                    : '';
+
+            return {
+                ok: false,
+                provider: 'Google PageSpeed Insights',
+                connectionStatus: connStatus,
+                apiKeyConfigured: keyInfo.hasKey,
+                apiKeySource: keyInfo.source,
+                apiEnabled: err?.apiEnabled ?? (errCat === 'api_disabled' ? false : (errCat === 'daily_quota_exceeded' || errCat === 'rate_limit_exceeded' ? true : null)),
+                authenticated: errCat === 'api_disabled' || errCat === 'daily_quota_exceeded' || errCat === 'rate_limit_exceeded',
+                targetUrl: canonicalTargetUrl,
+                testedStrategies: ['mobile', 'desktop'],
+                fromCache: false,
+                checkedAt: new Date().toISOString(),
+                mobilePerformance: mobilePerf,
+                desktopPerformance: desktopPerf,
+                mobile: mobileReport,
+                desktop: desktopReport,
+                errorCategory: errCat,
+                isQuotaError: Boolean(err?.isQuotaError),
+                isDailyQuota: Boolean(err?.isDailyQuota),
+                projectNumber: err?.projectNumber || null,
+                nextRetryAt: err?.nextRetryAt || null,
+                hasCachedReport: Boolean(err?.hasCachedReport),
+                message: `${baseMsg}${partialNote}`
+            };
+        };
+
+        // Start mobile live check first; if it fails fast on auth/disabled/daily-quota, return immediately without wasting a 2nd request
+        const mobilePromise = runPageSpeedInsights(config, canonicalTargetUrl, 'mobile', psiOpts).then(
+            (value) => ({ status: 'fulfilled', value }),
+            (reason) => ({ status: 'rejected', reason })
+        );
+
+        const configuredThrottle = options.throttleMs !== undefined
+            ? Math.max(0, Number(options.throttleMs) || 0)
+            : (process.env.PAGESPEED_THROTTLE_MS !== undefined ? Math.max(0, Number(process.env.PAGESPEED_THROTTLE_MS) || 0) : PAGESPEED_DEFAULT_THROTTLE_MS);
+        const earlyWaitMs = configuredThrottle === 0 ? 25 : Math.min(1500, Math.max(250, configuredThrottle + 150));
+
+        let timerId = null;
+        const earlyOutcome = await Promise.race([
+            mobilePromise,
+            new Promise((resolve) => {
+                timerId = setTimeout(() => resolve({ status: 'pending' }), earlyWaitMs);
+            })
+        ]);
+        if (timerId) clearTimeout(timerId);
+
+        const fatalCategories = new Set(['missing_api_key', 'invalid_api_key', 'api_disabled', 'daily_quota_exceeded']);
+        if (earlyOutcome.status === 'rejected' && fatalCategories.has(earlyOutcome.reason?.errorCategory)) {
+            return buildFailurePayload(earlyOutcome.reason);
+        }
+
+        const desktopPromise = runPageSpeedInsights(config, canonicalTargetUrl, 'desktop', psiOpts).then(
+            (value) => ({ status: 'fulfilled', value }),
+            (reason) => ({ status: 'rejected', reason })
+        );
+
+        const [mobileOutcome, desktopOutcome] = await Promise.all([mobilePromise, desktopPromise]);
+
+        const mobileReport = mobileOutcome.status === 'fulfilled'
+            ? (mobileOutcome.value?.mobile || mobileOutcome.value?.activeResult || null)
+            : null;
+        const desktopReport = desktopOutcome.status === 'fulfilled'
+            ? (desktopOutcome.value?.desktop || desktopOutcome.value?.activeResult || null)
+            : null;
+
+        const mobilePerf = typeof mobileReport?.scores?.performance === 'number' ? mobileReport.scores.performance : null;
+        const desktopPerf = typeof desktopReport?.scores?.performance === 'number' ? desktopReport.scores.performance : null;
+
+        if (mobilePerf !== null && desktopPerf !== null) {
+            const nowIso = new Date().toISOString();
+            const successMessage = `Google PageSpeed Insights API v5 connected and verified for ${canonicalTargetUrl}. Mobile Performance: ${mobilePerf}/100 · Desktop Performance: ${desktopPerf}/100.`;
+            const verificationRecord = {
+                connected: true,
+                connectionStatus: 'Connected',
+                apiEnabled: true,
+                errorCategory: null,
+                keyFingerprint: keyInfo.fingerprint,
+                checkedAt: nowIso,
+                targetUrl: canonicalTargetUrl,
+                testedStrategies: ['mobile', 'desktop'],
+                mobilePerformance: mobilePerf,
+                desktopPerformance: desktopPerf,
+                message: successMessage
+            };
+            memoryPageSpeedVerifications.set(cleanDomain, verificationRecord);
+
+            await withPageSpeedSnapshotLock(cleanDomain, async () => {
+                const latestSnap = await getSnapshot(cleanDomain, 'pagespeed');
+                const latestData = latestSnap?.data || {};
+                await saveSnapshot(cleanDomain, 'pagespeed', {
+                    ...latestData,
+                    connectionVerification: verificationRecord,
+                    quotaState: null,
+                    lastError: null
+                }, 'Google PageSpeed Insights API');
+            });
+
+            return {
+                ok: true,
+                provider: 'Google PageSpeed Insights',
+                connectionStatus: 'Connected',
+                apiKeyConfigured: keyInfo.hasKey,
+                apiKeySource: keyInfo.source,
+                apiEnabled: true,
+                authenticated: true,
+                targetUrl: canonicalTargetUrl,
+                testedStrategies: ['mobile', 'desktop'],
+                fromCache: false,
+                checkedAt: nowIso,
+                mobilePerformance: mobilePerf,
+                desktopPerformance: desktopPerf,
+                mobile: mobileReport,
+                desktop: desktopReport,
+                errorCategory: null,
+                isQuotaError: false,
+                isDailyQuota: false,
+                message: successMessage
+            };
+        }
+
+        const primaryErr = mobileOutcome.status === 'rejected'
+            ? mobileOutcome.reason
+            : (desktopOutcome.status === 'rejected'
+                ? desktopOutcome.reason
+                : { errorCategory: 'api_error', message: 'PageSpeed Insights responded without complete Mobile and Desktop performance scores.' });
+
+        return buildFailurePayload(primaryErr, { mobileReport, desktopReport });
     }
     if (target === 'openpagerank' || target === 'backlinks') {
         const oprRes = await fetchOpenPageRankData(config, {
@@ -4509,6 +4963,7 @@ module.exports = {
     classifyGa4ApiError,
     resolvePageSpeedApiKey,
     redactPageSpeedApiKey,
+    resolvePageSpeedConnectionStatus,
     resolveOpenPageRankApiKey,
     redactOpenPageRankApiKey,
     parseOpenPageRankQuotaHeaders,

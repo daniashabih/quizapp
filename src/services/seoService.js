@@ -17,7 +17,7 @@ const seoService = {
     },
 
     runPageSpeed: async ({ domain = 'www.hangbug.com', url = '', strategy = 'mobile', forceRefresh = false } = {}) => {
-        const res = await axios.post('/admin/seo/pagespeed/run', { domain, url, strategy, forceRefresh }, { timeout: 45000 });
+        const res = await axios.post('/admin/seo/pagespeed/run', { domain, url, strategy, forceRefresh }, { timeout: 60000 });
         return res.data;
     },
 
@@ -71,7 +71,7 @@ const seoService = {
         const res = await axios.post(
             '/admin/seo/integrations/test',
             { domain, target, ...options },
-            { timeout: 30000 }
+            { timeout: 60000 }
         );
         return res.data;
     },

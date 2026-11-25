@@ -62,7 +62,7 @@ class SeoService {
         'strategy': strategy,
         'forceRefresh': forceRefresh,
       },
-      options: Options(receiveTimeout: const Duration(seconds: 45)),
+      options: Options(receiveTimeout: const Duration(seconds: 60)),
     );
     final data = response.data as Map<String, dynamic>;
     return data['message']?.toString() ?? 'PageSpeed check completed.';
@@ -177,7 +177,7 @@ class SeoService {
         'target': target,
         if (apiKey != null && apiKey.trim().isNotEmpty) 'apiKey': apiKey.trim(),
       },
-      options: Options(receiveTimeout: const Duration(seconds: 30)),
+      options: Options(receiveTimeout: const Duration(seconds: 60)),
     );
     final data = response.data as Map<String, dynamic>;
     return data['result'] as Map<String, dynamic>? ?? {};

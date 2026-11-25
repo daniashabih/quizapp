@@ -14,11 +14,13 @@ class SeoTechnicalTab extends StatefulWidget {
   final SeoDashboardPayload data;
   final Future<void> Function(String url, String strategy, {bool forceRefresh})
       onRunPageSpeed;
+  final Future<Map<String, dynamic>> Function()? onTestPageSpeedConnection;
 
   const SeoTechnicalTab({
     super.key,
     required this.data,
     required this.onRunPageSpeed,
+    this.onTestPageSpeedConnection,
   });
 
   @override
@@ -29,6 +31,8 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
   String _strategy = 'mobile';
   String _targetPath = '/';
   bool _runningPsi = false;
+  bool _testingConnection = false;
+  Map<String, dynamic>? _connectionResult;
 
   Map<String, dynamic> _resolveUrlCache(Map<String, dynamic> psi) {
     final byPath = psi['byPath'] as Map<String, dynamic>? ?? {};
@@ -107,6 +111,32 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
       );
     } finally {
       if (mounted) setState(() => _runningPsi = false);
+    }
+  }
+
+  Future<void> _triggerConnectionTest() async {
+    if (_testingConnection || _runningPsi || widget.onTestPageSpeedConnection == null) {
+      return;
+    }
+    setState(() {
+      _testingConnection = true;
+      _connectionResult = null;
+    });
+    try {
+      final res = await widget.onTestPageSpeedConnection!();
+      if (mounted) {
+        setState(() => _connectionResult = res);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _connectionResult = {
+              'ok': false,
+              'connectionStatus': 'Connection Error',
+              'message': e.toString().replaceFirst('Exception: ', ''),
+            });
+      }
+    } finally {
+      if (mounted) setState(() => _testingConnection = false);
     }
   }
 
@@ -190,6 +220,14 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
             ? 'Cached (${mobilePsi != null ? "Mobile" : "Desktop"} Available)'
             : 'No Cached Report');
 
+    final psiConnectionStatus = _connectionResult?['connectionStatus']?.toString() ??
+        psi['connectionStatus']?.toString() ??
+        widget.data.integrations['pagespeedConnectionStatus']?.toString() ??
+        (psi['apiKeyConfigured'] == true ||
+                widget.data.integrations['pagespeedHasKey'] == true
+            ? 'Configured (Not Tested)'
+            : 'Not Configured');
+
     final dropdownItems = _buildPrioritizedDropdownItems(psi);
     final selectedExists = dropdownItems.any((e) => e['path'] == _targetPath);
     final effectiveSelected = selectedExists ? _targetPath : '/';
@@ -238,6 +276,15 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
                             'Not checked')
                         .toString(),
                   ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: [
+                  SeoStatusBadge(status: 'API: $psiConnectionStatus'),
+                  SeoStatusBadge(status: cachedStatus),
                 ],
               ),
               const SizedBox(height: 10),
@@ -395,6 +442,7 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
               const SizedBox(height: 10),
               ElevatedButton.icon(
                 onPressed: (_runningPsi ||
+                        _testingConnection ||
                         (isDailyQuotaExhausted && activePsi != null))
                     ? null
                     : () => _triggerPsi(
@@ -424,6 +472,49 @@ class _SeoTechnicalTabState extends State<SeoTechnicalTab> {
                           : 'Run PageSpeed Check',
                 ),
               ),
+              if (widget.onTestPageSpeedConnection != null) ...[
+                const SizedBox(height: 8),
+                OutlinedButton.icon(
+                  onPressed: (_testingConnection || _runningPsi)
+                      ? null
+                      : _triggerConnectionTest,
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(40),
+                  ),
+                  icon: _testingConnection
+                      ? const SizedBox(
+                          width: 14,
+                          height: 14,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.bolt_rounded, size: 18),
+                  label: Text(
+                    _testingConnection
+                        ? 'Testing PageSpeed Connection...'
+                        : 'Test PageSpeed Connection',
+                  ),
+                ),
+              ],
+              if (_connectionResult != null) ...[
+                const SizedBox(height: 8),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: _connectionResult!['ok'] == true
+                        ? SeoColors.mintSurface(context)
+                        : const Color(0xFFFEF5E7),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    _connectionResult!['message']?.toString() ?? '',
+                    style: const TextStyle(
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
               if (activePsi != null) ...[
                 const SizedBox(height: 14),
                 Text(
@@ -1752,6 +1843,7 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
   final TextEditingController _psiKeyCtrl = TextEditingController();
   late String _crawlFreq;
   bool _saving = false;
+  String? _testingTarget;
   Map<String, dynamic>? _testResult;
 
   @override
@@ -1817,14 +1909,34 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
   }
 
   Future<void> _handleTest(String target) async {
-    final res = await widget.onTest(target);
-    if (mounted) {
-      setState(() {
-        _testResult = res;
-        if (target == 'gsc' && res['property'] != null) {
-          _gscCtrl.text = res['property'].toString();
-        }
-      });
+    if (_testingTarget != null) return;
+    setState(() {
+      _testingTarget = target;
+      _testResult = null;
+    });
+    try {
+      final res = await widget.onTest(target);
+      if (mounted) {
+        setState(() {
+          _testResult = res;
+          if (target == 'gsc' && res['property'] != null) {
+            _gscCtrl.text = res['property'].toString();
+          }
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _testResult = {
+            'ok': false,
+            'provider': target == 'pagespeed' ? 'Google PageSpeed Insights' : target,
+            'connectionStatus': 'Connection Error',
+            'message': e.toString().replaceFirst('Exception: ', ''),
+          };
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _testingTarget = null);
     }
   }
 
@@ -1869,6 +1981,41 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
         ? _testResult!['syncedAt'].toString()
         : (s['ga4LastSyncedAt']?.toString() ?? 'Not synced yet');
 
+    final isPsiTest = _testResult?['provider'] == 'Google PageSpeed Insights';
+    final psiConnected = isPsiTest
+        ? (_testResult?['ok'] == true)
+        : (s['pagespeedConnected'] == true);
+    final psiStatus = isPsiTest
+        ? (_testResult?['connectionStatus']?.toString() ??
+            (psiConnected ? 'Connected' : 'Connection Error'))
+        : (s['pagespeedConnectionStatus']?.toString() ??
+            (s['hasPagespeedApiKey'] == true
+                ? 'Configured (Not Tested)'
+                : 'Not Configured'));
+    final psiHasKey = isPsiTest
+        ? (_testResult?['apiKeyConfigured'] == true || s['hasPagespeedApiKey'] == true)
+        : (s['hasPagespeedApiKey'] == true);
+    final psiKeySource = isPsiTest
+        ? (_testResult?['apiKeySource']?.toString() ?? s['pagespeedApiKeySource']?.toString() ?? 'none')
+        : (s['pagespeedApiKeySource']?.toString() ?? 'none');
+    final psiApiEnabled = isPsiTest ? _testResult?['apiEnabled'] : s['pagespeedApiEnabled'];
+    final psiMobilePerf = isPsiTest ? _testResult?['mobilePerformance'] : s['pagespeedMobilePerformance'];
+    final psiDesktopPerf = isPsiTest ? _testResult?['desktopPerformance'] : s['pagespeedDesktopPerformance'];
+    final psiLastTestedAt = isPsiTest
+        ? (_testResult?['checkedAt']?.toString() ?? s['pagespeedLastTestedAt']?.toString())
+        : s['pagespeedLastTestedAt']?.toString();
+    final psiKeySourceLabel = !psiHasKey
+        ? 'Not Configured'
+        : (psiKeySource == 'env:PAGESPEED_API_KEY'
+            ? 'Backend Env (PAGESPEED_API_KEY)'
+            : 'Stored securely on backend');
+    final psiApiEnabledLabel = psiApiEnabled == true
+        ? 'Enabled'
+        : (psiApiEnabled == false ? 'Not Enabled' : 'Pending Test');
+    final psiMobileLabel = psiMobilePerf is num ? '$psiMobilePerf/100' : '—';
+    final psiDesktopLabel = psiDesktopPerf is num ? '$psiDesktopPerf/100' : '—';
+    final psiLastTestedLabel = psiLastTestedAt ?? 'Not tested yet';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -1877,16 +2024,20 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
           runSpacing: 8,
           children: [
             OutlinedButton(
-              onPressed: () => _handleTest('gsc'),
-              child: const Text('Test GSC'),
+              onPressed: _testingTarget != null ? null : () => _handleTest('gsc'),
+              child: Text(_testingTarget == 'gsc' ? 'Testing GSC...' : 'Test GSC'),
             ),
             OutlinedButton(
-              onPressed: () => _handleTest('ga4'),
-              child: const Text('Test GA4 Connection'),
+              onPressed: _testingTarget != null ? null : () => _handleTest('ga4'),
+              child: Text(_testingTarget == 'ga4' ? 'Testing GA4...' : 'Test GA4 Connection'),
             ),
             OutlinedButton(
-              onPressed: () => _handleTest('pagespeed'),
-              child: const Text('Test PageSpeed'),
+              onPressed: _testingTarget != null ? null : () => _handleTest('pagespeed'),
+              child: Text(
+                _testingTarget == 'pagespeed'
+                    ? 'Testing PageSpeed...'
+                    : 'Test PageSpeed Connection',
+              ),
             ),
           ],
         ),
@@ -2005,6 +2156,64 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
             ],
           ),
         ),
+        const SizedBox(height: 10),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: SeoColors.cardBg(context),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: SeoColors.border(context)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Google PageSpeed Insights API v5',
+                      style: AppTextStyles.labelBold.copyWith(
+                        fontSize: 13.5,
+                        color: SeoColors.textPrimary(context),
+                      ),
+                    ),
+                  ),
+                  SeoStatusBadge(status: psiStatus),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'API Key Source: $psiKeySourceLabel',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              Text(
+                'API Enabled: $psiApiEnabledLabel',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              Text(
+                'Mobile / Desktop (https://www.hangbug.com/): Mobile $psiMobileLabel · Desktop $psiDesktopLabel',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              Text(
+                'Last Connection Test: $psiLastTestedLabel',
+                style: const TextStyle(fontSize: 11.5),
+              ),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                onPressed: _testingTarget != null
+                    ? null
+                    : () => _handleTest('pagespeed'),
+                icon: const Icon(Icons.bolt_rounded, size: 16),
+                label: Text(
+                  _testingTarget == 'pagespeed'
+                      ? 'Testing Mobile & Desktop...'
+                      : 'Test PageSpeed Connection',
+                ),
+              ),
+            ],
+          ),
+        ),
         if (_testResult != null) ...[
           const SizedBox(height: 10),
           Container(
@@ -2015,9 +2224,24 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
                   : const Color(0xFFFEF5E7),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text(
-              'Test Connection Result — ${_testResult!['provider'] ?? 'Integration'}: ${_testResult!['message'] ?? 'Tested'}',
-              style: const TextStyle(fontSize: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Test Connection Result — ${_testResult!['provider'] ?? 'Integration'}: ${_testResult!['message'] ?? 'Tested'}',
+                  style: const TextStyle(fontSize: 12),
+                ),
+                if (_testResult!['provider'] == 'Google PageSpeed Insights') ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    'Target: ${_testResult!['targetUrl'] ?? 'https://www.hangbug.com/'} · Mobile: ${_testResult!['mobilePerformance'] ?? '—'}/100 · Desktop: ${_testResult!['desktopPerformance'] ?? '—'}/100',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
         ],
@@ -2080,8 +2304,13 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
               TextField(
                 controller: _psiKeyCtrl,
                 obscureText: true,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'PageSpeed Insights API Key (Optional)',
+                  hintText: s['pagespeedApiKeySource'] == 'env:PAGESPEED_API_KEY'
+                      ? '•••••••• (Loaded from PAGESPEED_API_KEY env)'
+                      : (s['hasPagespeedApiKey'] == true
+                          ? '•••••••• (Saved securely on backend)'
+                          : 'Server-side Google Cloud API key'),
                 ),
               ),
               const SizedBox(height: 10),

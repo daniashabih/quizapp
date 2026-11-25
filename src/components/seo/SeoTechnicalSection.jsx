@@ -13,7 +13,8 @@ import {
     AlertTriangle,
     Clock,
     Database,
-    ShieldAlert
+    ShieldAlert,
+    Zap
 } from 'lucide-react';
 import seoService from '../../services/seoService';
 import { toast } from '../../services/notificationService';
@@ -60,14 +61,21 @@ export default function SeoTechnicalSection({ data, domain, onDataUpdated }) {
     const [customPathInput, setCustomPathInput] = useState('');
     const [useCustomPath, setUseCustomPath] = useState(false);
     const [runningPsi, setRunningPsi] = useState(false);
+    const [testingConnection, setTestingConnection] = useState(false);
+    const [connectionTestResult, setConnectionTestResult] = useState(null);
     const [confirmingRefresh, setConfirmingRefresh] = useState(false);
     const [localPsiResult, setLocalPsiResult] = useState(null);
     const [psiErrorState, setPsiErrorState] = useState(null);
 
     const tech = data?.technical || {};
+    const integrations = data?.project?.integrations || {};
     const statusDist = tech.httpStatusCodes?.distribution || { '2xx': 0, '3xx': 0, '4xx': 0, '5xx': 0 };
     const psiData = localPsiResult || tech.pageSpeed || {};
     const cwv = tech.coreWebVitals || {};
+    const psiConnectionStatus = connectionTestResult?.connectionStatus
+        || psiData.connectionStatus
+        || integrations.pagespeedConnectionStatus
+        || (psiData.apiKeyConfigured || integrations.pagespeedHasKey ? 'Configured (Not Tested)' : 'Not Configured');
 
     const effectiveTargetPath = useMemo(() => {
         const raw = useCustomPath ? customPathInput.trim() : psiTargetPath;
@@ -231,6 +239,51 @@ export default function SeoTechnicalSection({ data, domain, onDataUpdated }) {
         executePageSpeedAudit({ forceRefresh: false });
     };
 
+    const handleTestConnection = async () => {
+        if (testingConnection || runningPsi) return;
+        setTestingConnection(true);
+        setConnectionTestResult(null);
+        setPsiErrorState(null);
+        try {
+            const res = await seoService.testIntegration(domain, 'pagespeed');
+            const result = res?.result || { ok: false, provider: 'Google PageSpeed Insights', message: 'No response from backend.' };
+            setConnectionTestResult(result);
+            if (result.ok) {
+                setLocalPsiResult(null);
+                toast.success(result.message || 'PageSpeed Insights connection verified.');
+                if (onDataUpdated) await onDataUpdated();
+            } else {
+                const errCat = result.errorCategory || 'api_error';
+                const errMsg = result.message || 'PageSpeed Insights connection test failed.';
+                setPsiErrorState({
+                    errorCategory: errCat,
+                    isQuotaError: Boolean(result.isQuotaError),
+                    isDailyQuota: Boolean(result.isDailyQuota),
+                    userMessage: errMsg,
+                    technicalDetail: '',
+                    nextRetryAt: result.nextRetryAt || null,
+                    projectNumber: result.projectNumber || null
+                });
+                toast.error(errMsg);
+                if (onDataUpdated) await onDataUpdated();
+            }
+        } catch (err) {
+            const errMsg = err?.response?.data?.message || err.message || 'PageSpeed connection test failed.';
+            setConnectionTestResult({
+                ok: false,
+                connectionStatus: 'Connection Error',
+                message: errMsg
+            });
+            setPsiErrorState({
+                errorCategory: 'api_error',
+                userMessage: errMsg
+            });
+            toast.error(errMsg);
+        } finally {
+            setTestingConnection(false);
+        }
+    };
+
     const reportCards = [
         {
             key: 'brokenLinks',
@@ -341,6 +394,17 @@ export default function SeoTechnicalSection({ data, domain, onDataUpdated }) {
                             <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#E5F2EC] dark:bg-[#1F352E] text-[#193D35] dark:text-emerald-300 border border-[#BBE0CE] dark:border-[#2A3832]">
                                 {cachedStatusLabel}
                             </span>
+                            <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${
+                                psiConnectionStatus === 'Connected'
+                                    ? 'bg-[#E5F2EC] dark:bg-emerald-950/50 text-[#193D35] dark:text-emerald-300 border-[#BBE0CE] dark:border-emerald-800/60'
+                                    : ['Invalid API Key', 'API Not Enabled', 'Quota Exceeded', 'Connection Error'].includes(psiConnectionStatus)
+                                        ? 'bg-[#FCEEED] dark:bg-red-950/50 text-[#B91C1C] dark:text-red-300 border-[#F8C9C6] dark:border-red-800/60'
+                                        : psiConnectionStatus === 'Configured (Not Tested)'
+                                            ? 'bg-[#FEF5E7] dark:bg-amber-950/50 text-[#B45309] dark:text-amber-300 border-[#F8DFB6] dark:border-amber-800/60'
+                                            : 'bg-[#F7F8F6] dark:bg-[#141D19] text-[#75817C] dark:text-[#8FA69C] border-[#E4EAE6] dark:border-[#2A3832]'
+                            }`}>
+                                API: {psiConnectionStatus}
+                            </span>
                         </div>
                         <p className="text-xs text-[#75817C] dark:text-[#8FA69C] mt-1">
                             On-demand Google PageSpeed Insights checks for {domain}. Successful results are cached by URL &amp; strategy for 24 hours.
@@ -419,7 +483,7 @@ export default function SeoTechnicalSection({ data, domain, onDataUpdated }) {
                         <button
                             type="button"
                             onClick={handlePrimaryAuditClick}
-                            disabled={runningPsi || (isDailyQuotaExhausted && Boolean(activePsi))}
+                            disabled={runningPsi || testingConnection || (isDailyQuotaExhausted && Boolean(activePsi))}
                             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold transition-colors disabled:opacity-60 cursor-pointer"
                         >
                             <RefreshCw size={13} className={runningPsi ? 'animate-spin' : ''} />
@@ -431,8 +495,31 @@ export default function SeoTechnicalSection({ data, domain, onDataUpdated }) {
                                         : 'Run PageSpeed Check'}
                             </span>
                         </button>
+
+                        <button
+                            type="button"
+                            onClick={handleTestConnection}
+                            disabled={testingConnection || runningPsi}
+                            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[#E4EAE6] dark:border-[#2A3832] bg-[#F7F8F6] dark:bg-[#141D19] hover:border-[#2F806B] text-[#17221F] dark:text-[#F3F6F4] text-xs font-semibold transition-colors disabled:opacity-60 cursor-pointer"
+                        >
+                            <Zap size={13} className="text-[#2F806B]" />
+                            <span>{testingConnection ? 'Testing Connection...' : 'Test PageSpeed Connection'}</span>
+                        </button>
                     </div>
                 </div>
+
+                {/* Live Connection Test Result Banner */}
+                {connectionTestResult?.ok && (
+                    <div className="p-3.5 rounded-xl bg-[#E5F2EC] dark:bg-emerald-950/40 border border-[#BBE0CE] dark:border-emerald-800/60 text-xs text-[#193D35] dark:text-emerald-300 flex items-start gap-2.5">
+                        <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-[#2F806B]" />
+                        <div className="space-y-0.5">
+                            <p className="font-bold">
+                                PageSpeed Insights API v5 Verified ({connectionTestResult.targetUrl || 'https://www.hangbug.com/'})
+                            </p>
+                            <p className="leading-relaxed">{connectionTestResult.message}</p>
+                        </div>
+                    </div>
+                )}
 
                 {/* Manual Refresh Confirmation Prompt */}
                 {confirmingRefresh && (

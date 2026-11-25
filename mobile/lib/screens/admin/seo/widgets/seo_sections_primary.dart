@@ -30,6 +30,12 @@ class _SeoOverviewTabState extends State<SeoOverviewTab> {
     final health = data.healthScore;
     final gscOk = data.integrations['gscConnected'] == true;
     final ga4Ok = data.integrations['ga4Connected'] == true;
+    final psiStatus = data.integrations['pagespeedConnectionStatus']?.toString() ??
+        (data.integrations['pagespeedConnected'] == true
+            ? 'Connected'
+            : (data.integrations['pagespeedHasKey'] == true
+                ? 'Configured (Not Tested)'
+                : 'Not Configured'));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -95,7 +101,7 @@ class _SeoOverviewTabState extends State<SeoOverviewTab> {
                   SeoStatusBadge(
                     status: ga4Ok ? 'GA4 API: Verified' : 'GA4 Tag Active',
                   ),
-                  const SeoStatusBadge(status: 'PageSpeed: Ready'),
+                  SeoStatusBadge(status: 'PageSpeed: $psiStatus'),
                 ],
               ),
             ],
