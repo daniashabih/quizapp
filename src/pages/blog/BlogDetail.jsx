@@ -445,6 +445,8 @@ export default function BlogDetail() {
     const datePublishedIso = activeArticle ? toIsoDate(activeArticle.publishedAt || activeArticle.createdAt) : undefined;
     const dateModifiedIso = activeArticle ? toIsoDate(activeArticle.updatedAt || activeArticle.publishedAt || activeArticle.createdAt, datePublishedIso) : undefined;
 
+    const canonicalBlogSlug = activeArticle ? String(activeArticle.slug || '').trim().toLowerCase() : '';
+
     // Dynamic SEO Configuration
     usePageSeo({
         skip: loading && !activeArticle,
@@ -452,7 +454,7 @@ export default function BlogDetail() {
         description: activeArticle
             ? seoDescription
             : "The page you are looking for doesn't exist, has been removed, or was moved to another URL.",
-        canonicalPath: activeArticle ? `/blog/${activeArticle.slug}` : undefined,
+        canonicalPath: canonicalBlogSlug ? `/blog/${canonicalBlogSlug}` : undefined,
         ogType: activeArticle ? 'article' : 'website',
         ogImage: coverImageUrl,
         ogImageAlt: activeArticle ? `${activeArticle.title} — Hangbug` : undefined,

@@ -999,6 +999,15 @@ class _SeoIndexingTabState extends State<SeoIndexingTab> {
     super.dispose();
   }
 
+  String _formatRobotsStatus(dynamic crawl) {
+    if (crawl is! Map) return '—';
+    if (crawl['isNoindex'] == true) return 'noindex';
+    final meta = crawl['robotsMeta']?.toString().trim() ?? '';
+    if (meta.isNotEmpty) return meta;
+    final xRobots = crawl['xRobotsTag']?.toString().trim() ?? '';
+    return xRobots.isNotEmpty ? xRobots : 'index, follow';
+  }
+
   Future<void> _runInspect() async {
     if (_inspecting) return;
     setState(() => _inspecting = true);
@@ -1129,7 +1138,7 @@ class _SeoIndexingTabState extends State<SeoIndexingTab> {
               if (_inspection != null) ...[
                 const SizedBox(height: 12),
                 Text(
-                  'HTTP ${_inspection!['crawl']?['httpStatus']} · Title: ${_inspection!['crawl']?['title'] ?? '—'}\nCanonical: ${_inspection!['crawl']?['canonicalUrl'] ?? '—'}',
+                  'HTTP ${_inspection!['crawl']?['httpStatus']} · Title: ${_inspection!['crawl']?['title'] ?? '—'}\nCanonical: ${_inspection!['crawl']?['canonicalUrl'] ?? '—'}\nRobots: ${_formatRobotsStatus(_inspection!['crawl'])} · Sitemap: ${_inspection!['crawl']?['inSitemap'] == true ? 'Listed' : 'Excluded'}',
                   style: TextStyle(
                     fontSize: 11.5,
                     color: SeoColors.textPrimary(context),
@@ -1163,7 +1172,7 @@ class _SeoIndexingTabState extends State<SeoIndexingTab> {
                           ),
                         ),
                         Text(
-                          'Words: ${u['wordCount'] ?? 0} · Canonical: ${u['canonicalValid'] == true ? 'Valid' : 'Check'}',
+                          'Words: ${u['wordCount'] ?? 0} · Canonical: ${u['canonicalValid'] == true ? 'Valid' : 'Check'} · ${u['isNoindex'] == true ? 'Noindex' : (u['inSitemap'] == true ? 'Sitemap' : 'Not in Sitemap')}',
                           style: TextStyle(
                             fontSize: 10.5,
                             color: SeoColors.textMuted(context),
@@ -1173,7 +1182,9 @@ class _SeoIndexingTabState extends State<SeoIndexingTab> {
                     ),
                   ),
                   SeoStatusBadge(
-                    status: u['httpStatus'] == 200 ? 'Good' : 'Critical',
+                    status: u['httpStatus'] == 200 && u['isNoindex'] != true
+                        ? 'Good'
+                        : 'Critical',
                   ),
                 ],
               ),

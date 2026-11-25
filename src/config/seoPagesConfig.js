@@ -607,7 +607,7 @@ export const SEO_PAGES_CONFIG = {
         id: 'games',
         path: '/games',
         title: 'Coding & Typing Games for Developers — Hangbug Games Hub',
-        description: 'Play 18 interactive coding and developer typing games in your browser. Solve Code Puzzles, Find the Bug, predict outputs, write SQL queries, and boost code WPM.',
+        description: 'Play 20 interactive developer mini-games on Hangbug. Practice algorithm logic, debug code snippets, predict console outputs, write SQL queries, and boost your coding typing speed.',
         primaryKeyword: 'coding games',
         secondaryKeywords: [
             'programming games for developers',
@@ -616,7 +616,7 @@ export const SEO_PAGES_CONFIG = {
             'SQL query game',
             'code puzzle and syntax typing practice'
         ],
-        h1: 'Coding & Typing Games for Developers',
+        h1: 'Interactive Coding & Typing Games for Developers',
         h2s: [
             'Sharpen Logic & Developer Keyboard Speed',
             'Choose Your Technology Track',
@@ -696,8 +696,8 @@ export const SEO_PAGES_CONFIG = {
     about: {
         id: 'about',
         path: '/about',
-        title: 'About Us — Hangbug Developer Skill Verification Platform & Coding Quizzes',
-        description: 'Discover how Hangbug helps developers and students practice coding quizzes, play interactive programming games, and earn verifiable completion certificates.',
+        title: 'About Hangbug – Technology Learning, Tech Quizzes & Skill Assessment Platform',
+        description: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
         primaryKeyword: 'interactive coding quiz platform',
         secondaryKeywords: [
             'about Hangbug developer platform',
@@ -705,7 +705,7 @@ export const SEO_PAGES_CONFIG = {
             'software engineering self-assessment tool',
             'coding quiz and game learning platform'
         ],
-        h1: 'About Hangbug — Interactive Coding Quizzes & Programming Practice',
+        h1: 'About Hangbug: Interactive Coding Quizzes, Games & Skill Practice',
         h2s: [
             'Core Platform Pillars',
             'Our Mission for Developer Self-Assessment',
@@ -730,8 +730,8 @@ export const SEO_PAGES_CONFIG = {
     contact: {
         id: 'contact',
         path: '/contact',
-        title: 'Contact Support & Inquiries — Hangbug Coding Quiz Platform',
-        description: 'Contact the Hangbug support team for help with coding quizzes, account access, certificate verification, bug reports, or educational partnership inquiries.',
+        title: 'Contact Support & Inquiries — Hangbug',
+        description: 'Get in touch with the Hangbug team for questions regarding technology quizzes, score-based certificates, coding games, or technical support.',
         primaryKeyword: 'contact Hangbug support',
         secondaryKeywords: [
             'Hangbug help and customer support',
@@ -739,7 +739,7 @@ export const SEO_PAGES_CONFIG = {
             'certificate verification assistance',
             'developer platform inquiries'
         ],
-        h1: 'Contact Hangbug Support & Platform Inquiries',
+        h1: 'Get in Touch with the Hangbug Support Team',
         h2s: [
             'Direct Support Channels',
             'Send Us a Message',
@@ -761,11 +761,116 @@ export const SEO_PAGES_CONFIG = {
         ]
     },
 
+    leaderboard: {
+        id: 'leaderboard',
+        path: '/leaderboard',
+        title: 'Global Developer Leaderboard & Rankings — Hangbug',
+        description: 'See top ranked software engineers and learners worldwide. Track XP, accuracy, quiz streaks, and score-based certificates on Hangbug.',
+        primaryKeyword: 'developer leaderboard',
+        secondaryKeywords: [
+            'coding quiz rankings',
+            'programming leaderboard',
+            'top software developers Hangbug',
+            'quiz accuracy scores'
+        ],
+        h1: 'Global Developer Rankings & Top Quiz Performers',
+        h2s: [
+            'How Developer Rankings Are Calculated',
+            'Scoring Criteria, Accuracy & Speed Multipliers',
+            'Weekly & All-Time Developer Standings',
+            'Climbing the Leaderboard Through Consistent Practice'
+        ],
+        h3s: [
+            'Quiz Accuracy & Verified Session Completions',
+            'Streak Retention & Active Engagement Points',
+            'Fair Play & Duplicate Submission Prevention'
+        ],
+        introContent: 'The Hangbug Leaderboard recognizes top engineering talent worldwide based on quiz accuracy, consecutive practice streaks, and verified technical mastery across frontend, backend, mobile, and database development tracks.',
+        imageAlt: 'Hangbug global developer leaderboard rankings and trophy achievements',
+        internalLinks: [
+            { label: 'HTML Quizzes', to: '/technologies/html' },
+            { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
+            { label: 'Code Puzzle', to: '/games/code-puzzle' },
+            { label: 'Developer Blog', to: '/blog' },
+            { label: 'Verify Certificate', to: '/certificate/view', rel: 'nofollow' }
+        ]
+    },
+
+    privacyPolicy: {
+        id: 'privacyPolicy',
+        path: '/privacy-policy',
+        title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy',
+        description: 'Understand how Hangbug collects, utilizes, stores, and protects user data, authentication credentials, and advertising cookie disclosures.',
+        primaryKeyword: 'Hangbug privacy policy',
+        secondaryKeywords: [
+            'data protection policy',
+            'cookie policy Hangbug',
+            'user data deletion rights',
+            'Google Identity Services privacy'
+        ],
+        h1: 'Hangbug Privacy Policy & Personal Data Protection',
+        h2s: [
+            'Data Collection & Transparent Processing',
+            'Authentication Security & Google Sign-In',
+            'Cookies, Local Storage & Advertising Compliance',
+            'Your Rights: Access, Export & Permanent Account Deletion'
+        ],
+        h3s: [
+            'Personal Information Collected (Email, Display Name, Quiz Scores)',
+            'Session Tokens & Anti-Tampering Cookies',
+            'Google Identity Services Privacy Assurances',
+            'Self-Service Account Deletion within 24 Hours'
+        ],
+        introContent: 'Hangbug is dedicated to safeguarding your personal data and respecting your privacy rights. This policy transparently explains what data we collect, why we collect it, how your session information is stored, and the strict controls you have over your account information.',
+        imageAlt: 'Hangbug data protection and user privacy policy document emblem',
+        internalLinks: [
+            { label: 'Terms of Service', to: '/terms' },
+            { label: 'Delete Account', to: '/delete-account', rel: 'nofollow' },
+            { label: 'About Hangbug', to: '/about' },
+            { label: 'Contact Support', to: '/contact' }
+        ]
+    },
+
+    terms: {
+        id: 'terms',
+        path: '/terms',
+        title: 'Terms of Service — Hangbug Platform Terms & Conditions',
+        description: 'Review the Hangbug Terms of Service governing platform usage, score-based certificate verification, intellectual property, and community guidelines.',
+        primaryKeyword: 'Hangbug terms of service',
+        secondaryKeywords: [
+            'platform terms and conditions',
+            'coding quiz fair play rules',
+            'certificate verification terms',
+            'Hangbug user agreement'
+        ],
+        h1: 'Hangbug Platform Terms and Conditions of Service',
+        h2s: [
+            'Acceptable Use & Academic Integrity',
+            'Digital Developer Certificate Authenticity & Verification',
+            'Account Security & Authenticated Access',
+            'Intellectual Property & Platform Guidelines'
+        ],
+        h3s: [
+            'Fair Assessment Practices & Ban on Automated Solvers',
+            'Verifiable Certificate Issuance & LinkedIn Sharing Standards',
+            'User Responsibilities for Profile Security',
+            'Open Access Learning Philosophy'
+        ],
+        introContent: 'These Terms of Service govern your access to and use of Hangbug, including our technology quizzes, coding mini-games, leaderboard scoring, and digital developer certificates. By accessing Hangbug, you agree to comply with these terms.',
+        imageAlt: 'Hangbug terms of service and platform guidelines document emblem',
+        internalLinks: [
+            { label: 'Privacy Policy', to: '/privacy-policy' },
+            { label: 'Verify Certificates', to: '/certificate/view', rel: 'nofollow' },
+            { label: 'About Hangbug', to: '/about' },
+            { label: 'Contact Support', to: '/contact' }
+        ]
+    },
+
     resources: {
         id: 'blog',
         path: '/blog',
-        title: 'Developer Blog & Learning Resources — Coding Practice Guides | Hangbug',
-        description: 'Explore Hangbug learning resources, structured programming study paths, interview preparation strategies, and direct links to coding quizzes and games.',
+        title: 'Programming & Web Development Blog: Tutorials & Guides | Hangbug',
+        description: 'Learn programming step-by-step with practical tutorials, coding guides, and interview prep on HTML, CSS, JavaScript, PHP, Laravel, Flutter, C#, and databases.',
         primaryKeyword: 'programming learning resources',
         secondaryKeywords: [
             'coding practice study guides',
@@ -774,7 +879,7 @@ export const SEO_PAGES_CONFIG = {
             'frontend and backend practice guide',
             'developer skill building resources'
         ],
-        h1: 'Blog & Learning Resources for Programming Practice',
+        h1: 'Learn Programming Step by Step — Tutorials & Coding Guides',
         h2s: [
             'Structured Programming Study Roadmaps',
             'How to Combine Coding Quizzes With Interactive Games',
@@ -810,6 +915,111 @@ export const SEO_PAGES_CONFIG = {
             { label: 'Flutter & Dart Mobile Guide', to: '/blog/flutter-dart-mobile-app-development' },
             { label: 'Coding & Typing Games', to: '/games' },
             { label: 'Certificate Information', to: '/certificate/view' }
+        ]
+    },
+
+    leaderboard: {
+        id: 'leaderboard',
+        path: '/leaderboard',
+        title: 'Global Developer Leaderboard & Rankings — Hangbug',
+        description: 'View the global Hangbug developer leaderboard. Track top scores, accuracy rankings, completed quiz sessions, and earned technology certificates.',
+        primaryKeyword: 'developer quiz leaderboard',
+        secondaryKeywords: [
+            'global coding rankings',
+            'programming quiz top scorers',
+            'Hangbug XP and accuracy standings',
+            'software developer quiz leaderboard'
+        ],
+        h1: 'Global Developer Rankings, Quiz Leaderboards & Top Scorers',
+        h2s: [
+            'How Developer Rankings Are Calculated',
+            'Scoring Criteria, Accuracy & Speed Multipliers',
+            'Weekly & All-Time Developer Standings',
+            'Climbing the Leaderboard Through Consistent Practice'
+        ],
+        h3s: [
+            'Quiz Accuracy & Verified Session Completions',
+            'Streak Retention & Active Engagement Points',
+            'Fair Play & Duplicate Submission Prevention'
+        ],
+        introContent: 'The Hangbug Leaderboard recognizes top engineering talent worldwide based on quiz accuracy, consecutive practice streaks, and verified technical mastery across frontend, backend, mobile, and database development tracks.',
+        imageAlt: 'Hangbug global developer leaderboard rankings and XP performance board',
+        internalLinks: [
+            { label: 'HTML Quizzes', to: '/technologies/html' },
+            { label: 'JavaScript Quizzes', to: '/technologies/javascript' },
+            { label: 'Code Puzzle', to: '/games/code-puzzle' },
+            { label: 'Developer Blog', to: '/blog' },
+            { label: 'Verify Certificate', to: '/certificate/view', rel: 'nofollow' }
+        ]
+    },
+
+    privacyPolicy: {
+        id: 'privacyPolicy',
+        path: '/privacy-policy',
+        title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy',
+        description: 'Read the official Hangbug Privacy Policy detailing our transparent data collection, cookie usage, account privacy standards, and user data rights.',
+        primaryKeyword: 'Hangbug privacy policy',
+        secondaryKeywords: [
+            'data protection and cookie policy',
+            'Hangbug account privacy standards',
+            'Google Sign-In data security',
+            'self-service account deletion rights'
+        ],
+        h1: 'Hangbug Privacy Policy & Personal Data Protection',
+        h2s: [
+            'Data Collection & Transparent Processing',
+            'Authentication Security & Google Sign-In',
+            'Cookies, Local Storage & Advertising Compliance',
+            'Your Rights: Access, Export & Permanent Account Deletion'
+        ],
+        h3s: [
+            'Personal Information Collected (Email, Display Name, Quiz Scores)',
+            'Session Tokens & Anti-Tampering Cookies',
+            'Google Identity Services Privacy Assurances',
+            'Self-Service Account Deletion within 24 Hours'
+        ],
+        introContent: 'Hangbug is dedicated to safeguarding your personal data and respecting your privacy rights. This policy transparently explains what data we collect, why we collect it, how your session information is stored, and the strict controls you have over your account information.',
+        imageAlt: 'Hangbug Privacy Policy and user data protection documentation',
+        internalLinks: [
+            { label: 'Terms of Service', to: '/terms' },
+            { label: 'Delete Account', to: '/delete-account', rel: 'nofollow' },
+            { label: 'About Hangbug', to: '/about' },
+            { label: 'Contact Support', to: '/contact' }
+        ]
+    },
+
+    terms: {
+        id: 'terms',
+        path: '/terms',
+        title: 'Terms of Service — Hangbug Platform Terms & Conditions',
+        description: 'Review the Hangbug Terms of Service governing quiz taking, developer certificate issuance, community integrity, intellectual property, and platform usage.',
+        primaryKeyword: 'Hangbug terms of service',
+        secondaryKeywords: [
+            'Hangbug platform terms and conditions',
+            'developer certificate verification rules',
+            'academic integrity and fair play policy',
+            'online coding quiz usage terms'
+        ],
+        h1: 'Hangbug Platform Terms and Conditions of Service',
+        h2s: [
+            'Acceptable Use & Academic Integrity',
+            'Digital Developer Certificate Authenticity & Verification',
+            'Account Security & Authenticated Access',
+            'Intellectual Property & Platform Guidelines'
+        ],
+        h3s: [
+            'Fair Assessment Practices & Ban on Automated Solvers',
+            'Verifiable Certificate Issuance & LinkedIn Sharing Standards',
+            'User Responsibilities for Profile Security',
+            'Open Access Learning Philosophy'
+        ],
+        introContent: 'These Terms of Service govern your access to and use of Hangbug, including our technology quizzes, coding mini-games, leaderboard scoring, and digital developer certificates. By accessing Hangbug, you agree to comply with these terms.',
+        imageAlt: 'Hangbug Terms of Service and platform usage guidelines',
+        internalLinks: [
+            { label: 'Privacy Policy', to: '/privacy-policy' },
+            { label: 'Verify Certificates', to: '/certificate/view', rel: 'nofollow' },
+            { label: 'About Hangbug', to: '/about' },
+            { label: 'Contact Support', to: '/contact' }
         ]
     }
 };

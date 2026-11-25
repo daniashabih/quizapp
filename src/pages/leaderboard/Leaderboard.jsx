@@ -27,7 +27,7 @@ const LeaderboardPage = ({ mode: propMode }) => {
         description: isFullMode
             ? 'Explore the complete directory of ranked software engineers and learners worldwide on Hangbug.'
             : 'See top ranked software engineers and learners worldwide. Track XP, accuracy, quiz streaks, and score-based certificates on Hangbug.',
-        canonicalPath: '/leaderboard',
+        canonicalPath: (isDashboard || isFullMode) ? undefined : '/leaderboard',
         noindex: isDashboard || isFullMode
     });
 

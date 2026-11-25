@@ -117,10 +117,14 @@ export function usePageSeo({
             else setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', description);
         }
 
-        // 3. Route-specific Canonical URL (remove stale canonical on noindex error pages)
-        if (canonicalPath !== undefined && canonicalPath !== null) {
-            const cleanPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
-            const canonicalHref = `${BASE_URL}${cleanPath === '/' ? '/' : cleanPath.replace(/\/$/, '')}`;
+        // 3. Route-specific Canonical URL (remove stale canonical on noindex pages)
+        const normalizedCanonicalInput = typeof canonicalPath === 'string' ? canonicalPath.trim() : '';
+        let resolvedCanonicalPath = '';
+        if (normalizedCanonicalInput && !noindex) {
+            const stripped = normalizedCanonicalInput.split('?')[0].split('#')[0].replace(/\/{2,}/g, '/');
+            const prefixed = stripped.startsWith('/') ? stripped : `/${stripped}`;
+            resolvedCanonicalPath = prefixed === '/' ? '/' : (prefixed.replace(/\/+$/, '') || '/');
+            const canonicalHref = `${BASE_URL}${resolvedCanonicalPath}`;
 
             let canonicalLink = document.querySelector('link[rel="canonical"]');
             if (!canonicalLink) {
@@ -197,13 +201,14 @@ export function usePageSeo({
         // 7. Schema.org JSON-LD Structured Data
         const shouldEmitSchema =
             !disableStructuredData &&
-            (Boolean(canonicalPath) || schemaType === 'ProfilePage' || Boolean(article));
+            !noindex &&
+            (Boolean(resolvedCanonicalPath) || schemaType === 'ProfilePage' || Boolean(article));
 
         if (shouldEmitSchema) {
             const jsonLd = buildPageStructuredData({
                 title,
                 description,
-                canonicalPath: canonicalPath || '/',
+                canonicalPath: resolvedCanonicalPath || '/',
                 ogImage: imageToUse,
                 schemaType,
                 breadcrumbs,

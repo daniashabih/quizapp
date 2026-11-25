@@ -200,7 +200,7 @@ export default function SeoIndexingSection({ data, domain, onNavigate }) {
                             <p>HTTP Status: <strong>{inspectionResult.crawl?.httpStatus}</strong> ({inspectionResult.crawl?.responseTimeMs} ms)</p>
                             <p>Title: <strong>{inspectionResult.crawl?.title || 'Missing'}</strong></p>
                             <p>Canonical: <span className="font-mono">{inspectionResult.crawl?.canonicalUrl || 'Missing'}</span></p>
-                            <p>Robots Meta: <strong>{inspectionResult.crawl?.robotsMeta || 'none'}</strong> · In Sitemap: <strong>{inspectionResult.crawl?.inSitemap ? 'Yes' : 'No'}</strong></p>
+                            <p>Robots Meta: <strong>{inspectionResult.crawl?.robotsMeta || 'none'}</strong>{inspectionResult.crawl?.xRobotsTag ? ` · X-Robots-Tag: ${inspectionResult.crawl.xRobotsTag}` : ''} · In Sitemap: <strong>{inspectionResult.crawl?.inSitemap ? 'Yes' : 'No'}</strong></p>
                         </div>
                         <div className="space-y-1.5">
                             <p className="font-bold text-[#193D35] dark:text-emerald-300">Google Search Console URL Inspection</p>
@@ -296,6 +296,11 @@ export default function SeoIndexingSection({ data, domain, onNavigate }) {
                                                     }`}>
                                                         {row.httpStatus}
                                                     </span>
+                                                    {row.isNoindex && (
+                                                        <span className={`ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold border ${getStatusBadgeClasses('Critical')}`}>
+                                                            Noindex
+                                                        </span>
+                                                    )}
                                                 </td>
                                                 <td className="py-2.5 px-3">
                                                     {row.canonicalValid ? (

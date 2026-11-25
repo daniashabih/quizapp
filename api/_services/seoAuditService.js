@@ -849,18 +849,27 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
     const sitemapPaths = parseSitemapXmlUrls(sitemapXml);
     const sitemapSet = new Set(sitemapPaths);
 
-    // Combine canonical public routes to inspect (cap safely for serverless speed)
+    // Combine canonical public routes to inspect (cap safely for serverless speed).
+    // Intentionally private/noindex routes are excluded unless present in sitemap.xml so sitemap leaks are still detected.
     const maxPages = Math.min(80, Number(config?.maxCrawlPages) || 60);
-    const corePaths = seoController.CORE_PUBLIC_ROUTES.map(r => r.loc);
-    const publishedBlogPaths = catalog.blogPosts.filter(b => b.isPublished !== false && b.slug).map(b => `/blog/${b.slug}`);
+    const corePaths = seoController.CORE_PUBLIC_ROUTES
+        .map(r => r.loc)
+        .filter(p => !seoController.isNoindexAppRoute(p));
+    const publishedBlogPaths = catalog.blogPosts
+        .filter(b => b.isPublished !== false && b.slug)
+        .map(b => `/blog/${b.slug}`)
+        .filter(p => !seoController.isNoindexAppRoute(p));
     const techPaths = Array.from(sitemapPaths).filter(p => p.startsWith('/technologies/'));
-    const gamePaths = catalog.games.map(g => `/games/${g.slug}`);
+    const gamePaths = catalog.games
+        .filter(g => g.isPublished !== false && g.isActive !== false && g.slug)
+        .map(g => `/games/${g.slug}`)
+        .filter(p => !seoController.isNoindexAppRoute(p));
 
     const targetPaths = Array.from(new Set([
         ...corePaths,
+        ...sitemapPaths,
         ...techPaths,
         ...publishedBlogPaths,
-        ...sitemapPaths,
         ...gamePaths
     ])).slice(0, maxPages);
 
@@ -979,7 +988,13 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
 
     const noindexRoutesSet = new Set(seoController.NOINDEX_EXACT_ROUTES || []);
     const orphanPages = crawledPages
-        .filter(p => p.path !== '/' && !p.isNoindex && !noindexRoutesSet.has(p.path) && (inboundCounts.get(p.path) || 0) === 0)
+        .filter(p => (
+            p.path !== '/' &&
+            !p.isNoindex &&
+            !noindexRoutesSet.has(p.path) &&
+            !seoController.isNoindexAppRoute(p.path) &&
+            (inboundCounts.get(p.path) || 0) === 0
+        ))
         .map(p => p.path);
 
     // Detect page-level SEO issues
@@ -1007,7 +1022,9 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
     const imageAltIssues = crawledPages.filter(p => p.imagesMissingAlt > 0);
     const thinContentPages = crawledPages.filter(p => !['/privacy-policy', '/terms'].includes(p.path) && p.wordCount > 0 && p.wordCount < 200);
     const multiHopRedirects = redirectChecks.filter(r => r.redirectHops > 1 || r.finalStatus >= 400);
-    const accidentalNoindexPages = crawledPages.filter(p => p.isNoindex || p.xRobotsTag.includes('noindex'));
+    const accidentalNoindexPages = crawledPages.filter(
+        p => (p.isNoindex || p.xRobotsTag.includes('noindex')) && (p.inSitemap || !seoController.isNoindexAppRoute(p.path))
+    );
 
     // Blog SEO gaps from MongoDB
     const blogMissingSeoDesc = catalog.blogPosts.filter(b => b.isPublished !== false && !b.seoDescription && !b.excerpt);
@@ -1099,9 +1116,12 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
             type: 'indexing',
             whatIsIssue: `${accidentalNoindexPages.length} public page(s) carry a noindex meta tag or X-Robots-Tag header.`,
             whyItMatters: 'Pages marked noindex are completely dropped from Google Search results even if listed in sitemap.xml.',
-            affectedUrls: accidentalNoindexPages.map(p => ({ url: p.path, detail: p.robotsMeta || p.xRobotsTag })),
+            affectedUrls: accidentalNoindexPages.map(p => ({
+                url: p.path,
+                detail: `${p.robotsMeta || p.xRobotsTag}${p.inSitemap ? ' (listed in sitemap.xml)' : ''}`
+            })),
             recommendedAction: 'Remove noindex from public indexable pages or exclude intentionally private pages from sitemap.xml.',
-            howToFix: '1. Check usePageSeo({ noindex: ... }) in the React component.\n2. Check NOINDEX_EXACT_ROUTES in api/_controllers/seoController.js.',
+            howToFix: '1. Check usePageSeo({ noindex: ... }) in the React component.\n2. Check NOINDEX_EXACT_ROUTES and CORE_PUBLIC_ROUTES in api/_controllers/seoController.js.\n3. Regenerate public/sitemap.xml if any private route is listed.',
             source: sourceLabel
         }));
     }
@@ -1732,7 +1752,8 @@ async function runFullSeoAudit({ domain = DEFAULT_DOMAIN, config = null, gscData
             h1Count: p.h1Count,
             wordCount: p.wordCount,
             canonicalValid: p.canonicalValid,
-            isNoindex: p.isNoindex,
+            isNoindex: Boolean(p.isNoindex || (p.xRobotsTag && p.xRobotsTag.includes('noindex'))),
+            xRobotsTag: p.xRobotsTag || '',
             inSitemap: p.inSitemap,
             responseTimeMs: p.responseTimeMs,
             internalLinksCount: p.internalLinksCount,

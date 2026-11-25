@@ -106,6 +106,23 @@ test('5. Backend SEO Audit Engine & Routes: Runs deterministic audit without fak
 
     assert.strictEqual(seoController.isKnownAppRoute('/dashboard/seo/technical'), true);
     assert.strictEqual(seoController.isNoindexAppRoute('/dashboard/seo/technical'), true);
+    assert.ok(seoController.NOINDEX_EXACT_ROUTES instanceof Set, 'NOINDEX_EXACT_ROUTES must be exported');
+    assert.ok(seoController.NOINDEX_EXACT_ROUTES.has('/leaderboard/full'), 'NOINDEX_EXACT_ROUTES must include /leaderboard/full');
+    assert.ok(seoController.NOINDEX_EXACT_ROUTES.has('/certificate/view'), 'NOINDEX_EXACT_ROUTES must include /certificate/view');
+
+    const corePaths = seoController.CORE_PUBLIC_ROUTES.map(r => r.loc);
+    assert.ok(!corePaths.includes('/leaderboard/full'), 'CORE_PUBLIC_ROUTES must exclude auth-gated noindex /leaderboard/full');
+    for (const p of corePaths) {
+        assert.strictEqual(seoController.isNoindexAppRoute(p), false, `CORE_PUBLIC_ROUTES entry ${p} must not be noindex`);
+    }
+
+    const sitemapXml = seoController.buildSitemapXml();
+    for (const noindexPath of seoController.NOINDEX_EXACT_ROUTES) {
+        assert.ok(
+            !sitemapXml.includes(`<loc>https://www.hangbug.com${noindexPath}</loc>`),
+            `buildSitemapXml() must exclude noindex route ${noindexPath}`
+        );
+    }
 
     const run = await auditService.runFullSeoAudit({
         domain: 'www.hangbug.com',
@@ -122,6 +139,12 @@ test('5. Backend SEO Audit Engine & Routes: Runs deterministic audit without fak
     }
 
     assert.ok(Array.isArray(run.issues) && run.issues.length > 0, 'Audit must produce structured issues');
+    const accidentalNoindexIssue = run.issues.find(i => i.id === 'accidental_noindex');
+    assert.strictEqual(
+        accidentalNoindexIssue,
+        undefined,
+        `Public audit must not raise accidental_noindex; got: ${JSON.stringify(accidentalNoindexIssue?.affectedUrls || [])}`
+    );
     for (const issue of run.issues) {
         assert.ok(issue.whatIsIssue && issue.whyItMatters && issue.recommendedAction && issue.howToFix);
         assert.ok(['Critical', 'Needs attention', 'Good', 'Not checked'].includes(issue.status));

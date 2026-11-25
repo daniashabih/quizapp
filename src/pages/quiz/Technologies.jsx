@@ -41,7 +41,7 @@ export default function Technologies() {
     usePageSeo({
         title: 'Choose Your Tech Stack — Programming & Framework Quizzes | Hangbug',
         description: 'Practice interactive technology MCQ quizzes on Hangbug across HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Node.js, SQL Server, and Python.',
-        canonicalPath: '/technologies',
+        canonicalPath: isDashboard ? undefined : '/technologies',
         noindex: isDashboard
     });
     const [categories, setCategories] = useState([]);

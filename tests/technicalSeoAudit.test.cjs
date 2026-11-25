@@ -760,6 +760,11 @@ test('30. Internal Linking & Orphan Prevention Audit: Zero broken/redirect publi
     assert.ok(!footer.includes('to="/leaderboard/full"'), 'Footer.jsx must NOT link to auth-gated noindex /leaderboard/full');
     assert.ok(!landing.includes('to="/leaderboard/full"'), 'Landing.jsx must NOT link to auth-gated noindex /leaderboard/full');
     assert.ok(!seoConfig.includes("to: '/leaderboard/full'"), 'seoPagesConfig.js must NOT link to /leaderboard/full');
+    const seoController = require('../api/_controllers/seoController');
+    assert.ok(
+        !seoController.CORE_PUBLIC_ROUTES.some(r => r.loc === '/leaderboard/full'),
+        'seoController.CORE_PUBLIC_ROUTES must NOT include auth-gated noindex /leaderboard/full'
+    );
 
     // 2. Footer covers all 14 core DB games and 6 published blog articles cleanly
     const requiredFooterGames = [

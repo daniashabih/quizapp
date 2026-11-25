@@ -1259,6 +1259,7 @@ const GameModel = {
 
                 return {
                     ...game,
+                    baseSlug: GAME_ALIASES[cleanSlug]?.baseSlug || game.slug,
                     userHighScore,
                     userBestWpm,
                     userBestAccuracy,
@@ -1279,6 +1280,7 @@ const GameModel = {
                     ...baseGame,
                     id: `game_${cleanSlug.replace(/-/g, '_')}`,
                     slug: cleanSlug,
+                    baseSlug: alias.baseSlug,
                     title: alias.title,
                     description: alias.description || baseGame.description,
                     category: alias.category || baseGame.category,

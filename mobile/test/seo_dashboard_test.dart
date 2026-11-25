@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hangbug/core/theme/app_theme.dart';
 import 'package:hangbug/models/seo_dashboard_model.dart';
 import 'package:hangbug/screens/admin/seo/widgets/seo_charts.dart';
+import 'package:hangbug/screens/admin/seo/widgets/seo_sections_primary.dart';
 import 'package:hangbug/screens/admin/seo/widgets/seo_sections_secondary.dart';
 import 'package:hangbug/screens/admin/seo/widgets/seo_theme_tokens.dart';
 
@@ -283,5 +284,70 @@ void main() {
     expect(find.textContaining('API: Quota Exceeded'), findsOneWidget);
     expect(find.text('Test PageSpeed Connection'), findsOneWidget);
     expect(find.textContaining('Next Available Retry: 2026-11-21T08:00:00.000Z'), findsOneWidget);
+  });
+
+  testWidgets(
+      'SeoIndexingTab flags noindex URLs in inventory and displays sitemap status',
+      (WidgetTester tester) async {
+    final payload = SeoDashboardPayload.fromJson({
+      'success': true,
+      'data': {
+        'project': {
+          'domain': 'www.hangbug.com',
+          'siteUrl': 'https://www.hangbug.com',
+          'integrations': {'gscConnected': false},
+        },
+        'indexing': {
+          'gscConnected': false,
+          'explanation': 'Live crawlability summary',
+          'summary': {
+            'indexedPages': {'crawlableReadyCount': 1},
+            'notIndexedPages': {'crawlNoindexCount': 1},
+            'redirects': {'value': 0},
+            'errors': {'value': 0},
+            'sitemapStatus': {'urlCount': 1, 'status': 'Good'},
+          },
+          'urlInventory': [
+            {
+              'path': '/technologies/javascript',
+              'httpStatus': 200,
+              'canonicalValid': true,
+              'isNoindex': false,
+              'inSitemap': true,
+              'wordCount': 850,
+            },
+            {
+              'path': '/private-leak',
+              'httpStatus': 200,
+              'canonicalValid': false,
+              'isNoindex': true,
+              'inSitemap': false,
+              'wordCount': 120,
+            },
+          ],
+        },
+      },
+    });
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.lightTheme,
+        home: Scaffold(
+          body: SingleChildScrollView(
+            child: SeoIndexingTab(
+              data: payload,
+              onInspectUrl: (_) async => {'crawl': {}},
+            ),
+          ),
+        ),
+      ),
+    );
+
+    expect(find.text('/technologies/javascript'), findsOneWidget);
+    expect(find.textContaining('Sitemap'), findsAtLeastNWidgets(1));
+    expect(find.text('/private-leak'), findsOneWidget);
+    expect(find.textContaining('Noindex'), findsOneWidget);
+    expect(find.text('Good'), findsAtLeastNWidgets(1));
+    expect(find.text('Critical'), findsOneWidget);
   });
 }
