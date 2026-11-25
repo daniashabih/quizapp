@@ -17,7 +17,7 @@ export const SITE_URL = 'https://www.hangbug.com';
 export const SITE_HOME_URL = 'https://www.hangbug.com/';
 export const SITE_NAME = 'Hangbug';
 export const SITE_ALTERNATE_NAME = 'HangBug';
-export const OFFICIAL_TITLE = 'Learn Programming & Practice Tech Quizzes Online | Hangbug';
+export const OFFICIAL_TITLE = 'Free Interactive Coding Quizzes & Certificates | Hangbug';
 export const OFFICIAL_DESCRIPTION =
     'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.';
 export const LOGO_URL = 'https://www.hangbug.com/branding/hangbug-logo-full.png';

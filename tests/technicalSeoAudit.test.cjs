@@ -13,17 +13,17 @@ function readFile(relPath) {
 test('1. Technical SEO: Unique titles and meta descriptions for public pages', () => {
     const seoConfigContent = readFile('src/config/seoPagesConfig.js');
     const publicPages = [
-        { file: 'src/pages/Landing.jsx', title: 'Learn Programming & Practice Tech Quizzes Online | Hangbug' },
-        { file: 'src/pages/quiz/Technologies.jsx', title: 'SEO_PAGES_CONFIG.technologies.title', configTitle: 'Technology Quizzes & Coding Practice Tracks | Hangbug' },
-        { file: 'src/pages/quiz/TechnologyDetail.jsx', title: 'Technology Quizzes & Coding Practice | Hangbug' },
-        { file: 'src/pages/games/GamesHub.jsx', title: 'Coding & Typing Games for Developers — Hangbug Games Hub' },
+        { file: 'src/pages/Landing.jsx', title: 'Free Interactive Coding Quizzes & Certificates | Hangbug' },
+        { file: 'src/pages/quiz/Technologies.jsx', title: 'SEO_PAGES_CONFIG.technologies.title', configTitle: 'Interactive Tech Quizzes with Free Certificates | Hangbug' },
+        { file: 'src/pages/quiz/TechnologyDetail.jsx', title: 'Free Tech Quizzes: Practice & Earn Certificates | Hangbug' },
+        { file: 'src/pages/games/GamesHub.jsx', title: 'Free Interactive Coding Games & Typing Practice | Hangbug' },
         { file: 'src/pages/games/GamePlayer.jsx', title: 'formatGameSeoTitle(', configTitle: 'Developer Typing Challenge' },
         { file: 'src/pages/leaderboard/Leaderboard.jsx', title: 'Global Developer Leaderboard & Rankings — Hangbug' },
-        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug — Coding Quizzes & Tech Learning Platform' },
+        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug — Free Coding Quizzes & Certificates' },
         { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — Hangbug Coding Quiz Platform' },
         { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy' },
         { file: 'src/pages/legal/TermsOfService.jsx', title: 'Terms of Service — Hangbug Platform Terms & Conditions' },
-        { file: 'src/pages/certificates/CertificateView.jsx', title: 'Verify Developer Certificate — Hangbug Skill Verification' }
+        { file: 'src/pages/certificates/CertificateView.jsx', title: 'Free Coding Certificates: Earn & Verify Online | Hangbug' }
     ];
 
     for (const page of publicPages) {
@@ -367,7 +367,7 @@ test('18. Brand Identity & AI Overview Accuracy: Official Hangbug title, meta de
     const landing = readFile('src/pages/Landing.jsx');
     const about = readFile('src/pages/legal/AboutUs.jsx');
 
-    const officialTitle = 'Learn Programming & Practice Tech Quizzes Online | Hangbug';
+    const officialTitle = 'Free Interactive Coding Quizzes & Certificates | Hangbug';
     const officialDesc = 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.';
 
     assert.ok(indexHtml.includes(`<title>${officialTitle}</title>`), 'index.html must use official Hangbug title');
@@ -580,7 +580,7 @@ test('28. Homepage SEO Verification: Metadata, H1 hierarchy, canonical, Open Gra
         require('node:url').pathToFileURL(path.join(ROOT_DIR, 'src', 'utils', 'structuredData.js')).href
     );
 
-    const expectedTitle = 'Learn Programming & Practice Tech Quizzes Online | Hangbug';
+    const expectedTitle = 'Free Interactive Coding Quizzes & Certificates | Hangbug';
     const expectedDesc = 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.';
     const expectedH1 = 'Learn Programming, Practice Tech Quizzes & Earn Certificates';
 

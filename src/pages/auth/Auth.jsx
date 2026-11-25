@@ -95,7 +95,7 @@ export default function Auth({ initialMode = 'login' }) {
 
     usePageSeo({
         title: isSignUp
-            ? 'Create Free Developer Account — Hangbug Coding Quizzes'
+            ? 'Sign Up Free: Coding Quizzes & Certificates | Hangbug'
             : 'Sign In to Your Developer Account — Hangbug Quizzes',
         description: isSignUp
             ? 'Create your HangBug account to test your programming skills and earn verified certificates.'

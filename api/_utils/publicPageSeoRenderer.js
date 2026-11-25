@@ -571,7 +571,7 @@ function buildPublicPageStructuredDataFallback({
     softwareApplication = null
 } = {}) {
     const pageUrl = normalizeCanonicalUrl(canonicalPath);
-    const resolvedTitle = title || `Learn Programming & Practice Tech Quizzes Online | Hangbug`;
+    const resolvedTitle = title || `Free Interactive Coding Quizzes & Certificates | Hangbug`;
     const resolvedDescription = description || OFFICIAL_DESCRIPTION;
     const breadcrumbNode = buildBreadcrumbListNode(deriveBreadcrumbs(canonicalPath, resolvedTitle), pageUrl);
 
@@ -668,7 +668,7 @@ function buildGameBodyHtml(game, { canonicalSlug, title, h1, description } = {})
 const CORE_INDEXABLE_FALLBACK_META = {
     '/': {
         canonicalPath: '/',
-        title: 'Learn Programming & Practice Tech Quizzes Online | Hangbug',
+        title: 'Free Interactive Coding Quizzes & Certificates | Hangbug',
         description: OFFICIAL_DESCRIPTION,
         h1: 'Practice Coding Quizzes, Interactive Games & Developer Skills',
         primaryKeyword: 'online coding practice platform',
@@ -676,14 +676,14 @@ const CORE_INDEXABLE_FALLBACK_META = {
     },
     '/technologies': {
         canonicalPath: '/technologies',
-        title: 'Choose Your Tech Stack — Programming & Framework Quizzes | Hangbug',
+        title: 'Interactive Tech Quizzes with Free Certificates | Hangbug',
         description: 'Select from HTML, CSS, JavaScript, React, PHP, Laravel, MySQL, MongoDB, Flutter, Dart, and Python quiz tracks on Hangbug.',
         h1: 'Choose Your Technology Track & Start Coding Practice',
         primaryKeyword: 'programming and framework quizzes'
     },
     '/games': {
         canonicalPath: '/games',
-        title: 'Coding & Typing Games for Developers — Hangbug Games Hub',
+        title: 'Free Interactive Coding Games & Typing Practice | Hangbug',
         description: 'Play 20 browser-based coding puzzles, bug-finding challenges, SQL query games, and developer typing speed tests on Hangbug.',
         h1: 'Interactive Coding & Typing Games for Software Developers',
         primaryKeyword: 'developer coding and typing games',
@@ -698,7 +698,7 @@ const CORE_INDEXABLE_FALLBACK_META = {
     },
     '/about': {
         canonicalPath: '/about',
-        title: 'About Hangbug — Coding Quizzes & Tech Learning Platform',
+        title: 'About Hangbug — Free Coding Quizzes & Certificates',
         description: 'Learn how Hangbug combines programming quizzes, browser coding games, and score-based certificates for active developer practice.',
         h1: 'About Hangbug: Interactive Coding Quizzes, Games & Skill Practice',
         primaryKeyword: 'interactive coding quiz platform'
@@ -751,7 +751,7 @@ function resolveCoreFallbackMeta(cleanPath = '/') {
             .split('-')
             .map(w => (w === 'html' || w === 'css' || w === 'php' || w === 'sql' ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1)))
             .join(' ');
-        const title = `${techName} Quizzes & Coding Practice | Hangbug`;
+        const title = `Free ${techName} Quiz: Practice & Certificate | Hangbug`;
         const description = `Practice ${techName} programming questions with instant feedback and downloadable score-based certificates on Hangbug.`;
         return {
             canonicalPath: clean,

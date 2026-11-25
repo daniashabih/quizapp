@@ -241,7 +241,7 @@ for (const key of CORE_INDEXABLE_PAGE_KEYS) {
 const additionalPages = [
     {
         path: '/certificate/view',
-        title: 'Verify Developer Certificate — Hangbug Skill Verification',
+        title: 'Free Coding Certificates: Earn & Verify Online | Hangbug',
         h1: 'Hangbug Developer Certificate Verification & Credential Lookup',
         description: 'Verify the authenticity of Hangbug developer completion certificates. Look up unique certificate IDs to confirm quiz mastery, score tiers, and completion dates.',
         robots: 'noindex, nofollow',

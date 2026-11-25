@@ -64,7 +64,7 @@ export const GamesHub = () => {
     }, [games]);
 
     usePageSeo({
-        title: 'Coding & Typing Games for Developers — Hangbug Games Hub',
+        title: 'Free Interactive Coding Games & Typing Practice | Hangbug',
         description: 'Sharpen your coding logic, syntax memory, and typing speed on Hangbug with interactive browser games including Code Puzzle, Find the Bug, and Speed Typing.',
         canonicalPath: '/games',
         schemaType: 'WebPage',

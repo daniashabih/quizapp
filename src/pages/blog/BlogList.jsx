@@ -102,7 +102,7 @@ export default function BlogList() {
         : INITIAL_BLOG_ARTICLES.filter(a => a && a.isPublished !== false).slice(0, 9);
 
     usePageSeo({
-        title: 'Programming Blog: Developer Tutorials & Guides | Hangbug',
+        title: 'Free Programming Tutorials & Quiz Practice Guides | Hangbug',
         description: 'Learn programming step-by-step with practical tutorials, coding guides, and interview prep on HTML, CSS, JavaScript, PHP, Laravel, Flutter, C#, and databases.',
         canonicalPath: '/blog',
         schemaType: 'WebPage',

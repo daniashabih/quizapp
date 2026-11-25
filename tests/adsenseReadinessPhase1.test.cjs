@@ -100,13 +100,13 @@ test('5. usePageSeo hook verification: exists and handles title, meta descriptio
 test('6. Route-specific SEO metadata applied across all specified public pages', () => {
     const seoConfigCode = fs.readFileSync(path.join(ROOT_DIR, 'src', 'config', 'seoPagesConfig.js'), 'utf8');
     const pages = [
-        { file: 'src/pages/Landing.jsx', title: 'Learn Programming & Practice Tech Quizzes Online | Hangbug' },
-        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug — Coding Quizzes & Tech Learning Platform' },
+        { file: 'src/pages/Landing.jsx', title: 'Free Interactive Coding Quizzes & Certificates | Hangbug' },
+        { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug — Free Coding Quizzes & Certificates' },
         { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — Hangbug Coding Quiz Platform' },
         { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy' },
         { file: 'src/pages/legal/TermsOfService.jsx', title: 'Terms of Service — Hangbug Platform Terms & Conditions' },
-        { file: 'src/pages/quiz/Technologies.jsx', title: 'SEO_PAGES_CONFIG.technologies.title', configTitle: 'Technology Quizzes & Coding Practice Tracks | Hangbug' },
-        { file: 'src/pages/games/GamesHub.jsx', title: 'Coding & Typing Games for Developers — Hangbug Games Hub' },
+        { file: 'src/pages/quiz/Technologies.jsx', title: 'SEO_PAGES_CONFIG.technologies.title', configTitle: 'Interactive Tech Quizzes with Free Certificates | Hangbug' },
+        { file: 'src/pages/games/GamesHub.jsx', title: 'Free Interactive Coding Games & Typing Practice | Hangbug' },
         { file: 'src/pages/leaderboard/Leaderboard.jsx', title: 'Global Developer Leaderboard & Rankings — Hangbug' }
     ];
 

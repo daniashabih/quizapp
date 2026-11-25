@@ -38,7 +38,7 @@ const OFFICIAL_DESCRIPTION =
     'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.';
 const DEFAULT_LOGO_URL = 'https://www.hangbug.com/branding/hangbug-logo-full.png';
 const SUPPORT_EMAIL = 'support@hangbug.com';
-const BLOG_LIST_TITLE = 'Programming Blog: Developer Tutorials & Guides | Hangbug';
+const BLOG_LIST_TITLE = 'Free Programming Tutorials & Quiz Practice Guides | Hangbug';
 const BLOG_LIST_DESCRIPTION =
     'Learn programming step-by-step with practical tutorials, coding guides, and interview prep on HTML, CSS, JavaScript, PHP, Laravel, Flutter, C#, and databases.';
 
@@ -232,7 +232,7 @@ function formatSeoTitleWithBrand(rawTitle, brand = SITE_NAME, maxLength = 60) {
 
 function formatGameSeoTitle(rawTitle = '', category = '') {
     const title = String(rawTitle || '').trim();
-    if (!title) return 'Play Developer Coding & Typing Games Online | Hangbug';
+    if (!title) return 'Play Free Interactive Coding & Typing Games | Hangbug';
     const isTyping = String(category || '').toLowerCase().includes('typing');
     const longSuffix = isTyping
         ? ' — Developer Typing Challenge | Hangbug'

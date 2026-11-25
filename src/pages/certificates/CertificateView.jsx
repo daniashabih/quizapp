@@ -25,7 +25,7 @@ export default function CertificateView() {
     const [certError, setCertError] = useState(null);
 
     usePageSeo({
-        title: 'Verify Developer Certificate — Hangbug Skill Verification',
+        title: 'Free Coding Certificates: Earn & Verify Online | Hangbug',
         description: 'Verify the authentic developer credentials, test scores, and issue dates of Hangbug skill assessment certificates.',
         noindex: true,
         disableStructuredData: true

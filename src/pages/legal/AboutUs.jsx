@@ -38,7 +38,7 @@ const COVERED_TECHNOLOGIES = [
 
 export default function AboutUs() {
     usePageSeo({
-        title: 'About Hangbug — Coding Quizzes & Tech Learning Platform',
+        title: 'About Hangbug — Free Coding Quizzes & Certificates',
         description: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
         canonicalPath: '/about',
         schemaType: 'WebPage',

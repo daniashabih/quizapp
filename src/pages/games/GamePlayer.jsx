@@ -127,7 +127,7 @@ export const GamePlayer = () => {
         skip: loading && !seoGame,
         title: seoGame
             ? formatGameSeoTitle(seoGame.title, seoGame.category)
-            : 'Play Developer Coding & Typing Games Online | Hangbug',
+            : 'Play Free Interactive Coding & Typing Games | Hangbug',
         description: seoGame?.description
             ? `${seoGame.description} Practice interactive coding challenges on Hangbug.`
             : 'Play interactive coding and typing games on Hangbug to sharpen programming logic and keyboard speed.',

@@ -680,12 +680,12 @@ const NOINDEX_ROUTE_META = {
         h1: 'Sign In to Your Hangbug Coding Account'
     },
     '/register': {
-        title: 'Create Free Developer Account — Hangbug Coding Quizzes',
+        title: 'Sign Up Free: Coding Quizzes & Certificates | Hangbug',
         description: 'Create your free Hangbug account to practice technology quizzes, play coding games, and build verifiable software engineering credentials.',
         h1: 'Create Your Free Hangbug Developer Account'
     },
     '/signup': {
-        title: 'Create Free Developer Account — Hangbug Coding Quizzes',
+        title: 'Sign Up Free: Coding Quizzes & Certificates | Hangbug',
         description: 'Create your free Hangbug account to practice technology quizzes, play coding games, and build verifiable software engineering credentials.',
         h1: 'Create Your Free Hangbug Developer Account'
     },
@@ -715,7 +715,7 @@ const NOINDEX_ROUTE_META = {
         h1: 'Delete Your Hangbug Account & Data'
     },
     '/certificate/view': {
-        title: 'Verify Developer Certificate — Hangbug Skill Verification',
+        title: 'Free Coding Certificates: Earn & Verify Online | Hangbug',
         description: 'Verify the authenticity of Hangbug developer completion certificates by credential ID.',
         h1: 'Hangbug Developer Certificate Verification & Credential Lookup'
     },
