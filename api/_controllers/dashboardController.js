@@ -656,7 +656,9 @@ const getAdminDashboard = async (req, res) => {
  */
 const getLeaderboard = async (req, res) => {
     try {
-        const { timeframe = 'all-time', category = 'All', limit, page } = req.query;
+        const { timeframe = 'all-time', category = 'All' } = req.query;
+        const limit = req.leaderboardLimit ?? req.query.limit;
+        const page = req.leaderboardPage ?? req.query.page;
 
         // Fetch users with their quiz results (excluding sensitive fields such as email/password)
         const users = await prisma.user.findMany({

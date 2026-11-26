@@ -82,7 +82,11 @@ const Leaderboard = ({
         setLoading(true);
         setError(null);
         try {
-            const data = await dashboardService.getLeaderboard({ timeframe, category });
+            const data = await dashboardService.getLeaderboard({
+                timeframe,
+                category,
+                full: isFullMode
+            });
             if (!data || !Array.isArray(data.leaderboard)) {
                 throw new Error('Unexpected response format from leaderboard API.');
             }
@@ -126,7 +130,7 @@ const Leaderboard = ({
         } finally {
             setLoading(false);
         }
-    }, [timeframe, category, onDataLoaded]);
+    }, [timeframe, category, onDataLoaded, isFullMode]);
 
     useEffect(() => {
         loadData();

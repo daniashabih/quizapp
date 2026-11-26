@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 
 const prisma = require('../api/_config/prisma');
 const dashboardController = require('../api/_controllers/dashboardController');
+const dashboardRoutes = require('../api/_routes/dashboardRoutes');
 const quizController = require('../api/_controllers/quizController');
 const Result = require('../api/_models/resultModel');
 const Setting = require('../api/_models/settingModel');
@@ -21,6 +22,59 @@ function createMockRes() {
         }
     };
 }
+
+test('public leaderboard requests are capped and full-directory access requires authentication', async () => {
+    const guard = dashboardRoutes.requireFullLeaderboardAuth;
+    const publicRequest = { query: {}, cookies: {}, headers: {} };
+    const publicResponse = createMockRes();
+    let publicNextCalled = false;
+
+    await guard(publicRequest, publicResponse, () => {
+        publicNextCalled = true;
+    });
+
+    assert.equal(publicNextCalled, true);
+    assert.equal(publicRequest.leaderboardLimit, '5');
+    assert.equal(publicRequest.leaderboardPage, '1');
+
+    const originalNodeEnv = process.env.NODE_ENV;
+    const originalVercel = process.env.VERCEL;
+    process.env.NODE_ENV = 'production';
+    process.env.VERCEL = '1';
+
+    try {
+        for (const query of [{ full: 'true' }, { limit: '100' }, { limit: '5', page: '2' }]) {
+            let statusCode = 200;
+            let nextCalled = false;
+            await guard(
+                {
+                    query,
+                    cookies: {},
+                    headers: { authorization: 'Bearer guest-admin-token' }
+                },
+                {
+                    status(code) {
+                        statusCode = code;
+                        return this;
+                    },
+                    json() {
+                        return this;
+                    }
+                },
+                () => {
+                    nextCalled = true;
+                }
+            );
+            assert.equal(statusCode, 401);
+            assert.equal(nextCalled, false);
+        }
+    } finally {
+        if (originalNodeEnv === undefined) delete process.env.NODE_ENV;
+        else process.env.NODE_ENV = originalNodeEnv;
+        if (originalVercel === undefined) delete process.env.VERCEL;
+        else process.env.VERCEL = originalVercel;
+    }
+});
 
 test('1. Leaderboard calculates XP, average score, certs, and sorts deterministically while excluding 0-quiz users', async () => {
     const origUserFindMany = prisma.user.findMany;

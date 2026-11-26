@@ -3,6 +3,7 @@ const TechnologyModel = require('../_models/technologyModel');
 const { TECHNOLOGY_CHALLENGES } = require('../_models/technologyChallenges');
 const prisma = require('../_config/prisma');
 const jwt = require('jsonwebtoken');
+const { isGuestAuthEnabled } = require('../_middlewares/authMiddleware');
 
 /**
  * Helper to optionally extract userId from auth header or cookie without failing if unauthenticated
@@ -20,8 +21,8 @@ function getOptionalUserId(req) {
             }
         }
         if (!token) return null;
-        if (token === 'guest-admin-token') return 'guest_admin';
-        if (token === 'guest-candidate-token') return 'guest_candidate';
+        if (isGuestAuthEnabled() && token === 'guest-admin-token') return 'guest_admin';
+        if (isGuestAuthEnabled() && token === 'guest-candidate-token') return 'guest_candidate';
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'hangbug_secure_jwt_secret_key_2026');
         return decoded?.id || decoded?.userId || null;

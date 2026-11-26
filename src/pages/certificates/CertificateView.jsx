@@ -6,22 +6,20 @@ import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import usePageSeo from '../../hooks/usePageSeo';
 import { Download, Linkedin, ArrowLeft, Award, QrCode, Loader2, AlertCircle } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 import { notify } from '../../services/notificationService';
 import { trackCertificateGeneration, trackCertificateDownload } from '../../utils/analytics';
 
 export default function CertificateView() {
     const location = useLocation();
-    const { user: authUser } = useAuth();
     const certRef = useRef(null);
     const hasTrackedViewRef = useRef(false);
     const [downloaded, setDownloaded] = useState(false);
 
     const searchParams = new URLSearchParams(location.search);
-    const queryId = searchParams.get('id');
+    const queryId = searchParams.get('id') || location.state?.certificateId || location.state?.id || '';
 
     const [fetchedCert, setFetchedCert] = useState(null);
-    const [loadingCert, setLoadingCert] = useState(!!queryId && !location.state);
+    const [loadingCert, setLoadingCert] = useState(Boolean(queryId));
     const [certError, setCertError] = useState(null);
 
     usePageSeo({
@@ -32,34 +30,47 @@ export default function CertificateView() {
     });
 
     useEffect(() => {
-        if (queryId && !location.state) {
-            axios.get(`/certificates/verify/${encodeURIComponent(queryId)}`)
-                .then(res => {
-                    if (res.data?.success && res.data?.certificate) {
-                        setFetchedCert(res.data.certificate);
-                    } else {
-                        setCertError("Certificate not found or invalid.");
-                    }
-                })
-                .catch(() => setCertError("Certificate not found or invalid."))
-                .finally(() => setLoadingCert(false));
+        if (!queryId) {
+            setCertError('No certificate ID was provided. Open a valid certificate verification link.');
+            setLoadingCert(false);
+            return undefined;
         }
-    }, [queryId, location.state]);
 
-    const state = location.state || {};
-    const category = fetchedCert?.category || state.category || 'Web Development';
-    const percentage = fetchedCert?.percentage ?? state.percentage ?? 90;
-    const resultId = state.resultId || '';
-    const id = fetchedCert?.id || queryId || state.id || state.certificateId || '';
+        let isMounted = true;
+        setLoadingCert(true);
+        setCertError(null);
+        axios.get(`/certificates/verify/${encodeURIComponent(queryId)}`)
+            .then(res => {
+                if (!isMounted) return;
+                if (res.data?.success && res.data?.certificate) {
+                    setFetchedCert(res.data.certificate);
+                } else {
+                    setCertError('Certificate not found or invalid.');
+                }
+            })
+            .catch(() => {
+                if (isMounted) setCertError('Certificate not found or invalid.');
+            })
+            .finally(() => {
+                if (isMounted) setLoadingCert(false);
+            });
 
-    const learnerName = fetchedCert?.user?.name || state.user?.name || authUser?.name || 'Verified Learner';
-    const certId = fetchedCert?.id || id || (resultId ? `HB-CERT-${resultId.slice(-6).toUpperCase()}` : `HB-CERT-${(category || 'DEV').slice(0, 3).toUpperCase()}-${new Date().getFullYear()}`);
-    const issueDate = fetchedCert?.issuedDate 
-        ? new Date(fetchedCert.issuedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-        : (state.date || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }));
+        return () => {
+            isMounted = false;
+        };
+    }, [queryId]);
+
+    const category = fetchedCert?.category || '';
+    const percentage = fetchedCert?.percentage ?? 0;
+    const certId = fetchedCert?.id || queryId;
+    const learnerName = fetchedCert?.learnerName || fetchedCert?.user?.name || 'Verified Learner';
+    const rawIssueDate = fetchedCert?.issueDate || fetchedCert?.issuedDate || fetchedCert?.createdAt;
+    const issueDate = rawIssueDate
+        ? new Date(rawIssueDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+        : '—';
 
     useEffect(() => {
-        if (!loadingCert && !certError && (fetchedCert || location.state) && !hasTrackedViewRef.current) {
+        if (!loadingCert && !certError && fetchedCert && !hasTrackedViewRef.current) {
             hasTrackedViewRef.current = true;
             trackCertificateGeneration({
                 category,
@@ -67,7 +78,7 @@ export default function CertificateView() {
                 certificateId: certId
             });
         }
-    }, [loadingCert, certError, fetchedCert, location.state, category, percentage, certId]);
+    }, [loadingCert, certError, fetchedCert, category, percentage, certId]);
 
     const handleDownload = () => {
         trackCertificateDownload({ category, certificateId: certId });
@@ -102,7 +113,7 @@ export default function CertificateView() {
         );
     }
 
-    if (certError) {
+    if (certError || !queryId) {
         return (
             <div className="min-h-screen bg-[var(--page-bg)] flex flex-col">
                 <Navbar />
@@ -110,7 +121,7 @@ export default function CertificateView() {
                     <div className="p-8 rounded-3xl card border border-red-500/20 max-w-md w-full space-y-4">
                         <AlertCircle size={40} className="text-red-500 mx-auto" />
                         <h1 className="text-xl font-display font-bold text-[var(--foreground)]">Invalid or Unverified Developer Certificate</h1>
-                        <p className="text-xs text-[var(--foreground-muted)]">{certError}</p>
+                        <p className="text-xs text-[var(--foreground-muted)]">{certError || 'No certificate ID was provided. Open a valid certificate verification link.'}</p>
                         <Link to="/" className="btn-primary text-xs py-2.5 justify-center">Return to Home</Link>
                     </div>
                 </div>

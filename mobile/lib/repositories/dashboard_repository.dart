@@ -16,12 +16,14 @@ class DashboardRepository {
     String category = 'All',
     int? limit,
     int? page,
+    bool full = false,
   }) async {
     return await dashboardService.getLeaderboard(
       timeframe: timeframe,
       category: category,
       limit: limit,
       page: page,
+      full: full,
     );
   }
 

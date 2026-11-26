@@ -167,9 +167,9 @@ export default function Result() {
                                         <Home size={14} /> Select Session
                                     </Link>
                                 </div>
-                                {passed && (
+                                {passed && certificateId && (
                                     <div className="flex items-center justify-center gap-3 pt-1">
-                                        <Link to="/certificate/view" state={{ category, percentage, score, total, certificateId, id: certificateId }}
+                                        <Link to={`/certificate/view?id=${encodeURIComponent(certificateId)}`}
                                             className="flex items-center gap-1.5 text-xs font-semibold text-[#193D35] hover:underline transition-colors">
                                             <Download size={13} /> View Certificate
                                         </Link>

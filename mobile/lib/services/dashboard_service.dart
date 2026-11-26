@@ -22,6 +22,7 @@ class DashboardService {
     String category = 'All',
     int? limit,
     int? page,
+    bool full = false,
   }) async {
     final queryParams = <String, dynamic>{
       'timeframe': timeframe,
@@ -29,6 +30,7 @@ class DashboardService {
     };
     if (limit != null) queryParams['limit'] = limit.toString();
     if (page != null) queryParams['page'] = page.toString();
+    if (full) queryParams['full'] = 'true';
 
     final response = await apiClient.get(
       ApiEndpoints.leaderboard,

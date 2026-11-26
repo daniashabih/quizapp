@@ -57,6 +57,7 @@ class _LeaderboardFullScreenState extends ConsumerState<LeaderboardFullScreen> {
     final filter = LeaderboardFilter(
       timeframe: _timeframe,
       category: _selectedCategory,
+      full: true,
     );
     final leaderboardAsync = ref.watch(leaderboardProvider(filter));
 

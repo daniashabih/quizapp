@@ -42,12 +42,14 @@ class LeaderboardFilter {
   final String category;
   final int? limit;
   final int? page;
+  final bool full;
 
   const LeaderboardFilter({
     this.timeframe = 'all-time',
     this.category = 'All',
     this.limit,
     this.page,
+    this.full = false,
   });
 
   @override
@@ -58,11 +60,16 @@ class LeaderboardFilter {
           timeframe == other.timeframe &&
           category == other.category &&
           limit == other.limit &&
-          page == other.page;
+          page == other.page &&
+          full == other.full;
 
   @override
   int get hashCode =>
-      timeframe.hashCode ^ category.hashCode ^ limit.hashCode ^ page.hashCode;
+      timeframe.hashCode ^
+      category.hashCode ^
+      limit.hashCode ^
+      page.hashCode ^
+      full.hashCode;
 }
 
 final leaderboardProvider = FutureProvider.autoDispose
@@ -74,6 +81,7 @@ final leaderboardProvider = FutureProvider.autoDispose
       category: filter.category,
       limit: filter.limit,
       page: filter.page,
+      full: filter.full,
     );
   },
 );

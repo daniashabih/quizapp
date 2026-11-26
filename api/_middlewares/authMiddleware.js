@@ -1,6 +1,10 @@
 const jwt = require('jsonwebtoken');
 const User = require('../_models/userModel');
 
+function isGuestAuthEnabled() {
+    return process.env.NODE_ENV !== 'production' && !process.env.VERCEL;
+}
+
 /**
  * Authentication Middleware
  * Reads JWT from HttpOnly cookie or Authorization Bearer header
@@ -26,8 +30,8 @@ const authMiddleware = async (req, res, next) => {
             });
         }
 
-        // Support guest tokens for seamless demo access
-        if (token === 'guest-admin-token') {
+        // Guest tokens are only accepted for local development.
+        if (isGuestAuthEnabled() && token === 'guest-admin-token') {
             req.user = {
                 id: 'guest_admin',
                 name: 'Guest Admin',
@@ -39,7 +43,7 @@ const authMiddleware = async (req, res, next) => {
             return next();
         }
 
-        if (token === 'guest-candidate-token') {
+        if (isGuestAuthEnabled() && token === 'guest-candidate-token') {
             req.user = {
                 id: 'guest_candidate',
                 name: 'Guest Candidate',
@@ -120,3 +124,4 @@ const adminMiddleware = (req, res, next) => {
 module.exports = authMiddleware;
 module.exports.authMiddleware = authMiddleware;
 module.exports.adminMiddleware = adminMiddleware;
+module.exports.isGuestAuthEnabled = isGuestAuthEnabled;
