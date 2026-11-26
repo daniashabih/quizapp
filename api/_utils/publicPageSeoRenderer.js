@@ -571,7 +571,7 @@ function buildPublicPageStructuredDataFallback({
     softwareApplication = null
 } = {}) {
     const pageUrl = normalizeCanonicalUrl(canonicalPath);
-    const resolvedTitle = title || `Free Interactive Coding Quizzes & Certificates | Hangbug`;
+    const resolvedTitle = title || `Interactive Coding Quizzes, Free Practice & Certificates`;
     const resolvedDescription = description || OFFICIAL_DESCRIPTION;
     const breadcrumbNode = buildBreadcrumbListNode(deriveBreadcrumbs(canonicalPath, resolvedTitle), pageUrl);
 
@@ -668,7 +668,7 @@ function buildGameBodyHtml(game, { canonicalSlug, title, h1, description } = {})
 const CORE_INDEXABLE_FALLBACK_META = {
     '/': {
         canonicalPath: '/',
-        title: 'Free Interactive Coding Quizzes & Certificates | Hangbug',
+        title: 'Interactive Coding Quizzes, Free Practice & Certificates',
         description: OFFICIAL_DESCRIPTION,
         h1: 'Practice Coding Quizzes, Interactive Games & Developer Skills',
         primaryKeyword: 'online coding practice platform',
@@ -676,7 +676,7 @@ const CORE_INDEXABLE_FALLBACK_META = {
     },
     '/technologies': {
         canonicalPath: '/technologies',
-        title: 'Interactive Tech Quizzes with Free Certificates | Hangbug',
+        title: 'All Tech Quizzes: Free Interactive Practice & Certificates',
         description: 'Select from HTML, CSS, JavaScript, React, PHP, Laravel, MySQL, MongoDB, Flutter, Dart, and Python quiz tracks on Hangbug.',
         h1: 'Choose Your Technology Track & Start Coding Practice',
         primaryKeyword: 'programming and framework quizzes'
@@ -698,7 +698,7 @@ const CORE_INDEXABLE_FALLBACK_META = {
     },
     '/about': {
         canonicalPath: '/about',
-        title: 'About Hangbug — Free Coding Quizzes & Certificates',
+        title: 'About Hangbug: Free Interactive Quizzes & Certificates',
         description: 'Learn how Hangbug combines programming quizzes, browser coding games, and score-based certificates for active developer practice.',
         h1: 'About Hangbug: Interactive Coding Quizzes, Games & Skill Practice',
         primaryKeyword: 'interactive coding quiz platform'
@@ -726,6 +726,21 @@ const CORE_INDEXABLE_FALLBACK_META = {
     }
 };
 
+/**
+ * Builds a CTR-focused technology quiz title (<= 60 chars) that highlights
+ * free interactive practice and certificates, keeping the brand when it fits.
+ */
+function buildTechnologyQuizFallbackTitle(techName) {
+    const name = String(techName || 'Tech').trim() || 'Tech';
+    const candidates = [
+        `Free ${name} Quiz: Interactive Practice & Certificate | Hangbug`,
+        `Free ${name} Quiz: Interactive Practice & Certificate`,
+        `Free Interactive ${name} Quiz & Certificate`,
+        `Free ${name} Quiz & Certificate`
+    ];
+    return candidates.find(c => c.length <= 60) || candidates[candidates.length - 1];
+}
+
 function resolveCoreFallbackMeta(cleanPath = '/') {
     const clean = !cleanPath || cleanPath === '/'
         ? '/'
@@ -751,7 +766,7 @@ function resolveCoreFallbackMeta(cleanPath = '/') {
             .split('-')
             .map(w => (w === 'html' || w === 'css' || w === 'php' || w === 'sql' ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1)))
             .join(' ');
-        const title = `Free ${techName} Quiz: Practice & Certificate | Hangbug`;
+        const title = buildTechnologyQuizFallbackTitle(techName);
         const description = `Practice ${techName} programming questions with instant feedback and downloadable score-based certificates on Hangbug.`;
         return {
             canonicalPath: clean,
@@ -875,5 +890,6 @@ module.exports = {
     buildGameBodyHtml,
     buildPublicPageStructuredDataFallback,
     resolveCoreFallbackMeta,
+    buildTechnologyQuizFallbackTitle,
     renderPublicPageHtml
 };

@@ -7,7 +7,7 @@ export const SEO_PAGES_CONFIG = {
     home: {
         id: 'home',
         path: '/',
-        title: 'Free Interactive Coding Quizzes & Certificates | Hangbug',
+        title: 'Interactive Coding Quizzes, Free Practice & Certificates',
         description: 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.',
         primaryKeyword: 'programming quizzes',
         secondaryKeywords: [
@@ -68,7 +68,7 @@ export const SEO_PAGES_CONFIG = {
     technologies: {
         id: 'technologies',
         path: '/technologies',
-        title: 'Interactive Tech Quizzes with Free Certificates | Hangbug',
+        title: 'All Tech Quizzes: Free Interactive Practice & Certificates',
         description: 'Browse Hangbug technology quizzes and programming practice tracks across HTML, CSS, JavaScript, React.js, PHP, Laravel, Python, SQL, Flutter, and Dart.',
         primaryKeyword: 'technology quizzes',
         secondaryKeywords: [
@@ -201,7 +201,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend & Full-Stack Development',
         categoryMatcher: ['JavaScript', 'PHP, XML JSON, Laravel, MySQL, JavaScript'],
         path: '/technologies/javascript',
-        title: 'Free JavaScript Quiz: ES6+ Practice & Certificate | Hangbug',
+        title: 'Free JavaScript Quiz: Interactive Practice & Certificate',
         description: 'Sharpen your JavaScript skills with session-based ES6+ quizzes and interactive coding games covering closures, Promises, async/await, and event loop execution.',
         primaryKeyword: 'JavaScript quizzes',
         secondaryKeywords: [
@@ -243,7 +243,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend Development',
         categoryMatcher: ['React.js', 'React'],
         path: '/technologies/react',
-        title: 'Free React.js Quiz: Hooks Practice & Certificate | Hangbug',
+        title: 'Free React.js Quiz: Interactive Practice & Certificate',
         description: 'Practice React.js with interactive quizzes and coding games covering useState, useEffect, custom hooks, component lifecycle, props, and rendering optimization.',
         primaryKeyword: 'React.js quizzes',
         secondaryKeywords: [
@@ -325,7 +325,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Backend Development',
         categoryMatcher: ['Laravel', 'PHP, XML JSON, Laravel, MySQL, JavaScript'],
         path: '/technologies/laravel',
-        title: 'Free Laravel Quiz: MVC Practice & Certificate | Hangbug',
+        title: 'Free Laravel Quiz: Interactive Practice & Certificate',
         description: 'Test your Laravel framework skills with interactive practice covering MVC routing, middleware, Eloquent ORM relationships, Blade templates, and Artisan CLI.',
         primaryKeyword: 'Laravel quizzes',
         secondaryKeywords: [
@@ -366,7 +366,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Database Engineering',
         categoryMatcher: ['MySQL', 'SQL', 'SQL Server', 'PHP, XML JSON, Laravel, MySQL, JavaScript'],
         path: '/technologies/mysql',
-        title: 'Free MySQL Quiz: SQL Query Practice & Certificate | Hangbug',
+        title: 'Free MySQL Quiz: Interactive Practice & Certificate',
         description: 'Practice MySQL and relational database queries with interactive quizzes and SQL coding challenges covering SELECT, JOINs, GROUP BY aggregations, and indexing.',
         primaryKeyword: 'MySQL quizzes',
         secondaryKeywords: [
@@ -406,7 +406,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Database Engineering',
         categoryMatcher: ['MongoDB', 'Mongo DB'],
         path: '/technologies/mongodb',
-        title: 'Free MongoDB Quiz: NoSQL Practice & Certificate | Hangbug',
+        title: 'Free MongoDB Quiz: Interactive Practice & Certificate',
         description: 'Practice MongoDB and NoSQL database concepts on Hangbug with 7 session-wise quizzes and interactive coding challenges covering BSON documents, CRUD queries, indexing, replication, sharding, and aggregations.',
         primaryKeyword: 'MongoDB quizzes',
         secondaryKeywords: [
@@ -446,7 +446,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Mobile Development',
         categoryMatcher: ['Flutter'],
         path: '/technologies/flutter',
-        title: 'Free Flutter Quiz: Widgets Practice & Certificate | Hangbug',
+        title: 'Free Flutter Quiz: Interactive Practice & Certificate',
         description: 'Practice cross-platform mobile development with Hangbug Flutter quizzes and coding games covering StatelessWidget, StatefulWidget, layout trees, and navigation.',
         primaryKeyword: 'Flutter quizzes',
         secondaryKeywords: [
@@ -487,7 +487,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Mobile & Language Development',
         categoryMatcher: ['Dart'],
         path: '/technologies/dart',
-        title: 'Free Dart Quiz: Null Safety Practice & Certificate | Hangbug',
+        title: 'Free Dart Quiz: Interactive Practice & Certificate | Hangbug',
         description: 'Sharpen your Dart programming skills with interactive coding games and practice covering sound null safety, Futures, Streams, classes, mixins, and collections.',
         primaryKeyword: 'Dart quizzes',
         secondaryKeywords: [
@@ -528,7 +528,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Backend & General Programming',
         categoryMatcher: ['Python'],
         path: '/technologies/python',
-        title: 'Free Python Quiz: Coding Practice & Certificate | Hangbug',
+        title: 'Free Python Quiz: Interactive Practice & Certificate',
         description: 'Test your Python programming skills with multi-session quizzes and interactive coding games covering lists, dictionaries, generators, OOP, and Pythonic logic.',
         primaryKeyword: 'Python quizzes',
         secondaryKeywords: [
@@ -569,7 +569,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Computer Science Foundations',
         categoryMatcher: ['Programming Fundamentals', 'Programming Logic', 'OOP', 'DSA'],
         path: '/technologies/programming-fundamentals',
-        title: 'Free Programming Fundamentals Quiz & Certificate | Hangbug',
+        title: 'Free Interactive Programming Fundamentals Quiz & Certificate',
         description: 'Build strong computer science foundations with interactive practice in programming logic, Object-Oriented Programming (OOP), and Data Structures & Algorithms.',
         primaryKeyword: 'programming fundamentals quiz',
         secondaryKeywords: [
@@ -696,7 +696,7 @@ export const SEO_PAGES_CONFIG = {
     about: {
         id: 'about',
         path: '/about',
-        title: 'About Hangbug — Free Coding Quizzes & Certificates',
+        title: 'About Hangbug: Free Interactive Quizzes & Certificates',
         description: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
         primaryKeyword: 'interactive coding quiz platform',
         secondaryKeywords: [
@@ -869,7 +869,7 @@ export const SEO_PAGES_CONFIG = {
     resources: {
         id: 'blog',
         path: '/blog',
-        title: 'Free Programming Tutorials & Quiz Practice Guides | Hangbug',
+        title: 'Free Coding Tutorials & Interactive Quiz Practice | Hangbug',
         description: 'Learn programming step-by-step with practical tutorials, coding guides, and interview prep on HTML, CSS, JavaScript, PHP, Laravel, Flutter, C#, and databases.',
         primaryKeyword: 'programming learning resources',
         secondaryKeywords: [
@@ -925,7 +925,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend & Full-Stack Development',
         categoryMatcher: ['TypeScript'],
         path: '/technologies/typescript',
-        title: 'Free TypeScript Quiz: Types Practice & Certificate | Hangbug',
+        title: 'Free TypeScript Quiz: Interactive Practice & Certificate',
         description: 'Practice TypeScript static typing, interfaces, type narrowing, generics, utility types, and strict compiler checks with interactive Hangbug quizzes.',
         primaryKeyword: 'TypeScript quizzes',
         secondaryKeywords: [
@@ -966,7 +966,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Full-Stack React Framework',
         categoryMatcher: ['Next.js', 'NextJS'],
         path: '/technologies/nextjs',
-        title: 'Free Next.js Quiz: SSR Practice & Certificate | Hangbug',
+        title: 'Free Next.js Quiz: Interactive Practice & Certificate',
         description: 'Test your Next.js expertise across App Router layouts, React Server Components, Server Actions, caching, middleware, and production SEO optimization.',
         primaryKeyword: 'Next.js quizzes',
         secondaryKeywords: [
@@ -1006,7 +1006,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'DevOps & Cloud Containers',
         categoryMatcher: ['Docker'],
         path: '/technologies/docker',
-        title: 'Free Docker Quiz: Container Practice & Certificate | Hangbug',
+        title: 'Free Docker Quiz: Interactive Practice & Certificate',
         description: 'Practice Docker containers, Dockerfiles, persistent volumes, bridge networking, Docker Compose, multi-stage builds, and container security on Hangbug.',
         primaryKeyword: 'Docker quizzes',
         secondaryKeywords: [
@@ -1046,7 +1046,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Database Engineering',
         categoryMatcher: ['SQL'],
         path: '/technologies/sql',
-        title: 'Free SQL Quiz: Joins Practice & Certificate | Hangbug',
+        title: 'Free SQL Quiz: Interactive Practice & Certificate | Hangbug',
         description: 'Master ANSI SQL queries with interactive quizzes covering SELECT execution order, JOINs, GROUP BY, ACID transactions, CTEs, window functions, and indexes.',
         primaryKeyword: 'SQL quizzes',
         secondaryKeywords: [
@@ -1086,7 +1086,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend Styling Framework',
         categoryMatcher: ['Tailwind CSS', 'TailwindCSS'],
         path: '/technologies/tailwindcss',
-        title: 'Free Tailwind CSS Quiz: UI Practice & Certificate | Hangbug',
+        title: 'Free Tailwind CSS Quiz: Interactive Practice & Certificate',
         description: 'Test your Tailwind CSS knowledge across utility spacing scales, mobile-first breakpoints, dark mode variants, Flexbox/Grid gaps, and arbitrary values.',
         primaryKeyword: 'Tailwind CSS quizzes',
         secondaryKeywords: [
@@ -1127,7 +1127,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Version Control & DevOps',
         categoryMatcher: ['Git'],
         path: '/technologies/git',
-        title: 'Free Git Quiz: Branching Practice & Certificate | Hangbug',
+        title: 'Free Git Quiz: Interactive Practice & Certificate | Hangbug',
         description: 'Practice Git version control with interactive quizzes covering staging, branching, fetch vs. pull, merge vs. rebase, reset modes, bisect, and reflog recovery.',
         primaryKeyword: 'Git quizzes',
         secondaryKeywords: [
@@ -1166,7 +1166,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Developer Collaboration & CI/CD',
         categoryMatcher: ['GitHub'],
         path: '/technologies/github',
-        title: 'Free GitHub Quiz: Actions Practice & Certificate | Hangbug',
+        title: 'Free GitHub Quiz: Interactive Practice & Certificate',
         description: 'Test your GitHub workflow skills covering forks, Pull Requests, branch rulesets, CODEOWNERS, Dependabot, OIDC auth, and GitHub Actions CI/CD security.',
         primaryKeyword: 'GitHub quizzes',
         secondaryKeywords: [
@@ -1205,7 +1205,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend Framework',
         categoryMatcher: ['Angular', 'AngularJS'],
         path: '/technologies/angular',
-        title: 'Free Angular Quiz: Signals Practice & Certificate | Hangbug',
+        title: 'Free Angular Quiz: Interactive Practice & Certificate',
         description: 'Practice modern Angular development with quizzes covering standalone components, @for/@if control flow, Dependency Injection, RxJS operators, Signals, and OnPush.',
         primaryKeyword: 'Angular quizzes',
         secondaryKeywords: [
@@ -1245,7 +1245,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend Framework',
         categoryMatcher: ['Vue', 'Vue.js', 'VueJS'],
         path: '/technologies/vue',
-        title: 'Free Vue.js Quiz: Vue 3 Practice & Certificate | Hangbug',
+        title: 'Free Vue.js Quiz: Interactive Practice & Certificate',
         description: 'Sharpen your Vue 3 skills with quizzes covering Single-File Components, v-if vs. v-show, ref vs. reactive, computed watchers, Pinia stores, and Teleport.',
         primaryKeyword: 'Vue.js quizzes',
         secondaryKeywords: [
@@ -1285,7 +1285,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Backend Python Framework',
         categoryMatcher: ['Django'],
         path: '/technologies/django',
-        title: 'Free Django Quiz: ORM Practice & Certificate | Hangbug',
+        title: 'Free Django Quiz: Interactive Practice & Certificate',
         description: 'Practice Python Django web engineering with quizzes covering MVT routing, migrations, QuerySets, select_related vs. prefetch_related, transactions, and DRF.',
         primaryKeyword: 'Django quizzes',
         secondaryKeywords: [
@@ -1324,7 +1324,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'Frontend CSS Framework',
         categoryMatcher: ['Bootstrap'],
         path: '/technologies/bootstrap',
-        title: 'Free Bootstrap 5 Quiz: Grid Practice & Certificate | Hangbug',
+        title: 'Free Bootstrap 5 Quiz: Interactive Practice & Certificate',
         description: 'Test your Bootstrap 5 expertise covering the 12-column Flexbox grid, breakpoints, logical spacing utilities, floating forms, modals, and Sass customization.',
         primaryKeyword: 'Bootstrap quizzes',
         secondaryKeywords: [
@@ -1364,7 +1364,7 @@ export const SEO_PAGES_CONFIG = {
         categoryLabel: 'CMS & PHP Platform',
         categoryMatcher: ['WordPress'],
         path: '/technologies/wordpress',
-        title: 'Free WordPress Quiz: Hooks Practice & Certificate | Hangbug',
+        title: 'Free WordPress Quiz: Interactive Practice & Certificate',
         description: 'Practice WordPress development with quizzes covering Template Hierarchy, Actions vs. Filters, Custom Post Types, WP_Query, Nonces, $wpdb prepare, and REST API.',
         primaryKeyword: 'WordPress quizzes',
         secondaryKeywords: [

@@ -156,7 +156,7 @@ export default function TechnologyDetail() {
     const [loadingQuizzes, setLoadingQuizzes] = useState(true);
 
     usePageSeo({
-        title: seoConfig ? seoConfig.title : 'Free Tech Quizzes: Practice & Earn Certificates | Hangbug',
+        title: seoConfig ? seoConfig.title : 'Free Interactive Tech Quiz Practice & Certificates | Hangbug',
         description: seoConfig
             ? seoConfig.description
             : 'Practice programming quizzes and interactive coding games on Hangbug.',

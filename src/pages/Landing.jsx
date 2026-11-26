@@ -33,7 +33,7 @@ const CORE_TECHNOLOGIES = [
 
 export default function Landing() {
     usePageSeo({
-        title: 'Free Interactive Coding Quizzes & Certificates | Hangbug',
+        title: 'Interactive Coding Quizzes, Free Practice & Certificates',
         description: 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.',
         canonicalPath: '/',
         schemaType: 'WebPage',
