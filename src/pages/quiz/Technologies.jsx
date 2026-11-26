@@ -12,12 +12,14 @@ import { dialog } from '../../services/dialogService';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
-import SEO_PAGES_CONFIG from '../../config/seoPagesConfig';
-import { getTechnologySeoBySlug } from '../../config/seoPagesConfig';
+import {
+    SEO_PAGES_CONFIG,
+    TECHNOLOGY_SEO_SLUGS,
+    getTechnologySeoBySlug
+} from '../../config/seoPagesConfig';
 import { useAuth } from '../../context/AuthContext';
 import attemptService from '../../services/attemptService';
 import TechLogo from '../../components/TechLogo';
-import { TECHNOLOGY_SEO_SLUGS, SEO_PAGES_CONFIG } from '../../config/seoPagesConfig';
 
 function formatTimeAgo(date) {
     if (!date) return 'Recently';
