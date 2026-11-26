@@ -823,6 +823,60 @@ function resolveCoreFallbackMeta(cleanPath = '/') {
     return null;
 }
 
+function buildLegalPageBodyHtml(pathname, meta) {
+    const pages = {
+        '/privacy-policy': `
+          <section><h2>Information Hangbug processes</h2>
+            <p>Hangbug processes account details you provide (such as your name, email address, and optional profile information), quiz answers and scores, progress, leaderboard information, and certificate records. Device, app, network, and diagnostic information may also be processed to operate and secure the service.</p>
+            <p>If you contact support, Hangbug processes the name, email address, subject, and message you provide so the team can respond.</p>
+            <p>The website uses Google Analytics 4 for page views, landing-page attribution, scroll-depth, and engaged-session events. Analytics providers may process browser or device details, page URLs, and online identifiers.</p>
+          </section>
+          <section><h2>Cookies, analytics, and advertising</h2>
+            <p>The website loads Google AdSense. The Android app uses Google Mobile Ads (AdMob). Google and its advertising partners may use cookies, mobile advertising identifiers, and similar technologies to serve and measure ads.</p>
+            <p>Depending on your location, device and account settings, and available controls, advertisements may be personalized or non-personalized and based on context. Turning off ad personalization does not necessarily remove ads. Hangbug does not currently provide a separate cookie-preference panel.</p>
+            <p>Manage or clear website cookies and site data in your browser privacy settings. Manage personalization in <a href="https://adssettings.google.com">Google Ads Settings</a>; on Android, review your device's Privacy or Ads settings for advertising ID controls. Blocking essential storage may affect sign-in.</p>
+            <p>Google explains how it uses information from sites and apps that use its services in its <a href="https://policies.google.com/technologies/partner-sites">Google Partner Sites policy</a>.</p>
+          </section>
+          <section><h2>Privacy requests</h2>
+            <p>For questions or privacy-related requests, email <a href="mailto:support@hangbug.com">support@hangbug.com</a> or use the <a href="/contact">Contact page</a>.</p>
+          </section>`,
+        '/terms': `
+          <section><h2>Acceptable use and accounts</h2>
+            <p>Provide accurate account information and keep your sign-in credentials confidential. You are responsible for activity under your account and should contact support if you suspect unauthorized access.</p>
+            <p>Do not cheat, use bots or answer scrapers, manipulate quiz scores or leaderboard standings, disrupt the service, or attempt unauthorized access. Hangbug may restrict access to address abuse or protect the platform.</p>
+          </section>
+          <section><h2>Quiz scores and certificates</h2>
+            <p>Quiz scores are calculated from submitted answers as a percentage of questions answered correctly. When certificates are enabled, a result at or above the configured certificate threshold can generate a certificate; the current default threshold is 80%. Certificates include a unique verification ID and link and document a Hangbug assessment result, not outside accreditation or a guarantee of professional qualification.</p>
+          </section>
+          <section><h2>Intellectual property</h2>
+            <p>Hangbug and its licensors retain rights in the service, software, branding, designs, quiz questions, explanations, and games, except for third-party materials identified as such. You may use the service for personal learning; do not copy, scrape, republish, or commercially redistribute protected content without permission or a legal right to do so.</p>
+          </section>
+          <section><h2>Disclaimer and limitation of liability</h2>
+            <p>Hangbug is provided "as is" and "as available" without a guarantee of uninterrupted access or error-free content. To the extent permitted by applicable law, Hangbug will not be liable for indirect, incidental, special, consequential, or punitive loss, or loss of data, profits, or goodwill arising from use of or inability to use the service. These terms do not limit liability or consumer rights that applicable law does not allow to be limited.</p>
+          </section>
+          <section><h2>Contact</h2>
+            <p>For questions about these terms, email <a href="mailto:support@hangbug.com">support@hangbug.com</a>.</p>
+          </section>`,
+        '/contact': `
+          <section><h2>Contact Hangbug Support</h2>
+            <p>For questions about quizzes, certificates, account access, privacy requests, or technical issues, email <a href="mailto:support@hangbug.com">support@hangbug.com</a>.</p>
+            <p>The contact form is available on this page when JavaScript is enabled. If the form cannot be used, email support directly.</p>
+          </section>`
+    };
+    const body = pages[pathname];
+    if (!body) return null;
+    const heading = escapeTextPreserveEntities(meta.h1);
+    const description = escapeTextPreserveEntities(meta.description);
+    return `
+      <main class="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+        <header class="mb-8">
+          <h1 class="text-3xl font-extrabold tracking-tight">${heading}</h1>
+          <p class="mt-3 leading-relaxed">${description}</p>
+        </header>
+        <div class="space-y-6 text-sm leading-relaxed">${body}</div>
+      </main>`;
+}
+
 function renderPublicPageHtml(baseHtml, page = {}) {
     const {
         path: routePath = '/',
@@ -888,6 +942,7 @@ module.exports = {
     generatePublicBodyHtml,
     generateHomeBodyHtml,
     buildGameBodyHtml,
+    buildLegalPageBodyHtml,
     buildPublicPageStructuredDataFallback,
     resolveCoreFallbackMeta,
     buildTechnologyQuizFallbackTitle,

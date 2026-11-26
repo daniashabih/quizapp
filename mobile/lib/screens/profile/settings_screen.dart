@@ -299,6 +299,33 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     ),
                     onTap: () => context.push('/legal/terms'),
                   ),
+                  const Divider(height: 1),
+                  ListTile(
+                    leading: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: context.brandAccentColor.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(11),
+                      ),
+                      child: Icon(
+                        Icons.email_outlined,
+                        size: 20,
+                        color: context.brandAccentColor,
+                      ),
+                    ),
+                    title: Text('Contact Support', style: AppTextStyles.labelBold),
+                    subtitle: Text(
+                      'Get help or send a privacy request',
+                      style: AppTextStyles.bodySmall.copyWith(
+                        color: context.textSecondaryColor,
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.chevron_right_rounded,
+                      color: context.textMutedColor,
+                    ),
+                    onTap: () => context.push('/legal/contact'),
+                  ),
                 ],
               ),
             ),

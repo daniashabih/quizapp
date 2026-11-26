@@ -39,6 +39,7 @@ const {
     generatePublicBodyHtml,
     generateHomeBodyHtml,
     buildGameBodyHtml,
+    buildLegalPageBodyHtml,
     renderPublicPageHtml
 } = require('../api/_utils/publicPageSeoRenderer.js');
 
@@ -227,7 +228,10 @@ for (const key of CORE_INDEXABLE_PAGE_KEYS) {
         bodyHtml:
             config.path === '/'
                 ? generateHomeBodyHtml({ ...config, h1: distinctH1 }, normalizedPublishedBlogArticles)
-                : generatePublicBodyHtml({ ...config, h1: distinctH1 })
+                : (buildLegalPageBodyHtml(config.path, {
+                    h1: distinctH1,
+                    description: config.description
+                }) || generatePublicBodyHtml({ ...config, h1: distinctH1 }))
     };
 
     const renderedHtml = renderPage(pageDef);

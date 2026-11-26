@@ -293,18 +293,13 @@ Learn - Test - Prove
 }
 
 /**
- * Send password reset email
- * Supports Resend API (HTTP), SendGrid API (HTTP), SMTP (Nodemailer), and local simulation.
+ * Send an email through the configured transactional provider.
  *
- * @param {{ to: string, resetUrl: string, userName?: string }} params
- * @returns {Promise<{ accepted: boolean, provider: string, messageId?: string, deliveryStatus: string, details?: string }>}
+ * @param {{ to: string, subject: string, html?: string, text: string, replyTo?: string }} params
  */
-async function sendPasswordResetEmail({ to, resetUrl, userName }) {
+async function sendEmail({ to, subject, html, text, replyTo }) {
     const provider = detectEmailProvider();
     const from = getFromAddress(provider);
-    const subject = 'Reset Your Hangbug Password';
-    const html = renderPasswordResetHtml({ resetUrl, userName });
-    const text = renderPasswordResetText({ resetUrl, userName });
 
     // 1. Send via Resend HTTPS API if configured
     if (provider === 'resend') {
@@ -321,7 +316,8 @@ async function sendPasswordResetEmail({ to, resetUrl, userName }) {
                     from,
                     to: [to],
                     subject,
-                    html,
+                    ...(replyTo ? { reply_to: replyTo } : {}),
+                    ...(html ? { html } : {}),
                     text
                 },
                 {
@@ -379,10 +375,11 @@ async function sendPasswordResetEmail({ to, resetUrl, userName }) {
                 {
                     personalizations: [{ to: [{ email: to }] }],
                     from: parsedSender,
+                    ...(replyTo ? { reply_to: { email: replyTo } } : {}),
                     subject,
                     content: [
                         { type: 'text/plain', value: text },
-                        { type: 'text/html', value: html }
+                        ...(html ? [{ type: 'text/html', value: html }] : [])
                     ]
                 },
                 {
@@ -435,8 +432,9 @@ async function sendPasswordResetEmail({ to, resetUrl, userName }) {
             const info = await transporter.sendMail({
                 from,
                 to,
+                ...(replyTo ? { replyTo } : {}),
                 subject,
-                html,
+                ...(html ? { html } : {}),
                 text
             });
 
@@ -459,7 +457,7 @@ async function sendPasswordResetEmail({ to, resetUrl, userName }) {
     // 4. Non-production local simulation fallback
     if (provider === 'simulated') {
         console.log('[EmailService Diagnostic] Non-production environment: simulated delivery accepted without remote provider credentials.');
-        console.log('[EmailService Diagnostic] Reset link generated successfully with path /reset-password?token=[REDACTED]');
+        console.log('[EmailService Diagnostic] Message content is not sent to an external email provider.');
 
         return {
             accepted: true,
@@ -478,8 +476,49 @@ async function sendPasswordResetEmail({ to, resetUrl, userName }) {
     throw missingErr;
 }
 
+/**
+ * Send password reset email
+ * Supports Resend API (HTTP), SendGrid API (HTTP), SMTP (Nodemailer), and local simulation.
+ *
+ * @param {{ to: string, resetUrl: string, userName?: string }} params
+ * @returns {Promise<{ accepted: boolean, provider: string, messageId?: string, deliveryStatus: string, details?: string }>}
+ */
+async function sendPasswordResetEmail({ to, resetUrl, userName }) {
+    return sendEmail({
+        to,
+        subject: 'Reset Your Hangbug Password',
+        html: renderPasswordResetHtml({ resetUrl, userName }),
+        text: renderPasswordResetText({ resetUrl, userName })
+    });
+}
+
+/**
+ * Send a contact form submission to Hangbug support. Replies go to the submitter.
+ */
+async function sendContactMessage({ name, email, subject, message }) {
+    const recipient = process.env.CONTACT_EMAIL_TO || 'support@hangbug.com';
+    const lines = [
+        'New message from the Hangbug contact form',
+        '',
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Subject: ${subject || '(none provided)'}`,
+        '',
+        'Message:',
+        message
+    ];
+
+    return sendEmail({
+        to: recipient,
+        replyTo: email,
+        subject: `Hangbug contact form: ${subject || 'General inquiry'}`,
+        text: lines.join('\n')
+    });
+}
+
 module.exports = {
     sendPasswordResetEmail,
+    sendContactMessage,
     getAppBaseUrl,
     getFromAddress,
     parseSender,

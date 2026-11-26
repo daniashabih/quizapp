@@ -25,6 +25,7 @@ const userRoutes = require('./_routes/userRoutes');
 const gameRoutes = require('./_routes/gameRoutes');
 const blogRoutes = require('./_routes/blogRoutes');
 const aiRoutes = require('./_routes/aiRoutes');
+const contactRoutes = require('./_routes/contactRoutes');
 const {
     getDynamicSitemap,
     getRobotsTxt,
@@ -122,6 +123,7 @@ app.use('/api/games', gameRoutes);
 app.use('/api/api/games', gameRoutes); // Defensive alias for clients with redundant base URL
 app.use('/api/blog', blogRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Canonical Technical SEO Directives, AI Crawlers & Dynamic XML Sitemap
 app.get('/robots.txt', getRobotsTxt);

@@ -30,6 +30,7 @@ import '../screens/home/home_screen.dart';
 import '../screens/home/main_shell_screen.dart';
 import '../screens/leaderboard/leaderboard_screen.dart';
 import '../screens/leaderboard/leaderboard_full_screen.dart';
+import '../screens/legal/contact_screen.dart';
 import '../screens/legal/privacy_policy_screen.dart';
 import '../screens/legal/terms_screen.dart';
 import '../screens/maintenance/maintenance_screen.dart';
@@ -338,6 +339,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/legal/terms',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const TermsScreen(),
+      ),
+      GoRoute(
+        path: '/legal/contact',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ContactScreen(),
       ),
 
       // Admin sub-management tools

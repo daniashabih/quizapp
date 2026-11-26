@@ -20,7 +20,7 @@ export default function TermsOfService() {
         window.scrollTo(0, 0);
     }, []);
 
-    const lastUpdated = "August 19, 2026";
+    const lastUpdated = "November 26, 2026";
 
     return (
         <div className="min-h-screen bg-[var(--page-bg)] text-[var(--foreground)] flex flex-col transition-colors duration-300">
@@ -60,15 +60,15 @@ export default function TermsOfService() {
 
                     <section className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 space-y-3">
                         <h2 className="text-lg font-display font-bold flex items-center gap-2 text-[var(--foreground)]">
-                            <CheckCircle2 size={18} className="text-[#193D35]" /> 2. User Accounts &amp; Fair Play
+                            <CheckCircle2 size={18} className="text-[#193D35]" /> 2. Acceptable Use &amp; Account Responsibilities
                         </h2>
                         <p className="text-[var(--foreground-muted)]">
-                            Users must provide accurate information when creating an account. You are responsible for keeping your credentials confidential.
+                            Provide accurate account information and keep your password and sign-in credentials confidential. You are responsible for activity under your account and should contact support promptly if you suspect unauthorized access.
                         </p>
                         <ul className="list-disc list-inside space-y-1 text-[var(--foreground-muted)] text-xs sm:text-sm">
-                            <li>Automated bots, scripts, or answer scrapers are strictly prohibited.</li>
-                            <li>Attempting to manipulate leaderboard standings or quiz results will result in account suspension.</li>
-                            <li>You are solely responsible for all activities occurring under your account.</li>
+                            <li>Do not use bots, scripts, answer scrapers, or other automation to complete quizzes or collect question content.</li>
+                            <li>Do not cheat, manipulate scores or leaderboard standings, interfere with the service, or attempt unauthorized access.</li>
+                            <li>Do not misuse, disrupt, or use Hangbug in violation of applicable law or these terms. We may restrict access when needed to address abuse or protect the service.</li>
                         </ul>
                     </section>
 
@@ -77,30 +77,33 @@ export default function TermsOfService() {
                             <Award size={18} className="text-[#193D35]" /> 3. Quizzes &amp; Score-Based Certificates
                         </h2>
                         <p className="text-[var(--foreground-muted)]">
-                            Certificates issued by Hangbug represent platform-based quiz completion and self-assessment based on the score achieved (80% or higher) at the time of testing. Certificates include a unique verification ID and QR verification link.
+                            Quiz scores are calculated from submitted answers and shown as a percentage of the questions answered correctly. When certificates are enabled, a passing result at or above the configured certificate threshold makes a certificate available; the current default threshold is 80%. Certificates record the assessment result and include a unique verification ID and verification link. They document performance on Hangbug and are not a guarantee of professional qualification, employment, or accreditation by an outside body. Attempts to obtain a result or certificate through cheating or manipulation may result in its removal.
                         </p>
                     </section>
 
                     <section className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 space-y-3">
                         <h2 className="text-lg font-display font-bold text-[var(--foreground)]">4. Intellectual Property</h2>
                         <p className="text-[var(--foreground-muted)]">
-                            All platform designs, branding, quiz structures, coding games, and question databases are the property of Hangbug and protected under applicable intellectual property laws.
+                            Hangbug and its licensors retain rights in the platform, software, branding, designs, quiz questions, explanations, and games, except for third-party materials identified as such. You may use the service for personal learning; you may not copy, scrape, republish, or commercially redistribute protected content without permission or a legal right to do so.
                         </p>
                     </section>
 
                     <section className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 space-y-3">
                         <h2 className="text-lg font-display font-bold flex items-center gap-2 text-[var(--foreground)]">
-                            <AlertCircle size={18} className="text-[#193D35]" /> 5. Disclaimer of Warranties
+                            <AlertCircle size={18} className="text-[#193D35]" /> 5. Service Disclaimer &amp; Limitation of Liability
                         </h2>
                         <p className="text-[var(--foreground-muted)]">
-                            Hangbug is provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis. While we strive for accuracy across all quiz questions and system uptime, we do not guarantee uninterrupted access or error-free question banks.
+                            Hangbug is provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis. We work to keep the service and learning materials useful, but do not guarantee uninterrupted access, error-free content, or that quiz results or certificates will meet a particular purpose.
+                        </p>
+                        <p className="text-[var(--foreground-muted)]">
+                            To the extent permitted by applicable law, Hangbug will not be liable for indirect, incidental, special, consequential, or punitive loss, or loss of data, profits, or goodwill arising from use of or inability to use the service. Nothing in these terms excludes or limits liability or consumer rights that applicable law does not allow to be excluded or limited.
                         </p>
                     </section>
 
                     <section className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 space-y-3">
-                        <h2 className="text-lg font-display font-bold text-[var(--foreground)]">6. Contact &amp; Disputes</h2>
+                        <h2 className="text-lg font-display font-bold text-[var(--foreground)]">6. Changes &amp; Contact</h2>
                         <p className="text-[var(--foreground-muted)]">
-                            For legal inquiries or feedback regarding these terms, contact us at <a href="mailto:support@hangbug.com" className="text-[#193D35] font-semibold underline">support@hangbug.com</a>.
+                            We may update these terms as the service changes. The revised date will appear above. For questions about these terms, contact <a href="mailto:support@hangbug.com" className="text-[#193D35] font-semibold underline">support@hangbug.com</a>.
                         </p>
                     </section>
                 </div>

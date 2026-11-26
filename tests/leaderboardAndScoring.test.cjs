@@ -76,6 +76,44 @@ test('public leaderboard requests are capped and full-directory access requires 
     }
 });
 
+test('public leaderboard response is limited to five users', async () => {
+    const originalUserFindMany = prisma.user.findMany;
+    const now = new Date();
+
+    try {
+        prisma.user.findMany = async () => Array.from({ length: 7 }, (_, index) => ({
+            id: `u${index + 1}`,
+            name: `Learner ${index + 1}`,
+            avatar: '',
+            role: 'user',
+            createdAt: now,
+            results: [{
+                id: `r${index + 1}`,
+                category: 'React',
+                score: 10 - index,
+                total: 10,
+                percentage: 100 - index,
+                createdAt: now
+            }]
+        }));
+
+        const req = { query: {}, cookies: {}, headers: {} };
+        const res = createMockRes();
+        await dashboardRoutes.requireFullLeaderboardAuth(
+            req,
+            res,
+            () => dashboardController.getLeaderboard(req, res)
+        );
+
+        assert.equal(res.statusCode, 200);
+        assert.equal(res.body.totalRanked, 7);
+        assert.equal(res.body.leaderboard.length, 5);
+        assert.equal(res.body.hasMore, true);
+    } finally {
+        prisma.user.findMany = originalUserFindMany;
+    }
+});
+
 test('1. Leaderboard calculates XP, average score, certs, and sorts deterministically while excluding 0-quiz users', async () => {
     const origUserFindMany = prisma.user.findMany;
     const now = new Date();

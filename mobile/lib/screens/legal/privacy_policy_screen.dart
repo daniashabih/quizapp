@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../core/config/app_config.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_text_styles.dart';
 
@@ -28,7 +30,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              'Last Updated: September 2026',
+              'Last Updated: November 26, 2026',
               style: AppTextStyles.bodySmall.copyWith(
                 color: context.textSecondaryColor,
               ),
@@ -38,55 +40,84 @@ class PrivacyPolicyScreen extends StatelessWidget {
               context: context,
               title: '1. Introduction',
               body:
-                  'Welcome to HangBug ("we," "our," or "us"). HangBug is a web and mobile technology quiz and certification platform. We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our Android application.',
+                  'Hangbug operates a web and Android technology quiz platform. This policy explains information processed when you use the website or app.',
             ),
             _buildSection(
               context: context,
               title: '2. Information We Collect',
               body:
-                  'We only collect information necessary to provide our educational and certification services:\n\n'
-                  '• Personal Information: Your name and email address provided during account creation.\n'
-                  '• Quiz Performance Data: Technologies attempted, question responses, time spent, completion scores, and issued certificates.\n'
-                  '• Authentication Data: Securely salted and hashed credentials and cryptographically signed session tokens (JWT). We never store plain-text passwords.',
+                  'Information processed may include:\n\n'
+                  '• Account details you provide, such as your name, email address, and optional profile information; Google account information if you choose Google sign-in.\n'
+                  '• Quiz answers, scores, progress, leaderboard information, and certificate records.\n'
+                  '• Name, email address, subject, and message when you contact support.\n'
+                  '• Device, app, network, and diagnostic information needed to operate, secure, and troubleshoot the service.\n'
+                  '• On the website, Google Analytics 4 page-view, landing-page, scroll-depth, and engaged-session events. The website also loads Google AdSense; the Android app uses Google Mobile Ads (AdMob).',
             ),
             _buildSection(
               context: context,
               title: '3. How We Use Your Data',
               body:
-                  'We use the collected information exclusively to:\n\n'
+                  'We use information to:\n\n'
                   '• Authenticate your identity and maintain your active learning session.\n'
                   '• Track your learning progress, quiz history, and skill assessment levels.\n'
-                  '• Generate, issue, and cryptographically verify your completion certificates.\n'
-                  '• Provide administrative oversight and maintain platform integrity.',
+                  '• Calculate quiz results, issue eligible certificates, and support certificate verification.\n'
+                  '• Protect, maintain, and improve the platform and respond to support requests.\n'
+                  '• Measure website usage through Google Analytics 4 and display and measure ads through Google AdSense or Google Mobile Ads.',
             ),
             _buildSection(
               context: context,
-              title: '4. Data Sharing & Third Parties',
+              title: '4. Third-Party Services and Advertising',
               body:
-                  'HangBug does NOT sell, rent, trade, or monetize your personal data. Your data is never shared with third-party advertisers. All network transmissions are strictly encrypted in transit using industry-standard TLS 1.3 HTTPS protocols.',
+                  'Hangbug uses third-party services for hosting, databases, Google sign-in, website analytics, and advertising. Google and its partners may process information such as browser or device details, online identifiers, approximate location, and ad interactions under their own privacy policies and your available settings.\n\n'
+                  'Ads may be personalized based on your settings and available information, or non-personalized and based on context such as the page or app. Turning off ad personalization does not necessarily remove ads. Hangbug does not currently offer an in-app ad-personalization or cookie-preference switch.',
             ),
             _buildSection(
               context: context,
-              title: '5. Account & Data Deletion Rights',
+              title: '5. Cookies, Analytics & Advertising Preferences',
               body:
-                  'In compliance with Google Play Store User Data policies, you have complete control over your data:\n\n'
-                  '• In-App Deletion: You can permanently delete your HangBug account and all associated records (quiz histories, scores, certificates) directly inside the app under Profile → Settings → Delete Account & Data.\n'
-                  '• Web / Support Request: You can also request complete account deletion at any time by contacting support@hangbug.com or visiting https://www.hangbug.com.\n\n'
-                  'Upon confirmation, all personal identifiers and quiz records are permanently erased from our databases.',
+                  'The website uses cookies and similar technologies for sign-in, preferences, Google Analytics 4 measurement, and Google AdSense advertising. The Android app uses the Google Mobile Ads SDK, which may use mobile advertising identifiers and device storage.\n\n'
+                  'Manage, block, or clear website cookies and site data in your browser privacy settings; blocking essential storage may affect sign-in. Manage Google ad personalization at Google Ads Settings and review your Android device Privacy or Ads settings for advertising ID controls. These settings may vary by device, location, and account.',
             ),
             _buildSection(
               context: context,
-              title: '6. Children\'s Privacy',
+              title: '6. Account & Data Deletion',
               body:
-                  'HangBug is designed for software developers, students, and technology learners. We do not knowingly collect personal identifiable information from children under the age of 13.',
+                  'You can start account deletion from the app settings or submit a request at https://www.hangbug.com/delete-account. Support requests can also be sent to support@hangbug.com. Deletion affects account-associated data; processing time and any retention required for security or legal reasons may apply.',
             ),
             _buildSection(
               context: context,
-              title: '7. Contact Us',
+              title: '7. Children\'s Privacy',
               body:
-                  'If you have questions, comments, or concerns regarding this policy or our data practices, please reach out to us at:\n\n'
-                  'Email: privacy@hangbug.com\n'
-                  'Website: https://www.hangbug.com',
+                  'Hangbug is intended for people learning and practicing technology. We do not knowingly collect personal information from children where collection is prohibited by applicable law.',
+            ),
+            _buildSection(
+              context: context,
+              title: '8. Contact and Google Partner Sites',
+              body:
+                  'For privacy requests or questions, email ${AppConfig.supportEmail} or visit https://www.hangbug.com/contact.\n\n'
+                  'Google explains how it uses information from sites and apps that use its services here: https://policies.google.com/technologies/partner-sites',
+            ),
+            TextButton.icon(
+              onPressed: () => _openLink(
+                context,
+                Uri.parse(
+                  'https://policies.google.com/technologies/partner-sites',
+                ),
+              ),
+              icon: const Icon(Icons.open_in_new),
+              label: const Text('Google Partner Sites policy'),
+            ),
+            TextButton.icon(
+              onPressed: () => _openLink(
+                context,
+                Uri(
+                  scheme: 'mailto',
+                  path: AppConfig.supportEmail,
+                  queryParameters: {'subject': 'Hangbug privacy request'},
+                ),
+              ),
+              icon: const Icon(Icons.email_outlined),
+              label: Text(AppConfig.supportEmail),
             ),
             const SizedBox(height: 32),
           ],
@@ -123,5 +154,14 @@ class PrivacyPolicyScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _openLink(BuildContext context, Uri uri) async {
+    final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!opened && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Unable to open this link.')),
+      );
+    }
   }
 }

@@ -489,6 +489,12 @@ class ProfileScreen extends ConsumerWidget {
                   subtitle: 'Terms of use and certification guidelines',
                   onTap: () => context.push('/legal/terms'),
                 ),
+                _MenuItem(
+                  icon: Icons.email_outlined,
+                  title: 'Contact Support',
+                  subtitle: 'Get help or send a privacy request',
+                  onTap: () => context.push('/legal/contact'),
+                ),
               ],
             ),
 

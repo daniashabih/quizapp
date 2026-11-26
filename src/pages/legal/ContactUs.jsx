@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { Mail, Clock, Send, CheckCircle2, ArrowLeft, HelpCircle } from 'lucide-react';
 import { notify } from '../../services/notificationService';
 import Navbar from '../../components/Navbar';
@@ -28,21 +29,41 @@ export default function ContactUs() {
         message: ''
     });
     const [submitted, setSubmitted] = useState(false);
+    const [sending, setSending] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!form.name || !form.email || !form.message) {
+        const values = {
+            name: form.name.trim(),
+            email: form.email.trim(),
+            subject: form.subject.trim(),
+            message: form.message.trim()
+        };
+        if (!values.name || !values.email || values.message.length < 10) {
             notify.warning({
                 title: "Action required",
-                description: "Please complete all required fields."
+                description: "Enter your name, a valid email address, and a message of at least 10 characters."
             });
             return;
         }
-        setSubmitted(true);
-        notify.success({
-            title: "Message received",
-            description: "Thank you! Your message has been sent to our support team."
-        });
+        setSending(true);
+        setErrorMessage('');
+        try {
+            await axios.post('/contact', values);
+            setSubmitted(true);
+            notify.success({
+                title: "Message sent",
+                description: "Your message has been sent to our support team."
+            });
+        } catch (error) {
+            const message = error.response?.data?.message
+                || "We couldn't send your message. Please try again or email support@hangbug.com.";
+            setErrorMessage(message);
+            notify.error({ title: "Message not sent", description: message });
+        } finally {
+            setSending(false);
+        }
     };
 
     return (
@@ -108,7 +129,7 @@ export default function ContactUs() {
                             <div className="space-y-2 text-xs text-[var(--foreground-muted)]">
                                 <div>
                                     <h3 className="font-semibold text-[var(--foreground)]">How do certificates work?</h3>
-                                    <p>Score-based certificates are awarded when you achieve 80% or higher on a technology quiz assessment track.</p>
+                                    <p>When certificates are enabled, a passing quiz result at or above the configured certificate threshold can earn a certificate. The default threshold is 80%.</p>
                                 </div>
                                 <div className="pt-2 border-t border-[var(--card-border)]">
                                     <h3 className="font-semibold text-[var(--foreground)]">Can I retake quizzes?</h3>
@@ -122,17 +143,17 @@ export default function ContactUs() {
                     <div className="lg:col-span-7">
                         <div className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-6 sm:p-8 shadow-sm">
                             {submitted ? (
-                                <div className="py-12 text-center space-y-4">
+                                <div role="status" aria-live="polite" className="py-12 text-center space-y-4">
                                     <div className="w-14 h-14 rounded-full bg-[#193D35] text-white flex items-center justify-center mx-auto">
                                         <CheckCircle2 size={28} />
                                     </div>
-                                    <h3 className="text-xl font-display font-bold text-[var(--foreground)]">Message Dispatched!</h3>
+                                    <h3 className="text-xl font-display font-bold text-[var(--foreground)]">Message Sent</h3>
                                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)] max-w-sm mx-auto">
-                                        Thank you for reaching out. Our support team will review your message and reply to <strong>{form.email}</strong> shortly.
+                                        Thank you for reaching out. Hangbug support has received your message and can reply to <strong>{form.email}</strong>.
                                     </p>
                                     <button
                                         type="button"
-                                        onClick={() => { setSubmitted(false); setForm({ name: '', email: '', subject: '', message: '' }); }}
+                                        onClick={() => { setSubmitted(false); setErrorMessage(''); setForm({ name: '', email: '', subject: '', message: '' }); }}
                                         className="btn-secondary text-xs py-2 px-4 rounded-xl mt-4"
                                     >
                                         Send Another Message
@@ -152,6 +173,8 @@ export default function ContactUs() {
                                             <input
                                                 type="text"
                                                 required
+                                                maxLength={100}
+                                                autoComplete="name"
                                                 placeholder="Jane Doe"
                                                 value={form.name}
                                                 onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -165,6 +188,8 @@ export default function ContactUs() {
                                             <input
                                                 type="email"
                                                 required
+                                                maxLength={254}
+                                                autoComplete="email"
                                                 placeholder="jane@example.com"
                                                 value={form.email}
                                                 onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -179,6 +204,7 @@ export default function ContactUs() {
                                         </label>
                                         <input
                                             type="text"
+                                            maxLength={150}
                                             placeholder="Question regarding certificates, quiz session, etc."
                                             value={form.subject}
                                             onChange={(e) => setForm({ ...form, subject: e.target.value })}
@@ -193,6 +219,8 @@ export default function ContactUs() {
                                         <textarea
                                             rows={5}
                                             required
+                                            minLength={10}
+                                            maxLength={5000}
                                             placeholder="Write your message here..."
                                             value={form.message}
                                             onChange={(e) => setForm({ ...form, message: e.target.value })}
@@ -200,11 +228,18 @@ export default function ContactUs() {
                                         />
                                     </div>
 
+                                    {errorMessage && (
+                                        <p role="alert" className="text-xs text-red-600 dark:text-red-400">
+                                            {errorMessage}
+                                        </p>
+                                    )}
+
                                     <button
                                         type="submit"
-                                        className="btn-primary w-full justify-center text-xs py-3 rounded-xl shadow-md cursor-pointer"
+                                        disabled={sending}
+                                        className="btn-primary w-full justify-center text-xs py-3 rounded-xl shadow-md cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                                     >
-                                        <Send size={14} /> Send Message
+                                        <Send size={14} /> {sending ? 'Sending...' : 'Send Message'}
                                     </button>
                                 </form>
                             )}

@@ -22,6 +22,7 @@ const {
     generatePublicBodyHtml,
     generateHomeBodyHtml,
     buildGameBodyHtml,
+    buildLegalPageBodyHtml,
     buildPublicPageStructuredDataFallback,
     resolveCoreFallbackMeta,
     renderPublicPageHtml
@@ -36,9 +37,9 @@ const CORE_PUBLIC_ROUTES = [
     { loc: '/games', changefreq: 'daily', priority: '0.9', lastmod: '2026-11-17T15:52:06.672Z' },
     { loc: '/leaderboard', changefreq: 'daily', priority: '0.8', lastmod: '2026-11-13T14:09:48.000Z' },
     { loc: '/about', changefreq: 'monthly', priority: '0.7', lastmod: '2026-11-10T14:11:47.000Z' },
-    { loc: '/contact', changefreq: 'monthly', priority: '0.7', lastmod: '2026-11-13T14:09:48.000Z' },
-    { loc: '/privacy-policy', changefreq: 'monthly', priority: '0.6', lastmod: '2026-11-13T14:51:33.000Z' },
-    { loc: '/terms', changefreq: 'monthly', priority: '0.6', lastmod: '2026-11-10T14:11:47.000Z' },
+    { loc: '/contact', changefreq: 'monthly', priority: '0.7', lastmod: '2026-11-26T12:32:16.000Z' },
+    { loc: '/privacy-policy', changefreq: 'monthly', priority: '0.6', lastmod: '2026-11-26T12:32:16.000Z' },
+    { loc: '/terms', changefreq: 'monthly', priority: '0.6', lastmod: '2026-11-26T12:32:16.000Z' },
     { loc: '/blog', changefreq: 'daily', priority: '0.9', lastmod: '2026-11-18T17:14:26.781Z' }
 ];
 
@@ -1623,7 +1624,8 @@ function renderStatusHtml(resolution = { statusCode: 404, noindex: true }) {
 
     if (resolvedMeta && resolvedMeta.title) {
         const canonicalPath = resolvedMeta.canonicalPath || indexablePath;
-        const resolvedBodyHtml = resolvedMeta.isGame
+        const legalBodyHtml = buildLegalPageBodyHtml(canonicalPath, resolvedMeta);
+        const resolvedBodyHtml = legalBodyHtml || (resolvedMeta.isGame
             ? buildGameBodyHtml(
                 {
                     slug: resolvedMeta.canonicalSlug || canonicalPath.replace(/^\/games\//, ''),

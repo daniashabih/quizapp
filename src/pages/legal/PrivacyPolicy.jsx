@@ -24,7 +24,7 @@ import Footer from '../../components/Footer';
 import usePageSeo from '../../hooks/usePageSeo';
 
 export default function PrivacyPolicy() {
-    const lastUpdated = "September 24, 2026";
+    const lastUpdated = "November 26, 2026";
     const supportEmail = "support@hangbug.com";
 
     usePageSeo({
@@ -83,11 +83,11 @@ export default function PrivacyPolicy() {
                         </div>
                         <div className="flex items-center gap-2.5 text-xs text-[var(--foreground-muted)]">
                             <CheckCircle2 size={16} className="text-[#193D35] shrink-0" />
-                            <span>Google Play Policy Ready</span>
+                            <span>Mobile App Coverage</span>
                         </div>
                         <div className="flex items-center gap-2.5 text-xs text-[var(--foreground-muted)]">
                             <CheckCircle2 size={16} className="text-[#193D35] shrink-0" />
-                            <span>Full Data Deletion Support</span>
+                            <span>Account Deletion Requests Available</span>
                         </div>
                     </div>
                 </div>
@@ -188,6 +188,15 @@ export default function PrivacyPolicy() {
                             </ul>
                         </div>
 
+                        <div className="bg-[var(--muted-bg)]/50 border border-[var(--card-border)] rounded-xl p-4 sm:p-5 space-y-2">
+                            <h3 className="font-semibold text-[var(--foreground)] text-sm flex items-center gap-2">
+                                <Mail size={15} className="text-[#193D35]" /> Contact Messages
+                            </h3>
+                            <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">
+                                If you contact support, we process the name, email address, subject, and message you submit, along with information needed to respond and maintain support records.
+                            </p>
+                        </div>
+
                         {/* Technical Information */}
                         <div className="bg-[var(--muted-bg)]/50 border border-[var(--card-border)] rounded-xl p-4 sm:p-5 space-y-2">
                             <h3 className="font-semibold text-[var(--foreground)] text-sm flex items-center gap-2">
@@ -200,9 +209,17 @@ export default function PrivacyPolicy() {
                                 <li><strong>Device & Operating System Information:</strong> Device category (desktop, tablet, mobile), operating system type, and browser user-agent.</li>
                                 <li><strong>App Version:</strong> Web client or mobile client version to ensure compatibility.</li>
                                 <li><strong>IP Address:</strong> Processed for rate limiting, DDoS protection, geographic security validation, and fraud prevention.</li>
-                                <li><strong>Crash & Error Information:</strong> Diagnostic stack traces and error logs utilized strictly to identify bugs and enhance platform stability.</li>
-                                <li><strong>General Usage Information:</strong> Aggregated interaction metrics such as navigation flow and feature usage.</li>
+                                <li><strong>Request and Diagnostic Information:</strong> Information included in service requests and server logs may be used to investigate errors and protect the platform.</li>
                             </ul>
+                        </div>
+
+                        <div className="bg-[var(--muted-bg)]/50 border border-[var(--card-border)] rounded-xl p-4 sm:p-5 space-y-2">
+                            <h3 className="font-semibold text-[var(--foreground)] text-sm flex items-center gap-2">
+                                <Eye size={15} className="text-[#193D35]" /> Analytics and Usage
+                            </h3>
+                            <p className="text-xs sm:text-sm text-[var(--foreground-muted)]">
+                                On the website, Google Analytics 4 receives page-view, landing-page, and limited engagement events (including scroll depth and an engaged-session event). These events are used to understand site usage. Google may process information such as browser/device details, page URL, and online identifiers under its own policies. Hangbug's analytics code is designed not to send account passwords, email addresses, or authentication tokens in analytics event parameters.
+                            </p>
                         </div>
 
                         <div className="p-4 rounded-xl bg-[#F3E5C5]/30 border border-[#E2D0A6] text-xs text-[var(--foreground)]">
@@ -291,7 +308,7 @@ export default function PrivacyPolicy() {
                             <h2>5. Third-Party Services</h2>
                         </div>
                         <p className="text-[var(--foreground-muted)]">
-                            Hangbug may utilize trusted third-party service providers to facilitate infrastructure, hosting, databases, authentication, advertising, and operational maintenance. We only engage reputable service providers that adhere to rigorous security standards.
+                            Hangbug uses third-party services to host and operate the platform, measure website usage, authenticate users, and display advertisements. Those providers process information under their own privacy policies and settings.
                         </p>
                         <div className="space-y-3">
                             <div className="p-3.5 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)]">
@@ -304,21 +321,28 @@ export default function PrivacyPolicy() {
                             <div className="p-3.5 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)]">
                                 <h3 className="font-semibold text-xs sm:text-sm text-[var(--foreground)]">Database Provider: MongoDB Atlas</h3>
                                 <p className="text-xs text-[var(--foreground-muted)] mt-1">
-                                    User accounts, quiz session metadata, question repositories, and certificate records are stored in managed MongoDB Atlas cloud databases, accessed securely via Prisma ORM with encrypted connections.
+                                    User account, quiz, and certificate records are stored in the platform's MongoDB-backed database service.
                                 </p>
                             </div>
 
                             <div className="p-3.5 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)]">
                                 <h3 className="font-semibold text-xs sm:text-sm text-[var(--foreground)]">Authentication Provider: JSON Web Tokens & Google Identity Services</h3>
                                 <p className="text-xs text-[var(--foreground-muted)] mt-1">
-                                    User sessions are verified via cryptographically signed JWT tokens. Where users opt for Google Sign-In, authentication tokens are validated via Google Identity Services (OAuth 2.0).
+                                    User sessions are verified via cryptographically signed JWT tokens.                                     Where users choose Google Sign-In, Google Identity Services is used to authenticate them.
                                 </p>
                             </div>
 
                             <div className="p-3.5 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)]">
-                                <h3 className="font-semibold text-xs sm:text-sm text-[var(--foreground)]">Advertising Provider: Google AdSense</h3>
+                                <h3 className="font-semibold text-xs sm:text-sm text-[var(--foreground)]">Analytics Provider: Google Analytics 4</h3>
                                 <p className="text-xs text-[var(--foreground-muted)] mt-1">
-                                    Where enabled, advertisements are served through Google AdSense. Details regarding ad-related cookies and opt-outs are provided in Section 6.
+                                    The website uses Google Analytics 4 to measure page views and limited engagement events. You can limit analytics cookies through browser settings.
+                                </p>
+                            </div>
+
+                            <div className="p-3.5 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)]">
+                                <h3 className="font-semibold text-xs sm:text-sm text-[var(--foreground)]">Advertising Providers: Google AdSense and Google Mobile Ads</h3>
+                                <p className="text-xs text-[var(--foreground-muted)] mt-1">
+                                    The website loads Google AdSense, and the Android app uses Google Mobile Ads (AdMob) to display ads. Google and its advertising partners may process device, browser, and ad interaction information to serve, measure, and protect ads.
                                 </p>
                             </div>
                         </div>
@@ -334,26 +358,26 @@ export default function PrivacyPolicy() {
                             <h2>6. Advertising</h2>
                         </div>
                         <p className="text-[var(--foreground-muted)]">
-                            Hangbug may display advertisements provided by third-party advertising partners, including <strong>Google AdSense</strong>, to help support the availability of free quizzes and learning resources.
+                            The Hangbug website loads Google AdSense and the Android app uses Google Mobile Ads (AdMob). Google and other advertising partners may use cookies, mobile advertising identifiers, and similar technologies to serve and measure ads.
                         </p>
                         <p className="text-[var(--foreground-muted)]">
-                            Advertising providers may process certain information (such as your IP address, device type, browser information, and interactions with advertisements) to provide, personalize, measure, or improve advertisements, subject to their own policies and applicable user settings.
+                            Depending on your location, device and account settings, and the controls available for a particular ad, ads may be personalized using information such as browser or device details, approximate location, and interactions with ads, or may be non-personalized and based on context such as the page or app content. Hangbug does not provide an in-product control for choosing between personalized and non-personalized ads.
                         </p>
                         <p className="text-[var(--foreground-muted)]">
-                            Google, as a third-party vendor, uses cookies to serve ads on Hangbug. To learn more about how Google collects, shares, and processes data when you access or interact with our services, please review Google's official privacy and terms documentation:{' '}
+                            Google may use information from sites and apps that use its services, including cookies and similar technologies, as explained here:{' '}
                             <a
                                 href="https://policies.google.com/technologies/partner-sites"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-[#193D35] font-semibold underline inline-flex items-center gap-1"
                             >
-                                How Google uses information from sites or apps that use our services <ExternalLink size={12} />
+                                Google Partner Sites policy <ExternalLink size={12} />
                             </a>.
                         </p>
                         <div className="p-4 rounded-xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)] space-y-2">
                             <h3 className="font-semibold text-xs sm:text-sm text-[var(--foreground)]">Managing Your Advertising Preferences</h3>
                             <p className="text-xs text-[var(--foreground-muted)]">
-                                You can control or opt out of personalized advertising at any time through the following industry resources:
+                                You can manage ad personalization and browser storage using the controls below. The availability and effect of these controls depend on your location, device, and account:
                             </p>
                             <ul className="space-y-1.5 text-xs text-[var(--foreground-muted)] pl-2">
                                 <li>
@@ -391,10 +415,13 @@ export default function PrivacyPolicy() {
                                         NAI Consumer Opt-Out <ExternalLink size={12} />
                                     </a>.
                                 </li>
+                                <li>
+                                    • <strong>Android:</strong> Review your device's Privacy or Ads settings to manage or reset the advertising ID and ad personalization options.
+                                </li>
                             </ul>
                         </div>
                         <p className="text-xs text-[var(--foreground-muted)]">
-                            Opting out of personalized advertising does not mean you will no longer see ads; rather, advertisements will be contextual or non-personalized instead of tailored to your interests.
+                            Turning off ad personalization does not necessarily remove ads; you may still see contextual or non-personalized advertisements. In your web browser, you can block or delete cookies and site data through its privacy settings. Blocking essential storage may affect sign-in or preferences. Hangbug does not currently offer a separate cookie-preference panel.
                         </p>
                     </section>
 
@@ -405,7 +432,7 @@ export default function PrivacyPolicy() {
                             <h2>7. Cookies and Similar Technologies</h2>
                         </div>
                         <p className="text-[var(--foreground-muted)]">
-                            Hangbug and our third-party partners may use cookies, web beacons, and local storage technologies when you access our web application.
+                            The website uses local storage for preferences and session-related data, Google Analytics cookies for usage measurement, and Google AdSense cookies or similar technologies for advertising. Google Mobile Ads in the Android app may use mobile identifiers and device storage; browser cookie controls do not control the app's ad settings.
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                             <div className="p-3 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)]">
@@ -423,12 +450,12 @@ export default function PrivacyPolicy() {
                             <div className="p-3 rounded-xl bg-[var(--muted-bg)]/40 border border-[var(--card-border)]">
                                 <h3 className="font-bold text-[var(--foreground)] mb-1">Advertising Cookies</h3>
                                 <p className="text-[var(--foreground-muted)]">
-                                    Set by advertising partners (such as Google) to deliver relevant advertisements and assess campaign effectiveness.
+                                    Google AdSense may use cookies or similar identifiers for ad delivery, personalization where available, and measurement.
                                 </p>
                             </div>
                         </div>
                         <p className="text-xs text-[var(--foreground-muted)]">
-                            Most web browsers automatically accept cookies by default. You can configure your browser settings to reject cookies or prompt you before accepting cookies. Disabling essential cookies may impair certain features of the platform (such as logging in).
+                            Manage, block, or delete website cookies and local site data through your browser's privacy settings. Manage ad personalization through Google Ads Settings and, on Android, your device's Ads or Privacy settings. Disabling essential site storage may impair features such as signing in. There is no separate Hangbug cookie-consent or preference dashboard at this time.
                         </p>
                     </section>
 
