@@ -7,7 +7,7 @@ export const SEO_PAGES_CONFIG = {
     home: {
         id: 'home',
         path: '/',
-        title: 'Interactive Coding Quizzes, Free Practice & Certificates',
+        title: 'Free Interactive Coding Quiz Practice & Certificates',
         description: 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.',
         primaryKeyword: 'programming quizzes',
         secondaryKeywords: [
@@ -68,7 +68,7 @@ export const SEO_PAGES_CONFIG = {
     technologies: {
         id: 'technologies',
         path: '/technologies',
-        title: 'All Tech Quizzes: Free Interactive Practice & Certificates',
+        title: 'Free Interactive Tech Quiz Practice & Certificates | Hangbug',
         description: 'Browse Hangbug technology quizzes and programming practice tracks across HTML, CSS, JavaScript, React.js, PHP, Laravel, Python, SQL, Flutter, and Dart.',
         primaryKeyword: 'technology quizzes',
         secondaryKeywords: [
