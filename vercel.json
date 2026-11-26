@@ -6,7 +6,7 @@
   "functions": {
     "api/index.js": {
       "maxDuration": 60,
-      "includeFiles": "{api/**,dist/404.html,dist/**/*.html,src/config/seoPagesConfig.js,src/utils/structuredData.js,prisma/**,node_modules/{.prisma/client/**,@prisma/client/**,pdfjs-dist/legacy/build/*.mjs,pdfjs-dist/standard_fonts/**,tesseract.js/src/worker-script/**,tesseract.js-core/*lstm.{js,wasm},@tesseract.js-data/eng/4.0.0_best_int/**}}"
+      "includeFiles": "{dist/{404.html,**/*.html},node_modules/{.prisma/client/**,@prisma/client/**,pdfjs-dist/{legacy/build/*.mjs,standard_fonts/**},tesseract.js/src/worker-script/**,tesseract.js-core/*lstm.{js,wasm},@tesseract.js-data/eng/4.0.0_best_int/**}}"
     }
   },
   "redirects": [
