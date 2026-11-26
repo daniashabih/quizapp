@@ -18,6 +18,7 @@ import '../../widgets/loading_state_widget.dart';
 import '../../widgets/banner_ad_widget.dart';
 import '../../widgets/animated_theme_toggle.dart';
 import '../../widgets/hangbug_dialog.dart';
+import '../../widgets/learning_footer.dart';
 
 class ExploreScreen extends ConsumerStatefulWidget {
   const ExploreScreen({super.key});
@@ -655,22 +656,30 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                       // Grid / List of technologies (Reference Mockup 2 Levels Style)
                       Expanded(
                         child: filtered.isEmpty
-                            ? EmptyStateWidget(
-                                title: 'No technologies found',
-                                subtitle: _searchQuery.isEmpty
-                                    ? 'No technology tracks available.'
-                                    : 'No matches found for "$_searchQuery".',
-                                icon: Icons.search_off_rounded,
+                            ? ListView(
+                                children: [
+                                  EmptyStateWidget(
+                                    title: 'No technologies found',
+                                    subtitle: _searchQuery.isEmpty
+                                        ? 'No technology tracks available.'
+                                        : 'No matches found for "$_searchQuery".',
+                                    icon: Icons.search_off_rounded,
+                                  ),
+                                  LearningFooter(categories: categories),
+                                ],
                               )
                             : ListView.separated(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 16.0,
                                   vertical: 8.0,
                                 ),
-                                itemCount: filtered.length,
+                                itemCount: filtered.length + 1,
                                 separatorBuilder: (context, index) =>
                                     const SizedBox(height: 10),
                                 itemBuilder: (context, index) {
+                                  if (index == filtered.length) {
+                                    return LearningFooter(categories: categories);
+                                  }
                                   final cat = filtered[index];
                                   return _buildTechCard(cat);
                                 },

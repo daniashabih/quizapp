@@ -1,26 +1,64 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { BookOpen, Building2, Code2, Mail, Sparkles } from 'lucide-react';
 import axios from 'axios';
-import { Mail } from 'lucide-react';
 import BrandLogo from './BrandLogo';
 import { useAuth } from '../context/AuthContext';
 import { getTechnologySeoBySlug } from '../config/seoPagesConfig';
 import { hasPublishedCategory } from '../utils/categoryAvailability';
 
-const TECHNOLOGY_QUIZ_LINKS = [
-    { slug: 'html', label: 'HTML Quizzes' },
-    { slug: 'css', label: 'CSS Quizzes' },
-    { slug: 'javascript', label: 'JavaScript Quizzes' },
-    { slug: 'react', label: 'React.js Quizzes' },
-    { slug: 'python', label: 'Python Quizzes' },
-    { slug: 'php', label: 'PHP Quizzes' },
-    { slug: 'laravel', label: 'Laravel Quizzes' },
-    { slug: 'mysql', label: 'MySQL Quizzes' },
-    { slug: 'mongodb', label: 'MongoDB Quizzes' },
-    { slug: 'flutter', label: 'Flutter Quizzes' },
-    { slug: 'dart', label: 'Dart Quizzes' },
+const TECHNOLOGY_LINKS = [
+    { slug: 'html', label: 'HTML' },
+    { slug: 'css', label: 'CSS' },
+    { slug: 'javascript', label: 'JavaScript' },
+    { slug: 'react', label: 'React.js' },
+    { slug: 'python', label: 'Python' },
+    { slug: 'php', label: 'PHP' },
+    { slug: 'laravel', label: 'Laravel' },
+    { slug: 'mysql', label: 'MySQL' },
+    { slug: 'mongodb', label: 'MongoDB' },
+    { slug: 'flutter', label: 'Flutter' },
+    { slug: 'dart', label: 'Dart' },
     { slug: 'programming-fundamentals', label: 'Fundamentals & OOP' }
 ];
+
+const TUTORIAL_LINKS = [
+    { to: '/blog/html-tutorial-for-beginners', label: 'HTML Tutorial for Beginners' },
+    { to: '/blog/css-basics-beginners-guide', label: "CSS Basics Beginner's Guide" },
+    { to: '/blog/javascript-fundamentals-beginners-guide', label: 'JavaScript Fundamentals' },
+    { to: '/blog/php-programming-beginners-guide', label: 'PHP Programming Guide' },
+    { to: '/blog/laravel-basics-mvc-architecture', label: 'Laravel MVC Architecture' },
+    { to: '/blog/flutter-dart-mobile-app-development', label: 'Flutter & Dart Mobile Guide' }
+];
+
+function FooterLinks({ links }) {
+    return (
+        <ul className="space-y-2.5">
+            {links.map(({ to, label }) => (
+                <li key={to}>
+                    <Link
+                        to={to}
+                        className="inline-flex min-h-11 items-center text-sm text-[#52615A] transition-colors duration-150 hover:text-[#193D35] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] focus-visible:ring-offset-2 dark:text-[#B5C2BC] dark:hover:text-emerald-300 dark:focus-visible:ring-emerald-300 dark:focus-visible:ring-offset-[#121916]"
+                    >
+                        {label}
+                    </Link>
+                </li>
+            ))}
+        </ul>
+    );
+}
+
+function FooterColumn({ icon: Icon, title, children }) {
+    return (
+        <section aria-label={title} className="min-w-0">
+            <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-[#202B26] dark:text-[#F3F6F4]">
+                <Icon size={16} aria-hidden="true" className="text-[#193D35] dark:text-emerald-300" />
+                {title}
+            </h2>
+            {children}
+        </section>
+    );
+}
 
 export default function Footer() {
     const year = new Date().getFullYear();
@@ -47,116 +85,122 @@ export default function Footer() {
         };
     }, []);
 
-    const availableQuizLinks = TECHNOLOGY_QUIZ_LINKS.filter(link => {
-        const seoConfig = getTechnologySeoBySlug(link.slug);
-        return hasPublishedCategory(categories, seoConfig?.categoryMatcher || [seoConfig?.name]);
-    });
+    const availableTechnologyLinks = TECHNOLOGY_LINKS
+        .map(link => {
+            const seoConfig = getTechnologySeoBySlug(link.slug);
+            return seoConfig && hasPublishedCategory(categories, seoConfig.categoryMatcher || [seoConfig.name])
+                ? { to: seoConfig.path, label: link.label }
+                : null;
+        })
+        .filter(Boolean);
 
     return (
-        <footer className="w-full border-t border-[var(--card-border)] bg-[var(--card-bg)] pt-10 pb-6 px-4 sm:px-6 lg:px-8 shrink-0 mt-auto transition-colors duration-300">
-            <div className="max-w-7xl mx-auto space-y-8">
-                {/* Main Links Grid: Responsive across Mobile, Tablet & Desktop */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-                    {/* Column 1: Brand & Overview */}
-                    <div className="sm:col-span-2 lg:col-span-1 space-y-3">
-                        <Link to="/" className="inline-block" aria-label="Hangbug Home">
+        <footer className="mt-auto w-full shrink-0 border-t border-[#E5E9E6] bg-white text-[#202B26] dark:border-[#2A3832] dark:bg-[#121916]">
+            <div className="mx-auto max-w-7xl px-5 pb-7 pt-12 sm:px-8 sm:pt-14 lg:px-10">
+                <div className="grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-12 lg:gap-y-12">
+                    <section aria-label="About Hangbug" className="min-w-0">
+                        <Link to="/" className="inline-flex rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] focus-visible:ring-offset-4 dark:focus-visible:ring-emerald-300" aria-label="Hangbug Home">
                             <BrandLogo size="md" loading="lazy" />
                         </Link>
-                        <p className="text-xs text-[var(--foreground-muted)] leading-relaxed">
-                            Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.
+                        <p className="mt-4 max-w-sm text-sm leading-6 text-[#52615A] dark:text-[#B5C2BC]">
+                            Build your programming skills with Hangbug. Practice interactive quizzes, explore coding challenges, learn through tutorials, and earn certificates as you progress.
                         </p>
-                        <div className="pt-2 flex flex-col space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
-                            <Link to="/certificate/view" rel="nofollow" className="hover:text-[var(--foreground)] transition-colors">Verify Certificate</Link>
-                            <Link to="/leaderboard" className="hover:text-[var(--foreground)] transition-colors">Global Leaderboard</Link>
-                            {user ? (
-                                <Link to="/dashboard" className="hover:text-[var(--foreground)] transition-colors">Developer Dashboard</Link>
-                            ) : (
-                                <Link to="/login" className="hover:text-[var(--foreground)] transition-colors">Account Sign In</Link>
-                            )}
-                        </div>
-                    </div>
+                        <p className="mt-4 inline-flex items-center gap-2 text-xs font-medium tracking-wide text-[#52615A] dark:text-[#B5C2BC]">
+                            <Sparkles size={14} aria-hidden="true" className="text-[#193D35] dark:text-emerald-300" />
+                            Learn. Practice. Challenge Yourself.
+                        </p>
+                        <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+                            <li>
+                                <Link to="/certificate/view" rel="nofollow" className="text-[#52615A] transition-colors hover:text-[#193D35] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] dark:text-[#B5C2BC] dark:hover:text-emerald-300 dark:focus-visible:ring-emerald-300">
+                                    Verify Certificate
+                                </Link>
+                            </li>
+                            <li>
+                                {user ? (
+                                    <Link to="/dashboard" className="text-[#52615A] transition-colors hover:text-[#193D35] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] dark:text-[#B5C2BC] dark:hover:text-emerald-300 dark:focus-visible:ring-emerald-300">
+                                        Developer Dashboard
+                                    </Link>
+                                ) : (
+                                    <Link to="/login" className="text-[#52615A] transition-colors hover:text-[#193D35] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] dark:text-[#B5C2BC] dark:hover:text-emerald-300 dark:focus-visible:ring-emerald-300">
+                                        Account Sign In
+                                    </Link>
+                                )}
+                            </li>
+                        </ul>
+                    </section>
 
-                    {/* Column 2: Technology Quiz Tracks */}
-                    <div className="space-y-2.5">
-                        <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Technologies</p>
-                        <ul className="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
-                            <li><Link to="/technologies" className="hover:text-[var(--foreground)] transition-colors font-semibold text-[var(--foreground)]">All Technologies</Link></li>
-                            {availableQuizLinks.map(link => (
-                                <li key={link.slug}>
-                                    <Link to={`/technologies/${link.slug}`} className="hover:text-[var(--foreground)] transition-colors">
+                    <FooterColumn icon={Code2} title="Explore Technologies">
+                        <ul className="space-y-2.5">
+                            <li>
+                                <Link to="/technologies" className="inline-flex min-h-11 items-center text-sm font-medium text-[#193D35] transition-colors hover:text-[#42665B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] dark:text-emerald-300 dark:hover:text-emerald-200 dark:focus-visible:ring-emerald-300">
+                                    All Technologies
+                                </Link>
+                            </li>
+                            {availableTechnologyLinks.map(link => (
+                                <li key={link.to}>
+                                    <Link to={link.to} className="inline-flex min-h-11 items-center text-sm text-[#52615A] transition-colors hover:text-[#193D35] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] dark:text-[#B5C2BC] dark:hover:text-emerald-300 dark:focus-visible:ring-emerald-300">
                                         {link.label}
                                     </Link>
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </FooterColumn>
 
-                    {/* Column 3: Coding & Typing Games */}
-                    <div className="space-y-2.5">
-                        <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Coding Games</p>
-                        <ul className="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
-                            <li><Link to="/games" className="hover:text-[var(--foreground)] transition-colors font-semibold text-[var(--foreground)]">All Developer Games</Link></li>
-                            <li><Link to="/games/code-puzzle" className="hover:text-[var(--foreground)] transition-colors">Code Puzzle</Link></li>
-                            <li><Link to="/games/find-the-bug" className="hover:text-[var(--foreground)] transition-colors">Find The Bug</Link></li>
-                            <li><Link to="/games/output-predictor" className="hover:text-[var(--foreground)] transition-colors">Output Predictor</Link></li>
-                            <li><Link to="/games/sql-challenge" className="hover:text-[var(--foreground)] transition-colors">SQL Challenge</Link></li>
-                            <li><Link to="/games/speed-typing" className="hover:text-[var(--foreground)] transition-colors">Speed Typing</Link></li>
-                            <li><Link to="/games/code-typing" className="hover:text-[var(--foreground)] transition-colors">Code Typing</Link></li>
-                            <li><Link to="/games/word-rain" className="hover:text-[var(--foreground)] transition-colors">Word Rain</Link></li>
-                            <li><Link to="/games/memory-match" className="hover:text-[var(--foreground)] transition-colors">Coding Memory Match</Link></li>
-                            <li><Link to="/games/complete-the-code" className="hover:text-[var(--foreground)] transition-colors">Complete The Code</Link></li>
-                            <li><Link to="/games/code-scramble" className="hover:text-[var(--foreground)] transition-colors">Code Scramble</Link></li>
-                            <li><Link to="/games/missing-code" className="hover:text-[var(--foreground)] transition-colors">Missing Code</Link></li>
-                            <li><Link to="/games/syntax-typing" className="hover:text-[var(--foreground)] transition-colors">Syntax Typing</Link></li>
-                            <li><Link to="/games/error-free-typing" className="hover:text-[var(--foreground)] transition-colors">Error-Free Typing</Link></li>
-                            <li><Link to="/games/sixty-second-challenge" className="hover:text-[var(--foreground)] transition-colors">60-Second Challenge</Link></li>
-                            <li><Link to="/games/csharp-oop-challenge" className="hover:text-[var(--foreground)] transition-colors">C# OOP Challenge</Link></li>
-                            <li><Link to="/games/csharp-collections-challenge" className="hover:text-[var(--foreground)] transition-colors">C# Collections Challenge</Link></li>
-                            <li><Link to="/games/csharp-linq-challenge" className="hover:text-[var(--foreground)] transition-colors">C# LINQ Challenge</Link></li>
-                            <li><Link to="/games/csharp-exception-handling" className="hover:text-[var(--foreground)] transition-colors">C# Exception Handling</Link></li>
-                            <li><Link to="/games/csharp-quiz-challenge" className="hover:text-[var(--foreground)] transition-colors">C# Quiz Challenge</Link></li>
-                            <li><Link to="/games/logic-builder" className="hover:text-[var(--foreground)] transition-colors">Logic Builder</Link></li>
+                    <FooterColumn icon={BookOpen} title="Learn & Practice">
+                        <ul className="space-y-2.5">
+                            <li>
+                                <Link to="/blog" className="inline-flex min-h-11 items-center text-sm font-medium text-[#193D35] transition-colors hover:text-[#42665B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] dark:text-emerald-300 dark:hover:text-emerald-200 dark:focus-visible:ring-emerald-300">
+                                    All Tutorials
+                                </Link>
+                            </li>
+                            {TUTORIAL_LINKS.map(link => (
+                                <li key={link.to}>
+                                    <Link to={link.to} className="inline-flex min-h-11 items-center text-sm text-[#52615A] transition-colors hover:text-[#193D35] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] dark:text-[#B5C2BC] dark:hover:text-emerald-300 dark:focus-visible:ring-emerald-300">
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
+                            <li className="pt-1">
+                                <Link to="/games" className="inline-flex min-h-11 items-center text-sm text-[#52615A] transition-colors hover:text-[#193D35] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] dark:text-[#B5C2BC] dark:hover:text-emerald-300 dark:focus-visible:ring-emerald-300">
+                                    Coding Games
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/games/code-puzzle" className="inline-flex min-h-11 items-center text-sm text-[#52615A] transition-colors hover:text-[#193D35] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] dark:text-[#B5C2BC] dark:hover:text-emerald-300 dark:focus-visible:ring-emerald-300">
+                                    Developer Challenges
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/leaderboard" className="inline-flex min-h-11 items-center text-sm text-[#52615A] transition-colors hover:text-[#193D35] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] dark:text-[#B5C2BC] dark:hover:text-emerald-300 dark:focus-visible:ring-emerald-300">
+                                    Global Leaderboard
+                                </Link>
+                            </li>
                         </ul>
-                    </div>
+                    </FooterColumn>
 
-                    {/* Column 4: Published Tutorials & Guides */}
-                    <div className="space-y-2.5">
-                        <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Tutorials &amp; Guides</p>
-                        <ul className="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
-                            <li><Link to="/blog" className="hover:text-[var(--foreground)] transition-colors font-semibold text-[var(--foreground)]">All Blog Articles</Link></li>
-                            <li><Link to="/blog/html-tutorial-for-beginners" className="hover:text-[var(--foreground)] transition-colors">HTML Tutorial for Beginners</Link></li>
-                            <li><Link to="/blog/css-basics-beginners-guide" className="hover:text-[var(--foreground)] transition-colors">CSS Basics Beginner's Guide</Link></li>
-                            <li><Link to="/blog/javascript-fundamentals-beginners-guide" className="hover:text-[var(--foreground)] transition-colors">JavaScript Fundamentals</Link></li>
-                            <li><Link to="/blog/php-programming-beginners-guide" className="hover:text-[var(--foreground)] transition-colors">PHP Programming Guide</Link></li>
-                            <li><Link to="/blog/laravel-basics-mvc-architecture" className="hover:text-[var(--foreground)] transition-colors">Laravel MVC Architecture</Link></li>
-                            <li><Link to="/blog/flutter-dart-mobile-app-development" className="hover:text-[var(--foreground)] transition-colors">Flutter &amp; Dart Mobile Guide</Link></li>
-                        </ul>
-                    </div>
-
-                    {/* Column 5: Company & Legal */}
-                    <div className="space-y-2.5">
-                        <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Company &amp; Legal</p>
-                        <ul className="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
-                            <li><Link to="/about" className="hover:text-[var(--foreground)] transition-colors">About Hangbug</Link></li>
-                            <li><Link to="/contact" className="hover:text-[var(--foreground)] transition-colors">Contact Support</Link></li>
-                            <li><Link to="/privacy-policy" className="hover:text-[var(--foreground)] transition-colors">Privacy Policy</Link></li>
-                            <li><Link to="/terms" className="hover:text-[var(--foreground)] transition-colors">Terms of Service</Link></li>
-                            <li><Link to="/delete-account" className="hover:text-red-500 transition-colors">Delete Account</Link></li>
-                        </ul>
-                    </div>
+                    <FooterColumn icon={Building2} title="Company & Support">
+                        <FooterLinks
+                            links={[
+                                { to: '/about', label: 'About Hangbug' },
+                                { to: '/contact', label: 'Contact Support' },
+                                { to: '/privacy-policy', label: 'Privacy Policy' },
+                                { to: '/terms', label: 'Terms of Service' },
+                                { to: '/delete-account', label: 'Delete Account' }
+                            ]}
+                        />
+                    </FooterColumn>
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="pt-6 border-t border-[var(--card-border)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--foreground-muted)]">
-                    <p>© {year} Hangbug. All rights reserved.</p>
-
-                    <div className="flex items-center gap-3">
+                <div className="mt-10 border-t border-[#E5E9E6] pt-5 dark:border-[#2A3832]">
+                    <div className="grid grid-cols-1 items-center gap-4 text-sm text-[#52615A] sm:grid-cols-3 dark:text-[#B5C2BC]">
+                        <p className="text-center sm:text-left">© {year} Hangbug. All rights reserved.</p>
+                        <p className="text-center">Built for developers and lifelong learners.</p>
                         <a
                             href="mailto:support@hangbug.com"
                             aria-label="Email Hangbug Support"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--muted-bg)] border border-[var(--card-border)] text-[var(--foreground-muted)] hover:text-[#193D35] hover:border-[#193D35] transition-all"
+                            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm transition-colors hover:text-[#193D35] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#193D35] sm:justify-end dark:hover:text-emerald-300 dark:focus-visible:ring-emerald-300"
                         >
-                            <Mail size={14} />
+                            <Mail size={16} aria-hidden="true" />
                             <span>support@hangbug.com</span>
                         </a>
                     </div>
