@@ -157,17 +157,23 @@ export default function TechnologyDetail() {
     const [sessionsByCategory, setSessionsByCategory] = useState({});
     const [loadingQuizzes, setLoadingQuizzes] = useState(true);
     const [hasLoadedCategories, setHasLoadedCategories] = useState(false);
+    const [categoryLoadError, setCategoryLoadError] = useState(null);
     const hasPublishedQuizzes = matchingCategories.length > 0;
+    const noAvailableQuizzes = hasLoadedCategories && !categoryLoadError && !hasPublishedQuizzes;
 
     usePageSeo({
         title: !seoConfig
             ? 'Free Interactive Tech Quiz Practice & Certificates | Hangbug'
-            : hasLoadedCategories && !hasPublishedQuizzes
+            : noAvailableQuizzes
                 ? `${seoConfig.name} Coding Games & Guides | Hangbug`
-                : seoConfig.title,
+                : categoryLoadError
+                    ? `${seoConfig.name} Quiz Availability | Hangbug`
+                    : seoConfig.title,
         description: !seoConfig
             ? 'Practice programming quizzes and interactive coding games on Hangbug.'
-            : hasLoadedCategories && !hasPublishedQuizzes
+            : categoryLoadError
+                ? `Quiz availability for ${seoConfig.name} could not be verified right now.`
+                : noAvailableQuizzes
                 ? `Explore ${seoConfig.name} coding games and guides. No published quiz questions are currently available in this track.`
                 : seoConfig.description,
         canonicalPath: seoConfig ? seoConfig.path : undefined,
@@ -196,6 +202,7 @@ export default function TechnologyDetail() {
         const loadQuizData = async () => {
             setLoadingQuizzes(true);
             setHasLoadedCategories(false);
+            setCategoryLoadError(null);
             try {
                 const res = await axios.get('/categories');
                 const list = Array.isArray(res.data)
@@ -232,10 +239,12 @@ export default function TechnologyDetail() {
                 if (isMounted) {
                     setSessionsByCategory(sessionMap);
                 }
-            } catch {
+            } catch (error) {
+                console.error('[Technology Availability Fetch Error]:', error);
                 if (isMounted) {
                     setAvailableCategories([]);
                     setMatchingCategories([]);
+                    setCategoryLoadError(error);
                 }
             } finally {
                 if (isMounted) {
@@ -331,8 +340,10 @@ export default function TechnologyDetail() {
                             </div>
 
                             <h1 className="text-2xl sm:text-4xl font-display font-extrabold text-[var(--foreground)] tracking-tight leading-tight">
-                                {hasLoadedCategories && !hasPublishedQuizzes
+                                {noAvailableQuizzes
                                     ? `Explore ${seoConfig.name} Coding Games & Guides`
+                                    : categoryLoadError
+                                        ? `Checking ${seoConfig.name} Quiz Availability`
                                     : seoConfig.h1}
                             </h1>
 
@@ -491,10 +502,14 @@ export default function TechnologyDetail() {
                         <div className="p-5 rounded-2xl bg-[var(--muted-bg)]/60 border border-[var(--card-border)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div className="space-y-1">
                                 <h3 className="text-sm font-display font-bold text-[var(--foreground)]">
-                                    No published {seoConfig.name} quiz questions right now
+                                    {categoryLoadError
+                                        ? `Unable to verify ${seoConfig.name} quiz availability right now`
+                                        : `No published ${seoConfig.name} quiz questions right now`}
                                 </h3>
                                 <p className="text-xs text-[var(--foreground-muted)] leading-relaxed max-w-2xl">
-                                    This technology does not currently have a published quiz track. Browse Hangbug coding games or return to the Technologies page to see tracks with published questions.
+                                    {categoryLoadError
+                                        ? 'Please try again later or view the Technologies page for current track availability.'
+                                        : 'This technology does not currently have a published quiz track. Browse Hangbug coding games or return to the Technologies page to see tracks with published questions.'}
                                 </p>
                             </div>
                             <div className="flex items-center gap-2 shrink-0">

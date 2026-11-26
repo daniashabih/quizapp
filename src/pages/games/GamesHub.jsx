@@ -65,7 +65,7 @@ export const GamesHub = () => {
 
     usePageSeo({
         title: 'Free Interactive Coding Games & Typing Practice | Hangbug',
-        description: 'Sharpen your coding logic, syntax memory, and typing speed on Hangbug with interactive browser games including Code Puzzle, Find the Bug, and Speed Typing.',
+        description: 'Play interactive coding and typing games on Hangbug to build coding logic, debug code, predict output, practice SQL, and improve developer typing speed.',
         canonicalPath: '/games',
         schemaType: 'WebPage',
         includeApplicationSchema: true,
@@ -576,7 +576,7 @@ export const GamesHub = () => {
 
                 {/* 6. CATEGORY PILL FILTER CHIPS & DIFFICULTY */}
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
-                    <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                    <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none min-w-0 max-w-full">
                         {CATEGORIES.map((cat) => {
                             const isSelected = selectedCategory === cat.name;
                             const count = categoryCounts[cat.name] || 0;
@@ -607,7 +607,7 @@ export const GamesHub = () => {
                     </div>
 
                     {/* Difficulty selector */}
-                    <div className="flex items-center gap-1.5 text-xs">
+                    <div className="flex flex-wrap items-center gap-1.5 text-xs min-w-0 max-w-full w-full sm:w-auto">
                         <span className="text-[11px] text-[var(--foreground-muted)] font-medium mr-1">Difficulty:</span>
                         {DIFFICULTIES.map(diff => (
                             <button

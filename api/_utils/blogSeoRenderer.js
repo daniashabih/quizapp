@@ -195,7 +195,7 @@ function truncateAtWordBoundary(text, maxLength = 158) {
 
 function buildArticleSeoDescription(article) {
     const seoDesc = typeof article?.seoDescription === 'string' ? article.seoDescription.trim() : '';
-    if (seoDesc) return seoDesc;
+    if (seoDesc) return truncateAtWordBoundary(seoDesc, 160);
 
     const excerpt = typeof article?.excerpt === 'string' ? article.excerpt.trim() : '';
     if (excerpt) return truncateAtWordBoundary(excerpt, 160);
@@ -212,22 +212,31 @@ function clipSeoPhrase(text, maxLength) {
     const sliced = clean.slice(0, maxLength);
     const lastSpace = sliced.lastIndexOf(' ');
     const base = lastSpace >= Math.floor(maxLength * 0.5) ? sliced.slice(0, lastSpace) : sliced;
-    return base.replace(/[.:,;—\-–|]+$/, '').trim() || sliced.trim();
+    const completePhrase = removeDanglingSeoWords(base.replace(/[.:,;—\-–|]+$/, '').trim());
+    return completePhrase || sliced.trim();
+}
+
+function removeDanglingSeoWords(text) {
+    return String(text || '')
+        .replace(/(?:\s+(?:a|an|and|by|for|from|in|into|of|on|or|the|to|with|step))+$/i, '')
+        .trim();
 }
 
 function formatSeoTitleWithBrand(rawTitle, brand = SITE_NAME, maxLength = 60) {
     const clean = String(rawTitle || '').replace(/\s+/g, ' ').trim();
     if (!clean) return `Developer Tutorials & Coding Guides | ${brand}`;
-    if (/\s+[|—\-]\s*hangbug/i.test(clean) && clean.length <= maxLength) {
+    const hasBrand = /\s+[|—\-]\s*hangbug/i.test(clean);
+    const withoutBrand = clean.replace(/\s*[|—\-]\s*hangbug.*$/i, '').trim() || clean;
+    const completeTitle = removeDanglingSeoWords(withoutBrand);
+    if (hasBrand && clean.length <= maxLength && completeTitle === withoutBrand) {
         return clean;
     }
-    const withoutBrand = clean.replace(/\s*[|—\-]\s*hangbug.*$/i, '').trim() || clean;
     const suffix = ` | ${brand}`;
-    if (`${withoutBrand}${suffix}`.length <= maxLength) {
-        return `${withoutBrand}${suffix}`;
+    if (`${completeTitle}${suffix}`.length <= maxLength) {
+        return `${completeTitle}${suffix}`;
     }
     const maxTopicLength = Math.max(12, maxLength - suffix.length);
-    return `${clipSeoPhrase(withoutBrand, maxTopicLength)}${suffix}`;
+    return `${clipSeoPhrase(completeTitle, maxTopicLength)}${suffix}`;
 }
 
 function formatGameSeoTitle(rawTitle = '', category = '') {
@@ -250,12 +259,7 @@ function formatGameSeoTitle(rawTitle = '', category = '') {
 function buildArticleSeoTitle(article) {
     const rawTitle = String(article?.title || 'Article').trim();
     const seoTitle = typeof article?.seoTitle === 'string' ? article.seoTitle.trim() : '';
-    if (seoTitle) {
-        if (seoTitle.toLowerCase() === rawTitle.toLowerCase()) {
-            return formatSeoTitleWithBrand(seoTitle);
-        }
-        return seoTitle.length <= 60 ? seoTitle : formatSeoTitleWithBrand(seoTitle);
-    }
+    if (seoTitle) return formatSeoTitleWithBrand(seoTitle);
     return formatSeoTitleWithBrand(rawTitle);
 }
 
@@ -988,17 +992,7 @@ function renderBlogListBodyHtml({ articles = [], featuredArticle = null, categor
             Apply these tutorials immediately across interactive coding quizzes, debugging games, and developer typing challenges:
           </p>
           <div class="flex flex-wrap gap-2">
-            <a href="/technologies/html" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">HTML Quizzes</a>
-            <a href="/technologies/css" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">CSS Quizzes</a>
-            <a href="/technologies/javascript" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">JavaScript Quizzes</a>
-            <a href="/technologies/react" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">React.js Quizzes</a>
-            <a href="/technologies/php" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">PHP Quizzes</a>
-            <a href="/technologies/laravel" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Laravel Quizzes</a>
-            <a href="/technologies/mysql" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">MySQL Quizzes</a>
-            <a href="/technologies/mongodb" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">MongoDB Quizzes</a>
-            <a href="/technologies/flutter" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Flutter Quizzes</a>
-            <a href="/technologies/dart" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Dart Quizzes</a>
-            <a href="/technologies/python" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Python Quizzes</a>
+            <a href="/technologies" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Browse Available Quiz Tracks</a>
             <a href="/games/code-puzzle" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Code Puzzle</a>
             <a href="/games/find-the-bug" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">Find the Bug</a>
             <a href="/games/sql-challenge" class="px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 text-xs font-semibold text-emerald-100">SQL Challenge</a>
@@ -1096,9 +1090,10 @@ function applyHeadMetadata(baseHtml, {
     }
 
     if (description) {
-        html = replaceOrInsertMeta(html, 'name', 'description', description);
-        html = replaceOrInsertMeta(html, 'property', 'og:description', description);
-        html = replaceOrInsertMeta(html, 'name', 'twitter:description', description);
+        const metaDescription = truncateAtWordBoundary(description, 160);
+        html = replaceOrInsertMeta(html, 'name', 'description', metaDescription);
+        html = replaceOrInsertMeta(html, 'property', 'og:description', metaDescription);
+        html = replaceOrInsertMeta(html, 'name', 'twitter:description', metaDescription);
     }
 
     html = replaceOrInsertMeta(html, 'name', 'robots', robots);

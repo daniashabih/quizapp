@@ -83,10 +83,6 @@ const Category = {
                 }
             });
 
-            const agileNorm = normalizeCategory('Agile & DevOps');
-            const csharpNorm = normalizeCategory('C#');
-            const csharpAliasNorm = normalizeCategory('csharp');
-
             const list = categories.map(cat => {
                 const norm = normalizeCategory(cat.name);
                 const sessions = sessionMap[norm]
@@ -100,30 +96,6 @@ const Category = {
                     sessions
                 };
             });
-
-            // If Agile & DevOps was not in categories, append it
-            const hasAgile = list.some(c => normalizeCategory(c.name) === agileNorm);
-            if (!hasAgile) {
-                list.push({
-                    id: 'cat_agile_devops',
-                    name: 'Agile & DevOps',
-                    isEnabled: true,
-                    questionCount: 0,
-                    sessions: []
-                });
-            }
-
-            // If C# was not in categories, append it
-            const hasCSharp = list.some(c => normalizeCategory(c.name) === csharpNorm || normalizeCategory(c.name) === csharpAliasNorm);
-            if (!hasCSharp) {
-                list.push({
-                    id: 'cat_csharp',
-                    name: 'C#',
-                    isEnabled: true,
-                    questionCount: 0,
-                    sessions: []
-                });
-            }
 
             return list;
         } catch (err) {

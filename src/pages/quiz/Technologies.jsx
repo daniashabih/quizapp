@@ -89,6 +89,7 @@ export default function Technologies() {
     const [selectedCatForSession, setSelectedCatForSession] = useState(null);
     const [sessionsList, setSessionsList] = useState([]);
     const [loadingSessions, setLoadingSessions] = useState(false);
+    const [sessionsError, setSessionsError] = useState(null);
     const [chosenSession, setChosenSession] = useState(1);
     const [customSessionNo, setCustomSessionNo] = useState('');
     const [isCustomMode, setIsCustomMode] = useState(false);
@@ -177,11 +178,14 @@ export default function Technologies() {
     }, [fetchCategories]);
 
     const handleCategoryClick = async (cat) => {
+        if (Number(cat?.questionCount || 0) <= 0) return;
         setSelectedCatForSession(cat);
         setChosenSession(1);
         setCustomSessionNo('');
         setIsCustomMode(false);
         setLoadingSessions(true);
+        setSessionsError(null);
+        setSessionsList([]);
 
         try {
             const res = await axios.get(`/questions/sessions?category=${encodeURIComponent(cat.name)}`);
@@ -190,12 +194,11 @@ export default function Technologies() {
                 // Set first available session as default
                 setChosenSession(res.data[0].session || 1);
             } else {
-                setSessionsList([{ session: 1, count: cat.questionCount || 0 }]);
-                setChosenSession(1);
+                setSessionsError('No published question sessions are available for this category right now.');
             }
-        } catch {
-            setSessionsList([{ session: 1, count: cat.questionCount || 0 }]);
-            setChosenSession(1);
+        } catch (error) {
+            console.error('[Quiz Session Fetch Error]:', error);
+            setSessionsError(error.response?.data?.message || 'Unable to load quiz sessions. Please try again.');
         } finally {
             setLoadingSessions(false);
         }
@@ -203,6 +206,10 @@ export default function Technologies() {
 
     const handleStartQuiz = (overrideSession = null) => {
         if (!selectedCatForSession) return;
+        if (sessionsList.length === 0) {
+            toast.error(sessionsError || 'No published quiz sessions are available for this category.');
+            return;
+        }
         
         let finalSession = overrideSession !== null ? overrideSession : chosenSession;
         
@@ -509,6 +516,10 @@ export default function Technologies() {
                                 <Loader2 size={28} className="animate-spin text-[#193D35]" />
                                 <p className="text-xs text-[var(--foreground-muted)] font-medium">Loading all sessions...</p>
                             </div>
+                        ) : sessionsError ? (
+                            <p role="alert" className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-600">
+                                {sessionsError}
+                            </p>
                         ) : (
                             <div className="space-y-4">
                                 <div>

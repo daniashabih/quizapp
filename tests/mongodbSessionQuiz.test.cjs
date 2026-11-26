@@ -114,18 +114,21 @@ test('3. Question.getSessionsByCategory & getFiltered enrich all 7 MongoDB sessi
     }
 });
 
-test('4. Category.getAll fallback defines MongoDB with all 7 sessions', async () => {
+test('4. Category.getAll does not synthesize MongoDB when the database is unavailable', async () => {
     const originalFindMany = prisma.category.findMany;
+    const originalGroupBy = prisma.question.groupBy;
+    const originalQuestionFindMany = prisma.question.findMany;
     prisma.category.findMany = async () => {
         throw new Error('Simulated offline fallback');
     };
+    prisma.question.groupBy = async () => [];
+    prisma.question.findMany = async () => [];
     try {
-        const categories = await Category.getAll();
-        const mongo = categories.find(c => c.name === 'MongoDB');
-        assert.ok(mongo, 'Fallback categories must include MongoDB');
-        assert.deepEqual(mongo.sessions, [1, 2, 3, 4, 5, 6, 7]);
+        await assert.rejects(Category.getAll(), /Simulated offline fallback/);
     } finally {
         prisma.category.findMany = originalFindMany;
+        prisma.question.groupBy = originalGroupBy;
+        prisma.question.findMany = originalQuestionFindMany;
     }
 });
 

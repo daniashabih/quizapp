@@ -8,6 +8,14 @@ const BASE_URL = 'https://www.hangbug.com';
 const DEFAULT_IMAGE = 'https://www.hangbug.com/branding/hangbug-logo-full.png';
 const DEFAULT_SITE_NAME = 'Hangbug';
 
+function truncateAtWordBoundary(value, maxLength = 160) {
+    const text = String(value || '').replace(/\s+/g, ' ').trim();
+    if (text.length <= maxLength) return text;
+    const sliced = text.slice(0, maxLength - 3);
+    const lastSpace = sliced.lastIndexOf(' ');
+    return `${(lastSpace > maxLength / 2 ? sliced.slice(0, lastSpace) : sliced).trim()}...`;
+}
+
 function setMetaTag(selector, attributeName, attributeValue, content) {
     if (typeof document === 'undefined') return;
     let el = document.querySelector(selector);
@@ -84,6 +92,9 @@ export function usePageSeo({
 
     useEffect(() => {
         if (typeof document === 'undefined' || skip) return;
+        const resolvedDescription = typeof description === 'string'
+            ? truncateAtWordBoundary(description)
+            : description;
 
         // 1. Document Title
         if (title) {
@@ -99,22 +110,22 @@ export function usePageSeo({
         }
 
         // 2. Meta Description
-        if (description) {
+        if (resolvedDescription) {
             let metaDesc = document.querySelector('meta[name="description"]');
             if (!metaDesc) {
                 metaDesc = document.createElement('meta');
                 metaDesc.setAttribute('name', 'description');
                 document.head.appendChild(metaDesc);
             }
-            metaDesc.setAttribute('content', description);
+            metaDesc.setAttribute('content', resolvedDescription);
 
             let ogDesc = document.querySelector('meta[property="og:description"]');
-            if (ogDesc) ogDesc.setAttribute('content', description);
-            else setMetaTag('meta[property="og:description"]', 'property', 'og:description', description);
+            if (ogDesc) ogDesc.setAttribute('content', resolvedDescription);
+            else setMetaTag('meta[property="og:description"]', 'property', 'og:description', resolvedDescription);
 
             let twitterDesc = document.querySelector('meta[name="twitter:description"]');
-            if (twitterDesc) twitterDesc.setAttribute('content', description);
-            else setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', description);
+            if (twitterDesc) twitterDesc.setAttribute('content', resolvedDescription);
+            else setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', resolvedDescription);
         }
 
         // 3. Route-specific Canonical URL (remove stale canonical on noindex pages)
@@ -210,7 +221,7 @@ export function usePageSeo({
                 (schemaType === 'ProfilePage' ? '/dashboard/profile' : '/');
             const jsonLd = buildPageStructuredData({
                 title,
-                description,
+                description: resolvedDescription,
                 canonicalPath: schemaCanonicalPath,
                 ogImage: imageToUse,
                 schemaType,

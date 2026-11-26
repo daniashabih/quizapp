@@ -300,7 +300,7 @@ Custom properties allow you to declare reusable values once and apply them every
 ---
 
 ## Practice Your CSS Skills
-- Take the [CSS Quizzes Track](https://www.hangbug.com/technologies/css) to test specificity and layout concepts.
+- Check the [available quiz catalog](https://www.hangbug.com/technologies) for published technology question banks.
 - Solve the [CSS Code Puzzle Game](https://www.hangbug.com/games/code-puzzle?tech=css) to arrange stylesheet declarations in order.
 - Spot layout defects in the [CSS Find the Bug Game](https://www.hangbug.com/games/find-the-bug?tech=css).
 - Review semantic document structure in our [HTML Tutorial for Beginners](https://www.hangbug.com/blog/html-tutorial-for-beginners).
@@ -893,10 +893,9 @@ Yes, using the official \`http\` package, Flutter can execute GET, POST, and PUT
 ---
 
 ## Practice on Hangbug
-- Test your mobile development skills with [Flutter Quizzes](https://www.hangbug.com/technologies/flutter) and [Dart Quizzes](https://www.hangbug.com/technologies/dart).
+- Check the [available quiz catalog](https://www.hangbug.com/technologies) for published technology question banks, including the [Dart quiz track](https://www.hangbug.com/technologies/dart).
 - Solve widget ordering in the [Flutter Code Puzzle Game](https://www.hangbug.com/games/code-puzzle?tech=flutter).
 - Test null-safe stream logic in the [Dart Output Predictor Game](https://www.hangbug.com/games/output-predictor?tech=dart).
-- Strengthen object-oriented foundations with our [Programming Fundamentals Quizzes](https://www.hangbug.com/technologies/programming-fundamentals).
 - Review client-side web scripting with the [JavaScript Fundamentals Guide](https://www.hangbug.com/blog/javascript-fundamentals-beginners-guide).`
     },
 
@@ -1260,7 +1259,7 @@ Talk out loud. Interviewers want to observe your thought process. State your ass
 ---
 
 ## Sharpen Your Problem Solving
-- Practice [Programming Fundamentals Quizzes](https://www.hangbug.com/technologies/programming-fundamentals) on Hangbug.
+- Browse the [available quiz catalog](https://www.hangbug.com/technologies) for published technology question banks.
 - Test your procedural logic in the [Logic Builder Game](https://www.hangbug.com/games/logic-builder).`
     },
 

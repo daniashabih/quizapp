@@ -11,7 +11,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BrandLogo from '../components/BrandLogo';
 import usePageSeo from '../hooks/usePageSeo';
-import { getTechnologySeoBySlug } from '../config/seoPagesConfig';
+import { getTechnologySeoBySlug, SEO_PAGES_CONFIG } from '../config/seoPagesConfig';
 import { hasPublishedCategory } from '../utils/categoryAvailability';
 
 const CORE_TECHNOLOGIES = [
@@ -35,7 +35,7 @@ const CORE_TECHNOLOGIES = [
 
 export default function Landing() {
     usePageSeo({
-        title: 'Interactive Coding Quizzes, Free Practice & Certificates',
+        title: SEO_PAGES_CONFIG.home.title,
         description: 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.',
         canonicalPath: '/',
         schemaType: 'WebPage',
@@ -66,7 +66,6 @@ export default function Landing() {
     // Filter only categories with active questions (> 0) and enabled
     const activeTechs = technologies.filter(t => t && t.isEnabled !== false && Number(t.questionCount || 0) > 0);
     const isTechnologyAvailable = (tech) => {
-        if (tech.name === 'C#') return false;
         const seoConfig = tech.slug ? getTechnologySeoBySlug(tech.slug) : null;
         const matchNames = seoConfig?.categoryMatcher
             || (tech.name === 'Node.js & Express.js'
@@ -74,9 +73,7 @@ export default function Landing() {
                 : [tech.name]);
         return hasPublishedCategory(activeTechs, matchNames);
     };
-    const availableCoreTechnologies = CORE_TECHNOLOGIES.filter(
-        tech => tech.name === 'C#' || isTechnologyAvailable(tech)
-    );
+    const availableCoreTechnologies = CORE_TECHNOLOGIES.filter(isTechnologyAvailable);
     const filteredTechs = activeTechs.filter(t => {
         const q = searchQuery.toLowerCase().trim();
         if (!q) return true;
@@ -514,25 +511,25 @@ export default function Landing() {
                         </div>
 
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5">
-                            {availableCoreTechnologies.filter(tech => tech.slug || tech.name === 'C#').map((tech) => (
+                            {availableCoreTechnologies.filter(tech => tech.slug).map((tech) => (
                                 <Link
                                     key={tech.name}
-                                    to={tech.slug ? `/technologies/${tech.slug}` : '/games/complete-the-code?tech=csharp'}
+                                    to={`/technologies/${tech.slug}`}
                                     className="p-4 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] hover:border-[#193D35] transition-all flex flex-col justify-between gap-1.5 shadow-2xs group"
                                 >
                                     <h3 className="text-sm font-display font-bold text-[var(--foreground)] group-hover:text-[#193D35] transition-colors">
                                         {tech.name}
                                     </h3>
                                     <p className="text-[11px] text-[var(--foreground-muted)]">
-                                        {tech.slug ? tech.category : 'Interactive C# Games'}
+                                        {tech.category}
                                     </p>
                                 </Link>
                             ))}
                         </div>
-                        {availableCoreTechnologies.some(tech => !tech.slug && tech.name !== 'C#') && (
+                        {availableCoreTechnologies.some(tech => !tech.slug) && (
                             <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-[var(--foreground-muted)]">
                             <span className="font-semibold text-[var(--foreground-secondary)]">Additional Catalog Stacks:</span>
-                            {availableCoreTechnologies.filter(tech => !tech.slug && tech.name !== 'C#').map((tech) => (
+                            {availableCoreTechnologies.filter(tech => !tech.slug).map((tech) => (
                                 <span
                                     key={tech.name}
                                     className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] font-medium text-[var(--foreground)]"

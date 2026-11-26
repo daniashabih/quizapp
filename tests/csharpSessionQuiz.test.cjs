@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const { CSHARP_QUIZ_QUESTIONS, CSHARP_QUIZ_SESSIONS } = require('../api/_models/csharpQuizQuestionsData');
+const prisma = require('../api/_config/prisma');
 const Category = require('../api/_models/categoryModel');
 const Question = require('../api/_models/questionModel');
 const Attempt = require('../api/_models/attemptModel');
@@ -93,26 +94,35 @@ test('2. Every single one of the 713 C# questions grades uniquely and accurately
     }
 });
 
-test('3. Category & Question Models expose all 15 C# sessions and support C#/csharp aliases', async () => {
-    const categories = await Category.getAll();
-    const csharpCat = categories.find(c => c.name === 'C#');
-    assert.ok(csharpCat, 'C# category must exist');
-    assert.equal(csharpCat.isEnabled, true);
-    assert.ok(csharpCat.questionCount >= 713);
-    assert.deepEqual(csharpCat.sessions, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+test('3. C# in-memory quiz routes remain available without inventing a database category', async () => {
+    const originalCategoryFindMany = prisma.category.findMany;
+    const originalQuestionGroupBy = prisma.question.groupBy;
+    const originalQuestionFindMany = prisma.question.findMany;
+    prisma.category.findMany = async () => [];
+    prisma.question.groupBy = async () => [];
+    prisma.question.findMany = async () => [];
 
-    const sessionList = await Question.getSessionsByCategory('C#');
-    assert.equal(sessionList.length, 15);
-    for (let s = 1; s <= 15; s++) {
-        const entry = sessionList.find(x => x.session === s);
-        assert.ok(entry, `Session ${s} must be returned by getSessionsByCategory`);
-        assert.equal(entry.title, EXPECTED_SESSION_TITLES[s]);
-        assert.equal(entry.count, EXPECTED_SESSION_COUNTS[s]);
+    try {
+        const categories = await Category.getAll();
+        assert.deepEqual(categories, []);
+
+        const sessionList = await Question.getSessionsByCategory('C#');
+        assert.equal(sessionList.length, 15);
+        for (let s = 1; s <= 15; s++) {
+            const entry = sessionList.find(x => x.session === s);
+            assert.ok(entry, `Session ${s} must be returned by getSessionsByCategory`);
+            assert.equal(entry.title, EXPECTED_SESSION_TITLES[s]);
+            assert.equal(entry.count, EXPECTED_SESSION_COUNTS[s]);
+        }
+
+        const s15 = await Question.getFiltered({ category: 'csharp', session: 15 });
+        assert.equal(s15.length, 50);
+        assert.equal(s15[0].sessionTitle, 'GUI/Desktop Apps with C#');
+    } finally {
+        prisma.category.findMany = originalCategoryFindMany;
+        prisma.question.groupBy = originalQuestionGroupBy;
+        prisma.question.findMany = originalQuestionFindMany;
     }
-
-    const s15 = await Question.getFiltered({ category: 'csharp', session: 15 });
-    assert.equal(s15.length, 50);
-    assert.equal(s15[0].sessionTitle, 'GUI/Desktop Apps with C#');
 });
 
 test('4. quizController.validateAnswer supports C# in-memory fallback questions', async () => {

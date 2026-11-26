@@ -42,11 +42,11 @@ export default function ContactUs() {
             message: form.message.trim(),
             website: form.website
         };
-        if (!values.name || values.name.length > 100
+        if (!values.name || values.name.length > 100 || /[\u0000-\u001f\u007f]/.test(values.name)
             || !/^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i.test(values.email)
             || values.email.length > 254
             || values.subject.length > 150
-            || /[\r\n]/.test(values.subject)
+            || /[\u0000-\u001f\u007f]/.test(values.subject)
             || values.message.length < 10
             || values.message.length > 5000) {
             setErrorMessage('Check that your name, email, subject, and message meet the field limits.');
@@ -55,7 +55,10 @@ export default function ContactUs() {
         setSending(true);
         setErrorMessage('');
         try {
-            await axios.post('/api/contact', values);
+            const response = await axios.post('/api/contact', values);
+            if (response.data?.success !== true) {
+                throw new Error(response.data?.message || 'We could not confirm delivery. Please try again.');
+            }
             setSubmitted(true);
             notify.success({
                 title: "Message submitted",
@@ -63,6 +66,7 @@ export default function ContactUs() {
             });
         } catch (error) {
             const message = error.response?.data?.message
+                || (!error.response ? error.message : null)
                 || "We couldn't send your message. Please try again or email support@hangbug.com.";
             setErrorMessage(message);
             notify.error({ title: "Message not sent", description: message });
@@ -152,7 +156,7 @@ export default function ContactUs() {
                                     <div className="w-14 h-14 rounded-full bg-[#193D35] text-white flex items-center justify-center mx-auto">
                                         <CheckCircle2 size={28} />
                                     </div>
-                                    <h3 className="text-xl font-display font-bold text-[var(--foreground)]">Message Sent</h3>
+                                    <h3 className="text-xl font-display font-bold text-[var(--foreground)]">Message Submitted</h3>
                                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)] max-w-sm mx-auto">
                                         Thank you for reaching out. Your message was accepted for delivery to Hangbug support, who can reply to <strong>{form.email}</strong>.
                                     </p>
@@ -184,11 +188,12 @@ export default function ContactUs() {
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
+                                            <label htmlFor="contact-name" className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                                                 Your Name <span className="text-red-500">*</span>
                                             </label>
                                             <input
                                                 type="text"
+                                                id="contact-name"
                                                 required
                                                 maxLength={100}
                                                 autoComplete="name"
@@ -199,11 +204,12 @@ export default function ContactUs() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
+                                            <label htmlFor="contact-email" className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                                                 Email Address <span className="text-red-500">*</span>
                                             </label>
                                             <input
                                                 type="email"
+                                                id="contact-email"
                                                 required
                                                 maxLength={254}
                                                 autoComplete="email"
@@ -216,11 +222,12 @@ export default function ContactUs() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
+                                        <label htmlFor="contact-subject" className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                                             Subject
                                         </label>
                                         <input
                                             type="text"
+                                            id="contact-subject"
                                             maxLength={150}
                                             placeholder="Question regarding certificates, quiz session, etc."
                                             value={form.subject}
@@ -230,11 +237,12 @@ export default function ContactUs() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
+                                        <label htmlFor="contact-message" className="block text-xs font-semibold text-[var(--foreground)] mb-1.5">
                                             Message <span className="text-red-500">*</span>
                                         </label>
                                         <textarea
                                             rows={5}
+                                            id="contact-message"
                                             required
                                             minLength={10}
                                             maxLength={5000}

@@ -100,7 +100,7 @@ test('5. usePageSeo hook verification: exists and handles title, meta descriptio
 test('6. Route-specific SEO metadata applied across all specified public pages', () => {
     const seoConfigCode = fs.readFileSync(path.join(ROOT_DIR, 'src', 'config', 'seoPagesConfig.js'), 'utf8');
     const pages = [
-        { file: 'src/pages/Landing.jsx', title: 'Interactive Coding Quizzes, Free Practice & Certificates' },
+        { file: 'src/pages/Landing.jsx', title: 'SEO_PAGES_CONFIG.home.title' },
         { file: 'src/pages/legal/AboutUs.jsx', title: 'About Hangbug: Free Interactive Quizzes & Certificates' },
         { file: 'src/pages/legal/ContactUs.jsx', title: 'Contact Support & Inquiries — Hangbug Coding Quiz Platform' },
         { file: 'src/pages/legal/PrivacyPolicy.jsx', title: 'Privacy Policy — Hangbug Data Protection & Cookie Policy' },

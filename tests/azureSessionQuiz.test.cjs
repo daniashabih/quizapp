@@ -122,18 +122,21 @@ test('3. Question.getSessionsByCategory & getFiltered enrich all 15 Azure sessio
     }
 });
 
-test('4. Category.getAll fallback defines Azure with all 15 sessions', async () => {
+test('4. Category.getAll does not synthesize Azure when the database is unavailable', async () => {
     const originalFindMany = prisma.category.findMany;
+    const originalGroupBy = prisma.question.groupBy;
+    const originalQuestionFindMany = prisma.question.findMany;
     prisma.category.findMany = async () => {
         throw new Error('Simulated offline fallback');
     };
+    prisma.question.groupBy = async () => [];
+    prisma.question.findMany = async () => [];
     try {
-        const categories = await Category.getAll();
-        const azure = categories.find(c => c.name === 'Azure');
-        assert.ok(azure, 'Fallback categories must include Azure');
-        assert.deepEqual(azure.sessions, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+        await assert.rejects(Category.getAll(), /Simulated offline fallback/);
     } finally {
         prisma.category.findMany = originalFindMany;
+        prisma.question.groupBy = originalGroupBy;
+        prisma.question.findMany = originalQuestionFindMany;
     }
 });
 

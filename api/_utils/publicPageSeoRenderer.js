@@ -574,7 +574,7 @@ function buildPublicPageStructuredDataFallback({
     softwareApplication = null
 } = {}) {
     const pageUrl = normalizeCanonicalUrl(canonicalPath);
-    const resolvedTitle = title || `Interactive Coding Quizzes, Free Practice & Certificates`;
+    const resolvedTitle = title || 'Free Interactive Coding Quiz Practice & Certificates';
     const resolvedDescription = description || OFFICIAL_DESCRIPTION;
     const breadcrumbNode = buildBreadcrumbListNode(deriveBreadcrumbs(canonicalPath, resolvedTitle), pageUrl);
 
@@ -671,7 +671,7 @@ function buildGameBodyHtml(game, { canonicalSlug, title, h1, description } = {})
 const CORE_INDEXABLE_FALLBACK_META = {
     '/': {
         canonicalPath: '/',
-        title: 'Interactive Coding Quizzes, Free Practice & Certificates',
+        title: 'Free Interactive Coding Quiz Practice & Certificates',
         description: OFFICIAL_DESCRIPTION,
         h1: 'Practice Coding Quizzes, Interactive Games & Developer Skills',
         primaryKeyword: 'online coding practice platform',

@@ -17,7 +17,6 @@ const {
 const {
     GAMES_SEO_LIST,
     GAMES_SEO_MAP,
-    TECH_SEO_KEYS,
     resolveStaticHeaderForPath,
     generatePublicBodyHtml,
     generateHomeBodyHtml,
@@ -50,7 +49,7 @@ const TECHNOLOGY_GUIDE_CONFIGS = [
     { slug: 'react', matchers: ['react.js', 'react'], defaultPopulated: true, fallbackLastmod: '2026-11-19T11:52:22.776Z' },
     { slug: 'php', matchers: ['php', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
     { slug: 'laravel', matchers: ['laravel', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
-    { slug: 'mysql', matchers: ['mysql', 'sql', 'sql server', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
+    { slug: 'mysql', matchers: ['mysql', 'php, xml json, laravel, mysql, javascript'], defaultPopulated: true, fallbackLastmod: '2026-11-17T19:00:28.190Z' },
     { slug: 'mongodb', matchers: ['mongodb', 'mongo db'], defaultPopulated: true, fallbackLastmod: '2026-11-19T11:52:22.776Z' },
     { slug: 'flutter', matchers: ['flutter'], defaultPopulated: true, fallbackLastmod: '2026-11-18T12:28:38.000Z' },
     { slug: 'dart', matchers: ['dart'], defaultPopulated: true, fallbackLastmod: '2026-11-11T12:35:09.075Z' },
@@ -207,14 +206,7 @@ function toIsoLastmod(value, fallback = '2026-11-18T12:00:00.000Z') {
 
 function resolvePopulatedTechnologyRoutes(categoriesWithStats = []) {
     if (!Array.isArray(categoriesWithStats) || categoriesWithStats.length === 0) {
-        return TECHNOLOGY_GUIDE_CONFIGS
-            .filter(t => t.defaultPopulated)
-            .map(t => ({
-                loc: `/technologies/${t.slug}`,
-                changefreq: 'weekly',
-                priority: '0.8',
-                lastmod: t.fallbackLastmod
-            }));
+        return [];
     }
 
     const activeCategories = categoriesWithStats.filter(
@@ -223,9 +215,9 @@ function resolvePopulatedTechnologyRoutes(categoriesWithStats = []) {
 
     const routes = [];
     for (const guide of TECHNOLOGY_GUIDE_CONFIGS) {
+        const matchers = new Set(guide.matchers.map(normalizeTechnologyCategoryName));
         const matched = activeCategories.filter(cat => {
-            const cName = String(cat.name || '').toLowerCase();
-            return guide.matchers.some(m => cName === m || cName.includes(m));
+            return matchers.has(normalizeTechnologyCategoryName(cat.name));
         });
         if (matched.length === 0) continue;
 
@@ -248,6 +240,14 @@ function resolvePopulatedTechnologyRoutes(categoriesWithStats = []) {
     return routes;
 }
 
+function normalizeTechnologyCategoryName(value) {
+    return String(value || '')
+        .trim()
+        .toLowerCase()
+        .replace(/\band\b/g, '&')
+        .replace(/\s+/g, ' ');
+}
+
 function buildSitemapXml(extraSlugs = [], extraBlogSlugs = [], options = {}) {
     const routeLastmodOverrides = options?.routeLastmodOverrides || {};
 
@@ -255,14 +255,7 @@ function buildSitemapXml(extraSlugs = [], extraBlogSlugs = [], options = {}) {
         ? options.techEntriesOverride
         : Array.isArray(options?.categoriesWithStats)
             ? resolvePopulatedTechnologyRoutes(options.categoriesWithStats)
-            : TECHNOLOGY_GUIDE_CONFIGS
-                  .filter(t => t.defaultPopulated)
-                  .map(t => ({
-                      loc: `/technologies/${t.slug}`,
-                      changefreq: 'weekly',
-                      priority: '0.8',
-                      lastmod: t.fallbackLastmod
-                  }));
+            : [];
 
     const gameEntries = Array.isArray(options?.gameEntriesOverride)
         ? options.gameEntriesOverride
@@ -391,9 +384,6 @@ Disallow: /register
 Disallow: /forgot-password
 Disallow: /reset-password
 Disallow: /reset-password/
-Disallow: /delete-account
-Disallow: /account-deletion
-Disallow: /data-deletion
 Disallow: /quiz/start
 Disallow: /quiz/result
 
@@ -968,7 +958,6 @@ function resolveConfigPageMeta(cleanPath, seoConfig, structuredData) {
     const h1 = ensureDistinctH1(cfg.h1, cfg.title);
 
     let breadcrumbs;
-    let itemList = null;
     if (cleanPath.startsWith('/technologies/') && cfg.name) {
         breadcrumbs = [
             { name: 'Home', path: '/' },
@@ -980,23 +969,6 @@ function resolveConfigPageMeta(cleanPath, seoConfig, structuredData) {
             { name: 'Home', path: '/' },
             { name: 'Technologies', path: '/technologies' }
         ];
-        if (typeof seoConfig.getTechnologySeoBySlug === 'function') {
-            const techItems = TECH_SEO_KEYS
-                .map(slug => seoConfig.getTechnologySeoBySlug(slug))
-                .filter(Boolean)
-                .map(t => ({
-                    name: `${t.name} Quizzes`,
-                    url: `https://www.hangbug.com${t.path}`,
-                    description: t.description
-                }));
-            if (techItems.length > 0) {
-                itemList = {
-                    name: 'Hangbug Technology Quiz Tracks',
-                    description: cfg.description || '',
-                    items: techItems
-                };
-            }
-        }
     } else if (canonicalPath === '/games') {
         breadcrumbs = [
             { name: 'Home', path: '/' },
@@ -1022,7 +994,7 @@ function resolveConfigPageMeta(cleanPath, seoConfig, structuredData) {
         schemaType: 'WebPage',
         breadcrumbs,
         includeApplicationSchema: canonicalPath === '/' || canonicalPath === '/games',
-        itemList
+        itemList: null
     });
 
     return {
@@ -1278,6 +1250,44 @@ async function resolveBlogIndexMeta() {
     };
 }
 
+async function getPublishedTechnologyStatus(cleanPath, seoConfig) {
+    const slug = cleanPath.slice('/technologies/'.length);
+    const technology = seoConfig?.getTechnologySeoBySlug?.(slug);
+    if (!technology) return null;
+    if (!isMongoUriConfigured(process.env.MONGODB_URI)) return null;
+
+    const matchNames = technology.categoryMatcher || [technology.name];
+    const { getCategoryVariations } = require('../_utils/categoryMatching');
+    const categoryNames = Array.from(new Set(
+        matchNames.flatMap(getCategoryVariations).filter(Boolean)
+    ));
+    if (categoryNames.length === 0) return false;
+
+    const where = categoryNames.length === 1
+        ? { category: { equals: categoryNames[0], mode: 'insensitive' } }
+        : {
+            OR: categoryNames.map(name => ({
+                category: { equals: name, mode: 'insensitive' }
+            }))
+        };
+
+    try {
+        const prisma = require('../_config/prisma');
+        const stats = await withTimeout(
+            prisma.question.groupBy({
+                by: ['category'],
+                where,
+                _count: { _all: true }
+            }),
+            2500
+        );
+        return stats.some(item => Number(item?._count?._all || 0) > 0);
+    } catch (error) {
+        console.error('[Technology Availability Check Error]:', error.message);
+        return null;
+    }
+}
+
 async function resolveAppRoute(pathname) {
     await ensureMarkdownParser();
     const { seoConfig, structuredData } = await ensureFrontendSeoModules();
@@ -1481,7 +1491,7 @@ async function resolveAppRoute(pathname) {
                     targetSlug,
                     aliasMeta,
                     structuredData,
-                    `${aliasMeta.description} Practice interactive coding challenges on Hangbug.`
+                    aliasMeta.description || ''
                 )
             };
         }
@@ -1498,17 +1508,38 @@ async function resolveAppRoute(pathname) {
                     canonicalFallbackSlug,
                     fallbackGame,
                     structuredData,
-                    `${fallbackGame.description} Practice interactive coding challenges on Hangbug.`
+                    fallbackGame.description || ''
                 )
             };
         }
     }
 
     if (isKnownAppRoute(clean)) {
-        const noindex = isNoindexAppRoute(clean);
-        const meta = noindex
+        let noindex = isNoindexAppRoute(clean);
+        let meta = noindex
             ? resolveNoindexRouteMeta(clean)
             : resolveConfigPageMeta(clean, seoConfig, structuredData);
+
+        if (!noindex && clean.startsWith('/technologies/')) {
+            const published = await getPublishedTechnologyStatus(clean, seoConfig);
+            if (published !== true && meta) {
+                noindex = true;
+                const name = seoConfig.getTechnologySeoBySlug(clean.slice('/technologies/'.length))?.name || 'Technology';
+                meta = {
+                    ...meta,
+                    title: published === false
+                        ? `${name} Coding Games & Guides | Hangbug`
+                        : `${name} Quiz Availability | Hangbug`,
+                    description: published === false
+                        ? `Explore ${name} coding games and guides. No published quiz questions are currently available in this track.`
+                        : `Quiz availability for ${name} could not be verified right now.`,
+                    h1: published === false
+                        ? `Explore ${name} Coding Games & Guides`
+                        : `Checking ${name} Quiz Availability`,
+                    jsonLd: null
+                };
+            }
+        }
 
         return {
             statusCode: 200,
@@ -1637,7 +1668,7 @@ function renderStatusHtml(resolution = { statusCode: 404, noindex: true }) {
             )
             : (canonicalPath === '/'
                 ? generateHomeBodyHtml({ ...resolvedMeta, h1: ensureDistinctH1(resolvedMeta.h1, resolvedMeta.title) })
-                : generatePublicBodyHtml({ ...resolvedMeta, h1: ensureDistinctH1(resolvedMeta.h1, resolvedMeta.title) }));
+                : generatePublicBodyHtml({ ...resolvedMeta, h1: ensureDistinctH1(resolvedMeta.h1, resolvedMeta.title) })));
 
         const resolvedJsonLd = resolvedMeta.jsonLd || buildSsrStructuredData(cachedStructuredDataModule, {
             title: resolvedMeta.title,

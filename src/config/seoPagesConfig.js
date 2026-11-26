@@ -407,7 +407,7 @@ export const SEO_PAGES_CONFIG = {
         categoryMatcher: ['MongoDB', 'Mongo DB'],
         path: '/technologies/mongodb',
         title: 'Free MongoDB Quiz: Interactive Practice & Certificate',
-        description: 'Practice MongoDB and NoSQL database concepts on Hangbug with 7 session-wise quizzes and interactive coding challenges covering BSON documents, CRUD queries, indexing, replication, sharding, and aggregations.',
+        description: 'Practice MongoDB and NoSQL with quizzes on BSON, CRUD, indexes, replication, sharding, and aggregation pipelines.',
         primaryKeyword: 'MongoDB quizzes',
         secondaryKeywords: [
             'NoSQL database practice test',
@@ -607,7 +607,7 @@ export const SEO_PAGES_CONFIG = {
         id: 'games',
         path: '/games',
         title: 'Free Interactive Coding Games & Typing Practice | Hangbug',
-        description: 'Play 20 interactive developer mini-games on Hangbug. Practice algorithm logic, debug code snippets, predict console outputs, write SQL queries, and boost your coding typing speed.',
+        description: 'Play interactive coding and typing games on Hangbug to build coding logic, debug code, predict output, practice SQL, and improve developer typing speed.',
         primaryKeyword: 'coding games',
         secondaryKeywords: [
             'programming games for developers',
@@ -697,7 +697,7 @@ export const SEO_PAGES_CONFIG = {
         id: 'about',
         path: '/about',
         title: 'About Hangbug: Free Interactive Quizzes & Certificates',
-        description: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
+        description: 'Explore Hangbug programming quizzes, coding games, progress tracking, and score-based certificates for students and developers.',
         primaryKeyword: 'interactive coding quiz platform',
         secondaryKeywords: [
             'about Hangbug developer platform',
@@ -1535,22 +1535,30 @@ function clipSeoPhrase(text, maxLength) {
     const sliced = clean.slice(0, maxLength);
     const lastSpace = sliced.lastIndexOf(' ');
     const base = lastSpace >= Math.floor(maxLength * 0.5) ? sliced.slice(0, lastSpace) : sliced;
-    return base.replace(/[.:,;—\-–|]+$/, '').trim() || sliced.trim();
+    return removeDanglingSeoWords(base.replace(/[.:,;—\-–|]+$/, '').trim()) || sliced.trim();
+}
+
+function removeDanglingSeoWords(text) {
+    return String(text || '')
+        .replace(/(?:\s+(?:a|an|and|by|for|from|in|into|of|on|or|the|to|with|step))+$/i, '')
+        .trim();
 }
 
 export function formatSeoTitleWithBrand(rawTitle, brand = 'Hangbug', maxLength = 60) {
     const clean = String(rawTitle || '').replace(/\s+/g, ' ').trim();
     if (!clean) return `Developer Tutorials & Coding Guides | ${brand}`;
-    if (/\s+[|—\-]\s*hangbug/i.test(clean) && clean.length <= maxLength) {
+    const hasBrand = /\s+[|—\-]\s*hangbug/i.test(clean);
+    const withoutBrand = clean.replace(/\s*[|—\-]\s*hangbug.*$/i, '').trim() || clean;
+    const completeTitle = removeDanglingSeoWords(withoutBrand);
+    if (hasBrand && clean.length <= maxLength && completeTitle === withoutBrand) {
         return clean;
     }
-    const withoutBrand = clean.replace(/\s*[|—\-]\s*hangbug.*$/i, '').trim() || clean;
     const suffix = ` | ${brand}`;
-    if (`${withoutBrand}${suffix}`.length <= maxLength) {
-        return `${withoutBrand}${suffix}`;
+    if (`${completeTitle}${suffix}`.length <= maxLength) {
+        return `${completeTitle}${suffix}`;
     }
     const maxTopicLength = Math.max(12, maxLength - suffix.length);
-    return `${clipSeoPhrase(withoutBrand, maxTopicLength)}${suffix}`;
+    return `${clipSeoPhrase(completeTitle, maxTopicLength)}${suffix}`;
 }
 
 export function formatGameSeoTitle(rawTitle = '', category = '') {
@@ -1574,10 +1582,7 @@ export function formatBlogSeoTitle(rawSeoTitle = '', fallbackArticleTitle = '') 
     const seo = String(rawSeoTitle || '').trim();
     const rawArticle = String(fallbackArticleTitle || '').trim();
     if (seo) {
-        if (rawArticle && seo.toLowerCase() === rawArticle.toLowerCase()) {
-            return formatSeoTitleWithBrand(seo);
-        }
-        return seo.length <= 60 ? seo : formatSeoTitleWithBrand(seo);
+        return formatSeoTitleWithBrand(seo);
     }
     return formatSeoTitleWithBrand(rawArticle || 'Developer Guide');
 }

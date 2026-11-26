@@ -99,7 +99,7 @@ class _ContactScreenState extends ConsumerState<ContactScreen> {
       _showMessage('Your message was accepted for delivery to Hangbug support.');
     } on NetworkException catch (error) {
       _showMessage(error.message);
-    } catch (error) {
+    } catch (_) {
       _showMessage(
         'We could not send your message. Please try again or email ${AppConfig.supportEmail}.',
       );

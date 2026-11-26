@@ -13,7 +13,7 @@ function readFile(relPath) {
 test('1. Technical SEO: Unique titles and meta descriptions for public pages', () => {
     const seoConfigContent = readFile('src/config/seoPagesConfig.js');
     const publicPages = [
-        { file: 'src/pages/Landing.jsx', title: 'Interactive Coding Quizzes, Free Practice & Certificates' },
+        { file: 'src/pages/Landing.jsx', title: 'SEO_PAGES_CONFIG.home.title' },
         { file: 'src/pages/quiz/Technologies.jsx', title: 'SEO_PAGES_CONFIG.technologies.title', configTitle: 'All Tech Quizzes: Free Interactive Practice & Certificates' },
         { file: 'src/pages/quiz/TechnologyDetail.jsx', title: 'Free Interactive Tech Quiz Practice & Certificates | Hangbug' },
         { file: 'src/pages/games/GamesHub.jsx', title: 'Free Interactive Coding Games & Typing Practice | Hangbug' },
@@ -65,6 +65,9 @@ test('3. Technical SEO: robots.txt properly configured with User-agent, Allow, D
     assert.ok(publicRobots.includes('Disallow: /register'), 'robots.txt must disallow /register');
     assert.ok(publicRobots.includes('Disallow: /forgot-password'), 'robots.txt must disallow /forgot-password');
     assert.ok(publicRobots.includes('Disallow: /reset-password'), 'robots.txt must disallow /reset-password');
+    assert.ok(!publicRobots.includes('Disallow: /delete-account'), 'robots.txt must allow crawlers to see the noindex directive on the public deletion page');
+    assert.ok(!publicRobots.includes('Disallow: /account-deletion'), 'robots.txt must allow crawlers to follow the account deletion redirect');
+    assert.ok(!publicRobots.includes('Disallow: /data-deletion'), 'robots.txt must allow crawlers to follow the data deletion redirect');
     assert.ok(publicRobots.includes('Sitemap: https://www.hangbug.com/sitemap.xml'), 'robots.txt must link to canonical sitemap');
 
     assert.strictEqual(publicRobots, distRobots, 'public/robots.txt and dist/robots.txt must match');
@@ -96,7 +99,8 @@ test('4 & 5. Technical SEO: Dynamic sitemap.xml includes valid indexable pages, 
         'https://www.hangbug.com/technologies/mysql',
         'https://www.hangbug.com/technologies/mongodb',
         'https://www.hangbug.com/technologies/dart',
-        'https://www.hangbug.com/technologies/python'
+        'https://www.hangbug.com/technologies/python',
+        'https://www.hangbug.com/technologies/sql'
     ];
     for (const url of corePages) {
         assert.ok(sitemap.includes(`<loc>${url}</loc>`), `sitemap must include core page: ${url}`);
@@ -232,6 +236,18 @@ test('11. Technical SEO: Proper heading hierarchy', () => {
     assert.ok(certView.includes('<h2'), 'CertificateView must have an h2');
 });
 
+test('Technical SEO: Game player controls fit narrow mobile viewports', () => {
+    const gamePlayer = readFile('src/pages/games/GamePlayer.jsx');
+    assert.ok(
+        gamePlayer.includes('flex flex-wrap sm:flex-nowrap'),
+        'Game player header must wrap controls below the small-screen breakpoint'
+    );
+    assert.ok(
+        gamePlayer.includes('flex max-w-full flex-wrap'),
+        'Difficulty controls must wrap instead of forcing horizontal overflow'
+    );
+});
+
 test('12. Technical SEO: Descriptive image alt attributes', () => {
     const brandLogo = readFile('src/components/BrandLogo.jsx');
     assert.ok(brandLogo.includes('alt="HangBug developer platform logo icon"'), 'BrandLogo icon must have descriptive alt');
@@ -296,6 +312,7 @@ test('14 & 15. Technical SEO: Permanent redirects and status codes in vercel.jso
     assert.strictEqual(robotsStatus, 200, 'getRobotsTxt must return HTTP 200');
     assert.ok(robotsHeaders['Content-Type'].includes('text/plain'), 'getRobotsTxt must set Content-Type text/plain');
     assert.ok(robotsBody.includes('Sitemap: https://www.hangbug.com/sitemap.xml'), 'getRobotsTxt must include Sitemap URL');
+    assert.ok(!robotsBody.includes('Disallow: /delete-account'), 'getRobotsTxt must allow crawlers to see the public deletion page noindex directive');
 });
 
 test('16. Google Search Logo & Favicon: Square favicon assets (32x32, 48x48, 180x180, 192x192, ico) exist and are linked in index.html', () => {
@@ -367,10 +384,11 @@ test('18. Brand Identity & AI Overview Accuracy: Official Hangbug title, meta de
     const landing = readFile('src/pages/Landing.jsx');
     const about = readFile('src/pages/legal/AboutUs.jsx');
 
-    const officialTitle = 'Interactive Coding Quizzes, Free Practice & Certificates';
+    const officialTitle = 'Free Interactive Coding Quiz Practice & Certificates';
+    const officialTitleHtml = officialTitle.replace(/&/g, '&amp;');
     const officialDesc = 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.';
 
-    assert.ok(indexHtml.includes(`<title>${officialTitle}</title>`), 'index.html must use official Hangbug title');
+    assert.ok(indexHtml.includes(`<title>${officialTitleHtml}</title>`), 'index.html must use official Hangbug title');
     assert.ok(indexHtml.includes(`content="${officialDesc}"`), 'index.html must use official Hangbug meta description');
     assert.ok(!indexHtml.includes('Debug Your Knowledge'), 'index.html must not use ambiguous Debug Your Knowledge tagline');
     assert.ok(!landing.includes('Debug Your Knowledge'), 'Landing.jsx must not use ambiguous Debug Your Knowledge tagline');
@@ -445,6 +463,27 @@ test('22. Technical SEO: Route Validation for Soft 404 Prevention', () => {
     assert.strictEqual(isKnownAppRoute('/games/fake-nonexistent-game'), false, 'Fake game slug must not be a known route');
 });
 
+test('Technical SEO: Meta descriptions are capped and synchronized across search and sharing tags', () => {
+    const { applyHeadMetadata } = require('../api/_utils/blogSeoRenderer');
+    const description = `Practice interactive HTML quizzes and coding challenges with clear explanations, helpful examples, and score-based certificates on Hangbug. ${'Explore more programming topics and practice resources. '.repeat(2)}`;
+    const html = applyHeadMetadata(
+        '<html><head><title>Example</title><meta name="description" content="Old description" /></head><body></body></html>',
+        {
+            title: 'Example',
+            description,
+            canonicalUrl: 'https://www.hangbug.com/example',
+            jsonLd: null
+        }
+    );
+    const descriptionTag = html.match(/<meta name="description" content="([^"]*)"/);
+    const ogDescription = html.match(/<meta property="og:description" content="([^"]*)"/);
+    const twitterDescription = html.match(/<meta name="twitter:description" content="([^"]*)"/);
+
+    assert.ok(descriptionTag && descriptionTag[1].length <= 160);
+    assert.strictEqual(ogDescription?.[1], descriptionTag?.[1]);
+    assert.strictEqual(twitterDescription?.[1], descriptionTag?.[1]);
+});
+
 test('23. Technical SEO Audit: Pre-rendered static pages exist with unique titles and meta descriptions', () => {
     const publicRoutes = [
         'dist/index.html',
@@ -481,6 +520,21 @@ test('23. Technical SEO Audit: Pre-rendered static pages exist with unique title
         assert.ok(!descriptions.has(desc), `Duplicate meta description found: "${desc}" in ${file}`);
         descriptions.add(desc);
     }
+});
+
+test('Technical SEO: Search and social descriptions are capped at 160 characters', () => {
+    const { applyHeadMetadata } = require('../api/_utils/blogSeoRenderer');
+    const description = 'Hangbug programming practice and interactive coding quizzes '.repeat(5);
+    const html = applyHeadMetadata(readFile('index.html'), {
+        title: 'SEO description test',
+        description
+    });
+    const descriptions = [...html.matchAll(/<meta\s+(?:name="description"|property="og:description"|name="twitter:description")\s+content="([^"]*)"/g)]
+        .map(match => match[1]);
+
+    assert.strictEqual(descriptions.length, 3, 'HTML, Open Graph, and Twitter descriptions must all be present');
+    assert.ok(descriptions.every(value => value.length <= 160), 'SEO descriptions must not exceed 160 characters');
+    assert.strictEqual(new Set(descriptions).size, 1, 'Search and social descriptions must match');
 });
 
 test('24. Technical SEO Audit: Pages have <h1> headings that are distinct from their <title> tags', () => {
@@ -580,7 +634,8 @@ test('28. Homepage SEO Verification: Metadata, H1 hierarchy, canonical, Open Gra
         require('node:url').pathToFileURL(path.join(ROOT_DIR, 'src', 'utils', 'structuredData.js')).href
     );
 
-    const expectedTitle = 'Interactive Coding Quizzes, Free Practice & Certificates';
+    const expectedTitle = 'Free Interactive Coding Quiz Practice & Certificates';
+    const expectedTitleHtml = expectedTitle.replace(/&/g, '&amp;');
     const expectedDesc = 'Learn programming, practice interactive technology quizzes, play coding games, track your progress, and earn score-based certificates with Hangbug.';
     const expectedH1 = 'Learn Programming, Practice Tech Quizzes & Earn Certificates';
 
@@ -593,10 +648,10 @@ test('28. Homepage SEO Verification: Metadata, H1 hierarchy, canonical, Open Gra
     const splashScreen = readFile('src/components/SplashScreen.jsx');
 
     // 1. Homepage title, meta description, canonical, and Open Graph
-    assert.ok(distHome.includes(`<title>${expectedTitle}</title>`), 'dist/index.html must have updated title');
+    assert.ok(distHome.includes(`<title>${expectedTitleHtml}</title>`), 'dist/index.html must have updated title');
     assert.ok(distHome.includes(`name="description" content="${expectedDesc}"`), 'dist/index.html must have updated meta description');
     assert.ok(distHome.includes('<link rel="canonical" href="https://www.hangbug.com/" />'), 'dist/index.html must have homepage canonical');
-    assert.ok(distHome.includes(`<meta property="og:title" content="${expectedTitle}" />`), 'dist/index.html must have matching og:title');
+    assert.ok(distHome.includes(`<meta property="og:title" content="${expectedTitleHtml}" />`), 'dist/index.html must have matching og:title');
     assert.ok(distHome.includes(`<meta property="og:description" content="${expectedDesc}" />`), 'dist/index.html must have matching og:description');
     assert.ok(distHome.includes('<meta property="og:url" content="https://www.hangbug.com/" />'), 'dist/index.html must have homepage og:url');
 

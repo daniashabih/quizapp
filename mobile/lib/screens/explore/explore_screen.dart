@@ -800,6 +800,7 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
   bool _isAllSessions = false;
   List<CategorySessionInfo> _sessions = [];
   bool _isLoading = true;
+  String? _sessionsError;
 
   @override
   void initState() {
@@ -812,22 +813,36 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
       final repo = ref.read(quizRepositoryProvider);
       final list = await repo.getCategorySessionDetails(widget.category.name);
       if (mounted) {
+        final availableSessions = list.isNotEmpty
+            ? list
+            : widget.category.sessions
+                  .map((session) => CategorySessionInfo(
+                    session: session,
+                    title: 'Session $session',
+                  ))
+                  .toList();
         setState(() {
-          _sessions = list;
-          _selectedSession = list.isNotEmpty ? list.first.session : 1;
+          _sessions = availableSessions;
+          _selectedSession =
+              availableSessions.isNotEmpty ? availableSessions.first.session : 1;
+          _sessionsError = availableSessions.isEmpty
+              ? 'No published quiz sessions are available for this category right now.'
+              : null;
           _isLoading = false;
         });
       }
-    } catch (_) {
+    } catch (error) {
+      debugPrint('Explore session fetch failed: $error');
       if (mounted) {
-        final fallbackList = (widget.category.sessions.isNotEmpty
-                ? widget.category.sessions
-                : [1])
+        final fallbackList = widget.category.sessions
             .map((s) => CategorySessionInfo(session: s, title: 'Session $s'))
             .toList();
         setState(() {
           _sessions = fallbackList;
-          _selectedSession = _sessions.first.session;
+          _selectedSession = fallbackList.isNotEmpty ? fallbackList.first.session : 1;
+          _sessionsError = fallbackList.isEmpty
+              ? 'Unable to load quiz sessions. Please try again.'
+              : null;
           _isLoading = false;
         });
       }
@@ -842,6 +857,14 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
   }
 
   void _startQuiz() {
+    if (_sessions.isEmpty) {
+      AppNotificationService.error(
+        title: 'No sessions available',
+        message: _sessionsError ??
+            'No published quiz sessions are available for this category.',
+      );
+      return;
+    }
     final selectedInfo = _selectedSessionInfo;
     Navigator.of(context).pop();
     context.push(
@@ -963,6 +986,18 @@ class _SessionSelectorSheetState extends ConsumerState<_SessionSelectorSheet> {
                     context.brandAccentColor,
                   ),
                 ),
+              ),
+            )
+          else if (_sessions.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Text(
+                _sessionsError ??
+                    'No published quiz sessions are available for this category.',
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: context.textSecondaryColor,
+                ),
+                textAlign: TextAlign.center,
               ),
             )
           else ...[

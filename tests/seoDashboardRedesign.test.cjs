@@ -193,27 +193,31 @@ test('7. Backend SEO Audit normalizes category counts and emits distinct labels/
     );
 
     const byName = new Map(enriched.map(c => [c.name, c.questionCount]));
-    assert.ok(byName.get('Agile and DevOps') >= 900, 'Agile and DevOps must resolve Agile & DevOps static/DB count');
-    assert.ok(byName.get('C#') >= 700, 'C# must resolve static C# question bank count');
+    assert.strictEqual(byName.get('Agile and DevOps'), 0, 'Agile count must come from database question records');
+    assert.strictEqual(byName.get('C#'), 0, 'C# in-memory questions must not be reported as database records');
     assert.strictEqual(byName.get('Material-UI'), 150);
     assert.strictEqual(byName.get('Mongo DB'), 350);
     assert.strictEqual(byName.get('React.js'), 399);
-    assert.strictEqual(byName.get('React'), 0);
+    assert.strictEqual(byName.get('React'), 399, 'React alias must resolve to the populated React.js track');
     assert.strictEqual(byName.get('CSS'), 0);
     assert.strictEqual(byName.get('Angular'), 0);
 
     const emptyCats = enriched.filter(c => c.isEnabled && c.questionCount === 0);
     const issue = auditService.buildEmptyTechCategoriesIssue(emptyCats, enriched);
-    assert.strictEqual(issue.affectedCount, 3);
+    assert.strictEqual(issue.affectedCount, 4);
     assert.deepStrictEqual(
         issue.affectedUrls.map(u => u.label),
-        ['React (/technologies/react)', 'CSS (/technologies/css)', 'Angular (/technologies)']
+        [
+            'Agile and DevOps (/technologies)',
+            'C# (/technologies)',
+            'CSS (/technologies/css)',
+            'Angular (/technologies/angular)'
+        ]
     );
     assert.deepStrictEqual(
         issue.affectedUrls.map(u => u.url),
-        ['/technologies/react', '/technologies/css', '/technologies']
+        ['/technologies', '/technologies', '/technologies/css', '/technologies/angular']
     );
-    assert.ok(issue.affectedUrls[0].detail.includes('React.js'));
 
     // Legacy stored audit issues lacking `label` are hydrated cleanly
     const hydrated = auditService.hydrateAuditIssues([
@@ -259,6 +263,23 @@ test('7. All public routes, tech tracks, games, and seeded articles have distinc
     const { INITIAL_BLOG_ARTICLES } = require('../api/_models/blogArticles/initialBlogArticles');
     const { INITIAL_GAMES } = require('../api/_models/gameModel');
     const { buildArticleSeoTitle } = require('../api/_utils/blogSeoRenderer');
+
+    assert.strictEqual(
+        buildArticleSeoTitle({
+            title: 'HTML Tutorial for Beginners: Learn HTML5 Step by Step',
+            seoTitle: 'HTML Tutorial for Beginners: Learn HTML5 Step by | Hangbug'
+        }),
+        'HTML Tutorial for Beginners: Learn HTML5 | Hangbug',
+        'Long article titles must end on a complete phrase rather than a dangling word'
+    );
+    assert.strictEqual(
+        formatBlogSeoTitle(
+            'HTML Tutorial for Beginners: Learn HTML5 Step by | Hangbug',
+            'HTML Tutorial for Beginners: Learn HTML5 Step by Step'
+        ),
+        'HTML Tutorial for Beginners: Learn HTML5 | Hangbug',
+        'Client-side blog titles must match the cleaned server-side title'
+    );
 
     const seenTitles = new Set();
 

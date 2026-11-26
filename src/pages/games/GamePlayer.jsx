@@ -129,8 +129,7 @@ export const GamePlayer = () => {
             ? formatGameSeoTitle(seoGame.title, seoGame.category)
             : 'Play Free Interactive Coding & Typing Games | Hangbug',
         description: seoGame?.description
-            ? `${seoGame.description} Practice interactive coding challenges on Hangbug.`
-            : 'Play interactive coding and typing games on Hangbug to sharpen programming logic and keyboard speed.',
+            || 'Play interactive coding and typing games on Hangbug to sharpen programming logic and keyboard speed.',
         canonicalPath: canonicalGameSlug ? `/games/${canonicalGameSlug}` : undefined,
         noindex: !seoGame,
         disableStructuredData: !seoGame,
@@ -466,9 +465,9 @@ export const GamePlayer = () => {
         >
             <main className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
                 {/* Game Player Header */}
-                <header className="w-full flex items-center justify-between gap-3 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3 sm:p-4 mb-4 shadow-sm">
+                <header className="w-full flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 bg-[var(--card-bg)] border border-[var(--card-border)] rounded-2xl p-3 sm:p-4 mb-4 shadow-sm">
                     {/* Left: Exit & Title */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex min-w-0 flex-1 items-center gap-3">
                         <Link
                             to="/games"
                             className="p-2 rounded-xl bg-[var(--muted-bg)] hover:bg-[var(--card-border)] text-[var(--foreground)] transition-colors flex items-center gap-1.5 text-xs font-bold"
@@ -477,7 +476,7 @@ export const GamePlayer = () => {
                             <ArrowLeft size={16} />
                             <span className="hidden sm:inline">All Games</span>
                         </Link>
-                        <div>
+                        <div className="min-w-0">
                             <div className="flex items-center gap-2">
                                 <h1 className="text-base sm:text-lg font-black tracking-tight flex items-center gap-1.5 min-w-0">
                                     <span className="truncate">{activeGame.title}</span>
@@ -499,7 +498,7 @@ export const GamePlayer = () => {
                     </div>
 
                     {/* Middle: Scores */}
-                    <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="ml-auto flex items-center gap-2 sm:gap-3">
                         <div className="text-center px-2.5 py-1 rounded-xl bg-[var(--muted-bg)] border border-[var(--card-border)]">
                             <span className="text-[9px] uppercase font-bold text-[var(--foreground-muted)] block">Score</span>
                             <span className="text-sm sm:text-base font-mono font-black text-emerald-600 dark:text-emerald-400">{currentScore}</span>
@@ -511,7 +510,7 @@ export const GamePlayer = () => {
                     </div>
 
                     {/* Right: Controls HUD */}
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex w-full items-center justify-end gap-1.5 sm:w-auto">
                         {/* Pause / Resume */}
                         <button
                             onClick={() => setIsPaused(!isPaused)}
@@ -604,7 +603,7 @@ export const GamePlayer = () => {
                     </div>
 
                     {/* Difficulty Selector: Beginner, Intermediate, Advanced */}
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex max-w-full flex-wrap items-center gap-1.5">
                         <span className="text-[11px] font-bold text-[var(--foreground-muted)] mr-1">Difficulty:</span>
                         {['All Levels', 'Beginner', 'Intermediate', 'Advanced'].map(diff => (
                             <button

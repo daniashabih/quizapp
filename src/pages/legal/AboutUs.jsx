@@ -20,7 +20,7 @@ import usePageSeo from '../../hooks/usePageSeo';
 export default function AboutUs() {
     usePageSeo({
         title: 'About Hangbug: Free Interactive Quizzes & Certificates',
-        description: 'Test your programming and web development skills with Hangbug. Practice interactive tech quizzes, play coding games, track your progress, and earn score-based certificates.',
+        description: 'Explore Hangbug programming quizzes, coding games, progress tracking, and score-based certificates for students and developers.',
         canonicalPath: '/about',
         schemaType: 'WebPage',
         breadcrumbs: [
