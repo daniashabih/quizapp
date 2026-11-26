@@ -11,6 +11,8 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BrandLogo from '../components/BrandLogo';
 import usePageSeo from '../hooks/usePageSeo';
+import { getTechnologySeoBySlug } from '../config/seoPagesConfig';
+import { hasPublishedCategory } from '../utils/categoryAvailability';
 
 const CORE_TECHNOLOGIES = [
     { name: 'HTML', slug: 'html', category: 'Frontend Markup' },
@@ -63,6 +65,18 @@ export default function Landing() {
 
     // Filter only categories with active questions (> 0) and enabled
     const activeTechs = technologies.filter(t => t && t.isEnabled !== false && Number(t.questionCount || 0) > 0);
+    const isTechnologyAvailable = (tech) => {
+        if (tech.name === 'C#') return false;
+        const seoConfig = tech.slug ? getTechnologySeoBySlug(tech.slug) : null;
+        const matchNames = seoConfig?.categoryMatcher
+            || (tech.name === 'Node.js & Express.js'
+                ? ['Express JS and Node JS']
+                : [tech.name]);
+        return hasPublishedCategory(activeTechs, matchNames);
+    };
+    const availableCoreTechnologies = CORE_TECHNOLOGIES.filter(
+        tech => tech.name === 'C#' || isTechnologyAvailable(tech)
+    );
     const filteredTechs = activeTechs.filter(t => {
         const q = searchQuery.toLowerCase().trim();
         if (!q) return true;
@@ -483,10 +497,15 @@ export default function Landing() {
                                     Technology Quiz Categories Covered
                                 </h2>
                                 <p className="text-xs sm:text-sm text-[var(--foreground-muted)] mt-1 max-w-3xl">
-                                    Start online coding practice across frontend, backend, database, and mobile stacks—including HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Python, and{' '}
-                                    <Link to="/technologies/programming-fundamentals" className="font-semibold text-[#193D35] dark:text-emerald-400 hover:underline">
-                                        Programming Fundamentals
-                                    </Link>.
+                                    Start online coding practice across technology tracks with published questions.
+                                    {hasPublishedCategory(activeTechs, getTechnologySeoBySlug('programming-fundamentals')?.categoryMatcher) && (
+                                        <>
+                                            {' '}Explore{' '}
+                                            <Link to="/technologies/programming-fundamentals" className="font-semibold text-[#193D35] dark:text-emerald-400 hover:underline">
+                                                Programming Fundamentals
+                                            </Link>.
+                                        </>
+                                    )}
                                 </p>
                             </div>
                             <Link to="/technologies" className="text-xs font-bold text-[#193D35] hover:underline inline-flex items-center gap-1 shrink-0">
@@ -495,7 +514,7 @@ export default function Landing() {
                         </div>
 
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5">
-                            {CORE_TECHNOLOGIES.filter(tech => tech.slug || tech.name === 'C#').map((tech) => (
+                            {availableCoreTechnologies.filter(tech => tech.slug || tech.name === 'C#').map((tech) => (
                                 <Link
                                     key={tech.name}
                                     to={tech.slug ? `/technologies/${tech.slug}` : '/games/complete-the-code?tech=csharp'}
@@ -510,9 +529,10 @@ export default function Landing() {
                                 </Link>
                             ))}
                         </div>
-                        <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-[var(--foreground-muted)]">
+                        {availableCoreTechnologies.some(tech => !tech.slug && tech.name !== 'C#') && (
+                            <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-[var(--foreground-muted)]">
                             <span className="font-semibold text-[var(--foreground-secondary)]">Additional Catalog Stacks:</span>
-                            {CORE_TECHNOLOGIES.filter(tech => !tech.slug && tech.name !== 'C#').map((tech) => (
+                            {availableCoreTechnologies.filter(tech => !tech.slug && tech.name !== 'C#').map((tech) => (
                                 <span
                                     key={tech.name}
                                     className="px-2.5 py-1 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] font-medium text-[var(--foreground)]"
@@ -520,7 +540,8 @@ export default function Landing() {
                                     {tech.name}
                                 </span>
                             ))}
-                        </div>
+                            </div>
+                        )}
                     </section>
 
                     {/* Section 3: Interactive Coding & Typing Games */}

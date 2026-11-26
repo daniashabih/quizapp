@@ -69,7 +69,7 @@ export const SEO_PAGES_CONFIG = {
         id: 'technologies',
         path: '/technologies',
         title: 'Free Interactive Tech Quiz Practice & Certificates | Hangbug',
-        description: 'Browse Hangbug technology quizzes and programming practice tracks across HTML, CSS, JavaScript, React.js, PHP, Laravel, Python, SQL, Flutter, and Dart.',
+        description: 'Browse Hangbug technology quiz tracks and practice only those with published questions.',
         primaryKeyword: 'technology quizzes',
         secondaryKeywords: [
             'programming quizzes by topic',
@@ -364,7 +364,7 @@ export const SEO_PAGES_CONFIG = {
         slug: 'mysql',
         name: 'MySQL',
         categoryLabel: 'Database Engineering',
-        categoryMatcher: ['MySQL', 'SQL', 'SQL Server', 'PHP, XML JSON, Laravel, MySQL, JavaScript'],
+        categoryMatcher: ['MySQL', 'PHP, XML JSON, Laravel, MySQL, JavaScript'],
         path: '/technologies/mysql',
         title: 'Free MySQL Quiz: Interactive Practice & Certificate',
         description: 'Practice MySQL and relational database queries with interactive quizzes and SQL coding challenges covering SELECT, JOINs, GROUP BY aggregations, and indexing.',

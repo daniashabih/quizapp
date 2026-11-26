@@ -17,25 +17,6 @@ import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import usePageSeo from '../../hooks/usePageSeo';
 
-const COVERED_TECHNOLOGIES = [
-    { name: 'HTML', slug: 'html', group: 'Frontend & Web Markup' },
-    { name: 'CSS', slug: 'css', group: 'Styling & Responsive Layouts' },
-    { name: 'JavaScript', slug: 'javascript', group: 'Frontend & Full-Stack Scripting' },
-    { name: 'Bootstrap', slug: null, group: 'Frontend UI Framework' },
-    { name: 'jQuery', slug: null, group: 'DOM & Scripting Library' },
-    { name: 'React.js', slug: 'react', group: 'Component UI Library' },
-    { name: 'PHP', slug: 'php', group: 'Server-Side Web Development' },
-    { name: 'Laravel', slug: 'laravel', group: 'PHP MVC Framework' },
-    { name: 'Node.js & Express.js', slug: null, group: 'JavaScript Backend Runtime' },
-    { name: 'MySQL & SQL Server', slug: 'mysql', group: 'Relational Databases' },
-    { name: 'MongoDB', slug: 'mongodb', group: 'NoSQL Document Database' },
-    { name: 'Flutter', slug: 'flutter', group: 'Cross-Platform Mobile UI' },
-    { name: 'Dart', slug: 'dart', group: 'Client-Optimized Language' },
-    { name: 'C#', slug: null, group: 'Object-Oriented & .NET Programming' },
-    { name: 'Python', slug: 'python', group: 'General-Purpose Programming' },
-    { name: 'Agile, DevOps, Azure & Data Tools', slug: 'programming-fundamentals', group: 'Engineering & Analytics' }
-];
-
 export default function AboutUs() {
     usePageSeo({
         title: 'About Hangbug: Free Interactive Quizzes & Certificates',
@@ -186,32 +167,16 @@ export default function AboutUs() {
                 <section aria-labelledby="technology-quiz-categories" className="bg-[var(--card-bg)] border border-[var(--card-border)] rounded-3xl p-6 sm:p-10 mb-10 space-y-5 shadow-xs">
                     <div>
                         <h2 id="technology-quiz-categories" className="text-xl sm:text-2xl font-display font-extrabold text-[var(--foreground)]">
-                            Technology Quiz Categories Covered
+                            Available Technology Quiz Categories
                         </h2>
                         <p className="text-xs sm:text-sm text-[var(--foreground-muted)] mt-1 leading-relaxed">
-                            Hangbug offers technology learning and interactive practice across web development, backend programming, databases, and mobile application development, including HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, and additional programming technologies:
+                            The quiz catalog lists categories with published questions. Availability may change as question banks are updated.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                        {COVERED_TECHNOLOGIES.map((tech) => (
-                            <div
-                                key={tech.name}
-                                className="p-3.5 rounded-2xl bg-[var(--muted-bg)]/50 border border-[var(--card-border)] flex flex-col justify-between gap-1"
-                            >
-                                {tech.slug ? (
-                                    <Link to={`/technologies/${tech.slug}`} className="text-xs sm:text-sm font-bold text-[var(--foreground)] hover:text-[#193D35] transition-colors">
-                                        {tech.name}
-                                    </Link>
-                                ) : (
-                                    <span className="text-xs sm:text-sm font-bold text-[var(--foreground)]">
-                                        {tech.name}
-                                    </span>
-                                )}
-                                <span className="text-[11px] text-[var(--foreground-muted)]">{tech.group}</span>
-                            </div>
-                        ))}
-                    </div>
+                    <Link to="/technologies" className="btn-primary inline-flex items-center gap-2 text-xs py-2.5 px-4 rounded-xl">
+                        View available quiz tracks <ArrowRight size={14} />
+                    </Link>
                 </section>
 
                 {/* Section 4: Coding & Typing Games + Score-Based Certificates */}

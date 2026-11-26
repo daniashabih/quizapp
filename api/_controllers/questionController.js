@@ -1,8 +1,6 @@
 const Question = require('../_models/questionModel');
 const Category = require('../_models/categoryModel');
 const prisma = require('../_config/prisma');
-const { AGILE_DEVOPS_QUESTIONS } = require('../_models/agileDevopsQuestionsData');
-const { CSHARP_QUIZ_QUESTIONS } = require('../_models/csharpQuizQuestionsData');
 const {
     HIGH_DEMAND_TECH_NAMES,
     getHighDemandPackName,
@@ -536,10 +534,7 @@ async function computeQuestionCoverageSummary() {
         }).catch(() => [])
     ]);
 
-    const enriched = resolveCategoryQuestionStats(categories, questionStats, {
-        'Agile & DevOps': AGILE_DEVOPS_QUESTIONS.length,
-        'C#': CSHARP_QUIZ_QUESTIONS.length
-    }).map(item => {
+    const enriched = resolveCategoryQuestionStats(categories, questionStats).map(item => {
         const packName = getHighDemandPackName(item.name);
         const packQuestions = packName ? getHighDemandPack(packName) : [];
         return {

@@ -385,7 +385,7 @@ export function buildSoftwareApplicationSchema(options = {}) {
         image: LOGO_URL,
         featureList: [
             'Practice technology-related multiple-choice (MCQ) quizzes',
-            'Test programming and web development knowledge across HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, and more',
+            'Practice published technology question banks available in the current quiz catalog',
             'Explore interactive browser-based coding and typing games',
             'Track quiz performance, accuracy, and saved progress',
             'Earn score-based certificates and share earned certificates on LinkedIn'

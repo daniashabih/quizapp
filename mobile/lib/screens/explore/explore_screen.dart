@@ -37,6 +37,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
   }
 
   void _showSessionSelector(CategoryModel category) {
+    if (category.questionCount <= 0) return;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -566,6 +567,7 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> {
                 final q = _searchQuery.toLowerCase().trim();
                 final filtered = categories
                     .where((c) => c.isEnabled != false)
+                    .where((c) => c.questionCount > 0)
                     .where((c) {
                       if (q.isEmpty) return true;
                       final name = c.name.toLowerCase();

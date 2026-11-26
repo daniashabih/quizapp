@@ -1,11 +1,56 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { Mail } from 'lucide-react';
 import BrandLogo from './BrandLogo';
 import { useAuth } from '../context/AuthContext';
+import { getTechnologySeoBySlug } from '../config/seoPagesConfig';
+import { hasPublishedCategory } from '../utils/categoryAvailability';
+
+const TECHNOLOGY_QUIZ_LINKS = [
+    { slug: 'html', label: 'HTML Quizzes' },
+    { slug: 'css', label: 'CSS Quizzes' },
+    { slug: 'javascript', label: 'JavaScript Quizzes' },
+    { slug: 'react', label: 'React.js Quizzes' },
+    { slug: 'python', label: 'Python Quizzes' },
+    { slug: 'php', label: 'PHP Quizzes' },
+    { slug: 'laravel', label: 'Laravel Quizzes' },
+    { slug: 'mysql', label: 'MySQL Quizzes' },
+    { slug: 'mongodb', label: 'MongoDB Quizzes' },
+    { slug: 'flutter', label: 'Flutter Quizzes' },
+    { slug: 'dart', label: 'Dart Quizzes' },
+    { slug: 'programming-fundamentals', label: 'Fundamentals & OOP' }
+];
 
 export default function Footer() {
     const year = new Date().getFullYear();
     const { user } = useAuth();
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        let isMounted = true;
+        axios.get('/categories')
+            .then(res => {
+                if (!isMounted) return;
+                const list = Array.isArray(res.data)
+                    ? res.data
+                    : Array.isArray(res.data?.categories)
+                        ? res.data.categories
+                        : [];
+                setCategories(list);
+            })
+            .catch(error => {
+                console.error('[Footer Category Fetch Error]:', error);
+            });
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    const availableQuizLinks = TECHNOLOGY_QUIZ_LINKS.filter(link => {
+        const seoConfig = getTechnologySeoBySlug(link.slug);
+        return hasPublishedCategory(categories, seoConfig?.categoryMatcher || [seoConfig?.name]);
+    });
 
     return (
         <footer className="w-full border-t border-[var(--card-border)] bg-[var(--card-bg)] pt-10 pb-6 px-4 sm:px-6 lg:px-8 shrink-0 mt-auto transition-colors duration-300">
@@ -36,18 +81,13 @@ export default function Footer() {
                         <p className="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Technologies</p>
                         <ul className="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
                             <li><Link to="/technologies" className="hover:text-[var(--foreground)] transition-colors font-semibold text-[var(--foreground)]">All Technologies</Link></li>
-                            <li><Link to="/technologies/html" className="hover:text-[var(--foreground)] transition-colors">HTML Quizzes</Link></li>
-                            <li><Link to="/technologies/css" className="hover:text-[var(--foreground)] transition-colors">CSS Quizzes</Link></li>
-                            <li><Link to="/technologies/javascript" className="hover:text-[var(--foreground)] transition-colors">JavaScript Quizzes</Link></li>
-                            <li><Link to="/technologies/react" className="hover:text-[var(--foreground)] transition-colors">React.js Quizzes</Link></li>
-                            <li><Link to="/technologies/python" className="hover:text-[var(--foreground)] transition-colors">Python Quizzes</Link></li>
-                            <li><Link to="/technologies/php" className="hover:text-[var(--foreground)] transition-colors">PHP Quizzes</Link></li>
-                            <li><Link to="/technologies/laravel" className="hover:text-[var(--foreground)] transition-colors">Laravel Quizzes</Link></li>
-                            <li><Link to="/technologies/mysql" className="hover:text-[var(--foreground)] transition-colors">MySQL Quizzes</Link></li>
-                            <li><Link to="/technologies/mongodb" className="hover:text-[var(--foreground)] transition-colors">MongoDB Quizzes</Link></li>
-                            <li><Link to="/technologies/flutter" className="hover:text-[var(--foreground)] transition-colors">Flutter Quizzes</Link></li>
-                            <li><Link to="/technologies/dart" className="hover:text-[var(--foreground)] transition-colors">Dart Quizzes</Link></li>
-                            <li><Link to="/technologies/programming-fundamentals" className="hover:text-[var(--foreground)] transition-colors">Fundamentals &amp; OOP</Link></li>
+                            {availableQuizLinks.map(link => (
+                                <li key={link.slug}>
+                                    <Link to={`/technologies/${link.slug}`} className="hover:text-[var(--foreground)] transition-colors">
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 

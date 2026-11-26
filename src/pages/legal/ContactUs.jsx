@@ -26,7 +26,8 @@ export default function ContactUs() {
         name: '',
         email: '',
         subject: '',
-        message: ''
+        message: '',
+        website: ''
     });
     const [submitted, setSubmitted] = useState(false);
     const [sending, setSending] = useState(false);
@@ -38,23 +39,27 @@ export default function ContactUs() {
             name: form.name.trim(),
             email: form.email.trim(),
             subject: form.subject.trim(),
-            message: form.message.trim()
+            message: form.message.trim(),
+            website: form.website
         };
-        if (!values.name || !values.email || values.message.length < 10) {
-            notify.warning({
-                title: "Action required",
-                description: "Enter your name, a valid email address, and a message of at least 10 characters."
-            });
+        if (!values.name || values.name.length > 100
+            || !/^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i.test(values.email)
+            || values.email.length > 254
+            || values.subject.length > 150
+            || /[\r\n]/.test(values.subject)
+            || values.message.length < 10
+            || values.message.length > 5000) {
+            setErrorMessage('Check that your name, email, subject, and message meet the field limits.');
             return;
         }
         setSending(true);
         setErrorMessage('');
         try {
-            await axios.post('/contact', values);
+            await axios.post('/api/contact', values);
             setSubmitted(true);
             notify.success({
-                title: "Message sent",
-                description: "Your message has been sent to our support team."
+                title: "Message submitted",
+                description: "Your message was accepted for delivery to our support team."
             });
         } catch (error) {
             const message = error.response?.data?.message
@@ -149,11 +154,11 @@ export default function ContactUs() {
                                     </div>
                                     <h3 className="text-xl font-display font-bold text-[var(--foreground)]">Message Sent</h3>
                                     <p className="text-xs sm:text-sm text-[var(--foreground-muted)] max-w-sm mx-auto">
-                                        Thank you for reaching out. Hangbug support has received your message and can reply to <strong>{form.email}</strong>.
+                                        Thank you for reaching out. Your message was accepted for delivery to Hangbug support, who can reply to <strong>{form.email}</strong>.
                                     </p>
                                     <button
                                         type="button"
-                                        onClick={() => { setSubmitted(false); setErrorMessage(''); setForm({ name: '', email: '', subject: '', message: '' }); }}
+                                        onClick={() => { setSubmitted(false); setErrorMessage(''); setForm({ name: '', email: '', subject: '', message: '', website: '' }); }}
                                         className="btn-secondary text-xs py-2 px-4 rounded-xl mt-4"
                                     >
                                         Send Another Message
@@ -164,6 +169,18 @@ export default function ContactUs() {
                                     <h2 className="text-base font-display font-bold text-[var(--foreground)] mb-1">
                                         Send us a Message
                                     </h2>
+                                    <div className="sr-only" aria-hidden="true">
+                                        <label htmlFor="contact-website">Leave this field empty</label>
+                                        <input
+                                            id="contact-website"
+                                            type="text"
+                                            name="website"
+                                            tabIndex={-1}
+                                            autoComplete="off"
+                                            value={form.website}
+                                            onChange={(e) => setForm({ ...form, website: e.target.value })}
+                                        />
+                                    </div>
 
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div>

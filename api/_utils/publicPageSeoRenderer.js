@@ -405,12 +405,15 @@ function generatePublicBodyHtml(pageConfig) {
       </section>
     `);
 
-    if (internalLinks.length > 0) {
+    const safeInternalLinks = internalLinks.filter(link =>
+        !link.to.startsWith('/technologies/')
+    );
+    if (safeInternalLinks.length > 0) {
         sections.push(`
           <nav aria-label="Related Topics and Practice Tracks" class="mt-8 pt-6 border-t border-[var(--border)]">
             <h3 class="text-lg font-semibold text-[var(--foreground)] mb-3">Explore Related Practice Tracks &amp; Resources</h3>
             <p class="flex flex-wrap gap-3">
-              ${internalLinks.map(l => `<a href="${l.to}"${l.rel ? ` rel="${escapeAttrPreserveEntities(l.rel)}"` : ''} class="text-sm font-medium text-[var(--brand)] hover:underline">${l.label}</a>`).join(' • ')}
+              ${safeInternalLinks.map(l => `<a href="${l.to}"${l.rel ? ` rel="${escapeAttrPreserveEntities(l.rel)}"` : ''} class="text-sm font-medium text-[var(--brand)] hover:underline">${l.label}</a>`).join(' • ')}
             </p>
           </nav>
         `);
@@ -460,10 +463,10 @@ function generateHomeBodyHtml(pageConfig, publishedBlogArticles = []) {
         <section>
           <h2>Technology Quiz Categories Covered</h2>
           <p>
-            Start online coding practice across frontend, backend, database, and mobile stacks including HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Python, MongoDB, SQL Server, Node.js, and Programming Fundamentals.
+            Start online coding practice across technology tracks with published questions. The live catalog shows which quiz tracks are currently available.
           </p>
           <nav aria-label="Technology Quiz Guides">
-            ${internalLinks.filter(l => l.to.startsWith('/technologies/')).map(l => `<a href="${l.to}">${l.label}</a>`).join('\n            ')}
+            <a href="/technologies">Browse available technology quizzes</a>
           </nav>
         </section>
 
@@ -553,7 +556,7 @@ function buildPlatformSoftwareAppNode() {
         image: DEFAULT_LOGO_URL,
         featureList: [
             'Practice technology-related multiple-choice (MCQ) quizzes',
-            'Test programming and web development knowledge across HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, and more',
+            'Practice published technology question banks available in the current quiz catalog',
             'Explore interactive browser-based coding and typing games',
             'Track quiz performance, accuracy, and saved progress',
             'Earn score-based certificates and share earned certificates on LinkedIn'
@@ -677,7 +680,7 @@ const CORE_INDEXABLE_FALLBACK_META = {
     '/technologies': {
         canonicalPath: '/technologies',
         title: 'All Tech Quizzes: Free Interactive Practice & Certificates',
-        description: 'Select from HTML, CSS, JavaScript, React, PHP, Laravel, MySQL, MongoDB, Flutter, Dart, and Python quiz tracks on Hangbug.',
+        description: 'Browse Hangbug technology quiz tracks and practice only those with published questions.',
         h1: 'Choose Your Technology Track & Start Coding Practice',
         primaryKeyword: 'programming and framework quizzes'
     },

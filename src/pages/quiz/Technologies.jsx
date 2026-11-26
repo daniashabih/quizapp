@@ -54,12 +54,15 @@ export default function Technologies() {
                 description: `${c.name} programming quizzes (${c.questionCount} questions)`
             };
         });
+    const technologyDescription = activeTechItems.length > 0
+        ? `Browse published technology question banks on Hangbug, including ${activeTechItems.slice(0, 5).map(item => item.name).join(', ')}${activeTechItems.length > 5 ? ', and other available tracks' : ''}.`
+        : 'Browse Hangbug technology tracks. Only tracks with published questions are presented as available quizzes.';
 
     usePageSeo({
         title: isDashboard
             ? 'Dashboard Practice Quizzes & Tech Tracks | Hangbug'
             : SEO_PAGES_CONFIG.technologies.title,
-        description: 'Practice interactive technology MCQ quizzes on Hangbug across HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Node.js, SQL Server, and Python.',
+        description: isDashboard ? 'Practice your saved and available technology quiz tracks on Hangbug.' : technologyDescription,
         canonicalPath: isDashboard ? undefined : '/technologies',
         noindex: isDashboard,
         disableStructuredData: isDashboard,
@@ -262,7 +265,7 @@ export default function Technologies() {
                 <div className="badge-emerald mx-auto mb-3"><Sparkles size={12} /> Technologies</div>
                 <h1 className="text-3xl lg:text-4xl font-display font-extrabold text-[var(--foreground)] mb-2">Choose Your <span className="underline decoration-current/25 underline-offset-4">Tech Stack</span> <span className="block sm:inline text-xl lg:text-2xl font-bold text-[var(--foreground-muted)]">— Programming &amp; Technology Quizzes</span></h1>
                 <p className="text-sm text-[var(--foreground-muted)] max-w-2xl mx-auto">
-                    Practice interactive technology MCQ quizzes on Hangbug across HTML, CSS, JavaScript, Bootstrap, jQuery, PHP, Laravel, MySQL, Flutter, Dart, C#, React, Node.js, SQL Server, and Python. Select a technology below to choose a session and start your quiz.
+                    Browse technology tracks with published questions. Select an available category below to choose a session and start your quiz.
                 </p>
             </div>
 

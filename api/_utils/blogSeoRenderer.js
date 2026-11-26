@@ -711,19 +711,7 @@ function renderStaticFooterHtml(publishedArticles = null) {
             <section class="space-y-2.5">
               <p class="text-xs font-bold uppercase tracking-wider text-[var(--foreground)]">Technologies</p>
               <ul class="space-y-1.5 text-xs text-[var(--foreground-muted)] font-medium">
-                <li><a href="/technologies" class="hover:text-[var(--foreground)] font-semibold">All Technologies</a></li>
-                <li><a href="/technologies/html" class="hover:text-[var(--foreground)]">HTML Quizzes</a></li>
-                <li><a href="/technologies/css" class="hover:text-[var(--foreground)]">CSS Quizzes</a></li>
-                <li><a href="/technologies/javascript" class="hover:text-[var(--foreground)]">JavaScript Quizzes</a></li>
-                <li><a href="/technologies/react" class="hover:text-[var(--foreground)]">React.js Quizzes</a></li>
-                <li><a href="/technologies/python" class="hover:text-[var(--foreground)]">Python Quizzes</a></li>
-                <li><a href="/technologies/php" class="hover:text-[var(--foreground)]">PHP Quizzes</a></li>
-                <li><a href="/technologies/laravel" class="hover:text-[var(--foreground)]">Laravel Quizzes</a></li>
-                <li><a href="/technologies/mysql" class="hover:text-[var(--foreground)]">MySQL Quizzes</a></li>
-                <li><a href="/technologies/mongodb" class="hover:text-[var(--foreground)]">MongoDB Quizzes</a></li>
-                <li><a href="/technologies/flutter" class="hover:text-[var(--foreground)]">Flutter Quizzes</a></li>
-                <li><a href="/technologies/dart" class="hover:text-[var(--foreground)]">Dart Quizzes</a></li>
-                <li><a href="/technologies/programming-fundamentals" class="hover:text-[var(--foreground)]">Fundamentals &amp; OOP</a></li>
+                <li><a href="/technologies" class="hover:text-[var(--foreground)] font-semibold">Browse Available Technology Quizzes</a></li>
               </ul>
             </section>
             <section class="space-y-2.5 lg:col-span-2">

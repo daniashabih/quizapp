@@ -19,6 +19,7 @@ import Footer from '../../components/Footer';
 import BrandLogo from '../../components/BrandLogo';
 import usePageSeo from '../../hooks/usePageSeo';
 import { getTechnologySeoBySlug, TECHNOLOGY_SEO_SLUGS, SEO_PAGES_CONFIG, resolveGameTechnologyGuide } from '../../config/seoPagesConfig';
+import { hasPublishedCategory } from '../../utils/categoryAvailability';
 import { FALLBACK_GAMES, FALLBACK_TECHNOLOGIES } from '../../services/gameService';
 import TechIcon from '../games/components/TechIcon';
 import NotFound from '../NotFound';
@@ -152,16 +153,25 @@ export default function TechnologyDetail() {
     const seoConfig = getTechnologySeoBySlug(slug);
 
     const [matchingCategories, setMatchingCategories] = useState([]);
+    const [availableCategories, setAvailableCategories] = useState([]);
     const [sessionsByCategory, setSessionsByCategory] = useState({});
     const [loadingQuizzes, setLoadingQuizzes] = useState(true);
+    const [hasLoadedCategories, setHasLoadedCategories] = useState(false);
+    const hasPublishedQuizzes = matchingCategories.length > 0;
 
     usePageSeo({
-        title: seoConfig ? seoConfig.title : 'Free Interactive Tech Quiz Practice & Certificates | Hangbug',
-        description: seoConfig
-            ? seoConfig.description
-            : 'Practice programming quizzes and interactive coding games on Hangbug.',
+        title: !seoConfig
+            ? 'Free Interactive Tech Quiz Practice & Certificates | Hangbug'
+            : hasLoadedCategories && !hasPublishedQuizzes
+                ? `${seoConfig.name} Coding Games & Guides | Hangbug`
+                : seoConfig.title,
+        description: !seoConfig
+            ? 'Practice programming quizzes and interactive coding games on Hangbug.'
+            : hasLoadedCategories && !hasPublishedQuizzes
+                ? `Explore ${seoConfig.name} coding games and guides. No published quiz questions are currently available in this track.`
+                : seoConfig.description,
         canonicalPath: seoConfig ? seoConfig.path : undefined,
-        noindex: !seoConfig,
+        noindex: !seoConfig || (hasLoadedCategories && !hasPublishedQuizzes),
         disableStructuredData: !seoConfig,
         ogImageAlt: seoConfig ? seoConfig.imageAlt : 'Hangbug Technology Quiz & Practice Track',
         schemaType: 'WebPage',
@@ -185,6 +195,7 @@ export default function TechnologyDetail() {
         let isMounted = true;
         const loadQuizData = async () => {
             setLoadingQuizzes(true);
+            setHasLoadedCategories(false);
             try {
                 const res = await axios.get('/categories');
                 const list = Array.isArray(res.data)
@@ -193,14 +204,13 @@ export default function TechnologyDetail() {
                     ? res.data.categories
                     : [];
 
-                const matchNames = (seoConfig.categoryMatcher || [seoConfig.name]).map(n => n.toLowerCase());
+                if (!isMounted) return;
+                setAvailableCategories(list);
+                const matchNames = seoConfig.categoryMatcher || [seoConfig.name];
                 const matched = list.filter(cat => {
-                    if (!cat || cat.isEnabled === false || Number(cat.questionCount || 0) <= 0) return false;
-                    const cName = (cat.name || '').toLowerCase();
-                    return matchNames.some(m => cName === m || cName.includes(m));
+                    return hasPublishedCategory([cat], matchNames);
                 });
 
-                if (!isMounted) return;
                 setMatchingCategories(matched);
 
                 const sessionMap = {};
@@ -224,10 +234,12 @@ export default function TechnologyDetail() {
                 }
             } catch {
                 if (isMounted) {
+                    setAvailableCategories([]);
                     setMatchingCategories([]);
                 }
             } finally {
                 if (isMounted) {
+                    setHasLoadedCategories(true);
                     setLoadingQuizzes(false);
                 }
             }
@@ -264,6 +276,23 @@ export default function TechnologyDetail() {
     const supportedGames = FALLBACK_GAMES.filter(g => effectiveGameSlugs.includes(g.slug));
     const defaultGameTechParam =
         seoConfig.slug === 'programming-fundamentals' ? 'programming-logic' : seoConfig.slug;
+
+    const availableTechnologySlugs = TECHNOLOGY_SEO_SLUGS.filter(technologySlug => {
+        const technologyConfig = SEO_PAGES_CONFIG[technologySlug];
+        return hasPublishedCategory(
+            availableCategories,
+            technologyConfig?.categoryMatcher || [technologyConfig?.name]
+        );
+    });
+    const availableInternalLinks = seoConfig.internalLinks.filter(link => {
+        const pathMatch = link.to.match(/^\/technologies\/([^/?#]+)/);
+        if (!pathMatch) return true;
+        const linkedConfig = getTechnologySeoBySlug(pathMatch[1]);
+        return linkedConfig && hasPublishedCategory(
+            availableCategories,
+            linkedConfig.categoryMatcher || [linkedConfig.name]
+        );
+    });
 
     const topicBullets = TOPIC_DETAILS[seoConfig.slug] || [];
 
@@ -302,7 +331,9 @@ export default function TechnologyDetail() {
                             </div>
 
                             <h1 className="text-2xl sm:text-4xl font-display font-extrabold text-[var(--foreground)] tracking-tight leading-tight">
-                                {seoConfig.h1}
+                                {hasLoadedCategories && !hasPublishedQuizzes
+                                    ? `Explore ${seoConfig.name} Coding Games & Guides`
+                                    : seoConfig.h1}
                             </h1>
 
                             <p className="text-sm sm:text-base text-[var(--foreground-muted)] leading-relaxed max-w-2xl">
@@ -460,10 +491,10 @@ export default function TechnologyDetail() {
                         <div className="p-5 rounded-2xl bg-[var(--muted-bg)]/60 border border-[var(--card-border)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                             <div className="space-y-1">
                                 <h3 className="text-sm font-display font-bold text-[var(--foreground)]">
-                                    Interactive {seoConfig.name} Practice via Coding Games & Question Bank
+                                    No published {seoConfig.name} quiz questions right now
                                 </h3>
                                 <p className="text-xs text-[var(--foreground-muted)] leading-relaxed max-w-2xl">
-                                    Hands-on {seoConfig.name} practice is live right now in the HangBug Coding Games Arcade below. You can also browse all active multi-session quiz tracks on the Technologies page.
+                                    This technology does not currently have a published quiz track. Browse Hangbug coding games or return to the Technologies page to see tracks with published questions.
                                 </p>
                             </div>
                             <div className="flex items-center gap-2 shrink-0">
@@ -551,7 +582,7 @@ export default function TechnologyDetail() {
                         Explore related coding quizzes, interactive games, and completion certificate resources across HangBug:
                     </p>
                     <div className="flex flex-wrap gap-2.5">
-                        {seoConfig.internalLinks.map((link) => (
+                        {availableInternalLinks.map((link) => (
                             <Link
                                 key={link.to + link.label}
                                 to={link.to}
@@ -568,7 +599,7 @@ export default function TechnologyDetail() {
                             All Featured Technology Quiz Tracks
                         </h3>
                         <div className="flex flex-wrap gap-2">
-                            {TECHNOLOGY_SEO_SLUGS.map((tSlug) => {
+                            {availableTechnologySlugs.map((tSlug) => {
                                 const item = SEO_PAGES_CONFIG[tSlug];
                                 const isCurrent = tSlug === seoConfig.slug;
                                 return (

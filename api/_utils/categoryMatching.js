@@ -87,10 +87,9 @@ function getCategoryVariations(category) {
 }
 
 /**
- * Resolve category question counts with direct DB normalization + canonical alias fallback
- * + optional built-in dataset floors (e.g. Agile & DevOps, C#).
+ * Resolve category question counts from database rows, including exact category aliases.
  */
-function resolveCategoryQuestionStats(categories = [], questionStats = [], builtInCounts = {}) {
+function resolveCategoryQuestionStats(categories = [], questionStats = []) {
     const directMap = new Map();
     const groupMap = new Map();
 
@@ -125,15 +124,6 @@ function resolveCategoryQuestionStats(categories = [], questionStats = [], built
         const count = q._count?._all ?? q._count?.id ?? q.count ?? 0;
         const latestAt = q._max?.createdAt ?? q.latestQuestionAt ?? null;
         recordStat(q.category, count, latestAt);
-    }
-
-    // Apply built-in dataset minimums if DB has fewer rows than built-in modules
-    for (const [name, minCount] of Object.entries(builtInCounts || {})) {
-        const norm = normalizeCategoryKey(name);
-        const existing = directMap.get(norm)?.count || 0;
-        if (Number(minCount || 0) > existing) {
-            recordStat(name, Number(minCount) - existing, null);
-        }
     }
 
     return (Array.isArray(categories) ? categories : []).map(cat => {

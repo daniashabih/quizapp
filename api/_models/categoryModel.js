@@ -1,11 +1,4 @@
 const prisma = require('../_config/prisma');
-const { AGILE_DEVOPS_QUESTIONS } = require('./agileDevopsQuestionsData');
-const { CSHARP_QUIZ_QUESTIONS, CSHARP_QUIZ_SESSIONS } = require('./csharpQuizQuestionsData');
-
-const CSHARP_SESSION_NUMBERS = Object.keys(CSHARP_QUIZ_SESSIONS)
-    .map(s => parseInt(s, 10))
-    .filter(n => !isNaN(n))
-    .sort((a, b) => a - b);
 
 const normalizeCategory = (name) => {
     return String(name || '')
@@ -16,39 +9,12 @@ const normalizeCategory = (name) => {
 };
 
 const DEFAULT_CATEGORIES = [
-    { name: 'HTML', sessions: [1, 2, 3] },
-    { name: 'CSS', sessions: [1, 2, 3] },
-    { name: 'JavaScript', sessions: [1, 2, 3] },
-    { name: 'TypeScript', sessions: [1, 2, 3] },
-    { name: 'React.js', sessions: [1, 2, 3, 4, 5, 6, 7, 8] },
-    { name: 'Next.js', sessions: [1, 2, 3] },
-    { name: 'Angular', sessions: [1, 2, 3] },
-    { name: 'Vue', sessions: [1, 2, 3] },
-    { name: 'Node.js', sessions: [1, 2, 3] },
-    { name: 'Express.js', sessions: [1, 2, 3] },
-    { name: 'MongoDB', sessions: [1, 2, 3, 4, 5, 6, 7] },
-    { name: 'SQL', sessions: [1, 2, 3] },
-    { name: 'SQL Server', sessions: [1, 2, 3] },
-    { name: 'PHP', sessions: [1, 2, 3] },
-    { name: 'Laravel', sessions: [1, 2, 3] },
-    { name: 'Python', sessions: [1, 2, 3] },
-    { name: 'Django', sessions: [1, 2, 3] },
-    { name: 'Flutter', sessions: [1, 2, 3] },
-    { name: 'Dart', sessions: [1, 2, 3] },
-    { name: 'Git', sessions: [1, 2, 3] },
-    { name: 'GitHub', sessions: [1, 2, 3] },
-    { name: 'Tailwind CSS', sessions: [1, 2, 3] },
-    { name: 'Bootstrap', sessions: [1, 2, 3] },
-    { name: 'WordPress', sessions: [1, 2, 3] },
-    { name: 'Docker', sessions: [1, 2, 3] },
-    { name: 'Agile & DevOps', sessions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], questionCount: AGILE_DEVOPS_QUESTIONS.length },
-    { name: 'Azure', sessions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] },
-    { name: 'SEO', sessions: [1, 2, 3] },
-    { name: 'Power BI', sessions: [1, 2, 3] },
-    { name: 'Excel', sessions: [1, 2, 3] },
-    { name: 'C#', sessions: CSHARP_SESSION_NUMBERS, questionCount: CSHARP_QUIZ_QUESTIONS.length },
-    { name: 'Material UI', sessions: [1, 2, 3] },
-    { name: 'PHP, XML JSON, Laravel, MySQL, JavaScript', sessions: [1], questionCount: 149 }
+    'HTML', 'CSS', 'JavaScript', 'TypeScript', 'React.js', 'Next.js', 'Angular',
+    'Vue', 'Node.js', 'Express.js', 'MongoDB', 'SQL', 'SQL Server', 'PHP',
+    'Laravel', 'Python', 'Django', 'Flutter', 'Dart', 'Git', 'GitHub',
+    'Tailwind CSS', 'Bootstrap', 'WordPress', 'Docker', 'Agile & DevOps',
+    'Azure', 'SEO', 'Power BI', 'Excel', 'C#', 'Material UI',
+    'PHP, XML JSON, Laravel, MySQL, JavaScript'
 ];
 
 const Category = {
@@ -74,11 +40,11 @@ const Category = {
         } catch {
             // DB fallback
         }
-        const defaultMatch = DEFAULT_CATEGORIES.find(c => normalizeCategory(c.name) === norm);
+        const defaultMatch = DEFAULT_CATEGORIES.find(c => normalizeCategory(c) === norm);
         if (defaultMatch) {
             return {
                 id: `mem_cat_${norm.replace(/[^a-z0-9]/g, '_')}`,
-                name: defaultMatch.name,
+                name: defaultMatch,
                 isEnabled: true
             };
         }
@@ -94,10 +60,10 @@ const Category = {
                 prisma.question.groupBy({
                     by: ['category'],
                     _count: { _all: true }
-                }).catch(() => []),
+                }),
                 prisma.question.findMany({
                     select: { category: true, session: true }
-                }).catch(() => [])
+                })
             ]);
 
             const countMap = {};
@@ -117,39 +83,21 @@ const Category = {
                 }
             });
 
-            // Ensure Agile & DevOps is fully populated in countMap & sessionMap
             const agileNorm = normalizeCategory('Agile & DevOps');
-            countMap[agileNorm] = Math.max(countMap[agileNorm] || 0, AGILE_DEVOPS_QUESTIONS.length);
-            if (!sessionMap[agileNorm]) sessionMap[agileNorm] = new Set();
-            for (let s = 1; s <= 16; s++) {
-                sessionMap[agileNorm].add(s);
-            }
-
-            // Ensure C# is fully populated in countMap & sessionMap
             const csharpNorm = normalizeCategory('C#');
             const csharpAliasNorm = normalizeCategory('csharp');
-            const csharpCount = Math.max(countMap[csharpNorm] || 0, countMap[csharpAliasNorm] || 0, CSHARP_QUIZ_QUESTIONS.length);
-            countMap[csharpNorm] = csharpCount;
-            countMap[csharpAliasNorm] = csharpCount;
-            if (!sessionMap[csharpNorm]) sessionMap[csharpNorm] = new Set(CSHARP_SESSION_NUMBERS);
-            if (!sessionMap[csharpAliasNorm]) sessionMap[csharpAliasNorm] = new Set(CSHARP_SESSION_NUMBERS);
-            for (const s of CSHARP_SESSION_NUMBERS) {
-                sessionMap[csharpNorm].add(s);
-                sessionMap[csharpAliasNorm].add(s);
-            }
 
             const list = categories.map(cat => {
                 const norm = normalizeCategory(cat.name);
-                const isCatCSharp = norm === csharpNorm || norm === csharpAliasNorm;
-                const sessions = isCatCSharp
-                    ? Array.from(sessionMap[csharpNorm]).sort((a, b) => a - b)
-                    : (sessionMap[norm] ? Array.from(sessionMap[norm]).sort((a, b) => a - b) : []);
+                const sessions = sessionMap[norm]
+                    ? Array.from(sessionMap[norm]).sort((a, b) => a - b)
+                    : [];
                 return {
                     id: cat.id,
                     name: cat.name,
                     isEnabled: cat.isEnabled !== false,
-                    questionCount: isCatCSharp ? csharpCount : (countMap[norm] || 0),
-                    sessions: sessions.length > 0 ? sessions : [1]
+                    questionCount: countMap[norm] || 0,
+                    sessions
                 };
             });
 
@@ -160,8 +108,8 @@ const Category = {
                     id: 'cat_agile_devops',
                     name: 'Agile & DevOps',
                     isEnabled: true,
-                    questionCount: AGILE_DEVOPS_QUESTIONS.length,
-                    sessions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+                    questionCount: 0,
+                    sessions: []
                 });
             }
 
@@ -172,21 +120,15 @@ const Category = {
                     id: 'cat_csharp',
                     name: 'C#',
                     isEnabled: true,
-                    questionCount: csharpCount,
-                    sessions: [...CSHARP_SESSION_NUMBERS]
+                    questionCount: 0,
+                    sessions: []
                 });
             }
 
             return list;
         } catch (err) {
-            console.error('[Category Model Fallback]:', err.message);
-            return DEFAULT_CATEGORIES.map((cat, idx) => ({
-                id: `mem_cat_${idx + 1}`,
-                name: cat.name,
-                isEnabled: true,
-                questionCount: cat.questionCount !== undefined ? cat.questionCount : (cat.name.includes('Agile') ? AGILE_DEVOPS_QUESTIONS.length : (cat.name === 'C#' ? CSHARP_QUIZ_QUESTIONS.length : 25)),
-                sessions: cat.sessions
-            }));
+            console.error('[Category Model Error]:', err.message);
+            throw err;
         }
     },
 

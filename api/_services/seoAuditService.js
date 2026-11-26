@@ -4,8 +4,6 @@ const prisma = require('../_config/prisma');
 const seoController = require('../_controllers/seoController');
 const Category = require('../_models/categoryModel');
 const Question = require('../_models/questionModel');
-const { AGILE_DEVOPS_QUESTIONS } = require('../_models/agileDevopsQuestionsData');
-const { CSHARP_QUIZ_QUESTIONS } = require('../_models/csharpQuizQuestionsData');
 const GameModel = require('../_models/gameModel');
 const { INITIAL_BLOG_ARTICLES } = require('../_models/blogArticles/initialBlogArticles');
 const { getHighDemandPackName, getHighDemandPack } = require('../_models/techQuestions');
@@ -337,8 +335,7 @@ async function gatherPlatformCatalog() {
 }
 
 /**
- * Normalizes MongoDB question groupBy counts and merges static dataset minimums
- * (Agile & DevOps, C#) to match Category.getAll() and Question.getCategoryVariations().
+ * Normalizes MongoDB question groupBy counts for category aliases.
  */
 function buildNormalizedQuestionCountMap(questionStats = []) {
     const qMap = new Map();
@@ -347,18 +344,6 @@ function buildNormalizedQuestionCountMap(questionStats = []) {
         const norm = Category.normalize(q.category);
         const count = Number(q?._count?._all ?? q?.count ?? 0);
         qMap.set(norm, (qMap.get(norm) || 0) + count);
-    }
-
-    const agileNorm = Category.normalize('Agile & DevOps');
-    qMap.set(agileNorm, Math.max(qMap.get(agileNorm) || 0, AGILE_DEVOPS_QUESTIONS.length));
-
-    const csharpKeys = ['C#', 'csharp', 'c sharp'].map(k => Category.normalize(k));
-    const maxCsharp = Math.max(
-        CSHARP_QUIZ_QUESTIONS.length,
-        ...csharpKeys.map(k => qMap.get(k) || 0)
-    );
-    for (const k of csharpKeys) {
-        qMap.set(k, maxCsharp);
     }
 
     return qMap;

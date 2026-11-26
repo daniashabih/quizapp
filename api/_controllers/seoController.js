@@ -475,12 +475,7 @@ async function getDynamicSitemap(req, res) {
                         ]);
                         if (Array.isArray(cats) && Array.isArray(qStats)) {
                             const { resolveCategoryQuestionStats } = require('../_utils/categoryMatching');
-                            const { AGILE_DEVOPS_QUESTIONS } = require('../_models/agileDevopsQuestionsData');
-                            const { CSHARP_QUIZ_QUESTIONS } = require('../_models/csharpQuizQuestionsData');
-                            categoriesWithStats = resolveCategoryQuestionStats(cats, qStats, {
-                                'Agile & DevOps': AGILE_DEVOPS_QUESTIONS.length,
-                                'C#': CSHARP_QUIZ_QUESTIONS.length
-                            });
+                            categoriesWithStats = resolveCategoryQuestionStats(cats, qStats);
                         }
                     } catch {
                         // Fallback to default populated technology routes

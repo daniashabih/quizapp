@@ -1,12 +1,18 @@
 const prisma = require('../_config/prisma');
 const { AGILE_DEVOPS_QUESTIONS, AGILE_DEVOPS_SESSIONS } = require('./agileDevopsQuestionsData');
 const { CSHARP_QUIZ_QUESTIONS, CSHARP_QUIZ_SESSIONS } = require('./csharpQuizQuestionsData');
-const { getCategoryVariations } = require('../_utils/categoryMatching');
+const {
+    getCanonicalAliasGroupKey,
+    getCategoryVariations
+} = require('../_utils/categoryMatching');
 
 const CSHARP_SESSION_NUMBERS = Object.keys(CSHARP_QUIZ_SESSIONS)
     .map(s => parseInt(s, 10))
     .filter(n => !isNaN(n))
     .sort((a, b) => a - b);
+
+const isAgileDevOpsCategory = (category) =>
+    getCanonicalAliasGroupKey(category) === getCanonicalAliasGroupKey('Agile & DevOps');
 
 const REACTJS_SESSIONS = {
     1: 'Introduction to ReactJS',
@@ -145,8 +151,8 @@ const Question = {
             }
         }
 
-        const catLower = String(category).trim().toLowerCase();
-        const fallbackList = (catLower.includes('agile') || catLower.includes('devops'))
+        const catLower = String(category || '').trim().toLowerCase();
+        const fallbackList = isAgileDevOpsCategory(category)
             ? AGILE_DEVOPS_QUESTIONS
             : (catLower === 'c#' || catLower === 'csharp' || catLower === 'c sharp')
                 ? CSHARP_QUIZ_QUESTIONS
@@ -299,10 +305,7 @@ const Question = {
             // DB fallback
         }
 
-        const isAgileDevOps = category && (
-            category.toLowerCase().includes('agile') ||
-            category.toLowerCase().includes('devops')
-        );
+        const isAgileDevOps = isAgileDevOpsCategory(category);
 
         const isCSharp = category && (
             category.toLowerCase() === 'c#' ||
@@ -365,10 +368,7 @@ const Question = {
     },
 
     getSessionsByCategory: async (category) => {
-        const isAgileDevOps = category && (
-            category.toLowerCase().includes('agile') ||
-            category.toLowerCase().includes('devops')
-        );
+        const isAgileDevOps = isAgileDevOpsCategory(category);
 
         const isCSharp = category && (
             category.toLowerCase() === 'c#' ||
@@ -419,14 +419,14 @@ const Question = {
             }
         });
 
-        if (isAgileDevOps && Object.keys(sessionCountMap).length < 16) {
+        if (isAgileDevOps && rows.length === 0) {
             for (let s = 1; s <= 16; s++) {
                 const count = AGILE_DEVOPS_QUESTIONS.filter(q => q.session === s).length;
                 sessionCountMap[s] = Math.max(sessionCountMap[s] || 0, count);
             }
         }
 
-        if (isCSharp && Object.keys(sessionCountMap).length < CSHARP_SESSION_NUMBERS.length) {
+        if (isCSharp && rows.length === 0) {
             for (const s of CSHARP_SESSION_NUMBERS) {
                 const count = CSHARP_QUIZ_QUESTIONS.filter(q => q.session === s).length;
                 sessionCountMap[s] = Math.max(sessionCountMap[s] || 0, count);
@@ -534,8 +534,9 @@ const Question = {
                 }
             });
             return count;
-        } catch {
-            return AGILE_DEVOPS_QUESTIONS.length;
+        } catch (error) {
+            console.error('[Question Recent Count Error]:', error.message);
+            throw error;
         }
     }
 };

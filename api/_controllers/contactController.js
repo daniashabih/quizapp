@@ -1,10 +1,13 @@
 const { sendContactMessage } = require('../_services/emailService');
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_PATTERN = /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?)+$/i;
 
 function validateContactInput(body) {
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
         return { error: 'Please provide your name, a valid email address, and a message.' };
+    }
+    if (body.website !== undefined && (typeof body.website !== 'string' || body.website.trim())) {
+        return { error: 'Unable to process this request. Please review the form and try again.' };
     }
 
     const name = typeof body.name === 'string' ? body.name.trim() : '';
@@ -18,7 +21,7 @@ function validateContactInput(body) {
     if (!EMAIL_PATTERN.test(email) || email.length > 254) {
         return { error: 'Please enter a valid email address.' };
     }
-    if (subject.length > 150 || /[\r\n]/.test(subject)) {
+    if (subject.length > 150 || /[\u0000-\u001f\u007f]/.test(subject)) {
         return { error: 'Please keep the subject under 150 characters and on one line.' };
     }
     if (message.length < 10 || message.length > 5000) {
@@ -45,7 +48,7 @@ async function submitContactMessage(req, res) {
 
         return res.status(200).json({
             success: true,
-            message: 'Your message has been sent to Hangbug support.'
+            message: 'Your message was accepted for delivery to Hangbug support.'
         });
     } catch (error) {
         console.error('[Contact] Email delivery failed:', error.code || error.provider || 'EMAIL_DELIVERY_FAILED');
