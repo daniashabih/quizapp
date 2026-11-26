@@ -1,5 +1,5 @@
-import React from 'react';
-import { Sparkles, AlertTriangle, CheckCircle2, Info } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, AlertTriangle, CheckCircle2, Info, RefreshCw } from 'lucide-react';
 import {
     ChatGptIcon,
     GoogleAiOverviewIcon,
@@ -7,11 +7,31 @@ import {
     GoogleAiModeIcon
 } from './BrandIcons';
 import { getStatusBadgeClasses } from './seoUtils';
+import seoService from '../../services/seoService';
+import { toast } from '../../services/notificationService';
 
-export default function SeoAiVisibilitySection({ data, onNavigate }) {
+export default function SeoAiVisibilitySection({ data, domain, onNavigate, onDataUpdated }) {
     const ai = data?.aiVisibility || {};
     const platforms = ai.platforms || [];
     const readiness = ai.readinessChecks || [];
+    const [refreshing, setRefreshing] = useState(false);
+
+    const runLiveCheck = async () => {
+        if (refreshing) return;
+        setRefreshing(true);
+        try {
+            const result = await seoService.refreshAiVisibility(domain || data?.domain);
+            if (!result?.success) {
+                throw new Error(result?.message || 'Live AI visibility check failed.');
+            }
+            toast.success(result.message || 'Live AI visibility check completed.');
+            if (onDataUpdated) await onDataUpdated();
+        } catch (error) {
+            toast.error(error?.response?.data?.message || error.message || 'Live AI visibility check failed.');
+        } finally {
+            setRefreshing(false);
+        }
+    };
 
     const getIcon = (id) => {
         if (id === 'chatgpt') return <ChatGptIcon className="w-6 h-6 shrink-0" />;
@@ -38,14 +58,33 @@ export default function SeoAiVisibilitySection({ data, onNavigate }) {
                     </div>
                 </div>
 
-                <button
-                    type="button"
-                    onClick={() => onNavigate('settings')}
-                    className="px-3.5 py-2 rounded-xl bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold transition-colors cursor-pointer shrink-0"
-                >
-                    Configure Provider
-                </button>
+                {ai.providerConfigured ? (
+                    <button
+                        type="button"
+                        disabled={refreshing}
+                        onClick={runLiveCheck}
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold transition-colors cursor-pointer shrink-0 disabled:opacity-60"
+                    >
+                        <RefreshCw size={13} className={refreshing ? 'animate-spin' : ''} />
+                        {refreshing ? 'Checking live results...' : 'Run Live Check (billable)'}
+                    </button>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={() => onNavigate('settings')}
+                        className="px-3.5 py-2 rounded-xl bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold transition-colors cursor-pointer shrink-0"
+                    >
+                        Configure DataForSEO
+                    </button>
+                )}
             </div>
+
+            {ai.checkedAt && (
+                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">
+                    Last live sample: {new Date(ai.checkedAt).toLocaleString()}
+                    {ai.fromCache ? ' · Loaded from the saved snapshot' : ''}
+                </p>
+            )}
 
             {/* Platform Cards (ChatGPT, Google AI Overviews, Gemini, Perplexity) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -67,25 +106,30 @@ export default function SeoAiVisibilitySection({ data, onNavigate }) {
                                 </div>
                             </div>
 
-                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${getStatusBadgeClasses(plat.mentions !== null ? 'Verified' : 'Not checked')}`}>
-                                {plat.mentions !== null ? 'Verified Provider' : 'Unavailable'}
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border ${getStatusBadgeClasses(plat.mentions != null ? 'Verified' : 'Not checked')}`}>
+                                {plat.status || (plat.mentions != null ? 'Sample checked' : 'Unavailable')}
                             </span>
                         </div>
 
-                        {plat.mentions !== null && plat.mentions !== undefined ? (
+                        {plat.mentions != null ? (
                             <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-[#E4EAE6] dark:border-[#2A3832]">
                                 <div>
-                                    <p className="text-[11px] text-[#75817C]">Verified Mentions</p>
+                                    <p className="text-[11px] text-[#75817C]">Mentions in sample</p>
                                     <p className="text-xl font-display font-bold text-[#193D35] dark:text-emerald-300 mt-0.5">
                                         {plat.mentions}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-[11px] text-[#75817C]">Cited Pages</p>
+                                    <p className="text-[11px] text-[#75817C]">Hangbug pages cited</p>
                                     <p className="text-xl font-display font-bold text-[#17221F] dark:text-[#F3F6F4] mt-0.5">
-                                        {plat.citedPages}
+                                        {plat.citedPages ?? 0}
                                     </p>
                                 </div>
+                                {plat.samplesChecked > 0 && (
+                                    <p className="col-span-2 text-[10px] text-[#75817C]">
+                                        {plat.samplesChecked} monitored prompt checked
+                                    </p>
+                                )}
                             </div>
                         ) : (
                             <div className="mt-4 p-3 rounded-xl bg-[#F7F8F6] dark:bg-[#141D19] border border-[#E4EAE6] dark:border-[#2A3832] flex items-start gap-2 text-xs text-[#75817C] dark:text-[#8FA69C]">
@@ -93,9 +137,42 @@ export default function SeoAiVisibilitySection({ data, onNavigate }) {
                                 <span>{plat.reason || 'Citation metrics require a connected AI visibility provider.'}</span>
                             </div>
                         )}
+
+                        {(plat.evidence || []).map((sample, index) => (
+                            <details key={`${plat.id}-${index}`} className="mt-3 text-xs">
+                                <summary className="cursor-pointer font-semibold text-[#193D35] dark:text-emerald-300">
+                                    View measured response and citations
+                                </summary>
+                                <p className="mt-2 text-[11px] text-[#75817C] dark:text-[#8FA69C]">
+                                    Prompt: {sample.prompt}
+                                </p>
+                                {sample.responseExcerpt && (
+                                    <p className="mt-2 whitespace-pre-wrap text-[11px] leading-relaxed text-[#17221F] dark:text-[#F3F6F4]">
+                                        {sample.responseExcerpt}
+                                    </p>
+                                )}
+                                {(sample.citations || []).map((citation) => (
+                                    <a
+                                        key={citation.url}
+                                        href={citation.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="mt-1 block break-all text-[11px] text-[#2F806B] hover:underline"
+                                    >
+                                        {citation.title || citation.url}
+                                    </a>
+                                ))}
+                            </details>
+                        ))}
                     </div>
                 ))}
             </div>
+
+            {ai.provider === 'DataForSEO' && (
+                <p className="text-[11px] text-[#75817C] dark:text-[#8FA69C]">
+                    Each live check samples one prompt per available platform. DataForSEO bills live AI and Google SERP requests; these sample counts are not total search-volume estimates.
+                </p>
+            )}
 
             {/* Verified Hangbug AI Crawler & Readiness Signals */}
             <div className="bg-white dark:bg-[#18221E] rounded-2xl border border-[#E4EAE6] dark:border-[#2A3832] p-5 sm:p-6">

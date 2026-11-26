@@ -48,6 +48,18 @@ class SeoService {
     return data['message']?.toString() ?? 'SEO audit completed.';
   }
 
+  Future<String> refreshAiVisibility({
+    String domain = 'www.hangbug.com',
+  }) async {
+    final response = await apiClient.post(
+      ApiEndpoints.adminSeoAiVisibilityRefresh,
+      data: {'domain': domain},
+      options: Options(receiveTimeout: const Duration(seconds: 55)),
+    );
+    final data = response.data as Map<String, dynamic>;
+    return data['message']?.toString() ?? 'Live AI visibility check completed.';
+  }
+
   Future<String> runPageSpeed({
     String domain = 'www.hangbug.com',
     String url = '/',

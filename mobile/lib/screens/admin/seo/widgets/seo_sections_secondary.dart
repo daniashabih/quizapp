@@ -1414,8 +1414,17 @@ class _SeoBacklinksTabState extends State<SeoBacklinksTab> {
 /// 9. AI VISIBILITY TAB
 class SeoAiVisibilityTab extends StatelessWidget {
   final SeoDashboardPayload data;
+  final bool isRefreshing;
+  final VoidCallback onRefresh;
+  final VoidCallback onOpenSettings;
 
-  const SeoAiVisibilityTab({super.key, required this.data});
+  const SeoAiVisibilityTab({
+    super.key,
+    required this.data,
+    required this.isRefreshing,
+    required this.onRefresh,
+    required this.onOpenSettings,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1426,6 +1435,7 @@ class SeoAiVisibilityTab extends StatelessWidget {
     final readiness = (ai['readinessChecks'] as List? ?? [])
         .whereType<Map<String, dynamic>>()
         .toList();
+    final providerConfigured = ai['providerConfigured'] == true;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1439,15 +1449,53 @@ class SeoAiVisibilityTab extends StatelessWidget {
               color: SeoColors.accentGreen.withValues(alpha: 0.35),
             ),
           ),
-          child: Text(
-            ai['explanation']?.toString() ?? '',
-            style: TextStyle(
-              fontSize: 12,
-              height: 1.4,
-              color: SeoColors.textPrimary(context),
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                ai['explanation']?.toString() ?? '',
+                style: TextStyle(
+                  fontSize: 12,
+                  height: 1.4,
+                  color: SeoColors.textPrimary(context),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerRight,
+                child: FilledButton.icon(
+                  onPressed: isRefreshing
+                      ? null
+                      : (providerConfigured ? onRefresh : onOpenSettings),
+                  icon: isRefreshing
+                      ? const SizedBox(
+                          width: 15,
+                          height: 15,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : Icon(providerConfigured
+                          ? Icons.refresh_rounded
+                          : Icons.settings_outlined),
+                  label: Text(isRefreshing
+                      ? 'Checking live results...'
+                      : (providerConfigured
+                          ? 'Run Live Check (billable)'
+                          : 'Configure DataForSEO')),
+                ),
+              ),
+            ],
           ),
         ),
+        if (ai['checkedAt'] != null) ...[
+          const SizedBox(height: 8),
+          Text(
+            'Last live sample: ${ai['checkedAt']}',
+            style: TextStyle(
+              fontSize: 11,
+              color: SeoColors.textMuted(context),
+            ),
+          ),
+        ],
         const SizedBox(height: 12),
         ...platforms.map((p) => Container(
               margin: const EdgeInsets.only(bottom: 10),
@@ -1470,14 +1518,16 @@ class SeoAiVisibilityTab extends StatelessWidget {
                         ),
                       ),
                       SeoStatusBadge(
-                        status: p['mentions'] != null ? 'Verified' : 'Unavailable',
+                        status: p['mentions'] != null
+                            ? 'Sample checked'
+                            : (p['status']?.toString() ?? 'Unavailable'),
                       ),
                     ],
                   ),
                   const SizedBox(height: 6),
                   Text(
                     p['mentions'] != null
-                        ? 'Mentions: ${p['mentions']} · Cited Pages: ${p['citedPages']}'
+                        ? 'Mentions in sample: ${p['mentions']} · Hangbug pages cited: ${p['citedPages'] ?? 0}'
                         : (p['reason']?.toString() ??
                             'Requires connected AI visibility provider.'),
                     style: TextStyle(
@@ -1485,9 +1535,84 @@ class SeoAiVisibilityTab extends StatelessWidget {
                       color: SeoColors.textMuted(context),
                     ),
                   ),
+                  if (p['samplesChecked'] is num &&
+                      (p['samplesChecked'] as num) > 0) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      '${p['samplesChecked']} monitored prompt checked',
+                      style: TextStyle(
+                        fontSize: 10.5,
+                        color: SeoColors.textMuted(context),
+                      ),
+                    ),
+                  ],
+                  ...((p['evidence'] as List? ?? [])
+                      .whereType<Map<String, dynamic>>()
+                      .map((sample) {
+                    final citations = (sample['citations'] as List? ?? [])
+                        .whereType<Map<String, dynamic>>()
+                        .toList();
+                    return ExpansionTile(
+                      tilePadding: EdgeInsets.zero,
+                      title: const Text(
+                        'View measured response and citations',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      children: [
+                        if (sample['prompt'] != null)
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Prompt: ${sample['prompt']}',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: SeoColors.textMuted(context),
+                              ),
+                            ),
+                          ),
+                        if (sample['responseExcerpt'] != null)
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 6),
+                              child: SelectableText(
+                                sample['responseExcerpt'].toString(),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: SeoColors.textPrimary(context),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ...citations.map((citation) => Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: SelectableText(
+                                  citation['url']?.toString() ?? '',
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: SeoColors.accentGreen,
+                                  ),
+                                ),
+                              ),
+                            )),
+                      ],
+                    );
+                  })),
                 ],
               ),
             )),
+        if (ai['provider']?.toString().toLowerCase() == 'dataforseo') ...[
+          const SizedBox(height: 4),
+          Text(
+            'Each live check samples one prompt per available platform. DataForSEO bills live AI and Google SERP requests; sample counts are not total search-volume estimates.',
+            style: TextStyle(
+              fontSize: 11,
+              color: SeoColors.textMuted(context),
+            ),
+          ),
+        ],
         const SizedBox(height: 10),
         Text(
           'AI Crawler & Entity Readiness (Measured)',
@@ -2275,6 +2400,67 @@ class _SeoSettingsTabState extends State<SeoSettingsTab> {
                   _testingTarget == 'pagespeed'
                       ? 'Testing Mobile & Desktop...'
                       : 'Test PageSpeed Connection',
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: SeoColors.cardBg(context),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: SeoColors.border(context)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'AI Search Visibility · DataForSEO',
+                      style: AppTextStyles.labelBold.copyWith(
+                        fontSize: 13.5,
+                        color: SeoColors.textPrimary(context),
+                      ),
+                    ),
+                  ),
+                  SeoStatusBadge(
+                    status: s['aiVisibilityConfigured'] == true
+                        ? 'Configured'
+                        : 'Not Configured',
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Set DATAFORSEO_LOGIN and DATAFORSEO_PASSWORD in Vercel Project Settings → Environment Variables. Credentials remain server-side.',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: SeoColors.textMuted(context),
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                'Connection test is free. Live visibility checks incur DataForSEO API charges.',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: SeoColors.textMuted(context),
+                ),
+              ),
+              const SizedBox(height: 4),
+              OutlinedButton.icon(
+                onPressed: _testingTarget != null
+                    ? null
+                    : () => _handleTest('ai_visibility'),
+                icon: const Icon(Icons.bolt_rounded, size: 16),
+                label: Text(
+                  _testingTarget == 'ai_visibility'
+                      ? 'Testing DataForSEO...'
+                      : 'Test DataForSEO Connection',
                 ),
               ),
             ],

@@ -1,6 +1,11 @@
 const crypto = require('crypto');
 const { JWT } = require('google-auth-library');
 const prisma = require('../_config/prisma');
+const {
+    isConfigured: isDataForSeoConfigured,
+    refreshDataForSeoVisibility,
+    testDataForSeoConnection
+} = require('./aiVisibilityProviderService');
 
 const DEFAULT_DOMAIN = 'www.hangbug.com';
 const DEFAULT_SITE_URL = 'https://www.hangbug.com';
@@ -373,7 +378,9 @@ function getEnvDefaults(domain = DEFAULT_DOMAIN) {
         backlinkProviderKey: String(
             process.env.OPENPAGERANK_API_KEY || process.env.SEO_BACKLINK_PROVIDER_KEY || ''
         ).trim(),
-        aiVisibilityProvider: String(process.env.SEO_AI_VISIBILITY_PROVIDER || 'none').trim().toLowerCase(),
+        aiVisibilityProvider: String(
+            process.env.SEO_AI_VISIBILITY_PROVIDER || (isDataForSeoConfigured() ? 'dataforseo' : 'none')
+        ).trim().toLowerCase(),
         aiVisibilityProviderKey: String(process.env.SEO_AI_VISIBILITY_PROVIDER_KEY || '').trim(),
         crawlFrequency: 'daily',
         maxCrawlPages: 60
@@ -437,7 +444,9 @@ async function getProjectConfig(domain = DEFAULT_DOMAIN) {
         keywordProviderKey: dbRecord?.keywordProviderKey || envDefaults.keywordProviderKey,
         backlinkProvider: resolvedBacklinkProvider,
         backlinkProviderKey: resolvedBacklinkKey,
-        aiVisibilityProvider: dbRecord?.aiVisibilityProvider || envDefaults.aiVisibilityProvider,
+        aiVisibilityProvider: process.env.SEO_AI_VISIBILITY_PROVIDER
+            ? envDefaults.aiVisibilityProvider
+            : (isDataForSeoConfigured() ? 'dataforseo' : (dbRecord?.aiVisibilityProvider || envDefaults.aiVisibilityProvider)),
         aiVisibilityProviderKey: dbRecord?.aiVisibilityProviderKey || envDefaults.aiVisibilityProviderKey,
         crawlFrequency: dbRecord?.crawlFrequency || envDefaults.crawlFrequency,
         maxCrawlPages: Number(dbRecord?.maxCrawlPages) || envDefaults.maxCrawlPages
@@ -681,6 +690,7 @@ function sanitizeConfigForClient(config, verificationInput = null, ga4Verificati
         openPageRankQuota: oprVerification?.quota || null,
         aiVisibilityProvider: config.aiVisibilityProvider || 'none',
         hasAiVisibilityProviderKey: Boolean(config.aiVisibilityProviderKey),
+        aiVisibilityConfigured: config.aiVisibilityProvider === 'dataforseo' && isDataForSeoConfigured(),
         crawlFrequency: config.crawlFrequency || 'daily',
         maxCrawlPages: Number(config.maxCrawlPages) || 60,
         integrations: {
@@ -710,7 +720,8 @@ function sanitizeConfigForClient(config, verificationInput = null, ga4Verificati
             backlinkProviderConnected: openPageRankConnected,
             openPageRankConnected,
             openPageRankStatus,
-            aiVisibilityConnected: config.aiVisibilityProvider !== 'none' && Boolean(config.aiVisibilityProviderKey)
+            aiVisibilityConnected: config.aiVisibilityProvider !== 'none' && Boolean(config.aiVisibilityProviderKey),
+            aiVisibilityConfigured: config.aiVisibilityProvider === 'dataforseo' && isDataForSeoConfigured()
         },
         updatedAt: config.updatedAt || null
     };
@@ -4643,9 +4654,11 @@ async function getBacklinksData(config) {
 
 async function getAiVisibilityData(config, readinessChecks = []) {
     const snap = await getSnapshot(config.domain, 'ai_visibility');
+    const providerConfigured = config.aiVisibilityProvider === 'dataforseo' && isDataForSeoConfigured();
     if (snap?.data && snap.data.connected) {
         return {
             ...snap.data,
+            providerConfigured,
             readinessChecks,
             syncedAt: snap.syncedAt
         };
@@ -4653,51 +4666,93 @@ async function getAiVisibilityData(config, readinessChecks = []) {
 
     return {
         connected: false,
+        provider: config.aiVisibilityProvider === 'dataforseo'
+            ? 'DataForSEO'
+            : (config.aiVisibilityProvider || 'none'),
+        providerConfigured,
         source: 'AI Search Visibility',
         syncedAt: null,
-        explanation: 'Live citation and brand-mention counts across ChatGPT, Google AI Overviews, Google AI Mode, Gemini, and Perplexity require a connected AI search monitoring provider. Hangbug does not display simulated zeros—below are your verified AI crawler and structured-data readiness checks.',
+        explanation: providerConfigured
+            ? 'DataForSEO credentials are configured. Run a live check to query one prompt on each supported AI platform. Results are sampled responses, not total consumer search volume.'
+            : 'Live AI visibility checks are not configured. Set DATAFORSEO_LOGIN and DATAFORSEO_PASSWORD in the server environment. Hangbug does not display simulated zeros; readiness checks below are measured on-site.',
         platforms: [
             {
                 id: 'chatgpt',
-                name: 'ChatGPT (OpenAI Search)',
-                status: 'Not connected',
+                name: 'ChatGPT',
+                status: providerConfigured ? 'Ready for live check' : 'Not connected',
                 mentions: null,
                 citedPages: null,
-                reason: 'Requires a connected AI citation tracking provider.'
+                reason: providerConfigured ? 'No live sample has been run yet.' : 'Requires DataForSEO credentials.'
             },
             {
                 id: 'ai-overviews',
                 name: 'Google AI Overviews',
-                status: 'Not connected',
+                status: providerConfigured ? 'Ready for live check' : 'Not connected',
                 mentions: null,
                 citedPages: null,
-                reason: 'Requires SERP AI Overview monitoring integration.'
+                reason: providerConfigured ? 'No live sample has been run yet.' : 'Requires DataForSEO credentials.'
             },
             {
                 id: 'gemini',
                 name: 'Google Gemini',
-                status: 'Not connected',
+                status: providerConfigured ? 'Ready for live check' : 'Not connected',
                 mentions: null,
                 citedPages: null,
-                reason: 'Requires a connected AI citation tracking provider.'
+                reason: providerConfigured ? 'No live sample has been run yet.' : 'Requires DataForSEO credentials.'
             },
             {
                 id: 'perplexity',
-                name: 'Perplexity & Other AI Engines',
-                status: 'Not connected',
+                name: 'Perplexity',
+                status: providerConfigured ? 'Ready for live check' : 'Not connected',
                 mentions: null,
                 citedPages: null,
-                reason: 'Requires a connected AI citation tracking provider.'
+                reason: providerConfigured ? 'No live sample has been run yet.' : 'Requires DataForSEO credentials.'
             }
         ],
         readinessChecks
     };
 }
 
+async function refreshAiVisibilityData(config) {
+    if (config.aiVisibilityProvider !== 'dataforseo') {
+        throw new Error('Select DataForSEO as the AI visibility provider in the server environment.');
+    }
+
+    const data = await refreshDataForSeoVisibility(config.domain);
+    const previous = await getSnapshot(config.domain, 'ai_visibility');
+    const history = Array.isArray(previous?.data?.history) ? previous.data.history : [];
+    const historyEntry = {
+        checkedAt: data.checkedAt,
+        platforms: data.platforms.map((platform) => ({
+            id: platform.id,
+            mentions: platform.mentions,
+            citedPages: platform.citedPages,
+            status: platform.status
+        }))
+    };
+    const snapshot = {
+        ...data,
+        history: [...history, historyEntry].slice(-30)
+    };
+    await saveSnapshot(config.domain, 'ai_visibility', snapshot, data.source);
+    return snapshot;
+}
+
 async function testIntegrationConnection(domain, target, options = {}) {
     const config = await getProjectConfig(domain);
     const dateRange = resolveDateRange('7d');
 
+    if (target === 'ai_visibility') {
+        if (config.aiVisibilityProvider !== 'dataforseo') {
+            return {
+                ok: false,
+                provider: 'DataForSEO',
+                configured: false,
+                message: 'Select DataForSEO as the AI visibility provider in the server environment.'
+            };
+        }
+        return testDataForSeoConnection();
+    }
     if (target === 'gsc') {
         const res = await fetchSearchConsolePerformance(config, dateRange);
         return {
@@ -4998,6 +5053,7 @@ module.exports = {
     importGscBacklinks,
     clearGscBacklinks,
     getAiVisibilityData,
+    refreshAiVisibilityData,
     testIntegrationConnection,
     classifySearchIntent
 };

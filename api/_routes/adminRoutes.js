@@ -273,6 +273,7 @@ router.post('/ai/cache/clear', aiController.clearAiCache);
 // 12. /api/admin/seo (Hangbug SEO & Growth Studio)
 router.get('/seo/dashboard', seoDashboardController.getSeoDashboard);
 router.post('/seo/audit/run', seoDashboardController.runAudit);
+router.post('/seo/ai-visibility/refresh', seoDashboardController.refreshAiVisibility);
 router.post('/seo/pagespeed/run', seoDashboardController.runPageSpeed);
 router.post('/seo/inspect-url', seoDashboardController.inspectUrl);
 router.patch('/seo/recommendations/:recKey', seoDashboardController.toggleRecommendation);

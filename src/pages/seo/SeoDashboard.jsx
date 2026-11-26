@@ -198,7 +198,9 @@ export default function SeoDashboard() {
                 return (
                     <SeoAiVisibilitySection
                         data={dashboardData}
+                        domain={domain}
                         onNavigate={handleSelectSection}
+                        onDataUpdated={() => fetchDashboard({ silent: true })}
                     />
                 );
             case 'competitors':

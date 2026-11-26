@@ -264,6 +264,13 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                     openPageRankAsOf: result.asOf || prev.openPageRankAsOf,
                     openPageRankQuota: result.quota || prev.openPageRankQuota
                 }));
+            } else if (target === 'ai_visibility') {
+                setFlags((prev) => ({
+                    ...prev,
+                    aiVisibilityConfigured: Boolean(result.configured),
+                    aiVisibilityProvider: result.configured ? 'dataforseo' : prev.aiVisibilityProvider,
+                    aiVisibilityConnectionStatus: result.ok ? 'Connected' : 'Not connected'
+                }));
             }
         } catch (err) {
             setTestResult({
@@ -982,6 +989,31 @@ export default function SeoSettingsSection({ domain, onDataUpdated }) {
                         />
                         <p className="mt-1 text-[11px] text-[#75817C] dark:text-[#8FA69C]">
                             Stored securely on the backend; never exposed to frontend JavaScript, API responses, or logs.
+                        </p>
+                    </div>
+
+                    <div className="md:col-span-3 p-4 rounded-xl border border-[#E4EAE6] dark:border-[#2A3832] bg-[#F7F8F6] dark:bg-[#141D19]">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div>
+                                <p className="font-bold text-[#17221F] dark:text-[#F3F6F4]">AI Search Visibility · DataForSEO</p>
+                                <p className="mt-1 text-[11px] text-[#75817C] dark:text-[#8FA69C]">
+                                    {flags.aiVisibilityConfigured
+                                        ? `Credentials are configured${flags.aiVisibilityConnectionStatus === 'Connected' ? ' and verified' : ' (test the connection)'}.`
+                                        : 'Not configured. Add the DataForSEO credentials to the server environment.'}
+                                </p>
+                            </div>
+                            <button
+                                type="button"
+                                disabled={testingTarget === 'ai_visibility'}
+                                onClick={() => handleTest('ai_visibility')}
+                                className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-[#193D35] hover:bg-[#2F806B] text-white text-xs font-semibold transition-colors cursor-pointer disabled:opacity-60"
+                            >
+                                <Zap size={13} />
+                                {testingTarget === 'ai_visibility' ? 'Testing...' : 'Test DataForSEO'}
+                            </button>
+                        </div>
+                        <p className="mt-2 text-[11px] leading-relaxed text-[#75817C] dark:text-[#8FA69C]">
+                            Set <code className="font-mono">DATAFORSEO_LOGIN</code> and <code className="font-mono">DATAFORSEO_PASSWORD</code> in Vercel Project Settings → Environment Variables. Credentials stay server-side. Connection testing is free; live visibility checks incur DataForSEO API charges.
                         </p>
                     </div>
 

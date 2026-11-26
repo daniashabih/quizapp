@@ -21,6 +21,15 @@ const seoService = {
         return res.data;
     },
 
+    refreshAiVisibility: async (domain = 'www.hangbug.com') => {
+        const res = await axios.post(
+            '/admin/seo/ai-visibility/refresh',
+            { domain },
+            { timeout: 60000 }
+        );
+        return res.data;
+    },
+
     inspectUrl: async ({ domain = 'www.hangbug.com', url = '/' } = {}) => {
         const res = await axios.post('/admin/seo/inspect-url', { domain, url }, { timeout: 25000 });
         return res.data;

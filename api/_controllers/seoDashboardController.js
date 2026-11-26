@@ -17,6 +17,7 @@ const {
     importGscBacklinks,
     clearGscBacklinks,
     getAiVisibilityData,
+    refreshAiVisibilityData,
     testIntegrationConnection,
     getSnapshot
 } = require('../_services/seoIntegrationService');
@@ -734,6 +735,24 @@ exports.removeCompetitor = async (req, res) => {
         res.status(400).json({
             success: false,
             message: error.message || 'Unable to remove competitor.'
+        });
+    }
+};
+
+exports.refreshAiVisibility = async (req, res) => {
+    try {
+        const domain = normalizeDomain(req.body?.domain || DEFAULT_DOMAIN);
+        const config = await getProjectConfig(domain);
+        const aiVisibility = await refreshAiVisibilityData(config);
+        res.json({
+            success: true,
+            message: `Live AI visibility check completed (${aiVisibility.successfulChecks}/${aiVisibility.totalChecks} platforms checked).`,
+            aiVisibility
+        });
+    } catch (error) {
+        res.status(502).json({
+            success: false,
+            message: error.message || 'Unable to refresh live AI visibility.'
         });
     }
 };

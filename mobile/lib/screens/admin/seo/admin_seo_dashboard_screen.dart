@@ -23,6 +23,7 @@ class _AdminSeoDashboardScreenState
     extends ConsumerState<AdminSeoDashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _runningAudit = false;
+  bool _refreshingAiVisibility = false;
 
   Future<void> _runAudit() async {
     if (_runningAudit) return;
@@ -46,6 +47,31 @@ class _AdminSeoDashboardScreenState
       );
     } finally {
       if (mounted) setState(() => _runningAudit = false);
+    }
+  }
+
+  Future<void> _refreshAiVisibility() async {
+    if (_refreshingAiVisibility) return;
+    setState(() => _refreshingAiVisibility = true);
+    try {
+      final domain = ref.read(seoDomainProvider);
+      final message = await ref
+          .read(seoServiceProvider)
+          .refreshAiVisibility(domain: domain);
+      ref.invalidate(seoDashboardProvider);
+      AppNotificationService.success(
+        id: 'seo-ai-visibility-ok',
+        title: 'AI Visibility Updated',
+        message: message,
+      );
+    } catch (e) {
+      AppNotificationService.error(
+        id: 'seo-ai-visibility-error',
+        title: 'AI Visibility Check Failed',
+        message: e.toString().replaceFirst('Exception: ', ''),
+      );
+    } finally {
+      if (mounted) setState(() => _refreshingAiVisibility = false);
     }
   }
 
@@ -343,7 +369,13 @@ class _AdminSeoDashboardScreenState
               ref.read(seoActiveSectionProvider.notifier).state = 'settings',
         );
       case 'ai-visibility':
-        return SeoAiVisibilityTab(data: data);
+        return SeoAiVisibilityTab(
+          data: data,
+          isRefreshing: _refreshingAiVisibility,
+          onRefresh: _refreshAiVisibility,
+          onOpenSettings: () =>
+              ref.read(seoActiveSectionProvider.notifier).state = 'settings',
+        );
       case 'competitors':
         return SeoCompetitorsTab(
           data: data,

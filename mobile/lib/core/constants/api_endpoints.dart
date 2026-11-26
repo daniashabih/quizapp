@@ -114,6 +114,8 @@ class ApiEndpoints {
   // Admin SEO & Growth Studio
   static const String adminSeoDashboard = '/admin/seo/dashboard';
   static const String adminSeoAuditRun = '/admin/seo/audit/run';
+  static const String adminSeoAiVisibilityRefresh =
+      '/admin/seo/ai-visibility/refresh';
   static const String adminSeoPageSpeedRun = '/admin/seo/pagespeed/run';
   static const String adminSeoInspectUrl = '/admin/seo/inspect-url';
   static String adminSeoRecommendationToggle(String recKey) =>
