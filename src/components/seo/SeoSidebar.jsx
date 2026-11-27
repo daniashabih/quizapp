@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
     LayoutDashboard,
@@ -156,6 +156,36 @@ export default function SeoSidebar({
     mobileOpen = false,
     onCloseMobile
 }) {
+    const [drawerMounted, setDrawerMounted] = useState(mobileOpen);
+    const [drawerVisible, setDrawerVisible] = useState(mobileOpen);
+
+    useEffect(() => {
+        if (mobileOpen) {
+            setDrawerMounted(true);
+            const raf = window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(() => setDrawerVisible(true));
+            });
+            return () => window.cancelAnimationFrame(raf);
+        }
+        setDrawerVisible(false);
+        const timer = window.setTimeout(() => setDrawerMounted(false), 260);
+        return () => window.clearTimeout(timer);
+    }, [mobileOpen]);
+
+    useEffect(() => {
+        if (!drawerMounted) return;
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape' && onCloseMobile) onCloseMobile();
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.body.style.overflow = prevOverflow;
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [drawerMounted, onCloseMobile]);
+
     return (
         <>
             {/* Fixed Desktop Sidebar */}
@@ -170,13 +200,19 @@ export default function SeoSidebar({
             </aside>
 
             {/* Mobile / Tablet Drawer */}
-            {mobileOpen && (
-                <div className="fixed inset-0 z-50 lg:hidden">
+            {drawerMounted && (
+                <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="SEO Studio navigation">
                     <div
-                        className="fixed inset-0 bg-black/50 backdrop-blur-xs"
+                        className={`fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity duration-300 ease-out ${
+                            drawerVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                        }`}
                         onClick={onCloseMobile}
                     />
-                    <aside className="fixed inset-y-0 left-0 w-72 z-50 shadow-2xl">
+                    <aside
+                        className={`fixed inset-y-0 left-0 w-[min(18rem,86vw)] z-50 shadow-2xl transition-transform duration-300 ease-out ${
+                            drawerVisible ? 'translate-x-0' : '-translate-x-full'
+                        }`}
+                    >
                         <SidebarContent
                             activeSection={activeSection}
                             onSelectSection={onSelectSection}

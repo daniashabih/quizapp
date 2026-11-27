@@ -42,48 +42,48 @@ export default function SeoHeader({
         <header className="w-full bg-white/95 dark:bg-[#141D19]/95 backdrop-blur-md border-b border-[#E4EAE6] dark:border-[#2A3832] sticky top-0 z-30">
             <div className="px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
                 {/* Left: Mobile Sidebar Toggle + Breadcrumbs + Domain Switcher */}
-                <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
                     {onOpenMobileMenu && (
                         <button
                             type="button"
                             onClick={onOpenMobileMenu}
                             aria-label="Open SEO navigation menu"
-                            className="lg:hidden p-2 rounded-xl border border-[#E4EAE6] dark:border-[#2A3832] bg-[#F7F8F6] dark:bg-[#18221E] text-[#17221F] dark:text-[#F3F6F4] cursor-pointer"
+                            className="lg:hidden min-h-10 min-w-10 inline-flex items-center justify-center rounded-xl border border-[#E4EAE6] dark:border-[#2A3832] bg-[#F7F8F6] dark:bg-[#18221E] text-[#17221F] dark:text-[#F3F6F4] shrink-0 cursor-pointer"
                         >
                             <Menu size={18} />
                         </button>
                     )}
 
-                    <div className="min-w-0">
-                        <div className="flex items-center gap-1.5 text-[11px] text-[#75817C] dark:text-[#8FA69C]">
-                            <Link to="/dashboard" className="hover:text-[#193D35] dark:hover:text-emerald-300 transition-colors">
+                    <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-1 sm:gap-1.5 text-[11px] text-[#75817C] dark:text-[#8FA69C] min-w-0">
+                            <Link to="/dashboard" className="hover:text-[#193D35] dark:hover:text-emerald-300 transition-colors shrink-0">
                                 Home
                             </Link>
-                            <ChevronRight size={12} />
-                            <span>SEO &amp; Growth</span>
-                            <ChevronRight size={12} />
+                            <ChevronRight size={12} className="shrink-0" />
+                            <span className="shrink-0">SEO &amp; Growth</span>
+                            <ChevronRight size={12} className="shrink-0" />
                             <span className="font-semibold text-[#17221F] dark:text-[#F3F6F4] truncate">
                                 {activeSectionLabel}
                             </span>
                         </div>
 
                         <div className="flex items-center flex-wrap gap-2 mt-0.5">
-                            <h1 className="text-base sm:text-lg font-display font-bold text-[#17221F] dark:text-[#F3F6F4] tracking-tight">
+                            <h1 className="text-sm sm:text-base lg:text-lg font-display font-bold text-[#17221F] dark:text-[#F3F6F4] tracking-tight leading-snug">
                                 {activeSectionLabel} — Search Performance &amp; Audit
                             </h1>
 
                             {/* Domain Selector */}
-                            <div className="relative inline-flex items-center gap-1" ref={dropdownRef}>
+                            <div className="relative inline-flex items-center gap-1 max-w-full" ref={dropdownRef}>
                                 <button
                                     type="button"
                                     onClick={() => setDomainDropdownOpen(prev => !prev)}
-                                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#E5F2EC] dark:bg-[#1F352E] text-[#193D35] dark:text-emerald-300 border border-[#BBE0CE] dark:border-[#2F806B]/40 text-xs font-semibold hover:bg-[#d5ebe0] dark:hover:bg-[#26443b] transition-colors cursor-pointer"
+                                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#E5F2EC] dark:bg-[#1F352E] text-[#193D35] dark:text-emerald-300 border border-[#BBE0CE] dark:border-[#2F806B]/40 text-xs font-semibold hover:bg-[#d5ebe0] dark:hover:bg-[#26443b] transition-colors cursor-pointer max-w-full"
                                     title="Switch active domain"
                                 >
-                                    <span>{currentDomain}</span>
+                                    <span className="truncate">{currentDomain}</span>
                                     <ChevronDown
                                         size={13}
-                                        className={`transition-transform duration-150 ${domainDropdownOpen ? 'rotate-180' : ''}`}
+                                        className={`shrink-0 transition-transform duration-150 ${domainDropdownOpen ? 'rotate-180' : ''}`}
                                     />
                                 </button>
 
@@ -91,14 +91,14 @@ export default function SeoHeader({
                                     href={`https://${currentDomain}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="p-1.5 rounded-lg text-[#75817C] hover:text-[#193D35] dark:hover:text-emerald-300 hover:bg-[#F7F8F6] dark:hover:bg-[#18221E] transition-colors"
+                                    className="p-1.5 rounded-lg text-[#75817C] hover:text-[#193D35] dark:hover:text-emerald-300 hover:bg-[#F7F8F6] dark:hover:bg-[#18221E] transition-colors shrink-0"
                                     title={`Open https://${currentDomain}`}
                                 >
                                     <ExternalLink size={14} />
                                 </a>
 
                                 {domainDropdownOpen && (
-                                    <div className="absolute left-0 top-full mt-1.5 w-60 bg-white dark:bg-[#18221E] rounded-xl shadow-lg border border-[#E4EAE6] dark:border-[#2A3832] py-1.5 z-50">
+                                    <div className="absolute left-0 top-full mt-1.5 w-56 sm:w-60 max-w-[calc(100vw-2rem)] bg-white dark:bg-[#18221E] rounded-xl shadow-lg border border-[#E4EAE6] dark:border-[#2A3832] py-1.5 z-50">
                                         <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#75817C] dark:text-[#8FA69C]">
                                             Tracked Properties
                                         </div>

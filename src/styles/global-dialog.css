@@ -669,10 +669,16 @@
     .hb-dialog-card {
         border-radius: 20px;
         max-width: 100%;
+        max-height: calc(100dvh - 1.75rem);
+        display: flex;
+        flex-direction: column;
     }
 
     .hb-dialog-body {
         padding: 1.25rem 1.25rem 1.125rem;
+        overflow-y: auto;
+        flex: 1 1 auto;
+        min-height: 0;
     }
 
     .hb-dialog-header {
@@ -689,10 +695,15 @@
         font-size: 1rem;
     }
 
+    .hb-dialog-input {
+        font-size: 1rem;
+    }
+
     .hb-dialog-footer {
         padding: 0.875rem 1.25rem 1.125rem;
         flex-direction: column-reverse;
         gap: 0.5rem;
+        flex-shrink: 0;
     }
 
     .hb-dialog-btn {

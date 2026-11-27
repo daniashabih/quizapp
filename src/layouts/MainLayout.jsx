@@ -25,16 +25,16 @@ export default function MainLayout() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-[var(--page-bg)] flex flex-col font-sans transition-colors duration-300 relative overflow-hidden">
+        <div className="min-h-screen bg-[var(--page-bg)] flex flex-col font-sans transition-colors duration-300 relative overflow-x-clip">
             <Navbar />
 
-            <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-16 relative z-10">
+            <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-22 sm:pt-28 pb-12 sm:pb-16 relative z-10 min-w-0">
                 <Outlet />
             </main>
 
             <footer className="relative z-10 border-t border-[var(--card-border)] bg-[var(--muted-bg)]">
-                <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-sm text-[var(--foreground-muted)] font-medium">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                    <p className="text-xs sm:text-sm text-[var(--foreground-muted)] font-medium">
                         © 2026 HangBug Platform. All rights reserved.
                     </p>
                     <p className="text-sm text-[var(--foreground-muted)] italic hidden sm:block">
